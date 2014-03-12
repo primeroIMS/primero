@@ -32,5 +32,6 @@ vendor/bundle/
 vendor/cache/
 vendor/ruby/
 .ruby-version
+.project
 <Solr_data_dir>
 

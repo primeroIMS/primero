@@ -55,4 +55,8 @@ group :test, :cucumber do
   gem 'selenium-webdriver', '~> 2.30'
   gem 'hpricot',            '~> 0.8.6'
   gem "json_spec",          '~> 1.1.1'
+  
+  gem 'rubocop'
+  gem 'metric_fu'
+  gem 'simplecov',          '~> 0.7.1'
 end
