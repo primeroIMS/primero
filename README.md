@@ -1,49 +1,59 @@
 RapidFTR
 ========
 
-[![Build Status](http://ec2-54-224-119-2.compute-1.amazonaws.com:8111/app/rest/builds/buildType:bt2/statusIcon)](http://ec2-54-224-119-2.compute-1.amazonaws.com:8111/viewType.html?buildTypeId=bt2)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/rapidftr/RapidFTR)
+## Development
+To develop the application locally, you will need to install [Vagrant
+1.4.3](http://www.vagrantup.com/download-archive/v1.4.3.html) manually and a
+few Vagrant plugins to use Chef Solo.  If you are using a Quoin standard
+machine, then you need to apply [Pavel's patch to Ruby's ssh
+library](https://bitbucket.org/quoin/quoin-toolbox) (look under the *Baseline
+Tools* section) on your host machine so that your SSH cert keys don't make
+vagrant bomb out.  Once you have Vagrant installed, run the following to
+install the right plugins:
 
-RapidFTR is an Android-based mobile application that lets aid workers collect, sort and share information about children in emergency situations. RapidFTR is
-specifically designed to streamline and speed up Family Tracing and Reunification efforts both in the immediate aftermath of a crisis and during ongoing recovery efforts.
+    $ vagrant plugin install vagrant-berkshelf
+    $ vagrant plugin install vagrant-omnibus
 
-RapidFTR allows for quick input of essential data about a child on a mobile phone, including a photograph, the child's age, family, health status and location information. Data is saved automatically and uploaded to a central database whenever network access becomes available. Registered aid workers will be able to create and modify entries for children in their care as well as search all existing records in order to help distressed parents find information about their missing children. Because RapidFTR is designed specifically to collect and distribute information about children, data security is extremely important.
+You will also need to grab the private data for chef-solo that is too sensitive
+to store on Bitbucket.  Make sure you have access to ohio and run the following
+in the project git clone root dir:
 
-Initial development is focused on building an API and web interface, with subsequent development of on-phone applications for multiple mobile platforms.
+    $ scp -r ohio.quoininc.com:/srv/chef/primero/main/dev/ cookbook/private
 
-Find more information at the [project website](http://rapidftr.com)
-, join the [google group](http://groups.google.com/group/rapidftr/) and join us in irc on freenode in #rapidftr channel
+Now you are ready to start the VM.  Make sure you don't have anything running
+on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from
+the VM to give you access to the database, application server and rails dev
+server.  Auto correction of ports is currently not enabled to avoid confusion.
+To start the VM, run:
 
-Releases
---------
+    $ vagrant up
 
-For all latest downloads and artifacts, see [Releases](https://github.com/rapidftr/RapidFTR/wiki/Releases) wiki page.
+This will take a while as it has to download and compile some stuff from
+source.  While this is running you can modify your hosts file to include
+our fake domain to use for development.  Add the following to your `/etc/hosts`
+file (may be a slightly different file on OSX):
 
-Developer Info
---------------
+    127.0.0.1   primero.dev
 
-We're working with developers from ThoughtWorks and around the world on version one of the API and Web Interface.
-You can get the source code by forking the GitHub repositories.
-Please feel free to comment or contribute.
+You will need to access the site on this domain in your browser as the dummy
+SSL cert is set with this domain.
 
-Join the [RapidFTR Google Group] (https://groups.google.com/forum/#!forum/rapidftr) and read through the wikis on the main repo for how to join the project.
+Once you have the VM fully provisioned, you can access the site at
+`http://primero.dev:8000` (or possibly a different port if Vagrant had a port
+collision when trying to assign port 8000 -- check the Vagrant output upon the
+`up` command).  It should automatically redirect you to the HTTPS protocol and
+port 8443.  You can login with a preseeded admin account with credentials
+`primero`/`primero`.
 
-* [RapidFTR Repository](http://github.com/rapidftr/RapidFTR/)
-* [RapidFTR BlackBerry Repository](http://github.com/rapidftr/RapidFTR---BlackBerry-Edition)
-* [RapidFTR Android Repository](http://github.com/rapidftr/RapidFTR---Android)
 
-RapidFTR is developed using Ruby on Rails and CouchDB. Alongside the development of the API,
-there is now an Android mobile client for field workers. If you've got experience with any of these 
-and want to help, please get in touch.
+### Deploy keys
 
-Installing  and running RapidFTR
-----------------------------------
+The above `scp` command will grab the deploy keys for bitbucket, but since
+development will happen on forked repositories you will need to make sure that
+your repository has that same deploy key enabled.  To do so, add the key from
+`cookbook/private/deploy_keys/id_rsa.pub` to your bitbucket fork's deploy key
+list.  You do this by going into the repo admin and clicking on `Deployment
+Keys`.
 
-[Please see the Wiki for pages for Installing and Running](https://github.com/rapidftr/RapidFTR/wiki)
-
-Story Development
--------------------
-
-Stories that are ready to picked up can be seen at [(2) Development Wall](http://bit.ly/U1obJ7) in  [Mingle](https://minglehosting.thoughtworks.com/rapidftr/projects/rapidftr).
-Please drop a signup email to the [RapidFTR Google Group] (https://groups.google.com/forum/#!forum/rapidftr).
-You can signup for RapidFTR Mingle from [Signup](http://bit.ly/TfPpfb) and move cards by yourself.
+### Branching Strategy
+TODO by Pavel

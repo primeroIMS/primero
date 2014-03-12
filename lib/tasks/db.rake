@@ -48,7 +48,7 @@ namespace :db do
       "host" => "localhost",
       "port" => 5984,
       "https_port" => 6984,
-      "database_prefix" => "rapidftr_",
+      "database_prefix" => "primero_",
       "username" => user_name,
       "password" => password,
       "ssl" => false

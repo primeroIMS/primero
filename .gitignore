@@ -34,3 +34,4 @@ vendor/ruby/
 .ruby-version
 <Solr_data_dir>
 
+cookbook/private/
