@@ -1,21 +1,29 @@
-# This file is for running the RapidFTR Rails development virtual machine.
-# For instructions, see
-# https://github.com/rapidftr/RapidFTR/wiki/Using-a-VM-for-development
-# For documentation on this file format, see
-# http://vagrantup.com/docs/vagrantfile.html
-Vagrant::Config.run do |config|
-  config.vm.box = "rapidftr"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+VAGRANTFILE_API_VERSION = "2"
+
+def project_path(path)
+  File.join(File.dirname(__FILE__), path)
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu-server-1204-64bit"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   
-  config.vm.forward_port 3000, 3000
-  config.vm.forward_port 5984, 5984
+  config.vm.network :forwarded_port, guest: 3000, host: 3000
+  config.vm.network :forwarded_port, guest: 5984, host: 5984
+  config.vm.network :forwarded_port, guest: 8000, host: 8000
+  config.vm.network :forwarded_port, guest: 8443, host: 8443
+
+  config.omnibus.chef_version = '11.10.4'
   
   config.vm.provision :chef_solo do |chef|
-    chef.add_recipe "core"
-    chef.add_recipe "couchdb"
-    chef.add_recipe "rvm"
-    chef.add_recipe "ruby"
-    chef.add_recipe "xvfb"
-    chef.add_recipe "firefox"
+    nodedata = JSON.parse(File.read(project_path("cookbook/private/dev.json")))
+    chef.run_list = nodedata["run_list"]
+    chef.json = nodedata
+    chef.log_level = 'debug'
+  end
+
+  config.vm.provider :virtualbox do |vb, override|
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--cpus", "2"]
   end
 end

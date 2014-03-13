@@ -17,9 +17,9 @@ if should_seed? User
   field_level_admin = Role.create!(:name => "field level admin", :permissions => [Permission::USERS[:create_and_edit], Permission::USERS[:view], Permission::USERS[:destroy], Permission::USERS[:disable], Permission::ROLES[:view], Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:export], Permission::REPORTS[:view]])
   system_admin = Role.create!(:name => "system admin", :permissions => [Permission::USERS[:create_and_edit], Permission::USERS[:view], Permission::USERS[:destroy], Permission::USERS[:disable], Permission::ROLES[:create_and_edit], Permission::ROLES[:view], Permission::REPORTS[:view], Permission::FORMS[:manage], Permission::SYSTEM[:highlight_fields], Permission::SYSTEM[:contact_information], Permission::SYSTEM[:system_users], Permission::DEVICES[:blacklist], Permission::DEVICES[:replications]])
 
-  User.create!("user_name" => "rapidftr",
-              "password" => "rapidftr",
-              "password_confirmation" => "rapidftr",
+  User.create!("user_name" => "primero",
+              "password" => "primero",
+              "password_confirmation" => "primero",
               "full_name" => "System Administrator",
               "email" => "rapidftr@rapidftr.com",
               "disabled" => "false",

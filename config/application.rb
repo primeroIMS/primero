@@ -3,7 +3,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require "action_controller/railtie"
-Bundler.require *Rails.groups(:assets => %w(development test))
+#Bundler.require *Rails.groups(:assets => %w(development test))
+Bundler.require(:default, :assets, Rails.env)
 
 module RapidFTR
   class Application < Rails::Application

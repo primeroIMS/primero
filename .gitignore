@@ -35,3 +35,4 @@ vendor/ruby/
 .project
 <Solr_data_dir>
 
+cookbook/private/

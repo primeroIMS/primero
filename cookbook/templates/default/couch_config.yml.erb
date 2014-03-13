@@ -1,0 +1,9 @@
+---
+<%= @rails_env %>:
+  host: <%= @couchdb_host %>
+  port: 5984
+  https_port: 6984
+  database_prefix: primero_
+  database_suffix: _<%= @rails_env %>
+  username: <%= @couchdb_username %>
+  password: <%= @couchdb_password %>
