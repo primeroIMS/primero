@@ -28,8 +28,6 @@ capybara_features/resources/huge.mp3
 tags
 public/assets/
 config/couchdb.yml
-config/environments/production.rb
-config/environments/development.rb
 vendor/bundle/
 vendor/cache/
 vendor/ruby/
