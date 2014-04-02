@@ -34,5 +34,6 @@ vendor/ruby/
 .ruby-version
 .project
 <Solr_data_dir>
-
+.powrc
+Guardfile
 cookbook/private/

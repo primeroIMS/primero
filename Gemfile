@@ -34,11 +34,14 @@ gem "zipruby-compat", :require => 'zipruby', :git => "https://github.com/jawspea
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false
 
+gem 'foundation-rails', '~> 5.2.0.0'
+
 group :development, :assets, :cucumber do
   gem 'sass-rails',    '~> 3.2.3'
   gem 'compass-rails', '~> 1.0.3'
   gem 'coffee-rails',  '~> 3.2.1'
   gem 'uglifier',      '~> 2.0.1'
+  gem 'font-awesome-sass'
 end
 
 group :test, :cucumber do
