@@ -8,7 +8,6 @@ define :execute_as_primero, :command => nil, :cwd => nil do
 end
 
 define :execute_with_ruby, :command => nil, :cwd => nil, :rails_env => nil, :user => nil, :group => nil do
-  puts "USER RUBY #{params[:name]}: #{params[:user]}"
   params[:rails_env] ||= node[:primero][:rails_env]
   params[:user] ||= node[:primero][:app_user]
   params[:group] ||= node[:primero][:app_group]
@@ -27,7 +26,6 @@ end
 
 define :execute_bundle, :command => nil, :cwd => nil, :rails_env => nil, :user => nil, :group => nil do
   params[:cwd] ||= node[:primero][:app_dir]
-  puts "USER #{params[:name]}: #{params[:user]}"
   command = params[:command]
   args = params
   execute_with_ruby "bundle-#{params[:name]}" do
