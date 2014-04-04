@@ -15,12 +15,13 @@
       I18n.locale = "<%= I18n.locale %>";
       I18n.fallbacks = true;
   <% end %>
+  <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body class="<%= @body_class %>">
 <div class="page_container">
   <header>
-    <%= link_to 'RapidFTR logo', root_path, :class => 'logo' %>
     <%= render :partial => "shared/header_links" %>
+    <%= link_to 'Primero', root_path, :class => 'logo' %>
   </header>
   <div class="main_bar">
     <% if logged_in? %>
