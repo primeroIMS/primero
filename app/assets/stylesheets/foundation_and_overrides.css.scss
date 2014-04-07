@@ -7,8 +7,8 @@
 
 @font-face
 {
-  font-family: myFirstFont;
-  src: url(sansation_light.woff);
+  font-family: libreBaskerville;
+  src: url(../fonts/LibreBaskerville-Regular.ttf);
 }
 
 ////////////////////////////////////////////////
@@ -17,9 +17,9 @@
 
 $primary_font_color: #474747;
 
-$headline-font-family: Roboto Condensed, sans-serif;
-$primary-font-family: Roboto, sans-serif;
-$secondary-font-family: Arial, sans-serif;
+$headline-font-family: libreBaskerville, sans-serif;
+$primary-font-family: libreBaskerville, sans-serif;
+$secondary-font-family: libreBaskerville, sans-serif;
 
 $green: #7dae37;
 $red: #8d0000;
@@ -140,6 +140,11 @@ input[type="submit"] {
   .links {
     float:right;
     padding:30px 0 0 0;
+    font-size:14px;
+    a {
+      display: inline-block;
+      margin:0 10px;
+    }
   }
 
 ////////////////////////////////////////////////
