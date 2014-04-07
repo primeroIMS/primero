@@ -12,7 +12,7 @@ apt_repository "pi-rho" do
   notifies :run, 'execute[apt-get update]', :immediately
 end
 
-%w(tmux vim curl).each do |pkg|
+%w(tmux vim curl firefox xvfb).each do |pkg|
   package pkg
 end 
 
@@ -61,4 +61,23 @@ execute_bundle 'setup-db-dev' do
   rails_env 'development'
   user 'vagrant'
   group 'vagrant'
+end
+
+cookbook_file '/etc/profile.d/xvfb_display.sh' do
+  source 'xvfb/set_display.sh'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+cookbook_file '/etc/init/xvfb.conf' do
+  source 'xvfb/upstart_script.conf'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+service 'xvfb' do
+  action [:enable, :start]
+  provider Chef::Provider::Service::Upstart
 end
