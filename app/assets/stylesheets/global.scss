@@ -73,6 +73,24 @@ select, select:hover {
   }
 }
 
+////////////////////////////////////////////////
+// Advanced Search box
+////////////////////////////////////////////////
+
+.search {
+  width: 310px;
+
+  a {
+    float: left;
+  }
+
+  input#query {
+    float: right;
+    height: 21px;
+    width: 179px !important;
+    border: none !important;
+  }
+}
 
 ////////////////////////////////////////////////
 // Alert box
