@@ -1,0 +1,40 @@
+////////////////////////////////////////////////
+// Imports
+////////////////////////////////////////////////
+
+@import "foundation/functions";
+@import "compass/css3/images";
+
+@font-face
+{
+  font-family: libreBaskerville;
+  src: url(../fonts/LibreBaskerville-Regular.ttf);
+}
+
+////////////////////////////////////////////////
+// Fonts
+////////////////////////////////////////////////
+
+$primary_font_color: #474747;
+
+$headline-font-family: libreBaskerville, sans-serif;
+$primary-font-family: libreBaskerville, sans-serif;
+$secondary-font-family: libreBaskerville, sans-serif;
+
+$green: #7dae37;
+$red: #8d0000;
+
+////////////////////////////////////////////////
+// General
+////////////////////////////////////////////////
+
+$body-bg: #f7f7f7;
+$body-font-color: $primary_font_color;
+$body-font-family: $secondary-font-family;
+
+$secondary-bg: #474747;
+
+////////////////////////////////////////////////
+// Import Foundation!
+////////////////////////////////////////////////
+@import "foundation";
