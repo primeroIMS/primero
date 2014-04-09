@@ -1,4 +1,4 @@
-Feature: As an user, I should be able to log in.
+Feature: As a user, I should be able to log in.
 
   Scenario: To check that a user can log in
     Given a user "Harry" with a password "123"
@@ -11,7 +11,7 @@ Feature: As an user, I should be able to log in.
     Then I should see "Hello harry"
     And I should be on the home page
 
-  Scenario: To check that a logged in user doesn't see the login page
+  Scenario: To check that a logged in user does not see the login page
     Given I am logged in
     When I am on the login page
     Then I should see "View child listing"
@@ -41,7 +41,7 @@ Feature: As an user, I should be able to log in.
 
     Then I should see "Invalid credentials. Please try again!"
 
-  Scenario: Disabled user can't log in
+  Scenario: Disabled user can not log in
     Given a user "Harry" with a password "123"
     And user "Harry" is disabled
     And I am on the login page
