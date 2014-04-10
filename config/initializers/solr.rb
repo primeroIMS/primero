@@ -7,5 +7,5 @@ rescue
   raise
 end
 
-ENV['SOLR_PORT'] = "#{config['port']}"
+ENV['SOLR_PORT'] ||= "#{config['port']}"
 Sunspot.config.solr.url = "http://localhost:#{ config['port'] || "8983" }/solr"
