@@ -6,8 +6,12 @@ Then /^I am redirected to the dashboard$/ do
   expect(page).to have_content('Welcome to')
 end
 
-Then /^there is a visual cue in the header showing me logged in as "([^\"]*)"$/ do |username|
-  expect(page).to have_content("Hello #{username}")
+Then /^there is a visual cue in the header showing me "([^\"]*)"$/ do |message|
+  expect(page).to have_content(message)
+end
+
+When /^I access "([^\"]*)"$/ do |page_name|
+  visit path_to(page_name)
 end
 
 #////////////////////////////////////////////////////////////////
