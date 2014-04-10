@@ -76,6 +76,7 @@ unless node[:primero][:rails_env]
   Chef::Application.fatal!("You must specify the Primero Rails environment in node[:primero][:rails_env]!")
 end
 
+#TODO: This will need to be refactored. We shouldn't be generating the environment files.
 template File.join(node[:primero][:app_dir], 'config', 'environments', "#{node[:primero][:rails_env]}.rb") do
   source "rails_env.rb.erb"
   variables({
@@ -133,11 +134,6 @@ execute_bundle 'restart-solr' do
 end
 
 execute_bundle 'restart-scheduler' do
-  command "rake scheduler:restart" 
+  command "rake scheduler:restart"
 end
 
-include_recipe 'primero::nginx'
-
-service 'nginx' do
-  action :reload
-end

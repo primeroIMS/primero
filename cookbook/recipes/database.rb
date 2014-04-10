@@ -13,4 +13,4 @@ unless shell_out("couchdb -V | grep #{node[:couch_db][:src_version]}").status.su
   include_recipe 'couchdb::source'
 end
 
-
+#TODO: What installs Erlang?
