@@ -1,3 +1,23 @@
+When /^I log in as user "([^\"]*)" using password "([^\"]*)"$/ do |username, password|
+  login_page.login_as(username, password)
+end
+
+Then /^I am redirected to the dashboard$/ do
+  expect(page).to have_content('Welcome to')
+end
+
+Then /^there is a visual cue in the header showing me "([^\"]*)"$/ do |message|
+  expect(page).to have_content(message)
+end
+
+When /^I access "([^\"]*)"$/ do |page_name|
+  visit path_to(page_name)
+end
+
+#////////////////////////////////////////////////////////////////
+#//  Pre-Existing Steps
+#////////////////////////////////////////////////////////////////
+
 Given /^I am logged in$/ do
   ensure_a_user_exists
   login_page.login_as(User.first.user_name, '123')
