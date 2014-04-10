@@ -76,9 +76,8 @@ unless node[:primero][:rails_env]
   Chef::Application.fatal!("You must specify the Primero Rails environment in node[:primero][:rails_env]!")
 end
 
-#TODO: This will need to be refactored. We shouldn't be generating the environment files.
-template File.join(node[:primero][:app_dir], 'config', 'environments', "#{node[:primero][:rails_env]}.rb") do
-  source "rails_env.rb.erb"
+template File.join(node[:primero][:app_dir], 'config', 'solr.yml') do
+  source "solr.yml.erb"
   variables({
     :solr_port => node[:primero][:solr_port],
   })
@@ -112,7 +111,7 @@ end
 template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   source 'couch_config.yml.erb'
   variables({
-    :rails_env => node[:primero][:rails_env],
+    :environments => [ node[:primero][:rails_env] ],
     :couchdb_host => node[:primero][:couchdb][:host],
     :couchdb_username => node[:primero][:couchdb][:username],
     :couchdb_password => node[:primero][:couchdb][:password],
