@@ -4,7 +4,7 @@ default[:primero].tap do |p|
   p[:https_port] = 443
   p[:rails_env] = 'production'
   p[:home_dir] = '/srv/primero'
-  p[:app_dir] = File.join(node[:primero][:home_dir], 'repo')
+  p[:app_dir] = File.join(node[:primero][:home_dir], 'application')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
 
@@ -22,7 +22,7 @@ default[:primero].tap do |p|
 end
 
 default[:rvm].tap do |rvm|
-  rvm[:user_default_ruby] = '1.9.3-p545'
+  rvm[:user_default_ruby] = '1.9.3-p545' #TODO: Will need to upgrade
   rvm[:user_installs] = [
     {
       :user => node[:primero][:app_user],
