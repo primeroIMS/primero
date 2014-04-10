@@ -1,3 +1,15 @@
+Then /^I should see "([^\"]*)" on the page$/ do |text|
+  expect(page).to have_content(text)
+end
+
+Then /^I should not see "([^\"]*)" on the page$/ do |text|
+  expect(page).to have_no_content(text)
+end
+
+#////////////////////////////////////////////////////////////////
+#//  Pre-Existing Steps
+#////////////////////////////////////////////////////////////////
+
 When /^I fill in the basic details of a child$/ do
   fill_in("Birthplace", :with => "Haiti")
 end
