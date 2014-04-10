@@ -37,7 +37,7 @@ end
 template "/home/vagrant/primero/config/couchdb.yml" do
   source 'couch_config.yml.erb'
   variables({
-    :rails_env => 'development',
+    :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
     :couchdb_host => node[:primero][:couchdb][:host],
     :couchdb_username => node[:primero][:couchdb][:username],
     :couchdb_password => node[:primero][:couchdb][:password],
@@ -46,13 +46,13 @@ template "/home/vagrant/primero/config/couchdb.yml" do
   group 'vagrant'
 end
 
-template "/home/vagrant/primero/config/environments/development.rb" do
-  source "rails_env.rb.erb"
+template '/home/vagrant/primero/config/solr.yml' do
+  source "solr.yml.erb"
   variables({
-    :solr_port => 9995
+    :solr_port => node[:primero][:solr_port],
   })
-  owner 'vagrant'
-  group 'vagrant'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
 end
 
 execute_bundle 'setup-db-dev' do

@@ -1,9 +1,11 @@
 ---
-<%= @rails_env %>:
+<% @environments.each do |env| %>
+<%= env %>:
   host: <%= @couchdb_host %>
   port: 5984
   https_port: 6984
   database_prefix: primero_
-  database_suffix: _<%= @rails_env %>
+  database_suffix: _<%= env %>
   username: <%= @couchdb_username %>
   password: <%= @couchdb_password %>
+<% end %>

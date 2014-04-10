@@ -28,6 +28,7 @@ capybara_features/resources/huge.mp3
 tags
 public/assets/
 config/couchdb.yml
+config/solr.yml
 vendor/bundle/
 vendor/cache/
 vendor/ruby/
