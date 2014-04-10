@@ -4,6 +4,8 @@
   host: <%= @couchdb_host %>
   port: 5984
   https_port: 6984
+  # TODO: The 'database_' part of the next two keys needs to be removed upon 4.0
+  # upgrade
   database_prefix: primero_
   database_suffix: _<%= env %>
   username: <%= @couchdb_username %>
