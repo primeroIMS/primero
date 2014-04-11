@@ -10,7 +10,7 @@ describe Api::EnquiriesController do
   describe "#authorizations" do
     it "should fail to POST create when unauthorized" do
       @controller.current_ability.should_receive(:can?).with(:create, Enquiry).and_return(false)
-      post :create 
+      post :create
       response.should be_forbidden
     end
 
@@ -212,12 +212,12 @@ describe Api::EnquiriesController do
       controller.stub(:authorize!)
       enquiry = Enquiry.create({:enquirer_name => "old name", :reporter_details => {"location" => "kampala"}, :criteria => {:name => "child name"}})
 
-      put :update, :id => enquiry.id, :enquiry => {:id => enquiry.id, :criteria => {:name => "child new name"}} 
+      put :update, :id => enquiry.id, :enquiry => {:id => enquiry.id, :criteria => {:name => "child new name"}}
 
       enquiry = Enquiry.get(enquiry.id)
       enquiry.criteria.should == {"name" => "child new name"}
 
-      put :update, :id => enquiry.id, :enquiry => {:id => enquiry.id, :location => "Kampala", :reporter_details => {"age" => "100"}, :criteria => {:sex => "female"}} 
+      put :update, :id => enquiry.id, :enquiry => {:id => enquiry.id, :location => "Kampala", :reporter_details => {"age" => "100"}, :criteria => {:sex => "female"}}
 
       enquiry = Enquiry.get(enquiry.id)
 
@@ -230,30 +230,28 @@ describe Api::EnquiriesController do
     end
 
     it "should update existing enquiry with potential matches" do
-      pending("this test is failing, it needs to be fixed!") do
-        controller.stub(:authorize!)
-        child1 = Child.create('name' => "Clayton aquiles", 'created_by' => 'fakeadmin', 'created_organisation' => "stc")
-        child2 = Child.create('name' => "Steven aquiles", 'sex' => 'male', 'created_by' => 'fakeadmin', 'created_organisation' => "stc")
+      controller.stub(:authorize!)
+      child1 = Child.create('name' => "Clayton aquiles", 'created_by' => 'fakeadmin', 'created_organisation' => "stc")
+      child2 = Child.create('name' => "Steven aquiles", 'sex' => 'male', 'created_by' => 'fakeadmin', 'created_organisation' => "stc")
 
-        enquiry_json = "{\"enquirer_name\": \"Godwin\",\"criteria\": {\"sex\": \"male\",\"age\": \"10\",\"location\": \"Kampala\"  }}"
-        enquiry = Enquiry.new(JSON.parse(enquiry_json))
-        enquiry.save!
+      enquiry_json = "{\"enquirer_name\": \"Godwin\",\"criteria\": {\"sex\": \"male\",\"age\": \"10\",\"location\": \"Kampala\"  }}"
+      enquiry = Enquiry.new(JSON.parse(enquiry_json))
+      enquiry.save!
 
-        Enquiry.get(enquiry.id)['potential_matches'].should == [child2.id]
+      Enquiry.get(enquiry.id)['potential_matches'].should == [child2.id]
 
-        updated_enquiry = "{\"criteria\": {\"name\": \"aquiles\", \"age\": \"10\", \"location\": \"Kampala\"}}"
+      updated_enquiry = "{\"criteria\": {\"name\": \"aquiles\", \"age\": \"10\", \"location\": \"Kampala\"}}"
 
-        put :update, :id => enquiry.id, :enquiry => updated_enquiry
+      put :update, :id => enquiry.id, :enquiry => updated_enquiry
 
-        response.response_code.should == 200
+      response.response_code.should == 200
 
-        enquiry_after_update = Enquiry.get(enquiry.id)
-        enquiry_after_update['potential_matches'].size.should == 2
-        enquiry_after_update['potential_matches'].include?(child1.id).should == true
-        enquiry_after_update['potential_matches'].include?(child2.id).should == true
-        #enquiry_after_update['potential_matches'].size.should == [child2.id,child1.id]
-        enquiry_after_update['criteria'].should == {"name" => "aquiles", "age" => "10", "location" => "Kampala"}
-      end
+      enquiry_after_update = Enquiry.get(enquiry.id)
+      enquiry_after_update['potential_matches'].size.should == 2
+      enquiry_after_update['potential_matches'].include?(child1.id).should == true
+      enquiry_after_update['potential_matches'].include?(child2.id).should == true
+      #enquiry_after_update['potential_matches'].size.should == [child2.id,child1.id]
+      enquiry_after_update['criteria'].should == {"name" => "aquiles", "age" => "10", "location" => "Kampala"}
     end
 
   end
@@ -266,7 +264,7 @@ describe Api::EnquiriesController do
       enquiry = Enquiry.new({:_id => "123"})
       Enquiry.should_receive(:all).and_return([enquiry])
 
-      get :index 
+      get :index
       response.response_code.should == 200
       response.body.should == [{:location => "http://test.host:80/api/enquiries/#{enquiry.id}"}].to_json
     end
@@ -277,7 +275,7 @@ describe Api::EnquiriesController do
       enquiry = Enquiry.new({:_id => "123"})
       Enquiry.should_receive(:search_by_match_updated_since).with('2013-09-18 06:42:12UTC').and_return([enquiry])
 
-      get :index, :updated_after => '2013-09-18 06:42:12UTC' 
+      get :index, :updated_after => '2013-09-18 06:42:12UTC'
 
       response.response_code.should == 200
       response.body.should == [{:location => "http://test.host:80/api/enquiries/#{enquiry.id}"}].to_json
@@ -286,7 +284,7 @@ describe Api::EnquiriesController do
     it "should return 422 if query parameter with last update timestamp is not a valid timestamp" do
       controller.stub(:authorize!)
       bypass_rescue
-      get :index, :updated_after => 'adsflkj' 
+      get :index, :updated_after => 'adsflkj'
 
       response.response_code.should == 422
     end
@@ -299,7 +297,7 @@ describe Api::EnquiriesController do
 
       Enquiry.should_receive(:get).with("123").and_return(double(:to_json => "an enquiry record"))
 
-      get :show, :id => "123" 
+      get :show, :id => "123"
       response.response_code.should == 200
       response.body.should == "an enquiry record"
     end
@@ -309,7 +307,7 @@ describe Api::EnquiriesController do
 
       Enquiry.should_receive(:get).with("123").and_return(nil)
 
-      get :show, :id => "123" 
+      get :show, :id => "123"
 
       response.body.should == ""
       response.response_code.should == 404
