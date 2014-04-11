@@ -36,7 +36,7 @@ module Security
 
     it 'database name should have rails env' do
       SessionSecret.stub :env => "random"
-      SessionSecret.database.name.should == "rapidftr_session_secret_random"
+      SessionSecret.database.name.should == "primero_session_secret_#{Rails.env}"
     end
 
     after :each do
