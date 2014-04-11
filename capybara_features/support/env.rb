@@ -7,6 +7,8 @@
 ENV['RAILS_ENV'] = 'cucumber'
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../..'))
 
+SELENIUM_CFG = YAML::load_file(File.expand_path(File.dirname(__FILE__) + '/../../config/selenium.yml'))
+
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'spec/support/uploadable_files'
@@ -20,7 +22,16 @@ puts Rails.env
 Capybara.register_driver :selenium do |app|
   http_client = Selenium::WebDriver::Remote::Http::Default.new
   http_client.timeout = 60
-  Capybara::Selenium::Driver.new(app, :browser => :firefox, :http_client => http_client)
+
+  if ENV["SELENIUM"] == 'remote'
+    Capybara::Selenium::Driver.new(app, 
+      :browser => :remote, 
+      :url => SELENIUM_CFG['host'],
+      :desired_capabilities => SELENIUM_CFG['capabilities']
+    )   
+  else
+    Capybara::Selenium::Driver.new(app, :browser => SELENIUM_CFG['browser'], :http_client => http_client)
+  end
 end
 
 Capybara.configure do |config|
@@ -28,6 +39,7 @@ Capybara.configure do |config|
   config.ignore_hidden_elements = false
 end
 
+Capybara.app_host = SELENIUM_CFG['app_host'] if ENV["SELENIUM"] == 'remote'
 Capybara.run_server = true #Whether start server when testing
 Capybara.default_selector = :xpath #default selector , you can change to :css
 Capybara.default_wait_time = 5 #When we testing AJAX, we can set a default wait time
