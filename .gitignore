@@ -35,5 +35,7 @@ vendor/ruby/
 .ruby-version
 .project
 <Solr_data_dir>
-
 cookbook/private/
+.project
+.buildpath
+.ruby-gemset
