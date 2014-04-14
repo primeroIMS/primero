@@ -22,7 +22,7 @@ default[:primero].tap do |p|
 end
 
 default[:rvm].tap do |rvm|
-  rvm[:user_default_ruby] = '1.9.3-p545' #TODO: Will need to upgrade
+  rvm[:user_default_ruby] = '2.1.0'
   rvm[:user_installs] = [
     {
       :user => node[:primero][:app_user],

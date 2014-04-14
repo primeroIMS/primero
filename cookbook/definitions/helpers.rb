@@ -36,3 +36,15 @@ define :execute_bundle, :command => nil, :cwd => nil, :rails_env => nil, :user =
     group args[:group]
   end
 end
+
+# The following is per http://stackoverflow.com/a/20830324/1009106 for a bug
+# that causes the bundle install to bomb out when using the 2.1.0 default
+# gemset with rvm
+define :update_bundler, :user => nil, :group => nil do
+  args = params
+  execute_with_ruby "upgrade-bundler-#{params[:name]}" do
+    command "[[ $(bundle --version | awk '{ print $3 }') == '1.5.0' ]] && gem update bundler || true"
+    user args[:user]
+    group args[:group]
+  end
+end

@@ -7,11 +7,12 @@ server {
 server {
   listen <%= @https_port %> ssl;
   <%= "server_name #{@server_name};" if @server_name %>
-  ssl_certificate ssl/primero.crt;
-  ssl_certificate_key ssl/primero.key;
+  ssl_certificate <%= @ssl_cert_path %>;
+  ssl_certificate_key <%= @ssl_key_path %>;
 
   passenger_enabled on;
   passenger_min_instances 1;
+  passenger_ruby <%= @rvm_ruby_path %>;
 
   rails_env <%= @rails_env %>;
   gzip on;
