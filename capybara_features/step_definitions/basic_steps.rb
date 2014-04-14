@@ -18,7 +18,6 @@ end
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
 
-
 When /^I fill in the basic details of a child$/ do
   fill_in("Birthplace", :with => "Haiti")
 end
