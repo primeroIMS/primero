@@ -2,7 +2,6 @@
 Feature: As a logged out user, I can not access content until I log in
   
   Scenario Outline: I am a logged out user who tries to access any page
-    #Given I am not logged in
     When I access "<page>"
     Then I should see "Login details" on the page
     And I should not see "Register New Child" on the page

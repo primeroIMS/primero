@@ -6,6 +6,14 @@ Then /^I should not see "([^\"]*)" on the page$/ do |text|
   expect(page).to have_no_content(text)
 end
 
+Then /^I should see a "([^\"]*)" button on the page$/ do |label|
+  expect(page).should have_selector(:link_or_button, label)
+end
+
+Then /^I press the "([^\"]*)" button$/ do |label|
+  click_on(label)
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
