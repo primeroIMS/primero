@@ -1,5 +1,5 @@
  <div class="side-tab">
-    <ul>
+    <ul class="side-nav">
       <li class=<%= (highlight_page == 'users' ? 'current' : '') %>><%= link_to I18n.t("users.label"), users_path if can?(:read, User)%></li>
       <li class=<%= (highlight_page == 'unverified' ? 'current' : '') %>>
       	<%= link_to I18n.t("users.unverified"), unverified_users_path if can?(:show, User)  %></li>
