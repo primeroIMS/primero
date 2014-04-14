@@ -18,7 +18,7 @@ You will also need to grab the private data for chef-solo that is too sensitive
 to store on Bitbucket.  Make sure you have access to ohio and run the following
 in the project git clone root dir:
 
-    $ rsync -r -e 'ssh -o Tunnel=no' ohio.quoininc.com:/srv/chef/primero/main/ private
+    $ rsync -r -e 'ssh -o Tunnel=no' ohio.quoininc.com:/srv/chef/primero/main/ cookbook/private
 
 Now you are ready to start the VM.  Make sure you don't have anything running
 on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from
