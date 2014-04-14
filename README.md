@@ -1,4 +1,4 @@
-RapidFTR
+Primero
 ========
 
 ## Development
@@ -18,7 +18,7 @@ You will also need to grab the private data for chef-solo that is too sensitive
 to store on Bitbucket.  Make sure you have access to ohio and run the following
 in the project git clone root dir:
 
-    $ scp -r 'ohio.quoininc.com:/srv/chef/primero/main/dev/*' cookbook/private/
+    $ rsync -r -e 'ssh -o Tunnel=no' ohio.quoininc.com:/srv/chef/primero/main/ cookbook/private
 
 Now you are ready to start the VM.  Make sure you don't have anything running
 on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from
@@ -48,10 +48,10 @@ port 8443.  You can login with a preseeded admin account with credentials
 
 ### Deploy keys
 
-The above `scp` command will grab the deploy keys for bitbucket, but since
+The above `rsync` command will grab the deploy keys for Bitbucket, but since
 development will happen on forked repositories you will need to make sure that
 your repository has that same deploy key enabled.  To do so, add the key from
-`cookbook/private/deploy_keys/id_rsa.pub` to your bitbucket fork's deploy key
+`cookbook/private/deploy_keys/id_rsa.pub` to your Bitbucket fork's deploy key
 list.  You do this by going into the repo admin and clicking on `Deployment
 Keys`.
 
