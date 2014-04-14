@@ -4,8 +4,8 @@
   host: <%= @couchdb_host %>
   port: 5984
   https_port: 6984
-  prefix: primero_
-  suffix: _<%= env %>
+  prefix: primero
+  suffix: <%= env %>
   username: <%= @couchdb_username %>
   password: <%= @couchdb_password %>
 <% end %>
