@@ -26,15 +26,25 @@ directory node[:primero][:home_dir] do
   group node[:primero][:app_group]
 end
 
+if node[:primero][:environment].to_s.empty?
+  Chef::Application.fatal!("You must set the node[:primero][:environment] attribute")
+end
+
 ssh_dir = File.join(node[:primero][:home_dir], '.ssh')
 remote_directory ssh_dir do
-  source 'ssh'
+  source "ssh/#{node[:primero][:environment]}"
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
   files_owner node[:primero][:app_user]
   files_group node[:primero][:app_group]
   mode '0700'
   files_mode '0600'
+end
+
+cookbook_file File.join(ssh_dir, 'known_hosts') do
+  source 'ssh/known_hosts'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
 end
 
 git_wrapper_path = File.join(ssh_dir, 'git-wrapper.sh')
@@ -58,7 +68,6 @@ sudo "#{node[:primero][:app_user]}-rvm" do
 end
 
 include_recipe 'rvm::user'
-
 # Run a `git reset` before this step??
 git node[:primero][:app_dir] do
   repository node[:primero][:git][:repo]
@@ -76,8 +85,8 @@ unless node[:primero][:rails_env]
   Chef::Application.fatal!("You must specify the Primero Rails environment in node[:primero][:rails_env]!")
 end
 
-template File.join(node[:primero][:app_dir], 'config', 'environments', "#{node[:primero][:rails_env]}.rb") do
-  source "rails_env.rb.erb"
+template File.join(node[:primero][:app_dir], 'config', 'solr.yml') do
+  source "solr.yml.erb"
   variables({
     :solr_port => node[:primero][:solr_port],
   })
@@ -99,6 +108,7 @@ template File.join(node[:primero][:app_dir], "public", "version.txt") do
   group node[:primero][:app_group]
 end
 
+update_bundler 'prod-stack'
 execute_with_ruby 'bundle-install' do
   command "bundle install"
   cwd node[:primero][:app_dir]
@@ -111,7 +121,7 @@ end
 template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   source 'couch_config.yml.erb'
   variables({
-    :rails_env => node[:primero][:rails_env],
+    :environments => [ node[:primero][:rails_env] ],
     :couchdb_host => node[:primero][:couchdb][:host],
     :couchdb_username => node[:primero][:couchdb][:username],
     :couchdb_password => node[:primero][:couchdb][:password],
@@ -121,7 +131,7 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
 end
 
 execute_bundle 'setup-db' do
-  command "rake couchdb:create db:seed db:migrate"
+  command "rake db:seed db:migrate"
 end
 
 execute_bundle 'precompile-assets' do
@@ -133,11 +143,6 @@ execute_bundle 'restart-solr' do
 end
 
 execute_bundle 'restart-scheduler' do
-  command "rake scheduler:restart" 
+  command "rake scheduler:restart"
 end
 
-include_recipe 'primero::nginx'
-
-service 'nginx' do
-  action :reload
-end

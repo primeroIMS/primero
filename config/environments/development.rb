@@ -2,27 +2,33 @@ RapidFTR::Application.configure do
 
     # Settings specified here will take precedence over those in config/environment.rb
 
-    # The production environment is meant for finished, "live" apps.
-    # Code is not reloaded between requests
-    config.cache_classes = true
+  # The production environment is meant for finished, "live" apps.
+  # Code is not reloaded between requests
+  config.cache_classes = false
 
-    # Log error messages when you accidentally call methods on nil.
-    config.whiny_nils = false
+  # Log error messages when you accidentally call methods on nil.
+  config.whiny_nils = true
+  # Show full error reports and disable caching
 
-    # Full error reports are disabled and caching is turned on
-    config.consider_all_requests_local = false
-    config.action_controller.perform_caching             = true
+  # Full error reports are disabled and caching is turned on
+  config.consider_all_requests_local = false
+  config.action_controller.perform_caching             = true
 
-    # See everything in the log (default is :info)
-    config.log_level = :error
+  # See everything in the log (default is :info)
+  config.log_level = :error
 
-    # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-    # the I18n.default_locale when a translation can not be found)
-    config.i18n.fallbacks = true
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation can not be found)
+  config.i18n.fallbacks = true
 
-    # For nginx:
-    # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+  # For nginx:
+  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
-    ENV['SOLR_PORT'] = "9995"
+  ENV['SOLR_PORT'] = "9995"
 
+  # Asset pipeline
+  config.assets.compress = false
+  config.assets.debug = true
+
+  config.eager_load = false
 end

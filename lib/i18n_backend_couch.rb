@@ -40,7 +40,8 @@ class I18nBackendCouch < I18n::Backend::Simple
   end
 
   def db_name
-    "rapidftr_i18n_#{Rails.env}"
+    # "rapidftr_i18n_#{Rails.env}"
+    "#{COUCHDB_CONFIG[:db_prefix]}_i18n_#{COUCHDB_CONFIG[:db_suffix]}"
   end
 
   # Merge and save data into an existing document
@@ -52,7 +53,10 @@ class I18nBackendCouch < I18n::Backend::Simple
 
     begin
       doc = db.get(locale)
-      doc.deep_merge! data
+      attributes = doc.to_hash.deep_merge(data)
+      data.each do |key|
+        doc[key] = attributes[key]
+      end
       doc.save
     rescue
       data["_id"] = locale
