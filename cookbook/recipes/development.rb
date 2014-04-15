@@ -38,8 +38,8 @@ template "/home/vagrant/primero/config/couchdb.yml" do
   source 'couch_config.yml.erb'
   variables({
     :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
-    :couchdb_host => node[:primero][:couchdb][:host],
-    :couchdb_username => node[:primero][:couchdb][:username],
+    :couchdb_host => [:primero][:couchdb][:host],
+    :couchdb_username => [:primero][:couchdb][:username],
     :couchdb_password => node[:primero][:couchdb][:password],
   })
   owner 'vagrant'
@@ -50,6 +50,16 @@ template '/home/vagrant/primero/config/solr.yml' do
   source "solr.yml.erb"
   variables({
     :solr_port => node[:primero][:solr_port],
+  })
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
+template '/home/vagrant/primero/config/selenium.yml' do
+  source "selenium.yml.erb"
+  variables({
+    :selenium_server => node[:primero][:selenium_server],
+    :integration_server => node[:primero][:integration_server],
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
