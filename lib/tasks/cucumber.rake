@@ -42,6 +42,7 @@ begin
     end
 
     Cucumber::Rake::Task.new({:headless_ci => 'db:test:prepare'}, 'Runs the headless tests and generates xml reports that can be read by Jenkins') do |t|
+      ENV['CI_REPORTS'] = 'capybara_features/reports'
       t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
       t.fork = false # You may get faster startup if you set this to false
       t.profile = 'headless'
