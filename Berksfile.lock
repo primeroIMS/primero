@@ -18,7 +18,7 @@
       "locked_version": "2.3.8"
     },
     "yum": {
-      "locked_version": "3.1.2"
+      "locked_version": "3.1.4"
     },
     "yum-epel": {
       "locked_version": "0.3.4"
@@ -27,28 +27,28 @@
       "locked_version": "0.2.0"
     },
     "build-essential": {
-      "locked_version": "1.4.2"
+      "locked_version": "2.0.0"
     },
     "nginx": {
-      "locked_version": "2.4.2"
+      "locked_version": "2.4.4"
     },
     "bluepill": {
       "locked_version": "2.3.1"
     },
     "rsyslog": {
-      "locked_version": "1.11.0"
+      "locked_version": "1.12.2"
     },
     "ohai": {
       "locked_version": "1.1.12"
     },
     "runit": {
-      "locked_version": "1.5.8"
+      "locked_version": "1.5.10"
     },
     "sudo": {
       "locked_version": "2.5.2"
     },
     "java": {
-      "locked_version": "1.20.0"
+      "locked_version": "1.21.2"
     },
     "chef_gem": {
       "locked_version": "0.1.0"
