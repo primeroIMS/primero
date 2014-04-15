@@ -6,10 +6,6 @@ RapidFTR::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = false
 
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
-  # Show full error reports and disable caching
-
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = false
   config.action_controller.perform_caching             = true
