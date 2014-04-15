@@ -21,7 +21,7 @@ module Security
       end
 
       def database
-        COUCHDB_SERVER.database! "rapidftr_session_secret_#{env}"
+        COUCHDB_SERVER.database! "#{COUCHDB_CONFIG[:db_prefix]}_session_secret_#{COUCHDB_CONFIG[:db_suffix]}"
       end
 
       def env

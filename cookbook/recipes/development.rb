@@ -14,7 +14,7 @@ end
 
 %w(tmux vim curl firefox xvfb).each do |pkg|
   package pkg
-end 
+end
 
 # This module gets pulled in with tmux 1.8 but unfortunately breaks Chef, it
 # doesn't seem to be required by tmux though so we can remove it
@@ -25,6 +25,13 @@ end
 link '/home/vagrant/primero' do
   to '/vagrant'
 end
+
+include_recipe 'rvm::user'
+update_bundler 'dev-stack' do
+  user 'vagrant'
+  group 'vagrant'
+end
+
 
 execute_with_ruby 'bundle-install-vagrant' do
   command 'bundle install'
@@ -66,7 +73,7 @@ template '/home/vagrant/primero/config/selenium.yml' do
 end
 
 execute_bundle 'setup-db-dev' do
-  command "rake couchdb:create db:seed db:migrate" 
+  command "rake db:seed db:migrate"
   cwd '/home/vagrant/primero'
   rails_env 'development'
   user 'vagrant'

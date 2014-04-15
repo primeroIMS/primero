@@ -11,31 +11,34 @@ end
   package pkg
 end
 
+ssl_dir = ::File.join('/etc/nginx', 'ssl')
+directory ssl_dir do
+  action :create
+  recursive true
+  owner 'root'
+  group 'root'
+  mode '0700'
+end
+
 unless node[:primero][:server_hostname]
   Chef::Application.fatal!("You must specify the nginx server hostname in node[:primero][:server_hostname]!")
 end
 
-remote_directory "#{node[:nginx_dir]}/ssl" do
-  source "ssl_certs"
-  owner "root"
-  group "root"
-  files_owner "root"
-  files_group "root"
-  mode "0600"
-  files_mode "0600"
-  notifies :restart, 'service[nginx]'
+ssl_file_name = lambda do |ext|
+  "#{node[:primero][:server_hostname]}.#{ext}"
 end
 
-#remote_directory "#{node[:nginx_dir]}/conf.d" do
-  #source "nginx_conf"
-  #owner "root"
-  #group "root"
-  #files_owner "root"
-  #files_group "root"
-  #mode "0755"
-  #files_mode "0644"
-  #notifies :restart, 'service[nginx]'
-#end
+['crt', 'key'].each do |ext|
+  file_name = ssl_file_name.call(ext)
+  ssl_file = ::File.join(ssl_dir, file_name)
+  cookbook_file ssl_file do
+    source "ssl_certs/#{file_name}"
+    owner "root"
+    group "root"
+    mode "0600"
+    notifies :reload, 'service[nginx]'
+  end
+end
 
 template "#{node[:nginx_dir]}/nginx.conf" do
   source "nginx.conf.erb"
@@ -57,6 +60,9 @@ template site_conf_file do
     :server_name => node[:primero][:server_hostname],
     :current_path => node[:primero][:app_dir],
     :rails_env => node[:primero][:rails_env],
+    :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:rvm][:user_default_ruby]}/wrappers/ruby"),
+    :ssl_cert_path => ::File.join(ssl_dir, ssl_file_name.call('crt')),
+    :ssl_key_path => ::File.join(ssl_dir, ssl_file_name.call('key')),
   })
   notifies :restart, 'service[nginx]'
 end
@@ -66,6 +72,7 @@ link "#{node[:nginx_dir]}/sites-enabled/primero" do
 end
 
 service 'nginx' do
+  supports [:enable, :restart, :start, :reload]
   action [:enable, :start]
 end
 

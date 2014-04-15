@@ -2,10 +2,10 @@ base: &base
   host: localhost
   port: 5984
   https_port: 6984
-  prefix: rapidftr
+  prefix: primero
   suffix: <%= Rails.env %>
-  username: "rapidftr"
-  password: "rapidftr"
+  username: "primero"
+  password: "primero"
   ssl: false
 
 development:

@@ -1,19 +1,20 @@
+TEST_DATABASES = COUCHDB_SERVER.databases.select {|db| db =~ /#{ENV["RAILS_ENV"]}$/}
+
 Before do
-  Child.stub! :index_record => true, :reindex! => true, :build_solar_schema => true
-  Sunspot.stub! :index => true, :index! => true
+  Child.stub :index_record => true, :reindex! => true, :build_solar_schema => true
+  Sunspot.stub :index => true, :index! => true
 end
 
 Before('@search') do
-  Child.rspec_reset
-  Sunspot.rspec_reset
+  RSpec::Mocks.proxy_for(Child).reset
+  RSpec::Mocks.proxy_for(Sunspot).reset
   Sunspot.remove_all!(Child)
   Sunspot.remove_all!(Enquiry)
 end
 
 Before do
   I18n.locale = I18n.default_locale = :en
-
-  CouchRestRails::Document.descendants.each do |model|
+  CouchRest::Model::Base.descendants.each do |model|
     docs = model.database.documents["rows"].map { |doc|
       { "_id" => doc["id"], "_rev" => doc["value"]["rev"], "_deleted" => true } unless doc["id"].include? "_design"
     }.compact
@@ -27,4 +28,11 @@ Before('@roles') do |scenario|
   Role.create(:name => 'Field Worker', :permissions => [Permission::CHILDREN[:register]])
   Role.create(:name => 'Field Admin', :permissions => [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:create], Permission::CHILDREN[:edit]])
   Role.create(:name => 'Admin', :permissions => Permission.all_permissions)
+end
+
+
+at_exit do
+  TEST_DATABASES.each do |db|
+    COUCHDB_SERVER.database(db).delete! rescue nil
+  end
 end
