@@ -2,22 +2,16 @@
   <%= form_tag sessions_path, :class => 'default-form' do %>
       <%= error_messages_for :session %>
       <div class="login_panel">
-        <h3><%= t("login.details") %></h3>
+        <h1><%= t("login.details") %></h1>
 
-        <p>
-          <%= label_tag "user_name", t("login.username") %>
-          <%= text_field_tag "user_name" %>
-        </p>
+        <%= text_field_tag "user_name", nil, placeholder: t("login.username")  %>
 
-        <p>
-          <%= label_tag "password", t('login.password.label') %>
-          <%= password_field_tag "password" %>
-        </p>
+        <%= password_field_tag "password", nil, placeholder: t("login.password.label")  %>
 
         <div class="btn_panel">
           <%= submit_button t("buttons.login") %>
         </div>
+        <%= link_to t("login.password.reset"), :controller => "password_recovery_requests", :action => "new" %>
       </div>
-      <%= link_to t("login.password.reset"), :controller => "password_recovery_requests", :action => "new" %>
   <% end %>
 </div>

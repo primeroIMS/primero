@@ -1,20 +1,26 @@
 RapidFTR::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
 
-  # In the development environment your application's code is reloaded on
-  # every request.  This slows down response time but is perfect for development
-  # since you don't have to restart the webserver when you make code changes.
+    # Settings specified here will take precedence over those in config/environment.rb
+
+  # The production environment is meant for finished, "live" apps.
+  # Code is not reloaded between requests
   config.cache_classes = false
 
-  # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  # Full error reports are disabled and caching is turned on
+  config.consider_all_requests_local = false
+  config.action_controller.perform_caching             = true
 
-  # Print deprecation notices to the Rails logger
-  config.active_support.deprecation = :log
+  # See everything in the log (default is :info)
+  config.log_level = :error
 
-  # Only use best-standards-support built into browsers
-  config.action_dispatch.best_standards_support = :builtin
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation can not be found)
+  config.i18n.fallbacks = true
+
+  # For nginx:
+  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+
+  ENV['SOLR_PORT'] = "9995"
 
   # Asset pipeline
   config.assets.compress = false

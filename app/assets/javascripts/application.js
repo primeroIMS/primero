@@ -3,6 +3,7 @@
 //= require plugins/jquery.tmpl.min
 //= require plugins/jquery_ujs
 //= require plugins/json2
+//= require foundation
 //= require plugins/underscore
 //= require plugins/backbone
 //= require plugins/jquery.idletimer
@@ -23,3 +24,5 @@
 //= require manage_users
 //= require session_timeout
 //= require flag_children
+
+$(function(){ $(document).foundation(); });

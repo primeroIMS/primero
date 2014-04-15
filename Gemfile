@@ -33,18 +33,24 @@ gem "zipruby-compat", :require => 'zipruby', :git => "https://github.com/jawspea
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false
 
+gem 'foundation-rails', '~> 5.2.0.0'
+
 group :development, :assets, :cucumber do
   gem 'sass-rails',    '~> 4.0.1'
   gem 'compass-rails', '~> 1.1.3'
   gem 'coffee-rails',  '~> 4.0.1'
   gem 'uglifier',      '~> 2.0.1'
-  gem 'pry'
-  gem 'pry-debugger'
+  gem 'font-awesome-sass'
 end
 
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
+end
+
+group :test, :cucumber, :development do
+  gem 'pry'
+  gem 'pry-debugger'
 end
 
 group :test, :cucumber do
