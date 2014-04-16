@@ -29,6 +29,7 @@ tags
 public/assets/
 config/couchdb.yml
 config/solr.yml
+config/selenium.yml
 vendor/bundle/
 vendor/cache/
 vendor/ruby/
@@ -40,4 +41,7 @@ Guardfile
 cookbook/private/
 .project
 .buildpath
+coverage/
+spec/reports/
+capybara_features/reports/
 .ruby-gemset

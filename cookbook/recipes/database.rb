@@ -7,10 +7,19 @@ package 'build-essential'
 node.default[:couch_db][:src_version] = '1.5.0'
 node.default[:couch_db][:src_checksum] = 'abbdb2a6433124a4a4b902856f6a8a070d53bf7a55faa7aa8b6feb7127638fef'
 
-# The couchdb cookbook seems to have issues with idempotency and tries to
-# redownload the source package on every run
-unless shell_out("couchdb -V | grep #{node[:couch_db][:src_version]}").status.success?
-  include_recipe 'couchdb::source'
+include_recipe 'couchdb::source'
+
+template '/usr/local/etc/couchdb/local.d/address.ini' do
+  source 'couch_local_config.ini.erb'
+  variables({
+    :bind_address => node[:primero][:couchdb][:bind_address],
+  })
+  owner 'couchdb'
+  group 'couchdb'
+  notifies :restart, 'service[couchdb]'
 end
 
-#TODO: What installs Erlang?
+service 'couchdb' do
+  action :nothing
+end
+

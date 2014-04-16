@@ -69,6 +69,8 @@ group :test, :cucumber do
   gem "json_spec",          '~> 1.1.1'
   gem 'rubocop'
   gem 'metric_fu'
-  gem 'simplecov',          '~> 0.7.1'
+  gem 'simplecov',          '~> 0.8.2'
+  gem 'simplecov-rcov',     '~> 0.2.3'
+  gem 'ci_reporter',        '~> 1.9.1'
   gem "pdf-inspector",      '~> 1.1.0', :require => 'pdf/inspector'
 end
