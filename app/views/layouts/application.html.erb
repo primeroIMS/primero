@@ -41,6 +41,7 @@
         <% if can? :read, Report%>
           <li><%= link_to t("navigation.reports"), reports_path %></li>
         <% end %>
+        <div class="clearB"></div>
       </ul>
     </nav>
         <% if can? :view_and_search, Child %>
@@ -52,10 +53,10 @@
         </div>
     <%- end %>
     <% end %>
-    <% end %>
+  <% end %>
   </div>
   <hr />
-  <div class="page-content">
+  <div class="page_content">
 
     <% if flash[:notice].present? %>
         <div class='flash'>
