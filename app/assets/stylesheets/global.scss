@@ -92,17 +92,16 @@ select, select:hover {
 ////////////////////////////////////////////////
 
 .search {
-  width: 14.76rem;
-
-  a {
-    float: left;
-  }
-
+  display:inline;
   input#query {
-    float: right;
-    height: 1rem;
+    height: 18px;
     width: 8.524rem !important;
     border: none !important;
+    margin:3px 5px 0 5px;
+    display:inline;
+  }
+  input[type="submit"] {
+    width:40px;
   }
 }
 
@@ -176,12 +175,28 @@ nav {
   width: 800px;
   margin:0 auto;
   ul {
+    text-align: justify;
+    font-size: .9em;
     list-style-type: none;
     margin:0;
-    li {
-      padding: 5px 40px 5px 0;
-      float:left;
+    padding:5px 0;
+    height:35px;
+    &:after {
+      width: 100%;
+      display: inline-block;
+      content: ".";
+      visibility: hidden;
     }
+    li {
+      //padding: 5px 30px 5px 0;
+      display: inline-block;
+      &:last-child {
+        padding-right:0;
+      }
+    }
+  }
+  form {
+    display: inline;
   }
 }
 
