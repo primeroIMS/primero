@@ -14,6 +14,11 @@ When /^I access "([^\"]*)"$/ do |page_name|
   visit path_to(page_name)
 end
 
+Given /^I am logged in as an admin with username "([^\"]*)" and password "([^\"]*)"$/ do |username, password|
+  data_populator.create_admin(username, password, nil)
+  login_page.login_as(username, password)
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
