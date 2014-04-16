@@ -17,6 +17,12 @@ require 'json_spec/cucumber'
 require 'rack/test'
 require 'selenium/webdriver'
 
+require 'simplecov'
+require 'simplecov-rcov'
+SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+SimpleCov.start 'rails'
+SimpleCov.coverage_dir 'coverage/cucumber'
+
 puts Rails.env
 
 Capybara.register_driver :selenium do |app|
