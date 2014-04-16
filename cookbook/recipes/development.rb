@@ -45,8 +45,8 @@ template "/home/vagrant/primero/config/couchdb.yml" do
   source 'couch_config.yml.erb'
   variables({
     :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
-    :couchdb_host => [:primero][:couchdb][:host],
-    :couchdb_username => [:primero][:couchdb][:username],
+    :couchdb_host => node[:primero][:couchdb][:host],
+    :couchdb_username => node[:primero][:couchdb][:username],
     :couchdb_password => node[:primero][:couchdb][:password],
   })
   owner 'vagrant'
