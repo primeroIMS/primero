@@ -41,7 +41,8 @@ begin
       t.cucumber_opts = cucumber_opts if cucumber_opts
     end
 
-    Cucumber::Rake::Task.new({:headless_ci => 'db:test:prepare'}, 'Runs the headless tests and generates xml reports that can be read by Jenkins') do |t|
+    require 'ci/reporter/rake/cucumber'
+    Cucumber::Rake::Task.new({:headless_ci => ['ci:setup:cucumber_report_cleanup', 'db:test:prepare']}, 'Runs the headless tests and generates xml reports that can be read by Jenkins') do |t|
       t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
       t.fork = false # You may get faster startup if you set this to false
       t.profile = 'headless'

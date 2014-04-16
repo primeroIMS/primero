@@ -1,9 +1,12 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'simplecov'
-require 'simplecov-rcov'
-SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
-SimpleCov.start 'rails'
-SimpleCov.coverage_dir 'coverage/rspec'
+
+if ENV["COVERAGE"] == 'true'
+  require 'simplecov'
+  require 'simplecov-rcov'
+  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+  SimpleCov.start 'rails'
+  SimpleCov.coverage_dir 'coverage/rspec'
+end
 
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)

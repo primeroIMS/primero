@@ -17,11 +17,13 @@ require 'json_spec/cucumber'
 require 'rack/test'
 require 'selenium/webdriver'
 
-require 'simplecov'
-require 'simplecov-rcov'
-SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
-SimpleCov.start 'rails'
-SimpleCov.coverage_dir 'coverage/cucumber'
+if ENV["COVERAGE"] == 'true'
+  require 'simplecov'
+  require 'simplecov-rcov'
+  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+  SimpleCov.start 'rails'
+  SimpleCov.coverage_dir 'coverage/cucumber'
+end
 
 puts Rails.env
 
