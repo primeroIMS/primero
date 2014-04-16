@@ -16,6 +16,7 @@ default[:primero].tap do |p|
   p[:couchdb].tap do |c|
     c[:host] = 'localhost'
     c[:username] = 'primero'
+    c[:bind_address] = '127.0.0.1'
   end
 
   p[:solr_port] = 9999
