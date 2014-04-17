@@ -24,39 +24,42 @@
   </header>
   <div class="main_bar">
     <% if logged_in? %>
-    <nav>
-      <ul>
-        <% if can? :read, Child %>
-          <li><%= link_to t("navigation.children"), children_path %></li>
-        <% end  %>
-        <% if current_user_name==nil or can? :manage, FormSection %>
-            <li><%= link_to t("navigation.forms"), form_sections_path %></li>
-        <% end %>
-        <% if can? :read, User or can? :show, Role %>
-          <li><%= link_to t("navigation.users"), users_path %></li>
-        <% end %>
-        <% if can?(:read, Device) or can?(:read, Replication) %>
-          <li><%= link_to t("navigation.devices"), devices_path %></li>
-        <% end %>
-        <% if can? :read, Report%>
-          <li><%= link_to t("navigation.reports"), reports_path %></li>
-        <% end %>
-      </ul>
-    </nav>
-        <% if can? :view_and_search, Child %>
-  <%= form_tag search_children_path, :method => :get, :id => "search_form" do %>
-        <div class="search">
-          <%= link_to t("navigation.advanced_search"), new_advanced_search_path %>
-          <%= text_field_tag 'query', params[:query] %>
-          <%= submit_tag t("navigation.go"), :action => "children/search", :method => "get", :onclick => "return RapidFTR.validateSearch();" %>
-        </div>
-    <%- end %>
-    <% end %>
+      <nav>
+        <ul>
+          <% if can? :read, Child %>
+            <li><%= link_to t("navigation.children"), children_path %></li>
+          <% end  %>
+          <% if current_user_name==nil or can? :manage, FormSection %>
+              <li><%= link_to t("navigation.forms"), form_sections_path %></li>
+          <% end %>
+          <% if can? :read, User or can? :show, Role %>
+            <li><%= link_to t("navigation.users"), users_path %></li>
+          <% end %>
+          <% if can?(:read, Device) or can?(:read, Replication) %>
+            <li><%= link_to t("navigation.devices"), devices_path %></li>
+          <% end %>
+          <% if can? :read, Report%>
+            <li><%= link_to t("navigation.reports"), reports_path %></li>
+          <% end %>
+          <% if can? :view_and_search, Child %>
+            <li>
+              <%= form_tag search_children_path, :method => :get, :id => "search_form" do %>
+                <div class="search">
+                  <%= link_to t("navigation.advanced_search"), new_advanced_search_path %>
+                  <%= text_field_tag 'query', params[:query] %>
+                  <%= submit_tag t("navigation.go"), :action => "children/search", :method => "get", :onclick => "return RapidFTR.validateSearch();" %>
+                </div>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+        <div class="clearB"></div>
+      </nav>
     <% end %>
   </div>
   <%= yield :breadcrumbs %>
   <hr />
-  <div class="page-content">
+  <div class="page_content">
 
     <% if flash[:notice].present? %>
         <div class='flash'>

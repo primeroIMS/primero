@@ -94,6 +94,13 @@ cookbook_file '/etc/init/xvfb.conf' do
   mode '0644'
 end
 
+cookbook_file '/home/vagrant/.pryrc' do
+  source 'development/pryrc'
+  owner 'vagrant'
+  group 'vagrant'
+  mode '0644'
+end
+
 service 'xvfb' do
   action [:enable, :start]
   provider Chef::Provider::Service::Upstart

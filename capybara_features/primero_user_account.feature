@@ -4,8 +4,7 @@
 Feature: As a logged in social worker, I want to be able to view and edit my account page
 
   Scenario: I am a logged in user and I want to confirm that fields on the edit account page are present
-    Given an admin "primero" with a password "primero"
-    When I log in as user "primero" using password "primero"
+    Given I am logged in as an admin with username "primero" and password "primero"
     When I access edit user page for "primero"
     Then I should see "Full Name"
     And I should see "User Name"
@@ -18,8 +17,7 @@ Feature: As a logged in social worker, I want to be able to view and edit my acc
     And I should see "Location"
 
   Scenario: I am a logged in user and I want to edit some information on the account page
-    Given an admin "primero" with a password "primero"
-    When I log in as user "primero" using password "primero"
+    Given I am logged in as an admin with username "primero" and password "primero"
     When I access edit user page for "primero"
     And I fill in the following:
       | Full Name         | George Harrison     |
