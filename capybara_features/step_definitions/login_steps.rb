@@ -14,6 +14,10 @@ When /^I access "([^\"]*)"$/ do |page_name|
   visit path_to(page_name)
 end
 
+When /^I access (.*)$/ do |page_name|
+  visit path_to(page_name)
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
