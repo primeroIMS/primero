@@ -1,4 +1,4 @@
-Feature: Sync one/all enquiries on the API
+Feature: API Enquiries Sync enquiries
 
   Background:
     Given devices exist

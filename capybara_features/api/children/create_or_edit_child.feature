@@ -1,4 +1,4 @@
-Feature: Creating or Editing a child using the API
+Feature: API Children Create or edit child
 
   Background:
     Given devices exist

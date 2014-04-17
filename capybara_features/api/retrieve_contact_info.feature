@@ -1,4 +1,4 @@
-Feature: Retrieve contact info
+Feature: API Retrieve contact info
 
   As an API user
   I want to hit a URI that returns me the administration contact information

@@ -1,4 +1,5 @@
-Feature: So that hard copy printout of missing child photos are available
+Feature: File export
+  So that hard copy printout of missing child photos are available
   As a user
   I want to be able to export selected children to a PDF or a CSV file
 

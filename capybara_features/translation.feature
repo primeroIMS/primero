@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Feature: Ensure translations
+Feature: Translation
 
   Background:
     Given I am logged in as a user with "Admin" permission

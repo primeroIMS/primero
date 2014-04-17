@@ -1,5 +1,5 @@
 
-Feature: Editing Custom Form Fields
+Feature: Edit Custom Fields
   So that we can edit a text field
   
 
