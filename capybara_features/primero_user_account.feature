@@ -1,7 +1,7 @@
 # JIRA PRIMERO-46
 
 @javascript
-Feature: As a logged in user, I want to be able to view and edit my account page
+Feature: Primero user account
 
   Scenario: I am a logged in user and I want to confirm that fields on the edit account page are present
     Given I am logged in as an admin with username "primero" and password "primero"
