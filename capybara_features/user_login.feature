@@ -1,4 +1,5 @@
-Feature: As a user, I should be able to log in.
+Feature: User login
+  As a user, I should be able to log in.
 
   Scenario: To check that a user can log in
     Given a user "Harry" with a password "123"

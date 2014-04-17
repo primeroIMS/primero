@@ -1,4 +1,4 @@
-Feature:
+Feature: Edit an existing photo
 
   As a field agent using the website
   I would like to edit the photograph so that it represents the correct orientation

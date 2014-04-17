@@ -1,4 +1,4 @@
-Feature:
+Feature: Retrieve form sections
 
   As an API user
   I want to hit a URI that gives me all published form sections

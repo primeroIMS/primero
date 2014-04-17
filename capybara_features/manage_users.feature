@@ -1,4 +1,5 @@
-Feature:As an admin, I should be able to Create Users,Edit and Manage existing users .
+Feature: Manage users
+  As an admin, I should be able to Create Users,Edit and Manage existing users .
 
 #Story: Changing user disabled status from user list page
 

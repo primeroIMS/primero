@@ -1,4 +1,4 @@
-Feature:
+Feature: Child change log
   Test weather each child has a proper change log attached to it.
 
   @javascript
