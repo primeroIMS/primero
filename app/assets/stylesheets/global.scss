@@ -46,13 +46,13 @@ fieldset.no-border {
 
 .green-button {
   color: #fff !important;
-  border: 1px solid $secondary-bg !important;
+  border: 1px solid $grey_color !important;
   $padding: 0.5rem;
   $radius: false;
   $full-width: false;
   $disabled: false;
   $is-input: false;
-  $bg: $green;
+  $bg: $green_color;
   @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
 
@@ -323,7 +323,7 @@ fieldset {
 
     span.required {
       float: right;
-      color: $red;
+      color: $red_color;
     }
   }
 }
@@ -348,16 +348,16 @@ fieldset {
 
 .side-tab {
   background: #fff;
-  border: 1px solid $secondary-bg;
+  border: 1px solid $grey_color;
 
   a {
-    color: $green !important;
+    color: $green_color !important;
     font-size: 1.1rem;
     padding: 0.4rem 1rem;
 
     &:hover {
       color: #fff !important;
-      background: $secondary-bg;
+      background: $grey_color;
     }
   }
 }
