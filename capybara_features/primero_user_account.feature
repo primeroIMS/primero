@@ -1,7 +1,7 @@
 # JIRA PRIMERO-46
 
 @javascript
-Feature: As a logged in social worker, I want to be able to view and edit my account page
+Feature: As a logged in user, I want to be able to view and edit my account page
 
   Scenario: I am a logged in user and I want to confirm that fields on the edit account page are present
     Given I am logged in as an admin with username "primero" and password "primero"
