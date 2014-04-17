@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def submit_button(name = t("buttons.save"))
-      submit_tag(name, :class => 'btn_submit')
+      submit_tag(name, :class => 'green-button btn_submit')
   end
 
   def cancel_button(path)

@@ -6,12 +6,24 @@ Then /^I should not see "([^\"]*)" on the page$/ do |text|
   expect(page).to have_no_content(text)
 end
 
+Then /^I should see the "([^\"]*)" class$/ do |css_class|
+  page.has_css?(css_class)
+end
+
 Then /^I should see a "([^\"]*)" button on the page$/ do |label|
-  expect(page).should have_selector(:link_or_button, label)
+  expect(page).to have_selector(:link_or_button, label)
 end
 
 Then /^I press the "([^\"]*)" button$/ do |label|
   click_on(label)
+end
+
+Then /^I should see the "([^\"]*)" field$/ do |field_name|
+  find_field(field_name)
+end
+
+Then /^I fill in the "([^\"]*)" field with "([^\"]*)"$/ do |field_name, field_value|
+  fill_in(field_name, :with => field_value)
 end
 
 #////////////////////////////////////////////////////////////////

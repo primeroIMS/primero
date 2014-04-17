@@ -61,5 +61,6 @@ Feature: User should be able to list children
   Scenario: A hidden highlighted field must not be visible in Child Summary
     Given I am on the edit form section page for "basic_identity"
     When I check "fields_protection_status"
+    When I wait for the page to load
     When I am on the children listing page
     Then I should not see "Protection Status"

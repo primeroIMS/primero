@@ -35,26 +35,30 @@
 
     <div class="mandate_panel"><span>*</span> <%= t("mandatory_field") %> </div>
     <div class="clearfix"></div>
-    <fieldset>
+    <fieldset class="no-border">
     <p>
       <%= f.label :full_name, t("user.full_name"), :class=>'key' %>
-      <%= f.text_field :full_name, :autocomplete => "off"%>*
+      <span class="required">*</span>
+      <%= f.text_field :full_name, :autocomplete => "off"%>
     </p>
 
     <p>
       <%= f.label  :user_name, t("login.username"), :class=>'key'  %>
-      <%= f.text_field :user_name, :disabled => !editable_user.new_record?, :autocomplete => "off" %>*
+      <span class="required">*</span>
+      <%= f.text_field :user_name, :disabled => !editable_user.new_record?, :autocomplete => "off" %>
       <span class="footnote"><%= t("user.no_blank") %></span>
     </p>
 
     <p>
       <%= f.label :password, t('login.password.label'), :class=>'key'  %>
-      <%= f.password_field :password, :autocomplete => "off" %>*
+      <span class="required">*</span>
+      <%= f.password_field :password, :autocomplete => "off" %>
     </p>
 
     <p>
       <%= f.label :password_confirmation,t("login.password.re_enter"), :class=>'key'  %>
-      <%= f.password_field :password_confirmation, :autocomplete => "off" %>*
+      <span class="required">*</span>
+      <%= f.password_field :password_confirmation, :autocomplete => "off" %>
     </p>
 
     <% if !trying_to_edit_ourself %>
@@ -78,7 +82,8 @@
 
     <p>
       <%= f.label :organisation, t("organisation"), :class=>'key'  %>
-      <%= f.text_field :organisation %>*
+      <span class="required">*</span>
+      <%= f.text_field :organisation %>
     </p>
 
     <p>
@@ -106,5 +111,6 @@
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
       <%= cancel_button(users_path) %>
       <%= submit_button(editable_user.new_record? ? t("user.create") : (params[:verify] ? t('user.verify') : t('user.update'))) %>
+      <div class="clearfix"></div>
     </div>
 <% end %>
