@@ -62,6 +62,16 @@ template '/home/vagrant/primero/config/solr.yml' do
   group node[:primero][:app_group]
 end
 
+template '/home/vagrant/primero/config/selenium.yml' do
+  source "selenium.yml.erb"
+  variables({
+    :selenium_server => node[:primero][:selenium_server],
+    :integration_server => node[:primero][:integration_server],
+  })
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 execute_bundle 'setup-db-dev' do
   command "rake db:seed db:migrate"
   cwd '/home/vagrant/primero'
