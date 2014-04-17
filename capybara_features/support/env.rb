@@ -29,7 +29,7 @@ puts Rails.env
 
 Capybara.register_driver :selenium do |app|
   http_client = Selenium::WebDriver::Remote::Http::Default.new
-  http_client.timeout = 60
+  http_client.timeout = 100
 
   if ENV["SELENIUM"] == 'remote'
     Capybara::Selenium::Driver.new(app, 
@@ -50,7 +50,7 @@ end
 Capybara.app_host = SELENIUM_CFG['app_host'] if ENV["SELENIUM"] == 'remote'
 Capybara.run_server = true #Whether start server when testing
 Capybara.default_selector = :xpath #default selector , you can change to :css
-Capybara.default_wait_time = 5 #When we testing AJAX, we can set a default wait time
+Capybara.default_wait_time = 25 #When we testing AJAX, we can set a default wait time
 Capybara.ignore_hidden_elements = false #Ignore hidden elements when testing, make helpful when you hide or show elements using javascript
 Capybara.javascript_driver = :selenium #default driver when you using @javascript tag
 
