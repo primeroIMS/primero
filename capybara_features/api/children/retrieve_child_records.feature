@@ -1,4 +1,4 @@
-Feature:
+Feature: API Children Retrieve child records
 
   As an API user
   I want to hit a URI that returns me a list of CouchDB Record Ids and Revision Ids for each child record

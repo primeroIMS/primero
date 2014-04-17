@@ -1,4 +1,4 @@
-Feature:
+Feature: Flag child record
 
   As a user
   I want to go to flag a child's record

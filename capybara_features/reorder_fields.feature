@@ -1,5 +1,6 @@
 @wip
-Feature: So that admin can customize fields in a form section
+Feature: Reorder fields
+  So that admin can customize fields in a form section
 
   Background:
 

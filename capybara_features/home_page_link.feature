@@ -1,4 +1,5 @@
-Feature: So that a user can get back to their initial start page from anywhere within the application
+Feature: Home page link
+  So that a user can get back to their initial start page from anywhere within the application
   As a user of the website
   I want to click on 'CHILDREN' link and return to initial start page
 

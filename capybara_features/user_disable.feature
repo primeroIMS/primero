@@ -1,4 +1,4 @@
-Feature:
+Feature: User disable
 
   As an Admin
   I want to disable and later re-enable user accounts via the web interface

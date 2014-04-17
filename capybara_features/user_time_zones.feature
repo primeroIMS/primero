@@ -1,4 +1,5 @@
-Feature: As a user, I should be able to choose a time zone to display date-times
+Feature: User time zones
+  As a user, I should be able to choose a time zone to display date-times
 
   Scenario: To check that the default time zone on a user's home page is UTC
     Given I am logged in

@@ -1,5 +1,6 @@
 # JIRA PRIMERO-25
-Feature: As a logged out user, I can not access content until I log in
+Feature: Primero user login
+  As a logged out user, I can not access content until I log in
   
   Scenario Outline: I am a logged out user who tries to access any page
     When I access "<page>"

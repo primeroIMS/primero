@@ -1,4 +1,4 @@
-Feature: Reunited Child
+Feature: Reunited child record
 
   As a Field Worker
   I want to easily and visibly mark a Child Record as Reunited

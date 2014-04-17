@@ -1,5 +1,6 @@
 
-Feature: So that admin can customize fields in a form section
+Feature: Add custom field to form section
+  So that admin can customize fields in a form section
 
   Background:
     Given the following form sections exist in the system:

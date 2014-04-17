@@ -1,4 +1,4 @@
-Feature: show menus based on user permissions
+Feature: Show menus with permissions
 
   As A User without proper permissions
   So that when I log in I should not be able to see the Children,Devices,Users option.

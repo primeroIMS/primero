@@ -1,4 +1,5 @@
-Feature: Only users with System Settings permission should have access to certain sections of the site
+Feature: System settings access
+  Only users with System Settings permission should have access to certain sections of the site
 
   Background:
     Given the following form sections exist in the system:

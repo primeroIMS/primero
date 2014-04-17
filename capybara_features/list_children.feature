@@ -1,4 +1,5 @@
-Feature: User should be able to list children
+Feature: List children
+  User should be able to list children
 
   Background:
     Given the following children exist in the system:

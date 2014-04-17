@@ -1,4 +1,4 @@
-Feature: Check for matches after creating/editing an enquiry on the API
+Feature: API Enquiries Trigger matches on enquiry
 
   Background:
     Given devices exist
