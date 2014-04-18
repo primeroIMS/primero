@@ -14,6 +14,23 @@ module WithinHelpers
 end
 World(WithinHelpers)
 
+Then /^(?:|I )should have a "(.*)" link which will lead me to the "(.*)" page$/ do |link, page_name|
+  page.should have_content(link)
+  click_link(link)
+  expect(page).to have_title(page_name)
+end
+
+When /^I see the header$/ do
+  page.should have_css('header')
+  page.should have_content('Logout')
+  page.should have_content('My Account')
+  page.should have_content('Contact & Help')
+end
+
+#////////////////////////////////////////////////////////////////
+#//  Pre-Existing Steps
+#////////////////////////////////////////////////////////////////
+
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
