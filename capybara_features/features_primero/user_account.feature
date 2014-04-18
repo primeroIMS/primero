@@ -1,6 +1,6 @@
 # JIRA PRIMERO-46
 
-@javascript
+@javascript @primero
 Feature: Primero user account
 
   Scenario: I am a logged in user and I want to confirm that fields on the edit account page are present
