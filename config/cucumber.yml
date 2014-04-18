@@ -10,3 +10,4 @@ browser: --require capybara_features --strict --tags @javascript --tags ~@wip --
 headless: --require capybara_features --strict --tags ~@wip --tags ~@javascript --backtrace capybara_features
 browser_wip: --tags @javascript --tags @wip:3 --wip capybara_features
 headless_wip: --tags @headless --tags @wip:3 --wip capybara_features
+primero: --require capybara_features --strict --tags @primero --backtrace capybara_features

@@ -56,6 +56,13 @@ begin
       t.cucumber_opts = cucumber_opts if cucumber_opts
     end
 
+    Cucumber::Rake::Task.new({:primero => 'db:test:prepare'}, 'Run all features that should pass in a browser') do |t|
+      t.binary = vendored_cucumber_bin
+      t.fork = false # You may get faster startup if you set this to false
+      t.profile = 'primero'
+      t.cucumber_opts = cucumber_opts if cucumber_opts
+    end
+
     Cucumber::Rake::Task.new({:headless_wip => 'db:test:prepare'}, 'Run features that are being worked on in headless mode') do |t|
       t.binary = vendored_cucumber_bin
       t.fork = false # You may get faster startup if you set this to false
