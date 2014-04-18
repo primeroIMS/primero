@@ -2,7 +2,7 @@
 
   <% unless current_user.nil? %>
 
-    <%= t("header.welcome") %> <%= current_user.user_name %>,
+    <%= t("header.logged_in_as") %> <%= current_user.user_name %>,
     <%= link_with_confirm t("header.logout"), logout_path, id: "logout" %> |
     <%= link_with_confirm t("header.my_account"), user_path(current_user.id) %> |
 

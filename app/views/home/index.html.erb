@@ -1,8 +1,14 @@
+
+<h4 class="text-center">&lt;Placeholder for <%= I18n.t("home.dashboard") %>&gt;</h4>
+
+
+
+<% if false %>
+
 <h2><%= t "home.welcome" %></h2>
 
 <%= render 'notifications' %>
 
-<% if false %>
 <p>
   <%= form_for @user, :url => user_preference_path(current_user_name), :html => {:method => :put} do |f| %>
       <%= label_tag "user_time_zone", t("home.current_time_zone") %>
