@@ -1,3 +1,5 @@
+<h4 class="text-center">&lt;Placeholder for System Settings&gt;</h4>
+<% if false %>
 <h1><%= t("header.system_settings") %></h1>
 
   <% if can? :manage, ContactInformation %>
@@ -18,3 +20,4 @@
       <%= select_tag :locale, options_for_select(RapidFTR::Application::LOCALES_WITH_DESCRIPTION, I18n.default_locale) %>
       <%= submit_tag t("buttons.save") %>
   <% end %>
+<% end %>
