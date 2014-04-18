@@ -5,7 +5,7 @@ class AdminController < ApplicationController
   }
 
   def index
-    @page_name = t("administration")
+    @page_name = t("header.system_settings")
   end
 
   def update
