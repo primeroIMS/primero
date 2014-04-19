@@ -1,7 +1,7 @@
 # JIRA PRIMERO-46
-
 @javascript @primero
 Feature: Primero user account
+  As a logged in user I want to accurately maintain my user profile so that I am able to show the latest information about me on the system audit.
 
   Scenario: I am a logged in user and I want to confirm that fields on the edit account page are present
     Given I am logged in as an admin with username "primero" and password "primero"
