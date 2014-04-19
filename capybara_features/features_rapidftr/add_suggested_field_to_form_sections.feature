@@ -1,7 +1,7 @@
 
 #not exists anymore
 @wip
-Feature: Adding a suggested field to a form section
+Feature: Add suggested field to form sections
 
    Background:
      Given the following suggested fields exist in the system:

@@ -1,4 +1,5 @@
-Feature: Allowing admin contact info to be specified
+Feature: Edit contact info
+  Allowing admin contact info to be specified
 
   Scenario: Viewing and editing the currently saved contact information
     Given the following admin contact info: 

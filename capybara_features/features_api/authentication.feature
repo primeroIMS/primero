@@ -1,5 +1,6 @@
 @allow-rescue
-Feature: Only authorized API clients should be allowed to access the system
+Feature: API Authentication
+  Only authorized API clients should be allowed to access the system
 
   Background:
     Given a user "tim" with a password "123"

@@ -1,4 +1,4 @@
-Feature:
+Feature: View child record log
 
   As an Admin
   I want to ...

@@ -1,4 +1,4 @@
-Feature:
+Feature: Child record validations
 	As a user I should not be able to add more than 200 characters for a text field or 700 for a text area so that I don't crash the blackberry client
 
 Scenario: Should be restricted to 200 characters in a text field

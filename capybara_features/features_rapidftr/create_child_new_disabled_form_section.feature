@@ -1,4 +1,5 @@
-Feature: As an user I should not see disabled forms when adding new child
+Feature: Create child new disabled form section
+  As an user I should not see disabled forms when adding new child
 
   Scenario:      User creates new child record and does not see disabled forms
 

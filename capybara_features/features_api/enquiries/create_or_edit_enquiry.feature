@@ -1,4 +1,4 @@
-Feature: Creating an enquiry using the API
+Feature: API Enquiries Create or edit enquiry
 
   Background:
     Given devices exist

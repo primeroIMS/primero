@@ -1,4 +1,4 @@
-Feature: Merge Child Records
+Feature: Duplicate child record
 
   As a Field Worker
   I want to Merge duplicate records together

@@ -1,4 +1,4 @@
-Feature: Add new role
+Feature: Add roles
 
   Scenario: Adding new role
     Given I am logged in as a user with "Admin" permission

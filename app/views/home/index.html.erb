@@ -2,6 +2,7 @@
 
 <%= render 'notifications' %>
 
+<% if false %>
 <p>
   <%= form_for @user, :url => user_preference_path(current_user_name), :html => {:method => :put} do |f| %>
       <%= label_tag "user_time_zone", t("home.current_time_zone") %>
@@ -13,6 +14,7 @@
       </p>
   <% end %>
 </p>
+<% end %>
 	<% if can? :create, Child %>
 		<%= link_to t("children.register_new_child"), new_child_path %> <br/><br/>
 	<% end %>

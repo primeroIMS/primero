@@ -1,6 +1,7 @@
 # JIRA PRIMERO-27
 @javascript @primero
-Feature: As a logged in user, I want to log out from any page
+Feature:  Primero user logout
+  As a logged in user, I want to log out from any page
 
   Scenario Outline: I am a logged in user on the new child page and I want to log out
     Given an admin "primero" with a password "primero"
