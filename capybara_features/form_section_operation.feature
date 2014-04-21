@@ -23,6 +23,7 @@ Feature: Form section operation
       | name          | type       | display_name  |
       | another_field | text_field | another field |
 
+  @wip
   Scenario: Admins should see correct re-ordering links for each section
     Given I follow "FORMS"
     Then I should see the "Basic Identity" section without an enabled checkbox

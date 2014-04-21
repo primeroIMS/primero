@@ -19,7 +19,7 @@ Feature: Home page link
   Scenario: The homepage should contain useful links and welcome text
     Given I am logged in as an admin
     And I am on the home page
-    Then I should see "Welcome to RapidFTR"
+    Then I should see "Dashboard"
     And I should see "Register New Child"
     And I should see "View Records"
     And I should see "0 Records need Attention"
