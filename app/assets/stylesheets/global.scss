@@ -78,7 +78,7 @@ a{
   }
 }
 
-.clearB {
+.clear {
   clear:both;
 }
 
@@ -130,6 +130,59 @@ select, select:hover {
 }
 
 ////////////////////////////////////////////////
+// Fields
+////////////////////////////////////////////////
+
+fieldset {
+  p {
+    -webkit-box-sizing: initial;
+    box-sizing: initial;
+    padding: 1rem;
+    min-height: 1rem;
+    margin-bottom: 0;
+
+    &:nth-child(odd) {
+      background: #ebebeb;
+    }
+
+    label {
+      float: left;
+      width: 8rem;
+      clear: both;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 20rem !important;
+      margin: 0;
+    }
+
+    span.footnote {
+      font-size: 0.8rem;
+      margin-left: 8rem;
+    }
+
+    span.required {
+      float: right;
+      color: $red_color;
+    }
+  }
+}
+
+.btn_panel {
+  width: 100%;
+
+  a.link_cancel {
+    float: left;
+    margin-top: .5rem;
+  }
+
+  input[type="submit"] {
+    float: right;
+    width: 8rem;
+  }
+}
+
+////////////////////////////////////////////////
 // Advanced Search box
 ////////////////////////////////////////////////
 
@@ -146,6 +199,16 @@ select, select:hover {
     width:40px;
   }
 }
+
+////////////////////////////////////////////////
+// Panel
+////////////////////////////////////////////////
+
+.panel {
+  background: #fff;
+  border: 1px solid $green_color;
+}
+
 
 ////////////////////////////////////////////////
 // Alert box
@@ -243,6 +306,32 @@ nav {
 }
 
 ////////////////////////////////////////////////
+// Header Sections
+////////////////////////////////////////////////
+
+.header_section {
+  margin-top: 20px;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-top: 18px;
+  }
+
+  a {
+    color: $green_color;
+
+    &:hover {
+      border-bottom: 2px solid $green_color;
+      padding-bottom: 2px;
+    }
+  }
+
+  .panel {
+    text-align: center
+  }
+}
+
+////////////////////////////////////////////////
 // Login panel
 ////////////////////////////////////////////////
 
@@ -290,66 +379,13 @@ nav {
 }
 
 ////////////////////////////////////////////////
-// Account Settings
-////////////////////////////////////////////////
-
-fieldset {
-  p {
-    -webkit-box-sizing: initial;
-    box-sizing: initial;
-    padding: 1rem;
-    min-height: 1rem;
-    margin-bottom: 0;
-
-    &:nth-child(odd) {
-      background: #ebebeb;
-    }
-
-    label {
-      float: left;
-      width: 8rem;
-      clear: both;
-    }
-
-    input[type="text"], input[type="password"] {
-      width: 20rem !important;
-      margin: 0;
-    }
-
-    span.footnote {
-      font-size: 0.8rem;
-      margin-left: 8rem;
-    }
-
-    span.required {
-      float: right;
-      color: $red_color;
-    }
-  }
-}
-
-.btn_panel {
-  width: 100%;
-
-  a.link_cancel {
-    float: left;
-    margin-top: .5rem;
-  }
-
-  input[type="submit"] {
-    float: right;
-    width: 8rem;
-  }
-}
-
-////////////////////////////////////////////////
 // Side Tab
 ////////////////////////////////////////////////
 
 .side-tab {
   background: #fff;
   border: 1px solid $grey_color;
-
+  min-height: 38rem;
   a {
     color: $green_color !important;
     font-size: 1.1rem;
