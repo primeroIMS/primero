@@ -9,8 +9,10 @@ Feature: User login
     And I fill in "password" with "123"
     And I press "Log in"
 
-    Then I should see "Hello harry"
-    And I should be on the home page
+    # "Hello" flash message was removed
+    #Then I should see "Hello harry"
+    #And I should be on the home page
+    Then I should be on the home page
 
   Scenario: To check that a logged in user does not see the login page
     Given I am logged in
