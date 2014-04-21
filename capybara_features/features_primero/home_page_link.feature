@@ -8,7 +8,7 @@ Feature: Primero Home Page Link
     When I access <page>
     Then I should see a "Primero" button on the page
     And I press the "Primero" button
-    And I should see "Welcome to Primero"
+    And I should see "Dashboard"
     Examples:
       | page |
       | new child page |

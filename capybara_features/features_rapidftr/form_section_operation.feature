@@ -156,7 +156,7 @@ Feature: Form section operation
     And I am on new child page
     Then the form section "Other visible section" should be hidden
 
-  @javascript
+  @javascript @wip
   Scenario: Adding a highlight field
     Given I am on the admin page
     When I follow "Highlight Fields"
@@ -168,7 +168,7 @@ Feature: Form section operation
     When I remove highlight "Nationality"
     Then I should not see "Nationality" within "#highlighted-fields"
 
-  @javascript
+  @javascript  @wip
   Scenario: A hidden highlighted field must not be visible in Child Summary
     And I am on the form section page
     And I follow "Basic Identity"
