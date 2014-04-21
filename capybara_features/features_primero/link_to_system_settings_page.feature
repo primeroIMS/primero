@@ -1,5 +1,5 @@
 # JIRA PRIMERO-40
-@javascript
+@javascript @primero
 Feature: Link to system settings page
   As a logged in user I should be able to see a link to the system settings page
 

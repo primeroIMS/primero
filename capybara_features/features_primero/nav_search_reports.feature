@@ -1,11 +1,11 @@
 # JIRA PRIMERO-41
+@javascript @primero
 Feature: Primero nav search reports
-  As a logged in user
-  I can access search, advanced search, and reports from the nav bar
+  As a logged in user I can access search, advanced search, and reports from the nav bar
 
   Scenario Outline: I can access the search, advanced search and reports from any page
     Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "<page>"
+    When I access <page>
     Then I should see a "Advanced Search" button on the page
     And I should see a "REPORTS" button on the page
     And I should see the "query" field

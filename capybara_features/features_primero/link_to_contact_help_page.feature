@@ -1,5 +1,5 @@
 # JIRA PRIMERO-39
-@javascript
+@javascript @primero
 Feature: Link to contacts & help page
   As a logged in user I should be able to see a link to the contact & help page
 
