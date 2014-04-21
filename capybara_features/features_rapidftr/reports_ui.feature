@@ -47,6 +47,7 @@ Feature: Reports UI
     Then I follow "1"
     Then I should see "Displaying reports 1 - 30 of 40 in total"
 
+  @wip
   Scenario: Reports permission should be assignable in view/edit page
     As an admin I visit the role option on the user page
     So that when I try to edit a particular role, the reports permission should be available as an assignable checkbox

@@ -1,3 +1,4 @@
+@wip
 Feature: Password recovery request
   As an user, I should be able to request my password to be recovered.
 
