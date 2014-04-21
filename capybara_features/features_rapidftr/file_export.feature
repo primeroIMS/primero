@@ -107,7 +107,7 @@ Feature: File export
     And an registration worker "john" with password "123"
     When I fill in "user_name" with "john"
     And I fill in "password" with "123"
-    And I go and press "Login"
+    And I press "Log in"
     And I fill in "query" with "Wil"
     And I press "Go"
     And I am on the saved record page for child with name "Will"
