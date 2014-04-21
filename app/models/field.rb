@@ -3,16 +3,6 @@ class Field
   include RapidFTR::Model
   include PropertiesLocalization
 
-  #track down whether the instance is new or not.
-  #CouchRest::Model::Embeddable new? method rely
-  #on the new? of the parent object. This make not
-  #possible to know if the embedded item already
-  #exists or not in the database. The parent object
-  #is responsible to set the flag.
-  #document_saved nil or false consider the field as new.
-  #TODO move to a monkey patch for CouchRest::Model::Embeddable
-  attr_accessor :document_saved
-
   property :name
   property :visible, TrueClass, :default => true
   property :type
@@ -90,13 +80,6 @@ class Field
       errors.add(:display_name, I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language))
     end
   end
-
-  #Override new? method to not rely on the new? of the parent object.
-  #TODO move to a monkey patch for CouchRest::Model::Embeddable
-  def new?
-    !@document_saved
-  end
-  alias :new_record? :new?
 
   def form
     base_doc
