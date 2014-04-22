@@ -8,7 +8,7 @@ describe ApplicationHelper do
       controller.params['param_a'] = 'foo'
 
       helper.current_url_with_format_of('csv').should ==
-        '/case/search.csv?param_a=foo'
+        '/children/search.csv?param_a=foo'
     end
 
     it 'should override any existing format' do

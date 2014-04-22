@@ -12,27 +12,27 @@ describe ChildMediaController do
 
   describe "routing" do
     it "should have a route for a child current photo" do
-      { :get => "/case/1/photo" }.should route_to(:controller => "child_media", :action => "show_photo", :child_id => "1")
+      { :get => "/children/1/photo" }.should route_to(:controller => "child_media", :action => "show_photo", :child_id => "1")
     end
 
     it "should have a route for a child current recorded audio" do
-      { :get => "/case/1/audio" }.should route_to(:controller => "child_media", :action => "download_audio", :child_id => "1")
+      { :get => "/children/1/audio" }.should route_to(:controller => "child_media", :action => "download_audio", :child_id => "1")
     end
 
     it "should have a route for a child specific photo" do
-      { :get => "/case/c1/photo/p1" }.should route_to(:controller => "child_media", :action => "show_photo", :child_id => "c1", :photo_id => "p1")
+      { :get => "/children/c1/photo/p1" }.should route_to(:controller => "child_media", :action => "show_photo", :child_id => "c1", :photo_id => "p1")
     end
 
     it "should have a route for a child specific recorded audio" do
-      { :get => "/case/c1/audio" }.should route_to(:controller => "child_media", :action => "download_audio", :child_id => "c1")
+      { :get => "/children/c1/audio" }.should route_to(:controller => "child_media", :action => "download_audio", :child_id => "c1")
     end
 
     it "should have a route for requesting a resized version of the current photo" do
-      {:get => '/case/c1/resized_photo/100'}.should route_to(:controller => "child_media", :action => "show_resized_photo", :child_id => "c1", :size => "100")
+      {:get => '/children/c1/resized_photo/100'}.should route_to(:controller => "child_media", :action => "show_resized_photo", :child_id => "c1", :size => "100")
     end
 
     it "should have a route for a child specific thumbnail" do
-      { :get => "/case/c1/thumbnail/t1" }.should route_to(:controller => "child_media", :action => "show_thumbnail", :child_id => "c1", :photo_id => "t1")
+      { :get => "/children/c1/thumbnail/t1" }.should route_to(:controller => "child_media", :action => "show_thumbnail", :child_id => "c1", :photo_id => "t1")
     end
   end
 

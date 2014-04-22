@@ -21,11 +21,11 @@ describe ChildrenHelper do
   describe '#thumbnail_tag' do
     it 'should use current photo key if photo ID is not specified' do
       child = stub_model Child, :id => 1001, :current_photo_key => 'current'
-      helper.thumbnail_tag(child).should == '<img src="/case/1001/thumbnail/current" />'
+      helper.thumbnail_tag(child).should == '<img src="/children/1001/thumbnail/current" />'
     end
     it 'should use photo ID if specified' do
       child = stub_model Child, :id => 1001, :current_photo_key => 'current'
-      helper.thumbnail_tag(child, 'custom-id').should == '<img src="/case/1001/thumbnail/custom-id" />'
+      helper.thumbnail_tag(child, 'custom-id').should == '<img src="/children/1001/thumbnail/custom-id" />'
     end
   end
 

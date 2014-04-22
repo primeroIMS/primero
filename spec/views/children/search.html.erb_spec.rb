@@ -62,7 +62,7 @@ describe "children/search.html.erb" do
       raise 'no image tag' if first_image_tag.nil?
 
       child = @results.first
-      first_image_tag['src'].should == "/case/#{child.id}/thumbnail/#{child.primary_photo_id}"
+      first_image_tag['src'].should == "/children/#{child.id}/thumbnail/#{child.primary_photo_id}"
     end
 
     it "should show thumbnails with urls for child details page for each child if asked" do
@@ -72,7 +72,7 @@ describe "children/search.html.erb" do
       first_href = first_content_row.at("a")
       first_href.should_not nil
 
-      first_href['href'].should == "/case/#{@results.first.id}"
+      first_href['href'].should == "/children/#{@results.first.id}"
     end
 
     it "should include checkboxes to select individual records" do
