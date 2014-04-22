@@ -9,9 +9,9 @@ class SystemUsers < CouchRest::Model::Base
   property :roles
   property :_id
 
-#  validates_presence_of :name, :password
-#
-#  validates_with_method :name, :method => :is_user_name_unique
+  validates_presence_of :name, :password
+
+  validate :is_user_name_unique
 
   before_save :generate_id, :assign_admin_role
 
@@ -31,9 +31,12 @@ class SystemUsers < CouchRest::Model::Base
   end
 
   def is_user_name_unique
-    user = SystemUsers.get(generate_id)
-    return true if user.nil? or self._id == user._id
-    [false, I18n.t("errors.models.system_users.username_unique")]
+    if self.name.present?
+      user = SystemUsers.get(generate_id)
+      return true if user.nil?
+      return true if !self.new? && self._id == user._id
+      errors.add(:name, I18n.t("errors.models.system_users.username_unique"))
+    end
   end
 
   def assign_admin_role

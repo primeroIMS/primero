@@ -1,3 +1,4 @@
+@wip
 Feature: Edit contact info
   Allowing admin contact info to be specified
 

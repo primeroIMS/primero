@@ -7,13 +7,15 @@
   </div>
   <div class="side-tab-content large-8 columns">
     <h1 class="no_border"><%= t("users.manage") %></h1>
+    <% if false %>
     <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
         <%= icon('clock-o') %>
         <span class="log"><%= t("user.user_action_history") %></span>
     <% end %>
+    <% end %>
     <div class="clearfix"></div>
 
     <%= render :partial => "editable_user", :object => @user %>
-    <%= render :partial => "mobile_login_history", :object => @user %>
+    <%= render :partial => "mobile_login_history", :object => @user if false %>
   </div>
 </div>
