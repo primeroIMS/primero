@@ -13,6 +13,7 @@ Feature: Suspect Records
      | Dave   | dave_uid   | true     | dave is dodgy     | true         |
      | George | george_uid | false    | nil               | false        |
 
+  @wip
   Scenario: Admin user should see a link on the home page with the details of how many suspect records need attention
   When I am on the home page
   Then I should see "3 Records need Attention"

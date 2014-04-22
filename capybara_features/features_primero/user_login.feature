@@ -17,4 +17,4 @@ Feature: Primero user login
     Given a user "primero" with a password "primero"
     When I log in as user "primero" using password "primero"
     Then I am redirected to the dashboard
-    And there is a visual cue in the header showing me "Welcome primero"
+    And there is a visual cue in the header showing me "Logged in as:  primero"

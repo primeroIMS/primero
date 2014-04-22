@@ -87,6 +87,7 @@ Feature: Basic search
     And I press "Go"
     Then I should be on the child search results page
 
+  @wip
   Scenario: User with unlimited access can see all children
     Given a user "field_admin" with "View And Search Child" permission
       And a user "field_worker" with "Register Child" permission
@@ -100,6 +101,7 @@ Feature: Basic search
      Then I should see "Andrew"
       And I should see "Peter"
 
+  @wip
   Scenario: User with limited access cannot see all children
     Given a user "field_admin" with "View And Search Child" permission
       And a user "field_worker" with "Register Child" permission

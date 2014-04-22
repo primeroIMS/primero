@@ -27,6 +27,7 @@
       <nav>
         <ul>
           <li><%= link_to t("navigation.home"), root_path %></li>
+          <% if false %>
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.children"), children_path %></li>
           <% end  %>
@@ -38,6 +39,7 @@
           <% end %>
           <% if can?(:read, Device) or can?(:read, Replication) %>
             <li><%= link_to t("navigation.devices"), devices_path %></li>
+          <% end %>
           <% end %>
           <% if can? :read, Report%>
             <li><%= link_to t("navigation.reports"), reports_path %></li>

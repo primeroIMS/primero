@@ -1,3 +1,4 @@
+@wip
 Feature: Reports UI
 
   Scenario: Browse and download a report
