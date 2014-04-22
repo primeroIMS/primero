@@ -485,7 +485,7 @@ describe ChildrenController do
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
-      response.should redirect_to "/children/#{child.id}"
+      response.should redirect_to "/case/#{child.id}"
     end
 
   end

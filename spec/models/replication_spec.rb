@@ -309,7 +309,7 @@ describe Replication do
 
       Net::HTTP.should_receive(:post_form).with(uri, {}).and_return(nil)
       @rep.send :trigger_remote_reindex
-      uri.path.should == '/children/reindex'
+      uri.path.should == '/case/reindex'
     end
 
     it 'should schedule reindexing every 5m' do
