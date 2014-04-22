@@ -9,7 +9,7 @@ def create_user(user_name)
                "role_ids" => ["ADMIN"])
 end
 
-Given /^the following (children|cases) exist in the system:$/ do |children_table|
+Given /^the following (children|cases) exist in the system:$/ do |type, children_table|
   children_table.hashes.each do |child_hash|
     child_hash.reverse_merge!(
         'birthplace' => 'Cairo',
