@@ -26,6 +26,7 @@
     <% if logged_in? %>
       <nav>
         <ul>
+          <li><%= link_to t("navigation.home"), root_path %></li>
           <% if false %>
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.children"), children_path %></li>

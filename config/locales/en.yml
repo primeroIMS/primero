@@ -68,6 +68,7 @@ en:
     system_settings: "System settings"
 
   navigation:
+     home: "HOME"
      children: "CHILDREN"
      forms: "FORMS"
      users: "USERS"
