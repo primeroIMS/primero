@@ -11,19 +11,19 @@ describe Api::ChildMediaController do
 
   describe "routing" do
     it "should have a route for a child current photo" do
-      { :get => "/api/children/1/photo" }.should route_to(:controller => "api/child_media", :action => "show_photo", :id => "1")
+      { :get => "/api/case/1/photo" }.should route_to(:controller => "api/child_media", :action => "show_photo", :id => "1")
     end
 
     it "should have a route for a child current recorded audio" do
-      { :get => "api/children/1/audio" }.should route_to(:controller => "api/child_media", :action => "download_audio", :id => "1")
+      { :get => "api/case/1/audio" }.should route_to(:controller => "api/child_media", :action => "download_audio", :id => "1")
     end
 
     it "should have a route for a child current recorded audio" do
-      { :get => "api/children/1/audio/a1" }.should route_to(:controller => "api/child_media", :action => "download_audio", :id => "1", :audio_id => "a1")
+      { :get => "api/case/1/audio/a1" }.should route_to(:controller => "api/child_media", :action => "download_audio", :id => "1", :audio_id => "a1")
     end
 
     it "should have a route for a child specific photo" do
-      { :get => "api/children/c1/photo/p1" }.should route_to(:controller => "api/child_media", :action => "show_photo", :id => "c1", :photo_id => "p1")
+      { :get => "api/case/c1/photo/p1" }.should route_to(:controller => "api/child_media", :action => "show_photo", :id => "c1", :photo_id => "p1")
     end
   end
 
