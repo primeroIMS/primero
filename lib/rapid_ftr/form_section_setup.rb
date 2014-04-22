@@ -6,83 +6,100 @@ module RapidFTR
       FormSection.all.each { |f| f.destroy }
 
       basic_identity_fields = [
+        Field.new({"name" => "case_id",
+                   "type" => "text_field",
+                   "display_name_all" => "Case ID"
+                  }),
         Field.new({"name" => "name",
                   "type" => "text_field", "editable" => false,
                   "highlight_information"=>HighlightInformation.new("highlighted"=>true,"order"=>1),
                   "display_name_all" => "Name"
                   }),
-        Field.new({"name" => "protection_status",
-                  "type" => "select_box",
-                  "option_strings_text_all" => "Unaccompanied\nSeparated",
-                  "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>3),
-                  "display_name_all" => "Protection Status",
-                  "help_text_all" => "A separated child is any person under the age of 18, separated from both parents or from his/her previous legal or customary primary care giver, but not necessarily from other relatives. An unaccompanied child is any person who meets those criteria but is ALSO separated from his/her relatives.",
+        Field.new({"name" => "age",
+                   "type" => "text_field",
+                   "display_name_all" => "Age"
                   }),
-        Field.new({"name" => "ftr_status",
-                  "type" => "select_box",
-                  "option_strings_text" => "Identified\nVerified\nTracing On-Going\nFamily Located Cross-Border FR Pending\nFamily Located Inter-Camp FR Pending\nReunited\nExported to CPIMS\nRecord Invalid",
-                  "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>4),
-                  "display_name_all" => "FTR Status"
+        Field.new({"name" => "sex",
+                   "type" => "select_box",
+                   "option_strings_text_all" => "Male\nFemale",
+                   "display_name_all" => "Sex"
                   }),
-        Field.new({"name" => "why_record_invalid",
-                  "type" => "text_field",
-                  "display_name_all" => "If 'Record Invalid', explain why?"
+        Field.new({"name" => "registration_date",
+                   "type" => "date_field",
+                   "display_name_all" => "Registration Date"
                   }),
-        Field.new({"name" => "id_document",
-                  "type" => "text_field",
-                  "display_name_all" => "UNHCR No."
+        Field.new({"name" => "status",
+                   "type" => "select_box",
+                   "option_strings_text_all" => "Open\nClosed",
+                   "display_name_all" => "Status"
                   }),
-        Field.new({"name" => "rc_id_no",
-                  "type" => "text_field",
-                  "highlight_information"=>HighlightInformation.new("highlighted"=>true,"order"=>2),
-                  "display_name_all" => "RC ID No."
-                  }),
-        Field.new({"name" => "icrc_ref_no",
-                  "type" => "text_field",
-                  "display_name_all" => "ICRC Ref No."
-                  }),
-        Field.new({"name" => "gender",
-                  "type" => "select_box",
-                  "option_strings_text_all" => "Male\nFemale",
-                  "display_name_all" => "Sex"
-                  }),
-        Field.new({"name" => "nick_name",
-                  "type" => "text_field",
-                  "display_name_all" => "Also Known As (nickname)"
-                  }),
-        Field.new({"name" => "names_origin",
-                  "type" => "select_box",
-                  "option_strings_text_all" => "Yes\nNo",
-                  "display_name_all" => "Name(s) given to child after separation?"
-                  }),
-        Field.new({"name" => "date_of_birth",
-                  "type" => "date_field",
-                  "display_name_all" => "Date of Birth (dd/mm/yyyy)"
-                  }),
-        Field.new({"name" => "birthplace",
-                  "type" => "text_field",
-                  "display_name_all" => "Birthplace"
-                  }),
-        Field.new({"name" => "nationality",
-                  "type" => "text_field",
-                  "display_name_all" => "Nationality"
-                  }),
-        Field.new({"name" => "ethnicity_or_tribe",
-                  "type" => "text_field",
-                  "display_name_all" => "Ethnic group / tribe"
-                  }),
-        Field.new({"name" => "languages",
-                  "type" => "text_field",
-                  "display_name_all" => "Languages spoken"
-                  }),
-        Field.new({"name" => "characteristics",
-                  "type" => "textarea",
-                  "display_name_all" => "Distinguishing Physical Characteristics"
-                  }),
-        Field.new({"name" => "documents",
-                  "type" => "text_field",
-                  "display_name_all" => "Documents carried by the child"
-                  }),
+        # Field.new({"name" => "protection_status",
+        #           "type" => "select_box",
+        #           "option_strings_text_all" => "Unaccompanied\nSeparated",
+        #           "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>3),
+        #           "display_name_all" => "Protection Status",
+        #           "help_text_all" => "A separated child is any person under the age of 18, separated from both parents or from his/her previous legal or customary primary care giver, but not necessarily from other relatives. An unaccompanied child is any person who meets those criteria but is ALSO separated from his/her relatives.",
+        #           }),
+        # Field.new({"name" => "ftr_status",
+        #           "type" => "select_box",
+        #           "option_strings_text" => "Identified\nVerified\nTracing On-Going\nFamily Located Cross-Border FR Pending\nFamily Located Inter-Camp FR Pending\nReunited\nExported to CPIMS\nRecord Invalid",
+        #           "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>4),
+        #           "display_name_all" => "FTR Status"
+        #           }),
+        # Field.new({"name" => "why_record_invalid",
+        #           "type" => "text_field",
+        #           "display_name_all" => "If 'Record Invalid', explain why?"
+        #           }),
+        # Field.new({"name" => "id_document",
+        #           "type" => "text_field",
+        #           "display_name_all" => "UNHCR No."
+        #           }),
+        # Field.new({"name" => "rc_id_no",
+        #           "type" => "text_field",
+        #           "highlight_information"=>HighlightInformation.new("highlighted"=>true,"order"=>2),
+        #           "display_name_all" => "RC ID No."
+        #           }),
+        # Field.new({"name" => "icrc_ref_no",
+        #           "type" => "text_field",
+        #           "display_name_all" => "ICRC Ref No."
+        #           }),
+        # Field.new({"name" => "nick_name",
+        #           "type" => "text_field",
+        #           "display_name_all" => "Also Known As (nickname)"
+        #           }),
+        # Field.new({"name" => "names_origin",
+        #           "type" => "select_box",
+        #           "option_strings_text_all" => "Yes\nNo",
+        #           "display_name_all" => "Name(s) given to child after separation?"
+        #           }),
+        # Field.new({"name" => "date_of_birth",
+        #           "type" => "date_field",
+        #           "display_name_all" => "Date of Birth (dd/mm/yyyy)"
+        #           }),
+        # Field.new({"name" => "birthplace",
+        #           "type" => "text_field",
+        #           "display_name_all" => "Birthplace"
+        #           }),
+        # Field.new({"name" => "nationality",
+        #           "type" => "text_field",
+        #           "display_name_all" => "Nationality"
+        #           }),
+        # Field.new({"name" => "ethnicity_or_tribe",
+        #           "type" => "text_field",
+        #           "display_name_all" => "Ethnic group / tribe"
+        #           }),
+        # Field.new({"name" => "languages",
+        #           "type" => "text_field",
+        #           "display_name_all" => "Languages spoken"
+        #           }),
+        # Field.new({"name" => "characteristics",
+        #           "type" => "textarea",
+        #           "display_name_all" => "Distinguishing Physical Characteristics"
+        #           }),
+        # Field.new({"name" => "documents",
+        #           "type" => "text_field",
+        #           "display_name_all" => "Documents carried by the child"
+        #           }),
       ]
       FormSection.create!({"visible"=>true,
                           :order=> 1, :unique_id=>"basic_identity", "editable"=>true,
