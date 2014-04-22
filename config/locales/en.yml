@@ -10,7 +10,8 @@ en:
     zh: "中文"
     es: "Español"
     ru: "Русский"
-    welcome: "Welcome to RapidFTR"
+    dashboard: "Dashboard"
+    welcome: "Welcome to Primero"
     current_time_zone: "Current time zone"
     language: "Language"
     view_records: "View Records"
@@ -60,12 +61,14 @@ en:
     label: "Login"
   header:
     contact: "Contact & Help"
+    logged_in_as: "Logged in as:"
     welcome: "Welcome"
     logout: "Logout"
     my_account: "My Account"
     system_settings: "System settings"
 
   navigation:
+     home: "HOME"
      children: "CHILDREN"
      forms: "FORMS"
      users: "USERS"

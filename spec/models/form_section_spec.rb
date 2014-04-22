@@ -271,7 +271,7 @@ describe FormSection do
       FormSection.stub(:all).and_return([])
     end
     it "should create a new form section" do
-      FormSection.should_receive(:new).any_number_of_times
+      FormSection.should_receive(:new).at_least(1).times
       FormSection.new_with_order({:name => "basic"})
     end
 

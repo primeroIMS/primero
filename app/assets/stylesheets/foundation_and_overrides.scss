@@ -15,12 +15,15 @@
 // Fonts
 ////////////////////////////////////////////////
 
-$grey_color: #474747;
-
 $headline-font-family: libreBaskerville, sans-serif;
 $primary-font-family: libreBaskerville, sans-serif;
 $secondary-font-family: libreBaskerville, sans-serif;
 
+////////////////////////////////////////////////
+// Colors
+////////////////////////////////////////////////
+
+$grey_color: #474747;
 $green_color: #7dae37;
 $red_color: #8d0000;
 $white_color: #f7f7f7;
@@ -34,6 +37,8 @@ $body-font-color: $grey_color;
 $body-font-family: $secondary-font-family;
 
 $secondary-bg: $grey_color;
+
+$button-font-color: $green_color;
 
 ////////////////////////////////////////////////
 // Import Foundation!

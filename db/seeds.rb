@@ -18,31 +18,14 @@ if should_seed? User
   system_admin = Role.create!(:name => "system admin", :permissions => [Permission::USERS[:create_and_edit], Permission::USERS[:view], Permission::USERS[:destroy], Permission::USERS[:disable], Permission::ROLES[:create_and_edit], Permission::ROLES[:view], Permission::REPORTS[:view], Permission::FORMS[:manage], Permission::SYSTEM[:highlight_fields], Permission::SYSTEM[:contact_information], Permission::SYSTEM[:system_users], Permission::DEVICES[:blacklist], Permission::DEVICES[:replications]])
 
   User.create!("user_name" => "primero",
-              "password" => "primero",
-              "password_confirmation" => "primero",
-              "full_name" => "System Administrator",
-              "email" => "rapidftr@rapidftr.com",
+              "password" => "qu01n23",
+              "password_confirmation" => "qu01n23",
+              "full_name" => "System Superuser",
+              "email" => "primero@primero.com",
               "disabled" => "false",
               "organisation" => "N/A",
-              "role_ids" => [system_admin.id])
+              "role_ids" => [registration_worker.id, registration_officer.id, child_protection_specialist.id, senior_official.id, field_level_admin.id, system_admin.id])
 
-  User.create!("user_name" => "field_worker",
-              "password" => "field_worker",
-              "password_confirmation" => "field_worker",
-              "full_name" => "Field Worker",
-              "email" => "field_worker@rapidftr.com",
-              "disabled" => "false",
-              "organisation" => "N/A",
-              "role_ids" => [registration_worker.id])
-
-  User.create!("user_name" => "field_admin",
-              "password" => "field_admin",
-              "password_confirmation" => "field_admin",
-              "full_name" => "Field Administrator",
-              "email" => "field_admin@rapidftr.com",
-              "disabled" => "false",
-              "organisation" => "N/A",
-              "role_ids" => [field_level_admin.id])
 
   if Rails.env.android?
     User.create!("user_name" => "admin",

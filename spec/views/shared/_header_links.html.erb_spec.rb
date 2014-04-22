@@ -20,7 +20,7 @@ describe 'shared/_header_links.html.erb' do
   end
 
   describe 'when logged in' do
-    it { should have_content('Welcome test_user') }
+    it { should have_content('Logged in as: test_user') }
     it { should have_link('Logout', :href => logout_path) }
     it { should have_link('My Account', :href => user_path(user.id)) }
     it { should_not have_link('System settings') }

@@ -10,15 +10,15 @@ module ApplicationHelper
   end
 
   def submit_button(name = t("buttons.save"))
-      submit_tag(name, :class => 'btn_submit')
+      submit_tag(name, :class => 'green-button btn_submit')
   end
 
   def cancel_button(path)
-      link_to t('cancel'), path, :confirm => t('messages.cancel_confirmation'), :class => "link_cancel"
+      link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation')}, class: "link_cancel"
   end
 
   def discard_button(path)
-      link_to t('discard'), path, :confirm => t('messages.confirmation_message'), :class => 'link_discard'
+      link_to t('discard'), path, data: {confirm: t('messages.confirmation_message')}, class: "link_discard"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
@@ -28,13 +28,14 @@ module ApplicationHelper
 
   def link_confirm_options(controller)
     confirm_options = { }
+    confirm_options[:data] = { }
     confirm_message = t('messages.confirmation_message')
     if /children/.match(controller.controller_name) and /edit|new/.match(controller.action_name)
-      confirm_options[:confirm] = confirm_message % 'Child Record'
+      confirm_options[:data][:confirm] = confirm_message % 'Child Record'
     elsif /user/.match(controller.controller_name) and /edit|new/.match(controller.action_name)
-      confirm_options[:confirm] = confirm_message % 'Users Page'
+      confirm_options[:data][:confirm] = confirm_message % 'Users Page'
     elsif /form_section/.match(controller.controller_name) and /index/.match(controller.action_name)
-       confirm_options[:confirm] = confirm_message % 'Manage Form Sections'
+       confirm_options[:data][:confirm] = confirm_message % 'Manage Form Sections'
     end
     confirm_options
   end

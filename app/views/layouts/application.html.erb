@@ -26,6 +26,8 @@
     <% if logged_in? %>
       <nav>
         <ul>
+          <li><%= link_to t("navigation.home"), root_path %></li>
+          <% if false %>
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.children"), children_path %></li>
           <% end  %>
@@ -37,6 +39,7 @@
           <% end %>
           <% if can?(:read, Device) or can?(:read, Replication) %>
             <li><%= link_to t("navigation.devices"), devices_path %></li>
+          <% end %>
           <% end %>
           <% if can? :read, Report%>
             <li><%= link_to t("navigation.reports"), reports_path %></li>
@@ -56,6 +59,15 @@
         <div class="clearB"></div>
       </nav>
     <% end %>
+  </div>
+  <div class="page_content header_section">
+    <div class="rows">
+      <div class="large-6 columns">
+        <%= yield :breadcrumbs %>
+      </div>
+      <div class="large-6 columns">
+      </div>
+    </div>
   </div>
   <hr />
   <div class="page_content">
