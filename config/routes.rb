@@ -38,7 +38,7 @@ RapidFTR::Application.routes.draw do
 # CHILD URLS
 #######################
 
-  resources :children do
+  resources :children, :path => :case do
     collection do
       post :sync_unverified
       post :reindex
@@ -50,19 +50,19 @@ RapidFTR::Application.routes.draw do
     resource :duplicate, :only => [:new, :create]
   end
 
-  match '/children-ids' => 'child_ids#all', :as => :child_ids, :via => [:post, :get, :put, :delete]
-  match '/children/:id/photo/edit' => 'children#edit_photo', :as => :edit_photo, :via => :get
-  match '/children/:id/photo' => 'children#update_photo', :as => :update_photo, :via => :put
-  match '/children/:child_id/photos_index' => 'child_media#index', :as => :photos_index, :via => [:post, :get, :put, :delete]
-  match '/children/:child_id/photos' => 'child_media#manage_photos', :as => :manage_photos, :via => [:post, :get, :put, :delete]
-  match '/children/:child_id/audio(/:id)' => 'child_media#download_audio', :as => :child_audio, :via => [:post, :get, :put, :delete]
-  match '/children/:child_id/photo/:photo_id' => 'child_media#show_photo', :as => :child_photo, :via => [:post, :get, :put, :delete]
-  match '/children/:child_id/photo' => 'child_media#show_photo', :as => :child_legacy_photo, :via => [:post, :get, :put, :delete]
-  match 'children/:child_id/select_primary_photo/:photo_id' => 'children#select_primary_photo', :as => :child_select_primary_photo, :via => :put
-  match '/children/:child_id/resized_photo/:size' => 'child_media#show_resized_photo', :as => :child_legacy_resized_photo, :via => [:post, :get, :put, :delete]
-  match '/children/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :child_resized_photo, :via => [:post, :get, :put, :delete]
-  match '/children/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :child_thumbnail, :via => [:post, :get, :put, :delete]
-  match '/children' => 'children#index', :as => :child_filter, :via => [:post, :get, :put, :delete]
+  match '/case-ids' => 'child_ids#all', :as => :child_ids, :via => [:post, :get, :put, :delete]
+  match '/case/:id/photo/edit' => 'children#edit_photo', :as => :edit_photo, :via => :get
+  match '/case/:id/photo' => 'children#update_photo', :as => :update_photo, :via => :put
+  match '/case/:child_id/photos_index' => 'child_media#index', :as => :photos_index, :via => [:post, :get, :put, :delete]
+  match '/case/:child_id/photos' => 'child_media#manage_photos', :as => :manage_photos, :via => [:post, :get, :put, :delete]
+  match '/case/:child_id/audio(/:id)' => 'child_media#download_audio', :as => :child_audio, :via => [:post, :get, :put, :delete]
+  match '/case/:child_id/photo/:photo_id' => 'child_media#show_photo', :as => :child_photo, :via => [:post, :get, :put, :delete]
+  match '/case/:child_id/photo' => 'child_media#show_photo', :as => :child_legacy_photo, :via => [:post, :get, :put, :delete]
+  match '/case/:child_id/select_primary_photo/:photo_id' => 'children#select_primary_photo', :as => :child_select_primary_photo, :via => :put
+  match '/case/:child_id/resized_photo/:size' => 'child_media#show_resized_photo', :as => :child_legacy_resized_photo, :via => [:post, :get, :put, :delete]
+  match '/case/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :child_resized_photo, :via => [:post, :get, :put, :delete]
+  match '/case/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :child_thumbnail, :via => [:post, :get, :put, :delete]
+  match '/case' => 'children#index', :as => :child_filter, :via => [:post, :get, :put, :delete]
 
 
 #######################
@@ -82,7 +82,7 @@ RapidFTR::Application.routes.draw do
 
     # CHILDREN
 
-    resources :children do
+    resources :children, :path => :case do
       collection do
         delete "/destroy_all" => 'children#destroy_all'
         get :ids, :defaults => {:format => :json}
@@ -150,7 +150,7 @@ RapidFTR::Application.routes.draw do
 #######################
 
   resources :system_logs, :only => :index
-  match '/children/:id/history' => 'child_histories#index', :as => :child_history, :via => :get
+  match '/case/:id/history' => 'child_histories#index', :as => :child_history, :via => :get
   match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
 
 
@@ -180,5 +180,5 @@ RapidFTR::Application.routes.draw do
 # TESTING URLS
 #######################
   match 'database/delete_children' => 'database#delete_children', :via => :delete
-
+  match 'database/delete_case' => 'database#delete_children', :via => :delete
 end
