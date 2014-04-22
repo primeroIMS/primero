@@ -39,8 +39,8 @@ class ChildrenController < ApplicationController
     end
   end
 
-  # GET /case/1
-  # GET /case/1.xml
+  # GET /children/1
+  # GET /children/1.xml
   def show
     authorize! :read, @child if @child["created_by"] != current_user_name
     @form_sections = get_form_sections
@@ -57,8 +57,8 @@ class ChildrenController < ApplicationController
     end
   end
 
-  # GET /case/new
-  # GET /case/new.xml
+  # GET /children/new
+  # GET /children/new.xml
   def new
     authorize! :create, Child
 
@@ -71,7 +71,7 @@ class ChildrenController < ApplicationController
     end
   end
 
-  # GET /case/1/edit
+  # GET /children/1/edit
   def edit
     authorize! :update, @child
 
@@ -79,8 +79,8 @@ class ChildrenController < ApplicationController
     @form_sections = get_form_sections
   end
 
-  # POST /case
-  # POST /case.xml
+  # POST /children
+  # POST /children.xml
   def create
     authorize! :create, Child
     params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
@@ -195,8 +195,8 @@ class ChildrenController < ApplicationController
   def new_search
   end
 
-# DELETE /case/1
-# DELETE /case/1.xml
+# DELETE /children/1
+# DELETE /children/1.xml
   def destroy
     authorize! :destroy, @child
     @child.destroy

@@ -18,18 +18,18 @@ Feature: API Children Retrieve child records
     And I login as tim with password 123 and imei 10001
 
   Scenario: Should return JSON for requested child
-    When I send a GET request to "/api/case/1"
+    When I send a GET request to "/api/children/1"
     Then the JSON should have the following:
       | _id        | "1"                      |
       | name       | "Tom"                    |
       | created_at | "2011-06-22 02:07:51UTC" |
 
   Scenario: Should return 404 not found if child does not exist
-    When I send a GET request to "/api/case/3"
+    When I send a GET request to "/api/children/3"
     Then I should receive HTTP 404
 
   Scenario: Only Id and Revision properties are returned for each child record
-    When I send a GET request to "/api/case/ids"
+    When I send a GET request to "/api/children/ids"
     Then the JSON should be an array
     And the JSON should have 2 entries
     And the JSON at "0" should have 2 keys

@@ -37,7 +37,7 @@ Feature: API Children Create or edit child
       | name | _id | created_at  	    	| posted_at		|
       | Tom  | 1   | 2011-06-22 02:07:51UTC	| 2011-06-22 02:07:51UTC|
 
-    When I send a PUT request to "/api/case/1" with JSON:
+    When I send a PUT request to "/api/children/1" with JSON:
       """
       {
         "child" : {
@@ -47,7 +47,7 @@ Feature: API Children Create or edit child
       """
     Then the JSON at "name" should be "Jorge"
 
-    And I send a GET request to "/api/case/1"
+    And I send a GET request to "/api/children/1"
     Then the JSON at "name" should be "Jorge"
 
   Scenario: Edit Child using API

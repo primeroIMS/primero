@@ -50,7 +50,7 @@
                 <div class="search">
                   <%= link_to t("navigation.advanced_search"), new_advanced_search_path %>
                   <%= text_field_tag 'query', params[:query] %>
-                  <%= submit_tag t("navigation.go"), :action => "case/search", :method => "get", :onclick => "return RapidFTR.validateSearch();" %>
+                  <%= submit_tag t("navigation.go"), :action => "children/search", :method => "get", :onclick => "return RapidFTR.validateSearch();" %>
                 </div>
               <% end %>
             </li>
