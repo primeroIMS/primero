@@ -30,7 +30,7 @@ module ApplicationHelper
     confirm_options = { }
     confirm_options[:data] = { }
     confirm_message = t('messages.confirmation_message')
-    if /children/.match(controller.controller_name) and /edit|new/.match(controller.action_name)
+    if /case/.match(controller.controller_name) and /edit|new/.match(controller.action_name)
       confirm_options[:data][:confirm] = confirm_message % 'Child Record'
     elsif /user/.match(controller.controller_name) and /edit|new/.match(controller.action_name)
       confirm_options[:data][:confirm] = confirm_message % 'Users Page'
