@@ -66,6 +66,7 @@ zh:
     system_settings: "系统设置"
 
   navigation:
+     home: "placeholder"
      children: "儿童"
      forms: "表单"
      users: "用户"

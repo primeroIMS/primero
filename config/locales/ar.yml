@@ -66,6 +66,7 @@ ar:
     system_settings: "ضبط النظام"
 
   navigation:
+     home: "placeholder"
      children: "الأطفال"
      forms: "الإستمارات"
      users: "المستخدمين"
