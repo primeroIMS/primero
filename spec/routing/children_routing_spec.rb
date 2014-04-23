@@ -38,4 +38,38 @@ describe ChildrenController do
       { :post => 'advanced_search/export_data' }.should route_to( :controller => 'advanced_search', :action => 'export_data' )
     end
   end
+
+  describe "aliased routing" do
+    it "recognizes and generates aliased #index" do
+      { :get => "/cases" }.should route_to(:controller => "children", :action => "index")
+    end
+
+    it "recognizes and generates aliased #new" do
+      { :get => "/cases/new" }.should route_to(:controller => "children", :action => "new")
+    end
+
+    it "recognizes and generates aliased #show" do
+      { :get => "/cases/1" }.should route_to(:controller => "children", :action => "show", :id => "1")
+    end
+
+    it "recognizes and generates aliased #edit" do
+      { :get => "/cases/1/edit" }.should route_to(:controller => "children", :action => "edit", :id => "1")
+    end
+
+    it "recognizes and generates aliased #create" do
+      { :post => "/cases" }.should route_to(:controller => "children", :action => "create")
+    end
+
+    it "recognizes and generates aliased #update" do
+      { :put => "/cases/1" }.should route_to(:controller => "children", :action => "update", :id => "1")
+    end
+
+    it "recognizes and generates aliased #destroy" do
+      { :delete => "/cases/1" }.should route_to(:controller => "children", :action => "destroy", :id => "1")
+    end
+
+    it "recognizes and generates aliased #search" do
+      { :get => '/cases/search' }.should route_to(:controller => 'children', :action => 'search')
+    end
+  end
 end
