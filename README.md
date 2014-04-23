@@ -11,8 +11,8 @@ Tools* section) on your host machine so that your SSH cert keys don't make
 vagrant bomb out.  Once you have Vagrant installed, run the following to
 install the right plugins:
 
-    $ vagrant plugin install vagrant-berkshelf
-    $ vagrant plugin install vagrant-omnibus
+    $ vagrant plugin install vagrant-berkshelf --plugin-version 1.3.7
+    $ vagrant plugin install vagrant-omnibus --plugin-version 1.3.1
 
 You will also need to grab the private data for chef-solo that is too sensitive
 to store on Bitbucket.  Make sure you have access to ohio and run the following
