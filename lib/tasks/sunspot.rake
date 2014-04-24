@@ -9,14 +9,14 @@ namespace :sunspot do
 
   def tmpdir
     temp_dir = ENV['SOLR_TMPDIR'] || Dir.tmpdir
-    dir = File.join temp_dir, SUNSPOT_CONFIG['port'].to_s
+    dir = File.join temp_dir, (ENV['SOLR_PORT'] || '8983')
     FileUtils.mkdir_p dir
     dir
   end
 
   def solr_server
     server = Sunspot::Solr::Server.new
-    server.port = SUNSPOT_CONFIG['port'].to_s
+    server.port = ENV['SOLR_PORT'] || '8983'
     server.pid_file = "sunspot_#{server.port}.pid"
     server.pid_dir = ENV['SOLR_PID_LOCATION'] || tmpdir
     server.solr_data_dir = ENV['SOLR_DATA_DIR'] || tmpdir
