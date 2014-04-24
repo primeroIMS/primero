@@ -12,6 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 5984, host: 5984
   config.vm.network :forwarded_port, guest: 8000, host: 8000
   config.vm.network :forwarded_port, guest: 8443, host: 8443
+  config.vm.network :forwarded_port, guest: 8983, host: 8983
 
   config.omnibus.chef_version = '11.10.4'
 
