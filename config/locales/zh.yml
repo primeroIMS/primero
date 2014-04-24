@@ -68,6 +68,7 @@ zh:
   navigation:
      home: "placeholder"
      children: "placeholder"
+     cases: "placeholder"
      forms: "表单"
      users: "用户"
      devices: "设备"

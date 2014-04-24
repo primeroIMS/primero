@@ -68,6 +68,7 @@ ar:
   navigation:
      home: "placeholder"
      children: "placeholder"
+     cases: "placeholder"
      forms: "الإستمارات"
      users: "المستخدمين"
      devices: "الأجهزة"

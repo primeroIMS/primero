@@ -6,7 +6,7 @@ Then /^I should not see "([^\"]*)" on the page$/ do |text|
   expect(page).to have_no_content(text)
 end
 
-Then /^I should see a "([^\"]*)" button on the page$/ do |label|
+Then /^I should see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
