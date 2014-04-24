@@ -56,7 +56,8 @@ end
 template '/home/vagrant/primero/config/solr.yml' do
   source "solr.yml.erb"
   variables({
-    :solr_port => node[:primero][:solr_port],
+    :solr_port => node[:primero][:solr][:port],
+    :solr_url => node[:primero][:solr][:url]
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]

@@ -19,7 +19,10 @@ default[:primero].tap do |p|
     c[:bind_address] = '127.0.0.1'
   end
 
-  p[:solr_port] = 9999
+  p[:solr].tap do |s|
+    s[:port] = 8983
+    s[:url] = 'http://localhost:8983/solr'
+  end
 end
 
 default[:rvm].tap do |rvm|
