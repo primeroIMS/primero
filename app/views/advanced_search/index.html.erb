@@ -1,4 +1,7 @@
-<h1>Advanced Search</h1>
+<h4 class="text-center">&lt;Placeholder for <%= I18n.t("navigation.advanced_search") %>&gt;</h4>
+<% if false %>
+<h1> <%= I18n.t("navigation.advanced_search") %> </h1>
+
 <div class='advanced-search'>
   <div class="flash">
     <div class="error" style="display:none"></div>
@@ -107,10 +110,13 @@
 
 </div>
 
+
 <% if @results && @results.size > 0 %>
   <%= render :partial => 'children/search_results' %>
 <% else %>
     <%= t("advanced_search.records_found", :count => 0) %>
+<% end %>
+
 <% end %>
 
 <script>

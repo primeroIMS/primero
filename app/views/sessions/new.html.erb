@@ -11,7 +11,9 @@
         <div class="btn_panel">
           <%= submit_button t("buttons.login") %>
         </div>
+        <% if false %>
         <%= link_to t("login.password.reset"), :controller => "password_recovery_requests", :action => "new" %>
+        <% end %>
       </div>
   <% end %>
 </div>

@@ -50,6 +50,18 @@ RapidFTR::Application.routes.draw do
     resource :duplicate, :only => [:new, :create]
   end
 
+  resources :children, as: :cases, path: :cases do
+    collection do
+      post :sync_unverified
+      post :reindex
+      get :advanced_search
+      get :search
+    end
+
+    resources :attachments, :only => :show
+    resource :duplicate, :only => [:new, :create]
+  end
+
   match '/children-ids' => 'child_ids#all', :as => :child_ids, :via => [:post, :get, :put, :delete]
   match '/children/:id/photo/edit' => 'children#edit_photo', :as => :edit_photo, :via => :get
   match '/children/:id/photo' => 'children#update_photo', :as => :update_photo, :via => :put
@@ -63,6 +75,20 @@ RapidFTR::Application.routes.draw do
   match '/children/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :child_resized_photo, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :child_thumbnail, :via => [:post, :get, :put, :delete]
   match '/children' => 'children#index', :as => :child_filter, :via => [:post, :get, :put, :delete]
+
+  match '/case-ids' => 'child_ids#all', :as => :case_ids, :via => [:post, :get, :put, :delete]
+  match '/cases/:id/photo/edit' => 'children#edit_photo', :as => :edit_case_photo, :via => :get
+  match '/cases/:id/photo' => 'children#update_photo', :as => :update_case_photo, :via => :put
+  match '/cases/:child_id/photos_index' => 'child_media#index', :as => :case_photos_index, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/photos' => 'child_media#manage_photos', :as => :manage_case_photos, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/audio(/:id)' => 'child_media#download_audio', :as => :case_audio, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/photo/:photo_id' => 'child_media#show_photo', :as => :case_photo, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/photo' => 'child_media#show_photo', :as => :case_legacy_photo, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/select_primary_photo/:photo_id' => 'children#select_primary_photo', :as => :case_select_primary_photo, :via => :put
+  match '/cases/:child_id/resized_photo/:size' => 'child_media#show_resized_photo', :as => :case_legacy_resized_photo, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :case_resized_photo, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :case_thumbnail, :via => [:post, :get, :put, :delete]
+  match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
 
 
 #######################
@@ -83,6 +109,21 @@ RapidFTR::Application.routes.draw do
     # CHILDREN
 
     resources :children do
+      collection do
+        delete "/destroy_all" => 'children#destroy_all'
+        get :ids, :defaults => {:format => :json}
+        post :unverified, :defaults => {:format => :json}
+      end
+
+      member do
+        controller :child_media do
+          get 'photo(/:photo_id)', :action => 'show_photo'
+          get 'audio(/:audio_id)', :action => 'download_audio'
+        end
+      end
+    end
+
+    resources :children, as: :cases, path: :cases do
       collection do
         delete "/destroy_all" => 'children#destroy_all'
         get :ids, :defaults => {:format => :json}
@@ -151,6 +192,7 @@ RapidFTR::Application.routes.draw do
 
   resources :system_logs, :only => :index
   match '/children/:id/history' => 'child_histories#index', :as => :child_history, :via => :get
+  match '/cases/:id/history' => 'child_histories#index', :as => :cases_history, :via => :get
   match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
 
 
@@ -180,5 +222,6 @@ RapidFTR::Application.routes.draw do
 # TESTING URLS
 #######################
   match 'database/delete_children' => 'database#delete_children', :via => :delete
+  match 'database/delete_cases' => 'database#delete_cases', :via => :delete
 
 end
