@@ -1,10 +1,8 @@
 base: &base
-  #Default sunspot solr server port.
-  port: 8983
   #Default solr url to connect.
   #By changing this value can make to connect to remote servers.
   #If the solr instance run in the same machine make sure to set
-  #the same port.
+  #the same port. See rake task to load solr server.
   url: "http://localhost:8983/solr"
 
 development:
