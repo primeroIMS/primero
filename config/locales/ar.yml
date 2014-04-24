@@ -67,7 +67,7 @@ ar:
 
   navigation:
      home: "placeholder"
-     children: "الأطفال"
+     children: "placeholder"
      forms: "الإستمارات"
      users: "المستخدمين"
      devices: "الأجهزة"
@@ -132,6 +132,13 @@ ar:
     reunite_details: "تفاصيل لم الشمل: "
     another_duplicate_before_link: "هنالك تقرير آخر تم تحديده كمطابق لهذا التقرير. إضغط"
     another_duplicate_after_link: " لرؤية التقارير المتطابقة. "
+    # TODO: Possibly use another method to label the list view columns
+    id: "Placeholder"
+    name: "Placeholder"
+    age: "Placeholder"
+    sex: "Placeholder"
+    registration_date: "Placeholder"
+    status: "Placeholder"
 
     messages:
       update_success: "تم تحديث سجل الطفل بنجاح."

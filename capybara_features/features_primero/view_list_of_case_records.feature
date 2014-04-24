@@ -7,11 +7,13 @@ Feature: Primero View List of Case Records
   Scenario: I want to see my cases and update them
     Given I am logged in as an admin with username "primero" and password "primero"
     And the following cases exist in the system:
-      | name     | last_known_location | reporter | unique_id    | reunited | flag  | duplicate | created_at             |flagged_at                    | reunited_at                  | created_by |
-      | andreas  | London              | zubair   | zubairlon123 | true     | false | true      | 2004-02-03 04:05:06UTC | DateTime.new(2001,2,3,4,5,6) | DateTime.new(2001,2,3,4,5,6) | primero    |
-      | zak      | London              | zubair   | zubairlon456 | false    | true  | false     | 2003-02-03 04:05:06UTC | DateTime.new(2004,2,3,4,5,6) | DateTime.new(2004,2,3,4,5,6) | primero    |
-      | jaco     | NYC                 | james    | james456     | true     | true  | false     | 2002-02-03 04:05:06UTC | DateTime.new(2002,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) | primero    |
-      | meredith | Austin              | james    | james123     | false    | false | false     | 2001-02-03 04:05:06UTC | DateTime.new(2003,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) | primero    |
-      | jane     | Eyre                | james    | james153     | false    | false | true      | 2001-02-02 04:05:06UTC | DateTime.new(2008,2,3,4,5,6) | DateTime.new(2008,2,3,4,5,6) | primero    |
-    When I press the "Cases" button
-
+      | name     | created_by | age | sex    | registration_date      | status | unique_identifier                    |
+      | andreas  | primero    | 10  | male   | 2004-02-03 04:05:06UTC | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
+      | zak      | primero    | 11  | female | 2004-02-03 04:05:06UTC | closed | 31c4cba8-b410-4af6-b349-68c557af3aa8 |
+      | jaco     | primero    | 12  | male   | 2004-02-03 04:05:06UTC | open   | 41c4cba8-b410-4af6-b349-68c557af3aa7 |
+      | meredith | primero    | 13  | female | 2004-02-03 04:05:06UTC | closed | 51c4cba8-b410-4af6-b349-68c557af3aa6 |
+      | jane     | primero    | 14  | male   | 2004-02-03 04:05:06UTC | open   | 61c4cba8-b410-4af6-b349-68c557af3aa5 |
+    When I press the "CASES" button
+    Then I should see "Children"
+    Then I should see an id "7af3aa9" link on the page
+    

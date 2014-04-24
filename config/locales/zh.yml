@@ -67,7 +67,7 @@ zh:
 
   navigation:
      home: "placeholder"
-     children: "儿童"
+     children: "placeholder"
      forms: "表单"
      users: "用户"
      devices: "设备"
@@ -133,6 +133,13 @@ zh:
     reunite_details: "重聚详情:"
     another_duplicate_before_link: "另一个记录被标记为这个记录的副本，点击"
     another_duplicate_after_link: " 查看副本记录"
+    # TODO: Possibly use another method to label the list view columns
+    id: "Placeholder"
+    name: "Placeholder"
+    age: "Placeholder"
+    sex: "Placeholder"
+    registration_date: "Placeholder"
+    status: "Placeholder"
 
     messages:
       update_success: "儿童信息成功更新"

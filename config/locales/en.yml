@@ -69,7 +69,7 @@ en:
 
   navigation:
      home: "HOME"
-     children: "CHILDREN"
+     children: "CASES"
      forms: "FORMS"
      users: "USERS"
      devices: "DEVICES"
@@ -133,6 +133,13 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     export_error: "No Records Available!"
+    # TODO: Possibly use another method to label the list view columns
+    id: "ID#"
+    name: "Name"
+    age: "Age"
+    sex: "Sex"
+    registration_date: "Registration Date"
+    status: "Status"
 
     messages:
       update_success: "Child was successfully updated."

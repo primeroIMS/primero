@@ -7,7 +7,29 @@
 </div>
 
 <div class="child_list">
-  <%= render :partial => "children/summary_row", :collection => @children, :as => :child, :locals => { :checkbox => false, :highlighted_fields => FormSection.sorted_highlighted_fields  }  %>
+  <table width="100%">
+    <tr>
+      <th>
+        <%= t("child.id") %>
+      </th>
+      <th>
+        <%= t("child.name") %>
+      </th>
+      <th>
+        <%= t("child.age") %>
+      </th>
+      <th>
+        <%= t("child.sex") %>
+      </th>
+      <th>
+        <%= t("child.registration_date") %>
+      </th>
+      <th>
+        <%= t("child.status") %>
+      </th>
+    </tr>
+    <%= render :partial => "children/summary_row", :collection => @children, :as => :child, :locals => { :checkbox => false, :highlighted_fields => FormSection.sorted_highlighted_fields  }  %>
+  </table>
 
     <%= render :partial => 'shared/pagination', :locals => { :results => @children } %>
 </div>
