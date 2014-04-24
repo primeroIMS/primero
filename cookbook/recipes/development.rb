@@ -56,11 +56,12 @@ end
 template '/home/vagrant/primero/config/solr.yml' do
   source "solr.yml.erb"
   variables({
+    :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
     :solr_port => node[:primero][:solr][:port],
     :solr_url => node[:primero][:solr][:url]
   })
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
+  owner 'vagrant'
+  group 'vagrant'
 end
 
 template '/home/vagrant/primero/config/selenium.yml' do

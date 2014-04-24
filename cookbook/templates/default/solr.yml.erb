@@ -1,2 +1,5 @@
-port: <%= @solr_port %>
-url: <%= @solr_url %>
+<% @environments.each do |env| %>
+<%= env %>:
+  port: <%= @solr_port %>
+  url: "<%= @solr_url %>"
+<% end %>

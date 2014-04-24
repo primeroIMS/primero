@@ -88,6 +88,7 @@ end
 template File.join(node[:primero][:app_dir], 'config', 'solr.yml') do
   source "solr.yml.erb"
   variables({
+    :environments => [ node[:primero][:rails_env] ],
     :solr_port => node[:primero][:solr][:port],
     :solr_url => node[:primero][:solr][:url]
   })
