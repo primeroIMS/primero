@@ -21,8 +21,6 @@ RapidFTR::Application.configure do
   config.assets.compile = false
   config.assets.digest = true
 
-  ENV['SOLR_PORT'] = "8902"
-
   # TODO is production ?
   config.eager_load = true
 end
