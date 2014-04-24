@@ -31,7 +31,7 @@
                                 :mark_as_property_value => "true",
                                 :mark_as_submit_label => t("child.actions.reunite"),
                                 :error_message => t("child.messages.reunite_error_message"),
-                                :style => "flag"
+                                :style => "green-button"
                      } %>
       <% else %>
           <%= render :partial => "mark_as",
@@ -43,7 +43,7 @@
                                  :mark_as_property_value => "false",
                                  :mark_as_submit_label => t("child.actions.undo_reunite"),
                                  :error_message => t("child.messages.undo_reunite_error_message"),
-                                 :style => "flag"
+                                 :style => "green-button"
                      } %>
       <% end %>
     </div>
@@ -60,7 +60,7 @@
                                      :mark_as_property_value => "true",
                                      :mark_as_submit_label => t("child.actions.mark_as_investigated"),
                                      :error_message => t("child.messages.investigation_error_message"),
-                                     :style => "flag"
+                                     :style => "green-button"
                          } %>
           <% else %>
               <%= render :partial => "mark_as",
@@ -72,7 +72,7 @@
                                      :mark_as_property_value => "false",
                                      :mark_as_submit_label => t("child.actions.undo_investigated"),
                                      :error_message => t("child.messages.undo_investigation_error_message"),
-                                     :style => "flag"
+                                     :style => "green-button"
                          } %>
           <% end %>
         <% end %>

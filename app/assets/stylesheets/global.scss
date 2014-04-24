@@ -56,6 +56,31 @@ fieldset.no-border {
   @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
 
+.dropdown_btn {
+  float: right;
+  margin-right: 0.5rem;
+  //margin-bottom: 0px !important;
+  height: 32px;
+  
+  .green-button {
+    padding: 0.50rem;
+  }
+  
+  .dropdown {
+    background: #eee;
+    position: absolute;
+    border: 1px solid #9F9F9F;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+  }
+}
+
+
+
+
+
 ////////////////////////////////////////////////
 // Typo
 ////////////////////////////////////////////////
