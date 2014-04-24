@@ -9,14 +9,14 @@ namespace :sunspot do
 
   def tmpdir
     temp_dir = ENV['SOLR_TMPDIR'] || Dir.tmpdir
-    dir = File.join temp_dir, (ENV['SOLR_PORT'] || '8983')
+    dir = File.join temp_dir, SUNSPOT_CONFIG['port'].to_s
     FileUtils.mkdir_p dir
     dir
   end
 
   def solr_server
     server = Sunspot::Solr::Server.new
-    server.port = ENV['SOLR_PORT'] || '8983'
+    server.port = SUNSPOT_CONFIG['port'].to_s
     server.pid_file = "sunspot_#{server.port}.pid"
     server.pid_dir = ENV['SOLR_PID_LOCATION'] || tmpdir
     server.solr_data_dir = ENV['SOLR_DATA_DIR'] || tmpdir
@@ -53,7 +53,7 @@ namespace :sunspot do
       until connected do
         begin
           puts 'Waiting for Solr to start...'
-          connected = RSolr.connect(:url => Sunspot.config.solr.url).get "admin/ping"
+          connected = RSolr.connect(:url => SUNSPOT_CONFIG['url']).get "admin/ping"
         rescue => e
           sleep 1
         end
