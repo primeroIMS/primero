@@ -32,6 +32,11 @@ Then /^I should see the following (.+):$/ do |selector, table|
   end
 end
 
+## Added for debugging purposes
+And /^pause$/ do
+  binding.pry
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
