@@ -8,6 +8,7 @@ describe "children/show.html.erb" do
   describe "displaying a child's details"  do
     before :each do
       @user = double('user', :has_permission? => true, :user_name => 'name', :id => 'test-user-id')
+      @user.stub(:localize_date)
       controller.stub(:current_user).and_return(@user)
       view.stub(:current_user).and_return(@user)
       view.stub(:logged_in?).and_return(true)
@@ -64,8 +65,9 @@ describe "children/show.html.erb" do
 
     describe "interviewer details" do
       it "should show registered by details and no link to change log if child has not been updated" do
-        render
-
+        
+        render :partial => "children/header_message", :locals => {:child => @child, :current_user => @user, :duplicates => ""}
+        
         rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Registered by: jsmith')
         rendered.should_not be_include("and others")
@@ -78,7 +80,7 @@ describe "children/show.html.erb" do
 
         assign(:child,child)
 
-        render
+        render :partial => "children/header_message", :locals => {:child => child, :current_user => @user, :duplicates => ""}
 
         rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Registered by: jsmith')
@@ -89,7 +91,7 @@ describe "children/show.html.erb" do
       end
 
       it "should not show link to change log if child was registered by and updated again by only the same person" do
-        render
+        render :partial => "children/header_message", :locals => {:child => @child, :current_user => @user, :duplicates => ""}
 
         rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Registered by: jsmith')
@@ -107,7 +109,7 @@ describe "children/show.html.erb" do
         assign(:child,child)
         assign(:user,user)
 
-        render
+        render :partial => "children/header_message", :locals => {:child => child, :current_user => user, :duplicates => ""}
 
         rendered.should have_selector("#interviewer_details") do |fields|
           fields[0].should contain("Posted from the mobile client at: 01 January 2007 at 03:04 (SST)")
@@ -115,7 +117,7 @@ describe "children/show.html.erb" do
       end
 
       it "should not show the posted at details when the record has not been posted from mobile client" do
-        render
+        render :partial => "children/header_message", :locals => {:child => @child, :current_user => @user, :duplicates => ""}
 
         rendered.should have_selector("#interviewer_details") do |fields|
           fields[0].should_not contain("Posted from the mobile client")
@@ -134,7 +136,7 @@ describe "children/show.html.erb" do
       link = child_path @child, :format => :csv, :per_page => :all
       @user.stub(:has_permission?).with(Permission::CHILDREN[:export_csv]).and_return(true)
       
-      render
+      render :partial => "children/show_child_toolbar", :locals => {:child => @child}
       
       rendered.should have_link "Export to CSV", link
       end
