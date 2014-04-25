@@ -90,6 +90,7 @@ en:
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
 
+
   cases:
     label: "Cases"
     register_new_child: "Create a New Case"

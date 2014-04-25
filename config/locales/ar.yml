@@ -88,6 +88,34 @@ ar:
      enable_photo_wall: "تمكين صورة الحائط"
      disable_photo_wall: "تعطيل صورة الحائط"
 
+
+  cases:
+    label: "Placeholder"
+    register_new_child: "Placeholder"
+    export: "إصدار"
+    export_all_child_records_to_csv: "إصدار كل تقارير الأطفال ل CSV"
+    export_all_child_records_to_pdf: "إصدار كل تقارير الأطفال ل PDF"
+    export_some_records_to_csv: "إصدار بعض التقارير ل CSV"
+    filter_by:
+      label: "تصفيه حسب"
+      all: "الكل"
+      active: "نشط"
+      reunited: "تم لم الشمل"
+      flagged: "عليه راية مرفوع"
+      created: "تم التكوين"
+    order_by:
+      most_recently: "مؤخراً"
+      label: "ترتيب حسب"
+      name: "الإسم"
+    flag_summary: "ملخص الراية"
+
+    filer_by:
+      all: "الكل"
+      active: "نشط"
+      reunited: "تم لم الشمل"
+      flagged: "عليه راية"
+
+
   children:
     label: "الأطفال"
     register_new_child: "تسجيل طفل جديد"

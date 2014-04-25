@@ -12,8 +12,12 @@ module HpricotSearch
   end
 
   def profiles_list_items
-    search("div[@class=child_summary_panel]")
+    search("tr[@class=child_summary_panel]")
   end
+
+  #def profiles_list_items
+    #search("div[@class=child_summary_panel]")
+  #end
 
   def child_name
     search("h3")

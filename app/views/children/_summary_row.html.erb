@@ -1,37 +1,42 @@
 <!-- BEGIN: item -->
-<tr <% if child.flag? %>class="red_text"<% end %>>
-  <td id="child_<%= child.id %>" class="child_summary_panel">
-    <%= link_to text_to_identify_child(child), child_path(child), class: "view_child_link" %>
-
-    <!--<%= content_tag(:div, nil, :class => 'flag suspect') if child.flag? %>
-    <%= content_tag(:div, nil, :class => 'flag reunited') if child.reunited? %>-->
-  </td>
-  <td>
-    <% sorted_highlighted_fields.each do |relevant_field| %>
-      <% if relevant_field.visible? %>
-        <%= child[relevant_field[:name]] %>
-      <% end %>
-    <% end %>
-  </td>
-  <td>
-    <% if child.age_is %>
-        <%= child.age_is %>
-    <% end %>
-  </td>
-  <td>
-    <% if child.sex %>
-        <%= child.sex %>
-    <% end %>
-  </td>
-  <td>
-    <% if child.created_at %>
-        <%= child.created_at %>
-    <% end %>
-  </td>
-  <td>
-    <% if child.status %>
-        <%= child.status %>
-    <% end %>
-  </td>
-</tr>
+  <tr class="child_summary_panel table_row<% if child.flag? %> red_text<% end %>">
+    <div class="summary_panel">
+      <td id="child_<%= child.id %>">
+        <div class="summary_item">
+          <%= link_to text_to_identify_child(child), child_path(child) %>
+          <!--<%= content_tag(:div, nil, :class => 'flag suspect') if child.flag? %>
+          <%= content_tag(:div, nil, :class => 'flag reunited') if child.reunited? %>-->
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+        <% sorted_highlighted_fields.each do |relevant_field| %>
+          <% if relevant_field.visible? %>
+            <%= child[relevant_field[:name]] %>
+          <% end %>
+        <% end %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.age %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.sex %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.created_at %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.status %>
+        </div>
+      </td>
+    </div>
+  </tr>
 <!-- END: item -->
