@@ -24,6 +24,7 @@ class Child < CouchRest::Model::Base
   property :name
   property :short_id
   property :unique_identifier
+  property :case_id
   property :registration_date
   property :created_organisation
   property :created_by
@@ -64,6 +65,7 @@ class Child < CouchRest::Model::Base
     child = new(fields)
     child.create_unique_id
     child['short_id'] = child.short_id
+    child['case_id'] = child.case_id
     child['name'] = fields['name'] || child.name || ''
     child.set_creation_fields_for user
     child
@@ -383,6 +385,10 @@ class Child < CouchRest::Model::Base
 
   def short_id
     (self['unique_identifier'] || "").last 7
+  end
+
+  def case_id
+    self['unique_identifier']
   end
 
   def unique_identifier

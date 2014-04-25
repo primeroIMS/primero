@@ -142,7 +142,7 @@ en:
       reunite_error_message: "Please confirm this child has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm child should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
-      creation_success: "Child record successfully created."
+      creation_success: "Case record successfully created."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
 
