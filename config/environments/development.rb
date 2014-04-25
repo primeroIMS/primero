@@ -19,9 +19,7 @@ RapidFTR::Application.configure do
 
   # For nginx:
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
-
-  ENV['SOLR_PORT'] = "9995"
-
+  
   # Asset pipeline
   config.assets.compress = false
   config.assets.debug = true
