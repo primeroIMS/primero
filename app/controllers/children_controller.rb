@@ -64,6 +64,7 @@ class ChildrenController < ApplicationController
 
     @page_name = t("children.register_new_child")
     @child = Child.new
+    @child.registration_date = DateTime.now
     @form_sections = get_form_sections
     respond_to do |format|
       format.html

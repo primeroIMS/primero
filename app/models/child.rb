@@ -24,6 +24,7 @@ class Child < CouchRest::Model::Base
   property :name
   property :short_id
   property :unique_identifier
+  property :registration_date
   property :created_organisation
   property :created_by
   property :reunited, TrueClass
