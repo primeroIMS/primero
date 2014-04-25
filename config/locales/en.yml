@@ -527,7 +527,7 @@ en:
 
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
-        age: "Age must be between 1 and 99"
+        age: "Age must be between 1 and 130"
         photo_format: "Please upload a valid photo file (jpg or png) for this child record"
         photo_size: "Photo file is too large"
         audio_size: "Audio file is too large"
