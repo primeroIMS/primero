@@ -24,8 +24,6 @@ RapidFTR::Application.configure do
   # Enable threaded mode
   # config.threadsafe!
 
-  ENV['SOLR_PORT'] = "8901"
-
   # Asset pipeline
   config.assets.compress = true
   config.assets.compile = false

@@ -88,7 +88,9 @@ end
 template File.join(node[:primero][:app_dir], 'config', 'solr.yml') do
   source "solr.yml.erb"
   variables({
-    :solr_port => node[:primero][:solr_port],
+    :environments => [ node[:primero][:rails_env] ],
+    :local_solr_ports => {node[:primero][:rails_env].to_s => node[:primero][:local_solr_port]},
+    :solr_urls => {node[:primero][:rails_env].to_s => node[:primero][:solr_url]}
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -145,4 +147,3 @@ end
 execute_bundle 'restart-scheduler' do
   command "rake scheduler:restart"
 end
-
