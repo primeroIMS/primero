@@ -16,7 +16,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #Sunspot solr servers.
   config.vm.network :forwarded_port, guest: 8983, host: 8983
   config.vm.network :forwarded_port, guest: 8984, host: 8984
-  config.vm.network :forwarded_port, guest: 8985, host: 8985
   config.vm.network :forwarded_port, guest: 8901, host: 8901
   config.vm.network :forwarded_port, guest: 8903, host: 8903
   config.vm.network :forwarded_port, guest: 8902, host: 8902
