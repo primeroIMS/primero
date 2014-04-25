@@ -1,82 +1,34 @@
-<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, Child)} %>
-<div class="btn dropdown_btn btn_export">
-  <span class="export">
-    <a href="#"> <%= t("children.export") %> </a>
-  </span>
-
-  <div class="dropdown hide">
-    <% RapidftrAddon::ExportTask.active.each do |export_task| %>
-      <% if can?("export_#{export_task.id}".to_sym, Child) %>
-        <%= link_to t("addons.export_task.#{export_task.id}.one"), child_path(@child, :format => export_task.id, :per_page => :all), :class => "password-prompt" %>
-      <% end %>
-    <% end %>
-  </div>
-</div>
-<% end %>
+<li>
+	<%= link_to content_tag(:span, t("child.change_log") , :class => 'log'), cases_history_path(@child), :class=>'green-button' %>
+</li>
 
 <% if can? :update, child %>
+    <% if @child.flag? %>
+        <li>
+            <div class="dropdown_btn dropdown_form">
+                <%= render 'investigated', child: @child %>
+            </div>
+        </li>
+    <% end %>
+    <li>
+        <div class="dropdown_btn dropdown_form">
+            <%= render 'reunited', child: @child %>
+        </div>
+    </li>
+    <li>
+        <div class="dropdown_btn dropdown_form">
+            <%= render 'suspect_flag', child: @child %>
+        </div>
+    </li>
+<% end %>
 
-    <div class="btn dropdown_btn btn_flag dropdown_form">
-      <%= render :partial =>"suspect_flag", :locals => { :child => @child } %>
-    </div>
+<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, Child)} %>
+    <li>
+        <div class="btn dropdown_btn btn_export">
+            <%= render 'export' %>
+        </div>
+    </li>
+<% end %>
 
-    <div class="btn dropdown_btn btn_reunite dropdown_form">
-      <% unless @child.reunited? %>
-          <%= render :partial => "mark_as",
-                     :locals=> {:child => @child,
-                                :mark_as_label => t("child.actions.reunited"),
-                                :mark_as_message_id => "reunited_message",
-                                :mark_as_message => t("child.actions.reunited_details"),
-                                :mark_as_property => "reunited",
-                                :mark_as_property_value => "true",
-                                :mark_as_submit_label => t("child.actions.reunite"),
-                                :error_message => t("child.messages.reunite_error_message"),
-                                :style => "green-button"
-                     } %>
-      <% else %>
-          <%= render :partial => "mark_as",
-                     :locals=> { :child => @child,
-                                 :mark_as_label => t("child.actions.not_reunited"),
-                                 :mark_as_message_id => "reunited_message",
-                                 :mark_as_message => t("child.actions.undo_reunited_details"),
-                                 :mark_as_property => "reunited",
-                                 :mark_as_property_value => "false",
-                                 :mark_as_submit_label => t("child.actions.undo_reunite"),
-                                 :error_message => t("child.messages.undo_reunite_error_message"),
-                                 :style => "green-button"
-                     } %>
-      <% end %>
-    </div>
 
-    <div class="btn dropdown_btn btn_investigate dropdown_form">
-      <% if @child.flag? %>
-          <% unless @child.investigated? %>
-              <%= render :partial => "mark_as",
-                         :locals=> { :child => @child,
-                                     :mark_as_label => t("child.actions.mark_as_investigated"),
-                                     :mark_as_message_id => "investigated_message",
-                                     :mark_as_message => t("child.actions.investigation_details"),
-                                     :mark_as_property => "investigated",
-                                     :mark_as_property_value => "true",
-                                     :mark_as_submit_label => t("child.actions.mark_as_investigated"),
-                                     :error_message => t("child.messages.investigation_error_message"),
-                                     :style => "green-button"
-                         } %>
-          <% else %>
-              <%= render :partial => "mark_as",
-                         :locals=> { :child => @child,
-                                     :mark_as_label => t("child.actions.mark_as_not_investigated"),
-                                     :mark_as_message_id => "investigated_message",
-                                     :mark_as_message => t("child.actions.undo_investigation_details"),
-                                     :mark_as_property => "investigated",
-                                     :mark_as_property_value => "false",
-                                     :mark_as_submit_label => t("child.actions.undo_investigated"),
-                                     :error_message => t("child.messages.undo_investigation_error_message"),
-                                     :style => "green-button"
-                         } %>
-          <% end %>
-        <% end %>
-    </div>
-  <% end %>
 
-<%= link_to content_tag(:span, t("child.change_log") , :class => 'log'), child_history_path(@child), :class=>'btn' %>

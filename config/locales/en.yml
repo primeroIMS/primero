@@ -121,7 +121,7 @@ en:
     flag_record: "Flag Record"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
-    unflag_record: "Unflag record"
+    unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."

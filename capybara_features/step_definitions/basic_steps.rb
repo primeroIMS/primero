@@ -175,25 +175,25 @@ end
 Given /^I flag "([^\"]*)" as suspect$/ do  |name|
   click_flag_as_suspect_record_link_for(name)
   fill_in("Flag Reason", :with => "Test")
-  click_button("Flag")
+  click_on("Flag")
 end
 
 When /^I flag "([^\"]*)" as suspect with the following reason:$/ do |name, reason|
-  page.find(:xpath, "//div[text()=\"#{name}\"]/parent::*/parent::*/parent::*").click_link('Flag record')
+  page.find(:xpath, "//div[text()=\"#{name}\"]/parent::*/parent::*/parent::*").click_on('Flag Record')
   fill_in("Flag Reason:", :with => reason)
-  click_button("Flag")
+  click_on("Flag")
 end
 
 When /^I flag as suspect with the following reason:$/ do |reason|
-  click_link('Flag record')
+  click_on('Flag Record')
   fill_in("Flag Reason:", :with => reason)
-  click_button("Flag")
+  click_on("Flag")
 end
 
 When /^I unflag "([^\"]*)" with the following reason:$/ do |name, reason|
-  click_flag_as_suspect_record_link_for(name)
+  click_unflag_as_suspect_record_link_for(name)
   fill_in("Unflag Reason", :with => reason)
-  click_button("Unflag")
+  click_on("Unflag")
 end
 
 Then /^the (view|edit) record page should show the record is flagged$/ do |page_type|
@@ -295,6 +295,14 @@ private
 def click_flag_as_suspect_record_link_for(name)
   child = find_child_by_name name
   visit children_path+"/#{child.id}"
-  find(:css, ".btn_flag").click
+  #find(:css, ".btn_flag").click
+  click_on('Flag Record')
+end
+
+def click_unflag_as_suspect_record_link_for(name)
+  child = find_child_by_name name
+  visit children_path+"/#{child.id}"
+  #find(:css, ".btn_flag").click
+  click_on('Unflag Record')
 end
 

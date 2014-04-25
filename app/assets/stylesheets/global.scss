@@ -32,12 +32,17 @@
 
   table {
     width: 100%;
-  }
+  }  
+  
 }
 
 fieldset.no-border {
   border: none !important;
   padding: 0 !important;
+}
+
+ul.inline-list {
+  font-size: .8rem;
 }
 
 ////////////////////////////////////////////////
@@ -56,14 +61,15 @@ fieldset.no-border {
   @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
 
+
+////////////////////////////////////////////////
+// Dropdown Buttons
+////////////////////////////////////////////////
 .dropdown_btn {
-  float: right;
-  margin-right: 0.5rem;
-  //margin-bottom: 0px !important;
-  height: 32px;
+  margin: 0 0.5rem;
   
   .green-button {
-    padding: 0.50rem;
+    margin: 0;
   }
   
   .dropdown {
@@ -74,11 +80,33 @@ fieldset.no-border {
     -webkit-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
+    z-index: 999;
   }
 }
 
-
-
+.mark-as-form {
+    padding: .5rem;
+    z-index: 999;
+    
+    h3{
+      margin: 0px 5px;    
+      label {
+        font-weight: bold;
+      }
+    }
+    
+    input[type="text"]{
+      width: 300px !important;
+      float: left;
+    }
+      
+    .mark-as-submit {
+      margin: .5rem;
+      width: 60px;
+      padding: 5px;
+      float: right;
+    }
+}
 
 
 ////////////////////////////////////////////////
@@ -338,21 +366,39 @@ nav {
   margin-top: 20px;
 
   h2 {
-    font-size: 1.5rem;
-    margin-top: 18px;
+    font-size: 1.2rem;
+    margin-top: 10px;
   }
 
   a {
     color: $green_color;
 
     &:hover {
-      border-bottom: 2px solid $green_color;
-      padding-bottom: 2px;
+      //border-bottom: 2px solid $green_color;
+      //padding-bottom: 2px;
     }
   }
 
   .panel {
     text-align: center
+  }
+  
+  ul.inline-list {
+    margin-bottom: 0rem;
+  }
+  
+  .header_message{
+    border: 1px solid $green_color;
+    background: #FFF;
+    margin-bottom: 10px;
+    padding: 10px 0px;
+    
+    h3 {
+      font-size: 0.8rem;
+      margin-bottom: 1px;
+      text-align: center;
+    }
+    
   }
 }
 
@@ -422,3 +468,4 @@ nav {
     }
   }
 }
+

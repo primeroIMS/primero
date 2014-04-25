@@ -42,46 +42,31 @@ $(".profile-tools .investigated a").click( function(){
 </script>
 <% end %>
 
-<div class="case_breadcrumbs">
-	<%= link_to t("children.label"), children_path %> &gt; <%= text_to_identify_child(@child) %>
-</div>
-
-<% if can? :update, @child %>
-    <%= link_to content_tag(:span, t("buttons.edit"), :class => 'edit'), edit_child_path(@child), :class=>'btn' %>
+<% content_for :header_sub_nav do %>
+	<ul class="inline-list">
+		<%= render 'show_child_toolbar', child: @child %>
+		
+		<% if can? :update, @child %>
+		    <li><%= link_to content_tag(:span, t("buttons.edit"), :class => 'edit'), edit_child_path(@child), :class=>'green-button' %></li>
+		<% end %>	
+	</ul>
 <% end %>
 
-<%= render :partial => "show_child_toolbar", :locals => { :child => @child } %>
+<% content_for :breadcrumbs do %>
+	<h2 class="float_left no_border">
+		<%= link_to t("children.label"), children_path %> &gt; <%= text_to_identify_child(@child) %>
+	</h2>
+<% end %>
+
+<% content_for :header_message do %>
+    <%= render 'header_message', child: @child, current_user: @current_user, duplicates: @duplicates %>  
+<% end %>
 
 <div class="clearfix"></div>
-    <% content_for :stylesheet do %>
-      <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
-    <% end %>
-
-    <% if @child.reunited? %>
-      <div class="reunited-message"><%= reunited_message %></div>
-    <% end %>
-    <% if @child.flag? %>
-      <h3 class="flag-message"><%= flag_message %></h3>
-    <% end %>
-    <% if @child.duplicate? %>
-      <h3 class="duplicate-message"><%= duplicate_message %></h3>
-    <% end %>
-    <% unless @duplicates.empty? %>
-      <h3 class="duplicate-message"><%= t("child.another_duplicate_before_link") %>
-      <%= link_to 'here', child_path(@duplicates.first) %><%= t("child.another_duplicate_after_link") %></h3>
-    <% end %>
-
-
-
-    <div id='interviewer_details' class="filter_bar">
-      <h3><%= t("child.registered_by") %>: <%= @child['created_by'] %> <%= link_to_update_info(@child) %> <%= t("preposition.on_label") %> <%= @current_user.localize_date(@child['created_at']) %></h3>
-      <% if @child['last_updated_at']%>
-        <h3><%= t("child.last_updated") %>: <%= @current_user.localize_date(@child['last_updated_at']) %> </h3>
-    <% end %>
-      <% if @child['posted_from']=="Mobile" %>
-        <h3><%= t("child.posted_from_mobile")  %> <%= @current_user.localize_date(@child['posted_at']) %> </h3>
-    <% end %>
-    </div>
+<% content_for :stylesheet do %>
+    <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
+<% end %>
+    
 <div class="page-content-new">
 
   <div class="side-tab">
