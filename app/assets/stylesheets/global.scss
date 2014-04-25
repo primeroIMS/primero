@@ -64,11 +64,9 @@ ul.inline-list {
 ////////////////////////////////////////////////
 // Dropdown Buttons
 ////////////////////////////////////////////////
-.dropdown_btn {
-  margin: 0 0.5rem;
-  
+.dropdown_btn {  
   .green-button {
-    margin: 0;
+   margin: 0;
   }
   
   .dropdown {
@@ -371,10 +369,15 @@ nav {
 
   a {
     color: $green_color;
+    padding: 5px 10px;
 
     &:hover {
       //border-bottom: 2px solid $green_color;
       //padding-bottom: 2px;
+    }
+    
+    .green-button{
+      padding: 3px;
     }
   }
 
@@ -384,6 +387,10 @@ nav {
   
   ul.inline-list {
     margin-bottom: 0rem;
+    
+    li {
+      margin: 0 .4rem;
+    }
   }
   
   .header_message{
