@@ -7,13 +7,20 @@ module RapidFTR
 
       basic_identity_fields = [
         Field.new({"name" => "case_id",
-                   "type" => "text_field",
+                   "type" => "text_field", "editable" => false,
                    "display_name_all" => "Case ID"
                   }),
-        Field.new({"name" => "name",
-                  "type" => "text_field", "editable" => false,
-                  "highlight_information"=>HighlightInformation.new("highlighted"=>true,"order"=>1),
-                  "display_name_all" => "Name"
+        Field.new({"name" => "name_first",
+                  "type" => "text_field",
+                  "display_name_all" => "First Name"
+                  }),
+        Field.new({"name" => "name_middle",
+                   "type" => "text_field",
+                   "display_name_all" => "Middle Name"
+                  }),
+        Field.new({"name" => "name_last",
+                   "type" => "text_field",
+                   "display_name_all" => "Last Name"
                   }),
         Field.new({"name" => "age",
                    "type" => "text_field",
@@ -25,7 +32,7 @@ module RapidFTR
                    "display_name_all" => "Sex"
                   }),
         Field.new({"name" => "registration_date",
-                   "type" => "date_field",
+                   "type" => "date_field", "editable" => false,
                    "display_name_all" => "Registration Date"
                   }),
         Field.new({"name" => "status",
