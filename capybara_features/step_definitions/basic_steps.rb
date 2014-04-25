@@ -26,6 +26,12 @@ Then /^I fill in the "([^\"]*)" field with "([^\"]*)"$/ do |field_name, field_va
   fill_in(field_name, :with => field_value)
 end
 
+Then /^I should see the following (.+):$/ do |selector, table|
+  table.raw.flatten.each do |value|
+    expect(page).to have_content(value)
+  end
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
