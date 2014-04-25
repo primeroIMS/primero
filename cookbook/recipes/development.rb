@@ -57,6 +57,13 @@ template '/home/vagrant/primero/config/solr.yml' do
   source "solr.yml.erb"
   variables({
     :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
+    :local_solr_ports => {'development' => 8984,
+                       'cucumber' => 8985,
+                       'test' => 8985,
+                       'uat' => 8901,
+                       'standalone' => 8903,
+                       'android' => 8902,
+                       'production' => node[:primero][:local_solr_port]},
     :solr_urls => {'development' => 'http://localhost:8984/solr', 
                   'cucumber' => 'http://localhost:8985/solr', 
                   'test' => 'http://localhost:8985/solr', 

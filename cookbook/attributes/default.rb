@@ -20,7 +20,7 @@ default[:primero].tap do |p|
   end
 
   p[:solr_url] = 'http://localhost:8983/solr'
-  p[:sunspot_port] = 8983
+  p[:local_solr_port] = 8983
 end
 
 default[:rvm].tap do |rvm|

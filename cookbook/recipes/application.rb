@@ -89,6 +89,7 @@ template File.join(node[:primero][:app_dir], 'config', 'solr.yml') do
   source "solr.yml.erb"
   variables({
     :environments => [ node[:primero][:rails_env] ],
+    :local_solr_ports => {node[:primero][:rails_env].to_s => node[:primero][:local_solr_port]},
     :solr_urls => {node[:primero][:rails_env].to_s => node[:primero][:solr_url]}
   })
   owner node[:primero][:app_user]
@@ -140,7 +141,7 @@ execute_bundle 'precompile-assets' do
 end
 
 execute_bundle 'restart-solr' do
-  command "rake sunspot:restart SOLR_PORT=#{node[:primero][:sunspot_port]}"
+  command "rake sunspot:restart"
 end
 
 execute_bundle 'restart-scheduler' do
