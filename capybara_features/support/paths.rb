@@ -167,6 +167,9 @@ module NavigationHelpers
 
       when /reports page/
         reports_path
+        
+      when /cases page/
+        cases_path
 
       when /case record page for "(.+)"/
         child_name = $1
@@ -180,7 +183,7 @@ module NavigationHelpers
         rails "no child with unique id '#{unique_id}'" if child.nil?
         case_path(child, options)
 
-      when /edit case record page for "(.+)"/
+      when /case record edit page for "(.+)"/
         child_name = $1
         child = Child.by_name(:key => child_name)
         raise "no child named '#{child_name}'" if child.nil? || child.empty?

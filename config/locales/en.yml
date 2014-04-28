@@ -89,6 +89,9 @@ en:
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
 
+  cases:
+    label: "Cases"
+    
   children:
     label: "Children"
     register_new_child: "Register New Child"

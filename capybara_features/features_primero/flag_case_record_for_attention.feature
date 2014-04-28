@@ -18,7 +18,7 @@ Feature: Flag Case Record For Attention
     Examples:
       | page |
       | case record page |
-      | edit case record page |
+      | case record edit page |
 
   Scenario Outline: I should be able to see a Flag Reason text box
     And I am on the <page> for "Shaggy"
@@ -28,7 +28,7 @@ Feature: Flag Case Record For Attention
     Examples:
       | page |
       | case record page |
-      | edit case record page |
+      | case record edit page |
 
   Scenario Outline: I should be able to enter a Flag Reason
     And I am on the <page> for "Shaggy"
@@ -42,7 +42,7 @@ Feature: Flag Case Record For Attention
     Examples:
       | page |
       | case record page |
-      | edit case record page |
+      | case record edit page |
 
   Scenario Outline: I should not be able to flag a record without entering a Flag Reason
     And I am on the <page> for "Shaggy"
@@ -56,4 +56,15 @@ Feature: Flag Case Record For Attention
     Examples:
       | page |
       | case record page |
-      | edit case record page |
+      | case record edit page |
+      
+  Scenario Outline: I should have Cases as the root of the breadcrumb on the case record 
+    And I am on the <page> for "Shaggy"
+    Then I should see a "Cases" link on the page
+    And I click on the "Cases" link
+    Then I should be on the cases page
+
+    Examples:
+      | page |
+      | case record page |
+      | case record edit page |

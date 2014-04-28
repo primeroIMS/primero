@@ -14,7 +14,15 @@ Then /^I should see a "([^\"]*)" button on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
+Then /^I should see a "([^\"]*)" link on the page$/ do |label|
+  expect(page).to have_selector(:link_or_button, label)
+end
+
 Then /^I press the "([^\"]*)" button$/ do |label|
+  click_on(label)
+end
+
+Then /^I click on the "([^\"]*)" link/ do |label|
   click_on(label)
 end
 
@@ -211,7 +219,7 @@ Then /^the child listing page filtered by flagged should show the following chil
 end
 
 When /^the record history should log "([^\"]*)"$/ do |field|
-  visit(children_path+"/#{Child.all[0].id}/history")
+  visit(cases_path+"/#{Child.all[0].id}/history")
   page.should have_content(field)
 end
 
