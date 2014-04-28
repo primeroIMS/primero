@@ -64,10 +64,9 @@ describe "children/show.html.erb" do
     end
 
     describe "interviewer details" do
-      it "should show registered by details and no link to change log if child has not been updated" do
-        
+      it "should show registered by details and no link to change log if child has not been updated" do        
         render :partial => "children/header_message", :locals => {:child => @child, :current_user => @user, :duplicates => ""}
-        
+
         rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Registered by: jsmith')
         rendered.should_not be_include("and others")

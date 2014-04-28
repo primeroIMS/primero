@@ -9,12 +9,12 @@ Feature: Flag Case Record For Attention
     And the following children exist in the system:
       | name   | unique_id |
       | Shaggy  | id_1      |
-    
+
 
   Scenario Outline: I should have a Flag Record button on the case record 
     And I am on the <page> for "Shaggy"
     Then I should see a "Flag Record" button on the page
-    
+
     Examples:
       | page |
       | case record page |
@@ -24,7 +24,7 @@ Feature: Flag Case Record For Attention
     And I am on the <page> for "Shaggy"
     When I press the "Flag Record" button
     Then I should see "Flag Reason"
-    
+
     Examples:
       | page |
       | case record page |
@@ -38,7 +38,7 @@ Feature: Flag Case Record For Attention
     Then I should see "Flagged as suspect record by primero"
     And I should see "Just Because"
     And the record history should log "Record was flagged by primero belonging to UNICEF because: Just Because"
-    
+
     Examples:
       | page |
       | case record page |
@@ -52,7 +52,7 @@ Feature: Flag Case Record For Attention
     Then I should not see "Flagged as suspect record by"
     And I should not see "Just Because"
     And I should see "Flag Reason"
-    
+
     Examples:
       | page |
       | case record page |
