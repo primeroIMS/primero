@@ -10,17 +10,9 @@ module RapidFTR
                    "type" => "text_field", "editable" => false,
                    "display_name_all" => "Case ID"
                   }),
-        Field.new({"name" => "name_first",
+        Field.new({"name" => "name",
                   "type" => "text_field",
-                  "display_name_all" => "First Name"
-                  }),
-        Field.new({"name" => "name_middle",
-                   "type" => "text_field",
-                   "display_name_all" => "Middle Name"
-                  }),
-        Field.new({"name" => "name_last",
-                   "type" => "text_field",
-                   "display_name_all" => "Last Name"
+                  "display_name_all" => "Name"
                   }),
         Field.new({"name" => "age",
                    "type" => "text_field",

@@ -485,6 +485,14 @@ describe Child do
 
   describe 'save' do
 
+    it "should save with generated case_id and registration_date" do
+      child = Child.create(:name => 'Jose')
+      child.save
+      child.save.should == true
+      child[:case_id].should_not be_nil
+      child[registration_date].should_not be_nil
+    end
+
     it "should not save file formats that are not photo formats" do
       child = Child.new
       child.photo = uploadable_photo_gif
