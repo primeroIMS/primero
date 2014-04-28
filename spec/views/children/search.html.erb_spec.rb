@@ -27,7 +27,7 @@ describe "children/search.html.erb" do
 
     it "should render items for each record in the results" do
       render
-      Hpricot(rendered).profiles_list_items.size.should == @results.length
+      expect(rendered).to have_selector("tr.child_summary_panel", count: @results.length)
     end
 
     #TODO this might not be necessary based on the change in the way we're displaying the records

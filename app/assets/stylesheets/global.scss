@@ -23,6 +23,10 @@ html{
   margin:0 auto;
 }
 
+.page_info {
+  font-size:1.4rem;
+}
+
 .page-content {
   width: 800px;
   padding:30px 0 0 0;
@@ -216,7 +220,7 @@ fieldset {
   display:inline;
   input#query {
     height: 18px;
-    width: 8.524rem !important;
+    width: 179px !important;
     border: none !important;
     margin:3px 5px 0 5px;
     display:inline;
@@ -283,7 +287,7 @@ header {
 .links {
   float:right;
   padding:30px 0 0 0;
-  font-size:1.4rem;
+  font-size:1.2rem;
   a {
     display: inline-block;
     margin:0 10px;
@@ -307,7 +311,7 @@ nav {
   margin:0 auto;
   ul {
     text-align: justify;
-    font-size: 1rem;
+    font-size: 1.5rem;
     list-style-type: none;
     margin:0;
     padding:5px 0;
