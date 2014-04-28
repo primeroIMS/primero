@@ -37,6 +37,8 @@ module NavigationHelpers
 
       when /children display page/
 
+      when /cases page/
+        cases_path(options)
 
       when /saved record page for child with name "(.+)"/
         child_name = $1

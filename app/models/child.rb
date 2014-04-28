@@ -296,7 +296,7 @@ class Child < CouchRest::Model::Base
 
   def validate_audio_file_name
     return true if @audio_file_name == nil || /([^\s]+(\.(?i)(amr|mp3))$)/ =~ @audio_file_name
-    errors.add(:audio, "Please upload a valid audio file (amr or mp3) for this child record")
+    errors.add(:audio, I18n.t("errors.models.child.audio_format"))
   end
 
   def has_valid_audio?

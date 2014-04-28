@@ -123,6 +123,7 @@ end
 
 When /^(?:|I )attach the file "([^\"]*)" to "([^\"]*)"(?: within "([^\"]*)")?$/ do |path, field, selector|
   with_scope(selector) do
+    path = "#{Rails.root}/#{path}"
     attach_file(field, path)
   end
 end
