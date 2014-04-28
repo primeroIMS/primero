@@ -1,4 +1,4 @@
-<span class="export"> <%= link_to t("children.export"), "#" %> </span>
+<span class="export"> <%= link_to t("children.export"), "#", class: "green-button" %> </span>
 <div class="dropdown hide">
     <% RapidftrAddon::ExportTask.active.each do |export_task| %>
         <% if can?("export_#{export_task.id}".to_sym, Child) %>
