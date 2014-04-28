@@ -1,5 +1,5 @@
-<li>
-    <%= link_to content_tag(:span, t("child.change_log") , :class => 'log'), cases_history_path(@child), :class=>'green-button' %>
+<li>    
+    <%= link_to t("child.change_log"), cases_history_path(@child), class: 'green-button' %>
 </li>
 
 <% if can? :update, child %>
