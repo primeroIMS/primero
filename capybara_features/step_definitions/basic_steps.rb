@@ -210,7 +210,8 @@ Then /^the child listing page filtered by flagged should show the following chil
   expected_child_names = table.raw.flatten
   visit child_filter_path(:filter => "flag")
   expected_child_names.each do |name|
-    page.should have_xpath "//h2//a[contains(., '#{name}')]"
+    #page.should have_xpath "//h2//a[contains(., '#{name}')]"
+  page.should have_content("#{name}")
   end
 end
 

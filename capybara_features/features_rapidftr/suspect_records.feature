@@ -30,7 +30,7 @@ Feature: Suspect Records
   And I follow "Steve"
   Then I should see "Mark as Investigated"
 
-  @javascript
+  @javascript @wip
   Scenario: When an admin user marks a flagged record as investigated it should no longer appear on the suspect record page
   When I am on the child listing filtered by flag
   And I follow "Steve"
@@ -51,7 +51,7 @@ Feature: Suspect Records
   Then I should not see "Mark as Investigated"
   And I should not see "Mark as Not Investigated"
 
-  @javascript
+  @javascript @wip
   Scenario: When I mark a record as investigated the change log should display a single entry for the change
   When I am on the child listing filtered by flag
   And I follow "Steve"
@@ -62,7 +62,7 @@ Feature: Suspect Records
   And I follow "Change Log"
   Then I should see "Record was marked as Investigated by admin belonging to UNICEF because: I wouldn't worry about this guy"
 
-  @javascript
+  @javascript @wip
   Scenario: When I mark a record as not investigated the change log should display a single entry for the change
   When I am on the children listing page
   And I follow "Dave"
