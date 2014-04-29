@@ -69,6 +69,7 @@ en:
 
   navigation:
      home: "HOME"
+     cases: "CASES"
      children: "CHILDREN"
      forms: "FORMS"
      users: "USERS"
@@ -88,6 +89,31 @@ en:
      change_password: "Change Password"
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
+
+
+  cases:
+    label: "Cases"
+    register_new_child: "Create a New Case"
+    export: "Export"
+    filter_by:
+      label: "Filter by"
+      all: "All"
+      active: "Active"
+      reunited: "Reunited"
+      flag: "Flagged"
+      created: "Created"
+    order_by:
+      most_recently: "Most recently"
+      label: "Order by"
+      name: "Name"
+    flag_summary: "Flag summary"
+
+    filer_by:
+      all: "All"
+      active: "Active"
+      reunited: "Reunited"
+      flagged: "Flagged"
+
 
   children:
     label: "Children"
@@ -133,6 +159,13 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     export_error: "No Records Available!"
+    # TODO: Possibly use another method to label the list view columns
+    id: "ID#"
+    name: "Name"
+    age: "Age"
+    sex: "Sex"
+    registration_date: "Registration Date"
+    status: "Status"
 
     messages:
       update_success: "Child was successfully updated."

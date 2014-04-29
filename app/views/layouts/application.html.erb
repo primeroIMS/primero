@@ -27,19 +27,19 @@
       <nav>
         <ul>
           <li><%= link_to t("navigation.home"), root_path %></li>
-          <% if false %>
           <% if can? :read, Child %>
-            <li><%= link_to t("navigation.children"), children_path %></li>
+            <li><%= link_to t("navigation.cases"), cases_path %></li>
           <% end  %>
-          <% if current_user_name==nil or can? :manage, FormSection %>
-              <li><%= link_to t("navigation.forms"), form_sections_path %></li>
-          <% end %>
-          <% if can? :read, User or can? :show, Role %>
-            <li><%= link_to t("navigation.users"), users_path %></li>
-          <% end %>
-          <% if can?(:read, Device) or can?(:read, Replication) %>
-            <li><%= link_to t("navigation.devices"), devices_path %></li>
-          <% end %>
+          <% if false %>
+            <% if current_user_name==nil or can? :manage, FormSection %>
+                <li><%= link_to t("navigation.forms"), form_sections_path %></li>
+            <% end %>
+            <% if can? :read, User or can? :show, Role %>
+              <li><%= link_to t("navigation.users"), users_path %></li>
+            <% end %>
+            <% if can?(:read, Device) or can?(:read, Replication) %>
+              <li><%= link_to t("navigation.devices"), devices_path %></li>
+            <% end %>
           <% end %>
           <% if can? :read, Report%>
             <li><%= link_to t("navigation.reports"), reports_path %></li>
