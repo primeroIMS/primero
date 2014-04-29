@@ -49,7 +49,7 @@ fieldset.no-border {
 }
 
 ul.inline-list {
-  font-size: .8rem;
+  //font-size: .8rem;
 }
 
 table tr.even, table tr.alt, table tr:nth-of-type(even){
@@ -113,7 +113,6 @@ table.list_view{
 
 .mark-as-form {
     padding: .5rem;
-    z-index: 999;
     
     h3{
       margin: 0px 5px;    
@@ -123,15 +122,17 @@ table.list_view{
     }
     
     input[type="text"]{
-      width: 15rem !important;
-      float: left;
+      margin: .5rem;
+      width: 20rem !important;
+      float: left;      
     }
       
     .mark-as-submit {
       margin: .5rem;
-      width: 6rem;
+      width: auto;
       padding: .5rem;
       float: right;
+      font-size: 1.2rem;
     }
 }
 
@@ -393,7 +394,7 @@ nav {
   margin-top: 20px;
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     margin-top: 10px;
   }
 
@@ -426,7 +427,7 @@ nav {
     padding: 10px 0px;
     
     h3 {
-      font-size: 0.8rem;
+      font-size: 1.2rem;
       margin-bottom: 1px;
       text-align: center;
     }    
