@@ -189,7 +189,6 @@ module NavigationHelpers
         raise "no child named '#{child_name}'" if child.nil? || child.empty?
         edit_case_path(child.first, options)
 
-
       # Add more mappings here.
       # Here is an example that pulls values out of the Regexp:
       #

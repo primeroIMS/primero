@@ -5,6 +5,10 @@
 // Page
 ////////////////////////////////////////////////
 
+html{
+  font-size: 62.5%;
+}
+
 .page {
   -webkit-box-shadow: 0 2px 1px 0 rgba(0,0,0,.3);
   box-shadow: 0 2px 1px 0 rgba(0,0,0,.3);
@@ -17,6 +21,10 @@
 .page_content {
   width:800px;
   margin:0 auto;
+}
+
+.page_info {
+  font-size:1.4rem;
 }
 
 .page-content {
@@ -42,6 +50,28 @@ fieldset.no-border {
 
 ul.inline-list {
   font-size: .8rem;
+}
+
+table tr.even, table tr.alt, table tr:nth-of-type(even){
+  background: inherit;
+}
+
+table.list_view{
+  border:none;
+  tr{
+    line-height:1.3rem;
+    &.table_row:nth-child(5n+1) td{
+      padding-bottom:20px;
+    }
+    th{
+      text-align: left;
+      font-size:1.3rem;
+      padding-bottom:10px;
+    }
+    td {
+      font-size:1.2rem
+    }
+  }
 }
 
 ////////////////////////////////////////////////
@@ -107,13 +137,13 @@ ul.inline-list {
 
 
 ////////////////////////////////////////////////
-// Typo
+// Typography
 ////////////////////////////////////////////////
 
 h1 {
   color:$green_color !important;
   font-weight: normal !important;
-  font-size:35px !important;
+  font-size:3.5rem !important;
   text-transform: capitalize;
   text-align: center;
 }
@@ -137,7 +167,7 @@ a{
 ////////////////////////////////////////////////
 
 $lg_input_height: 47px;
-$lg_input_font_size: 20px;
+$lg_input_font_size: 2rem;
 
 input:focus{
   -webkit-box-shadow: none !important;
@@ -240,7 +270,7 @@ fieldset {
   display:inline;
   input#query {
     height: 18px;
-    width: 8.524rem !important;
+    width: 179px !important;
     border: none !important;
     margin:3px 5px 0 5px;
     display:inline;
@@ -300,14 +330,14 @@ header {
 
 .logo {
   font-family: 'Libre Baskerville', serif;
-  font-size: 63px;
+  font-size: 6.3rem;
   font-weight: bold;
 }
 
 .links {
   float:right;
   padding:30px 0 0 0;
-  font-size:14px;
+  font-size:1.2rem;
   a {
     display: inline-block;
     margin:0 10px;
@@ -331,7 +361,7 @@ nav {
   margin:0 auto;
   ul {
     text-align: justify;
-    font-size: .9em;
+    font-size: 1.5rem;
     list-style-type: none;
     margin:0;
     padding:5px 0;

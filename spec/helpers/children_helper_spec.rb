@@ -63,23 +63,23 @@ describe ChildrenHelper do
   end
 
   describe "#text_to_identify_child" do
-    it "should show the child short id if name is not present" do
+    it "should show the case id" do
       identifier = "00001234567"
       child = Child.new(:unique_identifier => identifier)
       helper.text_to_identify_child(child).should == "1234567"
     end
 
-    it "should show the name if it is present" do
-      name = "Ygor"
-      child = Child.new(:name => name,:unique_identifier => '123412341234')
-      helper.text_to_identify_child(child).should == 'Ygor: 2341234'
-    end
+    #it "should show the name if it is present" do
+    #  name = "Ygor"
+    #  child = Child.new(:name => name,:unique_identifier => '123412341234')
+    #  helper.text_to_identify_child(child).should == 'Ygor: 2341234'
+    #end
 
-    it "should show the child unique id if name is empty" do
-      unique_identifier = "AnID"
-      child = Child.new(:name => "", :unique_identifier => unique_identifier)
-      helper.text_to_identify_child(child).should == unique_identifier
-    end
+    #it "should show the child unique id if name is empty" do
+    #  unique_identifier = "AnID"
+    #  child = Child.new(:name => "", :unique_identifier => unique_identifier)
+    #  helper.text_to_identify_child(child).should == unique_identifier
+    #end
   end
 
   describe "#flag_summary_for_child" do

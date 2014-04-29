@@ -6,11 +6,7 @@ Then /^I should not see "([^\"]*)" on the page$/ do |text|
   expect(page).to have_no_content(text)
 end
 
-Then /^I should see the "([^\"]*)" class$/ do |css_class|
-  page.has_css?(css_class)
-end
-
-Then /^I should see a "([^\"]*)" button on the page$/ do |label|
+Then /^I should see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
@@ -18,7 +14,7 @@ Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
-Then /^I press the "([^\"]*)" button$/ do |label|
+Then /^I press the "([^\"]*)" (button|link)$/ do |label, type|
   click_on(label)
 end
 
