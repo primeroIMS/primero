@@ -15,7 +15,6 @@
 }
 
 .page_content {
-  width:800px;
   margin:0 auto;
 }
 
@@ -243,25 +242,27 @@ fieldset {
 ////////////////////////////////////////////////
 
 header {
-  width: 800px;
-  padding:30px 0;
-  margin: 0px auto;
+  padding: 20px 0;
+  margin-bottom: 50px;
 }
 
 .logo {
   font-family: 'Libre Baskerville', serif;
-  font-size: 63px;
+  font-size: 3.5rem;
   font-weight: bold;
 }
 
 .links {
-  float:right;
-  padding:30px 0 0 0;
-  font-size:14px;
+  padding: 15px 0 0 0;
+  font-size: 14px;
   a {
     display: inline-block;
     margin:0 10px;
   }
+}
+
+.inline-list > li {
+  margin-left: 0;
 }
 
 ////////////////////////////////////////////////
@@ -277,8 +278,6 @@ header {
 }
 
 nav {
-  width: 800px;
-  margin:0 auto;
   ul {
     text-align: justify;
     font-size: .9em;
