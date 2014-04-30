@@ -156,7 +156,7 @@ Feature: Child record functionality
     And I should see "Last updated: 01 March 2010 at 06:59 (SST)"
 
   Scenario: Editing a child record
-    When I follow "Register New Child"
+    When I follow "Create a New Case"
     And I fill in "Name" with "Jorge Just"
     And I fill in "Date of Birth (dd/mm/yyyy)" with "27/12/2000"
     And I select "Male" from "Sex"

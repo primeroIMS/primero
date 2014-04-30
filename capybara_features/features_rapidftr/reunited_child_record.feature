@@ -32,7 +32,7 @@ Feature: Reunited child record
     Then I should see "Child was successfully updated."
     Then I should see 0 divs with text "Reunited" for class "reunited-message"
 
-  @javascript @search
+  @javascript @search @wip
   Scenario: Mark a child as Reunited and check flag on the Search Results page
     When I am on the child record page for "Will"
      And I follow "Mark as Reunited"

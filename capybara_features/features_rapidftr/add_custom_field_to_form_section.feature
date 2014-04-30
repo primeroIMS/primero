@@ -31,7 +31,7 @@ Feature: Add custom field to form section
 
     Then I should see "Anything"
     When I am on children listing page
-    And I follow "Register New Child"
+    And I follow "Create a New Case"
 
     Then I should see "Anything"
 
@@ -58,7 +58,7 @@ Feature: Add custom field to form section
     Then I should see "Anything"
 
     When I am on children listing page
-    And I follow "Register New Child"
+    And I follow "Create a New Case"
     And I follow "Family details"
 
     Then I should see "Anything"
@@ -93,7 +93,7 @@ Feature: Add custom field to form section
 
     Then I should see "Radio button name"
     When I am on children listing page
-    And I follow "Register New Child"
+    And I follow "Create a New Case"
 
     Then I should see "Radio button name"
 
@@ -153,7 +153,7 @@ Feature: Add custom field to form section
     And I should see "My new number field" in the list of fields
 
     When I am on children listing page
-    And I follow "Register New Child"
+    And I follow "Create a New Case"
     And I follow "Family details"
     And I fill in "My new number field" with "2345"
     And I press "Save"

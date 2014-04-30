@@ -38,15 +38,15 @@
             <li><%= link_to t("navigation.cases"), cases_path %></li>
           <% end  %>
           <% if false %>
-          <% if current_user_name==nil or can? :manage, FormSection %>
-              <li><%= link_to t("navigation.forms"), form_sections_path %></li>
-          <% end %>
-          <% if can? :read, User or can? :show, Role %>
-            <li><%= link_to t("navigation.users"), users_path %></li>
-          <% end %>
-          <% if can?(:read, Device) or can?(:read, Replication) %>
-            <li><%= link_to t("navigation.devices"), devices_path %></li>
-          <% end %>
+            <% if current_user_name==nil or can? :manage, FormSection %>
+                <li><%= link_to t("navigation.forms"), form_sections_path %></li>
+            <% end %>
+            <% if can? :read, User or can? :show, Role %>
+              <li><%= link_to t("navigation.users"), users_path %></li>
+            <% end %>
+            <% if can?(:read, Device) or can?(:read, Replication) %>
+              <li><%= link_to t("navigation.devices"), devices_path %></li>
+            <% end %>
           <% end %>
           <% if can? :read, Report%>
             <li><%= link_to t("navigation.reports"), reports_path %></li>
@@ -70,10 +70,16 @@
   </div>
   <div class="page_content header_section">
     <div class="row">
+      <div class="large-12 columns">
+        <%= yield :header_sub_nav %>
+      </div>
+    </div>
+    <div class="row">
       <div class="large-6 columns">
         <%= yield :breadcrumbs %>
       </div>
-      <div class="large-6 columns">
+      <div class="large-7 columns">
+        <%= yield :header_message %>
       </div>
     </div>
   </div>

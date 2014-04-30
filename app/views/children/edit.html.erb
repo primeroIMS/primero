@@ -1,11 +1,25 @@
-<h1 class="float_left no_border"><%= link_to t("children.label"), children_path %> &gt; <%= @child.name %> (<%= @child.short_id %>)</h1>
+<% content_for :header_sub_nav do %>
+    <ul class="inline-list">
+        <%= render 'show_child_toolbar', child: @child %>
+    </ul>
+<% end %>
 
-<%= render :partial => "show_child_toolbar", :locals => { :child => @child } %>
+<% content_for :breadcrumbs do %>
+    <h2 class="float_left no_border">
+        <%= link_to t("cases.label"), cases_path %> &gt; <%= text_to_identify_child(@child) %>
+    </h2>
+<% end %>
+
+<% content_for :header_message do %>    
+    <% if @child.flag? %>
+        <div class="header_message">
+        <h3 class="flag-message"><%= flag_message%></h3>
+        </div>
+    <% end %>
+<% end %>
 
 <div class="clearfix"></div>
-<% if @child.flag? %>
-    <h3 class="flag-message"><%= flag_message%></h3>
-<% end %>
+
 <%= form_tag child_path(@child), :method => :put, :multipart => true, :class => "edit-profile default-form" do %>
   <div class="page-content-new">
     <%= error_messages_for :child %>

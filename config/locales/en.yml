@@ -69,8 +69,8 @@ en:
 
   navigation:
      home: "HOME"
-     children: "CASES"
-     case: "CASES"
+     cases: "CASES"
+     children: "CHILDREN"
      forms: "FORMS"
      users: "USERS"
      devices: "DEVICES"
@@ -89,6 +89,29 @@ en:
      change_password: "Change Password"
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
+
+  cases:
+    label: "Cases"
+    register_new_child: "Create a New Case"
+    export: "Export"
+    filter_by:
+      label: "Filter by"
+      all: "All"
+      active: "Active"
+      reunited: "Reunited"
+      flag: "Flagged"
+      created: "Created"
+    order_by:
+      most_recently: "Most recently"
+      label: "Order by"
+      name: "Name"
+    flag_summary: "Flag summary"
+
+    filer_by:
+      all: "All"
+      active: "Active"
+      reunited: "Reunited"
+      flagged: "Flagged"
 
   children:
     label: "Children"
@@ -119,10 +142,10 @@ en:
     last_updated: "Last updated"
     registered_by: "Registered by"
     mark_as_duplicate: "Mark as Duplicate"
-    flag_record: "Flag record"
+    flag_record: "Flag Record"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
-    unflag_record: "Unflag record"
+    unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
@@ -134,6 +157,13 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     export_error: "No Records Available!"
+    # TODO: Possibly use another method to label the list view columns
+    id: "ID#"
+    name: "Name"
+    age: "Age"
+    sex: "Sex"
+    registration_date: "Registration Date"
+    status: "Status"
 
     messages:
       update_success: "Child was successfully updated."
