@@ -3,7 +3,7 @@
     <div class="summary_panel">
       <td id="child_<%= child.id %>">
         <div class="summary_item">
-          <%= link_to text_to_identify_child(child), child_path(child) %>
+          <%= link_to text_to_identify_child(child), case_path(child) %>
           <!--<%= content_tag(:div, nil, :class => 'flag suspect') if child.flag? %>
           <%= content_tag(:div, nil, :class => 'flag reunited') if child.reunited? %>-->
         </div>

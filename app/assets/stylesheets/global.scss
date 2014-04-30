@@ -48,6 +48,10 @@ fieldset.no-border {
   padding: 0 !important;
 }
 
+ul.inline-list {
+  font-size: 1.2rem;
+}
+
 table tr.even, table tr.alt, table tr:nth-of-type(even){
   background: inherit;
 }
@@ -85,6 +89,53 @@ table.list_view{
   $bg: $green_color;
   @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
+
+
+////////////////////////////////////////////////
+// Dropdown Buttons
+////////////////////////////////////////////////
+.dropdown_btn {  
+  .green-button {
+   margin: 0;
+  }
+  
+  .dropdown {
+    background: #eee;
+    position: absolute;
+    border: 1px solid #9F9F9F;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    z-index: 999;
+  }
+}
+
+.mark-as-form {
+    padding: .5rem;
+    
+    h3{
+      margin: 0px 5px;    
+      label {
+        font-weight: bold;
+      }
+    }
+    
+    input[type="text"]{
+      margin: .5rem;
+      width: 20rem !important;
+      float: left;      
+    }
+      
+    .mark-as-submit {
+      margin: .5rem;
+      width: auto;
+      padding: .5rem;
+      float: right;
+      font-size: 1.2rem;
+    }
+}
+
 
 ////////////////////////////////////////////////
 // Typography
@@ -343,21 +394,43 @@ nav {
   margin-top: 20px;
 
   h2 {
-    font-size: 1.5rem;
-    margin-top: 18px;
+    font-size: 1.8rem;
+    margin-top: 10px;
   }
 
   a {
     color: $green_color;
+    padding: 5px 10px;
 
     &:hover {
-      border-bottom: 2px solid $green_color;
-      padding-bottom: 2px;
+      //border-bottom: 2px solid $green_color;
+      //padding-bottom: 2px;
     }
   }
 
   .panel {
     text-align: center
+  }
+  
+  ul.inline-list {
+    margin-bottom: 0rem;
+    
+    li {
+      margin: 0 .4rem;
+    }
+  }
+  
+  .header_message{
+    border: 1px solid $green_color;
+    background: #FFF;
+    margin-bottom: 10px;
+    padding: 10px 0px;
+    
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1px;
+      text-align: center;
+    }    
   }
 }
 

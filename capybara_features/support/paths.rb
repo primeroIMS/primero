@@ -167,6 +167,9 @@ module NavigationHelpers
 
       when /reports page/
         reports_path
+        
+      when /cases page/
+        cases_path
 
       when /case record page for "(.+)"/
         child_name = $1
@@ -179,6 +182,12 @@ module NavigationHelpers
         child = Child.get unique_id
         rails "no child with unique id '#{unique_id}'" if child.nil?
         case_path(child, options)
+
+      when /case record edit page for "(.+)"/
+        child_name = $1
+        child = Child.by_name(:key => child_name)
+        raise "no child named '#{child_name}'" if child.nil? || child.empty?
+        edit_case_path(child.first, options)
 
       # Add more mappings here.
       # Here is an example that pulls values out of the Regexp:

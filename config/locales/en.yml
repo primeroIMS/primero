@@ -90,7 +90,6 @@ en:
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
 
-
   cases:
     label: "Cases"
     register_new_child: "Create a New Case"
@@ -113,7 +112,6 @@ en:
       active: "Active"
       reunited: "Reunited"
       flagged: "Flagged"
-
 
   children:
     label: "Children"
@@ -144,10 +142,10 @@ en:
     last_updated: "Last updated"
     registered_by: "Registered by"
     mark_as_duplicate: "Mark as Duplicate"
-    flag_record: "Flag record"
+    flag_record: "Flag Record"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
-    unflag_record: "Unflag record"
+    unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
