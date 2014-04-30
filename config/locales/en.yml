@@ -69,7 +69,8 @@ en:
 
   navigation:
      home: "HOME"
-     children: "CHILDREN"
+     children: "CASES"
+     case: "CASES"
      forms: "FORMS"
      users: "USERS"
      devices: "DEVICES"
