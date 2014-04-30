@@ -30,6 +30,10 @@ Then /^I fill in the "([^\"]*)" field with "([^\"]*)"$/ do |field_name, field_va
   fill_in(field_name, :with => field_value)
 end
 
+And /^pause$/ do
+  binding.pry
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////

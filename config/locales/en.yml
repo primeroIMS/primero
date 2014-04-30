@@ -173,7 +173,7 @@ en:
       reunite_error_message: "Please confirm this child has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm child should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
-      creation_success: "Child record successfully created."
+      creation_success: "Case record successfully created."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
 
@@ -559,9 +559,10 @@ en:
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
         age: "Age must be between 1 and 99"
-        photo_format: "Please upload a valid photo file (jpg or png) for this child record"
-        photo_size: "Photo file is too large"
-        audio_size: "Audio file is too large"
+        photo_format: "Please upload a valid photo file (jpg or png) for this case record"
+        photo_size: "Please upload a file smaller than 10mb"
+        audio_format: "Please upload a valid audio file (amr or mp3) for this case record"
+        audio_size: "Please upload a file smaller than 10mb"
         primary_photo_id: "Failed trying to set '%{photo_id}' to primary photo: no such photo key"
         validate_duplicate: "A valid duplicate ID must be provided"
 
