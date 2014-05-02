@@ -6,7 +6,7 @@ Feature: Case Audio Form
   Scenario: I upload a photo with the incorrect format
     Given I am logged in as a social worker with username "primero" and password "primero"
     When I access "cases page"
-    Then I press the "Register New Child" button
+    Then I press the "Create a New Case" button
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/textfile.txt"
     And I press "Save"
@@ -15,7 +15,7 @@ Feature: Case Audio Form
   Scenario: I upload a audio file with the incorrect format
     Given I am logged in as a social worker with username "primero" and password "primero"
     When I access "cases page"
-    Then I press the "Register New Child" button
+    Then I press the "Create a New Case" button
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/textfile.txt"
     And I press "Save"
@@ -24,7 +24,7 @@ Feature: Case Audio Form
   Scenario: I upload a photo file with the incorrect size
     Given I am logged in as a social worker with username "primero" and password "primero"
     When I access "cases page"
-    Then I press the "Register New Child" button
+    Then I press the "Create a New Case" button
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/huge.jpg"
     And I press "Save"
@@ -33,7 +33,7 @@ Feature: Case Audio Form
   Scenario: I upload a audio file with the incorrect size
     Given I am logged in as a social worker with username "primero" and password "primero"
     When I access "cases page"
-    Then I press the "Register New Child" button
+    Then I press the "Create a New Case" button
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/huge.mp3"
     And I press "Save"
@@ -42,7 +42,7 @@ Feature: Case Audio Form
   Scenario: I upload a photo file with the correct size and format
     Given I am logged in as a social worker with username "primero" and password "primero"
     When I access "cases page"
-    Then I press the "Register New Child" button
+    Then I press the "Create a New Case" button
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/jorge.jpg"
     And I press "Save"
@@ -51,7 +51,7 @@ Feature: Case Audio Form
   Scenario: I upload a audio file with the correct size and format
     Given I am logged in as a social worker with username "primero" and password "primero"
     When I access "cases page"
-    Then I press the "Register New Child" button
+    Then I press the "Create a New Case" button
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/sample.mp3"
     And I press "Save"

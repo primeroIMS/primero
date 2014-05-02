@@ -8,10 +8,10 @@ Feature: Suspect Records
   Given I am logged in as an admin
   And the following children exist in the system:
      | name   | unique_id  | flag     | flag_message      | investigated |
-     | Steve  | steve_uid  | true     | steve is dodgy    | false        |
-     | Bob    | bob_uid    | true     | bob is dodgy      | false        |
-     | Dave   | dave_uid   | true     | dave is dodgy     | true         |
-     | George | george_uid | false    | nil               | false        |
+     | Steve  | id_1  | true     | steve is dodgy    | false        |
+     | Bob    | id_2  | true     | bob is dodgy      | false        |
+     | Dave   | id_3  | true     | dave is dodgy     | true         |
+     | George | id_4  | false    | nil               | false        |
 
   @wip
   Scenario: Admin user should see a link on the home page with the details of how many suspect records need attention
@@ -26,14 +26,14 @@ Feature: Suspect Records
   And I should not see "George"
 
   Scenario: Admin should be able to mark suspect record as investigated
-  When I am on the child listing filtered by flag
-  And I follow "Steve"
+  When I am on the cases filtered by flag
+  And I follow "id_1"
   Then I should see "Mark as Investigated"
 
-  @javascript @wip
+  @javascript 
   Scenario: When an admin user marks a flagged record as investigated it should no longer appear on the suspect record page
-  When I am on the child listing filtered by flag
-  And I follow "Steve"
+  When I am on the cases filtered by flag
+  And I follow "id_1"
   And I mark "Steve" as investigated with the following details:
     """
     I wouldn't worry about this guy
@@ -41,20 +41,20 @@ Feature: Suspect Records
   Then I should see "Mark as Not Investigated"
 
   Scenario: Admin should be able to mark investigated record as not investigated
-  When I am on the children listing page
-  And I follow "Dave"
+  When I am on the cases page
+  And I follow "id_3"
   Then I should see "Mark as Not Investigated"
 
   Scenario: When a record is not flagged admin should not be able to mark as investigated or not investigated
-  When I am on the children listing page
-  And I follow "George"
+  When I am on the cases page
+  And I follow "id_4"
   Then I should not see "Mark as Investigated"
   And I should not see "Mark as Not Investigated"
 
-  @javascript @wip
+  @javascript
   Scenario: When I mark a record as investigated the change log should display a single entry for the change
-  When I am on the child listing filtered by flag
-  And I follow "Steve"
+  When I am on the cases filtered by flag
+  And I follow "id_1"
   And I mark "Steve" as investigated with the following details:
     """
     I wouldn't worry about this guy
@@ -62,10 +62,10 @@ Feature: Suspect Records
   And I follow "Change Log"
   Then I should see "Record was marked as Investigated by admin belonging to UNICEF because: I wouldn't worry about this guy"
 
-  @javascript @wip
+  @javascript
   Scenario: When I mark a record as not investigated the change log should display a single entry for the change
-  When I am on the children listing page
-  And I follow "Dave"
+  When I am on the cases page
+  And I follow "id_3"
   And I mark "Dave" as not investigated with the following details:
     """
     I don't know what's going on with this record

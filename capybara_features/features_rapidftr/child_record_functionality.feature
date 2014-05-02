@@ -10,7 +10,7 @@ Feature: Child record functionality
       | jaco     | NYC                 | james    | james456     | true     | true  | false     | 2002-02-03 04:05:06UTC |DateTime.new(2002,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) |
       | meredith | Austin              | james    | james123     | false    | false | false     | 2001-02-03 04:05:06UTC |DateTime.new(2003,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) |
       | jane     | Eyre                | james    | james153     | false    | false | true      | 2001-02-02 04:05:06UTC | DateTime.new(2008,2,3,4,5,6)| DateTime.new(2008,2,3,4,5,6) |
-    And I am on the children listing page
+    And I am on the cases page
 
   Scenario: Checking filter by All returns all the children in the system
     When I select "All" from "filter"
@@ -126,7 +126,7 @@ Feature: Child record functionality
     And I select "Name" from "order_by"
     Then I should see the order jaco,jane,meredith,zak
 
-  Scenario: Viewing a child record with audio attached - mp3
+  Scenario: Viewing a case record with audio attached - mp3
     Given a child record named "Fred" exists with a audio file with the name "sample.mp3"
     When I am on the child record page for "Fred"
     Then I should see an audio element that can play the audio file named "sample.mp3"
@@ -135,7 +135,7 @@ Feature: Child record functionality
 
   Scenario: Viewing a child record with audio attached - amr
     Given a child record named "Barney" exists with a audio file with the name "sample.amr"
-    When I am on the child record page for "Barney"
+    When I am on the case record page for "Barney"
     Then I should not see an audio tag
 
   @wip
@@ -154,6 +154,22 @@ Feature: Child record functionality
 
     Then I should see /Registered by: .+ and others on 19 July 2010 at 02:05 \(SST\)/
     And I should see "Last updated: 01 March 2010 at 06:59 (SST)"
+    
+  @primero
+  Scenario: Date-times should be displayed TESTING...  NOT USING TIME ZONE.
+    Given the date/time is "July 19 2010 13:05:32UTC"
+    And the following children exist in the system:
+      | name       | gender | last_known_location |
+      | Jorge Just | Male   | Haiti               |
+    And the date/time is "March 01 2010 17:59:33UTC"
+
+    When I am on the child record page for "Jorge Just"
+    And I follow "Edit"
+    And I fill in "Date of Birth (dd/mm/yyyy)" with "28/12/2000"
+    And I press "Save"
+
+    Then I should see /Registered by: .+ and others on 19 July 2010 at 13:05 \(UTC\)/
+    And I should see "Last updated: 01 March 2010 at 17:59 (UTC)"
 
   Scenario: Editing a child record
     When I follow "Create a New Case"
@@ -189,12 +205,12 @@ Feature: Child record functionality
     And I click the "Photos and Audio" link
     And I attach a photo "capybara_features/resources/textfile.txt"
     And I press "Save"
-    Then I should see "Please upload a valid photo file (jpg or png) for this child record"
+    Then I should see "Please upload a valid photo file (jpg or png) for this case record"
 
     And the "Discard" button presents a confirmation message
 
   Scenario: Should not be able to successfully edit child record with all empty fields
-    When I follow "New Child"
+    When I follow "Create a New Case"
     And I fill in "Name" with "Jorge Just"
     And I press "Save"
     Then I follow "Edit"
@@ -202,11 +218,11 @@ Feature: Child record functionality
     And I press "Save"
     Then I should see "Please fill in at least one field or upload a file"
 
-  Scenario:  Check that child record contains logged in user full name in created_by_full_name
+  Scenario:  Check that case record contains logged in user full name in created_by_full_name
     Given I am logged out
     And "jr_test" logs in with "Register Child" permissions
     And someone has entered a child with the name "kiloutou"
-    Then I should see "Child record successfully created."
+    Then I should see "Case record successfully created."
     And the field "created_by" of child record with name "kiloutou" should be "jr_test"
     And the field "created_by_full_name" of child record with name "kiloutou" should be "jr_test"
 
@@ -214,7 +230,7 @@ Feature: Child record functionality
     Given I am on new child page
     When I fill in the basic details of a child
     And I press "Save"
-    Then I should see "Child record successfully created."
+    Then I should see "Case record successfully created."
 
   Scenario: create child with numeric custom field
     Given the following form sections exist in the system:

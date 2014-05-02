@@ -44,7 +44,8 @@ module NavigationHelpers
         child_name = $1
         child = Child.by_name(:key => child_name)
         raise "no child named '#{child_name}'" if child.nil? || child.empty?
-        child_path(child.first, options)
+        case_path(child.first, options)
+        # child_path(child.first, options)
 
       when /child record page for "(.+)"/
         child_name = $1
@@ -147,6 +148,9 @@ module NavigationHelpers
 
       when /the child listing filtered by (.+)/
         child_filter_path(:filter => $1)
+        
+      when /the cases filtered by (.+)/
+        case_filter_path(:filter => $1)
 
       when /duplicate child page for "(.+)"$/
         child = Child.by_name(:key => $1).first

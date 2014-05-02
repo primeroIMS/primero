@@ -38,9 +38,9 @@ Feature: User disable
 
     Given a user "george"
     And I am logged in as "george"
-    And I am on the children listing page
+    And I am on the cases page
 
     When user "george" is disabled
-    And I follow "Register New Child"
+    And I follow "Create a New Case"
 
     Then I am on the login page
