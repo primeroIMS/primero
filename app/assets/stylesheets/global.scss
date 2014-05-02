@@ -5,10 +5,6 @@
 // Page
 ////////////////////////////////////////////////
 
-html{
-  font-size: 62.5%;
-}
-
 .page {
   -webkit-box-shadow: 0 2px 1px 0 rgba(0,0,0,.3);
   box-shadow: 0 2px 1px 0 rgba(0,0,0,.3);
@@ -19,12 +15,7 @@ html{
 }
 
 .page_content {
-  width:800px;
   margin:0 auto;
-}
-
-.page_info {
-  font-size:1.4rem;
 }
 
 .page-content {
@@ -52,25 +43,52 @@ ul.inline-list {
   font-size: 1.2rem;
 }
 
-table tr.even, table tr.alt, table tr:nth-of-type(even){
-  background: inherit;
+table {
+  background: none;
+}
+
+table tr:nth-child(odd){
+  background: #ebebeb !important;
 }
 
 table.list_view{
   border:none;
   tr{
+    background: none;
     line-height:1.3rem;
     &.table_row:nth-child(5n+1) td{
       padding-bottom:20px;
     }
     th{
       text-align: left;
-      font-size:1.3rem;
+      font-size:1.0rem;
       padding-bottom:10px;
+      border-bottom: 1px solid #ddd;
     }
     td {
-      font-size:1.2rem
+      font-size: 0.875rem
     }
+  }
+}
+
+.filter_bar {
+  margin-top: 2rem;
+}
+
+hr {
+  margin-bottom: 0;
+  background: #bbb;
+  height: 1px;
+  border: none;
+}
+
+.btn_panel {
+  a {
+    margin-left: 2rem;
+  }
+  a, button, input[type="submit"] {
+    font-size: 0.875rem;
+    font-weight: normal;
   }
 }
 
@@ -91,6 +109,18 @@ table.list_view{
 }
 
 
+.grey-button {
+    color: #fff !important;
+    border: 1px solid $grey_color !important;
+    $padding: 0.5rem;
+    $radius: false;
+    $full-width: false;
+    $disabled: false;
+    $is-input: false;
+    $bg: $grey_color;
+@include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
+}
+
 ////////////////////////////////////////////////
 // Dropdown Buttons
 ////////////////////////////////////////////////
@@ -103,16 +133,12 @@ table.list_view{
     background: #eee;
     position: absolute;
     border: 1px solid #9F9F9F;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
     z-index: 999;
   }
 }
 
 .mark-as-form {
-    padding: .5rem;
+    padding: .3rem;
     
     h3{
       margin: 0px 5px;    
@@ -122,17 +148,20 @@ table.list_view{
     }
     
     input[type="text"]{
-      margin: .5rem;
+      margin: .3rem 0 .5rem .3rem;
       width: 20rem !important;
-      float: left;      
+      height: 2rem;
+      float: left;
+      border-right: none;
     }
       
     .mark-as-submit {
-      margin: .5rem;
+      margin: .3rem .3rem .5rem 0;
       width: auto;
+      height: 2rem;
       padding: .5rem;
-      float: right;
-      font-size: 1.2rem;
+      float: left;
+      border-left: none;
     }
 }
 
@@ -144,18 +173,20 @@ table.list_view{
 h1 {
   color:$green_color !important;
   font-weight: normal !important;
-  font-size:3.5rem !important;
+  font-size: 2.313rem !important;
   text-transform: capitalize;
   text-align: center;
+  border-bottom: 1px solid #bbb;
+  padding: .8rem;
 }
 
 a{
   color: $grey_color;
   text-decoration: none;
   line-height: inherit;
-  :hover {
-    color: $grey_color !important;
-    text-decoration: underline !important;
+  &:hover {
+    color: $grey_color;
+    text-decoration: underline;
   }
 }
 
@@ -214,15 +245,51 @@ select, select:hover {
 // Fields
 ////////////////////////////////////////////////
 
+form .row .row, .row .row {
+  margin: 0;
+}
+
 fieldset {
+  .row {
+    padding: 1.5rem .5rem .8rem;
+  }
+
+  .row:nth-child(even) {
+    background: #ebebeb;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  .mandate_panel, .form-section-description {
+    padding: 10px;
+  }
+
+  .errorExplanation {
+    background: #FFD8D8;
+    padding: 10px;
+    border: 1px solid #F76F6F;
+    border-left: none;
+
+    h2 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      background: #FFD8D8 !important;
+    }
+  }
+
   p {
     -webkit-box-sizing: initial;
     box-sizing: initial;
     padding: 1rem;
-    min-height: 1rem;
+    min-height: 1.5rem;
     margin-bottom: 0;
+    font-size: 0.9375rem;
 
-    &:nth-child(odd) {
+    &:nth-child(even) {
       background: #ebebeb;
     }
 
@@ -230,6 +297,8 @@ fieldset {
       float: left;
       width: 8rem;
       clear: both;
+      font-weight: bold;
+      height: 2rem;
     }
 
     input[type="text"], input[type="password"] {
@@ -251,6 +320,8 @@ fieldset {
 
 .btn_panel {
   width: 100%;
+  border-top: 1px solid #ddd;
+  padding-top: 2rem;
 
   a.link_cancel {
     float: left;
@@ -270,14 +341,17 @@ fieldset {
 .search {
   display:inline;
   input#query {
-    height: 18px;
+    height: 1.375rem;
     width: 179px !important;
     border: none !important;
-    margin:3px 5px 0 5px;
+    margin:3px 0px 0 5px;
     display:inline;
+    font-size: 0.7rem;
   }
   input[type="submit"] {
     width:40px;
+    height: 1.375rem;
+    border: none;
   }
 }
 
@@ -324,25 +398,32 @@ fieldset {
 ////////////////////////////////////////////////
 
 header {
-  width: 800px;
-  padding:30px 0;
-  margin: 0px auto;
+  padding: 20px 0;
+  margin-bottom: 50px;
 }
 
 .logo {
   font-family: 'Libre Baskerville', serif;
-  font-size: 6.3rem;
+  font-size: 3rem;
   font-weight: bold;
 }
 
-.links {
-  float:right;
-  padding:30px 0 0 0;
-  font-size:1.2rem;
+ul.links {
+  padding: 15px 0 0 0;
+  font-size: 0.875rem;
+  
   a {
     display: inline-block;
-    margin:0 10px;
+    margin: 0 10px;
   }
+
+  li:last-of-type a {
+      margin-right: 0;
+  }
+}
+
+.inline-list > li {
+  margin-left: 0;
 }
 
 ////////////////////////////////////////////////
@@ -358,21 +439,22 @@ header {
 }
 
 nav {
-  width: 800px;
-  margin:0 auto;
   ul {
     text-align: justify;
-    font-size: 1.5rem;
+    font-size:  0.875rem;
     list-style-type: none;
-    margin:0;
-    padding:5px 0;
-    height:35px;
+    margin: 0;
+    padding: 0.75rem 0;
+    height: 3.25rem;
+    font-weight: normal;
+
     &:after {
       width: 100%;
       display: inline-block;
       content: ".";
       visibility: hidden;
     }
+
     li {
       //padding: 5px 30px 5px 0;
       display: inline-block;
@@ -394,13 +476,17 @@ nav {
   margin-top: 20px;
 
   h2 {
-    font-size: 1.8rem;
+    font-size: 1.25rem;
     margin-top: 10px;
+
+    a {
+      margin-left: 0;
+    }
   }
 
   a {
     color: $green_color;
-    padding: 5px 10px;
+    padding: 5px 0;
 
     &:hover {
       //border-bottom: 2px solid $green_color;
@@ -411,26 +497,35 @@ nav {
   .panel {
     text-align: center
   }
-  
-  ul.inline-list {
-    margin-bottom: 0rem;
-    
-    li {
-      margin: 0 .4rem;
-    }
-  }
-  
+
   .header_message{
     border: 1px solid $green_color;
     background: #FFF;
     margin-bottom: 10px;
     padding: 10px 0px;
-    
+
     h3 {
-      font-size: 1.2rem;
+      font-size:  0.875rem;
       margin-bottom: 1px;
       text-align: center;
-    }    
+    }
+  }
+
+  .inline-list {
+    margin: 0 0 1.5rem 0;
+
+    li {
+      margin-right: 1rem;
+
+      a {
+        padding: 5px 10px;
+        font-size: 0.875rem;
+      }
+    }
+
+    > li > * {
+      display: inline;
+    }
   }
 }
 
@@ -445,8 +540,16 @@ nav {
   input[type="submit"],
   input[type="text"],
   input[type="password"] {
-    font-size: $lg_input_font_size;
+    font-size: 1.3rem;
     height: $lg_input_height;
+  }
+
+  h1 {
+    border-bottom: none;
+  }
+
+  .btn_panel {
+    border-top: none;
   }
 }
 
@@ -487,8 +590,10 @@ nav {
 
 .side-tab {
   background: #fff;
-  border: 1px solid $grey_color;
+  border: 1px solid #bbb;
+  border-top: none;
   min-height: 38rem;
+  margin-bottom: 3rem;
   a {
     color: $green_color !important;
     font-size: 1.1rem;
@@ -497,6 +602,15 @@ nav {
     &:hover {
       color: #fff !important;
       background: $grey_color;
+      text-decoration: none;
     }
   }
+}
+
+.side-tab-content {
+  padding-left: 0
+}
+
+.close-side-tab {
+  padding-right: 0
 }
