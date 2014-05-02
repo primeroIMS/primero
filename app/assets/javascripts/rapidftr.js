@@ -37,7 +37,7 @@ RapidFTR.tabControl = function() {
 
     $(this).parent().addClass("current");
     $(activeTab).show();
-
+    _primero.set_content_sidebar_equality();
     return false;
   });
 }
@@ -300,4 +300,17 @@ $(document).ready(function() {
     RapidFTR.Utils.enableFormErrorChecking();
     RapidFTR.showDropdown();
 
+  // set height of sidebar depending on side content
+  window._primero = {
+      set_content_sidebar_equality: set_content_sidebar_equality
+  }
+
+  function set_content_sidebar_equality() {
+    // Added to size sidebar and side content
+    content = $('.side-tab-content')
+    sidebar = $('.side-tab')
+
+    sidebar.height(content.height() + 50)
+  }
+  set_content_sidebar_equality();
 });

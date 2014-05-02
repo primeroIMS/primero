@@ -1,13 +1,15 @@
-<h1 class="no_border"><%= link_to t("children.label"), children_path %> &gt; <%= t("children.register_new_child") %></h1>
-
+<% content_for :breadcrumbs do %>
+  <h2><%= link_to t("children.label"), children_path %> &gt; <%= t("children.register_new_child") %></h2>
+<% end %>
 <%= form_tag children_path, :multipart => true do %>
     <div class="page-content-new row">
   	<%= hidden_field_tag "child[posted_from]", "Browser" %>
-    <%= error_messages_for :child %>
-      <div class="side-tab large-4 medium-4 columns">
-        <%= render :partial => "tabs", :object => @form_sections %>
+      <div class="large-4 medium-4 columns close-side-tab">
+        <div class="side-tab">
+          <%= render :partial => "tabs", :object => @form_sections %>
+        </div>
       </div>
-      <div class="side-tab-content large-8 large-8 columns">
+      <div class="side-tab-content large-8 medium-8 columns">
         <div class="clearfix"></div>
         <%= render :partial => "form_section", :collection => @form_sections %>
         <div class="btn_panel">
