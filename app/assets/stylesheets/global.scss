@@ -245,7 +245,7 @@ select, select:hover {
 // Fields
 ////////////////////////////////////////////////
 
-form .row .row {
+form .row .row, .row .row {
   margin: 0;
 }
 
@@ -540,8 +540,16 @@ nav {
   input[type="submit"],
   input[type="text"],
   input[type="password"] {
-    font-size: $lg_input_font_size;
+    font-size: 1.3rem;
     height: $lg_input_height;
+  }
+
+  h1 {
+    border-bottom: none;
+  }
+
+  .btn_panel {
+    border-top: none;
   }
 }
 
