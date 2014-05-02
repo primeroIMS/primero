@@ -15,7 +15,7 @@ Feature: Primero View List of Case Records
       | jane     | primero    | 14  | male   | 2004-02-03 04:05:06UTC | open   | 61c4cba8-b410-4af6-b349-68c557af3aa5 |
     When I press the "CASES" button
     Then I should see "Cases"
-    And I should see "Displaying all 5 children"
+    And I should see "Displaying all 5 cases"
     And I should see an id "7af3aa9" link on the page
     And I press the "7af3aa9" link
     And I should see "Cases > 7af3aa9"
