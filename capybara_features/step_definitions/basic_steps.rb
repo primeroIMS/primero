@@ -36,10 +36,6 @@ Then /^I should see the following (.+):$/ do |selector, table|
   end
 end
 
-And /^the (.+) should be set to today$/ do |field_name|
-binding.pry
-end
-
 And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*)")?$/ do |field, content|
   if content == "today's date"
     content = DateTime.now.strftime("%Y/%b/%d")

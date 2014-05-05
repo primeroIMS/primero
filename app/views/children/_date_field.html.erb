@@ -5,7 +5,7 @@
     </span>
   </div>
   <div class="medium-8 columns">
-    <%= text_field_tag date_field.tag_name_attribute, @child[date_field.name], :disabled => date_field.name == 'registration_date' ? true : false %>
+    <%= text_field_tag date_field.tag_name_attribute, @child[date_field.name], :disabled => date_field.editable == false ? true : false %>
     <%= hidden_field_tag(date_field.tag_name_attribute, @child[date_field.name]) if  date_field.name == 'registration_date' %>
     <%= javascript_tag "$(document).ready(function(){ $(\"##{date_field.tag_id}\").datepicker({ dateFormat: 'yyyy/mm/dd' }); });" %>
 

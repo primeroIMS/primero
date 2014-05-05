@@ -10,6 +10,10 @@ module RapidFTR
                    "type" => "text_field", "editable" => false,
                    "display_name_all" => "Case ID"
                   }),
+        Field.new({"name" => "short_id",
+                   "type" => "text_field", "editable" => false,
+                   "display_name_all" => "Short ID"
+                  }),
         Field.new({"name" => "name",
                   "type" => "text_field",
                   "display_name_all" => "Name"
@@ -31,7 +35,7 @@ module RapidFTR
                    "type" => "select_box",
                    "option_strings_text_all" => "Open\nClosed",
                    "display_name_all" => "Status"
-                  }),
+                  })
         # Field.new({"name" => "protection_status",
         #           "type" => "select_box",
         #           "option_strings_text_all" => "Unaccompanied\nSeparated",

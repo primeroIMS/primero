@@ -5,7 +5,7 @@
     </span>
   </div>
   <div class="medium-8 columns">
-    <%= text_field_tag text_field.tag_name_attribute, @child[text_field.name], :disabled => text_field.name == 'case_id' ? true : false %>
+    <%= text_field_tag text_field.tag_name_attribute, @child[text_field.name], :disabled => text_field.editable == false ? true : false %>
 
     <%= image_tag "new/icon_help.png", title: text_field.help_text, class: 'tool-tip-icon vtip' if text_field.help_text.present? %>
   </div>
