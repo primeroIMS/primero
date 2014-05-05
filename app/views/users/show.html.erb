@@ -33,7 +33,7 @@
 
       <p>
         <label class="key"><%= t("permissions.label") %></label>
-        <%= @user.roles.map(&:name).join(",") %>
+        <%= @user.roles.map(&:name).join(", ") %>
       </p>
 
       <p>
