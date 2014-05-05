@@ -31,7 +31,7 @@ Feature: Basic Identity Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Photos and Audio" button
-    And I attach an audio file "capybara_features/resources/textfile.txt"
+    And I attach a photo "capybara_features/resources/jorge.jpg"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
