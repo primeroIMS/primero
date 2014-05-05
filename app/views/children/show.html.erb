@@ -59,7 +59,7 @@ $(".profile-tools .investigated a").click( function(){
 <% end %>
 
 <% content_for :header_message do %>
-    <%= render 'header_message', child: @child, current_user: @current_user, duplicates: @duplicates %>  
+    <%= render 'header_message', child: @child, current_user: @current_user, duplicates: @duplicates %>
 <% end %>
 
 <div class="clearfix"></div>
@@ -67,16 +67,17 @@ $(".profile-tools .investigated a").click( function(){
     <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
 <% end %>
     
-<div class="page-content-new">
-
-  <div class="side-tab">
-    <%= render :partial => "tabs", :object => @form_sections %>
+<div class="page-content-new row">
+  <div class="large-4 medium-4 columns close-side-tab">
+    <div class="side-tab">
+      <%= render :partial => "tabs", :object => @form_sections %>
+    </div>
   </div>
-
-  <div class="side-tab-content">
-    <div class="clearfix"></div>
-    <%= render :partial => 'shared/sidebar' %>
-    <%= render :partial => "show_form_section" %>
+  <div class="side-tab-content large-8 medium-8 columns">
+    <div class="side-tab-content">
+      <div class="clearfix"></div>
+      <%= render :partial => 'shared/sidebar' %>
+      <%= render :partial => "show_form_section" %>
+    </div>
   </div>
-
 </div>

@@ -1,6 +1,10 @@
+<div class="row">
+  <div class="medium-4 columns">
+    <label class="key"><%= t(field.name, :default => field.display_name) %>:</label>
+  </div>
+  <div class="medium-8 columns">
+    <span class="value"><%= field_value_for_display child[field.name] %></span>
+  </div>
+</div>
 
-<p>
-	<label class="key"><%= t(field.name, :default => field.display_name) %>:</label>
-	<span class="value"><%= field_value_for_display child[field.name] %></span>
-</p>
 

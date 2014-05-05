@@ -1,16 +1,13 @@
-<div class="links">
-
+<ul class="links inline-list right">
   <% unless current_user.nil? %>
-
-    <%= t("header.logged_in_as") %> <%= current_user.user_name %>
-    <%= link_with_confirm t("header.logout"), logout_path, id: "logout" %> |
-    <%= link_with_confirm t("header.my_account"), user_path(current_user.id) %> |
+    <li><%= t("header.logged_in_as") %> <%= current_user.user_name %></li>
+    <li><%= link_with_confirm t("header.logout"), logout_path, id: "logout" %> |</li>
+    <li><%= link_with_confirm t("header.my_account"), user_path(current_user.id) %> |</li>
 
     <% if can?(:manage, ContactInformation) or can?(:highlight, Field) %>
-      <%= link_to t("header.system_settings"), admin_path %> |
+      <li><%= link_to t("header.system_settings"), admin_path %> |</li>
     <% end %>
   <% end %>
 
-  <%= link_with_confirm t("header.contact"), contact_information_path("administrator") %>
-
-</div>
+  <li><%= link_with_confirm t("header.contact"), contact_information_path("administrator") %></li>
+</ul>
