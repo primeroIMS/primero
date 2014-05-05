@@ -9,4 +9,4 @@ Feature: Assign unique id to child
     When I am on the new child page
     When I fill in the basic details of a child
     And I press "Save"
-    Then I should see "Child record successfully created."
+    Then I should see "Case record successfully created."

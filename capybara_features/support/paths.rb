@@ -44,8 +44,13 @@ module NavigationHelpers
         child_name = $1
         child = Child.by_name(:key => child_name)
         raise "no child named '#{child_name}'" if child.nil? || child.empty?
+        child_path(child.first, options)
+        
+      when /saved case record page for child with name "(.+)"/
+        child_name = $1
+        child = Child.by_name(:key => child_name)
+        raise "no child named '#{child_name}'" if child.nil? || child.empty?
         case_path(child.first, options)
-        # child_path(child.first, options)
 
       when /child record page for "(.+)"/
         child_name = $1
