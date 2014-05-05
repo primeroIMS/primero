@@ -36,6 +36,28 @@ Then /^I should see the following (.+):$/ do |selector, table|
   end
 end
 
+And /^the (.+) should be set to today$/ do |field_name|
+binding.pry
+end
+
+And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*)")?$/ do |field, content|
+  if content == "today's date"
+    content = DateTime.now.strftime("%Y/%b/%d")
+  end
+  page.all(:css, 'fieldset .row').each do |row|
+    key = row.find(:css, 'label.key')
+    if key.has_text?(field)
+      value = row.find(:css, 'span.value')
+      if content
+        value.has_content?(content)
+      else
+        value.has_content?
+      end
+      break
+    end
+  end
+end
+
 ## Added for debugging purposes
 And /^pause$/ do
   binding.pry

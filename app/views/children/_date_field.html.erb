@@ -6,7 +6,8 @@
   </div>
   <div class="medium-8 columns">
     <%= text_field_tag date_field.tag_name_attribute, @child[date_field.name], :disabled => date_field.name == 'registration_date' ? true : false %>
-    <%= javascript_tag "$(document).ready(function(){ $(\"##{date_field.tag_id}\").datepicker({ dateFormat: 'dd/mm/yy' }); });" %>
+    <%= hidden_field_tag(date_field.tag_name_attribute, @child[date_field.name]) if  date_field.name == 'registration_date' %>
+    <%= javascript_tag "$(document).ready(function(){ $(\"##{date_field.tag_id}\").datepicker({ dateFormat: 'yyyy/mm/dd' }); });" %>
 
     <%= image_tag "new/icon_help.png", class: 'tool-tip-icon vtip', title: date_field.help_text if date_field.help_text.present? %>
   </div>

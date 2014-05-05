@@ -64,7 +64,7 @@ class ChildrenController < ApplicationController
 
     @page_name = t("children.register_new_child")
     @child = Child.new
-    @child.registration_date = DateTime.now
+    @child.registration_date = DateTime.now.strftime("%Y/%b/%d")
     @form_sections = get_form_sections
     respond_to do |format|
       format.html
@@ -88,6 +88,7 @@ class ChildrenController < ApplicationController
     create_or_update_child(params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
     @child['created_by_full_name'] = current_user_full_name
+
     respond_to do |format|
       if @child.save
         flash[:notice] = t('child.messages.creation_success')
