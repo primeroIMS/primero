@@ -27,10 +27,10 @@
       "locked_version": "0.2.0"
     },
     "build-essential": {
-      "locked_version": "2.0.0"
+      "locked_version": "1.4.4"
     },
     "nginx": {
-      "locked_version": "2.4.4"
+      "locked_version": "2.4.2"
     },
     "bluepill": {
       "locked_version": "2.3.1"
@@ -48,16 +48,7 @@
       "locked_version": "2.5.2"
     },
     "java": {
-      "locked_version": "1.15.0"
-    },
-    "windows": {
-      "locked_version": "1.11.0"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
-    },
-    "aws": {
-      "locked_version": "1.0.0"
+      "locked_version": "1.20.0"
     },
     "chef_gem": {
       "locked_version": "0.1.0"

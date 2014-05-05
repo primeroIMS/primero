@@ -13,6 +13,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8000, host: 8000
   config.vm.network :forwarded_port, guest: 8443, host: 8443
 
+  #Sunspot solr servers.
+  config.vm.network :forwarded_port, guest: 8983, host: 8983
+  config.vm.network :forwarded_port, guest: 8984, host: 8984
+  config.vm.network :forwarded_port, guest: 8901, host: 8901
+  config.vm.network :forwarded_port, guest: 8903, host: 8903
+  config.vm.network :forwarded_port, guest: 8902, host: 8902
+
   config.omnibus.chef_version = '11.10.4'
 
   config.vm.provision :chef_solo do |chef|

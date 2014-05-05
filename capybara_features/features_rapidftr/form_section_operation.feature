@@ -140,7 +140,7 @@ Feature: Form section operation
     Then I am on form section page
     And the form section "New Form 1" should be listed as hidden
 
-  @javascript
+  @javascript @wip
   Scenario: Should show selected forms
     Given I am on the form section page
     Then the form section "Other hidden section" should be listed as hidden
@@ -148,7 +148,7 @@ Feature: Form section operation
     And I am on new child page
     Then the form section "Other hidden section" should be present
 
-  @javascript
+  @javascript @wip
   Scenario: Should hide selected forms
     Given I am on the form section page
     Then the form section "Other visible section" should be listed as visible

@@ -67,7 +67,8 @@ zh:
 
   navigation:
      home: "placeholder"
-     children: "儿童"
+     children: "placeholder"
+     cases: "placeholder"
      forms: "表单"
      users: "用户"
      devices: "设备"
@@ -86,6 +87,34 @@ zh:
      change_password: "修改密码"
      enable_photo_wall: "使用照片墙"
      disable_photo_wall: "禁用照片墙"
+
+
+  cases:
+    label: "Placeholder"
+    register_new_child: "Placeholder"
+    export: "导出"
+    export_all_child_records_to_csv: "所有儿童信息以 Records  CSV格式导出"
+    export_all_child_records_to_pdf: "所有儿童信息以 Records PDF格式导出"
+    export_some_records_to_csv: "某些纪录以CSV格式导出"
+    filter_by:
+      label: "过滤"
+      all: "所有"
+      active: "活动的"
+      reunited: "重聚"
+      flag: "标记的"
+      created: "创建"
+    order_by:
+      most_recently: "最近"
+      label: "排序"
+      name: "姓名"
+    flag_summary: "标记总结"
+
+    filer_by:
+      all: "所有的"
+      active: "活动的"
+      reunited: "重聚"
+      flagged: "标记的"
+
 
   children:
     label: "儿童"
@@ -133,6 +162,13 @@ zh:
     reunite_details: "重聚详情:"
     another_duplicate_before_link: "另一个记录被标记为这个记录的副本，点击"
     another_duplicate_after_link: " 查看副本记录"
+    # TODO: Possibly use another method to label the list view columns
+    id: "Placeholder"
+    name: "Placeholder"
+    age: "Placeholder"
+    sex: "Placeholder"
+    registration_date: "Placeholder"
+    status: "Placeholder"
 
     messages:
       update_success: "儿童信息成功更新"

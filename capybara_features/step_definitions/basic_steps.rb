@@ -6,15 +6,19 @@ Then /^I should not see "([^\"]*)" on the page$/ do |text|
   expect(page).to have_no_content(text)
 end
 
-Then /^I should see the "([^\"]*)" class$/ do |css_class|
-  page.has_css?(css_class)
-end
-
-Then /^I should see a "([^\"]*)" button on the page$/ do |label|
+Then /^I should see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
-Then /^I press the "([^\"]*)" button$/ do |label|
+Then /^I should see a "([^\"]*)" link on the page$/ do |label|
+  expect(page).to have_selector(:link_or_button, label)
+end
+
+Then /^I press the "([^\"]*)" (button|link)$/ do |label, type|
+  click_on(label)
+end
+
+Then /^I click on the "([^\"]*)" link/ do |label|
   click_on(label)
 end
 
@@ -186,25 +190,25 @@ end
 Given /^I flag "([^\"]*)" as suspect$/ do  |name|
   click_flag_as_suspect_record_link_for(name)
   fill_in("Flag Reason", :with => "Test")
-  click_button("Flag")
+  click_on("Flag")
 end
 
 When /^I flag "([^\"]*)" as suspect with the following reason:$/ do |name, reason|
-  page.find(:xpath, "//div[text()=\"#{name}\"]/parent::*/parent::*/parent::*").click_link('Flag record')
+  page.find(:xpath, "//div[text()=\"#{name}\"]/parent::*/parent::*/parent::*").click_on('Flag Record')
   fill_in("Flag Reason:", :with => reason)
-  click_button("Flag")
+  click_on("Flag")
 end
 
 When /^I flag as suspect with the following reason:$/ do |reason|
-  click_link('Flag record')
+  click_on('Flag Record')
   fill_in("Flag Reason:", :with => reason)
-  click_button("Flag")
+  click_on("Flag")
 end
 
 When /^I unflag "([^\"]*)" with the following reason:$/ do |name, reason|
-  click_flag_as_suspect_record_link_for(name)
+  click_unflag_as_suspect_record_link_for(name)
   fill_in("Unflag Reason", :with => reason)
-  click_button("Unflag")
+  click_on("Unflag")
 end
 
 Then /^the (view|edit) record page should show the record is flagged$/ do |page_type|
@@ -217,12 +221,13 @@ Then /^the child listing page filtered by flagged should show the following chil
   expected_child_names = table.raw.flatten
   visit child_filter_path(:filter => "flag")
   expected_child_names.each do |name|
-    page.should have_xpath "//h2//a[contains(., '#{name}')]"
+    #page.should have_xpath "//h2//a[contains(., '#{name}')]"
+  page.should have_content("#{name}")
   end
 end
 
 When /^the record history should log "([^\"]*)"$/ do |field|
-  visit(children_path+"/#{Child.all[0].id}/history")
+  visit(cases_path+"/#{Child.all[0].id}/history")
   page.should have_content(field)
 end
 
@@ -306,6 +311,14 @@ private
 def click_flag_as_suspect_record_link_for(name)
   child = find_child_by_name name
   visit children_path+"/#{child.id}"
-  find(:css, ".btn_flag").click
+  #find(:css, ".btn_flag").click
+  click_on('Flag Record')
+end
+
+def click_unflag_as_suspect_record_link_for(name)
+  child = find_child_by_name name
+  visit children_path+"/#{child.id}"
+  #find(:css, ".btn_flag").click
+  click_on('Unflag Record')
 end
 

@@ -10,7 +10,7 @@ Feature: Flag child record
       | name   | unique_id |
       | Peter  | id_1      |
 
-  @javascript
+  @javascript @wip
   Scenario: Flagging a child record
     When I am on the child record page for "Peter"
     And I flag as suspect with the following reason:
@@ -21,7 +21,7 @@ Feature: Flag child record
     And the edit record page should show the record is flagged
     And the record history should log "Record was flagged by praful belonging to UNICEF because: He is a bad guy."
     And the child listing page filtered by flagged should show the following children:
-      | Peter: id_1 |
+      | Peter |
     When I am on the children listing page
     Then I should see "Flagged By"
 
@@ -40,7 +40,7 @@ Feature: Flag child record
     When I am on the children listing page
     Then I should not see "Flagged By"
 
-  @javascript @search
+  @javascript @search @wip
   Scenario: Seeing Flagged Child in Search Results
     Given the following children exist in the system:
         | name   | flag |
@@ -49,7 +49,7 @@ Feature: Flag child record
     When I search using a name of "P"
     Then the "Peter" result should have a "suspect" image
 
-  @javascript
+  @javascript @wip
   Scenario: Flagging a child record from listing page.
     When I am on the children listing page
     And I should not see "Flagged By" for record "Peter"

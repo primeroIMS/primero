@@ -1,3 +1,4 @@
+@wip
 Feature: Duplicate child record
 
   As a Field Worker

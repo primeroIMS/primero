@@ -1,7 +1,8 @@
 
-<fieldset id="tab_<%= form_section.section_name %>" class="<%= form_section.section_name %> tab">
+<fieldset id="tab_<%= form_section.section_name %>" class="<%= form_section.section_name %> tab no-border">
   <%= render :partial => "form_section_info", :locals => {:form_section => form_section} %>
-  
+  <%= error_messages_for :child %>
+  <hr >
   <% (form_section.fields.select {|field| field.visible? }).each do |field| %>
         <%= render :partial => field.type, :object => field %>
   <% end %>

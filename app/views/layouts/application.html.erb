@@ -18,28 +18,35 @@
 </head>
 <body class="<%= @body_class %>">
 <div class="page_container">
-  <header>
-    <%= render :partial => "shared/header_links" %>
-    <%= link_to 'Primero', root_path, :class => 'logo', id: "RapidFTR logo" %>
-  </header>
+  <div class="row">
+    <header>
+      <div class="large-12 columns">
+        <%= link_to 'Primero', root_path, :class => 'logo left', id: "RapidFTR logo" %>
+        <div class="right">
+          <%= render :partial => "shared/header_links" %>
+        </div>
+      </div>
+    </header>
+  </div>
   <div class="main_bar">
+    <div class="row">
     <% if logged_in? %>
-      <nav>
+      <nav class="large-12 columns">
         <ul>
           <li><%= link_to t("navigation.home"), root_path %></li>
-          <% if false %>
           <% if can? :read, Child %>
-            <li><%= link_to t("navigation.children"), children_path %></li>
+            <li><%= link_to t("navigation.cases"), cases_path %></li>
           <% end  %>
-          <% if current_user_name==nil or can? :manage, FormSection %>
-              <li><%= link_to t("navigation.forms"), form_sections_path %></li>
-          <% end %>
-          <% if can? :read, User or can? :show, Role %>
-            <li><%= link_to t("navigation.users"), users_path %></li>
-          <% end %>
-          <% if can?(:read, Device) or can?(:read, Replication) %>
-            <li><%= link_to t("navigation.devices"), devices_path %></li>
-          <% end %>
+          <% if false %>
+            <% if current_user_name==nil or can? :manage, FormSection %>
+                <li><%= link_to t("navigation.forms"), form_sections_path %></li>
+            <% end %>
+            <% if can? :read, User or can? :show, Role %>
+              <li><%= link_to t("navigation.users"), users_path %></li>
+            <% end %>
+            <% if can?(:read, Device) or can?(:read, Replication) %>
+              <li><%= link_to t("navigation.devices"), devices_path %></li>
+            <% end %>
           <% end %>
           <% if can? :read, Report%>
             <li><%= link_to t("navigation.reports"), reports_path %></li>
@@ -59,35 +66,38 @@
         <div class="clearB"></div>
       </nav>
     <% end %>
+    </div>
   </div>
   <div class="page_content header_section">
-    <div class="rows">
+    <div class="row">
+      <div class="large-12 columns">
+        <%= yield :header_sub_nav %>
+      </div>
+    </div>
+    <div class="row">
       <div class="large-6 columns">
         <%= yield :breadcrumbs %>
       </div>
       <div class="large-6 columns">
+        <%= yield :header_message %>
       </div>
     </div>
   </div>
   <hr />
   <div class="page_content">
-
     <% if flash[:notice].present? %>
-        <div class='flash'>
-          <p class='notice'><%= flash[:notice] %></p>
-        </div>
+      <div class='flash'>
+        <p class='notice'><%= flash[:notice] %></p>
+      </div>
     <% end %>
     <% if flash[:error].present? %>
-        <div class='flash'>
-          <p class='error'><%= flash[:error] %></p>
-        </div>
+      <div class='flash'>
+        <p class='error'><%= flash[:error] %></p>
+      </div>
     <% end %>
+
     <%= yield %>
-
-
   </div>
-
-
 </div>
 
 <!-- idle dialog window markup -->
