@@ -248,8 +248,8 @@ Feature: Child record functionality
 
   Scenario: List on children link should link to Children List page
     Given I am on new child page
-    When I follow "Children"
-    Then I should be on children listing page
+    When I follow "Cases"
+    Then I should be on cases page
 
 
   Scenario: Child record must not display the edit and manage photos links
