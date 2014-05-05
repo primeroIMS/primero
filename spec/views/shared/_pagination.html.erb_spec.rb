@@ -32,21 +32,21 @@ describe "shared/_pagination.html.erb" do
 
     it "1 record" do
       @total_rows = 1
-      should have_content "Displaying 1 child"
+      should have_content "Displaying 1 case"
     end
 
     it "less records than page" do
       @total_rows = 5
-      should have_content "Displaying all 5 children"
+      should have_content "Displaying all 5 cases"
     end
 
     it "more records than page" do
-      should have_content "Displaying children 1 - 10 of 100 in total"
+      should have_content "Displaying cases 1 - 10 of 100 in total"
     end
 
     it "next page" do
       @page = 2
-      should have_content "Displaying children 11 - 20 of 100 in total"
+      should have_content "Displaying cases 11 - 20 of 100 in total"
     end
   end
 
