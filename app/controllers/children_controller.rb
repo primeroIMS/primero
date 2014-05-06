@@ -62,7 +62,7 @@ class ChildrenController < ApplicationController
   def new
     authorize! :create, Child
 
-    @page_name = t("children.register_new_child")
+    @page_name = t("cases.register_new_case")
     @child = Child.new
     @form_sections = get_form_sections
     respond_to do |format|
