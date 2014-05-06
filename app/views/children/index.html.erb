@@ -3,7 +3,11 @@
     <%= render :partial => "children/header" %>
     <div class="clearfix"></div>
 
-    <div class="filter_bar">
+    <%#
+      TODO: For now the filter and order-by have been removed as per PRIMRO-105.
+      We will need to put them back in.
+    %>
+    <div class="filter_bar" style="display: none;">
       <div class="row">
         <div class="large-6 medium-6 columns">
           <%= render :partial => "children/filter_box" %>

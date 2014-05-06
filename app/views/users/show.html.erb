@@ -1,9 +1,12 @@
 <% content_for :breadcrumbs do %>
 <h2 class="float_left no_border"><%= link_to(I18n.t("users.label"), users_path) + " > " if can?(:read, User)%>  <%= @user.user_name %>
+  <%# TODO: Removing the edit link temporarily %>
+  <% if false %>
   <% if can? :edit, User %>
       <%= link_to '('+I18n.t("buttons.edit")+')', edit_user_path(@user), :class => 'edit_crumb'%>
   <% else %>
       <%=	link_to "(" + I18n.t("buttons.change_password") +")", change_password_users_path %>
+  <% end %>
   <% end %>
 </h2>
 <% end %>
@@ -13,6 +16,7 @@
   </div>
   <div class="side-tab-content large-8 medium-8 columns">
     <h1 class="no_border"><%= t("users.account_details") %></h1>
+    <%# TODO: We removed user history. We will need to put that back in %>
     <% if false %>
     <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
         <%= icon('clock-o') %>
@@ -33,7 +37,7 @@
 
       <p>
         <label class="key"><%= t("permissions.label") %></label>
-        <%= @user.roles.map(&:name).join(",") %>
+        <%= @user.roles.map(&:name).join(", ") %>
       </p>
 
       <p>

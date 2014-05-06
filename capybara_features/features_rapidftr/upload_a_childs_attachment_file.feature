@@ -54,6 +54,8 @@ Feature: Upload a childs attachment file
     And I press "Save"
     Then I should see "Please upload a valid photo file (jpg or png) for this case record"
 
+  #TODO: Absolutely pull this back in when we have put the audit log back into Primero
+  @wip
   Scenario: Uploading a standard mp3 file to existing child record
     Given I am on the new child page
     When I fill in "Name" with "Harry"

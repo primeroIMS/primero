@@ -80,6 +80,8 @@ Feature: User login
 	When I follow "Contact & Help"
     Then I should be on the administrator contact page
 
+  #TODO: Put this back in when we have put back the user management
+  @wip
   Scenario: I should be able to change my password
     Given a user "Harry" with a password "123"
     And I am logged in as "Harry"
