@@ -62,7 +62,7 @@ class ChildrenController < ApplicationController
   def new
     authorize! :create, Child
 
-    @page_name = t("children.register_new_child")
+    @page_name = t("cases.register_new_case")
     @child = Child.new
     @form_sections = get_form_sections
     respond_to do |format|
@@ -75,7 +75,7 @@ class ChildrenController < ApplicationController
   def edit
     authorize! :update, @child
 
-    @page_name = t("child.edit")
+    @page_name = t("case.edit")
     @form_sections = get_form_sections
   end
 
@@ -140,7 +140,7 @@ class ChildrenController < ApplicationController
       format.html do
         @child = update_child_from params
         if @child.save
-          flash[:notice] = I18n.t("child.messages.update_success")
+          flash[:notice] = I18n.t("case.messages.update_success")
           return redirect_to params[:redirect_url] if params[:redirect_url]
           redirect_to @child
         else

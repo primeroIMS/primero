@@ -68,6 +68,16 @@
     <% end %>
     </div>
   </div>
+  <% if flash[:notice].present? %>
+      <div class='flash row'>
+        <p class='notice large-12'><%= flash[:notice] %></p>
+      </div>
+  <% end %>
+  <% if flash[:error].present? %>
+      <div class='flash row'>
+        <p class='error large-12'><%= flash[:error] %></p>
+      </div>
+  <% end %>
   <div class="page_content header_section">
     <div class="row">
       <div class="large-12 columns">
@@ -85,17 +95,6 @@
   </div>
   <hr />
   <div class="page_content">
-    <% if flash[:notice].present? %>
-      <div class='flash'>
-        <p class='notice'><%= flash[:notice] %></p>
-      </div>
-    <% end %>
-    <% if flash[:error].present? %>
-      <div class='flash'>
-        <p class='error'><%= flash[:error] %></p>
-      </div>
-    <% end %>
-
     <%= yield %>
   </div>
 </div>

@@ -92,7 +92,7 @@ en:
 
   cases:
     label: "Cases"
-    register_new_child: "Create a New Case"
+    register_new_case: "Create a New Case"
     export: "Export"
     filter_by:
       label: "Filter by"
