@@ -25,11 +25,12 @@ Scenario: Should be restricted to 400,000 characters in a text area
 	And I press "Save" 
 	Then I should see "my text area cannot be more than 400000 characters long"
   	And there should be 0 child records in the database
-    
-Scenario: Should be prevented from saving a record that has no data filled in
-  Given I am logged in as a user with "Register Child" permission
-	And I am on children listing page
-	And I follow "Create a New Case"
-	And I press "Save" 
-	Then I should see "Please fill in at least one field or upload a file"
-  And there should be 0 child records in the database
+
+#Test no longer valid
+#Scenario: Should be prevented from saving a record that has no data filled in
+#  Given I am logged in as a user with "Register Child" permission
+#	And I am on children listing page
+#	And I follow "Create a New Case"
+#	And I press "Save"
+#	Then I should see "Please fill in at least one field or upload a file"
+#  And there should be 0 child records in the database

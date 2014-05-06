@@ -16,11 +16,16 @@ module RapidFTR
                   }),
         Field.new({"name" => "name",
                   "type" => "text_field",
-                  "display_name_all" => "Name"
+                  "display_name_all" => "Name",
+                  "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
                   }),
         Field.new({"name" => "age",
                    "type" => "text_field",
                    "display_name_all" => "Age"
+                  }),
+        Field.new({"name" => "date_of_birth",
+                  "type" => "date_field",
+                  "display_name_all" => "Date of Birth (dd/mm/yyyy)"
                   }),
         Field.new({"name" => "sex",
                    "type" => "select_box",
@@ -74,10 +79,6 @@ module RapidFTR
         #           "type" => "select_box",
         #           "option_strings_text_all" => "Yes\nNo",
         #           "display_name_all" => "Name(s) given to child after separation?"
-        #           }),
-        # Field.new({"name" => "date_of_birth",
-        #           "type" => "date_field",
-        #           "display_name_all" => "Date of Birth (dd/mm/yyyy)"
         #           }),
         # Field.new({"name" => "birthplace",
         #           "type" => "text_field",

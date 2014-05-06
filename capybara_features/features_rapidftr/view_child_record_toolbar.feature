@@ -1,4 +1,5 @@
-@headless
+# TODO: Add back after demo deploy
+@wip
 Feature: View Child Record Toolbar
 
   As a User, when I view a child record

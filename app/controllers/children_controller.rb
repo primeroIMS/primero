@@ -64,7 +64,7 @@ class ChildrenController < ApplicationController
 
     @page_name = t("children.register_new_child")
     @child = Child.new
-    @child.registration_date = DateTime.now.strftime("%Y/%b/%d")
+    @child.registration_date = DateTime.now.strftime("%d/%b/%Y")
     @form_sections = get_form_sections
     respond_to do |format|
       format.html

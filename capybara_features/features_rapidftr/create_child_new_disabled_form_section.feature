@@ -1,6 +1,8 @@
 Feature: Create child new disabled form section
   As an user I should not see disabled forms when adding new child
 
+  #TODO: Add back after demo deploy. Tabs were temp disabled
+  @wip
   Scenario:      User creates new child record and does not see disabled forms
 
     Given I am logged in as a user with "Register Child" permission

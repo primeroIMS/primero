@@ -21,9 +21,9 @@ Feature: API Retrieve form sections
       | name/en        | "Basic Identity"                                                       |
       | description/en | "Basic identity information about a separated or unaccompanied child." |
 
-      | fields/0/display_name/en  | "Name"       |
-      | fields/0/type             | "text_field" |
-      | fields/0/visible          | true         |
-      | fields/0/name             | "name"       |
-      | fields/0/highlight_information/highlighted | true |
-      | fields/0/highlight_information/order       | 1    |
+      | fields/2/display_name/en  | "Name"       |
+      | fields/2/type             | "text_field" |
+      | fields/2/visible          | true         |
+      | fields/2/name             | "name"       |
+      | fields/2/highlight_information/highlighted | true |
+      | fields/2/highlight_information/order       | 1    |

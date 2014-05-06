@@ -27,7 +27,8 @@ Feature: API Enquiries Trigger matches on enquiry
     """
     Then the JSON at "potential_matches/0" should be "1"
 
-  @search
+  #TODO:  Currently not indexing birthplace, this test needs to be revisited. Birthplace currently not included in form.
+  @search @wip
   Scenario: Editing an enquiry should also trigger matches
 
     Given the following children exist in the system:
