@@ -23,7 +23,7 @@ Feature: Child change log
     And someone has entered a child with the name "automation"
 
     Then I press the "Edit" button
-    And I fill in "Birthplace" with "India"
+    # And I fill in "Birthplace" with "India"
     And I submit the form
     And I press the "Change Log" button
     Then I should see change log for changing value of field "Birthplace" from "Haiti" to value "India" by "bob"
@@ -44,7 +44,7 @@ Feature: Child change log
     Then I should see change log for record flag by "bob" for "He is a bad guy."
 
 #  @javascript
-  @run
+  @run @wip
   Scenario: Adding an image
 
     Given "bob" logs in with "Register Child,Edit Child" permissions

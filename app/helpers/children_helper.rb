@@ -81,4 +81,12 @@ module ChildrenHelper
       render :partial => "show_child_toolbar"
     end
   end
+
+  def select_box_default(model, field)
+    if field == 'status'
+      return 'Open'
+    else
+      return (model[field] || '')
+    end
+  end
 end

@@ -30,6 +30,31 @@ Then /^I fill in the "([^\"]*)" field with "([^\"]*)"$/ do |field_name, field_va
   fill_in(field_name, :with => field_value)
 end
 
+Then /^I should see the following (.+):$/ do |selector, table|
+  table.raw.flatten.each do |value|
+    expect(page).to have_content(value)
+  end
+end
+
+And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*)")?$/ do |field, content|
+  if content == "today's date"
+    content = DateTime.now.strftime("%d/%b/%Y")
+  end
+  page.all(:css, 'fieldset .row').each do |row|
+    key = row.find(:css, 'label.key')
+    if key.has_text?(field)
+      value = row.find(:css, 'span.value')
+      if content
+        value.has_content?(content)
+      else
+        value.has_content?
+      end
+      break
+    end
+  end
+end
+
+## Added for debugging purposes
 And /^pause$/ do
   binding.pry
 end
@@ -39,7 +64,7 @@ end
 #////////////////////////////////////////////////////////////////
 
 When /^I fill in the basic details of a child$/ do
-  fill_in("Birthplace", :with => "Haiti")
+  fill_in("Age", :with => "30")
 end
 
 When /^I attach a photo "([^"]*)"$/ do |photo_path|

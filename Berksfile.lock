@@ -12,13 +12,13 @@
       "locked_version": "2.5.1"
     },
     "erlang": {
-      "locked_version": "1.5.0"
+      "locked_version": "1.5.2"
     },
     "apt": {
-      "locked_version": "2.3.8"
+      "locked_version": "2.2.0"
     },
     "yum": {
-      "locked_version": "3.1.4"
+      "locked_version": "3.1.6"
     },
     "yum-epel": {
       "locked_version": "0.3.4"

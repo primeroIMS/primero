@@ -635,7 +635,7 @@ en:
 
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
-        age: "Age must be between 1 and 99"
+        age: "Age must be between 1 and 130"
         photo_format: "Please upload a valid photo file (jpg or png) for this case record"
         photo_size: "Please upload a file smaller than 10mb"
         audio_format: "Please upload a valid audio file (amr or mp3) for this case record"

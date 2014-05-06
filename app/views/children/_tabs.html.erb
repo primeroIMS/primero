@@ -1,6 +1,8 @@
 <ul class="tab-handles side-nav">
   <% is_first_tab = true %>
   <% tabs.each do |form_section| %>
+      <%# Only showing Basic Identity and Photos and Audio tabs for demo deploy. Add back later %>
+      <% if form_section.name == 'Basic Identity' || form_section.name == 'Photos and Audio' %>
       <% if is_first_tab %>
           <li class="current">
       <% else %>
@@ -9,5 +11,6 @@
           <a href="#tab_<%= form_section.section_name %>"><%= t(form_section.unique_id, :default => form_section.name) %></a>
       </li>
       <% is_first_tab = false %>
+      <% end %>
   <% end %>
 </ul>

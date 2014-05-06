@@ -24,6 +24,8 @@ class Child < CouchRest::Model::Base
   property :name
   property :short_id
   property :unique_identifier
+  property :case_id
+  property :registration_date
   property :created_organisation
   property :created_by
   property :reunited, TrueClass
@@ -42,8 +44,9 @@ class Child < CouchRest::Model::Base
   validates_with FieldValidator, :type => Field::TEXT_AREA
   validates_with FieldValidator, :type => Field::TEXT_FIELD
   validate :validate_created_at
-  validate :validate_has_at_least_one_field_value
+  # validate :validate_has_at_least_one_field_value
   validate :validate_last_updated_at
+  validate :validate_age
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -62,7 +65,9 @@ class Child < CouchRest::Model::Base
     child = new(fields)
     child.create_unique_id
     child['short_id'] = child.short_id
+    child['case_id'] = child.case_id
     child['name'] = fields['name'] || child.name || ''
+    child['registration_date'] = DateTime.now.strftime("%d/%b/%Y")
     child.set_creation_fields_for user
     child
   end
@@ -275,7 +280,7 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_age
-    return true if age.nil? || age.blank? || !age.is_number? || (age =~ /^\d{1,2}(\.\d)?$/ && age.to_f > 0 && age.to_f < 100)
+    return true if age.nil? || age.blank? || !age.is_number? || (age =~ /^\d{1,3}(\.\d)?$/ && age.to_f > 0 && age.to_f <= 130)
     errors.add(:age, I18n.t("errors.models.child.age"))
   end
 
@@ -381,6 +386,10 @@ class Child < CouchRest::Model::Base
 
   def short_id
     (self['unique_identifier'] || "").last 7
+  end
+
+  def case_id
+    self['unique_identifier']
   end
 
   def unique_identifier

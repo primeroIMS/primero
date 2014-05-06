@@ -3,6 +3,7 @@ Feature: Assign unique id to child
     when I login with my credentials
     my username should be used to create a unique child id
 
+  @wip
   Scenario: The unique Id of child should use the logged-in user's username
 
     Given I am logged in as a user with "Register Child" permission

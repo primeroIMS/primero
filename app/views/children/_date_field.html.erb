@@ -1,16 +1,14 @@
 <div class="row">
   <div class="medium-4 columns">
-  <span class="tool-tip-label">
+    <span class="tool-tip-label">
       <%= label_tag date_field.tag_name_attribute, t(date_field.name, :default => date_field.display_name), :class=>'key' %>
-
-  </span>
+    </span>
   </div>
   <div class="medium-8 columns">
-    <%= text_field_tag date_field.tag_name_attribute, @child[date_field.name] %>
-    <%= javascript_tag "$(document).ready(function(){ $(\"##{date_field.tag_id}\").datepicker({ dateFormat: 'dd/mm/yy' }); });" %>
+    <%= text_field_tag date_field.tag_name_attribute, @child[date_field.name], :disabled => date_field.editable == false ? true : false %>
+    <%= hidden_field_tag(date_field.tag_name_attribute, @child[date_field.name]) if  date_field.name == 'registration_date' %>
+    <%= javascript_tag "$(document).ready(function(){ $(\"##{date_field.tag_id}\").datepicker({ dateFormat: 'dd/MM/yy' }); });" %>
 
     <%= image_tag "new/icon_help.png", class: 'tool-tip-icon vtip', title: date_field.help_text if date_field.help_text.present? %>
   </div>
 </div>
-
-

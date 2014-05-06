@@ -24,16 +24,17 @@ describe "children/show.html.erb" do
       assign(:duplicates, Array.new)
     end
 
-    it "displays the child's photo" do
-      assign(:aside,'picture')
-
-      render :template => 'children/show', :layout => 'layouts/application'
-
-      rendered.should have_tag(".profile-image") do
-        with_tag("a[href=?]", child_resized_photo_path(@child, @child.primary_photo_id, 640))
-        with_tag("img[src=?]", child_resized_photo_path(@child, @child.primary_photo_id, 328))
-      end
-    end
+    # TODO: Photo removed for demo deploy. Add back later
+    # it "displays the child's photo" do
+    #   assign(:aside,'picture')
+    #
+    #   render :template => 'children/show', :layout => 'layouts/application'
+    #
+    #   rendered.should have_tag(".profile-image") do
+    #     with_tag("a[href=?]", child_resized_photo_path(@child, @child.primary_photo_id, 640))
+    #     with_tag("img[src=?]", child_resized_photo_path(@child, @child.primary_photo_id, 328))
+    #   end
+    # end
 
     it "renders all fields found on the FormSection" do
       @form_section.add_field Field.new_text_field("age", "Age")

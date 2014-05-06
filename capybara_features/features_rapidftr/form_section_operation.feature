@@ -78,7 +78,7 @@ Feature: Form section operation
       | characteristic|
       | nationality   |
 
-  @run
+  @run @wip
   Scenario: User creates a new form and it is added to the bottom of the list of forms
     Given I am on form section page
     When I follow "Create New Form Section"
@@ -112,6 +112,7 @@ Feature: Form section operation
     And I press "Save Details"
     Then I should see "Name must not be blank"
 
+  @wip
   Scenario: Cancelling the creation of a form
     Given I am on form section page
     When I follow "Create New Form Section"
