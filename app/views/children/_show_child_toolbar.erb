@@ -1,8 +1,17 @@
-<li>    
+<%#
+    TODO: We are taking out the "ichange log" button.
+    We will need to place this back in
+%>
+<li style="display:none;">
     <%= link_to t("child.change_log"), cases_history_path(@child), class: 'green-button' %>
 </li>
 
 <% if can? :update, child %>
+    <%#
+        TODO: We are taking out the "investigated" and "reunied" buttons.
+        Unlikely that we will put them back in. Delete the code in the future.
+    %>
+    <% if false %>
     <% if @child.flag? %>
         <li>
             <div class="dropdown_btn dropdown_form">
@@ -15,6 +24,7 @@
             <%= render 'reunited', child: @child %>
         </div>
     </li>
+    <% end %>
     <li>
         <div class="dropdown_btn dropdown_form">
             <%= render 'suspect_flag', child: @child %>

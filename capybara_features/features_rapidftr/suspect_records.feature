@@ -2,9 +2,9 @@ Feature: Suspect Records
 
   As an admin
   I want to manage flagged records
-  
+
   Background:
-  
+
   Given I am logged in as an admin
   And the following children exist in the system:
      | name   | unique_id  | flag     | flag_message      | investigated |
@@ -25,12 +25,14 @@ Feature: Suspect Records
   And I should see "Dave"
   And I should not see "George"
 
+  #Consider deleting this outright
+  @wip
   Scenario: Admin should be able to mark suspect record as investigated
   When I am on the cases filtered by flag
   And I follow "id_1"
   Then I should see "Mark as Investigated"
 
-  @javascript 
+  @javascript @wip
   Scenario: When an admin user marks a flagged record as investigated it should no longer appear on the suspect record page
   When I am on the cases filtered by flag
   And I follow "id_1"
@@ -40,6 +42,8 @@ Feature: Suspect Records
     """
   Then I should see "Mark as Not Investigated"
 
+   #Consider deleting this outright
+  @wip
   Scenario: Admin should be able to mark investigated record as not investigated
   When I am on the cases page
   And I follow "id_3"
@@ -51,7 +55,7 @@ Feature: Suspect Records
   Then I should not see "Mark as Investigated"
   And I should not see "Mark as Not Investigated"
 
-  @javascript
+  @javascript @wip
   Scenario: When I mark a record as investigated the change log should display a single entry for the change
   When I am on the cases filtered by flag
   And I follow "id_1"
@@ -62,7 +66,7 @@ Feature: Suspect Records
   And I follow "Change Log"
   Then I should see "Record was marked as Investigated by admin belonging to UNICEF because: I wouldn't worry about this guy"
 
-  @javascript
+  @javascript @wip
   Scenario: When I mark a record as not investigated the change log should display a single entry for the change
   When I am on the cases page
   And I follow "id_3"
