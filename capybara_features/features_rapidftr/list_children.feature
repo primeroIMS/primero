@@ -4,17 +4,17 @@ Feature: List children
   Background:
     Given the following children exist in the system:
       | name     | last_known_location | reporter | unique_id    |  birthplace    |
-      | andreas  | London              | zubair   | zubairlon123 |  nairobi       |
-      | zak      | London              | zubair   | zubairlon456 |  bengal        |
-      | jaco     | NYC                 | james    | james456     |  kerala        |
-      | meredith | Austin              | james    | james123     |  cairo         |
+      | andreas  | London              | zubair   | zub_01       |  nairobi       |
+      | zak      | London              | zubair   | zub_02       |  bengal        |
+      | jaco     | NYC                 | james    | jam_01       |  kerala        |
+      | meredith | Austin              | james    | jam_02       |  cairo         |
     And I am logged in as an admin
 
   Scenario: View link is not available on children listing page
-    When I am on the children listing page
+    When I am on the cases page
     Then I should not see "view"
 
-    When I click text "andreas"
+    When I click text "zub_01"
     Then I should see "Basic Identity"
     And I should see "andreas"
 

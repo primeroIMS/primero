@@ -15,7 +15,7 @@ Feature: Edit an existing photo
     And I attach a photo "capybara_features/resources/jorge.jpg"
     And I press "Save"
 
-    Then I should see "Child record successfully created"
+    Then I should see "Case record successfully created"
     And I should see the photo of "John"
     
     When I follow "Edit photo"
