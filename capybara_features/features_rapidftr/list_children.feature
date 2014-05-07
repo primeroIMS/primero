@@ -58,7 +58,8 @@ Feature: List children
     And I visit children listing page "2"
     And I should see children listing page "2"
 
-  @javascript
+  #TODO: field_protection_status removed.
+  @javascript @wip
   Scenario: A hidden highlighted field must not be visible in Child Summary
     Given I am on the edit form section page for "basic_identity"
     When I check "fields_protection_status"

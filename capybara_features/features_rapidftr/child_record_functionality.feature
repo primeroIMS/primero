@@ -54,63 +54,73 @@ Feature: Child record functionality
     And I select dropdown option "Name"
     Then I should see the order andreas,jaco,jane,meredith,zak
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Reunited returns all the reunited children in the system
     When I select "Reunited" from "filter"
     Then I should see "andreas"
     And I should see "jaco"
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Reunited shows the Order by options
     When I select "Reunited" from "filter"
     Then I should see "Order by"
     And I should see "Most recently reunited"
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Reunited should by default show the records ordered alphabetically
     When I select "Reunited" from "filter"
     Then I should see the order andreas,jaco
 
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Reunited and then selecting order by most recently reunited children returns the children in the order of most recently reunited
     When I select "Reunited" from "filter"
     And I select "Most recently reunited" from "order_by"
     Then I should see the order jaco,andreas
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Reunited by name should show records in alphabetical order
     And I select "Reunited" from "filter"
     And I select "Most recently reunited" from "order_by"
     And I select "Name" from "order_by"
     Then I should see the order andreas,jaco
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Flagged returns all the flagged children in the system
     When I select "Flagged" from "filter"
     Then I should see "zak"
     And I should see "jaco"
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Flagged shows the Order by options
     When I select "Flagged" from "filter"
     Then I should see "Order by"
     And I should see "Most recently flagged"
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Flagged returns all the flagged children in the system by order of most recently flagged
     When I select "Flagged" from "filter"
     And I select "Most recently flagged" from "order_by"
     Then show me the page
     Then I should see the order zak,jaco
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Flagged and then ordering by name returns the flagged children in alphabetical order
     Given I select "Flagged" from "filter"
     And I select "Name" from "order_by"
     Then I should see the order jaco,zak
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Flagged and ordering by most recently flagged returns the children in most recently flagged order
     When I select "Flagged" from "filter"
     And I select "Name" from "order_by"
@@ -126,7 +136,8 @@ Feature: Child record functionality
     Then I should see "Order by"
     And I should see "Most recently created"
 
-  @javascript
+  # TODO: Filter temp removed for demo deploy
+  @javascript @wip
   Scenario: Checking filter by Active and then ordering by most recently created returns the children in the order of most recently created
     When I select "Most recently created" from "order_by"
     Then I should see the order zak,jaco,meredith,jane

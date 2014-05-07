@@ -35,7 +35,8 @@ Feature: Add custom field to form section
 
     Then I should see "Anything"
 
-  @javascript
+  # TODO: Add back after demo deploy. Unfinished sidebar links removed
+  @javascript @wip
   Scenario: Admins should be able to add new date fields
     Given I am on the edit form section page for "family_details"
     And I wait until "family_details" is visible
@@ -136,8 +137,8 @@ Feature: Add custom field to form section
     And I follow "Cancel"
     Then I am on the form section page
 
-
-  @javascript
+  # TODO: Add back after demo deploy. Unfinished sidebar links removed
+  @javascript @wip
   Scenario: creating a numeric field
     Given I am on the edit form section page for "family_details"
     And I follow "Add Field"
@@ -175,7 +176,8 @@ Feature: Add custom field to form section
     Then I should see "Field successfully added"
     And I should see "My Text field" in the list of fields
 
-  @javascript
+  # TODO: Add back after demo deploy. Unfinished sidebar links removed
+  @javascript @wip
   Scenario: creating a radio_button field
 
     Given I am on the edit form section page for "family_details"
@@ -201,7 +203,8 @@ Feature: Add custom field to form section
       | one |
       | two |
 
-  @javascript
+  # TODO: Add back after demo deploy. Unfinished sidebar links removed
+  @javascript @wip
   Scenario: creating a dropdown field
 
     Given I am on the edit form section page for "family_details"
