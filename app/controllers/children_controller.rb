@@ -92,7 +92,7 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if @child.save
         flash[:notice] = t('child.messages.creation_success')
-        format.html { redirect_to(@child) }
+        format.html { redirect_to(case_path(@child)) }
         format.xml { render :xml => @child, :status => :created, :location => @child }
         format.json {
           render :json => @child.compact.to_json
