@@ -151,7 +151,7 @@ Feature: Child record functionality
 
   Scenario: Viewing a case record with audio attached - mp3
     Given a child record named "Fred" exists with a audio file with the name "sample.mp3"
-    When I am on the child record page for "Fred"
+    When I am on the case record page for "Fred"
     Then I should see an audio element that can play the audio file named "sample.mp3"
     When I follow "Edit"
     Then I should see an audio element that can play the audio file named "sample.mp3"
