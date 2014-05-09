@@ -1,3 +1,6 @@
-site :opscode
+source "http://api.berkshelf.com"
 
 metadata
+
+cookbook 'rvm', git: 'https://github.com/fnichol/chef-rvm.git'
+cookbook 'couchdb', git: 'https://github.com/Quoin/couchdb-cookbook.git', ref: 'a673f71a82b2549dd6c17987d3b76117d05d15f7'

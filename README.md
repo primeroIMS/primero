@@ -3,22 +3,17 @@ Primero
 
 ## Development
 To develop the application locally, you will need to install [Vagrant
-1.4.3](http://www.vagrantup.com/download-archive/v1.4.3.html) manually and a
-few Vagrant plugins to use Chef Solo.  If you are using a Quoin standard
-machine, then you need to apply [Pavel's patch to Ruby's ssh
+1.5.3](http://www.vagrantup.com/download-archive/v1.5.3.html) manually and a
+few Vagrant plugins to use Chef Solo.  Newer versions of Vagrant may work, but
+they are unsupported at this time.  If you are using a Quoin standard machine,
+then you need to apply [Pavel's patch to Ruby's ssh
 library](https://bitbucket.org/quoin/quoin-toolbox) (look under the *Baseline
 Tools* section) on your host machine so that your SSH cert keys don't make
 vagrant bomb out.  Once you have Vagrant installed, run the following to
 install the right plugins:
 
-    $ vagrant plugin install vagrant-berkshelf --plugin-version 1.3.7
-    $ vagrant plugin install vagrant-omnibus --plugin-version 1.3.1
-
-You will also need to grab the private data for chef-solo that is too sensitive
-to store on Bitbucket.  Make sure you have access to ohio and run the following
-in the project git clone root dir:
-
-    $ git clone ohio.quoininc.com:/srv/chef/primero cookbook/private
+    $ vagrant plugin install vagrant-berkshelf --plugin-version 2.0.0.rc3
+    $ vagrant plugin install vagrant-omnibus --plugin-version 1.4.1
 
 Now you are ready to start the VM.  Make sure you don't have anything running
 on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from
@@ -48,12 +43,14 @@ port 8443.  You can login with a preseeded admin account with credentials
 
 ### Deploy keys
 
-The above `rsync` command will grab the deploy keys for Bitbucket, but since
-development will happen on forked repositories you will need to make sure that
-your repository has that same deploy key enabled.  To do so, add the key from
-`cookbook/private/deploy_keys/id_rsa.pub` to your Bitbucket fork's deploy key
-list.  You do this by going into the repo admin and clicking on `Deployment
-Keys`.
+Since development will happen on forked repositories you will need to make sure
+that your personal repository has the right deploy key set.  To do so, add the
+key from the `node[:primero][:deploy_key]` attribute in the `dev-node.json`
+file in this repo to your Bitbucket fork's deploy key list.  You add the key in
+Bitbucket by going into the repo admin and clicking on `Deployment Keys`.  You
+might have to convert the `\\n` characters in the JSON string to real newlines
+first.
 
 ### Branching Strategy
 TODO by Pavel
+

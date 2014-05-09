@@ -26,22 +26,23 @@ directory node[:primero][:home_dir] do
   group node[:primero][:app_group]
 end
 
-if node[:primero][:environment].to_s.empty?
-  Chef::Application.fatal!("You must set the node[:primero][:environment] attribute")
-end
-
 ssh_dir = File.join(node[:primero][:home_dir], '.ssh')
-remote_directory ssh_dir do
-  source "ssh/#{node[:primero][:environment]}"
+directory ssh_dir do
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
-  files_owner node[:primero][:app_user]
-  files_group node[:primero][:app_group]
   mode '0700'
-  files_mode '0600'
 end
 
-cookbook_file File.join(ssh_dir, 'known_hosts') do
+private_key_path = ::File.join(ssh_dir, 'id_rsa')
+file private_key_path do
+  content node[:primero][:deploy_key]
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '0400'
+end
+
+known_hosts_path = ::File.join(ssh_dir, 'known_hosts')
+cookbook_file known_hosts_path do
   source 'ssh/known_hosts'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -54,8 +55,8 @@ template git_wrapper_path do
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
   variables({
-    :deploy_private_key_path => File.join(ssh_dir, 'id_rsa'),
-    :known_hosts_file => File.join(ssh_dir, 'known_hosts'),
+    :deploy_private_key_path => private_key_path,
+    :known_hosts_file => known_hosts_path,
   })
 end
 
