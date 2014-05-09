@@ -1,13 +1,14 @@
+node.default['nginx']['default_site_enabled'] = false
 
 apt_repository 'phusion-passenger' do
   uri          'https://oss-binaries.phusionpassenger.com/apt/passenger'
-  distribution 'precise'
+  distribution 'trusty'
   components   ['main']
   keyserver    'keyserver.ubuntu.com'
   key          '561F9B9CAC40B2F7'
 end
 
-%w(nginx-full passenger).each do |pkg|
+%w(nginx-extras passenger).each do |pkg|
   package pkg
 end
 
@@ -24,18 +25,12 @@ unless node[:primero][:server_hostname]
   Chef::Application.fatal!("You must specify the nginx server hostname in node[:primero][:server_hostname]!")
 end
 
-ssl_file_name = lambda do |ext|
-  "#{node[:primero][:server_hostname]}.#{ext}"
-end
-
 ['crt', 'key'].each do |ext|
-  file_name = ssl_file_name.call(ext)
-  ssl_file = ::File.join(ssl_dir, file_name)
-  cookbook_file ssl_file do
-    source "ssl_certs/#{file_name}"
+  file ::File.join(ssl_dir, "primero.#{ext}") do
+    content node[:primero][:ssl][ext.to_sym]
     owner "root"
     group "root"
-    mode "0600"
+    mode "0400"
     notifies :reload, 'service[nginx]'
   end
 end
@@ -61,8 +56,8 @@ template site_conf_file do
     :current_path => node[:primero][:app_dir],
     :rails_env => node[:primero][:rails_env],
     :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:rvm][:user_default_ruby]}/wrappers/ruby"),
-    :ssl_cert_path => ::File.join(ssl_dir, ssl_file_name.call('crt')),
-    :ssl_key_path => ::File.join(ssl_dir, ssl_file_name.call('key')),
+    :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
+    :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
   })
   notifies :restart, 'service[nginx]'
 end
