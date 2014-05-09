@@ -1,7 +1,8 @@
 Feature: Child change log
   Test weather each child has a proper change log attached to it.
 
-  @javascript
+  # TODO: Add back after demo deploy. Nationality removed and change log link hidden
+  @javascript @wip
   Scenario: Validate child creating and initial setting of field
 
     Given "bob" logs in with "Register Child,Edit Child" permissions
@@ -16,7 +17,8 @@ Feature: Child change log
     And I press the "Change Log" button
     Then I should see change log for initially setting the field "Nationality" to value "India" by "bob"
 
-  @javascript
+  # TODO: Add back after demo deploy. Change log link hidden
+  @javascript @wip
   Scenario: Validate editing a child record
 
     Given "bob" logs in with "Register Child,Edit Child" permissions
@@ -28,7 +30,8 @@ Feature: Child change log
     And I press the "Change Log" button
     Then I should see change log for changing value of field "Birthplace" from "Haiti" to value "India" by "bob"
 
-  @javascript
+  # TODO: Add back after demo deploy. Change log link hidden
+  @javascript @wip
   Scenario: Flagging a record
 
     Given "bob" logs in with "Register Child,Edit Child" permissions

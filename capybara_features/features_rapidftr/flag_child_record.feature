@@ -35,7 +35,7 @@ Feature: Flag child record
       """
       He is a not such a bad guy after all.
       """
-    Then I should see "Child was successfully updated."
+    Then I should see "Case was successfully updated."
     And the record history should log "Record was unflagged by praful belonging to UNICEF because: He is a not such a bad guy after all."
     When I am on the children listing page
     Then I should not see "Flagged By"

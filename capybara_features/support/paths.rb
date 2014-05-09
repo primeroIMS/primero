@@ -32,6 +32,9 @@ module NavigationHelpers
       when /new child page/
         new_child_path(options)
 
+      when /the new case page/
+        new_case_path(options)
+
       when /children listing page/
         children_path(options)
 
