@@ -57,6 +57,24 @@ Feature: Case Audio Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
 
+  Scenario: Uploading multiple images
+    Given I am logged in as a social worker with username "primero" and password "primero"
+    When I access "cases page"
+    Then I press the "Create a New Case" button
+    When I fill in "Name" with "John"
+    And I click the "Photos and Audio" link
+    And I attach the following photos:
+      |capybara_features/resources/jorge.jpg|
+      |capybara_features/resources/jeff.png |
+    And I press "Save"
+    Then I should see "Case record successfully created"
+
+    When I click the "Photos and Audio" link
+    Then I should see "2" thumbnails
+    When I follow "Edit"
+    And I click the "Photos and Audio" link
+    Then I should see "2" thumbnails
+
 
 
 
