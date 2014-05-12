@@ -174,7 +174,6 @@ h1 {
   color:$green_color !important;
   font-weight: normal !important;
   font-size: 2.313rem !important;
-  text-transform: capitalize;
   text-align: center;
   border-bottom: 1px solid #bbb;
   padding: .8rem;
@@ -613,4 +612,31 @@ nav {
 
 .close-side-tab {
   padding-right: 0
+}
+
+////////////////////////////////////////////////
+// Thumb gallery/Audio player
+////////////////////////////////////////////////
+
+.thumbnail {
+  float: left;
+  margin: 1px;
+
+  input {
+    float: left;
+    margin: 94px 12px 0 0;
+  }
+
+  label {
+    margin: 90px 12px 0 0;
+    float: left;
+  }
+}
+
+.jp-audio {
+  margin: 0 !important;
+}
+
+.jp-interface {
+  margin-top: 20px;
 }
