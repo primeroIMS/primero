@@ -678,7 +678,7 @@ describe ChildrenController do
     end
   end
 
-  # Bug - JIRA Ticket: https://quoinjira.atlassian.net/browse/PRIMERO-136
+  # TODO: Bug - JIRA Ticket: https://quoinjira.atlassian.net/browse/PRIMERO-136
   #
   # I switch between the latest and tag 1.0.0.1 to find out what is causing the issue.
   # In the older tag, the add_to_history method in the records_helper.rb is not being call where in the latest it is.
