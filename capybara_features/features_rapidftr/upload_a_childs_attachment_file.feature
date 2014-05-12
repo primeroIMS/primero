@@ -31,6 +31,7 @@ Feature: Upload a childs attachment file
     Then I should see "Please upload a valid photo file (jpg or png) for this case record"
     And I should see "Please upload a valid audio file (amr or mp3) for this case record"
 
+  @javascript
   Scenario: Uploading multiple images
     Given I am on the new case page
     When I fill in "Name" with "John"
