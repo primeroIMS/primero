@@ -19,8 +19,10 @@ RapidFTR::Application.configure do
 
   # Asset pipeline
   config.assets.compress = true
-  config.assets.compile = false
+  config.assets.compile = true
   config.assets.digest = true
+
+  config.assets.paths << Rails.root.join("vendor", "assets")
 
   config.eager_load = true
 end
