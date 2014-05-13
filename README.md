@@ -3,7 +3,7 @@ Primero
 
 ## Development
 To develop the application locally, you will need to install [Vagrant
-1.5.3](http://www.vagrantup.com/download-archive/v1.5.3.html) manually and a
+1.6.1](http://www.vagrantup.com/download-archive/v1.6.1.html) manually and a
 few Vagrant plugins to use Chef Solo.  Newer versions of Vagrant may work, but
 they are unsupported at this time.  If you are using a Quoin standard machine,
 then you need to apply [Pavel's patch to Ruby's ssh
@@ -12,7 +12,7 @@ Tools* section) on your host machine so that your SSH cert keys don't make
 vagrant bomb out.  Once you have Vagrant installed, run the following to
 install the right plugins:
 
-    $ vagrant plugin install vagrant-berkshelf --plugin-version 2.0.0.rc3
+    $ vagrant plugin install vagrant-berkshelf --plugin-source https://k6h8SqKvWpbe1yLKuyrx@gem.fury.io/keitwb/ --plugin-version 2.0.1.pre.quoin
     $ vagrant plugin install vagrant-omnibus --plugin-version 1.4.1
 
 Now you are ready to start the VM.  Make sure you don't have anything running
