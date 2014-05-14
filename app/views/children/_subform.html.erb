@@ -1,6 +1,5 @@
 <div class="row">
 
-
   <%
      #TODO: This will break for nested nested subforms. Disallow?
      subform_section = subform.subform_section
@@ -13,19 +12,18 @@
      name_prefix = "child[#{subform.name}]"
 
    %>
+  <div class="medium-4 columns">
+    <span class="tool-tip-label">
+      <%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %>
+    </span>
+  </div>
+  <div class="subforms">
+    <% (subforms_count).times do |i| %>
 
-  <%#
-  Determine whether the child record has a nested form for this field. Render the nested forms.
-  %>
-
-  <%# TODO: cheating with subforms count! %>
-
-  <% (subforms_count).times do |i| %>
-
-  <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-
-  <%# TODO: Render the individual fields %>
-  <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+    <div class="subform_container">
+      <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+      <%# TODO: Render the individual fields %>
+      <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
         <%= render partial: field.type,
                    object: field,
                    locals: {
@@ -33,13 +31,35 @@
                      keys: [subform.name, i.to_s, field.name]
                    }
         %>
-  <% end %>
+      <% end %>
+      </fieldset>
 
-  </fieldset>
-  <hr/>
+      <hr/>
 
-  <% end %>
+    </div>
 
-  <%# TODO: Add "ADD FORM" button %>
+    <% end %>
+  </div>
+
+  <%# Hidden subform! %>
+  <div class="subform_container template" style="display:none;">
+    <fieldset id="subform_<%= subform.name %>_template" class="<%= subform.name %> subform no-border">
+    <%# TODO: Render the individual fields %>
+    <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+      <%= render partial: field.type,
+                 object: field,
+                 locals: {
+                   name: "#{name_prefix}[template][#{field.name}]",
+                   value: nil
+                 }
+      %>
+    <% end %>
+    </fieldset>
+    <hr/>
+  </div>
+
+  <div>
+    <div id="subform_<%= subform.name %>_add_button" class="green-button" onclick="addSubform(event);" >Add</div>
+  </div>
 
 </div>

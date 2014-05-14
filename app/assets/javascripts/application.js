@@ -24,5 +24,6 @@
 //= require manage_users
 //= require session_timeout
 //= require flag_children
+//= require children.js
 
 $(function(){ $(document).foundation(); });
