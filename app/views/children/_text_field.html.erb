@@ -1,13 +1,22 @@
+<%
+  # TODO: Move to a generic helper and share?
+  name ||= text_field.tag_name_attribute
+  # TODO: Move to a generic helper and share?
+  value = @child[text_field.name]
+  if (defined? keys and keys.present? and !@child.new?)
+    value = @child
+    keys.each {|k| value = value[k]}
+  end
+%>
 <div class="row">
   <div class="medium-4 columns">
     <span class="tool-tip-label">
-      <%= label_tag text_field.tag_name_attribute, t(text_field.name, :default => text_field.display_name), :class=>'key' %>
+      <%= label_tag name, t(text_field.name, :default => text_field.display_name), :class=>'key' %>
     </span>
   </div>
   <div class="medium-8 columns">
-    <%= text_field_tag text_field.tag_name_attribute, @child[text_field.name], :disabled => text_field.editable == false ? true : false %>
+    <%= text_field_tag name, value, :disabled => text_field.editable == false ? true : false %>
 
     <%= image_tag "new/icon_help.png", title: text_field.help_text, class: 'tool-tip-icon vtip' if text_field.help_text.present? %>
   </div>
 </div>
-

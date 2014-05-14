@@ -1,0 +1,45 @@
+<div class="row">
+
+
+  <%
+     #TODO: This will break for nested nested subforms. Disallow?
+     subform_section = subform.subform_section
+
+     subforms_count = 0
+     if @child[subform.name].present?
+       subforms_count = @child[subform.name].count
+     end
+
+     name_prefix = "child[#{subform.name}]"
+
+   %>
+
+  <%#
+  Determine whether the child record has a nested form for this field. Render the nested forms.
+  %>
+
+  <%# TODO: cheating with subforms count! %>
+
+  <% (subforms_count).times do |i| %>
+
+  <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+
+  <%# TODO: Render the individual fields %>
+  <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+        <%= render partial: field.type,
+                   object: field,
+                   locals: {
+                     name: "#{name_prefix}[#{i}][#{field.name}]",
+                     keys: [subform.name, i.to_s, field.name]
+                   }
+        %>
+  <% end %>
+
+  </fieldset>
+  <hr/>
+
+  <% end %>
+
+  <%# TODO: Add "ADD FORM" button %>
+
+</div>
