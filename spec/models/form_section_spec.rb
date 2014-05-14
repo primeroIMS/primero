@@ -416,4 +416,191 @@ describe FormSection do
       end
     end
   end
+
+  describe "Create FormSection Or Add Fields" do
+
+    it "should create the FormSection if it does not exist" do
+      form_section = FormSection.create_or_update_form_section(
+        {"visible"=>true,
+         :order=>11, 
+         :unique_id=>"tracing",
+         :perm_visible => true,
+         "editable"=>true,
+         "name_all" => "Tracing Name",
+         "description_all" => "Tracing Description"
+        })
+      form_section.new?.should == false
+      form_section.fields.length.should == 0
+      form_section.visible.should == true
+      form_section.order.should == 11
+      form_section.perm_visible.should == true
+      form_section.editable.should == true
+      form_section.name.should == "Tracing Name"
+      form_section.description.should == "Tracing Description"
+    end
+
+    it "should not update the FormSection because it does exist" do
+      #Create a new FormSection should not exists.
+      form_section = FormSection.create_or_update_form_section(
+        {"visible"=>true,
+         :order=>11, 
+         :unique_id=>"tracing", 
+         :perm_visible => true, 
+         "editable"=>true,
+         "name_all" => "Tracing Name",
+         "description_all" => "Tracing Description"
+        })
+      form_section.new?.should == false
+      form_section.fields.length.should == 0
+      form_section.visible.should == true
+      form_section.order.should == 11
+      form_section.perm_visible.should == true
+      form_section.editable.should == true
+      form_section.name.should == "Tracing Name"
+      form_section.description.should == "Tracing Description"
+
+      #Attempt to create the same FormSection
+      #Should not change any property.
+      form_section_1 = FormSection.create_or_update_form_section(
+        {"visible"=>false,
+         :order=>12, 
+         :unique_id=>"tracing", 
+         :perm_visible => false, 
+         "editable"=>false,
+         "name_all" => "Tracing Name All",
+         "description_all" => "Tracing Description All"
+        })
+      #Nothing change.
+      form_section_1.new?.should == false
+      form_section_1.fields.length.should == 0
+      form_section_1.visible.should == false
+      form_section_1.order.should == 12
+      form_section_1.perm_visible.should == false
+      form_section_1.editable.should == false
+      form_section_1.name.should == "Tracing Name All"
+      form_section_1.description.should == "Tracing Description All"
+    end
+
+    it "should add fields if does not exist" do
+      fields = [
+        Field.new({"name" => "date_of_separation",
+                   "type" => "date_field",
+                   "display_name_all" => "Date of Separation"
+                  })
+      ]
+      #Create a new FormSection should not exists.
+      form_section = FormSection.create_or_update_form_section(
+        {"visible"=>true,
+         :order=>11, 
+         :unique_id=>"tracing",
+          :fields => fields,
+         :perm_visible => true,
+         "editable"=>true,
+         "name_all" => "Tracing Name",
+         "description_all" => "Tracing Description"
+        })
+      form_section.new?.should == false
+      form_section.fields.length.should == 1
+      form_section.visible.should == true
+      form_section.order.should == 11
+      form_section.perm_visible.should == true
+      form_section.editable.should == true
+      form_section.name.should == "Tracing Name"
+      form_section.description.should == "Tracing Description"
+
+      fields_1 = [
+        Field.new({"name" => "date_of_separation",
+                   "type" => "text_field",
+                   "display_name_all" => "Date of Separation All"
+                  }),
+        Field.new({"name" => "separation_cause",
+                   "type" => "select_box",
+                   "display_name_all" => "What was the main cause of separation?"
+                  })
+      ]
+      #Attempt to create a new section, no update form section
+      #no update the existing field, but add the new field.
+      form_section_1 = FormSection.create_or_update_form_section(
+        {"visible"=>false,
+         :order=>12, 
+         :unique_id=>"tracing",
+          :fields => fields_1,
+         :perm_visible => false,
+         "editable"=>false,
+         "name_all" => "Tracing Name All",
+         "description_all" => "Tracing Description All"
+        })
+      #nothing change
+      form_section_1.new?.should == false
+      form_section_1.fields.length.should == 2
+      form_section_1.visible.should == false
+      form_section_1.order.should == 12
+      form_section_1.perm_visible.should == false
+      form_section_1.editable.should == false
+      form_section_1.name.should == "Tracing Name All"
+      form_section_1.description.should == "Tracing Description All"
+
+      #Check that the existing field did not change.
+      form_section_1.fields[0].name.should == "date_of_separation"
+      form_section_1.fields[0].type.should == "text_field"
+      form_section_1.fields[0].display_name.should == "Date of Separation All"
+      
+      #Check the new field.
+      form_section_1.fields[1].name.should == "separation_cause"
+      form_section_1.fields[1].type.should == "select_box"
+      form_section_1.fields[1].display_name.should == "What was the main cause of separation?"
+    end
+
+    it "should create FormSection" do
+      properties = {
+        "visible"=>true,
+        :order=>11, 
+        :unique_id=>"tracing",
+        :perm_visible => true,
+        "editable"=>true,
+        "name_all" => "Tracing Name",
+        "description_all" => "Tracing Description"
+      }
+      new_form_section = FormSection.new
+      new_form_section.should_not_receive(:save)
+      new_form_section.should_not_receive(:attributes)
+      FormSection.should_receive(:get_by_unique_id).with("tracing").and_return(nil)
+      FormSection.should_receive(:create!).with(properties).and_return(new_form_section)
+
+      form_section = FormSection.create_or_update_form_section(properties)
+      form_section.should == new_form_section
+    end
+
+    it "should add Field" do
+      fields = [
+        Field.new({"name" => "date_of_separation",
+                   "type" => "text_field",
+                   "display_name_all" => "Date of Separation All"
+                  }),
+        Field.new({"name" => "separation_cause",
+                   "type" => "select_box",
+                   "display_name_all" => "What was the main cause of separation?"
+                  })
+      ]
+      properties = {
+        "visible"=>true,
+        :order=>11, 
+        :unique_id=>"tracing",
+        :fields => fields,
+        :perm_visible => true,
+        "editable"=>true,
+        "name_all" => "Tracing Name",
+        "description_all" => "Tracing Description"
+      }
+
+      existing_form_section = FormSection.new
+      existing_form_section.should_receive(:attributes=).with(properties)
+      existing_form_section.should_receive(:save)
+      FormSection.should_receive(:get_by_unique_id).with("tracing").and_return(existing_form_section)
+
+      form_section = FormSection.create_or_update_form_section(properties)
+      form_section.should == existing_form_section
+    end
+
+  end
 end
