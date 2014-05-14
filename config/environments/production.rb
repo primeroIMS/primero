@@ -24,5 +24,7 @@ RapidFTR::Application.configure do
 
   config.assets.paths << Rails.root.join("vendor", "assets")
 
+  config.assets.precompile += %w( jplayer.blue.monday.css **.jpg **.png )
+
   config.eager_load = true
 end
