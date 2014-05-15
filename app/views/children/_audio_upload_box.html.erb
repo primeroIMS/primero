@@ -1,17 +1,19 @@
-<p class="file">
-  <%= label_tag "child[audio]", "Recorded Audio", :class=>'key' %>
-  <%= file_field_tag "child[audio]" %>
+<div class="row">
+  <div class="file medium-12 columns">
+    <%= label_tag "child[audio]", "Recorded Audio", :class=>'key' %>
+    <%= file_field_tag "child[audio]" %>
 
-  <ul class="audio_player_section">
-    <%= render :partial => "field_display_audio", :locals => {:field => nil, :child => @child} %>
-  </ul>
+    <ul class="audio_player_section">
+      <%= render :partial => "field_display_audio", :locals => {:field => nil, :child => @child} %>
+    </ul>
 
-  <% if audio_upload_box.help_text.present? %>
+    <% if audio_upload_box.help_text.present? %>
       <br/>
-  <span class='help-text-container'>
-    <span class='help-text'>
-      <%= audio_upload_box.help_text %>
+    <span class='help-text-container'>
+      <span class='help-text'>
+        <%= audio_upload_box.help_text %>
+      </span>
     </span>
-  </span>
-  <% end %>
-</p>
+    <% end %>
+  </div>
+</div>

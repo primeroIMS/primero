@@ -2,6 +2,8 @@ module RapidFTR
 
   module FollowUpFormSectionSetup
 
+    #TODO this will change to use the same method as in form_section_setup.rb
+    #     for now was commented out from the migration files.
     def self.reset_definitions
       outcome_of_follow_up_visit_fields = [
         Field.new({"name" => "was_child_seen",
