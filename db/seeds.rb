@@ -39,11 +39,10 @@ if should_seed? User
   end
 end
 
+#Update or create FormSection.
 RapidFTR::FormSectionSetup.reset_definitions
-#TODO verify how this work, don't have files at this time.
-#if should_seed? FormSection
-#  RapidFTR::I18nSetup.reset_definitions
-#end
+#TODO We will to revisit the I18n Setup when we address translations.
+RapidFTR::I18nSetup.reset_definitions
 
 if should_seed? ContactInformation
   ContactInformation.create(:id=>"administrator")

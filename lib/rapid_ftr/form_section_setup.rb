@@ -2,6 +2,9 @@ module RapidFTR
 
   module FormSectionSetup
 
+    #The method was changed, instead of delete existing FormSection and add again
+    #it will update existing FormSection if needed and also it will update fields
+    #and it will add new fields if needed.
     def self.reset_definitions
       basic_identity_fields = [
         Field.new({"name" => "case_id",
