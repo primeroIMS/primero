@@ -190,7 +190,7 @@ module RapidFTR
                   }),
         Field.new({"name" => "additional_tracing_info",
                    "type" => "textarea",
-                   "display_name_all" => "Additional Info that Could Help in Tracing?"
+                   "display_name_all" => "Additional info that could help in tracing?"
                   }),
         Field.new({"name" => "evacuation_status",
                    "type" => "select_box",
