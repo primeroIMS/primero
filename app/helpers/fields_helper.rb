@@ -14,4 +14,31 @@ module FieldsHelper
 	def forms_for_display
 	  FormSection.all.sort_by{ |form| form.name || "" }.map{ |form| [form.name, form.unique_id] }
 	end
+
+  def field_tag_name(object, field, field_keys=[])
+    if field_keys.present?
+      "#{object.class.name.downcase}[#{field_keys.join('][')}]"
+    else
+      field.tag_name_attribute
+    end
+  end
+
+  def field_value(object, field, field_keys=[])
+    if field_keys.present? && !object.new?
+      field_value = object
+      field_keys.each {|k| field_value = field_value[k]}
+    else
+      field_value = object[field.name]
+    end
+    return field_value
+  end
+
+  def subforms_count(object, field)
+    subforms_count = 0
+    if object[field.name].present?
+      subforms_count = object[field.name].count
+    end
+    return subforms_count
+  end
+
 end

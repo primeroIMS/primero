@@ -1,15 +1,7 @@
 <%
-  # TODO: Move to a generic helper and share?
-  name ||= text_field.tag_name_attribute
-  # TODO: Move to a generic helper and share?
-  unless defined? value
-    value = @child[text_field.name]
-    #Potentially that new? will cause trouble: doesnt always work for nesting at the moment
-    if (defined? keys and keys.present? and !@child.new?)
-      value = @child
-      keys.each {|k| value = value[k]}
-    end
-  end
+  field_keys ||= []
+  name = field_tag_name @child, text_field, field_keys
+  value ||= field_value @child, text_field, field_keys
 %>
 <div class="row">
   <div class="medium-4 columns">

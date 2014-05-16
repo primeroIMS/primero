@@ -1,16 +1,8 @@
 <div class="row">
-
   <%
-     #TODO: This will break for nested nested subforms. Disallow?
+     #TODO: This will break for nested nested subforms if we decide to have those.
      subform_section = subform.subform_section
-
-     subforms_count = 0
-     if @child[subform.name].present?
-       subforms_count = @child[subform.name].count
-     end
-
-     name_prefix = "child[#{subform.name}]"
-
+     number_of_subforms = subforms_count @child, subform
    %>
   <div class="medium-4 columns">
     <span class="tool-tip-label">
@@ -18,16 +10,14 @@
     </span>
   </div>
   <div class="subforms">
-    <% (subforms_count).times do |i| %>
-
+    <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
         <%= render partial: field.type,
                    object: field,
                    locals: {
-                     name: "#{name_prefix}[#{i}][#{field.name}]",
-                     keys: [subform.name, i.to_s, field.name]
+                     field_keys: [subform.name, i.to_s, field.name]
                    }
         %>
       <% end %>
@@ -36,7 +26,6 @@
       <a onclick="removeSubform(event);">Remove</a>
       <hr/>
     </div>
-
     <% end %>
   </div>
 
@@ -48,8 +37,8 @@
       <%= render partial: field.type,
                  object: field,
                  locals: {
-                   name: "#{name_prefix}[template][#{field.name}]",
-                   value: nil
+                   field_keys: [subform.name, 'template', field.name],
+                   value: ""
                  }
       %>
     <% end %>
@@ -60,6 +49,7 @@
   </div>
 
   <%# Add button %>
+  <%#TODO: Reposition, translation for "Add" %>
   <div>
     <div id="subform_<%= subform.name %>_add_button" class="green-button" onclick="addSubform(event);">Add</div>
   </div>

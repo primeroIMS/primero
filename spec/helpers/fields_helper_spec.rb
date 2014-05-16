@@ -2,6 +2,18 @@ require 'spec_helper'
 
 describe FieldsHelper do
 
+  before(:all) do
+    @child = Child.create(:name => "Simon", created_by: "bob")
+    @child["nested_form_section"] = {
+      "0"=>{"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
+      "1"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}
+    }
+    @child.save!
+    @nested_field = Field.new({"name" => "nested_form_section",
+               "type" => "subform", "editable" => true,
+               "display_name_all" => "Top 2 Subform"})
+  end
+
   before :each do
     @fields_helper = Object.new.extend FieldsHelper
   end
@@ -36,5 +48,28 @@ describe FieldsHelper do
       option_fields.should == ["X", "Y"]
     end
   end
+
+
+  describe "field_tag_name" do
+    it "should build a tag name from the array of keys" do
+      tag_name = @fields_helper.field_tag_name(@child, @nested_field, ["nested_form_section", "0"])
+      expect(tag_name).to eq("child[nested_form_section][0]")
+    end
+  end
+
+  describe "field_value" do
+    it "should return a value of a nested form for an existing child" do
+      value = @fields_helper.field_value(@child, @nested_field, ["nested_form_section", "0"])
+      expect(value).to eq({"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"})
+    end
+  end
+
+  describe "subforms_count" do
+    it "should return the number of nested subforms" do
+      count = @fields_helper.subforms_count(@child, @nested_field)
+      expect(count).to eq(2)
+    end
+  end
+
 
 end
