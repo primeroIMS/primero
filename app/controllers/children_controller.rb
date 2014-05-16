@@ -143,8 +143,8 @@ class ChildrenController < ApplicationController
         @child = update_child_from params
         if @child.save
           flash[:notice] = I18n.t("case.messages.update_success")
-          return redirect_to params[:redirect_url] if params[:redirect_url]
-          redirect_to @child
+          return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
+          redirect_to case_path(@child, { follow: true })
         else
           @form_sections = get_form_sections
           render :action => "edit"
