@@ -240,12 +240,11 @@ module RapidFTR
                    "display_name_all" => "Sender Agency",
                    "option_strings_text_all" => "GTZ\nIRC\nSCUK\nUNICEF",
                   }),
-#TODO Revisit this, FormSection does not allow a select_box field without options.
-#        Field.new({"name" => "social_worker",
-#                   "type" => "select_box", 
-#                   "display_name_all" => "Social Worker",
-#                   "option_strings_text_all" => ""
-#                  }),
+        #TODO Revisit this should display a select box with the user of the network.
+        Field.new({"name" => "social_worker",
+                   "type" => "text_field", 
+                   "display_name_all" => "Social Worker",
+                  }),
       ]
       FormSection.create_or_update_form_section({"visible"=>true,
                                 :order=> 2, :unique_id=>"consent", "editable"=>true,
