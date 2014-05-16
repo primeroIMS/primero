@@ -16,6 +16,7 @@ Feature: Tracing Separation History
     | What was the main cause of separation? |
     | Evacuated From                         |
     | Evacuated To                           |
+    | Additional info that could help in tracing?|
 
   Scenario: As a logged in user, I create a case with tracing information
     Given I am logged in as an admin with username "primero" and password "primero"
@@ -23,7 +24,10 @@ Feature: Tracing Separation History
     And I press the "Create a New Case" button
     And I press the "Tracing" button
     When I select "Open" from "Tracing Status"
+    And I fill in the following:
+      | Additional info that could help in tracing? | Some Additional Information |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     When I press the "Tracing" button
     Then I should see a value for "Tracing Status" on the show page with the value of "Open"
+    And I should see a value for "Additional info that could help in tracing?" on the show page with the value of "Some Additional Information"
