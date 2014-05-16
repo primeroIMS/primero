@@ -612,18 +612,21 @@ describe Child do
     end
   end
 
-  it "should create a unique id" do
-    child = Child.new
-    UUIDTools::UUID.stub("random_create").and_return(12345)
-    child.create_unique_id
-    child["unique_identifier"].should == "12345"
-  end
+  describe "unique id" do
+    it "should create a unique id" do
+      child = Child.new
+      UUIDTools::UUID.stub("random_create").and_return(12345)
+      child.create_unique_id
+      child["unique_identifier"].should == "12345"
+    end
 
-  it "should return last 7 characters of unique id as short id" do
-    child = Child.new
-    UUIDTools::UUID.stub("random_create").and_return(1212127654321)
-    child.create_unique_id
-    child.short_id.should == "7654321"
+    it "should return last 7 characters of unique id as short id" do
+      child = Child.new
+      UUIDTools::UUID.stub("random_create").and_return(1212127654321)
+      child.create_unique_id
+      child.short_id.should == "7654321"
+    end
+
   end
 
   describe "photo attachments" do
