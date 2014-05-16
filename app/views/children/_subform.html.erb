@@ -20,9 +20,8 @@
   <div class="subforms">
     <% (subforms_count).times do |i| %>
 
-    <div class="subform_container">
+    <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-      <%# TODO: Render the individual fields %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
         <%= render partial: field.type,
                    object: field,
@@ -33,16 +32,16 @@
         %>
       <% end %>
       </fieldset>
-
+      <%#TODO: Add style, translations for "Remove", and add a data-confirm with translated message asking whether we really want to get rid of this. %>
+      <a onclick="removeSubform(event);">Remove</a>
       <hr/>
-
     </div>
 
     <% end %>
   </div>
 
-  <%# Hidden subform! %>
-  <div class="subform_container template" style="display:none;">
+  <%# Hidden subform template %>
+  <div id="subform_container<%= subform.name %>_template" class="template" style="display:none;">
     <fieldset id="subform_<%= subform.name %>_template" class="<%= subform.name %> subform no-border">
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
@@ -55,11 +54,14 @@
       %>
     <% end %>
     </fieldset>
+    <%#TODO: Add style, translations for "Remove", and add a data-confirm with translated message asking whether we really want to get rid of this. %>
+    <a onclick="removeSubform(event);">Remove</a>
     <hr/>
   </div>
 
+  <%# Add button %>
   <div>
-    <div id="subform_<%= subform.name %>_add_button" class="green-button" onclick="addSubform(event);" >Add</div>
+    <div id="subform_<%= subform.name %>_add_button" class="green-button" onclick="addSubform(event);">Add</div>
   </div>
 
 </div>
