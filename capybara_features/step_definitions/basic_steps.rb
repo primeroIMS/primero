@@ -59,7 +59,7 @@ And /^pause$/ do
   binding.pry
 end
 
-And /^I should stay on the "(.+)" tab on the case "(.+)" page's form section$/ do |tab, page_action|
+And /^I should stay on the "(.+)" tab on the case "(.+)" page$/ do |tab, page_action|
   page.should have_css('h1', :text => tab, :visible => true)
   path = Rails.application.routes.recognize_path(current_url)
   page_action.should eql(path[:action])
