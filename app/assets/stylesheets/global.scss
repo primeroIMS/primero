@@ -626,6 +626,18 @@ nav {
   padding-right: 0
 }
 
+li.current {
+  background: #f1f1f1;
+
+  a:after {
+    content: '\25BA';
+    float: right;
+    color: $green_color;
+    font-size: .9rem;
+    padding: 4px;
+  }
+}
+
 ////////////////////////////////////////////////
 // Thumb gallery/Audio player
 ////////////////////////////////////////////////

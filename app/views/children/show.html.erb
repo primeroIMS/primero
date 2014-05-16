@@ -47,7 +47,7 @@ $(".profile-tools .investigated a").click( function(){
         <%= render 'show_child_toolbar', child: @child %>
 
         <% if can? :update, @child %>        
-            <li><%= link_to t("buttons.edit"), edit_case_path(@child), class: 'green-button' %></li>
+            <li><%= link_to t("buttons.edit"), edit_case_path(@child, { follow: true }), class: 'green-button' %></li>
         <% end %>	
     </ul>
 <% end %>
