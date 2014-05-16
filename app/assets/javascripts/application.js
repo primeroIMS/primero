@@ -14,6 +14,8 @@
 //= require plugins/vtip-min
 //= require i18n
 //= require i18n/translations
+//= require primero
+//= require sidebar
 //= require rapidftr
 //= require jquery_plugin
 //= require advanced_search
