@@ -29,6 +29,8 @@ RapidFTR::Application.configure do
   config.assets.compile = false
   config.assets.digest = true
 
+  config.assets.paths << Rails.root.join("vendor")
+
   # TODO is production ?
   config.eager_load = true
 end

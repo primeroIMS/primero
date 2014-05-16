@@ -38,6 +38,7 @@ vendor/ruby/
 <Solr_data_dir>
 .powrc
 Guardfile
+cookbook/cookbooks/
 cookbook/private/
 .project
 .buildpath

@@ -14,6 +14,8 @@
 //= require plugins/vtip-min
 //= require i18n
 //= require i18n/translations
+//= require primero
+//= require sidebar
 //= require rapidftr
 //= require jquery_plugin
 //= require advanced_search
@@ -24,6 +26,7 @@
 //= require manage_users
 //= require session_timeout
 //= require flag_children
-//= require children.js
+//= require subforms
+//= require photo_audio_fields
 
 $(function(){ $(document).foundation(); });

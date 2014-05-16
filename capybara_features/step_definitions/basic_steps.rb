@@ -59,6 +59,12 @@ And /^pause$/ do
   binding.pry
 end
 
+And /^I should stay on the "(.+)" tab on the case "(.+)" page$/ do |tab, page_action|
+  page.should have_css('h1', :text => tab, :visible => true)
+  path = Rails.application.routes.recognize_path(current_url)
+  page_action.should eql(path[:action])
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
@@ -78,6 +84,7 @@ end
 When /^I attach the following photos:$/ do |table|
   table.raw.each_with_index do |photo, i|
     step %Q{I attach the file "#{photo.first}" to "child[photo]#{i}"}
+    step %Q{I click on the "Add another photo" link}
   end
 end
 

@@ -24,6 +24,7 @@ RapidFTR.maintabControl = function(){
 }
 
 RapidFTR.tabControl = function() {
+  var self = this
   $(".tab").hide();
   $(".tab-handles li:first").addClass("current").show();
   $(".tab:first").show();
@@ -34,6 +35,8 @@ RapidFTR.tabControl = function() {
     $(".tab").hide();
 
     var activeTab = $(this).attr("href");
+
+    self.tabRedirection.ls_set_tab(activeTab);
 
     $(this).parent().addClass("current");
     $(activeTab).show();
@@ -210,7 +213,7 @@ RapidFTR.validateSearch = function() {
   }
 
   return true;
-}
+};
 
 RapidFTR.PasswordPrompt = (function() {
     var passwordDialog = null, targetEl = null, passwordEl = null;
@@ -283,6 +286,7 @@ RapidFTR.PasswordPrompt = (function() {
 }) ();
 
 $(document).ready(function() {
+  _primero = $.extend(RapidFTR, _primero);
   RapidFTR.maintabControl();
   RapidFTR.tabControl();
   RapidFTR.enableSubmitLinks();
@@ -297,20 +301,10 @@ $(document).ready(function() {
 
   RapidFTR.PasswordPrompt.initialize();
 
-    RapidFTR.Utils.enableFormErrorChecking();
-    RapidFTR.showDropdown();
+  RapidFTR.Utils.enableFormErrorChecking();
+  RapidFTR.showDropdown();
 
   // set height of sidebar depending on side content
-  window._primero = {
-      set_content_sidebar_equality: set_content_sidebar_equality
-  }
-
-  function set_content_sidebar_equality() {
-    // Added to size sidebar and side content
-    content = $('.side-tab-content')
-    sidebar = $('.side-tab')
-
-    sidebar.height(content.height() + 50)
-  }
-  set_content_sidebar_equality();
+  _primero.set_content_sidebar_equality();
+  _primero.tabRedirection.redirect();
 });
