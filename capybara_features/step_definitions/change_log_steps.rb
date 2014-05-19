@@ -33,3 +33,7 @@ Then /^I save file with password "(.+)"$/ do |password|
   step "I fill in \"password\" with \"#{password}\""
   step "I press \"OK\""
 end
+
+Then /^I see the list is in order with this (.*)$/ do |item|
+  page.all(:css, 'ul.history-details li div', :text => item)
+end
