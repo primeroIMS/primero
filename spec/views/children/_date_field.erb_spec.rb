@@ -33,7 +33,7 @@ describe "children/_date_field.html.erb" do
 
     render :partial => 'children/date_field', :locals => { :date_field => date_field }, :formats => [:html], :handlers => [:erb]
 
-    rendered.should be_include("dateFormat: 'dd/MM/yy'")
+    rendered.should be_include("dateFormat: 'dd/M/yy'")
 
   end
 end
