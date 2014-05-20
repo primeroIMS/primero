@@ -282,11 +282,15 @@ class Child < CouchRest::Model::Base
   def validate_age
     return true if age.nil? || age.blank? || !age.is_number? || (age =~ /^\d{1,3}(\.\d)?$/ && age.to_f > 0 && age.to_f <= 130)
     errors.add(:age, I18n.t("errors.models.child.age"))
+
+    error_with_section(:age, I18n.t("errors.models.child.age"))
   end
 
   def validate_photos
     return true if @photos.blank? || @photos.all? { |photo| /image\/(jpg|jpeg|png)/ =~ photo.content_type }
     errors.add(:photo, I18n.t("errors.models.child.photo_format"))
+
+    error_with_section(:current_photo_key, I18n.t("errors.models.child.photo_format"))
   end
 
   def validate_photos_size
@@ -411,6 +415,17 @@ class Child < CouchRest::Model::Base
     scheduler.every("24h") do
       Child.reindex!
     end
+  end
+
+  def error_with_section(field, message)
+    lookup = field_definitions.select{ |f| f.name == field.to_s }
+    lookup = lookup.first.form
+    error_info = {
+        internal_section: "#tab_#{lookup.unique_id}",
+        translated_section: lookup["name_#{I18n.locale}"],
+        message: message,
+        order: lookup.order }
+    errors.add(:section_errors, error_info)
   end
 
   private

@@ -100,6 +100,8 @@ class ChildrenController < ApplicationController
       else
         format.html {
           @form_sections = get_form_sections
+
+          # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
           render :action => "new"
         }
         format.xml { render :xml => @child.errors, :status => :unprocessable_entity }
@@ -147,6 +149,8 @@ class ChildrenController < ApplicationController
           redirect_to case_path(@child, { follow: true })
         else
           @form_sections = get_form_sections
+
+          # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
           render :action => "edit"
         end
       end
