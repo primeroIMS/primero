@@ -1,5 +1,3 @@
-
-
 div.jp-audio {
   font-size:1em; /* No parent CSS that can effect the size in these demos */
 	font-family:Verdana, Arial, sans-serif;
@@ -59,17 +57,17 @@ div.jp-audio div.jp-type-playlist a.jp-pause {
 	left:48px;
 }
 a.jp-play {
-	background: url("jplayer.blue.monday.jpg") 0 0 no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 0 no-repeat;
 }
 a.jp-play:hover {
-	background: url("jplayer.blue.monday.jpg") -41px 0 no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) -41px 0 no-repeat;
 }
 a.jp-pause {
-	background: url("jplayer.blue.monday.jpg") 0 -42px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -42px no-repeat;
 	display: none;
 }
 a.jp-pause:hover {
-	background: url("jplayer.blue.monday.jpg") -41px -42px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) -41px -42px no-repeat;
 }
 div.jp-audio div.jp-type-single a.jp-stop {
 	top:26px;
@@ -81,13 +79,13 @@ div.jp-audio div.jp-type-playlist a.jp-stop {
 }
 
 a.jp-stop {
-	background: url("jplayer.blue.monday.jpg") 0 -83px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -83px no-repeat;
 	width:28px;
 	height:28px;
 	z-index:1;
 }
 a.jp-stop:hover {
-	background: url("jplayer.blue.monday.jpg") -29px -83px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) -29px -83px no-repeat;
 }
 div.jp-audio div.jp-type-playlist a.jp-previous {
 	left:20px;
@@ -95,12 +93,12 @@ div.jp-audio div.jp-type-playlist a.jp-previous {
 }
 
 a.jp-previous {
-	background: url("jplayer.blue.monday.jpg") 0 -112px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -112px no-repeat;
 	width:28px;
 	height:28px;
 }
 a.jp-previous:hover {
-	background: url("jplayer.blue.monday.jpg") -29px -112px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) -29px -112px no-repeat;
 }
 div.jp-audio div.jp-type-playlist a.jp-next {
 	left:88px;
@@ -108,12 +106,12 @@ div.jp-audio div.jp-type-playlist a.jp-next {
 }
 
 a.jp-next {
-	background: url("jplayer.blue.monday.jpg") 0 -141px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -141px no-repeat;
 	width:28px;
 	height:28px;
 }
 a.jp-next:hover {
-	background: url("jplayer.blue.monday.jpg") -29px -141px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) -29px -141px no-repeat;
 }
 div.jp-progress {
 	position: absolute;
@@ -134,14 +132,14 @@ div.jp-audio div.jp-type-playlist div.jp-progress {
 }
 
 div.jp-seek-bar {
-	background: url("jplayer.blue.monday.jpg") 0 -202px repeat-x;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -202px repeat-x;
 	width:0px;
 	/* height:15px; */
 	height:100%;
 	cursor: pointer;
 }
 div.jp-play-bar {
-	background: url("jplayer.blue.monday.jpg") 0 -218px repeat-x ;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -218px repeat-x ;
 	width:0px;
 	/* height:15px; */
 	height:100%;
@@ -149,7 +147,7 @@ div.jp-play-bar {
 
 /* The seeking class is added/removed inside jPlayer */
 div.jp-seeking-bg {
-	background: url("pbar-ani.gif");
+	background: url(image_path("pbar-ani.gif"));
 }
 
 a.jp-mute,
@@ -169,22 +167,22 @@ div.jp-audio div.jp-type-playlist a.jp-unmute {
 }
 
 a.jp-mute {
-	background: url("jplayer.blue.monday.jpg") 0 -186px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -186px no-repeat;
 }
 a.jp-mute:hover {
-	background: url("jplayer.blue.monday.jpg") -19px -170px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) -19px -170px no-repeat;
 }
 a.jp-unmute {
-	background: url("jplayer.blue.monday.jpg") 0 -170px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -170px no-repeat;
 	display: none;
 }
 a.jp-unmute:hover {
-	background: url("jplayer.blue.monday.jpg") -19px -186px no-repeat;
+	background: url(image_path('jplayer.blue.monday.jpg') ) -19px -186px no-repeat;
 }
 div.jp-volume-bar {
 	position: absolute;
 	overflow:hidden;
-	background: url("jplayer.blue.monday.jpg") 0 -250px repeat-x;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -250px repeat-x;
 	width:46px;
 	height:5px;
 	cursor: pointer;
@@ -199,7 +197,7 @@ div.jp-audio div.jp-type-playlist div.jp-volume-bar {
 }
 
 div.jp-volume-bar-value {
-	background: url("jplayer.blue.monday.jpg") 0 -256px repeat-x;
+	background: url(image_path('jplayer.blue.monday.jpg') ) 0 -256px repeat-x;
 	width:0px;
 	height:5px;
 }
