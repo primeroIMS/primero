@@ -148,7 +148,7 @@ module RapidFTR
                    "display_name_all" => "If other, please specify",
                   }),
         Field.new({"name" => "consent_reporting",
-                   "type" => "check_boxes",
+                   "type" => "select_box",
                    "display_name_all" => "Authorization to share non-identifiable information for reporting",
                    "option_strings_text_all" => "Yes\nNo"
                   }),
@@ -252,8 +252,8 @@ module RapidFTR
       FormSection.create_or_update_form_section({"visible"=>true,
                                 :order=> 2, :unique_id=>"consent", "editable"=>true,
                                 :fields => consent_fields, :perm_enabled => true,
-                                "name_all" => "Consent",
-                                "description_all" => "Consent"
+                                "name_all" => "Data Confidentiality",
+                                "description_all" => "Data Confidentiality"
                                 })
 
       photo_audio_fields = [
