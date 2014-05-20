@@ -472,11 +472,11 @@ describe ChildrenController do
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, params_child)
       Child.stub(:get).and_return(child)
-      put :update, :id => '1', :child => params_child, :redirect_url => '/children'
-      response.should redirect_to '/children'
+      put :update, :id => '1', :child => params_child, :redirect_url => '/cases'
+      response.should redirect_to '/cases?follow=true'
     end
 
-    it "should redirect to child page if redirect_url is not present in params" do
+    it "should redirect to case page if redirect_url is not present in params" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       child = Child.new_with_user_name(user, {:name => 'some name'})
 
@@ -485,7 +485,7 @@ describe ChildrenController do
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
-      response.should redirect_to "/children/#{child.id}"
+      response.should redirect_to "/cases/#{child.id}?follow=true"
     end
 
   end
