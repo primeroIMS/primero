@@ -23,7 +23,7 @@ Feature: CAAFAG Profile
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "CAAFAG Profile" button
-    When I select "Other Paramilitary group" from "With which armed group or armed force was the child associated?"
+    And I select "Other Paramilitary group" from "With which armed group or armed force was the child associated?"
     And I select "Financial reasons" from "If not forced, what was the main reason why the child became involved in the armed force? (type of recruitment)"
     And I select "Combat support" from "What was the main role of the child?"
     And I select "Yes" from "Did the child own/use a weapon"
@@ -34,8 +34,8 @@ Feature: CAAFAG Profile
       | Other reason for enrollment | Some reason |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    When I press the "CAAFAG Profile" button
-    Then I should see a value for "UN DDR Number" on the show page with the value of "50"
+    And I press the "CAAFAG Profile" button
+    And I should see a value for "UN DDR Number" on the show page with the value of "50"
     And I should see a value for "Other reason for enrollment" on the show page with the value of "Some reason"
     And I should see a value for "With which armed group or armed force was the child associated?" on the show page with the value of "Other Paramilitary group"
     And I should see a value for "If not forced, what was the main reason why the child became involved in the armed force? (type of recruitment)" on the show page with the value of ""Financial reasons"
