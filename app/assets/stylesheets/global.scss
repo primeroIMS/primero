@@ -133,6 +133,11 @@ hr {
 @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
 
+input[type="text"][disabled]{
+  border: none !important;
+  background: transparent !important;
+}
+
 ////////////////////////////////////////////////
 // Dropdown Buttons
 ////////////////////////////////////////////////
