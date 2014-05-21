@@ -18,6 +18,15 @@ class CustomFieldsValidator
 
       if value.present? and is_not_valid(value)
         target.errors.add(:"#{field[:name]}", validation_message_for(field))
+
+        lookup = field.form
+        error_info = {
+            internal_section: "#tab_#{lookup.unique_id}",
+            translated_section: lookup["name_#{I18n.locale}"],
+            message: validation_message_for(field),
+            order: lookup.order }
+        target.errors.add(:section_errors, error_info)
+
         valid = false
       end
     end
