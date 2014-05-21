@@ -4,10 +4,11 @@ describe "children/new.html.erb" do
 
   before :each do
     @form_section = FormSection.new :unique_id => "section_name"
+    @child = Child.new
     assign(:form_sections, [@form_section])
   end
 
-  it "renders a form that posts to the children url" do
+  it "renders a form that posts to the cases url" do
     render
     rendered.should have_tag("form[action='#{children_path}']")
   end
