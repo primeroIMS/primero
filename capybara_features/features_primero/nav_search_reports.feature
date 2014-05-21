@@ -25,6 +25,7 @@ Feature: Primero nav search reports
     When I press the "REPORTS" button
     Then I should see "RapidFTR Reports"
 
+  @wip
   Scenario: I try to search for something
     Given I am logged in as an admin with username "primero" and password "primero"
     When I fill in the "query" field with "test"
