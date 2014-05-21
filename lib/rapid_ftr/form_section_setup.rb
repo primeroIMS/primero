@@ -8,7 +8,8 @@ module RapidFTR
     def self.reset_definitions
       basic_identity_fields = [
         Field.new({"name" => "case_id",
-                   "type" => "text_field", "editable" => false,
+                   "type" => "text_field", 
+                   "editable" => false,
                    "display_name_all" => "Case ID"
                   }),
         Field.new({"name" => "registration_date",
@@ -150,7 +151,43 @@ module RapidFTR
                                  "World Citizen",
                                  "World Citizen-2",
                                  "World Citizen-3"].join("\n")
-                  }), 
+                  }),
+            
+        Field.new({"name" => "place_of_birth",
+                   "type" => "text_field",
+                   "display_name_all" => "Place of Birth"
+                  }),
+              
+        # TODO should be configurable
+        Field.new({"name" => "country_of_birth",
+                   "type" =>"select_box" ,
+                   "display_name_all" => "Birth Country",
+                   "option_strings_text_all" => 
+                                ["Country1",
+                                 "Country2",
+                                 "Country3",
+                                 "Country4"].join("\n")
+                  }),
+                  
+        # TODO should be configurable
+        Field.new({"name" => "country_of_origin",
+                   "type" =>"select_box" ,
+                   "display_name_all" => "Country of Origin",
+                   "option_strings_text_all" => 
+                                ["Country1",
+                                 "Country2",
+                                 "Country3",
+                                 "Country4"].join("\n")
+                  }),
+                  
+        Field.new({"name" => "address_current",
+                   "type" => "textarea",
+                   "display_name_all" => "Current Address"
+                  }),
+        Field.new({"name" => "landmark",
+                   "type" => "text_field",
+                   "display_name_all" => "Landmark"
+                  }),
         
        
         Field.new({"name" => "status",
@@ -192,10 +229,7 @@ module RapidFTR
         #           "option_strings_text_all" => "Yes\nNo",
         #           "display_name_all" => "Name(s) given to child after separation?"
         #           }),
-        # Field.new({"name" => "birthplace",
-        #           "type" => "text_field",
-        #           "display_name_all" => "Birthplace"
-        #           }),
+        
         # Field.new({"name" => "nationality",
         #           "type" => "text_field",
         #           "display_name_all" => "Nationality"

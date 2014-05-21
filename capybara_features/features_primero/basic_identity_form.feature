@@ -38,6 +38,11 @@ Feature: Basic Identity Form
     | Displacement Status |
     | Disability Type |
     | Nationality |
+    | Place of Birth |
+    | Birth Country |
+    | Country of Origin |
+    | Current Address |
+    | Landmark |
     
 
     And I fill in the following:
