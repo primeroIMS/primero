@@ -89,4 +89,10 @@ module ChildrenHelper
       return (model[field] || '')
     end
   end
+
+  def display_formated_section_error(error)
+    content_tag :li, class: "error-item", data: { error_item: error[:internal_section] } do
+      "<span>#{error[:translated_section]}:</span> #{error[:message]}".html_safe
+    end
+  end
 end

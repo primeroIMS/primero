@@ -6,6 +6,12 @@ _primero.tabRedirection = {
         localStorage.removeItem('current_tab')
     },
     redirect: function() {
+        if($('.error-item').size()) {
+           tab = $('.error-item:first').data('error-item');
+           this.ls_set_tab(tab);
+           this.is_error = true;
+        }
+
         _primero.listen_for_reset();
         var active_tab = localStorage.getItem('current_tab'),
             tab = $(active_tab);
@@ -17,7 +23,8 @@ _primero.tabRedirection = {
             tab.show();
         }
         _primero.set_content_sidebar_equality();
-    }
+    },
+    is_error: false
 };
 
 _primero.set_content_sidebar_equality = function() {
@@ -40,7 +47,7 @@ _primero.getUrlParams = function(param) {
 };
 
 _primero.listen_for_reset = function() {
-    if (this.getUrlParams('follow')) {
+    if (this.getUrlParams('follow') || this.tabRedirection.is_error) {
         return true
     } else {
         this.tabRedirection.ls_clear_tab();

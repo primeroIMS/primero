@@ -290,6 +290,14 @@ fieldset {
     p {
       background: #FFD8D8 !important;
     }
+
+    li.error-item {
+      list-style: none;
+
+      span {
+        font-weight: bold;
+      }
+    }
   }
 
   p {
