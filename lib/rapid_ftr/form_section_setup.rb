@@ -64,8 +64,11 @@ module RapidFTR
                    "type" => "text_field",
                    "display_name_all" => "Other Name"
                   }),
-                  
-                  
+        Field.new({"name" => "sex",
+                   "type" => "select_box",
+                   "option_strings_text_all" => "Male\nFemale",
+                   "display_name_all" => "Sex"
+                  }),                  
         Field.new({"name" => "age",
                    "type" => "text_field",
                    "display_name_all" => "Age"
@@ -74,11 +77,12 @@ module RapidFTR
                   "type" => "date_field",
                   "display_name_all" => "Date of Birth (dd/mm/yyyy)"
                   }),
-        Field.new({"name" => "sex",
+        Field.new({"name" => "estimated",
                    "type" => "select_box",
-                   "option_strings_text_all" => "Male\nFemale",
-                   "display_name_all" => "Sex"
+                   "display_name_all" => "Estimated",
+                   "option_strings_text_all" => "Yes\nNo",
                   }),
+        
        
         Field.new({"name" => "status",
                    "type" => "select_box",

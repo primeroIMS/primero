@@ -25,6 +25,10 @@ Feature: Basic Identity Form
     | Name |
     | Nickname |
     | Other Name |
+    | Sex |
+    | Age |
+    | Date of Birth |
+    | Estimated |
     
 
     And I fill in the following:
