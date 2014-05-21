@@ -21,10 +21,12 @@ Before do
     RestClient.post "#{model.database.root}/_bulk_docs", { :docs => docs }.to_json, { "Content-type" => "application/json" } unless docs.empty?
   end
 
-  RapidFTR::FormSectionSetup.reset_definitions
+  #Load the seed forms
+  Dir[File.dirname(__FILE__) + '/../../db/forms/*.rb'].each {|file| require file }
 end
 
 Before('@roles') do |scenario|
+  #TODO: Instead of the roles below, consider loading db/users/roles.rb
   Role.create(:name => 'Field Worker', :permissions => [Permission::CHILDREN[:register]])
   Role.create(:name => 'Field Admin', :permissions => [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:create], Permission::CHILDREN[:edit]])
   Role.create(:name => 'Admin', :permissions => Permission.all_permissions)

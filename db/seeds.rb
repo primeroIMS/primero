@@ -10,39 +10,17 @@ def should_seed? model
 end
 
 if should_seed? User
-  registration_worker = Role.create!(:name => "registration worker", :permissions => [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:register], Permission::CHILDREN[:edit]])
-  registration_officer = Role.create!(:name => "registration officer", :permissions => [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:register], Permission::CHILDREN[:edit], Permission::CHILDREN[:export], Permission::REPORTS[:view]])
-  child_protection_specialist = Role.create!(:name => "child protection specialist", :permissions => [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:register], Permission::CHILDREN[:edit], Permission::CHILDREN[:export], Permission::REPORTS[:view], Permission::USERS[:view]])
-  senior_official = Role.create!(:name => "senior official", :permissions => [Permission::REPORTS[:view]])
-  field_level_admin = Role.create!(:name => "field level admin", :permissions => [Permission::USERS[:create_and_edit], Permission::USERS[:view], Permission::USERS[:destroy], Permission::USERS[:disable], Permission::ROLES[:view], Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:export], Permission::REPORTS[:view]])
-  system_admin = Role.create!(:name => "system admin", :permissions => [Permission::USERS[:create_and_edit], Permission::USERS[:view], Permission::USERS[:destroy], Permission::USERS[:disable], Permission::ROLES[:create_and_edit], Permission::ROLES[:view], Permission::REPORTS[:view], Permission::FORMS[:manage], Permission::SYSTEM[:highlight_fields], Permission::SYSTEM[:contact_information], Permission::SYSTEM[:system_users], Permission::DEVICES[:blacklist], Permission::DEVICES[:replications]])
-
-  User.create!("user_name" => "primero",
-              "password" => "qu01n23",
-              "password_confirmation" => "qu01n23",
-              "full_name" => "System Superuser",
-              "email" => "primero@primero.com",
-              "disabled" => "false",
-              "organisation" => "N/A",
-              "role_ids" => [registration_worker.id, registration_officer.id, child_protection_specialist.id, senior_official.id, field_level_admin.id, system_admin.id])
-
-
-  if Rails.env.android?
-    User.create!("user_name" => "admin",
-                 "password" => "admin" ,
-                 "password_confirmation" => "admin",
-                 "full_name" => "admin user",
-                 "email" => "admin@rapidftr.com",
-                 "disabled" => "false",
-                 "organisation" => "Unicef",
-                "role_ids"=>[registration_worker.id,system_admin.id,field_level_admin.id])
-  end
+  require File.dirname(__FILE__) + "/users/roles.rb"
+  require File.dirname(__FILE__) + "/users/default_users.rb"
 end
 
-#Update or create FormSection.
-RapidFTR::FormSectionSetup.reset_definitions
+#Create the forms
+puts "[Re-]Seeding the forms"
+Dir[File.dirname(__FILE__) + '/forms/*.rb'].each {|file| require file }
+
+
 #TODO We will to revisit the I18n Setup when we address translations.
-RapidFTR::I18nSetup.reset_definitions
+#RapidFTR::I18nSetup.reset_definitions
 
 if should_seed? ContactInformation
   ContactInformation.create(:id=>"administrator")
