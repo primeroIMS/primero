@@ -85,6 +85,14 @@ namespace :db do
       db.delete!
     end
   end
+
+  namespace :migrate do
+    desc "Resets migrations metadata. Use with extreme caution!!!"
+    task :clean => :environment do
+      Migration.database.recreate!
+    end
+  end
+
 end
 
 def write_file name, content
