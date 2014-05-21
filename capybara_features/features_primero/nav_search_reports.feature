@@ -31,7 +31,7 @@ Feature: Primero nav search reports
     Then I press the "Go" button
     And I should see the "results-count" class
     
-  @wip  
+  @wip
   Scenario: I try to search for something that does not exist
     Given I am logged in as an admin with username "primero" and password "primero"
     When I fill in the "query" field with "testsomething"

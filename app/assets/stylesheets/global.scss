@@ -394,7 +394,7 @@ fieldset {
 
 .flash {
   width: 60%;
-  margin: 0px auto;
+  margin: 20px auto;
   text-align: center;
   background-color: #FFF;
   p {
@@ -671,4 +671,22 @@ li.current {
 
 .jp-interface {
   margin-top: 20px;
+}
+
+////////////////////////////////////////////////
+// Histories
+////////////////////////////////////////////////
+
+.profile-header, .profile-tools{
+  margin-top:10px;
+  ul{
+    list-style-type: none;
+    padding: 0;
+    li{
+      padding: 10px 15px;
+      &:nth-child(even) {
+        background: #ebebeb;
+      }
+    }
+  }
 }
