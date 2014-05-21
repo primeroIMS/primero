@@ -75,13 +75,82 @@ module RapidFTR
                   }),
         Field.new({"name" => "date_of_birth",
                   "type" => "date_field",
-                  "display_name_all" => "Date of Birth (dd/mm/yyyy)"
+                  "display_name_all" => "Date of Birth"
                   }),
         Field.new({"name" => "estimated",
                    "type" => "select_box",
                    "display_name_all" => "Estimated",
                    "option_strings_text_all" => "Yes\nNo",
                   }),
+        Field.new({"name" => "personal_ID_document",
+                   "type" => "text_field",
+                   "display_name_all" => "Personal ID Document (Type and No.)"
+                  }),
+        Field.new({"name" => "documents_carried",
+                   "type" => "text_field",
+                   "display_name_all" => "Other Documents Carried"
+                  }),
+        Field.new({"name" => "birth_certificate",
+                   "type" => "select_box",
+                   "display_name_all" => "Birth Certificate?",
+                   "option_strings_text_all" => "Yes\nNo",
+                  }),
+        Field.new({"name" => "maritial_status",
+                   "type" =>"select_box" ,
+                   "display_name_all" => "Current Civil/Marital Status",
+                   "option_strings_text_all" => 
+                                ["Single",
+                                 "Married/Cohabitating",
+                                 "Divorced/Separated",
+                                 "Widowed"].join("\n")
+                  }),
+        Field.new({"name" => "occupation",
+                   "type" => "text_field",
+                   "display_name_all" => "Occupation"
+                  }),
+        Field.new({"name" => "physical_characteristics",
+                   "type" => "textarea",
+                   "display_name_all" => "Distinguishing Physical Characteristics"
+                  }),
+        Field.new({"name" => "displacement_status",
+                   "type" =>"select_box" ,
+                   "display_name_all" => "Displacement Status",
+                   "option_strings_text_all" => 
+                                ["Resident",
+                                 "IDP",
+                                 "Refugee",
+                                 "Stateless Person",
+                                 "Returnee",
+                                 "Foreign National",
+                                 "Asylum Seeker",
+                                 "N/A"].join("\n")
+                  }),
+        Field.new({"name" => "disability_type",
+                   "type" =>"select_box" ,
+                   "display_name_all" => "Disability Type",
+                   "option_strings_text_all" => 
+                                ["Mental Disability",
+                                 "Physical Disability",
+                                 "Both"].join("\n")
+                  }), 
+                  
+        # TODO should be configurable
+        Field.new({"name" => "nationality",
+                   "type" =>"select_box" ,
+                   "display_name_all" => "Nationality",
+                   "option_strings_text_all" => 
+                                ["Congolese",
+                                 "Guinean",
+                                 "Ivorian",
+                                 "Liberian",
+                                 "Other",
+                                 "Sierra Leonean",
+                                 "Sudanese",
+                                 "Ugandan",
+                                 "World Citizen",
+                                 "World Citizen-2",
+                                 "World Citizen-3"].join("\n")
+                  }), 
         
        
         Field.new({"name" => "status",
@@ -90,6 +159,12 @@ module RapidFTR
                    "display_name_all" => "Status"
                   })
         
+        
+        # Field.new({"name" => "maritial_status",
+                   # "type" =>"check_boxes" ,
+                   # "display_name_all" => "Current Civil/Marital Status",
+                   # "option_strings_text_all" => "Single\nMarried/Cohabitating\nDivorced/Separated\nWidowed",
+                  # }),
         
         #  Field.new({"name" => "protection_status",
         #           "type" => "select_box",
@@ -133,14 +208,8 @@ module RapidFTR
         #           "type" => "text_field",
         #           "display_name_all" => "Languages spoken"
         #           }),
-        # Field.new({"name" => "characteristics",
-        #           "type" => "textarea",
-        #           "display_name_all" => "Distinguishing Physical Characteristics"
-        #           }),
-        # Field.new({"name" => "documents",
-        #           "type" => "text_field",
-        #           "display_name_all" => "Documents carried by the child"
-        #           }),
+        
+        
       ]
       FormSection.create_or_update_form_section({"visible"=>true,
                           :order=> 1, :unique_id=>"basic_identity", "editable"=>true,

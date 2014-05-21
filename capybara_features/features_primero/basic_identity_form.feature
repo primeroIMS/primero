@@ -29,6 +29,15 @@ Feature: Basic Identity Form
     | Age |
     | Date of Birth |
     | Estimated |
+    | Personal ID Document (Type and No.)  |
+    | Other Documents Carried |
+    | Birth Certificate? |
+    | Current Civil/Marital Status |
+    | Occupation |
+    | Distinguishing Physical Characteristics |
+    | Displacement Status |
+    | Disability Type |
+    | Nationality |
     
 
     And I fill in the following:
