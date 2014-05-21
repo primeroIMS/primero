@@ -229,6 +229,22 @@ class ChildrenController < ApplicationController
     default_search_respond_to
   end
 
+  #Exposed for unit testability
+  def reindex_params_subforms(params)
+    #get all the nested params
+    params['child'].each do |k,v|
+      if v.is_a?(Hash) and v.present?
+        new_hash = {}
+        count = 0
+        v.each do |i, value|
+          new_hash[count.to_s] = value
+          count += 1
+        end
+        v.replace(new_hash)
+      end
+    end
+  end
+
   private
 
   def child_short_id child_params
@@ -317,6 +333,7 @@ class ChildrenController < ApplicationController
   def update_child_from params
     child = @child || Child.get(params[:id]) || Child.new_with_user_name(current_user, params[:child])
     authorize! :update, child
+    reindex_params_subforms params
     update_child_with_attachments(child, params)
   end
 

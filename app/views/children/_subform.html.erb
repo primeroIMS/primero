@@ -1,0 +1,57 @@
+<div class="row">
+  <%
+     #TODO: This will break for nested nested subforms if we decide to have those.
+     subform_section = subform.subform_section
+     number_of_subforms = subforms_count @child, subform
+   %>
+  <div class="medium-4 columns">
+    <span class="tool-tip-label">
+      <%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %>
+    </span>
+  </div>
+  <div class="subforms">
+    <% (number_of_subforms).times do |i| %>
+    <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
+      <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+      <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+        <%= render partial: field.type,
+                   object: field,
+                   locals: {
+                     field_keys: [subform.name, i.to_s, field.name]
+                   }
+        %>
+      <% end %>
+      </fieldset>
+      <%#TODO: Add style, translations for "Remove", and add a data-confirm with translated message asking whether we really want to get rid of this. %>
+      <a onclick="removeSubform(event);">Remove</a>
+      <hr/>
+    </div>
+    <% end %>
+  </div>
+
+  <%# Hidden subform template %>
+  <div id="subform_container<%= subform.name %>_template" class="template" style="display:none;">
+    <fieldset id="subform_<%= subform.name %>_template" class="<%= subform.name %> subform no-border">
+    <%# TODO: Render the individual fields %>
+    <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+      <%= render partial: field.type,
+                 object: field,
+                 locals: {
+                   field_keys: [subform.name, 'template', field.name],
+                   value: ""
+                 }
+      %>
+    <% end %>
+    </fieldset>
+    <%#TODO: Add style, translations for "Remove", and add a data-confirm with translated message asking whether we really want to get rid of this. %>
+    <a onclick="removeSubform(event);">Remove</a>
+    <hr/>
+  </div>
+
+  <%# Add button %>
+  <%#TODO: Reposition, translation for "Add" %>
+  <div>
+    <div id="subform_<%= subform.name %>_add_button" class="green-button" onclick="addSubform(event);">Add</div>
+  </div>
+
+</div>
