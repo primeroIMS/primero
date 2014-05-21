@@ -252,6 +252,11 @@ select, select:hover {
   }
 }
 
+input[type="text"][disabled]{
+  border: none !important;
+  background: transparent !important;
+}
+
 ////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////
