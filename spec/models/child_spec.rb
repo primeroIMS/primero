@@ -345,18 +345,23 @@ describe Child do
     # end
 
     it "should validate numeric types" do
-      fields = [Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"})]
+      field = Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"})
+      field.should_receive(:form).and_return(FormSection.new)
       child = Child.new
       child[:height] = "very tall"
-      FormSection.stub(:all_visible_child_fields).and_return(fields)
+      FormSection.stub(:all_visible_child_fields).and_return([field])
 
       child.should_not be_valid
       child.errors[:height].should == ["height must be a valid number"]
     end
 
     it "should validate multiple numeric types" do
-      fields = [Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"}),
-                Field.new({:type => 'numeric_field', :name => 'new_age', :display_name => "new age"})]
+      fields = [
+                Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"}),
+                Field.new({:type => 'numeric_field', :name => 'new_age', :display_name => "new age"})
+               ].each do |field|
+        field.should_receive(:form).and_return(FormSection.new)
+      end
         child = Child.new
         child[:height] = "very tall"
         child[:new_age] = "very old"
@@ -368,17 +373,19 @@ describe Child do
     end
 
     it "should disallow text field values to be more than 200 chars" do
-      FormSection.stub(:all_visible_child_fields =>
-                        [Field.new(:type => Field::TEXT_FIELD, :name => "name", :display_name => "Name"),
-                         Field.new(:type => Field::CHECK_BOXES, :name => "not_name")])
+      fields = [Field.new(:type => Field::TEXT_FIELD, :name => "name", :display_name => "Name"),
+                               Field.new(:type => Field::CHECK_BOXES, :name => "not_name")]
+      fields[0].should_receive(:form).and_return(FormSection.new)
+      FormSection.stub(:all_visible_child_fields => fields)
                         child = Child.new :name => ('a' * 201)
                         child.should_not be_valid
                         child.errors[:name].should == ["Name cannot be more than 200 characters long"]
     end
 
     it "should disallow text area values to be more than 400,000 chars" do
-      FormSection.stub(:all_visible_child_fields =>
-                        [Field.new(:type => Field::TEXT_AREA, :name => "a_textfield", :display_name => "A textfield")])
+      field = Field.new(:type => Field::TEXT_AREA, :name => "a_textfield", :display_name => "A textfield")
+      field.should_receive(:form).and_return(FormSection.new)
+      FormSection.stub(:all_visible_child_fields => [field])
                         child = Child.new :a_textfield => ('a' * 400_001)
                         child.should_not be_valid
                         child.errors[:a_textfield].should == ["A textfield cannot be more than 400000 characters long"]

@@ -21,8 +21,10 @@ Before do
     RestClient.post "#{model.database.root}/_bulk_docs", { :docs => docs }.to_json, { "Content-type" => "application/json" } unless docs.empty?
   end
 
-  #Load the seed forms
-  Dir[File.dirname(__FILE__) + '/../../db/forms/*.rb'].each {|file| require file }
+  #Load the seed forms - Using 'load' method because 'require' will remember that
+  #the files was already loaded and for the rest of scenarios will not execute
+  #the code in the required file. 
+  Dir[File.dirname(__FILE__) + '/../../db/forms/*.rb'].each {|file| load file }
 end
 
 Before('@roles') do |scenario|
