@@ -1,5 +1,12 @@
 TEST_DATABASES = COUCHDB_SERVER.databases.select {|db| db =~ /#{ENV["RAILS_ENV"]}$/}
 
+# Generating large audio/photo. Rspec only created the files. The rspec and cucumber test run on
+# different envs on the jenkins server, so the files were not being generated for cucumber.
+
+include UploadableFiles
+uploadable_large_photo
+uploadable_large_audio
+
 Before do
   Child.stub :index_record => true, :reindex! => true, :build_solar_schema => true
   Sunspot.stub :index => true, :index! => true
