@@ -14,8 +14,10 @@ Feature: Basic Identity Form
     Then I should see the following fields:
     | Case ID           |
     | Registration Date |
-    | Agency ID         |
-    | Agency Name       |
+    | Agency            |
+    | Agency Telephone  |
+    | Other Agency ID         |
+    | Other Agency Name       |
     | ICRC Ref No.      |
     | RC ID No.         |
     | UNHCR ID          |
@@ -29,9 +31,7 @@ Feature: Basic Identity Form
     | Age |
     | Date of Birth |
     | Estimated |
-    | Personal ID Document (Type and No.)  |
-    | Other Documents Carried |
-    | Birth Certificate? |
+    | List Details of any documents carried by the child |
     | Current Civil/Marital Status |
     | Occupation |
     | Distinguishing Physical Characteristics |
@@ -43,6 +43,44 @@ Feature: Basic Identity Form
     | Country of Origin |
     | Current Address |
     | Landmark |
+    | Is this address permanent? |
+    | Location |
+    | Telephone |
+    | Last Address |
+    | Last Landmark |
+    | Last Location |
+    | Last Address Telephone |
+    | Ethnic Group / Tribe |
+    | Sub Ethnicity 1 |
+    | Sub Ethnicity 2 |
+    | Language |
+    | Religion |
+    | Arrival Date |
+    | Interviewer Name |
+    | Interviewer Position |
+    | Interviewer Agency |
+    | Interview Address |
+    | Interview Landmark |
+    | Interview Location |
+    | Information Obtained From |
+    | Other Interview Source |
+    | Has the child been interviewed by another organization? |
+    | Reference No. given to child by other organization |
+    | Database Operator |
+    | Social Worker |
+    | Registration Address |
+    | Number of children and other dependents |
+    | Birth Location |
+    | Camp |
+    | Permanent Location |
+    | Permanent Address |
+    | Section Number |
+    | Contact Number |
+    | UN Number |
+    | Status |
+    | Survivor Name |
+    | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? |
+    | Name(s) given to child after separation? |
     
 
     And I fill in the following:

@@ -8,13 +8,40 @@ basic_identity_fields = [
              "type" => "date_field", 
              "display_name_all" => "Registration Date"
             }),
-  Field.new({"name" => "agency_id",
-            "type" => "text_field",
-            "display_name_all" => "Agency ID"
+  #TODO reconcile difference between Agency and Other Agency
+  Field.new({"name" => "agency",
+             "type" =>"select_box" ,
+             "display_name_all" => "Agency",
+             "option_strings_text_all" => 
+                          ["German Technical Cooperation",
+                           "GTZ",
+                           "ICRC",
+                           "International Rescue Committee",
+                           "IRC",
+                           "IRC K",
+                           "IRC KV",
+                           "IRC Legal",
+                           "IRC NH",
+                           "IRC NZ",
+                           "IRC NZV",
+                           "Save the Children",
+                           "SCUK",
+                           "SCUK-LF",
+                           "SCUK-MOT",
+                           "UNICEF",
+                           "United Nations Childrens Fund"].join("\n")
             }),
-  Field.new({"name" => "agency_name",
+  Field.new({"name" => "telephone_agency",
             "type" => "text_field",
-            "display_name_all" => "Agency Name"
+            "display_name_all" => "Agency Telephone"
+            }),
+  Field.new({"name" => "other_agency_id",
+            "type" => "text_field",
+            "display_name_all" => "Other Agency ID"
+            }),
+  Field.new({"name" => "other_agency_name",
+            "type" => "text_field",
+            "display_name_all" => "Other Agency Name"
             }),
   Field.new({"name" => "icrc_ref_no",
              "type" => "text_field",
@@ -75,18 +102,9 @@ basic_identity_fields = [
              "display_name_all" => "Estimated",
              "option_strings_text_all" => "Yes\nNo",
             }),
-  Field.new({"name" => "personal_ID_document",
-             "type" => "text_field",
-             "display_name_all" => "Personal ID Document (Type and No.)"
-            }),
   Field.new({"name" => "documents_carried",
-             "type" => "text_field",
-             "display_name_all" => "Other Documents Carried"
-            }),
-  Field.new({"name" => "birth_certificate",
-             "type" => "select_box",
-             "display_name_all" => "Birth Certificate?",
-             "option_strings_text_all" => "Yes\nNo",
+             "type" => "textarea",
+             "display_name_all" => "List Details of any documents carried by the child"
             }),
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
@@ -176,19 +194,227 @@ basic_identity_fields = [
              "type" => "textarea",
              "display_name_all" => "Current Address"
             }),
-  Field.new({"name" => "landmark",
+  Field.new({"name" => "landmark_current",
              "type" => "text_field",
              "display_name_all" => "Landmark"
             }),
-            
-            
-            
-            
-            Field.new({"name" => "status",
-                   "type" => "select_box",
-                   "option_strings_text_all" => "Open\nClosed",
-                   "display_name_all" => "Status"
-                  })
+  Field.new({"name" => "address_is_permanent",
+             "type" => "select_box",
+             "display_name_all" => "Is this address permanent?",
+             "option_strings_text_all" => "Yes\nNo",
+            }),
+  #TODO location picker
+  Field.new({"name" => "location_current",
+             "type" =>"text_field" ,
+             "display_name_all" => "Location"
+            }),
+  Field.new({"name" => "telephone_current",
+             "type" => "text_field",
+             "display_name_all" => "Telephone"
+            }),
+  Field.new({"name" => "address_last",
+             "type" => "textarea",
+             "display_name_all" => "Last Address"
+            }),
+  Field.new({"name" => "landmark_last",
+             "type" => "text_field",
+             "display_name_all" => "Last Landmark"
+            }),
+  #TODO location picker
+  Field.new({"name" => "location_last",
+             "type" =>"text_field" ,
+             "display_name_all" => "Last Location"
+            }),
+  Field.new({"name" => "telephone_last",
+             "type" => "text_field",
+             "display_name_all" => "Last Address Telephone"
+            }),
+  Field.new({"name" => "ethnicity",
+             "type" => "text_field",
+             "display_name_all" => "Ethnic Group / Tribe"
+            }),
+  Field.new({"name" => "sub_ethnicity_1",
+             "type" =>"select_box" ,
+             "display_name_all" => "Sub Ethnicity 1",
+             "option_strings_text_all" => 
+                          ["Baganda",
+                           "Clan 1",
+                           "Clan 2",
+                           "Clan 3",
+                           "Polo"].join("\n")
+            }),
+  Field.new({"name" => "sub_ethnicity_2",
+             "type" =>"select_box" ,
+             "display_name_all" => "Sub Ethnicity 2",
+             "option_strings_text_all" => 
+                          ["Baganda",
+                           "Clan 1",
+                           "Clan 2",
+                           "Clan 3",
+                           "Polo"].join("\n")
+            }),
+   #TODO configurable by admin
+   Field.new({"name" => "language",
+             "type" =>"check_boxes" ,
+             "display_name_all" => "Language",
+             "option_strings_text_all" => 
+                          ["English",
+                           "French",
+                           "Swahili"].join("\n")
+            }),
+  Field.new({"name" => "religion",
+             "type" =>"check_boxes" ,
+             "display_name_all" => "Religion",
+             "option_strings_text_all" => 
+                          ["Christianity",
+                           "Islam"].join("\n")
+            }),
+  Field.new({"name" => "arrival_date",
+             "type" => "date_field", 
+             "display_name_all" => "Arrival Date"
+            }),
+  Field.new({"name" => "interviewer_name",
+             "type" => "text_field",
+             "display_name_all" => "Interviewer Name"
+            }),
+  Field.new({"name" => "interviewer_postion",
+             "type" => "text_field",
+             "display_name_all" => "Interviewer Position"
+            }),
+  Field.new({"name" => "interviewer_agency",
+             "type" =>"select_box" ,
+             "display_name_all" => "Interviewer Agency",
+             "option_strings_text_all" => 
+                          ["Agency 1",
+                           "Agency 2",
+                           "Agency 3",
+                           "Agency 4"].join("\n")
+            }),
+  Field.new({"name" => "address_interview",
+             "type" => "textarea",
+             "display_name_all" => "Interview Address"
+            }),
+  Field.new({"name" => "landmark_interview",
+             "type" => "text_field",
+             "display_name_all" => "Interview Landmark"
+            }),
+  #TODO location picker
+  Field.new({"name" => "location_interview",
+             "type" =>"text_field" ,
+             "display_name_all" => "Interview Location"
+            }),
+  #TODO if Other selected, provide text box for entry
+  Field.new({"name" => "source_interview",
+             "type" =>"select_box" ,
+             "display_name_all" => "Information Obtained From",
+             "option_strings_text_all" => 
+                          ["Child",
+                           "Caregiver",
+                           "GBV Survivor",
+                           "Other (specify)"].join("\n")
+            }),
+  #TODO discuss how to implement "Other" text box entry
+  Field.new({"name" => "source_interview_other",
+             "type" =>"text_field" ,
+             "display_name_all" => "Other Interview Source"
+            }),
+  Field.new({"name" => "other_org_interview_status",
+             "type" => "select_box",
+             "display_name_all" => "Has the child been interviewed by another organization?",
+             "option_strings_text_all" => "Yes\nNo",
+            }),
+  Field.new({"name" => "other_org_reference_no",
+             "type" =>"text_field" ,
+             "display_name_all" => "Reference No. given to child by other organization"
+            }),
+  #TODO spreadsheet says this comes from valid users
+  Field.new({"name" => "database_operator",
+             "type" =>"select_box" ,
+             "display_name_all" => "Database Operator",
+             "option_strings_text_all" => 
+                          ["Operator 1",
+                           "Operator 2",
+                           "Operator 3",
+                           "Operator 4"].join("\n")
+            }),  
+        
+  Field.new({"name" => "social_worker",
+             "type" =>"select_box" ,
+             "display_name_all" => "Social Worker",
+             "option_strings_text_all" => 
+                          ["Social Worker 1",
+                           "Social Worker 2",
+                           "Social Worker 3",
+                           "Social Worker 4"].join("\n")
+            }),   
+  Field.new({"name" => "address_registration",
+             "type" => "textarea",
+             "display_name_all" => "Registration Address"
+            }),
+  #TODO verify this
+  Field.new({"name" => "dependents_no",
+             "type" =>"text_field" ,
+             "display_name_all" => "Number of children and other dependents"
+            }),
+  #TODO location picker
+  Field.new({"name" => "location_birth",
+             "type" =>"text_field" ,
+             "display_name_all" => "Birth Location"
+            }),
+  Field.new({"name" => "location_camp",
+             "type" =>"text_field" ,
+             "display_name_all" => "Camp"
+            }),
+  #TODO location picker
+  Field.new({"name" => "location_permanent",
+             "type" =>"text_field" ,
+             "display_name_all" => "Permanent Location"
+            }),
+  Field.new({"name" => "address_permanent",
+             "type" => "textarea",
+             "display_name_all" => "Permanent Address"
+            }),
+  Field.new({"name" => "section_no",
+             "type" =>"text_field" ,
+             "display_name_all" => "Section Number"
+            }),
+  Field.new({"name" => "telephone_contact",
+            "type" => "text_field",
+            "display_name_all" => "Contact Number"
+            }),
+  Field.new({"name" => "un_no",
+            "type" => "text_field",
+            "display_name_all" => "UN Number"
+            }),
+  Field.new({"name" => "child_status",
+             "type" =>"select_box" ,
+             "display_name_all" => "Status",
+             "option_strings_text_all" => 
+                          ["IDP",
+                           "Refugee",
+                           "Community",
+                           "Institution",
+                           "Other",
+                           "Unknown"].join("\n")
+            }),
+  Field.new({"name" => "name_survivor",
+            "type" => "text_field",
+            "display_name_all" => "Survivor Name"
+            }),   
+  Field.new({"name" => "unaccompanied_separated_status",
+             "type" =>"check_boxes" ,
+             "display_name_all" => "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
+             "option_strings_text_all" => 
+                          ["No",
+                           "Unaccompanied Minor",
+                           "Separated Child",
+                           "Other Vulnerable Child"].join("\n")
+            }),
+  Field.new({"name" => "name_given_post_separation",
+             "type" => "select_box",
+             "display_name_all" => "Name(s) given to child after separation?",
+             "option_strings_text_all" => "Yes\nNo",
+            })
 ]
 
 FormSection.create_or_update_form_section({

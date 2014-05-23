@@ -128,7 +128,7 @@ consent_fields = [
              "option_strings_text_all" => "GTZ\nIRC\nSCUK\nUNICEF",
             }),
   #TODO Revisit this should display a select box with the user of the network.
-  Field.new({"name" => "social_worker",
+  Field.new({"name" => "sender_agency_social_worker",
              "type" => "text_field",
              "display_name_all" => "Social Worker",
             }),
