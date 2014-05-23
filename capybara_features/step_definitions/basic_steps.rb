@@ -40,16 +40,16 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
   if content == "today's date"
     content = DateTime.now.strftime("%d/%b/%Y")
   end
-  page.all(:css, 'fieldset .row').each do |row|
-    key = row.find(:css, 'label.key')
-    if key.has_text?(field)
-      value = row.find(:css, 'span.value')
-      if content
-        value.has_content?(content)
-      else
-        value.has_content?
+
+  #Find the element that represent the field name
+  within(:xpath, "//fieldset//label[@class='key']", :text => field) do
+    #Sometime we just check if the field appears in the page.
+    if content
+      #Lookup the parent of the field to search the value
+      within(:xpath, '../..') do
+        #Find the element that represent the value.
+        find(:xpath, ".//span[@class='value']", :text => content)
       end
-      break
     end
   end
 end
