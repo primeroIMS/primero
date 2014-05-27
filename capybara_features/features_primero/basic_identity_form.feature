@@ -90,11 +90,10 @@ Feature: Basic Identity Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
-    #And I should see a value for "Registration Date" on the show page with the value of "today's date"
-    #And I should see a value for "Agency ID" on the show page
-    #And I should see a value for "Agency Name" on the show page
+    And I should see a value for "Registration Date" on the show page with the value of "today's date"
+    And I should see a value for "Agency ID" on the show page
+    And I should see a value for "Agency Name" on the show page
 
-  @wip
   Scenario: As a logged in user, I create a case with no values in the basic identity form
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/jorge.jpg"
