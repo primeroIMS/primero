@@ -109,7 +109,7 @@ Feature: Upload a childs attachment file
     And I follow "Create a New Case"
     Then I should see "Photos and Audio"
 
-  Scenario: Should not be able to delete audio
+  Scenario: Should be able to delete audio
     Given I am on the new child page
     And I fill in "Name" with "Harry"
     And I click the "Photos and Audio" link
@@ -118,7 +118,14 @@ Feature: Upload a childs attachment file
 
     When I am editing the child with name "Harry"
     And I click the "Photos and Audio" link
-    Then I should not see "Delete"
+    And I check the "Delete audio?" field
+    And I press "Save"
+    And I am editing the child with name "Harry"
+    And I click the "Photos and Audio" link
+    Then I should see "Recorded Audio"
+    And I should not see "Delete audio?"
+    And I should not see "Current Audio"
+
 
   #TODO Add back in after demo deploy
   @wip

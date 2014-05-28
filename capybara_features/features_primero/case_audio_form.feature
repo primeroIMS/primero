@@ -75,8 +75,18 @@ Feature: Case Audio Form
     And I click the "Photos and Audio" link
     Then I should see "2" thumbnails
 
-
-
-
-
-
+  Scenario: I delete the audio file
+    Given I am logged in as a social worker with username "primero" and password "primero"
+    And I access "cases page"
+    And I press the "Create a New Case" button
+    And I press the "Photos and Audio" button
+    And I attach an audio file "capybara_features/resources/sample.mp3"
+    And I press "Save"
+    When I press the "Edit" button
+    And I press the "Photos and Audio" button
+    And I check the "Delete audio?" field
+    And I press "Save"
+    Then I should see "Case was successfully updated"
+    And I should not see "Delete audio?"
+    And I should not see "Recorded Audio"
+    And I should not see "Download"

@@ -678,6 +678,19 @@ li.current {
   margin-top: 20px;
 }
 
+.audio_player_section {
+    .audio {
+        .delete_check_box {
+            label {
+                display: inline-block;
+            }
+            input {
+                display: inline-block;
+            }
+        }
+    }
+}
+
 ////////////////////////////////////////////////
 // Histories
 ////////////////////////////////////////////////
