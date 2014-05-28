@@ -1,4 +1,5 @@
 # JIRA PRIMERO-42
+# JIRA PRIMERO-73
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -9,6 +10,7 @@ Feature: Basic Identity Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+
 
   Scenario: As a logged in user, I create a case with some values in the basic identity form    
     Then I should see the following fields:
@@ -93,6 +95,33 @@ Feature: Basic Identity Form
     And I should see a value for "Registration Date" on the show page with the value of "today's date"
     And I should see a value for "Agency ID" on the show page
     And I should see a value for "Agency Name" on the show page
+    And I should see a value for "Age" on the show page with the value of "22"
+
+  Scenario: As a logged in user, I should be able to reset the basic identity form 
+    And I fill in the following:
+      | Name              | Tiki Thomas Taliaferro               |
+      | Age               | 22                                   |
+    And I select "Male" from "Sex"
+    And I press "Cancel"
+    And I click OK in the browser popup
+    Then I should be on the new case page
+    And I should not see "Case record successfully created" on the page
+    And the "Name" field should not contain "Tiki Thomas Taliaferro"
+    And the "Age" field should not contain "22"
+    And the "Sex" field should not contain "Male"
+    
+  Scenario: As a logged in user, I should be able to cancel out of a reset of the basic identity form 
+    And I fill in the following:
+      | Name              | Tiki Thomas Taliaferro               |
+      | Age               | 22                                   |
+    And I select "Male" from "Sex"
+    And I press "Cancel"
+    And I click Cancel in the browser popup
+    Then I should be on the new case page
+    And I should not see "Case record successfully created" on the page
+    And the "Name" field should contain "Tiki Thomas Taliaferro"
+    And the "Age" field should contain "22"
+    And the "Sex" field should contain "Male"
 
   Scenario: As a logged in user, I create a case with no values in the basic identity form
     And I press the "Photos and Audio" button

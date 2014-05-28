@@ -358,3 +358,7 @@ end
 When /^I click OK in the browser popup$/ do
   page.driver.browser.switch_to.alert.accept
 end
+
+When /^I click Cancel in the browser popup$/ do
+  page.driver.browser.switch_to.alert.dismiss
+end
