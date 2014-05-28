@@ -93,8 +93,9 @@ Feature: Basic Identity Form
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Registration Date" on the show page with the value of "today's date"
-    And I should see a value for "Agency ID" on the show page
-    And I should see a value for "Agency Name" on the show page
+    And I should see a value for "Other Agency ID" on the show page
+    And I should see a value for "Other Agency Name" on the show page
+    And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
     And I should see a value for "Age" on the show page with the value of "22"
 
   Scenario: As a logged in user, I should be able to reset the basic identity form 
