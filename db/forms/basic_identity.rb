@@ -356,11 +356,6 @@ basic_identity_fields = [
              "type" =>"text_field" ,
              "display_name_all" => "Number of children and other dependents"
             }),
-  #TODO location picker
-  Field.new({"name" => "location_birth",
-             "type" =>"text_field" ,
-             "display_name_all" => "Birth Location"
-            }),
   Field.new({"name" => "location_camp",
              "type" =>"text_field" ,
              "display_name_all" => "Camp"

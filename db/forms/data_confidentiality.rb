@@ -1,11 +1,12 @@
 consent_fields = [
   Field.new({"name" => "interview_subject",
              "type" => "select_box",
-             "display_name_all" => "Information Obtained From",
-             "option_strings_text_all" =>
-                          ["the child",
-                           "caregiver",
-                           "other"].join("\n")
+             "display_name_all" => "Consent Obtained From",
+             "option_strings_text_all" => 
+                          ["Child",
+                           "Caregiver",
+                           "GBV Survivor",
+                           "Other (specify)"].join("\n")
               }),
   Field.new({"name" => "understanding_consent",
              "type" => "select_box",
