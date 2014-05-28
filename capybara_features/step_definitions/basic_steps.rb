@@ -65,6 +65,10 @@ And /^I should stay on the "(.+)" tab on the case "(.+)" page$/ do |tab, page_ac
   page_action.should eql(path[:action])
 end
 
+And /^I check the "(.*)" field$/ do |checkbox|
+  page.check(checkbox)
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////

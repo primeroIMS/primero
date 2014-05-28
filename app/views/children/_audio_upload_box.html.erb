@@ -4,7 +4,7 @@
     <%= file_field_tag "child[audio]" %>
 
     <ul class="audio_player_section">
-      <%= render :partial => "field_display_audio", :locals => {:field => nil, :child => @child} %>
+      <%= render :partial => "field_display_audio", :locals => {:field => nil, :child => @child, :display_audio_delete_checkbox => true} %>
     </ul>
 
     <% if audio_upload_box.help_text.present? %>

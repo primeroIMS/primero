@@ -11,6 +11,7 @@ module AudioHelper
 
   def audio=(audio_file)
     return unless audio_file.respond_to? :content_type
+    delete_audio_attachment_file
     @audio_file_name = audio_file.original_filename
     @audio = audio_file
     attachment = FileAttachment.from_uploadable_file(audio_file, "audio")
@@ -30,6 +31,12 @@ module AudioHelper
     FileAttachment.new attachment_key, content_type, data
   end
 
+  def delete_audio
+    return if self.id.nil? || self['audio_attachments'].nil?
+    delete_audio_attachment_file
+    self['audio_attachments'] = nil
+    self['recorded_audio'] = nil
+  end
 
   private
   def setup_mime_specific_audio(file_attachment)
@@ -43,4 +50,11 @@ module AudioHelper
     audio_attachments.clear
     audio_attachments['original'] = attachment.name
   end
+
+  def delete_audio_attachment_file
+    return if self.id.nil? || self['audio_attachments'].nil?
+    audio_key = self['audio_attachments']['original']
+    delete_attachment(audio_key)
+  end
+  
 end

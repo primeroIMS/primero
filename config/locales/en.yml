@@ -196,6 +196,7 @@ en:
       undo_investigated: "Undo Investigated"
       cancel: "Cancel"
       delete_photo: "Delete photo?"
+      delete_audio: "Delete audio?"
       choose_as_primary_photo: "Choose as primary photo"
       rotate_anti_clockwise: "Rotate Anti-Clockwise"
       restore_image: "Restore Original Image"
@@ -203,7 +204,7 @@ en:
       view_full_size_photo: "View full size photo"
 
     change_log: "Change Log"
-    flagged_as_suspected: "Flagged as suspect record by"
+    flagged_as_suspected: "Flagged by"
     posted_from_mobile: "Posted from the mobile client at:"
     edit_photo: "Edit photo"
     manage_photos: "Manage photos"
@@ -272,6 +273,7 @@ en:
       undo_investigated: "Undo Investigated"
       cancel: "Cancel"
       delete_photo: "Delete photo?"
+      delete_audio: "Delete audio?"
       choose_as_primary_photo: "Choose as primary photo"
       rotate_anti_clockwise: "Rotate Anti-Clockwise"
       restore_image: "Restore Original Image"
@@ -279,7 +281,7 @@ en:
       view_full_size_photo: "View full size photo"
 
     change_log: "Change Log"
-    flagged_as_suspected: "Flagged as suspect record by"
+    flagged_as_suspected: "Flagged by"
     posted_from_mobile: "Posted from the mobile client at:"
     edit_photo: "Edit photo"
     manage_photos: "Manage photos"

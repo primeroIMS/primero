@@ -172,7 +172,7 @@ describe Child do
     it "should replace old properties with updated ones" do
       child = Child.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
       new_properties = {"name" => "Dave", "age" => "35"}
-      child.update_properties_with_user_name "some_user", nil, nil, nil, new_properties
+      child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       child['age'].should == "35"
       child['name'].should == "Dave"
       child['last_known_location'].should == "London"
@@ -181,7 +181,7 @@ describe Child do
     it "should not replace old properties when updated ones have nil value" do
       child = Child.new("origin" => "Croydon", "last_known_location" => "London")
       new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
-      child.update_properties_with_user_name "some_user", nil, nil, nil, new_properties
+      child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       child['last_known_location'].should == "Manchester"
       child['origin'].should == "Croydon"
     end
@@ -189,7 +189,7 @@ describe Child do
     it "should not replace old properties when the existing records last_updated at is latest than the given last_updated_at" do
       child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
       given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC"}
-      child.update_properties_with_user_name "some_user", nil, nil, nil, given_properties
+      child.update_properties_with_user_name "some_user", nil, nil, nil, false, given_properties
       child["name"].should == "existing name"
       child["last_updated_at"].should == "2013-01-01 00:00:01UTC"
     end
@@ -199,7 +199,7 @@ describe Child do
       given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
       child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" =>  [existing_histories])
       given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => given_histories}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, given_properties
+      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
       histories = child["histories"]
       histories.size.should == 2
       histories.first["changes"]["sex"]["from"].should == "female"
@@ -214,7 +214,7 @@ describe Child do
                         ]
       child = Child.new("name" => "existing name", "last_updated_at" => "2013-12-12 00:00:01UTC", "histories" =>  [existing_histories])
       given_properties = {"name" => "given name", "last_updated_at" => "2013-01-01 00:00:00UTC", "histories" => given_histories}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, given_properties
+      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
       histories = child["histories"]
       histories.size.should == 1
       histories.first["changes"]["current_photo_key"].should be_nil
@@ -223,7 +223,7 @@ describe Child do
     it "should assign the history of the given properties as it is if the current record has no history" do
       child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
       given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, given_properties
+      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
       histories = child["histories"]
       histories.last["changes"]["name"]["to"].should == "new"
     end
@@ -237,17 +237,17 @@ describe Child do
       child.save!
       sleep 1
       changed_properties = {"name" => "new", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, changed_properties
+      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
       child.save!
       sleep 1
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, changed_properties
+      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
       child.save!
       child["histories"].size.should == 1
     end
 
     it "should populate last_updated_by field with the user_name who is updating" do
       child = Child.new
-      child.update_properties_with_user_name "jdoe", nil, nil, nil, {}
+      child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
       child['last_updated_by'].should == 'jdoe'
     end
 
@@ -264,7 +264,7 @@ describe Child do
     it "should populate last_updated_at field with the time of the update" do
       Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = Child.new
-      child.update_properties_with_user_name "jdoe", nil, nil, nil, {}
+      child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
       child['last_updated_at'].should == "2010-01-17 19:05:00UTC"
     end
 
@@ -277,7 +277,7 @@ describe Child do
     it "should update attachment when there is audio update" do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       child = Child.new
-      child.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, {}
+      child.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, false, {}
       child['_attachments']['audio-2010-01-17T140532']['data'].should_not be_blank
     end
 
@@ -289,24 +289,88 @@ describe Child do
     it "should update photo keys" do
       child = Child.new
       child.should_receive(:update_photo_keys)
-      child.update_properties_with_user_name "jdoe", nil, nil, nil, {}
+      child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
       child.photos.should be_empty
     end
 
     it "should set flagged_at if the record has been flagged" do
       Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = create_child("timothy cochran")
-      child.update_properties_with_user_name 'some user name', nil, nil, nil, {:flag => true}
+      child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:flag => true}
       child.flag_at.should == "2010-01-17 19:05:00UTC"
     end
 
     it "should set reunited_at if the record has been reunited" do
       Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = create_child("timothy cochran")
-      child.update_properties_with_user_name 'some user name', nil, nil, nil, {:reunited => true}
+      child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:reunited => true}
       child.reunited_at.should == "2010-01-17 19:05:00UTC"
     end
 
+
+    it "should remove old audio files when save a new audio file" do
+      User.stub(:find_by_user_name).and_return("John Doe")
+      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"), Time.parse("Jan 18 2010 14:05:32"))
+
+      #Create a child with some audio file.
+      child = Child.new
+      child.audio = uploadable_audio_amr
+      child.save
+      #Validate the audio file was store.
+      child['_attachments']['audio-2010-01-17T140532']['data'].should_not be_blank
+      child['_attachments']['audio-2010-01-17T140532']['content_type'].should eq("audio/amr")
+      child['audio_attachments']['original'].should == "audio-2010-01-17T140532"
+      child['audio_attachments']['amr'].should == "audio-2010-01-17T140532"
+      child['audio_attachments']['mp3'].should be_nil
+      #Others
+      child['recorded_audio'].should == "audio-2010-01-17T140532"
+      child['name'].should be_nil
+
+      #Update the child so a new audio is loaded.
+      properties = {:name => "Some Child Name"}
+      child.update_properties_with_user_name 'Jane Doe', nil, nil, uploadable_audio_mp3, false, properties
+
+      #Validate the old file was removed.
+      child['_attachments']['audio-2010-01-17T140532'].should be_blank
+      #Validate the new file was stored.
+      child['_attachments']['audio-2010-01-18T140532']['data'].should_not be_blank
+      child['_attachments']['audio-2010-01-18T140532']['content_type'].should eq("audio/mpeg")
+      child['audio_attachments']['original'].should == "audio-2010-01-18T140532"
+      child['audio_attachments']['mp3'].should == "audio-2010-01-18T140532"
+      #Others
+      child['recorded_audio'].should == "audio-2010-01-18T140532"
+      child['name'].should == "Some Child Name"
+    end
+
+    it "should remove current audio files" do
+      User.stub(:find_by_user_name).and_return("John Doe")
+      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
+
+      #Create a child with some audio file.
+      child = Child.new
+      child.audio = uploadable_audio_amr
+      child.save
+      #Validate the audio file was store.
+      child['_attachments']['audio-2010-01-17T140532']['data'].should_not be_blank
+      child['_attachments']['audio-2010-01-17T140532']['content_type'].should eq("audio/amr")
+      child['audio_attachments']['original'].should == "audio-2010-01-17T140532"
+      child['audio_attachments']['amr'].should == "audio-2010-01-17T140532"
+      child['audio_attachments']['mp3'].should be_nil
+      #Others
+      child['recorded_audio'].should == "audio-2010-01-17T140532"
+      child['name'].should be_nil
+
+      #Update the child so the current audio is removed.
+      properties = {:name => "Some Child Name"}
+      child.update_properties_with_user_name 'Jane Doe', nil, nil, nil, true, properties
+    
+      #Validate the file was removed.
+      child['_attachments'].should be_blank
+      child['audio_attachments'].should be_nil
+      #Others
+      child['recorded_audio'].should be_nil
+      child['name'].should == "Some Child Name"
+    end
 
   end
 
@@ -745,6 +809,23 @@ describe Child do
       @child['audio_attachments']['mp3'].should == 'some name'
     end
 
+    it "should call delete_audio_attachment_file when set an audio file" do
+      @child.id = "id"
+      @child['audio_attachments'] = {}
+      @child.should_receive(:delete_audio_attachment_file).and_call_original
+      @child.audio = uploadable_audio_mp3
+    end
+
+  end
+
+  describe ".delete_audio" do
+    it "should call delete_audio_attachment_file when delete current audio file" do
+      @child = Child.new
+      @child.id = "id"
+      @child['audio_attachments'] = {}
+      @child.should_receive(:delete_audio_attachment_file).and_call_original
+      @child.delete_audio
+    end
   end
 
   describe ".add_audio_file" do
