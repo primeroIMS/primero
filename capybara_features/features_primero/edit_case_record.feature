@@ -19,3 +19,13 @@ Feature: Edit Case Record
     Then I should see "Case was successfully updated" on the page
     And I should see "Tiki Thomas Taliaferro" on the page
     And I should see "Male" on the page
+    
+  Scenario: I should not see description text
+    Given I am logged in as an admin with username "primero" and password "primero"
+    And the following cases exist in the system:
+      | name     | created_by | age | sex    | registration_date      | status | unique_identifier                    |
+      | andreas  | primero    | 10  | male   | 2004-02-03 04:05:06UTC | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
+    When I press the "CASES" button
+    And I should see an id "7af3aa9" link on the page
+    And I press the "7af3aa9" link
+    And I should not see "Basic identity information about a separated or unaccompanied child."
