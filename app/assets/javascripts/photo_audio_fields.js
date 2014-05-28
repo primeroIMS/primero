@@ -10,4 +10,14 @@ $(document).ready(function() {
     if(photo_field_count == 5)
       $(this).remove();
   });
+
+  //Check the current audio for delete will disable the input file and clear it.
+  $(".audio_player_section .audio .delete_check_box input[type='checkbox']" ).on("click", function() {
+    if ($(this).attr('checked')) {
+      $("#tab_photos_and_audio .file #child_audio").attr('disabled', 'disabled');
+      $("#tab_photos_and_audio .file #child_audio").val("");
+    } else {
+      $("#tab_photos_and_audio .file #child_audio").removeAttr('disabled');
+    }
+  });
 });
