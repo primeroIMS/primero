@@ -358,6 +358,39 @@ fieldset {
   }
 }
 
+.subforms {
+  fieldset {
+    width: 95%;
+    margin-left: 5%;
+
+    .row:nth-child(even) {
+      background: none;
+    }
+  }
+
+  hr {
+    background: #ddd;
+    height: 1px;
+    border: none;
+  }
+
+  .subform_remove {
+    margin-top: 10px;
+    margin-left: calc(50% - 37px)
+  }
+}
+
+h5.tool-tip-label {
+  border-bottom: 1px solid #ddd;
+
+  span {
+    background: $white_color;
+    float: left;
+    margin-top: -10px;
+    padding: 0 8px;
+  }
+}
+
 ////////////////////////////////////////////////
 // Advanced Search box
 ////////////////////////////////////////////////

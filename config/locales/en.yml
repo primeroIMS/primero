@@ -539,7 +539,8 @@ en:
     option_strings_text: "Options"
     form_name: "Form Name"
     action: "Action"
-    remove: "remove"
+    remove: "Remove"
+    subform_remove_message: "Are you sure you want to remove this subform?"
     text_field: "Text Field"
     check_box: "Check boxes"
     select_box: "Select drop down"
@@ -550,7 +551,7 @@ en:
     successfully_added: "Field successfully added"
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
-    add: "Add Field"
+    add: "Add"
     type: "Field type"
     move_to: "Move to"
 
