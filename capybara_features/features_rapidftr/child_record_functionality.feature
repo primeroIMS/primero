@@ -267,6 +267,11 @@ Feature: Child record functionality
     And I press "Save"
     Then I should see "Height must be a valid number"
 
+  # PRIMERO-73 changed the "Discard" link to a "Cancel" button that functions like a reset
+  # There is still open debate as to how this should work
+  # For now, commenting out (via wip) this scenario
+  # TODO - Decide how this should work and test appropriately
+  @wip
   Scenario: cancel button should prompt user
     Given I am on new child page
     Then the "Discard" button presents a confirmation message

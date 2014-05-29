@@ -11,7 +11,7 @@ Feature: Consent Data Confidentiality
     And I press the "Data Confidentiality" button
     Then I should see the following fields:
     | Name                                                                                                                                      |
-    | Information Obtained From                                                                                                                 |
+    | Consent Obtained From                                                                                                                 |
     | Does the child/person understand why the information is collected, how it will be used, what the process will be, and agrees to register? |
     | Does Child/Caregiver agree to share collected information with other organizations?                                                       |
     | Does Child/Caregiver agree to share name on posters/radio/Internet?                                                                       |
@@ -22,10 +22,10 @@ Feature: Consent Data Confidentiality
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Data Confidentiality" button
-    When I select "the child" from "Information Obtained From"
+    When I select "Child" from "Consent Obtained From"
     And I select "Yes" from "Does the child/person understand why the information is collected, how it will be used, what the process will be, and agrees to register?"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     When I press the "Data Confidentiality" button
-    Then I should see a value for "Information Obtained From" on the show page with the value of "the child"
+    Then I should see a value for "Consent Obtained From" on the show page with the value of "Child"
     And I should see a value for "Does the child/person understand why the information is collected, how it will be used, what the process will be, and agrees to register?" on the show page with the value of "Yes"

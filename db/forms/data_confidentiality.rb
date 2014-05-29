@@ -1,11 +1,12 @@
 consent_fields = [
   Field.new({"name" => "interview_subject",
              "type" => "select_box",
-             "display_name_all" => "Information Obtained From",
-             "option_strings_text_all" =>
-                          ["the child",
-                           "caregiver",
-                           "other"].join("\n")
+             "display_name_all" => "Consent Obtained From",
+             "option_strings_text_all" => 
+                          ["Child",
+                           "Caregiver",
+                           "GBV Survivor",
+                           "Other (specify)"].join("\n")
               }),
   Field.new({"name" => "understanding_consent",
              "type" => "select_box",
@@ -128,7 +129,7 @@ consent_fields = [
              "option_strings_text_all" => "GTZ\nIRC\nSCUK\nUNICEF",
             }),
   #TODO Revisit this should display a select box with the user of the network.
-  Field.new({"name" => "social_worker",
+  Field.new({"name" => "sender_agency_social_worker",
              "type" => "text_field",
              "display_name_all" => "Social Worker",
             }),
