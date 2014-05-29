@@ -13,7 +13,7 @@
         <div class="clearfix"></div>
         <%= render :partial => "form_section", :collection => @form_sections %>
         <div class="btn_panel">
-            <%= discard_button :back %>
+            <%= render 'reset_button'%>
             <%= submit_button %>
         </div>
       </div>

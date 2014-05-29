@@ -1,5 +1,12 @@
 TEST_DATABASES = COUCHDB_SERVER.databases.select {|db| db =~ /#{ENV["RAILS_ENV"]}$/}
 
+# Generating large audio/photo. Rspec only created the files. The rspec and cucumber test run on
+# different envs on the jenkins server, so the files were not being generated for cucumber.
+
+include UploadableFiles
+uploadable_large_photo
+uploadable_large_audio
+
 Before do
   Child.stub :index_record => true, :reindex! => true, :build_solar_schema => true
   Sunspot.stub :index => true, :index! => true
@@ -21,8 +28,10 @@ Before do
     RestClient.post "#{model.database.root}/_bulk_docs", { :docs => docs }.to_json, { "Content-type" => "application/json" } unless docs.empty?
   end
 
-  #Load the seed forms
-  Dir[File.dirname(__FILE__) + '/../../db/forms/*.rb'].each {|file| require file }
+  #Load the seed forms - Using 'load' method because 'require' will remember that
+  #the files was already loaded and for the rest of scenarios will not execute
+  #the code in the required file. 
+  Dir[File.dirname(__FILE__) + '/../../db/forms/*.rb'].each {|file| load file }
 end
 
 Before('@roles') do |scenario|

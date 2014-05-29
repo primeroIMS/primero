@@ -40,16 +40,16 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
   if content == "today's date"
     content = DateTime.now.strftime("%d/%b/%Y")
   end
-  page.all(:css, 'fieldset .row').each do |row|
-    key = row.find(:css, 'label.key')
-    if key.has_text?(field)
-      value = row.find(:css, 'span.value')
-      if content
-        value.has_content?(content)
-      else
-        value.has_content?
+
+  #Find the element that represent the field name
+  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/) do
+    #Sometime we just check if the field appears in the page.
+    if content
+      #Lookup the parent of the field to search the value
+      within(:xpath, '../..') do
+        #Find the element that represent the value.
+        find(:xpath, ".//span[@class='value']", :text => content)
       end
-      break
     end
   end
 end
@@ -63,6 +63,10 @@ And /^I should stay on the "(.+)" tab on the case "(.+)" page$/ do |tab, page_ac
   page.should have_css('h1', :text => tab, :visible => true)
   path = Rails.application.routes.recognize_path(current_url)
   page_action.should eql(path[:action])
+end
+
+And /^I check the "(.*)" field$/ do |checkbox|
+  page.check(checkbox)
 end
 
 #////////////////////////////////////////////////////////////////

@@ -35,7 +35,7 @@ Feature: Flag Case Record For Attention
     When I press the "Flag Record" button
     Then I fill in "Flag Reason" with "Just Because"
     And I press "Flag"
-    Then I should see "Flagged as suspect record by primero"
+    Then I should see "Flagged by primero"
     And I should see "Just Because"
     And the record history should log "Record was flagged by primero belonging to UNICEF because: Just Because"
 
@@ -49,7 +49,7 @@ Feature: Flag Case Record For Attention
     When I press the "Flag Record" button
     And I press "Flag"
     And I click OK in the browser popup
-    Then I should not see "Flagged as suspect record by"
+    Then I should not see "Flagged by"
     And I should not see "Just Because"
     And I should see "Flag Reason"
 

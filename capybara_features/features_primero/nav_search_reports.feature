@@ -25,15 +25,9 @@ Feature: Primero nav search reports
     When I press the "REPORTS" button
     Then I should see "RapidFTR Reports"
 
-  Scenario: I try to search for something
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I fill in the "query" field with "test"
-    Then I press the "Go" button
-    And I should see the "results-count" class
-    
-  @wip
+  @search
   Scenario: I try to search for something that does not exist
     Given I am logged in as an admin with username "primero" and password "primero"
-    When I fill in the "query" field with "testsomething"
+    When I fill in the "query" field with "test"
     Then I press the "Go" button
     And I should see "No entries found"
