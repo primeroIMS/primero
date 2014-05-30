@@ -4,7 +4,7 @@ basic_identity_fields = [
              "editable" => false,
              "display_name_all" => "Case ID"
             }),
-  Field.new({"name" => "registration_date",
+  Field.new({"name" => "date_registration",
              "type" => "date_field", 
              "display_name_all" => "Registration Date"
             }),
