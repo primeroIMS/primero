@@ -6,13 +6,12 @@ var SubformView = Backbone.View.extend({
     'click .subform_add': 'add'
   },
 
-  intialize: function() {
+  initialize: function() {
     this.heading_removed = false
   },
 
   remove_first_heading: function() {
     if (this.heading_removed == false) {
-      console.log('here')
       $('h5.tool-tip-label:first').remove()
       this.heading_removed = true
     }
@@ -51,7 +50,7 @@ var SubformView = Backbone.View.extend({
       el.setAttribute("for", for_attr);
     });
 
-    newSubform.find("input").each(function(x, el){
+    newSubform.find("input, select").each(function(x, el){
       var id = el.getAttribute("id").replace("template",i);
       el.setAttribute("id", id);
       var name = el.getAttribute("name").replace("template",i);
@@ -62,7 +61,7 @@ var SubformView = Backbone.View.extend({
     newSubform.attr("class", newSubformClass);
 //    newSubform.removeAttr("style");
     newSubform.fadeIn(600);
-    newSubform.find("input").removeAttr("disabled");
+    newSubform.find("input, select").removeAttr("disabled");
 
     newSubform.appendTo(subforms);
   },
@@ -74,14 +73,16 @@ var SubformView = Backbone.View.extend({
 
     if (confirm_remove == true) {
       var subform = $(event.srcElement).parent();
-      subform.fadeOut(600).remove();
+      subform.fadeOut(600, function() {
+          $(this).remove();
+      });
     }
   }
 });
 
 $(document).ready(function() {
   //Disable all template inputs
-  $('div.template').find('input').attr("disabled","disabled");
+  $('div.template').find('input, select').attr("disabled","disabled");
 
   var subform = new SubformView();
 });

@@ -4,12 +4,12 @@
      subform_section = subform.subform_section
      number_of_subforms = subforms_count @child, subform
    %>
+  <h5 class="tool-tip-label">
+    <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %></span>
+  </h5>
   <div class="subforms">
     <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
-      <h5 class="tool-tip-label">
-        <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %></span>
-      </h5>
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
         <%= render partial: field.type,
@@ -28,6 +28,9 @@
   <%# Hidden subform template %>
   <div id="subform_container<%= subform.name %>_template" class="template" style="display:none;">
     <fieldset id="subform_<%= subform.name %>_template" class="<%= subform.name %> subform no-border">
+      <h5 class="tool-tip-label">
+        <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %></span>
+      </h5>
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
       <%= render partial: field.type,
@@ -44,6 +47,6 @@
 
   <%# Add button %>
   <div>
-    <div id="subform_<%= subform.name %>_add_button" class="green-button subform_add right"><%= t('fields.add') %></div>
+    <a id="subform_<%= subform.name %>_add_button" class="green-button subform_add right"><%= t('fields.add') %></a>
   </div>
 </div>

@@ -11,7 +11,6 @@
     <fieldset class="subform no-border">
     <% (number_of_subforms).times do |i| %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <% #binding.pry %>
         <%= render :partial => "field_display_#{field.display_type}",  :locals=>{:field => field, :child=>@child[:"#{subform_section.unique_id}"]["#{i}"]} %>
       <% end %>
       <hr>
