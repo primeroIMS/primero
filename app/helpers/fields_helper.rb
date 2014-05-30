@@ -31,7 +31,7 @@ module FieldsHelper
       if field == 'status'
         return 'Open'
       else
-        field_value = object[field.name]
+        field_value = object[field.name] || ''
       end
     end
     return field_value

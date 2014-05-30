@@ -25,15 +25,15 @@ describe "children/_date_field.html.erb" do
     rendered.should_not have_tag("img.vtip")
   end
 
-  it "should configure the date picker date format" do
-    date_field = Field.new :name => "new field",
-                           :display_name => "field name",
-                           :type => 'date_field',
-                           :help_text => "This is my help text"
-
-    render :partial => 'children/date_field', :locals => { :date_field => date_field }, :formats => [:html], :handlers => [:erb]
-
-    rendered.should be_include("dateFormat: 'dd/M/yy'")
-
-  end
+  ## This was moved to a js file
+  # it "should configure the date picker date format" do
+  #   date_field = Field.new :name => "new field",
+  #                          :display_name => "field name",
+  #                          :type => 'date_field',
+  #                          :help_text => "This is my help text"
+  #
+  #   render :partial => 'children/date_field', :locals => { :date_field => date_field }, :formats => [:html], :handlers => [:erb]
+  #   rendered.should be_include("dateFormat: 'dd/M/yy'")
+  #
+  # end
 end
