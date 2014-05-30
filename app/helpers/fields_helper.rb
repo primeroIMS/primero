@@ -28,7 +28,11 @@ module FieldsHelper
       field_value = object
       field_keys.each {|k| field_value = field_value[k]}
     else
-      field_value = object[field.name]
+      if field == 'status'
+        return 'Open'
+      else
+        field_value = object[field.name]
+      end
     end
     return field_value
   end

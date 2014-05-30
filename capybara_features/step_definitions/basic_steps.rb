@@ -61,11 +61,19 @@ And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |n
   within(:xpath, "//div[@id='subform_container#{subform}_#{num}']") do
     fields.rows_hash.each do |name, value|
       if value.start_with?("<Select>")
-        step %{I select "#{value.gsub("<Select> ", "")}" from "#{name}"}
+        step %Q{I select "#{value.gsub("<Select> ", "")}" from "#{name}"}
       else
-        step %{I fill in "#{name}" with "#{value}"}
+        step %Q{I fill in "#{name}" with "#{value}"}
       end
     end
+  end
+end
+
+And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+    step %Q{I press the "Remove" button}
   end
 end
 

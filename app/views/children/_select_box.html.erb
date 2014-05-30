@@ -11,7 +11,7 @@
       </span>
   </div>
   <div class="medium-8 columns">
-    <%= select_tag name, options_for_select(select_box.select_options, select_box_default(@child, select_box.name)) %>
+    <%= select_tag name, options_for_select(select_box.select_options, value) %>
     <%= image_tag "new/icon_help.png", title: select_box.help_text, class: 'tool-tip-icon vtip' if select_box.help_text.present? %>
   </div>
 </div>

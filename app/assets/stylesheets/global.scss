@@ -133,6 +133,10 @@ hr {
 @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
 
+.grey-button, .green-button {
+  font-size: .9rem;
+}
+
 ////////////////////////////////////////////////
 // Dropdown Buttons
 ////////////////////////////////////////////////
@@ -345,7 +349,7 @@ fieldset {
 .btn_panel {
   width: 100%;
   border-top: 1px solid #ddd;
-  padding-top: 2rem;
+  padding: 2rem 0 0 2rem;
 
   a.link_cancel {
     float: left;

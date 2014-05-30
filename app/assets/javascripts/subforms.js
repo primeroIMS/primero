@@ -23,6 +23,9 @@ var SubformView = Backbone.View.extend({
     // removing very first heading
     this.remove_first_heading();
 
+    // set sidebar height
+    _primero.set_content_sidebar_equality();
+
     //grab the correct template
     var template = $(event.srcElement).parent().prev();
 
