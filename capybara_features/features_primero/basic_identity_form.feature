@@ -63,8 +63,8 @@ Feature: Basic Identity Form
     | Interviewer Position |
     | Interviewer Agency |
     | Interview Address |
-    | Interview Landmark |
     | Interview Location |
+    | Interview Landmark |    
     | Information Obtained From |
     | Other Interview Source |
     | Has the child been interviewed by another organization? |
@@ -119,8 +119,8 @@ Feature: Basic Identity Form
       | Interviewer Name  | Fred Jones                           |
       | Interviewer Position | Field Worker                      |
       | Interview Address    | 333 Elm St, Wilkesboro NC, 28697  |
-      | Interview Landmark   | By the river                      |
       | Interview Location   | Midwest                           |
+      | Interview Landmark   | By the river                      |      
       | Other Interview Source   | Doctor                           |
       | Reference No. given to child by other organization   | CCC222                          |
       | Registration Address    | 444 10th St, N. Wilkesboro NC, 28659  |
@@ -199,9 +199,9 @@ Feature: Basic Identity Form
     And I should see a value for "Birth Country" on the show page with the value of "Country1"
     And I should see a value for "Country of Origin" on the show page with the value of "Country2"
     And I should see a value for "Current Address" on the show page with the value of "111 Main St, Davidson NC, 28036"
-    And I should see a value for "Landmark near current address" on the show page with the value of "Old Oak Tree"
-    And I should see a value for "Is this address permanent?" on the show page with the value of "Yes"
     And I should see a value for "Current Location" on the show page with the value of "Southern Region"
+    And I should see a value for "Landmark near current address" on the show page with the value of "Old Oak Tree"
+    And I should see a value for "Is this address permanent?" on the show page with the value of "Yes"    
     And I should see a value for "Current Telephone" on the show page with the value of "336-555-1313"
     And I should see a value for "Last Address" on the show page with the value of "222 1st Ave, Mooresville NC, 28117"
     And I should see a value for "Last Landmark" on the show page with the value of "Roller Coaster Hill"
@@ -217,8 +217,8 @@ Feature: Basic Identity Form
     And I should see a value for "Interviewer Position" on the show page with the value of "Field Worker"
     And I should see a value for "Interviewer Agency" on the show page with the value of "Agency 4"
     And I should see a value for "Interview Address" on the show page with the value of "333 Elm St, Wilkesboro NC, 28697"
-    And I should see a value for "Interview Landmark" on the show page with the value of "By the river"
     And I should see a value for "Interview Location" on the show page with the value of "Midwest"
+    And I should see a value for "Interview Landmark" on the show page with the value of "By the river"    
     And I should see a value for "Information Obtained From" on the show page with the value of "GBV Survivor"
     And I should see a value for "Other Interview Source" on the show page with the value of "Doctor"
     And I should see a value for "Has the child been interviewed by another organization?" on the show page with the value of "Yes"
@@ -276,9 +276,9 @@ Feature: Basic Identity Form
     And I should see a value for "Birth Country" on the show page with the value of ""
     And I should see a value for "Country of Origin" on the show page with the value of ""
     And I should see a value for "Current Address" on the show page with the value of ""
-    And I should see a value for "Landmark near current address" on the show page with the value of ""
-    And I should see a value for "Is this address permanent?" on the show page with the value of ""
     And I should see a value for "Current Location" on the show page with the value of ""
+    And I should see a value for "Landmark near current address" on the show page with the value of ""
+    And I should see a value for "Is this address permanent?" on the show page with the value of ""    
     And I should see a value for "Current Telephone" on the show page with the value of ""
     And I should see a value for "Last Address" on the show page with the value of ""
     And I should see a value for "Last Landmark" on the show page with the value of ""
@@ -294,8 +294,8 @@ Feature: Basic Identity Form
     And I should see a value for "Interviewer Position" on the show page with the value of ""
     And I should see a value for "Interviewer Agency" on the show page with the value of ""
     And I should see a value for "Interview Address" on the show page with the value of ""
-    And I should see a value for "Interview Landmark" on the show page with the value of ""
     And I should see a value for "Interview Location" on the show page with the value of ""
+    And I should see a value for "Interview Landmark" on the show page with the value of ""    
     And I should see a value for "Information Obtained From" on the show page with the value of ""
     And I should see a value for "Other Interview Source" on the show page with the value of ""
     And I should see a value for "Has the child been interviewed by another organization?" on the show page with the value of ""
