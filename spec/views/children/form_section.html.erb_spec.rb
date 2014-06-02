@@ -57,7 +57,7 @@ describe "children/_form_section.html.erb" do
 
         @form_section.fields.each do |field|
           rendered.should be_include("<label class=\"key\" for=\"#{field.tag_id}\">")
-          rendered.should be_include("<input id=\"#{field.tag_id}\" name=\"#{field.tag_name_attribute}\" type=\"text\" />")
+          rendered.should be_include("<input id=\"#{field.tag_id}\" name=\"#{field.tag_name_attribute}\" type=\"text\" value=\"\" />")
         end
       end
     end
