@@ -396,8 +396,10 @@ h5.tool-tip-label {
   }
 
   &:first-of-type {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
+
+  margin-top: 2rem;
 }
 
 fieldset .row:nth-child(even) h5.tool-tip-label span {
