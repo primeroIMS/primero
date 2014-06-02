@@ -56,7 +56,7 @@ begin
       t.cucumber_opts = cucumber_opts if cucumber_opts
     end
     
-    Cucumber::Rake::Task.new({:browser_ci => ['ci:setup:cucumber_report_cleanup', 'db:test:prepare']}, 'Runs the headless tests and generates xml reports that can be read by Jenkins') do |t|
+    Cucumber::Rake::Task.new({:browser_ci => ['ci:setup:cucumber_report_cleanup', 'db:test:prepare']}, 'Runs the browser tests and generates xml reports that can be read by Jenkins') do |t|
       t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
       t.fork = false # You may get faster startup if you set this to false
       t.profile = 'browser'

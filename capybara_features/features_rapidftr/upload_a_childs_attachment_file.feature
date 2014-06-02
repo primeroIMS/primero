@@ -1,3 +1,4 @@
+@javascript
 Feature: Upload a childs attachment file
 
   So that all child records contains an attachment for that child, including photo and audio
