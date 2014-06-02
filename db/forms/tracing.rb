@@ -44,15 +44,14 @@ tracing_sub_form = [
               })
 ]
 
-tracing_actions_section = FormSection.create!(
-    {"visible"=>false,
+tracing_actions_section = FormSection.create_or_update_form_section({
+     "visible"=>false,
      "is_nested"=>true,
      :order=> 1, :unique_id=>"tracing_actions_section", "editable"=>true,
      :fields => tracing_sub_form, :perm_enabled => true,
      "name_all" => "Nested Tracing Action",
      "description_all" => "Tracing Action Subform"
-    }
-)
+})
 
 tracing_fields = [
   Field.new({"name" => "ftr_status",
