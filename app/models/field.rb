@@ -11,6 +11,8 @@ class Field
   localize_properties [:display_name, :help_text, :option_strings_text]
   attr_reader :options
   property :base_language, :default=>'en'
+  property :subform_section_id #TODO: Either load this using couchdb linking or load on creation
+  attr_accessor :subform
 
   TEXT_FIELD = "text_field"
   TEXT_AREA = "textarea"
@@ -21,6 +23,7 @@ class Field
   PHOTO_UPLOAD_BOX = "photo_upload_box"
   AUDIO_UPLOAD_BOX = "audio_upload_box"
   DATE_FIELD = "date_field"
+  SUBFORM = "subform"
 
   FIELD_FORM_TYPES = {  TEXT_FIELD       => "basic",
                         TEXT_AREA        => "basic",
@@ -30,7 +33,9 @@ class Field
                         PHOTO_UPLOAD_BOX => "basic",
                         AUDIO_UPLOAD_BOX => "basic",
                         DATE_FIELD       => "basic",
-                        NUMERIC_FIELD    => "basic"}
+                        NUMERIC_FIELD    => "basic",
+                        SUBFORM          => "subform"
+                      }
   FIELD_DISPLAY_TYPES = {
 												TEXT_FIELD       => "basic",
                         TEXT_AREA        => "basic",
@@ -40,17 +45,22 @@ class Field
                         PHOTO_UPLOAD_BOX => "photo",
                         AUDIO_UPLOAD_BOX => "audio",
                         DATE_FIELD       => "basic",
-                        NUMERIC_FIELD    => "basic"}
+                        NUMERIC_FIELD    => "basic",
+                        SUBFORM          => "subform"
+                      }
 
-  DEFAULT_VALUES = {  TEXT_FIELD       => "",
+  DEFAULT_VALUES = {
+                        TEXT_FIELD       => "",
                         TEXT_AREA        => "",
                         RADIO_BUTTON     => "",
                         SELECT_BOX       => "",
-                        CHECK_BOXES       => [],
+                        CHECK_BOXES      => [],
                         PHOTO_UPLOAD_BOX => nil,
                         AUDIO_UPLOAD_BOX => nil,
                         DATE_FIELD       => "",
-                        NUMERIC_FIELD    => ""}
+                        NUMERIC_FIELD    => "",
+                        SUBFORM          => nil
+                      }
 
   validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
   validate :validate_unique_name
@@ -59,6 +69,8 @@ class Field
   validate :validate_has_a_option
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
+
+  #TODO: Any subform validations?
 
   def validate_name_format
     special_characters = /[*!@#%$\^]/
@@ -83,6 +95,10 @@ class Field
 
   def form
     base_doc
+  end
+
+  def subform_section
+    subform ||= FormSection.get(subform_section_id) if subform_section_id
   end
 
   def form_type
