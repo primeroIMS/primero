@@ -13,11 +13,26 @@ class FormSection < CouchRest::Model::Base
   property :perm_enabled, TrueClass
   property :validations, [String]
   property :base_language, :default=>'en'
+  property :is_nested, TrueClass, :default => false
 
   design do
     view :by_unique_id
     view :by_order
+    view :subform_form,
+      :map => "function(doc) {
+                if (doc['couchrest-type'] == 'FormSection'){
+                  if (doc['fields'] != null){
+                    for(var i = 0; i<doc['fields'].length; i++){
+                      var field = doc['fields'][i];
+                      if (field['subform_section_id'] != null){
+                        emit(field['subform_section_id'], doc._id);
+                      }
+                    }
+                  }
+                }
+              }"
   end
+  
   validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")
   validate :valid_presence_of_base_language_name
   validate :validate_name_format

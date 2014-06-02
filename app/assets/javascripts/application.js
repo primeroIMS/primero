@@ -26,6 +26,7 @@
 //= require manage_users
 //= require session_timeout
 //= require flag_children
+//= require subforms
 //= require photo_audio_fields
 
 $(function(){ $(document).foundation(); });
