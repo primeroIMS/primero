@@ -47,8 +47,12 @@ tracing_sub_form = [
 tracing_actions_section = FormSection.create_or_update_form_section({
      "visible"=>false,
      "is_nested"=>true,
-     :order=> 1, :unique_id=>"tracing_actions_section", "editable"=>true,
-     :fields => tracing_sub_form, :perm_enabled => true,
+     :order=> 1,
+     :unique_id=>"tracing_actions_section",
+     "editable"=>true,
+     :fields => tracing_sub_form,
+     :perm_enabled => false,
+     :perm_visible => false,
      "name_all" => "Nested Tracing Action",
      "description_all" => "Tracing Action Subform"
 })
