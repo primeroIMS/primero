@@ -135,6 +135,7 @@ hr {
 
 .grey-button, .green-button {
   font-size: .9rem;
+  text-decoration: none !important;
 }
 
 ////////////////////////////////////////////////
@@ -393,6 +394,14 @@ h5.tool-tip-label {
     margin-top: -10px;
     padding: 0 8px;
   }
+
+  &:first-of-type {
+    margin-bottom: 2.5rem;
+  }
+}
+
+fieldset .row:nth-child(even) h5.tool-tip-label span {
+  background: #ebebeb;
 }
 
 ////////////////////////////////////////////////

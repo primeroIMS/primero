@@ -10,30 +10,15 @@ var SubformView = Backbone.View.extend({
     this.heading_removed = false
   },
 
-  remove_first_heading: function() {
-    if (this.heading_removed == false) {
-      $('h5.tool-tip-label:first').remove()
-      this.heading_removed = true
-    }
-  },
-
   add: function(event) {
     event.preventDefault();
-
-    // removing very first heading
-    this.remove_first_heading();
-
-    // set sidebar height
-    _primero.set_content_sidebar_equality();
-
-    //grab the correct template
-    var template = $(event.srcElement).parent().prev();
-
-    //figure out the subforms
-    var subforms = template.prev();
-
-    //figure out the next i
-    var i = 0;
+    var target = event.target || event.srcElement,
+      //grab the correct template
+      template = $(target).parent().prev(),
+      //figure out the subforms
+      subforms = template.prev(),
+      //figure out the next i
+      i = 0;
     if (subforms.children().size() > 0){
       i = parseInt(subforms.children(":last").attr("id").split("_").pop()) + 1;
     }
@@ -67,19 +52,24 @@ var SubformView = Backbone.View.extend({
     newSubform.find("input, select").removeAttr("disabled");
 
     newSubform.appendTo(subforms);
+
+    // set sidebar height
+    _primero.set_content_sidebar_equality();
   },
 
   remove: function(event) {
     event.preventDefault();
     var message = $(event.target).data('message'),
-        confirm_remove = confirm(message);
+        confirm_remove = confirm(message),
+        target = event.target || event.srcElement;
 
     if (confirm_remove == true) {
-      var subform = $(event.srcElement).parent();
+      var subform = $(target).parent();
       subform.fadeOut(600, function() {
           $(this).remove();
       });
     }
+    _primero.set_content_sidebar_equality();
   }
 });
 
