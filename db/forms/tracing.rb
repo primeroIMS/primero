@@ -89,6 +89,8 @@ tracing_fields = [
                         "Repatriation",
                         "Population movement",
                         "Migration",
+                        "Poverty",
+                        "Natural disaster",
                         "Divorce/remarriage",
                         "Other (please specify)"].join("\n")
               }),
