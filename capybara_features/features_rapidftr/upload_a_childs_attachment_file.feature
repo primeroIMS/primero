@@ -11,6 +11,7 @@ Feature: Upload a childs attachment file
   Scenario: Uploading a standard mp3 file and a standard JPG image to new child record
     Given I am on the new case page
     When I fill in "Name" with "John"
+    And I press the "Photos and Audio" button 
     And I attach an audio file "capybara_features/resources/sample.mp3"
     And I attach a photo "capybara_features/resources/jorge.jpg"
     And I press "Save"
