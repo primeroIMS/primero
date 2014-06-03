@@ -1,5 +1,5 @@
 Then /^I should see "([^\"]*)" on the page$/ do |text|
-  expect(page).to have_content(text)
+  page.has_content?(text)
 end
 
 Then /^I should not see "([^\"]*)" on the page$/ do |text|
