@@ -81,7 +81,6 @@ tracing_fields = [
                         "Family abuse/violence/exploitation",
                         "Lack of access to services/support",
                         "CAAFAG",
-                        "Other (please specify)",
                         "Sickness of family member",
                         "Entrusted into the care of an individual",
                         "Arrest and detention",
@@ -89,6 +88,8 @@ tracing_fields = [
                         "Repatriation",
                         "Population movement",
                         "Migration",
+                        "Poverty",
+                        "Natural disaster",
                         "Divorce/remarriage",
                         "Other (please specify)"].join("\n")
               }),
