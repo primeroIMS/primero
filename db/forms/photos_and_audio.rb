@@ -6,7 +6,7 @@ photo_audio_fields = [
     Field.new({"name" => "recorded_audio",
               "type" => "audio_upload_box", "editable" => false,
               "display_name_all" => "Recorded Audio"
-              }),
+              })
 ]
 
 FormSection.create_or_update_form_section({
