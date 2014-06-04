@@ -176,18 +176,8 @@ tracing_fields = [
              "display_name_all" => "Caregiver Address",
             }),
   Field.new({"name" => "location_caregiver_closing",
-             "type" => "select_box",
+             "type" => "text_field",
              "display_name_all" => "Caregiver Location",
-             "option_strings_text_all" => [
-                 "DRC",
-                 "Kenya",
-                 "Liberia",
-                 "Myanmar",
-                 "Nepal",
-                 "Sierra Leone",
-                 "Sri Lanka",
-                 "Uganda"
-             ]
             }),
 ]
 
