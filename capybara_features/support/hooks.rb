@@ -1,5 +1,3 @@
-TEST_DATABASES = COUCHDB_SERVER.databases.select {|db| db =~ /#{ENV["RAILS_ENV"]}$/}
-
 # Generating large audio/photo. Rspec only created the files. The rspec and cucumber test run on
 # different envs on the jenkins server, so the files were not being generated for cucumber.
 
@@ -41,9 +39,6 @@ Before('@roles') do |scenario|
   Role.create(:name => 'Admin', :permissions => Permission.all_permissions)
 end
 
-
 at_exit do
-  TEST_DATABASES.each do |db|
-    COUCHDB_SERVER.database(db).delete! rescue nil
-  end
+  cleanup_databases
 end
