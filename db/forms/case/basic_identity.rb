@@ -440,7 +440,7 @@ basic_identity_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id=>"basic_identity",
-  :form_id=>"case",
+  :parent_form=>"case",
   "visible" => true,
   :order => 1,
   "editable" => true,

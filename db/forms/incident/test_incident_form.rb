@@ -52,12 +52,12 @@ test_incident_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "test_incident_form",
-  :form_id=>"incident",
+  :parent_form=>"incident",
   "visible" => true,
-  :order => 3,
+  :order => 1,
   "editable" => true,
   :fields => test_incident_fields,
   :perm_enabled => true,
-  "name_all" => "Test Incident Form",
-  "description_all" => "Test Incident Form"
+  "name_all" => "Test Incident Form 1",
+  "description_all" => "Test Incident Form 1"
 })

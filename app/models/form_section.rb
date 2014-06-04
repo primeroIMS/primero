@@ -4,7 +4,7 @@ class FormSection < CouchRest::Model::Base
   use_database :form_section
   localize_properties [:name, :help_text, :description]
   property :unique_id
-  property :form_id
+  property :parent_form
   property :visible, TrueClass, :default => true
   property :order, Integer
   property :fields, [Field]
@@ -18,6 +18,7 @@ class FormSection < CouchRest::Model::Base
 
   design do
     view :by_unique_id
+    view :by_parent_form
     view :by_order
     view :subform_form,
       :map => "function(doc) {
@@ -110,6 +111,11 @@ class FormSection < CouchRest::Model::Base
 
   def self.get_by_unique_id unique_id
     by_unique_id(:key => unique_id).first
+  end
+  
+  #TODO - RON TESTING!!!
+  def self.find_by_parent_form parent_form
+    by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| e[:order]}
   end
 
   def self.add_field_to_formsection formsection, field
