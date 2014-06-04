@@ -4,9 +4,14 @@ basic_identity_fields = [
              "editable" => false,
              "display_name_all" => "Case ID"
             }),
+  Field.new({"name" => "short_id",
+             "type" => "text_field", 
+             "editable" => false,
+             "display_name_all" => "Short ID"
+            }),
   Field.new({"name" => "registration_date",
              "type" => "date_field", 
-             "display_name_all" => "Registration Date"
+             "display_name_all" => "Date of Registration or Interview"
             }),
   #TODO reconcile difference between Agency and Other Agency
   Field.new({"name" => "agency",
@@ -133,8 +138,7 @@ basic_identity_fields = [
                            "Stateless Person",
                            "Returnee",
                            "Foreign National",
-                           "Asylum Seeker",
-                           "N/A"].join("\n")
+                           "Asylum Seeker"].join("\n")
             }),
   Field.new({"name" => "disability_type",
              "type" =>"select_box" ,
@@ -150,17 +154,10 @@ basic_identity_fields = [
              "type" =>"select_box" ,
              "display_name_all" => "Nationality",
              "option_strings_text_all" => 
-                          ["Congolese",
-                           "Guinean",
-                           "Ivorian",
-                           "Liberian",
-                           "Other",
-                           "Sierra Leonean",
-                           "Sudanese",
-                           "Ugandan",
-                           "World Citizen",
-                           "World Citizen-2",
-                           "World Citizen-3"].join("\n")
+                          ["Nationality 1",
+                           "Nationality 2",
+                           "Nationality 3",
+                           "Nationality 4"].join("\n")
             }),
       
   Field.new({"name" => "place_of_birth",
@@ -194,23 +191,23 @@ basic_identity_fields = [
              "type" => "textarea",
              "display_name_all" => "Current Address"
             }),
+  #TODO location picker
+  Field.new({"name" => "location_current",
+             "type" =>"text_field" ,
+             "display_name_all" => "Current Location"
+            }),
   Field.new({"name" => "landmark_current",
              "type" => "text_field",
-             "display_name_all" => "Landmark"
+             "display_name_all" => "Landmark near current address"
             }),
   Field.new({"name" => "address_is_permanent",
              "type" => "select_box",
              "display_name_all" => "Is this address permanent?",
              "option_strings_text_all" => "Yes\nNo",
-            }),
-  #TODO location picker
-  Field.new({"name" => "location_current",
-             "type" =>"text_field" ,
-             "display_name_all" => "Location"
-            }),
+            }),  
   Field.new({"name" => "telephone_current",
              "type" => "text_field",
-             "display_name_all" => "Telephone"
+             "display_name_all" => "Current Telephone"
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",
@@ -294,15 +291,15 @@ basic_identity_fields = [
              "type" => "textarea",
              "display_name_all" => "Interview Address"
             }),
-  Field.new({"name" => "landmark_interview",
-             "type" => "text_field",
-             "display_name_all" => "Interview Landmark"
-            }),
   #TODO location picker
   Field.new({"name" => "location_interview",
              "type" =>"text_field" ,
              "display_name_all" => "Interview Location"
             }),
+  Field.new({"name" => "landmark_interview",
+             "type" => "text_field",
+             "display_name_all" => "Interview Landmark"
+            }),  
   #TODO if Other selected, provide text box for entry
   Field.new({"name" => "source_interview",
              "type" =>"select_box" ,
@@ -354,20 +351,20 @@ basic_identity_fields = [
   #TODO verify this
   Field.new({"name" => "dependents_no",
              "type" =>"text_field" ,
-             "display_name_all" => "Number of children and other dependents"
+             "display_name_all" => "Number and age of children and other dependents"
             }),
   Field.new({"name" => "location_camp",
              "type" =>"text_field" ,
              "display_name_all" => "Camp"
             }),
+  Field.new({"name" => "address_permanent",
+             "type" => "textarea",
+             "display_name_all" => "Permanent Address"
+            }),
   #TODO location picker
   Field.new({"name" => "location_permanent",
              "type" =>"text_field" ,
              "display_name_all" => "Permanent Location"
-            }),
-  Field.new({"name" => "address_permanent",
-             "type" => "textarea",
-             "display_name_all" => "Permanent Address"
             }),
   Field.new({"name" => "section_no",
              "type" =>"text_field" ,
@@ -409,6 +406,35 @@ basic_identity_fields = [
              "type" => "select_box",
              "display_name_all" => "Name(s) given to child after separation?",
              "option_strings_text_all" => "Yes\nNo",
+            }),
+  Field.new({"name" => "survivor_lives_alone",
+             "type" => "select_box",
+             "display_name_all" => "If the survivor is a child, does he/she live alone?",
+             "option_strings_text_all" => "Yes\nNo",
+            }),
+  #TODO implement text box if Other is selected
+  Field.new({"name" => "survivor_caretaker",
+             "type" =>"select_box" ,
+             "display_name_all" => "If the survivor lives with someone, what is the relation between her/him and the caretaker?",
+             "option_strings_text_all" => 
+                          ["Parent/Guardian",
+                           "Relative",
+                           "Spouse/Cohabitating",
+                           "Other - Must include detail"].join("\n")
+            }),
+  Field.new({"name" => "caretaker_maritial_status",
+             "type" =>"select_box" ,
+             "display_name_all" => "What is the caretaker's current marital status?",
+             "option_strings_text_all" => 
+                          ["Single",
+                           "Married/Cohabitating",
+                           "Divorced/Separated",
+                           "Widowed",
+                           "Unknown/Not Applicable"].join("\n")
+            }),
+  Field.new({"name" => "caretaker_occupation",
+             "type" => "text_field",
+             "display_name_all" => "What is the caretaker's primary occupation?"
             })
 ]
 

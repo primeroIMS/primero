@@ -133,6 +133,11 @@ hr {
 @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
 
+.grey-button, .green-button {
+  font-size: .9rem;
+  text-decoration: none !important;
+}
+
 ////////////////////////////////////////////////
 // Dropdown Buttons
 ////////////////////////////////////////////////
@@ -345,7 +350,7 @@ fieldset {
 .btn_panel {
   width: 100%;
   border-top: 1px solid #ddd;
-  padding-top: 2rem;
+  padding: 2rem 0 0 2rem;
 
   a.link_cancel {
     float: left;
@@ -356,6 +361,49 @@ fieldset {
     float: right;
     width: 8rem;
   }
+}
+
+.subforms {
+  fieldset {
+    width: 95%;
+    margin-left: 5%;
+
+    .row:nth-child(even) {
+      background: none;
+    }
+  }
+
+  hr {
+    background: #ddd;
+    height: 1px;
+    border: none;
+  }
+
+  .subform_remove {
+    margin-top: 10px;
+    margin-left: calc(50% - 37px)
+  }
+}
+
+h5.tool-tip-label {
+  border-bottom: 1px solid #ddd;
+
+  span {
+    background: $white_color;
+    float: left;
+    margin-top: -10px;
+    padding: 0 8px;
+  }
+
+  &:first-of-type {
+    margin-bottom: 2rem;
+  }
+
+  margin-top: 2rem;
+}
+
+fieldset .row:nth-child(even) h5.tool-tip-label span {
+  background: #ebebeb;
 }
 
 ////////////////////////////////////////////////

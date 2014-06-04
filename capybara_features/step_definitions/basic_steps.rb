@@ -1,5 +1,5 @@
 Then /^I should see "([^\"]*)" on the page$/ do |text|
-  expect(page).to have_content(text)
+  page.has_content?(text)
 end
 
 Then /^I should not see "([^\"]*)" on the page$/ do |text|
@@ -57,6 +57,29 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
   end
 end
 
+And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
+  step %Q{I add a "#{subform}" subform}
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  within(:xpath, "//div[@id='subform_container#{subform}_#{num}']") do
+    fields.rows_hash.each do |name, value|
+      if value.start_with?("<Select>")
+        step %Q{I select "#{value.gsub("<Select> ", "")}" from "#{name}"}
+      else
+        step %Q{I fill in "#{name}" with "#{value}"}
+      end
+    end
+  end
+end
+
+And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+    step %Q{I press the "Remove" button}
+  end
+end
+
 ## Added for debugging purposes
 And /^pause$/ do
   binding.pry
@@ -70,6 +93,11 @@ end
 
 And /^I check the "(.*)" field$/ do |checkbox|
   page.check(checkbox)
+end
+
+And /^I add a "(.*)" subform$/ do |form|
+  form = form.downcase.gsub(" ", "_")
+  find("//a[@id='subform_#{form}_add_button']",:visible => true).click
 end
 
 #////////////////////////////////////////////////////////////////
@@ -353,4 +381,3 @@ def click_unflag_as_suspect_record_link_for(name)
   #find(:css, ".btn_flag").click
   click_on('Unflag Record')
 end
-

@@ -1,3 +1,62 @@
+tracing_sub_form = [
+    Field.new({"name" => "date_tracing",
+               "type" => "date_field",
+               "display_name_all" => "Date of tracing",
+              }),
+    Field.new({"name" => "tracing_type",
+               "type" => "select_box",
+               "display_name_all" => "Type of action taken",
+               "option_strings_text_all" => [
+                 "Case by Case Tracing",
+                 "Individual Tracing",
+                 "Mass Tracing",
+                 "Photo Tracing",
+                 "Referral to NGO",
+                 "Referral to ICRC"
+               ]
+              }),
+    Field.new({"name" => "address_tracing",
+               "type" => "text_field",
+               "display_name_all" => "Address/Village where the tracing action took place",
+              }),
+    Field.new({"name" => "location_tracing",
+               "type" => "select_box",
+               "display_name_all" => "Place of tracing",
+               "option_strings_text_all" => [
+                 "DRC",
+                 "Kenya",
+                 "Liberia",
+                 "Myanmar",
+                 "Nepal",
+                 "Sierra Leone",
+                 "Sri Lanka",
+                 "Uganda"
+               ]
+              }),
+    Field.new({"name" => "tracing_action_description",
+               "type" => "text_field",
+               "display_name_all" => "Action taken and remarks",
+              }),
+    Field.new({"name" => "tracing_outcome",
+               "type" => "select_box",
+               "display_name_all" => "Outcome of tracing action",
+               "option_strings_text_all" => "Pending\nSuccessful\nUnsuccessful\nYes",
+              })
+]
+
+tracing_actions_section = FormSection.create_or_update_form_section({
+     "visible"=>false,
+     "is_nested"=>true,
+     :order=> 1,
+     :unique_id=>"tracing_actions_section",
+     "editable"=>true,
+     :fields => tracing_sub_form,
+     :perm_enabled => false,
+     :perm_visible => false,
+     "name_all" => "Nested Tracing Action",
+     "description_all" => "Tracing Action Subform"
+})
+
 tracing_fields = [
   Field.new({"name" => "ftr_status",
              "type" => "select_box",
@@ -22,7 +81,6 @@ tracing_fields = [
                         "Family abuse/violence/exploitation",
                         "Lack of access to services/support",
                         "CAAFAG",
-                        "Other (please specify)",
                         "Sickness of family member",
                         "Entrusted into the care of an individual",
                         "Arrest and detention",
@@ -30,6 +88,8 @@ tracing_fields = [
                         "Repatriation",
                         "Population movement",
                         "Migration",
+                        "Poverty",
+                        "Natural disaster",
                         "Divorce/remarriage",
                         "Other (please specify)"].join("\n")
               }),
@@ -83,6 +143,11 @@ tracing_fields = [
   Field.new({"name" => "care_arrangements_arrival_date",
              "type" => "date_field",
              "display_name_all" => "Arrival Date",
+            }),
+  Field.new({"name" => "tracing_actions_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => tracing_actions_section.id,
+             "display_name_all" => "Tracing Actions"
             }),
 ]
 
