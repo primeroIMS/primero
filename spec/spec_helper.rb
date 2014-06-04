@@ -22,9 +22,6 @@ Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 FactoryGirl.find_definitions
 Mime::Type.register 'application/zip', :mock
 
-#This work if we keep in the suffix the same as the RAILS_ENV.
-TEST_DATABASES = COUCHDB_SERVER.databases.select {|db| db =~ /#{ENV["RAILS_ENV"]}$/}
-
 module VerifyAndResetHelpers
   def verify(object)
     RSpec::Mocks.proxy_for(object).verify
@@ -33,6 +30,10 @@ module VerifyAndResetHelpers
   def reset(object)
     RSpec::Mocks.proxy_for(object).reset
   end
+end
+
+def current_databases
+  COUCHDB_SERVER.databases.select {|db| db =~ /#{COUCHDB_CONFIG[:db_suffix]}$/}
 end
 
 RSpec.configure do |config|
@@ -71,8 +72,8 @@ RSpec.configure do |config|
   config.order = "random"
 
   #Recreate db if needed.
-  config.before(:all) do
-    TEST_DATABASES.each do |db|
+  config.before(:suite) do
+    current_databases.each do |db|
       COUCHDB_SERVER.database(db).recreate! rescue nil
       # Reset the Design Cache
       Thread.current[:couchrest_design_cache] = {}
@@ -80,8 +81,8 @@ RSpec.configure do |config|
   end
 
   #Delete db if needed.
-  config.after(:all) do
-    TEST_DATABASES.each do |db|
+  config.after(:suite) do
+    current_databases.each do |db|
       COUCHDB_SERVER.database(db).delete! rescue nil
     end
   end
