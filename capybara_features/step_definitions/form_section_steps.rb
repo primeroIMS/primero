@@ -113,7 +113,7 @@ end
 
 
 When /^I add a new text field with "([^\"]*)" and "([^\"]*)"$/ do |display_name, help_text|
-  step 'I follow "Add Field"'
+  step 'I follow "Add"'
   step 'I wait until "field_display_name_en" is visible'
   step 'I follow "Text Field"'
   step "I fill in \"field_display_name_en\" with \"#{display_name}\""

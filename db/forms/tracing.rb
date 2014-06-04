@@ -64,7 +64,7 @@ tracing_actions_section = FormSection.create_or_update_form_section({
 # Tracing form
 
 tracing_fields = [
-  Field.new({"name" => "ftr_status",
+  Field.new({"name" => "tracing_status",
              "type" => "select_box",
              "display_name_all" => "Tracing Status",
              "option_strings_text_all" =>
@@ -112,12 +112,12 @@ tracing_fields = [
              "display_name_all" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
              "option_strings_text_all" => "Yes\nNo",
            }),
-  Field.new({"name" => "separation_place",
+  Field.new({"name" => "address_separation",
              "type" => "text_field",
              "display_name_all" => "Separation Address (Place)"
             }),
   #TODO refactoring? Spreadsheet datatype is "Location" but text_field for now.
-  Field.new({"name" => "separation_location",
+  Field.new({"name" => "location_separation",
              "type" => "text_field",
              "display_name_all" => "Separation Location"
             }),
