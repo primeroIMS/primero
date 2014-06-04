@@ -16,7 +16,7 @@ end
 
 #Create the forms
 puts "[Re-]Seeding the forms"
-Dir[File.dirname(__FILE__) + '/forms/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
 
 
 #TODO We will to revisit the I18n Setup when we address translations.

@@ -52,6 +52,7 @@ best_interest_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "best_interest",
+  :form_id=>"case",
   "visible" => true,
   :order => 13,
   "editable" => true,

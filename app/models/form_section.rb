@@ -4,6 +4,7 @@ class FormSection < CouchRest::Model::Base
   use_database :form_section
   localize_properties [:name, :help_text, :description]
   property :unique_id
+  property :form_id
   property :visible, TrueClass, :default => true
   property :order, Integer
   property :fields, [Field]

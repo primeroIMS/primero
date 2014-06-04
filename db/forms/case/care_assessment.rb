@@ -111,6 +111,7 @@ care_assessment_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "care_assessment",
+  :form_id=>"case",
   "visible" => true,
   :order => 9,
   :fields => care_assessment_fields,

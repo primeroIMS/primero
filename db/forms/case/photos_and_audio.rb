@@ -11,6 +11,7 @@ photo_audio_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "photos_and_audio",
+  :form_id=>"case",
   "visible" => true,
   :order => 10,
   :fields => photo_audio_fields,

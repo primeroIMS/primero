@@ -148,6 +148,7 @@ caafag_profile_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "caafag_profile",
+  :form_id=>"case",
   "visible" => true,
   :order => 12,
   :fields => caafag_profile_fields,

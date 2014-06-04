@@ -137,6 +137,7 @@ consent_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id=>"consent",
+  :form_id=>"case",
   "visible" => true,
   :order => 2,
   "editable" => true,

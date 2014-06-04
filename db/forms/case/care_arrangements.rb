@@ -120,6 +120,7 @@ care_arrangements_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "care_arrangements",
+  :form_id=>"case",
   "visible" => true,
   :order => 8,
   "editable" => true,

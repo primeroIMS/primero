@@ -68,6 +68,7 @@ child_under_5_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id=>"child_under_5",
+  :form_id=>"case",
   "visible"=>true,
   :order=> 7,  
   "editable"=>true,
