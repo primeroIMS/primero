@@ -104,6 +104,24 @@ hr {
   }
 }
 
+fieldset .row:nth-child(even).separator_field {
+  background: #f7f7f7;
+}
+
+.separator {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+  background: #f7f7f7;
+
+  span {
+    margin-bottom: -14px;
+    float: left;
+    padding: 5px 10px;
+    font-weight: bold;
+    background: #f7f7f7;
+  }
+}
+
 ////////////////////////////////////////////////
 // Buttons
 ////////////////////////////////////////////////

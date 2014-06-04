@@ -1,4 +1,7 @@
-tracing_sub_form = [
+#########################################
+# Tracing action subform
+
+tracing_action_subform = [
     Field.new({"name" => "date_tracing",
                "type" => "date_field",
                "display_name_all" => "Date of tracing",
@@ -50,12 +53,15 @@ tracing_actions_section = FormSection.create_or_update_form_section({
      :order=> 1,
      :unique_id=>"tracing_actions_section",
      "editable"=>true,
-     :fields => tracing_sub_form,
+     :fields => tracing_action_subform,
      :perm_enabled => false,
      :perm_visible => false,
      "name_all" => "Nested Tracing Action",
      "description_all" => "Tracing Action Subform"
 })
+
+#########################################
+# Tracing form
 
 tracing_fields = [
   Field.new({"name" => "tracing_status",
@@ -148,7 +154,41 @@ tracing_fields = [
              "type" => "subform", "editable" => true,
              "subform_section_id" => tracing_actions_section.id,
              "display_name_all" => "Tracing Actions"
-            })
+            }),
+  Field.new({"name" => "closure_details_separator",
+             "type" => "separator",
+             "display_name_all" => "Closure Details",
+            }),
+  Field.new({"name" => "date_closure",
+             "type" => "date_field",
+             "display_name_all" => "Date of Closure",
+            }),
+  Field.new({"name" => "name_caregiver_closing",
+             "type" => "text_field",
+             "display_name_all" => "Caregiver Name",
+            }),
+  Field.new({"name" => "relationship_caregiver_closing",
+             "type" => "text_field",
+             "display_name_all" => "Caregiver Relationship",
+            }),
+  Field.new({"name" => "address_caregiver_closing",
+             "type" => "text_field",
+             "display_name_all" => "Caregiver Address",
+            }),
+  Field.new({"name" => "location_caregiver_closing",
+             "type" => "select_box",
+             "display_name_all" => "Caregiver Location",
+             "option_strings_text_all" => [
+                 "DRC",
+                 "Kenya",
+                 "Liberia",
+                 "Myanmar",
+                 "Nepal",
+                 "Sierra Leone",
+                 "Sri Lanka",
+                 "Uganda"
+             ]
+            }),
 ]
 
 FormSection.create_or_update_form_section({
