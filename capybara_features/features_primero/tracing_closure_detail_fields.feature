@@ -23,7 +23,7 @@ Feature: Tracing Closure Details Fields
       | Caregiver Name         | Shabazz Nurendu            |
       | Caregiver Relationship | Father                     |
       | Caregiver Address      | 1900 B. Ave                |
-    And I select "Kenya" from "Caregiver Location"
+      | Caregiver Location     | Kenya                      |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see "Closure Details" on the page
