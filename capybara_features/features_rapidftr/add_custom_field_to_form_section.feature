@@ -14,7 +14,7 @@ Feature: Add custom field to form section
   Scenario: Admins should be able to add new text fields
     Given I am on the edit form section page for "family_details"
 
-    When I follow "Add Field"
+    When I follow "Add"
     When I follow "Text Field"
     And I wait until "Text Field" is visible
 
@@ -41,8 +41,8 @@ Feature: Add custom field to form section
     Given I am on the edit form section page for "family_details"
     And I wait until "family_details" is visible
 
-    When I follow "Add Field"
-    And I wait until "Add Field" is visible
+    When I follow "Add"
+    And I wait until "Add" is visible
 
     When I follow "Date Field"
 
@@ -71,7 +71,7 @@ Feature: Add custom field to form section
   Scenario: Admins should be able to add new radio button
     Given I am on the edit form section page for "family_details"
 
-    When I follow "Add Field"
+    When I follow "Add"
 
     When I follow "Radio button"
 
@@ -141,7 +141,7 @@ Feature: Add custom field to form section
   @javascript @wip
   Scenario: creating a numeric field
     Given I am on the edit form section page for "family_details"
-    And I follow "Add Field"
+    And I follow "Add"
 
     When I follow "Numeric Field"
     And I fill in "Help text" with "Help for a numeric field"
@@ -165,7 +165,7 @@ Feature: Add custom field to form section
   Scenario: creating a field without giving a name should dehumanize the display name
 
     Given I am on the edit form section page for "family_details"
-    And I follow "Add Field"
+    And I follow "Add"
 
     When I follow "Text Field"
     And I fill in "Help text" with "Help for a text field"
@@ -181,7 +181,7 @@ Feature: Add custom field to form section
   Scenario: creating a radio_button field
 
     Given I am on the edit form section page for "family_details"
-    And I follow "Add Field"
+    And I follow "Add"
     And I follow "Radio button"
     And I wait until "field_display_name_en" is visible
     And I fill in "field_display_name_en" with "Radio button name"
@@ -208,7 +208,7 @@ Feature: Add custom field to form section
   Scenario: creating a dropdown field
 
     Given I am on the edit form section page for "family_details"
-    And I follow "Add Field"
+    And I follow "Add"
     And I follow "Select drop down"
     And I fill in "field_display_name_en" with "Favourite Toy"
     And I fill the following options into "field_option_strings_text_en":
@@ -239,7 +239,7 @@ Feature: Add custom field to form section
   @wip
   Scenario: creating a multiple-checkbox field
     Given I am on the edit form section page for "family_details"
-    And I follow "Add Field"
+    And I follow "Add"
     And I follow "Check boxes"
     And I fill in "field_display_name_en" with "Toys"
     And I fill the following options into "field_option_strings_text_en":
@@ -275,13 +275,13 @@ Feature: Add custom field to form section
   Scenario: can not create a custom field for forms that aren't editable
 
     Given I am on the edit form section page for "basic_details"
-    Then I should not see "Add Field"
+    Then I should not see "Add"
     And I should see "Fields on this form cannot be edited"
 
  #Scenario doesnt exist any more
   @wip
   Scenario: should be able to go back to edit form section from add custom field page
     Given I am on the edit form section page for "family_details"
-    And I follow "Add Field"
+    And I follow "Add"
     And I follow "Go Back To Edit Forms Page"
     Then I am on edit form section page
