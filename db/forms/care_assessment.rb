@@ -106,7 +106,7 @@ care_assessment_fields = [
   Field.new({"name" => "intervention_health_notes",
              "type" => "textarea",
              "display_name_all" => "Health Intervention Notes"
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({
