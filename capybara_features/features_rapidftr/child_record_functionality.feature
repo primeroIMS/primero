@@ -188,7 +188,7 @@ Feature: Child record functionality
 
     When I am on the child record page for "Jorge Just"
     And I follow "Edit"
-    And I fill in "Date of Birth (dd/mm/yyyy)" with "28/12/2000"
+    And I fill in "Date of Birth" with "28/12/2000"
     And I press "Save"
 
     Then I should see /Registered by: .+ and others on 19 July 2010 at 13:05 \(UTC\)/
