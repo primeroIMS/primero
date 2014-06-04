@@ -77,7 +77,7 @@ care_arrangements_fields = [
              "type" => "text_field",
              "display_name_all" => "Caregiver's Telephone"
             }),
-  Field.new({"name" => "care_arrangement_started",
+  Field.new({"name" => "care_arrangement_started_date",
              "type" => "date_field",
              "display_name_all" => "When did this care arrangement start?"
             }),
@@ -86,15 +86,15 @@ care_arrangements_fields = [
              "display_name_all" => "Is the caregiver's current location temporary",
              "option_strings_text_all" => "Yes\nNo",
            }),
-  Field.new({"name" => "future_address_caregiver",
+  Field.new({"name" => "address_caregiver_future",
              "type" => "textarea",
              "display_name_all" => "If yes, what is the future address?"
             }),
-  Field.new({"name" => "future_location_caregiver",
+  Field.new({"name" => "location_caregiver_future",
              "type" => "text_field",
              "display_name_all" => "What is the future location?"
             }),
-  Field.new({"name" => "future_telephone_caregiver",
+  Field.new({"name" => "telephone_caregiver_future",
              "type" => "text_field",
              "display_name_all" => "What is the future telephone?"
             }),
@@ -115,7 +115,7 @@ care_arrangements_fields = [
   Field.new({"name" => "other_information_from_caregiver",
              "type" => "textarea",
              "display_name_all" => "Other information form the caregiver about the child and his/her family"
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({
