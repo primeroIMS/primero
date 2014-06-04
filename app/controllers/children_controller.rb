@@ -267,7 +267,7 @@ class ChildrenController < ApplicationController
 
   def get_form_sections
     #FormSection.enabled_by_order
-    FormSection.find_by_parent_form "incident"
+    FormSection.find_by_parent_form "case"
   end
 
   def default_search_respond_to
