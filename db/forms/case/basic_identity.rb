@@ -57,7 +57,7 @@ basic_identity_fields = [
              "highlight_information"=>HighlightInformation.new("highlighted"=>true,"order"=>2),
              "display_name_all" => "RC ID No."
             }),        
-  Field.new({"name" => "id_document",
+  Field.new({"name" => "unhcr_id_no",
              "type" => "text_field",
              "display_name_all" => "UNHCR ID"
             }),  
@@ -72,7 +72,7 @@ basic_identity_fields = [
              "display_name_all" => "Urgent Protection Concern?",
              "option_strings_text_all" => "Yes\nNo",
             }),
-  Field.new({"name" => "survivor_code",
+  Field.new({"name" => "survivor_code_no",
              "type" => "text_field", 
              "display_name_all" => "Survivor Code"
             }), 

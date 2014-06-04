@@ -24,6 +24,7 @@ class Field
   AUDIO_UPLOAD_BOX = "audio_upload_box"
   DATE_FIELD = "date_field"
   SUBFORM = "subform"
+  SEPARATOR = "separator"
 
   FIELD_FORM_TYPES = {  TEXT_FIELD       => "basic",
                         TEXT_AREA        => "basic",
@@ -34,7 +35,8 @@ class Field
                         AUDIO_UPLOAD_BOX => "basic",
                         DATE_FIELD       => "basic",
                         NUMERIC_FIELD    => "basic",
-                        SUBFORM          => "subform"
+                        SUBFORM          => "subform",
+                        SEPARATOR        => "separator"
                       }
   FIELD_DISPLAY_TYPES = {
 												TEXT_FIELD       => "basic",
@@ -46,7 +48,8 @@ class Field
                         AUDIO_UPLOAD_BOX => "audio",
                         DATE_FIELD       => "basic",
                         NUMERIC_FIELD    => "basic",
-                        SUBFORM          => "subform"
+                        SUBFORM          => "subform",
+                        SEPARATOR        => "separator"
                       }
 
   DEFAULT_VALUES = {

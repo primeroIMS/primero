@@ -47,7 +47,7 @@ best_interest_fields = [
   Field.new({"name" => "best_interest_implementing_agency",
              "type" => "text_field",
              "display_name_all" => "Implementing Agency"
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({

@@ -132,7 +132,7 @@ consent_fields = [
   Field.new({"name" => "sender_agency_social_worker",
              "type" => "text_field",
              "display_name_all" => "Social Worker",
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({

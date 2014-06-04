@@ -46,11 +46,11 @@ caafag_profile_fields = [
              "type" => "text_field",
              "display_name_all" => "Commander's Name"
             }),
-  Field.new({"name" => "cafaag_address_militaryunit",
+  Field.new({"name" => "address_cafaag_militaryunit",
              "type" => "text_field",
              "display_name_all" => "Area of Military Unit"
             }),
-  Field.new({"name" => "cafaag_location_militaryunit",
+  Field.new({"name" => "location_cafaag_militaryunit",
              "type" => "text_field",
              "display_name_all" => "Location of Military Unit"
             }),
@@ -82,15 +82,15 @@ caafag_profile_fields = [
              "type" => "date_field",
              "display_name_all" => "When did the child join the armed group?"
             }),
-  Field.new({"name" => "cafaag_address_registration",
+  Field.new({"name" => "address_cafaag_registration",
              "type" => "text_field",
              "display_name_all" => "Place of registration (Village/Address/Area) - Address"
             }),
-  Field.new({"name" => "cafaag_address_mobilization",
+  Field.new({"name" => "address_cafaag_mobilization",
              "type" => "text_field",
              "display_name_all" => "Area of Mobilization"
             }),
-  Field.new({"name" => "cafaag_location_mobilization",
+  Field.new({"name" => "location_cafaag_mobilization",
              "type" => "text_field",
              "display_name_all" => "Location of Mobilization"
             }),
@@ -117,11 +117,11 @@ caafag_profile_fields = [
                                    "Surrendered",
                                    "UNICEF DDR"].join("\n"),
             }),
-  Field.new({"name" => "cafaag_address_demobilization",
+  Field.new({"name" => "address_cafaag_demobilization",
              "type" => "text_field",
              "display_name_all" => "Place of removal/demobilization (Area/Village)"
             }),
-  Field.new({"name" => "cafaag_location_demobilization",
+  Field.new({"name" => "location_cafaag_demobilization",
              "type" => "text_field",
              "display_name_all" => "Place of demobilization"
             }),
@@ -143,7 +143,7 @@ caafag_profile_fields = [
                                    "Released/Handover to family",
                                    "Runaway",
                                    "Surrendered"].join("\n"),
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({
