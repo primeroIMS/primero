@@ -91,7 +91,6 @@ tracing_action_subform = [
     Field.new({"name" => "tracing_type",
                "type" => "select_box",
                "display_name_all" => "Type of action taken",
-               "display_name_all" => "Type of action taken",
                "option_strings_text_all" => [
                  "Case by Case Tracing",
                  "Individual Tracing",
