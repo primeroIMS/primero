@@ -30,15 +30,12 @@ puts Rails.env
 Capybara.register_driver :selenium do |app|
   http_client = Selenium::WebDriver::Remote::Http::Default.new
   http_client.timeout = 100
-  #There is a test cases has take some time because upload some big file needs more time.
-  http_client.timeout = 1200 if ENV["SELENIUM"] == 'remote'
 
   if ENV["SELENIUM"] == 'remote'
     Capybara::Selenium::Driver.new(app, 
       :browser => :remote, 
       :url => SELENIUM_CFG['host'],
-      :desired_capabilities => SELENIUM_CFG['capabilities'],
-      :http_client => http_client
+      :desired_capabilities => SELENIUM_CFG['capabilities']
     )   
   else
     Capybara::Selenium::Driver.new(app, :browser => SELENIUM_CFG['browser'], :http_client => http_client)
@@ -54,8 +51,6 @@ Capybara.app_host = SELENIUM_CFG['app_host'] if ENV["SELENIUM"] == 'remote'
 Capybara.run_server = true #Whether start server when testing
 Capybara.default_selector = :xpath #default selector , you can change to :css
 Capybara.default_wait_time = 25 #When we testing AJAX, we can set a default wait time
-#There is a test cases has take some time because upload some big file needs more time.
-Capybara.default_wait_time = 1200 if ENV["SELENIUM"] == 'remote'
 Capybara.ignore_hidden_elements = false #Ignore hidden elements when testing, make helpful when you hide or show elements using javascript
 Capybara.javascript_driver = :selenium #default driver when you using @javascript tag
 
@@ -67,3 +62,18 @@ end
 
 World(UrlHelpers)
 World(UploadableFiles, ChildFinder)
+
+def current_databases
+  COUCHDB_SERVER.databases.select do |db| 
+    db if db =~ /^#{COUCHDB_CONFIG[:db_prefix]}/ and db =~ /#{COUCHDB_CONFIG[:db_suffix]}$/
+  end
+end
+
+def cleanup_databases
+  current_databases.each do |db|
+    COUCHDB_SERVER.database(db).delete! rescue nil
+  end
+end
+
+#Call method to remove databases.
+cleanup_databases

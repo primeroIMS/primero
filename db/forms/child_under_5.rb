@@ -15,11 +15,11 @@ child_under_5_fields = [
              "type" => "text_field",
              "display_name_all" => "Please describe in details how the child was found or taken in the family children's center"
             }),
-  Field.new({"name" => "found_child_people_was_with_location",
+  Field.new({"name" => "location_found_child_people_was_with",
              "type" => "text_field",
              "display_name_all" => "Where are the people who were part of the group that was displaced at the same time?"
             }),
-  Field.new({"name" => "found_child_people_was_with_address",
+  Field.new({"name" => "address_found_child_people_was_with",
              "type" => "text_field",
              "display_name_all" => "Village/Area/Physical Address"
             }),
@@ -31,13 +31,13 @@ child_under_5_fields = [
              "type" => "text_field",
              "display_name_all" => "What is this person's relationship to the child?"
             }),
-  Field.new({"name" => "child_finder_location",
+  Field.new({"name" => "location_child_finder",
              "type" => "text_field",
-             "display_name_all" => "Address"
+             "display_name_all" => "Location of person who found the child"
             }),
-  Field.new({"name" => "child_finder_address",
+  Field.new({"name" => "address_child_finder",
              "type" => "text_field",
-             "display_name_all" => "Person's Village/Area/Physical Address"
+             "display_name_all" => "Address of person who found the child"
             }),
   Field.new({"name" => "child_finder_notes",
              "type" => "text_field",
@@ -63,7 +63,7 @@ child_under_5_fields = [
   Field.new({"name" => "child_specific_behavior",
              "type" => "text_field",
              "display_name_all" => "Please write down any behavior specific to the child that may help a parent identify him/her later on such as child's games, and main interests or specific things he/she likes to do"
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({

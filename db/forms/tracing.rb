@@ -1,4 +1,7 @@
-tracing_sub_form = [
+#########################################
+# Tracing action subform
+
+tracing_action_subform = [
     Field.new({"name" => "date_tracing",
                "type" => "date_field",
                "display_name_all" => "Date of tracing",
@@ -50,15 +53,18 @@ tracing_actions_section = FormSection.create_or_update_form_section({
      :order=> 1,
      :unique_id=>"tracing_actions_section",
      "editable"=>true,
-     :fields => tracing_sub_form,
+     :fields => tracing_action_subform,
      :perm_enabled => false,
      :perm_visible => false,
      "name_all" => "Nested Tracing Action",
      "description_all" => "Tracing Action Subform"
 })
 
+#########################################
+# Tracing form
+
 tracing_fields = [
-  Field.new({"name" => "ftr_status",
+  Field.new({"name" => "tracing_status",
              "type" => "select_box",
              "display_name_all" => "Tracing Status",
              "option_strings_text_all" =>
@@ -81,7 +87,6 @@ tracing_fields = [
                         "Family abuse/violence/exploitation",
                         "Lack of access to services/support",
                         "CAAFAG",
-                        "Other (please specify)",
                         "Sickness of family member",
                         "Entrusted into the care of an individual",
                         "Arrest and detention",
@@ -89,6 +94,8 @@ tracing_fields = [
                         "Repatriation",
                         "Population movement",
                         "Migration",
+                        "Poverty",
+                        "Natural disaster",
                         "Divorce/remarriage",
                         "Other (please specify)"].join("\n")
               }),
@@ -105,12 +112,12 @@ tracing_fields = [
              "display_name_all" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
              "option_strings_text_all" => "Yes\nNo",
            }),
-  Field.new({"name" => "separation_place",
+  Field.new({"name" => "address_separation",
              "type" => "text_field",
              "display_name_all" => "Separation Address (Place)"
             }),
   #TODO refactoring? Spreadsheet datatype is "Location" but text_field for now.
-  Field.new({"name" => "separation_location",
+  Field.new({"name" => "location_separation",
              "type" => "text_field",
              "display_name_all" => "Separation Location"
             }),
@@ -147,6 +154,30 @@ tracing_fields = [
              "type" => "subform", "editable" => true,
              "subform_section_id" => tracing_actions_section.id,
              "display_name_all" => "Tracing Actions"
+            }),
+  Field.new({"name" => "closure_details_separator",
+             "type" => "separator",
+             "display_name_all" => "Closure Details",
+            }),
+  Field.new({"name" => "date_closure",
+             "type" => "date_field",
+             "display_name_all" => "Date of Closure",
+            }),
+  Field.new({"name" => "name_caregiver_closing",
+             "type" => "text_field",
+             "display_name_all" => "Caregiver Name",
+            }),
+  Field.new({"name" => "relationship_caregiver_closing",
+             "type" => "text_field",
+             "display_name_all" => "Caregiver Relationship",
+            }),
+  Field.new({"name" => "address_caregiver_closing",
+             "type" => "text_field",
+             "display_name_all" => "Caregiver Address",
+            }),
+  Field.new({"name" => "location_caregiver_closing",
+             "type" => "text_field",
+             "display_name_all" => "Caregiver Location",
             }),
 ]
 
