@@ -14,7 +14,7 @@
         <span><%= label_tag field.name, t(field.name, :default => field.display_name.singularize), :class=>'key' %></span>
       </h5>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <%= render :partial => "field_display_#{field.display_type}",  :locals=>{:field => field, :child=>@child[:"#{subform_section.unique_id}"]["#{i}"]} %>
+        <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :child=>@child[:"#{subform_section.unique_id}"]["#{i}"]} %>
       <% end %>
     <% end %>
     </fieldset>

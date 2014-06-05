@@ -12,7 +12,7 @@
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <%= render partial: field.type,
+        <%= render partial: "form_section/#{field.type}",
                    object: field,
                    locals: {
                      field_keys: [subform.name, i.to_s, field.name]
@@ -33,7 +33,7 @@
       </h5>
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-      <%= render partial: field.type,
+      <%= render partial: "form_section/#{field.type}",
                  object: field,
                  locals: {
                    field_keys: [subform.name, 'template', field.name],

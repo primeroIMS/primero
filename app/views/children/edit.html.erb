@@ -24,12 +24,12 @@
   <div class="page-content-new row">
     <div class="large-4 medium-4 columns close-side-tab">
       <div class="side-tab">
-        <%= render :partial => "tabs", :object => @form_sections %>
+        <%= render :partial => 'form_section/tabs', :object => @form_sections %>
       </div>
     </div>
 
     <div class="side-tab-content large-8 medium-8 columns">
-      <%= render :partial => "form_section", :collection => @form_sections %>
+      <%= render :partial => 'form_section/form_section', :collection => @form_sections %>
       <div class="btn_panel">
         <%= discard_button children_path %>
         <%= submit_button %>

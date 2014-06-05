@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "children/_check_boxes.html.erb" do
+describe "form_section/_check_boxes.html.erb" do
   before :each do
     @child = Child.new("_id" => "id12345", "name" => "First Last", "new field" => "Yes")
     assigns[:child] = @child
@@ -13,7 +13,7 @@ describe "children/_check_boxes.html.erb" do
     :help_text => "This is my help text",
     :option_strings => ["FOO", "BAR"]
 
-    render :partial => 'children/check_boxes', :locals => { :check_boxes => check_boxes, :child => @child }, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/check_boxes', :locals => { :check_boxes => check_boxes, :child => @child }, :formats => [:html], :handlers => [:erb]
 
     rendered.should have_tag("img.vtip")
   end
@@ -24,7 +24,7 @@ describe "children/_check_boxes.html.erb" do
     :type => Field::CHECK_BOXES,
 		:option_strings => ["FOO", "BAR"]
 
-    render :partial => 'children/check_boxes', :locals => { :check_boxes => check_boxes, :child => @child }, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/check_boxes', :locals => { :check_boxes => check_boxes, :child => @child }, :formats => [:html], :handlers => [:erb]
 
     rendered.should_not have_tag("img.vtip")
   end

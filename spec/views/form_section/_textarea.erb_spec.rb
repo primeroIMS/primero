@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "children/_textarea.html.erb" do
+describe "form_section/_textarea.html.erb" do
   before :each do
     @child = Child.new("_id" => "id12345", "name" => "First Last", "new field" => "")
     assigns[:child] = @child
@@ -12,7 +12,7 @@ describe "children/_textarea.html.erb" do
     :type => 'textarea',
     :help_text => "This is my help text"
 
-    render :partial => 'children/textarea', :locals => { :textarea => textarea}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/textarea', :locals => { :textarea => textarea}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end
 
@@ -21,7 +21,7 @@ describe "children/_textarea.html.erb" do
     :display_name => "field name",
     :type => 'textarea'
 
-    render :partial => 'children/textarea', :locals => { :textarea => textarea}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/textarea', :locals => { :textarea => textarea}, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("img.vtip")
   end
 
