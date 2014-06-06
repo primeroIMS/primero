@@ -1,6 +1,6 @@
 Feature: Replications
 
-  @javascript
+  @javascript @wip
   Scenario: Add, edit and delete replication
     Given I am logged in as a user with "Manage Replications" permission
     When I am on devices listing page
