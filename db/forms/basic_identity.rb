@@ -227,8 +227,14 @@ basic_identity_fields = [
              "display_name_all" => "Last Address Telephone"
             }),
   Field.new({"name" => "ethnicity",
-             "type" => "text_field",
-             "display_name_all" => "Ethnic Group / Tribe"
+             "type" =>"select_box" ,
+             "display_name_all" => "Ethnicity/Clan/Tribe",
+             "option_strings_text_all" => 
+                          ["Baganda",
+                           "Clan 1",
+                           "Clan 2",
+                           "Clan 3",
+                           "Polo"].join("\n")
             }),
   Field.new({"name" => "sub_ethnicity_1",
              "type" =>"select_box" ,
@@ -300,7 +306,6 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Interview Landmark"
             }),  
-  #TODO if Other selected, provide text box for entry
   Field.new({"name" => "source_interview",
              "type" =>"select_box" ,
              "display_name_all" => "Information Obtained From",
@@ -308,12 +313,11 @@ basic_identity_fields = [
                           ["Child",
                            "Caregiver",
                            "GBV Survivor",
-                           "Other (specify)"].join("\n")
+                           "Other, please specify"].join("\n")
             }),
-  #TODO discuss how to implement "Other" text box entry
   Field.new({"name" => "source_interview_other",
              "type" =>"text_field" ,
-             "display_name_all" => "Other Interview Source"
+             "display_name_all" => "If information obtained from Other, please specify."
             }),
   Field.new({"name" => "other_org_interview_status",
              "type" => "select_box",
@@ -412,7 +416,6 @@ basic_identity_fields = [
              "display_name_all" => "If the survivor is a child, does he/she live alone?",
              "option_strings_text_all" => "Yes\nNo",
             }),
-  #TODO implement text box if Other is selected
   Field.new({"name" => "survivor_caretaker",
              "type" =>"select_box" ,
              "display_name_all" => "If the survivor lives with someone, what is the relation between her/him and the caretaker?",
@@ -420,7 +423,11 @@ basic_identity_fields = [
                           ["Parent/Guardian",
                            "Relative",
                            "Spouse/Cohabitating",
-                           "Other - Must include detail"].join("\n")
+                           "Other, please specify"].join("\n")
+            }),
+  Field.new({"name" => "survivor_caretaker_other",
+             "type" => "text_field",
+             "display_name_all" => "If other relation between her/him and the caretaker, please specify."
             }),
   Field.new({"name" => "caretaker_maritial_status",
              "type" =>"select_box" ,
