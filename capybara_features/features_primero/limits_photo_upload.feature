@@ -33,7 +33,7 @@ Feature: Limits Photo Upload
       |capybara_features/resources/jorge.jpg|
       |capybara_features/resources/jorge.jpg|
     And I press "Save"
-    Then I should see "You are only allowed 10 photos per case"
+    Then I should see "You are only allowed 10 photos per case."
 
   Scenario: Upload and remove photos
     And I attach the following photos:
