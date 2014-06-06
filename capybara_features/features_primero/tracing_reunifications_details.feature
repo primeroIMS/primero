@@ -5,11 +5,13 @@ Feature: Tracing Reunification Details
   As a Social Worker I want to enter information related to reunification
   so that we can record the status of the child in the reunification process.
 
-  Scenario: As a logged in user, I should access the form section tracing and create reunification details
+  Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Tracing" button
+
+  Scenario: As a logged in user, I should access the form section tracing and create reunification details
     And I fill in the 1st "Reunification Details Section" subform with the follow:
       | Name of adult child was reunified with               | Verma Webol               |
       | Relationship of adult to child                       | Father                    |
@@ -51,10 +53,6 @@ Feature: Tracing Reunification Details
     And I should see a value for "Is there a need for follow up?" on the show page with the value of "Yes"
 
   Scenario: As a logged in user, I should access the form section tracing and add/remove reunification details
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "cases page"
-    And I press the "Create a New Case" button
-    And I press the "Tracing" button
     And I fill in the 1st "Reunification Details Section" subform with the follow:
       | Name of adult child was reunified with               | Vivian Nelson             |
       | Relationship of adult to child                       | Mother                    |

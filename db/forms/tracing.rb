@@ -64,7 +64,7 @@ reunification_subform = [
                "type" => "select_box",
                "display_name_all" => "Is there a need for follow up?",
                "option_strings_text_all" => "Yes\nNo",
-              }),
+              })
 ]
 
 reunification_details_section = FormSection.create_or_update_form_section({
@@ -265,7 +265,7 @@ tracing_fields = [
              "type" => "subform", "editable" => true,
              "subform_section_id" => reunification_details_section.id,
              "display_name_all" => "Reunification Details"
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({
