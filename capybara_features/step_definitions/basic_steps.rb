@@ -14,8 +14,11 @@ Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
-Then /^I press the "([^\"]*)" (button|link)$/ do |label, type|
-  click_on(label)
+Then /^I press the "([^\"]*)" (button|link)(?: "(.+)" times)?$/ do |label, type, times|
+  times = 1 if times.blank?
+  (1..times.to_i).each do 
+    click_on(label) 
+  end
 end
 
 Then /^I click on the "([^\"]*)" link/ do |label|
