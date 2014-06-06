@@ -113,7 +113,6 @@ class FormSection < CouchRest::Model::Base
     by_unique_id(:key => unique_id).first
   end
   
-  #TODO - RON TESTING!!!
   def self.find_by_parent_form parent_form
     by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| e[:order]}
   end
