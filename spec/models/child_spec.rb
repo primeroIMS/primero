@@ -793,7 +793,7 @@ describe Child do
         child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
         child.photos = photos
         child.save.should == false
-        child.errors[:photo].should == ["You are only allowed 10 photos per case"]
+        child.errors[:photo].should == ["You are only allowed 10 photos per case."]
       end
 
       it "should not save child if new photos and existing photos are more than 10" do
@@ -814,7 +814,7 @@ describe Child do
         child.photos = photos
         child.save.should == false
         child['photo_keys'].size == 5
-        child.errors[:photo].should == ["You are only allowed 10 photos per case"]
+        child.errors[:photo].should == ["You are only allowed 10 photos per case."]
       end
 
       it "should save child if new and existing photos are 10" do
