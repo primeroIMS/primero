@@ -64,6 +64,10 @@ tracing_actions_section = FormSection.create_or_update_form_section({
 # Tracing form
 
 tracing_fields = [
+  Field.new({"name" => "separation_separator",
+             "type" => "separator",
+             "display_name_all" => "Separation History",
+            }),
   Field.new({"name" => "tracing_status",
              "type" => "select_box",
              "display_name_all" => "Tracing Status",
