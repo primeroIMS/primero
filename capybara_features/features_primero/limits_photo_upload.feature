@@ -1,23 +1,21 @@
 #JIRA PRIMERO-138
 
 @javascript @primero
-Feature: Limits Uploads
-  As a Primero Product Owner, I want there to be limits on the number of photos and audio files that can be uploaded
+Feature: Limits Photo Uploads
+  As a Primero Product Owner, I want there to be limits on the number of photos files that can be uploaded
   so that the system does not become overloaded
 
-  Scenario: Hide "Add another photo" button after click 9 times
+  Background:
     Given I am logged in as a social worker with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Photos and Audio" button
+
+  Scenario: Hide "Add another photo" button after click 9 times
     And I press the "Add another photo" button "9" times
     Then I should not see "Add another photo" on the page
 
   Scenario: Shows validation messages when add more than 10 photos
-    Given I am logged in as a social worker with username "primero" and password "primero"
-    When I access "cases page"
-    And I press the "Create a New Case" button
-    And I press the "Photos and Audio" button
     And I attach the following photos:
       |capybara_features/resources/jorge.jpg|
       |capybara_features/resources/jorge.jpg|
@@ -38,10 +36,6 @@ Feature: Limits Uploads
     Then I should see "You are only allowed 10 photos per case"
 
   Scenario: Upload and remove photos
-    Given I am logged in as a social worker with username "primero" and password "primero"
-    When I access "cases page"
-    And I press the "Create a New Case" button
-    And I press the "Photos and Audio" button
     And I attach the following photos:
       |capybara_features/resources/jorge.jpg|
       |capybara_features/resources/jorge.jpg|
