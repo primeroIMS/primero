@@ -34,9 +34,10 @@ module Security
       SessionSecret.env.should == Rails.env
     end
 
-    it 'database name should have rails env' do
+    it 'database name should match db_prefix and db_suffix' do
       SessionSecret.stub :env => "random"
-      SessionSecret.database.name.should == "primero_session_secret_#{Rails.env}"
+      SessionSecret.database.name.should match(/^#{COUCHDB_CONFIG[:db_prefix]}/)
+      SessionSecret.database.name.should match(/#{COUCHDB_CONFIG[:db_suffix]}$/)
     end
 
     #Old format session secret value should be transparent converted to the new format.

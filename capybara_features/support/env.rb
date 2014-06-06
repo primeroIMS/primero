@@ -62,3 +62,18 @@ end
 
 World(UrlHelpers)
 World(UploadableFiles, ChildFinder)
+
+def current_databases
+  COUCHDB_SERVER.databases.select do |db| 
+    db if db =~ /^#{COUCHDB_CONFIG[:db_prefix]}/ and db =~ /#{COUCHDB_CONFIG[:db_suffix]}$/
+  end
+end
+
+def cleanup_databases
+  current_databases.each do |db|
+    COUCHDB_SERVER.database(db).delete! rescue nil
+  end
+end
+
+#Call method to remove databases.
+cleanup_databases
