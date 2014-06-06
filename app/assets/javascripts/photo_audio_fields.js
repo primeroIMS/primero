@@ -7,7 +7,7 @@ $(document).ready(function() {
                    + "' name='child[photo]" + photo_field_count + "' type='file'></div></div>"
     $('#photo-group').append(photo_field)
     photo_field_count++;
-    if(photo_field_count == 5)
+    if(photo_field_count == 10)
       $(this).remove();
   });
 
