@@ -1,7 +1,7 @@
 #JIRA PRIMERO-138
 
 @javascript @primero
-Feature: Limits Photo Uploads
+Feature: Limits Photo Upload
   As a Primero Product Owner, I want there to be limits on the number of photos files that can be uploaded
   so that the system does not become overloaded
 
