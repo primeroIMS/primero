@@ -5,9 +5,9 @@
     </span>
   </div>
   <div class="medium-8 columns">
-    <% klass = @child.errors[numeric_field.name] == nil ? "" : "field-error"%>
+    <% klass = formObject.errors[numeric_field.name] == nil ? "" : "field-error"%>
     <span class="<%= klass %>">
-      <%= text_field_tag numeric_field.tag_name_attribute, @child[numeric_field.name] %>
+      <%= text_field_tag numeric_field.tag_name_attribute, formObject[numeric_field.name] %>
     </span>
 
     <%= image_tag "new/icon_help.png", title: numeric_field.help_text, class: 'tool-tip-icon vtip' if numeric_field.help_text.present? %>

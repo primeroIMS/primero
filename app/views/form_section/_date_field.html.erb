@@ -1,7 +1,7 @@
 <%
    field_keys ||= []
-   name = field_tag_name @child, date_field, field_keys
-   value ||= field_value @child, date_field, field_keys
+   name = field_tag_name formObject, date_field, field_keys
+   value ||= field_value formObject, date_field, field_keys
 %>
 
 <div class="row">

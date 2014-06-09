@@ -2,7 +2,7 @@
   <%
      #TODO: This will break for nested nested subforms if we decide to have those.
      subform_section = subform.subform_section
-     number_of_subforms = subforms_count @child, subform
+     number_of_subforms = subforms_count formObject, subform
    %>
   <h5 class="tool-tip-label">
     <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %></span>
@@ -16,7 +16,7 @@
                    object: field,
                    locals: {
                      field_keys: [subform.name, i.to_s, field.name],
-                     formObject: @child
+                     formObject: formObject
                    }
         %>
       <% end %>
@@ -39,7 +39,7 @@
                  locals: {
                    field_keys: [subform.name, 'template', field.name],
                    value: "",
-                   formObject: @child
+                   formObject: formObject
                  }
       %>
     <% end %>

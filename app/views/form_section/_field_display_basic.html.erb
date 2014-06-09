@@ -3,7 +3,7 @@
     <label class="key"><%= t(field.name, :default => field.display_name) %></label>
   </div>
   <div class="medium-8 columns">
-    <span class="value"><%= field_value_for_display child[field.name] %></span>
+    <span class="value"><%= field_value_for_display formObject[field.name] %></span>
   </div>
 </div>
 
