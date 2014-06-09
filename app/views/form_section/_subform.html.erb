@@ -15,7 +15,8 @@
         <%= render partial: "form_section/#{field.type}",
                    object: field,
                    locals: {
-                     field_keys: [subform.name, i.to_s, field.name]
+                     field_keys: [subform.name, i.to_s, field.name],
+                     formObject: @child
                    }
         %>
       <% end %>
@@ -37,7 +38,8 @@
                  object: field,
                  locals: {
                    field_keys: [subform.name, 'template', field.name],
-                   value: ""
+                   value: "",
+                   formObject: @child
                  }
       %>
     <% end %>

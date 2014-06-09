@@ -11,7 +11,7 @@
       </div>
       <div class="side-tab-content large-8 medium-8 columns">
         <div class="clearfix"></div>
-        <%= render :partial => 'form_section/form_section', :collection => @form_sections %>
+        <%= render :partial => 'form_section/form_section', :collection => @form_sections,  :locals => {:formObject => @child} %>
         <div class="btn_panel">
             <%= render 'reset_button'%>
             <%= submit_button %>
