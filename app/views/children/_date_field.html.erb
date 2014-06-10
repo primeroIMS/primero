@@ -12,7 +12,6 @@
   </div>
   <div class="medium-8 columns">
     <%= text_field_tag name, value, :class => 'form_date_field', :disabled => date_field.editable == false ? true : false %>
-    <%= hidden_field_tag(name, value) if  date_field.name == 'registration_date' %>
     <%= image_tag "new/icon_help.png", class: 'tool-tip-icon vtip', title: date_field.help_text if date_field.help_text.present? %>
   </div>
 </div>

@@ -1,5 +1,6 @@
 # JIRA PRIMERO-42
 # JIRA PRIMERO-73
+# JIRA PRIMERO-179
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -365,3 +366,16 @@ Feature: Basic Identity Form
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
+
+  Scenario: As a logged in user, I should be able to change the date of registration in the basic identity form
+    And I fill in the following:
+      | Date of Registration or Interview | 08/Jun/2014 |
+    And I press "Save"
+    And I should see "Case record successfully created" on the page
+    And I should see a value for "Date of Registration or Interview" on the show page with the value of "08/Jun/2014"
+    And I press the "Edit" button
+    And I fill in the following:
+      | Date of Registration or Interview | 19/Jul/2014 |
+    And I press "Save"
+    Then I should see "Case record successfully updated" on the page
+    And I should see a value for "Date of Registration or Interview" on the show page with the value of "19/Jul/2014"

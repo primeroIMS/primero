@@ -564,6 +564,13 @@ describe Child do
       child[:registration_date].should_not be_nil
     end
 
+    it "should allow edit registration_date" do
+      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => '19/Jul/2014')
+      child.save!
+      child[:case_id].should_not be_nil
+      child[:registration_date].should eq '19/Jul/2014'
+    end
+
     it "should not save file formats that are not photo formats" do
       child = Child.new
       child.photo = uploadable_photo_gif
