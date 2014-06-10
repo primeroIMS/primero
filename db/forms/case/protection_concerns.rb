@@ -86,6 +86,7 @@ protection_concern_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "protection_concern",
+  :parent_form=>"case",
   "visible" => true,
   :order => 16,
   :fields => protection_concern_fields,
