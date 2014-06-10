@@ -9,7 +9,7 @@ class Field
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
   localize_properties [:display_name, :help_text, :option_strings_text]
-  property :multi_select, TrueClass, :default => true
+  property :multi_select, TrueClass, :default => false
   attr_reader :options
   property :base_language, :default=>'en'
   property :subform_section_id #TODO: Either load this using couchdb linking or load on creation
