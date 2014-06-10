@@ -198,6 +198,10 @@ tracing_fields = [
              "display_name_all" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
              "option_strings_text_all" => "Yes\nNo",
            }),
+  Field.new({"name" => "separation_witnessed_violence_comments ",
+             "type" => "textarea",
+             "display_name_all" => "Details about what the child faced / witnessed"
+            }),
   Field.new({"name" => "address_separation",
              "type" => "text_field",
              "display_name_all" => "Separation Address (Place)"
