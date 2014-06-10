@@ -59,6 +59,7 @@ partner_details_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "partner_details",
+  :parent_form=>"case",
   "visible" => true,
   :order => 4,
   "editable" => true,
