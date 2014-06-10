@@ -265,8 +265,7 @@ class ChildrenController < ApplicationController
     child_params['histories'] = JSON.parse(child_params['histories']) if child_params and child_params['histories'].is_a?(String) #histories might come as string from the mobile client.
   end
 
-  def get_form_sections    
-    #FormSection.enabled_by_order
+  def get_form_sections
     FormSection.find_by_parent_form("case")
   end
 

@@ -90,6 +90,10 @@ RapidFTR::Application.routes.draw do
   match '/cases/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :case_thumbnail, :via => [:post, :get, :put, :delete]
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
 
+#######################
+# INCIDENT URLS
+#######################
+  resources :incidents
 
 #######################
 # API URLS
