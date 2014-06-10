@@ -24,10 +24,8 @@ class IncidentsController < ApplicationController
   def create
     #authorize! :create, Incident
     params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
-    #create_or_update_incident(params[:incident])
-    
-    #TODO - testing
-    @incident = Incident.new(incident_params)
+    #binding.pry
+    create_or_update_incident(params[:incident])
     @incident['created_by_full_name'] = current_user_full_name
 
     respond_to do |format|
@@ -55,10 +53,19 @@ class IncidentsController < ApplicationController
   def get_form_sections
     FormSection.find_by_parent_form("incident")
   end
-
-  #TODO - this is for testing.
-  def incident_params
-    params.require(:incident).permit(:incident_id, :description)
+  
+  def incident_short_id incident_params
+    incident_params[:short_id] || incident_params[:unique_identifier].last(7)
+  end
+  
+  def create_or_update_incident(incident_params)
+    #binding.pry
+    @incident = Incident.by_short_id(:key => incident_short_id(incident_params)).first if incident_params[:unique_identifier]
+    if @incident.nil?
+      @incident = Incident.new_with_user_name(current_user, incident_params)
+    else
+      #@incident = update_incident_from(params)
+    end
   end
  
 end

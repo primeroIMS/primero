@@ -158,8 +158,8 @@ class Field
     "child_#{name}"
   end
 
-  def tag_name_attribute
-    "child[#{name}]"
+  def tag_name_attribute(objName = "child")
+    "#{objName}[#{name}]"
   end
 
   def select_options
