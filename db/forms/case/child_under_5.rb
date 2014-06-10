@@ -13,7 +13,7 @@ child_under_5_fields = [
             }),
   Field.new({"name" => "found_child_details",
              "type" => "text_field",
-             "display_name_all" => "Please describe in details how the child was found or taken in the family children's center"
+             "display_name_all" => "Please describe in detail how the child was found or taken in the family/children's center"
             }),
   Field.new({"name" => "location_found_child_people_was_with",
              "type" => "text_field",

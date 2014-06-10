@@ -13,7 +13,7 @@ Feature: Child Under 5
     | Date child was found                   |
     | Exact location where child was found   |
     | Found in Village/Area/Physical Address |
-    | Please describe in details how the child was found or taken in the family children's center   |
+    | Please describe in detail how the child was found or taken in the family/children's center   |
     | Where are the people who were part of the group that was displaced at the same time?          |
     | Village/Area/Physical Address |
     | Name of person who gave the child to the family/children's center?                   |
@@ -39,6 +39,7 @@ Feature: Child Under 5
       | Found in Village/Area/Physical Address | Village Found Address    |
       | If the child speaks with an accent and if the family separation has been short (few months), from what region do you think the child comes from?                                      | Region child come from    |
       | Please write down any behavior specific to the child that may help a parent identify him/her later on such as child's games, and main interests or specific things he/she likes to do | Child games, Main Interest|
+      | Please describe in detail how the child was found or taken in the family/children's center | Details about how the child was found in the family center. |
     And I select "Yes" from "Are there any clothes and belongings the child was found with?"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
@@ -49,3 +50,4 @@ Feature: Child Under 5
     And I should see a value for "If the child speaks with an accent and if the family separation has been short (few months), from what region do you think the child comes from?" on the show page with the value of "Region child come from"
     And I should see a value for "Please write down any behavior specific to the child that may help a parent identify him/her later on such as child's games, and main interests or specific things he/she likes to do" on the show page with the value of "Child games, Main Interest"
     And I should see a value for "Are there any clothes and belongings the child was found with?" on the show page with the value of "Yes"
+    And I should see a value for "Please describe in detail how the child was found or taken in the family/children's center" on the show page with the value of "Details about how the child was found in the family center."
