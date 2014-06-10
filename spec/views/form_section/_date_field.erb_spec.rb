@@ -12,7 +12,7 @@ describe "form_section/_date_field.html.erb" do
     :type => 'date_field',
     :help_text => "This is my help text"
 
-    render :partial => 'form_section/date_field', :locals => { :date_field => date_field }, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child  }, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end
 
@@ -21,7 +21,7 @@ describe "form_section/_date_field.html.erb" do
     :display_name => "field name",
     :type => 'date_field'
 
-    render :partial => 'form_section/date_field', :locals => { :date_field => date_field }, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child  }, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("img.vtip")
   end
 

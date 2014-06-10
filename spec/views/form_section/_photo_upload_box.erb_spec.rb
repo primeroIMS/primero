@@ -12,7 +12,7 @@ describe "form_section/_photo_upload_box.html.erb" do
     :type => 'photo_upload_box',
     :help_text => "This is my help text"
 
-    render :partial => 'form_section/photo_upload_box', :locals => { :photo_upload_box => photo_upload_box}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/photo_upload_box', :locals => { :photo_upload_box => photo_upload_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end
 
@@ -21,7 +21,7 @@ describe "form_section/_photo_upload_box.html.erb" do
     :display_name => "field name",
     :type => 'photo_upload_box'
 
-    render :partial => 'form_section/photo_upload_box', :locals => { :photo_upload_box => photo_upload_box}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/photo_upload_box', :locals => { :photo_upload_box => photo_upload_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("img.vtip")
   end
 

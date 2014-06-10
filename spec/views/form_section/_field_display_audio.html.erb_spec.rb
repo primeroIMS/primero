@@ -10,7 +10,7 @@ describe "form_section/_field_display_audio.html.erb" do
     child.stub(:audio).and_return(uploadable_audio_mp3)
     child.stub(:has_valid_audio?).and_return(true)
 
-    render :partial => 'form_section/field_display_audio', :locals => { :field => nil, :child => child, :display_audio_delete_checkbox => true}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/field_display_audio', :locals => { :field => nil, :formObject => child, :display_audio_delete_checkbox => true}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag(".profile-section-label")
     rendered.should have_tag("a#audio_link")
     rendered.should have_tag("div.delete_check_box")
@@ -26,7 +26,7 @@ describe "form_section/_field_display_audio.html.erb" do
     child.stub(:audio).and_return(uploadable_audio_mp3)
     child.stub(:has_valid_audio?).and_return(true)
 
-    render :partial => 'form_section/field_display_audio', :locals => { :field => nil, :child => child, :display_audio_delete_checkbox => false}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/field_display_audio', :locals => { :field => nil, :formObject => child, :display_audio_delete_checkbox => false}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag(".profile-section-label")
     rendered.should have_tag("a#audio_link")
     rendered.should_not have_tag("div.delete_check_box")

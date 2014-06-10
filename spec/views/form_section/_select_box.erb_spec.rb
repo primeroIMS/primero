@@ -13,7 +13,7 @@ describe "form_section/_select_box.html.erb" do
     :option_strings => Array['M', 'F'],
     :help_text => "This is my help text"
 
-    render :partial => 'form_section/select_box', :locals => { :select_box => select_box}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/select_box', :locals => { :select_box => select_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end
 
@@ -23,7 +23,7 @@ describe "form_section/_select_box.html.erb" do
     :type => 'select_box',
     :option_strings => Array['M', 'F']
 
-    render :partial => 'form_section/select_box', :locals => { :select_box => select_box}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/select_box', :locals => { :select_box => select_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("img.vtip")
   end
 

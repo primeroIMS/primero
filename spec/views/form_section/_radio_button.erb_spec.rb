@@ -13,7 +13,7 @@ describe "form_section/_radio_button.html.erb" do
     :option_strings => Array['M', 'F'],
     :help_text => "This is my help text"
 
-    render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end
 
@@ -23,7 +23,7 @@ describe "form_section/_radio_button.html.erb" do
     :type => 'radio_button',
     :option_strings => Array['M', 'F']
 
-    render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button}, :formats => [:html], :handlers => [:erb]
+    render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("img.vtip")
   end
 
