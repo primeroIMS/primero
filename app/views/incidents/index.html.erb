@@ -6,7 +6,7 @@
       <tr><th>Short Id</th></tr>
       <% @incidents.each do |incident| %>
         <tr>
-            <td> <%= incident.short_id %></td>
+            <td><%= link_to incident.short_id, incident_path(incident), class: 'id_link' %></td>
         </tr>
       <% end %>
     </table>

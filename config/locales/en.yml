@@ -296,6 +296,8 @@ en:
     register_new_incident: "Create a New Incident"
     
   incident:
+     messages:
+      creation_success: "Incident record successfully created."
     
   preposition:
     on_label: "on"

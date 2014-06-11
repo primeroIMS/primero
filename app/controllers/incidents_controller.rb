@@ -5,8 +5,8 @@ class IncidentsController < ApplicationController
   end
   
   
-  def show
-    @incident = Incident.find_by_incident_id(params[:incident_id])
+  def show    
+    @incident = Incident.get(params[:id])
     @form_sections = get_form_sections
   end
   
@@ -24,7 +24,6 @@ class IncidentsController < ApplicationController
   def create
     #authorize! :create, Incident
     params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
-    #binding.pry
     create_or_update_incident(params[:incident])
     @incident['created_by_full_name'] = current_user_full_name
 
