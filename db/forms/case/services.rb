@@ -69,6 +69,7 @@ services_section = FormSection.create_or_update_form_section({
   "is_nested"=>true,
   :order=> 1,
   :unique_id=>"services_section",
+  :parent_form=>"case",
   "editable"=>true,
   :fields => services_subform,
   :perm_enabled => false,
@@ -107,6 +108,7 @@ services_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "services",
+  :parent_form=>"case",
   "visible" => true,
   :order => 10,
   :fields => services_fields,
