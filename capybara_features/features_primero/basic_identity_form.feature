@@ -1,5 +1,6 @@
 # JIRA PRIMERO-42
 # JIRA PRIMERO-73
+# JIRA PRIMERO-179
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -53,7 +54,7 @@ Feature: Basic Identity Form
     | Last Landmark |
     | Last Location |
     | Last Address Telephone |
-    | Ethnic Group / Tribe |
+    | Ethnicity/Clan/Tribe |
     | Sub Ethnicity 1 |
     | Sub Ethnicity 2 |
     | Language |
@@ -66,7 +67,7 @@ Feature: Basic Identity Form
     | Interview Location |
     | Interview Landmark |    
     | Information Obtained From |
-    | Other Interview Source |
+    | If information obtained from Other, please specify. |
     | Has the child been interviewed by another organization? |
     | Reference No. given to child by other organization |
     | Database Operator |
@@ -85,6 +86,7 @@ Feature: Basic Identity Form
     | Name(s) given to child after separation? |
     | If the survivor is a child, does he/she live alone? |
     | If the survivor lives with someone, what is the relation between her/him and the caretaker? |
+    | If other relation between her/him and the caretaker, please specify. |
     | What is the caretaker's current marital status? |
     | What is the caretaker's primary occupation? |
     
@@ -114,14 +116,13 @@ Feature: Basic Identity Form
       | Last Landmark     | Roller Coaster Hill                  |
       | Last Location     | Northwest                            |
       | Last Address Telephone     | 828-555-1414                |
-      | Ethnic Group / Tribe       | Swahili                     |
       | Arrival Date      | 13/Apr/2014                          |
       | Interviewer Name  | Fred Jones                           |
       | Interviewer Position | Field Worker                      |
       | Interview Address    | 333 Elm St, Wilkesboro NC, 28697  |
       | Interview Location   | Midwest                           |
       | Interview Landmark   | By the river                      |      
-      | Other Interview Source   | Doctor                           |
+      | If information obtained from Other, please specify.   | Doctor                           |
       | Reference No. given to child by other organization   | CCC222                          |
       | Registration Address    | 444 10th St, N. Wilkesboro NC, 28659  |
       | Number and age of children and other dependents   | 5                           |
@@ -132,6 +133,7 @@ Feature: Basic Identity Form
       | Contact Number         | 910-555-1515                         |
       | UN Number   | EEE444                          |
       | Survivor Name   | Norville Rogers                          |
+      | If other relation between her/him and the caretaker, please specify.   | Second Cousin     |
       | What is the caretaker's primary occupation?        | Teacher                               |
       
     And I select "Male" from "Sex"
@@ -146,6 +148,7 @@ Feature: Basic Identity Form
     And I select "Country1" from "Birth Country"
     And I select "Country2" from "Country of Origin"
     And I select "Yes" from "Is this address permanent?"
+    And I select "Clan 3" from "Ethnicity/Clan/Tribe"
     And I select "Clan 1" from "Sub Ethnicity 1"
     And I select "Clan 2" from "Sub Ethnicity 2"
     And I select "Agency 4" from "Interviewer Agency"
@@ -207,7 +210,7 @@ Feature: Basic Identity Form
     And I should see a value for "Last Landmark" on the show page with the value of "Roller Coaster Hill"
     And I should see a value for "Last Location" on the show page with the value of "Northwest"
     And I should see a value for "Last Address Telephone" on the show page with the value of "828-555-1414"
-    And I should see a value for "Ethnic Group / Tribe" on the show page with the value of "Swahili"
+    And I should see a value for "Ethnicity/Clan/Tribe" on the show page with the value of "Clan 3"
     And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Clan 1"
     And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Clan 2"    
     And I should see a value for "Language" on the show page with the value of "English, French"
@@ -220,7 +223,7 @@ Feature: Basic Identity Form
     And I should see a value for "Interview Location" on the show page with the value of "Midwest"
     And I should see a value for "Interview Landmark" on the show page with the value of "By the river"    
     And I should see a value for "Information Obtained From" on the show page with the value of "GBV Survivor"
-    And I should see a value for "Other Interview Source" on the show page with the value of "Doctor"
+    And I should see a value for "If information obtained from Other, please specify." on the show page with the value of "Doctor"
     And I should see a value for "Has the child been interviewed by another organization?" on the show page with the value of "Yes"
     And I should see a value for "Reference No. given to child by other organization" on the show page with the value of "CCC222"
     And I should see a value for "Database Operator" on the show page with the value of "Operator 1"
@@ -239,6 +242,7 @@ Feature: Basic Identity Form
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"
     And I should see a value for "If the survivor is a child, does he/she live alone?" on the show page with the value of "No"
     And I should see a value for "If the survivor lives with someone, what is the relation between her/him and the caretaker?" on the show page with the value of "Relative"
+    And I should see a value for "If other relation between her/him and the caretaker, please specify." on the show page with the value of "Second Cousin"
     And I should see a value for "What is the caretaker's current marital status?" on the show page with the value of "Widowed"
     And I should see a value for "What is the caretaker's primary occupation?" on the show page with the value of "Teacher"
     
@@ -284,7 +288,7 @@ Feature: Basic Identity Form
     And I should see a value for "Last Landmark" on the show page with the value of ""
     And I should see a value for "Last Location" on the show page with the value of ""
     And I should see a value for "Last Address Telephone" on the show page with the value of ""
-    And I should see a value for "Ethnic Group / Tribe" on the show page with the value of ""
+    And I should see a value for "Ethnicity/Clan/Tribe" on the show page with the value of ""
     And I should see a value for "Sub Ethnicity 1" on the show page with the value of ""
     And I should see a value for "Sub Ethnicity 2" on the show page with the value of ""    
     And I should see a value for "Language" on the show page with the value of ""
@@ -297,7 +301,7 @@ Feature: Basic Identity Form
     And I should see a value for "Interview Location" on the show page with the value of ""
     And I should see a value for "Interview Landmark" on the show page with the value of ""    
     And I should see a value for "Information Obtained From" on the show page with the value of ""
-    And I should see a value for "Other Interview Source" on the show page with the value of ""
+    And I should see a value for "If information obtained from Other, please specify." on the show page with the value of ""
     And I should see a value for "Has the child been interviewed by another organization?" on the show page with the value of ""
     And I should see a value for "Reference No. given to child by other organization" on the show page with the value of ""
     And I should see a value for "Database Operator" on the show page with the value of ""
@@ -316,6 +320,7 @@ Feature: Basic Identity Form
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of ""
     And I should see a value for "If the survivor is a child, does he/she live alone?" on the show page with the value of ""
     And I should see a value for "If the survivor lives with someone, what is the relation between her/him and the caretaker?" on the show page with the value of ""
+    And I should see a value for "If other relation between her/him and the caretaker, please specify." on the show page with the value of ""
     And I should see a value for "What is the caretaker's current marital status?" on the show page with the value of ""
     And I should see a value for "What is the caretaker's primary occupation?" on the show page with the value of ""
 
@@ -361,3 +366,16 @@ Feature: Basic Identity Form
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
+
+  Scenario: As a logged in user, I should be able to change the date of registration in the basic identity form
+    And I fill in the following:
+      | Date of Registration or Interview | 08/Jun/2014 |
+    And I press "Save"
+    And I should see "Case record successfully created" on the page
+    And I should see a value for "Date of Registration or Interview" on the show page with the value of "08/Jun/2014"
+    And I press the "Edit" button
+    And I fill in the following:
+      | Date of Registration or Interview | 19/Jul/2014 |
+    And I press "Save"
+    Then I should see "Case record successfully updated" on the page
+    And I should see a value for "Date of Registration or Interview" on the show page with the value of "19/Jul/2014"

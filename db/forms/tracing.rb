@@ -1,4 +1,86 @@
 #########################################
+# Reunification subform
+
+reunification_subform = [
+    Field.new({"name" => "name_reunified_adult",
+               "type" => "text_field",
+               "display_name_all" => "Name of adult child was reunified with",
+              }),
+    Field.new({"name" => "relationship_reunified_adult",
+               "type" => "text_field",
+               "display_name_all" => "Relationship of adult to child",
+              }),
+    Field.new({"name" => "address_reunified_adult",
+               "type" => "text_field",
+               "display_name_all" => "Address",
+              }),
+    Field.new({"name" => "location_reunified_adult",
+               "type" => "text_field",
+               "display_name_all" => "Location of adult with whom the child was reunified",
+              }),
+    Field.new({"name" => "address_reunification",
+               "type" => "text_field",
+               "display_name_all" => "Address where the reunification is taking place",
+              }),
+    Field.new({"name" => "location_reunification",
+               "type" => "text_field",
+               "display_name_all" => "Location where the reunifcation is taking place",
+              }),
+    Field.new({"name" => "reunification_type",
+               "type" => "select_box",
+               "display_name_all" => "What type of reunification?",
+               "option_strings_text_all" => [
+                  "Case by case",
+                  "Informal/Spontaneous",
+                  "Mass Tracing",
+                  "Mediation",
+                  "Other (Please Specify)",
+                  "Photo Tracing",
+                  "Spontaneous"
+               ]
+              }),
+    Field.new({"name" => "date_reunification",
+               "type" => "date_field",
+               "display_name_all" => "Date of reunification",
+              }),
+    Field.new({"name" => "child_reunited_with_verified_adult",
+               "type" => "select_box",
+               "display_name_all" => "Was the child reunified with the verfified adult?",
+               "option_strings_text_all" => "Yes\nNo",
+              }),
+    Field.new({"name" => "not_reunited_with_verified_adult_reason",
+               "type" => "select_box",
+               "display_name_all" => "If not, what was the reason for the change?",
+               "option_strings_text_all" => [
+                   "Change of Mind",
+                   "Death",
+                   "Death of Adult",
+                   "Failed Verification",
+                   "Not Applicable",
+                   "Other (Please Specify)"
+               ]
+              }),
+    Field.new({"name" => "reunification_follow_up_needed",
+               "type" => "select_box",
+               "display_name_all" => "Is there a need for follow up?",
+               "option_strings_text_all" => "Yes\nNo",
+              })
+]
+
+reunification_details_section = FormSection.create_or_update_form_section({
+    "visible"=>false,
+    "is_nested"=>true,
+    :order=> 1,
+    :unique_id=>"reunification_details_section",
+    "editable"=>true,
+    :fields => reunification_subform,
+    :perm_enabled => false,
+    :perm_visible => false,
+    "name_all" => "Nested Reunification",
+    "description_all" => "Reunification Subform"
+})
+
+#########################################
 # Tracing action subform
 
 tracing_action_subform = [
@@ -64,6 +146,10 @@ tracing_actions_section = FormSection.create_or_update_form_section({
 # Tracing form
 
 tracing_fields = [
+  Field.new({"name" => "separation_separator",
+             "type" => "separator",
+             "display_name_all" => "Separation History",
+            }),
   Field.new({"name" => "tracing_status",
              "type" => "select_box",
              "display_name_all" => "Tracing Status",
@@ -112,6 +198,10 @@ tracing_fields = [
              "display_name_all" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
              "option_strings_text_all" => "Yes\nNo",
            }),
+  Field.new({"name" => "separation_witnessed_violence_comments",
+             "type" => "textarea",
+             "display_name_all" => "Details about what the child faced / witnessed"
+            }),
   Field.new({"name" => "address_separation",
              "type" => "text_field",
              "display_name_all" => "Separation Address (Place)"
@@ -179,6 +269,11 @@ tracing_fields = [
              "type" => "text_field",
              "display_name_all" => "Caregiver Location",
             }),
+  Field.new({"name" => "reunification_details_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => reunification_details_section.id,
+             "display_name_all" => "Reunification Details"
+            })
 ]
 
 FormSection.create_or_update_form_section({

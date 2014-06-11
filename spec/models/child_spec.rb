@@ -564,6 +564,13 @@ describe Child do
       child[:registration_date].should_not be_nil
     end
 
+    it "should allow edit registration_date" do
+      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => '19/Jul/2014')
+      child.save!
+      child[:case_id].should_not be_nil
+      child[:registration_date].should eq '19/Jul/2014'
+    end
+
     it "should not save file formats that are not photo formats" do
       child = Child.new
       child.photo = uploadable_photo_gif
@@ -777,6 +784,113 @@ describe Child do
         @child.photos.size.should eql 1
       end
 
+    end
+
+    context "validate photo size" do
+      before :each do
+        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+        Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
+      end
+
+      it "should not save child if new photos are more than 10" do
+        photos = []
+        (1..11).each do |i|
+          photos << stub_photo_properties(i)
+        end
+        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        child.photos = photos
+        child.save.should == false
+        child.errors[:photo].should == ["You are only allowed 10 photos per case."]
+      end
+
+      it "should not save child if new photos and existing photos are more than 10" do
+        photos = []
+        (1..5).each do |i|
+          photos << stub_photo_properties(i)
+        end
+        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        child.photos = photos
+        child.save
+        child.new? == false
+        child['photo_keys'].size == 5
+
+        photos = []
+        (6..11).each do |i|
+          photos << stub_photo_properties(i)
+        end
+        child.photos = photos
+        child.save.should == false
+        child['photo_keys'].size == 5
+        child.errors[:photo].should == ["You are only allowed 10 photos per case."]
+      end
+
+      it "should save child if new and existing photos are 10" do
+        photos = []
+        (1..5).each do |i|
+          photos << stub_photo_properties(i)
+        end
+        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        child.photos = photos
+        child.save
+        child.new? == false
+        child['photo_keys'].size == 5
+
+        photos = []
+        (6..10).each do |i|
+          photos << stub_photo_properties(i)
+        end
+        child.photos = photos
+        child.save
+        child.new? == false
+        child['photo_keys'].size == 10
+      end
+
+      it "should save child 10 new photos" do
+        photos = []
+        (1..10).each do |i|
+          photos << stub_photo_properties(i)
+        end
+        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        child.photos = photos
+        child.save
+        child.new? == false
+        child['photo_keys'].size == 10
+      end
+
+      it "should save child after delete some photos" do
+        photos = []
+        (1..10).each do |i|          
+          photos << stub_photo_properties(i)
+        end
+        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        child.photos = photos
+        child.save
+        child.new? == false
+        child['photo_keys'].size == 10
+
+        #Should fails because it reach the limit
+        child.photos = [stub_photo_properties(11)]
+        child.save.should == false
+
+        #By deleting one, it should save.
+        photo_key_to_delete = child['photo_keys'][0]
+        child.delete_photos([photo_key_to_delete])
+        child.photos = [stub_photo_properties(11)]
+        child.save
+        child.new? == false
+        child['photo_keys'].size == 10
+        child['photo_keys'].find_index(photo_key_to_delete).should == nil
+      end
+
+      def stub_photo_properties(i)
+        photo = uploadable_photo
+        photo.stub(:original_filename).and_return(i.to_s)
+        photo.stub(:path).and_return(i.to_s)
+        photo.stub(:size).and_return(i)
+        photo.stub(:content_type).and_return("image/jpg")
+        photo
+      end
+      
     end
 
   end

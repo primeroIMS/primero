@@ -1,6 +1,8 @@
 class Child < CouchRest::Model::Base
   use_database :child
 
+  MAX_PHOTOS = 10
+
   require "uuidtools"
   include RecordHelper
   include RapidFTR::Model
@@ -36,6 +38,7 @@ class Child < CouchRest::Model::Base
   property :verified
 
   validate :validate_photos_size
+  validate :validate_photos_count
   validate :validate_photos
   validate :validate_audio_size
   validate :validate_audio_file_name
@@ -67,7 +70,7 @@ class Child < CouchRest::Model::Base
     child['short_id'] = child.short_id
     child['case_id'] = child.case_id
     child['name'] = fields['name'] || child.name || ''
-    child['registration_date'] = DateTime.now.strftime("%d/%b/%Y")
+    child['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
     child.set_creation_fields_for user
     child
   end
@@ -298,6 +301,12 @@ class Child < CouchRest::Model::Base
     errors.add(:photo, I18n.t("errors.models.child.photo_size"))
 
     error_with_section(:current_photo_key, I18n.t("errors.models.child.photo_size"))
+  end
+
+  def validate_photos_count
+    return true if @photos.blank? || (@photos.size + self['photo_keys'].size) <= MAX_PHOTOS
+    errors.add(:photo, I18n.t("errors.models.child.photo_count", :photos_count => MAX_PHOTOS))
+    error_with_section(:current_photo_key, I18n.t("errors.models.child.photo_count", :photos_count => MAX_PHOTOS))
   end
 
   def validate_audio_size

@@ -641,6 +641,7 @@ en:
         age: "Age must be between 1 and 130"
         photo_format: "Please upload a valid photo file (jpg or png) for this case record"
         photo_size: "Please upload a file smaller than 10mb"
+        photo_count: "You are only allowed %{photos_count} photos per case."
         audio_format: "Please upload a valid audio file (amr or mp3) for this case record"
         audio_size: "Please upload a file smaller than 10mb"
         primary_photo_id: "Failed trying to set '%{photo_id}' to primary photo: no such photo key"
