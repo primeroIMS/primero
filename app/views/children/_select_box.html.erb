@@ -12,7 +12,7 @@
   </div>
   <div class="medium-8 columns">
     <% if select_box.multi_select %>
-    <%= select_tag name, options_for_select(select_box.select_options, value), multiple: '', class: 'chosen-select' %>
+    <%= select_tag name+"[]", options_for_select(select_box.select_options, value), multiple: '', class: 'chosen-select' %>
     <% else %>
     <%= select_tag name, options_for_select(select_box.select_options, value) %>
     <% end %>
