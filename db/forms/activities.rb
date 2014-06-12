@@ -8,6 +8,18 @@ activities_fields = [
              "type" => "text_field",
              "display_name_all" => "Name of School"
             }),
+  Field.new({"name" => "activities_education_type",
+             "type" => "select_box",
+             "display_name_all" => "If yes, what type of education?",
+             "option_strings_text_all" =>
+                                  ["Accelerated learning", 
+                                   "Early Childhood",
+                                   "Non-Formal Education", 
+                                   "Primary", 
+                                   "Secondary",
+                                   "Vocational", 
+                                   "Vocational training"].join("\n")
+            }),
   Field.new({"name" => "activities_reason_not_in_school",
              "type" => "select_box",
              "multi_select" => true,
@@ -23,6 +35,15 @@ activities_fields = [
                                    "Pregnancy / Children",
                                    "Sent Abroad for Job",
                                    "Other"].join("\n")
+            }),
+  Field.new({"name" => "activities_other",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "What other activities is the child involved in?",
+             "option_strings_text_all" =>
+                                  ["Community activities", 
+                                   "Livelihood activities", 
+                                   "Recreational Activities"].join("\n")
             })
 ]
 
