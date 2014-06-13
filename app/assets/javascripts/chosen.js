@@ -1,7 +1,7 @@
 $(document).ready(function() {
   //Initialize the chosen widget and set the code to manage when the user
   //clear the chosen selection.
-  $('.chosen-select').chosen({display_selected_options : false}).change(function() {
+  $('.chosen-select').chosen({display_selected_options:false, width:'100%', inherit_select_classes:true}).change(function() {
     //Input hidden to indicate that the user clear the chosen selection.
     var input_hidden_id = $(this).attr("id") + "_no_array"
     //Verify whether or not the user selects items.
@@ -26,5 +26,9 @@ $(document).ready(function() {
       //that allow to nil/empty the value in the database.
       $("#" + input_hidden_id).remove();
     }
-  });
+  }).ready(function() {
+    //Small tweak to the search box. Initially has set some width that is not enough
+    //to display the placeholder value.
+    $(".chosen-select .search-field .default").css("width", "100%");
+  })
 });
