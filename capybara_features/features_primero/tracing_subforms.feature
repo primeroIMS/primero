@@ -1,14 +1,17 @@
 # JIRA PRIMERO-114
+# JIRA PRIMERO-195
 
 @javascript @primero
 Feature: Tracing Subforms
   As a Social Worker I want to fill in form information for children's tracing actions.
 
-  Scenario: As a logged in user, I should access the form section tracing and create tracing actions
+  Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Tracing" button
+
+  Scenario: As a logged in user, I should access the form section tracing and create tracing actions
     And I fill in the 1st "Tracing Actions Section" subform with the follow:
       | Date of tracing                                      | 30/May/2014               |
       | Action taken and remarks                             | Test remarks              |
@@ -30,10 +33,6 @@ Feature: Tracing Subforms
     And I should see "Nepal" on the page
 
   Scenario: As a logged in user, I should access the form section tracing and add/remove tracing actions
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "cases page"
-    And I press the "Create a New Case" button
-    And I press the "Tracing" button
     And I fill in the 1st "Tracing Actions Section" subform with the follow:
       | Date of tracing                                      | 30/May/2014               |
       | Action taken and remarks                             | Test remarks              |
@@ -64,3 +63,19 @@ Feature: Tracing Subforms
     Then I should not see "Kenya" on the page
     And I should see "Uganda" on the page
     And I should see "Nepal" on the page
+
+  Scenario: As a logged in user, I should access the form section tracing and remove the last tracing action
+    And I fill in the 1st "Tracing Actions Section" subform with the follow:
+      | Date of tracing                                      | 30/May/2014               |
+      | Action taken and remarks                             | Test remarks              |
+      | Address/Village where the tracing action took place  | Test Village              |
+      | Outcome of tracing action                            | <Select> Pending          |
+      | Place of tracing                                     | <Select> Kenya            |
+      | Type of action taken                                 | <Select> Photo Tracing    |
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I press the "Edit" button
+    And I remove the 1st "Tracing Actions Section" subform
+    And I click OK in the browser popup
+    And I press "Save"
+    Then I should not see "Kenya" on the page

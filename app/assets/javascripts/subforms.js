@@ -61,15 +61,32 @@ var SubformView = Backbone.View.extend({
     event.preventDefault();
     var message = $(event.target).data('message'),
         confirm_remove = confirm(message),
-        target = event.target || event.srcElement;
+        target = event.target || event.srcElement,
+        self = this;
 
     if (confirm_remove == true) {
       var subform = $(target).parent();
       subform.fadeOut(600, function() {
-          $(this).remove();
+        $(this).remove();
+        self.count_subforms(target)
       });
     }
+
     _primero.set_content_sidebar_equality();
+  },
+
+  count_subforms: function(target) {
+    var focus = $(target).parents().attr('id').match(/^subform_(.*)_\d/)[1],
+        count = 0,
+        subforms = '.' + focus + '_subform';
+
+    $(subforms).children('div').each(function (x, el) {
+      if ($(el).children().length > 0) {
+        count++;
+      }
+    });
+    if (count == 0)
+      $(subforms).append("<input type=\"hidden\" name=\"child[" + focus + "]\" value=\"\" />");
   }
 });
 
