@@ -112,8 +112,8 @@ class Field
 		FIELD_DISPLAY_TYPES[type]
 	end
 
-  def self.all_searchable_field_names
-    FormSection.all.map { |form| form.all_searchable_fields.map(&:name) }.flatten
+  def self.all_searchable_field_names(parentForm = 'case')
+    FormSection.find_by_parent_form(parentForm).map { |form| form.all_searchable_fields.map(&:name) }.flatten
   end
 
   def display_name_for_field_selector

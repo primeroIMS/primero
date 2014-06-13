@@ -1,5 +1,3 @@
-
-
 module Record
   extend ActiveSupport::Concern
     
@@ -45,6 +43,12 @@ module Record
   
   def unique_identifier   
     self['unique_identifier']
+  end
+  
+  def parent_form
+    parent_form = self.class.name.downcase
+    parent_form = 'case' if parent_form == 'child'
+    parent_form
   end
   
 end

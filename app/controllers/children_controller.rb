@@ -84,7 +84,6 @@ class ChildrenController < ApplicationController
   # POST /children.xml
   def create
     authorize! :create, Child
-    #binding.pry
     params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
     create_or_update_child(params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
@@ -253,7 +252,6 @@ class ChildrenController < ApplicationController
   end
 
   def create_or_update_child(child_params)
-    #binding.pry
     @child = Child.by_short_id(:key => child_short_id(child_params)).first if child_params[:unique_identifier]
     if @child.nil?
       @child = Child.new_with_user_name(current_user, child_params)
@@ -268,7 +266,7 @@ class ChildrenController < ApplicationController
   end
 
   def get_form_sections
-    FormSection.find_by_parent_form("case")
+    FormSection.find_by_parent_form(@child.parent_form)
   end
 
   def default_search_respond_to
