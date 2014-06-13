@@ -3,14 +3,14 @@ class Child < CouchRest::Model::Base
 
   MAX_PHOTOS = 10
 
-  require "uuidtools"
-  include RecordHelper
   include RapidFTR::Model
   include RapidFTR::CouchRestRailsBackward
   include Extensions::CustomValidator::CustomFieldsValidator
   include AttachmentHelper
   include AudioHelper
   include PhotoHelper
+  
+  include Record
 
   include Searchable
 
@@ -24,8 +24,6 @@ class Child < CouchRest::Model::Base
 
   property :nickname
   property :name
-  property :short_id
-  property :unique_identifier
   property :case_id
   property :registration_date
   property :created_organisation
@@ -64,16 +62,19 @@ class Child < CouchRest::Model::Base
     super *args
   end
 
-  def self.new_with_user_name(user, fields = {})
-    child = new(fields)
-    child.create_unique_id
-    child['short_id'] = child.short_id
-    child['case_id'] = child.case_id
-    child['name'] = fields['name'] || child.name || ''
-    child['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
-    child.set_creation_fields_for user
-    child
-  end
+  # def self.new_with_user_name(user, fields = {})
+    # binding.pry
+    # child = new(fields)
+    # child.create_unique_id
+    # child['short_id'] = child.short_id
+    # child['case_id'] = child.case_id
+    # child['name'] = fields['name'] || child.name || ''
+    # child['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
+    # child.set_creation_fields_for user
+    # #binding.pry
+    # child
+#     
+  # end
 
   design do
       view :by_protection_status_and_gender_and_ftr_status
@@ -399,21 +400,27 @@ class Child < CouchRest::Model::Base
      (by_user_name(:key => user_name).all + all_by_creator(user_name).all).uniq {|child| child.unique_identifier}
   end
 
-  def create_unique_id
-    self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
-  end
+  # def create_unique_id
+    # self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
+  # end
 
-  def short_id
-    (self['unique_identifier'] || "").last 7
+  # def short_id
+    # sid = (self['unique_identifier'] || "").last 7
+    # binding.pry
+    # sid
+  # end
+  
+  def createClassId
+    self['case_id'] = self.case_id
   end
 
   def case_id
     self['unique_identifier']
   end
 
-  def unique_identifier
-    self['unique_identifier']
-  end
+  # def unique_identifier
+    # self['unique_identifier']
+  # end
 
   def has_one_interviewer?
     user_names_after_deletion = self['histories'].map { |change| change['user_name'] }

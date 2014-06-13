@@ -84,6 +84,7 @@ class ChildrenController < ApplicationController
   # POST /children.xml
   def create
     authorize! :create, Child
+    #binding.pry
     params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
     create_or_update_child(params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?

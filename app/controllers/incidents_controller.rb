@@ -58,7 +58,6 @@ class IncidentsController < ApplicationController
   end
   
   def create_or_update_incident(incident_params)
-    #binding.pry
     @incident = Incident.by_short_id(:key => incident_short_id(incident_params)).first if incident_params[:unique_identifier]
     if @incident.nil?
       @incident = Incident.new_with_user_name(current_user, incident_params)
