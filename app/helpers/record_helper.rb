@@ -112,10 +112,8 @@ module RecordHelper
   def changed_field?(field_name)
     return false if self[field_name].blank? && original_data[field_name].blank?
     return true if original_data[field_name].blank?
-    if self[field_name].respond_to? :strip
-      unless original_data[field_name].is_a?(Hash)
-        self[field_name].strip != original_data[field_name].strip
-      end
+    if self[field_name].respond_to? :strip and original_data[field_name].respond_to? :strip
+      self[field_name].strip != original_data[field_name].strip
     else
       self[field_name] != original_data[field_name]
     end
