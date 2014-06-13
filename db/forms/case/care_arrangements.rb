@@ -114,7 +114,7 @@ care_arrangements_fields = [
            }),
   Field.new({"name" => "other_information_from_caregiver",
              "type" => "textarea",
-             "display_name_all" => "Other information form the caregiver about the child and his/her family"
+             "display_name_all" => "Other information from the caregiver about the child and his/her family"
             })
 ]
 
