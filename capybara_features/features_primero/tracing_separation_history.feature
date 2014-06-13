@@ -25,9 +25,11 @@ Feature: Tracing Separation History
     And I press the "Tracing" button
     When I select "Open" from "Tracing Status"
     And I fill in the following:
-      | Additional info that could help in tracing? | Some Additional Information |
+      | Additional info that could help in tracing?    | Some Additional Information |
+      | Details about what the child faced / witnessed | Some Additional Details     |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     When I press the "Tracing" button
     Then I should see a value for "Tracing Status" on the show page with the value of "Open"
     And I should see a value for "Additional info that could help in tracing?" on the show page with the value of "Some Additional Information"
+    And I should see a value for "Details about what the child faced / witnessed" on the show page with the value of "Some Additional Details"
