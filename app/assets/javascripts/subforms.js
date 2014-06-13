@@ -67,8 +67,9 @@ var SubformView = Backbone.View.extend({
     if (confirm_remove == true) {
       var subform = $(target).parent();
       subform.fadeOut(600, function() {
+        var subform_group = $(target).parents('.subforms');
         $(this).remove();
-        self.count_subforms(target)
+        self.count_subforms(subform_group);
       });
     }
 
@@ -76,17 +77,16 @@ var SubformView = Backbone.View.extend({
   },
 
   count_subforms: function(target) {
-    var focus = $(target).parents().attr('id').match(/^subform_(.*)_\d/)[1],
-        count = 0,
-        subforms = '.' + focus + '_subform';
+    var count = 0,
+        focus = $(target).attr('id');
 
-    $(subforms).children('div').each(function (x, el) {
+    $(target).children('div').each(function (x, el) {
       if ($(el).children().length > 0) {
         count++;
       }
     });
     if (count == 0)
-      $(subforms).append("<input type=\"hidden\" name=\"child[" + focus + "]\" value=\"\" />");
+      $(target).append("<input type=\"hidden\" name=\"" + _primero.model_object + "[" + focus + "]\" value=\"\" />");
   }
 });
 
