@@ -9,11 +9,11 @@ Feature: Duplicate child record
 
    Given I am logged in as an admin
    And the following children exist in the system:
-     | name   | unique_id  | flag    |flagged_at                   | short_id |
-     | Bob    | bob_uid    | true    |DateTime.new(2001,2,3,4,5,6) | bob_uid  |
-     | Steve  | steve_uid  | true    |DateTime.new(2004,2,3,4,5,6) | eve_uid  |
-     | Dave   | dave_uid   | true    |DateTime.new(2002,2,3,4,5,6) | ave_uid  |
-     | Fred   | fred_uid   | false   |DateTime.new(2003,2,3,4,5,6) | red_uid  |
+     | name   | unique_identifier  | flag    |flagged_at                   | short_id |
+     | Bob    | bob_uid            | true    |DateTime.new(2001,2,3,4,5,6) | bob_uid  |
+     | Steve  | steve_uid          | true    |DateTime.new(2004,2,3,4,5,6) | eve_uid  |
+     | Dave   | dave_uid           | true    |DateTime.new(2002,2,3,4,5,6) | ave_uid  |
+     | Fred   | fred_uid           | false   |DateTime.new(2003,2,3,4,5,6) | red_uid  |
 
   @javascript
   Scenario: Should see the "Mark as Duplicate" link on the Suspect Records Page

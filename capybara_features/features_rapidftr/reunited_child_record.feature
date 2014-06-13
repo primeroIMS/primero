@@ -8,11 +8,11 @@ Feature: Reunited child record
 
    Given I am logged in as a user with "Register Child,Edit Child,View And Search Child" permission
    And the following children exist in the system:
-     | name   | unique_id  | reunited |
-     | Will   | will_uid   | false    |
-     | Will 2 | will_uid_2 | false    |
-     | Fred   | fred_uid   | true     |
-     | Fred 2 | fred_uid_2 | true     |
+     | name   | unique_identifier  | reunited |
+     | Will   | will_uid           | false    |
+     | Will 2 | will_uid_2         | false    |
+     | Fred   | fred_uid           | true     |
+     | Fred 2 | fred_uid_2         | true     |
 
   #TODO Mark as Reunited removed for demo deploy
   @javascript @wip

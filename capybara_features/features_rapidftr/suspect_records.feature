@@ -7,11 +7,11 @@ Feature: Suspect Records
 
   Given I am logged in as an admin
   And the following children exist in the system:
-     | name   | unique_id  | flag     | flag_message      | investigated |
-     | Steve  | id_1  | true     | steve is dodgy    | false        |
-     | Bob    | id_2  | true     | bob is dodgy      | false        |
-     | Dave   | id_3  | true     | dave is dodgy     | true         |
-     | George | id_4  | false    | nil               | false        |
+     | name   | unique_identifier  | flag     | flag_message      | investigated |
+     | Steve  | id_1               | true     | steve is dodgy    | false        |
+     | Bob    | id_2               | true     | bob is dodgy      | false        |
+     | Dave   | id_3               | true     | dave is dodgy     | true         |
+     | George | id_4               | false    | nil               | false        |
 
   @wip
   Scenario: Admin user should see a link on the home page with the details of how many suspect records need attention

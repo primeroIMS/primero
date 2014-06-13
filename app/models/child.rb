@@ -16,18 +16,13 @@ class Child < CouchRest::Model::Base
 
   Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Child)
   Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Child)
-
-  before_save :update_history, :unless => :new?
-  before_save :update_organisation
+  
   before_save :update_photo_keys
-  before_save :add_creation_history, :if => :new?
 
   property :nickname
   property :name
   property :case_id
   property :registration_date
-  property :created_organisation
-  property :created_by
   property :reunited, TrueClass
   property :flag, TrueClass
   property :duplicate, TrueClass
@@ -399,16 +394,6 @@ class Child < CouchRest::Model::Base
      #TODO Investigate why the hash of the objects got different.
      (by_user_name(:key => user_name).all + all_by_creator(user_name).all).uniq {|child| child.unique_identifier}
   end
-
-  # def create_unique_id
-    # self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
-  # end
-
-  # def short_id
-    # sid = (self['unique_identifier'] || "").last 7
-    # binding.pry
-    # sid
-  # end
   
   def createClassId
     self['case_id'] = self.case_id
@@ -417,10 +402,6 @@ class Child < CouchRest::Model::Base
   def case_id
     self['unique_identifier']
   end
-
-  # def unique_identifier
-    # self['unique_identifier']
-  # end
 
   def has_one_interviewer?
     user_names_after_deletion = self['histories'].map { |change| change['user_name'] }

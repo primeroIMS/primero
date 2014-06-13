@@ -9,18 +9,18 @@ Feature: Basic search
 
   Scenario: Searching for a child given his name
     Given the following children exist in the system:
-      | name   | unique_id  |
-      | Willis | id_1       |
-      | Will   | id_2       |
+      | name   | unique_identifier  |
+      | Willis | id_1               |
+      | Will   | id_2               |
     When I fill in "query" with "Will"
     And I press "Go"
     And I should see "id_1" in the search results
 
   Scenario: Searching for a child given his short id
     Given the following children exist in the system:
-      | name   	| last_known_location 	| reporter | unique_id     |
-      | andreas	| London		            | zubair   | zubairlon123  |
-      | zak	    | London		            | zubair   | somerlion     |
+      | name   	| last_known_location 	| reporter | unique_identifier  |
+      | andreas	| London		        | zubair   | zubairlon123       |
+      | zak	    | London		        | zubair   | somerlion          |
     When I fill in "query" with "rlon"
     And I press "Go"
     Then I should be on the saved record page for child with name "andreas"
@@ -51,9 +51,9 @@ Feature: Basic search
   @wip
   Scenario: Thumbnails are displayed for each search result, if requested
     Given the following children exist in the system:
-      | name   | unique_id  |
-      | Willis | id_1       |
-      | Will   | id_2       |
+      | name   | unique_identifier  |
+      | Willis | id_1               |
+      | Will   | id_2               |
     When I fill in "query" with "W"
     And I press "Go"
     Then I should see the thumbnail of "Willis"
@@ -61,9 +61,9 @@ Feature: Basic search
 
   Scenario: Not seing "No results found" when first enter search page
     Given the following children exist in the system:
-      | name   | unique_id  |
-      | Willis | id_1       |
-      | Will   | id_2       |
+      | name   | unique_identifier  |
+      | Willis | id_1               |
+      | Will   | id_2               |
     When I fill in "query" with "Will"
     And I press "Go"
     Then I should be on the child search results page
