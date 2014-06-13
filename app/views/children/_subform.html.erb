@@ -7,7 +7,7 @@
   <h5 class="tool-tip-label">
     <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %></span>
   </h5>
-  <div class="subforms <%= "#{subform.name}_subform" %>">
+  <div class="subforms" id="<%= subform.name %>">
     <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
