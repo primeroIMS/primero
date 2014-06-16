@@ -166,7 +166,7 @@ class Field
 
   def select_options
     select_options = []
-    select_options << ['(Select...)', ''] unless self.multi_select
+    select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
     select_options += @options.collect { |option| [option.option_name, option.option_name] }
   end
 
