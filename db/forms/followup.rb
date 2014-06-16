@@ -83,7 +83,7 @@ followup_fields = [
   Field.new({"name" => "followup_subform_section",
              "type" => "subform", "editable" => true,
              "subform_section_id" => followup_subform_section.id,
-             "display_name_all" => "Followup"
+             "display_name_all" => "Follow Up"
             })
 ]
 
@@ -94,6 +94,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => followup_fields,
   :perm_enabled => true,
-  "name_all" => "Followup",
-  "description_all" => "Followup"
+  "name_all" => "Follow Up",
+  "description_all" => "Follow Up"
 })

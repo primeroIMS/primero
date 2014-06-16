@@ -9,7 +9,7 @@ Feature: Followup
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
-    And I press the "Followup" button
+    And I press the "Follow Up" button
 
   Scenario: I am a logged in Social Worker on the Follow Ups form
     And I fill in the 1st "Followup Subform Section" subform with the follow:
@@ -48,7 +48,7 @@ Feature: Followup
     And I should see "Some additional comments" on the page
     And I should see "Visiting Friends/Relatives" on the page
     And I press the "Edit" button
-    And I press the "Followup" button
+    And I press the "Follow Up" button
     And I remove the 2nd "Followup Subform Section" subform
     And I click OK in the browser popup
     And I fill in the following:
