@@ -61,10 +61,13 @@ And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |n
   step %Q{I add a "#{subform}" subform}
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  within(:xpath, "//div[@id='subform_container#{subform}_#{num}']") do
+  scope = "//div[@id='subform_container#{subform}_#{num}']"
+  within(:xpath, scope) do
     fields.rows_hash.each do |name, value|
       if value.start_with?("<Select>")
         step %Q{I select "#{value.gsub("<Select> ", "")}" from "#{name}"}
+      elsif value.start_with?("<Checkbox>")
+        step %Q{I check "#{value.gsub("<Checkbox> ", "")}" for "#{name}" within "#{scope}"}
       else
         step %Q{I fill in "#{name}" with "#{value}"}
       end

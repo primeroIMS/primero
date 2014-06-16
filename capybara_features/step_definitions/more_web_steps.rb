@@ -165,8 +165,9 @@ Then /^the "([^"]*)" checkboxes should have the following options:$/ do |checkbo
   end
 end
 
-When /^I check "([^"]*)" for "([^"]*)"$/ do |value, checkbox_name|
-  label = page.find '//label', :text => checkbox_name
-  checkbox_id = label["for"].split("_").last
-	page.check("child_#{checkbox_id}_#{value.dehumanize}")
+When /^I check "([^"]*)" for "([^"]*)"(?: within "([^\"]*)")?$/ do |value, checkbox_name, scope|
+  scope ||= ""
+  label = find "#{scope}//label", :text => checkbox_name
+  checkbox_id = label["for"]
+  check("#{checkbox_id}_#{value.dehumanize}")
 end

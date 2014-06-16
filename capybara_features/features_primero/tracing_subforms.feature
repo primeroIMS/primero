@@ -77,5 +77,6 @@ Feature: Tracing Subforms
     And I press the "Edit" button
     And I remove the 1st "Tracing Actions Section" subform
     And I click OK in the browser popup
+    And I wait for 1 seconds
     And I press "Save"
     Then I should not see "Kenya" on the page
