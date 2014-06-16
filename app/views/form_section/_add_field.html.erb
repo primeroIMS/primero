@@ -16,14 +16,14 @@
       <div class="clearfix"></div>
       <% if f.object_name == 'field' and @field.type == 'select_box' %>
       <p class="chkbox_multiselect">
-        <label class="key"><%= t("fields.multi_select") %></label>
-        <%= f.check_box :multi_select %>
+        <%= f.label :multi_select, t("fields.multi_select"), :class => "key" %>
+        <%= f.check_box :multi_select?, {}, "true", "false" %>
       </p>
       <% end %>
       <% if @field and @field.new? %>
       <p class="placeholder_multi_select chkbox_multiselect">
-        <label class="key"><%= t("fields.multi_select") %></label>
-        <%= f.check_box :multi_select %>
+        <%= f.label :multi_select, t("fields.multi_select"), :class => "key" %>
+        <%= f.check_box :multi_select?, {}, "true", "false" %>
       </p>
       <% end %>
       <div class="clearfix"></div>
