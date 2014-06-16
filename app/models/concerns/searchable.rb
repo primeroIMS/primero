@@ -1,4 +1,7 @@
 module Searchable
+  extend ActiveSupport::Concern  
+  
+  
   class DocumentInstanceAccessor < Sunspot::Adapters::InstanceAdapter
     def id
       @instance.id
@@ -10,27 +13,24 @@ module Searchable
       Child.get(id)
     end
   end
-
-  def self.included(klass)
-    klass.extend ClassMethods
-    klass.class_eval do
-      after_create :index_record
-      after_update :index_record
-      after_save :index_record
-
-      def index_record
-        begin
-          Child.build_solar_schema
-          Sunspot.index!(self)
-        rescue
-          Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
-        end
-        true
+  
+  included do
+    after_create :index_record
+    after_update :index_record
+    after_save :index_record
+    
+    def index_record
+      begin
+        Child.build_solar_schema
+        Sunspot.index!(self)
+      rescue
+        Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
       end
+      true
     end
   end
 
-  module ClassMethods
+  module ClassMethods  
     def sunspot_search(page_number, query = "")
       Child.build_solar_schema
 

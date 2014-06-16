@@ -22,6 +22,8 @@ module Record
     def unique_identifier   
       self['unique_identifier']
     end
+    
+    
   end 
   
   module ClassMethods
@@ -33,17 +35,20 @@ module Record
       record.set_creation_fields_for user
       record
     end
+    
+    def parent_form
+      parent_form = self.name.downcase
+      parent_form = 'case' if parent_form == 'child'
+      parent_form
+    end
+    
+    def all_by_creator(created_by)
+      self.by_created_by :key => created_by
+    end
   end 
   
   def create_unique_id
     self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
-  end
-  
-  
-  def parent_form
-    parent_form = self.class.name.downcase
-    parent_form = 'case' if parent_form == 'child'
-    parent_form
   end
   
 end

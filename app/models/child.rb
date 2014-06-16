@@ -10,9 +10,7 @@ class Child < CouchRest::Model::Base
   include AudioHelper
   include PhotoHelper
   
-  include Record
-
-  include Searchable
+  include SearchableRecord
 
   Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Child)
   Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Child)
@@ -238,25 +236,6 @@ class Child < CouchRest::Model::Base
     [row_count, self.paginate(options.merge(:design_doc => 'Child', :page => page, :per_page => per_page, :include_docs => true))]
   end
 
-  def self.build_solar_schema
-    text_fields = build_text_fields_for_solar
-    date_fields = build_date_fields_for_solar
-    Sunspot.setup(Child) do
-      text *text_fields
-      date *date_fields
-      date_fields.each { |date_field| date date_field }
-      boolean :duplicate
-    end
-  end
-
-  def self.build_text_fields_for_solar
-    ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name", "created_organisation"] + Field.all_searchable_field_names('case')
-  end
-
-  def self.build_date_fields_for_solar
-    ["created_at", "last_updated_at"]
-  end
-
   def validate_has_at_least_one_field_value
     return true if field_definitions.any? { |field| is_filled_in?(field) }
     return true if !@file_name.nil? || !@audio_file_name.nil?
@@ -345,11 +324,7 @@ class Child < CouchRest::Model::Base
 
   def self.all
     view('by_name', {})
-  end
-
-  def self.all_by_creator(created_by)
-    self.by_created_by :key => created_by
-  end
+  end  
 
   # this is a helper to see the duplicates for test purposes ... needs some more thought. - cg
   def self.duplicates
@@ -401,12 +376,7 @@ class Child < CouchRest::Model::Base
     self['duplicate'] = true
     self['duplicate_of'] = Child.by_short_id(:key => parent_id).first.try(:id)
   end
-
-  def self.schedule(scheduler)
-    scheduler.every("24h") do
-      Child.reindex!
-    end
-  end
+  
 
   def error_with_section(field, message)
     lookup = field_definitions.select{ |f| f.name == field.to_s }
