@@ -14,7 +14,7 @@ describe Child do
     end
 
     it "fields build with all fields in form sections" do
-      form = FormSection.new(:name => "test_form")
+      form = FormSection.new(:name => "test_form", :parent_form => 'case')
       form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
       form.save!
       Child.build_text_fields_for_solar.should include("name")
@@ -37,7 +37,7 @@ describe Child do
     end
 
     before :all do
-      form = FormSection.new(:name => "test_form")
+      form = FormSection.new(:name => "test_form", :parent_form => 'case')
       form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
       form.save!
     end

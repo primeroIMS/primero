@@ -4,7 +4,7 @@ describe MatchService do
 
   before :all do
     FormSection.all.each(&:destroy)
-    form = FormSection.new(:name => "test_form")
+    form = FormSection.new(:name => "test_form", :parent_form => 'case')
     form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
     form.fields << Field.new(:name => "nationality", :type => Field::TEXT_FIELD, :display_name => "nationality")
     form.fields << Field.new(:name => "country", :type => Field::TEXT_FIELD, :display_name => "country")

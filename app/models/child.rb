@@ -57,20 +57,6 @@ class Child < CouchRest::Model::Base
     super *args
   end
 
-  # def self.new_with_user_name(user, fields = {})
-    # binding.pry
-    # child = new(fields)
-    # child.create_unique_id
-    # child['short_id'] = child.short_id
-    # child['case_id'] = child.case_id
-    # child['name'] = fields['name'] || child.name || ''
-    # child['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
-    # child.set_creation_fields_for user
-    # #binding.pry
-    # child
-#     
-  # end
-
   design do
       view :by_protection_status_and_gender_and_ftr_status
 
@@ -398,6 +384,7 @@ class Child < CouchRest::Model::Base
   def createClassSpecificFields(fields)
     self['case_id'] = self.case_id
     self['name'] = fields['name'] || self.name || ''
+    self['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
   end 
 
   def case_id

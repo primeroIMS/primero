@@ -284,7 +284,7 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do      
       Child.stub(:get).with("37").and_return(mock_child)
-      FormSection.should_receive(:find_by_parent_form).and_return([:the_form_sections])
+      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
       get :show, :id => "37"
       assigns[:form_sections].should == [:the_form_sections]
     end
@@ -314,7 +314,7 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:new).and_return(mock_child)
-      FormSection.should_receive(:find_by_parent_form).and_return([:the_form_sections])
+      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
       get :new
       assigns[:form_sections].should == [:the_form_sections]
     end
@@ -323,14 +323,14 @@ describe ChildrenController do
   describe "GET edit" do
     it "assigns the requested child as @child" do
       Child.stub(:get).with("37").and_return(mock_child)
-      FormSection.should_receive(:find_by_parent_form)
+      FormSection.should_receive(:find_all_visible_by_parent_form)
       get :edit, :id => "37"
       assigns[:child].should equal(mock_child)
     end
 
     it "orders and assigns the forms" do
       Child.stub(:get).with("37").and_return(mock_child)
-      FormSection.should_receive(:find_by_parent_form).and_return([:the_form_sections])
+      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
       get :edit, :id => "37"
       assigns[:form_sections].should == [:the_form_sections]
     end

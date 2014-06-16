@@ -29,8 +29,7 @@ module Record
       record = new(fields)
       record.create_unique_id
       record['short_id'] = record.short_id
-      record.createClassSpecificFields(fields)
-      record['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
+      record.createClassSpecificFields(fields)      
       record.set_creation_fields_for user
       record
     end
@@ -38,10 +37,6 @@ module Record
   
   def create_unique_id
     self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
-  end
-  
-  def create_short_id
-    self['short_id'] ||= (self['unique_identifier'] || "").last 7
   end
   
   

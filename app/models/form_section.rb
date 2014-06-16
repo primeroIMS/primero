@@ -113,9 +113,14 @@ class FormSection < CouchRest::Model::Base
     by_unique_id(:key => unique_id).first
   end
   
-  def self.find_by_parent_form parent_form
+  def self.find_all_visible_by_parent_form parent_form
     by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| e[:order]}
   end
+  
+  def self.find_by_parent_form parent_form
+    by_parent_form(:key => parent_form).all
+  end
+  
 
   def self.add_field_to_formsection formsection, field
     raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
