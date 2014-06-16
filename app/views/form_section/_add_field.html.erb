@@ -14,6 +14,19 @@
         <%= render :partial => "shared/add_translations", :locals => {:fields => fields, :f => f, :show_drop_down => !@show_add_field.blank? }%>
       </div>
       <div class="clearfix"></div>
+      <% if f.object_name == 'field' and @field.type == 'select_box' %>
+      <p class="chkbox_multiselect">
+        <label class="key"><%= t("fields.multi_select") %></label>
+        <%= f.check_box :multi_select %>
+      </p>
+      <% end %>
+      <% if @field and @field.new? %>
+      <p class="placeholder_multi_select chkbox_multiselect">
+        <label class="key"><%= t("fields.multi_select") %></label>
+        <%= f.check_box :multi_select %>
+      </p>
+      <% end %>
+      <div class="clearfix"></div>
       <p class="chkbox_visible">
       <%= f.label :visible, t("visible"), :class => 'key' %>
       <%= f.check_box :visible?, {}, "true", "false" %>

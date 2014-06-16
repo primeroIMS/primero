@@ -558,6 +558,7 @@ en:
     move_to: "Move to"
     select_box_empty_item: "(Select...)"
     chosen_placeholder: "Select Some Options"
+    multi_select: "Multiple Selection"
 
   replication:
     label: Replication
