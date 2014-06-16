@@ -13,15 +13,23 @@ module Record
     property :unique_identifier
     property :created_organisation
     property :created_by
-    property :created_at
+    property :created_at    
+    
+    def short_id
+      (self['unique_identifier'] || "").last 7
+    end
+    
+    def unique_identifier   
+      self['unique_identifier']
+    end
   end 
   
   module ClassMethods
     def new_with_user_name(user, fields = {})      
       record = new(fields)
       record.create_unique_id
-      record.create_short_id
-      record.createClassId
+      record['short_id'] = record.short_id
+      record.createClassSpecificFields(fields)
       record['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
       record.set_creation_fields_for user
       record
@@ -35,15 +43,7 @@ module Record
   def create_short_id
     self['short_id'] ||= (self['unique_identifier'] || "").last 7
   end
-
-  def short_id
-    self['short_id']
-  end
   
-  
-  def unique_identifier   
-    self['unique_identifier']
-  end
   
   def parent_form
     parent_form = self.class.name.downcase

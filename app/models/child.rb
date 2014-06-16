@@ -395,9 +395,10 @@ class Child < CouchRest::Model::Base
      (by_user_name(:key => user_name).all + all_by_creator(user_name).all).uniq {|child| child.unique_identifier}
   end
   
-  def createClassId
+  def createClassSpecificFields(fields)
     self['case_id'] = self.case_id
-  end
+    self['name'] = fields['name'] || self.name || ''
+  end 
 
   def case_id
     self['unique_identifier']

@@ -42,7 +42,7 @@ class ChildrenController < ApplicationController
   # GET /children/1
   # GET /children/1.xml
   def show
-    authorize! :read, @child if @child["created_by"] != current_user_name
+    authorize! :read, @child if @child["created_by"] != current_user_name    
     @form_sections = get_form_sections
     @page_name = t "case.view", :short_id => @child.short_id
     @body_class = 'profile-page'
@@ -266,7 +266,7 @@ class ChildrenController < ApplicationController
   end
 
   def get_form_sections
-    FormSection.find_by_parent_form(@child.parent_form)
+    FormSection.find_by_parent_form('case')
   end
 
   def default_search_respond_to
