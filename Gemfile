@@ -38,7 +38,6 @@ gem 'foundation-rails', '~> 5.2.0.0'
 gem 'sass-rails',    '~> 4.0.1'
 gem 'compass-rails', '~> 1.1.3'
 gem 'coffee-rails',  '~> 4.0.1'
-#TODO: Check why in order to make the chosen integrate to rails need above of the chosen that 3 gems.
 gem 'chosen-rails',  '~> 1.1.0'
 
 group :development, :assets, :cucumber do
