@@ -98,7 +98,7 @@ activities_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "activities",
   "visible" => true,
-  :order => 18,
+  :order => 17,
   "editable" => true,
   :fields => activities_fields,
   :perm_enabled => true,
