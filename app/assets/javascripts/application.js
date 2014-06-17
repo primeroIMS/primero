@@ -21,6 +21,7 @@
 //= require advanced_search
 //= require form_fields
 //= require form_section
+//= require shared_fields
 //= require manage_devices
 //= require manage_photos
 //= require manage_users
