@@ -90,7 +90,7 @@ followup_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "followup",
   "visible" => true,
-  :order => 7,
+  :order => 6,
   "editable" => true,
   :fields => followup_fields,
   :perm_enabled => true,
