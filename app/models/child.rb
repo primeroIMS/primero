@@ -5,7 +5,6 @@ class Child < CouchRest::Model::Base
 
   include RapidFTR::Model
   include RapidFTR::CouchRestRailsBackward
-  include Extensions::CustomValidator::CustomFieldsValidator
   include AttachmentHelper
   include AudioHelper
   include PhotoHelper
@@ -33,13 +32,8 @@ class Child < CouchRest::Model::Base
   validate :validate_photos
   validate :validate_audio_size
   validate :validate_audio_file_name
-  validates_with FieldValidator, :type => Field::NUMERIC_FIELD
   validate :validate_duplicate_of
-  validates_with FieldValidator, :type => Field::TEXT_AREA
-  validates_with FieldValidator, :type => Field::TEXT_FIELD
-  validate :validate_created_at
   # validate :validate_has_at_least_one_field_value
-  validate :validate_last_updated_at
   validate :validate_age
 
   def initialize *args
@@ -167,22 +161,6 @@ class Child < CouchRest::Model::Base
                    }
                 }"
 
-      view :by_unique_identifier,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('unique_identifier'))
-                   {
-                      emit(doc['unique_identifier'],doc);
-                   }
-                }"
-
-      view :by_short_id,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('short_id'))
-                   {
-                      emit(doc['short_id'],doc);
-                   }
-                }"
-
       view :by_duplicate,
               :map => "function(doc) {
                 if (doc.hasOwnProperty('duplicate')) {
@@ -196,17 +174,6 @@ class Child < CouchRest::Model::Base
                   emit(doc['duplicate_of'], doc);
                 }
               }"
-
-      view :by_user_name,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('histories')){
-                      for(var index=0; index<doc['histories'].length; index++){
-                          emit(doc['histories'][index]['user_name'], doc)
-                      }
-                   }
-                }"
-
-      view :by_created_by
 
       view :by_ids_and_revs,
               :map => "function(doc) {
@@ -237,7 +204,7 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_has_at_least_one_field_value
-    return true if field_definitions.any? { |field| is_filled_in?(field) }
+    return true if field_definitions('case').any? { |field| is_filled_in?(field) }
     return true if !@file_name.nil? || !@audio_file_name.nil?
     return true if deprecated_fields && deprecated_fields.any? { |key, value| !value.nil? && value != [] && value != {} && !value.to_s.empty? }
     errors.add(:validate_has_at_least_one_field_value, I18n.t("errors.models.child.at_least_one_field"))
@@ -288,28 +255,6 @@ class Child < CouchRest::Model::Base
     validate_audio_size.is_a?(TrueClass) && validate_audio_file_name.is_a?(TrueClass)
   end
 
-  def validate_created_at
-    begin
-      if self['created_at']
-        DateTime.parse self['created_at']
-      end
-      true
-    rescue
-      errors.add(:created_at, '')
-    end
-  end
-
-  def validate_last_updated_at
-    begin
-      if self['last_updated_at']
-        DateTime.parse self['last_updated_at']
-      end
-      true
-    rescue
-      errors.add(:last_updated_at, '')
-    end
-  end
-
   def method_missing(m, *args, &block)
     self[m]
   end
@@ -334,26 +279,13 @@ class Child < CouchRest::Model::Base
   def self.duplicates_of(id)
     by_duplicates_of(:key => id).all
   end
-
-  def self.search_by_created_user(search, created_by, page_number = 1)
-    created_by_criteria = [SearchCriteria.new(:field => "created_by", :value => created_by, :join => "AND")]
-    search(search, page_number, created_by_criteria, created_by)
-  end
-
-  def self.search(search, page_number = 1, criteria = [], created_by = "")
-    return [] unless search.valid?
-    search_criteria = [SearchCriteria.new(:field => "short_id", :value => search.query)]
-    search_criteria.concat([SearchCriteria.new(:field => "name", :value => search.query, :join => "OR")]).concat(criteria)
-    SearchService.search page_number, search_criteria
+  
+  def self.search_field
+    "name"
   end
 
   def self.flagged
     by_flag(:key => true)
-  end
-
-  def self.all_connected_with(user_name)
-     #TODO Investigate why the hash of the objects got different.
-     (by_user_name(:key => user_name).all + all_by_creator(user_name).all).uniq {|child| child.unique_identifier}
   end
   
   def createClassSpecificFields(fields)

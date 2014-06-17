@@ -6,8 +6,8 @@ class Incident < CouchRest::Model::Base
   
   include SearchableRecord
 
-  # Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Incident)
-  # Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Incident)
+  Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Incident)
+  Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Incident)
   
   property :incident_id
   property :description
@@ -24,10 +24,15 @@ class Incident < CouchRest::Model::Base
   
   def self.find_by_incident_id(incident_id)
     by_incident_id(:key => incident_id).first
-  end 
-   
-  def createClassId
-    self['incident_id'] ||= self['unique_identifier']
+  end  
+  
+  def self.search_field
+    "description"
+  end  
+  
+  def createClassSpecificFields(fields)
+    self['incident_id'] = self.incident_id
+    self['description'] = fields['description'] || self.description || ''
   end
 
   def incident_id
