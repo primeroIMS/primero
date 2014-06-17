@@ -1,12 +1,19 @@
+<%
+  field_keys ||= []
+  name = field_tag_name formObject, check_boxes, field_keys
+  value ||= field_value formObject, check_boxes, field_keys
+%>
+
 <div class="row">
   <div class="medium-4 columns">
-    <%= label_tag check_boxes.tag_name_attribute, t(check_boxes.name, :default => check_boxes.display_name), {:class=>"key"}%>
+    <%= label_tag name, t(check_boxes.name, :default => check_boxes.display_name), {:class=>"key"}%>
   </div>
 
   <div class="medium-8 columns">
     <% check_boxes.options.each do |option| %>
-      <%= check_box_tag check_boxes.tag_name_attribute+"[]", option.option_name, (formObject[check_boxes.name]||[]).include?(option.option_name), :id => option.tag_id  %>
-      <%= label_tag option.tag_id, option.option_name %>
+      <%checkbox_id = sanitize_to_id(name)+"_#{option.option_name.dehumanize}"%>
+      <%= check_box_tag name+"[]", option.option_name, (value||[]).include?(option.option_name), :id => checkbox_id %>
+      <%= label_tag checkbox_id, option.option_name %>
       <br>
     <% end %>
   </div>
