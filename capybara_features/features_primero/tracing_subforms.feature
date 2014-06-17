@@ -77,5 +77,7 @@ Feature: Tracing Subforms
     And I press the "Edit" button
     And I remove the 1st "Tracing Actions Section" subform
     And I click OK in the browser popup
+    # The remove event has a fadeOut effect that takes 600 ms so we wait for 1 second.
+    And I wait for 1 seconds
     And I press "Save"
     Then I should not see "Kenya" on the page
