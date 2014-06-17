@@ -362,3 +362,17 @@ end
 When /^I click Cancel in the browser popup$/ do
   page.driver.browser.switch_to.alert.dismiss
 end
+
+When /^I choose from "([^\"]*)":$/ do |chosen, table |
+  label = find("//label[text()='#{chosen}']")
+  chosen_id = label["for"] + "__chosen"
+  chosen = find(:xpath, "//div[@id='#{chosen_id}']")
+  table.raw.flatten.each do |option|
+    #This make visible the options to choose.
+    chosen.click
+    chosen.find(:xpath, "//div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
+    #To select another items, it is needed the chosen lost the focus to make click again
+    #to make visible the items to select.
+    label.click
+  end
+end

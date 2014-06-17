@@ -246,7 +246,7 @@ input:focus{
 
 input[type="text"],
 input[type="password"] {
-  width:100% !important;
+  width:100%;
   color: $grey_color !important;
   border: 1px solid $grey_color !important;
   background: #FFF !important;
@@ -774,6 +774,24 @@ li.current {
       padding: 10px 15px;
       &:nth-child(even) {
         background: #ebebeb;
+      }
+    }
+  }
+}
+
+////////////////
+//Chosen field
+////////////////
+.chosen-container-multi {
+  .chosen-choices {
+    li.search-choice {
+      margin: 0.4rem 0rem 0rem 0.35rem;
+    }
+    li.search-field {
+      height: 2.0125rem;
+      margin-top: 0.35rem;
+      input[type="text"] {
+        height: 1.5rem !important;
       }
     }
   }

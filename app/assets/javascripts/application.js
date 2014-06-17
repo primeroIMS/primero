@@ -12,6 +12,7 @@
 //= require plugins/jquery.jplayer.min
 //= require plugins/jquery.rotate.1-1
 //= require plugins/vtip-min
+//= require chosen-jquery
 //= require i18n
 //= require i18n/translations
 //= require primero
@@ -28,5 +29,6 @@
 //= require flag_children
 //= require subforms
 //= require photo_audio_fields
+//= require chosen
 
 $(function(){ $(document).foundation(); });
