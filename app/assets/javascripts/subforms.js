@@ -45,6 +45,11 @@ var SubformView = Backbone.View.extend({
       el.setAttribute("name", name);
     });
 
+    newSubform.find("label").each(function(x, el){
+      var id = el.getAttribute("for").replace("template",i);
+      el.setAttribute("for", id);
+    });
+
     var newSubformClass = newSubform.attr("class").replace("template", "");
     newSubform.attr("class", newSubformClass);
 //    newSubform.removeAttr("style");
