@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // If the input appears in more than one form, select all occurrences and set the change event to all of them.
-  $('input[id^="child_date_of_birth"][id$="child_date_of_birth"]').change(function(){
+  $('input[id^="' + _primero.model_object + '_date_of_birth"][id$="' + _primero.model_object + '_date_of_birth"]').change(function(){
     try{
       // Get the date format from the datepicker and use it to parse the value to a valid date.
       var dateFormat = $(this).datepicker("option", "dateFormat"),
@@ -10,37 +10,37 @@ $(document).ready(function(){
       age = NaN;
     }
     // Set the new value to all occurrences of the 'child_date_of_birth' field.
-    $('input[id^="child_date_of_birth"][id$="child_date_of_birth"]').val($(this).val());
+    $('input[id^="' + _primero.model_object + '_date_of_birth"][id$="' + _primero.model_object + '_date_of_birth"]').val($(this).val());
     // Set the calculated value to all occurrences of the 'child_age' field. In case of an error parsing the date or an age under 0, set an empty value.
     if (isNaN(age) || age < 0) {
-      $('input[id^="child_age"][id$="child_age"]').val('');
+      $('input[id^="' + _primero.model_object + '_age"][id$="' + _primero.model_object + '_age"]').val('');
     }
     else {
-      $('input[id^="child_age"][id$="child_age"]').val(age);
+      $('input[id^="' + _primero.model_object + '_age"][id$="' + _primero.model_object + '_age"]').val(age);
     }
   });
 
   // If the input appears in more than one form, select all occurrences and set the change event to all of them.
-  $('input[id^="child_age"][id$="child_age"]').change(function(){
+  $('input[id^="' + _primero.model_object + '_age"][id$="' + _primero.model_object + '_age"]').change(function(){
     var age = $(this).val();
     // Set the new value to all occurrences of the 'child_age' field.
-    $('input[id^="child_age"][id$="child_age"]').val($(this).val());
+    $('input[id^="' + _primero.model_object + '_age"][id$="' + _primero.model_object + '_age"]').val($(this).val());
     // If the value of the field is not a number set an empty value to all 'child_date_of_birth' fields.
     if (isNaN(age)) {
-      $('input[id^="child_date_of_birth"][id$="child_date_of_birth"]').val('');
+      $('input[id^="' + _primero.model_object + '_date_of_birth"][id$="' + _primero.model_object + '_date_of_birth"]').val('');
     }
     else {
       //Call the focus() method to initialize the inputs as datepicker and get its dateFormat.
-      if ($('input[id^="child_date_of_birth"][id$="child_date_of_birth"]').attr('class').indexOf('hasDatepicker') == -1)
+      if ($('input[id^="' + _primero.model_object + '_date_of_birth"][id$="' + _primero.model_object + '_date_of_birth"]').attr('class').indexOf('hasDatepicker') == -1)
       {
-        $('input[id^="child_date_of_birth"][id$="child_date_of_birth"]').focus();
+        $('input[id^="' + _primero.model_object + '_date_of_birth"][id$="' + _primero.model_object + '_date_of_birth"]').focus();
       }
       // Get the date format from one of the datepickers and use it to parse the value to a valid date.
-      var dateFormat = $("#child_date_of_birth").datepicker("option", "dateFormat"),
+      var dateFormat = $('#' + _primero.model_object + '_date_of_birth').datepicker("option", "dateFormat"),
           year_of_birth = (new Date).getFullYear() - age,
           date_of_birth = $.datepicker.formatDate(dateFormat, $.datepicker.parseDate('dd/M/yy', '01/Jan/' + year_of_birth));
       // Set the new value to all occurrences of the 'child_date_of_birth' field.
-      $('input[id^="child_date_of_birth"][id$="child_date_of_birth"]').val(date_of_birth);
+      $('input[id^="' + _primero.model_object + '_date_of_birth"][id$="' + _primero.model_object + '_date_of_birth"]').val(date_of_birth);
     }
   });
 });
