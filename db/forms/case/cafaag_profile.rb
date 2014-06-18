@@ -155,5 +155,5 @@ FormSection.create_or_update_form_section({
   :perm_visible => true,
   "editable" => true,
   "name_all" => "CAAFAG Profile",
-  "description_all" => "CAAFAG Profile",
+  "description_all" => "CAAFAG Profile"
 })

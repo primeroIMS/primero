@@ -41,7 +41,7 @@ child_preferences_fields_subform = [
   Field.new({"name" => "wishes_telephone",
              "type" => "text_field",
              "display_name_all" => "Telephone"
-            }),
+            })
 ]
 
 child_preferences_section = FormSection.create_or_update_form_section({
@@ -49,6 +49,7 @@ child_preferences_section = FormSection.create_or_update_form_section({
     "is_nested"=>true,
     :order=> 1,
     :unique_id=>"child_preferences_section",
+    :parent_form=>"case",
     "editable"=>true,
     :fields => child_preferences_fields_subform,
     :perm_enabled => false,
@@ -128,11 +129,12 @@ child_wishes_fields = [
   Field.new({"name" => "wishes_landmarks_plan_live",
              "type" => "text_field",
              "display_name_all" => "Landmarks where does the child wish/plan to live?"
-           }),
+           })
 ]
 
 FormSection.create_or_update_form_section({
   :unique_id => "child_wishes",
+  :parent_form=>"case",
   "visible" => true,
   :order => 13,
   "editable" => true,

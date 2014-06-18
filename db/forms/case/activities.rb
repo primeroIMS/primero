@@ -92,7 +92,7 @@ activities_fields = [
   Field.new({"name" => "local_leader_3",
              "type" => "text_field",
              "display_name_all" => "Third Highest Local Leader of the Child"
-           }),
+           })
 ]
 
 FormSection.create_or_update_form_section({

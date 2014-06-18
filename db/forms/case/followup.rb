@@ -71,6 +71,7 @@ followup_subform_section = FormSection.create_or_update_form_section({
   "is_nested" => true,
   :order => 1,
   :unique_id => "followup_subform_section",
+  :parent_form=>"case",
   "editable" => true,
   :fields => followup_subform_fields,
   :perm_enabled => false,

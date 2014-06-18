@@ -72,6 +72,7 @@ reunification_details_section = FormSection.create_or_update_form_section({
     "is_nested"=>true,
     :order=> 1,
     :unique_id=>"reunification_details_section",
+    :parent_form=>"case",
     "editable"=>true,
     :fields => reunification_subform,
     :perm_enabled => false,
