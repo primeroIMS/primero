@@ -93,11 +93,10 @@ class ApplicationController < ActionController::Base
     controller = params["controller"].singularize
     params[controller].each do |key, value|
       if value.kind_of?(Array)
-        binding.pry
         params[controller][key] = value.uniq
       end
     end
-    return params
+    params
   end
 
 end
