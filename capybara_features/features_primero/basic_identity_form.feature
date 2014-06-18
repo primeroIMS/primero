@@ -1,6 +1,7 @@
 # JIRA PRIMERO-42
 # JIRA PRIMERO-73
 # JIRA PRIMERO-179
+# JIRA PRIMERO-207
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -39,7 +40,7 @@ Feature: Basic Identity Form
     | Current Civil/Marital Status |
     | Occupation |
     | Distinguishing Physical Characteristics |
-    | Displacement Status |
+    | Current Displacement Status |
     | Disability Type |
     | Nationality |
     | Place of Birth |
@@ -142,7 +143,7 @@ Feature: Basic Identity Form
     And I select "Yes" from "Urgent Protection Concern?"
     And I select "No" from "Estimated"
     And I select "Married/Cohabitating" from "Current Civil/Marital Status"
-    And I select "Foreign National" from "Displacement Status"
+    And I select "Foreign National" from "Current Displacement Status"
     And I select "Physical Disability" from "Disability Type"
     And I select "Nationality 2" from "Nationality"
     And I select "Country1" from "Birth Country"
@@ -195,7 +196,7 @@ Feature: Basic Identity Form
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Married/Cohabitating"
     And I should see a value for "Occupation" on the show page with the value of "Farmer"
     And I should see a value for "Distinguishing Physical Characteristics" on the show page with the value of "Really tall, dark hair, brown eyes"
-    And I should see a value for "Displacement Status" on the show page with the value of "Foreign National"
+    And I should see a value for "Current Displacement Status" on the show page with the value of "Foreign National"
     And I should see a value for "Disability Type" on the show page with the value of "Physical Disability"
     And I should see a value for "Nationality" on the show page with the value of "Nationality 2"
     And I should see a value for "Place of Birth" on the show page with the value of "Boston"
@@ -273,7 +274,7 @@ Feature: Basic Identity Form
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of ""
     And I should see a value for "Occupation" on the show page with the value of ""
     And I should see a value for "Distinguishing Physical Characteristics" on the show page with the value of ""
-    And I should see a value for "Displacement Status" on the show page with the value of ""
+    And I should see a value for "Current Displacement Status" on the show page with the value of ""
     And I should see a value for "Disability Type" on the show page with the value of ""
     And I should see a value for "Nationality" on the show page with the value of ""
     And I should see a value for "Place of Birth" on the show page with the value of ""
