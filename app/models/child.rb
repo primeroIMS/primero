@@ -2,6 +2,7 @@ class Child < CouchRest::Model::Base
   use_database :child
 
   MAX_PHOTOS = 10
+  CHILD_PREFERENCE_MAX = 3
 
   require "uuidtools"
   include RecordHelper
@@ -50,6 +51,7 @@ class Child < CouchRest::Model::Base
   # validate :validate_has_at_least_one_field_value
   validate :validate_last_updated_at
   validate :validate_age
+  validate :validate_child_wishes
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -347,6 +349,12 @@ class Child < CouchRest::Model::Base
     rescue
       errors.add(:last_updated_at, '')
     end
+  end
+
+  def validate_child_wishes
+    return true if self['child_preferences_section'].nil? || self['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
+    errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
+    error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
 
   def method_missing(m, *args, &block)
