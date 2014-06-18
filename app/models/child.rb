@@ -21,6 +21,7 @@ class Child < CouchRest::Model::Base
   before_save :update_organisation
   before_save :update_photo_keys
   before_save :add_creation_history, :if => :new?
+  before_save :update_age_birth_date
 
   property :nickname
   property :name
@@ -50,6 +51,7 @@ class Child < CouchRest::Model::Base
   # validate :validate_has_at_least_one_field_value
   validate :validate_last_updated_at
   validate :validate_age
+  validate :validate_date_of_birth
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -287,6 +289,18 @@ class Child < CouchRest::Model::Base
     errors.add(:age, I18n.t("errors.models.child.age"))
 
     error_with_section(:age, I18n.t("errors.models.child.age"))
+  end
+
+  def validate_date_of_birth
+    return true if self['date_of_birth'].blank?
+    begin
+      date_of_birth = Date.parse(self['date_of_birth'])
+      raise if date_of_birth.year > Date.today.year
+      return true
+    rescue
+      errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
+      error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
+    end
   end
 
   def validate_photos

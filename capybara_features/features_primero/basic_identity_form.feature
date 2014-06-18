@@ -401,4 +401,10 @@ Feature: Basic Identity Form
       | Date of Birth | 02/May/1990 |
     And I press "Save"
     Then I should see a value for "Date of Birth" on the show page with the value of "02/May/1990"
-    Then I should see a value for "Age" on the show page with the value of "24"
+    Then I should see the calculated Age of a child born in "1990"
+
+  Scenario: As a logged in user, When I fill in the Date of Birth field with a non valid date I should see a validation message preventing the record from being saved
+  And I fill in the following:
+      | Date of Birth | 21/21/1990 |
+  And I press "Save"
+  Then I should see "Please enter a valid date of birth for this case record"
