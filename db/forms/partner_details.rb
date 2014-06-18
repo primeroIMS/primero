@@ -1,4 +1,13 @@
 partner_details_fields = [
+  Field.new({"name" => "maritial_status",
+             "type" =>"select_box" ,
+             "display_name_all" => "Current Civil/Marital Status",
+             "option_strings_text_all" => 
+                          ["Single",
+                           "Married/Cohabitating",
+                           "Divorced/Separated",
+                           "Widowed"].join("\n")
+            }),
   Field.new({"name" => "partner_details",
              "type" => "text_field",
              "display_name_all" => "Partner's Details"

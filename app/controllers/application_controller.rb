@@ -89,4 +89,16 @@ class ApplicationController < ActionController::Base
     %(<span class="field-error">) + html_tag + %(</span>)
   end
 
+  def filter_params_array_duplicates
+    controller = params["controller"].singularize
+    if params[controller]
+      params[controller].each do |key, value|
+        if value.kind_of?(Array)
+          params[controller][key] = value.uniq
+        end
+      end
+    end
+    params
+  end
+
 end

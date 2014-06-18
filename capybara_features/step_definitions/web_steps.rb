@@ -99,7 +99,7 @@ end
 
 When /^(?:|I )select "([^\"]*)" from "([^\"]*)"(?: within "([^\"]*)")?$/ do |value, field, selector|
   with_scope(selector) do
-    select(value, :from => field)
+    select(value, :from => field, :visible => true)
   end
 end
 
