@@ -126,6 +126,10 @@ And /^I add a "(.*)" subform$/ do |form|
   find("//a[@id='subform_#{form}_add_button']",:visible => true).click
 end
 
+And /^the value of "(.*)" should be "(.*)"$/ do |field, value|
+  field_labeled(field).value.should =~ /#{value}/
+end
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////

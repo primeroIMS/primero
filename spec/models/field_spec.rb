@@ -107,17 +107,19 @@ describe "Child record field view model" do
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
     end
 
-    it "should validate unique within other forms" do
-      other_form = FormSection.new(:name => "test form", :fields => [Field.new(:name => "other_test", :display_name => "other test")] )
-      other_form.save!
+    # Test no longer valid. Now allowing sharing of fields
 
-      form = FormSection.new
-      field = Field.new(:display_name => "other test", :name => "other_test")
-      form.fields << field
+    # it "should validate unique within other forms" do
+    #   other_form = FormSection.new(:name => "test form", :fields => [Field.new(:name => "other_test", :display_name => "other test")] )
+    #   other_form.save!
 
-      field.valid?
-      field.errors[:name].should ==  ["Field already exists on form 'test form'"]
-    end
+    #   form = FormSection.new
+    #   field = Field.new(:display_name => "other test", :name => "other_test")
+    #   form.fields << field
+
+    #   field.valid?
+    #   field.errors[:name].should ==  ["Field already exists on form 'test form'"]
+    # end
   end
 
   describe "save" do
@@ -312,12 +314,14 @@ describe "Child record field view model" do
     expect(form.errors.length).to be == 0
   end
 
-  it "should fails save second form section because duplicate name in other form section" do
-    field = Field.new(:name => "test_field1", :display_name_en => "test_field1", :type=>Field::TEXT_FIELD)
-    form = FormSection.create :name => 'test_form1', :unique_id => 'test_form', :fields => [field]
+  # Test no longer valid. Now allowing sharing of fields
+  
+  # it "should fails save second form section because duplicate name in other form section" do
+  #   field = Field.new(:name => "test_field1", :display_name_en => "test_field1", :type=>Field::TEXT_FIELD)
+  #   form = FormSection.create :name => 'test_form1', :unique_id => 'test_form', :fields => [field]
 
-    field = Field.new(:name => "test_field1", :display_name_en => "test_field1", :type=>Field::TEXT_FIELD)
-    form = FormSection.create :name => 'test_form2', :unique_id => 'test_form', :fields => [field]
-    field.errors[:name].should ==  ["Field already exists on form 'test_form1'"]
-  end
+  #   field = Field.new(:name => "test_field1", :display_name_en => "test_field1", :type=>Field::TEXT_FIELD)
+  #   form = FormSection.create :name => 'test_form2', :unique_id => 'test_form', :fields => [field]
+  #   field.errors[:name].should ==  ["Field already exists on form 'test_form1'"]
+  # end
 end
