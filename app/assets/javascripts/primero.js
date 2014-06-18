@@ -29,3 +29,5 @@ $(document).ready(function(){
     }
   });
 });
+
+_primero.model_object = 'child'

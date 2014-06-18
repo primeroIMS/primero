@@ -63,6 +63,7 @@ $(document).ready(function() {
         $("#err_msg_panel").hide();
         $(".field_details_overlay").toggleClass("hide");
         $(".field_details_panel").toggleClass("hide");
+        configureFieldMultiSelect($("ul.field_types a").attr("id"));
     }
 
     function resetAddField(){
@@ -86,6 +87,15 @@ $(document).ready(function() {
             $(this).val(_this.id);
         })
         $(getFieldDetails(this.id)).slideDown("fast");
+        configureFieldMultiSelect(this.id);
+    }
+    
+    function configureFieldMultiSelect(field_type){
+        if (field_type != "select_box") {
+            $("#field_details_options .placeholder_multi_select, #field_details .placeholder_multi_select").hide();
+        } else {
+            $("#field_details_options .placeholder_multi_select, #field_details .placeholder_multi_select").show();
+        }
     }
 
     function getFieldDetails(field_type){
