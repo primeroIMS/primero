@@ -11,7 +11,7 @@ module Searchable
     
     def index_record
       begin
-        self.build_solar_schema
+        self.class.build_solar_schema
         Sunspot.index!(self)
       rescue
         Rails.logger.error "***Problem indexing record for searching, is SOLR running?"

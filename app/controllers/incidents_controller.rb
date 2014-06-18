@@ -50,7 +50,7 @@ class IncidentsController < ApplicationController
   private
   
   def get_form_sections
-    FormSection.find_all_visible_by_parent_form(@incident.parent_form)
+    FormSection.find_all_visible_by_parent_form(Incident.parent_form)
   end
   
   def incident_short_id incident_params

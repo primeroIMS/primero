@@ -266,7 +266,7 @@ class ChildrenController < ApplicationController
   end
 
   def get_form_sections
-    FormSection.find_all_visible_by_parent_form('case')
+    FormSection.find_all_visible_by_parent_form(Child.parent_form)
   end
 
   def default_search_respond_to
