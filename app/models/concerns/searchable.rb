@@ -1,6 +1,24 @@
 module Searchable
   extend ActiveSupport::Concern  
   
+  included do
+    Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
+    Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
+    
+    after_create :index_record
+    after_update :index_record
+    after_save :index_record
+    
+    def index_record
+      begin
+        self.build_solar_schema
+        Sunspot.index!(self)
+      rescue
+        Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
+      end
+      true
+    end
+  end
   
   class DocumentInstanceAccessor < Sunspot::Adapters::InstanceAdapter
     def id
@@ -10,29 +28,13 @@ module Searchable
 
   class DocumentDataAccessor < Sunspot::Adapters::DataAccessor
     def load(id)
-      Child.get(id)
-    end
-  end
-  
-  included do
-    after_create :index_record
-    after_update :index_record
-    after_save :index_record
-    
-    def index_record
-      begin
-        Child.build_solar_schema
-        Sunspot.index!(self)
-      rescue
-        Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
-      end
-      true
+      @clazz.get(id)
     end
   end
 
   module ClassMethods  
     def sunspot_search(page_number, query = "")
-      Child.build_solar_schema
+      self.build_solar_schema
 
       begin
         return paginated_and_full_results(page_number, query)
@@ -53,7 +55,7 @@ module Searchable
     end
 
     def reindex!
-      Child.build_solar_schema
+      self.build_solar_schema
       Sunspot.remove_all(self)
       self.all.each { |record| Sunspot.index!(record) }
     end
@@ -77,7 +79,7 @@ module Searchable
 
 
     def sunspot_matches(query = "")
-      Child.build_solar_schema
+      self.build_solar_schema
 
       begin
         return get_matches(query).results

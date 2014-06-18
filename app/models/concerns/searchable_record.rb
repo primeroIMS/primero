@@ -1,12 +1,8 @@
 module SearchableRecord
   extend ActiveSupport::Concern
+  
   include Record
   include Searchable
-  
-  included do
-    #Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Child)
-    #Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Child)
-  end
   
   module ClassMethods
     def build_solar_schema

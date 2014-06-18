@@ -10,9 +10,6 @@ class Child < CouchRest::Model::Base
   include PhotoHelper
   
   include SearchableRecord
-
-  Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Child)
-  Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Child)
   
   before_save :update_photo_keys
 
@@ -22,7 +19,6 @@ class Child < CouchRest::Model::Base
   property :registration_date
   property :reunited, TrueClass
   property :flag, TrueClass
-  property :duplicate, TrueClass
   property :investigated, TrueClass
   property :verified, TrueClass
   property :verified
@@ -253,10 +249,6 @@ class Child < CouchRest::Model::Base
 
   def has_valid_audio?
     validate_audio_size.is_a?(TrueClass) && validate_audio_file_name.is_a?(TrueClass)
-  end
-
-  def method_missing(m, *args, &block)
-    self[m]
   end
 
   def to_s

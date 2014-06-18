@@ -5,9 +5,6 @@ class Incident < CouchRest::Model::Base
   include RapidFTR::CouchRestRailsBackward
   
   include SearchableRecord
-
-  Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Incident)
-  Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Incident)
   
   property :incident_id
   property :description

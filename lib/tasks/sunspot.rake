@@ -66,7 +66,12 @@ namespace :sunspot do
   desc "re-index child records"
   task :reindex => :wait do
     puts 'Reindexing Solr...'
+    
+    puts 'Reindexing cases...'
     Child.reindex!
+    
+    puts 'Reindexing incidents...'
+    Incident.reindex!
   end
 
   desc "restart solr"
