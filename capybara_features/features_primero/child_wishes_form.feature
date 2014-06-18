@@ -3,7 +3,40 @@
 @javascript @primero
 Feature: Child Wishes Form
   As a Social worker, I want to enter the information related to the child's wishes.
-  
+
+  Scenario: As a logged in user, I should access the form section child's preferences subform
+    Given I am logged in as an admin with username "primero" and password "primero"
+    When I access "form section page"
+    And I press the "Nested Child's Preferences" button
+    Then I should see the following fields:
+      |Person(s) child wishes to locate|
+      |Preference of the child to be relocated with this person|
+      |What is this person's relationship to the child?|
+      |Last Known Address|
+      |Landmark|
+      |Last Known Location|
+      |Telephone|
+
+  Scenario: As a logged in user, I should access the form section child's wishes
+    Given I am logged in as an admin with username "primero" and password "primero"
+    When I access "form section page"
+    And I press the "Child's Wishes" button
+    Then I should see the following fields:
+      |Does child want to trace family members?|
+      |If the child does NOT want family tracing , explain why|
+      |Does the child want family reunification?|
+      |If 'No', 'Not sure', or 'Yes, but later', explain why|
+      |Has the child heard from/been in contact with any relatives?|
+      |Please Give Details|
+      |Child's Preferences|
+      |Does the child wish to continue in the current care arrangement?|
+      |If the child does NOT want to stay in the current care arrangement, explain why|
+      |Type of care arrangement child wishes to have|
+      |If type of care arrangement child wishes to have is Other, specify|
+      |Where does the child wish/plan to live?|
+      |Street where does the child wish/plan to live?|
+      |Landmarks where does the child wish/plan to live?|
+
   Scenario: I create a case with child's wishes information.
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
