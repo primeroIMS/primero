@@ -91,9 +91,11 @@ class ApplicationController < ActionController::Base
 
   def filter_params_array_duplicates
     controller = params["controller"].singularize
-    params[controller].each do |key, value|
-      if value.kind_of?(Array)
-        params[controller][key] = value.uniq
+    if params[controller]
+      params[controller].each do |key, value|
+        if value.kind_of?(Array)
+          params[controller][key] = value.uniq
+        end
       end
     end
     params

@@ -9,7 +9,7 @@
   <%= yield :stylesheet %>
   <script>
     window._primero = {
-      model_object: "<%= params[:controller].singularize %>"
+      model_object: "<%= controller.controller_name.singularize %>"
     };
   </script>
   <%= javascript_include_tag "application" %>
