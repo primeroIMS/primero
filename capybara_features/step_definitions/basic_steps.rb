@@ -57,6 +57,29 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
   end
 end
 
+And /^I should see the calculated Age of a child born in "(.+)"$/ do |year|
+  age = Date.today.year - year.to_i
+  #Find the element that represent the age field
+  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape("Age")}\z/) do
+    #Lookup the parent of the field to search the value
+    within(:xpath, '../..') do
+      #Find the element that represent the value.
+      find(:xpath, ".//span[@class='value']", :text => "#{age}")
+    end
+  end
+end
+
+And /^I should see a value for "(.+)" on the show page which is January 1, "(.+)" years ago$/ do |field, years_ago|
+  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/) do
+    if years_ago
+      content = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d/%b/%Y")
+      within(:xpath, '../..') do
+        find(:xpath, ".//span[@class='value']", :text => content)
+      end
+    end
+  end
+end
+
 And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   step %Q{I add a "#{subform}" subform}
   num = num.to_i - 1
