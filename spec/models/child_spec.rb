@@ -539,6 +539,18 @@ describe Child do
       child.should be_valid
     end
 
+    it "should calculate the child's age based on the date of birth" do
+      child = create_child "Bob McBobberson", :date_of_birth => "02/May/1990"
+      age = Date.today.year - 1990
+      child.age.should eq(age.to_s)
+    end
+
+    it "should calculate the child's date of birth based on the age" do
+      child = create_child "Bob McBobberson", :age => "24"
+      year_of_birth = Date.today.year - 24
+      child.date_of_birth.should eq(Date.parse("01/Jan/#{year_of_birth}").strftime("%d/%b/%Y"))
+    end
+
     describe "validate_duplicate_of" do
       it "should validate duplicate_of field present when duplicate flag true" do
         child = Child.new('duplicate' => true, 'duplicate_of' => nil)

@@ -393,10 +393,6 @@ basic_identity_fields = [
                            "Other",
                            "Unknown"].join("\n")
             }),
-  Field.new({"name" => "name_survivor",
-            "type" => "text_field",
-            "display_name_all" => "Survivor Name"
-            }),   
   Field.new({"name" => "unaccompanied_separated_status",
              "type" =>"check_boxes" ,
              "display_name_all" => "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",

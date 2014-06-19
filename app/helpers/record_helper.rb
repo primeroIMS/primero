@@ -30,6 +30,14 @@ module RecordHelper
     self['last_updated_at'] || self['created_at']
   end
 
+  def update_age_birth_date
+    if self['age'].blank? and self['date_of_birth'].present?
+      self['age'] = "#{Date.today.year - Date.parse(self['date_of_birth']).year}"
+    elsif self['date_of_birth'].blank? and self['age'].present?
+      year_of_birth = Date.today.year - self['age'].to_i
+      self['date_of_birth'] = Date.parse("01/Jan/#{year_of_birth}").strftime("%d/%b/%Y")
+    end
+  end
 
   def update_history
     if field_name_changes.any?
