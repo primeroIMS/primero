@@ -1,6 +1,7 @@
 # JIRA PRIMERO-42
 # JIRA PRIMERO-73
 # JIRA PRIMERO-179
+# JIRA PRIMERO-159
 # JIRA PRIMERO-207
 
 @javascript @primero
@@ -94,7 +95,6 @@ Feature: Basic Identity Form
 
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
-      | Age               | 22                                   |
       | Agency Telephone  | 704-555-1212                         |
       | Other Agency ID   | ABC12345                             |
       | Other Agency Name | Test Agency                          |
@@ -189,7 +189,6 @@ Feature: Basic Identity Form
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
     And I should see a value for "Other Name" on the show page with the value of "Bob"
     And I should see a value for "Sex" on the show page with the value of "Male"
-    And I should see a value for "Age" on the show page with the value of "22"
     And I should see a value for "Date of Birth" on the show page with the value of "04/May/1992"
     And I should see a value for "Estimated" on the show page with the value of "No"
     And I should see a value for "List Details of any documents carried by the child" on the show page with the value of "Driver's License, Passport, Birth Certificate"
@@ -380,3 +379,33 @@ Feature: Basic Identity Form
     And I press "Save"
     Then I should see "Case record successfully updated" on the page
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "19/Jul/2014"
+
+  Scenario: As a logged in user, When I fill in the Age field the Date of Birth should be calculated
+    And I fill in the following:
+      | Name              | Tiki Thomas Taliaferro               |
+      | Age               | 24                                   |
+      | Agency Telephone  | 704-555-1212                         |
+      | Other Agency ID   | ABC12345                             |
+      | Other Agency Name | Test Agency                          |
+      | ICRC Ref No.      | 131313                               |
+      | RC ID No.         | 141414                               |
+      | UNHCR ID          | AAA000                               |
+      | Survivor Code     | BBB111                               |
+      | Nickname          | Tommy                                |
+      | Other Name        | Bob                                  |
+    And I press "Save"
+    Then I should see a value for "Age" on the show page with the value of "24"
+    Then I should see a value for "Date of Birth" on the show page which is January 1, "24" years ago
+
+  Scenario: As a logged in user, When I fill in the Date of Birth field the Age should be calculated
+    And I fill in the following:
+      | Date of Birth | 02/May/1990 |
+    And I press "Save"
+    Then I should see a value for "Date of Birth" on the show page with the value of "02/May/1990"
+    Then I should see the calculated Age of a child born in "1990"
+
+  Scenario: As a logged in user, When I fill in the Date of Birth field with a non valid date I should see a validation message preventing the record from being saved
+  And I fill in the following:
+      | Date of Birth | 21/21/1990 |
+  And I press "Save"
+  Then I should see "Please enter a valid date of birth for this case record"
