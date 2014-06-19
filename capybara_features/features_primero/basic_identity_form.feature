@@ -1,6 +1,7 @@
 # JIRA PRIMERO-42
 # JIRA PRIMERO-73
 # JIRA PRIMERO-179
+# JIRA PRIMERO-217
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -81,7 +82,6 @@ Feature: Basic Identity Form
     | Contact Number |
     | UN Number |
     | Status |
-    | Survivor Name |
     | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? |
     | Name(s) given to child after separation? |
     | If the survivor is a child, does he/she live alone? |
@@ -132,7 +132,6 @@ Feature: Basic Identity Form
       | Section Number   | DDD333                          |
       | Contact Number         | 910-555-1515                         |
       | UN Number   | EEE444                          |
-      | Survivor Name   | Norville Rogers                          |
       | If other relation between her/him and the caretaker, please specify.   | Second Cousin     |
       | What is the caretaker's primary occupation?        | Teacher                               |
       
@@ -237,7 +236,6 @@ Feature: Basic Identity Form
     And I should see a value for "Contact Number" on the show page with the value of "910-555-1515"
     And I should see a value for "UN Number" on the show page with the value of "EEE444"
     And I should see a value for "Status" on the show page with the value of "Community"
-    And I should see a value for "Survivor Name" on the show page with the value of "Norville Rogers"
     And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor, Separated Child, Other Vulnerable Child"
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"
     And I should see a value for "If the survivor is a child, does he/she live alone?" on the show page with the value of "No"
@@ -315,7 +313,6 @@ Feature: Basic Identity Form
     And I should see a value for "Contact Number" on the show page with the value of ""
     And I should see a value for "UN Number" on the show page with the value of ""
     And I should see a value for "Status" on the show page with the value of ""
-    And I should see a value for "Survivor Name" on the show page with the value of ""
     And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of ""
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of ""
     And I should see a value for "If the survivor is a child, does he/she live alone?" on the show page with the value of ""
