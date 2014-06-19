@@ -21,6 +21,7 @@ module Record
     validate :validate_last_updated_at
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD
+    validates_with FieldValidator, :type => Field::DATE_FIELD
     validates_with FieldValidator, :type => Field::TEXT_AREA
     validates_with FieldValidator, :type => Field::TEXT_FIELD
 
