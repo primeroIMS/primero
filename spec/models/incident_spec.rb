@@ -75,26 +75,26 @@ describe Incident do
       Incident.search(search).first.map(&:description).should =~ ["timithy", "timothy"]
     end
 
-    # it "should return children that have duplicate as nil" do
-      # child_active = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
-      # child_duplicate = Child.create(:name => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
-# 
-      # search = double("search", :query => "aquiles", :valid? => true)
-      # result = Child.search(search)
-# 
-      # result.first.map(&:name).should == ["eduardo aquiles"]
-    # end
-# 
-    # it "should return children that have duplicate as false" do
-      # child_active = Child.create(:name => "eduardo aquiles", :duplicate => false, 'created_by' => "me", 'created_organisation' => "stc")
-      # child_duplicate = Child.create(:name => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
-# 
-      # search = double("search", :query => "aquiles", :valid? => true)
-      # result = Child.search(search)
-# 
-      # result.first.map(&:name).should == ["eduardo aquiles"]
-    # end
-# 
+    it "should return incidents that have duplicate as nil" do
+      incident_active = Incident.create(:description => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
+      incident_duplicate = Child.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
+
+      search = double("search", :query => "aquiles", :valid? => true)
+      result = Incident.search(search)
+
+      result.first.map(&:description).should == ["eduardo aquiles"]
+    end
+
+    it "should return incidents that have duplicate as false" do
+      incident_active = Incident.create(:description => "eduardo aquiles", :duplicate => false, 'created_by' => "me", 'created_organisation' => "stc")
+      incident_duplicate = Incident.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
+
+      search = double("search", :query => "aquiles", :valid? => true)
+      result = Incident.search(search)   
+
+      result.first.map(&:description).should == ["eduardo aquiles"]
+    end
+
     it "should search by exact match for short id" do
       uuid = UUIDTools::UUID.random_create.to_s
       Incident.create("description" => "kev", :unique_identifier => "1234567890", 'created_by' => "me", 'created_organisation' => "stc")

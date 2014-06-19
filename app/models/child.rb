@@ -30,7 +30,6 @@ class Child < CouchRest::Model::Base
   validate :validate_photos
   validate :validate_audio_size
   validate :validate_audio_file_name
-  validate :validate_duplicate_of
   # validate :validate_has_at_least_one_field_value
   validate :validate_age
   validate :validate_date_of_birth
@@ -160,20 +159,7 @@ class Child < CouchRest::Model::Base
                      }
                    }
                 }"
-
-      view :by_duplicate,
-              :map => "function(doc) {
-                if (doc.hasOwnProperty('duplicate')) {
-                  emit(doc['duplicate'], doc);
-                }
-              }"
-
-      view :by_duplicates_of,
-              :map => "function(doc) {
-                if (doc.hasOwnProperty('duplicate_of')) {
-                  emit(doc['duplicate_of'], doc);
-                }
-              }"
+      
 
       view :by_ids_and_revs,
               :map => "function(doc) {
@@ -283,15 +269,6 @@ class Child < CouchRest::Model::Base
 
   def self.all
     view('by_name', {})
-  end  
-
-  # this is a helper to see the duplicates for test purposes ... needs some more thought. - cg
-  def self.duplicates
-    by_duplicate(:key => true)
-  end
-
-  def self.duplicates_of(id)
-    by_duplicates_of(:key => id).all
   end
   
   def self.search_field
@@ -316,11 +293,6 @@ class Child < CouchRest::Model::Base
     user_names_after_deletion = self['histories'].map { |change| change['user_name'] }
     user_names_after_deletion.delete(self['created_by'])
     self['last_updated_by'].blank? || user_names_after_deletion.blank?
-  end
-
-  def mark_as_duplicate(parent_id)
-    self['duplicate'] = true
-    self['duplicate_of'] = Child.by_short_id(:key => parent_id).first.try(:id)
   end
   
 
@@ -364,8 +336,5 @@ class Child < CouchRest::Model::Base
   def key_for_content_type(content_type)
     Mime::Type.lookup(content_type).to_sym.to_s
   end
-
-  def validate_duplicate_of
-    return errors.add(:duplicate, I18n.t("errors.models.child.validate_duplicate")) if self["duplicate"] && self["duplicate_of"].blank?
-  end
+  
 end

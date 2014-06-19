@@ -19,6 +19,7 @@ module Record
 
     validate :validate_created_at
     validate :validate_last_updated_at
+    validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD
     validates_with FieldValidator, :type => Field::TEXT_AREA
     validates_with FieldValidator, :type => Field::TEXT_FIELD
@@ -50,6 +51,20 @@ module Record
                 }"
 
       view :by_created_by
+      
+      view :by_duplicate,
+              :map => "function(doc) {
+                if (doc.hasOwnProperty('duplicate')) {
+                  emit(doc['duplicate'], doc);
+                }
+              }"
+
+      view :by_duplicates_of,
+              :map => "function(doc) {
+                if (doc.hasOwnProperty('duplicate_of')) {
+                  emit(doc['duplicate_of'], doc);
+                }
+              }"
     end
 
     def short_id
@@ -86,6 +101,15 @@ module Record
     def all_by_creator(created_by)
       self.by_created_by :key => created_by
     end
+    
+    # this is a helper to see the duplicates for test purposes ... needs some more thought. - cg
+    def duplicates
+      by_duplicate(:key => true)
+    end
+  
+    def duplicates_of(id)
+      by_duplicates_of(:key => id).all
+    end
   end 
 
   def create_unique_id
@@ -113,9 +137,18 @@ module Record
       errors.add(:last_updated_at, '')
     end
   end
+  
+  def validate_duplicate_of
+    return errors.add(:duplicate, I18n.t("errors.models.child.validate_duplicate")) if self["duplicate"] && self["duplicate_of"].blank?
+  end
 
   def method_missing(m, *args, &block)
     self[m]
+  end
+  
+  def mark_as_duplicate(parent_id)
+    self['duplicate'] = true
+    self['duplicate_of'] = self.class.by_short_id(:key => parent_id).first.try(:id)
   end
 
 end
