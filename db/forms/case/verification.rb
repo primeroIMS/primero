@@ -135,6 +135,7 @@ verification_subform_section = FormSection.create_or_update_form_section({
   "is_nested" => true,
   :order => 1,
   :unique_id => "verification_subform_section",
+  :parent_form=>"case",
   "editable" => true,
   :fields => verification_subform_fields,
   :perm_enabled => false,
@@ -153,6 +154,7 @@ verification_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "verification",
+  :parent_form=>"case",
   "visible" => true,
   :order => 14,
   "editable" => true,
