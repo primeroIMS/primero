@@ -366,21 +366,21 @@ describe Incident do
     end
 
     it "should allow text area values to be 400,000 chars" do
-      FormSection.stub(:all_visible_incident_fields =>
+      FormSection.stub(:all_visible_form_fields =>
                         [Field.new(:type => Field::TEXT_AREA, :name => "a_textfield", :display_name => "A textfield")])
                         incident = Incident.new :a_textfield => ('a' * 400_000)
                         incident.should be_valid
     end
 
     it "should allow date fields formatted as dd M yy" do
-      FormSection.stub(:all_visible_incident_fields =>
+      FormSection.stub(:all_visible_form_fields =>
                         [Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A datefield")])
                         incident = Incident.new :a_datefield => ('27 Feb 2010')
                         incident.should be_valid
     end
 
     it "should pass numeric fields that are valid numbers to 1 dp" do
-      FormSection.stub(:all_visible_incident_fields =>
+      FormSection.stub(:all_visible_form_fields =>
                         [Field.new(:type => Field::NUMERIC_FIELD, :name => "height")])
                         Incident.new(:height => "10.2").should be_valid
     end 
@@ -418,7 +418,7 @@ describe Incident do
   describe 'save' do
 
     it "should save with generated incident_id" do
-      incident = create_incident_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
+      incident = create_incident_with_created_by('jdoe', 'description' => 'London')
       incident.save!
       incident[:incident_id].should_not be_nil
       # incident[:registration_date].should_not be_nil
@@ -511,11 +511,12 @@ describe Incident do
 
     before do
       fields = [
+          Field.new_text_field("description"),
           Field.new_text_field("last_known_location"),
           Field.new_text_field("age"),
           Field.new_text_field("origin"),
           Field.new_radio_button("gender", ["male", "female"])]
-      FormSection.stub(:all_visible_incident_fields).and_return(fields)
+      FormSection.stub(:all_visible_form_fields).and_return(fields)
       mock_user = double({:organisation => 'UNICEF'})
       User.stub(:find_by_user_name).with(anything).and_return(mock_user)
     end
@@ -602,14 +603,14 @@ describe Incident do
     # end
 
     it "should apend latest history to the front of histories" do
-      incident = Incident.create('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      incident['last_known_location'] = 'New York'
+      incident = Incident.create('description' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+      incident['description'] = 'New York'
       incident.save!
-      incident['last_known_location'] = 'Philadelphia'
+      incident['description'] = 'Philadelphia'
       incident.save!
       incident['histories'].size.should == 3
-      incident['histories'][0]['changes']['last_known_location']['to'].should == 'Philadelphia'
-      incident['histories'][1]['changes']['last_known_location']['to'].should == 'New York'
+      incident['histories'][0]['changes']['description']['to'].should == 'Philadelphia'
+      incident['histories'][1]['changes']['description']['to'].should == 'New York'
     end
 
     it "should update history with username from last_updated_by" do

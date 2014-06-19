@@ -69,7 +69,8 @@ module RecordHelper
     self.audio = new_audio
   end
 
-  def field_definitions(parent_form = 'case')
+  def field_definitions
+    parent_form = self.class.parent_form
     @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
   end
 
@@ -120,7 +121,7 @@ module RecordHelper
   end
 
   def original_data
-    (@original_data ||= Child.get(self.id) rescue nil) || self
+    (@original_data ||= self.class.get(self.id) rescue nil) || self
   end
 
   def is_filled_in? field

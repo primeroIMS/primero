@@ -202,7 +202,7 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_has_at_least_one_field_value
-    return true if field_definitions('case').any? { |field| is_filled_in?(field) }
+    return true if field_definitions.any? { |field| is_filled_in?(field) }
     return true if !@file_name.nil? || !@audio_file_name.nil?
     return true if deprecated_fields && deprecated_fields.any? { |key, value| !value.nil? && value != [] && value != {} && !value.to_s.empty? }
     errors.add(:validate_has_at_least_one_field_value, I18n.t("errors.models.child.at_least_one_field"))
