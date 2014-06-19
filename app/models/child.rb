@@ -44,6 +44,7 @@ class Child < CouchRest::Model::Base
   validate :validate_audio_size
   validate :validate_audio_file_name
   validates_with FieldValidator, :type => Field::NUMERIC_FIELD
+  validates_with FieldValidator, :type => Field::DATE_FIELD
   validate :validate_duplicate_of
   validates_with FieldValidator, :type => Field::TEXT_AREA
   validates_with FieldValidator, :type => Field::TEXT_FIELD
