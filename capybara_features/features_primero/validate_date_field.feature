@@ -14,7 +14,7 @@ Feature: Validate Date Field
     And I fill in the following:
       | Intervention needed by     | 12/May/14         |
     And I press "Save"
-		Then I should see "Please enter a valid date for this field" on the page
+		Then I should see "Please enter a valid date for this field (format: dd-mm-yyyy)" on the page
 
   Scenario: As a logged in user, I create a case and validate the date field with valid values  
 		And I fill in the following:
