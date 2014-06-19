@@ -77,7 +77,7 @@ describe Incident do
 
     it "should return incidents that have duplicate as nil" do
       incident_active = Incident.create(:description => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
-      incident_duplicate = Child.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
+      incident_duplicate = Incident.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
 
       search = double("search", :query => "aquiles", :valid? => true)
       result = Incident.search(search)
@@ -169,64 +169,50 @@ describe Incident do
 
   describe "update_properties_with_user_name" do
 
-    # it "should replace old properties with updated ones" do
-      # child = Child.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
-      # new_properties = {"name" => "Dave", "age" => "35"}
-      # child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      # child['age'].should == "35"
-      # child['name'].should == "Dave"
-      # child['last_known_location'].should == "London"
-    # end
-# 
-    # it "should not replace old properties when updated ones have nil value" do
-      # child = Child.new("origin" => "Croydon", "last_known_location" => "London")
-      # new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
-      # child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      # child['last_known_location'].should == "Manchester"
-      # child['origin'].should == "Croydon"
-    # end
-# 
-    # it "should not replace old properties when the existing records last_updated at is latest than the given last_updated_at" do
-      # child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      # given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC"}
-      # child.update_properties_with_user_name "some_user", nil, nil, nil, false, given_properties
-      # child["name"].should == "existing name"
-      # child["last_updated_at"].should == "2013-01-01 00:00:01UTC"
-    # end
-# 
-    # it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
-      # existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
-      # given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
-      # child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" =>  [existing_histories])
-      # given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => given_histories}
-      # child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      # histories = child["histories"]
-      # histories.size.should == 2
-      # histories.first["changes"]["sex"]["from"].should == "female"
-      # histories.last["changes"]["name"]["to"].should == "new"
-    # end
-# 
-    # it "should delete the newly created media history(current_photo_key and recorded_audio) as the media names are changed before save of child record" do
-      # existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
-      # given_histories = [existing_histories,
-                         # JSON.parse("{\"datetime\":\"2013-02-04 06:55:03\",\"user_name\":\"rapidftr\",\"changes\":{\"current_photo_key\":{\"to\":\"2c097fa8-b9ab-4ae8-aa4d-1b7bda7dcb72\",\"from\":\"photo-364416240-2013-02-04T122424\"}},\"user_organisation\":\"N\\/A\"}"),
-                         # JSON.parse("{\"datetime\":\"2013-02-04 06:58:12\",\"user_name\":\"rapidftr\",\"changes\":{\"recorded_audio\":{\"to\":\"9252364d-c011-4af0-8739-0b1e9ed5c0ad1359961089870\",\"from\":\"\"}},\"user_organisation\":\"N\\/A\"}")
-                        # ]
-      # child = Child.new("name" => "existing name", "last_updated_at" => "2013-12-12 00:00:01UTC", "histories" =>  [existing_histories])
-      # given_properties = {"name" => "given name", "last_updated_at" => "2013-01-01 00:00:00UTC", "histories" => given_histories}
-      # child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      # histories = child["histories"]
-      # histories.size.should == 1
-      # histories.first["changes"]["current_photo_key"].should be_nil
-    # end
-# 
-    # it "should assign the history of the given properties as it is if the current record has no history" do
-      # child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      # given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      # child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      # histories = child["histories"]
-      # histories.last["changes"]["name"]["to"].should == "new"
-    # end
+    it "should replace old properties with updated ones" do
+      incident = Incident.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
+      new_properties = {"name" => "Dave", "age" => "35"}
+      incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
+      incident['age'].should == "35"
+      incident['name'].should == "Dave"
+      incident['last_known_location'].should == "London"
+    end
+
+    it "should not replace old properties when updated ones have nil value" do
+      incident = Incident.new("origin" => "Croydon", "last_known_location" => "London")
+      new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
+      incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
+      incident['last_known_location'].should == "Manchester"
+      incident['origin'].should == "Croydon"
+    end
+
+    it "should not replace old properties when the existing records last_updated at is latest than the given last_updated_at" do
+      incident = Incident.new("description" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
+      given_properties = {"description" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC"}
+      incident.update_properties_with_user_name "some_user", nil, nil, nil, false, given_properties
+      incident["description"].should == "existing name"
+      incident["last_updated_at"].should == "2013-01-01 00:00:01UTC"
+    end
+
+    it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
+      existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
+      given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
+      incident = Incident.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" =>  [existing_histories])
+      given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => given_histories}
+      incident.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
+      histories = incident["histories"]
+      histories.size.should == 2
+      histories.first["changes"]["sex"]["from"].should == "female"
+      histories.last["changes"]["name"]["to"].should == "new"
+    end
+
+    it "should assign the history of the given properties as it is if the current record has no history" do
+      incident = Incident.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
+      given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
+      incident.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
+      histories = incident["histories"]
+      histories.last["changes"]["name"]["to"].should == "new"
+    end
 
     # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?
     # xit "should not add changes to history if its already added to the history" do
@@ -318,33 +304,33 @@ describe Incident do
     #     child.errors[:validate_has_at_least_one_field_value].should == ["Please fill in at least one field or upload a file"]
     # end
 
-    # it "should validate numeric types" do
-      # field = Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"})
-      # field.should_receive(:form).and_return(FormSection.new)
-      # child = Child.new
-      # child[:height] = "very tall"
-      # FormSection.stub(:all_visible_form_fields).and_return([field])
-# 
-      # child.should_not be_valid
-      # child.errors[:height].should == ["height must be a valid number"]
-    # end
-# 
-    # it "should validate multiple numeric types" do
-      # fields = [
-                # Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"}),
-                # Field.new({:type => 'numeric_field', :name => 'new_age', :display_name => "new age"})
-               # ].each do |field|
-        # field.should_receive(:form).and_return(FormSection.new)
-      # end
-        # child = Child.new
-        # child[:height] = "very tall"
-        # child[:new_age] = "very old"
-        # FormSection.stub(:all_visible_form_fields).and_return(fields)
-# 
-        # child.should_not be_valid
-        # child.errors[:height].should == ["height must be a valid number"]
-        # child.errors[:new_age].should == ["new age must be a valid number"]
-    # end
+    it "should validate numeric types" do
+      field = Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"})
+      field.should_receive(:form).and_return(FormSection.new)
+      incident = Incident.new
+      incident[:height] = "very tall"
+      FormSection.stub(:all_visible_form_fields).and_return([field])
+
+      incident.should_not be_valid
+      incident.errors[:height].should == ["height must be a valid number"]
+    end
+
+    it "should validate multiple numeric types" do
+      fields = [
+                Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"}),
+                Field.new({:type => 'numeric_field', :name => 'new_age', :display_name => "new age"})
+               ].each do |field|
+        field.should_receive(:form).and_return(FormSection.new)
+      end
+        incident = Incident.new
+        incident[:height] = "very tall"
+        incident[:new_age] = "very old"
+        FormSection.stub(:all_visible_form_fields).and_return(fields)
+
+        incident.should_not be_valid
+        incident.errors[:height].should == ["height must be a valid number"]
+        incident.errors[:new_age].should == ["new age must be a valid number"]
+    end
 
     it "should disallow text field values to be more than 200 chars" do
       fields = [Field.new(:type => Field::TEXT_FIELD, :name => "description", :display_name => "Description"),
@@ -399,19 +385,19 @@ describe Incident do
       incident.should be_valid
     end
 
-    # describe "validate_duplicate_of" do
-      # it "should validate duplicate_of field present when duplicate flag true" do
-        # child = Child.new('duplicate' => true, 'duplicate_of' => nil)
-        # child.should_not be_valid
-        # child.errors[:duplicate].should include("A valid duplicate ID must be provided")
-      # end
-# 
-      # it "should not validate duplicate_of field present when duplicate flag is false" do
-        # child = Child.new('duplicate' => false, 'duplicate_of' => nil)
-        # child.valid?
-        # child.errors[:duplicate].should_not include("A valid duplicate ID must be provided")
-      # end
-    # end
+    describe "validate_duplicate_of" do
+      it "should validate duplicate_of field present when duplicate flag true" do
+        incident = Incident.new('duplicate' => true, 'duplicate_of' => nil)
+        incident.should_not be_valid
+        incident.errors[:duplicate].should include("A valid duplicate ID must be provided")
+      end
+
+      it "should not validate duplicate_of field present when duplicate flag is false" do
+        incident = Incident.new('duplicate' => false, 'duplicate_of' => nil)
+        incident.valid?
+        incident.errors[:duplicate].should_not include("A valid duplicate ID must be provided")
+      end
+    end
   end
 
 
@@ -421,25 +407,17 @@ describe Incident do
       incident = create_incident_with_created_by('jdoe', 'description' => 'London')
       incident.save!
       incident[:incident_id].should_not be_nil
-      # incident[:registration_date].should_not be_nil
     end
-
-    # it "should allow edit registration_date" do
-      # child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => '19/Jul/2014')
-      # child.save!
-      # child[:case_id].should_not be_nil
-      # child[:registration_date].should eq '19/Jul/2014'
-    # end
 
   end
 
   describe "new_with_user_name" do
 
-    # it "should create regular incident fields" do
-      # incident = create_incident_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
-      # child['last_known_location'].should == 'London'
-      # child['age'].should == '6'
-    # end
+    it "should create regular incident fields" do
+      incident = create_incident_with_created_by('jdoe', 'description' => 'London', 'age' => '6')
+      incident['description'].should == 'London'
+      incident['age'].should == '6'
+    end
 
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
