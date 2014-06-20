@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe Incident do
+  it_behaves_like "a valid record" do
+    let(:record) {
+      FormSection.stub(:all_visible_form_fields =>
+                      [
+                        Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
+                        Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
+                        Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
+                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
+                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
+                      ])
+      Incident.new
+    }
+  end
 
   describe 'build solar schema' do
 
@@ -268,50 +281,6 @@ describe Incident do
       # child.reunited_at.should == "2010-01-17 19:05:00UTC"
     # end    
 
-  end
-
-  describe "validation" do
-    it_behaves_like "a valid record" do
-      let(:record) {
-        FormSection.stub(:all_visible_form_fields =>
-                        [
-                          Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
-                          Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
-                          Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
-                          Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
-                          Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
-                        ])
-        Incident.new
-      }
-    end
-
-    it "created_at should be a be a valid ISO date" do
-      incident = create_incident_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => 'I am not a date')
-      incident.should_not be_valid
-      incident['created_at']='2010-01-14 14:05:00UTC'
-      incident.should be_valid
-    end
-
-    it "last_updated_at should be a be a valid ISO date" do
-      incident = create_incident_with_created_by('some_user', 'some_field' => 'some_value', 'last_updated_at' => 'I am not a date')
-      incident.should_not be_valid
-      incident['last_updated_at']='2010-01-14 14:05:00UTC'
-      incident.should be_valid
-    end
-
-    describe "validate_duplicate_of" do
-      it "should validate duplicate_of field present when duplicate flag true" do
-        incident = Incident.new('duplicate' => true, 'duplicate_of' => nil)
-        incident.should_not be_valid
-        incident.errors[:duplicate].should include("A valid duplicate ID must be provided")
-      end
-
-      it "should not validate duplicate_of field present when duplicate flag is false" do
-        incident = Incident.new('duplicate' => false, 'duplicate_of' => nil)
-        incident.valid?
-        incident.errors[:duplicate].should_not include("A valid duplicate ID must be provided")
-      end
-    end
   end
 
 

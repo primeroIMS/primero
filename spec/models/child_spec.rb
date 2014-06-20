@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe Child do
+  it_behaves_like "a valid record" do
+    let(:record) {
+      FormSection.stub(:all_visible_form_fields =>
+                      [
+                        Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
+                        Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
+                        Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
+                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
+                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
+                      ])
+      Child.new
+    }
+  end
 
   describe 'build solar schema' do
 
@@ -375,20 +388,6 @@ describe Child do
   end
 
   describe "validation" do
-    it_behaves_like "a valid record" do
-      let(:record) {
-        FormSection.stub(:all_visible_form_fields =>
-                        [
-                          Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
-                          Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
-                          Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
-                          Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
-                          Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
-                        ])
-        Child.new
-      }
-    end
-
     it "should disallow file formats that are not photo formats" do
       child = Child.new
       child.photo = uploadable_photo_gif
@@ -439,20 +438,6 @@ describe Child do
       child.should_not be_valid
     end
 
-    it "created_at should be a be a valid ISO date" do
-      child = create_child_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => 'I am not a date')
-      child.should_not be_valid
-      child['created_at']='2010-01-14 14:05:00UTC'
-      child.should be_valid
-    end
-
-    it "last_updated_at should be a be a valid ISO date" do
-      child = create_child_with_created_by('some_user', 'some_field' => 'some_value', 'last_updated_at' => 'I am not a date')
-      child.should_not be_valid
-      child['last_updated_at']='2010-01-14 14:05:00UTC'
-      child.should be_valid
-    end
-
     it "should calculate the child's age based on the date of birth" do
       child = create_child "Bob McBobberson", :date_of_birth => "02/May/1990"
       age = Date.today.year - 1990
@@ -463,20 +448,6 @@ describe Child do
       child = create_child "Bob McBobberson", :age => "24"
       year_of_birth = Date.today.year - 24
       child.date_of_birth.should eq(Date.parse("01/Jan/#{year_of_birth}").strftime("%d/%b/%Y"))
-    end
-
-    describe "validate_duplicate_of" do
-      it "should validate duplicate_of field present when duplicate flag true" do
-        child = Child.new('duplicate' => true, 'duplicate_of' => nil)
-        child.should_not be_valid
-        child.errors[:duplicate].should include("A valid duplicate ID must be provided")
-      end
-
-      it "should not validate duplicate_of field present when duplicate flag is false" do
-        child = Child.new('duplicate' => false, 'duplicate_of' => nil)
-        child.valid?
-        child.errors[:duplicate].should_not include("A valid duplicate ID must be provided")
-      end
     end
   end
 
