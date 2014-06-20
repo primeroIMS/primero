@@ -1,4 +1,5 @@
 # JIRA PRIMERO-135
+# JIRA PRIMERO-226
 
 @javascript @primero
 Feature: Services
@@ -10,6 +11,7 @@ Feature: Services
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Services" button
+    And I select "Psychosocial/Counseling Services" from "Who referred the client to you?"
     And I fill in the 1st "Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
       | Did you refer the client for this service? | <Select> Referred     |
@@ -21,6 +23,7 @@ Feature: Services
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "Services" button
+    And I should see a value for "Who referred the client to you?" on the show page with the value of "Psychosocial/Counseling Services"
     And I should see a value for "Type of Service" on the show page with the value of "Safehouse"
     And I should see a value for "Did you refer the client for this service?" on the show page with the value of "Referred"
     And I should see a value for "Appointment Date" on the show page with the value of "30/May/2014"
