@@ -20,12 +20,15 @@ class CustomFieldsValidator
         target.errors.add(:"#{field[:name]}", validation_message_for(field))
 
         lookup = field.form
-        error_info = {
-            internal_section: "#tab_#{lookup.unique_id}",
-            translated_section: lookup["name_#{I18n.locale}"],
-            message: validation_message_for(field),
-            order: lookup.order }
-        target.errors.add(:section_errors, error_info)
+
+        if lookup
+          error_info = {
+              internal_section: "#tab_#{lookup.unique_id}",
+              translated_section: lookup["name_#{I18n.locale}"],
+              message: validation_message_for(field),
+              order: lookup.order }
+          target.errors.add(:section_errors, error_info)
+        end
 
         valid = false
       end
