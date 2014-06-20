@@ -5,7 +5,7 @@ caafag_profile_fields = [
             }),
   Field.new({"name" => "cafaag_name_armed_group",
              "type" => "select_box",
-             "display_name_all" => "With which armed group or armed force was the child associated?",
+             "display_name_all" => "With which Armed Force or Armed Group was the child associated?",
              "option_strings_text_all" =>
                                   ["Government Force",
                                    "LTTE",
@@ -21,7 +21,7 @@ caafag_profile_fields = [
             }),
   Field.new({"name" => "cafaag_enrollment_reason_not_forced",
              "type" => "select_box",
-             "display_name_all" => "If not forced, what was the main reason why the child became involved in the armed force? (type of recruitment)",
+             "display_name_all" => "If not forced, what was the main reason why the child became involved in the Armed Force or Armed Group? (type of recruitment)",
              "option_strings_text_all" =>
                                   ["Enrollment Force",
                                    "Enrollment volunteer",
@@ -80,7 +80,7 @@ caafag_profile_fields = [
             }),
   Field.new({"name" => "cafaag_date_child_join",
              "type" => "date_field",
-             "display_name_all" => "When did the child join the armed group?"
+             "display_name_all" => "When did the child join the Armed Force or Armed Group?"
             }),
   Field.new({"name" => "address_cafaag_registration",
              "type" => "text_field",
@@ -96,11 +96,11 @@ caafag_profile_fields = [
             }),
   Field.new({"name" => "cafaag_date_child_leave",
              "type" => "date_field",
-             "display_name_all" => "When did the child leave the armed group?"
+             "display_name_all" => "When did the child leave the Armed Force or Armed Group?"
             }),
   Field.new({"name" => "cafaag_how_did_child_leave_armed_group",
              "type" => "select_box",
-             "display_name_all" => "How did the child leave the armed group?",
+             "display_name_all" => "How did the child leave the Armed Force or Armed Group?",
              "option_strings_text_all" =>
                                   ["Captured",
                                    "Deceased",
