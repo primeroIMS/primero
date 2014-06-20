@@ -245,14 +245,6 @@ tracing_fields = [
              "subform_section_id" => tracing_actions_section.id,
              "display_name_all" => "Tracing Actions"
             }),
-  Field.new({"name" => "closure_details_separator",
-             "type" => "separator",
-             "display_name_all" => "Closure Details",
-            }),
-  Field.new({"name" => "date_closure",
-             "type" => "date_field",
-             "display_name_all" => "Date of Closure",
-            }),
   Field.new({"name" => "name_caregiver_closing",
              "type" => "text_field",
              "display_name_all" => "Caregiver Name",
@@ -273,6 +265,14 @@ tracing_fields = [
              "type" => "subform", "editable" => true,
              "subform_section_id" => reunification_details_section.id,
              "display_name_all" => "Reunification Details"
+            }),
+  Field.new({"name" => "closure_details_separator",
+             "type" => "separator",
+             "display_name_all" => "Closure Details",
+            }),
+  Field.new({"name" => "date_closure",
+             "type" => "date_field",
+             "display_name_all" => "Date of Closure",
             })
 ]
 
