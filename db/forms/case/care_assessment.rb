@@ -106,6 +106,18 @@ care_assessment_fields = [
   Field.new({"name" => "intervention_health_notes",
              "type" => "textarea",
              "display_name_all" => "Health Intervention Notes"
+            }),
+  Field.new({"name" => "intervention_other_type_needed",
+             "type" => "select_box",
+             "display_name_all" => "Other Intervention needed?",
+             "option_strings_text_all" =>
+                ["No Further Action Needed",
+                 "Ongoing Monitoring",
+                 "Urgent Intervention"].join("\n")
+            }),
+  Field.new({"name" => "intervention_other_notes",
+             "type" => "text_field",
+             "display_name_all" => "Other Intervention Notes"
             })
 ]
 

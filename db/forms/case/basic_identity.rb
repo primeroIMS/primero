@@ -54,7 +54,6 @@ basic_identity_fields = [
             }),  
   Field.new({"name" => "rc_id_no",
              "type" => "text_field",
-             "highlight_information"=>HighlightInformation.new("highlighted"=>true,"order"=>2),
              "display_name_all" => "RC ID No."
             }),        
   Field.new({"name" => "unhcr_id_no",
@@ -64,7 +63,6 @@ basic_identity_fields = [
   Field.new({"name" => "protection_status",
              "type" => "select_box",
              "option_strings_text_all" => "Unaccompanied\nSeparated",
-             "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>3),
              "display_name_all" => "Protection Status"
             }),
   Field.new({"name" => "urgent_protection_concern",

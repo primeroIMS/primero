@@ -4,6 +4,7 @@
 # JIRA PRIMERO-217
 # JIRA PRIMERO-159
 # JIRA PRIMERO-207
+# JIRA PRIMERO-213
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -243,6 +244,9 @@ Feature: Basic Identity Form
     And I should see a value for "If other relation between her/him and the caretaker, please specify." on the show page with the value of "Second Cousin"
     And I should see a value for "What is the caretaker's current marital status?" on the show page with the value of "Widowed"
     And I should see a value for "What is the caretaker's primary occupation?" on the show page with the value of "Teacher"
+    And I access "cases page"
+    And I should not see "141414" on the page
+    And I should not see "Separated" on the page
     
   Scenario: As a logged in user, I create a case without entering anything in any field in the basic identity form 
     And I press "Save"
