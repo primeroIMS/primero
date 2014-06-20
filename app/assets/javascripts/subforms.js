@@ -39,10 +39,18 @@ var SubformView = Backbone.View.extend({
     });
 
     newSubform.find("input, select").each(function(x, el){
-      var id = el.getAttribute("id").replace("template",i);
-      el.setAttribute("id", id);
-      var name = el.getAttribute("name").replace("template",i);
-      el.setAttribute("name", name);
+      var currentId = el.getAttribute("id")
+      if (currentId != null) {
+        var id = currentId.replace("template",i);
+        el.setAttribute("id", id);
+      }
+
+      var currentName = el.getAttribute("name");
+      if (currentName != null) {
+        var name = currentName.replace("template",i);
+        el.setAttribute("name", name);
+      }
+
     });
 
     newSubform.find("label").each(function(x, el){
@@ -60,6 +68,9 @@ var SubformView = Backbone.View.extend({
 
     // set sidebar height
     _primero.set_content_sidebar_equality();
+    
+    //Initialize the chosen in the subform
+    _primero.chosen('#' + subformId + ' select.chosen-select:visible');
   },
 
   remove: function(event) {

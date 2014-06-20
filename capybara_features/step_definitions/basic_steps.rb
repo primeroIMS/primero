@@ -91,6 +91,11 @@ And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |n
         step %Q{I select "#{value.gsub("<Select> ", "")}" from "#{name}"}
       elsif value.start_with?("<Checkbox>")
         step %Q{I check "#{value.gsub("<Checkbox> ", "")}" for "#{name}" within "#{scope}"}
+      elsif value.start_with?("<Choose>")
+        options = value.gsub(/^<Choose>/, "").split("<Choose>")
+        options.each do |option|
+          step %Q{I choose option "#{option}" from "#{name}" within "#{scope}"}
+        end
       else
         step %Q{I fill in "#{name}" with "#{value}"}
       end

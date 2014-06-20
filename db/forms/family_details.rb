@@ -69,15 +69,13 @@ family_details_fields_subform = [
   Field.new({"name" => "relation_language",
              "type" => "select_box",
              "display_name_all" => "Language",
-             #TODO: uncomment once the Chosen works for SubForms
-             #"multi_select" => true,
+             "multi_select" => true,
              "option_strings_text_all" => "Language 1\nLanguage 2"
            }),
   Field.new({"name" => "relation_religion",
              "type" => "select_box",
              "display_name_all" => "Religion",
-             #TODO: uncomment once the Chosen works for SubForms
-             #"multi_select" => true,
+             "multi_select" => true,
              "option_strings_text_all" => "Religion 1\nReligion 2"
            }),
   Field.new({"name" => "relation_ethnicity",
@@ -98,7 +96,7 @@ family_details_fields_subform = [
   Field.new({"name" => "relation_nationality",
              "type" => "select_box",
              "display_name_all" => "Nationality",
-             #"multi_select" => true,
+             "multi_select" => true,
              "option_strings_text_all" => "Nationality 1\nNationality 2"
            }),
   Field.new({"name" => "relation_comments",

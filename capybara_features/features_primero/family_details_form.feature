@@ -70,12 +70,12 @@ Feature: Family Details Form
       |If dead, please provide details                       | No Dead Notes                          |
       |Age                                                   | 5                                      |
       |Date of Birth                                         | 21/May/2000                            |
-      |Language                                              | <Select> Language 1                    |
-      |Religion                                              | <Select> Religion 1                    |
+      |Language                                              | <Choose>Language 1<Choose>Language 2   |
+      |Religion                                              | <Choose>Religion 1<Choose>Religion 2   |
       |Ethnicity                                             | <Select> Ethnicity 1                   |
       |Sub Ethnicity 1                                       | <Select> Sub Ethnicity 1               |
       |Sub Ethnicity 2                                       | <Select> Sub Ethnicity 2               |
-      |Nationality                                           | <Select> Nationality 1                 |
+      |Nationality                                           | <Choose>Nationality 1<Choose>Nationality 2 |
       |Comments                                              | Some Comments Relation                 |
       |Occupation                                            | Some Ocupation Relation                |
       |Current Address                                       | The Current Address Relation           |
@@ -104,12 +104,12 @@ Feature: Family Details Form
     And I should see "No Dead Notes" on the page
     And I should see "5" on the page
     And I should see "21/May/2000" on the page
-    And I should see "Language 1" on the page
-    And I should see "Religion 1" on the page
+    And I should see "Language 1,Language 2" on the page
+    And I should see "Religion 1,Religion 2" on the page
     And I should see "Ethnicity 1" on the page
     And I should see "Sub Ethnicity 1" on the page
     And I should see "Sub Ethnicity 2" on the page
-    And I should see "Nationality 1" on the page
+    And I should see "Nationality 1,Nationality 2" on the page
     And I should see "Some Comments Relation" on the page
     And I should see "Some Ocupation Relation" on the page
     And I should see "The Current Address Relation" on the page
