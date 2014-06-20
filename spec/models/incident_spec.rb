@@ -643,16 +643,6 @@ describe Incident do
       incidents.last['description'].should == 'Zxy'
     end
 
-    # it "should order incidents with blank descriptions first" do
-      # UUIDTools::UUID.stub("random_create").and_return(12345)
-      # Incident.create('description' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      # Incident.create('description' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      # Incident.create('description' => '', 'last_known_location' => 'POA')
-      # incidents = Incident.all
-      # incidents.first['name'].should == ''
-      # Incident.all.size.should == 3
-    # end
-
   end
 
   
