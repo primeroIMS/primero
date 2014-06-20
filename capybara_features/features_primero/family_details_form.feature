@@ -92,7 +92,6 @@ Feature: Family Details Form
     And I should see a value for "Notes about Family" on the show page with the value of "Some Family Notes"
     And I should see a value for "What is the child’s intended address?" on the show page with the value of "Some Child Address"
     #Verify values from the subform
-    And I should see "Father's Name" on the page
     And I should see "First Name Relation" on the page
     And I should see "Mother" on the page
     And I should see "Yes" on the page
@@ -105,12 +104,12 @@ Feature: Family Details Form
     And I should see "No Dead Notes" on the page
     And I should see "5" on the page
     And I should see "21/May/2000" on the page
-    And I should see "Language 1,Language 2" on the page
-    And I should see "Religion 1,Religion 2" on the page
+    And I should see "Language 1, Language 2" on the page
+    And I should see "Religion 1, Religion 2" on the page
     And I should see "Ethnicity 1" on the page
     And I should see "Sub Ethnicity 1" on the page
     And I should see "Sub Ethnicity 2" on the page
-    And I should see "Nationality 1,Nationality 2" on the page
+    And I should see "Nationality 1, Nationality 2" on the page
     And I should see "Some Comments Relation" on the page
     And I should see "Some Ocupation Relation" on the page
     And I should see "The Current Address Relation" on the page
