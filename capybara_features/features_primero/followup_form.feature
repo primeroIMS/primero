@@ -1,5 +1,6 @@
 #JIRA PRIMERO-166
 #JIRA PRIMERO-203
+#JIRA PRIMERO-220
 
 @javascript @primero
 Feature: Followup
@@ -13,36 +14,38 @@ Feature: Followup
 
   Scenario: I am a logged in Social Worker on the Follow Ups form
     And I fill in the 1st "Followup Subform Section" subform with the follow:
-      | Followup needed by                                          | 12/Jun/2014                            |
-      | Followup date                                               | 12/Jun/2014                            |
-      | Details about action taken                                  | Some details about action taken        |
-      | Date action taken?                                          | 10/Jun/2014                            |
-      | If yes, when do you recommend the next visit to take place? | The next week                          |
-      | Comments                                                    | Some comments                          |
-      | Type of followup                                            |<Select> Follow-Up After Reunification  |
-      | Was the child/adult seen during the visit?                  |<Select> No                             |
-      | If not, why?                                                |<Checkbox> At School                    |
-      | Has action been taken?                                      |<Select> Yes                            |
-      | Is there a need for further follow-up visits?               |<Select> Yes                            |
+      | Followup needed by                                          | 12/Jun/2014                                             |
+      | Followup date                                               | 12/Jun/2014                                             |
+      | Details about action taken                                  | Some details about action taken                         |
+      | Date action taken?                                          | 10/Jun/2014                                             |
+      | If yes, when do you recommend the next visit to take place? | The next week                                           |
+      | Comments                                                    | Some comments                                           |
+      | Type of followup                                            |<Select> Follow up After Reunification                   |
+      | Was the child/adult seen during the visit?                  |<Select> No                                              |
+      | If not, why?                                                |<Checkbox> At School                                     |
+      | Has action been taken?                                      |<Select> Yes                                             |
+      | Is there a need for further follow-up visits?               |<Select> Yes                                             |
     And I fill in the 2nd "Followup Subform Section" subform with the follow:
-      | Followup needed by                                          | 15/Jun/2014                            |
-      | Followup date                                               | 15/Jun/2014                            |
-      | Details about action taken                                  | Some details about action taken        |
-      | Date action taken?                                          | 14/Jun/2014                            |
-      | Comments                                                    | Some additional comments               |
-      | Type of followup                                            | <Select> Follow-up in Care             |
-      | Was the child/adult seen during the visit?                  | <Select> No                            |
-      | If not, why?                                                | <Checkbox> Visiting Friends/Relatives  |
-      | Has action been taken?                                      | <Select> Yes                           |
-      | Is there a need for further follow-up visits?               | <Select> No                            |
-      | If not, do you recommend that the case be close?            | <Select> Yes                           |
+      | Followup needed by                                          | 15/Jun/2014                                             |
+      | Followup date                                               | 15/Jun/2014                                             |
+      | Details about action taken                                  | Some details about action taken                         |
+      | Date action taken?                                          | 14/Jun/2014                                             |
+      | Comments                                                    | Some additional comments                                |
+      | Type of followup                                            | <Select> Follow up for Assessment                       |
+      | Type of assessment                                          | <Select> Follow up for Personal Intervention Assessment |
+      | Was the child/adult seen during the visit?                  | <Select> No                                             |
+      | If not, why?                                                | <Checkbox> Visiting Friends/Relatives                   |
+      | Has action been taken?                                      | <Select> Yes                                            |
+      | Is there a need for further follow-up visits?               | <Select> No                                             |
+      | If not, do you recommend that the case be close?            | <Select> Yes                                            |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see "Follow-Up After Reunification" on the page
+    And I should see "Follow up After Reunification" on the page
     And I should see "12/Jun/2014" on the page
     And I should see "10/Jun/2014" on the page
     And I should see "The next week" on the page
-    And I should see "Follow-up in Care" on the page
+    And I should see "Follow up for Assessment" on the page
+    And I should see "Follow up for Personal Intervention Assessment" on the page
     And I should see "15/Jun/2014" on the page
     And I should see "14/Jun/2014" on the page
     And I should see "Some additional comments" on the page
@@ -59,7 +62,8 @@ Feature: Followup
       | If yes, when do you recommend the next visit to take place? | The next week                          |
       | Comments                                                    | Some comments                          |
     And I press "Save"
-    And I should not see "Follow-up in Care" on the page
+    And I should not see "Follow up for Assessment" on the page
+    And I should not see "Follow up for Personal Intervention Assessment" on the page
     And I should not see "15/Jun/2014" on the page
     And I should not see "14/Jun/2014" on the page
     And I should not see "Some additional comments" on the page

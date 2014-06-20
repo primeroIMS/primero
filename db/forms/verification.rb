@@ -47,7 +47,7 @@ verification_subform_fields = [
                "display_name_all" => "Do you want the child to come and live with you?",
                "option_strings_text_all" => ["Yes", "No"].join("\n")
               }),
-    Field.new({"name" => "verification_inquirer_able_to care_for_child",
+    Field.new({"name" => "verification_inquirer_able_to_care_for_child",
                "type" => "select_box",
                "display_name_all" => "Are you able to care for him/her/them?",
                "option_strings_text_all" => ["Yes", "No"].join("\n")
