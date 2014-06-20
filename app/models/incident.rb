@@ -16,12 +16,24 @@ class Incident < CouchRest::Model::Base
   
   design do
     view :by_incident_id
-    view :by_description
+    view :by_description,
+              :map => "function(doc) {
+                  if (doc['couchrest-type'] == 'Incident')
+                 {
+                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                      emit(doc['description'], doc);
+                    }
+                 }
+              }"
   end
   
   def self.find_by_incident_id(incident_id)
     by_incident_id(:key => incident_id).first
-  end  
+  end
+  
+  def self.all 
+    view('by_description', {})  
+  end 
   
   def self.search_field
     "description"
