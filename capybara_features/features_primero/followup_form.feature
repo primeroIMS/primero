@@ -31,7 +31,8 @@ Feature: Followup
       | Details about action taken                                  | Some details about action taken                         |
       | Date action taken?                                          | 14/Jun/2014                                             |
       | Comments                                                    | Some additional comments                                |
-      | Type of followup                                            | <Select> Follow up for Personal Intervention Assessment |
+      | Type of followup                                            | <Select> Follow up for Assessment                       |
+      | Type of assessment                                          | <Select> Follow up for Personal Intervention Assessment |
       | Was the child/adult seen during the visit?                  | <Select> No                                             |
       | If not, why?                                                | <Checkbox> Visiting Friends/Relatives                   |
       | Has action been taken?                                      | <Select> Yes                                            |
@@ -43,6 +44,7 @@ Feature: Followup
     And I should see "12/Jun/2014" on the page
     And I should see "10/Jun/2014" on the page
     And I should see "The next week" on the page
+    And I should see "Follow up for Assessment" on the page
     And I should see "Follow up for Personal Intervention Assessment" on the page
     And I should see "15/Jun/2014" on the page
     And I should see "14/Jun/2014" on the page
@@ -60,6 +62,7 @@ Feature: Followup
       | If yes, when do you recommend the next visit to take place? | The next week                          |
       | Comments                                                    | Some comments                          |
     And I press "Save"
+    And I should not see "Follow up for Assessment" on the page
     And I should not see "Follow up for Personal Intervention Assessment" on the page
     And I should not see "15/Jun/2014" on the page
     And I should not see "14/Jun/2014" on the page

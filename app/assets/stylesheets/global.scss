@@ -278,6 +278,7 @@ select, select:hover {
 input[type="text"][disabled]{
   border: none !important;
   background: transparent !important;
+  box-shadow: none;
 }
 
 ////////////////////////////////////////////////

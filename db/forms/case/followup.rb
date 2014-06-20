@@ -3,9 +3,16 @@ followup_subform_fields = [
              "type" => "select_box",
              "display_name_all" => "Type of followup",
              "option_strings_text_all" =>
-                           ["Follow up After Reunification",
-                            "Follow up in Care",
-                            "Follow up for Safehouse Service",
+                          ["Follow up After Reunification",
+                           "Follow up in Care",
+                           "Follow up for Service",
+                           "Follow up for Assessment"].join("\n")
+            }),
+  Field.new({"name" => "followup_service_type",
+             "type" => "select_box",
+             "display_name_all" => "Type of service",
+             "option_strings_text_all" =>
+                           ["Follow up for Safehouse Service",
                             "Follow up for Health/Medical Service",
                             "Follow up for Psychosocial Service",
                             "Follow up for Police/Other Service",
@@ -22,8 +29,13 @@ followup_subform_fields = [
                             "Follow up for Care Arrangement Service",
                             "Follow up for Registration Servic",
                             "Follow up for Food Service",
-                            "Follow up for Other Service",
-                            "Follow up for Personal Intervention Assessment",
+                            "Follow up for Other Service"].join("\n")
+            }),
+  Field.new({"name" => "followup_assessment_type",
+             "type" => "select_box",
+             "display_name_all" => "Type of assessment",
+             "option_strings_text_all" =>
+                           ["Follow up for Personal Intervention Assessment",
                             "Follow up for Medical Intervention Assessment",
                             "Follow up for Family Intervention Assessment",
                             "Follow up for Community Intervention Assessment",
