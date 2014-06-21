@@ -1,5 +1,6 @@
 #JIRA PRIMERO-97
 #JIRA PRIMERO-222
+#JIRA PRIMERO-228
 
 @javascript @primero
 Feature: Family Details Form
