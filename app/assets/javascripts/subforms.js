@@ -85,11 +85,10 @@ var SubformView = Backbone.View.extend({
       subform.fadeOut(600, function() {
         var subform_group = $(target).parents('.subforms');
         $(this).remove();
+        _primero.set_content_sidebar_equality();
         self.count_subforms(subform_group);
       });
     }
-
-    _primero.set_content_sidebar_equality();
   },
 
   count_subforms: function(target) {

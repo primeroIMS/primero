@@ -6,6 +6,7 @@
 //= require foundation
 //= require plugins/underscore
 //= require plugins/backbone
+//= require plugins/stickem
 //= require plugins/jquery.idletimer
 //= require plugins/jquery.idletimeout
 //= require plugins/jquery.lightbox-0.5.min
