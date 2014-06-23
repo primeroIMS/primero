@@ -31,14 +31,21 @@ module SearchingForRecords
     respond_to do |format|
       format.html do
         if @results && @results.length == 1
-          #TODO - fix this path
-          #redirect_to @className.name.downcase + _path @results.first
-          redirect_to child_path(@results.first)
+          redirect_to_show_page
         end
       end
 
       #TODO - pull this into the concern?
       respond_to_export format, @results
+    end
+  end
+  
+  def redirect_to_show_page
+    #TODO - is there a better way to do this?
+    if "Child" == @className.name
+      redirect_to case_path @results.first
+    elsif "Incident" == @className.name
+      redirect_to incident_path @results.first
     end
   end
   
