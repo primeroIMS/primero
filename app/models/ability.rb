@@ -12,7 +12,7 @@ class Ability
     @user = user
 
     #
-    # CHILDREN
+    # CHILDREN (i.e. cases)
     #
     if user.has_permission?(Permission::CHILDREN[:register])
       can [:create], Child
@@ -46,6 +46,37 @@ class Ability
     end
     if  user.has_permission?(Permission::CHILDREN[:export_cpims])
       can [:export_cpims], Child
+    end
+    
+    #
+    # Incidents
+    #
+    if user.has_permission?(Permission::INCIDENTS[:register])
+      can [:create], Incident
+      can [:read], Incident do |incident|
+        incident.created_by == user.user_name
+      end
+    end
+
+    if user.has_permission?(Permission::INCIDENTS[:edit])
+      can [:read, :update, :destroy], Incident do |incident|
+        incident.created_by == user.user_name
+      end
+    end
+
+    if user.has_permission?(Permission::INCIDENTS[:view_and_search])
+      can [:read, :view_all, :view_and_search], Incident
+    end
+
+    if user.has_permission?(Permission::INCIDENTS[:view_and_search]) and user.has_permission?(Permission::INCIDENTS[:edit])
+      can [:read, :update, :destroy], Incident
+    end
+
+    if user.has_permission?(Permission::INCIDENTS[:export_csv])
+      can [:export_csv], Incident
+    end
+    if  user.has_permission?(Permission::INCIDENTS[:export_pdf])
+      can [:export_pdf], Incident
     end
 
     #

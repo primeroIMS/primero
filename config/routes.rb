@@ -92,8 +92,18 @@ RapidFTR::Application.routes.draw do
 
 #######################
 # INCIDENT URLS
-#######################
-  resources :incidents
+#######################  
+  resources :incidents do
+    collection do
+      # post :sync_unverified
+      # post :reindex
+      # get :advanced_search
+      get :search
+    end
+
+    # resources :attachments, :only => :show
+    # resource :duplicate, :only => [:new, :create]
+  end
 
 #######################
 # API URLS

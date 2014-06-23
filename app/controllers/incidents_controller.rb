@@ -1,17 +1,25 @@
 class IncidentsController < ApplicationController
+  include SearchingForRecords
+  
+  before_filter :set_class_name
   
   def index
+    authorize! :index, Incident
+    
     @incidents = Incident.all
   end
   
   
-  def show    
+  def show
     @incident = Incident.get(params[:id])
+    authorize! :read, @incident if @incident["created_by"] != current_user_name
+
+    
     @form_sections = get_form_sections
   end
   
   def new
-    #authorize! :create, Incident
+    authorize! :create, Incident
     
     @incident = Incident.new
     @form_sections = get_form_sections 
@@ -22,7 +30,7 @@ class IncidentsController < ApplicationController
   end
   
   def create
-    #authorize! :create, Incident
+    authorize! :create, Incident
     params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
     create_or_update_incident(params[:incident])
     @incident['created_by_full_name'] = current_user_full_name
@@ -47,6 +55,8 @@ class IncidentsController < ApplicationController
     end
   end
   
+
+  
   private
   
   def get_form_sections
@@ -64,6 +74,23 @@ class IncidentsController < ApplicationController
     else
       #@incident = update_incident_from(params)
     end
+  end
+  
+
+  
+  def respond_to_export(format, records)
+    RapidftrAddon::ExportTask.active.each do |export_task|
+      format.any(export_task.id) do
+        #authorize! "export_#{export_task.id}".to_sym, Child
+        #LogEntry.create! :type => LogEntry::TYPE[export_task.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => children.collect(&:id)
+        #results = export_task.new.export(children)
+        #encrypt_exported_files results, export_filename(children, export_task)
+      end
+    end
+  end
+  
+  def set_class_name
+    @className = Incident
   end
  
 end

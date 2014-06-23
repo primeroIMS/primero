@@ -1,4 +1,6 @@
 class ChildrenController < ApplicationController
+  include SearchingForRecords
+  
   skip_before_filter :verify_authenticity_token
   skip_before_filter :check_authentication, :only => [:reindex]
 
@@ -6,6 +8,7 @@ class ChildrenController < ApplicationController
   before_filter :current_user, :except => [:reindex]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
+  before_filter :set_class_name
 
   def reindex
     Child.reindex!
@@ -215,21 +218,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def search
-    authorize! :index, Child
-
-    @page_name = t("search")
-    if (params[:query])
-      @search = Search.new(params[:query])
-      if @search.valid?
-        search_by_user_access(params[:page] || 1)
-      else
-        render :search
-      end
-    end
-    default_search_respond_to
-  end
-
   #Exposed for unit testability
   def reindex_params_subforms(params)
     #get all the nested params
@@ -268,18 +256,6 @@ class ChildrenController < ApplicationController
 
   def get_form_sections
     FormSection.find_all_visible_by_parent_form(Child.parent_form)
-  end
-
-  def default_search_respond_to
-    respond_to do |format|
-      format.html do
-        if @results && @results.length == 1
-          redirect_to child_path(@results.first)
-        end
-      end
-
-      respond_to_export format, @results
-    end
   end
 
   def load_child_or_redirect
@@ -323,14 +299,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def search_by_user_access(page_number = 1)
-    if can? :view_all, Child
-      @results, @full_results = Child.search(@search, page_number)
-    else
-      @results, @full_results = Child.search_by_created_user(@search, current_user_name, page_number)
-    end
-  end
-
   def update_child_from params
     child = @child || Child.get(params[:id]) || Child.new_with_user_name(current_user, params[:child])
     authorize! :update, child
@@ -361,6 +329,10 @@ class ChildrenController < ApplicationController
 
   def export_filename(children, export_task)
     (children.length == 1 ? children.first.short_id : current_user_name) + '_' + export_task.id.to_s + '.zip'
+  end
+  
+  def set_class_name
+    @className = Child
   end
 
 end
