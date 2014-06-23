@@ -61,3 +61,7 @@ _primero.listen_for_reset = function() {
         this.tabRedirection.ls_clear_tab();
     }
 };
+
+$(document).ready(function() {
+    $("ul.side-nav").sticky({ topSpacing:0 });
+});
