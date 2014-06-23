@@ -29,10 +29,18 @@ _primero.tabRedirection = {
 
 _primero.set_content_sidebar_equality = function() {
     // Added to size sidebar and side content
-    content = $('.side-tab-content');
-    sidebar = $('.side-tab');
+    var content = $('.side-tab-content'),
+        sidebar = $('.side-tab'),
+        content_height = function() {
+            var sidebar_height = sidebar.find('ul.side-nav').height();
+            if (content.height() < sidebar_height) {
+                return sidebar_height + 20;
+            } else {
+                return content.height() + 50
+            }
+        };
 
-    sidebar.height(content.height() + 50);
+    sidebar.height(content_height());
 };
 
 _primero.getUrlParams = function(param) {
