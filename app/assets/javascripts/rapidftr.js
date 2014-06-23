@@ -41,6 +41,9 @@ RapidFTR.tabControl = function() {
     $(this).parent().addClass("current");
     $(activeTab).show();
     _primero.set_content_sidebar_equality();
+
+    //When make visible a tab, initialize the chosen in the tab.
+    _primero.chosen('select.chosen-select:visible');
     return false;
   });
 }
@@ -312,4 +315,7 @@ $(document).ready(function() {
   $('body').on('focus', ".form_date_field", function(){
       $(this).datepicker({ dateFormat: 'dd/M/yy' });
   });
+  
+  //Initialize chosen in the current tab.
+  _primero.chosen('select.chosen-select:visible');
 });
