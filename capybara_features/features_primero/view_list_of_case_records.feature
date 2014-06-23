@@ -8,11 +8,11 @@ Feature: Primero View List of Case Records
     Given I am logged in as an admin with username "primero" and password "primero"
     And the following cases exist in the system:
       | name     | created_by | age | sex    | registration_date      | status | unique_identifier                    |
-      | andreas  | primero    | 10  | male   | 2004-02-03 04:05:06UTC | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
-      | zak      | primero    | 11  | female | 2004-02-03 04:05:06UTC | closed | 31c4cba8-b410-4af6-b349-68c557af3aa8 |
-      | jaco     | primero    | 12  | male   | 2004-02-03 04:05:06UTC | open   | 41c4cba8-b410-4af6-b349-68c557af3aa7 |
-      | meredith | primero    | 13  | female | 2004-02-03 04:05:06UTC | closed | 51c4cba8-b410-4af6-b349-68c557af3aa6 |
-      | jane     | primero    | 14  | male   | 2004-02-03 04:05:06UTC | open   | 61c4cba8-b410-4af6-b349-68c557af3aa5 |
+      | andreas  | primero    | 10  | male   | 03/Feb/2004             | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
+      | zak      | primero    | 11  | female | 03/Feb/2004             | closed | 31c4cba8-b410-4af6-b349-68c557af3aa8 |
+      | jaco     | primero    | 12  | male   | 03/Feb/2004             | open   | 41c4cba8-b410-4af6-b349-68c557af3aa7 |
+      | meredith | primero    | 13  | female | 03/Feb/2004             | closed | 51c4cba8-b410-4af6-b349-68c557af3aa6 |
+      | jane     | primero    | 14  | male   | 03/Feb/2004             | open   | 61c4cba8-b410-4af6-b349-68c557af3aa5 |
     When I press the "CASES" button
     Then I should see "Cases"
     And I should see "Displaying all 5 cases"
