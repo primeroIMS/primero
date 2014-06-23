@@ -1,6 +1,6 @@
 care_arrangements_fields = [
   Field.new({"name" => "child_caregiver_status",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is this a same caregiver as was previously entered for the child?",
              "option_strings_text_all" => "Yes\nNo",
            }),
@@ -82,7 +82,7 @@ care_arrangements_fields = [
              "display_name_all" => "When did this care arrangement start?"
             }),
   Field.new({"name" => "caregiver_location_status",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is the caregiver's current location temporary",
              "option_strings_text_all" => "Yes\nNo",
            }),
@@ -99,7 +99,7 @@ care_arrangements_fields = [
              "display_name_all" => "What is the future telephone?"
             }),
   Field.new({"name" => "caregiver_willing_to_continue",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is caregiver willing to continue taking care of the child?",
              "option_strings_text_all" => "Yes\nNo",
            }),
@@ -108,7 +108,7 @@ care_arrangements_fields = [
              "display_name_all" => "If yes, for how long?"
             }),
   Field.new({"name" => "caregiver_know_family",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Does the caregiver know the family of the child?",
              "option_strings_text_all" => "Yes\nNo",
            }),

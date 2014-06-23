@@ -1,6 +1,6 @@
 activities_fields = [
   Field.new({"name" => "activities_child_in_school_or_training",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is the Child in school or training?",
              "option_strings_text_all" => "Yes\nNo"
             }),
