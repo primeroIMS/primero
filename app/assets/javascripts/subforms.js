@@ -38,11 +38,19 @@ var SubformView = Backbone.View.extend({
       el.setAttribute("for", for_attr);
     });
 
-    newSubform.find("input, select").each(function(x, el){
-      var id = el.getAttribute("id").replace("template",i);
-      el.setAttribute("id", id);
-      var name = el.getAttribute("name").replace("template",i);
-      el.setAttribute("name", name);
+    newSubform.find("input, select, textarea").each(function(x, el){
+      var currentId = el.getAttribute("id")
+      if (currentId != null) {
+        var id = currentId.replace("template",i);
+        el.setAttribute("id", id);
+      }
+
+      var currentName = el.getAttribute("name");
+      if (currentName != null) {
+        var name = currentName.replace("template",i);
+        el.setAttribute("name", name);
+      }
+
     });
 
     newSubform.find("label").each(function(x, el){
@@ -54,12 +62,15 @@ var SubformView = Backbone.View.extend({
     newSubform.attr("class", newSubformClass);
 //    newSubform.removeAttr("style");
     newSubform.fadeIn(600);
-    newSubform.find("input, select").removeAttr("disabled");
+    newSubform.find("input, select, textarea").removeAttr("disabled");
 
     newSubform.appendTo(subforms);
 
     // set sidebar height
     _primero.set_content_sidebar_equality();
+    
+    //Initialize the chosen in the subform
+    _primero.chosen('#' + subformId + ' select.chosen-select:visible');
   },
 
   remove: function(event) {
@@ -97,7 +108,7 @@ var SubformView = Backbone.View.extend({
 
 $(document).ready(function() {
   //Disable all template inputs
-  $('div.template').find('input, select').attr("disabled","disabled");
+  $('div.template').find('input, select, textarea').attr("disabled","disabled");
 
   var subform = new SubformView();
 });

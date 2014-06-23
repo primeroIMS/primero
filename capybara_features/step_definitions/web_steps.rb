@@ -363,6 +363,7 @@ When /^I click Cancel in the browser popup$/ do
   page.driver.browser.switch_to.alert.dismiss
 end
 
+#Chosen with the values to select in the table.
 When /^I choose from "([^\"]*)":$/ do |chosen, table |
   label = find("//label[text()='#{chosen}']")
   chosen_id = label["for"] + "__chosen"
@@ -375,4 +376,18 @@ When /^I choose from "([^\"]*)":$/ do |chosen, table |
     #to make visible the items to select.
     label.click
   end
+end
+
+#Chosen to select the values one by one, this is useful in subforms because we can't send the table from the string.
+When /^I choose option "([^\"]*)" from "([^\"]*)"(?: within "([^"]*)")?$/ do |option, chosen, selector |
+  selector ||= ""
+  label = find("#{selector}//label[text()='#{chosen}']")
+  chosen_id = label["for"] + "__chosen"
+  chosen = find(:xpath, "//div[@id='#{chosen_id}']")
+  #This make visible the options to choose.
+  chosen.click
+  chosen.find(:xpath, "//div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
+  #To select another items, it is needed the chosen lost the focus to make click again
+  #to make visible the items to select.
+  label.click
 end
