@@ -294,11 +294,15 @@ en:
   incidents:
     label: "Incidents"
     register_new_incident: "Create a New Incident"
-    
+
   incident:
-     messages:
+    messages:
+      update_success: "Incident was successfully updated."
       creation_success: "Incident record successfully created."
-    
+
+    view: "View Incident %{short_id}"
+    edit: "Edit Incident"
+
   preposition:
     on_label: "on"
     because: "Because"

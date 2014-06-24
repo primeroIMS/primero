@@ -18,6 +18,16 @@ FactoryGirl.define do
       Child.stub(:get).with(child.id).and_return(child)
     end
   end
+  
+  factory :incident, :traits => [ :model ] do
+    unique_identifier { counter.to_s }
+    description { "Test Incident #{counter}" }
+    created_by { "test_user" }
+
+    after_build do |incident, factory|
+      Incident.stub(:get).with(incident.id).and_return(incident)
+    end
+  end
 
   factory :replication, :traits => [ :model ] do
     description 'Sample Replication'

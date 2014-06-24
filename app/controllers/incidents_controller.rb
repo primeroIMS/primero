@@ -1,7 +1,8 @@
 class IncidentsController < ApplicationController
+  include RecordActions
   include SearchingForRecords
   
-  before_filter :set_class_name
+  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
   
   def index
     authorize! :index, Incident
@@ -11,22 +12,35 @@ class IncidentsController < ApplicationController
   
   
   def show
-    @incident = Incident.get(params[:id])
     authorize! :read, @incident if @incident["created_by"] != current_user_name
+    @page_name = t "incident.view", :short_id => @incident.short_id
+    @body_class = 'profile-page'
+    @duplicates = Incident.duplicates_of(params[:id])
 
-    
-    @form_sections = get_form_sections
+    respond_to do |format|
+      format.html
+      format.xml { render :xml => @incident }
+      format.json { render :json => @incident.compact.to_json }
+
+      respond_to_export format, [ @incident ]
+    end
   end
   
   def new
     authorize! :create, Incident
     
-    @incident = Incident.new
-    @form_sections = get_form_sections 
+    @page_name = t("incident.register_new_incident")
+    @incident = Incident.new 
     respond_to do |format|
       format.html
       format.xml { render :xml => @incident }
     end   
+  end
+  
+  def edit
+    authorize! :update, @incident
+    
+    @page_name = t("incident.edit")
   end
   
   def create
@@ -45,9 +59,8 @@ class IncidentsController < ApplicationController
         }
       else
         format.html {
-          @form_sections = get_form_sections
-
-          # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
+          #@form_sections = get_form_sections
+         
           render :action => "new"
         }
         format.xml { render :xml => @incident.errors, :status => :unprocessable_entity }
@@ -55,12 +68,81 @@ class IncidentsController < ApplicationController
     end
   end
   
+  def update
+    respond_to do |format|
+      format.json do
+        params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
+        incident = update_incident_from params
+        incident.save
+        render :json => incident.compact.to_json
+      end
 
+      format.html do
+        @incident = update_incident_from params
+        if @incident.save
+          flash[:notice] = I18n.t("incident.messages.update_success")
+          return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
+          redirect_to case_path(@incident, { follow: true })
+        else
+          # TODO - RSE - is this necessary?
+          #@form_sections = get_form_sections
+
+          render :action => "edit"
+        end
+      end
+
+      format.xml do
+        @incident = update_incident_from params
+        if @incident.save
+          head :ok
+        else
+          render :xml => @incident.errors, :status => :unprocessable_entity
+        end
+      end
+    end
+  end
+  
+  def destroy
+    authorize! :destroy, @incident
+    @incident.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(incidents_url) }
+      format.xml { head :ok }
+      format.json { render :json => {:response => "ok"}.to_json }
+    end
+  end
+  
+  #Exposed for unit testability
+  def reindex_params_subforms(params)
+    #get all the nested params
+    params['incident'].each do |k,v|
+      if v.is_a?(Hash) and v.present?
+        new_hash = {}
+        count = 0
+        v.each do |i, value|
+          new_hash[count.to_s] = value
+          count += 1
+        end
+        v.replace(new_hash)
+      end
+    end
+  end
   
   private
   
-  def get_form_sections
-    FormSection.find_all_visible_by_parent_form(Incident.parent_form)
+  def load_record_or_redirect
+    @incident = Incident.get(params[:id])
+
+    if @incident.nil?
+      respond_to do |format|
+        format.json { render :json => @incident.to_json }
+        format.html do
+          flash[:error] = "Incident with the given id is not found"
+          redirect_to :action => :index and return
+        end
+      end
+    end
   end
   
   def incident_short_id incident_params
@@ -72,8 +154,25 @@ class IncidentsController < ApplicationController
     if @incident.nil?
       @incident = Incident.new_with_user_name(current_user, incident_params)
     else
-      #@incident = update_incident_from(params)
+      @incident = update_incident_from(params)
     end
+  end
+  
+  def update_incident_from params
+    incident = @incident || Incident.get(params[:id]) || Incident.new_with_user_name(current_user, params[:incident])
+    authorize! :update, incident
+    reindex_params_subforms params
+    update_incident_with_attachments(incident, params)
+  end
+
+  def update_incident_with_attachments(incident, params)
+    incident['last_updated_by_full_name'] = current_user_full_name
+    # new_photo = params[:child].delete("photo")
+    # new_photo = (params[:child][:photo] || "") if new_photo.nil?
+    # new_audio = params[:child].delete("audio")
+    # delete_child_audio = params["delete_child_audio"].present?
+    incident.update_properties(params[:incident], current_user_name)
+    incident
   end
   
 

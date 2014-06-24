@@ -1,19 +1,10 @@
 class ChildrenController < ApplicationController
-  include SearchingForRecords
+  include RecordActions
+  include SearchingForRecords  
   
-  skip_before_filter :verify_authenticity_token
-  skip_before_filter :check_authentication, :only => [:reindex]
-
-  before_filter :load_child_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
-  before_filter :current_user, :except => [:reindex]
+  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]  
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
-  before_filter :set_class_name
-
-  def reindex
-    Child.reindex!
-    render :nothing => true
-  end
 
   # GET /children
   # GET /children.xml
@@ -47,7 +38,6 @@ class ChildrenController < ApplicationController
   # GET /children/1.xml
   def show
     authorize! :read, @child if @child["created_by"] != current_user_name
-    @form_sections = get_form_sections
     @page_name = t "case.view", :short_id => @child.short_id
     @body_class = 'profile-page'
     @duplicates = Child.duplicates_of(params[:id])
@@ -69,7 +59,6 @@ class ChildrenController < ApplicationController
     @page_name = t("cases.register_new_case")
     @child = Child.new
     @child.registration_date = DateTime.now.strftime("%d/%b/%Y")
-    @form_sections = get_form_sections
     respond_to do |format|
       format.html
       format.xml { render :xml => @child }
@@ -81,7 +70,6 @@ class ChildrenController < ApplicationController
     authorize! :update, @child
 
     @page_name = t("case.edit")
-    @form_sections = get_form_sections
   end
 
   # POST /children
@@ -103,7 +91,8 @@ class ChildrenController < ApplicationController
         }
       else
         format.html {
-          @form_sections = get_form_sections
+          #TODO - RSE - is this needed?  Or can it be moved to concern?
+          #@form_sections = get_form_sections
 
           # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
           render :action => "new"
@@ -152,7 +141,8 @@ class ChildrenController < ApplicationController
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           redirect_to case_path(@child, { follow: true })
         else
-          @form_sections = get_form_sections
+          # TODO - RSE - is this necessary?
+          #@form_sections = get_form_sections
 
           # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
           render :action => "edit"
@@ -254,11 +244,7 @@ class ChildrenController < ApplicationController
     child_params['histories'] = JSON.parse(child_params['histories']) if child_params and child_params['histories'].is_a?(String) #histories might come as string from the mobile client.
   end
 
-  def get_form_sections
-    FormSection.find_all_visible_by_parent_form(Child.parent_form)
-  end
-
-  def load_child_or_redirect
+  def load_record_or_redirect
     @child = Child.get(params[:id])
 
     if @child.nil?

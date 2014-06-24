@@ -96,7 +96,7 @@ RapidFTR::Application.routes.draw do
   resources :incidents do
     collection do
       # post :sync_unverified
-      # post :reindex
+      post :reindex
       # get :advanced_search
       get :search
     end
