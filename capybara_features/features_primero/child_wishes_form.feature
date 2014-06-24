@@ -1,4 +1,5 @@
 #JIRA PRIMERO-187
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Child Wishes Form
@@ -51,10 +52,10 @@ Feature: Child Wishes Form
       | Where does the child wish/plan to live?           | Child Live           |
       | Street where does the child wish/plan to live?    | Live Street Child    |
       | Landmarks where does the child wish/plan to live? | Live Landmarks Child |
-    And I select "Yes" from "Does child want to trace family members?"
+    And I select "Yes" for "Does child want to trace family members?" radio button
     And I select "Yes, but later" from "Does the child want family reunification?"
-    And I select "No" from "Has the child heard from/been in contact with any relatives?"
-    And I select "Yes" from "Does the child wish to continue in the current care arrangement?"
+    And I select "No" for "Has the child heard from/been in contact with any relatives?" radio button
+    And I select "Yes" for "Does the child wish to continue in the current care arrangement?" radio button
     And I select "With husband/wife/partner" from "Type of care arrangement child wishes to have"
     #Added First Child's Preference
     And I fill in the 1st "Child Preferences Section" subform with the follow:

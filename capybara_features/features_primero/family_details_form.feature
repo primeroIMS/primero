@@ -1,6 +1,7 @@
 #JIRA PRIMERO-97
 #JIRA PRIMERO-222
 #JIRA PRIMERO-228
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Family Details Form
@@ -62,10 +63,10 @@ Feature: Family Details Form
     And I fill in the 1st "Family Details Section" subform with the follow:
       |Name                                                  | First Name Relation                    |
       |How are they related to the child?                    | <Select> Mother                        |
-      |Is this person the caregiver?                         | <Select> Yes                           |
-      |Did the child live with this person before separation?| <Select> Yes                           |
-      |Is the child in contact with this person?             | <Select> Yes                           |
-      |Is the child separated from this person?              | <Select> Yes                           |
+      |Is this person the caregiver?                         | <Radio> Yes                            |
+      |Did the child live with this person before separation?| <Radio> Yes                            |
+      |Is the child in contact with this person?             | <Radio> Yes                            |
+      |Is the child separated from this person?              | <Radio> Yes                            |
       |List any agency identifiers as a comma separated list | Agency1 ,Agency 2                      |
       |Nickname                                              | First Nickname Relation                |
       |Are they alive?                                       | <Select> Alive                         |
@@ -81,7 +82,7 @@ Feature: Family Details Form
       |Comments                                              | Some Comments Relation                 |
       |Occupation                                            | Some Ocupation Relation                |
       |Current Address                                       | The Current Address Relation           |
-      |Is this a permanent location?                         | <Select> No                            |
+      |Is this a permanent location?                         | <Radio> No                             |
       |Current Location                                      | The Current Location                   |
       |Last Known Address                                    | The Last Known Address                 |
       |Last Known Location                                   | The Last Known Location                |
