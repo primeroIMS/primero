@@ -101,27 +101,30 @@ Feature: Child Wishes Form
     And I should see a value for "Does the child wish to continue in the current care arrangement?" on the show page with the value of "Yes"
     And I should see a value for "Type of care arrangement child wishes to have" on the show page with the value of "With husband/wife/partner"
     #Verify values from the subform
-    And I should see "Father's Name" on the page
-    And I should see "Third choice" on the page
-    And I should see "Father" on the page
-    And I should see "Third Address" on the page
-    And I should see "Third Landmark" on the page
-    And I should see "Third the Location" on the page
-    And I should see "Third the Telephone" on the page
-    And I should see "Mother's Name" on the page
-    And I should see "First choice" on the page
-    And I should see "Mother" on the page
-    And I should see "First Address" on the page
-    And I should see "First Landmark" on the page
-    And I should see "First Location" on the page
-    And I should see "First Telephone" on the page
-    And I should see "Grandmother's Name" on the page
-    And I should see "Second choice" on the page
-    And I should see "Mother" on the page
-    And I should see "Second Address" on the page
-    And I should see "Second Landmark" on the page
-    And I should see "Second Location" on the page
-    And I should see "Second Telephone" on the page
+    And I should see in the 1st "Child's Preference" subform with the follow:
+      | Person(s) child wishes to locate                         | Father's Name         |
+      | Preference of the child to be relocated with this person | Third choice          |
+      | What is this person's relationship to the child?         | Father                |
+      | Last Known Address                                       | Third Address         |
+      | Landmark                                                 | Third Landmark        |
+      | Last Known Location                                      | Third the Location    |
+      | Telephone                                                | Third the Telephone   |
+    And I should see in the 2nd "Child's Preference" subform with the follow:
+      | Person(s) child wishes to locate                         | Mother's Name         |
+      | Preference of the child to be relocated with this person | First choice          |
+      | What is this person's relationship to the child?         | Mother                |
+      | Last Known Address                                       | First Address         |
+      | Landmark                                                 | First Landmark        |
+      | Last Known Location                                      | First Location        |
+      | Telephone                                                | First Telephone       |
+    And I should see in the 3rd "Child's Preference" subform with the follow:
+      | Person(s) child wishes to locate                         | Grandmother's Name    |
+      | Preference of the child to be relocated with this person | Second choice         |
+      | What is this person's relationship to the child?         | Mother                |
+      | Last Known Address                                       | Second Address        |
+      | Landmark                                                 | Second Landmark       |
+      | Last Known Location                                      | Second Location       |
+      | Telephone                                                | Second Telephone      |
 
   Scenario: I create a case with child's wishes with more that 3 child's preferences.
     Given I am logged in as an admin with username "primero" and password "primero"

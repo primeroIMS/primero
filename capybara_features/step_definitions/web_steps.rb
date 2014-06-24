@@ -371,7 +371,7 @@ When /^I choose from "([^\"]*)":$/ do |chosen, table |
   table.raw.flatten.each do |option|
     #This make visible the options to choose.
     chosen.click
-    chosen.find(:xpath, "//div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
+    chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
     #To select another items, it is needed the chosen lost the focus to make click again
     #to make visible the items to select.
     label.click
@@ -386,7 +386,7 @@ When /^I choose option "([^\"]*)" from "([^\"]*)"(?: within "([^"]*)")?$/ do |op
   chosen = find(:xpath, "//div[@id='#{chosen_id}']")
   #This make visible the options to choose.
   chosen.click
-  chosen.find(:xpath, "//div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
+  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
   #To select another items, it is needed the chosen lost the focus to make click again
   #to make visible the items to select.
   label.click
