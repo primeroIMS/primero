@@ -684,6 +684,7 @@ nav {
 ////////////////////////////////////////////////
 
 .side-tab {
+  position: relative;
   background: #fff;
   border: 1px solid #bbb;
   border-top: none;
@@ -699,6 +700,10 @@ nav {
       background: $grey_color;
       text-decoration: none;
     }
+  }
+
+  ul.side-nav {
+    width: 316px;
   }
 }
 
