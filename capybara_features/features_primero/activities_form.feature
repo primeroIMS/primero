@@ -20,9 +20,6 @@ Feature: Activities Form
       | Other details about school or training             |
       | What other activities is the child involved in?    |
       | Other details about additional activities          |
-      | The Highest Local Leader of the Child (e.g. Chief) |
-      | Next Highest Local Leader of the Child             |
-      | Third Highest Local Leader of the Child            |
 
   Scenario: As a logged in user, I create a case with activities information
     Given I am logged in as an admin with username "primero" and password "primero"
@@ -47,9 +44,6 @@ Feature: Activities Form
       | Livelihood activities   |
     And I fill in the following:
       | Other details about additional activities          | Some Other Details Activities  |
-      | The Highest Local Leader of the Child (e.g. Chief) | Highest Local Leader Name      |
-      | Next Highest Local Leader of the Child             | Next Highest Local Leader Name |
-      | Third Highest Local Leader of the Child            | Third Highest Local Leader Name|
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "Activities" button
@@ -63,6 +57,3 @@ Feature: Activities Form
     And I should see a value for "Other details about school or training" on the show page with the value of "Some Other Details School/Training"
     And I should see a value for "What other activities is the child involved in?" on the show page with the value of "Livelihood activities, Recreational Activities"
     And I should see a value for "Other details about additional activities" on the show page with the value of "Some Other Details Activities"
-    And I should see a value for "The Highest Local Leader of the Child (e.g. Chief)" on the show page with the value of "Highest Local Leader Name"
-    And I should see a value for "Next Highest Local Leader of the Child" on the show page with the value of "Next Highest Local Leader Name"
-    And I should see a value for "Third Highest Local Leader of the Child" on the show page with the value of "Third Highest Local Leader Name"
