@@ -83,7 +83,7 @@ end
 #Step to match field/value in subforms in show view.
 And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   #Current layout field/value per row are the following to the h5 element, is the best shoot.
-  within(:xpath, "//fieldset[@class='subform no-border']//h5[#{num}]//label[text()='#{subform}']") do
+  within(:xpath, "//fieldset[@class='subform no-border']//h5[#{num}]//label[@class='key']", :text => subform) do
     #Up to the h5 element.
     within(:xpath, '../..') do
       #Iterate over the fields.
