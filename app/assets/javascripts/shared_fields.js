@@ -1,5 +1,5 @@
 var SharedFields = Backbone.View.extend({
-	el: '.page_content',
+	el: '.page_content form',
 
 	events: {
 		'change input': 'find_shared_fields',

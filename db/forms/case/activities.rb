@@ -80,18 +80,6 @@ activities_fields = [
   Field.new({"name" => "activities_other_notes",
              "type" => "textarea",
              "display_name_all" => "Other details about additional activities"
-           }),
-  Field.new({"name" => "local_leader_2",
-             "type" => "text_field",
-             "display_name_all" => "The Highest Local Leader of the Child (e.g. Chief)"
-           }),
-  Field.new({"name" => "local_leader",
-             "type" => "text_field",
-             "display_name_all" => "Next Highest Local Leader of the Child"
-           }),
-  Field.new({"name" => "local_leader_3",
-             "type" => "text_field",
-             "display_name_all" => "Third Highest Local Leader of the Child"
            })
 ]
 
