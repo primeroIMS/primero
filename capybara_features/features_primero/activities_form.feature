@@ -1,4 +1,5 @@
 # JIRA PRIMERO-144
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Activities Form
@@ -26,7 +27,7 @@ Feature: Activities Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Activities" button
-    And I select "Yes" from "Is the Child in school or training?"
+    And I select "Yes" for "Is the Child in school or training?" radio button
     And I fill in the following:
       | Name of School | Child School Name |
     And I choose from "If not, why not?":

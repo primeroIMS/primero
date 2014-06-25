@@ -44,7 +44,7 @@ reunification_subform = [
                "display_name_all" => "Date of reunification",
               }),
     Field.new({"name" => "child_reunited_with_verified_adult",
-               "type" => "select_box",
+               "type" => "radio_button",
                "display_name_all" => "Was the child reunified with the verfified adult?",
                "option_strings_text_all" => "Yes\nNo",
               }),
@@ -61,7 +61,7 @@ reunification_subform = [
                ]
               }),
     Field.new({"name" => "reunification_follow_up_needed",
-               "type" => "select_box",
+               "type" => "radio_button",
                "display_name_all" => "Is there a need for follow up?",
                "option_strings_text_all" => "Yes\nNo",
               })
@@ -194,7 +194,7 @@ tracing_fields = [
              "display_name_all" => "Describe additional movements between place of separation and current location"
             }),
   Field.new({"name" => "separation_witnessed_violence",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
              "option_strings_text_all" => "Yes\nNo",
            }),
@@ -216,7 +216,7 @@ tracing_fields = [
              "display_name_all" => "Additional info that could help in tracing?"
             }),
   Field.new({"name" => "evacuation_status",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Has child been evacuated?",
              "option_strings_text_all" => "Yes\nNo",
             }),

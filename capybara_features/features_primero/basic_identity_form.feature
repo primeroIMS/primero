@@ -5,6 +5,7 @@
 # JIRA PRIMERO-159
 # JIRA PRIMERO-207
 # JIRA PRIMERO-213
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -140,26 +141,26 @@ Feature: Basic Identity Form
     And I select "Male" from "Sex"
     And I select "Save the Children" from "Agency"
     And I select "Separated" from "Protection Status"
-    And I select "Yes" from "Urgent Protection Concern?"
-    And I select "No" from "Estimated"
+    And I select "Yes" for "Urgent Protection Concern?" radio button
+    And I select "No" for "Estimated" radio button
     And I select "Married/Cohabitating" from "Current Civil/Marital Status"
     And I select "Foreign National" from "Current Displacement Status"
     And I select "Physical Disability" from "Disability Type"
     And I select "Nationality 2" from "Nationality"
     And I select "Country1" from "Birth Country"
     And I select "Country2" from "Country of Origin"
-    And I select "Yes" from "Is this address permanent?"
+    And I select "Yes" for "Is this address permanent?" radio button
     And I select "Clan 3" from "Ethnicity/Clan/Tribe"
     And I select "Clan 1" from "Sub Ethnicity 1"
     And I select "Clan 2" from "Sub Ethnicity 2"
     And I select "Agency 4" from "Interviewer Agency"
     And I select "GBV Survivor" from "Information Obtained From"
-    And I select "Yes" from "Has the child been interviewed by another organization?"
+    And I select "Yes" for "Has the child been interviewed by another organization?" radio button
     And I select "Operator 1" from "Database Operator"
     And I select "Social Worker 1" from "Social Worker"
     And I select "Community" from "Status"
-    And I select "No" from "Name(s) given to child after separation?"
-    And I select "No" from "If the survivor is a child, does he/she live alone?"
+    And I select "No" for "Name(s) given to child after separation?" radio button
+    And I select "No" for "If the survivor is a child, does he/she live alone?" radio button
     And I select "Relative" from "If the survivor lives with someone, what is the relation between her/him and the caretaker?"
     And I select "Widowed" from "What is the caretaker's current marital status?"
     
@@ -378,7 +379,7 @@ Feature: Basic Identity Form
     And I fill in the following:
       | Date of Registration or Interview | 19/Jul/2014 |
     And I press "Save"
-    Then I should see "Case record successfully updated" on the page
+    Then I should see "Case was successfully updated." on the page
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "19/Jul/2014"
 
   Scenario: As a logged in user, When I fill in the Age field the Date of Birth should be calculated

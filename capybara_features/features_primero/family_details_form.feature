@@ -1,6 +1,7 @@
 #JIRA PRIMERO-97
 #JIRA PRIMERO-222
 #JIRA PRIMERO-228
+#JIRA PRIMERO-232
 #JIRA PRIMERO-240
 
 @javascript @primero
@@ -63,10 +64,10 @@ Feature: Family Details Form
     And I fill in the 1st "Family Details Section" subform with the follow:
       |Name                                                  | Socorro                                    |
       |How are they related to the child?                    | <Select> Mother                            |
-      |Is this person the caregiver?                         | <Select> Yes                               |
-      |Did the child live with this person before separation?| <Select> Yes                               |
-      |Is the child in contact with this person?             | <Select> Yes                               |
-      |Is the child separated from this person?              | <Select> Yes                               |
+      |Is this person the caregiver?                         | <Radio> Yes                                |
+      |Did the child live with this person before separation?| <Radio> Yes                                |
+      |Is the child in contact with this person?             | <Radio> Yes                                |
+      |Is the child separated from this person?              | <Radio> Yes                                |
       |List any agency identifiers as a comma separated list | Agency1 ,Agency 2                          |
       |Nickname                                              | Coco                                       |
       |Are they alive?                                       | <Select> Alive                             |
@@ -82,7 +83,7 @@ Feature: Family Details Form
       |Comments                                              | Some Comments About Coco                   |
       |Occupation                                            | Some Ocupation About Coco                  |
       |Current Address                                       | Coco's Current Address                     |
-      |Is this a permanent location?                         | <Select> Yes                               |
+      |Is this a permanent location?                         | <Radio> Yes                                |
       |Current Location                                      | Coco's Current Location                    |
       |Last Known Address                                    | Coco's Last Known Address                  |
       |Last Known Location                                   | Coco's Last Known Location                 |
@@ -91,10 +92,10 @@ Feature: Family Details Form
     And I fill in the 2st "Family Details Section" subform with the follow:
       |Name                                                  | Pedro                                      |
       |How are they related to the child?                    | <Select> Father                            |
-      |Is this person the caregiver?                         | <Select> No                                |
-      |Did the child live with this person before separation?| <Select> No                                |
-      |Is the child in contact with this person?             | <Select> No                                |
-      |Is the child separated from this person?              | <Select> No                                |
+      |Is this person the caregiver?                         | <Radio> No                                 |
+      |Did the child live with this person before separation?| <Radio> No                                 |
+      |Is the child in contact with this person?             | <Radio> No                                 |
+      |Is the child separated from this person?              | <Radio> No                                 |
       |List any agency identifiers as a comma separated list | Agency3 ,Agency 4                          |
       |Nickname                                              | Pepe                                       |
       |Are they alive?                                       | <Select> Unknown                           |
@@ -110,7 +111,7 @@ Feature: Family Details Form
       |Comments                                              | Some Comments About Pepe                   |
       |Occupation                                            | Some Ocupation About Pepe                  |
       |Current Address                                       | Pepe's Current Address                     |
-      |Is this a permanent location?                         | <Select> No                                |
+      |Is this a permanent location?                         | <Radio> No                                 |
       |Current Location                                      | Pepe's Current Location                    |
       |Last Known Address                                    | Pepe's Last Known Address                  |
       |Last Known Location                                   | Pepe's Last Known Location                 |
