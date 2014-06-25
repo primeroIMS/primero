@@ -22,9 +22,9 @@ Feature: Followup
       | If yes, when do you recommend the next visit to take place? | The next week                                           |
       | Comments                                                    | Some comments                                           |
       | Type of followup                                            |<Select> Follow up After Reunification                   |
-      | Was the child/adult seen during the visit?                  |<Radio> No                                               |
       | Type of service                                             |<Select> Health/Medical Service                          |
       | Type of assessment                                          |<Select> Medical Intervention Assessment                 |
+      | Was the child/adult seen during the visit?                  |<Radio> No                                               |
       | If not, why?                                                |<Checkbox> At School                                     |
       | Has action been taken?                                      |<Radio> Yes                                              |
       | Is there a need for further follow-up visits?               |<Radio> Yes                                              |
@@ -35,9 +35,9 @@ Feature: Followup
       | Date action taken?                                          | 14/Jun/2014                                             |
       | Comments                                                    | Some additional comments                                |
       | Type of followup                                            | <Select> Follow up for Assessment                       |
-      | Was the child/adult seen during the visit?                  | <Radio> No                                              |
       | Type of service                                             | <Select> Family Reunification Service                   |
       | Type of assessment                                          | <Select> Personal Intervention Assessment               |
+      | Was the child/adult seen during the visit?                  | <Radio> No                                              |
       | If not, why?                                                | <Checkbox> Visiting Friends/Relatives                   |
       | Has action been taken?                                      | <Radio> Yes                                             |
       | Is there a need for further follow-up visits?               | <Radio> No                                              |
