@@ -8,7 +8,7 @@ shared_examples "a valid record" do
   it "should not allow invalid formatted dates" do
     record['a_datefield'] = '27 Feb 10'
     record.should_not be_valid
-    record.errors[:a_datefield].should == ["Please enter a valid date for this field (format: dd/mm/yyyy)"]
+    record.errors[:a_datefield].should == ["Please enter the date in a valid format (dd-mm-yyyy)"]
   end
 
   it "should allow text area values to be 400,000 chars" do
