@@ -23,6 +23,8 @@ Feature: Followup
       | Comments                                                    | Some comments                                           |
       | Type of followup                                            |<Select> Follow up After Reunification                   |
       | Was the child/adult seen during the visit?                  |<Radio> No                                               |
+      | Type of service                                             |<Select> Health/Medical Service                          |
+      | Type of assessment                                          |<Select> Medical Intervention Assessment                 |
       | If not, why?                                                |<Checkbox> At School                                     |
       | Has action been taken?                                      |<Radio> Yes                                              |
       | Is there a need for further follow-up visits?               |<Radio> Yes                                              |
@@ -33,24 +35,43 @@ Feature: Followup
       | Date action taken?                                          | 14/Jun/2014                                             |
       | Comments                                                    | Some additional comments                                |
       | Type of followup                                            | <Select> Follow up for Assessment                       |
-      | Type of assessment                                          | <Select> Follow up for Personal Intervention Assessment |
       | Was the child/adult seen during the visit?                  | <Radio> No                                              |
+      | Type of service                                             | <Select> Family Reunification Service                   |
+      | Type of assessment                                          | <Select> Personal Intervention Assessment               |
       | If not, why?                                                | <Checkbox> Visiting Friends/Relatives                   |
       | Has action been taken?                                      | <Radio> Yes                                             |
       | Is there a need for further follow-up visits?               | <Radio> No                                              |
       | If not, do you recommend that the case be close?            | <Radio> Yes                                             |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see "Follow up After Reunification" on the page
-    And I should see "12/Jun/2014" on the page
-    And I should see "10/Jun/2014" on the page
-    And I should see "The next week" on the page
-    And I should see "Follow up for Assessment" on the page
-    And I should see "Follow up for Personal Intervention Assessment" on the page
-    And I should see "15/Jun/2014" on the page
-    And I should see "14/Jun/2014" on the page
-    And I should see "Some additional comments" on the page
-    And I should see "Visiting Friends/Relatives" on the page
+    And I should see in the 1st "Follow Up" subform with the follow:
+      | Followup needed by                                          | 12/Jun/2014                      |
+      | Followup date                                               | 12/Jun/2014                      |
+      | Details about action taken                                  | Some details about action taken  |
+      | Date action taken?                                          | 10/Jun/2014                      |
+      | If yes, when do you recommend the next visit to take place? | The next week                    |
+      | Comments                                                    | Some comments                    |
+      | Type of followup                                            | Follow up After Reunification    |
+      | Type of service                                             | Health/Medical Service           |
+      | Type of assessment                                          | Medical Intervention Assessment  |
+      | Was the child/adult seen during the visit?                  | No                               |
+      | If not, why?                                                | At School                        |
+      | Has action been taken?                                      | Yes                              |
+      | Is there a need for further follow-up visits?               | Yes                              |
+    And I should see in the 2nd "Follow Up" subform with the follow:
+      | Followup needed by                                          | 15/Jun/2014                      |
+      | Followup date                                               | 15/Jun/2014                      |
+      | Details about action taken                                  | Some details about action taken  |
+      | Date action taken?                                          | 14/Jun/2014                      |
+      | Comments                                                    | Some additional comments         |
+      | Type of followup                                            | Follow up for Assessment         |
+      | Type of service                                             | Family Reunification Service     |
+      | Type of assessment                                          | Personal Intervention Assessment |
+      | Was the child/adult seen during the visit?                  | No                               |
+      | If not, why?                                                | Visiting Friends/Relatives       |
+      | Has action been taken?                                      | Yes                              |
+      | Is there a need for further follow-up visits?               | No                               |
+      | If not, do you recommend that the case be close?            | Yes                              |
     And I press the "Edit" button
     And I press the "Follow Up" button
     And I remove the 2nd "Followup Subform Section" subform
@@ -64,7 +85,7 @@ Feature: Followup
       | Comments                                                    | Some comments                          |
     And I press "Save"
     And I should not see "Follow up for Assessment" on the page
-    And I should not see "Follow up for Personal Intervention Assessment" on the page
+    And I should not see "Personal Intervention Assessment" on the page
     And I should not see "15/Jun/2014" on the page
     And I should not see "14/Jun/2014" on the page
     And I should not see "Some additional comments" on the page
