@@ -55,7 +55,7 @@ followup_subform_fields = [
              "display_name_all" => "Followup date"
             }),
   Field.new({"name" => "child_was_seen",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Was the child/adult seen during the visit?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
@@ -72,7 +72,7 @@ followup_subform_fields = [
                            "Working /At work "].join("\n")
             }),
   Field.new({"name" => "action_taken_already",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Has action been taken?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
@@ -85,7 +85,7 @@ followup_subform_fields = [
              "display_name_all" => "Date action taken?"
             }),
   Field.new({"name" => "need_follow_up_visit",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is there a need for further follow-up visits?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
@@ -94,7 +94,7 @@ followup_subform_fields = [
              "display_name_all" => "If yes, when do you recommend the next visit to take place?"
             }),
   Field.new({"name" => "recommend_case_closed",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "If not, do you recommend that the case be close?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),

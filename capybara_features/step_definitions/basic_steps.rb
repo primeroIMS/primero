@@ -116,6 +116,8 @@ And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |n
         options.each do |option|
           step %Q{I choose option "#{option}" from "#{name}" within "#{scope}"}
         end
+      elsif value.start_with?("<Radio>")
+        step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{name}" radio button within "#{scope}"}
       else
         step %Q{I fill in "#{name}" with "#{value}"}
       end

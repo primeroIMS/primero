@@ -32,7 +32,7 @@ best_interest_fields = [
              "display_name_all" => "Agency Responsible"
             }),
   Field.new({"name" => "best_interest_proposed_support_accepted",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Does the child accept the proposed support?",
              "option_strings_text_all" => "Yes\nNo",
            }),

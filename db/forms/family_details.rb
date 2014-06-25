@@ -22,22 +22,22 @@ family_details_fields_subform = [
                                      "Other Nonfamily"].join("\n")
             }),
   Field.new({"name" => "relation_is_caregiver",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is this person the caregiver?",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "relation_child_lived_with_pre_separation",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Did the child live with this person before separation?",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "relation_child_is_in_contact",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is the child in contact with this person?",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "relation_child_is_separated_from",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is the child separated from this person?",
              "option_strings_text_all" => "Yes\nNo"
             }),
@@ -112,7 +112,7 @@ family_details_fields_subform = [
              "display_name_all" => "Current Address"
            }),
   Field.new({"name" => "relation_address_is_permanent",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is this a permanent location?",
              "option_strings_text_all" => "Yes\nNo"
             }),
