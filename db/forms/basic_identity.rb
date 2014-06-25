@@ -9,6 +9,13 @@ basic_identity_fields = [
              "editable" => false,
              "display_name_all" => "Short ID"
             }),
+  Field.new({"name" => "record_state",
+             "type" => "radio_button",
+             "display_name_all" => "Record state",
+             "option_strings_text_all" =>
+                          ["Valid record",
+                           "Invalid record"].join("\n")
+            }),
   Field.new({"name" => "registration_date",
              "type" => "date_field", 
              "display_name_all" => "Date of Registration or Interview"
