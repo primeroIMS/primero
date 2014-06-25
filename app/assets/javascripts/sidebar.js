@@ -63,5 +63,8 @@ _primero.listen_for_reset = function() {
 };
 
 $(document).ready(function() {
-    $("ul.side-nav").sticky({ topSpacing:0 });
+    $("ul.side-nav").sticky({ 
+        topSpacing: 0,
+        bottomSpacing: 40 
+    });
 });
