@@ -33,7 +33,10 @@ module FakeLogin
   
   def fake_mrm_worker_login
     user = User.new(:user_name => 'fakemrmworker')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENTS[:register]])])
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENTS[:register],
+                                                            Permission::INCIDENTS[:view_and_search],
+                                                            Permission::INCIDENTS[:create],
+                                                            Permission::INCIDENTS[:edit]])])
     fake_login user
   end
 

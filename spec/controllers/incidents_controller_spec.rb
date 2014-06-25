@@ -93,12 +93,12 @@ describe IncidentsController do
     shared_examples_for "viewing incidents by user with access to all data" do
       describe "when the signed in user has access all data" do
         before do
-          fake_field_admin_login
+          fake_mrm_worker_login
           @options ||= {}
           @stubs ||= {}
         end
 
-        it "should assign all incidents as @incidents" do
+        it "should assign all incidents as @incidents" do          
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           incidents = [mock_incident(@stubs)]
