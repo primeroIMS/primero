@@ -70,7 +70,7 @@ protection_concern_fields = [
     "display_name_all" => "Intervention needed by"
   }),
   Field.new({"name" => "concern_action_taken_already",
-    "type" => "select_box",
+    "type" => "radio_button",
     "display_name_all" => "Has action been taken?",
     "option_strings_text_all" => "Yes\nNo"
   }),

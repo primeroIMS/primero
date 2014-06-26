@@ -1,6 +1,7 @@
 # JIRA PRIMERO-42
 # JIRA PRIMERO-73
 # JIRA PRIMERO-200
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Protection Concern Form
@@ -33,7 +34,7 @@ Feature: Protection Concern Form
     And I select "Migrant" from "Type of Protection Concern"
     And I select "Registration" from "Period when identified?"
     And I select "Urgent Intervention" from "Intervention needed?"
-    And I select "Yes" from "Has action been taken?"
+    And I select "Yes" for "Has action been taken?" radio button within "<Form> Tab Protection Concern"
     And I press "Save"
 
     Then I should see "Case record successfully created" on the page

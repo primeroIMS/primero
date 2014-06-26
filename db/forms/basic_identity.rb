@@ -9,6 +9,13 @@ basic_identity_fields = [
              "editable" => false,
              "display_name_all" => "Short ID"
             }),
+  Field.new({"name" => "record_state",
+             "type" => "select_box",
+             "display_name_all" => "Record state",
+             "option_strings_text_all" =>
+                          ["Valid record",
+                           "Invalid record"].join("\n")
+            }),
   Field.new({"name" => "registration_date",
              "type" => "date_field", 
              "display_name_all" => "Date of Registration or Interview"
@@ -66,7 +73,7 @@ basic_identity_fields = [
              "display_name_all" => "Protection Status"
             }),
   Field.new({"name" => "urgent_protection_concern",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Urgent Protection Concern?",
              "option_strings_text_all" => "Yes\nNo",
             }),
@@ -101,7 +108,7 @@ basic_identity_fields = [
             "display_name_all" => "Date of Birth"
             }),
   Field.new({"name" => "estimated",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Estimated",
              "option_strings_text_all" => "Yes\nNo",
             }),
@@ -199,7 +206,7 @@ basic_identity_fields = [
              "display_name_all" => "Landmark near current address"
             }),
   Field.new({"name" => "address_is_permanent",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is this address permanent?",
              "option_strings_text_all" => "Yes\nNo",
             }),  
@@ -318,7 +325,7 @@ basic_identity_fields = [
              "display_name_all" => "If information obtained from Other, please specify."
             }),
   Field.new({"name" => "other_org_interview_status",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Has the child been interviewed by another organization?",
              "option_strings_text_all" => "Yes\nNo",
             }),
@@ -401,12 +408,12 @@ basic_identity_fields = [
                            "Other Vulnerable Child"].join("\n")
             }),
   Field.new({"name" => "name_given_post_separation",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Name(s) given to child after separation?",
              "option_strings_text_all" => "Yes\nNo",
             }),
   Field.new({"name" => "survivor_lives_alone",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "If the survivor is a child, does he/she live alone?",
              "option_strings_text_all" => "Yes\nNo",
             }),

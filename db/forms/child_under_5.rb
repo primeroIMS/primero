@@ -44,7 +44,7 @@ child_under_5_fields = [
              "display_name_all" => "If that person's address is not known, how could we find him or her and/or provide name(s) and address(es) who may know the person who found the child?"
             }),
   Field.new({"name" => "child_belongings",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Are there any clothes and belongings the child was found with?",
              "option_strings_text_all" => "Yes\nNo",
              }),

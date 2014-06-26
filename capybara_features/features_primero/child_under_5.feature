@@ -1,4 +1,5 @@
 # JIRA PRIMERO-123
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Child Under 5
@@ -40,7 +41,7 @@ Feature: Child Under 5
       | If the child speaks with an accent and if the family separation has been short (few months), from what region do you think the child comes from?                                      | Region child come from    |
       | Please write down any behavior specific to the child that may help a parent identify him/her later on such as child's games, and main interests or specific things he/she likes to do | Child games, Main Interest|
       | Please describe in detail how the child was found or taken in the family/children's center | Details about how the child was found in the family center. |
-    And I select "Yes" from "Are there any clothes and belongings the child was found with?"
+    And I select "Yes" for "Are there any clothes and belongings the child was found with?" radio button
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "Child Under 5" button

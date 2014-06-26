@@ -59,7 +59,7 @@ child_preferences_section = FormSection.create_or_update_form_section({
 
 child_wishes_fields = [
   Field.new({"name" => "wishes_child_family_tracing",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Does child want to trace family members?",
              "option_strings_text_all" => "Yes\nNo"
             }),
@@ -77,7 +77,7 @@ child_wishes_fields = [
              "display_name_all" => "If 'No', 'Not sure', or 'Yes, but later', explain why"
            }),
   Field.new({"name" => "wishes_contacted",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Has the child heard from/been in contact with any relatives?",
              "option_strings_text_all" => "Yes\nNo"
             }),
@@ -94,7 +94,7 @@ child_wishes_fields = [
             }),
   ##Subform##
   Field.new({"name" => "wishes_care_arrangement_desired",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Does the child wish to continue in the current care arrangement?",
              "option_strings_text_all" => "Yes\nNo"
             }),

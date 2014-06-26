@@ -5,6 +5,8 @@
 # JIRA PRIMERO-159
 # JIRA PRIMERO-207
 # JIRA PRIMERO-213
+# JIRA PRIMERO-232
+# JIRA PRIMERO-233
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -21,6 +23,7 @@ Feature: Basic Identity Form
     Then I should see the following fields:
     | Case ID           |
     | Short ID          |
+    | Record state      |
     | Date of Registration or Interview |
     | Agency            |
     | Agency Telephone  |
@@ -140,26 +143,26 @@ Feature: Basic Identity Form
     And I select "Male" from "Sex"
     And I select "Save the Children" from "Agency"
     And I select "Separated" from "Protection Status"
-    And I select "Yes" from "Urgent Protection Concern?"
-    And I select "No" from "Estimated"
+    And I select "Yes" for "Urgent Protection Concern?" radio button
+    And I select "No" for "Estimated" radio button
     And I select "Married/Cohabitating" from "Current Civil/Marital Status"
     And I select "Foreign National" from "Current Displacement Status"
     And I select "Physical Disability" from "Disability Type"
     And I select "Nationality 2" from "Nationality"
     And I select "Country1" from "Birth Country"
     And I select "Country2" from "Country of Origin"
-    And I select "Yes" from "Is this address permanent?"
+    And I select "Yes" for "Is this address permanent?" radio button
     And I select "Clan 3" from "Ethnicity/Clan/Tribe"
     And I select "Clan 1" from "Sub Ethnicity 1"
     And I select "Clan 2" from "Sub Ethnicity 2"
     And I select "Agency 4" from "Interviewer Agency"
     And I select "GBV Survivor" from "Information Obtained From"
-    And I select "Yes" from "Has the child been interviewed by another organization?"
+    And I select "Yes" for "Has the child been interviewed by another organization?" radio button
     And I select "Operator 1" from "Database Operator"
     And I select "Social Worker 1" from "Social Worker"
     And I select "Community" from "Status"
-    And I select "No" from "Name(s) given to child after separation?"
-    And I select "No" from "If the survivor is a child, does he/she live alone?"
+    And I select "No" for "Name(s) given to child after separation?" radio button
+    And I select "No" for "If the survivor is a child, does he/she live alone?" radio button
     And I select "Relative" from "If the survivor lives with someone, what is the relation between her/him and the caretaker?"
     And I select "Widowed" from "What is the caretaker's current marital status?"
     
@@ -174,6 +177,7 @@ Feature: Basic Identity Form
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
+    And I should see a value for "Record state" on the show page with the value of "Valid record"
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
     And I should see a value for "Agency" on the show page with the value of "Save the Children"
     And I should see a value for "Agency Telephone" on the show page with the value of "704-555-1212"    
@@ -410,3 +414,48 @@ Feature: Basic Identity Form
       | Date of Birth | 21-21-1990 |
   And I press "Save"
   Then I should see "Please enter a valid date of birth for this case record"
+
+  Scenario: As a logged in user, When I am on the case index all recrods should be displayed
+    And I fill in the following:
+      | Name              | Daenerys Targaryen |
+      | Age               | 24                 |
+      | Agency Telephone  | 704-555-1212       |
+      | Other Agency Name | Test Agency        |
+      | UNHCR ID          | AAA000             |
+      | Survivor Code     | BBB111             |
+      | Nickname          | Khaleesi           |
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Valid record"
+    And I access "cases page"
+    And I press the "Create a New Case" button
+    And I fill in the following:
+      | Name              | John Snow   |
+      | Age               | 24          |
+      | Other Agency ID   | ABC12345    |
+      | Other Agency Name | Test Agency |
+      | ICRC Ref No.      | 131313      |
+      | RC ID No.         | 141414      |
+      | Nickname          | Lord Snow   |
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Valid record"
+    And I access "cases page"
+    And I press the "Create a New Case" button
+    And I fill in the following:
+      | Name              | Eddard Stark   |
+      | Age               | 45             |
+      | Agency Telephone  | 704-555-1212   |
+      | Other Agency ID   | ABC12345       |
+      | Other Agency Name | Test Agency    |
+      | UNHCR ID          | AAA001         |
+      | Survivor Code     | BBB112         |
+      | Nickname          | Lord Stark     |
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Valid record"
+    And I press the "Edit" button
+    And I select "Invalid record" from "Record state"
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Invalid record"
+    And I access "cases page"
+    Then I should see "John Snow" on the page
+    And I should see "Daenerys Targaryen" on the page
+    And I should see "Eddard Stark" on the page

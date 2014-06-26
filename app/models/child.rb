@@ -76,6 +76,7 @@ class Child < CouchRest::Model::Base
     child['case_id'] = child.case_id
     child['name'] = fields['name'] || child.name || ''
     child['registration_date'] ||= DateTime.now.strftime("%d-%b-%Y")
+    child['record_state'] ||= "Valid record"
     child.set_creation_fields_for user
     child
   end
@@ -466,6 +467,10 @@ class Child < CouchRest::Model::Base
           order: lookup.order }
       errors.add(:section_errors, error_info)
     end
+  end
+
+  def valid_record?
+    self['record_state'] == "Valid record"
   end
 
   private

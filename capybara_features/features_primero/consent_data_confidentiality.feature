@@ -1,4 +1,5 @@
 # JIRA PRIMERO-110
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Consent Data Confidentiality
@@ -23,7 +24,7 @@ Feature: Consent Data Confidentiality
     And I press the "Create a New Case" button
     And I press the "Data Confidentiality" button
     When I select "Child" from "Consent Obtained From"
-    And I select "Yes" from "Does the child/person understand why the information is collected, how it will be used, what the process will be, and agrees to register?"
+    And I select "Yes" for "Does the child/person understand why the information is collected, how it will be used, what the process will be, and agrees to register?" radio button
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     When I press the "Data Confidentiality" button

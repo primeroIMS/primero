@@ -1,5 +1,6 @@
 # JIRA PRIMERO-165
 # JIRA PRIMERO-192
+# JIRA PRIMERO-232
 
 @javascript @primero
 Feature: Care Arrangement
@@ -24,11 +25,11 @@ Feature: Care Arrangement
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Care Arrangement" button
-    And I select "Yes" from "Is this a same caregiver as was previously entered for the child?"
+    And I select "Yes" for "Is this a same caregiver as was previously entered for the child?" radio button
     And I select "Education" from "If this is a new caregiver, give the reason for the change"
     And I select "Residential Care Center" from "What are the child's current care arrangements?"
     And I select "Grandmother" from "Relationship of the Caregiver to the Child"
-    And I select "No" from "Is caregiver willing to continue taking care of the child?"
+    And I select "No" for "Is caregiver willing to continue taking care of the child?" radio button
     And I fill in the following:
       | Care Arrangement Notes                                                  | Some Care Arrangement Notes               |
       | Name of Current Caregiver                                               | Some Name of Current Caregiver            |
