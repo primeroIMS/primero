@@ -75,7 +75,7 @@ class Child < CouchRest::Model::Base
     child['short_id'] = child.short_id
     child['case_id'] = child.case_id
     child['name'] = fields['name'] || child.name || ''
-    child['registration_date'] ||= DateTime.now.strftime("%d/%b/%Y")
+    child['registration_date'] ||= DateTime.now.strftime("%d-%b-%Y")
     child.set_creation_fields_for user
     child
   end

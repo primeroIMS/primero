@@ -34,7 +34,7 @@ Feature: Child Under 5
     And I press the "Create a New Case" button
     And I press the "Child Under 5" button
     And I fill in the following:
-      | Date child was found                   | 15/Sep/2014              |
+      | Date child was found                   | 15-Sep-2014              |
       | Exact location where child was found   | Location child was found |
       | Found in Village/Area/Physical Address | Village Found Address    |
       | If the child speaks with an accent and if the family separation has been short (few months), from what region do you think the child comes from?                                      | Region child come from    |
@@ -44,7 +44,7 @@ Feature: Child Under 5
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "Child Under 5" button
-    And I should see a value for "Date child was found" on the show page with the value of "15/Sep/2014"
+    And I should see a value for "Date child was found" on the show page with the value of "15-Sep-2014"
     And I should see a value for "Exact location where child was found" on the show page with the value of "Location child was found"
     And I should see a value for "Found in Village/Area/Physical Address" on the show page with the value of "Village Found Address"
     And I should see a value for "If the child speaks with an accent and if the family separation has been short (few months), from what region do you think the child comes from?" on the show page with the value of "Region child come from"

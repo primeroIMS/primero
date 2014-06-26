@@ -13,7 +13,7 @@ Feature: Tracing Subforms
 
   Scenario: As a logged in user, I should access the form section tracing and create tracing actions
     And I fill in the 1st "Tracing Actions Section" subform with the follow:
-      | Date of tracing                                      | 30/May/2014               |
+      | Date of tracing                                      | 30-May-2014               |
       | Action taken and remarks                             | Test remarks              |
       | Address/Village where the tracing action took place  | Test Village              |
       | Outcome of tracing action                            | <Select> Pending          |
@@ -34,7 +34,7 @@ Feature: Tracing Subforms
 
   Scenario: As a logged in user, I should access the form section tracing and add/remove tracing actions
     And I fill in the 1st "Tracing Actions Section" subform with the follow:
-      | Date of tracing                                      | 30/May/2014               |
+      | Date of tracing                                      | 30-May-2014               |
       | Action taken and remarks                             | Test remarks              |
       | Address/Village where the tracing action took place  | Test Village              |
       | Outcome of tracing action                            | <Select> Pending          |
@@ -66,7 +66,7 @@ Feature: Tracing Subforms
 
   Scenario: As a logged in user, I should access the form section tracing and remove the last tracing action
     And I fill in the 1st "Tracing Actions Section" subform with the follow:
-      | Date of tracing                                      | 30/May/2014               |
+      | Date of tracing                                      | 30-May-2014               |
       | Action taken and remarks                             | Test remarks              |
       | Address/Village where the tracing action took place  | Test Village              |
       | Outcome of tracing action                            | <Select> Pending          |

@@ -105,7 +105,7 @@ Feature: Basic Identity Form
       | Survivor Code     | BBB111                               |
       | Nickname          | Tommy                                |
       | Other Name        | Bob                                  |
-      | Date of Birth     | 04/May/1992                          |
+      | Date of Birth     | 04-May-1992                          |
       | List Details of any documents carried by the child | Driver's License, Passport, Birth Certificate |
       | Occupation        | Farmer                               |
       | Distinguishing Physical Characteristics            | Really tall, dark hair, brown eyes            |
@@ -118,7 +118,7 @@ Feature: Basic Identity Form
       | Last Landmark     | Roller Coaster Hill                  |
       | Last Location     | Northwest                            |
       | Last Address Telephone     | 828-555-1414                |
-      | Arrival Date      | 13/Apr/2014                          |
+      | Arrival Date      | 13-Apr-2014                          |
       | Interviewer Name  | Fred Jones                           |
       | Interviewer Position | Field Worker                      |
       | Interview Address    | 333 Elm St, Wilkesboro NC, 28697  |
@@ -189,7 +189,7 @@ Feature: Basic Identity Form
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
     And I should see a value for "Other Name" on the show page with the value of "Bob"
     And I should see a value for "Sex" on the show page with the value of "Male"
-    And I should see a value for "Date of Birth" on the show page with the value of "04/May/1992"
+    And I should see a value for "Date of Birth" on the show page with the value of "04-May-1992"
     And I should see a value for "Estimated" on the show page with the value of "No"
     And I should see a value for "List Details of any documents carried by the child" on the show page with the value of "Driver's License, Passport, Birth Certificate"
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Married/Cohabitating"
@@ -215,7 +215,7 @@ Feature: Basic Identity Form
     And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Clan 2"    
     And I should see a value for "Language" on the show page with the value of "English, French"
     And I should see a value for "Religion" on the show page with the value of "Christianity"
-    And I should see a value for "Arrival Date" on the show page with the value of "13/Apr/2014"
+    And I should see a value for "Arrival Date" on the show page with the value of "13-Apr-2014"
     And I should see a value for "Interviewer Name" on the show page with the value of "Fred Jones"
     And I should see a value for "Interviewer Position" on the show page with the value of "Field Worker"
     And I should see a value for "Interviewer Agency" on the show page with the value of "Agency 4"
@@ -370,16 +370,16 @@ Feature: Basic Identity Form
 
   Scenario: As a logged in user, I should be able to change the date of registration in the basic identity form
     And I fill in the following:
-      | Date of Registration or Interview | 08/Jun/2014 |
+      | Date of Registration or Interview | 08-Jun-2014 |
     And I press "Save"
     And I should see "Case record successfully created" on the page
-    And I should see a value for "Date of Registration or Interview" on the show page with the value of "08/Jun/2014"
+    And I should see a value for "Date of Registration or Interview" on the show page with the value of "08-Jun-2014"
     And I press the "Edit" button
     And I fill in the following:
-      | Date of Registration or Interview | 19/Jul/2014 |
+      | Date of Registration or Interview | 19-Jul-2014 |
     And I press "Save"
-    Then I should see "Case record successfully updated" on the page
-    And I should see a value for "Date of Registration or Interview" on the show page with the value of "19/Jul/2014"
+    Then I should see "Case was successfully updated" on the page
+    And I should see a value for "Date of Registration or Interview" on the show page with the value of "19-Jul-2014"
 
   Scenario: As a logged in user, When I fill in the Age field the Date of Birth should be calculated
     And I fill in the following:
@@ -400,13 +400,13 @@ Feature: Basic Identity Form
 
   Scenario: As a logged in user, When I fill in the Date of Birth field the Age should be calculated
     And I fill in the following:
-      | Date of Birth | 02/May/1990 |
+      | Date of Birth | 02-May-1990 |
     And I press "Save"
-    Then I should see a value for "Date of Birth" on the show page with the value of "02/May/1990"
+    Then I should see a value for "Date of Birth" on the show page with the value of "02-May-1990"
     Then I should see the calculated Age of a child born in "1990"
 
   Scenario: As a logged in user, When I fill in the Date of Birth field with a non valid date I should see a validation message preventing the record from being saved
   And I fill in the following:
-      | Date of Birth | 21/21/1990 |
+      | Date of Birth | 21-21-1990 |
   And I press "Save"
   Then I should see "Please enter a valid date of birth for this case record"

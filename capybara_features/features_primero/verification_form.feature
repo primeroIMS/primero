@@ -22,13 +22,13 @@ Feature: Verification
       | Do you want the child to come and live with you?            | <Select> Yes             |
       | Are you able to care for him/her/them?                      | <Select> Yes             |
       | Comments                                                    | Some comments            |
-      | Date of acceptance to take care of child                    | 30/Jun/2014              |
+      | Date of acceptance to take care of child                    | 30-Jun-2014              |
       | Does the child know the adult requesting verification?      | <Select> No              |
       | Does the child wish to be reunified with that person?       | <Select> Yes             |
       | Does the information given by the child and adult match?    | <Select> Yes             |
       | Do you recommend reunifcation and if not what other action? | <Select> Yes             |
       | Additional comments                                         | Some additional comments |
-      | Date of Verification                                        | 20/Jun/2014              |
+      | Date of Verification                                        | 20-Jun-2014              |
     And I fill in the 2nd "Verification Subform Section" subform with the follow:
       | Inquirer's Name                                             | John Snow                |
       | Relationship                                                | <Select> Brother         |
@@ -39,13 +39,13 @@ Feature: Verification
       | Do you want the child to come and live with you?            | <Select> Yes             |
       | Are you able to care for him/her/them?                      | <Select> Yes             |
       | Comments                                                    | Some comments            |
-      | Date of acceptance to take care of child                    | 25/Jun/2014              |
+      | Date of acceptance to take care of child                    | 25-Jun-2014              |
       | Does the child know the adult requesting verification?      | <Select> Yes             |
       | Does the child wish to be reunified with that person?       | <Select> Yes             |
       | Does the information given by the child and adult match?    | <Select> Yes             |
       | Do you recommend reunifcation and if not what other action? | <Select> Yes             |
       | Additional comments                                         | Some additional comments |
-      | Date of Verification                                        | 22/Jun/2014              |
+      | Date of Verification                                        | 22-Jun-2014              |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see "Mr. Smith" on the page

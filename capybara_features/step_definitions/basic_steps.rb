@@ -41,7 +41,7 @@ end
 
 And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*)")?$/ do |field, content|
   if content == "today's date"
-    content = DateTime.now.strftime("%d/%b/%Y")
+    content = DateTime.now.strftime("%d-%b-%Y")
   end
 
   #Find the element that represent the field name
@@ -72,7 +72,7 @@ end
 And /^I should see a value for "(.+)" on the show page which is January 1, "(.+)" years ago$/ do |field, years_ago|
   within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/) do
     if years_ago
-      content = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d/%b/%Y")
+      content = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
       within(:xpath, '../..') do
         find(:xpath, ".//span[@class='value']", :text => content)
       end

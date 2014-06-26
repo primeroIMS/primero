@@ -36,7 +36,7 @@ Feature: Activities Form
     And I select "Early Childhood" from "If yes, what type of education?"
     And I select "GS3" from "If relevant, what level have they achieved?"
     And I fill in the following:
-      | Start Date of Training                 | 04/May/1992 |
+      | Start Date of Training                 | 04-May-1992 |
       | Duration of Training                   | 3           |
       | Other details about school or training | Some Other Details School/Training | 
     And I choose from "What other activities is the child involved in?":
@@ -52,7 +52,7 @@ Feature: Activities Form
     And I should see a value for "If not, why not?" on the show page with the value of "Child Labour, Lack of Infrastructure, Sent abroad for job"
     And I should see a value for "If yes, what type of education?" on the show page with the value of "Early Childhood"
     And I should see a value for "If relevant, what level have they achieved?" on the show page with the value of "GS3"
-    And I should see a value for "Start Date of Training" on the show page with the value of "04/May/1992"
+    And I should see a value for "Start Date of Training" on the show page with the value of "04-May-1992"
     And I should see a value for "Duration of Training" on the show page with the value of "3"
     And I should see a value for "Other details about school or training" on the show page with the value of "Some Other Details School/Training"
     And I should see a value for "What other activities is the child involved in?" on the show page with the value of "Livelihood activities, Recreational Activities"
