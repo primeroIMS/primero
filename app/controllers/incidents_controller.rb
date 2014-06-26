@@ -53,7 +53,8 @@ class IncidentsController < ApplicationController
     authorize! :create, Incident
     
     @page_name = t("incident.register_new_incident")
-    @incident = Incident.new 
+    @incident = Incident.new
+    @incident['record_state'] = ["Valid record"]
     respond_to do |format|
       format.html
       format.xml { render :xml => @incident }

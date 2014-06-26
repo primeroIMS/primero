@@ -48,6 +48,7 @@ class Child < CouchRest::Model::Base
     super *args
   end
 
+
   design do
       view :by_protection_status_and_gender_and_ftr_status
 
@@ -216,6 +217,10 @@ class Child < CouchRest::Model::Base
           order: lookup.order }
       errors.add(:section_errors, error_info)
     end
+  end
+
+  def valid_record?
+    self['record_state'] == "Valid record"
   end
 
   private

@@ -174,6 +174,7 @@ module Record
       record = new(fields)
       record.create_unique_id
       record['short_id'] = record.short_id
+      record['record_state'] ||= "Valid record"
       record.createClassSpecificFields(fields)
       record.set_creation_fields_for user
       record
