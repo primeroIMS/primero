@@ -21,7 +21,6 @@ Feature: Tracing Reunification Details
       | Address where the reunification is taking place      | 125 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
       | What type of reunification                           | <Select> Mass Tracing     |
-      | Date of reunification                                | 31/May/2014               |
       | Was the child reunified with the verfified adult?    | <Radio> No                |
       | If not, what was the reason for the change?          | <Select> Change of Mind   |
       | Is there a need for follow up?                       | <Radio> Yes               |
@@ -34,7 +33,7 @@ Feature: Tracing Reunification Details
       | Address where the reunification is taking place      | 123 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
       | What type of reunification?                          | <Select> Mass Tracing     |
-      | Date of reunification                                | 30/May/2014               |
+      | Date of reunification                                | 30-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |
       | If not, what was the reason for the change?          | <Select> Not Applicable   |
       | Is there a need for follow up?                       | <Radio> No                |
@@ -48,7 +47,7 @@ Feature: Tracing Reunification Details
     And I should see a value for "Address where the reunification is taking place" on the show page with the value of "125 B.Ave"
     And I should see a value for "Location where the reunifcation is taking place" on the show page with the value of "Kenya"
     And I should see a value for "What type of reunification?" on the show page with the value of "Mass Tracing"
-    And I should see a value for "Date of reunification" on the show page with the value of "31/May/2014"
+    And I should see a value for "Date of reunification" on the show page with the value of "31-May-2014"
     And I should see a value for "Was the child reunified with the verfified adult?" on the show page with the value of "No"
     And I should see a value for "If not, what was the reason for the change?" on the show page with the value of "Change of Mind"
     And I should see a value for "Is there a need for follow up?" on the show page with the value of "Yes"
@@ -62,7 +61,7 @@ Feature: Tracing Reunification Details
       | Address where the reunification is taking place      | 123 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
       | What type of reunification?                          | <Select> Mass Tracing     |
-      | Date of reunification                                | 30/May/2014               |
+      | Date of reunification                                | 30-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |
       | If not, what was the reason for the change?          | <Select> Not Applicable   |
       | Is there a need for follow up?                       | <Radio> No                |
@@ -74,7 +73,7 @@ Feature: Tracing Reunification Details
       | Address where the reunification is taking place      | 125 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
       | What type of reunification?                          | <Select> Mass Tracing     |
-      | Date of reunification                                | 31/May/2014               |
+      | Date of reunification                                | 31-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> No                |
       | If not, what was the reason for the change?          | <Select> Change of Mind   |
       | Is there a need for follow up?                       | <Radio> Yes               |
@@ -91,7 +90,7 @@ Feature: Tracing Reunification Details
       | Address where the reunification is taking place      | 123 G.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
       | What type of reunification?                          | <Select> Mass Tracing     |
-      | Date of reunification                                | 29/May/2014               |
+      | Date of reunification                                | 29-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |
       | If not, what was the reason for the change?          | <Select> Not Applicable   |
       | Is there a need for follow up?                       | <Radio> No                |

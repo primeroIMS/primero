@@ -465,7 +465,7 @@ describe Child do
     it "should allow date fields formatted as dd/mm/yyyy" do
       FormSection.stub(:all_visible_child_fields =>
                         [Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A datefield")])
-                        child = Child.new :a_datefield => ('27/Feb/2010')
+                        child = Child.new :a_datefield => ('27-Feb-2010')
                         child.should be_valid
     end
 
