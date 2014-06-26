@@ -92,8 +92,7 @@ class ChildrenController < ApplicationController
         }
       else
         format.html {
-          #TODO - RSE - is this needed?  Or can it be moved to concern?
-          #@form_sections = get_form_sections
+          @form_sections = get_form_sections
 
           # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
           render :action => "new"
@@ -142,8 +141,7 @@ class ChildrenController < ApplicationController
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           redirect_to case_path(@child, { follow: true })
         else
-          # TODO - RSE - is this necessary?
-          #@form_sections = get_form_sections
+          @form_sections = get_form_sections
 
           # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
           render :action => "edit"

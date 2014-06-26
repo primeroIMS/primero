@@ -83,7 +83,7 @@ class IncidentsController < ApplicationController
         }
       else
         format.html {
-          #@form_sections = get_form_sections
+          @form_sections = get_form_sections
          
           render :action => "new"
         }
@@ -108,8 +108,7 @@ class IncidentsController < ApplicationController
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           redirect_to case_path(@incident, { follow: true })
         else
-          # TODO - RSE - is this necessary?
-          #@form_sections = get_form_sections
+          @form_sections = get_form_sections
 
           render :action => "edit"
         end
