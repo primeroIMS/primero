@@ -70,12 +70,29 @@ class Child < CouchRest::Model::Base
                      }
                    }
                 }"
+      
+
+      view :by_ids_and_revs,
+              :map => "function(doc) {
+              if (doc['couchrest-type'] == 'Child'){
+                emit(doc._id, {_id: doc._id, _rev: doc._rev});
+              }
+            }"
   end
 
   def compact
     self['current_photo_key'] = '' if self['current_photo_key'].nil?
     self
   end
+
+  def self.fetch_all_ids_and_revs
+    ids_and_revs = []
+    all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
+    all_rows.each do |row|
+      ids_and_revs << row["value"]
+    end
+    ids_and_revs
+  end 
 
   def validate_has_at_least_one_field_value
     return true if field_definitions.any? { |field| is_filled_in?(field) }

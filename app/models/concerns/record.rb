@@ -66,13 +66,6 @@ module Record
                   emit(doc['duplicate_of'], doc);
                 }
               }"
-              
-      view :by_ids_and_revs,
-              :map => "function(doc) {
-              if (doc['couchrest-type'] == self.name){
-                emit(doc._id, {_id: doc._id, _rev: doc._rev});
-              }
-            }"
       
       # TODO         
       #Child.view_by_field_list.each do |field|
@@ -215,15 +208,6 @@ module Record
       per_page = row_count if per_page == "all"
       [row_count, self.paginate(options.merge(:design_doc => self.name, :page => page, :per_page => per_page, :include_docs => true))]
     end
-    
-    def fetch_all_ids_and_revs
-      ids_and_revs = []
-      all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
-      all_rows.each do |row|
-        ids_and_revs << row["value"]
-      end
-      ids_and_revs
-    end 
   end 
 
   def create_unique_id

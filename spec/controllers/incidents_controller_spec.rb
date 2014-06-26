@@ -10,10 +10,10 @@ require 'spec_helper'
 	# stub_export_generator
 # end
 
-def stub_out_incident_get(mock_incident = double(Incident))
-	Incident.stub(:get).and_return( mock_incident )
-	mock_incident
-end
+# def stub_out_incident_get(mock_incident = double(Incident))
+	# Incident.stub(:get).and_return( mock_incident )
+	# mock_incident
+# end
 
 describe IncidentsController do
 
@@ -93,7 +93,7 @@ describe IncidentsController do
     shared_examples_for "viewing incidents by user with access to all data" do
       describe "when the signed in user has access all data" do
         before do
-          fake_mrm_worker_login
+          fake_mrm_admin_login
           @options ||= {}
           @stubs ||= {}
         end
@@ -171,34 +171,7 @@ describe IncidentsController do
         before {@params = {:order_by => 'created_at', :page => 2}}
         it_should_behave_like "viewing incidents as a mrm worker"
       end
-    end
-
-    # context "viewing reunited incidents" do
-      # before do
-        # @status = "reunited"
-        # @stubs = {:reunited? => true}
-      # end
-      # context "admin" do
-        # before { @options = {:startkey=>["reunited"], :endkey=>["reunited", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_name} }
-        # it_should_behave_like "viewing incidents by user with access to all data"
-      # end
-      # context "field worker" do
-        # before { @options = {:startkey=>["reunited", "fakefieldworker"], :endkey=>["reunited", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_with_created_by_created_at}}
-        # it_should_behave_like "viewing incidents as a field worker"
-      # end
-    # end
-# 
-    # context "viewing flagged incidents" do
-      # before { @status = "flagged" }
-      # context "admin" do
-        # before {@options = {:startkey=>["flagged"], :endkey=>["flagged", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_name}}
-        # it_should_behave_like "viewing incidents by user with access to all data"
-      # end
-      # context "field_worker" do
-        # before {@options = {:startkey=>["flagged", "fakefieldworker"], :endkey=>["flagged", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_with_created_by_created_at}}
-        # it_should_behave_like "viewing incidents as a field worker"
-      # end
-    # end
+    end    
 
     # context "viewing active incidents" do
       # before do
@@ -243,26 +216,6 @@ describe IncidentsController do
       get :show, :id => "37"
       assigns[:incident].should equal(mock_incident)
     end
-
-    # it 'should not fail if primary_photo_id is not present' do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
-      # incident = Incident.create('last_known_location' => "London", :created_by => "uname")
-      # incident.create_unique_id
-      # Incident.stub(:get).with("37").and_return(incident)
-      # Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-# 
-      # controller.stub :render
-      # get(:show, :format => 'csv', :id => "37")
-    # end
-
-    # it "should set current photo key as blank instead of nil" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
-      # incident = Incident.create('last_known_location' => "London", :created_by => "uname")
-      # incident.create_unique_id
-      # Incident.stub(:get).with("37").and_return(incident)
-      # assigns[incident[:current_photo_key]] == ""
-      # get(:show, :format => 'json', :id => "37")
-    # end
 
     it "orders and assigns the forms" do      
       Incident.stub(:get).with("37").and_return(mock_incident)
