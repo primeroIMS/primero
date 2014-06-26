@@ -37,7 +37,11 @@ class Incident < CouchRest::Model::Base
   
   def self.search_field
     "description"
-  end  
+  end
+  
+  def self.view_by_field_list
+    ['created_at', 'description']
+  end
   
   def createClassSpecificFields(fields)
     self['incident_id'] = self.incident_id
