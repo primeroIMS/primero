@@ -18,7 +18,7 @@ Feature: Validate Date Field
 
   Scenario: As a logged in user, I create a case and validate the date field with valid values  
 		And I fill in the following:
-      | Intervention needed by     | 12/May/2014         |
+      | Intervention needed by     | 12-May-2014         |
     And I press "Save"
 		Then I should see "Case record successfully created" on the page
-    And I should see a value for "Intervention needed by" on the show page with the value of "12/May/2014"
+    And I should see a value for "Intervention needed by" on the show page with the value of "12-May-2014"

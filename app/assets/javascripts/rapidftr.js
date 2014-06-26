@@ -313,7 +313,7 @@ $(document).ready(function() {
 
   // date picker for case form date fields
   $('body').on('focus', ".form_date_field", function(){
-      $(this).datepicker({ dateFormat: 'dd/M/yy' });
+      $(this).datepicker({ dateFormat: 'dd-M-yy' });
   });
   
   //Initialize chosen in the current tab.

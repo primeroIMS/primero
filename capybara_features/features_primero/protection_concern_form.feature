@@ -27,9 +27,9 @@ Feature: Protection Concern Form
  
     And I fill in the following:
       | Details of the concern     | Test Details        |
-      | Intervention needed by     | 12/May/2014         |
+      | Intervention needed by     | 12-May-2014         |
       | Details of Action Taken    | Test Action Details |
-      | Date when action was taken | 12/May/2014         |
+      | Date when action was taken | 12-May-2014         |
 
     And I select "Migrant" from "Type of Protection Concern"
     And I select "Registration" from "Period when identified?"
@@ -43,7 +43,7 @@ Feature: Protection Concern Form
     And I should see a value for "Intervention needed?" on the show page with the value of "Urgent Intervention"    
     And I should see a value for "Has action been taken?" on the show page with the value of "Yes"
     And I should see a value for "Details of the concern" on the show page with the value of "Test Details"
-    And I should see a value for "Intervention needed by" on the show page with the value of "12/May/2014"
+    And I should see a value for "Intervention needed by" on the show page with the value of "12-May-2014"
     And I should see a value for "Details of Action Taken" on the show page with the value of "Test Action Details"
-    And I should see a value for "Date when action was taken" on the show page with the value of "12/May/2014"
+    And I should see a value for "Date when action was taken" on the show page with the value of "12-May-2014"
   

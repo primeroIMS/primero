@@ -388,6 +388,7 @@ describe Child do
   end
 
   describe "validation" do
+
     it "should disallow file formats that are not photo formats" do
       child = Child.new
       child.photo = uploadable_photo_gif

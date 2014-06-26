@@ -1,7 +1,7 @@
 shared_examples "a valid record" do
 
   it "should allow date fields formatted as dd/mm/yyyy" do
-    record['a_datefield'] = '27/Feb/2010'
+    record['a_datefield'] = '27-Feb-2010'
     record.should be_valid
   end
 
