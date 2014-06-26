@@ -66,6 +66,7 @@ class ChildrenController < ApplicationController
     @page_name = t("cases.register_new_case")
     @child = Child.new
     @child.registration_date = DateTime.now.strftime("%d/%b/%Y")
+    @child['record_state'] = ["Valid record"]
     @form_sections = get_form_sections
     respond_to do |format|
       format.html
