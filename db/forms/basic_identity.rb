@@ -10,7 +10,7 @@ basic_identity_fields = [
              "display_name_all" => "Short ID"
             }),
   Field.new({"name" => "record_state",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Record state",
              "option_strings_text_all" =>
                           ["Valid record",

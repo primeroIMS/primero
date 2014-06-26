@@ -415,7 +415,7 @@ Feature: Basic Identity Form
   And I press "Save"
   Then I should see "Please enter a valid date of birth for this case record"
 
-  Scenario: As a logged in user, When I am on the case index screen only valid recrods should be displayed
+  Scenario: As a logged in user, When I am on the case index all recrods should be displayed
     And I fill in the following:
       | Name              | Daenerys Targaryen |
       | Age               | 24                 |
@@ -452,10 +452,10 @@ Feature: Basic Identity Form
     And I press "Save"
     And I should see a value for "Record state" on the show page with the value of "Valid record"
     And I press the "Edit" button
-    And I select "Invalid record" for "Record state" radio button
+    And I select "Invalid record" from "Record state"
     And I press "Save"
     And I should see a value for "Record state" on the show page with the value of "Invalid record"
     And I access "cases page"
     Then I should see "John Snow" on the page
     And I should see "Daenerys Targaryen" on the page
-    And I should not see "Eddard Stark" on the page
+    And I should see "Eddard Stark" on the page
