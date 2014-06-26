@@ -16,14 +16,15 @@ describe "form_section/_date_field.html.erb" do
     rendered.should have_tag("img.vtip")
   end
 
-  it "should not include image for tooltip when help text not exists" do
-    date_field = Field.new :name => "new field",
-    :display_name => "field name",
-    :type => 'date_field'
+  # Date fields now default to help text with format if no help text is provided, so date field will always have tag img.vtip
+  # it "should not include image for tooltip when help text not exists" do
+  #   date_field = Field.new :name => "new field",
+  #   :display_name => "field name",
+  #   :type => 'date_field'
+  #   render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child  }, :formats => [:html], :handlers => [:erb]
+  #   rendered.should_not have_tag("img.vtip")
+  # end
 
-    render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child  }, :formats => [:html], :handlers => [:erb]
-    rendered.should_not have_tag("img.vtip")
-  end
 
   ## This was moved to a js file
   # it "should configure the date picker date format" do
