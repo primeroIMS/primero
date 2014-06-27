@@ -7,6 +7,7 @@
 # JIRA PRIMERO-213
 # JIRA PRIMERO-232
 # JIRA PRIMERO-233
+# JIRA PRIMERO-234
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -415,7 +416,7 @@ Feature: Basic Identity Form
   And I press "Save"
   Then I should see "Please enter a valid date of birth for this case record"
 
-  Scenario: As a logged in user, When I am on the case index all recrods should be displayed
+  Scenario: As a logged in user, When I am on the case index page only valid recrods should be displayed
     And I fill in the following:
       | Name              | Daenerys Targaryen |
       | Age               | 24                 |
@@ -458,4 +459,57 @@ Feature: Basic Identity Form
     And I access "cases page"
     Then I should see "John Snow" on the page
     And I should see "Daenerys Targaryen" on the page
+    And I should not see "Eddard Stark" on the page
+
+  Scenario: As a Social Worker I want to be able to view a case record that I have marked as Invalid
+    And I fill in the following:
+      | Name              | Daenerys Targaryen |
+      | Age               | 24                 |
+      | Agency Telephone  | 704-555-1212       |
+      | Other Agency Name | Test Agency        |
+      | UNHCR ID          | AAA000             |
+      | Survivor Code     | BBB111             |
+      | Nickname          | Khaleesi           |
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Valid record"
+    And I access "cases page"
+    And I press the "Create a New Case" button
+    And I fill in the following:
+      | Name              | John Snow   |
+      | Age               | 24          |
+      | Other Agency ID   | ABC12345    |
+      | Other Agency Name | Test Agency |
+      | ICRC Ref No.      | 131313      |
+      | RC ID No.         | 141414      |
+      | Nickname          | Lord Snow   |
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Valid record"
+    And I access "cases page"
+    And I press the "Create a New Case" button
+    And I fill in the following:
+      | Name              | Eddard Stark   |
+      | Age               | 45             |
+      | Agency Telephone  | 704-555-1212   |
+      | Other Agency ID   | ABC12345       |
+      | Other Agency Name | Test Agency    |
+      | UNHCR ID          | AAA001         |
+      | Survivor Code     | BBB112         |
+      | Nickname          | Lord Stark     |
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Valid record"
+    And I press the "Edit" button
+    And I select "Invalid record" from "Record state"
+    And I press "Save"
+    And I should see a value for "Record state" on the show page with the value of "Invalid record"
+    And I access "cases page"
+    Then I should see "John Snow" on the page
+    And I should see "Daenerys Targaryen" on the page
+    And I should not see "Eddard Stark" on the page
+    And I press the "Invalid Records" button
+    And I should not see "John Snow" on the page
+    And I should not see "Daenerys Targaryen" on the page
     And I should see "Eddard Stark" on the page
+    And I press the "Valid Records" button
+    And I should see "John Snow" on the page
+    And I should see "Daenerys Targaryen" on the page
+    And I should not see "Eddard Stark" on the page
