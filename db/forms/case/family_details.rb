@@ -143,6 +143,7 @@ family_details_section = FormSection.create_or_update_form_section({
     "is_nested"=>true,
     :order=> 1,
     :unique_id=>"family_details_section",
+    :parent_form=>"case",
     "editable"=>true,
     :fields => family_details_fields_subform,
     :perm_enabled => false,
@@ -176,6 +177,7 @@ family_details_fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id => "family_details",
+  :parent_form=>"case",
   "visible" => true,
   :order => 3,
   "editable" => true,
