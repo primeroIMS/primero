@@ -55,7 +55,7 @@ module RecordHelper
                                   'user_name' => created_by,
                                   'user_organisation' => organisation_of(created_by),
                                   'datetime' => created_at,
-                                  'changes' => {'child' => {:created => created_at}}
+                                  'changes' => {"#{self.class.name.downcase}" => {:created => created_at}}
                               })
   end
 
@@ -78,7 +78,28 @@ module RecordHelper
   end
 
   def field_definitions
-    @field_definitions ||= FormSection.all_visible_child_fields
+    parent_form = self.class.parent_form
+    @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
+  end
+  
+  def update_properties(properties, user_name)
+    properties['histories'] = remove_newly_created_media_history(properties['histories'])
+    should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
+    if should_update
+      attributes_to_update = {}
+      properties.each_pair do |name, value|
+        if name == "histories"
+          merge_histories(properties['histories'])
+        else
+          attributes_to_update[name] = value unless value == nil
+        end
+        attributes_to_update["#{name}_at"] = RapidFTR::Clock.current_formatted_time if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
+      end
+      self.set_updated_fields_for user_name
+      self.attributes = attributes_to_update
+    else
+      merge_histories(properties['histories'])
+    end
   end
 
   protected
@@ -128,7 +149,7 @@ module RecordHelper
   end
 
   def original_data
-    (@original_data ||= Child.get(self.id) rescue nil) || self
+    (@original_data ||= self.class.get(self.id) rescue nil) || self
   end
 
   def is_filled_in? field
@@ -136,26 +157,6 @@ module RecordHelper
   end
 
   private
-
-  def update_properties(properties, user_name)
-    properties['histories'] = remove_newly_created_media_history(properties['histories'])
-    should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
-    if should_update
-      attributes_to_update = {}
-      properties.each_pair do |name, value|
-        if name == "histories"
-          merge_histories(properties['histories'])
-        else
-          attributes_to_update[name] = value unless value == nil
-        end
-        attributes_to_update["#{name}_at"] = RapidFTR::Clock.current_formatted_time if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
-      end
-      self.set_updated_fields_for user_name
-      self.attributes = attributes_to_update
-    else
-      merge_histories(properties['histories'])
-    end
-  end
 
   def merge_histories(given_histories)
     current_histories = self['histories']

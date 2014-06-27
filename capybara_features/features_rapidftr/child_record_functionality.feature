@@ -4,12 +4,12 @@ Feature: Child record functionality
   Background:
     Given I am logged in as a user with "Register Child,Edit Child,View And Search Child" permission
     And the following children exist in the system:
-      | name     | last_known_location | reporter | unique_id    | reunited | flag  | duplicate | created_at             |flagged_at                   | reunited_at                  |
-      | andreas  | London              | zubair   | zubairlon123 | true     | false | true      | 2004-02-03 04:05:06UTC | DateTime.new(2001,2,3,4,5,6)| DateTime.new(2001,2,3,4,5,6) |
-      | zak      | London              | zubair   | zubairlon456 | false    | true  | false     | 2003-02-03 04:05:06UTC | DateTime.new(2004,2,3,4,5,6)| DateTime.new(2004,2,3,4,5,6) |
-      | jaco     | NYC                 | james    | james456     | true     | true  | false     | 2002-02-03 04:05:06UTC |DateTime.new(2002,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) |
-      | meredith | Austin              | james    | james123     | false    | false | false     | 2001-02-03 04:05:06UTC |DateTime.new(2003,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) |
-      | jane     | Eyre                | james    | james153     | false    | false | true      | 2001-02-02 04:05:06UTC | DateTime.new(2008,2,3,4,5,6)| DateTime.new(2008,2,3,4,5,6) |
+      | name     | last_known_location | reporter | unique_identifier | reunited | flag  | duplicate | created_at             |flagged_at                   | reunited_at                  |
+      | andreas  | London              | zubair   | zubairlon123      | true     | false | true      | 2004-02-03 04:05:06UTC | DateTime.new(2001,2,3,4,5,6)| DateTime.new(2001,2,3,4,5,6) |
+      | zak      | London              | zubair   | zubairlon456      | false    | true  | false     | 2003-02-03 04:05:06UTC | DateTime.new(2004,2,3,4,5,6)| DateTime.new(2004,2,3,4,5,6) |
+      | jaco     | NYC                 | james    | james456          | true     | true  | false     | 2002-02-03 04:05:06UTC |DateTime.new(2002,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) |
+      | meredith | Austin              | james    | james123          | false    | false | false     | 2001-02-03 04:05:06UTC |DateTime.new(2003,2,3,4,5,6) | DateTime.new(2002,2,3,4,5,6) |
+      | jane     | Eyre                | james    | james153          | false    | false | true      | 2001-02-02 04:05:06UTC | DateTime.new(2008,2,3,4,5,6)| DateTime.new(2008,2,3,4,5,6) |
     And I am on the cases page
 
   # TODO: Filter temp removed for demo deploy
@@ -259,8 +259,8 @@ Feature: Child record functionality
 
   Scenario: create child with numeric custom field
     Given the following form sections exist in the system:
-      | name          | unique_id     | editable  | order | visible |
-      | Basic details | basic_details | true     | 1     | true    |
+      | name          | unique_id     | parent_form | editable  | order | visible |
+      | Basic details | basic_details | case        |  true     | 1     | true    |
     And the "basic_details" form section has the field "Height" with field type "numeric_field"
     And I am on new child page
     When I fill in "Height" with "very tall"

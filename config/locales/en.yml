@@ -291,6 +291,18 @@ en:
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
 
+  incidents:
+    label: "Incidents"
+    register_new_incident: "Create a New Incident"
+
+  incident:
+    messages:
+      update_success: "Incident was successfully updated."
+      creation_success: "Incident record successfully created."
+
+    view: "View Incident %{short_id}"
+    edit: "Edit Incident"
+
   preposition:
     on_label: "on"
     because: "Because"

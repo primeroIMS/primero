@@ -1,0 +1,16 @@
+<%
+  field_keys ||= []
+  name = field_tag_name formObject, numeric_field, field_keys
+  value ||= field_value formObject, numeric_field, field_keys
+%>
+<div class="row">
+  <div class="medium-4 columns">
+    <span class="tool-tip-label">
+      <%= label_tag name, t(numeric_field.name, :default => numeric_field.display_name) , :class=>'key'%>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <%= text_field_tag name, value, :disabled => numeric_field.editable == false ? true : false %>
+    <%= image_tag "new/icon_help.png", title: numeric_field.help_text, class: 'tool-tip-icon vtip' if numeric_field.help_text.present? %>
+  </div>
+</div>

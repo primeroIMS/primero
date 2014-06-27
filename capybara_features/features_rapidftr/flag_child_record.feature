@@ -7,8 +7,8 @@ Feature: Flag child record
   Background:
    Given "Praful" logs in with "Edit Child,View And Search Child,Export to Photowall/CSV/PDF" permissions
    And the following children exist in the system:
-      | name   | unique_id |
-      | Peter  | id_1      |
+      | name   | unique_identifier |
+      | Peter  | id_1              |
 
   @javascript @wip
   Scenario: Flagging a child record

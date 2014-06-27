@@ -4,37 +4,23 @@ class Child < CouchRest::Model::Base
   MAX_PHOTOS = 10
   CHILD_PREFERENCE_MAX = 3
 
-  require "uuidtools"
-  include RecordHelper
   include RapidFTR::Model
   include RapidFTR::CouchRestRailsBackward
-  include Extensions::CustomValidator::CustomFieldsValidator
   include AttachmentHelper
   include AudioHelper
   include PhotoHelper
-
-  include Searchable
-
-  Sunspot::Adapters::InstanceAdapter.register(DocumentInstanceAccessor, Child)
-  Sunspot::Adapters::DataAccessor.register(DocumentDataAccessor, Child)
-
-  before_save :update_history, :unless => :new?
-  before_save :update_organisation
+  
+  include SearchableRecord
+  
   before_save :update_photo_keys
-  before_save :add_creation_history, :if => :new?
   before_save :update_age_birth_date
 
   property :nickname
   property :name
-  property :short_id
-  property :unique_identifier
   property :case_id
   property :registration_date
-  property :created_organisation
-  property :created_by
   property :reunited, TrueClass
   property :flag, TrueClass
-  property :duplicate, TrueClass
   property :investigated, TrueClass
   property :verified, TrueClass
   property :verified
@@ -44,14 +30,7 @@ class Child < CouchRest::Model::Base
   validate :validate_photos
   validate :validate_audio_size
   validate :validate_audio_file_name
-  validates_with FieldValidator, :type => Field::NUMERIC_FIELD
-  validates_with FieldValidator, :type => Field::DATE_FIELD
-  validate :validate_duplicate_of
-  validates_with FieldValidator, :type => Field::TEXT_AREA
-  validates_with FieldValidator, :type => Field::TEXT_FIELD
-  validate :validate_created_at
   # validate :validate_has_at_least_one_field_value
-  validate :validate_last_updated_at
   validate :validate_age
   validate :validate_date_of_birth
   validate :validate_child_wishes
@@ -69,17 +48,6 @@ class Child < CouchRest::Model::Base
     super *args
   end
 
-  def self.new_with_user_name(user, fields = {})
-    child = new(fields)
-    child.create_unique_id
-    child['short_id'] = child.short_id
-    child['case_id'] = child.case_id
-    child['name'] = fields['name'] || child.name || ''
-    child['registration_date'] ||= DateTime.now.strftime("%d-%b-%Y")
-    child['record_state'] ||= "Valid record"
-    child.set_creation_fields_for user
-    child
-  end
 
   design do
       view :by_protection_status_and_gender_and_ftr_status
@@ -93,7 +61,8 @@ class Child < CouchRest::Model::Base
                     }
                  }
               }"
-
+              
+      #TODO - move this to record concern
       ['created_at', 'name', 'flag_at', 'reunited_at'].each do |field|
         view "by_all_view_with_created_by_#{field}",
                 :map => "function(doc) {
@@ -360,47 +329,7 @@ class Child < CouchRest::Model::Base
                      }
                    }
                 }"
-
-      view :by_unique_identifier,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('unique_identifier'))
-                   {
-                      emit(doc['unique_identifier'],doc);
-                   }
-                }"
-
-      view :by_short_id,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('short_id'))
-                   {
-                      emit(doc['short_id'],doc);
-                   }
-                }"
-
-      view :by_duplicate,
-              :map => "function(doc) {
-                if (doc.hasOwnProperty('duplicate')) {
-                  emit(doc['duplicate'], doc);
-                }
-              }"
-
-      view :by_duplicates_of,
-              :map => "function(doc) {
-                if (doc.hasOwnProperty('duplicate_of')) {
-                  emit(doc['duplicate_of'], doc);
-                }
-              }"
-
-      view :by_user_name,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('histories')){
-                      for(var index=0; index<doc['histories'].length; index++){
-                          emit(doc['histories'][index]['user_name'], doc)
-                      }
-                   }
-                }"
-
-      view :by_created_by
+      
 
       view :by_ids_and_revs,
               :map => "function(doc) {
@@ -422,32 +351,7 @@ class Child < CouchRest::Model::Base
       ids_and_revs << row["value"]
     end
     ids_and_revs
-  end
-
-  def self.fetch_paginated(options, page, per_page)
-    row_count = send("#{options[:view_name]}_count", options.merge(:include_docs => false))['rows'].size
-    per_page = row_count if per_page == "all"
-    [row_count, self.paginate(options.merge(:design_doc => 'Child', :page => page, :per_page => per_page, :include_docs => true))]
-  end
-
-  def self.build_solar_schema
-    text_fields = build_text_fields_for_solar
-    date_fields = build_date_fields_for_solar
-    Sunspot.setup(Child) do
-      text *text_fields
-      date *date_fields
-      date_fields.each { |date_field| date date_field }
-      boolean :duplicate
-    end
-  end
-
-  def self.build_text_fields_for_solar
-    ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name", "created_organisation"] + Field.all_searchable_field_names
-  end
-
-  def self.build_date_fields_for_solar
-    ["created_at", "last_updated_at"]
-  end
+  end 
 
   def validate_has_at_least_one_field_value
     return true if field_definitions.any? { |field| is_filled_in?(field) }
@@ -513,38 +417,12 @@ class Child < CouchRest::Model::Base
     validate_audio_size.is_a?(TrueClass) && validate_audio_file_name.is_a?(TrueClass)
   end
 
-  def validate_created_at
-    begin
-      if self['created_at']
-        DateTime.parse self['created_at']
-      end
-      true
-    rescue
-      errors.add(:created_at, '')
-    end
-  end
-
-  def validate_last_updated_at
-    begin
-      if self['last_updated_at']
-        DateTime.parse self['last_updated_at']
-      end
-      true
-    rescue
-      errors.add(:last_updated_at, '')
-    end
-  end
-
   def validate_child_wishes
     return true if self['child_preferences_section'].nil? || self['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
     errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
     error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
-
-  def method_missing(m, *args, &block)
-    self[m]
-  end
-
+  
   def to_s
     if self['name'].present?
       "#{self['name']} (#{self['unique_identifier']})"
@@ -556,54 +434,26 @@ class Child < CouchRest::Model::Base
   def self.all
     view('by_name', {})
   end
-
-  def self.all_by_creator(created_by)
-    self.by_created_by :key => created_by
+  
+  def self.search_field
+    "name"
   end
-
-  # this is a helper to see the duplicates for test purposes ... needs some more thought. - cg
-  def self.duplicates
-    by_duplicate(:key => true)
-  end
-
-  def self.duplicates_of(id)
-    by_duplicates_of(:key => id).all
-  end
-
-  def self.search_by_created_user(search, created_by, page_number = 1)
-    created_by_criteria = [SearchCriteria.new(:field => "created_by", :value => created_by, :join => "AND")]
-    search(search, page_number, created_by_criteria, created_by)
-  end
-
-  def self.search(search, page_number = 1, criteria = [], created_by = "")
-    return [] unless search.valid?
-    search_criteria = [SearchCriteria.new(:field => "short_id", :value => search.query)]
-    search_criteria.concat([SearchCriteria.new(:field => "name", :value => search.query, :join => "OR")]).concat(criteria)
-    SearchService.search page_number, search_criteria
+  
+  def self.view_by_field_list
+    ['created_at', 'name', 'flag_at', 'reunited_at']
   end
 
   def self.flagged
     by_flag(:key => true)
   end
-
-  def self.all_connected_with(user_name)
-     #TODO Investigate why the hash of the objects got different.
-     (by_user_name(:key => user_name).all + all_by_creator(user_name).all).uniq {|child| child.unique_identifier}
-  end
-
-  def create_unique_id
-    self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
-  end
-
-  def short_id
-    (self['unique_identifier'] || "").last 7
-  end
+  
+  def createClassSpecificFields(fields)
+    self['case_id'] = self.case_id
+    self['name'] = fields['name'] || self.name || ''
+    self['registration_date'] ||= DateTime.now.strftime("%d-%b-%Y")
+  end 
 
   def case_id
-    self['unique_identifier']
-  end
-
-  def unique_identifier
     self['unique_identifier']
   end
 
@@ -612,17 +462,7 @@ class Child < CouchRest::Model::Base
     user_names_after_deletion.delete(self['created_by'])
     self['last_updated_by'].blank? || user_names_after_deletion.blank?
   end
-
-  def mark_as_duplicate(parent_id)
-    self['duplicate'] = true
-    self['duplicate_of'] = Child.by_short_id(:key => parent_id).first.try(:id)
-  end
-
-  def self.schedule(scheduler)
-    scheduler.every("24h") do
-      Child.reindex!
-    end
-  end
+  
 
   def error_with_section(field, message)
     lookup = field_definitions.select{ |f| f.name == field.to_s }
@@ -668,8 +508,5 @@ class Child < CouchRest::Model::Base
   def key_for_content_type(content_type)
     Mime::Type.lookup(content_type).to_sym.to_s
   end
-
-  def validate_duplicate_of
-    return errors.add(:duplicate, I18n.t("errors.models.child.validate_duplicate")) if self["duplicate"] && self["duplicate_of"].blank?
-  end
+  
 end

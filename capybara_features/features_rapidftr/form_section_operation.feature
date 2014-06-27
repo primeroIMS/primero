@@ -5,12 +5,13 @@ Feature: Form section operation
   Background:
     Given I am logged in as an admin
     And the following form sections exist in the system:
-      | name                  | description                   | unique_id         | order | perm_enabled |visible|editable |
-      | Basic Identity        | Basic identity about a child  | basic_identity    | 1     | true         |true   |true     |
-      | Family Details        | Details of the child's family | family_details    | 2     | false        |true   |true     |
-      | Care Arrangements     |                               | care_arrangements | 3     | false        |true   |true     |
-      | Other hidden section  |                               | hidden_section    | 4     | false        |false  |true     |
-      | Other visible section |                               | visible_section   | 5     | false        |true   |true     |
+      | name                  | description                   | unique_id         | parent_form | order | perm_enabled |visible|editable |
+      | Basic Identity        | Basic identity about a child  | basic_identity    | case        | 1     | true         |true   |true     |
+      | Family Details        | Details of the child's family | family_details    | case        | 2     | false        |true   |true     |
+      | Care Arrangements     |                               | care_arrangements | case        | 3     | false        |true   |true     |
+      | Other hidden section  |                               | hidden_section    | case        | 4     | false        |false  |true     |
+      | Other visible section |                               | visible_section   | case        | 5     | false        |true   |true     |
+      | Incident Form         |                               | incident_section  | incident    | 1     | false        |true   |true     |
 
     And the following fields exists on "basic_identity":
       | name           | type       | display_name | editable |

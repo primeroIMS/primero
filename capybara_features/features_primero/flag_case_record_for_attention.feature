@@ -7,8 +7,8 @@ Feature: Flag Case Record For Attention
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     And the following children exist in the system:
-      | name   | unique_id |
-      | Shaggy  | id_1      |
+      | name    | unique_identifier |
+      | Shaggy  | id_1              |
 
 
   Scenario Outline: I should have a Flag Record button on the case record 

@@ -3,11 +3,11 @@ Feature: List children
 
   Background:
     Given the following children exist in the system:
-      | name     | last_known_location | reporter | unique_id    |  birthplace    |
-      | andreas  | London              | zubair   | zub_01       |  nairobi       |
-      | zak      | London              | zubair   | zub_02       |  bengal        |
-      | jaco     | NYC                 | james    | jam_01       |  kerala        |
-      | meredith | Austin              | james    | jam_02       |  cairo         |
+      | name     | last_known_location | reporter | unique_identifier |  birthplace    |
+      | andreas  | London              | zubair   | zub_01            |  nairobi       |
+      | zak      | London              | zubair   | zub_02            |  bengal        |
+      | jaco     | NYC                 | james    | jam_01            |  kerala        |
+      | meredith | Austin              | james    | jam_02            |  cairo         |
     And I am logged in as an admin
 
   Scenario: View link is not available on children listing page
@@ -24,25 +24,25 @@ Feature: List children
 
   Scenario: Pagination links are available for more than 20 records
     Given the following children exist in the system:
-      | name     | last_known_location | reporter | unique_id    |  birthplace    |
-      | rayn     | London              | zubair   | zubairlon233 |  nairobi       |
-      | zakir    | London              | zubair   | zubairlon423 |  bengal        |
-      | shaikh   | NYC                 | james    | james423     |  kerala        |
-      | marylyn  | Austin              | james    | james124     |  cairo         |
-      | jacklyn  | Austin              | james    | james125     |  cairo         |
-      | imran    | Austin              | james    | james126     |  cairo         |
-      | sachin   | Austin              | james    | james127     |  cairo         |
-      | virat    | Austin              | james    | james128     |  cairo         |
-      | gambhir  | Austin              | james    | james129     |  cairo         |
-      | mahendra | Austin              | james    | james130     |  cairo         |
-      | yuvraj   | Austin              | james    | james141     |  cairo         |
-      | ashwin   | Austin              | james    | james142     |  cairo         |
-      | piyush   | Austin              | james    | james143     |  cairo         |
-      | ravindra | Austin              | james    | james144     |  cairo         |
-      | ishant   | Austin              | james    | james145     |  cairo         |
-      | pujara   | Austin              | james    | james146     |  cairo         |
-      | sehwag   | Austin              | james    | james147     |  cairo         |
-      | pragyan  | Austin              | james    | james148     |  cairo         |
+      | name     | last_known_location | reporter | unique_identifier  |  birthplace    |
+      | rayn     | London              | zubair   | zubairlon233       |  nairobi       |
+      | zakir    | London              | zubair   | zubairlon423       |  bengal        |
+      | shaikh   | NYC                 | james    | james423           |  kerala        |
+      | marylyn  | Austin              | james    | james124           |  cairo         |
+      | jacklyn  | Austin              | james    | james125           |  cairo         |
+      | imran    | Austin              | james    | james126           |  cairo         |
+      | sachin   | Austin              | james    | james127           |  cairo         |
+      | virat    | Austin              | james    | james128           |  cairo         |
+      | gambhir  | Austin              | james    | james129           |  cairo         |
+      | mahendra | Austin              | james    | james130           |  cairo         |
+      | yuvraj   | Austin              | james    | james141           |  cairo         |
+      | ashwin   | Austin              | james    | james142           |  cairo         |
+      | piyush   | Austin              | james    | james143           |  cairo         |
+      | ravindra | Austin              | james    | james144           |  cairo         |
+      | ishant   | Austin              | james    | james145           |  cairo         |
+      | pujara   | Austin              | james    | james146           |  cairo         |
+      | sehwag   | Austin              | james    | james147           |  cairo         |
+      | pragyan  | Austin              | james    | james148           |  cairo         |
     When I am on the children listing page
     Then I should see "20" children on the page
     And I should see pagination links for first page

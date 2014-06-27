@@ -70,7 +70,7 @@ describe Enquiry do
 
       before :each do
         FormSection.all.each(&:destroy)
-        form = FormSection.new(:name => "test_form")
+        form = FormSection.new(:name => "test_form", :parent_form => 'case')
         form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
         form.fields << Field.new(:name => "location", :type => Field::TEXT_FIELD, :display_name => "location")
         form.fields << Field.new(:name => "gender", :type => Field::TEXT_FIELD, :display_name => "gender")

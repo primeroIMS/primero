@@ -13,8 +13,8 @@ Scenario: Should be restricted to 200 characters in a text field
 
 Scenario: Should be restricted to 400,000 characters in a text area
 	Given the following form sections exist in the system:
-      | name | unique_id | editable | order |
-      | Basic details | basic_details | true | 1 |
+      | name          | unique_id     | parent_form  |editable | order |
+      | Basic details | basic_details | case         |true     | 1     |
 	Given the following fields exists on "basic_details":
 		| name | type | display_name |
 		| my_text_area | textarea | my text area |

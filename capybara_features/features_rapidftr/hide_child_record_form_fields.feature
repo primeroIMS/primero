@@ -8,9 +8,9 @@ Feature: Hide Child Record Form Fields
   Background:
    Given I am logged in as an admin
      And the following form sections exist in the system:
-      | name           | unique_id      | editable | order | visible |
-      | Basic details  | basic_details  | false    | 1     | true    |
-      | Family details | family_details | true     | 2     | true    |
+      | name           | unique_id      | parent_form | editable | order | visible |
+      | Basic details  | basic_details  | case        | false    | 1     | true    |
+      | Family details | family_details | case        | true     | 2     | true    |
      And the following fields exists on "family_details":
       | name          | type       | display_name  |
       | name          | text_field | Name          |

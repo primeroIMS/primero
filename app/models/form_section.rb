@@ -4,6 +4,7 @@ class FormSection < CouchRest::Model::Base
   use_database :form_section
   localize_properties [:name, :help_text, :description]
   property :unique_id
+  property :parent_form
   property :visible, TrueClass, :default => true
   property :order, Integer
   property :fields, [Field]
@@ -17,6 +18,7 @@ class FormSection < CouchRest::Model::Base
 
   design do
     view :by_unique_id
+    view :by_parent_form
     view :by_order
     view :subform_form,
       :map => "function(doc) {
@@ -66,9 +68,9 @@ class FormSection < CouchRest::Model::Base
     def all_child_field_names
       all_child_fields.map { |field| field["name"] }
     end
-
-    def all_visible_child_fields
-      enabled_by_order.map do |form_section|
+    
+    def all_visible_form_fields(parent_form = 'case')
+      find_all_visible_by_parent_form(parent_form).map do |form_section|
         form_section.fields.find_all(&:visible)
       end.flatten
     end
@@ -110,6 +112,15 @@ class FormSection < CouchRest::Model::Base
   def self.get_by_unique_id unique_id
     by_unique_id(:key => unique_id).first
   end
+  
+  def self.find_all_visible_by_parent_form parent_form
+    by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| e[:order]}
+  end
+  
+  def self.find_by_parent_form parent_form
+    by_parent_form(:key => parent_form).all
+  end
+  
 
   def self.add_field_to_formsection formsection, field
     raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable

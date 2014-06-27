@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="file medium-12 columns">
+    <%= label_tag "child[audio]", "Recorded Audio", :class=>'key' %>
+    <%= file_field_tag "child[audio]" %>
+
+    <ul class="audio_player_section">
+      <%= render :partial => "form_section/field_display_audio", :locals => {:field => nil, :formObject => formObject, :display_audio_delete_checkbox => true} %>
+    </ul>
+
+    <% if audio_upload_box.help_text.present? %>
+      <br/>
+    <span class='help-text-container'>
+      <span class='help-text'>
+        <%= audio_upload_box.help_text %>
+      </span>
+    </span>
+    <% end %>
+  </div>
+</div>

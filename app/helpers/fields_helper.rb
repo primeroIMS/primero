@@ -19,7 +19,7 @@ module FieldsHelper
     if field_keys.present?
       "#{object.class.name.downcase}[#{field_keys.join('][')}]"
     else
-      field.tag_name_attribute
+      field.tag_name_attribute(object.class.name.downcase)
     end
   end
 

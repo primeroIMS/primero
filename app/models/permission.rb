@@ -29,9 +29,15 @@ class Permission
   SYSTEM = Permission.to_ordered_hash({:contact_information => "System Settings",
                                        :highlight_fields => "Highlight Fields",
                                        :system_users => "Users for synchronisation"})
+  INCIDENTS = Permission.to_ordered_hash({:register => "Register Incident"},
+                                        {:edit => "Edit Incident"},
+                                        {:view_and_search => "View And Search Incident"},
+                                        {:export_csv => "Export to CSV"},
+                                        {:export_pdf => "Export to PDF"}
+  )
 
   def self.all
-    {"Children" => CHILDREN, "Forms" => FORMS, "Users" => USERS, "Devices" => DEVICES, "Reports" => REPORTS, "Roles" => ROLES, "System" => SYSTEM, "Enquiries" => ENQUIRIES}
+    {"Children" => CHILDREN, "Forms" => FORMS, "Users" => USERS, "Devices" => DEVICES, "Reports" => REPORTS, "Roles" => ROLES, "System" => SYSTEM, "Enquiries" => ENQUIRIES, "Incidents" => INCIDENTS}
   end
 
   def self.all_permissions
@@ -39,7 +45,7 @@ class Permission
   end
 
   def self.hashed_values
-    {"Children" => CHILDREN.values, "Forms" => FORMS.values, "Users" => USERS.values, "Devices" => DEVICES.values, "Reports" => REPORTS.values, "Roles" => ROLES.values, "System" => SYSTEM.values, "Enquiries" => ENQUIRIES.values}
+    {"Children" => CHILDREN.values, "Forms" => FORMS.values, "Users" => USERS.values, "Devices" => DEVICES.values, "Reports" => REPORTS.values, "Roles" => ROLES.values, "System" => SYSTEM.values, "Enquiries" => ENQUIRIES.values, "Incidents" => INCIDENTS.values}
   end
 
 end

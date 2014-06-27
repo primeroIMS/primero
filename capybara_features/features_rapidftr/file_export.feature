@@ -7,10 +7,10 @@ Feature: File export
   Background:
     Given I am logged in as a user with "View And Search Child,Export to Photowall,Export to CSV,Export to PDF,Export to CPIMS,Edit Child" permissions
     And the following children exist in the system:
-      | name      | unique_id  | created_by |
-      | Will      | will_uid   | user1      |
-      | Willis    | willis_uid | user1      |
-      | Wilma     | wilma_uid  | user1      |
+      | name      | unique_identifier  | created_by |
+      | Will      | will_uid           | user1      |
+      | Willis    | willis_uid         | user1      |
+      | Wilma     | wilma_uid          | user1      |
 
   @javascript @search
   Scenario Outline: : In search results, when a single record is selected and the export button is clicked, a file is generated
@@ -95,8 +95,8 @@ Feature: File export
   @javascript
   Scenario: Exporting PDF when there is no photo
     Given the following children exist in the system:
-      | name           | unique_id  | photo_path |
-      | Billy No Photo | billy_no_photo_uid   |  |
+      | name           | unique_identifier  | photo_path |
+      | Billy No Photo | billy_no_photo_uid |            |
     When I am on the saved record page for child with name "Billy No Photo"
     And I follow "Export"
     And I follow "Export to PDF"

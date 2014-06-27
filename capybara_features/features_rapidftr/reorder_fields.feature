@@ -5,9 +5,9 @@ Feature: Reorder fields
   Background:
 
     Given the following form sections exist in the system:
-      | name           | unique_id      | editable | order |
-      | Basic details  | basic_details  | false    | 1     |
-      | Family details | family_details | true     | 2     |
+      | name           | unique_id      | parent_form | editable | order |
+      | Basic details  | basic_details  | case        | false    | 1     |
+      | Family details | family_details | case        | true     | 2     |
     And the "basic details" form section has the field "name" with help text "name"
     And the "family details" form section has the field "first" with help text "first field"
     And the "family details" form section has the field "mother" with help text "mother's name"

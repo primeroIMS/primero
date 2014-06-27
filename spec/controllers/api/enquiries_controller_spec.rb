@@ -93,7 +93,7 @@ describe Api::EnquiriesController do
 
 
     before :all do
-      form = FormSection.new(:name => "test_form")
+      form = FormSection.new(:name => "test_form", :parent_form => 'case')
       form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
       form.fields << Field.new(:name => "sex", :type => Field::TEXT_FIELD, :display_name => "sex")
       form.save!

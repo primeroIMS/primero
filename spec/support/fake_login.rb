@@ -30,6 +30,20 @@ module FakeLogin
     user.stub(:roles).and_return([Role.new(:permissions => [Permission::CHILDREN[:register]])])
     fake_login user
   end
+  
+  def fake_mrm_admin_login
+    user = User.new(:user_name => 'fakemrmadmin')
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENTS[:view_and_search],
+                                                            Permission::INCIDENTS[:create],
+                                                            Permission::INCIDENTS[:edit]])])
+    fake_login user
+  end
+  
+  def fake_mrm_worker_login
+    user = User.new(:user_name => 'fakemrmworker')
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENTS[:register]])])
+    fake_login user
+  end
 
   def fake_login_as(permission = Permission.all_permissions)
     user = User.new(:user_name => 'fakelimited')

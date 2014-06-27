@@ -3,8 +3,8 @@ Feature: System settings access
 
   Background:
     Given the following form sections exist in the system:
-      | name          | description                 | unique_id     | order |
-      | Basic Details | Basic details about a child | basic_details | 1     |
+      | name          | description                 | unique_id     | parent_form | order |
+      | Basic Details | Basic details about a child | basic_details | case        | 1     |
 
   Scenario: An admin can get to all sorts of interesting pages
     Given I am logged in as a user with "System Settings" permission

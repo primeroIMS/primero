@@ -1,0 +1,28 @@
+<p>
+  Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better.
+</p>
+<div id="photo-group">
+  <div class="row">
+    <div class="file medium-12 columns">
+      <span class="tool-tip-label">
+        <%= label_tag "child[photo]0", "Add Photo", :class=>'key' %>
+
+      </span>
+      <%= file_field_tag "child[photo]0" %>
+
+      <%= image_tag "new/icon_help.png", title: photo_upload_box.help_text, class: 'tool-tip-icon vtip' if photo_upload_box.help_text.present? %>
+
+    </div>
+  </div>
+</div>
+<%= link_to 'Add another photo', '', id: 'add-photo', class: 'green-button right' %>
+<hr>
+<% formObject.photos.each do |photo| %>
+    <div class="row">
+      <div class="thumbnail medium-12 columns">
+        <%= label_tag "delete_child_photo[#{photo.name}]", t("child.actions.delete_photo") %>
+        <%= check_box_tag("delete_child_photo[#{photo.name}]") %>
+        <%= thumbnail_tag(formObject, photo.name) %>
+      </div>
+    </div>
+<% end %>

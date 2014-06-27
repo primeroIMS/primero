@@ -1,16 +1,10 @@
 class ChildrenController < ApplicationController
-  skip_before_filter :verify_authenticity_token
-  skip_before_filter :check_authentication, :only => [:reindex]
-
-  before_filter :load_child_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
-  before_filter :current_user, :except => [:reindex]
+  include RecordActions
+  include SearchingForRecords  
+  
+  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]  
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
-
-  def reindex
-    Child.reindex!
-    render :nothing => true
-  end
 
   # GET /children
   # GET /children.xml
@@ -44,7 +38,6 @@ class ChildrenController < ApplicationController
   # GET /children/1.xml
   def show
     authorize! :read, @child if @child["created_by"] != current_user_name
-    @form_sections = get_form_sections
     @page_name = t "case.view", :short_id => @child.short_id
     @body_class = 'profile-page'
     @duplicates = Child.duplicates_of(params[:id])
@@ -67,7 +60,6 @@ class ChildrenController < ApplicationController
     @child = Child.new
     @child.registration_date = DateTime.now.strftime("%d-%b-%Y")
     @child['record_state'] = ["Valid record"]
-    @form_sections = get_form_sections
     respond_to do |format|
       format.html
       format.xml { render :xml => @child }
@@ -79,7 +71,6 @@ class ChildrenController < ApplicationController
     authorize! :update, @child
 
     @page_name = t("case.edit")
-    @form_sections = get_form_sections
   end
 
   # POST /children
@@ -216,21 +207,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def search
-    authorize! :index, Child
-
-    @page_name = t("search")
-    if (params[:query])
-      @search = Search.new(params[:query])
-      if @search.valid?
-        search_by_user_access(params[:page] || 1)
-      else
-        render :search
-      end
-    end
-    default_search_respond_to
-  end
-
   #Exposed for unit testability
   def reindex_params_subforms(params)
     #get all the nested params
@@ -267,23 +243,7 @@ class ChildrenController < ApplicationController
     child_params['histories'] = JSON.parse(child_params['histories']) if child_params and child_params['histories'].is_a?(String) #histories might come as string from the mobile client.
   end
 
-  def get_form_sections
-    FormSection.enabled_by_order
-  end
-
-  def default_search_respond_to
-    respond_to do |format|
-      format.html do
-        if @results && @results.length == 1
-          redirect_to child_path(@results.first)
-        end
-      end
-
-      respond_to_export format, @results
-    end
-  end
-
-  def load_child_or_redirect
+  def load_record_or_redirect
     @child = Child.get(params[:id])
 
     if @child.nil?
@@ -325,14 +285,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def search_by_user_access(page_number = 1)
-    if can? :view_all, Child
-      @results, @full_results = Child.search(@search, page_number)
-    else
-      @results, @full_results = Child.search_by_created_user(@search, current_user_name, page_number)
-    end
-  end
-
   def update_child_from params
     child = @child || Child.get(params[:id]) || Child.new_with_user_name(current_user, params[:child])
     authorize! :update, child
@@ -363,6 +315,10 @@ class ChildrenController < ApplicationController
 
   def export_filename(children, export_task)
     (children.length == 1 ? children.first.short_id : current_user_name) + '_' + export_task.id.to_s + '.zip'
+  end
+  
+  def set_class_name
+    @className = Child
   end
 
 end

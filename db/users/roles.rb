@@ -31,6 +31,18 @@ Role.create!(
 )
 
 Role.create!(
+  :name => "mrm worker",
+  :permissions => [
+    Permission::INCIDENTS[:view_and_search],
+    Permission::INCIDENTS[:register],
+    Permission::INCIDENTS[:edit],
+    Permission::INCIDENTS[:export],
+    Permission::REPORTS[:view],
+    Permission::USERS[:view]
+  ]
+)
+
+Role.create!(
   :name => "senior official",
   :permissions => [Permission::REPORTS[:view]])
 

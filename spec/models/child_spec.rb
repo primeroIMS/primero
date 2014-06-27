@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe Child do
+  it_behaves_like "a valid record" do
+    let(:record) {
+      FormSection.stub(:all_visible_form_fields =>
+                      [
+                        Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
+                        Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
+                        Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
+                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
+                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
+                      ])
+      Child.new
+    }
+  end
 
   describe 'build solar schema' do
 
@@ -14,7 +27,7 @@ describe Child do
     end
 
     it "fields build with all fields in form sections" do
-      form = FormSection.new(:name => "test_form")
+      form = FormSection.new(:name => "test_form", :parent_form => 'case')
       form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
       form.save!
       Child.build_text_fields_for_solar.should include("name")
@@ -37,7 +50,7 @@ describe Child do
     end
 
     before :all do
-      form = FormSection.new(:name => "test_form")
+      form = FormSection.new(:name => "test_form", :parent_form => 'case')
       form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
       form.save!
     end
@@ -147,7 +160,7 @@ describe Child do
     end
 
     before :all do
-      form = FormSection.new(:name => "test_form")
+      form = FormSection.new(:name => "test_form", :parent_form => 'case')
       form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
       form.save!
     end
@@ -230,7 +243,7 @@ describe Child do
 
     # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?
     xit "should not add changes to history if its already added to the history" do
-      FormSection.stub(:all_visible_child_fields =>
+      FormSection.stub(:all_visible_form_fields =>
                             [Field.new(:type => Field::TEXT_FIELD, :name => "name", :display_name => "Name"),
                              Field.new(:type => Field::CHECK_BOXES, :name => "not_name")])
       child = Child.new("name" => "old", "last_updated_at" => "2012-12-12 00:00:00UTC")
@@ -375,112 +388,6 @@ describe Child do
   end
 
   describe "validation" do
-    # Next 3 tests no longer valid
-    # context "child with only a photo registered" do
-    #   before :each do
-    #     User.stub(:find_by_user_name).and_return(double(:organisation => 'stc'))
-    #   end
-    #
-    #   it 'should not be able to delete photo of child  with only one photo' do
-    #     child = Child.new
-    #     child.photo = uploadable_photo
-    #     child.save
-    #     child.delete_photos [child.primary_photo.name]
-    #     child.should_not be_valid
-    #     child.errors[:validate_has_at_least_one_field_value].should == ["Please fill in at least one field or upload a file"]
-    #   end
-    # end
-
-    # it "should fail to validate if all fields are nil" do
-    #   child = Child.new
-    #   FormSection.stub(:all_visible_child_fields).and_return [Field.new(:type => 'numeric_field', :name => 'height', :display_name => "height")]
-    #   child.should_not be_valid
-    #   child.errors[:validate_has_at_least_one_field_value].should == ["Please fill in at least one field or upload a file"]
-    # end
-
-    # it "should fail to validate if all fields on child record are the default values" do
-    #   child = Child.new({:height=>"",:reunite_with_mother=>""})
-    #   FormSection.stub(:all_visible_child_fields).and_return [
-    #     Field.new(:type => Field::NUMERIC_FIELD, :name => 'height'),
-    #     Field.new(:type => Field::RADIO_BUTTON, :name => 'reunite_with_mother'),
-    #     Field.new(:type => Field::PHOTO_UPLOAD_BOX, :name => 'current_photo_key') ]
-    #     child.should_not be_valid
-    #     child.errors[:validate_has_at_least_one_field_value].should == ["Please fill in at least one field or upload a file"]
-    # end
-
-    it "should validate numeric types" do
-      field = Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"})
-      field.should_receive(:form).and_return(FormSection.new)
-      child = Child.new
-      child[:height] = "very tall"
-      FormSection.stub(:all_visible_child_fields).and_return([field])
-
-      child.should_not be_valid
-      child.errors[:height].should == ["height must be a valid number"]
-    end
-
-    it "should validate multiple numeric types" do
-      fields = [
-                Field.new({:type => 'numeric_field', :name => 'height', :display_name => "height"}),
-                Field.new({:type => 'numeric_field', :name => 'new_age', :display_name => "new age"})
-               ].each do |field|
-        field.should_receive(:form).and_return(FormSection.new)
-      end
-        child = Child.new
-        child[:height] = "very tall"
-        child[:new_age] = "very old"
-        FormSection.stub(:all_visible_child_fields).and_return(fields)
-
-        child.should_not be_valid
-        child.errors[:height].should == ["height must be a valid number"]
-        child.errors[:new_age].should == ["new age must be a valid number"]
-    end
-
-    it "should disallow text field values to be more than 200 chars" do
-      fields = [Field.new(:type => Field::TEXT_FIELD, :name => "name", :display_name => "Name"),
-                               Field.new(:type => Field::CHECK_BOXES, :name => "not_name")]
-      fields[0].should_receive(:form).and_return(FormSection.new)
-      FormSection.stub(:all_visible_child_fields => fields)
-                        child = Child.new :name => ('a' * 201)
-                        child.should_not be_valid
-                        child.errors[:name].should == ["Name cannot be more than 200 characters long"]
-    end
-
-    it "should disallow text area values to be more than 400,000 chars" do
-      field = Field.new(:type => Field::TEXT_AREA, :name => "a_textfield", :display_name => "A textfield")
-      field.should_receive(:form).and_return(FormSection.new)
-      FormSection.stub(:all_visible_child_fields => [field])
-                        child = Child.new :a_textfield => ('a' * 400_001)
-                        child.should_not be_valid
-                        child.errors[:a_textfield].should == ["A textfield cannot be more than 400000 characters long"]
-    end
-
-    it "should allow text area values to be 400,000 chars" do
-      FormSection.stub(:all_visible_child_fields =>
-                        [Field.new(:type => Field::TEXT_AREA, :name => "a_textfield", :display_name => "A textfield")])
-                        child = Child.new :a_textfield => ('a' * 400_000)
-                        child.should be_valid
-    end
-
-    it "should allow date fields formatted as dd/mm/yyyy" do
-      FormSection.stub(:all_visible_child_fields =>
-                        [Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A datefield")])
-                        child = Child.new :a_datefield => ('27-Feb-2010')
-                        child.should be_valid
-    end
-
-    it "should not allow invalid formatted dates" do
-      FormSection.stub(:all_visible_child_fields =>
-                        [Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A datefield")])
-                        child = Child.new :a_datefield => ('27 Feb 10')
-                        child.should_not be_valid
-    end
-
-    it "should pass numeric fields that are valid numbers to 1 dp" do
-      FormSection.stub(:all_visible_child_fields =>
-                        [Field.new(:type => Field::NUMERIC_FIELD, :name => "height")])
-                        Child.new(:height => "10.2").should be_valid
-    end
 
     it "should disallow file formats that are not photo formats" do
       child = Child.new
@@ -532,20 +439,6 @@ describe Child do
       child.should_not be_valid
     end
 
-    it "created_at should be a be a valid ISO date" do
-      child = create_child_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => 'I am not a date')
-      child.should_not be_valid
-      child['created_at']='2010-01-14 14:05:00UTC'
-      child.should be_valid
-    end
-
-    it "last_updated_at should be a be a valid ISO date" do
-      child = create_child_with_created_by('some_user', 'some_field' => 'some_value', 'last_updated_at' => 'I am not a date')
-      child.should_not be_valid
-      child['last_updated_at']='2010-01-14 14:05:00UTC'
-      child.should be_valid
-    end
-
     it "should calculate the child's age based on the date of birth" do
       child = create_child "Bob McBobberson", :date_of_birth => "02/May/1990"
       age = Date.today.year - 1990
@@ -556,20 +449,6 @@ describe Child do
       child = create_child "Bob McBobberson", :age => "24"
       year_of_birth = Date.today.year - 24
       child.date_of_birth.should eq(Date.parse("01/Jan/#{year_of_birth}").strftime("%d/%b/%Y"))
-    end
-
-    describe "validate_duplicate_of" do
-      it "should validate duplicate_of field present when duplicate flag true" do
-        child = Child.new('duplicate' => true, 'duplicate_of' => nil)
-        child.should_not be_valid
-        child.errors[:duplicate].should include("A valid duplicate ID must be provided")
-      end
-
-      it "should not validate duplicate_of field present when duplicate flag is false" do
-        child = Child.new('duplicate' => false, 'duplicate_of' => nil)
-        child.valid?
-        child.errors[:duplicate].should_not include("A valid duplicate ID must be provided")
-      end
     end
   end
 
@@ -1075,7 +954,7 @@ describe Child do
           Field.new_radio_button("gender", ["male", "female"]),
           Field.new_photo_upload_box("current_photo_key"),
           Field.new_audio_upload_box("recorded_audio")]
-      FormSection.stub(:all_visible_child_fields).and_return(fields)
+      FormSection.stub(:all_visible_form_fields).and_return(fields)
       mock_user = double({:organisation => 'UNICEF'})
       User.stub(:find_by_user_name).with(anything).and_return(mock_user)
     end
