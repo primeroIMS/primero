@@ -15,7 +15,7 @@ Feature: Services
     And I fill in the 1st "Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
       | Did you refer the client for this service? | <Select> Referred     |
-      | Appointment Date                           | 30/May/2014           |
+      | Appointment Date                           | 30-May-2014           |
       | Appointment Time                           | 8                     |
       | Service Provider                           | IRC                   |
       | Service Location                           | Kenya                 |
@@ -26,7 +26,7 @@ Feature: Services
     And I should see a value for "Who referred the client to you?" on the show page with the value of "Psychosocial/Counseling Services"
     And I should see a value for "Type of Service" on the show page with the value of "Safehouse"
     And I should see a value for "Did you refer the client for this service?" on the show page with the value of "Referred"
-    And I should see a value for "Appointment Date" on the show page with the value of "30/May/2014"
+    And I should see a value for "Appointment Date" on the show page with the value of "30-May-2014"
     And I should see a value for "Appointment Time" on the show page with the value of "8"
     And I should see a value for "Service Provider" on the show page with the value of "IRC"
     And I should see a value for "Service Location" on the show page with the value of "Kenya"

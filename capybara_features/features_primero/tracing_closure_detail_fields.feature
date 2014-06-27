@@ -19,7 +19,7 @@ Feature: Tracing Closure Details Fields
       | Caregiver Address         |
       | Caregiver Location        |
     And I fill in the following:
-      | Date of Closure        | 04/May/2014                |
+      | Date of Closure        | 04-May-2014                |
       | Caregiver Name         | Shabazz Nurendu            |
       | Caregiver Relationship | Father                     |
       | Caregiver Address      | 1900 B. Ave                |
@@ -27,7 +27,7 @@ Feature: Tracing Closure Details Fields
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see "Closure Details" on the page
-    And I should see a value for "Date of Closure" on the show page with the value of "04/May/2014"
+    And I should see a value for "Date of Closure" on the show page with the value of "04-May-2014"
     And I should see a value for "Caregiver Name" on the show page with the value of "Shabazz Nurendu"
     And I should see a value for "Caregiver Relationship" on the show page with the value of "Father"
     And I should see a value for "Caregiver Address" on the show page with the value of "1900 B. Ave"
