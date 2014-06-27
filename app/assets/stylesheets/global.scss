@@ -801,3 +801,27 @@ li.current {
     }
   }
 }
+
+//////////////
+//Scopes
+//////////////
+div.scope_bar {
+  li.scope a {
+    text-decoration: none;
+  }
+  li.scope ul li {
+    padding: 5px;
+  }
+  li.scope ul li:hover{
+    background-color: silver;
+  }
+  div.row > div {
+    padding-left: 0px;
+  }
+  ul {
+    margin-left: 0px;
+    li {
+      list-style: none;
+    }
+  }
+}

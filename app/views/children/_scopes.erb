@@ -1,6 +1,15 @@
-<li>
-  <%=link_to "Valid Records", "#{cases_path}?scope[record_state]=valid_record", :class => "btn green-button"%>
-</li>
-<li>
-  <%=link_to "Invalid Records", "#{cases_path}?scope[record_state]=invalid_record", :class => "btn green-button"%>
+<li class="scope">
+  <div class="dropdown_btn dropdown_form">
+    <span><a class="green-button" href="#">View</a></span>
+    <div class="dropdown" style="display:none;">
+      <ul>
+        <li>
+          <%=link_to "Valid Records", "#{cases_path}?scope[record_state]=valid_record", :style=>"display:block;"%>
+        </li>
+        <li>
+          <%=link_to "Invalid Records", "#{cases_path}?scope[record_state]=invalid_record", :style=>"display:block;"%>
+        </li>
+      </ul>
+    </div>
+  </div>
 </li>
