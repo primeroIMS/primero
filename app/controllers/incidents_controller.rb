@@ -106,7 +106,7 @@ class IncidentsController < ApplicationController
         if @incident.save
           flash[:notice] = I18n.t("incident.messages.update_success")
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
-          redirect_to case_path(@incident, { follow: true })
+          redirect_to incident_path(@incident, { follow: true })
         else
           @form_sections = get_form_sections
 

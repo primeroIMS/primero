@@ -23,7 +23,7 @@ Feature: Basic search
       | zak	    | London		        | zubair   | somerlion          |
     When I fill in "query" with "rlon"
     And I press "Go"
-    Then I should be on the saved record page for child with name "andreas"
+    Then I should be on the saved case record page for child with name "andreas"
 
   Scenario: Searches that yield a single record should redirect directly to that record
     Given the following children exist in the system:
@@ -31,7 +31,7 @@ Feature: Basic search
       | Lisa	|
     When I fill in "query" with "Lisa"
     And I press "Go"
-    Then I should be on the saved record page for child with name "Lisa"
+    Then I should be on the saved case record page for child with name "Lisa"
 
   Scenario: Search parameters are displayed in the search results
     When I fill in "query" with "Will"
@@ -123,4 +123,4 @@ Feature: Basic search
       | Andrew |
     And I fill in "query" with "Andrew"
     And I press "Go"
-    Then I should be on the saved record page for child with name "Andrew"
+    Then I should be on the saved case record page for child with name "Andrew"

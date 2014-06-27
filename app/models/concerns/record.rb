@@ -67,96 +67,96 @@ module Record
                 }
               }"
       
-      # TODO         
+      # TODO - make this work for incidents and cases
       #Child.view_by_field_list.each do |field|
-      ['created_at', 'name', 'description', 'flag_at', 'reunited_at'].each do |field|
-        view "by_all_view_with_created_by_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == self.name)
-                    {
-                      emit(['all', doc['created_by'], fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by'], fDate], doc);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by'], fDate], doc);
-                        } else {
-                          emit(['active', doc['created_by'], fDate], doc);
-                        }
-                      } else {
-                        emit(['active', doc['created_by'], fDate], doc);
-                      }
-                   }
-                }"
-
-        view "by_all_view_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == self.name)
-                    {
-                      emit(['all', fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', fDate], doc);
-                      }
-
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', fDate], doc);
-                        } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                          emit(['active', fDate], doc);
-                        }
-                        }
-                      } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                                        emit(['active', fDate], doc);
-                      }
-                      }
-                   }
-                }"
-
-        view "by_all_view_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == self.name)
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-
-        view "by_all_view_with_created_by_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == self.name)
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-      end
+      # ['created_at', 'name', 'description', 'flag_at', 'reunited_at'].each do |field|
+        # view "by_all_view_with_created_by_#{field}",
+                # :map => "function(doc) {
+                    # var fDate = doc['#{field}'];
+                    # if (doc['couchrest-type'] == 'Child')
+                    # {
+                      # emit(['all', doc['created_by'], fDate], doc);
+                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
+                        # emit(['flag', doc['created_by'], fDate], doc);
+                      # }
+                      # if (doc.hasOwnProperty('reunited')) {
+                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
+                          # emit(['reunited', doc['created_by'], fDate], doc);
+                        # } else {
+                          # emit(['active', doc['created_by'], fDate], doc);
+                        # }
+                      # } else {
+                        # emit(['active', doc['created_by'], fDate], doc);
+                      # }
+                   # }
+                # }"
+# 
+        # view "by_all_view_#{field}",
+                # :map => "function(doc) {
+                    # var fDate = doc['#{field}'];
+                    # if (doc['couchrest-type'] == 'Child')
+                    # {
+                      # emit(['all', fDate], doc);
+                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
+                        # emit(['flag', fDate], doc);
+                      # }
+# 
+                      # if (doc.hasOwnProperty('reunited')) {
+                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
+                          # emit(['reunited', fDate], doc);
+                        # } else {
+                         # if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
+                          # emit(['active', fDate], doc);
+                        # }
+                        # }
+                      # } else {
+                         # if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
+                                        # emit(['active', fDate], doc);
+                      # }
+                      # }
+                   # }
+                # }"
+# 
+        # view "by_all_view_#{field}_count",
+                # :map => "function(doc) {
+                    # if (doc['couchrest-type'] == 'Child')
+                   # {
+                      # emit(['all', doc['created_by']], 1);
+                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
+                        # emit(['flag', doc['created_by']], 1);
+                      # }
+                      # if (doc.hasOwnProperty('reunited')) {
+                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
+                          # emit(['reunited', doc['created_by']], 1);
+                        # } else {
+                          # emit(['active', doc['created_by']], 1);
+                        # }
+                      # } else {
+                        # emit(['active', doc['created_by']], 1);
+                      # }
+                   # }
+                # }"
+# 
+        # view "by_all_view_with_created_by_#{field}_count",
+                # :map => "function(doc) {
+                    # if (doc['couchrest-type'] == 'Child')
+                   # {
+                      # emit(['all', doc['created_by']], 1);
+                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
+                        # emit(['flag', doc['created_by']], 1);
+                      # }
+                      # if (doc.hasOwnProperty('reunited')) {
+                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
+                          # emit(['reunited', doc['created_by']], 1);
+                        # } else {
+                          # emit(['active', doc['created_by']], 1);
+                        # }
+                      # } else {
+                        # emit(['active', doc['created_by']], 1);
+                      # }
+                   # }
+                # }"
+      # end
     end
 
     def short_id
