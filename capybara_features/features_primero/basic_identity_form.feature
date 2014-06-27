@@ -8,6 +8,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-233
 # JIRA PRIMERO-234
+# JIRA PRIMERO-252
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -48,6 +49,7 @@ Feature: Basic Identity Form
     | Occupation |
     | Distinguishing Physical Characteristics |
     | Current Displacement Status |
+    | Protection Concerns |
     | Disability Type |
     | Nationality |
     | Place of Birth |
@@ -148,6 +150,11 @@ Feature: Basic Identity Form
     And I select "No" for "Estimated" radio button
     And I select "Married/Cohabitating" from "Current Civil/Marital Status"
     And I select "Foreign National" from "Current Displacement Status"
+    And I choose from "Protection Concerns":
+      |  Sexually Exploited    |
+      |  GBV survivor          |
+      |  Trafficked/smuggled   |
+      |  Other                 |
     And I select "Physical Disability" from "Disability Type"
     And I select "Nationality 2" from "Nationality"
     And I select "Country1" from "Birth Country"
@@ -201,6 +208,7 @@ Feature: Basic Identity Form
     And I should see a value for "Occupation" on the show page with the value of "Farmer"
     And I should see a value for "Distinguishing Physical Characteristics" on the show page with the value of "Really tall, dark hair, brown eyes"
     And I should see a value for "Current Displacement Status" on the show page with the value of "Foreign National"
+    And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Other"
     And I should see a value for "Disability Type" on the show page with the value of "Physical Disability"
     And I should see a value for "Nationality" on the show page with the value of "Nationality 2"
     And I should see a value for "Place of Birth" on the show page with the value of "Boston"
