@@ -513,11 +513,11 @@ Feature: Basic Identity Form
     Then I should see "John Snow" on the page
     And I should see "Daenerys Targaryen" on the page
     And I should not see "Eddard Stark" on the page
-    And I press the "Invalid Records" button
+    And I select "Invalid Records" from "cases_record_state_scope"
     And I should not see "John Snow" on the page
     And I should not see "Daenerys Targaryen" on the page
     And I should see "Eddard Stark" on the page
-    And I press the "Valid Records" button
+    And I select "Valid Records" from "cases_record_state_scope"
     And I should see "John Snow" on the page
     And I should see "Daenerys Targaryen" on the page
     And I should not see "Eddard Stark" on the page

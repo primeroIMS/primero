@@ -822,6 +822,9 @@ div.scope_bar {
     margin-left: 0px;
     li {
       list-style: none;
+      select {
+        margin: 0;
+      }
     }
   }
 }
