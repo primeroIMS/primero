@@ -21,6 +21,9 @@ var SharedFields = Backbone.View.extend({
 			});
 		} else {
 			shared_field.val(target.val())
+			if (shared_field.hasClass("chosen-select")) {
+			  shared_field.trigger("chosen:updated");
+			}
 		}
 	}
 });
