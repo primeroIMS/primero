@@ -58,7 +58,7 @@ class FormSectionController < ApplicationController
   end
 
   def published
-    json_content = FormSection.enabled_by_order_without_hidden_fields.map(&:formatted_hash).to_json
+    json_content = FormSection.find_all_visible_by_parent_form(parent_form).map(&:formatted_hash).to_json
     respond_to do |format|
       format.html {render :inline => json_content }
       format.json { render :json => json_content }
@@ -69,6 +69,12 @@ class FormSectionController < ApplicationController
     authorize! :create, FormSection
     @page_name = t("form_section.create")
     @form_section = FormSection.new(params[:form_section])
+  end
+  
+  private
+  
+  def parent_form
+    @parent_form = params[:parent_form] || 'case'
   end
 
 end
