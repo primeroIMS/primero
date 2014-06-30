@@ -3,6 +3,7 @@
 #JIRA PRIMERO-228
 #JIRA PRIMERO-232
 #JIRA PRIMERO-240
+#JIRA PRIMERO-238
 
 @javascript @primero
 Feature: Family Details Form
@@ -72,8 +73,6 @@ Feature: Family Details Form
       |Nickname                                              | Coco                                       |
       |Are they alive?                                       | <Select> Alive                             |
       |If dead, please provide details                       | No Dead Notes                              |
-      |Age                                                   | 36                                         |
-      |Date of Birth                                         | 21-May-1975                                |
       |Language                                              | <Choose>Language 1<Choose>Language 2       |
       |Religion                                              | <Choose>Religion 1<Choose>Religion 2       |
       |Ethnicity                                             | <Select> Ethnicity 1                       |
@@ -100,8 +99,6 @@ Feature: Family Details Form
       |Nickname                                              | Pepe                                       |
       |Are they alive?                                       | <Select> Unknown                           |
       |If dead, please provide details                       | Unknown Information                        |
-      |Age                                                   | 37                                         |
-      |Date of Birth                                         | 21-May-1974                                |
       |Language                                              | <Choose>Language 2                         |
       |Religion                                              | <Choose>Religion 2                         |
       |Ethnicity                                             | <Select> Ethnicity 2                       |
@@ -134,8 +131,6 @@ Feature: Family Details Form
       |Nickname                                              | Coco                         |
       |Are they alive?                                       | Alive                        |
       |If dead, please provide details                       | No Dead Notes                |
-      |Age                                                   | 36                           |
-      |Date of Birth                                         | 21-May-1975                  |
       |Language                                              | Language 1, Language 2       |
       |Religion                                              | Religion 1, Religion 2       |
       |Ethnicity                                             | Ethnicity 1                  |
@@ -162,8 +157,6 @@ Feature: Family Details Form
       |Nickname                                              | Pepe                         |
       |Are they alive?                                       | Unknown                      |
       |If dead, please provide details                       | Unknown Information          |
-      |Age                                                   | 37                           |
-      |Date of Birth                                         | 21-May-1974                  |
       |Language                                              | Language 2                   |
       |Religion                                              | Religion 2                   |
       |Ethnicity                                             | Ethnicity 2                  |
@@ -179,3 +172,39 @@ Feature: Family Details Form
       |Last Known Location                                   | Pepe's Last Known Location   |
       |Telephone                                             | Pepe's Telephone             |
       |Other persons well known to the child                 | Juan                         |
+
+  Scenario: I create a case that auto calculate date of birth for family detail
+    Given I am logged in as an admin with username "primero" and password "primero"
+    When I access "cases page"
+    And I press the "Create a New Case" button
+    And I press the "Family Details" button
+    And I fill in the 1st "Family Details Section" subform with the follow:
+      | Age | 39 |
+    And I fill in the 2nd "Family Details Section" subform with the follow:
+      | Age | 25 |
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I should see in the 1st "Family Detail" subform with the follow:
+      | Age           | 39                            |
+      | Date of Birth | Calculated date 39 years ago  |
+    And I should see in the 2nd "Family Detail" subform with the follow:
+      | Age           | 25                            |
+      | Date of Birth | Calculated date 25 years ago  |
+
+  Scenario: I create a case that auto calculate age for family detail
+    Given I am logged in as an admin with username "primero" and password "primero"
+    When I access "cases page"
+    And I press the "Create a New Case" button
+    And I press the "Family Details" button
+    And I fill in the 1st "Family Details Section" subform with the follow:
+      | Date of Birth | 01-Jan-1975 |
+    And I fill in the 2nd "Family Details Section" subform with the follow:
+      | Date of Birth | 01-Jan-1989 |
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I should see in the 1st "Family Detail" subform with the follow:
+      | Age           | Calculated age from 1975  |
+      | Date of Birth | 01-Jan-1975               |
+    And I should see in the 2nd "Family Detail" subform with the follow:
+      | Age           | Calculated age from 1989  |
+      | Date of Birth | 01-Jan-1989               |

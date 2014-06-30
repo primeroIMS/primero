@@ -88,11 +88,19 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
     within(:xpath, '../..') do
       #Iterate over the fields.
       fields.rows_hash.each do |name, value|
+        content = value
+        if content.start_with?('Calculated date')
+          content = content.gsub("Calculated date", "").gsub("years ago", "").strip
+          content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
+        elsif content.start_with?('Calculated age from')
+          year = content.gsub("Calculated age from", "").strip
+          content = Date.today.year - year.to_i
+        end
         #Find the sibling to the h5 that contains the label which is the field name.
         within(:xpath, "./following-sibling::div[@class='row']//label[@class='key']", :text => name) do
           #Up to the parent of the label to find the value.
           within(:xpath, '../..') do
-            find(:xpath, ".//span[@class='value']", :text => value)
+            find(:xpath, ".//span[@class='value']", :text => content)
           end
         end
       end

@@ -438,18 +438,6 @@ describe Child do
       child.audio = uploadable_large_audio
       child.should_not be_valid
     end
-
-    it "should calculate the child's age based on the date of birth" do
-      child = create_child "Bob McBobberson", :date_of_birth => "02/May/1990"
-      age = Date.today.year - 1990
-      child.age.should eq(age.to_s)
-    end
-
-    it "should calculate the child's date of birth based on the age" do
-      child = create_child "Bob McBobberson", :age => "24"
-      year_of_birth = Date.today.year - 24
-      child.date_of_birth.should eq(Date.parse("01/Jan/#{year_of_birth}").strftime("%d/%b/%Y"))
-    end
   end
 
 
@@ -1490,6 +1478,233 @@ describe Child do
       scheduler.should_receive(:every).with('24h').and_yield()
       Child.should_receive(:reindex!).once.and_return(nil)
       Child.schedule scheduler
+    end
+  end
+
+  describe 'auto calculate age and date of birth' do
+    before do
+      fields_subform_0 = [Field.new({"name" => "subform0_age",
+                                     "type" => "numeric_field",
+                                     "display_name_all" => "Subform 0 Age"
+                                    }),
+                          Field.new({"name" => "subform0_date_of_birth",
+                                     "type" => "date_field",
+                                     "display_name_all" => "Subform 0 Date of Birth"
+                                    })]
+      subform0_section = FormSection.create_or_update_form_section({
+          "visible"=>false,
+          "is_nested"=>true,
+          :order=> 1,
+          :unique_id=>"subform0_section",
+          "editable"=>true,
+          :fields => fields_subform_0,
+          :perm_enabled => false,
+          :perm_visible => false,
+          "name_all" => "Nested Subform 0",
+          "description_all" => "Subform 0 subform"
+      })
+            
+      fields = [Field.new({"name" => "age",
+                           "type" => "text_field",
+                           "display_name_all" => "Age"
+                          }),
+                Field.new({"name" => "date_of_birth",
+                           "type" => "date_field",
+                           "display_name_all" => "Date of Birth"
+                          }),
+                ##Subform##
+                Field.new({"name" => "subform0_section",
+                           "type" => "subform", 
+                           "editable" => true,
+                           "subform_section_id" => subform0_section.id,
+                           "display_name_all" => "Subform 0"
+                          })
+                ##Subform##
+                        ]
+      FormSection.create_or_update_form_section({
+        :unique_id=> "first_form_section_test",
+        "visible" => true,
+        :order => 1,
+        "editable" => true,
+        :fields => fields,
+        :perm_enabled => true,
+        "name_all" => "First Form Section Test",
+        "description_all" => "First Form Section Test",
+      })
+
+      fields_subform_1 = [Field.new({"name" => "subform1_age",
+                                      "type" => "numeric_field",
+                                      "display_name_all" => "Subform 1 Age"
+                                     }),
+                           Field.new({"name" => "subform1_date_of_birth",
+                                      "type" => "date_field",
+                                      "display_name_all" => "Subform 1 Date of Birth"
+                                     })]
+      subform1_section = FormSection.create_or_update_form_section({
+          "visible"=>false,
+          "is_nested"=>true,
+          :order=> 1,
+          :unique_id=>"subform1_section",
+          "editable"=>true,
+          :fields => fields_subform_1,
+          :perm_enabled => false,
+          :perm_visible => false,
+          "name_all" => "Nested Subform 1",
+          "description_all" => "Subform 1 subform"
+      })
+
+      fields_subform_2 = [Field.new({"name" => "subform2_age",
+                                      "type" => "numeric_field",
+                                      "display_name_all" => "Subform 2 Age"
+                                     }),
+                           Field.new({"name" => "subform2_date_of_birth",
+                                      "type" => "date_field",
+                                      "display_name_all" => "Subform 2 Date of Birth"
+                                     })]
+      subform2_section = FormSection.create_or_update_form_section({
+          "visible"=>false,
+          "is_nested"=>true,
+          :order=> 1,
+          :unique_id=>"subform2_section",
+          "editable"=>true,
+          :fields => fields_subform_2,
+          :perm_enabled => false,
+          :perm_visible => false,
+          "name_all" => "Nested Subform 2",
+          "description_all" => "Subform 2 subform"
+      })
+
+      fields = [Field.new({"name" => "another_age",
+                           "type" => "text_field",
+                           "display_name_all" => "Another Age"
+                          }),
+                Field.new({"name" => "another_date_of_birth",
+                           "type" => "date_field",
+                           "display_name_all" => "Another Date of Birth"
+                          }),
+                Field.new({"name" => "1_age",
+                           "type" => "text_field",
+                           "display_name_all" => "Age With no pair"
+                          }),
+                Field.new({"name" => "2_date_of_birth",
+                           "type" => "date_field",
+                           "display_name_all" => "Date of Birth with no pair"
+                          }),
+                ##Subform##
+                Field.new({"name" => "subform1_section",
+                           "type" => "subform", 
+                           "editable" => true,
+                           "subform_section_id" => subform1_section.id,
+                           "display_name_all" => "Subform 1"
+                          }),
+                Field.new({"name" => "subform2_section",
+                           "type" => "subform", 
+                           "editable" => true,
+                           "subform_section_id" => subform2_section.id,
+                           "display_name_all" => "Subform 2"
+                          })
+                ##Subform##
+                          ]
+      FormSection.create_or_update_form_section({
+        :unique_id=> "second_form_section_test",
+        "visible" => true,
+        :order => 1,
+        "editable" => true,
+        :fields => fields,
+        :perm_enabled => true,
+        "name_all" => "Second Form Section Test",
+        "description_all" => "Second Form Section Test",
+      })
+    end
+
+    it "should calculate age based on the date of birth" do
+      subform0_section = [{"subform0_date_of_birth" => "02-May-1984"},
+                          {"subform0_age" => "50", "subform0_date_of_birth" => "02-May-1993"}]
+
+      subform1_section = [{"subform1_age" => "", "subform1_date_of_birth" => "02-May-1989"},
+                          {"subform1_age" => "", "subform1_date_of_birth" => "02-May-1993"}]
+
+      child = create_child "Bob McBobberson", :date_of_birth => "02-May-1990", :another_date_of_birth => "30-Oct-1975",
+                           "subform1_section" => subform1_section, "subform2_section" => "", "1_age" => "56", 
+                           "2_date_of_birth" => "12-Dec-1930", "subform0_section" => subform0_section
+
+      age = Date.today.year - 1990
+      child['age'].should eq(age.to_s)
+      child['date_of_birth'].should eq("02-May-1990")
+
+      another_age = Date.today.year - 1975
+      child['another_age'].should eq(another_age.to_s)
+      child['another_date_of_birth'].should eq("30-Oct-1975")
+
+      subform1_1_age = Date.today.year - 1989
+      child['subform1_section'][0]["subform1_age"].should eq(subform1_1_age.to_s)
+      child['subform1_section'][0]["subform1_date_of_birth"].should eq("02-May-1989")
+
+      subform1_2_age = Date.today.year - 1993
+      child['subform1_section'][1]["subform1_age"].should eq(subform1_2_age.to_s)
+      child['subform1_section'][1]["subform1_date_of_birth"].should eq("02-May-1993")
+
+      subform0_1_age = Date.today.year - 1984
+      child['subform0_section'][0]["subform0_age"].should eq(subform0_1_age.to_s)
+      child['subform0_section'][0]["subform0_date_of_birth"].should eq("02-May-1984")
+
+      #Both values were present, so no calculation
+      child['subform0_section'][1]["subform0_age"].should eq("50")
+      child['subform0_section'][1]["subform0_date_of_birth"].should eq("02-May-1993")
+
+      child['subform2_section'].should eq("")
+
+      #Check field age and date of birth with no pair field.
+      child['1_age'].should eq("56".to_s)
+      child['1_date_of_birth'].should eq(nil) #There is no such field, existing fields are auto calculated.
+
+      child['2_date_of_birth'].should eq("12-Dec-1930")
+      child['2_age'].should eq(nil)  #There is no such field, existing fields are auto calculated.
+    end
+
+    it "should calculate date of birth based on the age" do
+      subform0_section = [{"subform0_age" => "35"},
+                          {"subform0_age" => "50", "subform0_date_of_birth" => "02-May-1993"}]
+
+      subform1_section = [{"subform1_age" => "45", "subform1_date_of_birth" => ""},
+                          {"subform1_age" => "31", "subform1_date_of_birth" => ""}]
+      
+      child = create_child "Bob McBobberson", :age => "24", :another_age => "39",
+                           "subform1_section" => subform1_section, "subform2_section" => "", "1_age" => "56", 
+                           "2_date_of_birth" => "12-Dec-1930", "subform0_section" => subform0_section
+
+      year_of_birth = Date.today.year - 24
+      child['age'].should eq("24");
+      child['date_of_birth'].should eq(Date.parse("01-Jan-#{year_of_birth}").strftime("%d-%b-%Y"))
+
+      another_year_of_birth = Date.today.year - 39
+      child['another_age'].should eq("39");
+      child['another_date_of_birth'].should eq(Date.parse("01-Jan-#{another_year_of_birth}").strftime("%d-%b-%Y"))
+      
+      year = Date.today.year - 45
+      child['subform1_section'][0]["subform1_age"].should eq("45")
+      child['subform1_section'][0]["subform1_date_of_birth"].should eq(Date.parse("01-Jan-#{year}").strftime("%d-%b-%Y"))
+        
+      year = Date.today.year - 31
+      child['subform1_section'][1]["subform1_age"].should eq("31")
+      child['subform1_section'][1]["subform1_date_of_birth"].should eq(Date.parse("01-Jan-#{year}").strftime("%d-%b-%Y"))
+        
+      year = Date.today.year - 35
+      child['subform0_section'][0]["subform0_age"].should eq("35")
+      child['subform0_section'][0]["subform0_date_of_birth"].should eq(Date.parse("01-Jan-#{year}").strftime("%d-%b-%Y"))
+
+      #Both values were present, so no calculation
+      child['subform0_section'][1]["subform0_age"].should eq("50")
+      child['subform0_section'][1]["subform0_date_of_birth"].should eq("02-May-1993")
+
+      child['subform2_section'].should eq("")
+
+      #Check field age and date of birth with no pair field.
+      child['1_age'].should eq("56".to_s)
+      child['1_date_of_birth'].should eq(nil) #There is no such field, existing fields are auto calculated.
+
+      child['2_date_of_birth'].should eq("12-Dec-1930")
+      child['2_age'].should eq(nil)  #There is no such field, existing fields are auto calculated.
     end
   end
 
