@@ -1,4 +1,4 @@
-protection_concern_fields = [
+protection_concern_subform_fields = [
   Field.new({"name" => "protection_concern_type",
     "type" => "select_box",
     "display_name_all" => "Type of Protection Concern",
@@ -84,6 +84,28 @@ protection_concern_fields = [
   })
 ]
 
+protection_concern_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order => 1,
+  :unique_id => "protection_concern_subform_section",
+  :parent_form=>"case",
+  "editable" => true,
+  :fields => protection_concern_subform_fields,
+  :perm_enabled => false,
+  :perm_visible => false,
+  "name_all" => "Nested Protection Concerns Subform",
+  "description_all" => "Nested Protection Concerns Subform"
+})
+
+protection_concern_fields = [
+  Field.new({"name" => "protection_concern_subform_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => protection_concern_subform_section.id,
+             "display_name_all" => "Protection Concerns"
+            })
+]
+
 FormSection.create_or_update_form_section({
   :unique_id => "protection_concern",
   :parent_form=>"case",
@@ -92,6 +114,6 @@ FormSection.create_or_update_form_section({
   :fields => protection_concern_fields,
   :perm_visible => true,
   "editable" => true,
-  "name_all" => "Protection Concern",
+  "name_all" => "Protection Concerns",
   "description_all" => "Protection concerns"
 })

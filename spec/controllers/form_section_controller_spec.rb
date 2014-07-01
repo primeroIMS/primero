@@ -125,13 +125,13 @@ describe FormSectionController do
   end
 
   it "should only retrieve fields on a form that are visible" do
-    FormSection.should_receive(:enabled_by_order_without_hidden_fields).and_return({})
+    FormSection.should_receive(:find_all_visible_by_parent_form).and_return({})
     get :published
   end
 
   it "should publish form section documents as json" do
     form_sections = [FormSection.new(:name => 'Some Name', :description => 'Some description')]
-    FormSection.stub(:enabled_by_order_without_hidden_fields).and_return(form_sections)
+    FormSection.stub(:find_all_visible_by_parent_form).and_return(form_sections)
 
     get :published
 
