@@ -102,7 +102,7 @@ services_fields = [
     "name" => "services_section",
     "type" => "subform", "editable" => true,
     "subform_section_id" => services_section.id,
-    "display_name_all" => "Service for Referrals"
+    "display_name_all" => "Services"
   })
 ]
 
