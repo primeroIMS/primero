@@ -72,35 +72,6 @@ class CustomFieldsValidator
 
     return valid
   end
-
-  # def validate_fields(fields, target)
-  #   valid = true
-
-  #   fields.each do |field|
-  #     field_name = field[:name]
-  #     value = target[field_name].nil? ? '' : target[field_name].strip
-
-  #     binding.pry
-
-  #     if value.present? and is_not_valid(value)
-  #       target.errors.add(:"#{field[:name]}", validation_message_for(field))
-
-  #       lookup = field.form
-
-  #       if lookup
-  #         error_info = {
-  #             internal_section: "#tab_#{lookup.unique_id}",
-  #             translated_section: lookup["name_#{I18n.locale}"],
-  #             message: validation_message_for(field),
-  #             order: lookup.order }
-  #         target.errors.add(:section_errors, error_info)
-  #       end
-
-  #       valid = false
-  #     end
-  #   end
-  #   return valid
-  # end
 end
 
 class CustomNumericFieldsValidator < CustomFieldsValidator
