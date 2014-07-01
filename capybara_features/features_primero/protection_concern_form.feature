@@ -3,6 +3,7 @@
 # JIRA PRIMERO-200
 # JIRA PRIMERO-232
 # JIRA PRIMERO-254
+# JIRA PRIMERO-253
 
 @javascript @primero
 Feature: Protection Concern Form
@@ -28,6 +29,9 @@ Feature: Protection Concern Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Protection Concern" button
+    And I choose from "Protection Concerns":
+      |  Sexually Exploited    |
+      |  GBV survivor          |
     And I fill in the 1st "Protection Concern Subform Section" subform with the follow:
       | Details of the concern     | Test Details                 |
       | Intervention needed by     | 12-May-2014                  |
@@ -37,9 +41,17 @@ Feature: Protection Concern Form
       | Period when identified?    | <Select> Registration        |
       | Intervention needed?       | <Select> Urgent Intervention |
       | Has action been taken?     | <Radio> Yes                  |
+    And I press the "Basic Identity" button
+    And the chosen "Protection Concerns" should have the following values:
+      |  Sexually Exploited    |
+      |  GBV survivor          |
+    And I choose from "Protection Concerns":
+      |  Trafficked/smuggled   |
+      |  Other                 |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Protection Concern" subform with the follow:
+    And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Other"
+    And I should see in the 1st "Protection Concern Detail" subform with the follow:
       | Type of Protection Concern | Migrant             |
       | Period when identified?    | Registration        |
       | Intervention needed?       | Urgent Intervention |

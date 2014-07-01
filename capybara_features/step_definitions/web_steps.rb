@@ -365,9 +365,9 @@ end
 
 #Chosen with the values to select in the table.
 When /^I choose from "([^\"]*)":$/ do |chosen, table |
-  label = find("//label[text()='#{chosen}']")
+  label = find("//label[text()='#{chosen}']", :visible => true)
   chosen_id = label["for"] + "__chosen"
-  chosen = find(:xpath, "//div[@id='#{chosen_id}']")
+  chosen = find(:xpath, "//div[@id='#{chosen_id}']", :visible => true)
   table.raw.flatten.each do |option|
     #This make visible the options to choose.
     chosen.click
@@ -390,4 +390,14 @@ When /^I choose option "([^\"]*)" from "([^\"]*)"(?: within "([^"]*)")?$/ do |op
   #To select another items, it is needed the chosen lost the focus to make click again
   #to make visible the items to select.
   label.click
+end
+
+#Chosen with the values to select in the table.
+When /^the chosen "([^\"]*)" should have the following values:$/ do |chosen, table |
+  label = find("//label[text()='#{chosen}']", :visible => true)
+  chosen_select_id = label["for"] + "_"
+  chosen_select = find(:xpath, "//select[@id='#{chosen_select_id}']", :visible => false)
+  table.raw.flatten.each do |option|
+    chosen_select.value.include?(option).should eq(true)
+  end
 end

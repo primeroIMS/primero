@@ -99,10 +99,34 @@ protection_concern_subform_section = FormSection.create_or_update_form_section({
 })
 
 protection_concern_fields = [
+  Field.new({"name" => "protection_concerns",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Protection Concerns",
+             "option_strings_text_all" =>
+                          ["Sexually Exploited",
+                           "GBV survivor",
+                           "Trafficked/smuggled",
+                           "Statelessness",
+                           "Arrested/Detained",
+                           "Migrant",
+                           "Disabled",
+                           "Serious health issue",
+                           "Refugee",
+                           "CAAFAG",
+                           "Street child",
+                           "Child Mother",
+                           "Physically or Mentally Abused",
+                           "Living with vulnerable person",
+                           "Word Forms of Child Labor",
+                           "Child Headed Household",
+                           "Mentally Distressed",
+                           "Other"].join("\n")
+            }),
   Field.new({"name" => "protection_concern_subform_section",
              "type" => "subform", "editable" => true,
              "subform_section_id" => protection_concern_subform_section.id,
-             "display_name_all" => "Protection Concerns"
+             "display_name_all" => "Protection Concern Details"
             })
 ]
 
