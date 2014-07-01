@@ -25,7 +25,6 @@ class CustomFieldsValidator
 
   def validate_fields(fields, target)
     fields.each do |field|
-      # binding.pry if field.name == "service_appointment_date"
       if field.form.is_nested && target[field.form.unique_id]
         target[field.form.unique_id].each do |k, t|
           validate_field(field, target, t)
