@@ -9,8 +9,8 @@ def should_seed? model
   empty
 end
 
-def clean_db_table(table)
-  # PRIMERO-272
+# PRIMERO-272
+def clean_db_table(table)  
   #TODO - This is a temporary brute force solution
   # Sue has added a story to the backlog to make this more elegant
   # So as to not wipe away any custom fields a user might have created
@@ -20,11 +20,23 @@ def clean_db_table(table)
   myDb.delete!
 end
 
-# TODO - PRIMERO -
-# This is temporary so the new default users will load
-# NEED TO REMOVE BEFORE GOING TO PRODUCTION!!!
-clean_db_table('user')
-clean_db_table('role')
+#PRIMERO-269
+def fix_case_data
+  children = Child.all
+  children.each do |child|
+    puts "Scrubbing old record data for case #{child.short_id}..."
+    
+    #Change / to - to fix old date formats
+    child.each { |key, value| value.gsub! '/', '-' if value.is_a? String}
+    
+    #Add a record_state to old records
+    child.merge! record_state: 'Valid record' unless child[:record_state].present?    
+    
+    child.save!
+  end
+end
+
+
 
 if should_seed? User
   require File.dirname(__FILE__) + "/users/roles.rb"
@@ -43,3 +55,5 @@ Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
 if should_seed? ContactInformation
   ContactInformation.create(:id=>"administrator")
 end
+
+fix_case_data
