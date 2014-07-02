@@ -13,19 +13,29 @@ Feature: Validate Date Field
     And I press the "Create a New Case" button
 
   Scenario: As a logged in user, I create a case and validate the date field with invalid values
-    And I press the "Protection Concern" button  
+    And I press the "Basic Identity" button  
     And I fill in the following:
-      | Intervention needed by     | 12/May/14         |
+      | Date of Birth     | Invalid Date         |
     And I press "Save"
 		Then I should see "Please enter the date in a valid format (dd-mmm-yyyy)" on the page
 
-  Scenario: As a logged in user, I create a case and validate the date field with valid values
-    And I press the "Protection Concern" button  
-		And I fill in the following:
-      | Intervention needed by     | 12-May-2014         |
+  Scenario: As a logged in user, I create a case and validate the date field and allow different formats
+    And I press the "Basic Identity" button  
+    And I fill in "Date of Birth" with "12/02/2014"
+    And I press the "Best Interest" button  
+    And I fill in "Date of Recommendation" with "12 02 2014"
+    And I fill in "Date of submission" with "12-02-2014"
+    And I fill in "Date of Implementation" with "12/Feb/2014"
+    And I fill in "Proposed Support" with "None"
     And I press "Save"
-		Then I should see "Case record successfully created" on the page
-    And I should see a value for "Intervention needed by" on the show page with the value of "12-May-2014"
+    Then I should see "Case record successfully created" on the page
+    And I press the "Basic Identity" button  
+    And I should see a value for "Date of Birth" on the show page with the value of "12-Feb-2014"
+    And I press the "Best Interest" button 
+    And I should see a value for "Date of Recommendation" on the show page with the value of "12-Feb-2014"
+    And I should see a value for "Date of submission" on the show page with the value of "12-Feb-2014"
+    And I should see a value for "Date of Implementation" on the show page with the value of "12-Feb-2014"
+
 
   Scenario: As a logged in user, I create a case and validate the date field with invalid values in a subform 
     And I press the "Services" button
