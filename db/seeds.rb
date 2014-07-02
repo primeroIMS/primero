@@ -15,7 +15,7 @@ def clean_forms
   # Sue has added a story to the backlog to make this more elegant
   # So as to not wipe away any custom fields a user might have created
   puts "Cleaning out existing forms before the re-seed"
-  dbName = "primero_form_section_#{Rails.env}"
+  dbName = "#{COUCHDB_CONFIG[:db_prefix]}_form_section_#{COUCHDB_CONFIG[:db_suffix]}"
   myDb = COUCHDB_SERVER.database(dbName)
   myDb.delete!
 end
