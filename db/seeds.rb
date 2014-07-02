@@ -9,16 +9,22 @@ def should_seed? model
   empty
 end
 
-def clean_forms
+def clean_db_table(table)
   # PRIMERO-272
   #TODO - This is a temporary brute force solution
   # Sue has added a story to the backlog to make this more elegant
   # So as to not wipe away any custom fields a user might have created
-  puts "Cleaning out existing forms before the re-seed"
-  dbName = "primero_form_section_#{Rails.env}"
+  puts "Cleaning out existing #{table} before the re-seed"
+  dbName = "#{COUCHDB_CONFIG[:db_prefix]}_#{table}_#{COUCHDB_CONFIG[:db_suffix]}"
   myDb = COUCHDB_SERVER.database(dbName)
   myDb.delete!
 end
+
+# TODO - PRIMERO -
+# This is temporary so the new default users will load
+# NEED TO REMOVE BEFORE GOING TO PRODUCTION!!!
+clean_db_table('user')
+clean_db_table('role')
 
 if should_seed? User
   require File.dirname(__FILE__) + "/users/roles.rb"
@@ -26,7 +32,7 @@ if should_seed? User
 end
 
 #Create the forms
-clean_forms
+clean_db_table('form_section')
 puts "[Re-]Seeding the forms"
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
 
