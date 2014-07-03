@@ -828,3 +828,53 @@ div.scope_bar {
     }
   }
 }
+
+//////////////
+//Users Forms
+//////////////
+fieldset {
+  .row {
+    .footnote {
+      font-size: 0.8rem;
+      margin-left: 8rem;
+    }
+
+    .required {
+      float: right;
+      color: $red_color;
+    }
+
+    .value {
+      color: #666;
+      display: block;
+      float: left;
+      padding-top: 4px;
+      width: 100%;
+
+      .section {
+        display: block;
+        margin-bottom: 20px;
+        padding: 10px;
+
+        .title {
+          border-bottom: 1px dashed #ddd;
+          color: #333;
+          display: block;
+          font-style: italic;
+          margin-bottom: 5px;
+          padding-bottom: 8px;
+        }
+
+        label {
+          display: block;
+          padding: 3px;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+
+  .row:nth-child(2n+1) .section {
+    background: none repeat scroll 0 0 #fff;
+  }
+}

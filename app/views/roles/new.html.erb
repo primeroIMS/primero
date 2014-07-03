@@ -1,24 +1,49 @@
 <h1 class="no_border"><%=	 t("roles.label") %></h1>
-<div class="page-content-new">
+<div class="page-content-new row">
+  <div class="large-4 medium-4 columns close-side-tab">
   <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'roles'} %>
-  <div class="side-tab-content">
+  </div>
+  <div class="side-tab-content large-8 medium-8 columns">
     <h2><%= link_to t("roles.list"), roles_path %> &gt; <%= t( "role.create" ) %> </h2>
+    <div class="clearfix"></div>
     <div class="mandate_panel"><span>*</span> <%= t("mandatory_field") %></div>
     <div class="clearfix"></div>
     <%= form_for @role, :html => {:class => ''} do |f| %>
+        <div class="clearfix"></div>
         <%= error_messages_for :role %>
         <fieldset>
-          <p>
-            <%= f.label :name, '<span class="required">*</span>'.html_safe + t("name"), :class=>'key'  %>
-            <%= f.text_field :name %>
-          </p>
-          <p>
-            <%= f.label :description,t("description"), :class=>'key'  %>
-            <%= f.text_area :description %>
-          </p>
-          <p>
-            <%= f.label :permissions, '<span class="required">*</span>'.html_safe+t("permissions.label"), :class=>'key'  %>
-            <span class="value">
+          <div class="row">
+            <div class="medium-3 columns">
+              <span class="tool-tip-label">
+                <%= f.label :name, t("name"), :class=>'key'  %>
+              </span>
+            </div>
+            <div class="medium-8 columns">
+              <%= f.text_field :name %>
+            </div>
+            <div class="medium-1 columns">
+              <span class="required">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-3 columns">
+              <span class="tool-tip-label">
+                <%= f.label :description,t("description"), :class=>'key'  %>
+              </span>
+            </div>
+            <div class="medium-8 columns">
+              <%= f.text_area :description %>
+            </div>
+            <div class="medium-1 columns"> </div>
+          </div>
+          <div class="row">
+            <div class="medium-3 columns">
+              <span class="tool-tip-label">
+                <%= f.label :permissions, t("permissions.label"), :class=>'key'  %>
+              </span>
+            </div>
+            <div class="medium-8 columns">
+              <span class="value">
                 <% translated_permissions.each do |group_name, permissions| %>
                     <span class="section">
                     <span class="title"><%= t("permissions.#{group_name}") %></span>
@@ -28,8 +53,12 @@
                     <% end %>
                     </span>
                 <% end %>
-            </span>
-          </p>
+              </span>
+            </div>
+            <div class="medium-1 columns">
+              <span class="required">*</span>
+            </div>
+          </div>
           <div class="btn_panel">
             <%= cancel_button(roles_path) %>
             <%= submit_button(t("buttons.save")) %>

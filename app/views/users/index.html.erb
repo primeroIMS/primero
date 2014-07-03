@@ -8,9 +8,11 @@
 
 <h1><%= t("users.manage") %></h1>
 
-<div class="page-content-new">
+<div class="page-content-new row">
+  <div class="large-4 medium-4 columns close-side-tab">
   <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'users'} %>
-  <div class="side-tab-content">
+  </div>
+  <div class="side-tab-content large-8 medium-8 columns">
     <% if @access_error.present? %>
         <strong><%= @access_error %></strong>
     <% end %>
