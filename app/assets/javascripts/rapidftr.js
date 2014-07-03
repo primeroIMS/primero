@@ -310,11 +310,6 @@ $(document).ready(function() {
   // set height of sidebar depending on side content
   _primero.set_content_sidebar_equality();
   _primero.tabRedirection.redirect();
-
-  // date picker for case form date fields
-  $('body').on('focus', ".form_date_field", function(){
-      $(this).datepicker({ dateFormat: 'dd-M-yy' });
-  });
   
   //Initialize chosen in the current tab.
   _primero.chosen('select.chosen-select:visible');

@@ -1,8 +1,21 @@
 class CustomFieldsValidator
   def initialize(target, options)
     fields = retrieve_field_definitions(target)
-    validated_fields = fields.select { |field| field.type == options[:type] }
+    validated_fields = select_validated_fields(fields, options[:type])
     validate_fields(validated_fields, target)
+  end
+
+  def select_validated_fields(fields, type)
+    validated_fields = []
+
+    fields.each do |field|
+      if field.type == 'subform'
+        validated_fields = validated_fields + field.subform_section.fields.select { |subfield| subfield[:type] == type }
+      else
+        validated_fields << field if field.type == type
+      end
+    end
+    return validated_fields
   end
 
   def retrieve_field_definitions(target)
@@ -11,28 +24,52 @@ class CustomFieldsValidator
   end
 
   def validate_fields(fields, target)
-    valid = true
     fields.each do |field|
-      field_name = field[:name]
-      value = target[field_name].nil? ? '' : target[field_name].strip
-
-      if value.present? and is_not_valid(value)
-        target.errors.add(:"#{field[:name]}", validation_message_for(field))
-
-        lookup = field.form
-
-        if lookup
-          error_info = {
-              internal_section: "#tab_#{lookup.unique_id}",
-              translated_section: lookup["name_#{I18n.locale}"],
-              message: validation_message_for(field),
-              order: lookup.order }
-          target.errors.add(:section_errors, error_info)
+      nested_field = field.form ? field.form.is_nested : false
+      if nested_field && target[field.form.unique_id]
+        target[field.form.unique_id].each do |k, t|
+          validate_field(field, target, t)
         end
-
-        valid = false
+      else
+        validate_field(field, target, nil)
       end
     end
+  end
+
+  def validate_field(field, target, subfield)
+    valid = true
+
+    field_name = field[:name]
+
+    value = 
+      if subfield
+        subfield[field_name].nil? ? '' : subfield[field_name].strip
+      else
+        target[field_name].nil? ? '' : target[field_name].strip
+      end
+
+    if value.present? and is_not_valid(value)
+      target.errors.add(:"#{field[:name]}", validation_message_for(field))
+
+      lookup = 
+        if subfield
+          FormSection.get_form_containing_field(field.form.unique_id)
+        else
+          field.form
+        end
+
+      if lookup
+        error_info = {
+            internal_section: "#tab_#{lookup.unique_id}",
+            translated_section: lookup["name_#{I18n.locale}"],
+            message: validation_message_for(field),
+            order: lookup.order }
+        target.errors.add(:section_errors, error_info)
+      end
+
+      valid = false
+    end
+
     return valid
   end
 end

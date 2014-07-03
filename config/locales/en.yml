@@ -23,7 +23,7 @@ en:
   messages:
     delete_item: "Warning: If you continue, any data associated with this field will be lost.\nIf you\'re uncertain, disable the field instead.\nClick Cancel to go back. Click OK to Delete the field."
     move_item: "You are about to move this field to another form section ({{selection_key}}). Is this OK?"
-    enter_valid_date: "Please enter the date in a valid format (dd-mm-yyyy)"
+    enter_valid_date: "Please enter the date in a valid format (dd-mmm-yyyy)"
     enter_valid_field_value: "Please enter a valid field value."
     valid_search_criteria: "Please enter at least one search criteria"
     show_hide_forms: "Please select form(s) you want to show/hide."
