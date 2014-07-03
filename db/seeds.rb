@@ -17,7 +17,7 @@ def clean_db_table(table)
   puts "Cleaning out existing #{table} before the re-seed"
   dbName = "#{COUCHDB_CONFIG[:db_prefix]}_#{table}_#{COUCHDB_CONFIG[:db_suffix]}"
   myDb = COUCHDB_SERVER.database(dbName)
-  myDb.delete!
+  myDb.delete! rescue nil
 end
 
 #PRIMERO-269
