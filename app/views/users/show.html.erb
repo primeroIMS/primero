@@ -25,53 +25,92 @@
     <% end %>
     <div class="clearfix"></div>
     <fieldset class="no-border">
-      <p>
-        <label class="key"><%= t("name") %>:</label>
-        <%= h @user.full_name %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("name") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.full_name %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("login.username")%>:</label>
-        <%= h @user.user_name %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("login.username")%>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.user_name %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("permissions.label") %>:</label>
-        <%= @user.roles.map(&:name).join(", ") %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("permissions.label") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= @user.roles.map(&:name).join(", ") %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("contact.field.phone") %>:</label>
-        <%= h @user.phone %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("contact.field.phone") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.phone %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("email") %>:</label>
-        <%= h @user.email %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("email") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.email %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("organisation") %>:</label>
-        <%= h @user.organisation %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("organisation") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.organisation %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("position") %>:</label>
-        <%= h @user.position %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("position") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.position %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("location") %>:</label>
-        <%= h @user.location %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("location") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.location %>
+        </div>
+      </div>
 
-      <p>
-        <label class="key"><%= t("status") %>:</label>
-        <%= h @user.disabled ? t("user.disabled") : t("enabled") %>
-      </p>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("status") %>:</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= h @user.disabled ? t("user.disabled") : t("enabled") %>
+        </div>
+      </div>
 
-      <p>
-        <label><%= t("devices") %>:</label><br/>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label><%= t("devices") %>:</label>
+        </div>
+        <div class="medium-8 columns">
         <% @user.devices.each do |device| %>
             <% if device.blacklisted? %>
                 <span class='device-blacklisted'><%= device.imei %> (blacklisted)</span><br/>
@@ -79,7 +118,8 @@
                 <%= device.imei %> <br/>
             <% end %>
         <% end %>
-      </p>
+        </div>
+      </div>
 
     </fieldset>
     <%= render :partial => "mobile_login_history", :object => @user if false %>

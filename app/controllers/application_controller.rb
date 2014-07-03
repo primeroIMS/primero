@@ -85,8 +85,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #Override action_view in order to avoid the wrap of inputs when some validation was triggered.
   ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-    %(<span class="field-error">) + html_tag + %(</span>)
+    html_tag.html_safe
   end
 
   def filter_params_array_duplicates

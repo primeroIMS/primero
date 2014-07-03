@@ -292,6 +292,9 @@ form .row .row, .row .row {
 fieldset {
   .row {
     padding: 1.5rem .5rem .8rem;
+    span.value {
+      word-wrap: break-word;
+    }
   }
 
   .row:nth-child(even) {
@@ -826,5 +829,55 @@ div.scope_bar {
         margin: 0;
       }
     }
+  }
+}
+
+//////////////
+//Users Forms
+//////////////
+fieldset {
+  .row {
+    .footnote {
+      font-size: 0.8rem;
+      margin-left: 8rem;
+    }
+
+    .required {
+      float: right;
+      color: $red_color;
+    }
+
+    .value {
+      color: #666;
+      display: block;
+      float: left;
+      padding-top: 4px;
+      width: 100%;
+
+      .section {
+        display: block;
+        margin-bottom: 20px;
+        padding: 10px;
+
+        .title {
+          border-bottom: 1px dashed #ddd;
+          color: #333;
+          display: block;
+          font-style: italic;
+          margin-bottom: 5px;
+          padding-bottom: 8px;
+        }
+
+        label {
+          display: block;
+          padding: 3px;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+
+  .row:nth-child(2n+1) .section {
+    background: none repeat scroll 0 0 #fff;
   }
 }
