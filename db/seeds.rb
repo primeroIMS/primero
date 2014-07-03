@@ -17,25 +17,8 @@ def clean_db_table(table)
   puts "Cleaning out existing #{table} before the re-seed"
   dbName = "#{COUCHDB_CONFIG[:db_prefix]}_#{table}_#{COUCHDB_CONFIG[:db_suffix]}"
   myDb = COUCHDB_SERVER.database(dbName)
-  myDb.delete!
+  myDb.delete! rescue nil
 end
-
-#PRIMERO-269
-def fix_case_data
-  children = Child.all
-  children.each do |child|
-    puts "Scrubbing old record data for case #{child.short_id}..."
-    
-    #Change / to - to fix old date formats
-    child.each { |key, value| value.gsub! '/', '-' if value.is_a? String}
-    
-    #Add a record_state to old records
-    child.merge! record_state: 'Valid record' unless child[:record_state].present?    
-    
-    child.save!
-  end
-end
-
 
 
 if should_seed? User
@@ -55,5 +38,3 @@ Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
 if should_seed? ContactInformation
   ContactInformation.create(:id=>"administrator")
 end
-
-fix_case_data
