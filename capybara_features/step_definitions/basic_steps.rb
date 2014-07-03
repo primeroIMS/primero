@@ -50,8 +50,13 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
     if content
       #Lookup the parent of the field to search the value
       within(:xpath, '../..') do
-        #Find the element that represent the value.
-        find(:xpath, ".//span[@class='value']", :text => content)
+        if content.start_with?("<Date Range")
+          content = content.gsub("<Date Range>", "").strip
+          find(:xpath, ".//span[@class='value']/..").text.should eq(content)
+        else
+          #Find the element that represent the value.
+          find(:xpath, ".//span[@class='value']", :text => content)
+        end
       end
     end
   end
