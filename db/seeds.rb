@@ -71,6 +71,7 @@ end
 def is_date_valid_format? aValue
   begin
     Date.strptime(aValue, '%d-%b-%Y')
+    true
   rescue
     false
   end  
