@@ -1622,7 +1622,8 @@ describe Child do
                           {"subform0_age" => "50", "subform0_date_of_birth" => "02-May-1993"}]
 
       subform1_section = [{"subform1_age" => "", "subform1_date_of_birth" => "02-May-1989"},
-                          {"subform1_age" => "", "subform1_date_of_birth" => "02-May-1993"}]
+                          {"subform1_age" => "", "subform1_date_of_birth" => "02-May-1993"},
+                          {"subform1_age" => "", "subform1_date_of_birth" => "02-May-#{Date.today.year}"}]
 
       child = create_child "Bob McBobberson", :date_of_birth => "02-May-1990", :another_date_of_birth => "30-Oct-1975",
                            "subform1_section" => subform1_section, "subform2_section" => "", "1_age" => "56", 
@@ -1643,6 +1644,8 @@ describe Child do
       subform1_2_age = Date.today.year - 1993
       child['subform1_section'][1]["subform1_age"].should eq(subform1_2_age.to_s)
       child['subform1_section'][1]["subform1_date_of_birth"].should eq("02-May-1993")
+
+      child['subform1_section'][2]['subform1_age'].should eq("0")
 
       subform0_1_age = Date.today.year - 1984
       child['subform0_section'][0]["subform0_age"].should eq(subform0_1_age.to_s)

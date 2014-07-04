@@ -9,6 +9,7 @@
 # JIRA PRIMERO-233
 # JIRA PRIMERO-234
 # JIRA PRIMERO-252
+# JIRA PRIMERO-260
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -410,6 +411,23 @@ Feature: Basic Identity Form
     And I press "Save"
     Then I should see a value for "Age" on the show page with the value of "24"
     Then I should see a value for "Date of Birth" on the show page which is January 1, "24" years ago
+
+  Scenario: As a logged in user, When I fill in the Age field with zero the Date of Birth should be calculated
+    And I fill in the following:
+      | Name              | Tiki Thomas Taliaferro               |
+      | Age               | 0                                    |
+      | Agency Telephone  | 704-555-1212                         |
+      | Other Agency ID   | ABC12345                             |
+      | Other Agency Name | Test Agency                          |
+      | ICRC Ref No.      | 131313                               |
+      | RC ID No.         | 141414                               |
+      | UNHCR ID          | AAA000                               |
+      | Survivor Code     | BBB111                               |
+      | Nickname          | Tommy                                |
+      | Other Name        | Bob                                  |
+    And I press "Save"
+    Then I should see a value for "Age" on the show page with the value of "0"
+    Then I should see a value for "Date of Birth" on the show page which is January 1, "0" years ago
 
   Scenario: As a logged in user, When I fill in the Date of Birth field the Age should be calculated
     And I fill in the following:
