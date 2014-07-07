@@ -64,6 +64,11 @@ reunification_subform = [
                "type" => "radio_button",
                "display_name_all" => "Is there a need for follow up?",
                "option_strings_text_all" => "Yes\nNo",
+              }),
+    Field.new({"name" => "closure_recommendation",
+               "type" => "radio_button",
+               "display_name_all" => "If not, do you recommend that the case be closed?",
+               "option_strings_text_all" => "Yes\nNo",
               })
 ]
 
@@ -247,6 +252,31 @@ tracing_fields = [
              "subform_section_id" => tracing_actions_section.id,
              "display_name_all" => "Tracing Actions"
             }),
+  Field.new({"name" => "reunification_details_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => reunification_details_section.id,
+             "display_name_all" => "Reunification Details"
+            }),
+  Field.new({"name" => "closure_details_separator",
+             "type" => "separator",
+             "display_name_all" => "Closure Details",
+            }),
+  Field.new({"name" => "closure_reason",
+             "type" => "select_box",
+             "display_name_all" => "What is the reason for closing the child's file?",
+             "option_strings_text_all" =>
+                        ["Death of Child",
+                         "Formal Closing",
+                         "Not Seen During Verification",
+                         "Other",
+                         "Repatriated",
+                         "Transferred",
+                         "Transferred/Referred"].join("\n")
+            }),
+  Field.new({"name" => "date_closure",
+             "type" => "date_field",
+             "display_name_all" => "Date of Closure",
+            }),
   Field.new({"name" => "name_caregiver_closing",
              "type" => "text_field",
              "display_name_all" => "Caregiver Name",
@@ -262,19 +292,6 @@ tracing_fields = [
   Field.new({"name" => "location_caregiver_closing",
              "type" => "text_field",
              "display_name_all" => "Caregiver Location",
-            }),
-  Field.new({"name" => "reunification_details_section",
-             "type" => "subform", "editable" => true,
-             "subform_section_id" => reunification_details_section.id,
-             "display_name_all" => "Reunification Details"
-            }),
-  Field.new({"name" => "closure_details_separator",
-             "type" => "separator",
-             "display_name_all" => "Closure Details",
-            }),
-  Field.new({"name" => "date_closure",
-             "type" => "date_field",
-             "display_name_all" => "Date of Closure",
             })
 ]
 
