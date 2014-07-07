@@ -18,7 +18,7 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
     var dateOfBirthField = $(this.el).find("input[id='" + dateOfBirthId + "']");
 
     if (dateOfBirthField.length > 0) {
-      if (isNaN(ageField.val()) || ageField.val() <= 0) {
+      if (isNaN(ageField.val()) || ageField.val() < 0) {
         dateOfBirthField.val("");
       } else {
         if (!dateOfBirthField.hasClass("hasDatepicker")) {
@@ -45,7 +45,7 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
           var dateFormat = dateOfBirthField.datepicker("option", "dateFormat");
           var date_of_birth = $.datepicker.parseDate(dateFormat, dateOfBirthField.val());
           var age = (new Date).getFullYear() - date_of_birth.getFullYear();
-          if (age > 0) {
+          if (age >= 0) {
             ageField.val(age);
           } else {
             ageField.val("");
