@@ -26,7 +26,7 @@ class CustomFieldsValidator
   def validate_fields(fields, target)
     fields.each do |field|
       nested_field = field.form ? field.form.is_nested : false
-      if nested_field && target[field.form.unique_id]
+      if nested_field && target[field.form.unique_id] && target[field.form.unique_id].respond_to?(:each)
         target[field.form.unique_id].each do |k, t|
           validate_field(field, target, t)
         end
