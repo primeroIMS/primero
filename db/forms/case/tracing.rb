@@ -67,7 +67,7 @@ reunification_subform = [
               }),
     Field.new({"name" => "closure_recommendation",
                "type" => "radio_button",
-               "display_name_all" => "If not, do you recommend that the case be close?",
+               "display_name_all" => "If not, do you recommend that the case be closed?",
                "option_strings_text_all" => "Yes\nNo",
               })
 ]

@@ -37,7 +37,7 @@ Feature: Tracing Reunification Details
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |
       | If not, what was the reason for the change?          | <Select> Not Applicable   |
       | Is there a need for follow up?                       | <Radio> No                |
-      | If not, do you recommend that the case be close?     | <Radio> Yes               |
+      | If not, do you recommend that the case be closed?    | <Radio> Yes               |
     And I select "Other" from "What is the reason for closing the child's file?"
     And I fill in the following:
       | Caregiver Name                                   | Jon Arryn      |
@@ -70,7 +70,7 @@ Feature: Tracing Reunification Details
       | Was the child reunified with the verfified adult?    | Yes                       |
       | If not, what was the reason for the change?          | Not Applicable            |
       | Is there a need for follow up?                       | No                        |
-      | If not, do you recommend that the case be close?     | Yes                       |
+      | If not, do you recommend that the case be closed?    | Yes                       |
     And I should see a value for "What is the reason for closing the child's file?" on the show page with the value of "Other"
     And I should see a value for "Caregiver Name" on the show page with the value of "Jon Arryn"
     And I should see a value for "Caregiver Relationship" on the show page with the value of "Grandfather"
