@@ -11,6 +11,7 @@
 # JIRA PRIMERO-252
 # JIRA PRIMERO-260
 # JIRA PRIMERO-273
+# JIRA PRIMERO-267
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -550,3 +551,17 @@ Feature: Basic Identity Form
     And I should see "John Snow" on the page
     And I should see "Daenerys Targaryen" on the page
     And I should not see "Eddard Stark" on the page
+
+  Scenario: As a logged in user When I enter an invalid number in 'Age' field I should see a validation message
+    And I fill in the following:
+      | Name              | Daenerys Targaryen |
+      | Age               | SS                 |
+    And I press "Save"
+    And I should see "There were problems with the following fields:" on the page
+    And I should see "Basic Identity: Age must be a valid number" on the page
+    And I fill in the following:
+      | Name              | Daenerys Targaryen |
+      | Age               | 192                |
+    And I press "Save"
+    And I should see "There were problems with the following fields:" on the page
+    And I should see "Basic Identity: Age must be between 0 and 130" on the page

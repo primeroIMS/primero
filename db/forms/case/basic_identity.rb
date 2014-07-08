@@ -100,7 +100,7 @@ basic_identity_fields = [
              "display_name_all" => "Sex"
             }),                  
   Field.new({"name" => "age",
-             "type" => "text_field",
+             "type" => "numeric_field",
              "display_name_all" => "Age"
             }),
   Field.new({"name" => "date_of_birth",
