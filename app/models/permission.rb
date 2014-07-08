@@ -9,9 +9,9 @@ class Permission
     ordered
   end
 
-  CHILDREN = Permission.to_ordered_hash({:register => "Create Records"},
-                                        {:edit => "Edit Records"},
-                                        {:view_and_search => "View And Search Records"},
+  CHILDREN = Permission.to_ordered_hash({:register => "Create Cases"},
+                                        {:edit => "Edit Cases"},
+                                        {:view_and_search => "View And Search Cases"},
                                         {:export_photowall => "Export to Photowall"},
                                         {:export_csv => "Export to CSV"},
                                         {:export_pdf => "Export to PDF"},

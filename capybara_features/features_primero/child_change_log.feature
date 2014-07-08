@@ -4,7 +4,7 @@ Feature: Child change log
   @javascript @primero
   Scenario: Validate child creating and initial setting of field
 
-    Given "bob" logs in with "Create Records,Edit Records" permissions
+    Given "bob" logs in with "Create Cases,Edit Cases" permissions
     And someone has entered a child with the name "automation"
 
     When I press the "Change Log" button
@@ -18,20 +18,20 @@ Feature: Child change log
 
   @javascript @primero
   Scenario: Access the Change Log Feature From Case Page
-    Given "bob" logs in with "Create Records,Edit Records" permissions
+    Given "bob" logs in with "Create Cases,Edit Cases" permissions
     And someone has entered a child with the name "automation"
     Then I should see a "Change Log" button on the page
 
   @javascript @primero
   Scenario: Access the Change Log Feature
-    Given "bob" logs in with "Create Records,Edit Records" permissions
+    Given "bob" logs in with "Create Cases,Edit Cases" permissions
     And someone has entered a child with the name "automation"
     And I press the "Edit" button
     Then I should see a "Change Log" button on the page
 
   @javascript @primero
   Scenario Outline: Change log is in the correct order
-    Given "bob" logs in with "Create Records,Edit Records" permissions
+    Given "bob" logs in with "Create Cases,Edit Cases" permissions
     And someone has entered a child with the name "automation"
     And I press the "Edit" button
     And I fill in "Age" with "32"

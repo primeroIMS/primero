@@ -33,9 +33,9 @@ end
 
 #Iterate roles to update labels.
 Role.all.all.each do |role|
-  [ {:old => "Register Child", :new => "Create Records"},
-    {:old => "Edit Child", :new => "Edit Records"},
-    {:old => "View And Search Child", :new => "View And Search Records"},
+  [ {:old => "Register Child", :new => "Create Cases"},
+    {:old => "Edit Child", :new => "Edit Cases"},
+    {:old => "View And Search Child", :new => "View And Search Cases"},
     {:old => "Register Incident", :new => "Create Incidents"},
     {:old => "Edit Incident", :new => "Edit Incidents"},
     {:old => "View And Search Incident", :new => "View And Search Incidents"},

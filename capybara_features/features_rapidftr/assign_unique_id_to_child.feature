@@ -6,7 +6,7 @@ Feature: Assign unique id to child
   @wip
   Scenario: The unique Id of child should use the logged-in user's username
 
-    Given I am logged in as a user with "Create Records" permission
+    Given I am logged in as a user with "Create Cases" permission
     When I am on the new child page
     When I fill in the basic details of a child
     And I press "Save"

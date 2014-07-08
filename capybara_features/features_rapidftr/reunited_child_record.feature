@@ -6,7 +6,7 @@ Feature: Reunited child record
 
   Background:
 
-   Given I am logged in as a user with "Create Records,Edit Records,View And Search Records" permission
+   Given I am logged in as a user with "Create Cases,Edit Cases,View And Search Cases" permission
    And the following children exist in the system:
      | name   | unique_identifier  | reunited |
      | Will   | will_uid           | false    |
