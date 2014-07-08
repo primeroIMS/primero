@@ -7,7 +7,7 @@ Feature: View child record log
 
   Scenario: Creates a child record and checks the log
 
-    Given "Harry" logs in with "Register Child" permission
+    Given "Harry" logs in with "Create Records" permission
     And I am on the children listing page
     And I follow "Register New Child"
 
@@ -120,7 +120,7 @@ Feature: View child record log
   I want to view history of USER ACTION
   So that I can view all the changes particular users are making
 
-    Given "Harry" logs in with "Register Child" permission
+    Given "Harry" logs in with "Create Records" permission
     And I am on the children listing page
     And I follow "Register New Child"
 
@@ -137,7 +137,7 @@ Feature: View child record log
 
   Scenario: As an admin when I view history of user who has no activity, the same should be displayed to me
 
-    Given "Jerry" logs in with "Register Child" permission
+    Given "Jerry" logs in with "Create Records" permission
     And I am on the children listing page
     And  I logout
 

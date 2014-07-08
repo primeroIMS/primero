@@ -5,7 +5,7 @@ Feature: Child change log
   @javascript @wip
   Scenario: Validate child creating and initial setting of field
 
-    Given "bob" logs in with "Register Child,Edit Child" permissions
+    Given "bob" logs in with "Create Records,Edit Records" permissions
     And someone has entered a child with the name "automation"
 
     When I press the "Change Log" button
@@ -21,7 +21,7 @@ Feature: Child change log
   @javascript @wip
   Scenario: Validate editing a child record
 
-    Given "bob" logs in with "Register Child,Edit Child" permissions
+    Given "bob" logs in with "Create Records,Edit Records" permissions
     And someone has entered a child with the name "automation"
 
     Then I press the "Edit" button
@@ -34,7 +34,7 @@ Feature: Child change log
   @javascript @wip
   Scenario: Flagging a record
 
-    Given "bob" logs in with "Register Child,Edit Child" permissions
+    Given "bob" logs in with "Create Records,Edit Records" permissions
     And someone has entered a child with the name "automation"
 
 
@@ -50,7 +50,7 @@ Feature: Child change log
   @run @wip
   Scenario: Adding an image
 
-    Given "bob" logs in with "Register Child,Edit Child" permissions
+    Given "bob" logs in with "Create Records,Edit Records" permissions
     And someone has entered a child with the name "automation"
 
     When I follow "Edit"

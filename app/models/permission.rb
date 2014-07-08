@@ -9,35 +9,35 @@ class Permission
     ordered
   end
 
-  CHILDREN = Permission.to_ordered_hash({:register => "Register Child"},
-                                        {:edit => "Edit Child"},
-                                        {:view_and_search => "View And Search Child"},
+  CHILDREN = Permission.to_ordered_hash({:register => "Create Records"},
+                                        {:edit => "Edit Records"},
+                                        {:view_and_search => "View And Search Records"},
                                         {:export_photowall => "Export to Photowall"},
                                         {:export_csv => "Export to CSV"},
                                         {:export_pdf => "Export to PDF"},
                                         {:export_cpims => "Export to CPIMS"}
   )
-  ENQUIRIES = Permission.to_ordered_hash({:create => "Create Enquiry"},
-                                         {:update => "Update Enquiry"}
+  ENQUIRIES = Permission.to_ordered_hash({:create => "Create Enquires"},
+                                         {:update => "Edit Enquires"}
   )
   FORMS = Permission.to_ordered_hash({:manage => "Manage Forms"})
   USERS = Permission.to_ordered_hash({:create_and_edit => "Create and Edit Users"}, {:view => "View Users"},
                                      {:destroy => "Delete Users"}, {:disable => "Disable Users"})
-  DEVICES = Permission.to_ordered_hash({:black_list => "BlackList Devices", :replications => "Manage Replications"})
-  REPORTS = Permission.to_ordered_hash({:view => 'View and Download Reports'})
+  DEVICES = Permission.to_ordered_hash({:black_list => "BlackList Devices", :replications => "Manage Device Replication"})
+  REPORTS = Permission.to_ordered_hash({:view => 'View Reports'})
   ROLES = Permission.to_ordered_hash({:create_and_edit => "Create and Edit Roles"}, {:view => "View roles"})
-  SYSTEM = Permission.to_ordered_hash({:contact_information => "System Settings",
+  SYSTEM = Permission.to_ordered_hash({:contact_information => "Manage Contact Information",
                                        :highlight_fields => "Highlight Fields",
-                                       :system_users => "Users for synchronisation"})
-  INCIDENTS = Permission.to_ordered_hash({:register => "Register Incident"},
-                                        {:edit => "Edit Incident"},
-                                        {:view_and_search => "View And Search Incident"},
+                                       :system_users => "Manage System Users"})
+  INCIDENTS = Permission.to_ordered_hash({:register => "Create Incidents"},
+                                        {:edit => "Edit Incidents"},
+                                        {:view_and_search => "View And Search Incidents"},
                                         {:export_csv => "Export to CSV"},
                                         {:export_pdf => "Export to PDF"}
   )
 
   def self.all
-    {"Children" => CHILDREN, "Forms" => FORMS, "Users" => USERS, "Devices" => DEVICES, "Reports" => REPORTS, "Roles" => ROLES, "System" => SYSTEM, "Enquiries" => ENQUIRIES, "Incidents" => INCIDENTS}
+    {"Cases" => CHILDREN, "Incidents" => INCIDENTS, "Forms" => FORMS, "Users" => USERS, "Devices" => DEVICES, "Reports" => REPORTS, "Roles" => ROLES, "System" => SYSTEM, "Enquires" => ENQUIRIES}
   end
 
   def self.all_permissions
@@ -45,7 +45,7 @@ class Permission
   end
 
   def self.hashed_values
-    {"Children" => CHILDREN.values, "Forms" => FORMS.values, "Users" => USERS.values, "Devices" => DEVICES.values, "Reports" => REPORTS.values, "Roles" => ROLES.values, "System" => SYSTEM.values, "Enquiries" => ENQUIRIES.values, "Incidents" => INCIDENTS.values}
+    {"Cases" => CHILDREN.values, "Incidents" => INCIDENTS.values, "Forms" => FORMS.values, "Users" => USERS.values, "Devices" => DEVICES.values, "Reports" => REPORTS.values, "Roles" => ROLES.values, "System" => SYSTEM.values, "Enquires" => ENQUIRIES.values}
   end
 
 end

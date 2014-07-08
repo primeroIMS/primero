@@ -5,7 +5,7 @@ Feature: Create child new disabled form section
   @wip
   Scenario:      User creates new child record and does not see disabled forms
 
-    Given I am logged in as a user with "Register Child" permission
+    Given I am logged in as a user with "Create Records" permission
     And the following form sections exist in the system:
       | name              | description                   | unique_id         | parent_form | order | visible |
       | Basic Details     | Basic details about a child   | basic_details     | case        | 1     | true    |
