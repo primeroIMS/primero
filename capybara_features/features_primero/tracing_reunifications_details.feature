@@ -1,5 +1,6 @@
 # JIRA PRIMERO-134
 # JIRA PRIMERO-232
+# JIRA PRIMERO-261
 
 @javascript @primero
 Feature: Tracing Reunification Details
@@ -24,7 +25,6 @@ Feature: Tracing Reunification Details
       | Was the child reunified with the verfified adult?    | <Radio> No                |
       | If not, what was the reason for the change?          | <Select> Change of Mind   |
       | Is there a need for follow up?                       | <Radio> Yes               |
-
     And I fill in the 2nd "Reunification Details Section" subform with the follow:
       | Name of adult child was reunified with               | Vivian Nelson             |
       | Relationship of adult to child                       | Mother                    |
@@ -37,20 +37,45 @@ Feature: Tracing Reunification Details
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |
       | If not, what was the reason for the change?          | <Select> Not Applicable   |
       | Is there a need for follow up?                       | <Radio> No                |
+      | If not, do you recommend that the case be closed?    | <Radio> Yes               |
+    And I select "Other" from "What is the reason for closing the child's file?"
+    And I fill in the following:
+      | Caregiver Name                                   | Jon Arryn      |
+      | Caregiver Relationship                           | Grandfather    |
+      | Caregiver Address                                | Some address   |
+      | Caregiver Location                               | Some location  |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "Tracing" button
-    And I should see a value for "Name of adult child was reunified with" on the show page with the value of "Verma Webol"
-    And I should see a value for "Relationship of adult to child" on the show page with the value of "Father"
-    And I should see a value for "Address" on the show page with the value of "Test Village 2"
-    And I should see a value for "Location of adult with whom the child was reunified" on the show page with the value of "124 C.Ave"
-    And I should see a value for "Address where the reunification is taking place" on the show page with the value of "125 B.Ave"
-    And I should see a value for "Location where the reunifcation is taking place" on the show page with the value of "Kenya"
-    And I should see a value for "What type of reunification?" on the show page with the value of "Mass Tracing"
-    And I should see a value for "Date of reunification" on the show page with the value of "31-May-2014"
-    And I should see a value for "Was the child reunified with the verfified adult?" on the show page with the value of "No"
-    And I should see a value for "If not, what was the reason for the change?" on the show page with the value of "Change of Mind"
-    And I should see a value for "Is there a need for follow up?" on the show page with the value of "Yes"
+    And I should see in the 1st "Reunification Detail" subform with the follow:
+      | Name of adult child was reunified with               | Verma Webol               |
+      | Relationship of adult to child                       | Father                    |
+      | Address                                              | Test Village 2            |
+      | Location of adult with whom the child was reunified  | 124 C.Ave                 |
+      | Address where the reunification is taking place      | 125 B.Ave                 |
+      | Location where the reunifcation is taking place      | Kenya                     |
+      | What type of reunification                           | Mass Tracing              |
+      | Was the child reunified with the verfified adult?    | No                        |
+      | If not, what was the reason for the change?          | Change of Mind            |
+      | Is there a need for follow up?                       | Yes                       |
+    And I should see in the 2nd "Reunification Detail" subform with the follow:
+      | Name of adult child was reunified with               | Vivian Nelson             |
+      | Relationship of adult to child                       | Mother                    |
+      | Address                                              | Test Village              |
+      | Location of adult with whom the child was reunified  | 123 C.Ave                 |
+      | Address where the reunification is taking place      | 123 B.Ave                 |
+      | Location where the reunifcation is taking place      | Kenya                     |
+      | What type of reunification?                          | Mass Tracing              |
+      | Date of reunification                                | 30-May-2014               |
+      | Was the child reunified with the verfified adult?    | Yes                       |
+      | If not, what was the reason for the change?          | Not Applicable            |
+      | Is there a need for follow up?                       | No                        |
+      | If not, do you recommend that the case be closed?    | Yes                       |
+    And I should see a value for "What is the reason for closing the child's file?" on the show page with the value of "Other"
+    And I should see a value for "Caregiver Name" on the show page with the value of "Jon Arryn"
+    And I should see a value for "Caregiver Relationship" on the show page with the value of "Grandfather"
+    And I should see a value for "Caregiver Address" on the show page with the value of "Some address"
+    And I should see a value for "Caregiver Location" on the show page with the value of "Some location"
 
   Scenario: As a logged in user, I should access the form section tracing and add/remove reunification details
     And I fill in the 1st "Reunification Details Section" subform with the follow:

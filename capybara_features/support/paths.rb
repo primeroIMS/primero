@@ -35,11 +35,17 @@ module NavigationHelpers
       when /new case page/
         new_case_path(options)
 
+      when /new incident page/
+        new_incident_path(options)
+
       when /children listing page/
         children_path(options)
 
       when /cases page/
         cases_path(options)
+
+      when /incidents page/
+        incidents_path(options)
 
       when /children display page/
 
