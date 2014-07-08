@@ -406,6 +406,5 @@ When /^the chosen "([^\"]*)" should not have any selected value$/ do |chosen|
   label = find("//label[text()='#{chosen}']", :visible => true)
   chosen_select_id = label["for"] + "_"
   chosen_select = find(:xpath, "//select[@id='#{chosen_select_id}']", :visible => false)
-  binding.pry
   chosen_select.value.blank?.should be true
 end
