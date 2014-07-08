@@ -70,6 +70,7 @@ en:
   navigation:
      home: "HOME"
      cases: "CASES"
+     incidents: "INCIDENTS"
      children: "CHILDREN"
      forms: "FORMS"
      users: "USERS"
