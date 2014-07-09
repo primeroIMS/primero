@@ -3,9 +3,9 @@
     <label class="key"><%= t(field.name, :default => field.display_name) %></label>
   </div>
   <div class="medium-8 columns">
-    <span class="value">From:</span>
+    <span class="value"><%="#{I18n.t("fields.date_range.from")}:"%></span>
     <span class="value"><%= field_value_for_display formObject["#{field.name}_from"] %></span>
-    <span class="value">To:</span>
+    <span class="value"><%="#{I18n.t("fields.date_range.to")}:"%></span>
     <span class="value"><%= field_value_for_display formObject["#{field.name}_to"] %></span>
   </div>
 </div>
