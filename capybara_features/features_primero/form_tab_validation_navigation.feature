@@ -32,5 +32,5 @@ Feature: Form Tab Validation Navigation
     Then I should stay on the "Basic Identity" tab on the case "index" page
     And I should see "Errors prohibited this record from being saved" on the page
     And I should see "There were problems with the following fields" on the page
-    And I should see "Basic Identity: Age must be between 1 and 130" on the page
+    And I should see "Basic Identity: Age must be between 0 and 130" on the page
     And I should see "Photos and Audio: Please upload a valid photo file (jpg or png) for this case record" on the page

@@ -17,7 +17,8 @@ Feature: Validate Date Field
     And I fill in the following:
       | Date of Birth     | Invalid Date         |
     And I press "Save"
-		Then I should see "Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+    Then I should see "Case record successfully created." on the page
+    And I should see a value for "Date of Birth" on the show page with the value of "today's date"
 
   Scenario: As a logged in user, I create a case and validate the date field and allow different formats
     And I press the "Basic Identity" button  
@@ -48,7 +49,8 @@ Feature: Validate Date Field
       | Service Location                           | Kenya                 |
       | Notes                                      | No notes at this time |
     And I press "Save"
-    Then I should see "Services: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+    Then I should see "Case record successfully created." on the page
+    Then I should see a value for "Appointment Date" on the show page with the value of "today's date"
 
   Scenario: As a logged in user, I create a case and validate the date field with invalid values in a subform 
     And I press the "Services" button
