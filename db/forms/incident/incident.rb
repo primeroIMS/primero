@@ -1,10 +1,12 @@
 incident_fields = [
-  Field.new({"name" => "incident_id", # TODO: Guid
+  Field.new({"name" => "incident_id",
              "type" => "text_field",
+             "editable" => false,
              "display_name_all" => "Incident ID"
             }),
-  Field.new({"name" => "incident_code", # For right now, sequentially assigned number.
+  Field.new({"name" => "incident_code",
              "type" => "text_field",
+             "editable" => false,
              "display_name_all" => "Incident Code"
             }),
   Field.new({"name" => "violation_category",
@@ -23,11 +25,11 @@ incident_fields = [
                 "Other"
               ].join("\n")
             }),
-  Field.new({"name" => "caseworker_code", # Ask populated with users
+  Field.new({"name" => "caseworker_code", # TODO: populated with users
              "type" => "text_field",
              "display_name_all" => "Case Worker"
             }),   
-  Field.new({"name" => "agency_organization", # Ask populated with organizations
+  Field.new({"name" => "agency_organization", # TODO: populated with organizations
              "type" => "text_field",
              "display_name_all" => "Agency"
             }),
@@ -67,12 +69,8 @@ incident_fields = [
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "super_incident_name",
-             "type" => "select_box",
-             "display_name_all" => "Name of Super Incident/Event",
-             "option_strings_text_all" => [
-                "Will be populated with the names of",
-                "SuperIncidents once that form is implemented"
-             ].join("\n")
+             "type" => "text_field",
+             "display_name_all" => "Name of Super Incident/Event"
             }),  
   Field.new({"name" => "UN_eyewitness",
              "type" => "radio_button",
@@ -87,11 +85,11 @@ incident_fields = [
              "type" => "select_box",
              "display_name_all" => "Incident Status",
              "option_strings_text_all" => [
-                "Active (default)",
+                "Active",
                 "Inactive"
               ].join("\n")
             }),
-  Field.new({"name" => "mrm_verification_status", # Autopopulate - Default to Pending when Incident is created, populate from verified
+  Field.new({"name" => "mrm_verification_status", # TODO: populate from verified
              "type" => "text_field",
              "display_name_all" => "MRM Verification Status"
             }), 
@@ -112,7 +110,7 @@ incident_fields = [
                 "Evening/Night (sunset to sunrise)",
                 "Unknown/Not Applicable"
               ].join("\n")
-            }),  
+            }),
   Field.new({"name" => "incident_location_type",
              "type" => "select_box",
              "display_name_all" => "Type of place where the incident took place",
@@ -136,15 +134,15 @@ incident_fields = [
                 "Guest House - Hotel"
               ].join("\n")
             }),
-  Field.new({"name" => "incident_location_1", # Customizable
+  Field.new({"name" => "incident_location_1", # TODO: Customizable
              "type" => "text_field",
              "display_name_all" => "Area"
             }),
-  Field.new({"name" => "incident_location_2", # Customizable
+  Field.new({"name" => "incident_location_2", # TODO: Customizable
              "type" => "text_field",
              "display_name_all" => "Sub-Area"
             }),
-  Field.new({"name" => "Incident_location_3", # Customizable
+  Field.new({"name" => "Incident_location_3", # TODO: Customizable
              "type" => "text_field",
              "display_name_all" => "Camp/Town/Site/Village"
             }), 
@@ -159,7 +157,7 @@ incident_fields = [
                 "Unknown"
               ].join("\n")
             }),
- Field.new({"name" => "incident_total_boys",
+  Field.new({"name" => "incident_total_boys",
              "type" => "numeric_field",
              "display_name_all" => "Incident Total Victims/Survivors:Boys"
             }),
@@ -178,7 +176,7 @@ incident_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "incident",
+  :unique_id => "incident_form",
   :parent_form=>"incident",
   "visible" => true,
   :order => 1,
