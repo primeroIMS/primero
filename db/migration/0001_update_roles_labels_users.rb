@@ -44,7 +44,11 @@ Role.all.all.each do |role|
     {:old => "View and Download Reports", :new => "View Reports"},
     {:old => "Users for synchronisation", :new => "Manage System Users"},
     {:old => "Manage Replications", :new => "Manage Device Replication"},
-    {:old => "System Settings", :new => "Manage Contact Information"}
+    {:old => "System Settings", :new => "Manage Contact Information"},
+    {:old => "Export to Photowall", :new => "Export Cases to Photowall"},
+    {:old => "Export to CSV", :new => "Export Cases to CSV"},
+    {:old => "Export to PDF", :new => "Export Cases to PDF"},
+    {:old => "Export to CPIMS", :new => "Export Cases to CPIMS"}
   ].each do |label|
     puts "Role: '#{role.name}' Renamed permission '#{label[:old]}' to '#{label[:new]}'" if update_permission_label(role, label[:old], label[:new])
   end
