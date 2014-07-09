@@ -20,7 +20,6 @@
 //= require sidebar
 //= require rapidftr
 //= require date_controls
-//= require field_calculations
 //= require jquery_plugin
 //= require advanced_search
 //= require form_fields
