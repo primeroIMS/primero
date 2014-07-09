@@ -12,10 +12,10 @@ class Permission
   CHILDREN = Permission.to_ordered_hash({:register => "Create Cases"},
                                         {:edit => "Edit Cases"},
                                         {:view_and_search => "View And Search Cases"},
-                                        {:export_photowall => "Export to Photowall"},
-                                        {:export_csv => "Export to CSV"},
-                                        {:export_pdf => "Export to PDF"},
-                                        {:export_cpims => "Export to CPIMS"}
+                                        {:export_photowall => "Export Cases to Photowall"},
+                                        {:export_csv => "Export Cases to CSV"},
+                                        {:export_pdf => "Export Cases to PDF"},
+                                        {:export_cpims => "Export Cases to CPIMS"}
   )
   ENQUIRIES = Permission.to_ordered_hash({:create => "Create Enquires"},
                                          {:update => "Edit Enquires"}
@@ -32,8 +32,8 @@ class Permission
   INCIDENTS = Permission.to_ordered_hash({:register => "Create Incidents"},
                                         {:edit => "Edit Incidents"},
                                         {:view_and_search => "View And Search Incidents"},
-                                        {:export_csv => "Export to CSV"},
-                                        {:export_pdf => "Export to PDF"}
+                                        {:export_csv => "Export Incidents to CSV"},
+                                        {:export_pdf => "Export Incidents to PDF"}
   )
 
   def self.all
