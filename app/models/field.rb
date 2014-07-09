@@ -102,7 +102,10 @@ class Field
   end
 
   def subform_section
-    subform ||= FormSection.get(subform_section_id) if subform_section_id
+    if !subform && subform_section_id
+       subform = FormSection.get(subform_section_id)
+    end
+    return subform
   end
 
   def form_type
