@@ -9,6 +9,9 @@
 # JIRA PRIMERO-233
 # JIRA PRIMERO-234
 # JIRA PRIMERO-252
+# JIRA PRIMERO-260
+# JIRA PRIMERO-273
+# JIRA PRIMERO-267
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -156,13 +159,19 @@ Feature: Basic Identity Form
       |  Trafficked/smuggled   |
       |  Other                 |
     And I select "Physical Disability" from "Disability Type"
-    And I select "Nationality 2" from "Nationality"
+    And I choose from "Nationality":
+      | Nationality1 |
+      | Nationality3 |
     And I select "Country1" from "Birth Country"
     And I select "Country2" from "Country of Origin"
     And I select "Yes" for "Is this address permanent?" radio button
-    And I select "Clan 3" from "Ethnicity/Clan/Tribe"
-    And I select "Clan 1" from "Sub Ethnicity 1"
-    And I select "Clan 2" from "Sub Ethnicity 2"
+    And I choose from "Ethnicity/Clan/Tribe":
+      | Ethnicity1 |
+      | Ethnicity2 |
+    And I choose from "Sub Ethnicity 1":
+      | Sub-ethnicity1.2 |
+    And I choose from "Sub Ethnicity 2":
+      | Sub-ethnicity2.3|
     And I select "Agency 4" from "Interviewer Agency"
     And I select "GBV Survivor" from "Information Obtained From"
     And I select "Yes" for "Has the child been interviewed by another organization?" radio button
@@ -173,10 +182,12 @@ Feature: Basic Identity Form
     And I select "No" for "If the survivor is a child, does he/she live alone?" radio button
     And I select "Relative" from "If the survivor lives with someone, what is the relation between her/him and the caretaker?"
     And I select "Widowed" from "What is the caretaker's current marital status?"
-    
-    And I check "English" for "Language"
-    And I check "French" for "Language"
-    And I check "Christianity" for "Religion"
+    And I choose from "Language":
+      | Language1 |
+      | Language2 |
+    And I choose from "Religion":
+      | Religion1 |
+      | Religion2 |
     And I check "Unaccompanied Minor" 
     And I check "Separated Child"
     And I check "Other Vulnerable Child"
@@ -210,7 +221,7 @@ Feature: Basic Identity Form
     And I should see a value for "Current Displacement Status" on the show page with the value of "Foreign National"
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Other"
     And I should see a value for "Disability Type" on the show page with the value of "Physical Disability"
-    And I should see a value for "Nationality" on the show page with the value of "Nationality 2"
+    And I should see a value for "Nationality" on the show page with the value of "Nationality1, Nationality3"
     And I should see a value for "Place of Birth" on the show page with the value of "Boston"
     And I should see a value for "Birth Country" on the show page with the value of "Country1"
     And I should see a value for "Country of Origin" on the show page with the value of "Country2"
@@ -223,11 +234,11 @@ Feature: Basic Identity Form
     And I should see a value for "Last Landmark" on the show page with the value of "Roller Coaster Hill"
     And I should see a value for "Last Location" on the show page with the value of "Northwest"
     And I should see a value for "Last Address Telephone" on the show page with the value of "828-555-1414"
-    And I should see a value for "Ethnicity/Clan/Tribe" on the show page with the value of "Clan 3"
-    And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Clan 1"
-    And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Clan 2"    
-    And I should see a value for "Language" on the show page with the value of "English, French"
-    And I should see a value for "Religion" on the show page with the value of "Christianity"
+    And I should see a value for "Ethnicity/Clan/Tribe" on the show page with the value of "Ethnicity1, Ethnicity2"
+    And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Sub-ethnicity1.2"
+    And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Sub-ethnicity2.3"
+    And I should see a value for "Language" on the show page with the value of "Language1, Language2"
+    And I should see a value for "Religion" on the show page with the value of "Religion1, Religion2"
     And I should see a value for "Arrival Date" on the show page with the value of "13-Apr-2014"
     And I should see a value for "Interviewer Name" on the show page with the value of "Fred Jones"
     And I should see a value for "Interviewer Position" on the show page with the value of "Field Worker"
@@ -343,8 +354,9 @@ Feature: Basic Identity Form
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 22                                   |
     And I select "Male" from "Sex"
-    And I check "English" for "Language"
-    And I check "French" for "Language"
+    And I choose from "Language":
+      | Language1 |
+      | Language2 |
     And I press "Cancel"
     And I click OK in the browser popup
     Then I should be on the new case page
@@ -352,16 +364,16 @@ Feature: Basic Identity Form
     And the "Name" field should not contain "Tiki Thomas Taliaferro"
     And the "Age" field should not contain "22"
     And the "Sex" field should not contain "Male"
-    And the "English" checkbox should not be checked
-    And the "French" checkbox should not be checked
+    And the chosen "Language" should not have any selected value
     
   Scenario: As a logged in user, I should be able to cancel out of a reset of the basic identity form 
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 22                                   |
     And I select "Male" from "Sex"
-    And I check "English" for "Language"
-    And I check "French" for "Language"
+    And I choose from "Language":
+      | Language1 |
+      | Language2 |
     And I press "Cancel"
     And I click Cancel in the browser popup
     Then I should be on the new case page
@@ -369,8 +381,9 @@ Feature: Basic Identity Form
     And the "Name" field should contain "Tiki Thomas Taliaferro"
     And the "Age" field should contain "22"
     And the "Sex" field should contain "Male"
-    And the "English" checkbox should be checked
-    And the "French" checkbox should be checked
+    And the chosen "Language" should have the following values:
+      | Language1 |
+      | Language2 |
 
   Scenario: As a logged in user, I create a case with no values in the basic identity form
     And I press the "Photos and Audio" button
@@ -410,6 +423,23 @@ Feature: Basic Identity Form
     And I press "Save"
     Then I should see a value for "Age" on the show page with the value of "24"
     Then I should see a value for "Date of Birth" on the show page which is January 1, "24" years ago
+
+  Scenario: As a logged in user, When I fill in the Age field with zero the Date of Birth should be calculated
+    And I fill in the following:
+      | Name              | Tiki Thomas Taliaferro               |
+      | Age               | 0                                    |
+      | Agency Telephone  | 704-555-1212                         |
+      | Other Agency ID   | ABC12345                             |
+      | Other Agency Name | Test Agency                          |
+      | ICRC Ref No.      | 131313                               |
+      | RC ID No.         | 141414                               |
+      | UNHCR ID          | AAA000                               |
+      | Survivor Code     | BBB111                               |
+      | Nickname          | Tommy                                |
+      | Other Name        | Bob                                  |
+    And I press "Save"
+    Then I should see a value for "Age" on the show page with the value of "0"
+    Then I should see a value for "Date of Birth" on the show page which is January 1, "0" years ago
 
   Scenario: As a logged in user, When I fill in the Date of Birth field the Age should be calculated
     And I fill in the following:
@@ -521,3 +551,17 @@ Feature: Basic Identity Form
     And I should see "John Snow" on the page
     And I should see "Daenerys Targaryen" on the page
     And I should not see "Eddard Stark" on the page
+
+  Scenario: As a logged in user When I enter an invalid number in 'Age' field I should see a validation message
+    And I fill in the following:
+      | Name              | Daenerys Targaryen |
+      | Age               | SS                 |
+    And I press "Save"
+    And I should see "There were problems with the following fields:" on the page
+    And I should see "Basic Identity: Age must be a valid number" on the page
+    And I fill in the following:
+      | Name              | Daenerys Targaryen |
+      | Age               | 192                |
+    And I press "Save"
+    And I should see "There were problems with the following fields:" on the page
+    And I should see "Basic Identity: Age must be between 0 and 130" on the page

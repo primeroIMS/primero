@@ -100,7 +100,7 @@ basic_identity_fields = [
              "display_name_all" => "Sex"
             }),                  
   Field.new({"name" => "age",
-             "type" => "text_field",
+             "type" => "numeric_field",
              "display_name_all" => "Age"
             }),
   Field.new({"name" => "date_of_birth",
@@ -181,12 +181,12 @@ basic_identity_fields = [
   # TODO should be configurable
   Field.new({"name" => "nationality",
              "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Nationality",
              "option_strings_text_all" => 
-                          ["Nationality 1",
-                           "Nationality 2",
-                           "Nationality 3",
-                           "Nationality 4"].join("\n")
+                          ["Nationality1",
+                           "Nationality2",
+                           "Nationality3"].join("\n")
             }),
       
   Field.new({"name" => "place_of_birth",
@@ -257,49 +257,49 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "ethnicity",
              "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Ethnicity/Clan/Tribe",
              "option_strings_text_all" => 
-                          ["Baganda",
-                           "Clan 1",
-                           "Clan 2",
-                           "Clan 3",
-                           "Polo"].join("\n")
+                          ["Ethnicity1",
+                           "Ethnicity2",
+                           "Ethnicity3"].join("\n")
             }),
   Field.new({"name" => "sub_ethnicity_1",
              "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Sub Ethnicity 1",
              "option_strings_text_all" => 
-                          ["Baganda",
-                           "Clan 1",
-                           "Clan 2",
-                           "Clan 3",
-                           "Polo"].join("\n")
+                          ["Sub-ethnicity1.1",
+                           "Sub-ethnicity1.2",
+                           "Sub-ethnicity1.3"].join("\n")
             }),
   Field.new({"name" => "sub_ethnicity_2",
              "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Sub Ethnicity 2",
              "option_strings_text_all" => 
-                          ["Baganda",
-                           "Clan 1",
-                           "Clan 2",
-                           "Clan 3",
-                           "Polo"].join("\n")
+                          ["Sub-ethnicity2.1",
+                           "Sub-ethnicity2.2",
+                           "Sub-ethnicity2.3"].join("\n")
             }),
    #TODO configurable by admin
    Field.new({"name" => "language",
-             "type" =>"check_boxes" ,
+             "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Language",
              "option_strings_text_all" => 
-                          ["English",
-                           "French",
-                           "Swahili"].join("\n")
+                          ["Language1",
+                           "Language2",
+                           "Language3"].join("\n")
             }),
   Field.new({"name" => "religion",
-             "type" =>"check_boxes" ,
+             "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Religion",
              "option_strings_text_all" => 
-                          ["Christianity",
-                           "Islam"].join("\n")
+                          ["Religion1",
+                           "Religion2",
+                           "Religion3"].join("\n")
             }),
   Field.new({"name" => "arrival_date",
              "type" => "date_field", 

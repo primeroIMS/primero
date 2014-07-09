@@ -1,7 +1,9 @@
 <h1 class="no_border">Roles</h1>
-<div class="page-content-new">
-  <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'roles'} %>
-  <div class="side-tab-content">
+<div class="page-content-new row">
+  <div class="medium-4 large-4 columns close-side-tab">
+    <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'roles'} %>
+  </div>
+  <div class="side-tab-content medium-8 large-8 columns">
     <% if can? :update, @role %>
       <a class="btn" href="<%= edit_role_path @role %>">
         <span class="edit"><%= t("buttons.edit") %></span>
@@ -17,17 +19,28 @@
     <%= form_for @role, :html => {:class => ''} do |f| %>
         <%= error_messages_for :role %>
         <fieldset>
-          <p>
-            <%= f.label :name, t("name"), :class=>'key'  %>
-            <span class="value"><%= @role.name %></span>
-          </p>
-          <p>
-            <%= f.label :description, t("description"), :class=>'key'  %>
-            <%= @role.description %>
-          </p>
-          <p>
-            <%= f.label :permissions, t("permissions.label"), :class=>'key'  %>
-            <span class="value">
+          <div class="row">
+            <div class="medium-4 columns">
+              <%= f.label :name, t("name"), :class=>'key'  %>
+            </div>
+            <div class="medium-8 columns">
+              <span class="value"><%= @role.name %></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-4 columns">
+              <%= f.label :description, t("description"), :class=>'key'  %>
+            </div>
+            <div class="medium-8 columns">
+              <%= @role.description %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-4 columns">
+              <%= f.label :permissions, t("permissions.label"), :class=>'key'  %>
+            </div>
+            <div class="medium-8 columns">
+              <span class="value">
                 <% translated_permissions.each do |group_name, permissions| %>
                     <span class="section">
                       <span class="title"><%= t("permissions.#{group_name}") %></span>
@@ -37,8 +50,9 @@
                         <% end %>
                     </span>
                 <% end %>
-            </span>
-          </p>
+              </span>
+            </div>
+          </div>
         </fieldset>
     <% end %>
 

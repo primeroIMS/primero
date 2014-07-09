@@ -1,26 +1,46 @@
 <%= form_for editable_role, :html => {:class => ''} do |f| %>
+    <div class="clearfix"></div>
     <%= f.error_messages :header_tag => :h3 %>
 
+    <div class="clearfix"></div>
     <div class="mandate_panel"><span>*</span> <%= t("mandatory_field")%></div>
     <div class="clearfix"></div>
     <fieldset>
 
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <%= f.label :name, t("name"), :class => 'key' %>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.text_field :name %>
+        </div>
+        <div class="medium-1 columns">
+          <span class="required">*</span>
+        </div>
+      </div>
 
-      <p>
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <%= f.label :description, t("description"), :class => 'key' %>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.text_area :description %>
+        </div>
+        <div class="medium-1 columns"> </div>
+      </div>
 
-        <%= f.label :name, '<span class="required">*</span>'.html_safe+t("name"), :class => 'key' %>
-        <%= f.text_field :name %>
-      </p>
-
-      <p>
-        <%= f.label :description, t("description"), :class => 'key' %>
-        <%= f.text_area :description %>
-      </p>
-
-      <p>
-
-        <%= f.label :permissions, '<span class="required">*</span>'.html_safe+t("permissions.label"), :class => 'key' %>
-        <span class="value">
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <%= f.label :permissions, t("permissions.label"), :class => 'key' %>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <span class="value">
             <% translated_permissions.each do |group_name, permissions| %>
               <span class="section">
                 <span class="title"><%= t("permissions.#{group_name}") %></span>
@@ -30,8 +50,12 @@
                 <% end %>
               </span>
             <% end %>
-        </span>
-      </p>
+          </span>
+        </div>
+        <div class="medium-1 columns">
+          <span class="required">*</span>
+        </div>
+      </div>
 
     </fieldset>
     <div class="btn_panel">

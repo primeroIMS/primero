@@ -2,7 +2,7 @@ Feature: Child record functionality
   Features related to child record, including view child record, view photo, view audio, create child record and filter child record etc.
 
   Background:
-    Given I am logged in as a user with "Register Child,Edit Child,View And Search Child" permission
+    Given I am logged in as a user with "Create Cases,Edit Cases,View And Search Cases" permission
     And the following children exist in the system:
       | name     | last_known_location | reporter | unique_identifier | reunited | flag  | duplicate | created_at             |flagged_at                   | reunited_at                  |
       | andreas  | London              | zubair   | zubairlon123      | true     | false | true      | 2004-02-03 04:05:06UTC | DateTime.new(2001,2,3,4,5,6)| DateTime.new(2001,2,3,4,5,6) |
@@ -245,7 +245,7 @@ Feature: Child record functionality
 
   Scenario:  Check that case record contains logged in user full name in created_by_full_name
     Given I am logged out
-    And "jr_test" logs in with "Register Child" permissions
+    And "jr_test" logs in with "Create Cases" permissions
     And someone has entered a child with the name "kiloutou"
     Then I should see "Case record successfully created."
     And the field "created_by" of child record with name "kiloutou" should be "jr_test"

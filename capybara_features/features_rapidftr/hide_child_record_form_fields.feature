@@ -46,8 +46,8 @@ Feature: Hide Child Record Form Fields
      And I fill in "Name" with "Will"
     When I press "Save"
     Then I follow "Export"
-    And I wait until "Export to PDF" is visible
-    Then I click "//a[text()='Export to PDF']"
+    And I wait until "Export Cases to PDF" is visible
+    Then I click "//a[text()='Export Cases to PDF']"
      And I should receive a PDF file
      And the PDF file should contain the string "Visible Field"
      And the PDF file should not contain the string "Hidden Field"

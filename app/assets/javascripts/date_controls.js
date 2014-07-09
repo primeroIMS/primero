@@ -47,7 +47,8 @@ var DateControl = Backbone.View.extend({
       dateFormat: 'dd-M-yy',
       changeMonth: true,
       changeYear: true,
-      constrainInput: true
+      constrainInput: true,
+      yearRange: "c-130:c+10"
     });
 	},
 
