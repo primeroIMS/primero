@@ -75,8 +75,18 @@ When /^I cannot follow "([^\"]*)"(?: within "([^\"]*)")?$/ do |link, selector|
 end
 
 When /^(?:|I )fill in "([^\"]*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field, value, selector|
-  with_scope(selector) do
-    fill_in(field, :visible => true, :with => value)
+  if value.start_with?("<Date Range>")
+      value = value.gsub("<Date Range>", "").strip
+      label = find "//label", :text => field, :visible => true
+      field_from_id = "#{label["for"]}_from"
+      field_to_id = "#{label["for"]}_to"
+      values = eval("{#{value}}")
+      fill_in(field_from_id, :visible => true, :with => values[:from])
+      fill_in(field_to_id, :visible => true, :with => values[:to])
+  else
+    with_scope(selector) do
+      fill_in(field, :visible => true, :with => value)
+    end
   end
 end
 
