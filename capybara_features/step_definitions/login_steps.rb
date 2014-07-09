@@ -86,6 +86,6 @@ end
 
 def ensure_a_user_exists
   unless @user
-    data_populator.create_user('mary', '123', 'View And Search Child')
+    data_populator.create_user('mary', '123', 'View And Search Cases')
   end
 end

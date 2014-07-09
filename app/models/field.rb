@@ -24,6 +24,7 @@ class Field
   PHOTO_UPLOAD_BOX = "photo_upload_box"
   AUDIO_UPLOAD_BOX = "audio_upload_box"
   DATE_FIELD = "date_field"
+  DATE_RANGE = "date_range"
   SUBFORM = "subform"
   SEPARATOR = "separator"
 
@@ -35,6 +36,7 @@ class Field
                         PHOTO_UPLOAD_BOX => "basic",
                         AUDIO_UPLOAD_BOX => "basic",
                         DATE_FIELD       => "basic",
+                        DATE_RANGE       => "basic",
                         NUMERIC_FIELD    => "basic",
                         SUBFORM          => "subform",
                         SEPARATOR        => "separator"
@@ -48,6 +50,7 @@ class Field
                         PHOTO_UPLOAD_BOX => "photo",
                         AUDIO_UPLOAD_BOX => "audio",
                         DATE_FIELD       => "basic",
+                        DATE_RANGE       => "range",
                         NUMERIC_FIELD    => "basic",
                         SUBFORM          => "subform",
                         SEPARATOR        => "separator"
@@ -62,6 +65,7 @@ class Field
                         PHOTO_UPLOAD_BOX => nil,
                         AUDIO_UPLOAD_BOX => nil,
                         DATE_FIELD       => "",
+                        DATE_RANGE       => "",
                         NUMERIC_FIELD    => "",
                         SUBFORM          => nil
                       }

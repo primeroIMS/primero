@@ -5,7 +5,7 @@ Feature: File export
   I want to be able to export selected children to a PDF or a CSV file
 
   Background:
-    Given I am logged in as a user with "View And Search Child,Export to Photowall,Export to CSV,Export to PDF,Export to CPIMS,Edit Child" permissions
+    Given I am logged in as a user with "View And Search Cases,Export Cases to Photowall,Export Cases to CSV,Export Cases to PDF,Export Cases to CPIMS,Edit Cases" permissions
     And the following children exist in the system:
       | name      | unique_identifier  | created_by |
       | Will      | will_uid           | user1      |
@@ -29,7 +29,7 @@ Feature: File export
 
   Scenario: When there are no search results, there is no csv export link
     When I search using a name of "Z"
-    Then I should not see "Export to CSV"
+    Then I should not see "Export Cases to CSV"
 
   @javascript @search
   Scenario Outline: In search results, when two records are selected a file referring to those two records is generated
@@ -87,10 +87,10 @@ Feature: File export
 
   Examples:
     |action              |
-    |Export to Photo Wall|
-    |Export to PDF       |
-    |Export to CSV       |
-    |Export to CPIMS     |
+    |Export Cases to Photo Wall|
+    |Export Cases to PDF       |
+    |Export Cases to CSV       |
+    |Export Cases to CPIMS     |
 
   @javascript
   Scenario: Exporting PDF when there is no photo
@@ -99,7 +99,7 @@ Feature: File export
       | Billy No Photo | billy_no_photo_uid |            |
     When I am on the saved record page for child with name "Billy No Photo"
     And I follow "Export"
-    And I follow "Export to PDF"
+    And I follow "Export Cases to PDF"
     Then password prompt should be enabled
 
 

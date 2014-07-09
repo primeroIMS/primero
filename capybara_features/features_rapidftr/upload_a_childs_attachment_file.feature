@@ -6,7 +6,7 @@ Feature: Upload a childs attachment file
   I want to upload an attachment for the child record that I'm adding
 
   Background:
-    Given "bob" logs in with "Register Child,Edit Child,View And Search Child" permissions
+    Given "bob" logs in with "Create Cases,Edit Cases,View And Search Cases" permissions
 
   Scenario: Uploading a standard mp3 file and a standard JPG image to new child record
     Given I am on the new case page

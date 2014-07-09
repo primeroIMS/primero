@@ -580,6 +580,9 @@ en:
     select_box_empty_item: "(Select...)"
     chosen_placeholder: "Select all that apply"
     multi_select: "Multiple Selection"
+    date_range:
+      from: "From"
+      to: "To"
 
   replication:
     label: Replication

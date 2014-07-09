@@ -5,7 +5,7 @@ Feature: Flag child record
   So that I can identify suspect and duplicate records to admin
 
   Background:
-   Given "Praful" logs in with "Edit Child,View And Search Child,Export to Photowall/CSV/PDF" permissions
+   Given "Praful" logs in with "Edit Cases,View And Search Cases,Export Cases to Photowall/CSV/PDF" permissions
    And the following children exist in the system:
       | name   | unique_identifier |
       | Peter  | id_1              |
