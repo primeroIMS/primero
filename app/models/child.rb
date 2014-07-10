@@ -477,10 +477,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def valid_record?
-    self['record_state'] == "Valid record"
-  end
-
   private
 
   def deprecated_fields

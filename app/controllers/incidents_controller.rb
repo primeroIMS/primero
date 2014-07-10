@@ -3,18 +3,17 @@ class IncidentsController < ApplicationController
   include SearchingForRecords
   
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
-  
+
   def index
     authorize! :index, Incident
     #@incidents = Incident.all
     
     @page_name = t("home.view_records")
-    #@aside = 'shared/sidebar_links'
+    @aside = 'shared/sidebar_links'
     @filter = params[:filter] || params[:status] || "all"
     @order = params[:order_by] || 'description'
     
-    #TODO - Fix ChildrenHelper reference
-    per_page = params[:per_page] || ChildrenHelper::View::PER_PAGE
+    per_page = params[:per_page] || IncidentsHelper::View::PER_PAGE
     per_page = per_page.to_i unless per_page == 'all'
 
     filter_incidents per_page
@@ -54,7 +53,9 @@ class IncidentsController < ApplicationController
     
     @page_name = t("incident.register_new_incident")
     @incident = Incident.new
+    @incident['status'] = ["Active"]
     @incident['record_state'] = ["Valid record"]
+    @incident['mrm_verification_status'] = "Pending"
     respond_to do |format|
       format.html
       format.xml { render :xml => @incident }
@@ -175,10 +176,11 @@ class IncidentsController < ApplicationController
   
   def incidents_by_user_access(filter_option, per_page)
     keys = [filter_option]
-    options = {:view_name => "by_all_view_#{params[:order_by] || 'name'}".to_sym}
+    params[:scope] ||= {}
+    options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_#{params[:order_by] || 'name'}".to_sym}
     unless  can?(:view_all, Incident)
       keys = [filter_option, current_user_name]
-      options = {:view_name => "by_all_view_with_created_by_#{params[:order_by] || 'created_at'}".to_sym}
+      options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_with_created_by_#{params[:order_by] || 'created_at'}".to_sym}
     end
     if ['created_at', 'reunited_at', 'flag_at'].include? params[:order_by]
       options.merge!({:descending => true, :startkey => [keys, {}].flatten, :endkey => keys})
@@ -190,7 +192,7 @@ class IncidentsController < ApplicationController
 
   def paginated_collection instances, total_rows
     page = params[:page] || 1
-    WillPaginate::Collection.create(page, ChildrenHelper::View::PER_PAGE, total_rows) do |pager|
+    WillPaginate::Collection.create(page, IncidentsHelper::View::PER_PAGE, total_rows) do |pager|
       pager.replace(instances)
     end
   end

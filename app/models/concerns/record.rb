@@ -215,6 +215,10 @@ module Record
     self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
   end
 
+  def valid_record?
+    self['record_state'] == "Valid record"
+  end
+
   def validate_created_at
     begin
       if self['created_at']
