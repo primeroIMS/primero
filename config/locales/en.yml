@@ -303,6 +303,11 @@ en:
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
+    id: "Incident Id"
+    survivor_code: "Survivor Code"
+    case_worker_code: "Case Worker Code"
+    date_of_interview: "Date of Interview"
+    date_of_incident: "Date of Incident"
 
   preposition:
     on_label: "on"
@@ -326,6 +331,9 @@ en:
       child:
         one: "case"
         other: "cases"
+      incident:
+        one: "incident"
+        other: "incidents"
 
   users:
     unverified: "Unverified Users"
