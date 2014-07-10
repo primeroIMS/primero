@@ -35,7 +35,7 @@ Feature: Sexual Violence Form
       | Has the client had any previous incidents of GBV perpetrated against them? | <Radio> No |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    #Uncomment when show page is ready.
+    #TODO: Uncomment when show page is ready.
     #And I should see a value for "Number of victims: boys" on the show page with the value of "1"
     #And I should see a value for "Number of victims: girls" on the show page with the value of "2"
     #And I should see a value for "Number of victims: unknown" on the show page with the value of "3"
