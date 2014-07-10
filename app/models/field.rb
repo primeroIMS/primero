@@ -106,7 +106,10 @@ class Field
   end
 
   def subform_section
-    subform ||= FormSection.get(subform_section_id) if subform_section_id
+    if (not self.subform and self.subform_section_id.present?)
+      self.subform = FormSection.get(subform_section_id)
+    end
+    return self.subform
   end
 
   def form_type

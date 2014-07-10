@@ -40,6 +40,8 @@ gem 'compass-rails', '~> 1.1.3'
 gem 'coffee-rails',  '~> 4.0.1'
 gem 'chosen-rails',  '~> 1.1.0'
 
+gem 'rack-mini-profiler', require: false
+
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
   gem 'font-awesome-sass'
