@@ -83,6 +83,15 @@ When /^(?:|I )fill in "([^\"]*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |fi
       values = eval("{#{value}}")
       fill_in(field_from_id, :visible => true, :with => values[:from])
       fill_in(field_to_id, :visible => true, :with => values[:to])
+  elsif value.start_with?("<Choose>")
+    options = value.gsub(/^<Choose>/, "").split("<Choose>")
+    options.each do |option|
+      step %Q{I choose option "#{option}" from "#{field}"}
+    end
+  elsif value.start_with?("<Select>")
+    step %Q{I select "#{value.gsub("<Select> ", "")}" from "#{field}"}
+  elsif value.start_with?("<Radio>")
+    step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{field}" radio button}
   else
     with_scope(selector) do
       fill_in(field, :visible => true, :with => value)
