@@ -275,8 +275,4 @@ class Incident < CouchRest::Model::Base
   def incident_code
     (self['unique_identifier'] || "").last 7
   end
-
-  def valid_record?
-    self['record_state'] == "Valid record"
-  end
 end
