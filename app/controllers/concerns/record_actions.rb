@@ -19,6 +19,8 @@ module RecordActions
     all_forms = FormSection.find_by_parent_form(@className.parent_form)
 
     #Load in all the subforms
+    #TODO: the subform load code should probably be just moved to the model record concern
+    #      and invoked via the find_* methods
     @form_sections = []
     subforms_hash = {}
 
