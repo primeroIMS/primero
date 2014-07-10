@@ -1,0 +1,37 @@
+<li>
+    <%= link_to t("incident.change_log"), cases_history_path(@incident), class: 'green-button' %>
+</li>
+
+<% if can? :update, incident %>
+    <%#
+        TODO: We are taking out the "investigated" and "reunied" buttons.
+        Unlikely that we will put them back in. Delete the code in the future.
+    %>
+    <% if false %>
+    <% if @incident.flag? %>
+        <li>
+            <div class="dropdown_btn dropdown_form">
+                <%= render 'investigated', incident: @incident %>
+            </div>
+        </li>
+    <% end %>
+    <li>
+        <div class="dropdown_btn dropdown_form">
+            <%= render 'reunited', incident: @incident %>
+        </div>
+    </li>
+    <% end %>
+    <li>
+        <div class="dropdown_btn dropdown_form">
+            <%= render 'suspect_flag', incident: @incident %>
+        </div>
+    </li>
+<% end %>
+
+<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, incident)} %>
+    <li>
+        <div class="btn dropdown_btn btn_export">
+            <%= render 'export' %>
+        </div>
+    </li>
+<% end %>
