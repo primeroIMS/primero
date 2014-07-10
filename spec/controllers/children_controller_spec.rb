@@ -25,6 +25,12 @@ describe ChildrenController do
     @mock_child ||= mock_model(Child, stubs).as_null_object
   end
 
+  def stub_form(stubs={})
+    form = stub_model(FormSection) do |form|
+      form.fields = [stub_model(Field)]
+    end
+  end
+
   it 'GET reindex' do
     Child.should_receive(:reindex!).and_return(nil)
     get :reindex
@@ -282,11 +288,12 @@ describe ChildrenController do
       get(:show, :format => 'json', :id => "37")
     end
 
-    it "orders and assigns the forms" do      
+    it "orders and assigns the forms" do
       Child.stub(:get).with("37").and_return(mock_child)
-      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
+      the_form_section = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form_section])
       get :show, :id => "37"
-      assigns[:form_sections].should == [:the_form_sections]
+      assigns[:form_sections].should == [the_form_section]
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
@@ -314,25 +321,28 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:new).and_return(mock_child)
-      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
+      the_form = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
       get :new
-      assigns[:form_sections].should == [:the_form_sections]
+      assigns[:form_sections].should == [the_form]
     end
   end
 
   describe "GET edit" do
     it "assigns the requested child as @child" do
       Child.stub(:get).with("37").and_return(mock_child)
-      FormSection.should_receive(:find_all_visible_by_parent_form)
+      the_form = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
       get :edit, :id => "37"
       assigns[:child].should equal(mock_child)
     end
 
     it "orders and assigns the forms" do
       Child.stub(:get).with("37").and_return(mock_child)
-      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
+      the_form = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
       get :edit, :id => "37"
-      assigns[:form_sections].should == [:the_form_sections]
+      assigns[:form_sections].should == [the_form]
     end
   end
 
