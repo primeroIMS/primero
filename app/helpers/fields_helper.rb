@@ -30,6 +30,8 @@ module FieldsHelper
     else
       if field == 'status'
         return 'Open'
+      elsif field.type == Field::DATE_RANGE
+        return [object["#{field.name}_from"], object["#{field.name}_to"]]
       else
         field_value = object[field.name] || ''
       end

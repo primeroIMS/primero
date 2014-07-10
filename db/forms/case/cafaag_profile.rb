@@ -79,7 +79,7 @@ caafag_profile_fields = [
              "display_name_all" => "Type of Weapon"
             }),
   Field.new({"name" => "cafaag_date_child_join",
-             "type" => "date_field",
+             "type" => "date_range",
              "display_name_all" => "When did the child join the Armed Force or Armed Group?"
             }),
   Field.new({"name" => "address_cafaag_registration",
@@ -95,7 +95,7 @@ caafag_profile_fields = [
              "display_name_all" => "Location of Mobilization"
             }),
   Field.new({"name" => "cafaag_date_child_leave",
-             "type" => "date_field",
+             "type" => "date_range",
              "display_name_all" => "When did the child leave the Armed Force or Armed Group?"
             }),
   Field.new({"name" => "cafaag_how_did_child_leave_armed_group",

@@ -1,5 +1,6 @@
 # JIRA PRIMERO-122
 # JIRA PRIMERO-214
+# JIRA PRIMERO-215
 
 @javascript @primero
 Feature: CAAFAG Profile
@@ -31,8 +32,9 @@ Feature: CAAFAG Profile
     And I select "Normal" from "How did the child leave the Armed Force or Armed Group?"
     And I select "Formal DDR program" from "Reason for release from Military"
     And I fill in the following:
-      | UN DDR Number               | 50          |
-      | Other reason for enrollment | Some reason |
+      | UN DDR Number                                           | 50                                                 |
+      | Other reason for enrollment                             | Some reason                                        |
+      | When did the child join the Armed Force or Armed Group? | <Date Range>from: '01-Jan-2014', to: '01-Feb-2014' |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "CAAFAG Profile" button
@@ -42,5 +44,14 @@ Feature: CAAFAG Profile
     And I should see a value for "If not forced, what was the main reason why the child became involved in the Armed Force or Armed Group? (type of recruitment)" on the show page with the value of "Financial reasons"
     And I should see a value for "What was the main role of the child?" on the show page with the value of "Combat support"
     And I should see a value for "Did the child own/use a weapon" on the show page with the value of "Yes"
+    And I should see a value for "When did the child join the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 01-Jan-2014 To: 01-Feb-2014"
     And I should see a value for "How did the child leave the Armed Force or Armed Group?" on the show page with the value of "Normal"
     And I should see a value for "Reason for release from Military" on the show page with the value of "Formal DDR program"
+    And I press the "Edit" button
+    And I fill in the following:
+      | When did the child join the Armed Force or Armed Group?  | <Date Range>from: '15-Jan-2013', to: '22-Feb-2013' |
+      | When did the child leave the Armed Force or Armed Group? | <Date Range>from: '01-Jan-2014', to: '01-Feb-2014' |
+    And I press "Save"
+    Then I should see "Case was successfully updated." on the page
+    And I should see a value for "When did the child join the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 15-Jan-2013 To: 22-Feb-2013"
+    And I should see a value for "When did the child leave the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 01-Jan-2014 To: 01-Feb-2014"

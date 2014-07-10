@@ -15,7 +15,7 @@ User.create!("user_name" => "primero_incident",
               "email" => "primero_incident@primero.com",
               "disabled" => "false",
               "organisation" => "N/A",
-              "role_ids" => [Role.by_name(:key => "Mrm Worker").first.id]
+              "role_ids" => [Role.by_name(:key => "Worker: Incidents").first.id]
 )
 
 User.create!("user_name" => "primero_case",
@@ -25,5 +25,5 @@ User.create!("user_name" => "primero_case",
               "email" => "primero_case@primero.com",
               "disabled" => "false",
               "organisation" => "N/A",
-              "role_ids" => [Role.by_name(:key => "Child Protection Specialist").first.id]
+              "role_ids" => [Role.by_name(:key => "Worker: Cases").first.id]
 )
