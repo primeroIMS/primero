@@ -1710,6 +1710,58 @@ describe Child do
       child['2_age'].should eq(nil)  #There is no such field, existing fields are auto calculated.
     end
   end
+  
+  describe 'validate dates and date ranges fields' do
+    before do
+      fields = [Field.new({"name" => "a_date_field",
+                           "type" => "date_field",
+                           "display_name_all" => "A Date Field"
+                          }),
+                Field.new({"name" => "a_range_field",
+                           "type" => "date_range",
+                           "display_name_all" => "A Range Field"
+                          })]
+      FormSection.create_or_update_form_section({
+        :unique_id=> "form_section_with_dates_fields",
+        "visible" => true,
+        :order => 1,
+        "editable" => true,
+        :fields => fields,
+        :perm_enabled => true,
+        :parent_form=>"case",
+        "name_all" => "Form Section With Dates Fields",
+        "description_all" => "Form Section With Dates Fields",
+      })
+    end
+
+    it "should validate single date field" do
+      #date field invalid.
+      child = create_child "Bob McBobberson", :a_date_field => "30/May/2014"
+      child.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
+
+      #date valid.
+      child = create_child "Bob McBobberson", :a_date_field => "30-May-2014"
+      child.errors[:a_date_field].should eq([])
+    end
+
+    it "should validate range fields" do
+      #_from is wrong.
+      child = create_child "Bob McBobberson", :a_range_field_from => "31/May/2014", :a_range_field_to => "31-May-2014"
+      child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
+
+      #_to is wrong.
+      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31/May/2014"
+      child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
+
+      #_from and _to are wrong.
+      child = create_child "Bob McBobberson", :a_range_field_from => "31/May/2014", :a_range_field_to => "31/May/2014"
+      child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
+
+      #range valid dates.
+      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31-May-2014"
+      child.errors[:a_range_field].should eq([])
+    end
+  end
 
   private
 
