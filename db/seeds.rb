@@ -3,10 +3,21 @@
 
 # Please keep the seeding idempotent, as it may be used as a migration if upgrading a production
 # instance is necessary and the target version has introduced any new types requiring seeds.
-def should_seed? model
-  empty = model.database.documents["rows"].count == 0
+def should_seed? model  
+  empty = isTableEmpty? model
   puts(empty ? "Seeding #{model}." : "Not seeding #{model}. Already populated.")
   empty
+end
+
+def isTableEmpty? model
+  empty = false
+  rowCount = model.database.documents["rows"].count
+  if rowCount == 0
+    empty = true
+  elsif rowCount == 1
+    empty = model.database.documents["rows"][0]["id"][0..6] == "_design"
+  end
+  return empty
 end
 
 # PRIMERO-272
