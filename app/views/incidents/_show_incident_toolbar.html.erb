@@ -1,5 +1,5 @@
 <li>
-    <%= link_to t("incident.change_log"), cases_history_path(@incident), class: 'green-button' %>
+    <%= link_to t("incident.change_log"), incident_history_path(@incident), class: 'green-button' %>
 </li>
 
 <% if can? :update, incident %>
@@ -20,18 +20,19 @@
             <%= render 'reunited', incident: @incident %>
         </div>
     </li>
-    <% end %>
     <li>
         <div class="dropdown_btn dropdown_form">
             <%= render 'suspect_flag', incident: @incident %>
         </div>
     </li>
+    <% end %>
 <% end %>
-
+<% if false %>
 <% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, incident)} %>
     <li>
         <div class="btn dropdown_btn btn_export">
             <%= render 'export' %>
         </div>
     </li>
+<% end %>
 <% end %>

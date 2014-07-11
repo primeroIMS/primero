@@ -3,6 +3,7 @@
     <%= link_to content_tag(:span, t("incidents.register_new_incident"), :class => 'create_incident'), new_incident_path, :class=>'btn green-button right' %>
 <% end %>
 
+<% if false %>
 <% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, Incident)} %>
 <div class="btn dropdown_btn">
   <span class="export"><%= t("incidents.export") %></span>
@@ -14,6 +15,7 @@
     <% end %>
   </div>
 </div>
+<% end %>
 <% end %>
 
 <script type="text/javascript">

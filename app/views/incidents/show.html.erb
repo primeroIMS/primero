@@ -11,14 +11,14 @@ $(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, 
 $(".profile-tools .mark-as-form").hide();
 
 $(".profile-tools .flag a").click( function(){
-    $(this).parent().siblings('form').incidentren('.mark-as-form').toggle();
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
 });
 
 $(".profile-tools .reunited a").click( function(){
-    $(this).parent().siblings('form').incidentren('.mark-as-form').toggle();
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
 });
 $(".profile-tools .investigated a").click( function(){
-    $(this).parent().siblings('form').incidentren('.mark-as-form').toggle();
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
 });
 
   $('.sub_export_record').hide();
@@ -44,7 +44,7 @@ $(".profile-tools .investigated a").click( function(){
 
 <% content_for :header_sub_nav do %>
     <ul class="inline-list">
-        <% #render 'show_incident_toolbar', incident: @incident %>
+        <%= render 'show_incident_toolbar', incident: @incident %>
 
         <% if can? :update, @incident %>        
             <li><%= link_to t("buttons.edit"), edit_incident_path(@incident, { follow: true }), class: 'green-button' %></li>
@@ -54,7 +54,7 @@ $(".profile-tools .investigated a").click( function(){
 
 <% content_for :breadcrumbs do %>
     <h2 class="float_left no_border">
-        <%= link_to t("cases.label"), cases_path %> &gt; <%= text_to_identify_incident(@incident) %>
+        <%= link_to t("incidents.label"), incidents_path %> &gt; <%= text_to_identify_incident(@incident) %>
     </h2>
 <% end %>
 
