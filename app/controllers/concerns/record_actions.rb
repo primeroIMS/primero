@@ -39,6 +39,8 @@ module RecordActions
       end
     end
 
+    return @form_sections
+
   end
 
 end
