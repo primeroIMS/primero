@@ -95,7 +95,7 @@ followup_subform_fields = [
             }),
   Field.new({"name" => "recommend_case_closed",
              "type" => "radio_button",
-             "display_name_all" => "If not, do you recommend that the case be close?",
+             "display_name_all" => "If not, do you recommend that the case be closed?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "followup_comments",

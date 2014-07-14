@@ -24,6 +24,7 @@ module Record
     validates_with FieldValidator, :type => Field::DATE_FIELD
     validates_with FieldValidator, :type => Field::TEXT_AREA
     validates_with FieldValidator, :type => Field::TEXT_FIELD
+    validates_with FieldValidator, :type => Field::DATE_RANGE
 
     design do
       view :by_unique_identifier,
@@ -213,6 +214,10 @@ module Record
 
   def create_unique_id
     self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
+  end
+
+  def valid_record?
+    self['record_state'] == "Valid record"
   end
 
   def validate_created_at

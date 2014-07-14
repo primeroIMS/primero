@@ -30,16 +30,19 @@ class CustomFieldsValidator
         target[field.form.unique_id].each do |k, t|
           validate_field(field, target, t)
         end
+      elsif field[:type] == Field::DATE_RANGE
+        validate_field(field, target, nil, "_from") && validate_field(field, target, nil, "_to")
       else
         validate_field(field, target, nil)
       end
     end
   end
 
-  def validate_field(field, target, subfield)
+  def validate_field(field, target, subfield, suffix = nil)
     valid = true
 
     field_name = field[:name]
+    field_name = field_name + suffix if suffix
 
     value = 
       if subfield
@@ -129,7 +132,7 @@ module Extensions
               validator = CustomTextFieldsValidator
             when Field::TEXT_AREA
               validator = CustomTextAreasValidator
-            when Field::DATE_FIELD
+            when Field::DATE_FIELD, Field::DATE_RANGE
               validator = DateFieldsValidator
             else
               raise "Unrecognised field type " + field_type.to_s + " for validation"

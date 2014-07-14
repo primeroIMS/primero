@@ -2,6 +2,7 @@
 #JIRA PRIMERO-203
 #JIRA PRIMERO-220
 # JIRA PRIMERO-232
+#JIRA PRIMERO-274
 
 @javascript @primero
 Feature: Followup
@@ -41,7 +42,7 @@ Feature: Followup
       | If not, why?                                                | <Checkbox> Visiting Friends/Relatives                   |
       | Has action been taken?                                      | <Radio> Yes                                             |
       | Is there a need for further follow-up visits?               | <Radio> No                                              |
-      | If not, do you recommend that the case be close?            | <Radio> Yes                                             |
+      | If not, do you recommend that the case be closed?            | <Radio> Yes                                             |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see in the 1st "Follow Up" subform with the follow:
@@ -71,7 +72,7 @@ Feature: Followup
       | If not, why?                                                | Visiting Friends/Relatives       |
       | Has action been taken?                                      | Yes                              |
       | Is there a need for further follow-up visits?               | No                               |
-      | If not, do you recommend that the case be close?            | Yes                              |
+      | If not, do you recommend that the case be closed?            | Yes                              |
     And I press the "Edit" button
     And I press the "Follow Up" button
     And I remove the 2nd "Followup Subform Section" subform

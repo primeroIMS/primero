@@ -3,7 +3,7 @@ require 'spec_helper'
 # def inject_export_generator( fake_export_generator, incident_data )
 	# ExportGenerator.stub(:new).with(incident_data).and_return( fake_export_generator )
 # end
-# 
+#
 # def stub_out_export_generator incident_data = []
 	# inject_export_generator( stub_export_generator = stub(ExportGenerator) , incident_data)
 	# stub_export_generator.stub(:incident_photos).and_return('')
@@ -23,6 +23,12 @@ describe IncidentsController do
 
   def mock_incident(stubs={})
     @mock_incident ||= mock_model(Incident, stubs).as_null_object
+  end
+
+  def stub_form(stubs={})
+    form = stub_model(FormSection) do |form|
+      form.fields = [stub_model(Field)]
+    end
   end
 
   it 'GET reindex' do
@@ -98,7 +104,7 @@ describe IncidentsController do
           @stubs ||= {}
         end
 
-        it "should assign all incidents as @incidents" do          
+        it "should assign all incidents as @incidents" do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           incidents = [mock_incident(@stubs)]
@@ -171,7 +177,7 @@ describe IncidentsController do
         before {@params = {:order_by => 'created_at', :page => 2}}
         it_should_behave_like "viewing incidents as a mrm worker"
       end
-    end    
+    end
 
     # context "viewing active incidents" do
       # before do
@@ -187,7 +193,7 @@ describe IncidentsController do
         # it_should_behave_like "viewing incidents as a field worker"
       # end
     # end
-# 
+#
     # describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       # before do
         # fake_field_admin_login
@@ -217,11 +223,12 @@ describe IncidentsController do
       assigns[:incident].should equal(mock_incident)
     end
 
-    it "orders and assigns the forms" do      
+    it "orders and assigns the forms" do
       Incident.stub(:get).with("37").and_return(mock_incident)
-      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
+      the_form = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
       get :show, :id => "37"
-      assigns[:form_sections].should == [:the_form_sections]
+      assigns[:form_sections].should == [the_form]
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
@@ -249,25 +256,28 @@ describe IncidentsController do
 
     it "orders and assigns the forms" do
       Incident.stub(:new).and_return(mock_incident)
-      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
+      the_form = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
       get :new
-      assigns[:form_sections].should == [:the_form_sections]
+      assigns[:form_sections].should == [the_form]
     end
   end
 
   describe "GET edit" do
     it "assigns the requested incident as @incident" do
       Incident.stub(:get).with("37").and_return(mock_incident)
-      FormSection.should_receive(:find_all_visible_by_parent_form)
+      the_form = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
       get :edit, :id => "37"
       assigns[:incident].should equal(mock_incident)
     end
 
     it "orders and assigns the forms" do
       Incident.stub(:get).with("37").and_return(mock_incident)
-      FormSection.should_receive(:find_all_visible_by_parent_form).and_return([:the_form_sections])
+      the_form = stub_form
+      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
       get :edit, :id => "37"
-      assigns[:form_sections].should == [:the_form_sections]
+      assigns[:form_sections].should == [the_form]
     end
   end
 
@@ -291,7 +301,7 @@ describe IncidentsController do
       # incident = Incident.create('last_known_location' => "London", :created_by => "uname", :created_at => "Jan 16 2010 14:05:32")
       # incident.attributes = {'histories' => [] }
       # incident.save!
-# 
+#
       # Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       # histories = "[{\"datetime\":\"2013-02-01 04:49:29UTC\",\"user_name\":\"rapidftr\",\"changes\":{\"photo_keys\":{\"added\":[\"photo-671592136-2013-02-01T101929\"],\"deleted\":null}},\"user_organisation\":\"N\\/A\"}]"
       # put :update, :id => incident.id,
@@ -299,20 +309,20 @@ describe IncidentsController do
                # :last_known_location => "Manchester",
                # :histories => histories
            # }
-# 
+#
      # assigns[:incident]['histories'].should == JSON.parse(histories)
     # end
 
     # it "should update incident on a field and photo update" do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Incident.create('last_known_location' => "London", :created_by => "uname")
-# 
+#
       # Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       # put :update, :id => incident.id,
         # :incident => {
           # :last_known_location => "Manchester",
           # :photo => Rack::Test::UploadedFile.new(uploadable_photo_jeff) }
-# 
+#
       # assigns[:incident]['last_known_location'].should == "Manchester"
       # assigns[:incident]['_attachments'].size.should == 2
       # updated_photo_key = assigns[:incident]['_attachments'].keys.select {|key| key =~ /photo.*?-2010-01-17T140532/}.first
@@ -322,12 +332,12 @@ describe IncidentsController do
     # it "should update only non-photo fields when no photo update" do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Incident.create('last_known_location' => "London", :created_by => "uname")
-# 
+#
       # put :update, :id => incident.id,
         # :incident => {
           # :last_known_location => "Manchester",
           # :age => '7'}
-# 
+#
       # assigns[:incident]['last_known_location'].should == "Manchester"
       # assigns[:incident]['age'].should == "7"
       # assigns[:incident]['_attachments'].size.should == 1
@@ -337,7 +347,7 @@ describe IncidentsController do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
       # Child.get(incident.id)["histories"].size.should be 1
-# 
+#
       # expect{put(:update_photo, :id => incident.id, :incident => {:photo_orientation => "-180"})}.to_not change{Child.get(incident.id)["histories"].size}
     # end
 
@@ -372,9 +382,9 @@ describe IncidentsController do
       # current_time.stub(:getutc).and_return current_time_in_utc
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
-# 
+#
       # put :update, :id => incident.id, :incident => {:flag => true, :flag_message => "Test"}
-# 
+#
       # history = Child.get(incident.id)["histories"].first
       # history['changes'].should have_key('flag')
       # history['datetime'].should == "2010-01-20 17:10:32UTC"
@@ -385,12 +395,12 @@ describe IncidentsController do
       # incident = Child.new_with_user_name(user, {:name => 'existing incident'})
       # Child.stub(:get).with("123").and_return(incident)
       # subject.should_receive('current_user_full_name').and_return('Bill Clinton')
-# 
+#
       # put :update, :id => 123, :incident => {:flag => true, :flag_message => "Test"}
-# 
+#
       # incident['last_updated_by_full_name'].should=='Bill Clinton'
     # end
-# 
+#
     # it "should not set photo if photo is not passed" do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
@@ -400,7 +410,7 @@ describe IncidentsController do
       # Child.stub(:get).and_return(incident)
       # put :update, :id => '1', :incident => params_incident
       # end
-# 
+#
     # it "should delete the audio if checked delete_incident_audio checkbox" do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
@@ -410,7 +420,7 @@ describe IncidentsController do
       # Child.stub(:get).and_return(incident)
       # put :update, :id => '1', :incident => params_incident, :delete_incident_audio => "1"
     # end
-# 
+#
     # it "should redirect to redirect_url if it is present in params" do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
@@ -421,11 +431,11 @@ describe IncidentsController do
       # put :update, :id => '1', :incident => params_incident, :redirect_url => '/cases'
       # response.should redirect_to '/cases?follow=true'
     # end
-# 
+#
     # it "should redirect to case page if redirect_url is not present in params" do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
-# 
+#
       # params_incident = {"name" => 'update'}
       # controller.stub(:current_user_name).and_return("user_name")
       # incident.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_incident)
@@ -530,22 +540,22 @@ describe IncidentsController do
       # @incident2 = build :incident
       # controller.stub :paginated_collection => [ @incident1, @incident2 ], :render => true
     # end
-# 
+#
     # it "should handle full PDF" do
       # Addons::PdfExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
       # get :index, :format => :pdf
     # end
-# 
+#
     # it "should handle Photowall PDF" do
       # Addons::PhotowallExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
       # get :index, :format => :photowall
     # end
-# 
+#
     # it "should handle CSV" do
       # Addons::CsvExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
       # get :index, :format => :csv
     # end
-# 
+#
     # it "should handle custom export addon" do
       # mock_addon = double()
       # mock_addon_class = double(:new => mock_addon, :id => "mock")
@@ -554,39 +564,39 @@ describe IncidentsController do
       # mock_addon.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
       # get :index, :format => :mock
     # end
-# 
+#
     # it "should encrypt result" do
       # Addons::CsvExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
       # controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Addons::CsvExportTask).and_return("test_filename")
       # controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
       # get :index, :format => :csv
     # end
-# 
+#
     # it "should create a log_entry when record is exported" do
       # fake_login User.new(:user_name => 'fakeuser', :organisation => "STC", :role_ids => ["abcd"])
       # @controller.stub(:authorize!)
       # RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-# 
+#
       # LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organisation => "STC", :incident_ids => [@incident1.id, @incident2.id]
-# 
+#
       # get :index, :format => :cpims
     # end
-# 
+#
     # it "should generate filename based on incident ID and addon ID when there is only one incident" do
       # @incident1.stub :short_id => 'test_short_id'
       # controller.send(:export_filename, [ @incident1 ], Addons::PhotowallExportTask).should == "test_short_id_photowall.zip"
     # end
-# 
+#
     # it "should generate filename based on username and addon ID when there are multiple incidents" do
       # controller.stub :current_user_name => 'test_user'
       # controller.send(:export_filename, [ @incident1, @incident2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
     # end
-# 
+#
     # it "should handle CSV" do
       # Addons::CsvExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
       # get :index, :format => :csv
     # end
-# 
+#
   # end
 
   # describe "PUT select_primary_photo" do
@@ -597,28 +607,28 @@ describe IncidentsController do
       # @incident.stub(:save)
       # Child.stub(:get).with("id").and_return @incident
     # end
-# 
+#
     # it "set the primary photo on the incident and save" do
       # @incident.should_receive(:primary_photo_id=).with(@photo_key)
       # @incident.should_receive(:save)
-# 
+#
       # put :select_primary_photo, :incident_id => @incident.id, :photo_id => @photo_key
     # end
-# 
+#
     # it "should return success" do
       # put :select_primary_photo, :incident_id => @incident.id, :photo_id => @photo_key
-# 
+#
       # response.should be_success
     # end
-# 
+#
     # context "when setting new primary photo id errors" do
       # before :each do
         # @incident.stub(:primary_photo_id=).and_raise("error")
       # end
-# 
+#
       # it "should return error" do
         # put :select_primary_photo, :incident_id => @incident.id, :photo_id => @photo_key
-# 
+#
         # response.should be_error
       # end
     # end
@@ -645,26 +655,26 @@ describe IncidentsController do
       # @user = build :user, :verified => false, :role_ids => []
       # fake_login @user
     # end
-# 
+#
     # it "should mark all incidents created as verified/unverifid based on the user" do
       # @user.verified = true
       # Child.should_receive(:new_with_user_name).with(@user, {"name" => "timmy", "verified" => @user.verified?}).and_return(incident = Child.new)
       # incident.should_receive(:save).and_return true
-# 
+#
       # post :sync_unverified, {:incident => {:name => "timmy"}, :format => :json}
-# 
+#
       # @user.verified = true
     # end
-# 
+#
     # it "should set the created_by name to that of the user matching the params" do
       # Child.should_receive(:new_with_user_name).and_return(incident = Child.new)
       # incident.should_receive(:save).and_return true
-# 
+#
       # post :sync_unverified, {:incident => {:name => "timmy"}, :format => :json}
-# 
+#
       # incident['created_by_full_name'].should eq @user.full_name
     # end
-# 
+#
     # it "should update the incident instead of creating new incident everytime" do
       # incident = Child.new
       # view = double(CouchRest::Model::Designs::View)
@@ -672,9 +682,9 @@ describe IncidentsController do
       # view.should_receive(:first).and_return(incident)
       # controller.should_receive(:update_incident_from).and_return(incident)
       # incident.should_receive(:save).and_return true
-# 
+#
       # post :sync_unverified, {:incident => {:name => "timmy", :unique_identifier => '12345671234567'}, :format => :json}
-# 
+#
       # incident['created_by_full_name'].should eq @user.full_name
     # end
   # end
