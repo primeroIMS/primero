@@ -35,28 +35,27 @@ Feature: Perpetrator Form
       | Main occupation of alleged perpetrator (if known) | <Select> Unemployed |
     And I press "Save"
     And I should see "Incident record successfully created." on the page
-    #TODO: Uncomment when show page is ready.
-    # Then I should see in the 1st "Perpetrator" subform with the follow:
-    #   | Is this the primary perpetrator? | Yes |
-    #   | Was the alleged perpetrator(s) a State or Non-State Actor? | State Actor |
-    #   | To which type of armed force or group did the alleged perpetrator(s) belong? | Other |
-    #   | Name of the armed force or group? | Some armed force name |
-    #   | Is this a known or unknown Perpetrator? | Known |
-    #   | Sex of Alleged Perpetrator(s) | Male |
-    #   | Past GBV by alledged perpetrator? |  No |
-    #   | Nationality of alleged perpetrator | Nationality1 |
-    #   | Age group of alleged perpetrator | 18-25 |
-    #   | Alleged perpetrator relationship with survivor | No relation |
-    #   | Main occupation of alleged perpetrator (if known) | Unemployed |
-    # Then I should see in the 2nd "Perpetrator" subform with the follow:
-    #   | Is this the primary perpetrator? | No |
-    #   | Was the alleged perpetrator(s) a State or Non-State Actor? | Unknown |
-    #   | To which type of armed force or group did the alleged perpetrator(s) belong? | Other |
-    #   | Name of the armed force or group? | Some armed force name |
-    #   | Is this a known or unknown Perpetrator? | Known |
-    #   | Sex of Alleged Perpetrator(s) | Male |
-    #   | Past GBV by alledged perpetrator? | No |
-    #   | Nationality of alleged perpetrator | Nationality2 |
-    #   | Age group of alleged perpetrator | 18-25 |
-    #   | Alleged perpetrator relationship with survivor | Other |
-    #   | Main occupation of alleged perpetrator (if known) | Unemployed |
+    Then I should see in the 1st "Perpetrator" subform with the follow:
+      | Is this the primary perpetrator? | Yes |
+      | Was the alleged perpetrator(s) a State or Non-State Actor? | State Actor |
+      | To which type of armed force or group did the alleged perpetrator(s) belong? | Other |
+      | Name of the armed force or group? | Some armed force name |
+      | Is this a known or unknown Perpetrator? | Known |
+      | Sex of Alleged Perpetrator(s) | Male |
+      | Past GBV by alledged perpetrator? |  No |
+      | Nationality of alleged perpetrator | Nationality1 |
+      | Age group of alleged perpetrator | 18-25 |
+      | Alleged perpetrator relationship with survivor | No relation |
+      | Main occupation of alleged perpetrator (if known) | Unemployed |
+    Then I should see in the 2nd "Perpetrator" subform with the follow:
+      | Is this the primary perpetrator? | No |
+      | Was the alleged perpetrator(s) a State or Non-State Actor? | Unknown |
+      | To which type of armed force or group did the alleged perpetrator(s) belong? | Other |
+      | Name of the armed force or group? | Some armed force name |
+      | Is this a known or unknown Perpetrator? | Known |
+      | Sex of Alleged Perpetrator(s) | Male |
+      | Past GBV by alledged perpetrator? | No |
+      | Nationality of alleged perpetrator | Nationality2 |
+      | Age group of alleged perpetrator | 18-25 |
+      | Alleged perpetrator relationship with survivor | Other |
+      | Main occupation of alleged perpetrator (if known) | Unemployed |
