@@ -20,7 +20,7 @@ Feature: Tracing Subforms
       | Place of tracing                                     | <Select> Kenya            |
       | Type of action taken                                 | <Select> Photo Tracing    |
     And I fill in the 2nd "Tracing Actions Section" subform with the follow:
-      | Date of tracing                                      | 30/June/2014              |
+      | Date of tracing                                      | 30/Jun/2014               |
       | Action taken and remarks                             | Test remarks2             |
       | Address/Village where the tracing action took place  | Test Village2             |
       | Outcome of tracing action                            | <Select> Unsuccessful     |
@@ -41,7 +41,7 @@ Feature: Tracing Subforms
       | Place of tracing                                     | <Select> Kenya            |
       | Type of action taken                                 | <Select> Photo Tracing    |
     And I fill in the 2nd "Tracing Actions Section" subform with the follow:
-      | Date of tracing                                      | 30/June/2014              |
+      | Date of tracing                                      | 30/Jun/2014               |
       | Action taken and remarks                             | Test remarks2             |
       | Address/Village where the tracing action took place  | Test Village2             |
       | Outcome of tracing action                            | <Select> Unsuccessful     |
@@ -53,7 +53,7 @@ Feature: Tracing Subforms
     And I remove the 1st "Tracing Actions Section" subform
     And I click OK in the browser popup
     And I fill in the 3rd "Tracing Actions Section" subform with the follow:
-      | Date of tracing                                      | 10/June/2014              |
+      | Date of tracing                                      | 10/Jun/2014              |
       | Action taken and remarks                             | Test remarks3             |
       | Address/Village where the tracing action took place  | Test Village3             |
       | Outcome of tracing action                            | <Select> Successful       |

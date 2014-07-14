@@ -19,6 +19,15 @@ var DateControl = Backbone.View.extend({
 	},
 
 	setup_date_parser: function() {
+	  $.datepicker.initialize_datepicker = function(el) {
+	    el.datepicker({ 
+	      dateFormat: 'dd-M-yy',
+	      changeMonth: true,
+	      changeYear: true,
+	      constrainInput: true,
+	      yearRange: "c-130:c+10"
+	    });
+	  };
 		$.datepicker.inputFormats = this.allowed_formats;
 		$.datepicker.originalParseDate = $.datepicker.parseDate;
 		$.datepicker.parseDate = function (format, value, settings) {
@@ -43,19 +52,30 @@ var DateControl = Backbone.View.extend({
 
 	trigger_date_control: function(event) {
 		var control = $(event.target);
-		control.datepicker({ 
-      dateFormat: 'dd-M-yy',
-      changeMonth: true,
-      changeYear: true,
-      constrainInput: true,
-      yearRange: "c-130:c+10"
-    });
+		$.datepicker.initialize_datepicker(control);
 	},
 
 	format_date_input: function(event) {
-		var control = $(event.target),
-				selected_date = control.datepicker('getDate');
-		control.val($.datepicker.formatDate('dd-M-yy', selected_date));
+		var control = $(event.target);
+
+		//Get the expected valid format to send to the server.
+		var dateFormat = control.datepicker("option", "dateFormat");
+
+		//There is no public interface to get the settings of the datepicker object.
+		//There is no public interface to get the current instance of the date picker
+		//datepicker is a singleton object. $.datepicker._curInst is the current instance
+		//should be the same as the target.
+		var settings = $.datepicker._getFormatConfig($.datepicker._curInst);
+
+		//There is no way to know that the current value of the datepicker is a valid value
+		//we need to parse again to know that in order to format to the expected format
+		//in the server side validation.
+		var parsedDate = $.datepicker.parseDate(dateFormat, control.val(), settings);
+		if (parsedDate != undefined && parsedDate != null) {
+		  //If passed the parse, fix the format to the expected format
+		  //to send to the server.
+		  control.val($.datepicker.formatDate(dateFormat, parsedDate));
+		}
 	}
 });
 

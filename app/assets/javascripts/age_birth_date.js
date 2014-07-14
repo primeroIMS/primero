@@ -22,7 +22,7 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
         dateOfBirthField.val("");
       } else {
         if (!dateOfBirthField.hasClass("hasDatepicker")) {
-          dateOfBirthField.focus();
+          $.datepicker.initialize_datepicker(dateOfBirthField);
         }
         var dateFormat = dateOfBirthField.datepicker("option", "dateFormat");
         var year_of_birth = (new Date).getFullYear() - ageField.val();
