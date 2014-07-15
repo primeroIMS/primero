@@ -21,8 +21,8 @@ Feature: Maiming Form
       | Consequences of maiming   | <Select> Serious Injury                |
       | Context of maiming        | <Select> Weapon Used Against The Child |
       | Mine Incident             | <Radio> Yes                            |
-      | Was the victim/survivor directly participating in hostilities at the time of the violation? | <Select> No      |
-      | Did the killing/maiming occur during or as a direct result of abduction?                    | <Select> Unknown |
+      | Was the victim/survivor directly participating in hostilities at the time of the violation? | <Radio> No      |
+      | Did the killing/maiming occur during or as a direct result of abduction?                    | <Radio> Unknown |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see a value for "Number of victims: boys" on the show page with the value of "1"

@@ -62,12 +62,12 @@ maiming_fields = [
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "maim_participant",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Was the victim/survivor directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
   Field.new({"name" => "maim_abduction",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Did the killing/maiming occur during or as a direct result of abduction?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             })
