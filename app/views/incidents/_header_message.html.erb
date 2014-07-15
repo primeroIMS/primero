@@ -1,0 +1,25 @@
+<div class="header_message">
+    <% if incident.reunited? %>
+        <div class="reunited-message"><%= reunited_message %></div>
+    <% end %>
+    <% if incident.flag? %>
+        <h3 class="flag-message"><%= flag_message %></h3>
+    <% end %>
+    <% if incident.duplicate? %>
+        <h3 class="duplicate-message"><%= duplicate_message %></h3>
+    <% end %>
+    <% unless duplicates.empty? %>
+        <h3 class="duplicate-message"><%= t("incident.another_duplicate_before_link") %>
+        <%= link_to 'here', incident_path(duplicates.first) %><%= t("incident.another_duplicate_after_link") %></h3>
+    <% end %>
+
+    <div id='interviewer_details'>
+        <h3><%= t("incident.registered_by") %>: <%= incident['created_by'] %> <%= link_to_incident_update_info(incident) %> <%= t("preposition.on_label") %> <%= current_user.localize_date(incident['created_at']) %></h3>
+        <% if incident['last_updated_at']%>
+            <h3><%= t("incident.last_updated") %>: <%= current_user.localize_date(incident['last_updated_at']) %> </h3>
+        <% end %>
+        <% if incident['posted_from']=="Mobile" %>
+            <h3><%= t("incident.posted_from_mobile")  %> <%= current_user.localize_date(incident['posted_at']) %> </h3>
+        <% end %>
+    </div>
+</div>  

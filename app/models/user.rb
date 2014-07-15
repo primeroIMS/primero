@@ -192,6 +192,11 @@ class User < CouchRest::Model::Base
     ADMIN_ASSIGNABLE_ATTRIBUTES.any? { |e| attributes.keys.include? e }
   end
 
+
+  def self.user_id_from_name(name)
+    "user-#{name}".parameterize.dasherize
+  end
+
   private
 
   def save_devices
@@ -222,6 +227,6 @@ class User < CouchRest::Model::Base
   end
 
   def generate_id
-    self["_id"] ||= "user-#{self.user_name}".parameterize.dasherize
+    self["_id"] ||= User.user_id_from_name self.user_name
   end
 end
