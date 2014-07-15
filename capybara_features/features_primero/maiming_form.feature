@@ -11,10 +11,10 @@ Feature: Maiming Form
     And I press the "Create a New Incident" button
     And I press the "Maiming" button
     And I fill in the following:
-      | Number of Victims Boys    | 1 |
-      | Number of Victims Girls   | 2 |
-      | Number of Victims Unknown | 3 |
-      | Number of Victims Total   | 6 |
+      | Number of victims: boys    | 1 |
+      | Number of victims: girls   | 2 |
+      | Number of victims: unknown | 3 |
+      | Number of total victims   | 6 |
       | Method of maiming         | <Select> Non-Victim Activated          |
       | Means of maiming          | <Select> Option 2                      |
       | Circumstances of maiming  | <Select> Indiscriminate Attack         |
@@ -26,10 +26,10 @@ Feature: Maiming Form
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     #TODO: Uncomment when show page is ready.
-    #And I should see a value for "Number of Victims Boys" on the show page with the value of "1"
-    #And I should see a value for "Number of Victims Girls" on the show page with the value of "2"
-    #And I should see a value for "Number of Victims Unknown" on the show page with the value of "3"
-    #And I should see a value for "Number of Victims Total" on the show page with the value of "6"
+    #And I should see a value for "Number of victims: boys" on the show page with the value of "1"
+    #And I should see a value for "Number of victims: girls" on the show page with the value of "2"
+    #And I should see a value for "Number of victims: unknown" on the show page with the value of "3"
+    #And I should see a value for "Number of total victims" on the show page with the value of "6"
     #And I should see a value for "Method of maiming" on the show page with the value of "Non-Victim Activated"
     #And I should see a value for "Means of maiming" on the show page with the value of "Option 2"
     #And I should see a value for "Circumstances of maiming" on the show page with the value of "Indiscriminate Attack"

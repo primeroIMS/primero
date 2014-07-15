@@ -1,19 +1,19 @@
 maiming_fields = [
   Field.new({"name" => "violation_maiming_boys",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of Victims Boys"
+             "display_name_all" => "Number of victims: boys"
             }),
   Field.new({"name" => "violation_maiming_girls",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of Victims Girls"
+             "display_name_all" => "Number of victims: girls"
             }),
   Field.new({"name" => "violation_maiming_unknown",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of Victims Unknown"
+             "display_name_all" => "Number of victims: unknown"
             }),
   Field.new({"name" => "violation_maiming_total",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of Victims Total"
+             "display_name_all" => "Number of total victims"
             }),
   Field.new({"name" => "maim_method",
              "type" => "select_box",
