@@ -1,4 +1,20 @@
-Role.create!(
+def create_or_update_role(role_hash)
+  role_id = Role.role_id_from_name role_hash[:name]
+  role = Role.get role_id
+
+  if role.nil?
+    puts "Creating role #{role_id}"
+    Role.create! role_hash
+  else
+    puts "Updating role #{role_id}"
+    role.update_attributes role_hash
+  end
+
+end
+
+
+
+create_or_update_role(
   :name => "registration worker",
   :permissions => [
     Permission::CHILDREN[:view_and_search],
@@ -9,7 +25,7 @@ Role.create!(
   ]
 )
 
-Role.create!(
+create_or_update_role(
   :name => "manager",
   :permissions => [
     Permission::CHILDREN[:view_and_search],
@@ -25,7 +41,7 @@ Role.create!(
   ]
 )
 
-Role.create!(
+create_or_update_role(
   :name => "worker: cases",
   :permissions => [
     Permission::CHILDREN[:view_and_search],
@@ -39,7 +55,7 @@ Role.create!(
   ]
 )
 
-Role.create!(
+create_or_update_role(
   :name => "worker: incidents",
   :permissions => [
     Permission::INCIDENTS[:view_and_search],
@@ -51,11 +67,11 @@ Role.create!(
   ]
 )
 
-Role.create!(
+create_or_update_role(
   :name => "view reports",
   :permissions => [Permission::REPORTS[:view]])
 
-Role.create!(
+create_or_update_role(
   :name => "office admin",
   :permissions => [
     Permission::USERS[:create_and_edit],
@@ -74,7 +90,7 @@ Role.create!(
   ]
 )
 
-Role.create!(
+create_or_update_role(
   :name => "system admin",
   :permissions => [
     Permission::USERS[:create_and_edit],
