@@ -1,13 +1,11 @@
 <ul class="tab-handles side-nav">
-  <% is_first_tab = true %>
   <% tabs.each do |form_section| %>
-      <% if is_first_tab %>
-          <li class="current">
+      <% if form_section.is_first_tab %>
+          <li class="current" data-first-tab="true">
       <% else %>
           <li>
       <% end %>
           <a href="#tab_<%= form_section.section_name %>"><%= t(form_section.unique_id, :default => form_section.name) %></a>
       </li>
-      <% is_first_tab = false %>
   <% end %>
 </ul>

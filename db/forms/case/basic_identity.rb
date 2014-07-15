@@ -9,43 +9,9 @@ basic_identity_fields = [
              "editable" => false,
              "display_name_all" => "Short ID"
             }),
-  Field.new({"name" => "record_state",
-             "type" => "select_box",
-             "display_name_all" => "Record state",
-             "option_strings_text_all" =>
-                          ["Valid record",
-                           "Invalid record"].join("\n")
-            }),
   Field.new({"name" => "registration_date",
              "type" => "date_field", 
              "display_name_all" => "Date of Registration or Interview"
-            }),
-  #TODO reconcile difference between Agency and Other Agency
-  Field.new({"name" => "agency",
-             "type" =>"select_box" ,
-             "display_name_all" => "Agency",
-             "option_strings_text_all" => 
-                          ["German Technical Cooperation",
-                           "GTZ",
-                           "ICRC",
-                           "International Rescue Committee",
-                           "IRC",
-                           "IRC K",
-                           "IRC KV",
-                           "IRC Legal",
-                           "IRC NH",
-                           "IRC NZ",
-                           "IRC NZV",
-                           "Save the Children",
-                           "SCUK",
-                           "SCUK-LF",
-                           "SCUK-MOT",
-                           "UNICEF",
-                           "United Nations Childrens Fund"].join("\n")
-            }),
-  Field.new({"name" => "telephone_agency",
-            "type" => "text_field",
-            "display_name_all" => "Agency Telephone"
             }),
   Field.new({"name" => "other_agency_id",
             "type" => "text_field",
@@ -357,30 +323,6 @@ basic_identity_fields = [
              "type" =>"text_field" ,
              "display_name_all" => "Reference No. given to child by other organization"
             }),
-  #TODO spreadsheet says this comes from valid users
-  Field.new({"name" => "database_operator",
-             "type" =>"select_box" ,
-             "display_name_all" => "Database Operator",
-             "option_strings_text_all" => 
-                          ["Operator 1",
-                           "Operator 2",
-                           "Operator 3",
-                           "Operator 4"].join("\n")
-            }),  
-        
-  Field.new({"name" => "social_worker",
-             "type" =>"select_box" ,
-             "display_name_all" => "Social Worker",
-             "option_strings_text_all" => 
-                          ["Social Worker 1",
-                           "Social Worker 2",
-                           "Social Worker 3",
-                           "Social Worker 4"].join("\n")
-            }),   
-  Field.new({"name" => "address_registration",
-             "type" => "textarea",
-             "display_name_all" => "Registration Address"
-            }),
   #TODO verify this
   Field.new({"name" => "dependents_no",
              "type" =>"text_field" ,
@@ -478,6 +420,7 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => basic_identity_fields,
   :perm_enabled => true,
+  :is_first_tab => true,
   "name_all" => "Basic Identity",
   "description_all" => "Basic identity information about a separated or unaccompanied child."
 })
