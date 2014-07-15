@@ -19,10 +19,10 @@ Feature: Sexual Violence Form
       | Type of GBV                | <Select> Denial of Resources, Opportunities, or Services |
       | If Non-GBV, describe       | describe: It is not a GBV |
       | Was this incident a Harmful Traditional Practice | <Select> Option 1 |
-      | Were money, goods, benefits, and/or services exchanged in relation to the incident? | <Select> Yes |
+      | Were money, goods, benefits, and/or services exchanged in relation to the incident? | <Radio> Yes |
       | Stage of displacement at time of incident            | <Select> During Flight       |
       | Type of abduction at time of the incident            | <Select> Forced Conscription |
-      | Has the client reported this incident anywhere else? | <Select> Unknown             |
+      | Has the client reported this incident anywhere else? | <Radio> Unknown             |
     And I fill in the 1st "GBV Details Section" subform with the follow:
       |Type of service provider where the survivor reported the incident | <Select> Legal Assistance Services |
       |Name of the service provider                                      | Organization 1                     |

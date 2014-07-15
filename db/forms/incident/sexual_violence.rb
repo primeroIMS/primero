@@ -87,7 +87,7 @@ violations_sexual_violence_fields = [
              "option_strings_text_all" => "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nNo"
             }),
   Field.new({"name" => "goods_money_exchanged",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Were money, goods, benefits, and/or services exchanged in relation to the incident?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
@@ -112,7 +112,7 @@ violations_sexual_violence_fields = [
                                      "Other Abduction/Kidnapping"].join("\n")
             }),
   Field.new({"name" => "gbv_reported_elsewhere",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Has the client reported this incident anywhere else?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
