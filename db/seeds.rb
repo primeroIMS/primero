@@ -3,7 +3,7 @@
 
 # Please keep the seeding idempotent, as it may be used as a migration if upgrading a production
 # instance is necessary and the target version has introduced any new types requiring seeds.
-def should_seed? model  
+def should_seed? model
   empty = isTableEmpty? model
   puts(empty ? "Seeding #{model}." : "Not seeding #{model}. Already populated.")
   empty
@@ -21,7 +21,7 @@ def isTableEmpty? model
 end
 
 # PRIMERO-272
-def clean_db_table(table)  
+def clean_db_table(table)
   #TODO - This is a temporary brute force solution
   # Sue has added a story to the backlog to make this more elegant
   # So as to not wipe away any custom fields a user might have created
@@ -32,10 +32,12 @@ def clean_db_table(table)
 end
 
 
-if should_seed? User
-  require File.dirname(__FILE__) + "/users/roles.rb"
-  require File.dirname(__FILE__) + "/users/default_users.rb"
-end
+#Reseed the dfault roles and users
+puts "Seeding Roles"
+require File.dirname(__FILE__) + "/users/roles.rb"
+puts "Seeding Users"
+require File.dirname(__FILE__) + "/users/default_users.rb"
+
 
 #Create the forms
 clean_db_table('form_section')
