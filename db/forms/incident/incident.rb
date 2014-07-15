@@ -45,14 +45,6 @@ incident_fields = [
              "type" => "date_range",
              "display_name_all" => "End Date of Incident"
             }),
-  Field.new({"name" => "end_date_of_incident_from",
-             "type" => "date_field",
-             "display_name_all" => "From"
-            }),
-  Field.new({"name" => "end_date_of_incident_to",
-             "type" => "date_field",
-             "display_name_all" => "To"
-            }), 
   Field.new({"name" => "estimated_indicator",
              "type" => "radio_button",
              "display_name_all" => "Are these dates estimated?",

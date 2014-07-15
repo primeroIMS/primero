@@ -297,6 +297,26 @@ en:
     register_new_incident: "Create a New Incident"
 
   incident:
+    flagged_by: "Flagged By"
+    last_updated: "Last updated"
+    registered_by: "Registered by"
+    mark_as_duplicate: "Mark as Duplicate"
+    flag_record: "Flag Record"
+    flag_label: "Flag"
+    flag_reason: "Flag Reason"
+    unflag_record: "Unflag Record"
+    unflag_reason: "Unflag Reason"
+    unflag_label: "Unflag"
+    unflag_error_message: "Please explain why you are unflagging this record."
+    id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
+    duplicate_header: "Marking %{child_name} as Duplicate"
+    flag_error_message: "Please explain why you are flagging this record."
+    investigation_details: "Investigation Details:"
+    reunite_details: "Reunite Details:"
+    another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
+    another_duplicate_after_link: " to see the duplicate record."
+    export_error: "No Records Available!"
+
     messages:
       update_success: "Incident was successfully updated."
       creation_success: "Incident record successfully created."
@@ -308,6 +328,7 @@ en:
     case_worker_code: "Case Worker Code"
     date_of_interview: "Date of Interview"
     date_of_incident: "Date of Incident"
+    change_log: "Change Log"
 
   preposition:
     on_label: "on"

@@ -1,1 +1,47 @@
-TODO
+<% content_for :header_sub_nav do %>
+    <ul class="inline-list">
+        <%= render 'show_incident_toolbar', incident: @incident %>
+    </ul>
+<% end %>
+
+<% content_for :breadcrumbs do %>
+    <h2 class="float_left no_border">
+        <%= link_to t("incidents.label"), incidents_path %> &gt; <%= text_to_identify_incident(@incident) %>
+    </h2>
+<% end %>
+
+<% content_for :header_message do %>    
+    <% if @incident.flag? %>
+        <div class="header_message">
+        <h3 class="flag-message"><%= flag_message%></h3>
+        </div>
+    <% end %>
+<% end %>
+
+<div class="clearfix"></div>
+
+<%= form_tag incident_path(@incident), :method => :put, :multipart => true, :class => "edit-profile default-form" do %>
+  <div class="page-content-new row">
+    <div class="large-4 medium-4 columns close-side-tab">
+      <div class="side-tab">
+        <%= render :partial => 'form_section/tabs', :object => @form_sections %>
+      </div>
+    </div>
+
+    <div class="side-tab-content large-8 medium-8 columns">
+      <%= render :partial => 'form_section/form_section', :collection => @form_sections,  :locals => {:formObject => @incident}%>
+      <div class="btn_panel">
+        <%= discard_button incidents_path %>
+        <%= submit_button %>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+
+    <div class="hidden_params">
+      <% (params["delete_child_photo"] || {}).each do |key, value| %>
+        <%= hidden_field_tag "delete_incidents_photo[#{key}]", value %>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>

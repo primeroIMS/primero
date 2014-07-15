@@ -10,10 +10,10 @@ require 'spec_helper'
 	# stub_export_generator
 # end
 
-# def stub_out_incident_get(mock_incident = double(Incident))
-	# Incident.stub(:get).and_return( mock_incident )
-	# mock_incident
-# end
+def stub_out_incident_get(mock_incident = double(Incident))
+	Incident.stub(:get).and_return( mock_incident )
+	mock_incident
+end
 
 describe IncidentsController do
 
@@ -145,35 +145,35 @@ describe IncidentsController do
       before { @stubs = { :reunited? => false } }
       context "when status is passed for admin" do
         before { @status = "all"}
-        before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_name}}
+        before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
         it_should_behave_like "viewing incidents by user with access to all data"
       end
 
       context "when status is passed for mrm worker" do
         before { @status = "all"}
-        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_with_created_by_created_at}}
+        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
 
         it_should_behave_like "viewing incidents as a mrm worker"
       end
 
       context "when status is not passed admin" do
-        before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_name}}
+        before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
         it_should_behave_like "viewing incidents by user with access to all data"
       end
 
       context "when status is not passed mrm worker" do
-        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_with_created_by_created_at}}
+        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
         it_should_behave_like "viewing incidents as a mrm worker"
       end
 
       context "when status is not passed mrm worker and order is name" do
-        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_with_created_by_name}}
+        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_name}}
         before {@params = {:order_by => 'name'}}
         it_should_behave_like "viewing incidents as a mrm worker"
       end
 
       context "when status is not passed mrm worker, order is created_at and page is 2" do
-        before {@options = {:view_name=>:by_all_view_with_created_by_created_at, :startkey=>["all", "fakemrmworker", {}], :endkey=>["all", "fakemrmworker"], :descending=>true, :page=>2, :per_page=>20}}
+        before {@options = {:view_name=>:by_valid_record_view_with_created_by_created_at, :startkey=>["all", "fakemrmworker", {}], :endkey=>["all", "fakemrmworker"], :descending=>true, :page=>2, :per_page=>20}}
         before {@params = {:order_by => 'created_at', :page => 2}}
         it_should_behave_like "viewing incidents as a mrm worker"
       end
