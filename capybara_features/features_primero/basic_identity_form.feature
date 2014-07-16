@@ -427,7 +427,6 @@ Feature: Basic Identity Form
   And I fill in the following:
       | Date of Birth | 21-21-1990 |
   And I press "Save"
-  And pause
   Then I should see "Basic Identity: Please enter the date in a valid format (dd-mmm-yyyy)"
 
   Scenario: As a logged in user When I enter an invalid number in 'Age' field I should see a validation message
