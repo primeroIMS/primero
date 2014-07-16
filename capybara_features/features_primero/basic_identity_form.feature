@@ -125,6 +125,7 @@ Feature: Basic Identity Form
       | Interviewer Position | Field Worker                      |
       | Interview Address    | 333 Elm St, Wilkesboro NC, 28697  |
       | Interview Location   | Midwest                           |
+      | Interviewer Agency   | <Select> Agency 4                 |
       | Interview Landmark   | By the river                      |      
       | If information obtained from Other, please specify.   | Doctor                           |
       | Reference No. given to child by other organization   | CCC222                          |
