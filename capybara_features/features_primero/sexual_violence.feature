@@ -35,25 +35,24 @@ Feature: Sexual Violence Form
       | Has the client had any previous incidents of GBV perpetrated against them? | <Radio> No |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    #TODO: Uncomment when show page is ready.
-    #And I should see a value for "Number of victims: boys" on the show page with the value of "1"
-    #And I should see a value for "Number of victims: girls" on the show page with the value of "2"
-    #And I should see a value for "Number of victims: unknown" on the show page with the value of "3"
-    #And I should see a value for "Number of total victims" on the show page with the value of "6"
-    #And I should see a value for "Type of Violence" on the show page with the value of "Forced Marriage,Forced Sterilization"
-    #And I should see a value for "Type of GBV" on the show page with the value of "Denial of Resources, Opportunities, or Services"
-    #And I should see a value for "If Non-GBV, describe" on the show page with the value of "describe: It is not a GBV"
-    #And I should see a value for "Was this incident a Harmful Traditional Practice" on the show page with the value of "Option 1"
-    #And I should see a value for "Were money, goods, benefits, and/or services exchanged in relation to the incident?" on the show page with the value of "Yes"
-    #And I should see a value for "Stage of displacement at time of incident" on the show page with the value of "During Flight"
-    #And I should see a value for "Type of abduction at time of the incident" on the show page with the value of "Forced Conscription"
-    #And I should see a value for "Has the client reported this incident anywhere else?" on the show page with the value of "Unknown"
-    #And I should see in the 1st "GBV Detail" subform with the follow:
-    #  | Type of service provider where the survivor reported the incident | Legal Assistance Services  |
-    #  | Name of the service provider                                      | Organization 1             |
-    #  | Is this a GBV reporting organization?                             | Yes                        |
-    #And I should see in the 2nd "GBV Detail" subform with the follow:
-    #  | Type of service provider where the survivor reported the incident | Psychosocial/Counseling Services  |
-    #  | Name of the service provider                                      | Organization 2                    |
-    #  | Is this a GBV reporting organization?                             | No                                |
-    #And I should see a value for "Has the client had any previous incidents of GBV perpetrated against them?" on the show page with the value of "No"
+    And I should see a value for "Number of victims: boys" on the show page with the value of "1"
+    And I should see a value for "Number of victims: girls" on the show page with the value of "2"
+    And I should see a value for "Number of victims: unknown" on the show page with the value of "3"
+    And I should see a value for "Number of total victims" on the show page with the value of "6"
+    And I should see a value for "Type of Violence" on the show page with the value of "Forced Marriage, Forced Sterilization"
+    And I should see a value for "Type of GBV" on the show page with the value of "Denial of Resources, Opportunities, or Services"
+    And I should see a value for "If Non-GBV, describe" on the show page with the value of "describe: It is not a GBV"
+    And I should see a value for "Was this incident a Harmful Traditional Practice" on the show page with the value of "Option 1"
+    And I should see a value for "Were money, goods, benefits, and/or services exchanged in relation to the incident?" on the show page with the value of "Yes"
+    And I should see a value for "Stage of displacement at time of incident" on the show page with the value of "During Flight"
+    And I should see a value for "Type of abduction at time of the incident" on the show page with the value of "Forced Conscription"
+    And I should see a value for "Has the client reported this incident anywhere else?" on the show page with the value of "Unknown"
+    And I should see in the 1st "GBV Detail" subform with the follow:
+      | Type of service provider where the survivor reported the incident | Legal Assistance Services  |
+      | Name of the service provider                                      | Organization 1             |
+      | Is this a GBV reporting organization?                             | Yes                        |
+    And I should see in the 2nd "GBV Detail" subform with the follow:
+      | Type of service provider where the survivor reported the incident | Psychosocial/Counseling Services  |
+      | Name of the service provider                                      | Organization 2                    |
+      | Is this a GBV reporting organization?                             | No                                |
+    And I should see a value for "Has the client had any previous incidents of GBV perpetrated against them?" on the show page with the value of "No"
