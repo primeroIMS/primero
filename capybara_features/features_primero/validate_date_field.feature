@@ -17,7 +17,7 @@ Feature: Validate Date Field
     And I fill in the following:
       | Date of Birth     | Invalid Date         |
     And I press "Save"
-		Then I should see "Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+    Then I should see "Please enter the date in a valid format (dd-mmm-yyyy)" on the page
 
   Scenario: As a logged in user, I create a case and validate the date field and allow different formats
     And I press the "Basic Identity" button  
