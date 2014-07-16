@@ -51,12 +51,12 @@ Feature: Individual Details Form
     Then I should see "Incident record successfully created" on the page
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
     And I should see a value for "What is the child's Date of Birth?" on the show page with the value of "10-Jun-1993"
-    Then I should see the calculated Age of a child born in "1993"
+    Then I should see the calculated Age for "What is the child's age?" of a child born in "1993"
     And I should see a value for "What is the sex of the child?" on the show page with the value of "Female"
     And I should see a value for "Is the age estimated?" on the show page with the value of "Yes"
     And I should see a value for "What is the ethnic affiliation of the Victim/Survivor?" on the show page with the value of "Ethnicity1"
     And I should see a value for "What is the national affiliation of the Victim/Survivor?" on the show page with the value of "Nationality1"
-    And I should see a value for "Religion1" on the show page with the value of "What is the religious affiliation of the Victim/Survivor?"
+    And I should see a value for "What is the religious affiliation of the Victim/Survivor?" on the show page with the value of "Religion1"
     And I should see a value for "Country of Origin" on the show page with the value of "Country1"
     And I should see a value for "What was the status of the child at the time of the violation?" on the show page with the value of "IDP"
     And I should see a value for "Displacement Status at time of report" on the show page with the value of "Resident"
@@ -70,7 +70,7 @@ Feature: Individual Details Form
     And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "No"
     And I should see in the 1st "Individual Detail" subform with the follow:
       | Survivor Code                                                                                                                                               | SRV1001             |
-      | What is the child's Date of Birth?                                                                                                                          | 02/May/1993         |
+      | What is the child's Date of Birth?                                                                                                                          | 02-May-1993         |
       | What is the sex of the child?                                                                                                                               | Female              |
       | Is the age estimated?                                                                                                                                       | No                  |
       | What is the ethnic affiliation of the Victim/Survivor?                                                                                                      | Ethnicity2          |
