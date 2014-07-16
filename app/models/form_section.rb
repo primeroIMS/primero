@@ -15,6 +15,7 @@ class FormSection < CouchRest::Model::Base
   property :validations, [String]
   property :base_language, :default=>'en'
   property :is_nested, TrueClass, :default => false
+  property :is_first_tab, TrueClass, :default => false
 
   design do
     view :by_unique_id

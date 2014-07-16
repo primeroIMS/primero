@@ -28,10 +28,7 @@ Feature: Basic Identity Form
     Then I should see the following fields:
     | Case ID           |
     | Short ID          |
-    | Record state      |
     | Date of Registration or Interview |
-    | Agency            |
-    | Agency Telephone  |
     | Other Agency ID         |
     | Other Agency Name       |
     | ICRC Ref No.      |
@@ -83,9 +80,6 @@ Feature: Basic Identity Form
     | If information obtained from Other, please specify. |
     | Has the child been interviewed by another organization? |
     | Reference No. given to child by other organization |
-    | Database Operator |
-    | Social Worker |
-    | Registration Address |
     | Number and age of children and other dependents |
     | Camp |
     | Permanent Address |
@@ -105,7 +99,6 @@ Feature: Basic Identity Form
 
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
-      | Agency Telephone  | 704-555-1212                         |
       | Other Agency ID   | ABC12345                             |
       | Other Agency Name | Test Agency                          |
       | ICRC Ref No.      | 131313                               |
@@ -135,7 +128,6 @@ Feature: Basic Identity Form
       | Interview Landmark   | By the river                      |      
       | If information obtained from Other, please specify.   | Doctor                           |
       | Reference No. given to child by other organization   | CCC222                          |
-      | Registration Address    | 444 10th St, N. Wilkesboro NC, 28659  |
       | Number and age of children and other dependents   | 5                           |
       | Camp   | Test Camp                           |
       | Permanent Address    | 555 Clingman Rd, Ronda NC, 28670          |
@@ -147,7 +139,6 @@ Feature: Basic Identity Form
       | What is the caretaker's primary occupation?        | Teacher                               |
       
     And I select "Male" from "Sex"
-    And I select "Save the Children" from "Agency"
     And I select "Separated" from "Protection Status"
     And I select "Yes" for "Urgent Protection Concern?" radio button
     And I select "No" for "Estimated" radio button
@@ -172,11 +163,8 @@ Feature: Basic Identity Form
       | Sub-ethnicity1.2 |
     And I choose from "Sub Ethnicity 2":
       | Sub-ethnicity2.3|
-    And I select "Agency 4" from "Interviewer Agency"
     And I select "GBV Survivor" from "Information Obtained From"
     And I select "Yes" for "Has the child been interviewed by another organization?" radio button
-    And I select "Operator 1" from "Database Operator"
-    And I select "Social Worker 1" from "Social Worker"
     And I select "Community" from "Status"
     And I select "No" for "Name(s) given to child after separation?" radio button
     And I select "No" for "If the survivor is a child, does he/she live alone?" radio button
@@ -196,10 +184,7 @@ Feature: Basic Identity Form
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
-    And I should see a value for "Agency" on the show page with the value of "Save the Children"
-    And I should see a value for "Agency Telephone" on the show page with the value of "704-555-1212"    
     And I should see a value for "Other Agency ID" on the show page with the value of "ABC12345"
     And I should see a value for "Other Agency Name" on the show page with the value of "Test Agency"
     And I should see a value for "ICRC Ref No." on the show page with the value of "131313"
@@ -250,9 +235,6 @@ Feature: Basic Identity Form
     And I should see a value for "If information obtained from Other, please specify." on the show page with the value of "Doctor"
     And I should see a value for "Has the child been interviewed by another organization?" on the show page with the value of "Yes"
     And I should see a value for "Reference No. given to child by other organization" on the show page with the value of "CCC222"
-    And I should see a value for "Database Operator" on the show page with the value of "Operator 1"
-    And I should see a value for "Social Worker" on the show page with the value of "Social Worker 1"
-    And I should see a value for "Registration Address" on the show page with the value of "444 10th St, N. Wilkesboro NC, 28659"
     And I should see a value for "Number and age of children and other dependents" on the show page with the value of "5"
     And I should see a value for "Camp" on the show page with the value of "Test Camp"
     And I should see a value for "Permanent Address" on the show page with the value of "555 Clingman Rd, Ronda NC, 28670"
@@ -278,8 +260,6 @@ Feature: Basic Identity Form
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
-    And I should see a value for "Agency" on the show page with the value of ""
-    And I should see a value for "Agency Telephone" on the show page with the value of ""    
     And I should see a value for "Other Agency ID" on the show page with the value of ""
     And I should see a value for "Other Agency Name" on the show page with the value of ""
     And I should see a value for "ICRC Ref No." on the show page with the value of ""
@@ -330,9 +310,6 @@ Feature: Basic Identity Form
     And I should see a value for "If information obtained from Other, please specify." on the show page with the value of ""
     And I should see a value for "Has the child been interviewed by another organization?" on the show page with the value of ""
     And I should see a value for "Reference No. given to child by other organization" on the show page with the value of ""
-    And I should see a value for "Database Operator" on the show page with the value of ""
-    And I should see a value for "Social Worker" on the show page with the value of ""
-    And I should see a value for "Registration Address" on the show page with the value of ""
     And I should see a value for "Number and age of children and other dependents" on the show page with the value of ""
     And I should see a value for "Camp" on the show page with the value of ""
     And I should see a value for "Permanent Address" on the show page with the value of ""
@@ -411,7 +388,6 @@ Feature: Basic Identity Form
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 24                                   |
-      | Agency Telephone  | 704-555-1212                         |
       | Other Agency ID   | ABC12345                             |
       | Other Agency Name | Test Agency                          |
       | ICRC Ref No.      | 131313                               |
@@ -428,7 +404,6 @@ Feature: Basic Identity Form
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 0                                    |
-      | Agency Telephone  | 704-555-1212                         |
       | Other Agency ID   | ABC12345                             |
       | Other Agency Name | Test Agency                          |
       | ICRC Ref No.      | 131313                               |
@@ -452,105 +427,8 @@ Feature: Basic Identity Form
   And I fill in the following:
       | Date of Birth | 21-21-1990 |
   And I press "Save"
-  Then I should see "Please enter a valid date of birth for this case record"
-
-  Scenario: As a logged in user, When I am on the case index page only valid recrods should be displayed
-    And I fill in the following:
-      | Name              | Daenerys Targaryen |
-      | Age               | 24                 |
-      | Agency Telephone  | 704-555-1212       |
-      | Other Agency Name | Test Agency        |
-      | UNHCR ID          | AAA000             |
-      | Survivor Code     | BBB111             |
-      | Nickname          | Khaleesi           |
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
-    And I access "cases page"
-    And I press the "Create a New Case" button
-    And I fill in the following:
-      | Name              | John Snow   |
-      | Age               | 24          |
-      | Other Agency ID   | ABC12345    |
-      | Other Agency Name | Test Agency |
-      | ICRC Ref No.      | 131313      |
-      | RC ID No.         | 141414      |
-      | Nickname          | Lord Snow   |
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
-    And I access "cases page"
-    And I press the "Create a New Case" button
-    And I fill in the following:
-      | Name              | Eddard Stark   |
-      | Age               | 45             |
-      | Agency Telephone  | 704-555-1212   |
-      | Other Agency ID   | ABC12345       |
-      | Other Agency Name | Test Agency    |
-      | UNHCR ID          | AAA001         |
-      | Survivor Code     | BBB112         |
-      | Nickname          | Lord Stark     |
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
-    And I press the "Edit" button
-    And I select "Invalid record" from "Record state"
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Invalid record"
-    And I access "cases page"
-    Then I should see "John Snow" on the page
-    And I should see "Daenerys Targaryen" on the page
-    And I should not see "Eddard Stark" on the page
-
-  Scenario: As a Social Worker I want to be able to view a case record that I have marked as Invalid
-    And I fill in the following:
-      | Name              | Daenerys Targaryen |
-      | Age               | 24                 |
-      | Agency Telephone  | 704-555-1212       |
-      | Other Agency Name | Test Agency        |
-      | UNHCR ID          | AAA000             |
-      | Survivor Code     | BBB111             |
-      | Nickname          | Khaleesi           |
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
-    And I access "cases page"
-    And I press the "Create a New Case" button
-    And I fill in the following:
-      | Name              | John Snow   |
-      | Age               | 24          |
-      | Other Agency ID   | ABC12345    |
-      | Other Agency Name | Test Agency |
-      | ICRC Ref No.      | 131313      |
-      | RC ID No.         | 141414      |
-      | Nickname          | Lord Snow   |
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
-    And I access "cases page"
-    And I press the "Create a New Case" button
-    And I fill in the following:
-      | Name              | Eddard Stark   |
-      | Age               | 45             |
-      | Agency Telephone  | 704-555-1212   |
-      | Other Agency ID   | ABC12345       |
-      | Other Agency Name | Test Agency    |
-      | UNHCR ID          | AAA001         |
-      | Survivor Code     | BBB112         |
-      | Nickname          | Lord Stark     |
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
-    And I press the "Edit" button
-    And I select "Invalid record" from "Record state"
-    And I press "Save"
-    And I should see a value for "Record state" on the show page with the value of "Invalid record"
-    And I access "cases page"
-    Then I should see "John Snow" on the page
-    And I should see "Daenerys Targaryen" on the page
-    And I should not see "Eddard Stark" on the page
-    And I select "Invalid Records" from "cases_record_state_scope"
-    And I should not see "John Snow" on the page
-    And I should not see "Daenerys Targaryen" on the page
-    And I should see "Eddard Stark" on the page
-    And I select "Valid Records" from "cases_record_state_scope"
-    And I should see "John Snow" on the page
-    And I should see "Daenerys Targaryen" on the page
-    And I should not see "Eddard Stark" on the page
+  And pause
+  Then I should see "Basic Identity: Please enter the date in a valid format (dd-mmm-yyyy)"
 
   Scenario: As a logged in user When I enter an invalid number in 'Age' field I should see a validation message
     And I fill in the following:

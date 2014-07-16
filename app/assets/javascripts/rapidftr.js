@@ -26,8 +26,9 @@ RapidFTR.maintabControl = function(){
 RapidFTR.tabControl = function() {
   var self = this
   $(".tab").hide();
-  $(".tab-handles li:first").addClass("current").show();
-  $(".tab:first").show();
+
+  $('.tab-handles li[data-first-tab="true"]').addClass("current").show();
+  $('.tab[data-first-tab="true"]').show();
 
   $(".tab-handles a").click(function() {
 

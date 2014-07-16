@@ -1,5 +1,5 @@
 
-<fieldset id="tab_<%= form_section.section_name %>" class="<%= form_section.section_name %> tab no-border">
+<fieldset id="tab_<%= form_section.section_name %>" class="<%= form_section.section_name %> tab no-border" data-first-tab="<%= form_section.is_first_tab %>">
   <%= render partial: 'form_section/form_section_info', locals: {form_section: form_section} %>
   <%= render 'form_section/error_message', formObject: formObject %>
   <hr >
