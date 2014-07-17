@@ -60,16 +60,6 @@ individual_details_fields = [
                            "Country2",
                            "Country3"].join("\n")
             }),
-  Field.new({"name" => "displacement_at_time_of_incident",
-             "type" => "select_box",
-             "display_name_all" => "What was the status of the child at the time of the violation?",
-             "option_strings_text_all" =>
-                          ["Community Member",
-                           "IDP",
-                           "Refugee",
-                           "Returnee",
-                           "Unknown"].join("\n")
-            }),
   Field.new({"name" => "displacement_status",
              "type" => "select_box",
              "display_name_all" => "Displacement Status at time of report",
