@@ -4,13 +4,13 @@
       <td id="child_<%= child.id %>" class="id_column">
         <div class="summary_item">
           <%= link_to text_to_identify_child(child), case_path(child), class: 'id_link' %>
-          <!--<%= content_tag(:div, nil, :class => 'flag suspect') if child.flag? %>
-          <%= content_tag(:div, nil, :class => 'flag reunited') if child.reunited? %>-->
+          <% #content_tag(:div, nil, :class => 'flag suspect') if child.flag? %>
+          <% #content_tag(:div, nil, :class => 'flag reunited') if child.reunited? %>
         </div>
       </td>
       <td>
         <div class="summary_item">
-        <% sorted_highlighted_fields.each do |relevant_field| %>
+        <% highlighted_fields.each do |relevant_field| %>
           <% if relevant_field.visible? %>
             <%= child[relevant_field[:name]] %>
           <% end %>
