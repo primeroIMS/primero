@@ -20,7 +20,6 @@ Feature: Attack on Schools Form
       | School Name                  | The School name under attack                |
       | Number of Students           | 1000                                        |
       | Sex Of Students              | <Select> Mixed                              |
-      | Number of Patients           | 1000                                        |
     And I fill in the 1st "Human Impact of Attack Section" subform with the follow:
       | Number of Boys Killed             | 100 |
       | Number of Girls Killed            | 101 |
@@ -54,7 +53,6 @@ Feature: Attack on Schools Form
     And I should see a value for "School Name" on the show page with the value of "The School name under attack"
     And I should see a value for "Number of Students" on the show page with the value of "1000"
     And I should see a value for "Sex Of Students" on the show page with the value of "Mixed"
-    And I should see a value for "Number of Patients" on the show page with the value of "1000"
     And I should see in the 1st "Human Impact of Attack Detail" subform with the follow:
       | Number of Boys Killed             | 100 |
       | Number of Girls Killed            | 101 |

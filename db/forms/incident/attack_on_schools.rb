@@ -136,10 +136,6 @@ attack_on_schools_fields = [
                                      "Mixed",
                                      "Unknown"].join("\n")
             }),
-  Field.new({"name" => "site_number_of_patients",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Patients"
-            }),
   ##Subform##
   Field.new({"name" => "human_impact_of_attack_section",
              "type" => "subform",
