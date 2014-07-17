@@ -18,7 +18,6 @@ Feature: Individual Details Form
     And I select "Nationality1" from "What is the national affiliation of the Victim/Survivor?"
     And I select "Religion1" from "What is the religious affiliation of the Victim/Survivor?"
     And I select "Country1" from "Country of Origin"
-    And I select "IDP" from "What was the status of the child at the time of the violation?"
     And I select "Resident" from "Displacement Status at time of report"
     And I select "Both Parents" from "What were the care arrangements for the child at the time of the incident/violation(s)?"
     And I select "Anonymous" from "With whom is the child and/or adult caregive willing to share their name and other personal details?"
@@ -37,7 +36,6 @@ Feature: Individual Details Form
       | What is the national affiliation of the Victim/Survivor?                                                                                                    | <Select> Nationality2        |
       | What is the religious affiliation of the Victim/Survivor?                                                                                                   | <Select> Religion2           |
       | Country of Origin                                                                                                                                           | <Select> Country2            |
-      | What was the status of the child at the time of the violation?                                                                                              | <Select> IDP                 |
       | Displacement Status at time of report                                                                                                                       | <Select> Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | <Select> Both Parents        |
       | With whom is the child and/or adult caregive willing to share their name and other personal details?                                                        | <Select> Anonymous           |
@@ -58,7 +56,6 @@ Feature: Individual Details Form
     And I should see a value for "What is the national affiliation of the Victim/Survivor?" on the show page with the value of "Nationality1"
     And I should see a value for "What is the religious affiliation of the Victim/Survivor?" on the show page with the value of "Religion1"
     And I should see a value for "Country of Origin" on the show page with the value of "Country1"
-    And I should see a value for "What was the status of the child at the time of the violation?" on the show page with the value of "IDP"
     And I should see a value for "Displacement Status at time of report" on the show page with the value of "Resident"
     And I should see a value for "What were the care arrangements for the child at the time of the incident/violation(s)?" on the show page with the value of "Both Parents"
     And I should see a value for "With whom is the child and/or adult caregive willing to share their name and other personal details?" on the show page with the value of "Anonymous"
@@ -77,7 +74,6 @@ Feature: Individual Details Form
       | What is the national affiliation of the Victim/Survivor?                                                                                                    | Nationality2        |
       | What is the religious affiliation of the Victim/Survivor?                                                                                                   | Religion2           |
       | Country of Origin                                                                                                                                           | Country2            |
-      | What was the status of the child at the time of the violation?                                                                                              | IDP                 |
       | Displacement Status at time of report                                                                                                                       | Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
       | With whom is the child and/or adult caregive willing to share their name and other personal details?                                                        | Anonymous           |
