@@ -62,10 +62,11 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
   end
 end
 
-And /^I should see the calculated Age of a child born in "(.+)"$/ do |year|
+And /^I should see the calculated Age(?: for "([^\"]*)")? of a child born in "(.+)"?$/ do |field_name, year|
   age = Date.today.year - year.to_i
+  field_name ||= "Age"
   #Find the element that represent the age field
-  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape("Age")}\z/) do
+  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape("#{field_name}")}\z/) do
     #Lookup the parent of the field to search the value
     within(:xpath, '../..') do
       #Find the element that represent the value.
