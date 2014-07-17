@@ -39,8 +39,7 @@ Feature: Attack on Schools Form
       | Number of Children Recruited During Attack        | 400 |
     And I fill in the following:
       | What organization manages this facility?       | <Select> Government          |
-      #TODO uncomment when field names with double quotes is fixed.
-      #| What was the main objective of the "attack"?   | main objective of the attack |
+      | What was the main objective of the "attack"?   | main objective of the attack |
       | Physical Impact of Attack                      | <Select> Total Destruction   |
       | Was Facility Closed As A Result?               | <Radio> No                   |
       | For How Long? (Days)                           | 100                          |
@@ -73,8 +72,7 @@ Feature: Attack on Schools Form
       | Number of Adults Affected by Service Disruption   | 500 |
       | Number of Children Recruited During Attack        | 400 |
     And I should see a value for "What organization manages this facility?" on the show page with the value of "Government"
-    #TODO uncomment when field names with double quotes is fixed.
-    #And I should see a value for "What was the main objective of the "attack"?" on the show page with the value of "main objective of the attack"
+    And I should see a value for "What was the main objective of the "attack"?" on the show page with the value of "main objective of the attack"
     And I should see a value for "Physical Impact of Attack" on the show page with the value of "Total Destruction"
     And I should see a value for "Was Facility Closed As A Result?" on the show page with the value of "No"
     And I should see a value for "For How Long? (Days)" on the show page with the value of "100"
