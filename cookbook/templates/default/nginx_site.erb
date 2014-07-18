@@ -26,7 +26,7 @@ server {
   location ~* ^/(assets|images|javascripts|stylesheets)/ {
     # Per RFC2616 - 1 year maximum expiry
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
-    expires max;
+    expires 1yr;
     gzip_static on;
     add_header Cache-Control public;
 
