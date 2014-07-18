@@ -153,7 +153,8 @@ individual_details_subform_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Individual Details Subform",
-  "description_all" => "Nested Individual Details Subform"
+  "description_all" => "Nested Individual Details Subform",
+  :initial_subforms => 1
 })
 
 FormSection.create_or_update_form_section({
@@ -162,13 +163,12 @@ FormSection.create_or_update_form_section({
   "visible" => true,
   :order => 90,
   "editable" => true,
-  :fields => individual_details_fields + [
-      Field.new({"name" => "individual_details_subform_section",
-             "type" => "subform", "editable" => true,
-             "subform_section_id" => individual_details_subform_section.id,
-             "display_name_all" => "Individual Details"
-            })
-    ],
+  :fields => [Field.new({"name" => "individual_details_subform_section",
+                         "type" => "subform", "editable" => true,
+                         "subform_section_id" => individual_details_subform_section.id,
+                         "display_name_all" => "Individual Details"
+                        })
+             ],
   :perm_enabled => true,
   "name_all" => "Individual Details",
   "description_all" => "Individual Details"
