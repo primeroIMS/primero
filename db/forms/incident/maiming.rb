@@ -1,4 +1,4 @@
-maiming_fields = [
+maiming_subform_fields = [
   Field.new({"name" => "violation_maiming_boys",
              "type" => "numeric_field", 
              "display_name_all" => "Number of victims: boys"
@@ -93,6 +93,29 @@ maiming_fields = [
              "type" => "radio_button",
              "display_name_all" => "Did the violation occur during or as a direct result of abduction?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
+            })
+]
+
+maiming_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order => 1,
+  :unique_id => "maiming_subform_section",
+  :parent_form=>"incident",
+  "editable" => true,
+  :fields => maiming_subform_fields,
+  :perm_enabled => false,
+  :perm_visible => false,
+  "name_all" => "Nested Maiming Subform",
+  "description_all" => "Nested Maiming Subform",
+  :initial_subforms => 1
+})
+
+maiming_fields = [
+  Field.new({"name" => "maiming_subform_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => maiming_subform_section.id,
+             "display_name_all" => "Maiming"
             })
 ]
 
