@@ -1,4 +1,5 @@
 #JIRA PRIMERO-296
+#JIRA PRIMERO-324
 
 @javascript @primero
 Feature: Killing Form
@@ -26,18 +27,20 @@ Feature: Killing Form
       | Did the violation occur during or as a direct result of abduction?                          | <Select> Yes                           |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see a value for "Number of victims: boys" on the show page with the value of "1"
-    And I should see a value for "Number of victims: girls" on the show page with the value of "2"
-    And I should see a value for "Number of victims: unknown" on the show page with the value of "3"
-    And I should see a value for "Number of total victims" on the show page with the value of "6"
-    And I should see a value for "Method" on the show page with the value of "Summary"
-    And I should see a value for "Means" on the show page with the value of "Option1"
-    And I should see a value for "Cause" on the show page with the value of "IED"
-    And I should see a value for "Details" on the show page with the value of "Some details"
-    And I should see a value for "Circumstances" on the show page with the value of "Direct Attack"
-    And I should see a value for "Consequences" on the show page with the value of "Killing"
-    And I should see a value for "Context" on the show page with the value of "Weapon Used Against The Child"
-    And I should see a value for "Mine Incident" on the show page with the value of "No"
-    And I should see a value for "Was the victim/survivor directly participating in hostilities at the time of the violation?" on the show page with the value of "Yes"
-    And I should see a value for "Did the violation occur during or as a direct result of abduction?" on the show page with the value of "Yes"
+    And I should see 1 subform on the show page for "Killing"
+    And I should see in the 1st "Killing" subform with the follow:
+      | Number of victims: boys                                                                     | 1                             |
+      | Number of victims: girls                                                                    | 2                             |
+      | Number of victims: unknown                                                                  | 3                             |
+      | Number of total victims                                                                     | 6                             |
+      | Method                                                                                      | Summary                       |
+      | Means                                                                                       | Option1                       |
+      | Cause                                                                                       | IED                           |
+      | Details                                                                                     | Some details                  |
+      | Circumstances                                                                               | Direct Attack                 |
+      | Consequences                                                                                | Killing                       |
+      | Context                                                                                     | Weapon Used Against The Child |
+      | Mine Incident                                                                               | No                            |
+      | Was the victim/survivor directly participating in hostilities at the time of the violation? | Yes                           |
+      | Did the violation occur during or as a direct result of abduction?                          | Yes                           |
 
