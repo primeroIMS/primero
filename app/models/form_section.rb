@@ -16,6 +16,7 @@ class FormSection < CouchRest::Model::Base
   property :base_language, :default=>'en'
   property :is_nested, TrueClass, :default => false
   property :is_first_tab, TrueClass, :default => false
+  property :initial_subforms, Integer, :default => 0
 
   design do
     view :by_unique_id

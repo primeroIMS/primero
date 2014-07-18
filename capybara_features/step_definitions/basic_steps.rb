@@ -114,6 +114,11 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
   end
 end
 
+And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
+  page.should have_selector(:xpath, "//fieldset[@class='subform no-border']//h5[#{num}]//label[@class='key']", :text => subform)
+  page.should_not have_selector(:xpath, "//fieldset[@class='subform no-border']//h5[#{num.to_i + 1}]//label[@class='key']", :text => subform)
+end
+
 And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   step %Q{I add a "#{subform}" subform}
   num = num.to_i - 1
