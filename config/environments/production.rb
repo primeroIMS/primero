@@ -22,11 +22,11 @@ RapidFTR::Application.configure do
   config.assets.compile = true
   config.assets.digest = true
   config.assets.js_compressor = Uglifier.new(
-    :mangle => { :toplevel => true }, 
-    :output => { :comments => :copyright }
+    :output => { :comments => :none }
   )
   config.assets.css_compressor = :sass
   config.assets.cache_store = :memory_store
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
   config.assets.paths << Rails.root.join("vendor", "assets")
 
