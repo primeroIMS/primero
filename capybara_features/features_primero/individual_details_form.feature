@@ -48,3 +48,26 @@ Feature: Individual Details Form
       | Current civil/marital status                                                                                                                                | Single              |
       | Disability Type                                                                                                                                             | Physical Disability |
       | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?                                                                           | No                  |
+    And I should see 1 subform on the show page for "Individual Detail"
+    And I press the "Edit" button
+    And I select "No" for "Is the age estimated?" radio button
+    And I press "Save"
+    And I should see in the 1st "Individual Detail" subform with the follow:
+      | Survivor Code                                                                                                                                               | SRV1001             |
+      | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |
+      | What is the sex of the child?                                                                                                                               | Female              |
+      | Is the age estimated?                                                                                                                                       | No                  |
+      | What is the ethnic affiliation of the Victim/Survivor?                                                                                                      | Ethnicity1          |
+      | What is the national affiliation of the Victim/Survivor?                                                                                                    | Nationality1        |
+      | What is the religious affiliation of the Victim/Survivor?                                                                                                   | Religion1           |
+      | Country of Origin                                                                                                                                           | Country1            |
+      | Displacement Status at time of report                                                                                                                       | Resident            |
+      | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
+      | With whom is the child and/or adult caregive willing to share their name and other personal details?                                                        | Anonymous           |
+      | Is the child and/or adult caregiver willing to be contacted again about the violations?                                                                     | No                  |
+      | Does the Child/Adult Caregiver consent to their personal details being passed to another humanitarian agency willing and able to provide long term support? | Yes                 |
+      | Should a case be created for this child to receive further services?                                                                                        | Yes                 |
+      | Current civil/marital status                                                                                                                                | Single              |
+      | Disability Type                                                                                                                                             | Physical Disability |
+      | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?                                                                           | No                  |
+    And I should see 1 subform on the show page for "Individual Detail"
