@@ -51,8 +51,6 @@ namespace :db do
       RestClient.put full_host, "\""+password+"\"", {:content_type => :json}
       puts "Administrator account #{user_name} has been created"
     end
-
-    Rake::Task["db:create_couchdb_yml"].invoke(user_name, password)
   end
 
   desc "Create/Copy couchdb.yml from cocuhdb.yml.example"
