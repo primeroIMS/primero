@@ -11,7 +11,7 @@ Feature: API Retrieve form sections
   Scenario: A logged in API user should be able to retrieve all published form sections
     When I send a GET request to "/published_form_sections"
     Then the JSON should be an array
-    Then the JSON at "0" should have the following:
+    Then the JSON at "1" should have the following:
       | order        | 1                |
       | perm_enabled | true             |
       | editable     | true             |
@@ -21,9 +21,9 @@ Feature: API Retrieve form sections
       | name/en        | "Basic Identity"                                                       |
       | description/en | "Basic identity information about a separated or unaccompanied child." |
 
-      | fields/14/display_name/en  | "Name"       |
-      | fields/14/type             | "text_field" |
-      | fields/14/visible          | true         |
-      | fields/14/name             | "name"       |
-      | fields/14/highlight_information/highlighted | true |
-      | fields/14/highlight_information/order       | 1    |
+      | fields/11/display_name/en  | "Name"       |
+      | fields/11/type             | "text_field" |
+      | fields/11/visible          | true         |
+      | fields/11/name             | "name"       |
+      | fields/11/highlight_information/highlighted | true |
+      | fields/11/highlight_information/order       | 1    |
