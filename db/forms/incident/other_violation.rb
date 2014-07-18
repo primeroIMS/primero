@@ -34,7 +34,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "other_violation",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 100,
+  :order => 110,
   "editable" => true,
   :fields => other_violation_fields,
   :perm_enabled => true,
