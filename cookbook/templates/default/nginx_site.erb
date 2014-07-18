@@ -15,16 +15,16 @@ server {
   passenger_ruby <%= @rvm_ruby_path %>;
 
   rails_env <%= @rails_env %>;
-  gzip on;
+  <!-- gzip on; -->
+  gzip_static on;
+  expires max;
+  add_header Cache-Control public;
+  
   gzip_disable "MSIE [1-6]\.";
   root <%= @current_path %>/public;
   access_log <%= @current_path %>/log/server.log;
   error_log <%= @current_path %>/log/error.log error;
   client_max_body_size 50M;
-
-  gzip_static on;
-  expires max;
-  add_header Cache-Control public;
 
   #Need to change this accordingly once we move to rails3.1
   location ~* ^/(images|javascripts|stylesheets)/ {

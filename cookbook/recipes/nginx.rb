@@ -8,9 +8,15 @@ apt_repository 'phusion-passenger' do
   key          '561F9B9CAC40B2F7'
 end
 
-%w(nginx-extras passenger).each do |pkg|
-  package pkg
+# %w(nginx-extras passenger).each do |pkg|
+#   package pkg
+# end
+
+package 'nginx-extras' do
+  options '--with-http_gzip_static_module'
 end
+
+package 'passenger'
 
 ssl_dir = ::File.join('/etc/nginx', 'ssl')
 directory ssl_dir do

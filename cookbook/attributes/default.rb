@@ -9,8 +9,8 @@ default[:primero].tap do |p|
   p[:app_group] = 'primero'
 
   p[:git].tap do |git|
-    git[:repo] = 'git@bitbucket.org:jtoliver/primero.git'
-    git[:revision] = 'Primero-285'
+    git[:repo] = 'git@bitbucket.org:quoin/primero.git'
+    git[:revision] = 'master'
   end
 
   p[:couchdb].tap do |c|
