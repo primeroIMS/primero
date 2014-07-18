@@ -172,7 +172,7 @@ When /^I check "([^"]*)" for "([^"]*)"(?: within "([^\"]*)")?$/ do |value, check
   check("#{checkbox_id}_#{value.dehumanize}")
 end
 
-When /^I select "([^"]*)" for "([^"]*)" radio button(?: within "([^\"]*)")?$/ do |value, radiobutton_name, scope|
+When /^I select "(.*)" for "(.*)" radio button(?: within "([^\"]*)")?$/ do |value, radiobutton_name, scope|
   scope ||= ""
   scope = "//fieldset[@id='#{scope.gsub("<Form>", "").strip.dehumanize}']" if scope.include?("<Form>")
   label = find "#{scope}//label", :text => radiobutton_name, :visible => true

@@ -74,7 +74,7 @@ When /^I cannot follow "([^\"]*)"(?: within "([^\"]*)")?$/ do |link, selector|
   exception.class.should==Capybara::ElementNotFound
 end
 
-When /^(?:|I )fill in "([^\"]*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field, value, selector|
+When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field, value, selector|
   if value.start_with?("<Date Range>")
       value = value.gsub("<Date Range>", "").strip
       label = find "//label", :text => field, :visible => true

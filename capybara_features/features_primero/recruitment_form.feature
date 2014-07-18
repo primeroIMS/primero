@@ -15,8 +15,7 @@ Feature: Recruitment Form
       | Number of victims: unknown | 3 |
       | Number of total victims    | 6 |
       | Forced vs. Voluntary       | <Radio> Forced |
-      #TODO current steps don't manage double quotes in fields name.
-      #| Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)? | <Radio> Yes |
+      | Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)? | <Radio> Yes |
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Conscription<Choose>Lack of Basic Services<Choose>Idealism |
       | Was this a case of re-recruitment (this does not necessarily have to be by the same armed group)? | <Radio> No |
       | Re-recruitment details | Some Details |
@@ -40,8 +39,7 @@ Feature: Recruitment Form
     And I should see a value for "Number of victims: unknown" on the show page with the value of "3"
     And I should see a value for "Number of total victims" on the show page with the value of "6"
     And I should see a value for "Forced vs. Voluntary" on the show page with the value of "Forced"
-    #TODO current steps don't manage double quotes in fields name.
-    #And I should see a value for "Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)?" on the show page with the value of "Yes"
+    And I should see a value for "Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)?" on the show page with the value of "Yes"
     And I should see a value for "What factors contributed towards the recruitment of the child by the armed group?" on the show page with the value of "Conscription, Lack of Basic Services, Idealism"
     And I should see a value for "Was this a case of re-recruitment (this does not necessarily have to be by the same armed group)?" on the show page with the value of "No"
     And I should see a value for "Re-recruitment details" on the show page with the value of "Some Details"
