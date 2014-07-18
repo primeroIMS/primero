@@ -42,6 +42,9 @@ gem 'chosen-rails',  '~> 1.1.0'
 
 gem 'rack-mini-profiler', require: false
 
+gem 'yui-compressor'
+gem 'closure-compiler'
+
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
   gem 'font-awesome-sass'

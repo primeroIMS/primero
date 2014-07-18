@@ -15,7 +15,7 @@ server {
   passenger_ruby <%= @rvm_ruby_path %>;
 
   rails_env <%= @rails_env %>;
-  gzip on;
+
   gzip_disable "MSIE [1-6]\.";
   root <%= @current_path %>/public;
   access_log <%= @current_path %>/log/server.log;
@@ -23,10 +23,11 @@ server {
   client_max_body_size 50M;
 
   #Need to change this accordingly once we move to rails3.1
-  location ~* ^/(images|javascripts|stylesheets)/ {
+  location ~* ^/(assets|images|javascripts|stylesheets)/ {
     # Per RFC2616 - 1 year maximum expiry
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
     expires 1y;
+    gzip_static on;
     add_header Cache-Control public;
 
     # Some browsers still send conditional-GET requests if there's a
