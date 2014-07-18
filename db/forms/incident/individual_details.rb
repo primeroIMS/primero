@@ -161,7 +161,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "individual_details",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 90,
+  :order => 120,
   "editable" => true,
   :fields => [Field.new({"name" => "individual_details_subform_section",
                          "type" => "subform", "editable" => true,
