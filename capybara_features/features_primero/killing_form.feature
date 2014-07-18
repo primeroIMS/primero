@@ -16,13 +16,14 @@ Feature: Killing Form
       | Number of total victims                                                                     | 6                                      |
       | Method                                                                                      | <Select> Summary                       |
       | Means                                                                                       | <Select> Option1                       |
-      | Cause of Death                                                                              | <Select> Torture                       |
-      | Circumstances of kiling                                                                     | <Select> Direct Attack                 |
-      | Consequence of killing                                                                      | <Select> Killing                       |
-      | Context of killing                                                                          | <Select> Weapon Used Against The Child |
+      | Cause                                                                                       | <Select> IED                           |
+      | Details                                                                                     | Some details                           |
+      | Circumstances                                                                               | <Select> Direct Attack                 |
+      | Consequences                                                                                | <Select> Killing                       |
+      | Context                                                                                     | <Select> Weapon Used Against The Child |
       | Mine Incident                                                                               | <Radio> No                             |
       | Was the victim/survivor directly participating in hostilities at the time of the violation? | <Select> Yes                           |
-      | Did the killing/maiming occur during or as a direct result of abduction?                    | <Select> Yes                           |
+      | Did the violation occur during or as a direct result of abduction?                          | <Select> Yes                           |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see a value for "Number of victims: boys" on the show page with the value of "1"
@@ -31,11 +32,12 @@ Feature: Killing Form
     And I should see a value for "Number of total victims" on the show page with the value of "6"
     And I should see a value for "Method" on the show page with the value of "Summary"
     And I should see a value for "Means" on the show page with the value of "Option1"
-    And I should see a value for "Cause of Death" on the show page with the value of "Torture"
-    And I should see a value for "Circumstances of kiling" on the show page with the value of "Direct Attack"
-    And I should see a value for "Consequence of killing" on the show page with the value of "Killing"
-    And I should see a value for "Context of killing" on the show page with the value of "Weapon Used Against The Child"
+    And I should see a value for "Cause" on the show page with the value of "IED"
+    And I should see a value for "Details" on the show page with the value of "Some details"
+    And I should see a value for "Circumstances" on the show page with the value of "Direct Attack"
+    And I should see a value for "Consequences" on the show page with the value of "Killing"
+    And I should see a value for "Context" on the show page with the value of "Weapon Used Against The Child"
     And I should see a value for "Mine Incident" on the show page with the value of "No"
     And I should see a value for "Was the victim/survivor directly participating in hostilities at the time of the violation?" on the show page with the value of "Yes"
-    And I should see a value for "Did the killing/maiming occur during or as a direct result of abduction?" on the show page with the value of "Yes"
+    And I should see a value for "Did the violation occur during or as a direct result of abduction?" on the show page with the value of "Yes"
 
