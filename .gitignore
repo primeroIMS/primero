@@ -46,3 +46,6 @@ coverage/
 spec/reports/
 capybara_features/reports/
 .ruby-gemset
+
+jmeter/logs/
+jmeter/*.log
