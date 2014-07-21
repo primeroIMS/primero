@@ -117,10 +117,6 @@ execute_with_ruby 'bundle-install' do
   cwd node[:primero][:app_dir]
 end
 
-execute_bundle 'setup-db-admin' do
-  command "rake db:create_couch_sysadmin[#{node[:primero][:couchdb][:username]},#{node[:primero][:couchdb][:password]}]"
-end
-
 template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   source 'couch_config.yml.erb'
   variables({
