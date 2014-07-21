@@ -1,6 +1,6 @@
 # JIRA PRIMERO-320
 
-Feature: Attack on Schools Form
+Feature: Source Form
   As a User, I want to add details about the source of the information so that we can verify the details of the incident
 
   @javascript @primero
