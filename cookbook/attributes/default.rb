@@ -16,11 +16,19 @@ default[:primero].tap do |p|
   p[:couchdb].tap do |c|
     c[:host] = 'localhost'
     c[:username] = 'primero'
-    c[:bind_address] = '127.0.0.1'
   end
 
   p[:solr_url] = 'http://localhost:8983/solr'
   p[:local_solr_port] = 8983
+end
+
+
+default[:couchdb].tap do |db|
+  db[:config].tap do |conf|
+    conf[:httpd].tap do |httpd|
+      httpd[:bind_address] = '127.0.0.1'
+    end
+  end
 end
 
 default[:rvm].tap do |rvm|
