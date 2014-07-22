@@ -9,6 +9,9 @@ Your OS might have a package available for you to install.  Otherwise, you will
 need to follow the [installation
 instructions](http://jmeter.apache.org/usermanual/get-started.html#install).
 
+You will also need the [`jmeter-plugins`](http://jmeter-plugins.org/home/)
+library to enhance things a bit.  Try a package or install it manually.
+
 ## Running tests
 You can specify parameters (they are called *properties* in the JMeter
 lingo) at the command line when running JMeter to tell it which host you want
@@ -26,10 +29,37 @@ As you can see, the properties default to testing against your local VM Nginx
 instance.  Therefore, you should make sure that any code you are trying to test
 is on Nginx, and not only on the Rails dev server.
 
-You specify the properties with the `-J` flag to JMeter.  So if you
-want to run the tests against the QA server, you would do:
+You specify the properties with the `-J` flag to JMeter.  So if you want to
+start up the JMeter GUI using the QA server, you would do:
 
 ```bash
     primero/jmeter$ jmeter -Jhost=primero-qa.quoininc.com -Jport=443 primero.jmx
 ```
+
+### No GUI
+To run the tests without a GUI, you can do something like the following:
+
+```bash
+    primero/jmeter$ jmeter -n -t primero.jmx
+```
+
+You can specify properties as above.  The log will output to `jmeter.log` in
+the same dir and the output JTL will go in the `logs` folder.
+
+### Generate Aggregate Stats
+To make useful comparisons between test runs, you can convert the XML output
+from the test run to a simple CSV format that gives aggregate statistics for
+each of the pages under test.  This is very useful for creating overlay graphs
+to compare two test runs to see if your changes have made any significant
+difference.  The JMeter Plugins project provides a nice tool to do this
+conversion:
+
+```bash
+    primero/jmeter$ java -jar /path/to/CMDRunner.jar --tool Reporter --generate-csv agg1.csv \
+      --plugin-type AggregateReport --input-jtl logs/core_<time stamp>.jtl
+```
+
+You will need to find where the `CMDRunner.jar` library is installed on your
+system and replace that path, as well as get the time stamp for the latest
+JMeter test run to know which jtl file to use.
 
