@@ -1,7 +1,9 @@
+#JIRA PRIMERO-338
+
+@javascript @primero
 Feature: Incident change log
   Test weather each incident has a proper change log attached to it.
 
-  @javascript @primero
   Scenario: Validate incident creating and initial setting of field
     Given I am logged in as an admin with username "primero" and password "primero"
     And the following incidents exist in the system:
