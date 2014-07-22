@@ -13,6 +13,15 @@ basic_identity_fields = [
              "type" => "date_field", 
              "display_name_all" => "Date of Registration or Interview"
             }),
+  Field.new({"name" => "child_status",
+             "type" =>"select_box" ,
+             "display_name_all" => "Case Status",
+             "option_strings_text_all" => 
+                          ["Open",
+                           "Closed ",
+                           "Transferred",
+                           "Duplicate"].join("\n")
+            }),
   Field.new({"name" => "other_agency_id",
             "type" => "text_field",
             "display_name_all" => "Other Agency ID"
@@ -352,17 +361,6 @@ basic_identity_fields = [
   Field.new({"name" => "un_no",
             "type" => "text_field",
             "display_name_all" => "UN Number"
-            }),
-  Field.new({"name" => "child_status",
-             "type" =>"select_box" ,
-             "display_name_all" => "Status",
-             "option_strings_text_all" => 
-                          ["IDP",
-                           "Refugee",
-                           "Community",
-                           "Institution",
-                           "Other",
-                           "Unknown"].join("\n")
             }),
   Field.new({"name" => "unaccompanied_separated_status",
              "type" =>"check_boxes" ,

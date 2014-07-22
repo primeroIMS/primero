@@ -60,6 +60,7 @@ class ChildrenController < ApplicationController
     @child = Child.new
     @child.registration_date = DateTime.now.strftime("%d-%b-%Y")
     @child['record_state'] = ["Valid record"]
+    @child['child_status'] = ["Open"]
     respond_to do |format|
       format.html
       format.xml { render :xml => @child }
@@ -81,6 +82,7 @@ class ChildrenController < ApplicationController
     create_or_update_child(params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
     @child['created_by_full_name'] = current_user_full_name
+    @child['child_status'] = "Open" if @child['child_status'].blank?
 
     respond_to do |format|
       if @child.save
@@ -136,6 +138,8 @@ class ChildrenController < ApplicationController
 
       format.html do
         @child = update_child_from params
+        @child['child_status'] = "Open" if @child['child_status'].blank?
+
         if @child.save
           flash[:notice] = I18n.t("case.messages.update_success")
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
