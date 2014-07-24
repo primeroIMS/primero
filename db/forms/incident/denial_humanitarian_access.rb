@@ -132,7 +132,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "denial_humanitarian_access",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 90,
+  :order => 100,
   "editable" => true,
   :fields => denial_humanitarian_access_fields,
   :perm_enabled => true,

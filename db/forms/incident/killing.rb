@@ -130,7 +130,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "killing",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 30,
+  :order => 40,
   "editable" => true,
   :fields => killing_fields,
   :perm_enabled => true,
