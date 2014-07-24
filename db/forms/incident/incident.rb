@@ -161,7 +161,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "incident_form",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 1,
+  :order => 30,
   :fields => incident_fields,
   :perm_visible => true,
   :is_first_tab => true,

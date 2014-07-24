@@ -160,7 +160,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "attack_on_schools",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 70,
+  :order => 80,
   "editable" => true,
   :fields => attack_on_schools_fields,
   :perm_enabled => true,

@@ -123,7 +123,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "maiming",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 40,
+  :order => 50,
   "editable" => true,
   :fields => maiming_fields,
   :perm_enabled => true,

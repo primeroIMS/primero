@@ -135,7 +135,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "sexual_violence",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 60,
+  :order => 70,
   "editable" => true,
   :fields => violations_sexual_violence_fields,
   :perm_enabled => true,

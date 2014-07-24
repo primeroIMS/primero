@@ -177,7 +177,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "recruitment",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 50,
+  :order => 60,
   "editable" => true,
   :fields => recruitment_fields,
   :perm_enabled => true,

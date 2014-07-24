@@ -132,7 +132,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "perpetrators_form",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 150,
+  :order => 180,
   "editable" => true,
   :fields => perpetrator_fields,
   :perm_enabled => true,
