@@ -17,6 +17,7 @@ class FormSection < CouchRest::Model::Base
   property :is_nested, TrueClass, :default => false
   property :is_first_tab, TrueClass, :default => false
   property :initial_subforms, Integer, :default => 0
+  property :collapsed_fields, [String], :default => []
 
   design do
     view :by_unique_id
@@ -100,6 +101,16 @@ class FormSection < CouchRest::Model::Base
       form_section.attributes = properties
       form_section.save
       form_section
+    end
+  end
+
+  #Returns the list of field names to show in collapsed subforms.
+  #If there is no list defined, it will returns the first one of the fields.
+  def collapsed_list
+    if self.collapsed_fields.empty?
+      [self.fields.select {|field| field.visible? }.first.name]
+    else
+      self.collapsed_fields
     end
   end
 

@@ -11,6 +11,7 @@
     <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+      <% collapsed_fields = subform_section.collapsed_list %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
         <%= render partial: "form_section/#{field.type}",
                    object: field,
@@ -19,6 +20,16 @@
                      formObject: formObject
                    }
         %>
+        <% if collapsed_fields.include?(field.name) %>
+        <% #Add the placeholder of the collapsed fields %>
+        <%= render partial: "form_section/field_static_#{field.display_type}",
+                   object: field,
+                   locals: { field: field, 
+                             field_keys: [subform.name, i.to_s, field.name],
+                             formObject: formObject
+                           }
+        %>
+        <% end %>
       <% end %>
       <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", data: { message: t('fields.subform_remove_message') }%>
       </fieldset>
@@ -33,6 +44,7 @@
         <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %></span>
       </h5>
     <%# TODO: Render the individual fields %>
+    <% collapsed_fields = subform_section.collapsed_list %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
       <%= render partial: "form_section/#{field.type}",
                  object: field,
@@ -42,6 +54,17 @@
                    formObject: formObject
                  }
       %>
+      <% if collapsed_fields.include?(field.name) %>
+        <% #Add the placeholder of the collapsed fields %>
+        <%= render partial: "form_section/field_static_#{field.display_type}",
+                   object: field,
+                   locals: { field: field, 
+                             field_keys: [subform.name, 'template', field.name],
+                             formObject: formObject,
+                             value: "???"
+                           }
+        %>
+      <% end %>
     <% end %>
     <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", data: { message: t('fields.subform_remove_message') } %>
     </fieldset>
