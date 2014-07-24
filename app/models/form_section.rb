@@ -274,7 +274,7 @@ class FormSection < CouchRest::Model::Base
   end
 
   def validate_unique_name
-  unique = FormSection.all.all? { |f| id == f.id || name == nil || name.empty? || name!= f.name }
+  unique = FormSection.all.all? { |f| id == f.id || name == nil || name.empty? || name!= f.name || parent_form != f.parent_form }
   unique || errors.add(:name, I18n.t("errors.models.form_section.unique_name", :name => name))
   end
 
