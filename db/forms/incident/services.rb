@@ -385,7 +385,7 @@ services_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "services",
+  :unique_id => "incident_services",
   :parent_form=>"incident",
   "visible" => true,
   :order => 150,
