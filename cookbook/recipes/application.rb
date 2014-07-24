@@ -68,7 +68,19 @@ sudo "#{node[:primero][:app_user]}-rvm" do
   commands  ['/usr/bin/apt-get', '/usr/bin/env']
 end
 
-include_recipe 'rvm::user'
+include_recipe 'rvm::user_install'
+
+railsexpress_patch_setup 'prod' do
+  user node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
+execute_with_ruby 'prod-ruby' do
+  command <<-EOH
+    rvm install #{node[:primero][:rvm_install_args]}
+  EOH
+end
+
 # Run a `git reset` before this step??
 git node[:primero][:app_dir] do
   repository node[:primero][:git][:repo]
