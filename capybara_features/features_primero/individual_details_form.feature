@@ -1,5 +1,6 @@
 # JIRA PRIMERO-268
 # JIRA PRIMERO-316
+#JIRA PRIMERO-160
 
 @javascript @primero
 Feature: Individual Details Form
@@ -50,6 +51,7 @@ Feature: Individual Details Form
       | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?                                                                           | No                  |
     And I should see 1 subform on the show page for "Individual Detail"
     And I press the "Edit" button
+    And I expanded the 1st "Individual Details Subform Section" subform
     And I select "No" for "Is the age estimated?" radio button
     And I press "Save"
     And I should see in the 1st "Individual Detail" subform with the follow:
