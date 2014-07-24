@@ -23,14 +23,6 @@ maiming_subform_fields = [
                                      "Non-Victim Activated",
                                      "Summary"].join("\n")
             }),
-  Field.new({"name" => "maim_means",
-             "type" => "select_box",
-             "display_name_all" => "Means",
-             "option_strings_text_all" =>
-                                    ["Option 1",
-                                     "Option 2",
-                                     "Option 3"].join("\n")
-            }),
   Field.new({"name" => "maim_cause_of",
              "type" => "select_box",
              "display_name_all" => "Cause",
