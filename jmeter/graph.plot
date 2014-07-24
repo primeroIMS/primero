@@ -13,5 +13,5 @@ set xtic scale 0
 set xtics rotate out
 set datafile separator ","
 
-plot 'agg1.csv' using "average":xticlabels(1) title "First Run", \
-     'agg2.csv' using "average":xticlabels(1) title "Second Run"
+plot agg1_file using "average":xticlabels(1) title agg1_title, \
+     agg2_file using "average":xticlabels(1) title agg2_title

@@ -13,8 +13,8 @@
     <hashTree>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="SCRIPT_DIR" elementType="Argument">
-            <stringProp name="Argument.name">SCRIPT_DIR</stringProp>
+          <elementProp name="script_dir" elementType="Argument">
+            <stringProp name="Argument.name">script_dir</stringProp>
             <stringProp name="Argument.value">${__BeanShell(import org.apache.jmeter.services.FileServer; FileServer.getFileServer().getBaseDir();)}${__BeanShell(File.separator,)}</stringProp>
             <stringProp name="Argument.desc">Path of the current JMX file</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
@@ -34,15 +34,38 @@
             <stringProp name="Argument.value">${__P(port, 8443)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="BASE_URL" elementType="Argument">
-            <stringProp name="Argument.name">BASE_URL</stringProp>
+          <elementProp name="output_xml_path" elementType="Argument">
+            <stringProp name="Argument.name">output_xml_path</stringProp>
+            <stringProp name="Argument.value">logs/${__P(logfile_base, ${__time(yyyyMMdd-HHmmss)})}.jtl</stringProp>
+            <stringProp name="Argument.desc">Base filename, without extension, for the log file</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="loop_count" elementType="Argument">
+            <stringProp name="Argument.name">loop_count</stringProp>
+            <stringProp name="Argument.value">${__P(loop_count, 10)}</stringProp>
+            <stringProp name="Argument.desc">Number of repetitions</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="user_count" elementType="Argument">
+            <stringProp name="Argument.name">user_count</stringProp>
+            <stringProp name="Argument.value">${__P(user_count, 5)}</stringProp>
+            <stringProp name="Argument.desc">The # of simultaneous users</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Derived User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="base_url" elementType="Argument">
+            <stringProp name="Argument.name">base_url</stringProp>
             <stringProp name="Argument.value">${protocol}://${host}:${port}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="OUTPUT_XML_PATH" elementType="Argument">
-            <stringProp name="Argument.name">OUTPUT_XML_PATH</stringProp>
-            <stringProp name="Argument.value">logs/core_${__time(yyyyMMdd-HHmmss)}.jtl</stringProp>
-            <stringProp name="Argument.desc">Output path for the xml results</stringProp>
+          <elementProp name="ramp_up_time" elementType="Argument">
+            <stringProp name="Argument.name">ramp_up_time</stringProp>
+            <stringProp name="Argument.value">${__P(ramp_up_time, ${__javaScript(&apos;${user_count}&apos; * 5)})}</stringProp>
+            <stringProp name="Argument.desc">The ramp up time to get all the users started</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -91,10 +114,10 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">20</stringProp>
+          <stringProp name="LoopController.loops">${loop_count}</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">5</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">15</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${user_count}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${ramp_up_time}</stringProp>
         <longProp name="ThreadGroup.start_time">1405710016000</longProp>
         <longProp name="ThreadGroup.end_time">1405710016000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -106,6 +129,12 @@
           <collectionProp name="CookieManager.cookies"/>
           <boolProp name="CookieManager.clearEachIteration">true</boolProp>
         </CookieManager>
+        <hashTree/>
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
+          <boolProp name="displayJMeterProperties">false</boolProp>
+          <boolProp name="displayJMeterVariables">true</boolProp>
+          <boolProp name="displaySystemProperties">false</boolProp>
+        </DebugSampler>
         <hashTree/>
         <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Login" enabled="true">
           <collectionProp name="ModuleController.node_path">
@@ -186,7 +215,7 @@
             <url>true</url>
           </value>
         </objProp>
-        <stringProp name="filename">${OUTPUT_XML_PATH}</stringProp>
+        <stringProp name="filename">${output_xml_path}</stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph" enabled="true">

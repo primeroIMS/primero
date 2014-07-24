@@ -24,6 +24,12 @@ tests).  The currently available properties are:
    always be *https*.
  * **port** (Default: `8443`): The port to use for the host above (should be
    `443` for normal server setups, like QA/UAT)
+ * **user_count** (Default: `5`): The number of simultaneous users to launch
+ * **loop_count** (Default: `10`): How many times for each user to repeat the test
+ * **logfile_base** (Default: current timestamp): The basename (without
+   extension) of the log file that JMeter will write in the `logs/` folder in
+   this directory.  This is useful to describe any test metadata, as it is not
+   saved elsewhere.
 
 As you can see, the properties default to testing against your local VM Nginx
 instance.  Therefore, you should make sure that any code you are trying to test
@@ -61,5 +67,11 @@ conversion:
 
 You will need to find where the `CMDRunner.jar` library is installed on your
 system and replace that path, as well as get the time stamp for the latest
-JMeter test run to know which jtl file to use.
+JMeter test run to know which JTL file to use.
 
+### Using the plot.sh script
+
+This script will plot the average response time for each page for two different
+test runs, side-by-side.  Just pass the script the path to the two JTL files
+you want to compare.  You might have to specify the path of the JMeter Plugins
+`CMDRunner.jar` library with the `CMD_RUNNER_JAR` envvar.
