@@ -114,6 +114,21 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
   end
 end
 
+And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  #Check visibility of the regular inputs.
+  divs = page.all :xpath, "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']//div[@class='row']"
+  divs.each do |div|
+    div.visible?.should == (state == 'collapsed' ? false : true)
+  end
+  #Check visibility of the static text placeholder.
+  divs = page.all :xpath, "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']//div[@class='row row-static-text']"
+  divs.each do |div|
+    div.visible?.should == (state == 'collapsed' ? true : false)
+  end
+end
+
 And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
   page.should have_selector(:xpath, "//fieldset[@class='subform no-border']//h5[#{num}]//label[@class='key']", :text => subform)
   page.should_not have_selector(:xpath, "//fieldset[@class='subform no-border']//h5[#{num.to_i + 1}]//label[@class='key']", :text => subform)
@@ -121,6 +136,14 @@ end
 
 And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   step %Q{I add a "#{subform}" subform}
+  update_subforms_field(num, subform, fields)
+end
+
+And /^I update in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
+  update_subforms_field(num, subform, fields)
+end
+
+def update_subforms_field(num, subform, fields)
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   scope = "//div[@id='subform_container#{subform}_#{num}']"
@@ -142,6 +165,29 @@ And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |n
       end
     end
   end
+end
+
+Then /^I should see static field in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  scope = "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']"
+  fields.rows_hash.each do |name, value|
+    label_field = find(scope + "//label[@class='key' and text()='#{name}']")
+    static_field_id = label_field["for"] + "_static_text"
+    find(scope + "//span[@id='#{static_field_id}']", :text => value)
+  end
+end
+
+And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  xpath = "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']"
+  if state == "expanded"
+    xpath += "//div[@class='row row-static-text']//span[contains(@class, 'collapse_expand_subform')]"
+  elsif state == "collapsed"
+    xpath += "//div[@class='row']//span[contains(@class, 'collapse_expand_subform')]"
+  end
+  find(xpath).click
 end
 
 And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
@@ -436,6 +482,16 @@ Given /^the "([^\"]*)" form section has the field "([^\"]*)" hidden$/ do |form_s
   form_section = FormSection.get_by_unique_id(form_section.downcase.gsub(/\s/, "_"))
   field = Field.new(:name => field_name.dehumanize, :display_name => field_name, :visible => false)
   FormSection.add_field_to_formsection(form_section, field)
+end
+
+Given /^I update collapsed fields "(.*?)" subform with:$/ do |subform_section_id, fields_name|
+  sub_form_section = FormSection.get_by_unique_id(subform_section_id)
+  values = []
+  fields_name.raw.flatten.each do |value|
+    values << value
+  end
+  sub_form_section['collapsed_fields'] = values
+  sub_form_section.save
 end
 
 Then /^I should see errors$/ do
