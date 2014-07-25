@@ -1,4 +1,4 @@
-other_violation_fields = [
+other_violation_section_fields = [
   Field.new({"name" => "violation_other_type",
              "type" => "select_box",
              "display_name_all" => "Other Violation Type",
@@ -28,6 +28,32 @@ other_violation_fields = [
              "type" => "numeric_field", 
              "display_name_all" => "Number of total victims"
             })
+]
+
+other_violation_section = FormSection.create_or_update_form_section({
+  :unique_id => "other_violation_section",
+  :parent_form=>"incident",
+  "visible" => false,
+  "is_nested" => true,
+  :order => 1,
+  "editable" => true,
+  :fields => other_violation_section_fields,
+  :perm_enabled => false,
+  :perm_visible => false,
+  "name_all" => "Nested Other Violations",
+  "description_all" => "Other Violations Subform",
+  :initial_subforms => 1
+})
+
+other_violation_fields = [
+  ##Subform##
+  Field.new({"name" => "other_violation_section",
+             "type" => "subform", 
+             "editable" => true,
+             "subform_section_id" => other_violation_section.id,
+             "display_name_all" => "Other Violations"
+            }),
+  ##Subform##
 ]
 
 FormSection.create_or_update_form_section({

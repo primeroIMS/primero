@@ -1,5 +1,6 @@
 #JIRA PRIMERO-310
 #JIRA PRIMERO-341
+#JIRA PRIMERO-333
 
 @javascript @primero
 Feature: Attack on Schools Form
@@ -43,32 +44,34 @@ Feature: Attack on Schools Form
       | For How Long? (Days)                              | 100                                         |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see a value for "Number of Sites Attacked" on the show page with the value of "50"
-    And I should see a value for "Type of Attack On Site" on the show page with the value of "Direct Attack on students/teachers"
-    And I should see a value for "Type of School" on the show page with the value of "Early Childhood"
-    And I should see a value for "Classification" on the show page with the value of "Formal"
-    And I should see a value for "Religious or secular school?" on the show page with the value of "Religious"
-    And I should see a value for "Details" on the show page with the value of "Details about the attack"
-    And I should see a value for "School Name" on the show page with the value of "The School name under attack"
-    And I should see a value for "Number of Students" on the show page with the value of "1000"
-    And I should see a value for "Sex Of Students" on the show page with the value of "Mixed"
-    And I should see a value for "Number of Boys Killed" on the show page with the value of "100"
-    And I should see a value for "Number of Girls Killed" on the show page with the value of "101"
-    And I should see a value for "Number of Unknown Children Killed" on the show page with the value of "102"
-    And I should see a value for "Total Children Killed" on the show page with the value of "303"
-    And I should see a value for "Number of Boys Injured" on the show page with the value of "103"
-    And I should see a value for "Number of Girls Injured" on the show page with the value of "104"
-    And I should see a value for "Number of Unknown Children Injured" on the show page with the value of "105"
-    And I should see a value for "Total Children Injured" on the show page with the value of "312"
-    And I should see a value for "Number of Staff Killed" on the show page with the value of "106"
-    And I should see a value for "Number of Staff Injured" on the show page with the value of "107"
-    And I should see a value for "Number of Other Adults Killed" on the show page with the value of "108"
-    And I should see a value for "Number of Other Adults Injured" on the show page with the value of "109"
-    And I should see a value for "Number of Children Affected by Service Disruption" on the show page with the value of "615"
-    And I should see a value for "Number of Adults Affected by Service Disruption" on the show page with the value of "500"
-    And I should see a value for "Number of Children Recruited During Attack" on the show page with the value of "400"
-    And I should see a value for "What organization manages this facility?" on the show page with the value of "Government"
-    And I should see a value for "What was the main objective of the "attack"?" on the show page with the value of "main objective of the attack"
-    And I should see a value for "Physical Impact of Attack" on the show page with the value of "Total Destruction"
-    And I should see a value for "Was Facility Closed As A Result?" on the show page with the value of "No"
-    And I should see a value for "For How Long? (Days)" on the show page with the value of "100"
+    And I should see 1 subform on the show page for "Attack on School"
+    And I should see in the 1st "Attack on School" subform with the follow:
+      | Number of Sites Attacked                          | 50                                 |
+      | Type of Attack On Site                            | Direct Attack on students/teachers |
+      | Type of School                                    | Early Childhood                    |
+      | Classification                                    | Formal                             |
+      | Religious or secular school?                      | Religious                          |
+      | Details                                           | Details about the attack           |
+      | School Name                                       | The School name under attack       |
+      | Number of Students                                | 1000                               |
+      | Sex Of Students                                   | Mixed                              |
+      | Number of Boys Killed                             | 100                                |
+      | Number of Girls Killed                            | 101                                |
+      | Number of Unknown Children Killed                 | 102                                |
+      | Total Children Killed                             | 303                                |
+      | Number of Boys Injured                            | 103                                |
+      | Number of Girls Injured                           | 104                                |
+      | Number of Unknown Children Injured                | 105                                |
+      | Total Children Injured                            | 312                                |
+      | Number of Staff Killed                            | 106                                |
+      | Number of Staff Injured                           | 107                                |
+      | Number of Other Adults Killed                     | 108                                |
+      | Number of Other Adults Injured                    | 109                                |
+      | Number of Children Affected by Service Disruption | 615                                |
+      | Number of Adults Affected by Service Disruption   | 500                                |
+      | Number of Children Recruited During Attack        | 400                                |
+      | What organization manages this facility?          | Government                         |
+      | What was the main objective of the "attack"?      | main objective of the attack       |
+      | Physical Impact of Attack                         | Total Destruction                  |
+      | Was Facility Closed As A Result?                  | No                                 |
+      | For How Long? (Days)                              | 100                                |
