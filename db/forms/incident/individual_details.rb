@@ -88,7 +88,7 @@ individual_details_fields = [
             }),
   Field.new({"name" => "child_consent_data_sharing",
              "type" => "select_box",
-             "display_name_all" => "With whom is the child and/or adult caregive willing to share their name and other personal details?",
+             "display_name_all" => "With whom is the child and/or adult caregiver willing to share their name and other personal details?",
              "option_strings_text_all" =>
                           ["Anonymous",
                            "Agency Only",

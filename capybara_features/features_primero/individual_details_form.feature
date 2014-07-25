@@ -1,6 +1,7 @@
 # JIRA PRIMERO-268
 # JIRA PRIMERO-316
 #JIRA PRIMERO-160
+#JIRA PRIMERO-360
 
 @javascript @primero
 Feature: Individual Details Form
@@ -22,7 +23,7 @@ Feature: Individual Details Form
     And I select "Country1" from "Country of Origin"
     And I select "Resident" from "Displacement Status at time of report"
     And I select "Both Parents" from "What were the care arrangements for the child at the time of the incident/violation(s)?"
-    And I select "Anonymous" from "With whom is the child and/or adult caregive willing to share their name and other personal details?"
+    And I select "Anonymous" from "With whom is the child and/or adult caregiver willing to share their name and other personal details?"
     And I select "No" for "Is the child and/or adult caregiver willing to be contacted again about the violations?" radio button
     And I select "Yes" for "Does the Child/Adult Caregiver consent to their personal details being passed to another humanitarian agency willing and able to provide long term support?" radio button
     And I select "Yes" for "Should a case be created for this child to receive further services?" radio button
@@ -42,7 +43,7 @@ Feature: Individual Details Form
       | Country of Origin                                                                                                                                           | Country1            |
       | Displacement Status at time of report                                                                                                                       | Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
-      | With whom is the child and/or adult caregive willing to share their name and other personal details?                                                        | Anonymous           |
+      | With whom is the child and/or adult caregiver willing to share their name and other personal details?                                                       | Anonymous           |
       | Is the child and/or adult caregiver willing to be contacted again about the violations?                                                                     | No                  |
       | Does the Child/Adult Caregiver consent to their personal details being passed to another humanitarian agency willing and able to provide long term support? | Yes                 |
       | Should a case be created for this child to receive further services?                                                                                        | Yes                 |
@@ -65,7 +66,7 @@ Feature: Individual Details Form
       | Country of Origin                                                                                                                                           | Country1            |
       | Displacement Status at time of report                                                                                                                       | Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
-      | With whom is the child and/or adult caregive willing to share their name and other personal details?                                                        | Anonymous           |
+      | With whom is the child and/or adult caregiver willing to share their name and other personal details?                                                       | Anonymous           |
       | Is the child and/or adult caregiver willing to be contacted again about the violations?                                                                     | No                  |
       | Does the Child/Adult Caregiver consent to their personal details being passed to another humanitarian agency willing and able to provide long term support? | Yes                 |
       | Should a case be created for this child to receive further services?                                                                                        | Yes                 |
