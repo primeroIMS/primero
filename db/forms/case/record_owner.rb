@@ -16,7 +16,7 @@ record_owner_fields = [
           }),
   Field.new({"name" => "social_worker",
              "type" =>"select_box" ,
-             "display_name_all" => "Social Worker",
+             "display_name_all" => "Caseworker Code",
              "option_strings_text_all" => 
                           ["Social Worker 1",
                            "Social Worker 2",
