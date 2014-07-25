@@ -193,7 +193,7 @@ end
 And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+  within(:xpath, "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']") do
     step %Q{I press the "Remove" button}
   end
 end
