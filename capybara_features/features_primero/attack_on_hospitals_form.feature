@@ -1,5 +1,6 @@
 #JIRA PRIMERO-298
 #JIRA PRIMERO-345
+#JIRA PRIMERO-334
 
 @javascript @primero
 Feature: Attack on Hospitals Form
