@@ -16,31 +16,7 @@ module RecordActions
   end
 
   def get_form_sections
-    all_forms = FormSection.find_by_parent_form(@className.parent_form)
-
-    #Load in all the subforms
-    #TODO: the subform load code should probably be just moved to the model record concern
-    #      and invoked via the find_* methods
-    @form_sections = []
-    subforms_hash = {}
-
-    all_forms.each do |form|
-      if form.visible?
-        @form_sections.push form
-      else
-        subforms_hash[form.id] = form
-      end
-    end
-
-    #TODO: The map{}.flatten still takes 13 ms to run
-    @form_sections.map{|f| f.fields}.flatten.each do |field|
-      if field.type == 'subform' && field.subform_section_id
-        field.subform ||= subforms_hash[field.subform_section_id]
-      end
-    end
-
-    return @form_sections
-
+    @form_sections = FormSection.find_by_parent_form_with_subforms(@className.parent_form)
   end
 
 end

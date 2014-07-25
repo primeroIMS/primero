@@ -133,6 +133,31 @@ class FormSection < CouchRest::Model::Base
   def self.find_by_parent_form parent_form
     by_parent_form(:key => parent_form).sort_by{|e| e[:order]}
   end
+  
+  #TODO - can this be done more efficiently?
+  def self.find_by_parent_form_with_subforms parent_form
+    all_forms = self.find_by_parent_form(parent_form)
+    
+    form_sections = []
+    subforms_hash = {}
+
+    all_forms.each do |form|
+      if form.visible?
+        form_sections.push form
+      else
+        subforms_hash[form.id] = form
+      end
+    end
+
+    #TODO: The map{}.flatten still takes 13 ms to run
+    form_sections.map{|f| f.fields}.flatten.each do |field|
+      if field.type == 'subform' && field.subform_section_id
+        field.subform ||= subforms_hash[field.subform_section_id]
+      end
+    end
+    
+    return form_sections
+  end
 
 
   def self.add_field_to_formsection formsection, field
