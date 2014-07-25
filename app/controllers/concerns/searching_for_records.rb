@@ -1,7 +1,9 @@
+#TODO: Child and Incidents dont use the search method in this concern. Either refactor or completely get rid of all this.
+
 module SearchingForRecords
   extend ActiveSupport::Concern
-  
-  
+
+
   def search
     authorize! :index, @className
 
@@ -16,9 +18,9 @@ module SearchingForRecords
     end
     default_search_respond_to
   end
-  
+
   private
-  
+
   def search_by_user_access(page_number = 1)
     if can? :view_all, @className
       @results, @full_results = @className.search(@search, page_number)
@@ -26,7 +28,7 @@ module SearchingForRecords
       @results, @full_results = @className.search_by_created_user(@search, current_user_name, page_number)
     end
   end
-  
+
   def default_search_respond_to
     respond_to do |format|
       format.html do
@@ -39,7 +41,7 @@ module SearchingForRecords
       respond_to_export format, @results
     end
   end
-  
+
   def redirect_to_show_page
     #TODO - is there a better way to do this?
     if "Child" == @className.name
@@ -48,5 +50,5 @@ module SearchingForRecords
       redirect_to incident_path @results.first
     end
   end
-  
+
 end
