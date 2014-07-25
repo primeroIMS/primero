@@ -30,7 +30,7 @@
     var el=$(this), password=el.data("password"), href=el.attr("original-href");
     if (password == null || password == undefined || password == "") {
       password = prompt("Enter password");
-      el.attr("href", href + (href.indexOf("?") == -1 ? "?" : "") + "&password=" + escape(password);
+      el.attr("href", href + (href.indexOf("?") == -1 ? "?" : "") + "&password=" + escape(password));
     }
   });
 </script>
