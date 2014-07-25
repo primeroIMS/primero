@@ -222,6 +222,13 @@ And /^the value of "(.*)" should be "(.*)"$/ do |field, value|
   field_labeled(field).value.should =~ /#{value}/
 end
 
+And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
+  within(:xpath, "//tr[contains(.,'#{record}')]") do
+    find(:xpath, "//td/i[@class='fa-#{icon}']")
+  end
+end
+
+
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
 #////////////////////////////////////////////////////////////////
