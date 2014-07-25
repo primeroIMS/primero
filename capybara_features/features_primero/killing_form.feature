@@ -16,7 +16,6 @@ Feature: Killing Form
       | Number of victims: unknown                                                                  | 3                                      |
       | Number of total victims                                                                     | 6                                      |
       | Method                                                                                      | <Select> Summary                       |
-      | Means                                                                                       | <Select> Option1                       |
       | Cause                                                                                       | <Select> IED                           |
       | Details                                                                                     | Some details                           |
       | Circumstances                                                                               | <Select> Direct Attack                 |
@@ -34,7 +33,6 @@ Feature: Killing Form
       | Number of victims: unknown                                                                  | 3                             |
       | Number of total victims                                                                     | 6                             |
       | Method                                                                                      | Summary                       |
-      | Means                                                                                       | Option1                       |
       | Cause                                                                                       | IED                           |
       | Details                                                                                     | Some details                  |
       | Circumstances                                                                               | Direct Attack                 |
