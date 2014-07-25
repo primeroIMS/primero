@@ -7,6 +7,8 @@ class FormSection < CouchRest::Model::Base
   property :parent_form
   property :visible, TrueClass, :default => true
   property :order, Integer
+  property :order_form_group, Integer
+  property :order_subform, Integer
   property :fields, [Field]
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false
@@ -127,11 +129,11 @@ class FormSection < CouchRest::Model::Base
   end
 
   def self.find_all_visible_by_parent_form parent_form
-    by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| e[:order]}
+    by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
   end
 
   def self.find_by_parent_form parent_form
-    by_parent_form(:key => parent_form).sort_by{|e| e[:order]}
+    by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
   end
   
   #TODO - can this be done more efficiently?
@@ -171,6 +173,7 @@ class FormSection < CouchRest::Model::Base
     all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
   end
 
+  #TODO -RSE- see how this is affected by order_form_group
   def self.new_with_order form_section
     form_section[:order] = by_order.last ? (by_order.last.order + 1) : 1
     FormSection.new(form_section)
