@@ -1,6 +1,7 @@
 # JIRA PRIMERO-268
 # JIRA PRIMERO-316
 #JIRA PRIMERO-160
+#JIRA PRIMERO-360
 
 @javascript @primero
 Feature: Individual Details Form
