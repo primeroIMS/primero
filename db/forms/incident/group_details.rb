@@ -116,6 +116,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 60,
   :order => 10,
   :order_subform => 0,
+  :form_group_name => "Group Details",
   "editable" => true,
   :fields => group_details_fields,
   :perm_enabled => true,

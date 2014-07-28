@@ -16,6 +16,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 0,
   :order => 20,
   :order_subform_ => 0,
+  :form_group_name => "Photos and Audio",
   :fields => photo_audio_fields,
   :perm_visible => true,
   "editable" => false,

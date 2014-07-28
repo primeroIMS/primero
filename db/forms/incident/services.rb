@@ -403,6 +403,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 100,
   :order => 10,
   :order_subform => 0,
+  :form_group_name => "Services",
   "editable" => true,
   :fields => services_fields,
   :perm_enabled => true,
