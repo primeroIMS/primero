@@ -1,23 +1,49 @@
-Primero JMeter Tests
-====================
+Primero JMeter Test
+===================
 
-You can use [JMeter](jmeter.apache.org) to do some performance/load testing on
-the site.
+This folder contains [JMeter](jmeter.apache.org) performance/load tests for the
+Primero application.
 
-## Install JMeter
-Your OS might have a package available for you to install.  Otherwise, you will
-need to follow the [installation
-instructions](http://jmeter.apache.org/usermanual/get-started.html#install).
 
-You will also need the [`jmeter-plugins`](http://jmeter-plugins.org/home/)
-library to enhance things a bit.  Try a package or install it manually.
+You will need to install JMeter, as well as
+[jmeter-plugins](http://jmeter-plugins.org/home/) to be able to use these
+tests.  Please follow the instructions on their respective websites.
 
-## Running tests
-You can specify parameters (they are called *properties* in the JMeter
-lingo) at the command line when running JMeter to tell it which host you want
-to test, among other things.  This is so that you don't have to modify the
-`.jmx` file itself (which you shouldn't have to do if you are only running
-tests).  The currently available properties are:
+It will install all of this under a newly created user called `jmeter`.  Once
+this cookbook has run, you can run the basic performance test suite by running
+the `run-jmeter` script, passing a name for the run as the first argument.  You
+need to pass it the `JMETER_TARGET_HOST` envvar and tell it the hostname of the
+box you are testing against (i.e.  `primero-app-integration.quoininc.com`,
+without the `https`).  For convenience, you can make a file called
+`jmeter_config` in the same folder and the `run-jmeter` script will source it
+and use any envvars from it.  
+
+That script will **reset all of the application data** so make sure any prior
+data on the machine is backed up if you want it for later.
+
+Here is an example that doesn't use the `jmeter_config` file:
+
+```bash
+    primero/jmeter$ JMETER_TARGET_HOST=10.0.0.171 scripts/run-jmeter test1
+```
+
+The log for that run will be found at `logs/test1.jtl` in the current dir, and
+likewise for other runs, with the log file basename varying.
+
+## Using the plot.sh script
+
+This script will plot the average response time for each page for two different
+test runs, side-by-side.  Just pass the script the path to the two JTL files
+you want to compare.  You might have to specify the path of the JMeter Plugins
+`CMDRunner.jar` library with the `CMD_RUNNER_JAR` envvar.
+
+## Running tests manually
+If you want to do something other than what the `run-jmeter` script is
+hardcoded to do, you can run JMeter directly.  You can specify parameters (they
+are called *properties* in the JMeter lingo) at the command line when running
+JMeter to tell it which host you want to test, among other things.  This is so
+that you don't have to modify the `.jmx` file itself (which you shouldn't have
+to do if you are only running tests).  The currently available properties are:
 
  * **host** (Default: `primero.dev`): Specifies the server to test against
  * **protocol** (Default: `https`): Whether to use *http* or *https* (should
@@ -32,21 +58,20 @@ tests).  The currently available properties are:
    saved elsewhere.
 
 As you can see, the properties default to testing against your local VM Nginx
-instance.  Therefore, you should make sure that any code you are trying to test
-is on Nginx, and not only on the Rails dev server.
+instance.
 
 You specify the properties with the `-J` flag to JMeter.  So if you want to
 start up the JMeter GUI using the QA server, you would do:
 
 ```bash
-    primero/jmeter$ jmeter -Jhost=primero-qa.quoininc.com -Jport=443 primero.jmx
+    primero/jmeter$ jmeter -Jhost=primero-qa.quoininc.com -Jport=443 -n -t primero.jmx
 ```
 
 ### No GUI
-To run the tests without a GUI, you can do something like the following:
+To run the tests without a GUI, you pass the `-n` flag to JMeter:
 
 ```bash
-    primero/jmeter$ jmeter -n -t primero.jmx
+    primero/jmeter$ jmeter -n -t primero.jmx -Jlogfile_base=nogui
 ```
 
 You can specify properties as above.  The log will output to `jmeter.log` in
@@ -69,9 +94,3 @@ You will need to find where the `CMDRunner.jar` library is installed on your
 system and replace that path, as well as get the time stamp for the latest
 JMeter test run to know which JTL file to use.
 
-### Using the plot.sh script
-
-This script will plot the average response time for each page for two different
-test runs, side-by-side.  Just pass the script the path to the two JTL files
-you want to compare.  You might have to specify the path of the JMeter Plugins
-`CMDRunner.jar` library with the `CMD_RUNNER_JAR` envvar.

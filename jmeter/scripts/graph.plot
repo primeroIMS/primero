@@ -13,5 +13,8 @@ set xtic scale 0
 set xtics rotate out
 set datafile separator ","
 
+set term svg
+set output output_file
+
 plot agg1_file using "average":xticlabels(1) title agg1_title, \
      agg2_file using "average":xticlabels(1) title agg2_title

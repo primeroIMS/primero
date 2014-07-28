@@ -13,9 +13,12 @@ do
   csv_files+=(${csv_file}.sorted)
 done
 
+agg1_title=$(basename ${csv_files[0]} .jtl.csv.sorted)
+agg2_title=$(basename ${csv_files[1]} .jtl.csv.sorted)
 gnuplot \
   -e "agg1_file='${csv_files[0]}'" \
-  -e "agg1_title='$(basename ${csv_files[0]} .jtl.csv.sorted)'" \
+  -e "agg1_title='${agg1_title}'" \
   -e "agg2_file='${csv_files[1]}'" \
-  -e "agg2_title='$(basename ${csv_files[1]} .jtl.csv.sorted)'" \
-  graph.plot -p
+  -e "agg2_title='${agg2_title}'" \
+  -e "output_file='${agg1_title}-vs-${agg2_title}.svg'" \
+  graph.plot
