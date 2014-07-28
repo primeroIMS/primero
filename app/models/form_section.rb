@@ -9,6 +9,7 @@ class FormSection < CouchRest::Model::Base
   property :order, Integer
   property :order_form_group, Integer
   property :order_subform, Integer
+  property :form_group_name
   property :fields, [Field]
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false

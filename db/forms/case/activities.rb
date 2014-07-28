@@ -90,6 +90,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 110,
   :order => 40,
   :order_subform => 0,
+  :form_group_name => "Services / Follow Up",
   "editable" => true,
   :fields => activities_fields,
   :perm_enabled => true,

@@ -161,6 +161,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 130,
   :order => 30,
   :order_subform => 0,
+  :form_group_name => "Tracing",
   "editable" => true,
   :fields => verification_fields,
   :perm_enabled => true,
