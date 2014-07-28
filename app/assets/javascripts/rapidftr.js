@@ -23,31 +23,18 @@ RapidFTR.maintabControl = function(){
 
 }
 
-RapidFTR.tabControl = function() {
-  var self = this
-  $(".tab").hide();
+// RapidFTR.tabControl = function() {
+//   var self = this
+//   $(".tab").hide();
 
-  $('.tab-handles li[data-first-tab="true"]').addClass("current").show();
-  $('.tab[data-first-tab="true"]').show();
+//   $('.tab-handles li[data-first-tab="true"]').addClass("current").show();
+//   $('.tab[data-first-tab="true"]').show();
 
-  $(".tab-handles a").click(function() {
+//   $(".tab-handles a").click(function() {
 
-    $(".tab-handles li").removeClass("current");
-    $(".tab").hide();
 
-    var activeTab = $(this).attr("href");
-
-    self.tabRedirection.ls_set_tab(activeTab);
-
-    $(this).parent().addClass("current");
-    $(activeTab).show();
-    _primero.set_content_sidebar_equality();
-
-    //When make visible a tab, initialize the chosen in the tab.
-    _primero.chosen(activeTab + ' select.chosen-select:visible');
-    return false;
-  });
-}
+//   });
+// }
 
 RapidFTR.enableSubmitLinks = function() {
   $(".submit-form").click(function() {
@@ -292,7 +279,6 @@ RapidFTR.PasswordPrompt = (function() {
 $(document).ready(function() {
   _primero = $.extend(RapidFTR, _primero);
   RapidFTR.maintabControl();
-  RapidFTR.tabControl();
   RapidFTR.enableSubmitLinks();
   RapidFTR.activateToggleFormSectionLinks();
   RapidFTR.hideDirectionalButtons();
