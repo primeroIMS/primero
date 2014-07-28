@@ -1,4 +1,35 @@
-human_impact_attack_hospital_fields = [
+attack_on_hospitals_fields = [
+  Field.new({"name" => "site_number_attacked_hospital",
+             "type" => "numeric_field",
+             "display_name_all" => "Number of Sites Attacked"
+            }),
+  Field.new({"name" => "site_attack_type_hospital",
+             "type" => "select_box",
+             "display_name_all" => "Type of Attack On Site",
+             "option_strings_text_all" =>
+                                    ["Shelling",
+                                     "Arson",
+                                     "Aerial Bombardment",
+                                     "Theft/Looting",
+                                     "Occupation of Building",
+                                     "Direct Attack on students/teachers",
+                                     "Intimidation of Individuals",
+                                     "Direct attack on medical person",
+                                     "Physical Destruction",
+                                     "Other"].join("\n")
+            }),
+  Field.new({"name" => "hospital_name",
+             "type" => "text_field",
+             "display_name_all" => "Hospital Name"
+            }),
+  Field.new({"name" => "site_number_of_patients",
+             "type" => "numeric_field",
+             "display_name_all" => "Number of Patients"
+            }),
+  Field.new({"name" => "human_impact_attack_hospital_section",
+             "type" => "separator",
+             "display_name_all" => "Human Impact of Attack"
+            }),
   Field.new({"name" => "violation_boys_killed_attack_hospital",
              "type" => "numeric_field",
              "display_name_all" => "Number of Boys Killed"
@@ -58,56 +89,6 @@ human_impact_attack_hospital_fields = [
   Field.new({"name" => "number_children_recruited_hospitals",
              "type" => "numeric_field",
              "display_name_all" => "Number of Children Recruited During Attack"
-            })
-]
-
-human_impact_attack_hospital_section = FormSection.create_or_update_form_section({
-  "visible"=>false,
-  "is_nested"=>true,
-  :order=> 1,
-  :unique_id=>"human_impact_attack_hospital_section",
-  :parent_form=>"incident",
-  "editable"=>true,
-  :fields => human_impact_attack_hospital_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
-  "name_all" => "Nested Human Impact of Attack Subform",
-  "description_all" => "Human Impact of Attack Subform"
-})
-
-attack_on_hospitals_fields = [
-  Field.new({"name" => "site_number_attacked_hospital",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of Sites Attacked"
-            }),
-  Field.new({"name" => "site_attack_type_hospital",
-             "type" => "select_box",
-             "display_name_all" => "Type of Attack On Site",
-             "option_strings_text_all" =>
-                                    ["Shelling",
-                                     "Arson",
-                                     "Aerial Bombardment",
-                                     "Theft/Looting",
-                                     "Occupation of Building",
-                                     "Direct Attack on students/teachers",
-                                     "Intimidation of Individuals",
-                                     "Direct attack on medical person",
-                                     "Physical Destruction",
-                                     "Other"].join("\n")
-            }),
-  Field.new({"name" => "hospital_name",
-             "type" => "text_field",
-             "display_name_all" => "Hospital Name"
-            }),
-  Field.new({"name" => "site_number_of_patients",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of Patients"
-            }),
-  Field.new({"name" => "human_impact_attack_hospital_section",
-             "type" => "subform",
-             "editable" => true,
-             "subform_section_id" => human_impact_attack_hospital_section.id,
-             "display_name_all" => "Human Impact of Attack"
             }),
   Field.new({"name" => "hospital_management",
              "type" => "select_box",

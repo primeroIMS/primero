@@ -51,7 +51,7 @@ class IncidentsController < ApplicationController
   def new
     authorize! :create, Incident
     
-    @page_name = t("incident.register_new_incident")
+    @page_name = t("incidents.register_new_incident")
     @incident = Incident.new
     @incident['status'] = ["Active"]
     @incident['record_state'] = ["Valid record"]

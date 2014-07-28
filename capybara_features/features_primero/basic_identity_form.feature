@@ -12,6 +12,7 @@
 # JIRA PRIMERO-260
 # JIRA PRIMERO-273
 # JIRA PRIMERO-267
+# JIRA PRIMERO-339
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -29,6 +30,7 @@ Feature: Basic Identity Form
     | Case ID           |
     | Short ID          |
     | Date of Registration or Interview |
+    | Case Status |
     | Other Agency ID         |
     | Other Agency Name       |
     | ICRC Ref No.      |
@@ -87,7 +89,6 @@ Feature: Basic Identity Form
     | Section Number |
     | Contact Number |
     | UN Number |
-    | Status |
     | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? |
     | Name(s) given to child after separation? |
     | If the survivor is a child, does he/she live alone? |
@@ -166,7 +167,7 @@ Feature: Basic Identity Form
       | Sub-ethnicity2.3|
     And I select "GBV Survivor" from "Information Obtained From"
     And I select "Yes" for "Has the child been interviewed by another organization?" radio button
-    And I select "Community" from "Status"
+    And I select "Transferred" from "Case Status"
     And I select "No" for "Name(s) given to child after separation?" radio button
     And I select "No" for "If the survivor is a child, does he/she live alone?" radio button
     And I select "Relative" from "If the survivor lives with someone, what is the relation between her/him and the caretaker?"
@@ -243,7 +244,7 @@ Feature: Basic Identity Form
     And I should see a value for "Section Number" on the show page with the value of "DDD333"
     And I should see a value for "Contact Number" on the show page with the value of "910-555-1515"
     And I should see a value for "UN Number" on the show page with the value of "EEE444"
-    And I should see a value for "Status" on the show page with the value of "Community"
+    And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor, Separated Child, Other Vulnerable Child"
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"
     And I should see a value for "If the survivor is a child, does he/she live alone?" on the show page with the value of "No"
@@ -318,7 +319,7 @@ Feature: Basic Identity Form
     And I should see a value for "Section Number" on the show page with the value of ""
     And I should see a value for "Contact Number" on the show page with the value of ""
     And I should see a value for "UN Number" on the show page with the value of ""
-    And I should see a value for "Status" on the show page with the value of ""
+    And I should see a value for "Case Status" on the show page with the value of "Open"
     And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of ""
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of ""
     And I should see a value for "If the survivor is a child, does he/she live alone?" on the show page with the value of ""

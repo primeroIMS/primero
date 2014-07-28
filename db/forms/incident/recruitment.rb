@@ -1,4 +1,4 @@
-recruitment_fields = [
+recruitment_subform_fields = [
   Field.new({"name" => "violation_recruit_boys",
              "type" => "numeric_field", 
              "display_name_all" => "Number of victims: boys"
@@ -147,6 +147,29 @@ recruitment_fields = [
                                      "Force (armed intervention)",
                                      "Ransom paid",
                                      "Other"].join("\n")
+            })
+]
+
+recruitment_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order => 1,
+  :unique_id => "recruitment_subform_section",
+  :parent_form=>"incident",
+  "editable" => true,
+  :fields => recruitment_subform_fields,
+  :perm_enabled => false,
+  :perm_visible => false,
+  "name_all" => "Nested Recruitment Subform",
+  "description_all" => "Nested Recruitment Subform",
+  :initial_subforms => 1
+})
+
+recruitment_fields = [
+  Field.new({"name" => "recruitment_subform_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => recruitment_subform_section.id,
+             "display_name_all" => "Recruitment"
             })
 ]
 

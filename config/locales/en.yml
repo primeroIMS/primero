@@ -330,6 +330,11 @@ en:
     date_of_incident: "Date of Incident"
     change_log: "Change Log"
 
+    actions:
+      change_log: "Change Log"
+
+    history_of: "History of %{short_id}"
+
   preposition:
     on_label: "on"
     because: "Because"

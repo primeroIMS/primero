@@ -1,80 +1,3 @@
-human_impact_of_attack_section_fields_subform = [
-  Field.new({"name" => "violation_boys_killed_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Boys Killed"
-            }),
-  Field.new({"name" => "violation_girls_killed_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Girls Killed"
-            }),
-  Field.new({"name" => "violation_unknown_killed_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Unknown Children Killed"
-            }),
-  Field.new({"name" => "violation_total_killed_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Total Children Killed"
-            }),
-  Field.new({"name" => "violation_boys_injured_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Boys Injured"
-            }),
-  Field.new({"name" => "violation_girls_injured_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Girls Injured"
-            }),
-  Field.new({"name" => "violation_unknown_injured_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Unknown Children Injured"
-            }),
-  Field.new({"name" => "violation_total_injured_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Total Children Injured"
-            }),
-  Field.new({"name" => "facility_staff_killed_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Staff Killed"
-            }),
-  Field.new({"name" => "facility_staff_injured_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Staff Injured"
-            }),
-  Field.new({"name" => "facility_other_adults_killed_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Other Adults Killed"
-            }),
-  Field.new({"name" => "facility_other_adults_injured_attack",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Other Adults Injured"
-            }),
-  Field.new({"name" => "number_children_service_disruption",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Children Affected by Service Disruption"
-            }),
-  Field.new({"name" => "number_adults_service_disruption",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Adults Affected by Service Disruption"
-            }),
-  Field.new({"name" => "number_children_recruited",
-             "type" => "numeric_field", 
-             "display_name_all" => "Number of Children Recruited During Attack"
-            })
-]
-
-human_impact_of_attack_section = FormSection.create_or_update_form_section({
-  "visible"=>false,
-  "is_nested"=>true,
-  :order=> 1,
-  :unique_id=>"human_impact_of_attack_section",
-  :parent_form=>"incident",
-  "editable"=>true,
-  :fields => human_impact_of_attack_section_fields_subform,
-  :perm_enabled => false,
-  :perm_visible => false,
-  "name_all" => "Nested Human Impact of Attack Details",
-  "description_all" => "Human Impact of Attack Details Subform"
-})
-
 attack_on_schools_fields = [
   Field.new({"name" => "site_number_attacked",
              "type" => "numeric_field", 
@@ -136,14 +59,70 @@ attack_on_schools_fields = [
                                      "Mixed",
                                      "Unknown"].join("\n")
             }),
-  ##Subform##
   Field.new({"name" => "human_impact_of_attack_section",
-             "type" => "subform",
-             "editable" => true,
-             "subform_section_id" => human_impact_of_attack_section.id,
-             "display_name_all" => "Human Impact of Attack Details"
+             "type" => "separator",
+             "display_name_all" => "Human Impact of Attack"
             }),
-  ##Subform##
+  Field.new({"name" => "violation_boys_killed_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Boys Killed"
+            }),
+  Field.new({"name" => "violation_girls_killed_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Girls Killed"
+            }),
+  Field.new({"name" => "violation_unknown_killed_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Unknown Children Killed"
+            }),
+  Field.new({"name" => "violation_total_killed_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Total Children Killed"
+            }),
+  Field.new({"name" => "violation_boys_injured_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Boys Injured"
+            }),
+  Field.new({"name" => "violation_girls_injured_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Girls Injured"
+            }),
+  Field.new({"name" => "violation_unknown_injured_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Unknown Children Injured"
+            }),
+  Field.new({"name" => "violation_total_injured_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Total Children Injured"
+            }),
+  Field.new({"name" => "facility_staff_killed_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Staff Killed"
+            }),
+  Field.new({"name" => "facility_staff_injured_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Staff Injured"
+            }),
+  Field.new({"name" => "facility_other_adults_killed_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Other Adults Killed"
+            }),
+  Field.new({"name" => "facility_other_adults_injured_attack",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Other Adults Injured"
+            }),
+  Field.new({"name" => "number_children_service_disruption",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Children Affected by Service Disruption"
+            }),
+  Field.new({"name" => "number_adults_service_disruption",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Adults Affected by Service Disruption"
+            }),
+  Field.new({"name" => "number_children_recruited",
+             "type" => "numeric_field", 
+             "display_name_all" => "Number of Children Recruited During Attack"
+            }),
   Field.new({"name" => "facility_management",
              "type" => "select_box", 
              "display_name_all" => "What organization manages this facility?",

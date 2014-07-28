@@ -1,4 +1,5 @@
 #JIRA PRIMERO-297
+#JIRA PRIMERO-332
 
 @javascript @primero
 Feature: Abduction Form
@@ -20,12 +21,13 @@ Feature: Abduction Form
       | Location where they were held           | Some other location |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see a value for "Number of victims: boys" on the show page with the value of "1"
-    And I should see a value for "Number of victims: girls" on the show page with the value of "2"
-    And I should see a value for "Number of victims: unknown" on the show page with the value of "3"
-    And I should see a value for "Number of total victims" on the show page with the value of "6"
-    And I should see a value for "Category" on the show page with the value of "Other"
-    And I should see a value for "Cross Border" on the show page with the value of "Yes"
-    And I should see a value for "Location where they were abducting from" on the show page with the value of "Some location"
-    And I should see a value for "Location where they were held" on the show page with the value of "Some other location"
-
+    And I should see 1 subform on the show page for "Abduction"
+    And I should see in the 1st "Abduction" subform with the follow:
+      | Number of victims: boys                 | 1                   |
+      | Number of victims: girls                | 2                   |
+      | Number of victims: unknown              | 3                   |
+      | Number of total victims                 | 6                   |
+      | Category                                | Other               |
+      | Cross Border                            | Yes                 |
+      | Location where they were abducting from | Some location       |
+      | Location where they were held           | Some other location |
