@@ -16,7 +16,7 @@ module RecordActions
   end
 
   def get_form_sections
-    @form_sections = FormSection.find_by_parent_form_with_subforms(@className.parent_form)
+    @form_sections = FormSection.find_form_groups_by_parent_form(@className.parent_form)
   end
 
 end

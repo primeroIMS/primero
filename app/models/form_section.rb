@@ -138,7 +138,7 @@ class FormSection < CouchRest::Model::Base
   end
   
   #TODO - can this be done more efficiently?
-  def self.find_by_parent_form_with_subforms parent_form
+  def self.find_form_groups_by_parent_form parent_form
     all_forms = self.find_by_parent_form(parent_form)
     
     form_sections = []
@@ -159,7 +159,7 @@ class FormSection < CouchRest::Model::Base
       end
     end
     
-    return form_sections
+    form_groups = form_sections.group_by{|e| e.form_group_name}
   end
 
 
