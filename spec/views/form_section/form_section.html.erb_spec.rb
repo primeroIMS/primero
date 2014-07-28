@@ -3,7 +3,15 @@ require 'spec_helper'
 describe "form_section/_form_section.html.erb" do
 
   before :each do
-    @form_section = FormSection.new "unique_id" => "translated", "name" => "displayed_form_name"
+    #@form_section = FormSection.new "unique_id" => "translated", "name" => "displayed_form_name"
+    @form_section = FormSection.new({
+      "unique_id" => "translated",
+      "name" => "displayed_form_name",
+      :order_form_group => 40,
+      :order => 80,
+      :order_subform => 0,
+      :form_group_name => "Test Group"
+    })
   end
 
   describe "translating form section name" do
@@ -29,7 +37,7 @@ describe "form_section/_form_section.html.erb" do
       translated_name = "translated_heading"
       I18n.locale = :fr
       I18n.backend.store_translations("fr", @form_section.unique_id => translated_name)
-      @form_sections = [ @form_section ]
+      @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
 
       render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
 
@@ -39,7 +47,7 @@ describe "form_section/_form_section.html.erb" do
 
       it "should not be shown with translated heading" do
         I18n.backend.store_translations("fr", @form_section.unique_id => nil)
-        @form_sections = [ @form_section ]
+        @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
         render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
       end
   end
