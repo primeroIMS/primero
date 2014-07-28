@@ -152,7 +152,10 @@ def update_subforms_field(num, subform, fields)
       if value.start_with?("<Select>")
         step %Q{I select "#{value.gsub("<Select> ", "")}" from "#{name}"}
       elsif value.start_with?("<Checkbox>")
-        step %Q{I check "#{value.gsub("<Checkbox> ", "")}" for "#{name}" within "#{scope}"}
+        options = value.gsub(/^<Checkbox>/, "").split("<Checkbox>")
+        options.each do |option|
+          step %Q{I check "#{option.strip}" for "#{name}" within "#{scope}"}
+        end
       elsif value.start_with?("<Choose>")
         options = value.gsub(/^<Choose>/, "").split("<Choose>")
         options.each do |option|

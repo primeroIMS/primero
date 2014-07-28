@@ -4,6 +4,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-254
 # JIRA PRIMERO-253
+# JIRA PRIMERO-354
 
 @javascript @primero
 Feature: Protection Concern Form
@@ -29,9 +30,13 @@ Feature: Protection Concern Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Protection Concern" button
-    And I choose from "Protection Concerns":
-      |  Sexually Exploited    |
-      |  GBV survivor          |
+    And I fill in the following:
+      | Protection Status                                                                 | <Select> Separated                |
+      | Urgent Protection Concern?                                                        | <Radio> Yes                       |
+      | Current Displacement Status                                                       | <Select> Foreign National         |
+      | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? | <Checkbox> Unaccompanied Minor <Checkbox> Separated Child  <Checkbox> Other Vulnerable Child |
+      | Protection Concerns     | <Choose>Sexually Exploited<Choose>GBV survivor<Choose>Trafficked/smuggled<Choose>Other      |
+      | Disability Type         | <Select> Physical Disability                                                                |
     And I fill in the 1st "Protection Concern Subform Section" subform with the follow:
       | Details of the concern     | Test Details                 |
       | Intervention needed by     | 12-May-2014                  |
@@ -41,16 +46,14 @@ Feature: Protection Concern Form
       | Period when identified?    | <Select> Registration        |
       | Intervention needed?       | <Select> Urgent Intervention |
       | Has action been taken?     | <Radio> Yes                  |
-    And I press the "Basic Identity" button
-    And the chosen "Protection Concerns" should have the following values:
-      |  Sexually Exploited    |
-      |  GBV survivor          |
-    And I choose from "Protection Concerns":
-      |  Trafficked/smuggled   |
-      |  Other                 |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
+    And I should see a value for "Protection Status" on the show page with the value of "Separated"
+    And I should see a value for "Urgent Protection Concern?" on the show page with the value of "Yes"
+    And I should see a value for "Current Displacement Status" on the show page with the value of "Foreign National"
+    And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor, Separated Child, Other Vulnerable Child"
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Other"
+    And I should see a value for "Disability Type" on the show page with the value of "Physical Disability"
     And I should see in the 1st "Protection Concern Detail" subform with the follow:
       | Type of Protection Concern | Migrant             |
       | Period when identified?    | Registration        |
