@@ -290,10 +290,10 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:get).with("37").and_return(mock_child)
-      the_form_section = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form_section])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :show, :id => "37"
-      assigns[:form_sections].should == [the_form_section]
+      assigns[:form_sections].should == the_form
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
@@ -321,10 +321,10 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:new).and_return(mock_child)
-      the_form = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :new
-      assigns[:form_sections].should == [the_form]
+      assigns[:form_sections].should == the_form
     end
   end
 
@@ -339,10 +339,10 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:get).with("37").and_return(mock_child)
-      the_form = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :edit, :id => "37"
-      assigns[:form_sections].should == [the_form]
+      assigns[:form_sections].should == the_form
     end
   end
 
