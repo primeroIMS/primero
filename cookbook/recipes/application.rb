@@ -77,7 +77,7 @@ end
 
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
-    rvm install #{node[:primero][:rvm_install_args]}
+    rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
   EOH
 end
 

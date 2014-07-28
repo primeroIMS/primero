@@ -20,7 +20,8 @@ default[:primero].tap do |p|
 
   p[:solr_url] = 'http://localhost:8983/solr'
   p[:local_solr_port] = 8983
-  p[:rvm_install_args] = '2.1.2 -n railsexpress --patch railsexpress'
+  p[:ruby_version] = '2.1.2'
+  p[:ruby_patch] = 'railsexpress'
 end
 
 
