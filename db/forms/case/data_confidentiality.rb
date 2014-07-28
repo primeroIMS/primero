@@ -112,7 +112,7 @@ FormSection.create_or_update_form_section({
   :unique_id=>"consent",
   :parent_form=>"case",
   "visible" => true,
-  :order => 2,
+  :order => 20,
   "editable" => true,
   :fields => consent_fields,
   :perm_enabled => true,

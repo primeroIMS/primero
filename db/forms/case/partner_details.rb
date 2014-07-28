@@ -70,7 +70,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "partner_details",
   :parent_form=>"case",
   "visible" => true,
-  :order => 4,
+  :order => 40,
   "editable" => true,
   :fields => partner_details_fields,
   :perm_enabled => true,
