@@ -1,11 +1,17 @@
 <ul class="tab-handles side-nav">
-  <% tabs.each do |form_section| %>
-      <% if form_section.is_first_tab %>
+  <% #TODO - temp counter %>
+  <% i = 0 %>
+  <% tabs.keys.each do |form_group| %>
+      <% if false %>
+      <% #TODO - fix this - if form_section.is_first_tab %>
           <li class="current" data-first-tab="true">
       <% else %>
           <li>
       <% end %>
-          <a href="#tab_<%= form_section.section_name %>"><%= t(form_section.unique_id, :default => form_section.name) %></a>
+          <% #TODO - fix this %>
+          <a href="#tab_<%= i %>"><%= t(form_group, :default => form_group) %></a>
       </li>
+      <% # TODO - Temporary %>
+      <% i += 1 %>
   <% end %>
 </ul>
