@@ -155,6 +155,10 @@ var SubformView = Backbone.View.extend({
     
     //Initialize the chosen in the subform
     _primero.chosen('#' + subformId + ' select.chosen-select:visible');
+
+    //After add rows, remove the field that allow remove fields on the server side
+    //when all rows were removed.
+    $(subforms).parent().find("#" + _primero.model_object + "_" + subforms.attr("id") + "_empty_subform").remove();
   },
 
   remove: function(event) {
@@ -184,8 +188,15 @@ var SubformView = Backbone.View.extend({
         count++;
       }
     });
-    if (count == 0)
-      $(target).append("<input type=\"hidden\" name=\"" + _primero.model_object + "[" + focus + "]\" value=\"\" />");
+    if (count == 0) {
+      //All subforms were removed. Add some input to remove all subforms on the server side.
+      //If we don't send this input server will not know that this action needs to be perform.
+      //The id is to straightforward lookup the input.
+      var id = _primero.model_object + "_" + focus + "_empty_subform";
+      var name = _primero.model_object + "[" + focus + "]";
+      //don't add the input as a child of the subforms container, this will break the generation of id's.
+      $(target).parent().append("<input id=\"" + id + "\" type=\"hidden\" name=\"" + name + "\" value=\"\" />");
+    }
   }
 });
 

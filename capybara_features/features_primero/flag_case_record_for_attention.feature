@@ -1,4 +1,6 @@
 # JIRA PRIMERO-76
+# JIRA PRIMERO-346
+
 @javascript @primero
 Feature: Flag Case Record For Attention
   As a Administrator / supervisor, I want to to be able to flag case records that have issues 
@@ -68,3 +70,17 @@ Feature: Flag Case Record For Attention
       | page |
       | case record page |
       | case record edit page |
+
+  Scenario Outline: I should be able see a flag icon on the page
+    And I am on the <page> for "Shaggy"
+    When I press the "Flag Record" button
+    Then I fill in "Flag Reason" with "Just Because"
+    And I press "Flag"
+    Then I should see "Flagged by primero"
+    And I should see "Just Because"
+    Then I press the "Cases" button
+    And the record for "Shaggy" should display a "flag" icon beside it
+
+    Examples:
+      | page |
+      | case record page |
