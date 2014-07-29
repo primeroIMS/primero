@@ -137,3 +137,39 @@ Feature: Subforms Collapse Expand
     Then I should see static field in the 1st "Followup Subform Section" subform with the follow:
       | Followup date | 21-Jul-2003                |
       | If not, why?  | Visiting Friends/Relatives |
+
+  Scenario: As a logged in user and already created a case, I should be able to modify the subform
+    And I press "Save"
+    And I press the "Edit" button
+    And I expanded the 1st "Family Details Section" subform
+    And I expanded the 2nd "Family Details Section" subform
+    And I update in the 1st "Family Details Section" subform with the follow:
+      |Name                               | Tom                |
+      |How are they related to the child? | <Select> Uncle     |
+      |Is this person the caregiver?      | <Radio> Yes        |
+      |If dead, please provide details    | No Dead Notes      |
+      |Age                                | 39                 |
+      |Language                           | <Choose>Language 1 |
+    And I update in the 2nd "Family Details Section" subform with the follow:
+      |Name                               | Mary               |
+      |How are they related to the child? | <Select> Aunt      |
+      |Is this person the caregiver?      | <Radio> No         |
+      |If dead, please provide details    | No Other Dead Notes|
+      |Age                                | 41                 |
+      |Language                           | <Choose>Language 2 |
+    And I press "Save"
+    Then I should see "Case was successfully updated" on the page
+    And I should see in the 1st "Family Detail" subform with the follow:
+      |Name                               | Tom           |
+      |How are they related to the child? | Uncle         |
+      |Is this person the caregiver?      | Yes           |
+      |If dead, please provide details    | No Dead Notes |
+      |Age                                | 39            |
+      |Language                           | Language 1    |
+    And I should see in the 2nd "Family Detail" subform with the follow:
+      |Name                               | Mary                |
+      |How are they related to the child? | Aunt                |
+      |Is this person the caregiver?      | No                  |
+      |If dead, please provide details    | No Other Dead Notes |
+      |Age                                | 41                  |
+      |Language                           | Language 2          |
