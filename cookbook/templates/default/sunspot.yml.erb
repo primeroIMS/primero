@@ -1,0 +1,7 @@
+<% @environments.each do |env| %>
+<%= env %>:
+  solr:
+    hostname: <%= @hostnames[env] %>
+    port: <%= @solr_ports[env]  %>
+    log_level: <%= @log_levels[env] %>
+<% end %>

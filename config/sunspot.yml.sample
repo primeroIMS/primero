@@ -1,0 +1,6 @@
+#Sunspot automatically uses localhost:8982 for development and localhost:8981 for test environments
+production:
+  solr:
+    hostname: localhost
+    port: 8983
+    log_level: INFO
