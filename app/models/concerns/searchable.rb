@@ -2,6 +2,16 @@ module Searchable
   extend ActiveSupport::Concern
 
   included do
+    include Sunspot::Rails::Searchable
+
+    #TODO: Not sure how well this will work when the set of indexable fields changes with the form
+    searchable do
+      searchable_text_fields.each {|f| text f}
+      searchable_date_fields.each {|f| date f}
+      boolean :duplicate
+    end
+
+    #TODO: Shouldn't this code go in an initializer?
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
 
@@ -14,7 +24,7 @@ module Searchable
 
   def index_record
     #TODO: Experiment with getting rid of the solr schema rebuild on EVERY save.
-    #      This should take place when the forerm sections change.
+    #      This should take place when the form sections change.
     begin
       Rack::MiniProfiler.step("BUILD SOLR SCHEMA") do
       self.class.refresh_in_sunspot
@@ -30,6 +40,21 @@ module Searchable
 
 
   module ClassMethods
+
+    #Pull back all records from CouchDB that pass the filter criteria.
+    #Searching, filtering, sorting, and pagination is handled by Solr.
+    #TODO: The per_page default is really clunky! It shouldnt live where it lives!
+    #TODO: This better avoid N+1!
+    #TODO: Exclude duplicates I presume?
+    #TODO: Possibly this method is a useless wrapper around the Sunspot search. Delete and refactor if so.
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
+      self.search do
+        filters.each{|filter,value| with(filter, value)}
+        with(:created_by, owner)
+        sort.each{|sort,order| order_by(sort, order)}
+        paginate pagination
+      end
+    end
 
     #TODO: Convert this to the `search` method (unless there is already a Sunspot like this). Ditch!
     def sunspot_search(page_number, query = "")
@@ -107,8 +132,9 @@ module Searchable
     #TODO: What is going on with that date_fields loop?
     #Refreshes Sunspot to index this class correctly after new field definitions were added.
     def refresh_in_sunspot
-      text_fields = build_text_fields_for_solar
-      date_fields = build_date_fields_for_solar
+      puts "REFRESH IN SUNSPOT"
+      text_fields = searchable_text_fields
+      date_fields = searchable_date_fields
       Sunspot.setup(self) do
         text *text_fields
         date *date_fields
@@ -118,14 +144,16 @@ module Searchable
     end
 
     #TODO: Move to case/incident?
-    def build_text_fields_for_solar
+    def searchable_text_fields
       ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name", "created_organisation"] + Field.all_searchable_field_names(self.parent_form)
     end
 
     #TODO: Move to case/incident?
-    def build_date_fields_for_solar
+    def searchable_date_fields
       ["created_at", "last_updated_at"]
     end
+
+
 
 
     #TODO: This is only used in the controllers/concerns/searching_for_records which itself is never invoked.
@@ -134,13 +162,13 @@ module Searchable
       search(search, page_number, created_by_criteria, created_by)
     end
 
-     #TODO: This is only used in the controllers/concerns/searching_for_records which itself is never invoked.
-    def search(search, page_number = 1, criteria = [], created_by = "")
-      return [] unless search.valid?
-      search_criteria = [SearchCriteria.new(:field => "short_id", :value => search.query)]
-      search_criteria.concat([SearchCriteria.new(:field => self.search_field, :value => search.query, :join => "OR")]).concat(criteria)
-      SearchService.search page_number, search_criteria, self
-    end
+    #  #TODO: This is only used in the controllers/concerns/searching_for_records which itself is never invoked.
+    # def search(search, page_number = 1, criteria = [], created_by = "")
+    #   return [] unless search.valid?
+    #   search_criteria = [SearchCriteria.new(:field => "short_id", :value => search.query)]
+    #   search_criteria.concat([SearchCriteria.new(:field => self.search_field, :value => search.query, :join => "OR")]).concat(criteria)
+    #   SearchService.search page_number, search_criteria, self
+    # end
 
 
     #TODO: Why is this method on the model at all?
@@ -152,6 +180,7 @@ module Searchable
 
   end
 
+  #TODO: Shouldnt this code go in a lib or an initializer?
   #Class for allowing Sunspot to hook into CouchDB and pull back the entire CouchDB document
   class DocumentInstanceAccessor < Sunspot::Adapters::InstanceAdapter
     def id
