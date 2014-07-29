@@ -1,43 +1,3 @@
-gbv_details_fields_subform = [
-  Field.new({"name" => "gbv_reported_elsewhere_organization_type",
-             "type" => "select_box",
-             "display_name_all" => "Type of service provider where the survivor reported the incident",
-             "option_strings_text_all" =>
-                                    ["Health/Medical Services",
-                                     "Psychosocial/Counseling Services",
-                                     "Police/Other Security Actor",
-                                     "Legal Assistance Services",
-                                     "Livelihoods Program",
-                                     "Safe House/Shelter",
-                                     "Other"].join("\n")
-            }),
-  Field.new({"name" => "gbv_reported_elsewhere_organization_provider",
-             "type" => "text_field", 
-             "display_name_all" => "Name of the service provider"
-            }),
-  Field.new({"name" => "gbv_reported_elsewhere_reporting",
-             "type" => "radio_button",
-             "display_name_all" => "Is this a GBV reporting organization?",
-             "option_strings_text_all" => "Yes\nNo"
-            })
-]
-
-gbv_details_section = FormSection.create_or_update_form_section({
-  "visible"=>false,
-  "is_nested"=>true,
-  :order_form_group => 40,
-  :order => 40,
-  :order_subform => 1,
-  :unique_id=>"gbv_details_section",
-  :parent_form=>"incident",
-  "editable"=>true,
-  :fields => gbv_details_fields_subform,
-  :perm_enabled => false,
-  :perm_visible => false,
-  "name_all" => "Nested GBV Details",
-  "description_all" => "GBV Details Subform"
-})
-
 violations_sexual_violence_fields = [
   Field.new({"name" => "violation_boys",
              "type" => "numeric_field", 
@@ -118,14 +78,27 @@ violations_sexual_violence_fields = [
              "display_name_all" => "Has the client reported this incident anywhere else?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
-  ##Subform##
-  Field.new({"name" => "gbv_details_section",
-             "type" => "subform", 
-             "editable" => true,
-             "subform_section_id" => gbv_details_section.id,
-             "display_name_all" => "GBV Details"
+  Field.new({"name" => "gbv_reported_elsewhere_organization_type",
+             "type" => "select_box",
+             "display_name_all" => "If yes, type of service provider where the survivor reported the incident",
+             "option_strings_text_all" =>
+                                    ["Health/Medical Services",
+                                     "Psychosocial/Counseling Services",
+                                     "Police/Other Security Actor",
+                                     "Legal Assistance Services",
+                                     "Livelihoods Program",
+                                     "Safe House/Shelter",
+                                     "Other"].join("\n")
             }),
-  ##Subform##
+  Field.new({"name" => "gbv_reported_elsewhere_organization_provider",
+             "type" => "text_field", 
+             "display_name_all" => "Name of the service provider"
+            }),
+  Field.new({"name" => "gbv_reported_elsewhere_reporting",
+             "type" => "radio_button",
+             "display_name_all" => "Is this a GBV reporting organization?",
+             "option_strings_text_all" => "Yes\nNo"
+            }),
   Field.new({"name" => "gbv_previous_incidents",
              "type" => "radio_button",
              "display_name_all" => "Has the client had any previous incidents of GBV perpetrated against them?",

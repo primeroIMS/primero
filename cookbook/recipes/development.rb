@@ -26,12 +26,26 @@ link '/home/vagrant/primero' do
   to '/vagrant'
 end
 
-include_recipe 'rvm::user'
-update_bundler 'dev-stack' do
+include_recipe 'rvm::user_install'
+
+railsexpress_patch_setup 'dev' do
   user 'vagrant'
   group 'vagrant'
 end
 
+execute_with_ruby 'dev-ruby' do
+  command <<-EOH
+    rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+  EOH
+  cwd '/home/vagrant/primero'
+  user 'vagrant'
+  group 'vagrant'
+end
+
+update_bundler 'dev-stack' do
+  user 'vagrant'
+  group 'vagrant'
+end
 
 execute_with_ruby 'bundle-install-vagrant' do
   command 'bundle install'

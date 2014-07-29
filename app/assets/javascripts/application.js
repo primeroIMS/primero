@@ -13,6 +13,7 @@
 //= require plugins/jquery.jplayer.min
 //= require plugins/jquery.rotate.1-1
 //= require plugins/vtip-min
+//= require plugins/jquery.dataTables.js
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations
@@ -34,5 +35,6 @@
 //= require photo_audio_fields
 //= require chosen
 //= require age_birth_date
+
 
 $(function(){ $(document).foundation(); });

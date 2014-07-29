@@ -118,12 +118,12 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   #Check visibility of the regular inputs.
-  divs = page.all :xpath, "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']//div[@class='row']"
+  divs = page.all :xpath, "//div[@id='subform_container_#{subform}_#{num}']//div[@class='row']"
   divs.each do |div|
     div.visible?.should == (state == 'collapsed' ? false : true)
   end
   #Check visibility of the static text placeholder.
-  divs = page.all :xpath, "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']//div[@class='row row-static-text']"
+  divs = page.all :xpath, "//div[@id='subform_container_#{subform}_#{num}']//div[@class='row row-static-text']"
   divs.each do |div|
     div.visible?.should == (state == 'collapsed' ? true : false)
   end
@@ -146,13 +146,16 @@ end
 def update_subforms_field(num, subform, fields)
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  scope = "//div[@id='subform_container#{subform}_#{num}']"
+  scope = "//div[@id='subform_container_#{subform}_#{num}']"
   within(:xpath, scope) do
     fields.rows_hash.each do |name, value|
       if value.start_with?("<Select>")
         step %Q{I select "#{value.gsub("<Select> ", "")}" from "#{name}"}
       elsif value.start_with?("<Checkbox>")
-        step %Q{I check "#{value.gsub("<Checkbox> ", "")}" for "#{name}" within "#{scope}"}
+        options = value.gsub(/^<Checkbox>/, "").split("<Checkbox>")
+        options.each do |option|
+          step %Q{I check "#{option.strip}" for "#{name}" within "#{scope}"}
+        end
       elsif value.start_with?("<Choose>")
         options = value.gsub(/^<Choose>/, "").split("<Choose>")
         options.each do |option|
@@ -170,7 +173,7 @@ end
 Then /^I should see static field in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  scope = "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']"
+  scope = "//div[@id='subform_container_#{subform}_#{num}']"
   fields.rows_hash.each do |name, value|
     label_field = find(scope + "//label[@class='key' and text()='#{name}']")
     static_field_id = label_field["for"] + "_static_text"
@@ -181,7 +184,7 @@ end
 And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  xpath = "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']"
+  xpath = "//div[@id='subform_container_#{subform}_#{num}']"
   if state == "expanded"
     xpath += "//div[@class='row row-static-text']//span[contains(@class, 'collapse_expand_subform')]"
   elsif state == "collapsed"
@@ -193,7 +196,7 @@ end
 And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+  within(:xpath, "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']") do
     step %Q{I press the "Remove" button}
   end
 end
@@ -221,6 +224,13 @@ end
 And /^the value of "(.*)" should be "(.*)"$/ do |field, value|
   field_labeled(field).value.should =~ /#{value}/
 end
+
+And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
+  within(:xpath, "//tr[contains(.,'#{record}')]") do
+    find(:xpath, "//td/i[@class='fa-#{icon}']")
+  end
+end
+
 
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
