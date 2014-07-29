@@ -54,7 +54,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "best_interest",
   :parent_form=>"case",
   "visible" => true,
-  :order => 12,
+  :order => 120,
   "editable" => true,
   :fields => best_interest_fields,
   :perm_enabled => true,

@@ -110,7 +110,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "services",
   :parent_form=>"case",
   "visible" => true,
-  :order => 10,
+  :order => 100,
   :fields => services_fields,
   :perm_visible => true,
   "editable" => false,

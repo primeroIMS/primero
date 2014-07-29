@@ -87,7 +87,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "activities",
   :parent_form=>"case",
   "visible" => true,
-  :order => 17,
+  :order => 170,
   "editable" => true,
   :fields => activities_fields,
   :perm_enabled => true,

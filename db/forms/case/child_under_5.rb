@@ -70,7 +70,7 @@ FormSection.create_or_update_form_section({
   :unique_id=>"child_under_5",
   :parent_form=>"case",
   "visible"=>true,
-  :order=> 7,  
+  :order=> 70,  
   "editable"=>true,
   :fields => child_under_5_fields,
   :perm_visible => true, 
