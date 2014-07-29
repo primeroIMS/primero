@@ -141,7 +141,7 @@ execute_bundle 'precompile-assets' do
 end
 
 execute_bundle 'restart-solr' do
-  command "rake sunspot:restart"
+  command "rake sunspot:solr:restart"
 end
 
 execute_bundle 'restart-scheduler' do
