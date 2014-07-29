@@ -3,10 +3,13 @@ consent_fields = [
              "type" => "select_box",
              "display_name_all" => "Consent Obtained From",
              "option_strings_text_all" => 
-                          ["Child",
+                          ["Individual",
                            "Caregiver",
-                           "GBV Survivor",
-                           "Other (specify)"].join("\n")
+                           "Other (please specify)"].join("\n")
+            }),
+  Field.new({"name" => "consent_source_other",
+             "type" => "text_field",
+             "display_name_all" => "If Other, please specify"
             }),
   Field.new({"name" => "consent_for_services",
              "type" => "radio_button",
@@ -33,7 +36,8 @@ consent_fields = [
              "multi_select" => true,
              "option_strings_text_all" => 
                           ["Family",
-                           "Caregiver",
+                           "Authorities",
+                           "UNHCR",
                            "Other Organizations",
                            "Others, please specify"].join("\n")
             }),
@@ -52,7 +56,7 @@ consent_fields = [
              "option_strings_text_all" => 
                           ["Fear of harm to themselves or others",
                            "Want to communicate information themselves",
-                           "Other reason, please specific"].join("\n")
+                           "Other reason, please specify"].join("\n")
             }),
   Field.new({"name" => "withholding_info_other_reason",
            "type" => "text_field",
