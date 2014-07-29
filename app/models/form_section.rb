@@ -108,7 +108,16 @@ class FormSection < CouchRest::Model::Base
   end
 
   def all_searchable_fields
-    self.fields.select { |field| field.type == Field::TEXT_FIELD || field.type == Field::TEXT_AREA || field.type == Field::SELECT_BOX }
+    self.fields.select do |field|
+      [Field::TEXT_FIELD, Field::TEXT_AREA, Field::SELECT_BOX, Field::CHECK_BOXES, Field::RADIO_BUTTON].include? field.type
+    end
+  end
+
+  #TODO: consider adding date fields here
+  def all_filterable_fields
+    self.fields.select  do |field|
+      [Field::RADIO_BUTTON, Field::SELECT_BOX, Field::CHECK_BOXES, Field::NUMERIC_FIELD].include? field.type
+    end
   end
 
   def self.get_by_unique_id unique_id

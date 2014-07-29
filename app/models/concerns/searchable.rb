@@ -8,6 +8,7 @@ module Searchable
     searchable do
       searchable_text_fields.each {|f| text f}
       searchable_date_fields.each {|f| date f}
+      searchable_string_fields.each {|f| string f}
       boolean :duplicate
     end
 
@@ -15,9 +16,9 @@ module Searchable
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
 
-    after_create :index_record
-    after_update :index_record
-    after_save :index_record
+    #after_create :index_record
+    #after_update :index_record
+    #after_save :index_record
 
   end
 
@@ -26,9 +27,9 @@ module Searchable
     #TODO: Experiment with getting rid of the solr schema rebuild on EVERY save.
     #      This should take place when the form sections change.
     begin
-      Rack::MiniProfiler.step("BUILD SOLR SCHEMA") do
-      self.class.refresh_in_sunspot
-      end
+      #Rack::MiniProfiler.step("BUILD SOLR SCHEMA") do
+      #self.class.refresh_in_sunspot
+      #end
       #Rack::MiniProfiler.step("INDEX IN SUNSPOT") do
       Sunspot.index!(self)
       #end
@@ -49,8 +50,8 @@ module Searchable
     #TODO: Possibly this method is a useless wrapper around the Sunspot search. Delete and refactor if so.
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
       self.search do
-        filters.each{|filter,value| with(filter, value)}
-        with(:created_by, owner)
+        filters.each{|filter,value| with(filter, value)} if filters.present?
+        with(:created_by, owner) if owner.present?
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
       end
@@ -145,12 +146,22 @@ module Searchable
 
     #TODO: Move to case/incident?
     def searchable_text_fields
-      ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name", "created_organisation"] + Field.all_searchable_field_names(self.parent_form)
+      ["unique_identifier", "short_id",
+       "created_by", "created_by_full_name",
+       "last_updated_by", "last_updated_by_full_name",
+       "created_organisation"] + Field.all_searchable_field_names(self.parent_form)
     end
 
     #TODO: Move to case/incident?
     def searchable_date_fields
       ["created_at", "last_updated_at"]
+    end
+
+    def searchable_string_fields
+      ["unique_identifier", "short_id",
+       "created_by", "created_by_full_name",
+       "last_updated_by", "last_updated_by_full_name",
+       "created_organisation"] + Field.all_filterable_field_names(self.parent_form)
     end
 
 
@@ -194,5 +205,6 @@ module Searchable
       @clazz.get(id)
     end
   end
+
 
 end

@@ -124,6 +124,10 @@ class Field
     FormSection.find_by_parent_form(parentForm).map { |form| form.all_searchable_fields.map(&:name) }.flatten
   end
 
+  def self.all_filterable_field_names(parentForm = 'case')
+    FormSection.find_by_parent_form(parentForm).map { |form| form.all_filterable_fields.map(&:name) }.flatten
+  end
+
   def display_name_for_field_selector
     hidden_text = self.visible? ? "" : " (Hidden)"
     "#{display_name}#{hidden_text}"
