@@ -20,6 +20,8 @@ default[:primero].tap do |p|
 
   p[:solr_url] = 'http://localhost:8983/solr'
   p[:local_solr_port] = 8983
+  p[:ruby_version] = '2.1.2'
+  p[:ruby_patch] = 'railsexpress'
 end
 
 
@@ -32,7 +34,6 @@ default[:couchdb].tap do |db|
 end
 
 default[:rvm].tap do |rvm|
-  rvm[:user_default_ruby] = '2.1.0'
   rvm[:user_installs] = [
     {
       :user => node[:primero][:app_user],
@@ -43,7 +44,3 @@ default[:rvm].tap do |rvm|
 end
 
 default[:nginx_dir] = '/etc/nginx'
-#default[:nginx].tap do |n|
-  #n[:install_method] = 'package'
-  #n[:repo_source] = 'nginx'
-#end

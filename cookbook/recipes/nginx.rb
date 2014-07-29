@@ -55,7 +55,7 @@ template site_conf_file do
     :server_name => node[:primero][:server_hostname],
     :current_path => node[:primero][:app_dir],
     :rails_env => node[:primero][:rails_env],
-    :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:rvm][:user_default_ruby]}/wrappers/ruby"),
+    :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/wrappers/ruby"),
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
     :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
   })
