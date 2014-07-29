@@ -2,6 +2,6 @@
 <%= env %>:
   solr:
     hostname: <%= @hostnames[env] %>
-    port: <%= @solr_ports[env]  %>
+    port: <%= @ports[env]  %>
     log_level: <%= @log_levels[env] %>
 <% end %>
