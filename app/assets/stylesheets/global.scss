@@ -726,16 +726,45 @@ nav {
   padding-right: 0
 }
 
+li.group a.group:after {
+  content: '\25BA';
+  float: right;
+  color: #ccc;
+  font-size: .9rem;
+  padding: 4px;
+}
+
 li.current {
   background: #f1f1f1;
 
-  a:after {
+  a.group:after {
+    content: '\25BE';
+    float: right;
+    color: $green_color;
+    font-size: 1.4rem;
+    padding: 4px;
+    margin-top: -8px
+  }
+
+  a.non-group:after {
     content: '\25BA';
     float: right;
     color: $green_color;
     font-size: .9rem;
     padding: 4px;
   }
+
+  ul li.current a:after {
+    content: '\25BA';
+    float: right;
+    color: $green_color;
+    font-size: .9rem;
+    padding: 4px;
+  }
+}
+
+ul.side-nav li ul {
+  display: none;
 }
 
 ////////////////////////////////////////////////
