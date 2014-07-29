@@ -23,14 +23,6 @@ killing_subform_fields = [
                                      "Non-Victim Activated",
                                      "Summary"].join("\n")
             }),
-  Field.new({"name" => "kill_means",
-             "type" => "select_box",
-             "display_name_all" => "Means",
-             "option_strings_text_all" =>
-                                    ["Option1",
-                                     "Option2",
-                                     "Option3"].join("\n")
-            }),
   Field.new({"name" => "kill_cause_of_death",
              "type" => "select_box",
              "display_name_all" => "Cause",
@@ -130,7 +122,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "killing",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 30,
+  :order => 40,
   "editable" => true,
   :fields => killing_fields,
   :perm_enabled => true,

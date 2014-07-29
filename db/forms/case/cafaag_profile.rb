@@ -150,7 +150,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "caafag_profile",
   :parent_form=>"case",
   "visible" => true,
-  :order => 12,
+  :order => 120,
   :fields => caafag_profile_fields,
   :perm_visible => true,
   "editable" => true,

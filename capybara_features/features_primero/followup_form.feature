@@ -3,6 +3,7 @@
 #JIRA PRIMERO-220
 # JIRA PRIMERO-232
 #JIRA PRIMERO-274
+#JIRA PRIMERO-160
 
 @javascript @primero
 Feature: Followup
@@ -77,6 +78,7 @@ Feature: Followup
     And I press the "Follow Up" button
     And I remove the 2nd "Followup Subform Section" subform
     And I click OK in the browser popup
+    And I expanded the 1st "Followup Subform Section" subform
     And I fill in the following:
       | Followup needed by                                          | 11-Jun-2014                            |
       | Followup date                                               | 11-Jun-2014                            |

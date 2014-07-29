@@ -17,7 +17,6 @@ Feature: Maiming Form
       | Number of victims: unknown | 3 |
       | Number of total victims   | 6 |
       | Method                    | <Select> Non-Victim Activated          |
-      | Means                     | <Select> Option 2                      |
       | Cause                     | <Select> Landmines                     |
       | Details                   | Maiming Details                        |
       | Circumstances             | <Select> Indiscriminate Attack         |
@@ -35,7 +34,6 @@ Feature: Maiming Form
       | Number of victims: unknown                                                                  | 3                              |
       | Number of total victims                                                                     | 6                              |
       | Method                                                                                      | Non-Victim Activated           |
-      | Means                                                                                       | Option 2                       |
       | Cause                                                                                       | Landmines                      |
       | Details                                                                                     | Maiming Details                |
       | Circumstances                                                                               | Indiscriminate Attack          |

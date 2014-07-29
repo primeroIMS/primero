@@ -156,7 +156,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "verification",
   :parent_form=>"case",
   "visible" => true,
-  :order => 14,
+  :order => 140,
   "editable" => true,
   :fields => verification_fields,
   :perm_enabled => true,

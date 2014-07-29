@@ -179,7 +179,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "family_details",
   :parent_form=>"case",
   "visible" => true,
-  :order => 3,
+  :order => 30,
   "editable" => true,
   :fields => family_details_fields,
   :perm_enabled => true,

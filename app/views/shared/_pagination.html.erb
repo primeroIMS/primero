@@ -1,7 +1,12 @@
 <% results ||= WillPaginate::Collection.new 1,1,0 %>
 
 <div class="pagination-box">
-  <div class="page_info"><%= page_entries_info results %></div>
   <%= will_paginate results %>
   <div class="clearfix"></div>
 </div>
+
+<script type="text/javascript">
+	var pagination_details = {
+		info: "<%= page_entries_info results %>"
+	}
+</script>

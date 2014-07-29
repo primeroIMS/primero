@@ -43,7 +43,25 @@ end
 define :update_bundler, :user => nil, :group => nil do
   args = params
   execute_with_ruby "upgrade-bundler-#{params[:name]}" do
-    command "[[ $(bundle --version | awk '{ print $3 }') == '1.5.0' ]] && gem update bundler || true"
+    command "[[ $(bundle --version | awk '{ print $3 }') != '1.6.5' ]] && gem install bundler --version=1.6.5 || true"
+    user args[:user]
+    group args[:group]
+  end
+end
+
+define :railsexpress_patch_setup, :user => nil, :group => nil do
+  args = params
+
+  rvm_patchsets_repo_path = ::File.join(Chef::Config[:file_cache_path], 'rvm_patchsets')
+  git rvm_patchsets_repo_path do
+    repository 'git://github.com/skaes/rvm-patchsets.git'
+    revision '44dd746311133f8e666cb7658090c240fc7e336d'
+    action :sync
+  end
+
+  execute_with_ruby 'install-patchsets' do
+    command "bash #{::File.join(rvm_patchsets_repo_path, 'install.sh')}"
+    cwd rvm_patchsets_repo_path
     user args[:user]
     group args[:group]
   end

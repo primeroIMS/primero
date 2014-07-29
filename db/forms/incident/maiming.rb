@@ -23,14 +23,6 @@ maiming_subform_fields = [
                                      "Non-Victim Activated",
                                      "Summary"].join("\n")
             }),
-  Field.new({"name" => "maim_means",
-             "type" => "select_box",
-             "display_name_all" => "Means",
-             "option_strings_text_all" =>
-                                    ["Option 1",
-                                     "Option 2",
-                                     "Option 3"].join("\n")
-            }),
   Field.new({"name" => "maim_cause_of",
              "type" => "select_box",
              "display_name_all" => "Cause",
@@ -123,7 +115,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "maiming",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 40,
+  :order => 50,
   "editable" => true,
   :fields => maiming_fields,
   :perm_enabled => true,

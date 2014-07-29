@@ -44,7 +44,7 @@ RapidFTR.tabControl = function() {
     _primero.set_content_sidebar_equality();
 
     //When make visible a tab, initialize the chosen in the tab.
-    _primero.chosen('select.chosen-select:visible');
+    _primero.chosen(activeTab + ' select.chosen-select:visible');
     return false;
   });
 }
@@ -313,5 +313,6 @@ $(document).ready(function() {
   _primero.tabRedirection.redirect();
   
   //Initialize chosen in the current tab.
-  _primero.chosen('select.chosen-select:visible');
+  var current_tab = $(".tab-handles li.current a").attr("href");
+  _primero.chosen(current_tab + ' select.chosen-select:visible');
 });
