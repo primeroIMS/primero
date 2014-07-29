@@ -125,7 +125,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "care_assessment",
   :parent_form=>"case",
   "visible" => true,
-  :order => 9,
+  :order => 90,
   :fields => care_assessment_fields,
   :perm_visible => true,
   "editable" => true,
