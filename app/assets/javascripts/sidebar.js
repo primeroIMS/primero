@@ -1,3 +1,43 @@
+tabNavidation = Backbone.View.extend({
+    el: '.side-tab',
+
+    events: {
+        'click .tab-handles a': 'tabControl'
+    },
+
+    initialize: function() {
+        $('ul.side-nav li ul').hide();
+        $(".tab").hide();
+        $('.tab-handles li[data-first-tab="true"]').addClass("current").show();
+        $('.tab[data-first-tab="true"]').show();
+    },
+
+    toggle: function(event) {
+        console.log('here')
+        console.log(event)
+        $(event.target).parent().find('ul').slideToggle(500);
+    },
+
+    tabControl: function(event) {
+        event.preventDefault();
+        this.toggle(event)
+        $(".tab-handles li").removeClass("current");
+        $(".tab").hide();
+
+        var activeTab = $(event.target).attr("href");
+
+        _primero.tabRedirection.ls_set_tab(activeTab);
+
+        $(event.target).parent().addClass("current");
+        $(activeTab).show();
+        _primero.set_content_sidebar_equality();
+
+        //When make visible a tab, initialize the chosen in the tab.
+        _primero.chosen(activeTab + ' select.chosen-select:visible');
+        return false;
+    }
+});
+
 _primero.tabRedirection = {
     ls_set_tab: function (tab) {
         localStorage.setItem('current_tab', tab)
@@ -63,6 +103,8 @@ _primero.listen_for_reset = function() {
 };
 
 $(document).ready(function() {
+    new tabNavidation();
+
     $("ul.side-nav").sticky({ 
         topSpacing: 0,
         bottomSpacing: 40 
