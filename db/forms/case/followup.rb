@@ -130,7 +130,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "followup",
   :parent_form=>"case",
   "visible" => true,
-  :order => 6,
+  :order => 60,
   "editable" => true,
   :fields => followup_fields,
   :perm_enabled => true,

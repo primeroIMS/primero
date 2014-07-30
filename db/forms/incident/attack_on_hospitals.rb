@@ -1,4 +1,4 @@
-attack_on_hospitals_fields = [
+attack_on_hospitals_subform_fields = [
   Field.new({"name" => "site_number_attacked_hospital",
              "type" => "numeric_field",
              "display_name_all" => "Number of Sites Attacked"
@@ -120,6 +120,29 @@ attack_on_hospitals_fields = [
   Field.new({"name" => "hospital_closed_duration",
              "type" => "numeric_field",
              "display_name_all" => "For How Long? (Days)"
+            })
+]
+
+attack_on_hospitals_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order => 1,
+  :unique_id => "attack_on_hospitals_subform_section",
+  :parent_form=>"incident",
+  "editable" => true,
+  :fields => attack_on_hospitals_subform_fields,
+  :perm_enabled => false,
+  :perm_visible => false,
+  "name_all" => "Nested Attack on Hospitals Subform",
+  "description_all" => "Nested Attack on Hospitals Subform",
+  :initial_subforms => 1
+})
+
+attack_on_hospitals_fields = [
+  Field.new({"name" => "attack_on_hospitals_subform_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => attack_on_hospitals_subform_section.id,
+             "display_name_all" => "Attack on Hospitals"
             })
 ]
 
