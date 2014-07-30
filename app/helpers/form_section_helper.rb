@@ -27,7 +27,7 @@ module FormSectionHelper
         concat(build_group_tabs(forms))
       end
     else
-      content_tag :li do
+      content_tag :li, class: "#{form.is_first_tab ? 'current': ''}" do
         concat(
           link_to("#tab_#{form.section_name}", class: 'non-group') do
             concat(t(form.unique_id, :default => form.name))
@@ -38,12 +38,12 @@ module FormSectionHelper
   end
 
   def build_group_tabs(forms)
-    content_tag :ul do
+    content_tag :ul , class: 'sub' do
      for form in forms
       concat(content_tag(:li, 
         link_to("#tab_#{form.section_name}") do 
           concat(t(form.unique_id, :default => form.name))
-        end 
+        end, class: "#{form.is_first_tab ? 'current': ''}"
       ))
      end
     end

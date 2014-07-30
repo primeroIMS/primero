@@ -23,19 +23,6 @@ RapidFTR.maintabControl = function(){
 
 }
 
-// RapidFTR.tabControl = function() {
-//   var self = this
-//   $(".tab").hide();
-
-//   $('.tab-handles li[data-first-tab="true"]').addClass("current").show();
-//   $('.tab[data-first-tab="true"]').show();
-
-//   $(".tab-handles a").click(function() {
-
-
-//   });
-// }
-
 RapidFTR.enableSubmitLinks = function() {
   $(".submit-form").click(function() {
     var formToSubmit = $(this).attr("href");
@@ -293,10 +280,6 @@ $(document).ready(function() {
 
   RapidFTR.Utils.enableFormErrorChecking();
   RapidFTR.showDropdown();
-
-  // set height of sidebar depending on side content
-  _primero.set_content_sidebar_equality();
-  _primero.tabRedirection.redirect();
   
   //Initialize chosen in the current tab.
   var current_tab = $(".tab-handles li.current a").attr("href");

@@ -1,11 +1,5 @@
 <ul class="tab-handles side-nav">
   <% tabs.each do |form_group, forms| %>
-    <% if false %>
-    <% #TODO - fix this - if form_section.is_first_tab %>
-        <li class="current" data-first-tab="true">
-    <% else %>
-        <li>
-    <% end %>
     <%= build_form_tabs(form_group, forms) %>
   <% end %>
 </ul>

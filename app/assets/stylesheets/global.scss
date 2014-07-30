@@ -736,22 +736,22 @@ nav {
 }
 
 li.group a.group:after {
-  content: '\25BA';
+  content: '+';
   float: right;
   color: #ccc;
   font-size: .9rem;
-  padding: 4px;
+  padding: 4px 0 4px;
 }
 
 li.current {
   background: #f1f1f1;
 
   a.group:after {
-    content: '\25BE';
+    content: '-';
     float: right;
     color: $green_color;
     font-size: 1.4rem;
-    padding: 4px;
+    padding: 4px 0 4px;
     margin-top: -8px
   }
 
@@ -760,7 +760,7 @@ li.current {
     float: right;
     color: $green_color;
     font-size: .9rem;
-    padding: 4px;
+    padding: 4px 0 4px;
   }
 
   ul li.current a:after {
@@ -768,12 +768,13 @@ li.current {
     float: right;
     color: $green_color;
     font-size: .9rem;
-    padding: 4px;
+    padding: 4px 0 4px;
   }
 }
 
 ul.side-nav li ul {
   display: none;
+  list-style: none;
 }
 
 ////////////////////////////////////////////////
