@@ -1,4 +1,5 @@
 #TODO: Child and Incidents dont use the search method in this concern. Either refactor or completely get rid of all this.
+#TODO: Just do some analysis and get rid of this.
 
 module SearchingForRecords
   extend ActiveSupport::Concern
