@@ -299,7 +299,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "tracing",
   :parent_form=>"case",
   "visible" => true,
-  :order => 11,
+  :order => 110,
   :fields => tracing_fields,
   :perm_visible => true,
   "editable" => true,

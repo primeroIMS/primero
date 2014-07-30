@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.0'
+ruby '2.1.2'
 
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
@@ -57,7 +57,7 @@ end
 
 group :test, :cucumber, :development do
   gem 'pry'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
 end
 
 group :test, :cucumber do

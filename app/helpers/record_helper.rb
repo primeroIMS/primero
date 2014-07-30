@@ -93,6 +93,7 @@ module RecordHelper
   
   def update_properties(properties, user_name)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
+    properties['record_state'] = "Valid record" if properties['record_state'].blank?
     should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
     if should_update
       attributes_to_update = {}

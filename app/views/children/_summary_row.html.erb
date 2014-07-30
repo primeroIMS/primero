@@ -1,10 +1,12 @@
 <!-- BEGIN: item -->
   <tr class="child_summary_panel table_row<% if child.flag? %> red_text<% end %>">
     <div class="summary_panel">
+      <td>
+        <%= icon('flag', '', class: 'flagged') if child.flag? %>
+      </td>
       <td id="child_<%= child.id %>" class="id_column">
         <div class="summary_item">
           <%= link_to text_to_identify_child(child), case_path(child), class: 'id_link' %>
-          <% #content_tag(:div, nil, :class => 'flag suspect') if child.flag? %>
           <% #content_tag(:div, nil, :class => 'flag reunited') if child.reunited? %>
         </div>
       </td>

@@ -30,24 +30,26 @@
     </div>
 
     <table width="100%" class="list_view" cellpadding=0 cellspacing=0>
-      <tr>
-        <th class="id_column">
-          <%= t("incident.id") %>
-        </th>
-        <th>
-          <%= t("incident.survivor_code") %>
-        </th>
-         <th>
-          <%= t("incident.case_worker_code") %>
-        </th>
-         <th>
-          <%= t("incident.date_of_interview") %>
-        </th>
-        <th>
-          <%= t("incident.date_of_incident") %>
-        </th>
-      </tr>
-      <%= render :partial => "incidents/summary_row", :collection => @incidents, :as => :incident, :locals => { :checkbox => false, :highlighted_fields => FormSection.sorted_highlighted_fields  }  %>
+      <thead>      
+        <tr>
+          <th class="id_column">
+            <%= t("incident.id") %>
+          </th>
+          <th>
+            <%= t("incident.survivor_code") %>
+          </th>
+           <th>
+            <%= t("incident.case_worker_code") %>
+          </th>
+           <th>
+            <%= t("incident.date_of_interview") %>
+          </th>
+          <th>
+            <%= t("incident.date_of_incident") %>
+          </th>
+        </tr>
+      </thead>
+      <tbody><%= render :partial => "incidents/summary_row", :collection => @incidents, :as => :incident, :locals => { :checkbox => false, :highlighted_fields => FormSection.sorted_highlighted_fields  }  %></tbody>
     </table>
 
     <%= render :partial => 'shared/pagination', :locals => { :results => @incidents } %>

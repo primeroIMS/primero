@@ -136,7 +136,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "child_wishes",
   :parent_form=>"case",
   "visible" => true,
-  :order => 13,
+  :order => 130,
   "editable" => true,
   :fields => child_wishes_fields,
   :perm_enabled => true,

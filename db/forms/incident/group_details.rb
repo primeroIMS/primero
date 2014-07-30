@@ -111,7 +111,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "group_details",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 130,
+  :order => 140,
   "editable" => true,
   :fields => group_details_fields,
   :perm_enabled => true,

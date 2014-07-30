@@ -69,7 +69,7 @@ FormSection.create_or_update_form_section({
   :unique_id => "abduction",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 100,
+  :order => 110,
   "editable" => true,
   :fields => abduction_fields,
   :perm_enabled => true,

@@ -12,7 +12,7 @@ Feature: API Retrieve form sections
     When I send a GET request to "/published_form_sections"
     Then the JSON should be an array
     Then the JSON at "1" should have the following:
-      | order        | 1                |
+      | order        | 10               |
       | perm_enabled | true             |
       | editable     | true             |
       | visible      | true             |
@@ -21,9 +21,9 @@ Feature: API Retrieve form sections
       | name/en        | "Basic Identity"                                                       |
       | description/en | "Basic identity information about a separated or unaccompanied child." |
 
-      | fields/11/display_name/en  | "Name"       |
-      | fields/11/type             | "text_field" |
-      | fields/11/visible          | true         |
-      | fields/11/name             | "name"       |
-      | fields/11/highlight_information/highlighted | true |
-      | fields/11/highlight_information/order       | 1    |
+      | fields/3/display_name/en  | "Name"       |
+      | fields/3/type             | "text_field" |
+      | fields/3/visible          | true         |
+      | fields/3/name             | "name"       |
+      | fields/3/highlight_information/highlighted | true |
+      | fields/3/highlight_information/order       | 1    |
