@@ -27,7 +27,6 @@ class ChildrenController < ApplicationController
     per_page = params[:per_page] || ChildrenHelper::View::PER_PAGE
     per_page = per_page.to_i unless per_page == 'all'
 
-    binding.pry
     search = Child.list_records filter, order, {page: page, per_page: per_page}, current_user_name
     @children = search.results
     @children_total = search.total #TODO: make sure that templates actually read this!

@@ -1,3 +1,5 @@
+<%# TODO: This needs to be really tightened up. There is no reason why these values are being hard-coded. In fact there will be any number of arbitrary filters.%>
+<%# TODO: Furthermore, we are adding application logic in a template which is an antipattern. Also we are hard-codinmg English?! Fix this! %>
 <li class="scope">
-  <%=select_tag "cases_record_state_scope", options_for_select([[ "Valid Records", "valid_record" ],["Invalid Records", "invalid_record"]], params[:scope][:record_state] || "valid_record"), { :onchange => "this.form.submit();", :name => "scope[record_state]"}%>
+  <%=select_tag "cases_record_state_scope", options_for_select([[ "Valid Records", "Valid record" ],["Invalid Records", "Invalid record"]], params[:scope][:record_state] || "Valid record"), { :onchange => "this.form.submit();", :name => "scope[record_state]"}%>
 </li>
