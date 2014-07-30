@@ -204,6 +204,10 @@ module Searchable
     def load(id)
       @clazz.get(id)
     end
+
+    def load_all(ids)
+      @clazz.all(:keys => ids).all
+    end
   end
 
 

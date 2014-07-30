@@ -433,9 +433,9 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def self.all
-    view('by_name', {})
-  end
+  # def self.all
+  #   view('by_name', {})
+  # end
 
   def self.search_field
     "name"

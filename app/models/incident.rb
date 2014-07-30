@@ -252,10 +252,6 @@ class Incident < CouchRest::Model::Base
     by_incident_id(:key => incident_id).first
   end
 
-  def self.all
-    view('by_description', {})
-  end
-
   def self.search_field
     "description"
   end
