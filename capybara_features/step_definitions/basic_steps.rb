@@ -117,16 +117,15 @@ end
 And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
+  scope = "//div[@id='subform_container_#{subform}_#{num}']"
   #Check visibility of the regular inputs.
-  divs = page.all :xpath, "//div[@id='subform_container_#{subform}_#{num}']//div[@class='row']"
+  divs = page.all :xpath, "#{scope}//div[@class='row']"
   divs.each do |div|
     div.visible?.should == (state == 'collapsed' ? false : true)
   end
-  #Check visibility of the static text placeholder.
-  divs = page.all :xpath, "//div[@id='subform_container_#{subform}_#{num}']//div[@class='row row-static-text']"
-  divs.each do |div|
-    div.visible?.should == (state == 'collapsed' ? true : false)
-  end
+  #Check static text placeholder.
+  scope = scope + "//div[@class='row collapse_expand_subform_header']"
+  find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}']", :text => (state == 'collapsed' ? "+" : "-"))
 end
 
 And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
@@ -173,10 +172,10 @@ end
 Then /^I should see static field in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  scope = "//div[@id='subform_container_#{subform}_#{num}']"
+  scope = "//div[@id='subform_container_#{subform}_#{num}']//div[@class='row collapse_expand_subform_header']"
   fields.rows_hash.each do |name, value|
-    label_field = find(scope + "//label[@class='key' and text()='#{name}']")
-    static_field_id = label_field["for"] + "_static_text"
+    label_field = find(scope + "//span[@class='field_label' and text()='#{name}']")
+    static_field_id = label_field["id"].gsub(/static_label$/, 'static_text')
     find(scope + "//span[@id='#{static_field_id}']", :text => value)
   end
 end
@@ -184,19 +183,17 @@ end
 And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  xpath = "//div[@id='subform_container_#{subform}_#{num}']"
-  if state == "expanded"
-    xpath += "//div[@class='row row-static-text']//span[contains(@class, 'collapse_expand_subform')]"
-  elsif state == "collapsed"
-    xpath += "//div[@class='row']//span[contains(@class, 'collapse_expand_subform')]"
-  end
+  expected_state = state == "expanded" ? "collapsed" : "expanded"
+  xpath = "//div[@id='subform_container_#{subform}_#{num}']" +
+          "//div[@class='row collapse_expand_subform_header']" + 
+          "//span[@class='collapse_expand_subform #{expected_state}']"
   find(xpath).click
 end
 
 And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  within(:xpath, "//div[@id='subform_container#{subform}_#{num}' or @id='subform_container_#{subform}_#{num}']") do
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     step %Q{I press the "Remove" button}
   end
 end

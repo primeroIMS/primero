@@ -11,11 +11,8 @@
   field_type = field.type
   field_type = "chosen" if field.type == "select_box" and field.multi_select == true
 %>
-<div class="row row-static-text">
-  <div class="medium-4 columns">
-    <%= label_tag name, t(field.name, :default => field.display_name), :class=>'key' %>
-  </div>
-  <div class="medium-8 columns">
-    <span id="<%= sanitize_to_id(name) %>_static_text" class="value <%= field_type %>_type"><%= value_to_display == "" ? "???" : value_to_display %></span>
-  </div>
+<div class="display_field">
+  <span id="<%= sanitize_to_id(name) %>_static_label" class="field_label"><%= t(field.name, :default => field.display_name) %></span>
+  <span>&#160;-&#160;</span>
+  <span id="<%= sanitize_to_id(name) %>_static_text" class="field_value <%= field_type %>_type"><%= value_to_display %></span>
 </div>

@@ -149,7 +149,8 @@ family_details_section = FormSection.create_or_update_form_section({
     :perm_enabled => false,
     :perm_visible => false,
     "name_all" => "Nested Family Details",
-    "description_all" => "Family Details Subform"
+    "description_all" => "Family Details Subform",
+    "collapsed_fields" => ["relation_name", "relation"]
 })
 
 family_details_fields = [

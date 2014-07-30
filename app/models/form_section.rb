@@ -104,13 +104,13 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
-  #Returns the list of field names to show in collapsed subforms.
+  #Returns the list of field to show in collapsed subforms.
   #If there is no list defined, it will returns the first one of the fields.
   def collapsed_list
     if self.collapsed_fields.empty?
-      [self.fields.select {|field| field.visible? }.first.name]
+      [self.fields.select {|field| field.visible? }.first]
     else
-      self.collapsed_fields
+      self.fields.select {|field| field.visible? && self.collapsed_fields.include?(field.name) }
     end
   end
 

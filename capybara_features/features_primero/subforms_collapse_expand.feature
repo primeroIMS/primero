@@ -33,12 +33,12 @@ Feature: Subforms Collapse Expand
     Then I should see collapsed the 1st "Family Details Section" subform
     And I should see collapsed the 2nd "Family Details Section" subform
 
-  Scenario: As a logged in user and collapse subform, All fields should be hidden but static text
+  Scenario: As a logged in user and collapse subform, All fields should be hidden
     And I collapsed the 1st "Family Details Section" subform
     Then I should see collapsed the 1st "Family Details Section" subform
     And I should see expanded the 2nd "Family Details Section" subform
 
-  Scenario: As a logged in user and expand subform, All fields should be visible but static text
+  Scenario: As a logged in user and expand subform, All fields should be visible
     And I press "Save"
     And I press the "Edit" button
     And I expanded the 2nd "Family Details Section" subform
@@ -67,33 +67,33 @@ Feature: Subforms Collapse Expand
     And I should see collapsed the 2nd "Family Details Section" subform
     And I should see collapsed the 3rd "Family Details Section" subform
 
-  Scenario: As a logged in user and collapsed new subform family details, I should see question mark for empty values
+  Scenario: As a logged in user and collapsed new subform family details, I should see empty values
     And I collapsed the 1st "Family Details Section" subform
     And I collapsed the 2nd "Family Details Section" subform
     Then I should see static field in the 1st "Family Details Section" subform with the follow:
-      |Name                               | ??? |
-      |How are they related to the child? | ??? |
-      |Is this person the caregiver?      | ??? |
-      |If dead, please provide details    | ??? |
-      |Age                                | ??? |
-      |Language                           | ??? |
-      |Date of Birth                      | ??? |
+      |Name                               |  |
+      |How are they related to the child? |  |
+      |Is this person the caregiver?      |  |
+      |If dead, please provide details    |  |
+      |Age                                |  |
+      |Language                           |  |
+      |Date of Birth                      |  |
     And I should see static field in the 2nd "Family Details Section" subform with the follow:
-      |Name                               | ??? |
-      |How are they related to the child? | ??? |
-      |Is this person the caregiver?      | ??? |
-      |If dead, please provide details    | ??? |
-      |Age                                | ??? |
-      |Language                           | ??? |
-      |Date of Birth                      | ??? |
+      |Name                               |  |
+      |How are they related to the child? |  |
+      |Is this person the caregiver?      |  |
+      |If dead, please provide details    |  |
+      |Age                                |  |
+      |Language                           |  |
+      |Date of Birth                      |  |
       
-  Scenario: As a logged in user and collapsed new subform followup, I should see question mark for empty values
+  Scenario: As a logged in user and collapsed new subform followup, I should see empty values
     And I press the "Follow Up" button
     And I add a "Followup Subform Section" subform
     And I collapsed the 1st "Followup Subform Section" subform
     And I should see static field in the 1st "Followup Subform Section" subform with the follow:
-      | Followup date | ??? |
-      | If not, why?  | ??? |
+      | Followup date |  |
+      | If not, why?  |  |
 
   Scenario: As a logged in user and change fields value in family details, I should see the changes in the static text
     And I update in the 1st "Family Details Section" subform with the follow:

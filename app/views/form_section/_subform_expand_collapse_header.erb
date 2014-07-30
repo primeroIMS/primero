@@ -1,0 +1,23 @@
+<% #This template is to generate the header of every subform to make the expand/collapse functionality  %>
+<div class="row collapse_expand_subform_header">
+  <div class="medium-4 columns">
+    <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %></span>
+  </div>
+  <div class="medium-8 columns">
+    <div class="medium-11 columns">
+      <% collapsed_fields.each do |field| %>
+      <%= render partial: "form_section/field_static_#{field.display_type}",
+           object: field,
+           locals: { field: field, 
+                     field_keys: [subform.name, i.to_s, field.name],
+                     formObject: formObject,
+                     value: i.to_s == 'template' ? "" : nil
+                   }
+      %>
+      <% end %>
+    </div>
+    <div class="medium-1 columns">
+      <span class="collapse_expand_subform expanded">-</span>
+    </div>
+  </div>
+</div>

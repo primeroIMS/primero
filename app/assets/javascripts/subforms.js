@@ -10,20 +10,15 @@ var SubformView = Backbone.View.extend({
   initialize: function() {
     this.heading_removed = false
 
-    //add the collapse/expand button to the existing subforms.
-    this.$el.find(".subform_container, .subform_container:hidden").each(function(x, el){
-      //Regular inputs will in expanded subforms.
-      $(el).find(".subform .row:eq(0) div:last-child").append("<span class=\"collapse_expand_subform expanded\">[-]</span>");
-      //Display only data will in collapse subforms.
-      $(el).find(".subform .row-static-text:eq(0) div:last-child").append("<span class=\"collapse_expand_subform collapsed\">[+]</span>");
-    });
-
     //By default existing subforms are collapsed to input.
     this.$el.find(".subform_container, .subform_container:hidden").each(function(x, el){
       //Hide Regular inputs by default.
-      $(el).find(".subform .row").hide();
-      //row-static-text fields will be show by default.
-      $(el).find(".subform .row-static-text").show();
+      $(el).find(".subform div[class='row']").hide();
+      $(el).find(".subform div[class='row collapse_expand_subform_header'] span.collapse_expand_subform").each(function(x, el){
+        $(el).text("+");
+        $(el).addClass("collapsed");
+        $(el).removeClass("expanded");
+      });
       //TODO: that will be configurable.
     });
   },
@@ -33,14 +28,15 @@ var SubformView = Backbone.View.extend({
     event.preventDefault();
     var target = event.target || event.srcElement;
     if ($(target).hasClass("expanded")) {
+      $(target).text("+");
       //Update the static text with the corresponding input value to shows the changes if any.
-      $(target).parents(".subform").find(".row span[id$='_static_text']").each(function(x, el){
+      $(target).parents(".subform").find(".collapse_expand_subform_header span[id$='_static_text']").each(function(x, el){
         var input_id = el.getAttribute("id").replace("_static_text", "");
         if ($(el).hasClass("chosen_type")) {
           //reflect changes of the chosen.
           var input = $(target).parents(".subform").find("select[id='" + input_id + "_']");
           if (input.val() == null) {
-            $(el).text("???");
+            $(el).text("");
           } else {
             $(el).text(input.val().join(", "));
           }
@@ -48,7 +44,7 @@ var SubformView = Backbone.View.extend({
           //reflect changes of the for radio buttons.
           var input = $(target).parents(".subform").find("input[id^='" + input_id + "']:checked");
           if (input.size() == 0) {
-            $(el).text("???");
+            $(el).text("");
           } else {
             $(el).text(input.val());
           }
@@ -59,17 +55,19 @@ var SubformView = Backbone.View.extend({
             values.push($(el).val());
           });
           if (values.length == 0) {
-            $(el).text("???");
+            $(el).text("");
           } else {
             $(el).text(values.join(", "));
           }
         } else {
           //Probably there is other widget that should be manage differently.
           var input = $(target).parents(".subform").find("#" + input_id);
-          $(el).text(input.val() == "" ? "???" : input.val());
+          $(el).text(input.val() == "" ? "" : input.val());
         }
       });
     } else if ($(target).hasClass("collapsed")) {
+      //Update the state of the subform.
+      $(target).text("-");
       //Initialize the chosen in the subform. 
       //This is because chosen is lazy load until is visible but with the collapse
       //functionality sometimes will be hidden. workaround the subform should initialize.
@@ -77,8 +75,11 @@ var SubformView = Backbone.View.extend({
         _primero.chosen('#' + el.getAttribute("id"));
       });
     }
+    //Update the state of the subform.
+    $(target).toggleClass("expanded");
+    $(target).toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
-    $(target).parents(".subform").find(".row").toggle();
+    $(target).parents(".subform").find("div[class='row']").toggle();
   },
 
   add: function(event) {
@@ -110,7 +111,7 @@ var SubformView = Backbone.View.extend({
     });
 
     //This is the static field to shows in collapsed view.
-    newSubform.find("span.value").each(function(x, el){
+    newSubform.find(".collapse_expand_subform_header .field_value, .collapse_expand_subform_header .field_label").each(function(x, el){
       var new_id = el.getAttribute("id").replace("template",i);
       el.setAttribute("id", new_id);
     });
@@ -130,10 +131,6 @@ var SubformView = Backbone.View.extend({
 
     });
 
-    //Add the collapse/expand button to the new subform.
-    newSubform.find(".subform .row:eq(0) div:last-child").append("<span class=\"collapse_expand_subform expanded\">[-]</span>");
-    newSubform.find(".subform .row-static-text:eq(0) div:last-child").append("<span class=\"collapse_expand_subform collapsed\">[+]</span>");
-
     newSubform.find("label").each(function(x, el){
       var id = el.getAttribute("for").replace("template",i);
       el.setAttribute("for", id);
@@ -141,13 +138,8 @@ var SubformView = Backbone.View.extend({
 
     var newSubformClass = newSubform.attr("class").replace("template", "");
     newSubform.attr("class", newSubformClass);
-//    newSubform.removeAttr("style");
     newSubform.fadeIn(600);
     newSubform.find("input, select, textarea").removeAttr("disabled");
-
-    //make sure static text placeholder is hide in the new subform.
-    newSubform.find(".row-static-text").hide();
-
     newSubform.appendTo(subforms);
 
     // set sidebar height
