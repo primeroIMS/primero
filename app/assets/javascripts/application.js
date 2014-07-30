@@ -35,6 +35,7 @@
 //= require photo_audio_fields
 //= require chosen
 //= require age_birth_date
+//= require password_protected_field.js
 
 
 $(function(){ $(document).foundation(); });

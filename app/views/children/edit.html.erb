@@ -30,6 +30,17 @@
 
     <div class="side-tab-content large-8 medium-8 columns">
       <%= render :partial => 'form_section/form_section', :collection => @form_sections,  :locals => {:formObject => @child}%>
+      <% if !@child.new_record?%>
+        <div id="password_confirmation_popup" title="PRIMERO" style="display:none">
+          <p><%= I18n.t("cases.enter_password_to_protect_childs_name")%></p>
+          <input type="password" id="confirm_password">
+          <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text"><%=(I18n.t("cases.ok"))%></span></button>
+        </div>
+        <div id="password_confirmation_message" title="PRIMERO" style="display:none">
+          <p></p>
+          <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" onclick="$(this).parent().parent().hide();"><span class="ui-button-text"><%=(I18n.t("cases.ok"))%></span></button>
+        </div>
+      <% end %>
       <div class="btn_panel">
         <%= discard_button children_path %>
         <%= submit_button %>
