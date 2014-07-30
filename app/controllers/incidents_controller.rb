@@ -71,7 +71,8 @@ class IncidentsController < ApplicationController
   def create
     authorize! :create, Incident
     params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
-    reindex_params_subforms params
+    #reindex_params_subforms params
+    
     create_or_update_incident(params[:incident])
     @incident['created_by_full_name'] = current_user_full_name
 
@@ -214,7 +215,7 @@ class IncidentsController < ApplicationController
   def update_incident_from params
     incident = @incident || Incident.get(params[:id]) || Incident.new_with_user_name(current_user, params[:incident])
     authorize! :update, incident
-    reindex_params_subforms params
+    #reindex_params_subforms params
     update_incident_with_attachments(incident, params)
   end
 

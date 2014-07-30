@@ -38,6 +38,22 @@ module FieldsHelper
     end
     return field_value
   end
+  
+  def field_keys(subform_name, subform_index, field_name, field_group_name)
+    field_key = []
+  
+    if field_group_name.present? and field_group_name == "Violations"
+      field_key << field_group_name.downcase
+    end
+    
+    if subform_name.present?
+      field_key << subform_name << subform_index
+    end
+    
+    field_key << field_name
+    
+    return field_key 
+  end
 
   def subforms_count(object, field)
     subforms_count = 0

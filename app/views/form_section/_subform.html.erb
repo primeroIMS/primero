@@ -2,7 +2,7 @@
   <%
      #TODO: This will break for nested nested subforms if we decide to have those.
      subform_section = subform.subform_section
-     number_of_subforms = subforms_count formObject, subform
+     number_of_subforms = subforms_count formObject, subform     
    %>
   <h5 class="tool-tip-label">
     <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %></span>
@@ -13,10 +13,11 @@
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
       <% collapsed_fields = subform_section.collapsed_list %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+        <% fk = field_keys(subform.name, i.to_s, field.name, form_group_name) %>
         <%= render partial: "form_section/#{field.type}",
                    object: field,
                    locals: {
-                     field_keys: [subform.name, i.to_s, field.name],
+                     field_keys: fk,
                      formObject: formObject
                    }
         %>
@@ -25,7 +26,7 @@
         <%= render partial: "form_section/field_static_#{field.display_type}",
                    object: field,
                    locals: { field: field, 
-                             field_keys: [subform.name, i.to_s, field.name],
+                             field_keys: fk,
                              formObject: formObject
                            }
         %>
@@ -46,10 +47,11 @@
     <%# TODO: Render the individual fields %>
     <% collapsed_fields = subform_section.collapsed_list %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+      <% fk = field_keys(subform.name, 'template', field.name, form_group_name) %>
       <%= render partial: "form_section/#{field.type}",
                  object: field,
                  locals: {
-                   field_keys: [subform.name, 'template', field.name],
+                   field_keys: fk,
                    value: "",
                    formObject: formObject
                  }
@@ -59,7 +61,7 @@
         <%= render partial: "form_section/field_static_#{field.display_type}",
                    object: field,
                    locals: { field: field, 
-                             field_keys: [subform.name, 'template', field.name],
+                             field_keys: fk,
                              formObject: formObject,
                              value: "???"
                            }
