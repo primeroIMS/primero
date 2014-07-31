@@ -55,7 +55,7 @@ module FieldsHelper
     return field_key 
   end
 
-  def subforms_count(object, field, form_group_name)
+  def subforms_count(object, field, form_group_name = "")
     subforms_count = 0
     if object[field.name].present?
       subforms_count = object[field.name].count

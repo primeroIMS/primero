@@ -717,7 +717,7 @@ describe IncidentsController do
 	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
 	        "fathers_name"=>""}}
 
-			controller.reindex_params_subforms params
+			controller.reindex_hash params['incident']
 			expected_subform = params["incident"]["nested_form_section"]["1"]
 
 			expect(expected_subform.present?).to be_true
