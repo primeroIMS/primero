@@ -169,15 +169,13 @@ def update_subforms_field(num, subform, fields)
   end
 end
 
-Then /^I should see static field in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
+Then /^I should see header in the (\d+)(?:st|nd|rd|th) "(.*)" subform within "(.*)"$/ do |num, subform, value|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  scope = "//div[@id='subform_container_#{subform}_#{num}']//div[@class='row collapse_expand_subform_header']"
-  fields.rows_hash.each do |name, value|
-    label_field = find(scope + "//span[@class='field_label' and text()='#{name}']")
-    static_field_id = label_field["id"].gsub(/static_label$/, 'static_text')
-    find(scope + "//span[@id='#{static_field_id}']", :text => value)
-  end
+  scope = "//div[@id='subform_container_#{subform}_#{num}']" +
+          "//div[@class='row collapse_expand_subform_header']" + 
+          "//div[contains(@class, 'display_field')]"
+  find(scope + "//span", :text => value)
 end
 
 And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|

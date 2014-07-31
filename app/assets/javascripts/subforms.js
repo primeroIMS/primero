@@ -30,40 +30,43 @@ var SubformView = Backbone.View.extend({
     if ($(target).hasClass("expanded")) {
       $(target).text("+");
       //Update the static text with the corresponding input value to shows the changes if any.
-      $(target).parents(".subform").find(".collapse_expand_subform_header span[id$='_static_text']").each(function(x, el){
-        var input_id = el.getAttribute("id").replace("_static_text", "");
-        if ($(el).hasClass("chosen_type")) {
-          //reflect changes of the chosen.
-          var input = $(target).parents(".subform").find("select[id='" + input_id + "_']");
-          if (input.val() == null) {
-            $(el).text("");
+      $(target).parents(".subform").find(".collapse_expand_subform_header div.display_field span").each(function(x, el){
+        var data_types = el.getAttribute("data-types").split(",");
+        var data_fields = el.getAttribute("data-fields").split(",");
+        var values = [];
+        for (var i=0; (data_fields.length == data_types.length) && (i < data_fields.length); i++) {
+          var input_id = data_fields[i];
+          var input_type = data_types[i];
+          if (input_type == "chosen_type") {
+            //reflect changes of the chosen.
+            var input = $(target).parents(".subform").find("select[id='" + input_id + "_']");
+            if (input.val() != null) {
+              values.push(input.val().join(", "));
+            }
+          } else if (input_type == "radio_button_type") {
+            //reflect changes of the for radio buttons.
+            var input = $(target).parents(".subform").find("input[id^='" + input_id + "']:checked");
+            if (input.size() > 0) {
+              values.push(input.val());
+            }
+          } else if (input_type == "check_boxes_type") {
+            //reflect changes of the checkboxes.
+            var checkboxes_values = [];
+            $(target).parents(".subform").find("input[id^='" + input_id + "']:checked").each(function(x, el){
+              checkboxes_values.push($(el).val());
+            });
+            if (checkboxes_values.length > 0) {
+              values.push(checkboxes_values.join(", "));
+            }
           } else {
-            $(el).text(input.val().join(", "));
+            //Probably there is other widget that should be manage differently.
+            var input = $(target).parents(".subform").find("#" + input_id);
+            if (input.val() != "") {
+              values.push(input.val());
+            }
           }
-        } else if ($(el).hasClass("radio_button_type")) {
-          //reflect changes of the for radio buttons.
-          var input = $(target).parents(".subform").find("input[id^='" + input_id + "']:checked");
-          if (input.size() == 0) {
-            $(el).text("");
-          } else {
-            $(el).text(input.val());
-          }
-        } else if ($(el).hasClass("check_boxes_type")) {
-          //reflect changes of the checkboxes.
-          var values = [];
-          $(target).parents(".subform").find("input[id^='" + input_id + "']:checked").each(function(x, el){
-            values.push($(el).val());
-          });
-          if (values.length == 0) {
-            $(el).text("");
-          } else {
-            $(el).text(values.join(", "));
-          }
-        } else {
-          //Probably there is other widget that should be manage differently.
-          var input = $(target).parents(".subform").find("#" + input_id);
-          $(el).text(input.val() == "" ? "" : input.val());
         }
+        $(el).text(values.join(" - "));
       });
     } else if ($(target).hasClass("collapsed")) {
       //Update the state of the subform.
@@ -111,9 +114,11 @@ var SubformView = Backbone.View.extend({
     });
 
     //This is the static field to shows in collapsed view.
-    newSubform.find(".collapse_expand_subform_header .field_value, .collapse_expand_subform_header .field_label").each(function(x, el){
-      var new_id = el.getAttribute("id").replace("template",i);
-      el.setAttribute("id", new_id);
+    newSubform.find(".collapse_expand_subform_header .display_field span").each(function(x, el){
+      var data_types = el.getAttribute("data-types").replace(/_template_/g, "_" + i + "_");
+      var data_fields = el.getAttribute("data-fields").replace(/_template_/g, "_" + i + "_");
+      el.setAttribute("data-types", data_types);
+      el.setAttribute("data-fields", data_fields);
     });
 
     newSubform.find("input, select, textarea").each(function(x, el){

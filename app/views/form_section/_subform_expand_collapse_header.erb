@@ -4,17 +4,34 @@
     <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %></span>
   </div>
   <div class="medium-8 columns">
-    <div class="medium-11 columns">
-      <% collapsed_fields.each do |field| %>
-      <%= render partial: "form_section/field_static_#{field.display_type}",
-           object: field,
-           locals: { field: field, 
-                     field_keys: [subform.name, i.to_s, field.name],
-                     formObject: formObject,
-                     value: i.to_s == 'template' ? "" : nil
-                   }
+    <div class="medium-11 columns display_field">
+      <% fields_id=[]
+         data_types=[]
+         value_fields=[]
+         collapsed_fields.each do |field|
+           field_keys = [subform.name, i.to_s, field.name]
+
+           #get the names of the fields that belong to the subforms header
+           #this will help to update the header if the user change something
+           name = field_tag_name formObject, field, field_keys
+           fields_id << sanitize_to_id(name)
+
+           #field_type will be used to identify how to retrieve the changes in the subform fields
+           #to update the static text placeholder if the field was changed by the user and the user 
+           #collapsed the subform.
+           field_type = field.type
+           field_type = "chosen" if field.type == "select_box" and field.multi_select == true
+           data_types << field_type + "_type"
+
+           #retrieve the value of the fields.
+           value = i.to_s == "template" ? "" : field_value(formObject, field, field_keys)
+           value_to_display = field_value_for_display value
+           value_fields << value_to_display
+         end
       %>
-      <% end %>
+      <span data-fields="<%= fields_id.join(',') %>" data-types="<%= data_types.join(',') %>">
+        <%= value_fields.reject(&:empty?).join(' - ') %>
+      </span>
     </div>
     <div class="medium-1 columns">
       <span class="collapse_expand_subform expanded">-</span>

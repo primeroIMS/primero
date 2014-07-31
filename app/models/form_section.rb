@@ -110,7 +110,9 @@ class FormSection < CouchRest::Model::Base
     if self.collapsed_fields.empty?
       [self.fields.select {|field| field.visible? }.first]
     else
-      self.fields.select {|field| field.visible? && self.collapsed_fields.include?(field.name) }
+      #Make sure we get the field in the order by collapsed_fields array.
+      map = Hash[*self.fields.collect { |field| [field.name, field] }.flatten]
+      self.collapsed_fields.collect {|field_name| map[field_name]}
     end
   end
 
