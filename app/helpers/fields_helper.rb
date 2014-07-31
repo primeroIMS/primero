@@ -39,11 +39,11 @@ module FieldsHelper
     return field_value
   end
   
-  def field_keys(subform_name, subform_index, field_name, field_group_name)
+  def field_keys(subform_name, subform_index, field_name, form_group_name)
     field_key = []
   
-    if field_group_name.present? and field_group_name == "Violations"
-      field_key << field_group_name.downcase
+    if form_group_name.present? and form_group_name == "Violations"
+      field_key << form_group_name.downcase
     end
     
     if subform_name.present?
@@ -55,12 +55,24 @@ module FieldsHelper
     return field_key 
   end
 
-  def subforms_count(object, field)
+  def subforms_count(object, field, form_group_name)
     subforms_count = 0
     if object[field.name].present?
       subforms_count = object[field.name].count
+    elsif object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
+      subforms_count = object[form_group_name.downcase][field.name].count
     end
     return subforms_count
+  end
+  
+  def get_subform_object(object, subform_section, form_group_name)
+    subform_object = {}
+    if form_group_name.present? and form_group_name == "Violations"
+      subform_object = object[form_group_name.downcase][subform_section.unique_id]
+    else
+      subform_object = object[:"#{subform_section.unique_id}"]
+    end
+    return subform_object
   end
 
 end

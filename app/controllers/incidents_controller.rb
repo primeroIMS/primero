@@ -72,6 +72,7 @@ class IncidentsController < ApplicationController
     authorize! :create, Incident
     params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
     #reindex_params_subforms params
+    params['incident']['violations'].compact
     
     create_or_update_incident(params[:incident])
     @incident['created_by_full_name'] = current_user_full_name
