@@ -51,3 +51,4 @@ capybara_features/reports/
 jmeter/logs/
 jmeter/*.log
 jmeter/*.csv
+jmeter/*.svg

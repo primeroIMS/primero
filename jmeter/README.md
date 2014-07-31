@@ -11,7 +11,7 @@ tests.  Please follow the instructions on their respective websites.
 
 It will install all of this under a newly created user called `jmeter`.  Once
 this cookbook has run, you can run the basic performance test suite by running
-the `run-jmeter` script, passing a name for the run as the first argument.  You
+the `scripts/run-jmeter` script, passing a name for the run as the first argument.  You
 need to pass it the `JMETER_TARGET_HOST` envvar and tell it the hostname of the
 box you are testing against (i.e.  `primero-app-integration.quoininc.com`,
 without the `https`).  For convenience, you can make a file called
@@ -94,3 +94,7 @@ You will need to find where the `CMDRunner.jar` library is installed on your
 system and replace that path, as well as get the time stamp for the latest
 JMeter test run to know which JTL file to use.
 
+## Testing a single page
+If you are just testing a single page's performance, you are probably better
+off just doing a simple test with Apache's `ab` tool rather than firing up
+JMeter and all of it's complexity.
