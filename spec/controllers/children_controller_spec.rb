@@ -780,7 +780,7 @@ describe ChildrenController do
 	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
 	        "fathers_name"=>""}}
 
-			controller.reindex_params_subforms params
+			controller.reindex_hash params['child']
 			expected_subform = params["child"]["nested_form_section"]["1"]
 
 			expect(expected_subform.present?).to be_true

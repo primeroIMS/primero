@@ -17,6 +17,7 @@ class Child < CouchRest::Model::Base
 
   property :nickname
   property :name
+  property :password_protected_name, TrueClass, :default => false
   property :case_id
   property :registration_date
   property :reunited, TrueClass
@@ -37,6 +38,7 @@ class Child < CouchRest::Model::Base
 
   def initialize *args
     self['photo_keys'] ||= []
+    self.password_protected_name ||= false
     arguments = args.first
 
     if arguments.is_a?(Hash) && arguments["current_photo_key"]

@@ -71,7 +71,9 @@ class IncidentsController < ApplicationController
   def create
     authorize! :create, Incident
     params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
-    reindex_params_subforms params
+    params['incident']['violations'].compact if params['incident'].present? && params['incident']['violations'].present?
+    reindex_hash params['incident']
+    
     create_or_update_incident(params[:incident])
     @incident['created_by_full_name'] = current_user_full_name
 
@@ -95,6 +97,8 @@ class IncidentsController < ApplicationController
   end
   
   def update
+    params['incident']['violations'].compact if params['incident'].present? && params['incident']['violations'].present?
+    
     respond_to do |format|
       format.json do
         params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
@@ -136,23 +140,8 @@ class IncidentsController < ApplicationController
       format.xml { head :ok }
       format.json { render :json => {:response => "ok"}.to_json }
     end
-  end
+  end  
   
-  #Exposed for unit testability
-  def reindex_params_subforms(params)
-    #get all the nested params
-    params['incident'].each do |k,v|
-      if v.is_a?(Hash) and v.present?
-        new_hash = {}
-        count = 0
-        v.each do |i, value|
-          new_hash[count.to_s] = value
-          count += 1
-        end
-        v.replace(new_hash)
-      end
-    end
-  end
   
   private
   
@@ -214,7 +203,7 @@ class IncidentsController < ApplicationController
   def update_incident_from params
     incident = @incident || Incident.get(params[:id]) || Incident.new_with_user_name(current_user, params[:incident])
     authorize! :update, incident
-    reindex_params_subforms params
+    reindex_hash params['incident']
     update_incident_with_attachments(incident, params)
   end
 

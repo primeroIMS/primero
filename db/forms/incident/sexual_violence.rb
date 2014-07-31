@@ -1,4 +1,4 @@
-violations_sexual_violence_fields = [
+sexual_violence_subform_fields = [
   Field.new({"name" => "violation_boys",
              "type" => "numeric_field", 
              "display_name_all" => "Number of victims: boys"
@@ -106,6 +106,31 @@ violations_sexual_violence_fields = [
             })
 ]
 
+sexual_violence_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order_form_group => 40,
+  :order => 40,
+  :order_subform => 1,
+  :unique_id => "sexual_violence_subform_section",
+  :parent_form=>"incident",
+  "editable" => true,
+  :fields => sexual_violence_subform_fields,
+  :perm_enabled => false,
+  :perm_visible => false,
+  "name_all" => "Nested Sexual Violence Subform",
+  "description_all" => "Nested Sexual Violence Subform",
+  :initial_subforms => 1
+})
+
+sexual_violence_fields = [
+  Field.new({"name" => "sexual_violence_subform_section",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => sexual_violence_subform_section.id,
+             "display_name_all" => "Sexual Violence"
+            })
+]
+
 FormSection.create_or_update_form_section({
   :unique_id => "sexual_violence",
   :parent_form=>"incident",
@@ -115,7 +140,7 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Violations",
   "editable" => true,
-  :fields => violations_sexual_violence_fields,
+  :fields => sexual_violence_fields,
   :perm_enabled => true,
   "name_all" => "Sexual Violence",
   "description_all" => "Sexual Violence"
