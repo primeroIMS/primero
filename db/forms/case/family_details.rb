@@ -1,3 +1,6 @@
+#JIRA PRIMERO-160
+#JIRA PRIMERO-358
+
 family_details_fields_subform = [
   Field.new({"name" => "relation_name",
              "type" => "text_field",

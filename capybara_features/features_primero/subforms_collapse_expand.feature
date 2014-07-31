@@ -1,4 +1,5 @@
 #JIRA PRIMERO-160
+#JIRA PRIMERO-358
 
 @javascript @primero
 Feature: Subforms Collapse Expand
