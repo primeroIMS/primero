@@ -199,6 +199,32 @@ class ChildrenController < ApplicationController
   def new_search
   end
 
+  def password_protect_name
+    if !current_user.authenticate(params[:password])
+      render :json => {:error => true, :text => I18n.t("cases.incorrect_password")}
+      return
+    end
+    if params[:protect_action] == "protect"
+      password_protect = true
+    elsif params[:protect_action] == "view"
+      password_protect = false
+    end
+    child = Child.by_id(:key => params[:child_id]).first
+    authorize! :update, child
+    child.password_protected_name = password_protect
+    if child.save
+      render :json => {:error => false,
+                       :input_field_text => password_protect ? I18n.t("cases.password_protected_field_text") : child['name'],
+                       :disable_input_field => password_protect,
+                       :action_link_action => password_protect ? "view" : "protect",
+                       :action_link_text => password_protect ? I18n.t("cases.view_name") : I18n.t("cases.password_protect_name")
+                      }
+    else
+      puts child.errors.messages
+      render :json => {:error => true, :text => I18n.t("cases.password_protect_name_error")}
+    end
+  end
+
 # DELETE /children/1
 # DELETE /children/1.xml
   def destroy

@@ -17,7 +17,7 @@ end
 Then /^I press the "([^\"]*)" (button|link)(?: "(.+)" times)?$/ do |label, type, times|
   times = 1 if times.blank?
   (1..times.to_i).each do 
-    click_on(label) 
+    click_on(label, :visible => true) 
   end
 end
 
