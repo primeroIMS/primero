@@ -22,6 +22,7 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
+             "password_protected_field" => true
             }),
   Field.new({"name" => "survivor_code_no",
              "type" => "text_field", 

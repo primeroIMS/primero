@@ -1,6 +1,7 @@
 module ChildHistoriesHelper
 
   def history_wording(from, to)
+    return "changed" if from.blank? && to.blank?
     formatted_to = field_value_for_display to
 		formatted_from = field_value_for_display from
 		return "initially set to #{formatted_to}" if from.blank?

@@ -202,6 +202,12 @@ Then /^the "([^\"]*)" field(?: within "([^\"]*)")? should contain "([^\"]*)"$/ d
   end
 end
 
+Then /^the disabled "([^\"]*)" field(?: within "([^\"]*)")? should have the value of "([^\"]*)"$/ do |field, selector, value|
+  with_scope(selector) do
+    find_field(field, :disabled => true).value.should eq(value)
+  end
+end
+
 Then /^the "([^\"]*)" field(?: within "([^\"]*)")? should not contain "([^\"]*)"$/ do |field, selector, value|
   with_scope(selector) do
     if defined?(Spec::Rails::Matchers)
