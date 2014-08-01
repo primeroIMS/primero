@@ -16,31 +16,28 @@ module RecordActions
   end
 
   def get_form_sections
-    all_forms = FormSection.find_by_parent_form(@className.parent_form)
+    @form_sections = FormSection.find_form_groups_by_parent_form(@className.parent_form)
+  end
 
-    #Load in all the subforms
-    #TODO: the subform load code should probably be just moved to the model record concern
-    #      and invoked via the find_* methods
-    @form_sections = []
-    subforms_hash = {}
-
-    all_forms.each do |form|
-      if form.visible?
-        @form_sections.push form
-      else
-        subforms_hash[form.id] = form
+  # This is to ensure that if a hash has numeric keys, then the keys are sequential
+  # This cleans up instances where multiple forms are added, then 1 or more forms in the middle are removed
+  def reindex_hash(a_hash)
+    a_hash.each do |key, value|
+      if value.is_a?(Hash) and value.present?
+        #if this is a hash with numeric keys, do the re-index, else keep searching
+        if value.keys[0].is_number?
+          new_hash = {}
+          count = 0
+          value.each do |k, v|
+            new_hash[count.to_s] = v
+            count += 1
+          end
+          value.replace(new_hash)
+        else
+          reindex_hash(value)
+        end
       end
     end
-
-    #TODO: The map{}.flatten still takes 13 ms to run
-    @form_sections.map{|f| f.fields}.flatten.each do |field|
-      if field.type == 'subform' && field.subform_section_id
-        field.subform ||= subforms_hash[field.subform_section_id]
-      end
-    end
-
-    return @form_sections
-
   end
 
 end
