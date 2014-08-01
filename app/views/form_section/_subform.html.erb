@@ -17,7 +17,8 @@
                  locals: { formObject: formObject,
                            subform: subform,
                            collapsed_fields: collapsed_fields,
-                           i: i
+                           i: i,
+                           form_group_name: form_group_name
                          }
       %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
@@ -44,7 +45,8 @@
                locals: { formObject: formObject,
                          subform: subform,
                          collapsed_fields: collapsed_fields,
-                         i: 'template'
+                         i: 'template',
+                         form_group_name: form_group_name
                        }
     %>
     <%# TODO: Render the individual fields %>
