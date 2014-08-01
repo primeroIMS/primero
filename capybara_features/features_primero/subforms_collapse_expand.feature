@@ -1,5 +1,7 @@
 #JIRA PRIMERO-160
 #JIRA PRIMERO-358
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Subforms Collapse Expand
@@ -19,6 +21,7 @@ Feature: Subforms Collapse Expand
       | reason_child_not_seen  |
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Family / Partner Details" button
     And I press the "Family Details" button
     And I add a "Family Details Section" subform
     And I add a "Family Details Section" subform
@@ -74,6 +77,7 @@ Feature: Subforms Collapse Expand
     And I should see header in the 2nd "Family Details Section" subform within ""
 
   Scenario: As a logged in user and collapsed new subform followup, I should see empty values
+    And I press the "Services / Follow Up" button
     And I press the "Follow Up" button
     And I add a "Followup Subform Section" subform
     And I collapsed the 1st "Followup Subform Section" subform
@@ -100,6 +104,7 @@ Feature: Subforms Collapse Expand
     And I should see header in the 2nd "Family Details Section" subform within "Mary - Aunt - No - No Other Dead Notes - 41 - Language 2"
 
   Scenario: As a logged in user and change fields value in followup, I should see the changes in the subform header
+    And I press the "Services / Follow Up" button
     And I press the "Follow Up" button
     And I add a "Followup Subform Section" subform
     And I update in the 1st "Followup Subform Section" subform with the follow:

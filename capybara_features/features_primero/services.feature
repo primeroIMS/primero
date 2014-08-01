@@ -1,6 +1,8 @@
 # JIRA PRIMERO-135
 # JIRA PRIMERO-226
 # JIRA PRIMERO-255
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Services
@@ -11,6 +13,7 @@ Feature: Services
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Services / Follow Up" button
     And I press the "Services" button
     And I select "Psychosocial/Counseling Services" from "Who referred the client to you?"
     And I fill in the 1st "Services Section" subform with the follow:

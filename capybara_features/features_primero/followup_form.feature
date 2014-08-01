@@ -4,6 +4,8 @@
 # JIRA PRIMERO-232
 #JIRA PRIMERO-274
 #JIRA PRIMERO-160
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Followup
@@ -13,6 +15,7 @@ Feature: Followup
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Services / Follow Up" button
     And I press the "Follow Up" button
 
   Scenario: I am a logged in Social Worker on the Follow Ups form

@@ -1,5 +1,7 @@
 #JIRA PRIMERO-302
 #JIRA PRIMERO-329
+#JIRA PRIMERO-352
+#JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Other Violation Form
@@ -10,6 +12,7 @@ Feature: Other Violation Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
+    And I press the "Violations" button
     And I press the "Other Violation" button
     And I update in the 1st "Other Violation Section" subform with the follow:
       | Other Violation Type        | <Select> Denial of Civil Rights |

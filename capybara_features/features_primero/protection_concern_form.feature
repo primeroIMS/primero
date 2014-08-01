@@ -5,25 +5,13 @@
 # JIRA PRIMERO-254
 # JIRA PRIMERO-253
 # JIRA PRIMERO-354
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Protection Concern Form
   As an administrator, I want to enter information related to protection concerns 
   so that we can know the vulnerabilities of the child.
-  
-  Scenario: As a logged in user, I should access the form section protection concerns subform
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "Nested Protection Concerns Subform" button
-    Then I should see the following fields:
-      | Type of Protection Concern   |
-      | Period when identified?      |
-      | Details of the concern       |
-      | Intervention needed?         |
-      | Intervention needed by       |
-      | Has action been taken?       |
-      | Details of Action Taken      |
-      | Date when action was taken   |
 
   Scenario: As a logged in user, I create a case by entering something in every field in the protection concern form
     Given I am logged in as an admin with username "primero" and password "primero"

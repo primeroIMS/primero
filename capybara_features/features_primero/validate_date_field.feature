@@ -1,6 +1,8 @@
 # JIRA Primero-150
 # JIRA Primero-245
 # JIRA Primero-258
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 
 @javascript @primero
@@ -37,7 +39,8 @@ Feature: Validate Date Field
     And I should see a value for "Date of Implementation" on the show page with the value of "12-Feb-2014"
 
 
-  Scenario: As a logged in user, I create a case and validate the date field with invalid values in a subform 
+  Scenario: As a logged in user, I create a case and validate the date field with invalid values in a subform
+    And I press the "Services / Follow Up" button
     And I press the "Services" button
     And I fill in the 1st "Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
@@ -50,7 +53,8 @@ Feature: Validate Date Field
     And I press "Save"
     Then I should see "Services: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
 
-  Scenario: As a logged in user, I create a case and validate the date field with invalid values in a subform 
+  Scenario: As a logged in user, I create a case and validate the date field with invalid values in a subform
+    And I press the "Services / Follow Up" button 
     And I press the "Services" button
     And I fill in the 1st "Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
