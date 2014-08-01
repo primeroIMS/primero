@@ -1,6 +1,8 @@
 #JIRA PRIMERO-310
 #JIRA PRIMERO-341
 #JIRA PRIMERO-333
+#JIRA PRIMERO-352
+#JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Attack on Schools Form
@@ -11,6 +13,7 @@ Feature: Attack on Schools Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
+    And I press the "Violations" button
     And I press the "Attack on Schools" button
     And I fill in the following:
       | Number of Sites Attacked                          | 50                                          |

@@ -14,6 +14,8 @@
 # JIRA PRIMERO-267
 # JIRA PRIMERO-339
 # JIRA PRIMERO-354
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Basic Identity Form

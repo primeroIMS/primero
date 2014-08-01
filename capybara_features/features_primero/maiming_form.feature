@@ -1,5 +1,7 @@
 #JIRA PRIMERO-286
 #JIRA PRIMERO-323
+#JIRA PRIMERO-352
+#JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Maiming Form
@@ -10,6 +12,7 @@ Feature: Maiming Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
+    And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
       | Number of victims: boys    | 1 |

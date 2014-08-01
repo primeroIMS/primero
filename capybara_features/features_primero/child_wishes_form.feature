@@ -1,22 +1,11 @@
 #JIRA PRIMERO-187
 # JIRA PRIMERO-232
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Child Wishes Form
   As a Social worker, I want to enter the information related to the child's wishes.
-
-  Scenario: As a logged in user, I should access the form section child's preferences subform
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "Nested Child's Preferences" button
-    Then I should see the following fields:
-      |Person(s) child wishes to locate|
-      |Preference of the child to be relocated with this person|
-      |What is this person's relationship to the child?|
-      |Last Known Address|
-      |Landmark|
-      |Last Known Location|
-      |Telephone|
 
   Scenario: As a logged in user, I should access the form section child's wishes
     Given I am logged in as an admin with username "primero" and password "primero"
@@ -42,6 +31,7 @@ Feature: Child Wishes Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Tracing" button
     And I press the "Child's Wishes" button
     And I fill in the following:
       | If the child does NOT want family tracing , explain why | Family Tracing Explain       |
@@ -130,6 +120,7 @@ Feature: Child Wishes Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Tracing" button
     And I press the "Child's Wishes" button
     And I fill in the 1st "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Father's Name |

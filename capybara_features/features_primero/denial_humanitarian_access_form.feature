@@ -1,4 +1,6 @@
 #JIRA PRIMERO-299
+#JIRA PRIMERO-352
+#JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Denial of Humanitarian Access Form
@@ -8,6 +10,7 @@ Feature: Denial of Humanitarian Access Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
+    And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
     And I fill in the following:
      | What method(s) were used to deny humanitarian access? | <Select> Import Restrictions for Goods               |

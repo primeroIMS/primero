@@ -1,5 +1,7 @@
 #JIRA PRIMERO-296
 #JIRA PRIMERO-324
+#JIRA PRIMERO-352
+#JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Killing Form
@@ -9,6 +11,7 @@ Feature: Killing Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
+    And I press the "Violations" button
     And I press the "Killing" button
     And I fill in the following:
       | Number of victims: boys                                                                     | 1                                      |
