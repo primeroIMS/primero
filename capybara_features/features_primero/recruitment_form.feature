@@ -2,6 +2,7 @@
 #JIRA PRIMERO-330
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
+#JIRA PRIMERO-373
 
 @javascript @primero
 Feature: Recruitment Form
@@ -14,11 +15,11 @@ Feature: Recruitment Form
     And I press the "Violations" button
     And I press the "Recruitment" button
     And I fill in the following:
-      | Number of victims: boys    | 1 |
-      | Number of victims: girls   | 2 |
-      | Number of victims: unknown | 3 |
-      | Number of total victims    | 6 |
-      | Forced vs. Voluntary       | <Radio> Forced |
+      | Number of survivors: boys    | 1 |
+      | Number of survivors: girls   | 2 |
+      | Number of survivors: unknown | 3 |
+      | Number of total survivors    | 6 |
+      | Forced vs. Voluntary         | <Radio> Forced |
       | Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)? | <Radio> Yes |
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Conscription<Choose>Lack of Basic Services<Choose>Idealism |
       | Was this a case of re-recruitment (this does not necessarily have to be by the same armed group)? | <Radio> No |
@@ -29,7 +30,7 @@ Feature: Recruitment Form
       | Did the child use/own a weapon?                   | <Radio> Yes |
       | Did the child receive any military-type training? | <Radio> No |
       | Did the recruited child witness or was with other children in the group? | <Radio> Unknown |
-      | Was the child a victim of any other violations?      | <Radio> Yes |
+      | Was the child involved in any other violations?      | <Radio> Yes |
       | Were children killed/raped/injured within the group? | <Radio> No |
       | Have some or all of the children been released or left the armed group? | <Radio> Yes (Some) |
       | If Yes, how many were released or have left the armed group? | 10          |
@@ -40,10 +41,10 @@ Feature: Recruitment Form
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Recruitment"
     And I should see in the 1st "Recruitment" subform with the follow:
-      | Number of victims: boys                                                                                        | 1                                              |
-      | Number of victims: girls                                                                                       | 2                                              |
-      | Number of victims: unknown                                                                                     | 3                                              |
-      | Number of total victims                                                                                        | 6                                              |
+      | Number of survivors: boys                                                                                      | 1                                              |
+      | Number of survivors: girls                                                                                     | 2                                              |
+      | Number of survivors: unknown                                                                                   | 3                                              |
+      | Number of total survivors                                                                                      | 6                                              |
       | Forced vs. Voluntary                                                                                           | Forced                                         |
       | Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)? | Yes                                            |
       | What factors contributed towards the recruitment of the child by the armed group?                              | Conscription, Lack of Basic Services, Idealism |
@@ -55,7 +56,7 @@ Feature: Recruitment Form
       | Did the child use/own a weapon?                                                                                | Yes                                            |
       | Did the child receive any military-type training?                                                              | No                                             |
       | Did the recruited child witness or was with other children in the group?                                       | Unknown                                        |
-      | Was the child a victim of any other violations?                                                                | Yes                                            |
+      | Was the child involved in any other violations?                                                                | Yes                                            |
       | Were children killed/raped/injured within the group?                                                           | No                                             |
       | Have some or all of the children been released or left the armed group?                                        | Yes (Some)                                     |
       | If Yes, how many were released or have left the armed group?                                                   | 10                                             |

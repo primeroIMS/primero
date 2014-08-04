@@ -45,19 +45,19 @@ impact_humanitarian_personnel_section = FormSection.create_or_update_form_sectio
 human_impact_attack_fields_subform = [
   Field.new({"name" => "violation_boys",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: boys"
+             "display_name_all" => "Number of survivors: boys"
             }),
   Field.new({"name" => "violation_girls",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: girls"
+             "display_name_all" => "Number of survivors: girls"
             }),
   Field.new({"name" => "violation_unknown",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: unknown"
+             "display_name_all" => "Number of survivors: unknown"
             }),
   Field.new({"name" => "violation_total",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of Child Victims Total"
+             "display_name_all" => "Number of total survivors"
             }),
   Field.new({"name" => "denial_total_affected_adults",
              "type" => "numeric_field", 

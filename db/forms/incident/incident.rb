@@ -37,13 +37,9 @@ incident_fields = [
              "type" => "date_field",
              "display_name_all" => "Date of First Report or Interview"
             }),
-  Field.new({"name" => "start_date_of_incident",
+  Field.new({"name" => "date_of_incident",
              "type" => "date_range",
-             "display_name_all" => "Start Date of Incident"
-            }),
-  Field.new({"name" => "end_date_of_incident",
-             "type" => "date_range",
-             "display_name_all" => "End Date of Incident"
+             "display_name_all" => "Date of Incident"
             }),
   Field.new({"name" => "estimated_indicator",
              "type" => "radio_button",

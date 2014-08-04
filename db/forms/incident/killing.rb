@@ -79,7 +79,7 @@ Field.new({"name" => "kill_cause_of_details",
             }),
   Field.new({"name" => "kill_participant",
              "type" => "select_box",
-             "display_name_all" => "Was the victim/survivor directly participating in hostilities at the time of the violation?",
+             "display_name_all" => "Was the victim directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" =>
                                     ["Yes",
                                      "No",
