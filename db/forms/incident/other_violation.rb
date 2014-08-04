@@ -14,19 +14,19 @@ other_violation_section_fields = [
             }),
   Field.new({"name" => "other_violation_boys",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: boys"
+             "display_name_all" => "Number of survivors: boys"
             }),
   Field.new({"name" => "other_violation_girls",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: girls"
+             "display_name_all" => "Number of survivors: girls"
             }),
   Field.new({"name" => "other_violation_unknown",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: unknown"
+             "display_name_all" => "Number of survivors: unknown"
             }),
   Field.new({"name" => "other_violation_total",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of total victims"
+             "display_name_all" => "Number of total survivors"
             })
 ]
 
