@@ -1,6 +1,7 @@
 #JIRA PRIMERO-299
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
+#JIRA PRIMERO-373
 
 @javascript @primero
 Feature: Denial of Humanitarian Access Form
@@ -23,10 +24,10 @@ Feature: Denial of Humanitarian Access Form
      | Number of Vehicles Hijacked        | 5     |
      | Value of Property Stolen / Damaged | 60000 |
     And I fill in the 1st "Human Impact Attack Section" subform with the follow:
-     | Number of victims: boys                   | 10     |
-     | Number of victims: girls                  | 20     |
-     | Number of victims: unknown                | 30     |
-     | Number of Child Victims Total             | 40     |
+     | Number of survivors: boys                 | 10     |
+     | Number of survivors: girls                | 20     |
+     | Number of survivors: unknown              | 30     |
+     | Number of total survivors                 | 40     |
      | Adults                                    | 50     |
      | Population Affected by Service Disruption | 70000  |
     And I press "Save"
@@ -41,9 +42,9 @@ Feature: Denial of Humanitarian Access Form
      | Number of Vehicles Hijacked        | 5     |
      | Value of Property Stolen / Damaged | 60000 |
     And I should see in the 1st "Human Impact of Attack Detail" subform with the follow:
-     | Number of victims: boys                   | 10     |
-     | Number of victims: girls                  | 20     |
-     | Number of victims: unknown                | 30     |
-     | Number of Child Victims Total             | 40     |
+     | Number of survivors: boys                 | 10     |
+     | Number of survivors: girls                | 20     |
+     | Number of survivors: unknown              | 30     |
+     | Number of total survivors                 | 40     |
      | Adults                                    | 50     |
      | Population Affected by Service Disruption | 70000  |

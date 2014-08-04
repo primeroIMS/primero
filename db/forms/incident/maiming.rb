@@ -1,19 +1,19 @@
 maiming_subform_fields = [
   Field.new({"name" => "violation_maiming_boys",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: boys"
+             "display_name_all" => "Number of survivors: boys"
             }),
   Field.new({"name" => "violation_maiming_girls",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: girls"
+             "display_name_all" => "Number of survivors: girls"
             }),
   Field.new({"name" => "violation_maiming_unknown",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: unknown"
+             "display_name_all" => "Number of survivors: unknown"
             }),
   Field.new({"name" => "violation_maiming_total",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of total victims"
+             "display_name_all" => "Number of total survivors"
             }),
   Field.new({"name" => "maim_method",
              "type" => "select_box",
@@ -78,7 +78,7 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "maim_participant",
              "type" => "radio_button",
-             "display_name_all" => "Was the victim/survivor directly participating in hostilities at the time of the violation?",
+             "display_name_all" => "Was the survivor directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
   Field.new({"name" => "maim_abduction",

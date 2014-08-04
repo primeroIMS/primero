@@ -30,7 +30,7 @@ individual_details_fields = [
             }),
   Field.new({"name" => "ethnicity",
              "type" => "select_box",
-             "display_name_all" => "What is the ethnic affiliation of the Victim/Survivor?",
+             "display_name_all" => "What is the ethnic affiliation of the individual?",
              "option_strings_text_all" =>
                           ["Ethnicity1",
                            "Ethnicity2",
@@ -38,7 +38,7 @@ individual_details_fields = [
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
-             "display_name_all" => "What is the national affiliation of the Victim/Survivor?",
+             "display_name_all" => "What is the national affiliation of the individual?",
              "option_strings_text_all" =>
                           ["Nationality1",
                            "Nationality2",
@@ -46,7 +46,7 @@ individual_details_fields = [
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
-             "display_name_all" => "What is the religious affiliation of the Victim/Survivor?",
+             "display_name_all" => "What is the religious affiliation of the individual?",
              "option_strings_text_all" =>
                           ["Religion1",
                            "Religion2",

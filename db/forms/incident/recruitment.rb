@@ -1,19 +1,19 @@
 recruitment_subform_fields = [
   Field.new({"name" => "violation_recruit_boys",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: boys"
+             "display_name_all" => "Number of survivors: boys"
             }),
   Field.new({"name" => "violation_recruit_girls",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: girls"
+             "display_name_all" => "Number of survivors: girls"
             }),
   Field.new({"name" => "violation_recruit_unknown",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: unknown"
+             "display_name_all" => "Number of survivors: unknown"
             }),
   Field.new({"name" => "violation_recruit_total",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of total victims"
+             "display_name_all" => "Number of total survivors"
             }),
   Field.new({"name" => "forced_vs_voluntary",
              "type" => "radio_button",
@@ -100,7 +100,7 @@ recruitment_subform_fields = [
             }),
   Field.new({"name" => "child_victim_other_violations",
              "type" => "radio_button",
-             "display_name_all" => "Was the child a victim of any other violations?",
+             "display_name_all" => "Was the child involved in any other violations?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
   Field.new({"name" => "children_killed_raped_injured",
