@@ -41,7 +41,7 @@ Feature: Validate Date Field
 
   Scenario: As a logged in user, I create a case and validate the date field with invalid values in a subform
     And I press the "Services / Follow Up" button
-    And I press the "Services" button
+    And I click text "Services" within "ul.sub"
     And I fill in the 1st "Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
       | Did you refer the client for this service? | <Select> Referred     |
