@@ -25,6 +25,13 @@ Then /^I click on the "([^\"]*)" link/ do |label|
   click_on(label)
 end
 
+When(/^I click on "(.*?)" in form group "(.*?)"$/) do |link, group_name|
+  scope = "#group_" + group_name.gsub(" ", "").gsub("/", "")
+  within :css, scope do
+    click_link link
+  end
+end
+
 Then /^I should see the "([^\"]*)" field$/ do |field_name|
   find_field(field_name)
 end
@@ -518,3 +525,4 @@ def click_unflag_as_suspect_record_link_for(name)
   #find(:css, ".btn_flag").click
   click_on('Unflag Record')
 end
+

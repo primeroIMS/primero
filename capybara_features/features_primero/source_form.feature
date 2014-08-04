@@ -10,7 +10,7 @@ Feature: Source Form
     And I press the "Create a New Incident" button
     And I press the "Source" button
     And I fill in the 1st "Source Subform Section" subform with the follow:
-      | Date of Interview                                          | 19/Jul/1979                 |
+      | Date of Interview                                          | 19-Jul-1979                 |
       | Monitor ID                                                 | <Select> Option1            |
       | Primary Report Agency                                      | <Select> Option1            |
       | Other Reporting Agency                                     | <Select> Option2            |

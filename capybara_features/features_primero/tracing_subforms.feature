@@ -10,6 +10,7 @@ Feature: Tracing Subforms
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Tracing" button
+    And I click on "Tracing" in form group "Tracing"
 
   Scenario: As a logged in user, I should access the form section tracing and create tracing actions
     And I fill in the 1st "Tracing Actions Section" subform with the follow:

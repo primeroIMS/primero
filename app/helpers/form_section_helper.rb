@@ -38,7 +38,9 @@ module FormSectionHelper
   end
 
   def build_group_tabs(forms)
-    content_tag :ul , class: 'sub' do
+    
+    group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
+    content_tag :ul , class: 'sub', id: group_id do
      for form in forms
       concat(content_tag(:li, 
         link_to("#tab_#{form.section_name}") do 

@@ -16,7 +16,7 @@ Feature: Family Details Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
-    And I press the "Family Details" button
+    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the following:
       | Size of Family                        | 3                  |
       | Notes about Family                    | Some Family Notes  |
@@ -138,7 +138,7 @@ Feature: Family Details Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
-    And I press the "Family Details" button
+    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the 1st "Family Details Section" subform with the follow:
       | Age | 39 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
@@ -157,7 +157,7 @@ Feature: Family Details Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
-    And I press the "Family Details" button
+    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the 1st "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1975 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
