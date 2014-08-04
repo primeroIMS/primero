@@ -12,7 +12,7 @@ Feature: Child Wishes Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Tracing" button
-    And I press the "Child's Wishes" button
+    And I click on "Child's Wishes" in form group "Tracing"
     And I fill in the following:
       | If the child does NOT want family tracing , explain why | Family Tracing Explain       |
       | If 'No', 'Not sure', or 'Yes, but later', explain why   | Family Reunification Explain |
@@ -56,7 +56,6 @@ Feature: Child Wishes Form
       | Telephone                                                | Second Telephone       |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I press the "Child's Wishes" button
     And I should see a value for "If the child does NOT want family tracing , explain why" on the show page with the value of "Family Tracing Explain"
     And I should see a value for "If 'No', 'Not sure', or 'Yes, but later', explain why" on the show page with the value of "Family Reunification Explain"
     And I should see a value for "Please Give Details" on the show page with the value of "Some Details"
@@ -101,7 +100,7 @@ Feature: Child Wishes Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Tracing" button
-    And I press the "Child's Wishes" button
+    And I click on "Child's Wishes" in form group "Tracing"
     And I fill in the 1st "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Father's Name |
     And I fill in the 1st "Child Preferences Section" subform with the follow:

@@ -11,7 +11,7 @@ Feature: Partner Details Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
-    And I press the "Partner Details" button
+    And I click on "Partner Details" in form group "Family / Partner Details"
     And I fill in the following:
       | Partner's Details                                   |Some details|
       | Length of Marriage/Relationship                     |6           |

@@ -14,7 +14,7 @@ Feature: Services
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Services / Follow Up" button
-    And I press the "Services" button
+    And I click on "Services" in form group "Services / Follow Up"
     And I select "Psychosocial/Counseling Services" from "Who referred the client to you?"
     And I fill in the 1st "Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
@@ -26,7 +26,6 @@ Feature: Services
       | Notes                                      | No notes at this time |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I press the "Services" button
     And I should see in the 1st "Service" subform with the follow:
       | Type of Service                            | Safehouse             |
       | Did you refer the client for this service? | Referred              |
