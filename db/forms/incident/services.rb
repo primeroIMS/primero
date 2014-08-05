@@ -11,7 +11,7 @@ health_medical_referral_subform_fields = [
                                      "No referral, Service unavailable"].join("\n")
             }),
   Field.new({"name" => "service_medical_appointment_date",
-             "type" => "text_field",
+             "type" => "date_field",
              "display_name_all" => "Appointment Date"
             }),
   Field.new({"name" => "service_medical_appointment_time",
