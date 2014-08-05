@@ -59,7 +59,6 @@ perpetrator_subform_fields = [
   Field.new({"name" => "perpetrator_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Clan or Ethnicity of alleged perpetrator",
-             "visible" => false,
              "option_strings_text_all" =>
                           ["Ethnicity1",
                            "Ethnicity2",
