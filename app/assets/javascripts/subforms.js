@@ -13,7 +13,7 @@ var SubformView = Backbone.View.extend({
     //By default existing subforms are collapsed to input.
     this.$el.find(".subform_container, .subform_container:hidden").each(function(x, el){
       //Hide Regular inputs by default.
-      $(el).find(".subform div[class='row']").hide();
+      $(el).find(".subform div.row:gt(0)").hide();
       $(el).find(".subform div[class='row collapse_expand_subform_header'] span.collapse_expand_subform").each(function(x, el){
         $(el).text("+");
         $(el).addClass("collapsed");
@@ -82,7 +82,7 @@ var SubformView = Backbone.View.extend({
     $(target).toggleClass("expanded");
     $(target).toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
-    $(target).parents(".subform").find("div[class='row']").toggle();
+    $(target).parents(".subform").find("div.row:gt(0)").toggle();
   },
 
   add: function(event) {
