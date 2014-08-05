@@ -4,6 +4,12 @@ perpetrator_subform_fields = [
              "display_name_all" => "Is this the primary perpetrator?",
              "option_strings_text_all" => "Yes\nNo"
             }),
+  Field.new({"name" => "perpetrator_violations",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Violations",
+             "option_strings_source" => "violations"
+            }),
   Field.new({"name" => "perpetrator_category",
              "type" => "select_box",
              "display_name_all" => "Was the alleged perpetrator(s) a State or Non-State Actor?",

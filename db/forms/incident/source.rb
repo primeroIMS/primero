@@ -41,11 +41,9 @@ source_subform_fields = [
             }),
   Field.new({"name" => "source_violations",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Violations",
-             "option_strings_text_all" =>
-                          ["Option1",
-                           "Option2",
-                           "Option3"].join("\n")
+             "option_strings_source" => "violations"
             }),
   Field.new({"name" => "source_violations_notes",
              "type" => "textarea",

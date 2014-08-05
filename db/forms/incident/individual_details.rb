@@ -7,6 +7,12 @@ individual_details_fields = [
              "type" => "text_field",
              "display_name_all" => "Survivor Code",
             }),
+  Field.new({"name" => "individual_violations",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Violations",
+             "option_strings_source" => "violations"
+            }),
   Field.new({"name" => "sex",
              "type" => "select_box",
              "display_name_all" => "What is the sex of the child?",

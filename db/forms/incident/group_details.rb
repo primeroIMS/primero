@@ -5,12 +5,9 @@ group_details_section_fields_subform = [
             }),
   Field.new({"name" => "group_violations",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Violations",
-             "option_strings_text_all" =>
-                                    ["Option 1",
-                                     "Option 2",
-                                     "Option 3",
-                                     "Option 4"].join("\n")
+             "option_strings_source" => "violations"
             }),
   Field.new({"name" => "group_number",
              "type" => "numeric_field", 

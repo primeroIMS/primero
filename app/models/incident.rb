@@ -1,19 +1,19 @@
 class Incident < CouchRest::Model::Base
   use_database :incident
-  
+
   include RapidFTR::Model
   include RapidFTR::CouchRestRailsBackward
-  
+
   include SearchableRecord
-  
+
   property :incident_id
   property :description
-  
+
   def initialize *args 
     self['histories'] = []
     super *args
   end
-  
+
   design do
     view :by_incident_id
     view :by_description,
@@ -25,7 +25,7 @@ class Incident < CouchRest::Model::Base
                     }
                  }
               }"
-              
+
     #TODO - move this to record concern
       ['created_at', 'description', 'name'].each do |field|
         view "by_all_view_with_created_by_#{field}",
@@ -246,23 +246,23 @@ class Incident < CouchRest::Model::Base
                 }"
       end
   end
-  
+
   def self.find_by_incident_id(incident_id)
     by_incident_id(:key => incident_id).first
   end
-  
+
   def self.all 
-    view('by_description', {})  
+    view('by_description', {})
   end 
-  
+
   def self.search_field
     "description"
   end
-  
+
   def self.view_by_field_list
     ['created_at', 'description']
   end
-  
+
   def createClassSpecificFields(fields)
     self['incident_id'] = self.incident_id
     self['description'] = fields['description'] || self.description || ''
@@ -274,5 +274,10 @@ class Incident < CouchRest::Model::Base
 
   def incident_code
     (self['unique_identifier'] || "").last 7
+  end
+
+  def violations_list
+    #TODO - build this out
+    ['violation_foo', 'violation_bar', 'violation_baz']
   end
 end
