@@ -85,7 +85,8 @@ reunification_details_section = FormSection.create_or_update_form_section({
     :perm_enabled => false,
     :perm_visible => false,
     "name_all" => "Nested Reunification",
-    "description_all" => "Reunification Subform"
+    "description_all" => "Reunification Subform",
+    "collapsed_fields" => ["relationship_reunified_adult", "name_reunified_adult"]
 })
 
 #########################################
@@ -150,7 +151,8 @@ tracing_actions_section = FormSection.create_or_update_form_section({
      :perm_enabled => false,
      :perm_visible => false,
      "name_all" => "Nested Tracing Action",
-     "description_all" => "Tracing Action Subform"
+     "description_all" => "Tracing Action Subform",
+     "collapsed_fields" => ["tracing_type", "date_tracing"]
 })
 
 #########################################

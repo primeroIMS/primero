@@ -164,7 +164,8 @@ recruitment_subform_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Recruitment Subform",
   "description_all" => "Nested Recruitment Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["factors_of_recruitment"]
 })
 
 recruitment_fields = [
