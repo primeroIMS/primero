@@ -53,6 +53,7 @@ table tr:nth-child(odd){
 
 table.list_view{
   border:none;
+  margin-bottom: 20px;
   a.id_link{
     text-decoration: underline;
     &:hover{

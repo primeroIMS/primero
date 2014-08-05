@@ -47,4 +47,16 @@ module FieldsHelper
     return subforms_count
   end
 
+  # TODO: Translate these
+  def scope_values(record)
+    record = record.pluralize
+    [
+      [t("#{record}.filter_by.valid"), "Valid record" ],
+      [t("#{record}.filter_by.invalid"), "Invalid record"],
+      [t("#{record}.filer_by.all"), "all" ],
+      [t("#{record}.filer_by.active"),"active"],
+      [t("#{record}.filer_by.reunited"),"reunited"],
+      [t("#{record}.filer_by.flagged"),"flag"]
+    ]
+  end
 end

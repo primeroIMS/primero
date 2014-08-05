@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'sunspot'
 
 describe Child do
   it_behaves_like "a valid record" do

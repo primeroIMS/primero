@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="large-12 columns">
+    <%= render :partial => "record_shared/header", locals: { model: model, record: record } %>
+    <div class="clearfix"></div>
+
+    <%#
+      TODO: For now the filter and order-by have been removed as per PRIMRO-105.
+      We will need to put them back in.
+    %>
+    <div class="filter_bar" style="display: none;">
+      <div class="row">
+        <div class="large-6 medium-6 columns">
+          <%#= render :partial => "children/order_by_box" %>
+        </div>
+      </div>
+    </div>
+    <div class="scope_bar">
+      <div class="row">
+        <div class="large-6 medium-6 columns">
+          <form class="record_scope_bar_form">
+            <ul class="inline-list">
+              <%= render :partial => "record_shared/scopes", locals: { record: record } %>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+    <% # TODO: Temp till Pavel returns. Not 100% on the data types for solr. text fields can't be sorted. Should they be text or string? %>
+    <script>
+      var index_columns = [
+      <% fields.each do |field, options| %>
+        { data: "<%= field %>"},
+      <% end %>
+      ],
+      pagination_info = {
+        empty: "<%= t('pagination.zero', model: record.pluralize) %>",
+        default: "<%= t('pagination.page_entries_info', model: record.pluralize) %>"
+      },
+      <% if record == 'case' %>
+        index_column_defs = [ { orderable: false, targets: [1, 5, 6] }];
+        index_default_order = [[ 0, "desc" ]];
+      <% else %>
+        index_column_defs = [ { orderable: false, targets: [0, 2, 3, 4] }],
+        index_default_order = [[ 1, "desc" ]];
+      <% end %>
+    </script>
+    <table width="100%" class="record_list_view" cellpadding=0 cellspacing=0 data-source="<%= polymorphic_path(model, format: :json) %>">
+      <thead>
+        <tr>
+          <% fields.each do |field| %>
+          <th class="<%= field %>_column">
+            <%= field == 'flag' ? icon('flag') : t("#{record}.#{field}") %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>

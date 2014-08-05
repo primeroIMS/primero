@@ -1,23 +1,24 @@
 class IncidentsController < ApplicationController
   include RecordActions
-  include SearchingForRecords #TODO: get rid of this
+  include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
 
   def index
     authorize! :index, Incident
-    #@incidents = Incident.all
 
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
-    @filter = params[:filter] || params[:status] || "all"
-    @order = params[:order_by] || 'description'
 
-    per_page = params[:per_page] || IncidentsHelper::View::PER_PAGE
-    per_page = per_page.to_i unless per_page == 'all'
+    if params[:format]
+      search = Incident.list_records filter, order, pagination, current_user_name
+      @incidents = search.results
+      @incidents_total = search.total
 
-    #TODO: Get rid of this. See code in the children controller
-    filter_incidents per_page
+      # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
+      # index average 400ms to 600ms without and 1000ms to 3000ms with.
+      @highlighted_fields = FormSection.sorted_highlighted_fields
+    end
 
     respond_to do |format|
       format.html
@@ -28,6 +29,7 @@ class IncidentsController < ApplicationController
           redirect_to :action => :index and return
         end
       end
+      format.json
 
       respond_to_export format, @incidents
     end
@@ -168,34 +170,6 @@ class IncidentsController < ApplicationController
           redirect_to :action => :index and return
         end
       end
-    end
-  end
-
-  def filter_incidents(per_page)
-    total_rows, incidents = incidents_by_user_access(@filter, per_page)
-    @incidents = paginated_collection incidents, total_rows
-  end
-
-  def incidents_by_user_access(filter_option, per_page)
-    keys = [filter_option]
-    params[:scope] ||= {}
-    options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_#{params[:order_by] || 'name'}".to_sym}
-    unless  can?(:view_all, Incident)
-      keys = [filter_option, current_user_name]
-      options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_with_created_by_#{params[:order_by] || 'created_at'}".to_sym}
-    end
-    if ['created_at', 'reunited_at', 'flag_at'].include? params[:order_by]
-      options.merge!({:descending => true, :startkey => [keys, {}].flatten, :endkey => keys})
-    else
-      options.merge!({:startkey => keys, :endkey => [keys, {}].flatten})
-    end
-    Incident.fetch_paginated(options, (params[:page] || 1).to_i, per_page)
-  end
-
-  def paginated_collection instances, total_rows
-    page = params[:page] || 1
-    WillPaginate::Collection.create(page, IncidentsHelper::View::PER_PAGE, total_rows) do |pager|
-      pager.replace(instances)
     end
   end
 

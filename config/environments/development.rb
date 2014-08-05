@@ -22,7 +22,7 @@ RapidFTR::Application.configure do
   
   # Asset pipeline
   config.assets.compress = false
-  config.assets.debug = true
+  config.assets.debug = false
 
   config.eager_load = false
 end

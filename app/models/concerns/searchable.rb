@@ -7,19 +7,16 @@ module Searchable
     #TODO: Not sure how well this will work when the set of indexable fields changes with the form
     searchable do
       searchable_text_fields.each {|f| text f}
+      searchable_text_fields.each {|f| string f}
       searchable_date_fields.each {|f| date f}
       searchable_string_fields.each {|f| string f}
+      searchable_multi_fields.each {|f| string f, multiple: true}
       boolean :duplicate
+      boolean :flag
     end
 
-    #TODO: Shouldn't this code go in an initializer?
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
-
-    #after_create :index_record
-    #after_update :index_record
-    #after_save :index_record
-
   end
 
 
@@ -41,7 +38,6 @@ module Searchable
 
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
-    #TODO: The per_page default is really clunky! It shouldnt live where it lives!
     #TODO: This better avoid N+1!
     #TODO: Exclude duplicates I presume?
     #TODO: Possibly this method is a useless wrapper around the Sunspot search. Delete and refactor if so.
@@ -98,6 +94,9 @@ module Searchable
        "created_organisation"] + Field.all_filterable_field_names(self.parent_form)
     end
 
+    def searchable_multi_fields
+      Field.all_filterable_multi_field_names(self.parent_form)
+    end
 
     #TODO: Why is this method on the model at all? Look into this when dealing with scheduled tasks
     def schedule(scheduler)
@@ -107,25 +106,4 @@ module Searchable
     end
 
   end
-
-  #TODO: Shouldnt this code go in a lib or an initializer?
-  #Class for allowing Sunspot to hook into CouchDB and pull back the entire CouchDB document
-  class DocumentInstanceAccessor < Sunspot::Adapters::InstanceAdapter
-    def id
-      @instance.id
-    end
-  end
-
-  #Class for allowing Sunspot to hook into CouchDB and pull back the entire CouchDB document
-  class DocumentDataAccessor < Sunspot::Adapters::DataAccessor
-    def load(id)
-      @clazz.get(id)
-    end
-
-    def load_all(ids)
-      @clazz.all(:keys => ids).all
-    end
-  end
-
-
 end

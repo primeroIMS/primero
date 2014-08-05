@@ -35,6 +35,7 @@
 //= require photo_audio_fields
 //= require chosen
 //= require age_birth_date
+//= require index_table
 
 
 $(function(){ $(document).foundation(); });

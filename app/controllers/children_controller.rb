@@ -1,5 +1,6 @@
 class ChildrenController < ApplicationController
   include RecordActions
+  include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
@@ -12,21 +13,16 @@ class ChildrenController < ApplicationController
 
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
-    #TODO: This line is BAD code. Refactor the templates! Nothing should depend on the params variable in the tempates!!!!!
-    params[:scope] ||= {}
-    filter = params[:scope]
-    #TODO: Josh needs to get ordering to work with the datatables plugin
-    order = params[:order_by] || {created_at: :desc}
-    #TODO: Josh needs to get pagination to work with the datatables plugin
-    #TODO: Get rid of will_paginate?
 
-    page = params[:page] || 1
-    per_page = params[:per_page] || ChildrenHelper::View::PER_PAGE
-    per_page = per_page.to_i unless per_page == 'all'
+    if params[:format]
+      search = Child.list_records filter, order, pagination, current_user_name
+      @children = search.results
+      @children_total = search.total
 
-    search = Child.list_records filter, order, {page: page, per_page: per_page}, current_user_name
-    @children = search.results
-    @children_total = search.total #TODO: make sure that templates actually read this!
+      # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
+      # index average 400ms to 600ms without and 1000ms to 3000ms with.
+      @highlighted_fields = FormSection.sorted_highlighted_fields
+    end
 
     respond_to do |format|
       format.html
@@ -37,7 +33,7 @@ class ChildrenController < ApplicationController
           redirect_to :action => :index and return
         end
       end
-
+      format.json
       respond_to_export format, @children
     end
   end

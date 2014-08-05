@@ -47,3 +47,4 @@ coverage/
 spec/reports/
 capybara_features/reports/
 .ruby-gemset
+solr/

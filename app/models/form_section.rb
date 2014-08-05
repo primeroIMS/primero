@@ -127,7 +127,13 @@ class FormSection < CouchRest::Model::Base
   #TODO: consider adding date fields here
   def all_filterable_fields
     self.fields.select  do |field|
-      [Field::RADIO_BUTTON, Field::SELECT_BOX, Field::CHECK_BOXES, Field::NUMERIC_FIELD].include? field.type
+      [Field::RADIO_BUTTON, Field::SELECT_BOX, Field::CHECK_BOXES, Field::NUMERIC_FIELD].include? field.type unless field.multi_select
+    end
+  end
+
+  def all_filterable_multi_fields
+    self.fields.select  do |field|
+      [Field::RADIO_BUTTON, Field::SELECT_BOX, Field::CHECK_BOXES, Field::NUMERIC_FIELD].include? field.type if field.multi_select
     end
   end
 
