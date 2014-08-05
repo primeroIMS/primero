@@ -57,7 +57,8 @@ child_preferences_section = FormSection.create_or_update_form_section({
     :perm_enabled => false,
     :perm_visible => false,
     "name_all" => "Nested Child's Preferences",
-    "description_all" => "Child's Preferences Subform"
+    "description_all" => "Child's Preferences Subform",
+  "collapsed_fields" => ["wishes_preference_relocated", "wishes_name"]
 })
 
 child_wishes_fields = [

@@ -120,7 +120,8 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Sexual Violence Subform",
   "description_all" => "Nested Sexual Violence Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["sexual_violence_type"]
 })
 
 sexual_violence_fields = [
