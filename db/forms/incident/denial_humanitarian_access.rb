@@ -99,7 +99,8 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Human Impact of Attack Subform",
-  "description_all" => "Nested Human Impact of Attack Subform"
+  "description_all" => "Nested Human Impact of Attack Subform",
+  "collapsed_fields" => ["denial_method"]
 })
 
 denial_humanitarian_access_fields = [

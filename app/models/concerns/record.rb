@@ -179,7 +179,7 @@ module Record
   end 
 
   module ClassMethods
-    def new_with_user_name(user, fields = {})      
+    def new_with_user_name(user, fields = {})
       record = new(fields)
       record.create_unique_id
       record['short_id'] = record.short_id
@@ -208,17 +208,17 @@ module Record
     def duplicates
       by_duplicate(:key => true)
     end
-  
+
     def duplicates_of(id)
       by_duplicates_of(:key => id).all
     end
-    
+
     def fetch_paginated(options, page, per_page)
       row_count = send("#{options[:view_name]}_count", options.merge(:include_docs => false))['rows'].size
       per_page = row_count if per_page == "all"
       [row_count, self.paginate(options.merge(:design_doc => self.name, :page => page, :per_page => per_page, :include_docs => true))]
     end
-  end 
+  end
 
   def create_unique_id
     self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s

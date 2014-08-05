@@ -117,7 +117,8 @@ followup_subform_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Followup Subform",
-  "description_all" => "Nested Followup Subform"
+  "description_all" => "Nested Followup Subform",
+  "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
 })
 
 followup_fields = [

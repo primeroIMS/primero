@@ -126,9 +126,20 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   subform = subform.downcase.gsub(" ", "_")
   scope = "//div[@id='subform_container_#{subform}_#{num}']"
   #Check visibility of the regular inputs.
-  divs = page.all :xpath, "#{scope}//div[@class='row']"
+  divs = page.all :xpath, "#{scope}//div[position()>1 and contains(@class, 'row')]"
+  visible = 0
+  hide = 0
   divs.each do |div|
-    div.visible?.should == (state == 'collapsed' ? false : true)
+    if div.visible?
+      visible += 1
+    else
+      hide += 1
+    end
+  end
+  if state == 'collapsed'
+    divs.size.should == hide
+  else
+    divs.size.should == visible
   end
   #Check static text placeholder.
   scope = scope + "//div[@class='row collapse_expand_subform_header']"

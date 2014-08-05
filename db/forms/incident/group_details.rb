@@ -92,7 +92,8 @@ group_details_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Group Details",
-  "description_all" => "Group Details Subform"
+  "description_all" => "Group Details Subform",
+  "collapsed_fields" => ["group_gender", "group_age_band"]
 })
 
 group_details_fields = [

@@ -44,7 +44,8 @@ other_violation_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Other Violations",
   "description_all" => "Other Violations Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["violation_other_type"]
 })
 
 other_violation_fields = [

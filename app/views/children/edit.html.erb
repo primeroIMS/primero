@@ -29,6 +29,7 @@
     </div>
 
     <div class="side-tab-content large-8 medium-8 columns">
+      <%= hidden_field_tag('child[revision]', @child._rev) %>
       <% @form_sections.each do |form_group_name, form_list| %>
         <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
         <% if !@child.new_record?%>

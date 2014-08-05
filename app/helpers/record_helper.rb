@@ -90,8 +90,19 @@ module RecordHelper
     parent_form = self.class.parent_form
     @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
   end
-  
+
+  def add_updated_fields_attr(props)
+    self['updated_fields'] = determine_changing_fields(props)
+  end
+
+  def determine_changing_fields(props)
+    self.to_hash.select do |key, value|
+      props.include?(key) ? (props[key] != value) : false
+    end
+  end
+
   def update_properties(properties, user_name)
+    add_updated_fields_attr(properties)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
     properties['record_state'] = "Valid record" if properties['record_state'].blank?
     should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
@@ -112,6 +123,19 @@ module RecordHelper
     end
   end
 
+  def merge_conflicts(properties)
+    props_to_update = properties.clone
+    if !self.updated_fields.nil?
+      determine_changing_fields(properties).each do |key,value|
+        if self.updated_fields[key] == props_to_update[key]
+          props_to_update.delete key
+        end
+      end
+    end
+
+    props_to_update
+  end
+
   protected
 
   def add_to_history(changes)
@@ -127,15 +151,18 @@ module RecordHelper
     User.find_by_user_name(user_name).try(:organisation)
   end
 
+  def model_field_names
+    field_definitions.map { |f| f.name }
+  end
+
   def field_name_changes
-    field_names = field_definitions.map { |f| f.name }
     other_fields = [
         "flag", "flag_message",
         "reunited", "reunited_message",
         "investigated", "investigated_message",
         "duplicate", "duplicate_of"
     ]
-    all_fields = field_names + other_fields
+    all_fields = model_field_names + other_fields
     all_fields.select { |field_name| changed_field?(field_name) }
   end
 
