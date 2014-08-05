@@ -1,6 +1,9 @@
 #JIRA PRIMERO-270
 #JIRA PRIMERO-351
 #JIRA PRIMERO-331
+#JIRA PRIMERO-352
+#JIRA PRIMERO-363
+#JIRA PRIMERO-373
 
 @javascript @primero
 Feature: Sexual Violence Form
@@ -11,12 +14,13 @@ Feature: Sexual Violence Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
+    And I press the "Violations" button
     And I press the "Sexual Violence" button
     And I fill in the following:
-      | Number of victims: boys                                                             | 1                                                        |
-      | Number of victims: girls                                                            | 2                                                        |
-      | Number of victims: unknown                                                          | 3                                                        |
-      | Number of total victims                                                             | 6                                                        |
+      | Number of survivors: boys                                                           | 1                                                        |
+      | Number of survivors: girls                                                          | 2                                                        |
+      | Number of survivors: unknown                                                        | 3                                                        |
+      | Number of total survivors                                                           | 6                                                        |
       | Type of Violence                                                                    | <Choose>Forced Marriage<Choose>Forced Sterilization      |
       | Type of GBV                                                                         | <Select> Denial of Resources, Opportunities, or Services |
       | If Non-GBV, describe                                                                | describe: It is not a GBV                                |
@@ -33,10 +37,10 @@ Feature: Sexual Violence Form
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Sexual Violence"
     And I should see in the 1st "Sexual Violence" subform with the follow:
-      | Number of victims: boys                                                             | 1                                               |
-      | Number of victims: girls                                                            | 2                                               |
-      | Number of victims: unknown                                                          | 3                                               |
-      | Number of total victims                                                             | 6                                               |
+      | Number of survivors: boys                                                           | 1                                               |
+      | Number of survivors: girls                                                          | 2                                               |
+      | Number of survivors: unknown                                                        | 3                                               |
+      | Number of total survivors                                                           | 6                                               |
       | Type of Violence                                                                    | Forced Marriage, Forced Sterilization           |
       | Type of GBV                                                                         | Denial of Resources, Opportunities, or Services |
       | If Non-GBV, describe                                                                | describe: It is not a GBV                       |

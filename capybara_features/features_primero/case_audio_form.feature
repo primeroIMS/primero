@@ -1,4 +1,7 @@
 # JIRA PRIMERO-96
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
+
 @javascript @primero
 Feature: Case Audio Form
   As a Social Worker, I want to upload photos and audio

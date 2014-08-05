@@ -1,29 +1,19 @@
 # JIRA PRIMERO-122
 # JIRA PRIMERO-214
 # JIRA PRIMERO-215
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: CAAFAG Profile
   As a Social Worker, I want to fill in form information for children (individuals) in particular circumstances
   so that we can track and report on areas of particular concern.
 
-  Scenario: As a logged in user, I should access the form section CAAFAG profile
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "CAAFAG Profile" button
-    Then I should see the following fields:
-    | UN DDR Number                            |
-    | With which Armed Force or Armed Group was the child associated? |
-    | If not forced, what was the main reason why the child became involved in the Armed Force or Armed Group? (type of recruitment) |
-    | Other reason for enrollment              |
-    | What was the main role of the child?     |
-    | Did the child own/use a weapon           |
-    | How did the child leave the Armed Force or Armed Group? |
-
   Scenario: As a logged in user, I create a case with CAAFAG profile information
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Assessment" button
     And I press the "CAAFAG Profile" button
     And I select "Other Paramilitary group" from "With which Armed Force or Armed Group was the child associated?"
     And I select "Financial reasons" from "If not forced, what was the main reason why the child became involved in the Armed Force or Armed Group? (type of recruitment)"

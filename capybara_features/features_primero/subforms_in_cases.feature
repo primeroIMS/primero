@@ -1,4 +1,6 @@
 #JIRA PRIMERO-335
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Subforms In Cases
@@ -8,6 +10,7 @@ Feature: Subforms In Cases
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Family / Partner Details" button
     And I press the "Family Details" button
     And I add a "Family Details Section" subform
     And I fill in the following:

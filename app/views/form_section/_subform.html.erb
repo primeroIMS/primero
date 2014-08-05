@@ -2,7 +2,7 @@
   <%
      #TODO: This will break for nested nested subforms if we decide to have those.
      subform_section = subform.subform_section
-     number_of_subforms = subforms_count formObject, subform
+     number_of_subforms = subforms_count formObject, subform, form_group_name
      collapsed_fields = subform_section.collapsed_list
    %>
   <h5 class="tool-tip-label">
@@ -17,14 +17,16 @@
                  locals: { formObject: formObject,
                            subform: subform,
                            collapsed_fields: collapsed_fields,
-                           i: i
+                           i: i,
+                           form_group_name: form_group_name
                          }
       %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+        <% fk = field_keys(subform.name, i.to_s, field.name, form_group_name) %>
         <%= render partial: "form_section/#{field.type}",
                    object: field,
                    locals: {
-                     field_keys: [subform.name, i.to_s, field.name],
+                     field_keys: fk,
                      formObject: formObject
                    }
         %>
@@ -43,15 +45,17 @@
                locals: { formObject: formObject,
                          subform: subform,
                          collapsed_fields: collapsed_fields,
-                         i: 'template'
+                         i: 'template',
+                         form_group_name: form_group_name
                        }
     %>
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+      <% fk = field_keys(subform.name, 'template', field.name, form_group_name) %>
       <%= render partial: "form_section/#{field.type}",
                  object: field,
                  locals: {
-                   field_keys: [subform.name, 'template', field.name],
+                   field_keys: fk,
                    value: "",
                    formObject: formObject
                  }

@@ -1,0 +1,16 @@
+#!/bin/bash -ex
+
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+JMETER_TARGET_SSH_HOST=${JMETER_TARGET_SSH_HOST:-$JMETER_TARGET_HOST}
+JMETER_TARGET_PORT=${JMETER_TARGET_PORT:-443}
+
+ssh primero@${JMETER_TARGET_SSH_HOST} "bash -l -c 'cd /srv/primero/application && echo y | RAILS_ENV=production rake app:reset'"
+ssh ${JMETER_TARGET_SSH_HOST} "sudo service nginx restart"
+
+LOG_NAME=${1:-$(date -Iseconds)}
+test -e jmeter_config && source jmeter_config || true
+
+USER_COUNT=${USER_COUNT:-4}
+LOOP_COUNT=${LOOP_COUNT:-25}
+
+jmeter -n -t $SCRIPT_DIR/../primero.jmx -Jhost=$JMETER_TARGET_HOST -Jport=$JMETER_TARGET_PORT -Juser_count=$USER_COUNT -Jloop_count=$LOOP_COUNT -Jlogfile_base=$LOG_NAME
