@@ -57,6 +57,8 @@ incidents.each do |incident|
   #If any instances were found and added to the temp violation hash,
   #Add them to the violations hash and save the changes to the db
   if violation_temp.size > 0
+    v1 = {}
+    incident.merge!('violations' => v1)
     incident.violations.merge!(violation_temp)    
     
     keys_to_remove.each{|k| incident.delete(k)}    
