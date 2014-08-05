@@ -12,8 +12,7 @@ module FakeLogin
     session
   end
 
-  def fake_admin_login
-    user = User.new(:user_name => 'fakeadmin')
+  def fake_admin_login user = User.new(:user_name => 'fakeadmin')
     user.stub(:roles).and_return([Role.new(:permissions => Permission.all_permissions)])
     fake_login user
   end

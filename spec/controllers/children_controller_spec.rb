@@ -18,7 +18,8 @@ end
 describe ChildrenController do
 
   before :each do
-    fake_admin_login
+    @user = User.new(:user_name => 'fakeadmin')
+    @session = fake_admin_login @user
   end
 
   def mock_child(stubs={})
@@ -765,6 +766,46 @@ describe ChildrenController do
       updated_child = Child.by_short_id(:key => child.short_id)
       updated_child.all.size.should == 1
       updated_child.first.name.should == 'new name'
+    end
+
+    it "should not update fields that were only changed in previous conflicting merge" do
+      original_name = 'Juan Herrero'
+      new_name = 'Juan Lopez'
+      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
+      child.save
+
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => original_name}
+
+      updated_child = Child.by_short_id(:key => child.short_id).first
+      updated_child.name.should == new_name
+    end
+
+    it "should update fields that were not changed in previous conflicting merge" do
+      original_name = 'Juan Herrero'
+      new_name = 'Juan Lopez'
+      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
+      child.save
+
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => original_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
+
+      updated_child = Child.by_short_id(:key => child.short_id).first
+      updated_child.name.should == new_name
+    end
+
+    it "should take the last update if there are two new changes" do
+      original_name = 'Juan Herrero'
+      new_name = 'Juan Lopez'
+      newer_name = 'Juan Rodriguez'
+      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
+      child.save
+
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => newer_name}
+
+      updated_child = Child.by_short_id(:key => child.short_id).first
+      updated_child.name.should == newer_name
     end
   end
 

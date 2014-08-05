@@ -363,7 +363,7 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_age
-    return true if age.nil? || age.blank? || (age =~ /^\d{1,3}(\.\d)?$/ && age.to_f >= 0 && age.to_f <= 130)
+    return true if age.nil? || age.blank? || (age.to_s =~ /^\d{1,3}(\.\d)?$/ && age.to_f >= 0 && age.to_f <= 130)
     errors.add(:age, I18n.t("errors.models.child.age"))
 
     error_with_section(:age, I18n.t("errors.models.child.age"))
