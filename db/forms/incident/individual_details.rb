@@ -37,34 +37,22 @@ individual_details_fields = [
   Field.new({"name" => "ethnicity",
              "type" => "select_box",
              "display_name_all" => "What is the ethnic affiliation of the individual?",
-             "option_strings_text_all" =>
-                          ["Ethnicity1",
-                           "Ethnicity2",
-                           "Ethnicity3"].join("\n")
+             "option_strings_source" => "lookup Ethnicity"
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
              "display_name_all" => "What is the national affiliation of the individual?",
-             "option_strings_text_all" =>
-                          ["Nationality1",
-                           "Nationality2",
-                           "Nationality3"].join("\n")
+             "option_strings_source" => "lookup Nationality"
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
              "display_name_all" => "What is the religious affiliation of the individual?",
-             "option_strings_text_all" =>
-                          ["Religion1",
-                           "Religion2",
-                           "Religion3"].join("\n")
+             "option_strings_source" => "lookup Religion"
             }),
   Field.new({"name" => "country_of_origin",
              "type" => "select_box",
              "display_name_all" => "Country of Origin",
-             "option_strings_text_all" =>
-                          ["Country1",
-                           "Country2",
-                           "Country3"].join("\n")
+             "option_strings_source" => "lookup Country"
             }),
   Field.new({"name" => "displacement_status",
              "type" => "select_box",

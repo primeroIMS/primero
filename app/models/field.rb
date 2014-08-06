@@ -182,8 +182,13 @@ class Field
         if record.present? && record.class == Incident
           select_options += record.violations_list
         end
-      else
-        #TODO - implement fetching from lookup tables / models
+      elsif self.option_strings_source.split.first == 'lookup'
+        lookup = Lookup.find_by_name(self.option_strings_source.split.last)
+        select_options += lookup.lookup_values if lookup.present?
+
+        if self.option_strings_source.split.second == 'group'
+          select_options += ['Other', 'Mixed', 'Unknown']
+        end
       end
     else
       select_options += @options.collect { |option| [option.option_name, option.option_name] }
