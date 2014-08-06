@@ -1,4 +1,7 @@
 <% #This template is to generate the header of every subform to make the expand/collapse functionality  %>
+<%
+    view_mode ||= false 
+%>
 <div class="row collapse_expand_subform_header">
   <div class="medium-4 columns">
     <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %></span>
@@ -11,17 +14,20 @@
          collapsed_fields.each do |field|
            fk = field_keys(subform.name, i.to_s, field.name, form_group_name)
 
-           #get the names of the fields that belong to the subforms header
-           #this will help to update the header if the user change something
-           name = field_tag_name formObject, field, fk
-           fields_id << sanitize_to_id(name)
+           #view mode does not need the fields to update the header.
+           unless view_mode
+             #get the names of the fields that belong to the subforms header
+             #this will help to update the header if the user change something
+             name = field_tag_name formObject, field, fk
+             fields_id << sanitize_to_id(name)
 
-           #field_type will be used to identify how to retrieve the changes in the subform fields
-           #to update the static text placeholder if the field was changed by the user and the user 
-           #collapsed the subform.
-           field_type = field.type
-           field_type = "chosen" if field.type == "select_box" and field.multi_select == true
-           data_types << field_type + "_type"
+             #field_type will be used to identify how to retrieve the changes in the subform fields
+             #to update the static text placeholder if the field was changed by the user and the user 
+             #collapsed the subform.
+             field_type = field.type
+             field_type = "chosen" if field.type == "select_box" and field.multi_select == true
+             data_types << field_type + "_type"
+           end
 
            #retrieve the value of the fields.
            value = i.to_s == "template" ? "" : field_value(formObject, field, fk)
@@ -29,9 +35,15 @@
            value_fields << value_to_display
          end
       %>
+      <% if view_mode %>
+      <span>
+        <%= value_fields.reject(&:empty?).join(' - ') %>
+      </span>
+      <% else %>
       <span data-fields="<%= fields_id.join(',') %>" data-types="<%= data_types.join(',') %>">
         <%= value_fields.reject(&:empty?).join(' - ') %>
       </span>
+      <% end %>
     </div>
     <div class="medium-1 columns">
       <span class="collapse_expand_subform expanded">-</span>
