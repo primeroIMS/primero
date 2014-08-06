@@ -36,6 +36,7 @@
 //= require chosen
 //= require age_birth_date
 //= require password_protected_field.js
+//= require date_range_controls.js
 
 
 $(function(){ $(document).foundation(); });
