@@ -3,6 +3,7 @@
 # JIRA Primero-258
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-365
 
 
 @javascript @primero
@@ -70,4 +71,5 @@ Feature: Validate Date Field
     And I press "Save"
     Then I should not see "Please enter the date in a valid format (dd-mmm-yyyy)" on the page
     Then I should see "Case record successfully created" on the page
-    And I should see a value for "Appointment Date" on the show page with the value of "30-May-2014"
+    And I should see in the 1nd "Services Section" subform with the follow:
+      | Appointment Date | 30-May-2014 |

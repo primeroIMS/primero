@@ -2,6 +2,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Child Wishes Form
@@ -70,7 +71,7 @@ Feature: Child Wishes Form
     And I should see a value for "Does the child wish to continue in the current care arrangement?" on the show page with the value of "Yes"
     And I should see a value for "Type of care arrangement child wishes to have" on the show page with the value of "With husband/wife/partner"
     #Verify values from the subform
-    And I should see in the 1st "Child's Preference" subform with the follow:
+    And I should see in the 1st "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Father's Name         |
       | Preference of the child to be relocated with this person | Third choice          |
       | What is this person's relationship to the child?         | Father                |
@@ -78,7 +79,7 @@ Feature: Child Wishes Form
       | Landmark                                                 | Third Landmark        |
       | Last Known Location                                      | Third the Location    |
       | Telephone                                                | Third the Telephone   |
-    And I should see in the 2nd "Child's Preference" subform with the follow:
+    And I should see in the 2nd "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Mother's Name         |
       | Preference of the child to be relocated with this person | First choice          |
       | What is this person's relationship to the child?         | Mother                |
@@ -86,7 +87,7 @@ Feature: Child Wishes Form
       | Landmark                                                 | First Landmark        |
       | Last Known Location                                      | First Location        |
       | Telephone                                                | First Telephone       |
-    And I should see in the 3rd "Child's Preference" subform with the follow:
+    And I should see in the 3rd "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Grandmother's Name    |
       | Preference of the child to be relocated with this person | Second choice         |
       | What is this person's relationship to the child?         | Mother                |

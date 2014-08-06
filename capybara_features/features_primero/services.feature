@@ -3,6 +3,7 @@
 # JIRA PRIMERO-255
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Services
@@ -26,7 +27,7 @@ Feature: Services
       | Notes                                      | No notes at this time |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Service" subform with the follow:
+    And I should see in the 1st "Services Section" subform with the follow:
       | Type of Service                            | Safehouse             |
       | Did you refer the client for this service? | Referred              |
       | Appointment Date                           | 30-May-2014           |

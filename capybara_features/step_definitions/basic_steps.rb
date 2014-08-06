@@ -95,26 +95,23 @@ end
 
 #Step to match field/value in subforms in show view.
 And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
-  #Current layout field/value per row are the following to the h5 element, is the best shoot.
-  within(:xpath, "//fieldset[@class='subform no-border']//h5[#{num}]//label[@class='key']", :text => subform) do
-    #Up to the h5 element.
-    within(:xpath, '../..') do
-      #Iterate over the fields.
-      fields.rows_hash.each do |name, value|
-        content = value
-        if content.start_with?('Calculated date')
-          content = content.gsub("Calculated date", "").gsub("years ago", "").strip
-          content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
-        elsif content.start_with?('Calculated age from')
-          year = content.gsub("Calculated age from", "").strip
-          content = Date.today.year - year.to_i
-        end
-        #Find the sibling to the h5 that contains the label which is the field name.
-        within(:xpath, "./following-sibling::div[@class='row']//label[@class='key']", :text => name) do
-          #Up to the parent of the label to find the value.
-          within(:xpath, '../..') do
-            find(:xpath, ".//span[@class='value']", :text => content)
-          end
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+    #Iterate over the fields.
+    fields.rows_hash.each do |name, value|
+      content = value
+      if content.start_with?('Calculated date')
+        content = content.gsub("Calculated date", "").gsub("years ago", "").strip
+        content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
+      elsif content.start_with?('Calculated age from')
+        year = content.gsub("Calculated age from", "").strip
+        content = Date.today.year - year.to_i
+      end
+      within(:xpath, ".//div[@class='row']//label[@class='key']", :text => name) do
+        #Up to the parent of the label to find the value.
+        within(:xpath, '../..') do
+          find(:xpath, ".//span[@class='value']", :text => content)
         end
       end
     end
@@ -147,8 +144,10 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
 end
 
 And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
-  page.should have_selector(:xpath, "//fieldset[@class='subform no-border']//h5[#{num}]//label[@class='key']", :text => subform)
-  page.should_not have_selector(:xpath, "//fieldset[@class='subform no-border']//h5[#{num.to_i + 1}]//label[@class='key']", :text => subform)
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+  page.should have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num}']")
+  page.should_not have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num.to_i + 1}']")
 end
 
 And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|

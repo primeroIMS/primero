@@ -3,6 +3,7 @@
 #JIRA PRIMERO-160
 #JIRA PRIMERO-360
 #JIRA PRIMERO-373
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Individual Details Form
@@ -33,7 +34,7 @@ Feature: Individual Details Form
     And I select "No" from "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see in the 1st "Individual Detail" subform with the follow:
+    And I should see in the 1st "Individual Details Subform Section" subform with the follow:
       | Survivor Code                                                                                                                                               | SRV1001             |
       | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |
       | What is the sex of the child?                                                                                                                               | Female              |
@@ -51,12 +52,12 @@ Feature: Individual Details Form
       | Current civil/marital status                                                                                                                                | Single              |
       | Disability Type                                                                                                                                             | Physical Disability |
       | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?                                                                           | No                  |
-    And I should see 1 subform on the show page for "Individual Detail"
+    And I should see 1 subform on the show page for "Individual Details Subform Section"
     And I press the "Edit" button
     And I expanded the 1st "Individual Details Subform Section" subform
     And I select "No" for "Is the age estimated?" radio button
     And I press "Save"
-    And I should see in the 1st "Individual Detail" subform with the follow:
+    And I should see in the 1st "Individual Details Subform Section" subform with the follow:
       | Survivor Code                                                                                                                                               | SRV1001             |
       | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |
       | What is the sex of the child?                                                                                                                               | Female              |
@@ -74,4 +75,4 @@ Feature: Individual Details Form
       | Current civil/marital status                                                                                                                                | Single              |
       | Disability Type                                                                                                                                             | Physical Disability |
       | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?                                                                           | No                  |
-    And I should see 1 subform on the show page for "Individual Detail"
+    And I should see 1 subform on the show page for "Individual Details Subform Section"
