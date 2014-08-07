@@ -3365,7 +3365,6 @@
 							pages = settings.aPrimeroPaginationPages,
 							buttons = plugin(page, pages),
 							i, ien;
-							console.log(settings.aPrimeroPaginationPages, visRecords )
 						for ( i=0, ien=features.p.length ; i<ien ; i++ ) {
 							_fnRenderer( settings, 'pageButton' )(
 								settings, features.p[i], i, buttons, page, pages
@@ -3382,32 +3381,9 @@
 	
 		return node;
 	}
-	
-	
-	/**
-	 * Alter the display settings to change the page
-	 *  @param {object} settings DataTables settings object
-	 *  @param {string|int} action Paging action to take: "first", "previous",
-	 *    "next" or "last" or page number to jump to (integer)
-	 *  @param [bool] redraw Automatically draw the update or not
-	 *  @returns {bool} true page has changed, false - no change
-	 *  @memberof DataTable#oApi
-	 */
-	function _fnPageChange ( settings, action, redraw )
-	{
-		console.log('clicked', action)
-		var
-			start     = settings._iDisplayStart,
-			len       = settings._iDisplayLength,
-			records   = settings.fnRecordsDisplay();
-	
-		if ( records === 0 || len === -1 )
-		{
-			start = 0;
-		}
-		else if ( typeof action === "number" )
-		{
-			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
+
+	// PRIMERO - FUNCTION TO REMOVE PARAM
+	function clean_page_params() {
 			var source = location.href,
 	  			rtn = source.split("?")[0],
 	        param,
@@ -3423,11 +3399,36 @@
 	        }
 	        rtn = params_arr.join("&");
 	    } else {
-	    	rtn = ""
+	    	rtn = "";
 	    }
-			var prev_params = rtn
+	    return rtn;
+	}
+	
+	/**
+	 * Alter the display settings to change the page
+	 *  @param {object} settings DataTables settings object
+	 *  @param {string|int} action Paging action to take: "first", "previous",
+	 *    "next" or "last" or page number to jump to (integer)
+	 *  @param [bool] redraw Automatically draw the update or not
+	 *  @returns {bool} true page has changed, false - no change
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnPageChange ( settings, action, redraw )
+	{
+		var
+			start     = settings._iDisplayStart,
+			len       = settings._iDisplayLength,
+			records   = settings.fnRecordsDisplay();
+	
+		if ( records === 0 || len === -1 )
+		{
+			start = 0;
+		}
+		else if ( typeof action === "number" )
+		{
+			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
+			var prev_params = clean_page_params();
 			window.location.search = prev_params + '&page=' + (action + 1);
-			// PRIMERO - END BLOCK
 		}
 		else if ( action == "first" )
 		{
@@ -3435,20 +3436,31 @@
 		}
 		else if ( action == "previous" )
 		{
-			start = len >= 0 ?
-				start - len :
-				0;
+			// start = len >= 0 ?
+			// 	start - len :
+			// 	0;
 	
-			if ( start < 0 )
-			{
-			  start = 0;
+			// if ( start < 0 )
+			// {
+			//   start = 0;
+			// }
+			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
+			if (settings.aPrimeroPaginationPage > 1) {
+				var prev_params = clean_page_params();
+				window.location.search = prev_params + '&page=' + (parseInt(settings.aPrimeroPaginationPage) - 1);
 			}
 		}
 		else if ( action == "next" )
 		{
-			if ( start + len < records )
-			{
-				start += len;
+			// if ( start + len < records )
+			// {
+			// 	start += len;
+			// }
+
+			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
+			if (settings.aPrimeroPaginationPage < settings.aPrimeroPaginationPages) {
+				var prev_params = clean_page_params();
+				window.location.search = prev_params + '&page=' + (parseInt(settings.aPrimeroPaginationPage) + 1);
 			}
 		}
 		else if ( action == "last" )
@@ -13952,7 +13964,8 @@
 	
 								case 'next':
 									btnDisplay = lang.sNext;
-									btnClass = button + (page < pages-1 ?
+									console.log(page+1, pages-1)
+									btnClass = button + (page+1 < pages ? // PRIMERO - (EDITED) WAS (page < pages-1 ?
 										'' : ' '+classes.sPageButtonDisabled);
 									break;
 	
