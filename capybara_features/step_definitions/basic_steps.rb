@@ -252,6 +252,9 @@ And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record,
   end
 end
 
+And /^I visit cases page "([^\"]*)"$/ do|page_number|
+    page.find("//a[contains(@class, 'paginate_button')][contains(text(), '#{page_number}')]").click
+end
 
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
