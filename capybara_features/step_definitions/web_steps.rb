@@ -425,12 +425,12 @@ end
 #Chosen to select the values one by one, this is useful in subforms because we can't send the table from the string.
 When /^I choose option "([^\"]*)" from "([^\"]*)"(?: within "([^"]*)")?$/ do |option, chosen, selector |
   selector ||= ""
-  label = find("#{selector}//label[text()='#{chosen}']")
+  label = find("#{selector}//label[text()='#{chosen}']", :visible => true)
   chosen_id = label["for"] + "__chosen"
-  chosen = find(:xpath, "//div[@id='#{chosen_id}']")
+  chosen = find(:xpath, "//div[@id='#{chosen_id}']",  :visible => true)
   #This make visible the options to choose.
   chosen.click
-  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
+  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']", :visible => true).click
   #To select another items, it is needed the chosen lost the focus to make click again
   #to make visible the items to select.
   label.click
