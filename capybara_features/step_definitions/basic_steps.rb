@@ -487,11 +487,11 @@ Then /^the "([^"]*)" dropdown should have "([^"]*)" selected$/ do |dropdown_labe
 end
 
 And /^I should see "([^\"]*)" in the list of fields$/ do |field_name|
-  page.should have_xpath("//table[@id='form_sections']//tr[@class='rowEnabled' and contains(., '#{field_name}')]")
+  page.should have_xpath("//table[@id='form_sections']//tr[contains(@class, 'rowEnabled') and contains(., '#{field_name}')]")
 end
 
 And /^I should see "([^\"]*)" in the list of fields and disabled$/ do |field_name|
-  page.should have_xpath("//table[@id='form_sections']//tr[@class='rowDisabled' and contains(., '#{field_name}')]")
+  page.should have_xpath("//table[@id='form_sections']//tr[contains(@class, 'rowDisabled') and contains(., '#{field_name}')]")
 end
 
 Given /^the "([^\"]*)" form section has the field "([^\"]*)" with help text "([^\"]*)"$/ do |form_section, field_name, field_help_text|
