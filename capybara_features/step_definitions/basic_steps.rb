@@ -248,7 +248,7 @@ end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
   within(:xpath, "//tr[contains(.,'#{record}')]") do
-    find(:xpath, "//td/i[@class='fa-#{icon}']")
+    find(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
   end
 end
 
