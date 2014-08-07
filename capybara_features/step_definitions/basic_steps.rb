@@ -97,6 +97,15 @@ end
 And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
+
+  #in viewing expand subforms if not already, make visible the fields we are testing.
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+                         "//div[@class='row collapse_expand_subform_header']" +
+                         "//span[contains(@class, 'collapse_expand_subform')]")
+  if (collapse_expand[:class].end_with?("collapsed"))
+    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+  end
+
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     #Iterate over the fields.
     fields.rows_hash.each do |name, value|
