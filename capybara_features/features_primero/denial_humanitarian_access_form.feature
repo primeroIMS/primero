@@ -14,7 +14,7 @@ Feature: Denial of Humanitarian Access Form
     And I press the "Create a New Incident" button
     And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
-    And I fill in the 1st "Denial Humanitarian Access Section" subform with the follow:
+    And I fill in the following:
       | What method(s) were used to deny humanitarian access? | <Select> Import Restrictions for Goods               |
       | What organizations were affected?                     | <Choose>International<Choose>United Nations Agencies |
       | Number of Personnel Killed                | 1      |
@@ -29,7 +29,7 @@ Feature: Denial of Humanitarian Access Form
       | Number of total survivors                 | 40     |
       | Adults                                    | 50     |
       | Population Affected by Service Disruption | 70000  |
-    And I fill in the 2nd "Denial Humanitarian Access Section" subform with the follow:
+    And I fill in the 2nd "Denial Humanitarian Access" subform with the follow:
       | What method(s) were used to deny humanitarian access? | <Select> Travel Restrictions in Country |
       | What organizations were affected?                     | <Choose>Red Cross / Crescent<Choose>NGO |
       | Number of Personnel Killed                | 2      |

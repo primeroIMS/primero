@@ -30,6 +30,8 @@ Before do
   #the files was already loaded and for the rest of scenarios will not execute
   #the code in the required file. 
   Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
+
+  Dir[File.dirname(__FILE__) + '/../../db/lookups/*.rb'].each {|file| load file }
 end
 
 Before('@roles') do |scenario|

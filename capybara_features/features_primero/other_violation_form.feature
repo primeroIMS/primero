@@ -15,14 +15,14 @@ Feature: Other Violation Form
     And I press the "Create a New Incident" button
     And I press the "Violations" button
     And I press the "Other Violation" button
-    And I update in the 1st "Other Violation Section" subform with the follow:
+    And I update in the 1st "Other Violation" subform with the follow:
       | Other Violation Type        | <Select> Denial of Civil Rights |
       | Other Violation Description | Some Violation Description      |
       | Number of survivors: boys   | 1 |
       | Number of survivors: girls  | 2 |
       | Number of survivors: unknown| 3 |
       | Number of total survivors   | 6 |
-    And I fill in the 2nd "Other Violation Section" subform with the follow:
+    And I fill in the 2nd "Other Violation" subform with the follow:
       | Other Violation Type        | <Select> Access Violations |
       | Other Violation Description | Some Violation Description |
       | Number of survivors: boys   | 2 |

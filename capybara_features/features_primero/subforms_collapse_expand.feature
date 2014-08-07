@@ -78,7 +78,7 @@ Feature: Subforms Collapse Expand
 
   Scenario: As a logged in user and collapsed new subform followup, I should see empty values
     And I press the "Services / Follow Up" button
-    And I press the "Follow Up" button
+    And I click on "Follow Up" in form group "Services / Follow Up"
     And I add a "Followup Subform Section" subform
     And I collapsed the 1st "Followup Subform Section" subform
     And I should see header in the 1st "Followup Subform Section" subform within ""
@@ -90,22 +90,22 @@ Feature: Subforms Collapse Expand
       |Is this person the caregiver?      | <Radio> Yes        |
       |If dead, please provide details    | No Dead Notes      |
       |Age                                | 39                 |
-      |Language                           | <Choose>Language 1 |
+      |Language                           | <Choose>Language1  |
     And I update in the 2nd "Family Details Section" subform with the follow:
       |Name                               | Mary               |
       |How are they related to the child? | <Select> Aunt      |
       |Is this person the caregiver?      | <Radio> No         |
       |If dead, please provide details    | No Other Dead Notes|
       |Age                                | 41                 |
-      |Language                           | <Choose>Language 2 |
+      |Language                           | <Choose>Language2  |
     And I collapsed the 1st "Family Details Section" subform
     And I collapsed the 2nd "Family Details Section" subform
-    Then I should see header in the 1st "Family Details Section" subform within "Tom - Uncle - Yes - No Dead Notes - 39 - Language 1"
-    And I should see header in the 2nd "Family Details Section" subform within "Mary - Aunt - No - No Other Dead Notes - 41 - Language 2"
+    Then I should see header in the 1st "Family Details Section" subform within "Tom - Uncle - Yes - No Dead Notes - 39 - Language1"
+    And I should see header in the 2nd "Family Details Section" subform within "Mary - Aunt - No - No Other Dead Notes - 41 - Language2"
 
   Scenario: As a logged in user and change fields value in followup, I should see the changes in the subform header
     And I press the "Services / Follow Up" button
-    And I press the "Follow Up" button
+    And I click on "Follow Up" in form group "Services / Follow Up"
     And I add a "Followup Subform Section" subform
     And I update in the 1st "Followup Subform Section" subform with the follow:
       | Followup date | 21-Jul-2003                           |
@@ -124,14 +124,14 @@ Feature: Subforms Collapse Expand
       |Is this person the caregiver?      | <Radio> Yes        |
       |If dead, please provide details    | No Dead Notes      |
       |Age                                | 39                 |
-      |Language                           | <Choose>Language 1 |
+      |Language                           | <Choose>Language1  |
     And I update in the 2nd "Family Details Section" subform with the follow:
       |Name                               | Mary               |
       |How are they related to the child? | <Select> Aunt      |
       |Is this person the caregiver?      | <Radio> No         |
       |If dead, please provide details    | No Other Dead Notes|
       |Age                                | 41                 |
-      |Language                           | <Choose>Language 2 |
+      |Language                           | <Choose>Language2  |
     And I press "Save"
     Then I should see "Case was successfully updated" on the page
     And I should see in the 1st "Family Detail" subform with the follow:
@@ -140,11 +140,11 @@ Feature: Subforms Collapse Expand
       |Is this person the caregiver?      | Yes           |
       |If dead, please provide details    | No Dead Notes |
       |Age                                | 39            |
-      |Language                           | Language 1    |
+      |Language                           | Language1     |
     And I should see in the 2nd "Family Detail" subform with the follow:
       |Name                               | Mary                |
       |How are they related to the child? | Aunt                |
       |Is this person the caregiver?      | No                  |
       |If dead, please provide details    | No Other Dead Notes |
       |Age                                | 41                  |
-      |Language                           | Language 2          |
+      |Language                           | Language2           |

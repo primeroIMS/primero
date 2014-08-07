@@ -22,8 +22,8 @@ Feature: Interview Details Form
       | Last Location          | Northwest                                |
       | Last Telephone         | 828-555-1414                             |
       | Ethnicity/Clan/Tribe   | <Choose>Ethnicity1<Choose>Ethnicity2     |
-      | Sub Ethnicity 1        | <Choose>Sub-ethnicity1.2                 |
-      | Sub Ethnicity 2        | <Choose>Sub-ethnicity2.3                 |
+      | Sub Ethnicity 1        | <Choose>Ethnicity1                       |
+      | Sub Ethnicity 2        | <Choose>Ethnicity3                       |
       | Language               | <Choose>Language1<Choose>Language2       |
       | Religion               | <Choose>Religion1<Choose>Religion2       |
     And I press "Save"
@@ -37,7 +37,7 @@ Feature: Interview Details Form
     And I should see a value for "Last Location" on the show page with the value of "Northwest"
     And I should see a value for "Last Telephone" on the show page with the value of "828-555-1414"
     And I should see a value for "Ethnicity/Clan/Tribe" on the show page with the value of "Ethnicity1, Ethnicity2"
-    And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Sub-ethnicity1.2"
-    And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Sub-ethnicity2.3"
+    And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Ethnicity1"
+    And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Ethnicity3"
     And I should see a value for "Language" on the show page with the value of "Language1, Language2"
     And I should see a value for "Religion" on the show page with the value of "Religion1, Religion2"
