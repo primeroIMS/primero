@@ -104,6 +104,7 @@ Feature: Upload a childs attachment file
     Given I logout as "bob"
     And I am logged in as an admin
     When I am on the form section page
+    And I select "100" from "form_sections_length"
     Then the form section "Photos and Audio" should be listed as visible
 
     When I select the form section "photos_and_audio" to toggle visibility
