@@ -1,5 +1,6 @@
 # JIRA PRIMERO-48
 # JIRA PRIMERO-399
+# JIRA PRIMERO-340
 
 @javascript @primero
 Feature: Primero View List of Case Records
@@ -9,7 +10,7 @@ Feature: Primero View List of Case Records
   Scenario: I want to see my cases and update them
     Given I am logged in as an admin with username "primero" and password "primero"
     And the following cases exist in the system:
-      | name     | created_by | age | sex    | registration_date       | status | unique_identifier                    |
+      | name     | created_by | age | sex    | registration_date       | child_status | unique_identifier                    |
       | andreas  | primero    | 10  | male   | 03-Feb-2004             | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
       | zak      | primero    | 11  | female | 03-Feb-2004             | closed | 31c4cba8-b410-4af6-b349-68c557af3aa8 |
       | jaco     | primero    | 12  | male   | 03-Feb-2004             | open   | 41c4cba8-b410-4af6-b349-68c557af3aa7 |
@@ -26,6 +27,16 @@ Feature: Primero View List of Case Records
     And I should see the "child_name" field
     And I should see a "Save" button on the page
 
+  Scenario: List of cases should display the status
+    Given I am logged in as an admin with username "primero" and password "primero"
+    And the following cases exist in the system:
+      | name     | created_by | age | sex    | registration_date       | child_status | unique_identifier                    |
+      | andreas  | primero    | 10  | male   | 03-Feb-2004             | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
+
+    When I press the "CASES" button
+    Then I should see "Cases"
+    And I should see "open" on the page
+
   Scenario: I want to see my cases but I do not have any
     Given I am logged in as an admin with username "primero" and password "primero"
     When I press the "CASES" button
@@ -35,7 +46,7 @@ Feature: Primero View List of Case Records
   Scenario: Pagination links are available for more than 20 records
     Given I am logged in as an admin with username "primero" and password "primero"
     And the following cases exist in the system:
-      | name     | created_by | age | sex    | registration_date       | status |
+      | name     | created_by | age | sex    | registration_date       | child_status |
       | andreas  | primero    | 10  | male   | 03-Feb-2004             | open   |
       | zak      | primero    | 11  | female | 03-Feb-2004             | closed |
       | jaco     | primero    | 12  | male   | 03-Feb-2004             | open   |
