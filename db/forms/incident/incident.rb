@@ -43,7 +43,7 @@ incident_fields = [
             }),
   Field.new({"name" => "estimated_indicator",
              "type" => "radio_button",
-             "display_name_all" => "Are these dates estimated?",
+             "display_name_all" => "Is the date estimated?",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "super_incident_name",
