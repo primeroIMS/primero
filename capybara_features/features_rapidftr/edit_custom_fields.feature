@@ -5,9 +5,9 @@ Feature: Edit Custom Fields
 
   Background:
     Given the following form sections exist in the system:
-      | name           | unique_id      | parent_form | editable | order | visible |
-      | Basic details  | basic_details  | case        | false    | 1     | true    |
-      | Family details | family_details | case        | true     | 2     | true    |
+      | name           | unique_id      | parent_form | editable | order | visible | form_group_name               |
+      | Basic details  | basic_details  | case        | false    | 1     | true    | Identification / Registration |
+      | Family details | family_details | case        | true     | 2     | true    | Family / Partner Details      |
     Given the following fields exists on "family_details":
     	| name | type | display_name |
     	| another_field | text_field | another field |
