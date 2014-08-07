@@ -13,6 +13,7 @@ $(document).ready(function() {
   	lengthChange: false,
 		pageLength: 20,
 		primero_page: pagination.current_page,
-		primero_pages: pagination.total_pages
+		primero_pages: pagination.total_pages,
+		responsive: true
 	});
 });
