@@ -4,6 +4,7 @@
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Sexual Violence Form
@@ -35,8 +36,8 @@ Feature: Sexual Violence Form
       | Has the client had any previous incidents of GBV perpetrated against them?          | <Radio> No                                               |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see 1 subform on the show page for "Sexual Violence"
-    And I should see in the 1st "Sexual Violence" subform with the follow:
+    And I should see 1 subform on the show page for "Sexual Violence Subform Section"
+    And I should see in the 1st "Sexual Violence Subform Section" subform with the follow:
       | Number of survivors: boys                                                           | 1                                               |
       | Number of survivors: girls                                                          | 2                                               |
       | Number of survivors: unknown                                                        | 3                                               |

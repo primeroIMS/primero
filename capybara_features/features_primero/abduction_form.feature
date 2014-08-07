@@ -3,6 +3,7 @@
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Abduction Form
@@ -25,8 +26,8 @@ Feature: Abduction Form
       | Location where they were held           | Some other location |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see 1 subform on the show page for "Abduction"
-    And I should see in the 1st "Abduction" subform with the follow:
+    And I should see 1 subform on the show page for "Abduction Subform Section"
+    And I should see in the 1st "Abduction Subform Section" subform with the follow:
       | Number of survivors: boys               | 1                   |
       | Number of survivors: girls              | 2                   |
       | Number of survivors: unknown            | 3                   |

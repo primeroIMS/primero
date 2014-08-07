@@ -1,4 +1,5 @@
 # JIRA PRIMERO-320
+# JIRA PRIMERO-365
 
 Feature: Source Form
   As a User, I want to add details about the source of the information so that we can verify the details of the incident
@@ -30,7 +31,7 @@ Feature: Source Form
       | If the source is a child, does the child require services? | <Radio> Yes                 |
     Then I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see in the 1st "Source" subform with the follow:
+    And I should see in the 1st "Source Subform Section" subform with the follow:
       | Date of Interview                                          | 19-Jul-1979                 |
       | Monitor ID                                                 | Option1                     |
       | Primary Report Agency                                      | Option1                     |

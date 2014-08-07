@@ -6,6 +6,7 @@
 #JIRA PRIMERO-160
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Followup
@@ -16,7 +17,7 @@ Feature: Followup
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Services / Follow Up" button
-    And I press the "Follow Up" button
+    And I click on "Follow Up" in form group "Services / Follow Up"
 
   Scenario: I am a logged in Social Worker on the Follow Ups form
     And I fill in the 1st "Followup Subform Section" subform with the follow:
@@ -49,7 +50,7 @@ Feature: Followup
       | If not, do you recommend that the case be closed?            | <Radio> Yes                                             |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Follow Up" subform with the follow:
+    And I should see in the 1st "Followup Subform Section" subform with the follow:
       | Followup needed by                                          | 12-Jun-2014                      |
       | Followup date                                               | 12-Jun-2014                      |
       | Details about action taken                                  | Some details about action taken  |
@@ -63,7 +64,7 @@ Feature: Followup
       | If not, why?                                                | At School                        |
       | Has action been taken?                                      | Yes                              |
       | Is there a need for further follow-up visits?               | Yes                              |
-    And I should see in the 2nd "Follow Up" subform with the follow:
+    And I should see in the 2nd "Followup Subform Section" subform with the follow:
       | Followup needed by                                          | 15-Jun-2014                      |
       | Followup date                                               | 15-Jun-2014                      |
       | Details about action taken                                  | Some details about action taken  |

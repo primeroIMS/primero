@@ -3,6 +3,7 @@
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Maiming Form
@@ -31,8 +32,8 @@ Feature: Maiming Form
       | Did the violation occur during or as a direct result of abduction?                   | <Radio> Unknown |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see 1 subform on the show page for "Maiming"
-    And I should see in the 1st "Maiming" subform with the follow:
+    And I should see 1 subform on the show page for "Maiming Subform Section"
+    And I should see in the 1st "Maiming Subform Section" subform with the follow:
       | Number of survivors: boys                                                                   | 1                              |
       | Number of survivors: girls                                                                  | 2                              |
       | Number of survivors: unknown                                                                | 3                              |

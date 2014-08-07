@@ -280,8 +280,19 @@ $(document).ready(function() {
 
   RapidFTR.Utils.enableFormErrorChecking();
   RapidFTR.showDropdown();
-  
-  //Initialize chosen in the current tab.
-  var current_tab = $(".tab-handles li.current a").attr("href");
+
+  //Initialize chosen in the current tab. There is a chance that
+  //the element we get is a group, if that is the case we need to
+  //lookup inside the group to find what is really the current tab.
+  var group_or_tab = $(".tab-handles li.current:eq(0)")
+  var current_tab = null;
+  if ($(group_or_tab).hasClass("group")) {
+    //If the element is a group tab, find in his children
+    //the current tab.
+    current_tab = $(group_or_tab).find("li.current a").attr("href");
+  } else {
+    //If is not group tab, find the anchor child directly.
+    current_tab = $(group_or_tab).find("a").attr("href");
+  }
   _primero.chosen(current_tab + ' select.chosen-select:visible');
 });

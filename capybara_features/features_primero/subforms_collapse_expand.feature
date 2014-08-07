@@ -2,6 +2,7 @@
 #JIRA PRIMERO-358
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Subforms Collapse Expand
@@ -78,7 +79,7 @@ Feature: Subforms Collapse Expand
 
   Scenario: As a logged in user and collapsed new subform followup, I should see empty values
     And I press the "Services / Follow Up" button
-    And I press the "Follow Up" button
+    And I click on "Follow Up" in form group "Services / Follow Up"
     And I add a "Followup Subform Section" subform
     And I collapsed the 1st "Followup Subform Section" subform
     And I should see header in the 1st "Followup Subform Section" subform within ""
@@ -105,7 +106,7 @@ Feature: Subforms Collapse Expand
 
   Scenario: As a logged in user and change fields value in followup, I should see the changes in the subform header
     And I press the "Services / Follow Up" button
-    And I press the "Follow Up" button
+    And I click on "Follow Up" in form group "Services / Follow Up"
     And I add a "Followup Subform Section" subform
     And I update in the 1st "Followup Subform Section" subform with the follow:
       | Followup date | 21-Jul-2003                           |
@@ -134,14 +135,14 @@ Feature: Subforms Collapse Expand
       |Language                           | <Choose>Language 2 |
     And I press "Save"
     Then I should see "Case was successfully updated" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       |Name                               | Tom           |
       |How are they related to the child? | Uncle         |
       |Is this person the caregiver?      | Yes           |
       |If dead, please provide details    | No Dead Notes |
       |Age                                | 39            |
       |Language                           | Language 1    |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       |Name                               | Mary                |
       |How are they related to the child? | Aunt                |
       |Is this person the caregiver?      | No                  |

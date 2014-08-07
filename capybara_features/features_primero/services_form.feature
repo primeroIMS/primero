@@ -2,6 +2,7 @@
 # JIRA PRIMERO-352
 # JIRA PRIMERO-363
 # JIRA PRIMERO-402
+# JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Services Form
@@ -67,14 +68,14 @@ Feature: Services Form
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     # And I should see 1 subform on the show page for "Killing"
-    And I should see in the 1st "Health/Medical Referral" subform with the follow:
+    And I should see in the 1st "Health Medical Referral Subform Section" subform with the follow:
       | Did you refer the client to Health/Medical Services? | No referral, Service provided by your agency |
       | Appointment Date                                     | 22-Jul-2014                                  |
       | Appointment Time                                     | 10:00 a.m.                                   |
       | Service Provider                                     | Health/Medical Service provider name         |
       | Service Location                                     | Health/Medical Service location              |
       | Notes                                                | Health/Medical Notes                         |
-    And I should see in the 1st "Psychosocial/Counseling Service" subform with the follow:
+    And I should see in the 1st "Psychosocial Counseling Services Subform Section" subform with the follow:
       | Did you refer the client to Psychosocial/Counseling services? | No referral, Services already received from another agency |
       | Appointment Date                                              | 23-Jul-2014                                                |
       | Appointment Time                                              | 11:00 a.m.                                                 |
@@ -82,28 +83,28 @@ Feature: Services Form
       | Service Location                                              | Psychosocial/Counseling Service location                   |
       | Notes                                                         | Psychosocial/Counseling Notes                              |
       | Does the client want to pursue legal action?                  | Yes                                                        |
-    And I should see in the 1st "Legal Assistance Service" subform with the follow:
+    And I should see in the 1st "Legal Assistance Services Subform Section" subform with the follow:
       | Did you refer the client to Legal services? | No referral, Service not applicable |
       | Appointment Date                            | 24-Jul-2014                         |
       | Appointment Time                            | 12:00 p.m.                          |
       | Service Provider                            | Legal Service provider name         |
       | Service Location                            | Legal Service location              |
       | Notes                                       | Legal Services Notes                |
-    And I should see in the 1st "Police or Other Type of Security Service" subform with the follow:
+    And I should see in the 1st "Police or Other Type of Security Services Subform Section" subform with the follow:
       | Did you refer the client to Police/Other services?   | No, Referral declined by survivor  |
       | Appointment Date                                     | 25-Jul-2014                        |
       | Appointment Time                                     | 01:00 p.m.                         |
       | Service Provider                                     | Police/Other Service provider name |
       | Service Location                                     | Police/Other Service location      |
       | Notes                                                | Police/Other Notes                 |
-    And I should see in the 1st "Livelihoods Service" subform with the follow:
+    And I should see in the 1st "Livelihoods Services Subform Section" subform with the follow:
       | Did you refer the client to a livelihoods program? | No referral, Service provided by your agency |
       | Appointment Date                                   | 26-Jul-2014                                  |
       | Appointment Time                                   | 10:00 a.m.                                   |
       | Service Provider                                   | Livelihoods program provider name            |
       | Service Location                                   | Livelihoods program location                 |
       | Notes                                              | Livelihoods program Notes                    |
-    And I should see in the 1st "Child Protection Service" subform with the follow:
+    And I should see in the 1st "Child Protection Services Subform Section" subform with the follow:
       | Did you refer the client to Child Protection services? | No referral, Service provided by your agency |
       | Appointment Date                                       | 26-Jul-2014                                  |
       | Appointment Time                                       | 10:00 a.m.                                   |

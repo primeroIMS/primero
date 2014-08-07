@@ -1,5 +1,6 @@
 # JIRA PRIMERO-288
 # JIRA PRIMERO-403
+# JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Perpetrator Form
@@ -37,7 +38,7 @@ Feature: Perpetrator Form
       | Main occupation of alleged perpetrator (if known) | <Select> Unemployed |
     And I press "Save"
     And I should see "Incident record successfully created." on the page
-    Then I should see in the 1st "Perpetrator" subform with the follow:
+    Then I should see in the 1st "Perpetrator Subform Section" subform with the follow:
       | Is this the primary perpetrator? | Yes |
       | Was the alleged perpetrator(s) a State or Non-State Actor? | State Actor |
       | To which type of armed force or group did the alleged perpetrator(s) belong? | Other |
@@ -50,7 +51,7 @@ Feature: Perpetrator Form
       | Age group of alleged perpetrator | 18-25 |
       | Alleged perpetrator relationship with survivor | No relation |
       | Main occupation of alleged perpetrator (if known) | Unemployed |
-    Then I should see in the 2nd "Perpetrator" subform with the follow:
+    Then I should see in the 2nd "Perpetrator Subform Section" subform with the follow:
       | Is this the primary perpetrator? | No |
       | Was the alleged perpetrator(s) a State or Non-State Actor? | Unknown |
       | To which type of armed force or group did the alleged perpetrator(s) belong? | Other |
