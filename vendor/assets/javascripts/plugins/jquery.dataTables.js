@@ -436,7 +436,10 @@
 		_fnCompatMap( init, 'pagingType',    'sPaginationType' );
 		_fnCompatMap( init, 'pageLength',    'iDisplayLength' );
 		_fnCompatMap( init, 'searching',     'bFilter' );
-	
+		// PRIMERO - ADDED 2 SETTINGS FOR PAGINATION
+		_fnCompatMap( init, 'primero_pages', 'aPrimeroPaginationPages' );
+		_fnCompatMap( init, 'primero_page',  'aPrimeroPaginationPage' );
+
 		// Column search objects are in an array, so it needs to be converted
 		// element by element
 		var searchCols = init.aoSearchCols;
@@ -3357,11 +3360,12 @@
 							len        = settings._iDisplayLength,
 							visRecords = settings.fnRecordsDisplay(),
 							all        = len === -1,
-							page = all ? 0 : Math.ceil( start / len ),
-							pages = all ? 1 : Math.ceil( visRecords / len ),
+							// PRIMERO - OVERRIDING DATATABLES PAGINATION VARS
+							page = settings.aPrimeroPaginationPage - 1,
+							pages = settings.aPrimeroPaginationPages,
 							buttons = plugin(page, pages),
 							i, ien;
-	
+							console.log(settings.aPrimeroPaginationPages, visRecords )
 						for ( i=0, ien=features.p.length ; i<ien ; i++ ) {
 							_fnRenderer( settings, 'pageButton' )(
 								settings, features.p[i], i, buttons, page, pages
@@ -3391,6 +3395,7 @@
 	 */
 	function _fnPageChange ( settings, action, redraw )
 	{
+		console.log('clicked', action)
 		var
 			start     = settings._iDisplayStart,
 			len       = settings._iDisplayLength,
@@ -3402,12 +3407,27 @@
 		}
 		else if ( typeof action === "number" )
 		{
-			start = action * len;
-	
-			if ( start > records )
-			{
-				start = 0;
-			}
+			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
+			var source = location.href,
+	  			rtn = source.split("?")[0],
+	        param,
+	        params_arr = [],
+	        query = (source.indexOf("?") !== -1) ? source.split("?")[1] : "";
+	    if (query !== "") {
+	        params_arr = query.split("&");
+	        for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+	            param = params_arr[i].split("=")[0];
+	            if (param === "page") {
+	                params_arr.splice(i, 1);
+	            }
+	        }
+	        rtn = params_arr.join("&");
+	    } else {
+	    	rtn = ""
+	    }
+			var prev_params = rtn
+			window.location.search = prev_params + '&page=' + (action + 1);
+			// PRIMERO - END BLOCK
 		}
 		else if ( action == "first" )
 		{
@@ -6071,6 +6091,9 @@
 				"bDeferRender"
 			] );
 			_fnMap( oSettings, oInit, [
+				// PRIMERO = ADDED 2 SETTINGS FOR PAGINATION
+				"aPrimeroPaginationPage",
+				"aPrimeroPaginationPages",
 				"asStripeClasses",
 				"ajax",
 				"fnServerData",
@@ -9601,8 +9624,14 @@
 		 *    } );
 		 */
 		"aLengthMenu": [ 10, 25, 50, 100 ],
+
+
+		/**
+		 * PRIMERO Added to make pagination non-ajax
+		 */
 	
-	
+		"aPrimeroPaginationPage": 0,
+		"aPrimeroPaginationPages": 0,
 		/**
 		 * The `columns` option in the initialisation parameter allows you to define
 		 * details about the way individual columns behave. For a full list of
