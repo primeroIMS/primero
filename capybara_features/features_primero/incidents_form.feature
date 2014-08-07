@@ -1,6 +1,7 @@
 # JIRA PRIMERO-271
 # JIRA PRIMERO-407
 # JIRA PRIMERO-366
+# JIRA PRIMERO-418
 
 @javascript @primero
 Feature: Incidents Form
@@ -35,19 +36,19 @@ Feature: Incidents Form
       | Agency                            | Agency name                    |
       | Date of First Report or Interview | 06-Aug-2014                    |
       | Date of Incident                  | <Date Range><Date> 10-Aug-2014 |
-      | Are these dates estimated?        | <Radio> No                     |
+      | Is the date estimated?            | <Radio> No                     |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see a value for "Case Worker" on the show page with the value of "Case worker code"
     And I should see a value for "Agency" on the show page with the value of "Agency name"
     And I should see a value for "Date of First Report or Interview" on the show page with the value of "06-Aug-2014"
     And I should see a value for "Date of Incident" on the show page with the value of "10-Aug-2014"
-    And I should see a value for "Are these dates estimated?" on the show page with the value of "No"
+    And I should see a value for "Is the date estimated?" on the show page with the value of "No"
     And I press the "Edit" button
     And I fill in the following:
-      | Date of Incident                  | <Date Range><Range> from: '10-Aug-2014', to: '22-Aug-2014'|
-      | Are these dates estimated?        | <Radio> Yes                                                    |
+      | Date of Incident              | <Date Range><Range> from: '10-Aug-2014', to: '22-Aug-2014'|
+      | Is the date estimated?        | <Radio> Yes                                               |
     And I press "Save"
     And I should see "Incident was successfully updated" on the page
     And I should see a value for "Date of Incident" on the show page with the value of "<Date Range> From: 10-Aug-2014 To: 22-Aug-2014"
-    And I should see a value for "Are these dates estimated?" on the show page with the value of "Yes"
+    And I should see a value for "Is the date estimated?" on the show page with the value of "Yes"
