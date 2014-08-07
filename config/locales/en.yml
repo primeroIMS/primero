@@ -616,6 +616,8 @@ en:
     date_range:
       from: "From"
       to: "To"
+      date: "Date"
+      date_range: "Date Range"
 
   replication:
     label: Replication

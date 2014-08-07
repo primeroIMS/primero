@@ -6,6 +6,7 @@
 #JIRA PRIMERO-238
 #JIRA PRIMERO-353
 #JIRA PRIMERO-363
+#JIRA PRIMERO-365
 #JIRA PRIMERO-243
 
 @javascript @primero
@@ -81,7 +82,7 @@ Feature: Family Details Form
     And I should see a value for "Notes about Family" on the show page with the value of "Some Family Notes"
     And I should see a value for "What is the child’s intended address?" on the show page with the value of "Some Child Address"
     #Verify values from the subform
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       |Name                                                  | Socorro                      |
       |How are they related to the child?                    | Mother                       |
       |Is this person the caregiver?                         | Yes                          |
@@ -107,7 +108,7 @@ Feature: Family Details Form
       |Last Known Location                                   | Coco's Last Known Location   |
       |Telephone                                             | Coco's Telephone             |
       |Other persons well known to the child                 | Pedro                        |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       |Name                                                  | Pedro                        |
       |How are they related to the child?                    | Father                       |
       |Is this person the caregiver?                         | No                           |
@@ -146,10 +147,10 @@ Feature: Family Details Form
       | Age | 25 |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       | Age           | 39                            |
       | Date of Birth | Calculated date 39 years ago  |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       | Age           | 25                            |
       | Date of Birth | Calculated date 25 years ago  |
 
@@ -165,9 +166,9 @@ Feature: Family Details Form
       | Date of Birth | 01-Jan-1989 |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       | Age           | Calculated age from 1975  |
       | Date of Birth | 01-Jan-1975               |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       | Age           | Calculated age from 1989  |
       | Date of Birth | 01-Jan-1989               |

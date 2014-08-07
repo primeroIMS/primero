@@ -1,11 +1,18 @@
+<%
+  date_or_date_range = formObject["#{field.name}_date_or_date_range"]
+%>
 <div class="row">
   <div class="medium-4 columns">
     <label class="key"><%= t(field.name, :default => field.display_name) %></label>
   </div>
   <div class="medium-8 columns">
-    <span class="value"><%="#{I18n.t("fields.date_range.from")}:"%></span>
-    <span class="value"><%= field_value_for_display formObject["#{field.name}_from"] %></span>
-    <span class="value"><%="#{I18n.t("fields.date_range.to")}:"%></span>
-    <span class="value"><%= field_value_for_display formObject["#{field.name}_to"] %></span>
+    <% if date_or_date_range == "date" %>
+      <span class="value"><%= field_value_for_display formObject[field.name] %></span>
+    <% elsif date_or_date_range == "date_range" %>
+      <span class="value"><%="#{I18n.t("fields.date_range.from")}:"%></span>
+      <span class="value"><%= field_value_for_display formObject["#{field.name}_from"] %></span>
+      <span class="value"><%="#{I18n.t("fields.date_range.to")}:"%></span>
+      <span class="value"><%= field_value_for_display formObject["#{field.name}_to"] %></span>
+    <% end %>
   </div>
 </div>

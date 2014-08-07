@@ -78,11 +78,25 @@ When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field,
   if value.start_with?("<Date Range>")
       value = value.gsub("<Date Range>", "").strip
       label = find "//label", :text => field, :visible => true
-      field_from_id = "#{label["for"]}_from"
-      field_to_id = "#{label["for"]}_to"
-      values = eval("{#{value}}")
-      fill_in(field_from_id, :visible => true, :with => values[:from])
-      fill_in(field_to_id, :visible => true, :with => values[:to])
+      if value.start_with?("<Date>")
+        value = value.gsub("<Date>", "").strip
+        radio_button_id = "#{label["for"]}_date_or_date_range_date"
+        choose(radio_button_id, :visible => true)
+        with_scope(selector) do
+          fill_in(field, :visible => true, :with => value)
+        end
+      else
+        if value.start_with?("<Range>")
+          value = value.gsub("<Range>", "").strip
+          radio_button_id = "#{label["for"]}_date_or_date_range_date_range"
+          choose(radio_button_id, :visible => true)
+        end
+        field_from_id = "#{label["for"]}_from"
+        field_to_id = "#{label["for"]}_to"
+        values = eval("{#{value}}")
+        fill_in(field_from_id, :visible => true, :with => values[:from])
+        fill_in(field_to_id, :visible => true, :with => values[:to])
+      end
   elsif value.start_with?("<Choose>")
     options = value.gsub(/^<Choose>/, "").split("<Choose>")
     options.each do |option|
@@ -411,12 +425,12 @@ end
 #Chosen to select the values one by one, this is useful in subforms because we can't send the table from the string.
 When /^I choose option "([^\"]*)" from "([^\"]*)"(?: within "([^"]*)")?$/ do |option, chosen, selector |
   selector ||= ""
-  label = find("#{selector}//label[text()='#{chosen}']")
+  label = find("#{selector}//label[text()='#{chosen}']", :visible => true)
   chosen_id = label["for"] + "__chosen"
-  chosen = find(:xpath, "//div[@id='#{chosen_id}']")
+  chosen = find(:xpath, "//div[@id='#{chosen_id}']",  :visible => true)
   #This make visible the options to choose.
   chosen.click
-  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
+  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']", :visible => true).click
   #To select another items, it is needed the chosen lost the focus to make click again
   #to make visible the items to select.
   label.click

@@ -2,6 +2,7 @@
 #JIRA PRIMERO-358
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Subforms Collapse Expand
@@ -134,14 +135,14 @@ Feature: Subforms Collapse Expand
       |Language                           | <Choose>Language2  |
     And I press "Save"
     Then I should see "Case was successfully updated" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       |Name                               | Tom           |
       |How are they related to the child? | Uncle         |
       |Is this person the caregiver?      | Yes           |
       |If dead, please provide details    | No Dead Notes |
       |Age                                | 39            |
       |Language                           | Language1     |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       |Name                               | Mary                |
       |How are they related to the child? | Aunt                |
       |Is this person the caregiver?      | No                  |

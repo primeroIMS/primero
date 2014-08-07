@@ -1,4 +1,5 @@
 #JIRA PRIMERO-335
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Subforms In Incidents
@@ -23,7 +24,7 @@ Feature: Subforms In Incidents
   Scenario: As a logged in user and create incident, I should be able to remove all subforms and add new subforms
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see in the 1st "Group Detail" subform with the follow:
+    And I should see in the 1st "Group Details Section" subform with the follow:
       |Description of the Group of Children | Jane Doe |
 
   Scenario: As a logged in user and edit incident, I should be able to remove all subforms and add new subforms
@@ -37,7 +38,7 @@ Feature: Subforms In Incidents
       | Description of the Group of Children | Timmy |
     And I press "Save"
     Then I should see "Incident was successfully updated" on the page
-    And I should see in the 1st "Group Detail" subform with the follow:
+    And I should see in the 1st "Group Details Section" subform with the follow:
       |Description of the Group of Children | Timmy |
 
   Scenario: As a logged in user and edit incident, I should be able to remove some subforms and add new subforms
@@ -54,9 +55,9 @@ Feature: Subforms In Incidents
       | Description of the Group of Children | Timmy |
     And I press "Save"
     Then I should see "Incident was successfully updated" on the page
-    And I should see in the 1st "Group Detail" subform with the follow:
+    And I should see in the 1st "Group Details Section" subform with the follow:
       |Description of the Group of Children | Jane Doe |
-    And I should see in the 2nd "Group Detail" subform with the follow:
+    And I should see in the 2nd "Group Details Section" subform with the follow:
       |Description of the Group of Children | Timmy    |
 
   Scenario: As a logged in user and create incident, I should be able to remove all subforms and create

@@ -3,6 +3,7 @@
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
 #JIRA PRIMERO-400
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Denial of Humanitarian Access Form
@@ -46,7 +47,7 @@ Feature: Denial of Humanitarian Access Form
       | Population Affected by Service Disruption | 80000  |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see in the 1st "Denial of Humanitarian Access" subform with the follow:
+    And I should see in the 1st "Denial Humanitarian Access" subform with the follow:
      | What method(s) were used to deny humanitarian access? | Import Restrictions for Goods          |
      | What organizations were affected?                     | International, United Nations Agencies |
      | Number of Personnel Killed                | 1      |
@@ -61,7 +62,7 @@ Feature: Denial of Humanitarian Access Form
      | Number of total survivors                 | 40     |
      | Adults                                    | 50     |
      | Population Affected by Service Disruption | 70000  |
-   And I should see in the 2nd "Denial of Humanitarian Access" subform with the follow:
+   And I should see in the 2nd "Denial Humanitarian Access" subform with the follow:
       | What method(s) were used to deny humanitarian access? | Travel Restrictions in Country |
       | What organizations were affected?                     | NGO, Red Cross / Crescent      |
       | Number of Personnel Killed                | 2      |

@@ -1,5 +1,6 @@
 #JIRA PRIMERO-318
 #JIRA PRIMERO-243
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Group Details Form
@@ -31,7 +32,7 @@ Feature: Group Details Form
       | What was the status of the children involved at the time of the violation ? | <Select> Community Member |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see in the 1st "Group Detail" subform with the follow:
+    And I should see in the 1st "Group Details Section" subform with the follow:
       | Description of the Group of Children                                        | Some Children Group |
       | How many children were involved?                                            | 100                 |
       | What was the sex of the group of children involved?                         | Mixed               |
@@ -40,7 +41,7 @@ Feature: Group Details Form
       | What was the nationality of the children involved?                          | Nationality2        |
       | What was the religious affiliation of the children involved?                | Religion3           |
       | What was the status of the children involved at the time of the violation ? | Refugee             |
-    And I should see in the 2nd "Group Detail" subform with the follow:
+    And I should see in the 2nd "Group Details Section" subform with the follow:
       | Description of the Group of Children                                        | Some Other Children Group |
       | How many children were involved?                                            | 200                       |
       | What was the sex of the group of children involved?                         | Unknown                   |

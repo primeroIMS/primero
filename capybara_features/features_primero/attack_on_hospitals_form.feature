@@ -3,6 +3,7 @@
 #JIRA PRIMERO-334
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Attack on Hospitals Form
@@ -41,8 +42,8 @@ Feature: Attack on Hospitals Form
       | For How Long? (Days)                              | 60                          |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see 1 subform on the show page for "Attack on Hospital"
-    And I should see in the 1st "Attack on Hospital" subform with the follow:
+    And I should see 1 subform on the show page for "Attack on Hospitals"
+    And I should see in the 1st "Attack on Hospitals" subform with the follow:
       | Number of Sites Attacked                          | 3                  |
       | Type of Attack On Site                            | Aerial Bombardment |
       | Hospital Name                                     | Some hospital name |

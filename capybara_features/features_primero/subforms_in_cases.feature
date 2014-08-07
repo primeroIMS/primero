@@ -1,6 +1,7 @@
 #JIRA PRIMERO-335
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Subforms In Cases
@@ -26,7 +27,7 @@ Feature: Subforms In Cases
   Scenario: As a logged in user and create case, I should be able to remove all subforms and add new subforms
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       |Name | Jane Doe |
 
   Scenario: As a logged in user and edit case, I should be able to remove all subforms and add new subforms
@@ -40,7 +41,7 @@ Feature: Subforms In Cases
       | Name | Timmy |
     And I press "Save"
     Then I should see "Case was successfully updated" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       |Name | Timmy |
 
   Scenario: As a logged in user and edit case, I should be able to remove some subforms and add new subforms
@@ -57,9 +58,9 @@ Feature: Subforms In Cases
       | Name | Timmy |
     And I press "Save"
     Then I should see "Case was successfully updated" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       |Name | Jane Doe |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       |Name | Timmy    |
 
   Scenario: As a logged in user and create case, I should be able to remove all subforms and create
