@@ -277,7 +277,14 @@ class Incident < CouchRest::Model::Base
   end
 
   def violations_list
-    #TODO - build this out
-    ['violation_foo', 'violation_bar', 'violation_baz']
+    violations_list = []
+
+    if self['violations'].present?
+      self['violations'].each do |key, value|
+        value.keys.each{|k| violations_list << key.titleize + " " + k}
+      end
+    end
+
+    return violations_list
   end
 end

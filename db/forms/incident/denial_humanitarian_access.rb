@@ -92,7 +92,7 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
   :order_form_group => 40,
   :order => 70,
   :order_subform => 2,
-  :unique_id=>"denial_humanitarian_access_section",
+  :unique_id=>"denial_humanitarian_access",
   :parent_form=>"incident",
   "editable"=>true,
   :fields => denial_humanitarian_access_section_fields,
@@ -100,12 +100,13 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Human Impact of Attack Subform",
   "description_all" => "Nested Human Impact of Attack Subform",
+  :initial_subforms => 1,
   "collapsed_fields" => ["denial_method"]
 })
 
 denial_humanitarian_access_fields = [
   ##Subform##
-  Field.new({"name" => "denial_humanitarian_access_section",
+  Field.new({"name" => "denial_humanitarian_access",
              "type" => "subform", 
              "editable" => true,
              "subform_section_id" => denial_humanitarian_access_section.id,
@@ -115,7 +116,7 @@ denial_humanitarian_access_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "denial_humanitarian_access",
+  :unique_id => "denial_humanitarian_access_wrapper",
   :parent_form=>"incident",
   "visible" => true,
   :order_form_group => 40,

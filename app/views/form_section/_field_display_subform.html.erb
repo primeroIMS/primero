@@ -11,14 +11,15 @@
   <div class="subforms">
     <fieldset class="subform no-border">
     <% (number_of_subforms).times do |i| %>
+      <%
+        formObject_i = subform_object["#{i}"]
+        formObject_i[:password_protected_name] = formObject.password_protected_name
+      %>
       <h5 class="tool-tip-label">
         <span><%= label_tag field.name, t(field.name, :default => field.display_name.singularize), :class=>'key' %></span>
       </h5>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <%
-          formObject_i = subform_object["#{i}"]
-          formObject_i[:password_protected_name] = formObject.password_protected_name
-        %>
+
         <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject_i} %>
       <% end %>
     <% end %>
