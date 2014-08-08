@@ -25,14 +25,6 @@ incident_fields = [
                 "Other"
               ].join("\n")
             }),
-  Field.new({"name" => "caseworker_code", # TODO: populated with users
-             "type" => "text_field",
-             "display_name_all" => "Case Worker"
-            }),   
-  Field.new({"name" => "agency_organization", # TODO: populated with organizations
-             "type" => "text_field",
-             "display_name_all" => "Agency"
-            }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",
              "display_name_all" => "Date of First Report or Interview"

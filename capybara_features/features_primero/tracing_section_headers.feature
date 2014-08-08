@@ -1,6 +1,6 @@
 # JIRA PRIMERO-137
 
-@javascript @primero
+@javascript @primero @clean_db
 Feature: Tracing Section Headers
   As a Social Worker I want the Tracing form sections to have headers
   so that the users can easily identify the related form sections

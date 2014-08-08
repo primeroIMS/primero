@@ -1,6 +1,6 @@
 # JIRA PRIMERO-139
 
-@javascript @primero
+@javascript @primero @clean_db
 Feature: Form Tab Navigation
   As an administrator, I want to be able to return to last viewed tab after creating a case. I also want to return
   to the last viewed tab on edit from the show page.
