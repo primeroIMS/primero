@@ -248,10 +248,13 @@ end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
   within(:xpath, "//tr[contains(.,'#{record}')]") do
-    find(:xpath, "//td/i[@class='fa-#{icon}']")
+    find(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
   end
 end
 
+And /^I visit cases page "([^\"]*)"$/ do|page_number|
+    page.find("//a[contains(@class, 'paginate_button')][contains(text(), '#{page_number}')]").click
+end
 
 #////////////////////////////////////////////////////////////////
 #//  Pre-Existing Steps
@@ -487,11 +490,11 @@ Then /^the "([^"]*)" dropdown should have "([^"]*)" selected$/ do |dropdown_labe
 end
 
 And /^I should see "([^\"]*)" in the list of fields$/ do |field_name|
-  page.should have_xpath("//table[@id='form_sections']//tr[@class='rowEnabled' and contains(., '#{field_name}')]")
+  page.should have_xpath("//table[@id='form_sections']//tr[contains(@class, 'rowEnabled') and contains(., '#{field_name}')]")
 end
 
 And /^I should see "([^\"]*)" in the list of fields and disabled$/ do |field_name|
-  page.should have_xpath("//table[@id='form_sections']//tr[@class='rowDisabled' and contains(., '#{field_name}')]")
+  page.should have_xpath("//table[@id='form_sections']//tr[contains(@class, 'rowDisabled') and contains(., '#{field_name}')]")
 end
 
 Given /^the "([^\"]*)" form section has the field "([^\"]*)" with help text "([^\"]*)"$/ do |form_section, field_name, field_help_text|

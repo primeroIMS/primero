@@ -5,10 +5,15 @@ $(document).ready(function() {
   */
 	var pagination = typeof pagination_details == 'undefined' ? false : pagination_details
 	
-	$('.list_view, .list_table').DataTable({
+	var entity_table = $('.list_view').DataTable({
 		searching: false,
-		"language": {
-    	"info": pagination.info
-  	}
+		language: {
+      info: pagination.info
+  	},
+  	lengthChange: false,
+		pageLength: 20,
+		primero_page: pagination.current_page,
+		primero_pages: pagination.total_pages,
+		responsive: true
 	});
 });

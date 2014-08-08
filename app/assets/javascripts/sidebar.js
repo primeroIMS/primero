@@ -17,7 +17,7 @@ tabNavigation = Backbone.View.extend({
   },
 
   first_tab: function() {
-    var tab = $('li.current').children('a').attr('href')
+    var tab = $('.tab-handles li.current').children('a').attr('href')
     localStorage.setItem('first_tab', tab)
   },
 
@@ -58,7 +58,6 @@ tabNavigation = Backbone.View.extend({
 
     //When make visible a tab, initialize the chosen in the tab.
     _primero.chosen(activeTab + ' select.chosen-select:visible');
-    this.scroll_to_top();
     return false;
   },
 
@@ -122,10 +121,6 @@ tabNavigation = Backbone.View.extend({
       
       tab.show();
     }
-  },
-
-  scroll_to_top: function() {
-    $("html, body").animate({ scrollTop: 0 }, "slow");
   }
 });
 
