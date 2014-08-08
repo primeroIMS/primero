@@ -17,6 +17,18 @@ Before('@search') do
   Sunspot.remove_all!(Enquiry)
 end
 
+Before('@clean_db') do
+  CouchRest::Model::Base.descendants.each do |model|
+    if model.name == 'Child' || model.name == 'Incident'
+      puts "Deleting all rows in #{model.name}"
+      docs = model.database.documents["rows"].map { |doc|
+        { "_id" => doc["id"], "_rev" => doc["value"]["rev"], "_deleted" => true } unless doc["id"].include? "_design"
+      }.compact
+      RestClient.post "#{model.database.root}/_bulk_docs", { :docs => docs }.to_json, { "Content-type" => "application/json" } unless docs.empty?
+    end
+  end
+end
+
 Before do
   I18n.locale = I18n.default_locale = :en
   #TODO - Figure out how to whack only incidents and cases

@@ -1,5 +1,5 @@
 # JIRA PRIMERO-48
-@javascript @primero
+@javascript @primero @clean_db
 Feature: Primero View List of Case Records
   I want to be able to access the record of a registered child (or other individual) so that I can find and
   update my case records with information about my interactions with the cases in my care after registration
