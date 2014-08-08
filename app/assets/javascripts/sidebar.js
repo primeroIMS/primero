@@ -17,7 +17,7 @@ tabNavigation = Backbone.View.extend({
   },
 
   first_tab: function() {
-    var tab = $('li.current').children('a').attr('href')
+    var tab = $('.tab-handles li.current').children('a').attr('href')
     localStorage.setItem('first_tab', tab)
   },
 

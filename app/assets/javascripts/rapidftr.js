@@ -284,7 +284,7 @@ $(document).ready(function() {
   //Initialize chosen in the current tab. There is a chance that
   //the element we get is a group, if that is the case we need to
   //lookup inside the group to find what is really the current tab.
-  var group_or_tab = $(".tab-handles li.current:eq(0)")
+  var group_or_tab = $(".tab-handles li.current:eq(0)");
   var current_tab = null;
   if ($(group_or_tab).hasClass("group")) {
     //If the element is a group tab, find in his children
