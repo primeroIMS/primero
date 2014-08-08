@@ -58,7 +58,6 @@ tabNavigation = Backbone.View.extend({
 
     //When make visible a tab, initialize the chosen in the tab.
     _primero.chosen(activeTab + ' select.chosen-select:visible');
-    this.scroll_to_top();
     return false;
   },
 
@@ -122,10 +121,6 @@ tabNavigation = Backbone.View.extend({
       
       tab.show();
     }
-  },
-
-  scroll_to_top: function() {
-    $("html, body").animate({ scrollTop: 0 }, "slow");
   }
 });
 

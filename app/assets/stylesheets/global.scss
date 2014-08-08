@@ -294,6 +294,11 @@ input[type="text"][disabled]{
   box-shadow: none;
 }
 
+#ui-datepicker-div select {
+  height: inherit;
+  font-size: .9rem
+}
+
 ////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////
