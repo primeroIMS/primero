@@ -322,7 +322,8 @@ en:
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
-    export_error: "No Records Available!"
+    export_error: "No Records Available!"    
+    reload: "Reload Violations"
 
     messages:
       update_success: "Incident was successfully updated."

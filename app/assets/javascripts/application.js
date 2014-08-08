@@ -38,6 +38,7 @@
 //= require age_birth_date
 //= require password_protected_field.js
 //= require date_range_controls.js
+//= require reload_violations.js
 
 
 $(function(){ $(document).foundation(); });

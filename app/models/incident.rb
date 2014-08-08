@@ -284,6 +284,10 @@ class Incident < CouchRest::Model::Base
         value.keys.each{|k| violations_list << key.titleize + " " + k}
       end
     end
+    
+    if violations_list.blank?
+      violations_list << "NONE"
+    end
 
     return violations_list
   end
