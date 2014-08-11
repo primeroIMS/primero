@@ -2,11 +2,11 @@
   field_keys ||= []
   name = field_tag_name formObject, text_field, field_keys
   value ||= field_value formObject, text_field, field_keys
-  show_password_protect_link = text_field.password_protected_field && !formObject.new_record?
-  password_protect_link_text = formObject.password_protected_name ? I18n.t("cases.view_name") : I18n.t("cases.password_protect_name")
-  password_protect_link_action = formObject.password_protected_name ? "view" : "protect"
-  value = I18n.t("cases.password_protected_field_text") if text_field.password_protected_field && formObject.password_protected_name && !formObject.new_record?
-  disabled_field = (text_field.password_protected_field && formObject.password_protected_name && !formObject.new_record?) || (!text_field.editable)
+  show_hide_text_link = text_field.hidden_text_field && !formObject.new_record?
+  hide_text_link_text = formObject.hidden_name ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
+  hide_text_link_action = formObject.hidden_name ? "view" : "protect"
+  value = I18n.t("cases.hidden_text_field_text") if text_field.hidden_text_field && formObject.hidden_name && !formObject.new_record?
+  disabled_field = (text_field.hidden_text_field && formObject.hidden_name && !formObject.new_record?) || (!text_field.editable)
 %>
 <div class="row">
   <div class="medium-4 columns">
@@ -16,7 +16,7 @@
   </div>
   <div class="medium-8 columns">
     <%= text_field_tag name, value, :disabled => disabled_field %>
-    <%= link_to(password_protect_link_text, password_protect_link_text.dehumanize, :class => "password_protected_field", :action => password_protect_link_action) if show_password_protect_link %>
+    <%= link_to(hide_text_link_text, hide_text_link_text.dehumanize, :class => "hidden_text_field", :action => hide_text_link_action) if show_hide_text_link %>
     <%= image_tag "new/icon_help.png", title: text_field.help_text, class: 'tool-tip-icon vtip' if text_field.help_text.present? %>
   </div>
 </div>

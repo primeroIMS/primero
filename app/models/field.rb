@@ -10,7 +10,7 @@ class Field
   property :editable, TrueClass, :default => true
   localize_properties [:display_name, :help_text, :option_strings_text]
   property :multi_select, TrueClass, :default => false
-  property :password_protected_field, TrueClass, :default => false
+  property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
   property :option_strings_source  #If options are dynamic, this is where to fetch them
   property :base_language, :default=>'en'
@@ -136,7 +136,7 @@ class Field
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
     self.multi_select = false if properties["multi_select"].nil?
-    self.password_protected_field ||= false
+    self.hidden_text_field ||= false
     self.attributes = properties
     create_unique_id
   end

@@ -113,13 +113,11 @@ en:
       active: "Active"
       reunited: "Reunited"
       flagged: "Flagged"
-    password_protected_field_text: "*****"
-    enter_password_to_protect_childs_name: "Please enter your password to continue"
-    password_protect_name: "Password protect Name"
+    hidden_text_field_text: "*****"
+    hide_name: "Hide Name"
     view_name: "View Name"
     ok: "Ok"
-    incorrect_password: "The password that you entered is incorrect"
-    password_protect_name_error: "An error ocurred when saving your changes. Please try again."
+    hide_name_error: "An error ocurred when saving your changes. Please try again."
 
   children:
     label: "Children"

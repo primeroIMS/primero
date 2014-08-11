@@ -14,8 +14,8 @@
         <div class="summary_item">
         <% highlighted_fields.each do |relevant_field| %>
           <% if relevant_field.visible? %>
-            <% if relevant_field.password_protected_field && child.password_protected_name %>
-              <%= I18n.t("cases.password_protected_field_text") %>
+            <% if relevant_field.hidden_text_field && child.hidden_name %>
+              <%= I18n.t("cases.hidden_text_field_text") %>
             <% else %>
               <%= child[relevant_field[:name]] %>
             <% end %>

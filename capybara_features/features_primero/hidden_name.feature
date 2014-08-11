@@ -1,10 +1,11 @@
 # JIRA PRIMERO-247
+# JIRA PRIMERO-248
 
 @javascript @primero
-Feature: Password Protect Name
-  As a Social Worker I want to password protect the survivor's name so that only people with access to the record can view the actual name of the child
+Feature: Hide Name
+  As a Social Worker I want to hide the survivor's name so that only people with access to the record can view the actual name of the child
   
-  Scenario: As a logged in user, I create a case and password protect the survivor's name
+  Scenario: As a logged in user, I create a case and hide the survivor's name
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
@@ -48,9 +49,7 @@ Feature: Password Protect Name
     And I should see a value for "Other Agency ID" on the show page with the value of "ABC12345"
     And I should see a value for "Other Agency Name" on the show page with the value of "Test Agency"
     And I press the "Edit" button
-    And I press the "Password protect Name" link
-    And I fill in the "confirm_password" field with "primero"
-    And I press the "Ok" button
+    And I press the "Hide Name" link
     And I wait for 2 seconds
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
@@ -78,13 +77,6 @@ Feature: Password Protect Name
     And I should see a value for "Other Agency Name" on the show page with the value of "Test Agency"
     And I press the "Edit" button
     And I press the "View Name" link
-    And I fill in the "confirm_password" field with "wrong password"
-    And I press the "Ok" button
-    And I should see "The password that you entered is incorrect" on the page
-    And I press the "Ok" button
-    And I press the "View Name" link
-    And I fill in the "confirm_password" field with "primero"
-    And I press the "Ok" button
     And I wait for 2 seconds
     And the "Name" field should contain "Tiki Thomas Taliaferro"
     And I press "Save"
@@ -118,9 +110,7 @@ Feature: Password Protect Name
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "Edit" button
-    And I press the "Password protect Name" link
-    And I fill in the "confirm_password" field with "primero"
-    And I press the "Ok" button
+    And I press the "Hide Name" link
     And I wait for 2 seconds
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
