@@ -17,14 +17,14 @@ var ViolationListReload = Backbone.View.extend({
     var context = this.el;
     $(context).find("select[id$='_violations_']").each(function(x, violationEl){
       //Clear out existing options
-      violationEl.empty();
+      $(violationEl).empty();
 
       //Add new options
       _.each(violation_list, function(i){
         var newOption = $('<option value="' + i + '">' + i + '</option>');
-        violationEl.append(newOption);
+        $(violationEl).append(newOption);
       });
-      violationEl.trigger("chosen:updated");
+      $(violationEl).trigger("chosen:updated");
     });
   },
 });
