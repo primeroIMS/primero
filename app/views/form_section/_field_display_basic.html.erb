@@ -4,7 +4,7 @@
   </div>
   <div class="medium-8 columns">
     <% value = field_value_for_display formObject[field.name] %>
-    <% value = I18n.t("cases.password_protected_field_text") if formObject[:password_protected_name] && field.password_protected_field%>
+    <% value = I18n.t("cases.hidden_text_field_text") if formObject[:hidden_name] && field.hidden_text_field%>
     <span class="value"><%= value %></span>
   </div>
 </div>

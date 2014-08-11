@@ -32,17 +32,6 @@
       <%= hidden_field_tag('child[revision]', @child._rev) %>
       <% @form_sections.each do |form_group_name, form_list| %>
         <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
-        <% if !@child.new_record?%>
-          <div id="password_confirmation_popup" title="PRIMERO" style="display:none">
-            <p><%= I18n.t("cases.enter_password_to_protect_childs_name")%></p>
-            <input type="password" id="confirm_password">
-            <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text"><%=(I18n.t("cases.ok"))%></span></button>
-          </div>
-          <div id="password_confirmation_message" title="PRIMERO" style="display:none">
-            <p></p>
-            <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" onclick="$(this).parent().parent().hide();"><span class="ui-button-text"><%=(I18n.t("cases.ok"))%></span></button>
-          </div>
-        <% end %>
       <% end %>
       <div class="btn_panel">
         <%= discard_button children_path %>
