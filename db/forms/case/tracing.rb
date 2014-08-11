@@ -75,7 +75,9 @@ reunification_subform = [
 reunification_details_section = FormSection.create_or_update_form_section({
     "visible"=>false,
     "is_nested"=>true,
-    :order=> 1,
+    :order_form_group => 130,
+    :order => 20,
+    :order_subform => 1,
     :unique_id=>"reunification_details_section",
     :parent_form=>"case",
     "editable"=>true,
@@ -83,7 +85,8 @@ reunification_details_section = FormSection.create_or_update_form_section({
     :perm_enabled => false,
     :perm_visible => false,
     "name_all" => "Nested Reunification",
-    "description_all" => "Reunification Subform"
+    "description_all" => "Reunification Subform",
+    "collapsed_fields" => ["relationship_reunified_adult", "name_reunified_adult"]
 })
 
 #########################################
@@ -138,7 +141,9 @@ tracing_action_subform = [
 tracing_actions_section = FormSection.create_or_update_form_section({
      "visible"=>false,
      "is_nested"=>true,
-     :order=> 1,
+     :order_form_group => 130,
+     :order => 20,
+     :order_subform => 2,
      :unique_id=>"tracing_actions_section",
      :parent_form=>"case",
      "editable"=>true,
@@ -146,7 +151,8 @@ tracing_actions_section = FormSection.create_or_update_form_section({
      :perm_enabled => false,
      :perm_visible => false,
      "name_all" => "Nested Tracing Action",
-     "description_all" => "Tracing Action Subform"
+     "description_all" => "Tracing Action Subform",
+     "collapsed_fields" => ["tracing_type", "date_tracing"]
 })
 
 #########################################
@@ -299,7 +305,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "tracing",
   :parent_form=>"case",
   "visible" => true,
-  :order => 110,
+  :order_form_group => 130,
+  :order => 20,
+  :order_subform => 0,
+  :form_group_name => "Tracing",
   :fields => tracing_fields,
   :perm_visible => true,
   "editable" => true,

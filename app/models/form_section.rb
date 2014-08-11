@@ -7,6 +7,9 @@ class FormSection < CouchRest::Model::Base
   property :parent_form
   property :visible, TrueClass, :default => true
   property :order, Integer
+  property :order_form_group, Integer
+  property :order_subform, Integer
+  property :form_group_name
   property :fields, [Field]
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false
@@ -104,13 +107,15 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
-  #Returns the list of field names to show in collapsed subforms.
+  #Returns the list of field to show in collapsed subforms.
   #If there is no list defined, it will returns the first one of the fields.
   def collapsed_list
     if self.collapsed_fields.empty?
-      [self.fields.select {|field| field.visible? }.first.name]
+      [self.fields.select {|field| field.visible? }.first]
     else
-      self.collapsed_fields
+      #Make sure we get the field in the order by collapsed_fields array.
+      map = Hash[*self.fields.collect { |field| [field.name, field] }.flatten]
+      self.collapsed_fields.collect {|field_name| map[field_name]}
     end
   end
 
@@ -142,11 +147,36 @@ class FormSection < CouchRest::Model::Base
   end
 
   def self.find_all_visible_by_parent_form parent_form
-    by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| e[:order]}
+    by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
   end
 
   def self.find_by_parent_form parent_form
-    by_parent_form(:key => parent_form).sort_by{|e| e[:order]}
+    by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+  end
+  
+  #TODO - can this be done more efficiently?
+  def self.find_form_groups_by_parent_form parent_form
+    all_forms = self.find_by_parent_form(parent_form)
+    
+    form_sections = []
+    subforms_hash = {}
+
+    all_forms.each do |form|
+      if form.visible?
+        form_sections.push form
+      else
+        subforms_hash[form.id] = form
+      end
+    end
+
+    #TODO: The map{}.flatten still takes 13 ms to run
+    form_sections.map{|f| f.fields}.flatten.each do |field|
+      if field.type == 'subform' && field.subform_section_id
+        field.subform ||= subforms_hash[field.subform_section_id]
+      end
+    end
+    
+    form_groups = form_sections.group_by{|e| e.form_group_name}
   end
 
 
@@ -161,6 +191,7 @@ class FormSection < CouchRest::Model::Base
     all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
   end
 
+  #TODO -RSE- see how this is affected by order_form_group
   def self.new_with_order form_section
     form_section[:order] = by_order.last ? (by_order.last.order + 1) : 1
     FormSection.new(form_section)

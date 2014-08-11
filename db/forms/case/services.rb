@@ -67,7 +67,9 @@ services_subform = [
 services_section = FormSection.create_or_update_form_section({
   "visible"=>false,
   "is_nested"=>true,
-  :order=> 1,
+  :order_form_group => 110,
+  :order => 30,
+  :order_subform => 1,
   :unique_id=>"services_section",
   :parent_form=>"case",
   "editable"=>true,
@@ -75,7 +77,8 @@ services_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Services",
-  "description_all" => "Services Subform"
+  "description_all" => "Services Subform",
+  "collapsed_fields" => ["service_type", "service_appointment_date"]
 })
 
 services_fields = [
@@ -110,7 +113,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "services",
   :parent_form=>"case",
   "visible" => true,
-  :order => 100,
+  :order_form_group => 110,
+  :order => 30,
+  :order_subform => 0,
+  :form_group_name => "Services / Follow Up",
   :fields => services_fields,
   :perm_visible => true,
   "editable" => false,

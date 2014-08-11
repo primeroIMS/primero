@@ -1,31 +1,18 @@
 # JIRA PRIMERO-144
 # JIRA PRIMERO-232
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Activities Form
   As a Social Worker, I want to fill in form information for children (individuals) in particular circumstances
   so that we can track and report on areas of particular concern.
 
-  Scenario: As a logged in user, I should access the form section activities
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "Activities" button
-    Then I should see the following fields:
-      | Is the Child in school or training?        |
-      | Name of School                             |
-      | If not, why not?                           |
-      | If yes, what type of education?            |
-      | If relevant, what level have they achieved?|
-      | Start Date of Training                     |
-      | Duration of Training                       |
-      | Other details about school or training             |
-      | What other activities is the child involved in?    |
-      | Other details about additional activities          |
-
   Scenario: As a logged in user, I create a case with activities information
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Services / Follow Up" button
     And I press the "Activities" button
     And I select "Yes" for "Is the Child in school or training?" radio button
     And I fill in the following:

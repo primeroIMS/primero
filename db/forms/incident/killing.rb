@@ -79,7 +79,7 @@ Field.new({"name" => "kill_cause_of_details",
             }),
   Field.new({"name" => "kill_participant",
              "type" => "select_box",
-             "display_name_all" => "Was the victim/survivor directly participating in hostilities at the time of the violation?",
+             "display_name_all" => "Was the victim directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" =>
                                     ["Yes",
                                      "No",
@@ -98,7 +98,9 @@ Field.new({"name" => "kill_cause_of_details",
 killing_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 40,
+  :order => 10,
+  :order_subform => 1,
   :unique_id => "killing_subform_section",
   :parent_form=>"incident",
   "editable" => true,
@@ -107,7 +109,8 @@ killing_subform_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Killing Subform",
   "description_all" => "Nested Killing Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["kill_cause_of_death"]
 })
 
 killing_fields = [
@@ -122,7 +125,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "killing",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 40,
+  :order_form_group => 40,
+  :order => 10,
+  :order_subform => 0,
+  :form_group_name => "Violations",
   "editable" => true,
   :fields => killing_fields,
   :perm_enabled => true,

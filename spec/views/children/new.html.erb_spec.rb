@@ -3,9 +3,15 @@ require 'spec_helper'
 describe "children/new.html.erb" do
 
   before :each do
-    @form_section = FormSection.new :unique_id => "section_name"
+    @form_section = FormSection.new({
+        :unique_id => "section_name",
+        :order_form_group => 40,
+        :order => 80,
+        :order_subform => 0,
+        :form_group_name => "Test Group"
+      })
     @child = Child.new
-    assign(:form_sections, [@form_section])
+    assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
   end
 
   it "renders a form that posts to the cases url" do

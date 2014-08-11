@@ -115,6 +115,11 @@ en:
       active: "Active"
       reunited: "Reunited"
       flagged: "Flagged"
+    hidden_text_field_text: "*****"
+    hide_name: "Hide Name"
+    view_name: "View Name"
+    ok: "Ok"
+    hide_name_error: "An error ocurred when saving your changes. Please try again."
 
   children:
     label: "Children"
@@ -623,6 +628,8 @@ en:
     date_range:
       from: "From"
       to: "To"
+      date: "Date"
+      date_range: "Date Range"
 
   replication:
     label: Replication

@@ -4,7 +4,7 @@ describe ChildHistoriesHelper do
   before do
     @view = Object.new
     @view.extend(ChildHistoriesHelper)
-    @view.extend(ChildrenHelper)
+    @view.extend(FieldsHelper)
   end
 
   it "should have change wording when 'from' and 'to' values exist" do

@@ -1,29 +1,19 @@
 # JIRA PRIMERO-165
 # JIRA PRIMERO-192
 # JIRA PRIMERO-232
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Care Arrangement
   As a Social Worker, I want to fill in form information for children (individuals) in particular circumstances, 
   so that we can track and report on areas of particular concern.
 
-  Scenario: As a logged in user, I should access the form section care arrangement
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "Care Arrangement" button
-    Then I should see the following fields:
-    | Is this a same caregiver as was previously entered for the child?       |
-    | If this is a new caregiver, give the reason for the change              |
-    | Care Arrangement Notes                                                  |
-    | Name of Agency Providing Care Arrangements                              |
-    | Relationship of the Caregiver to the Child                              |
-    | Does the caregiver know the family of the child?                        |
-    | Other information from the caregiver about the child and his/her family |
-
   Scenario: As a logged in user, I create a case with care arrangement information
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Services / Follow Up" button
     And I press the "Care Arrangement" button
     And I select "Yes" for "Is this a same caregiver as was previously entered for the child?" radio button
     And I select "Education" from "If this is a new caregiver, give the reason for the change"

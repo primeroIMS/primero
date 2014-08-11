@@ -295,6 +295,11 @@ input[type="text"][disabled]{
   box-shadow: none;
 }
 
+#ui-datepicker-div select {
+  height: inherit;
+  font-size: .9rem
+}
+
 ////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////
@@ -420,8 +425,30 @@ fieldset {
     margin-left: calc(50% - 37px)
   }
   
-  .collapse_expand_subform {
-    float:right;
+  .collapse_expand_subform_header {
+    border-bottom: 1px solid #ddd;
+
+    label {
+      font-size: 1rem;
+      cursor: default;
+    }
+
+    .display_field {
+      display: block;
+
+      span {
+        line-height: 1.5;
+        font-weight: normal;
+        font-size: 1rem;
+        word-wrap: break-word;
+      }
+    }
+
+    .collapse_expand_subform {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
   }
 }
 
@@ -535,6 +562,16 @@ ul.links {
 
   li:last-of-type a {
       margin-right: 0;
+  }
+
+  li:not(:last-child):after {
+    content: ("|");
+    margin-left: 5px;
+    color: #bbb;
+  }
+
+  li:first-of-type:after {
+    margin-left: 12px;
   }
 }
 
@@ -736,16 +773,46 @@ nav {
   padding-right: 0
 }
 
+li.group a.group:after {
+  content: '+';
+  float: right;
+  color: #ccc;
+  font-size: .9rem;
+  padding: 4px 0 4px;
+}
+
 li.current {
   background: #f1f1f1;
 
-  a:after {
+  a.group:after {
+    content: '-';
+    float: right;
+    color: $green_color;
+    font-size: 1.4rem;
+    padding: 4px 0 4px;
+    margin-top: -8px
+  }
+
+  a.non-group:after {
     content: '\25BA';
     float: right;
     color: $green_color;
     font-size: .9rem;
-    padding: 4px;
+    padding: 4px 0 4px;
   }
+
+  ul li.current a:after {
+    content: '\25BA';
+    float: right;
+    color: $green_color;
+    font-size: .9rem;
+    padding: 4px 0 4px;
+  }
+}
+
+ul.side-nav li ul {
+  display: none;
+  list-style: none;
 }
 
 ////////////////////////////////////////////////

@@ -225,10 +225,10 @@ describe IncidentsController do
 
     it "orders and assigns the forms" do
       Incident.stub(:get).with("37").and_return(mock_incident)
-      the_form = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :show, :id => "37"
-      assigns[:form_sections].should == [the_form]
+      assigns[:form_sections].should == the_form
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
@@ -256,10 +256,10 @@ describe IncidentsController do
 
     it "orders and assigns the forms" do
       Incident.stub(:new).and_return(mock_incident)
-      the_form = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :new
-      assigns[:form_sections].should == [the_form]
+      assigns[:form_sections].should == the_form
     end
   end
 
@@ -274,10 +274,10 @@ describe IncidentsController do
 
     it "orders and assigns the forms" do
       Incident.stub(:get).with("37").and_return(mock_incident)
-      the_form = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :edit, :id => "37"
-      assigns[:form_sections].should == [the_form]
+      assigns[:form_sections].should == the_form
     end
   end
 
@@ -717,7 +717,7 @@ describe IncidentsController do
 	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
 	        "fathers_name"=>""}}
 
-			controller.reindex_params_subforms params
+			controller.reindex_hash params['incident']
 			expected_subform = params["incident"]["nested_form_section"]["1"]
 
 			expect(expected_subform.present?).to be_true

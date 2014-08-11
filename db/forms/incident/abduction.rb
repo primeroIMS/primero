@@ -1,19 +1,19 @@
 abduction_subform_fields = [
   Field.new({"name" => "violation_abduction_boys",
              "type" => "numeric_field",
-             "display_name_all" => "Number of victims: boys"
+             "display_name_all" => "Number of survivors: boys"
             }),
   Field.new({"name" => "violation_abduction_girls",
              "type" => "numeric_field",
-             "display_name_all" => "Number of victims: girls"
+             "display_name_all" => "Number of survivors: girls"
             }),
   Field.new({"name" => "violation_abduction_unknown",
              "type" => "numeric_field",
-             "display_name_all" => "Number of victims: unknown"
+             "display_name_all" => "Number of survivors: unknown"
             }),
   Field.new({"name" => "violation_abduction_total",
              "type" => "numeric_field",
-             "display_name_all" => "Number of total victims"
+             "display_name_all" => "Number of total survivors"
             }),
   Field.new({"name" => "abduction_purpose",
              "type" => "select_box",
@@ -45,7 +45,9 @@ abduction_subform_fields = [
 abduction_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 40,
+  :order => 80,
+  :order_subform => 1,
   :unique_id => "abduction_subform_section",
   :parent_form=>"incident",
   "editable" => true,
@@ -54,7 +56,8 @@ abduction_subform_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Abduction Subform",
   "description_all" => "Nested Abduction Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["abduction_purpose"]
 })
 
 abduction_fields = [
@@ -69,7 +72,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "abduction",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 110,
+  :order_form_group => 40,
+  :order => 80,
+  :order_subform => 0,
+  :form_group_name => "Violations",
   "editable" => true,
   :fields => abduction_fields,
   :perm_enabled => true,

@@ -43,6 +43,14 @@ module Record
                    }
                 }"
 
+      view :by_id,
+              :map => "function(doc) {
+                    if (doc.hasOwnProperty('short_id'))
+                   {
+                      emit(doc['_id'],doc);
+                   }
+                }"
+
       view :by_user_name,
               :map => "function(doc) {
                     if (doc.hasOwnProperty('histories')){

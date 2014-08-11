@@ -4,59 +4,20 @@
 #JIRA PRIMERO-232
 #JIRA PRIMERO-240
 #JIRA PRIMERO-238
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Family Details Form
   As a Social worker, I want to enter the information related to the family details.
 
-  Scenario: As a logged in user, I should access the form section family details subform
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "Nested Family Details" button
-    Then I should see the following fields:
-      |Name|
-      |How are they related to the child?|
-      |Is this person the caregiver?|
-      |Did the child live with this person before separation?|
-      |Is the child in contact with this person?|
-      |Is the child separated from this person?|
-      |List any agency identifiers as a comma separated list|
-      |Nickname|
-      |Are they alive?|
-      |If dead, please provide details|
-      |Age|
-      |Date of Birth|
-      |Language|
-      |Religion|
-      |Ethnicity|
-      |Sub Ethnicity 1|
-      |Sub Ethnicity 2|
-      |Nationality|
-      |Comments|
-      |Occupation|
-      |Current Address|
-      |Is this a permanent location?|
-      |Current Location|
-      |Last Known Address|
-      |Last Known Location|
-      |Telephone|
-      |Other persons well known to the child|
-
-  Scenario: As a logged in user, I should access the form section family details
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "Family Details" button
-    Then I should see the following fields:
-      |Size of Family|
-      |Notes about Family|
-      |What is the child’s intended address?|
-      |Family Details|
-
   Scenario: I create a case with family details information.
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
-    And I press the "Family Details" button
+    And I press the "Family / Partner Details" button
+    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the following:
       | Size of Family                        | 3                  |
       | Notes about Family                    | Some Family Notes  |
@@ -120,7 +81,7 @@ Feature: Family Details Form
     And I should see a value for "Notes about Family" on the show page with the value of "Some Family Notes"
     And I should see a value for "What is the child’s intended address?" on the show page with the value of "Some Child Address"
     #Verify values from the subform
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       |Name                                                  | Socorro                      |
       |How are they related to the child?                    | Mother                       |
       |Is this person the caregiver?                         | Yes                          |
@@ -146,7 +107,7 @@ Feature: Family Details Form
       |Last Known Location                                   | Coco's Last Known Location   |
       |Telephone                                             | Coco's Telephone             |
       |Other persons well known to the child                 | Pedro                        |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       |Name                                                  | Pedro                        |
       |How are they related to the child?                    | Father                       |
       |Is this person the caregiver?                         | No                           |
@@ -177,17 +138,18 @@ Feature: Family Details Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
-    And I press the "Family Details" button
+    And I press the "Family / Partner Details" button
+    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the 1st "Family Details Section" subform with the follow:
       | Age | 39 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
       | Age | 25 |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       | Age           | 39                            |
       | Date of Birth | Calculated date 39 years ago  |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       | Age           | 25                            |
       | Date of Birth | Calculated date 25 years ago  |
 
@@ -195,16 +157,17 @@ Feature: Family Details Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
-    And I press the "Family Details" button
+    And I press the "Family / Partner Details" button
+    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the 1st "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1975 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1989 |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see in the 1st "Family Detail" subform with the follow:
+    And I should see in the 1st "Family Details Section" subform with the follow:
       | Age           | Calculated age from 1975  |
       | Date of Birth | 01-Jan-1975               |
-    And I should see in the 2nd "Family Detail" subform with the follow:
+    And I should see in the 2nd "Family Details Section" subform with the follow:
       | Age           | Calculated age from 1989  |
       | Date of Birth | 01-Jan-1989               |

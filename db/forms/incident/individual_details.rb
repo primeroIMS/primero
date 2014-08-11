@@ -30,7 +30,7 @@ individual_details_fields = [
             }),
   Field.new({"name" => "ethnicity",
              "type" => "select_box",
-             "display_name_all" => "What is the ethnic affiliation of the Victim/Survivor?",
+             "display_name_all" => "What is the ethnic affiliation of the individual?",
              "option_strings_text_all" =>
                           ["Ethnicity1",
                            "Ethnicity2",
@@ -38,7 +38,7 @@ individual_details_fields = [
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
-             "display_name_all" => "What is the national affiliation of the Victim/Survivor?",
+             "display_name_all" => "What is the national affiliation of the individual?",
              "option_strings_text_all" =>
                           ["Nationality1",
                            "Nationality2",
@@ -46,7 +46,7 @@ individual_details_fields = [
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
-             "display_name_all" => "What is the religious affiliation of the Victim/Survivor?",
+             "display_name_all" => "What is the religious affiliation of the individual?",
              "option_strings_text_all" =>
                           ["Religion1",
                            "Religion2",
@@ -145,7 +145,9 @@ individual_details_fields = [
 individual_details_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 50,
+  :order => 10,
+  :order_subform => 1,
   :unique_id => "individual_details_subform_section",
   :parent_form=>"incident",
   "editable" => true,
@@ -154,14 +156,18 @@ individual_details_subform_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Individual Details Subform",
   "description_all" => "Nested Individual Details Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["sex", "age"]
 })
 
 FormSection.create_or_update_form_section({
   :unique_id => "individual_details",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 130,
+  :order_form_group => 50,
+  :order => 10,
+  :order_subform => 0,
+  :form_group_name => "Individual Details",
   "editable" => true,
   :fields => [Field.new({"name" => "individual_details_subform_section",
                          "type" => "subform", "editable" => true,

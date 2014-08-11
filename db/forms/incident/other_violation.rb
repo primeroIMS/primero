@@ -14,19 +14,19 @@ other_violation_section_fields = [
             }),
   Field.new({"name" => "other_violation_boys",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: boys"
+             "display_name_all" => "Number of survivors: boys"
             }),
   Field.new({"name" => "other_violation_girls",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: girls"
+             "display_name_all" => "Number of survivors: girls"
             }),
   Field.new({"name" => "other_violation_unknown",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: unknown"
+             "display_name_all" => "Number of survivors: unknown"
             }),
   Field.new({"name" => "other_violation_total",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of total victims"
+             "display_name_all" => "Number of total survivors"
             })
 ]
 
@@ -35,14 +35,17 @@ other_violation_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 40,
+  :order => 90,
+  :order_subform => 1,
   "editable" => true,
   :fields => other_violation_section_fields,
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Other Violations",
   "description_all" => "Other Violations Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["violation_other_type"]
 })
 
 other_violation_fields = [
@@ -60,7 +63,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "other_violation",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 110,
+  :order_form_group => 40,
+  :order => 90,
+  :order_subform => 0,
+  :form_group_name => "Violations",
   "editable" => true,
   :fields => other_violation_fields,
   :perm_enabled => true,

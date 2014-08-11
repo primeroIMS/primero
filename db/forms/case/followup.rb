@@ -107,7 +107,9 @@ followup_subform_fields = [
 followup_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 110,
+  :order => 20,
+  :order_subform => 1,
   :unique_id => "followup_subform_section",
   :parent_form=>"case",
   "editable" => true,
@@ -115,7 +117,8 @@ followup_subform_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Followup Subform",
-  "description_all" => "Nested Followup Subform"
+  "description_all" => "Nested Followup Subform",
+  "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
 })
 
 followup_fields = [
@@ -130,7 +133,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "followup",
   :parent_form=>"case",
   "visible" => true,
-  :order => 60,
+  :order_form_group => 110,
+  :order => 20,
+  :order_subform => 0,
+  :form_group_name => "Services / Follow Up",
   "editable" => true,
   :fields => followup_fields,
   :perm_enabled => true,

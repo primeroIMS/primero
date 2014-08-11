@@ -4,9 +4,9 @@ Feature: Add custom field to form section
 
   Background:
     Given the following form sections exist in the system:
-      | name           | unique_id      | parent_form | editable | order | visible | perm_enabled |
-      | Basic details  | basic_details  | case        | false    | 1     | true    | true         |
-      | Family details | family_details | case        | true     | 2     | true    | false        |
+      | name           | unique_id      | parent_form | editable | order | visible | perm_enabled | form_group_name               |
+      | Basic details  | basic_details  | case        | false    | 1     | true    | true         | Identification / Registration |
+      | Family details | family_details | case        | true     | 2     | true    | false        | Family / Partner Details      |
     Given I am logged in as an admin
 
   @javascript

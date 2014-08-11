@@ -1,3 +1,6 @@
+#JIRA PRIMERO-160
+#JIRA PRIMERO-358
+
 family_details_fields_subform = [
   Field.new({"name" => "relation_name",
              "type" => "text_field",
@@ -141,7 +144,9 @@ family_details_fields_subform = [
 family_details_section = FormSection.create_or_update_form_section({
     "visible"=>false,
     "is_nested"=>true,
-    :order=> 1,
+    :order_form_group => 50,
+    :order => 10,
+    :order_subform => 1,
     :unique_id=>"family_details_section",
     :parent_form=>"case",
     "editable"=>true,
@@ -149,7 +154,8 @@ family_details_section = FormSection.create_or_update_form_section({
     :perm_enabled => false,
     :perm_visible => false,
     "name_all" => "Nested Family Details",
-    "description_all" => "Family Details Subform"
+    "description_all" => "Family Details Subform",
+    "collapsed_fields" => ["relation", "relation_name"]
 })
 
 family_details_fields = [
@@ -179,7 +185,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "family_details",
   :parent_form=>"case",
   "visible" => true,
-  :order => 30,
+  :order_form_group => 50,
+  :order => 10,
+  :order_subform => 0,
+  :form_group_name => "Family / Partner Details",
   "editable" => true,
   :fields => family_details_fields,
   :perm_enabled => true,

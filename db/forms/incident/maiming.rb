@@ -1,19 +1,19 @@
 maiming_subform_fields = [
   Field.new({"name" => "violation_maiming_boys",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: boys"
+             "display_name_all" => "Number of survivors: boys"
             }),
   Field.new({"name" => "violation_maiming_girls",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: girls"
+             "display_name_all" => "Number of survivors: girls"
             }),
   Field.new({"name" => "violation_maiming_unknown",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of victims: unknown"
+             "display_name_all" => "Number of survivors: unknown"
             }),
   Field.new({"name" => "violation_maiming_total",
              "type" => "numeric_field", 
-             "display_name_all" => "Number of total victims"
+             "display_name_all" => "Number of total survivors"
             }),
   Field.new({"name" => "maim_method",
              "type" => "select_box",
@@ -78,7 +78,7 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "maim_participant",
              "type" => "radio_button",
-             "display_name_all" => "Was the victim/survivor directly participating in hostilities at the time of the violation?",
+             "display_name_all" => "Was the survivor directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
   Field.new({"name" => "maim_abduction",
@@ -91,7 +91,9 @@ maiming_subform_fields = [
 maiming_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 40,
+  :order => 20,
+  :order_subform => 1,
   :unique_id => "maiming_subform_section",
   :parent_form=>"incident",
   "editable" => true,
@@ -100,7 +102,8 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Maiming Subform",
   "description_all" => "Nested Maiming Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["maim_cause_of"]
 })
 
 maiming_fields = [
@@ -115,7 +118,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "maiming",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 50,
+  :order_form_group => 40,
+  :order => 20,
+  :order_subform => 0,
+  :form_group_name => "Violations",
   "editable" => true,
   :fields => maiming_fields,
   :perm_enabled => true,

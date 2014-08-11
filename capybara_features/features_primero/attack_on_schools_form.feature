@@ -1,6 +1,9 @@
 #JIRA PRIMERO-310
 #JIRA PRIMERO-341
 #JIRA PRIMERO-333
+#JIRA PRIMERO-352
+#JIRA PRIMERO-363
+#JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Attack on Schools Form
@@ -11,6 +14,7 @@ Feature: Attack on Schools Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
+    And I press the "Violations" button
     And I press the "Attack on Schools" button
     And I fill in the following:
       | Number of Sites Attacked                          | 50                                          |
@@ -44,8 +48,8 @@ Feature: Attack on Schools Form
       | For How Long? (Days)                              | 100                                         |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see 1 subform on the show page for "Attack on School"
-    And I should see in the 1st "Attack on School" subform with the follow:
+    And I should see 1 subform on the show page for "Attack on Schools Subform Section"
+    And I should see in the 1st "Attack on Schools Subform Section" subform with the follow:
       | Number of Sites Attacked                          | 50                                 |
       | Type of Attack On Site                            | Direct Attack on students/teachers |
       | Type of School                                    | Early Childhood                    |

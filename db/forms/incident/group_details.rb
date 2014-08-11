@@ -85,7 +85,9 @@ group_details_section_fields_subform = [
 group_details_section = FormSection.create_or_update_form_section({
   "visible"=>false,
   "is_nested"=>true,
-  :order=> 1,
+  :order_form_group => 60,
+  :order => 10,
+  :order_subform => 1,
   :unique_id=>"group_details_section",
   :parent_form=>"incident",
   "editable"=>true,
@@ -93,7 +95,8 @@ group_details_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Group Details",
-  "description_all" => "Group Details Subform"
+  "description_all" => "Group Details Subform",
+  "collapsed_fields" => ["group_gender", "group_age_band"]
 })
 
 group_details_fields = [
@@ -111,7 +114,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "group_details",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 140,
+  :order_form_group => 60,
+  :order => 10,
+  :order_subform => 0,
+  :form_group_name => "Group Details",
   "editable" => true,
   :fields => group_details_fields,
   :perm_enabled => true,

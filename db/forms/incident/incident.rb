@@ -37,17 +37,13 @@ incident_fields = [
              "type" => "date_field",
              "display_name_all" => "Date of First Report or Interview"
             }),
-  Field.new({"name" => "start_date_of_incident",
+  Field.new({"name" => "date_of_incident",
              "type" => "date_range",
-             "display_name_all" => "Start Date of Incident"
-            }),
-  Field.new({"name" => "end_date_of_incident",
-             "type" => "date_range",
-             "display_name_all" => "End Date of Incident"
+             "display_name_all" => "Date of Incident"
             }),
   Field.new({"name" => "estimated_indicator",
              "type" => "radio_button",
-             "display_name_all" => "Are these dates estimated?",
+             "display_name_all" => "Is the date estimated?",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "super_incident_name",
@@ -161,7 +157,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "incident_form",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 30,
+  :order_form_group => 30,
+  :order => 10,
+  :order_subform => 0,
+  :form_group_name => "Incident",
   :fields => incident_fields,
   :perm_visible => true,
   :is_first_tab => true,

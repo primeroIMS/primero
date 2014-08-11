@@ -1,31 +1,18 @@
 # JIRA PRIMERO-164
 # JIRA PRIMERO-212
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Care Assessment
   As a Social Worker, I want to fill in form information for children (individuals) in particular circumstances, 
   so that we can track and report on areas of particular concern.
 
-  Scenario: As a logged in user, I should access the form section Care Assessment
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "form section page"
-    And I press the "Care Assessment" button
-    Then I should see the following fields:
-    | Personal intervention needed? |
-    | Personal Intervention Notes   |
-    | Family intervention needed?   |
-    | Family Intervention Notes     |
-    | Health intervention needed?   |
-    | Health Intervention Notes     |
-    | Medical intervention needed?  |
-    | Medical Intervention Notes    |
-    | Other Intervention needed?    |
-    | Other Intervention Notes      |
-
   Scenario: As a logged in user, I create a case with Care Assessment information
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Assessment" button
     And I press the "Care Assessment" button
     And I select "No Further Action Needed" from "Personal intervention needed?"
     And I select "Ongoing Monitoring" from "Family intervention needed?"

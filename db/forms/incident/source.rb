@@ -119,7 +119,9 @@ source_subform_fields = [
 source_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 70,
+  :order => 10,
+  :order_subform => 1,
   :unique_id => "source_subform_section",
   :parent_form=>"incident",
   "editable" => true,
@@ -127,7 +129,8 @@ source_subform_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Source Subform",
-  "description_all" => "Nested Source Subform"
+  "description_all" => "Nested Source Subform",
+  "collapsed_fields" => ["source_type", "source_violations"]
 })
 
 source_fields = [
@@ -142,7 +145,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "source",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 170,
+  :order_form_group => 70,
+  :order => 10,
+  :order_subform => 0,
+  :form_group_name => "Source",
   "editable" => true,
   :fields => source_fields,
   :perm_enabled => true,

@@ -11,6 +11,7 @@ Feature: Tracing Closure Details Fields
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Tracing" button
+    And I click on "Tracing" in form group "Tracing"
     And I should see "Closure Details" on the page
     And I should see the following fields:
       | Date of Closure           |

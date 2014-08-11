@@ -89,6 +89,7 @@ RapidFTR::Application.routes.draw do
   match '/cases/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :case_resized_photo, :via => [:post, :get, :put, :delete]
   match '/cases/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :case_thumbnail, :via => [:post, :get, :put, :delete]
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
+  match '/cases/:child_id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
 #######################
 # INCIDENT URLS

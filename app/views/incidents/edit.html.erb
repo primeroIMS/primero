@@ -28,8 +28,10 @@
       </div>
     </div>
 
-    <div class="side-tab-content large-8 medium-8 columns">
-      <%= render :partial => 'form_section/form_section', :collection => @form_sections,  :locals => {:formObject => @incident}%>
+    <div class="side-tab-content large-8 medium-8 columns">      
+      <% @form_sections.each do |form_group_name, form_list| %>
+        <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @incident, :form_group_name => form_group_name} %>
+      <% end %>
       <div class="btn_panel">
         <%= discard_button incidents_path %>
         <%= submit_button %>

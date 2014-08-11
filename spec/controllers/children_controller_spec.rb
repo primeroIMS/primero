@@ -18,7 +18,8 @@ end
 describe ChildrenController do
 
   before :each do
-    fake_admin_login
+    @user = User.new(:user_name => 'fakeadmin')
+    @session = fake_admin_login @user
   end
 
   def mock_child(stubs={})
@@ -290,10 +291,10 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:get).with("37").and_return(mock_child)
-      the_form_section = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form_section])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :show, :id => "37"
-      assigns[:form_sections].should == [the_form_section]
+      assigns[:form_sections].should == the_form
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
@@ -321,10 +322,10 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:new).and_return(mock_child)
-      the_form = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :new
-      assigns[:form_sections].should == [the_form]
+      assigns[:form_sections].should == the_form
     end
   end
 
@@ -339,10 +340,10 @@ describe ChildrenController do
 
     it "orders and assigns the forms" do
       Child.stub(:get).with("37").and_return(mock_child)
-      the_form = stub_form
-      FormSection.should_receive(:find_by_parent_form).and_return([the_form])
+      the_form = [stub_form].group_by{|e| e.form_group_name}
+      FormSection.should_receive(:find_form_groups_by_parent_form).and_return(the_form)
       get :edit, :id => "37"
-      assigns[:form_sections].should == [the_form]
+      assigns[:form_sections].should == the_form
     end
   end
 
@@ -766,6 +767,46 @@ describe ChildrenController do
       updated_child.all.size.should == 1
       updated_child.first.name.should == 'new name'
     end
+
+    it "should not update fields that were only changed in previous conflicting merge" do
+      original_name = 'Juan Herrero'
+      new_name = 'Juan Lopez'
+      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
+      child.save
+
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => original_name}
+
+      updated_child = Child.by_short_id(:key => child.short_id).first
+      updated_child.name.should == new_name
+    end
+
+    it "should update fields that were not changed in previous conflicting merge" do
+      original_name = 'Juan Herrero'
+      new_name = 'Juan Lopez'
+      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
+      child.save
+
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => original_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
+
+      updated_child = Child.by_short_id(:key => child.short_id).first
+      updated_child.name.should == new_name
+    end
+
+    it "should take the last update if there are two new changes" do
+      original_name = 'Juan Herrero'
+      new_name = 'Juan Lopez'
+      newer_name = 'Juan Rodriguez'
+      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
+      child.save
+
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => newer_name}
+
+      updated_child = Child.by_short_id(:key => child.short_id).first
+      updated_child.name.should == newer_name
+    end
   end
 
 	describe "reindex_params_subforms" do
@@ -780,7 +821,7 @@ describe ChildrenController do
 	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
 	        "fathers_name"=>""}}
 
-			controller.reindex_params_subforms params
+			controller.reindex_hash params['child']
 			expected_subform = params["child"]["nested_form_section"]["1"]
 
 			expect(expected_subform.present?).to be_true

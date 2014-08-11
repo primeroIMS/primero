@@ -1,6 +1,7 @@
 # JIRA PRIMERO-134
 # JIRA PRIMERO-232
 # JIRA PRIMERO-261
+# JIRA PRIMERO-365
 
 @javascript @primero
 Feature: Tracing Reunification Details
@@ -12,6 +13,7 @@ Feature: Tracing Reunification Details
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Tracing" button
+    And I click on "Tracing" in form group "Tracing"
 
   Scenario: As a logged in user, I should access the form section tracing and create reunification details
     And I fill in the 1st "Reunification Details Section" subform with the follow:
@@ -46,8 +48,7 @@ Feature: Tracing Reunification Details
       | Caregiver Location                               | Some location  |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I press the "Tracing" button
-    And I should see in the 1st "Reunification Detail" subform with the follow:
+    And I should see in the 1st "Reunification Details Section" subform with the follow:
       | Name of adult child was reunified with               | Verma Webol               |
       | Relationship of adult to child                       | Father                    |
       | Address                                              | Test Village 2            |
@@ -58,7 +59,7 @@ Feature: Tracing Reunification Details
       | Was the child reunified with the verfified adult?    | No                        |
       | If not, what was the reason for the change?          | Change of Mind            |
       | Is there a need for follow up?                       | Yes                       |
-    And I should see in the 2nd "Reunification Detail" subform with the follow:
+    And I should see in the 2nd "Reunification Details Section" subform with the follow:
       | Name of adult child was reunified with               | Vivian Nelson             |
       | Relationship of adult to child                       | Mother                    |
       | Address                                              | Test Village              |

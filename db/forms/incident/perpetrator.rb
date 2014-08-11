@@ -59,7 +59,6 @@ perpetrator_subform_fields = [
   Field.new({"name" => "perpetrator_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Clan or Ethnicity of alleged perpetrator",
-             "visible" => false,
              "option_strings_text_all" =>
                           ["Ethnicity1",
                            "Ethnicity2",
@@ -109,7 +108,9 @@ perpetrator_subform_fields = [
 perpetrator_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 80,
+  :order => 10,
+  :order_subform => 1,
   :unique_id => "perpetrator_subform_section",
   :parent_form=>"incident",
   "editable" => true,
@@ -117,7 +118,8 @@ perpetrator_subform_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Perpetrator Subform",
-  "description_all" => "Nested Perpetrator Subform"
+  "description_all" => "Nested Perpetrator Subform",
+  "collapsed_fields" => ["perpetrator_sub_category"]
 })
 
 perpetrator_fields = [
@@ -132,7 +134,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "perpetrators_form",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 180,
+  :order_form_group => 80,
+  :order => 10,
+  :order_subform => 0,
+  :form_group_name => "Perpetrator",
   "editable" => true,
   :fields => perpetrator_fields,
   :perm_enabled => true,

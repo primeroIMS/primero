@@ -11,7 +11,7 @@ Feature: Record Owner Form
     And I press the "Record Owner" button
     And I fill in the following:
       | Field/Case/Social Worker | Social worker name    |
-      | Case Worker              | <Select> Case Worker3 |
+      | Caseworker Code          | <Select> Case Worker3 |
       | Agency                   | <Select> Agency1      |
       | Previous Owner           | Previous owner name   |
       | Previous Agency          | Previous agency name  |
@@ -19,7 +19,7 @@ Feature: Record Owner Form
     Then I should see "Incident record successfully created" on the page
     And I should see a value for "Record state" on the show page with the value of "Valid record"
     And I should see a value for "Field/Case/Social Worker" on the show page with the value of "Social worker name"
-    And I should see a value for "Case Worker" on the show page with the value of "Case Worker3"
+    And I should see a value for "Caseworker Code" on the show page with the value of "Case Worker3"
     And I should see a value for "Agency" on the show page with the value of "Agency1"
     And I should see a value for "Record created by" on the show page with the value of "primero"
     And I should see a value for "Created by agency" on the show page with the value of "UNICEF"

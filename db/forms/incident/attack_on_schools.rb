@@ -159,7 +159,9 @@ attack_on_schools_subform_fields = [
 attack_on_schools_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 40,
+  :order => 50,
+  :order_subform => 1,
   :unique_id => "attack_on_schools_subform_section",
   :parent_form=>"incident",
   "editable" => true,
@@ -168,7 +170,8 @@ attack_on_schools_subform_section = FormSection.create_or_update_form_section({
   :perm_visible => false,
   "name_all" => "Nested Attack on Schools Subform",
   "description_all" => "Nested Attack on Schools Subform",
-  :initial_subforms => 1
+  :initial_subforms => 1,
+  "collapsed_fields" => ["site_attack_type"]
 })
 
 attack_on_schools_fields = [
@@ -183,7 +186,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "attack_on_schools",
   :parent_form=>"incident",
   "visible" => true,
-  :order => 80,
+  :order_form_group => 40,
+  :order => 50,
+  :order_subform => 0,
+  :form_group_name => "Violations",
   "editable" => true,
   :fields => attack_on_schools_fields,
   :perm_enabled => true,

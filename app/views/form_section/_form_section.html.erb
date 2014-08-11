@@ -4,7 +4,7 @@
   <%= render 'form_section/error_message', formObject: formObject %>
   <hr >
   <% (form_section.fields.select {|field| field.visible? }).each do |field| %>
-        <%= render partial: "form_section/#{field.type}", object: field, locals: {formObject: formObject} %>
+        <%= render partial: "form_section/#{field.type}", object: field, locals: {formObject: formObject, form_group_name: form_group_name} %>
   <% end %>
 
 </fieldset>

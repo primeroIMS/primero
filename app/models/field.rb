@@ -10,6 +10,7 @@ class Field
   property :editable, TrueClass, :default => true
   localize_properties [:display_name, :help_text, :option_strings_text]
   property :multi_select, TrueClass, :default => false
+  property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
   property :base_language, :default=>'en'
   property :subform_section_id #TODO: Either load this using couchdb linking or load on creation
@@ -142,6 +143,7 @@ class Field
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
     self.multi_select = false if properties["multi_select"].nil?
+    self.hidden_text_field ||= false
     self.attributes = properties
     create_unique_id
   end

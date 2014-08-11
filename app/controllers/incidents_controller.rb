@@ -74,7 +74,9 @@ class IncidentsController < ApplicationController
   def create
     authorize! :create, Incident
     params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
-    reindex_params_subforms params
+    params['incident']['violations'].compact if params['incident'].present? && params['incident']['violations'].present?
+    reindex_hash params['incident']
+
     create_or_update_incident(params[:incident])
     @incident['created_by_full_name'] = current_user_full_name
 
@@ -98,6 +100,8 @@ class IncidentsController < ApplicationController
   end
 
   def update
+    params['incident']['violations'].compact if params['incident'].present? && params['incident']['violations'].present?
+
     respond_to do |format|
       format.json do
         params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
@@ -189,7 +193,7 @@ class IncidentsController < ApplicationController
   def update_incident_from params
     incident = @incident || Incident.get(params[:id]) || Incident.new_with_user_name(current_user, params[:incident])
     authorize! :update, incident
-    reindex_params_subforms params
+    reindex_hash params['incident']
     update_incident_with_attachments(incident, params)
   end
 

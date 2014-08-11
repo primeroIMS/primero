@@ -38,13 +38,47 @@ module FieldsHelper
     end
     return field_value
   end
+  
+  def field_value_for_display field_value
+    return "" if field_value.nil? || field_value.length == 0
+    return field_value.join ", " if field_value.instance_of? Array
+    return field_value
+  end
+  
+  def field_keys(subform_name, subform_index, field_name, form_group_name)
+    field_key = []
+  
+    if form_group_name.present? and form_group_name == "Violations"
+      field_key << form_group_name.downcase
+    end
+    
+    if subform_name.present?
+      field_key << subform_name << subform_index
+    end
+    
+    field_key << field_name
+    
+    return field_key 
+  end
 
-  def subforms_count(object, field)
+  def subforms_count(object, field, form_group_name = "")
     subforms_count = 0
     if object[field.name].present?
       subforms_count = object[field.name].count
+    elsif object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
+      subforms_count = object[form_group_name.downcase][field.name].count
     end
     return subforms_count
+  end
+  
+  def get_subform_object(object, subform_section, form_group_name)
+    subform_object = {}
+    if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
+      subform_object = object[form_group_name.downcase][subform_section.unique_id]
+    else
+      subform_object = object[:"#{subform_section.unique_id}"]
+    end
+    return subform_object
   end
 
   # TODO: Translate these

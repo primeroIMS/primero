@@ -19,10 +19,11 @@ RapidFTR::Application.configure do
 
   # For nginx:
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
-  
+
   # Asset pipeline
   config.assets.compress = false
   config.assets.debug = false
+  config.assets.debug = ENV['DEBUG_ASSETS'] == 'no' ? false : true
 
   config.eager_load = false
 end

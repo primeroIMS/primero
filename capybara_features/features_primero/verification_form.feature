@@ -1,5 +1,7 @@
 #JIRA PRIMERO-156
 # JIRA PRIMERO-232
+# JIRA PRIMERO-353
+# JIRA PRIMERO-363
 
 @javascript @primero
 Feature: Verification
@@ -9,6 +11,7 @@ Feature: Verification
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
+    And I press the "Tracing" button
     And I press the "Verification" button
 
   Scenario: I am a logged in Social Worker on the Verification form

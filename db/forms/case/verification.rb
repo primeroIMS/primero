@@ -133,7 +133,9 @@ verification_subform_fields = [
 verification_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
-  :order => 1,
+  :order_form_group => 130,
+  :order => 30,
+  :order_subform => 1,
   :unique_id => "verification_subform_section",
   :parent_form=>"case",
   "editable" => true,
@@ -141,7 +143,8 @@ verification_subform_section = FormSection.create_or_update_form_section({
   :perm_enabled => false,
   :perm_visible => false,
   "name_all" => "Nested Verification Subform",
-  "description_all" => "Nested Verification Subform"
+  "description_all" => "Nested Verification Subform",
+  "collapsed_fields" => ["verification_inquirer_relationship", "verification_name_inquirer"]
 })
 
 verification_fields = [
@@ -156,7 +159,10 @@ FormSection.create_or_update_form_section({
   :unique_id => "verification",
   :parent_form=>"case",
   "visible" => true,
-  :order => 140,
+  :order_form_group => 130,
+  :order => 30,
+  :order_subform => 0,
+  :form_group_name => "Tracing",
   "editable" => true,
   :fields => verification_fields,
   :perm_enabled => true,

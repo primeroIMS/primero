@@ -1,0 +1,48 @@
+<!-- BEGIN: item -->
+  <tr class="child_summary_panel table_row<% if child.flag? %> red_text<% end %>">
+    <div class="summary_panel">
+      <td>
+        <%= icon('flag', '', class: 'flagged') if child.flag? %>
+      </td>
+      <td id="child_<%= child.id %>" class="id_column">
+        <div class="summary_item">
+          <%= link_to text_to_identify_child(child), case_path(child), class: 'id_link' %>
+          <% #content_tag(:div, nil, :class => 'flag reunited') if child.reunited? %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+        <% highlighted_fields.each do |relevant_field| %>
+          <% if relevant_field.visible? %>
+            <% if relevant_field.hidden_text_field && child.hidden_name %>
+              <%= I18n.t("cases.hidden_text_field_text") %>
+            <% else %>
+              <%= child[relevant_field[:name]] %>
+            <% end %>
+          <% end %>
+        <% end %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.age %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.sex %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.created_at %>
+        </div>
+      </td>
+      <td>
+        <div class="summary_item">
+          <%= child.child_status %>
+        </div>
+      </td>
+    </div>
+  </tr>
+<!-- END: item -->
