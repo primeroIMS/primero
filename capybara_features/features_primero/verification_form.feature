@@ -2,6 +2,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-244
 
 @javascript @primero
 Feature: Verification

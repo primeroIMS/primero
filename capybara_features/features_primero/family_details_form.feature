@@ -7,6 +7,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 #JIRA PRIMERO-365
+#JIRA PRIMERO-244
 
 @javascript @primero
 Feature: Family Details Form
