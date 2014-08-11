@@ -1,7 +1,13 @@
 class CustomFieldsValidator
+  attr_accessor :options
+
   def initialize(target, options)
+    @options = options
     fields = retrieve_field_definitions(target)
     validated_fields = select_validated_fields(fields, options[:type])
+    if options[:pattern_name].present?
+      validated_fields.select!{ |field| field.name =~ options[:pattern_name] }
+    end
     validate_fields(validated_fields, target)
   end
 
@@ -120,6 +126,15 @@ class DateFieldsValidator < CustomFieldsValidator
   end
 end
 
+class NumericRangeValidator < CustomFieldsValidator
+  def is_not_valid value
+    return !(value.to_f >= @options[:min] && value.to_f <= @options[:max])
+  end
+  def validation_message_for field
+    I18n.t("errors.models.child.value_range", :field_name => field.display_name, :min => @options[:min], :max => @options[:max])
+  end
+end
+
 module Extensions
   module CustomValidator
     module CustomFieldsValidator
@@ -127,7 +142,11 @@ module Extensions
         def validate(record)
           case @options[:type]
             when Field::NUMERIC_FIELD
-              validator = CustomNumericFieldsValidator
+              if @options[:min].present? and @options[:max].present? and @options[:pattern_name].present?
+                validator = NumericRangeValidator
+              else
+                validator = CustomNumericFieldsValidator
+              end
             when Field::TEXT_FIELD
               validator = CustomTextFieldsValidator
             when Field::TEXT_AREA
