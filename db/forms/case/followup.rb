@@ -1,7 +1,7 @@
 followup_subform_fields = [
   Field.new({"name" => "followup_type",
              "type" => "select_box",
-             "display_name_all" => "Type of followup",
+             "display_name_all" => "Type of follow up",
              "option_strings_text_all" =>
                           ["Follow up After Reunification",
                            "Follow up in Care",
@@ -48,11 +48,11 @@ followup_subform_fields = [
             }),
   Field.new({"name" => "followup_needed_by_date",
              "type" => "date_field",
-             "display_name_all" => "Followup needed by"
+             "display_name_all" => "Follow up needed by"
             }),
   Field.new({"name" => "followup_date",
              "type" => "date_field",
-             "display_name_all" => "Followup date"
+             "display_name_all" => "Follow up date"
             }),
   Field.new({"name" => "child_was_seen",
              "type" => "radio_button",
@@ -86,7 +86,7 @@ followup_subform_fields = [
             }),
   Field.new({"name" => "need_follow_up_visit",
              "type" => "radio_button",
-             "display_name_all" => "Is there a need for further follow-up visits?",
+             "display_name_all" => "Is there a need for further follow up visits?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "when_follow_up_visit_should_happen",
