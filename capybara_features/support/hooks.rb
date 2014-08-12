@@ -18,8 +18,9 @@ Before('@search') do
 end
 
 Before('@clean_db') do
+  models_2_clean = ['Child', 'Incident']
   CouchRest::Model::Base.descendants.each do |model|
-    if model.name == 'Child' || model.name == 'Incident'
+    if models_2_clean.include? model.name
       puts "Deleting all rows in #{model.name}"
       docs = model.database.documents["rows"].map { |doc|
         { "_id" => doc["id"], "_rev" => doc["value"]["rev"], "_deleted" => true } unless doc["id"].include? "_design"
@@ -29,15 +30,13 @@ Before('@clean_db') do
   end
 end
 
+After('@reload_forms') do
+  puts "Reloading Form Sections"
+  Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
+end
+
 Before do
   I18n.locale = I18n.default_locale = :en
-  #TODO - Figure out how to whack only incidents and cases
-  # CouchRest::Model::Base.descendants.each do |model|
-    # docs = model.database.documents["rows"].map { |doc|
-      # { "_id" => doc["id"], "_rev" => doc["value"]["rev"], "_deleted" => true } unless doc["id"].include? "_design"
-    # }.compact
-    # RestClient.post "#{model.database.root}/_bulk_docs", { :docs => docs }.to_json, { "Content-type" => "application/json" } unless docs.empty?
-  # end
 
   #Only load the seed files ONCE.
   #Don't load the seed data on every scenario

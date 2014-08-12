@@ -10,6 +10,7 @@ var ViolationListReload = Backbone.View.extend({
 
   //Refresh Stuff....
   reload: function(event) {
+    event.preventDefault();
     var violation_list = [];
     var count = 0;
 
