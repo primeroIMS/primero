@@ -13,7 +13,6 @@ class Child < CouchRest::Model::Base
   include SearchableRecord
   
   before_save :update_photo_keys
-  before_save :update_age_birth_date
 
   property :nickname
   property :name

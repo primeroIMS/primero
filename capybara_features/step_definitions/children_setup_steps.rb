@@ -55,6 +55,19 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
   end
 end
 
+Given /^I add to cases "(.*)" the following subform "(.*)":$/ do |name, subform_name_id, subform_table|
+  index = 0
+  subform = { }
+  subform_table.hashes.each do |subform_hash|
+    subform[index.to_s] = subform_hash
+    index += 1
+  end
+  child = Child.by_name(:key => name).first
+  subform = child[subform_name_id].merge subform if child[subform_name_id]
+  child[subform_name_id] = subform
+  child.save!
+end
+
 Given /^someone has entered a child with the name "([^\"]*)"$/ do |child_name|
   visit path_to('new case page')
   fill_in('Name', :with => child_name)
