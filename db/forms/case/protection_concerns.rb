@@ -7,7 +7,17 @@ protection_concern_fields = [
   Field.new({"name" => "urgent_protection_concern",
              "type" => "radio_button",
              "display_name_all" => "Urgent Protection Concern?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_text_all" => "Yes\nNo"
+            }),
+  Field.new({"name" => "risk_level",
+             "type" => "select_box",
+             "display_name_all" => "Risk Level",
+             "option_strings_text_all" => ["High", "Medium", "Low"].join("\n")
+            }),
+  Field.new({"name" => "system_generated_followup",
+             "type" => "radio_button",
+             "display_name_all" => "Generate follow up reminders?",
+             "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
