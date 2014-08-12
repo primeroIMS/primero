@@ -16,7 +16,7 @@ Feature: Individual Details Form
     And I press the "Individual Details" button
     And I fill in the following:
       | Survivor Code                      | SRV1001     |
-      | What is the child's Date of Birth? | 10/Jun/1993 |
+      | What is the child's Date of Birth? | 10-Jun-1993 |
     And I select "Female" from "What is the sex of the child?"
     And I select "Yes" for "Is the age estimated?" radio button
     And I select "Ethnicity1" from "What is the ethnic affiliation of the individual?"
