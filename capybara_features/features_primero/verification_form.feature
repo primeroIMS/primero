@@ -2,6 +2,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-244
 
 @javascript @primero
 Feature: Verification
@@ -72,3 +73,15 @@ Feature: Verification
     And I should not see "24" on the page
     And I should not see "The North" on the page
     And I should not see "Some address" on the page
+
+  Scenario: As a logged in user When I enter an invalid number in 'Age' field I should see a validation message
+    And I fill in the 1st "Verification Subform Section" subform with the follow:
+      | Inquirer's Name   | Jimmy     |
+      | Age               | Jimmy Age |
+    And I fill in the 2nd "Verification Subform Section" subform with the follow:
+      | Inquirer's Name   | Timmy     |
+      | Age               | 160       |
+    And I press "Save"
+    Then I should see "There were problems with the following fields:" on the page
+    And I should see "Verification: Age must be a valid number" on the page
+    And I should see "Verification: Age must be between 0 and 130" on the page
