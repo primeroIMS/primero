@@ -9,6 +9,30 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
     'change input[id$="_age"]': 'update_date'
   },
 
+  initialize: function() {
+    var context = this.el;
+    //Find every date_of_birth field in order to update the age that there is a change to be wrong
+    //according the current year.
+    $(context).find("input[id$='_date_of_birth']").each(function(x, dateOfBirthEl){
+      var dateOfBirthId = $(dateOfBirthEl).attr("id");
+      var dateOfBirthValue = $(dateOfBirthEl).val();
+      if (dateOfBirthValue != "") {
+        var ageId = dateOfBirthId.replace(/_date_of_birth$/, "_age");
+        $(context).find("input[id='" + ageId + "']").each(function(x, ageEl){
+          try {
+            var dateOfBirthDate = $.datepicker.parseDate($.datepicker.defaultDateFormat, dateOfBirthValue);
+            var age = (new Date).getFullYear() - dateOfBirthDate.getFullYear();
+            if (age >= 0) {
+              $(ageEl).val(age);
+            }
+          } catch (e) {
+            console.error("Has ocurred an error during re-calculate of age. " + e);
+          }
+        });
+      }
+    });
+  },
+
   //This method will be called when the age field was changed.
   update_date: function(event) {
     event.preventDefault();
@@ -26,7 +50,7 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
         }
         var dateFormat = dateOfBirthField.datepicker("option", "dateFormat");
         var year_of_birth = (new Date).getFullYear() - ageField.val();
-        var date_of_birth = $.datepicker.formatDate(dateFormat, $.datepicker.parseDate('dd-M-yy', '01-Jan-' + year_of_birth));
+        var date_of_birth = $.datepicker.formatDate(dateFormat, $.datepicker.parseDate($.datepicker.defaultDateFormat, '01-Jan-' + year_of_birth));
         dateOfBirthField.val(date_of_birth);
       }
     }

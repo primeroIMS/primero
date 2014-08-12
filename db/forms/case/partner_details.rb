@@ -10,7 +10,7 @@ partner_details_fields = [
             }),
   Field.new({"name" => "partner_details",
              "type" => "text_field",
-             "display_name_all" => "Partner's Details"
+             "display_name_all" => "Partner/Spouse Details"
             }),
   Field.new({"name" => "relationship_length",
              "type" => "numeric_field",
@@ -28,11 +28,11 @@ partner_details_fields = [
                            "Separated/Divorced",
                            "Single",
                            "Widowed",
-                           "With Partner"].join("\n")
+                           "With Partner/Spouse"].join("\n")
             }),
   Field.new({"name" => "partner_details_during_separation",
              "type" => "text_field",
-             "display_name_all" => "Partner's Details During Separation"
+             "display_name_all" => "Partner/Spouse Details During Separation"
             }),
   Field.new({"name" => "relationship_length_during_separation",
              "type" => "numeric_field",
@@ -54,7 +54,7 @@ partner_details_fields = [
             }),
   Field.new({"name" => "partner_details_pre_separation",
              "type" => "text_field",
-             "display_name_all" => "Partner's Details Prior to Separation"
+             "display_name_all" => "Partner/Spouse Details Prior to Separation"
             }),
   Field.new({"name" => "relationship_length_pre_separation",
              "type" => "numeric_field",
@@ -77,6 +77,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => partner_details_fields,
   :perm_enabled => true,
-  "name_all" => "Partner Details",
-  "description_all" => "Partner Details"
+  "name_all" => "Partner/Spouse Details",
+  "description_all" => "Partner/Spouse Details"
 })

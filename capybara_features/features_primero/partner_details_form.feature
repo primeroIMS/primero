@@ -1,6 +1,7 @@
 # JIRA PRIMERO-198
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-417
 
 @javascript @primero
 Feature: Partner Details Form
@@ -11,27 +12,27 @@ Feature: Partner Details Form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
-    And I click on "Partner Details" in form group "Family / Partner Details"
+    And I click on "Partner/Spouse Details" in form group "Family / Partner Details"
     And I fill in the following:
-      | Partner's Details                                   |Some details|
+      | Partner/Spouse Details                              |Some details|
       | Length of Marriage/Relationship                     |6           |
       | Number of Children                                  |2           |
-      | Partner's Details During Separation                 |Some details|
+      | Partner/Spouse Details During Separation            |Some details|
       | Length of Marriage/Relationship During Separation   |1           |
       | Number of Children During Separation                |2           |
-      | Partner's Details Prior to Separation               |Some details|
+      | Partner/Spouse Details Prior to Separation          |Some details|
       | Length of Marriage/Relationship Prior to Separation |1           |
       | Number of Children Prior to Separation              |2           |
     And I select "Married" from "Marital Status During Separation"
     And I select "Single" from "Marital Status Prior to Separation"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see a value for "Partner's Details" on the show page with the value of "Some details"
+    And I should see a value for "Partner/Spouse Details" on the show page with the value of "Some details"
     And I should see a value for "Length of Marriage/Relationship" on the show page with the value of "6"
     And I should see a value for "Number of Children" on the show page with the value of "2"
-    And I should see a value for "Partner's Details During Separation" on the show page with the value of "Some details"
+    And I should see a value for "Partner/Spouse Details During Separation" on the show page with the value of "Some details"
     And I should see a value for "Length of Marriage/Relationship During Separation" on the show page with the value of "1"
     And I should see a value for "Number of Children During Separation" on the show page with the value of "2"
-    And I should see a value for "Partner's Details Prior to Separation" on the show page with the value of "Some details"
+    And I should see a value for "Partner/Spouse Details Prior to Separation" on the show page with the value of "Some details"
     And I should see a value for "Length of Marriage/Relationship Prior to Separation" on the show page with the value of "1"
     And I should see a value for "Number of Children Prior to Separation" on the show page with the value of "2"
