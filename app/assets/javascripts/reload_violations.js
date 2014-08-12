@@ -10,8 +10,6 @@ var ViolationListReload = Backbone.View.extend({
 
   //Refresh Stuff....
   reload: function(event) {
-    // temp... for testing
-    // TODO - get real violations list
     var violation_list = [];
     var count = 0;
 
@@ -40,6 +38,10 @@ var ViolationListReload = Backbone.View.extend({
         }
       });
     });
+
+    if (violation_list.length === 0){
+      violation_list.push("NONE");
+    }
 
     // Find all violations selects and replace options with new list
     $(context).find("select[id$='_violations_']").each(function(x, violationSelectEl){
