@@ -13,7 +13,6 @@ class Child < CouchRest::Model::Base
   include SearchableRecord
   
   before_save :update_photo_keys
-  before_save :update_age_birth_date
 
   property :nickname
   property :name
@@ -32,9 +31,9 @@ class Child < CouchRest::Model::Base
   validate :validate_audio_size
   validate :validate_audio_file_name
   # validate :validate_has_at_least_one_field_value
-  validate :validate_age
   validate :validate_date_of_birth
   validate :validate_child_wishes
+  validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -360,13 +359,6 @@ class Child < CouchRest::Model::Base
     return true if !@file_name.nil? || !@audio_file_name.nil?
     return true if deprecated_fields && deprecated_fields.any? { |key, value| !value.nil? && value != [] && value != {} && !value.to_s.empty? }
     errors.add(:validate_has_at_least_one_field_value, I18n.t("errors.models.child.at_least_one_field"))
-  end
-
-  def validate_age
-    return true if age.nil? || age.blank? || (age.to_s =~ /^\d{1,3}(\.\d)?$/ && age.to_f >= 0 && age.to_f <= 130)
-    errors.add(:age, I18n.t("errors.models.child.age"))
-
-    error_with_section(:age, I18n.t("errors.models.child.age"))
   end
 
   def validate_date_of_birth
