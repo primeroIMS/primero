@@ -12,6 +12,7 @@
       model_object: "<%= controller.controller_name.singularize %>"
     };
   </script>
+  <%= yield :pagination_details %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tag %>
   <%= yield :javascript %>

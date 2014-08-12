@@ -1,6 +1,6 @@
 var IndexTable = Backbone.View.extend({
 
-	pagination: typeof pagination_details == 'undefined' ? false : pagination_details,
+	pagination: pagination_details,
 
 	el: 'body',
 
@@ -12,27 +12,17 @@ var IndexTable = Backbone.View.extend({
 		self = this;
 
 		// init datatables
-		var list_view = $('.record_list_view');
-	  this.list_view_table = list_view.DataTable({
-	    searching: false,
-	    lengthChange: false,
-	    pageLength: 20,   
-	    serverSide: true,
-	    deferRender: true,
-	    stateSave: true,
-	    ajax: list_view.data('source'),
-	    fnServerParams: function (aoData) {
-	    	var scope = aoData.scope = {};
-	      scope.record_state = $('#record_state_scope').val();
-	    },
-	    language: {
-	      info: pagination_info.default,
-	      infoEmpty: pagination_info.empty
-	    },
-	    columnDefs: index_column_defs,
-	    columns: index_columns,
-	    order: index_default_order
-	  });
+		this.list_view_table = $('.record_list_view').DataTable({
+			searching: false,
+			language: {
+				info: self.pagination.info
+			},
+			lengthChange: false,
+			pageLength: 20,
+			primero_start: self.pagination.start,
+			primero_total: self.pagination.total,
+			responsive: true
+		});
 
 	  // Disable datatables alert
   	$.fn.dataTableExt.sErrMode = 'throw';
@@ -48,7 +38,6 @@ var IndexTable = Backbone.View.extend({
 	},
 
 	render_table: function(event) {
-		this.list_view_table.draw();
 	},
 });
 

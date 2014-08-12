@@ -51,7 +51,7 @@ table tr:nth-child(odd){
   background: #ebebeb !important;
 }
 
-table.list_view{
+table.list_view, table.record_list_view {
   border:none;
   margin-bottom: 20px;
   a.id_link{
@@ -82,6 +82,10 @@ table.list_view{
       }
     }
   }
+}
+
+.table_spacer {
+  height: 60px;
 }
 
 .filter_bar {
@@ -164,11 +168,11 @@ fieldset .row:nth-child(even).separator_field {
 ////////////////////////////////////////////////
 // Dropdown Buttons
 ////////////////////////////////////////////////
-.dropdown_btn {  
+.dropdown_btn {
   .green-button {
    margin: 0;
   }
-  
+
   .dropdown {
     background: #eee;
     position: absolute;
@@ -179,14 +183,14 @@ fieldset .row:nth-child(even).separator_field {
 
 .mark-as-form {
     padding: .3rem;
-    
+
     h3{
-      margin: 0px 5px;    
+      margin: 0px 5px;
       label {
         font-weight: bold;
       }
     }
-    
+
     input[type="text"]{
       margin: .3rem 0 .5rem .3rem;
       width: 20rem !important;
@@ -194,7 +198,7 @@ fieldset .row:nth-child(even).separator_field {
       float: left;
       border-right: none;
     }
-      
+
     .mark-as-submit {
       margin: .3rem .3rem .5rem 0;
       width: auto;
@@ -424,7 +428,7 @@ fieldset {
     margin-top: 10px;
     margin-left: calc(50% - 37px)
   }
-  
+
   .collapse_expand_subform_header {
     border-bottom: 1px solid #ddd;
 
@@ -554,7 +558,7 @@ header {
 ul.links {
   padding: 15px 0 0 0;
   font-size: 0.875rem;
-  
+
   a {
     display: inline-block;
     margin: 0 10px;

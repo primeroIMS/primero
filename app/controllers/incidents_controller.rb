@@ -10,15 +10,13 @@ class IncidentsController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
 
-    if params[:format]
-      search = Incident.list_records filter, order, pagination, current_user_name
-      @incidents = search.results
-      @incidents_total = search.total
+    search = Incident.list_records filter, order, pagination, current_user_name
+    @incidents = search.results
+    @total_records = search.total
 
-      # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
-      # index average 400ms to 600ms without and 1000ms to 3000ms with.
-      @highlighted_fields = FormSection.sorted_highlighted_fields
-    end
+    # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
+    # index average 400ms to 600ms without and 1000ms to 3000ms with.
+    @highlighted_fields = FormSection.sorted_highlighted_fields
 
     respond_to do |format|
       format.html
@@ -29,7 +27,6 @@ class IncidentsController < ApplicationController
           redirect_to :action => :index and return
         end
       end
-      format.json
 
       respond_to_export format, @incidents
     end

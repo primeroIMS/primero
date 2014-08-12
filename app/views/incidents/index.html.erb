@@ -1,3 +1,2 @@
 
-<%= render 'record_shared/list_view_table', model: Incident, record: 'incident', 
-    fields: ['id' , 'survivor_code', 'caseworker_code', 'date_of_first_report', 'start_date_of_incident_from'] %>
+<%= render 'record_shared/list_view_table', model: Incident, record: 'incident', collection: @incidents %>

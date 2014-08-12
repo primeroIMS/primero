@@ -45,7 +45,6 @@ gem 'rack-mini-profiler', require: false
 gem 'yui-compressor'
 gem 'closure-compiler'
 gem 'progress_bar'
-gem 'jbuilder'
 
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'

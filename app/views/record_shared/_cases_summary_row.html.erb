@@ -1,0 +1,14 @@
+<tr>
+  <td>
+    <%= icon('flag', '', class: 'flagged') if record.flag? %>
+  </td>
+  <td id="child_<%= record.id %>" class="id_column">
+      <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
+      <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
+  </td>
+  <td><%# index_highlighted_case_name(highlighted_fields, record) %></td>
+  <td><%= record.age %></td>
+  <td><%= record.sex %></td>
+  <td><%= record.created_at %></td>
+  <td><%= record.child_status %></td>
+</tr>

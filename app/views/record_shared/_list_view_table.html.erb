@@ -25,35 +25,21 @@
         </div>
       </div>
     </div>
-    <% # TODO: Temp till Pavel returns. Not 100% on the data types for solr. text fields can't be sorted. Should they be text or string? %>
-    <script>
-      var index_columns = [
-      <% fields.each do |field, options| %>
-        { data: "<%= field %>"},
-      <% end %>
-      ],
-      pagination_info = {
-        empty: "<%= t('pagination.zero', model: record.pluralize) %>",
-        default: "<%= t('pagination.page_entries_info', model: record.pluralize) %>"
-      },
-      <% if record == 'case' %>
-        index_column_defs = [ { orderable: false, targets: [1, 5, 6] }];
-        index_default_order = [[ 0, "desc" ]];
-      <% else %>
-        index_column_defs = [ { orderable: false, targets: [0, 2, 3, 4] }],
-        index_default_order = [[ 1, "desc" ]];
-      <% end %>
-    </script>
-    <table width="100%" class="record_list_view" cellpadding=0 cellspacing=0 data-source="<%= polymorphic_path(model, format: :json) %>">
+    <table width="100%" class="record_list_view" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
-          <% fields.each do |field| %>
-          <th class="<%= field %>_column">
+          <% list_view_header(record).each do |field| %>
+          <th>
             <%= field == 'flag' ? icon('flag') : t("#{record}.#{field}") %>
           </th>
           <% end %>
         </tr>
       </thead>
+      <tbody>
+        <%= render :partial => "record_shared/#{record.pluralize}_summary_row", collection: collection, as: :record %>
+      </tbody>
     </table>
+    <div class="table_spacer"></div>
   </div>
 </div>
+<%= render :partial => 'shared/pagination', :locals => { :results => collection, :total => @total_records } %>

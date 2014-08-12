@@ -6,11 +6,11 @@ module RecordFilteringPagination
   end
 
   def page
-    (params[:start].to_i/per_page) + 1 || 1
+    params[:page].to_i || 1
   end
 
   def per_page
-    params.fetch(:length, 10).to_i
+    params.fetch(:length, 20).to_i
   end
 
   def order
@@ -21,7 +21,7 @@ module RecordFilteringPagination
     end
   end
 
-  def pagination 
+  def pagination
     {page: page, per_page: per_page}
   end
 
