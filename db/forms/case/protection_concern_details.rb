@@ -45,8 +45,8 @@ protection_concern_detail_subform_fields = [
     "type" => "select_box",
     "display_name_all" => "Period when identified?",
     "option_strings_text_all" => [
-      "Follow-up After Reunification",
-      "Follow-up In Care",
+      "Follow up After Reunification",
+      "Follow up In Care",
       "Registration",
       "Reunification",
       "Verification"
