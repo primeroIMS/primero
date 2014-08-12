@@ -3447,7 +3447,9 @@
 			var page = Math.ceil( start / len ),
 					prev_params = clean_page_params(),
 					redraw = false;
-			window.location.search = prev_params + '&page=' + page;
+			if(start > 0) {
+				window.location.search = prev_params + '&page=' + page;
+			}
 		}
 		else if ( action == "next" )
 		{
@@ -3455,7 +3457,9 @@
 			var page = Math.ceil( start / len ) + 2,
 					prev_params = clean_page_params(),
 					redraw = false;
-			window.location.search = prev_params + '&page=' + page;
+			if ((parseInt(start) + parseInt(len)) < records) {
+				window.location.search = prev_params + '&page=' + page;
+			}
 		}
 		else if ( action == "last" )
 		{

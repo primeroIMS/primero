@@ -13,6 +13,7 @@ class IncidentsController < ApplicationController
     search = Incident.list_records filter, order, pagination, current_user_name
     @incidents = search.results
     @total_records = search.total
+    @per_page = per_page
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
     # index average 400ms to 600ms without and 1000ms to 3000ms with.

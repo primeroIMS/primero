@@ -6,6 +6,7 @@ var IndexTable = Backbone.View.extend({
 
 	events: {
 		'change #record_state_scope': 'render_table',
+		'change .dataTables_length select': 'change_display_count'
 	},
 
 	initialize: function() {
@@ -17,8 +18,7 @@ var IndexTable = Backbone.View.extend({
 			language: {
 				info: self.pagination.info
 			},
-			lengthChange: false,
-			pageLength: 20,
+			pageLength: self.pagination.per,
 			primero_start: self.pagination.start,
 			primero_total: self.pagination.total,
 			responsive: true
@@ -39,6 +39,38 @@ var IndexTable = Backbone.View.extend({
 
 	render_table: function(event) {
 	},
+
+	clean_page_params: function(clean_param) {
+			var source = location.href,
+	  			rtn = source.split("?")[0],
+	        param,
+	        params_arr = [],
+	        query = (source.indexOf("?") !== -1) ? source.split("?")[1] : "";
+	    if (query !== "") {
+	        params_arr = query.split("&");
+	        for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+	            param = params_arr[i].split("=")[0];
+	            for(var j = 0; j < clean_param.length; j++) {
+	            	console.log(clean_param[j], param)
+		            if (param === clean_param[j]) {
+		                params_arr.splice(i, 1);
+		            }
+	          	}
+	        }
+	        rtn = params_arr.join("&");
+	    } else {
+	    	rtn = "";
+	    }
+	    return rtn;
+	},
+
+	change_display_count: function(event) {
+		event.preventDefault();
+		var prev_params = this.clean_page_params(['page', 'per']),
+				select_val = $(event.target).val();
+		console.log(prev_params)
+		window.location.search = prev_params + '&per=' + select_val;
+	}
 });
 
 $(document).ready(function() {

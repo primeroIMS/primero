@@ -42,4 +42,4 @@
     <div class="table_spacer"></div>
   </div>
 </div>
-<%= render :partial => 'shared/pagination', :locals => { :results => collection, :total => @total_records } %>
+<%= render :partial => 'shared/pagination', :locals => { :results => collection, :total => @total_records, :per => @per_page } %>

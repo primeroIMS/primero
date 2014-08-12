@@ -2,15 +2,18 @@ module RecordFilteringPagination
   extend ActiveSupport::Concern
 
   included do
-    before_filter :draw, only: [:index]
   end
 
   def page
-    params[:page].to_i || 1
+    params[:page] ? params[:page].to_i : 1
   end
 
   def per_page
-    params.fetch(:length, 20).to_i
+    params[:per] ? params[:per].to_i : 25
+  end
+
+  def pagination
+    { page: page, per_page: per_page }
   end
 
   def order
@@ -19,10 +22,6 @@ module RecordFilteringPagination
     else
       {created_at: :desc}
     end
-  end
-
-  def pagination
-    {page: page, per_page: per_page}
   end
 
   def sort_column
@@ -37,9 +36,5 @@ module RecordFilteringPagination
 
   def filter
     params[:scope] || {}
-  end
-
-  def draw
-    @draw = params[:draw]
   end
 end
