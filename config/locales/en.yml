@@ -709,6 +709,7 @@ en:
         validate_duplicate: "A valid duplicate ID must be provided"
         date_of_birth: "Please enter a valid date of birth for this case record"
         wishes_preferences_count: "You are only allowed %{preferences_count} child's preferences."
+        value_range: "%{field_name} must be between %{min} and %{max}"
 
       field:
         display_name_presence: "Display name must not be blank"
