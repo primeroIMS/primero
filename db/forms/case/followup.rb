@@ -60,7 +60,8 @@ followup_subform_fields = [
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "reason_child_not_seen",
-             "type" => "check_boxes",
+             "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "If not, why?",
              "option_strings_text_all" =>
                           ["Abducted",
@@ -69,7 +70,12 @@ followup_subform_fields = [
                            "Moved onto street/Market",
                            "Moved to live with another caregiver",
                            "Visiting Friends/Relatives",
-                           "Working /At work "].join("\n")
+                           "Working /At work",
+                           "Other, please specify"].join("\n")
+            }),
+  Field.new({"name" => "reason_child_not_seen_other_details",
+             "type" => "text_field",
+             "display_name_all" => "If other, please specify"
             }),
   Field.new({"name" => "action_taken_already",
              "type" => "radio_button",
