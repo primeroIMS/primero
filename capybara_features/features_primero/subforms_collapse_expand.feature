@@ -109,10 +109,9 @@ Feature: Subforms Collapse Expand
     And I click on "Follow Up" in form group "Services / Follow Up"
     And I add a "Followup Subform Section" subform
     And I update in the 1st "Followup Subform Section" subform with the follow:
-      | Followup date | 21-Jul-2003                           |
-      | If not, why?  | <Checkbox> Visiting Friends/Relatives |
+      | If not, why?  | <Choose>Visiting Friends/Relatives |
     And I collapsed the 1st "Followup Subform Section" subform
-    Then I should see header in the 1st "Followup Subform Section" subform within "21-Jul-2003 - Visiting Friends/Relatives"
+    Then I should see header in the 1st "Followup Subform Section" subform within "Visiting Friends/Relatives"
 
   Scenario: As a logged in user and already created a case, I should be able to modify the subform
     And I press "Save"
