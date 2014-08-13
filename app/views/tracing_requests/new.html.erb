@@ -1,0 +1,27 @@
+<% content_for :breadcrumbs do %>
+  <h2><%= link_to t("tracing_requests.label"), tracing_requests_path %> &gt; <%= t("tracing_requests.register_new_tracing_request") %></h2>
+<% end %>
+<%= form_tag tracing_requests_path, :multipart => true do %>
+    <div class="page-content-new row">
+  	<%= hidden_field_tag "tracing_request[posted_from]", "Browser" %>
+      <div class="large-4 medium-4 columns close-side-tab">
+        <div class="side-tab">
+          <%= render :partial => 'form_section/tabs', :object => @form_sections %>
+        </div>
+      </div>
+      <div class="side-tab-content large-8 medium-8 columns">
+        <div class="clearfix"></div>
+        <% @form_sections.each do |form_group_name, form_list| %>
+          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_requests, :form_group_name => form_group_name} %>
+        <% end %>
+        <div class="btn_panel">
+            <%= render 'children/reset_button'%>
+            <%= submit_button %>
+        </div>
+      </div>
+    </div>    
+    <div class="clearfix"></div>
+<% end %>
+
+
+

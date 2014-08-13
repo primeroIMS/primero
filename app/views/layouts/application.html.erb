@@ -42,6 +42,9 @@
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.cases"), cases_path %></li>
           <% end  %>
+          <% if can? :read, TracingRequest %>
+            <li><%= link_to t("navigation.tracing_request"), tracing_requests_path %></li>
+          <% end  %>
           <% if can? :read, Incident %>
             <li><%= link_to t("navigation.incidents"), incidents_path %></li>
           <% end  %>

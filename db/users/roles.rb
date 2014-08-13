@@ -68,6 +68,15 @@ create_or_update_role(
 )
 
 create_or_update_role(
+  :name => "worker: tracing requests",
+  :permissions => [
+    Permission::TRACING_REQUESTS[:view_and_search],
+    Permission::TRACING_REQUESTS[:register],
+    Permission::TRACING_REQUESTS[:edit],
+  ]
+)
+
+create_or_update_role(
   :name => "view reports",
   :permissions => [Permission::REPORTS[:view]])
 
