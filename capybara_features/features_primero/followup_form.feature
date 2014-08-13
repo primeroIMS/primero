@@ -9,6 +9,7 @@
 #JIRA PRIMERO-365
 #JIRA PRIMERO-414
 #JIRA PRIMERO-415
+#JIRA PRIMERO-416
 
 @javascript @primero
 Feature: Followup
@@ -27,7 +28,7 @@ Feature: Followup
       | Follow up date                                              | 12-Jun-2014                             |
       | Details about action taken                                  | Some details about action taken         |
       | Date action taken?                                          | 10-Jun-2014                             |
-      | If yes, when do you recommend the next visit to take place? | The next week                           |
+      | If yes, when do you recommend the next visit to take place? | 25-Jun-2014                             |
       | Comments                                                    | Some comments                           |
       | Type of follow up                                           |<Select> Follow up After Reunification   |
       | Type of service                                             |<Select> Health/Medical Service          |
@@ -58,7 +59,7 @@ Feature: Followup
       | Follow up date                                              | 12-Jun-2014                      |
       | Details about action taken                                  | Some details about action taken  |
       | Date action taken?                                          | 10-Jun-2014                      |
-      | If yes, when do you recommend the next visit to take place? | The next week                    |
+      | If yes, when do you recommend the next visit to take place? | 25-Jun-2014                      |
       | Comments                                                    | Some comments                    |
       | Type of follow up                                           | Follow up After Reunification    |
       | Type of service                                             | Health/Medical Service           |
@@ -92,7 +93,7 @@ Feature: Followup
       | Follow up date                                              | 11-Jun-2014                            |
       | Details about action taken                                  | Some details about action taken        |
       | Date action taken?                                          | 10-Jun-2014                            |
-      | If yes, when do you recommend the next visit to take place? | The next week                          |
+      | If yes, when do you recommend the next visit to take place? | 25-Jun-2014                            |
       | Comments                                                    | Some comments                          |
     And I press "Save"
     And I should not see "Follow up for Assessment" on the page

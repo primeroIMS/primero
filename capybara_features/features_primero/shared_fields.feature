@@ -12,7 +12,7 @@ Feature: Shared Fields
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
-    And I click on "Partner Details" in form group "Family / Partner Details"
+    And I click on "Partner/Spouse Details" in form group "Family / Partner Details"
     And I select "Single" from "Current Civil/Marital Status"
     And the value of "Current Civil/Marital Status" should be "Single"
     And I press the "Identification / Registration" button 
@@ -23,5 +23,5 @@ Feature: Shared Fields
     And I should stay on the "Basic Identity" tab on the case "show" page
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Single"
     And I press the "Family / Partner Details" button
-    And I click on "Partner Details" in form group "Family / Partner Details"
+    And I click on "Partner/Spouse Details" in form group "Family / Partner Details"
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Single"

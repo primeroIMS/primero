@@ -1,4 +1,3 @@
-
 @wip
 Feature: Add custom field to form section
   So that admin can customize fields in a form section

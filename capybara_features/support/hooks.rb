@@ -17,40 +17,28 @@ Before('@search') do
   Sunspot.remove_all!(Enquiry)
 end
 
-Before('@clean_db') do
+Before do
+  I18n.locale = I18n.default_locale = :en
+
   models_2_clean = ['Child', 'Incident']
   CouchRest::Model::Base.descendants.each do |model|
     if models_2_clean.include? model.name
-      puts "Deleting all rows in #{model.name}"
       docs = model.database.documents["rows"].map { |doc|
         { "_id" => doc["id"], "_rev" => doc["value"]["rev"], "_deleted" => true } unless doc["id"].include? "_design"
       }.compact
       RestClient.post "#{model.database.root}/_bulk_docs", { :docs => docs }.to_json, { "Content-type" => "application/json" } unless docs.empty?
     end
   end
-end
-
-After('@reload_forms') do
-  puts "Reloading Form Sections"
-  Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
-end
-
-Before do
-  I18n.locale = I18n.default_locale = :en
 
   #Only load the seed files ONCE.
   #Don't load the seed data on every scenario
   $db_seeded ||= false
   unless $db_seeded
-    #Load the seed forms - Using 'load' method because 'require' will remember that
-    #the files was already loaded and for the rest of scenarios will not execute
-    #the code in the required file.
     Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
     Dir[File.dirname(__FILE__) + '/../../db/lookups/*.rb'].each {|file| load file }
 
     $db_seeded = true
   end
-
 end
 
 Before('@roles') do |scenario|

@@ -96,7 +96,7 @@ followup_subform_fields = [
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "when_follow_up_visit_should_happen",
-             "type" => "text_field",
+             "type" => "date_field",
              "display_name_all" => "If yes, when do you recommend the next visit to take place?"
             }),
   Field.new({"name" => "recommend_case_closed",
