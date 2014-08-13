@@ -1981,7 +1981,7 @@
 					'class':   oSettings.oClasses.sRowEmpty
 				} ).html( sZero ) )[0];
 		}
-	
+		
 		/* Header and footer callbacks */
 		_fnCallbackFire( oSettings, 'aoHeaderCallback', 'header', [ $(oSettings.nTHead).children('tr')[0],
 			_fnGetDataMaster( oSettings ), iDisplayStart, iDisplayEnd, aiDisplay ] );
@@ -1990,10 +1990,13 @@
 			_fnGetDataMaster( oSettings ), iDisplayStart, iDisplayEnd, aiDisplay ] );
 	
 		var body = $(oSettings.nTBody);
-	
-		body.children().detach();
-		body.append( $(anRows) );
-	
+		
+		// PRIMERO - Only remove/add the table rows the first time.
+		if (iInitDisplayStart == 0) {
+			body.children().detach();
+			body.append( $(anRows) );
+	 	}
+
 		/* Call all required callback functions for the end of a draw */
 		_fnCallbackFire( oSettings, 'aoDrawCallback', 'draw', [oSettings] );
 	
@@ -2037,7 +2040,7 @@
 		// Let any modules know about the draw hold position state (used by
 		// scrolling internally)
 		settings._drawHold = holdPosition;
-	
+
 		_fnDraw( settings );
 	
 		settings._drawHold = false;
@@ -4467,7 +4470,7 @@
 			sortCol,
 			displayMaster = oSettings.aiDisplayMaster,
 			aSort;
-	
+		console.log('here')
 		// Resolve any column types that are unknown due to addition or invalidation
 		// @todo Can this be moved into a 'data-ready' handler which is called when
 		//   data is going to be used in the table?
