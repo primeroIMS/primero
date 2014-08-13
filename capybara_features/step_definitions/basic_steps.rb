@@ -93,6 +93,27 @@ And /^I should see a value for "(.+)" on the show page which is January 1, "(.+)
   end
 end
 
+#Step to match field/value in show view.
+And /^I should see values on the page for the following:$/ do |fields|
+  #Iterate over the fields.
+  fields.rows_hash.each do |name, value|
+    content = value
+    if content.start_with?('Calculated date')
+      content = content.gsub("Calculated date", "").gsub("years ago", "").strip
+      content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
+    elsif content.start_with?('Calculated age from')
+      year = content.gsub("Calculated age from", "").strip
+      content = Date.today.year - year.to_i
+    end
+    within(:xpath, ".//div[@class='row']//label[@class='key']", :text => name) do
+      #Up to the parent of the label to find the value.
+      within(:xpath, '../..') do
+        find(:xpath, ".//span[@class='value']", :text => content)
+      end
+    end
+  end
+end
+
 #Step to match field/value in subforms in show view.
 And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   num = num.to_i - 1

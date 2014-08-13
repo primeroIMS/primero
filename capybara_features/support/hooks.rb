@@ -35,7 +35,6 @@ Before do
   $db_seeded ||= false
   unless $db_seeded
     Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
-    Dir[File.dirname(__FILE__) + '/../../db/lookups/*.rb'].each {|file| load file }
 
     $db_seeded = true
   end

@@ -20,8 +20,8 @@ Feature: Lookup Cases
     And I press the "Other Identity Details" button
     And I fill in the following:
       | Nationality            | <Choose>Nationality1<Choose>Nationality3 |
-      | Birth Country          | <Choose> Country1                        |
-      | Country of Origin      | <Choose> Country2                        |
+      | Birth Country          | <Select> Country1                        |
+      | Country of Origin      | <Select> Country2                        |
       | Ethnicity/Clan/Tribe   | <Choose>Ethnicity1<Choose>Ethnicity2     |
       | Sub Ethnicity 1        | <Choose>Ethnicity1                       |
       | Sub Ethnicity 2        | <Choose>Ethnicity3                       |
@@ -29,14 +29,15 @@ Feature: Lookup Cases
       | Religion               | <Choose>Religion1<Choose>Religion2       |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see a value for "Nationality" on the show page with the value of "Nationality1, Nationality3"
-    And I should see a value for "Birth Country" on the show page with the value of "Country1"
-    And I should see a value for "Country of Origin" on the show page with the value of "Country2"
-    And I should see a value for "Ethnicity/Clan/Tribe" on the show page with the value of "Ethnicity1, Ethnicity2"
-    And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Ethnicity1"
-    And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Ethnicity3"
-    And I should see a value for "Language" on the show page with the value of "Language1, Language2"
-    And I should see a value for "Religion" on the show page with the value of "Religion1, Religion2"
+    And I should see values on the page for the following:
+      |Nationality             | Nationality1, Nationality3 |
+      |Birth Country           | Country1                   |
+      |Country of Origin       | Country2                   |
+      |Ethnicity/Clan/Tribe    | Ethnicity1, Ethnicity2     |
+      |Sub Ethnicity 1         | Ethnicity1                 |
+      |Sub Ethnicity 2         | Ethnicity3                 |
+      |Language                | Language1, Language2       |
+      |Religion                | Religion1, Religion2       |
 
   Scenario: As a logged in user, I will select lookup values from Family Details
     And I press the "Family / Partner Details" button
