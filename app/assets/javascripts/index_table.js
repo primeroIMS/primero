@@ -1,6 +1,6 @@
 var IndexTable = Backbone.View.extend({
 
-	pagination: pagination_details,
+	pagination: typeof pagination_details == 'undefined' ? false : pagination_details,
 
 	el: 'body',
 
