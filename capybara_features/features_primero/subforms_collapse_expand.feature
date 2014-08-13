@@ -3,6 +3,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 #JIRA PRIMERO-365
+#JIRA PRIMERO-243
 
 @javascript @primero
 Feature: Subforms Collapse Expand
@@ -10,6 +11,9 @@ Feature: Subforms Collapse Expand
 
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
+    And the following lookups exist in the system:
+      | name           | lookup_values                                 |
+      | language       | Language1, Language2, Language3, Language4    |
     And I update collapsed fields "family_details_section" subform with:
       | relation_name          |
       | relation               |

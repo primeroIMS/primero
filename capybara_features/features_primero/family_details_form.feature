@@ -7,7 +7,6 @@
 #JIRA PRIMERO-353
 #JIRA PRIMERO-363
 #JIRA PRIMERO-365
-#JIRA PRIMERO-243
 #JIRA PRIMERO-244
 
 @javascript @primero
@@ -38,12 +37,6 @@ Feature: Family Details Form
       |Nickname                                              | Coco                                       |
       |Are they alive?                                       | <Select> Alive                             |
       |If dead, please provide details                       | No Dead Notes                              |
-      |Language                                              | <Choose>Language1<Choose>Language2         |
-      |Religion                                              | <Choose>Religion1<Choose>Religion2         |
-      |Ethnicity                                             | <Select> Ethnicity1                        |
-      |Sub Ethnicity 1                                       | <Select> Ethnicity1                        |
-      |Sub Ethnicity 2                                       | <Select> Ethnicity2                        |
-      |Nationality                                           | <Choose>Nationality1<Choose>Nationality2   |
       |Comments                                              | Some Comments About Coco                   |
       |Occupation                                            | Some Ocupation About Coco                  |
       |Current Address                                       | Coco's Current Address                     |
@@ -64,12 +57,6 @@ Feature: Family Details Form
       |Nickname                                              | Pepe                                       |
       |Are they alive?                                       | <Select> Unknown                           |
       |If dead, please provide details                       | Unknown Information                        |
-      |Language                                              | <Choose>Language2                          |
-      |Religion                                              | <Choose>Religion2                          |
-      |Ethnicity                                             | <Select> Ethnicity2                        |
-      |Sub Ethnicity 1                                       | <Select> Ethnicity2                        |
-      |Sub Ethnicity 2                                       | <Select> Ethnicity1                        |
-      |Nationality                                           | <Choose>Nationality2                       |
       |Comments                                              | Some Comments About Pepe                   |
       |Occupation                                            | Some Ocupation About Pepe                  |
       |Current Address                                       | Pepe's Current Address                     |
@@ -96,12 +83,6 @@ Feature: Family Details Form
       |Nickname                                              | Coco                         |
       |Are they alive?                                       | Alive                        |
       |If dead, please provide details                       | No Dead Notes                |
-      |Language                                              | Language1, Language2         |
-      |Religion                                              | Religion1, Religion2         |
-      |Ethnicity                                             | Ethnicity1                   |
-      |Sub Ethnicity 1                                       | Ethnicity1                   |
-      |Sub Ethnicity 2                                       | Ethnicity2                   |
-      |Nationality                                           | Nationality1, Nationality2   |
       |Comments                                              | Some Comments About Coco     |
       |Occupation                                            | Some Ocupation About Coco    |
       |Current Address                                       | Coco's Current Address       |
@@ -122,12 +103,6 @@ Feature: Family Details Form
       |Nickname                                              | Pepe                         |
       |Are they alive?                                       | Unknown                      |
       |If dead, please provide details                       | Unknown Information          |
-      |Language                                              | Language2                    |
-      |Religion                                              | Religion2                    |
-      |Ethnicity                                             | Ethnicity2                   |
-      |Sub Ethnicity 1                                       | Ethnicity2                   |
-      |Sub Ethnicity 2                                       | Ethnicity1                   |
-      |Nationality                                           | Nationality2                 |
       |Comments                                              | Some Comments About Pepe     |
       |Occupation                                            | Some Ocupation About Pepe    |
       |Current Address                                       | Pepe's Current Address       |

@@ -20,7 +20,13 @@ create_or_update_lookup(
     "Country1",
     "Country2",
     "Country3",
-    "Country4"
+    "Country4",
+    "Country5",
+    "Country6",
+    "Country7",
+    "Country8",
+    "Country9",
+    "Country10"
   ]
 )
 
@@ -30,7 +36,13 @@ create_or_update_lookup(
     "Nationality1",
     "Nationality2",
     "Nationality3",
-    "Nationality4"
+    "Nationality4",
+    "Nationality5",
+    "Nationality6",
+    "Nationality7",
+    "Nationality8",
+    "Nationality9",
+    "Nationality10"
   ]
 )
 
@@ -40,7 +52,13 @@ create_or_update_lookup(
     "Ethnicity1",
     "Ethnicity2",
     "Ethnicity3",
-    "Ethnicity4"
+    "Ethnicity4",
+    "Ethnicity5",
+    "Ethnicity6",
+    "Ethnicity7",
+    "Ethnicity8",
+    "Ethnicity9",
+    "Ethnicity10"
   ]
 )
 
@@ -50,7 +68,13 @@ create_or_update_lookup(
     "Language1",
     "Language2",
     "Language3",
-    "Language4"
+    "Language4",
+    "Language5",
+    "Language6",
+    "Language7",
+    "Language8",
+    "Language9",
+    "Language10"
   ]
 )
 
@@ -60,6 +84,12 @@ create_or_update_lookup(
     "Religion1",
     "Religion2",
     "Religion3",
-    "Religion4"
+    "Religion4",
+    "Religion5",
+    "Religion6",
+    "Religion7",
+    "Religion8",
+    "Religion9",
+    "Religion10"
   ]
 )

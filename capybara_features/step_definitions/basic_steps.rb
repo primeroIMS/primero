@@ -314,6 +314,15 @@ Given /^the following fields exists on "([^"]*)":$/ do |form_section_name, table
   form_section.save!
 end
 
+Given /^the following lookups exist in the system:$/ do |lookup_table|
+  Lookup.all.each {|u| u.destroy }
+  lookup_table.hashes.each do |lookup_hash|
+    value_list = lookup_hash["lookup_values"].split(', ')
+    lookup_hash.merge!("lookup_values" => value_list)
+    Lookup.create! lookup_hash
+  end
+end
+
 Then /^there should be (\d+) child records in the database$/ do |number_of_records|
   Child.all.length.should == number_of_records.to_i
 end
