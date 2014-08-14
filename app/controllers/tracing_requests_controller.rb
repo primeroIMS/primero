@@ -4,6 +4,7 @@ class TracingRequestsController < ApplicationController
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
 
+  #TODO index will be refactored for Solr (Josh's changes).
   def index
     authorize! :index, TracingRequest
 
@@ -83,6 +84,7 @@ class TracingRequestsController < ApplicationController
     end
   end
 
+  #TODO verify if needs some refactoring after Ben's changes get merged in the main branch.
   def update
     respond_to do |format|
       format.json do

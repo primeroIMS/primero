@@ -73,6 +73,9 @@ create_or_update_role(
     Permission::TRACING_REQUESTS[:view_and_search],
     Permission::TRACING_REQUESTS[:register],
     Permission::TRACING_REQUESTS[:edit],
+    Permission::TRACING_REQUESTS[:export_csv],
+    Permission::TRACING_REQUESTS[:export_pdf],
+    Permission::REPORTS[:view]
   ]
 )
 

@@ -13,6 +13,7 @@ class TracingRequest < CouchRest::Model::Base
     super *args
   end
 
+  #TODO views probably will be replaced by Solr query.
   design do
     view :by_tracing_request_id
     view :by_enquirer_name,
@@ -25,6 +26,7 @@ class TracingRequest < CouchRest::Model::Base
                }
             }"
 
+    #TODO current index page needs these views to work, but this will change per Solr changes.
     ['created_at', 'enquirer_name'].each do |field|
       view "by_all_view_with_created_by_#{field}",
               :map => "function(doc) {
@@ -249,7 +251,7 @@ class TracingRequest < CouchRest::Model::Base
     by_tracing_request_id(:key => tracing_request_id).first
   end
 
-  def createClassSpecificFields(fields)
+  def create_class_specific_fields(fields)
     self['tracing_request_id'] = self.tracing_request_id
   end
 

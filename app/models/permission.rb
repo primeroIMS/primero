@@ -37,7 +37,9 @@ class Permission
   )
   TRACING_REQUESTS = Permission.to_ordered_hash({:register => "Create Tracing Requests"},
                                         {:edit => "Edit Tracing Requests"},
-                                        {:view_and_search => "View And Search Tracing Requests"}
+                                        {:view_and_search => "View And Search Tracing Requests"},
+                                        {:export_csv => "Export Tracing Requests to CSV"},
+                                        {:export_pdf => "Export Tracing Requests to PDF"}
   )
 
   def self.all

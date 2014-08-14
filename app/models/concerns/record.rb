@@ -185,7 +185,7 @@ module Record
       record.create_unique_id
       record['short_id'] = record.short_id
       record['record_state'] = "Valid record" if record['record_state'].blank?
-      record.createClassSpecificFields(fields)
+      record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
       record
     end
