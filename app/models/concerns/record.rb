@@ -20,6 +20,7 @@ module Record
     validate :validate_created_at
     validate :validate_last_updated_at
     validate :validate_duplicate_of
+    validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD
     validates_with FieldValidator, :type => Field::DATE_FIELD
     validates_with FieldValidator, :type => Field::TEXT_AREA
