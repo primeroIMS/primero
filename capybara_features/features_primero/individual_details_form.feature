@@ -4,6 +4,7 @@
 #JIRA PRIMERO-360
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
+#JIRA PRIMERO-244
 
 @javascript @primero
 Feature: Individual Details Form
