@@ -12,7 +12,7 @@
       <div class="side-tab-content large-8 medium-8 columns">
         <div class="clearfix"></div>
         <% @form_sections.each do |form_group_name, form_list| %>
-          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_requests, :form_group_name => form_group_name} %>
+          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>
         <% end %>
         <div class="btn_panel">
             <%= render 'children/reset_button'%>
