@@ -38,7 +38,6 @@ class Child < CouchRest::Model::Base
   validate :validate_documents_size
   validate :validate_documents_count
   validate :validate_documents_file_type
-  validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
 
   def initialize *args
     self['photo_keys'] ||= []

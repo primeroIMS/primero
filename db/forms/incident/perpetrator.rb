@@ -1,7 +1,19 @@
 perpetrator_subform_fields = [
+  Field.new({"name" => "known_perpetrator",
+             "type" => "select_box",
+             "display_name_all" => "Is this a known or unknown Perpetrator?",
+             "option_strings_text_all" =>
+                          ["Known",
+                           "Unknown"].join("\n")
+            }),
   Field.new({"name" => "primary_perpetrator",
              "type" => "radio_button",
              "display_name_all" => "Is this the primary perpetrator?",
+             "option_strings_text_all" => "Yes\nNo"
+            }),
+  Field.new({"name" => "former_perpetrator",
+             "type" => "radio_button",
+             "display_name_all" => "Past GBV by alledged perpetrator?",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "perpetrator_category",
@@ -28,13 +40,6 @@ perpetrator_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "Name of the armed force or group?",
             }),
-  Field.new({"name" => "known_perpetrator",
-             "type" => "select_box",
-             "display_name_all" => "Is this a known or unknown Perpetrator?",
-             "option_strings_text_all" =>
-                          ["Known",
-                           "Unknown"].join("\n")
-            }),
   Field.new({"name" => "perpetrator_sex",
              "type" => "select_box",
              "display_name_all" => "Sex of Alleged Perpetrator(s)",
@@ -43,10 +48,17 @@ perpetrator_subform_fields = [
                            "Male",
                            "Both female and male perpetrators"].join("\n")
             }),
-  Field.new({"name" => "former_perpetrator",
-             "type" => "radio_button",
-             "display_name_all" => "Past GBV by alledged perpetrator?",
-             "option_strings_text_all" => "Yes\nNo"
+  Field.new({"name" => "age_group",
+             "type" => "select_box",
+             "display_name_all" => "Age group of alleged perpetrator",
+             "option_strings_text_all" =>
+                          ["0-11",
+                           "12-17",
+                           "18-25",
+                           "26-40",
+                           "41-60",
+                           "61+",
+                           "Unknown"].join("\n")
             }),
   Field.new({"name" => "perpetrator_nationality",
              "type" => "select_box",
@@ -63,18 +75,6 @@ perpetrator_subform_fields = [
                           ["Ethnicity1",
                            "Ethnicity2",
                            "Ethnicity3"].join("\n")
-            }),
-  Field.new({"name" => "age_group",
-             "type" => "select_box",
-             "display_name_all" => "Age group of alleged perpetrator",
-             "option_strings_text_all" =>
-                          ["0-11",
-                           "12-17",
-                           "18-25",
-                           "26-40",
-                           "41-60",
-                           "61+",
-                           "Unknown"].join("\n")
             }),
   Field.new({"name" => "perpetrator_relationship",
              "type" => "select_box",
