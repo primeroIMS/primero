@@ -34,7 +34,6 @@ class Child < CouchRest::Model::Base
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
   validate :validate_child_wishes
-  validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
 
   def initialize *args
     self['photo_keys'] ||= []
