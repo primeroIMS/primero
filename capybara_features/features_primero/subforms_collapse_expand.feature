@@ -10,16 +10,6 @@ Feature: Subforms Collapse Expand
 
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
-    And I update collapsed fields "family_details_section" subform with:
-      | relation_name          |
-      | relation               |
-      | relation_is_caregiver  |
-      | relation_death_details |
-      | relation_age           |
-      | relation_language      |
-    And I update collapsed fields "followup_subform_section" subform with:
-      | followup_date          |
-      | reason_child_not_seen  |
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
@@ -83,35 +73,6 @@ Feature: Subforms Collapse Expand
     And I add a "Followup Subform Section" subform
     And I collapsed the 1st "Followup Subform Section" subform
     And I should see header in the 1st "Followup Subform Section" subform within ""
-
-  Scenario: As a logged in user and change fields value in family details, I should see the changes in the static text
-    And I update in the 1st "Family Details Section" subform with the follow:
-      |Name                               | Tom                |
-      |How are they related to the child? | <Select> Uncle     |
-      |Is this person the caregiver?      | <Radio> Yes        |
-      |If dead, please provide details    | No Dead Notes      |
-      |Age                                | 39                 |
-      |Language                           | <Choose>Language 1 |
-    And I update in the 2nd "Family Details Section" subform with the follow:
-      |Name                               | Mary               |
-      |How are they related to the child? | <Select> Aunt      |
-      |Is this person the caregiver?      | <Radio> No         |
-      |If dead, please provide details    | No Other Dead Notes|
-      |Age                                | 41                 |
-      |Language                           | <Choose>Language 2 |
-    And I collapsed the 1st "Family Details Section" subform
-    And I collapsed the 2nd "Family Details Section" subform
-    Then I should see header in the 1st "Family Details Section" subform within "Tom - Uncle - Yes - No Dead Notes - 39 - Language 1"
-    And I should see header in the 2nd "Family Details Section" subform within "Mary - Aunt - No - No Other Dead Notes - 41 - Language 2"
-
-  Scenario: As a logged in user and change fields value in followup, I should see the changes in the subform header
-    And I press the "Services / Follow Up" button
-    And I click on "Follow Up" in form group "Services / Follow Up"
-    And I add a "Followup Subform Section" subform
-    And I update in the 1st "Followup Subform Section" subform with the follow:
-      | If not, why?  | <Choose>Visiting Friends/Relatives |
-    And I collapsed the 1st "Followup Subform Section" subform
-    Then I should see header in the 1st "Followup Subform Section" subform within "Visiting Friends/Relatives"
 
   Scenario: As a logged in user and already created a case, I should be able to modify the subform
     And I press "Save"
