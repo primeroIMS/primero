@@ -131,10 +131,36 @@ Then /^the "([^"]*)" radio_button should have the following options:$/ do |radio
 
 end
 
+#PRIMERO - Leaving this one alone, not sure it works
 Then /^the "([^"]*)" dropdown should have the following options:$/ do |dropdown_label, table|
   options = table.hashes
   page.has_select?(dropdown_label, :options => options.collect{|element| element['label']},
                    :selected => options.collect{|element| element['label'] if element['selected?'] == 'yes'}.compact!)
+end
+
+#PRIMERO
+Then /^the "([^"]*)" select box should have the following options:$/ do |dropdown_label, table|
+  options = table.hashes
+  page.has_select?(dropdown_label, :options => options.collect{|element| element['label']}).should == true
+end
+
+#PRIMERO
+Then /^the "([^"]*)" select box in the (\d+)(?:st|nd|rd|th) "(.*)" subform should have the following options:$/ do |dropdown_label, num, subform, table|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+
+  #in viewing expand subforms if not already, make visible the fields we are testing.
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+                         "//div[@class='row collapse_expand_subform_header']" +
+                         "//span[contains(@class, 'collapse_expand_subform')]")
+  if (collapse_expand[:class].end_with?("collapsed"))
+    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+  end
+
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+    options = table.hashes
+    page.has_select?(dropdown_label, :options => options.collect{|element| element['label']}).should == true 
+  end
 end
 
 Then /^I should find the following links:$/ do |table|
