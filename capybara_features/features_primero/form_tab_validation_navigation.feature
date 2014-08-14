@@ -29,7 +29,7 @@ Feature: Form Tab Validation Navigation
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/textfile.txt"
     And I press "Save"
-    Then I should stay on the "Photos and Audio" tab on the case "index" page
+    Then I should stay on the "Basic Identity" tab on the case "index" page
     And I should see "Errors prohibited this record from being saved" on the page
     And I should see "There were problems with the following fields" on the page
     And I should see "Basic Identity: Age must be between 0 and 130" on the page
