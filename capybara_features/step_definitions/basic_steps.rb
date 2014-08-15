@@ -60,6 +60,9 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
         if content.start_with?("<Date Range")
           content = content.gsub("<Date Range>", "").strip
           find(:xpath, ".//span[@class='value']/..").text.should eq(content)
+        elsif content.start_with?("<Documents>")
+          content = content.gsub("<Documents>", "").strip
+          find(:xpath, ".//div[@class='documents']", :text => content)
         else
           #Find the element that represent the value.
           find(:xpath, ".//span[@class='value']", :text => content)
@@ -264,12 +267,23 @@ When /^I fill in the basic details of a child$/ do
   fill_in("Age", :with => "30")
 end
 
+When /^I attach a document "([^"]*)"$/ do |document_path|
+    step %Q{I attach the file "#{document_path}" to "child_upload_document_1"}
+end
+
 When /^I attach a photo "([^"]*)"$/ do |photo_path|
     step %Q{I attach the file "#{photo_path}" to "child_photo0"}
 end
 
 When /^I attach an audio file "([^"]*)"$/ do |audio_path|
     step %Q{I attach the file "#{audio_path}" to "child[audio]"}
+end
+
+When /^I attach the following documents:$/ do |table|
+  table.raw.each_with_index do |document, i|
+    step %Q{I attach the file "#{document.first}" to "child_upload_document_#{i+1}"}
+    step %Q{I click on the "Add another document" link}
+  end
 end
 
 When /^I attach the following photos:$/ do |table|

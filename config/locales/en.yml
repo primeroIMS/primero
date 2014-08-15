@@ -733,6 +733,9 @@ en:
         date_of_birth: "Please enter a valid date of birth for this case record"
         wishes_preferences_count: "You are only allowed %{preferences_count} child's preferences."
         value_range: "%{field_name} must be between %{min} and %{max}"
+        document_size: "Please upload a document smaller than 10mb"
+        documents_count: "You are only allowed %{documents_count} documents per case."
+        document_format: "Executable files are not allowed."
 
       field:
         display_name_presence: "Display name must not be blank"
