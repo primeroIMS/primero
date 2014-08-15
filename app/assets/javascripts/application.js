@@ -39,6 +39,7 @@
 //= require hidden_text_field.js
 //= require date_range_controls.js
 //= require reload_violations.js
+//= require document_upload.js
 
 
 $(function(){ $(document).foundation(); });

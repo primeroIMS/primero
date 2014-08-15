@@ -1,0 +1,40 @@
+<%
+  documents = formObject["other_documents"] || []
+  documents = documents.select { |document| document["file_name"].present? && document["attachment_key"].present? }
+%>
+<div class="row">
+  <% if documents.present? && !formObject.new_record?%>
+    <div class="medium-4 columns">
+      <span class="tool-tip-label">
+        <%= label_tag I18n.t(document_upload_box.name, :default => document_upload_box.display_name) %>
+      </span>
+    </div>
+    <div class="medium-8 columns">
+      <% documents.each do |document| %>
+        <% checkbox_id = "delete_child_document_#{document["attachment_key"]}" %>
+        <div>
+          <span><%= document["file_name"] %></span>
+        </div>
+        <div>
+          <%= check_box_tag("delete_child_document[#{document["attachment_key"]}]", :id => checkbox_id) %>
+          <%= label_tag checkbox_id, t("child.actions.delete_document") %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<div>
+  <div id="file-group">
+    <div class="row">
+      <div class="file medium-12 columns">
+        <span class="tool-tip-label">
+          <%= label_tag "child[upload_document]", "Add Document", :class=>'key' %>
+        </span>
+        <%= file_field_tag "child[upload_document][]", :id => "child_upload_document_1" %>
+        <%= image_tag "new/icon_help.png", title: document_upload_box.help_text, class: 'tool-tip-icon vtip' if document_upload_box.help_text.present? %>
+      </div>
+    </div>
+  </div>
+  <%= link_to 'Add another document', '', id: 'add-document', class: 'green-button right' %>
+</div>
+<hr>
