@@ -23,7 +23,6 @@ Feature: Protection Concern Form
       | Protection Status                                                                 | <Select> Separated                |
       | Urgent Protection Concern?                                                        | <Radio> Yes                       |
       | Risk Level                                                                        | <Select> High                     |
-      | Generate follow up reminders?                                                     | <Radio> No                        |
       | Current Displacement Status                                                       | <Select> Foreign National         |
       | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? | <Checkbox> Unaccompanied Minor <Checkbox> Separated Child  <Checkbox> Other Vulnerable Child |
       | Protection Concerns     | <Choose>Sexually Exploited<Choose>GBV survivor<Choose>Trafficked/smuggled<Choose>Other      |
@@ -102,6 +101,8 @@ Feature: Protection Concern Form
     And I fill in the following:
       | Protection Status                                                                 | <Select> Separated                |
       | Urgent Protection Concern?                                                        | <Radio> Yes                       |
+      | Risk Level                                                                        | <Select> High                     |
+      | Generate follow up reminders?                                                     | <Tickbox>                         |
       | Current Displacement Status                                                       | <Select> Foreign National         |
       | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? | <Checkbox> Unaccompanied Minor <Checkbox> Separated Child  <Checkbox> Other Vulnerable Child |
       | Protection Concerns     | <Choose>Sexually Exploited<Choose>GBV survivor<Choose>Trafficked/smuggled<Choose>Other      |
@@ -114,6 +115,8 @@ Feature: Protection Concern Form
     Then I should see "Case was successfully updated" on the page
     And I should see a value for "Protection Status" on the show page with the value of "Separated"
     And I should see a value for "Urgent Protection Concern?" on the show page with the value of "Yes"
+    And I should see a value for "Risk Level" on the show page with the value of "High"
+    And I should see a value for "Generate follow up reminders?" on the show page with the value of "Yes"
     And I should see a value for "Current Displacement Status" on the show page with the value of "Foreign National"
     And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor, Separated Child, Other Vulnerable Child"
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Statelessness, Other"

@@ -29,6 +29,7 @@ class Field
   DATE_RANGE = "date_range"
   SUBFORM = "subform"
   SEPARATOR = "separator"
+  TICK_BOX = "tick_box"
 
   FIELD_FORM_TYPES = {  TEXT_FIELD       => "basic",
                         TEXT_AREA        => "basic",
@@ -42,7 +43,8 @@ class Field
                         DATE_RANGE       => "basic",
                         NUMERIC_FIELD    => "basic",
                         SUBFORM          => "subform",
-                        SEPARATOR        => "separator"
+                        SEPARATOR        => "separator",
+                        TICK_BOX         => "basic"
                       }
   FIELD_DISPLAY_TYPES = {
 												TEXT_FIELD       => "basic",
@@ -57,7 +59,8 @@ class Field
                         DATE_RANGE       => "range",
                         NUMERIC_FIELD    => "basic",
                         SUBFORM          => "subform",
-                        SEPARATOR        => "separator"
+                        SEPARATOR        => "separator",
+                        TICK_BOX         => "tick_box"
                       }
 
   DEFAULT_VALUES = {
@@ -72,7 +75,8 @@ class Field
                         DATE_FIELD       => "",
                         DATE_RANGE       => "",
                         NUMERIC_FIELD    => "",
-                        SUBFORM          => nil
+                        SUBFORM          => nil,
+                        TICK_BOX         => "false"
                       }
 
   validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")

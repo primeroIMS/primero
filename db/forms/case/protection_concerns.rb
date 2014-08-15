@@ -15,9 +15,8 @@ protection_concern_fields = [
              "option_strings_text_all" => ["High", "Medium", "Low"].join("\n")
             }),
   Field.new({"name" => "system_generated_followup",
-             "type" => "radio_button",
-             "display_name_all" => "Generate follow up reminders?",
-             "option_strings_text_all" => "Yes\nNo"
+             "type" => "tick_box",
+             "display_name_all" => "Generate follow up reminders?"
             }),
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
