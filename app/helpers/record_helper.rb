@@ -59,7 +59,7 @@ module RecordHelper
     update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
   end
 
-  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties, delete_child_document_names)
+  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties, delete_child_document_names = nil)
     update_properties(properties, user_name)
     self.delete_photos(photo_names)
     self.update_photo_keys
