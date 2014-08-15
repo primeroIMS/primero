@@ -42,11 +42,11 @@ Feature: Subforms Collapses Fields Cases Viewing
     And I press the "Services / Follow Up" button
     And I click on "Follow Up" in form group "Services / Follow Up"
     And I fill in the 1st "Followup Subform Section" subform with the follow:
-      | Followup date                                               | 12-Jun-2014                              |
+      | Follow up date                                              | 12-Jun-2014                              |
       | Type of service                                             | <Select> Health/Medical Service          |
       | Type of assessment                                          | <Select> Medical Intervention Assessment |
     And I fill in the 2nd "Followup Subform Section" subform with the follow:
-      | Followup date                                               | 15-Jun-2014                               |
+      | Follow up date                                              | 15-Jun-2014                               |
       | Type of service                                             | <Select> Family Reunification Service     |
       | Type of assessment                                          | <Select> Personal Intervention Assessment |
     And I press "Save"

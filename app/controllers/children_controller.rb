@@ -315,7 +315,7 @@ class ChildrenController < ApplicationController
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
     new_audio = params[:child].delete("audio")
     delete_child_audio = params["delete_child_audio"].present?
-    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child])
+    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
     child
   end
 

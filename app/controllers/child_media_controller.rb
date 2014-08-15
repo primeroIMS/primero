@@ -27,6 +27,12 @@ class ChildMediaController < ApplicationController
     send_data( @attachment.data.read, :filename => audio_filename(@attachment), :type => @attachment.content_type )
   end
 
+  def download_document
+    find_document_attachment
+    redirect_to(:controller => 'children', :action => 'show', :id => @child.id) and return unless @attachment
+    send_data(@attachment.data.read, :filename => document_filename(@attachment), :type => @attachment.content_type)
+  end
+
   def manage_photos
     @photos_details = photos_details
   end
@@ -35,6 +41,14 @@ class ChildMediaController < ApplicationController
 
   def find_child
     @child = Child.get(params[:child_id])
+  end
+
+  def find_document_attachment
+    begin
+      @attachment = @child.media_for_key(params[:document_id])
+    rescue => e
+      p e.inspect
+    end
   end
 
   def find_audio_attachment

@@ -22,6 +22,26 @@ module UploadableFiles
     photo
   end
 
+  def uploadable_executable_file
+    executable_file = File.new("capybara_features/resources/exe_file.exe")
+    def executable_file.content_type
+      "application/x-ms-dos-executable"
+    end
+
+    def executable_file.size
+      File.size self.path
+    end
+
+    def executable_file.original_filename
+      self.path
+    end
+
+    def executable_file.data
+      File.binread self.path
+    end
+    executable_file
+  end
+
   def uploadable_large_photo
     large_photo = "capybara_features/resources/huge.jpg"
     File.binwrite large_photo, "hello", 50000 * 1024 unless File.exist? large_photo
