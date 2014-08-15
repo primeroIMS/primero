@@ -1,3 +1,7 @@
+/* Each tick_box has a hidden_field wich needs to be enabled/disabled when unchecking/checking the checkbox.
+ * When a checkbox is unchecked the browser won't send it's value, so the hidden_field will send the default value.
+ * When the checkbox is checked the hidden_field should be disabled and send no value.
+ */
 var TickBoxField = Backbone.View.extend({
   el: '.page_content form',
   events: {
