@@ -32,15 +32,11 @@ Feature: Incidents Form
     And I press the "Create a New Incident" button
     And I press the "Incident" button
     And I fill in the following:
-      | Case Worker                       | Case worker code               |
-      | Agency                            | Agency name                    |
       | Date of First Report or Interview | 06-Aug-2014                    |
       | Date of Incident                  | <Date Range><Date> 10-Aug-2014 |
       | Is the date estimated?            | <Radio> No                     |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see a value for "Case Worker" on the show page with the value of "Case worker code"
-    And I should see a value for "Agency" on the show page with the value of "Agency name"
     And I should see a value for "Date of First Report or Interview" on the show page with the value of "06-Aug-2014"
     And I should see a value for "Date of Incident" on the show page with the value of "10-Aug-2014"
     And I should see a value for "Is the date estimated?" on the show page with the value of "No"

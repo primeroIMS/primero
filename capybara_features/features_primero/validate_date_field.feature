@@ -25,12 +25,16 @@ Feature: Validate Date Field
   Scenario: As a logged in user, I create a case and validate the date field and allow different formats
     And I press the "Basic Identity" button  
     And I fill in "Date of Birth" with "12/02/2014"
+    And the value of "Date of Birth" should be "12-Feb-2014"
     And I press the "Assessment" button
     And I press the "Best Interest" button  
     And I fill in "Date of Recommendation" with "12 02 2014"
     And I fill in "Date of submission" with "12-02-2014"
     And I fill in "Date of Implementation" with "12/Feb/2014"
     And I fill in "Proposed Support" with "None"
+    And the value of "Date of Recommendation" should be "12-Feb-2014"
+    And the value of "Date of submission" should be "12-Feb-2014"
+    And the value of "Date of Implementation" should be "12-Feb-2014"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I press the "Identification / Registration" button

@@ -264,7 +264,17 @@ And /^I add a "(.*)" subform$/ do |form|
 end
 
 And /^the value of "(.*)" should be "(.*)"$/ do |field, value|
-  field_labeled(field).value.should =~ /#{value}/
+  page.has_field?(field, :with => value)
+end
+
+And /^the value of "(.*)" should be the calculated age of someone born in "(.+)"?$/ do |field, year|
+  value = Date.today.year - year.to_i
+  page.has_field?(field, :with => value)
+end
+
+And /^the value of "(.*)" should be January 1, "(.+)" years ago$/ do |field, years_ago|
+  value = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
+  page.has_field?(field, :with => value)
 end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|

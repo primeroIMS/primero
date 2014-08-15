@@ -410,7 +410,7 @@ end
 #Chosen with the values to select in the table.
 When /^I choose from "([^\"]*)":$/ do |chosen, table |
   label = find("//label[text()='#{chosen}']", :visible => true)
-  chosen_id = label["for"] + "__chosen"
+  chosen_id = label["for"] + "_chosen"
   chosen = find(:xpath, "//div[@id='#{chosen_id}']", :visible => true)
   table.raw.flatten.each do |option|
     #This make visible the options to choose.
