@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+#TODO revisit when implement export.
 # def inject_export_generator( fake_export_generator, tracing_request_data )
   # ExportGenerator.stub(:new).with(tracing_request_data).and_return( fake_export_generator )
 # end
@@ -179,6 +180,7 @@ describe TracingRequestsController do
       end
     end
 
+    #TODO Commented in Incidents, do we still need?
     # context "viewing active tracing_requests" do
       # before do
         # @status = "active"
@@ -193,7 +195,8 @@ describe TracingRequestsController do
         # it_should_behave_like "viewing tracing_requests as a field worker"
       # end
     # end
-#
+    
+    #TODO revisit when implement export.
     # describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       # before do
         # fake_field_admin_login
@@ -295,6 +298,7 @@ describe TracingRequestsController do
     end
   end
 
+  #TODO Commented in Incidents, do we still need this?
   # describe "PUT update" do
     # it "should sanitize the parameters if the params are sent as string(params would be as a string hash when sent from mobile)" do
       # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
@@ -534,6 +538,7 @@ describe TracingRequestsController do
     get :show, :id => tracing_request.id, :format => :mock
   end
 
+  #TODO revisit when implement export.
   # describe '#respond_to_export' do
     # before :each do
       # @tracing_request1 = build :tracing_request
@@ -634,6 +639,7 @@ describe TracingRequestsController do
     # end
   # end
 
+  #TODO Commented in Incidents, do we still need this?
   # TODO: Bug - JIRA Ticket: https://quoinjira.atlassian.net/browse/PRIMERO-136
   #
   # I switch between the latest and tag 1.0.0.1 to find out what is causing the issue.
