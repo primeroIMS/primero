@@ -2,6 +2,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-261
 # JIRA PRIMERO-365
+# JIRA PRIMERO-429
 
 @javascript @primero
 Feature: Tracing Reunification Details
@@ -40,12 +41,6 @@ Feature: Tracing Reunification Details
       | If not, what was the reason for the change?          | <Select> Not Applicable   |
       | Is there a need for follow up?                       | <Radio> No                |
       | If not, do you recommend that the case be closed?    | <Radio> Yes               |
-    And I select "Other" from "What is the reason for closing the child's file?"
-    And I fill in the following:
-      | Caregiver Name                                   | Jon Arryn      |
-      | Caregiver Relationship                           | Grandfather    |
-      | Caregiver Address                                | Some address   |
-      | Caregiver Location                               | Some location  |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see in the 1st "Reunification Details Section" subform with the follow:
@@ -72,11 +67,6 @@ Feature: Tracing Reunification Details
       | If not, what was the reason for the change?          | Not Applicable            |
       | Is there a need for follow up?                       | No                        |
       | If not, do you recommend that the case be closed?    | Yes                       |
-    And I should see a value for "What is the reason for closing the child's file?" on the show page with the value of "Other"
-    And I should see a value for "Caregiver Name" on the show page with the value of "Jon Arryn"
-    And I should see a value for "Caregiver Relationship" on the show page with the value of "Grandfather"
-    And I should see a value for "Caregiver Address" on the show page with the value of "Some address"
-    And I should see a value for "Caregiver Location" on the show page with the value of "Some location"
 
   Scenario: As a logged in user, I should access the form section tracing and add/remove reunification details
     And I fill in the 1st "Reunification Details Section" subform with the follow:

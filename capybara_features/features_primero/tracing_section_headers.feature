@@ -1,4 +1,5 @@
 # JIRA PRIMERO-137
+# JIRA PRIMERO-429
 
 @javascript @primero @clean_db
 Feature: Tracing Section Headers
@@ -12,7 +13,6 @@ Feature: Tracing Section Headers
     And I press the "Tracing" button
     And I should see "Separation History" on the page
     And I should see "Tracing Actions" on the page
-    And I should see "Closure Details" on the page
     And I should see "Reunification Details" on the page
 
   Scenario:  As a logged in user, I should be able see section headers in the show Tracing Form
@@ -26,5 +26,4 @@ Feature: Tracing Section Headers
     And I press the "Tracing" button
     And I should see "Separation History" on the page
     And I should see "Tracing Actions" on the page
-    And I should see "Closure Details" on the page
     And I should see "Reunification Details" on the page

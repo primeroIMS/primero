@@ -32,10 +32,14 @@ class CustomFieldsValidator
   def validate_fields(fields, target)
     fields.each do |field|
       nested_field = field.form ? field.form.is_nested : false
-      if nested_field && target[field.form.unique_id] && target[field.form.unique_id].respond_to?(:each)
-        target[field.form.unique_id].each do |k, t|
-          validate_field(field, target, t)
+      if nested_field
+        fields_instance = target[field.form.unique_id]
+        if target.class.name == "Incident" and target["violations"].present? and target["violations"][field.form.unique_id].present?
+          fields_instance = target["violations"][field.form.unique_id]
         end
+        fields_instance.each do |k, t|
+          validate_field(field, target, t)
+        end if fields_instance.respond_to?(:each)
       elsif field[:type] == Field::DATE_RANGE
         validate_field(field, target, nil, "_from") && validate_field(field, target, nil, "_to")
       else
