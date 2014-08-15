@@ -21,6 +21,15 @@ class TracingRequestsController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => @tracing_requests }
+        
+      unless params[:format].nil?
+        if @tracing_requests.empty?
+          flash[:notice] = t('tracing_requests.export_error')
+          redirect_to :action => :index and return
+        end
+      end
+
+      respond_to_export format, @tracing_requests
     end
   end
 
@@ -35,6 +44,8 @@ class TracingRequestsController < ApplicationController
       format.html
       format.xml { render :xml => @tracing_request }
       format.json { render :json => @tracing_request.compact.to_json }
+
+      respond_to_export format, [ @tracing_request ]
     end
   end
 
@@ -193,6 +204,17 @@ class TracingRequestsController < ApplicationController
     reindex_hash params['tracing_request']
     tracing_request.update_properties(params[:tracing_request], current_user_name)
     tracing_request
+  end
+
+  def respond_to_export(format, records)
+    RapidftrAddon::ExportTask.active.each do |export_task|
+      format.any(export_task.id) do
+        #authorize! "export_#{export_task.id}".to_sym, Child
+        #LogEntry.create! :type => LogEntry::TYPE[export_task.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => children.collect(&:id)
+        #results = export_task.new.export(children)
+        #encrypt_exported_files results, export_filename(children, export_task)
+      end
+    end
   end
 
   def set_class_name

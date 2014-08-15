@@ -113,9 +113,9 @@ RapidFTR::Application.routes.draw do
   resources :tracing_requests do
     collection do
       # post :sync_unverified
-      # post :reindex
+      post :reindex
       # get :advanced_search
-      # get :search
+      get :search
     end
   end
 

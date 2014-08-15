@@ -251,6 +251,21 @@ class TracingRequest < CouchRest::Model::Base
     by_tracing_request_id(:key => tracing_request_id).first
   end
 
+  #TODO will this be refactored by Solr changes ?
+  def self.all 
+    view('by_enquirer_name', {})  
+  end 
+
+  #TODO will this be refactored by Solr changes ?
+  def self.search_field
+    "enquirer_name"
+  end
+
+  #TODO will this be refactored by Solr changes ?
+  def self.view_by_field_list
+    ['created_at', 'enquirer_name']
+  end
+
   def create_class_specific_fields(fields)
     self['tracing_request_id'] = self.tracing_request_id
   end
