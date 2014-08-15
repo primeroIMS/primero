@@ -191,7 +191,7 @@ module Record
     end
 
     def parent_form
-      parent_form = self.name.downcase
+      parent_form = self.name.underscore.downcase
       parent_form = 'case' if parent_form == 'child'
       parent_form
     end
