@@ -16,28 +16,28 @@ describe Incident do
   end
 
   describe 'build solar schema' do
-
+    # TODO: Ask about these test
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      Incident.build_text_fields_for_solar.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organisation"]
+      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organisation"]
     end
 
     it "should build with date search fields" do
-      Incident.build_date_fields_for_solar.should == ["created_at", "last_updated_at"]
+      Incident.searchable_date_fields.should == ["created_at", "last_updated_at"]
     end
 
     it "fields build with all fields in form sections" do
       form = FormSection.new(:name => "test_form", :parent_form => 'incident')
-      form.fields << Field.new(:name => "description", :type => Field::TEXT_FIELD, :display_name => "description")
+      form.fields << Field.new(:name => "description", :type => Field::TEXT_AREA, :display_name => "description")
       form.save!
-      Incident.build_text_fields_for_solar.should include("description")
+      Incident.searchable_text_fields.should include("description")
       FormSection.all.each { |form_section| form_section.destroy }
     end
 
     it "should call Sunspot with all fields" do
       Sunspot.should_receive(:setup)
-      Incident.should_receive(:build_text_fields_for_solar)
-      Incident.should_receive(:build_date_fields_for_solar)
+      Incident.should_receive(:searchable_text_fields)
+      Incident.should_receive(:searchable_date_fields)
       Incident.build_solar_schema
     end
 

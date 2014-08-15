@@ -204,6 +204,10 @@ class Child < CouchRest::Model::Base
     self['unique_identifier']
   end
 
+  def sortable_name
+    self['name']
+  end
+
   def has_one_interviewer?
     user_names_after_deletion = self['histories'].map { |change| change['user_name'] }
     user_names_after_deletion.delete(self['created_by'])

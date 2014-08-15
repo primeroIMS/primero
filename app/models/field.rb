@@ -121,8 +121,13 @@ class Field
 		FIELD_DISPLAY_TYPES[type]
 	end
 
+  # TODO: Refator this
   def self.all_searchable_field_names(parentForm = 'case')
     FormSection.find_by_parent_form(parentForm).map { |form| form.all_searchable_fields.map(&:name) }.flatten
+  end
+
+  def self.all_searchable_date_field_names(parentForm = 'case')
+    FormSection.find_by_parent_form(parentForm).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
   end
 
   def self.all_filterable_field_names(parentForm = 'case')
@@ -131,6 +136,10 @@ class Field
 
   def self.all_filterable_multi_field_names(parentForm = 'case')
     FormSection.find_by_parent_form(parentForm).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
+  end
+
+  def self.all_filterable_numeric_field_names(parentForm = 'case')
+    FormSection.find_by_parent_form(parentForm).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
   end
 
   def display_name_for_field_selector

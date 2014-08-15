@@ -11,21 +11,21 @@ module IndexHelper
 		case record
 		when "case"
 			return [
-				'flag',
-				'id',
-				'name',
-				'age',
-				'sex',
-				'registration_date',
-				'status'
+				{title: nil, sort_title: 'flag'},
+				{title: 'id', sort_title: 'short_id'},
+				{title: 'name', sort_title: 'sortable_name'},
+				{title: 'age', sort_title: 'age'},
+				{title: 'sex', sort_title: 'sex'},
+				{title: 'registration_date', sort_title: 'registration_date'},
+				{title: 'status', sort_title: 'child_status'}
 			]
 		when "incident"
 			return [
-				'id',
-				'survivor_code',
-				'caseworker_code',
-				'date_of_first_report',
-				'start_date_of_incident_from'
+				{title: 'id', sort_title: 'short_id'},
+				{title: 'survivor_code', sort_title: 'survivor_code'},
+				{title: 'case_worker_code', sort_title: 'caseworker_code'},
+				{title: 'date_of_interview', sort_title: 'date_of_first_report'},
+				{title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
 			]
 		else
 			[]
