@@ -2,19 +2,16 @@ killing_subform_fields = [
   Field.new({"name" => "violation_killing_boys",
              "type" => "numeric_field",
              "display_name_all" => "Number of victims: boys",
-             "autosum" => true,
              "autosum_group" => "killing_number_of_victims"
             }),
   Field.new({"name" => "violation_killing_girls",
              "type" => "numeric_field",
              "display_name_all" => "Number of victims: girls",
-             "autosum" => true,
              "autosum_group" => "killing_number_of_victims"
             }),
   Field.new({"name" => "violation_killing_unknown",
              "type" => "numeric_field",
              "display_name_all" => "Number of victims: unknown",
-             "autosum" => true,
              "autosum_group" => "killing_number_of_victims"
             }),
   Field.new({"name" => "violation_killing_total",

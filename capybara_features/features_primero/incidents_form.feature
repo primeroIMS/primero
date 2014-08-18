@@ -2,6 +2,7 @@
 # JIRA PRIMERO-407
 # JIRA PRIMERO-366
 # JIRA PRIMERO-418
+# JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Incidents Form
@@ -20,10 +21,12 @@ Feature: Incidents Form
     And I select "Afternoon (noon to sunset)" from "Time of day that the Incident took place"
     And I fill in "Incident Total Victims/Survivors:Boys" with "3"
     And I fill in "Incident Total Victims/Survivors:Girls" with "2"
+    And I fill in "Incident Total Victims/Survivors:Unknown" with "5"
     And I fill in the following:
       | Date of Incident | <Date Range>from: '15-Jan-2013', to: '22-Feb-2013' |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
+    And I should see a value for "Incident Total Victims/Survivors:Total" on the show page with the value of "10"
     And I should see a value for "Date of Incident" on the show page with the value of "<Date Range> From: 15-Jan-2013 To: 22-Feb-2013"
 
   Scenario: As a logged in user, I create a new incident and I should be able to enter a date or a date range for the date of incident

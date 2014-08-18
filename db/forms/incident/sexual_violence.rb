@@ -2,19 +2,16 @@ sexual_violence_subform_fields = [
   Field.new({"name" => "violation_boys",
              "type" => "numeric_field", 
              "display_name_all" => "Number of survivors: boys",
-             "autosum" => true,
              "autosum_group" => "sexual_violence_number_of_survivors"
             }),
   Field.new({"name" => "violation_girls",
              "type" => "numeric_field", 
              "display_name_all" => "Number of survivors: girls",
-             "autosum" => true,
              "autosum_group" => "sexual_violence_number_of_survivors"
             }),
   Field.new({"name" => "violation_unknown",
              "type" => "numeric_field", 
              "display_name_all" => "Number of survivors: unknown",
-             "autosum" => true,
              "autosum_group" => "sexual_violence_number_of_survivors"
             }),
   Field.new({"name" => "violation_total",

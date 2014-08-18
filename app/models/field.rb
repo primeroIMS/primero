@@ -14,7 +14,6 @@ class Field
   attr_reader :options
   property :base_language, :default=>'en'
   property :subform_section_id #TODO: Either load this using couchdb linking or load on creation
-  property :autosum, TrueClass, :default => false
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
   attr_accessor :subform
@@ -147,7 +146,6 @@ class Field
     self.editable = true if properties["editable"].nil?
     self.multi_select = false if properties["multi_select"].nil?
     self.hidden_text_field ||= false
-    self.autosum ||= false
     self.autosum_total ||= false
     self.autosum_group ||= ""
     self.attributes = properties

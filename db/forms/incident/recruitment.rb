@@ -2,19 +2,16 @@ recruitment_subform_fields = [
   Field.new({"name" => "violation_recruit_boys",
              "type" => "numeric_field", 
              "display_name_all" => "Number of survivors: boys",
-             "autosum" => true,
              "autosum_group" => "recruitment_number_of_survivors"
             }),
   Field.new({"name" => "violation_recruit_girls",
              "type" => "numeric_field", 
              "display_name_all" => "Number of survivors: girls",
-             "autosum" => true,
              "autosum_group" => "recruitment_number_of_survivors"
             }),
   Field.new({"name" => "violation_recruit_unknown",
              "type" => "numeric_field", 
              "display_name_all" => "Number of survivors: unknown",
-             "autosum" => true,
              "autosum_group" => "recruitment_number_of_survivors"
             }),
   Field.new({"name" => "violation_recruit_total",

@@ -4,6 +4,7 @@
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
+#JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Maiming Form
@@ -20,7 +21,6 @@ Feature: Maiming Form
       | Number of survivors: boys    | 1 |
       | Number of survivors: girls   | 2 |
       | Number of survivors: unknown | 3 |
-      | Number of total survivors    | 6 |
       | Method                    | <Select> Non-Victim Activated          |
       | Cause                     | <Select> Landmines                     |
       | Details                   | Maiming Details                        |
