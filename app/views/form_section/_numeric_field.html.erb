@@ -2,6 +2,11 @@
   field_keys ||= []
   name = field_tag_name formObject, numeric_field, field_keys
   value ||= field_value formObject, numeric_field, field_keys
+  klass = ""
+  autosum_group = ""
+  klass += " autosum" if numeric_field["autosum"] == true
+  klass += " autosum_total" if numeric_field["autosum_total"] == true
+  autosum_group += numeric_field["autosum_group"]
 %>
 <div class="row">
   <div class="medium-4 columns">
@@ -10,7 +15,7 @@
     </span>
   </div>
   <div class="medium-8 columns">
-    <%= text_field_tag name, value, :disabled => numeric_field.editable == false ? true : false %>
+    <%= text_field_tag name, value, :class => klass.strip, :autosum_group => autosum_group.strip, :disabled => numeric_field.editable == false ? true : false %>
     <%= image_tag "new/icon_help.png", title: numeric_field.help_text, class: 'tool-tip-icon vtip' if numeric_field.help_text.present? %>
   </div>
 </div>
