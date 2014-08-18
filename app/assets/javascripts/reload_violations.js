@@ -18,6 +18,7 @@ var ViolationListReload = Backbone.View.extend({
 
     // Build new violations list
     $(context).find("fieldset[id$='_violation_wrapper']").each(function(x, violationListEl){
+      var index = 0;  // counter for each type of violation
       $(violationListEl).find(".subforms").children('div').each(function(x, violationEl){
         if ($(violationEl).children().length > 0) {
 
@@ -32,9 +33,12 @@ var ViolationListReload = Backbone.View.extend({
           });
 
           if (valueLength > 0) {
-            var tmpId = $(violationEl).attr('id');
-            var res = tmpId.replace("subform_container_", "");
+            // get subform header
+            var tmpValue = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
+            var tmpRes = $(violationEl).find(".collapse_expand_subform_header label").text();
+            var res = tmpRes + " " + tmpValue + " " + index;
             violation_list.push(res);
+            index++;
           }
         }
       });
