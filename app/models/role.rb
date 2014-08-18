@@ -6,6 +6,7 @@ class Role < CouchRest::Model::Base
   property :name
   property :description
   property :permissions, :type => [String]
+  property :permitted_form_ids, :type => [String]
 
   design do
     view :by_name,
@@ -32,6 +33,10 @@ class Role < CouchRest::Model::Base
 
   def sanitize_permissions
     self.permissions.reject! { |permission| permission.blank? } if self.permissions
+  end
+
+  def has_permitted_form_id?(form_id)
+    self.permitted_form_ids.include? form_id
   end
 
   def is_name_unique

@@ -144,6 +144,7 @@ class User < CouchRest::Model::Base
     !disabled? && crypted_password == self.class.encrypt(check, self.salt)
   end
 
+  #TODO: Change this into a single bulk query
   def roles
     @roles ||= role_ids.collect { |id| Role.get(id) }.flatten
   end
@@ -152,12 +153,20 @@ class User < CouchRest::Model::Base
     permissions && permissions.include?(permission)
   end
 
+  def has_permitted_form_id?(form_id)
+    permitted_form_ids && permitted_form_ids.include?(form_id)
+  end
+
   def has_any_permission?(*any_of_permissions)
     (any_of_permissions.flatten - permissions).count < any_of_permissions.flatten.count
   end
 
   def permissions
     roles.compact.collect(&:permissions).flatten
+  end
+
+  def permitted_form_ids
+    roles.compact.collect(&:permitted_form_ids).flatten
   end
 
   def add_mobile_login_event imei, mobile_number

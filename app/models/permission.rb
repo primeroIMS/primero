@@ -44,6 +44,7 @@ class Permission
     self.all.values.map(&:values).flatten
   end
 
+  #TODO: This is bad code. Use a map{} instead. Why are we even using this?
   def self.hashed_values
     {"Cases" => CHILDREN.values, "Incidents" => INCIDENTS.values, "Forms" => FORMS.values, "Users" => USERS.values, "Devices" => DEVICES.values, "Reports" => REPORTS.values, "Roles" => ROLES.values, "System" => SYSTEM.values, "Enquires" => ENQUIRIES.values}
   end
