@@ -72,6 +72,9 @@ namespace :sunspot do
     
     puts 'Reindexing incidents...'
     Incident.reindex!
+    
+    puts 'Reindexing Tracing Request...'
+    TracingRequest.reindex!
   end
 
   desc "restart solr"

@@ -29,6 +29,16 @@ FactoryGirl.define do
     end
   end
 
+  factory :tracing_request, :traits => [ :model ] do
+    unique_identifier { counter.to_s }
+    enquirer_name { "Test Tracing Request #{counter}" }
+    created_by { "test_user" }
+
+    after_build do |tracing_request, factory|
+      TracingRequest.stub(:get).with(tracing_request.id).and_return(tracing_request)
+    end
+  end
+
   factory :replication, :traits => [ :model ] do
     description 'Sample Replication'
     remote_app_url 'app:1234'

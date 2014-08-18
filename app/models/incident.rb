@@ -263,7 +263,7 @@ class Incident < CouchRest::Model::Base
     ['created_at', 'description']
   end
   
-  def createClassSpecificFields(fields)
+  def create_class_specific_fields(fields)
     self['incident_id'] = self.incident_id
     self['description'] = fields['description'] || self.description || ''
   end
