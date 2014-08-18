@@ -45,7 +45,7 @@ Feature: Basic Identity Form
       | UN Number                                | EEE444                             |
       | Other Agency ID                          | ABC12345                           |
       | Other Agency Name                        | Test Agency                        |
-      | List Details of any documents carried by the child | Driver's License, Passport, Birth Certificate |
+      | List of documents carried by the child | Driver's License, Passport, Birth Certificate |
       | Current Civil/Marital Status             | <Select> Married/Cohabitating      |
       | Occupation                               | Farmer                             |
       | Current Address                          | 111 Main St, Davidson NC, 28036    |
@@ -80,7 +80,7 @@ Feature: Basic Identity Form
     And I should see a value for "UN Number" on the show page with the value of "EEE444"
     And I should see a value for "Other Agency ID" on the show page with the value of "ABC12345"
     And I should see a value for "Other Agency Name" on the show page with the value of "Test Agency"
-    And I should see a value for "List Details of any documents carried by the child" on the show page with the value of "Driver's License, Passport, Birth Certificate"
+    And I should see a value for "List of documents carried by the child" on the show page with the value of "Driver's License, Passport, Birth Certificate"
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Married/Cohabitating"
     And I should see a value for "Occupation" on the show page with the value of "Farmer"
     And I should see a value for "Current Address" on the show page with the value of "111 Main St, Davidson NC, 28036"
@@ -116,7 +116,7 @@ Feature: Basic Identity Form
     And I should see a value for "UN Number" on the show page with the value of ""
     And I should see a value for "Other Agency ID" on the show page with the value of ""
     And I should see a value for "Other Agency Name" on the show page with the value of ""
-    And I should see a value for "List Details of any documents carried by the child" on the show page with the value of ""
+    And I should see a value for "List of documents carried by the child" on the show page with the value of ""
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of ""
     And I should see a value for "Occupation" on the show page with the value of ""
     And I should see a value for "Current Address" on the show page with the value of ""
