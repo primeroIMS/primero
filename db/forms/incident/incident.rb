@@ -104,6 +104,14 @@ incident_fields = [
                 "Guest House - Hotel"
               ].join("\n")
             }),
+  Field.new({"name" => "incident_latitude",
+             "type" => "text_field",
+             "display_name_all" => "Latitude"
+            }),
+  Field.new({"name" => "incident_longitude",
+             "type" => "text_field",
+             "display_name_all" => "Longitude"
+            }),
   Field.new({"name" => "incident_location_1", # TODO: Customizable
              "type" => "text_field",
              "display_name_all" => "Area"
