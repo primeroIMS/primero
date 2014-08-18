@@ -30,7 +30,8 @@ var SubformView = Backbone.View.extend({
     if ($(target).hasClass("expanded")) {
       $(target).text("+");
       //WIP - RSE
-      _primero.update_subform_heading(target);
+      subformEl = $(target).parents(".subform");
+      _primero.update_subform_heading(subformEl);
     } else if ($(target).hasClass("collapsed")) {
       //Update the state of the subform.
       $(target).text("-");

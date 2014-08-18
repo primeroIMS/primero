@@ -34,6 +34,7 @@ var ViolationListReload = Backbone.View.extend({
 
           if (valueLength > 0) {
             // get subform header
+            _primero.update_subform_heading(violationEl);
             var tmpValue = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
             var tmpRes = $(violationEl).find(".collapse_expand_subform_header label").text();
             var res = tmpRes + " " + tmpValue + " " + index;
