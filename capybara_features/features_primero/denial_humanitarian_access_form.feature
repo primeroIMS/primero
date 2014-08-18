@@ -4,6 +4,7 @@
 #JIRA PRIMERO-373
 #JIRA PRIMERO-400
 #JIRA PRIMERO-365
+#JIRA PRIMERO-446
 
 @javascript @primero
 Feature: Denial of Humanitarian Access Form
@@ -15,7 +16,7 @@ Feature: Denial of Humanitarian Access Form
     And I press the "Create a New Incident" button
     And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
-    And I fill in the 1st "Denial Humanitarian Access Section" subform with the follow:
+    And I fill in the following:
       | What method(s) were used to deny humanitarian access? | <Select> Import Restrictions for Goods               |
       | What organizations were affected?                     | <Choose>International<Choose>United Nations Agencies |
       | Number of Personnel Killed                | 1      |
