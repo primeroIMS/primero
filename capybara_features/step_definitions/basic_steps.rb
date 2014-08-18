@@ -174,6 +174,15 @@ end
 def update_subforms_field(num, subform, fields)
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
+  
+  #in viewing expand subforms if not already, make visible the fields we are testing.
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+                         "//div[@class='row collapse_expand_subform_header']" +
+                         "//span[contains(@class, 'collapse_expand_subform')]")
+  if (collapse_expand[:class].end_with?("collapsed"))
+    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+  end
+
   scope = "//div[@id='subform_container_#{subform}_#{num}']"
   within(:xpath, scope) do
     fields.rows_hash.each do |name, value|
@@ -191,6 +200,10 @@ def update_subforms_field(num, subform, fields)
         end
       elsif value.start_with?("<Radio>")
         step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{name}" radio button within "#{scope}"}
+      elsif value.start_with?("<Tickbox>")
+        label = find "//label", :text => name, :visible => true
+        checkbox_id = label["for"]
+        check("#{checkbox_id}", :visible => true)
       else
         step %Q{I fill in "#{name}" with "#{value}"}
       end

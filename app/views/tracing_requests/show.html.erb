@@ -1,0 +1,82 @@
+<% content_for :javascript do %>
+<script type="text/javascript" language="javascript">
+$(function() {
+  $(".profile-image .image a").click( function(event){
+      $('.thumbnails .thumbnail a')[0].click();
+      return false;
+  });
+
+$(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
+
+$(".profile-tools .mark-as-form").hide();
+
+$(".profile-tools .flag a").click( function(){
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
+});
+
+$(".profile-tools .reunited a").click( function(){
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
+});
+$(".profile-tools .investigated a").click( function(){
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
+});
+
+  $('.sub_export_record').hide();
+
+  $('.export_record_link').click( function(e) {
+    e.preventDefault();
+  });
+
+  $('.export_record').click( function(e) {
+    var $sub = $(this).find(".sub_export_record");
+
+    if ( $sub.is(":hidden") ) {
+      $sub.slideDown("slow");
+    }
+    else {
+      $sub.hide();
+    }
+  });
+
+});
+</script>
+<% end %>
+
+<% content_for :header_sub_nav do %>
+    <ul class="inline-list">
+        <%= render 'show_tracing_request_toolbar', tracing_request: @tracing_request %>
+
+        <% if can? :update, @tracing_request %>        
+            <li><%= link_to t("buttons.edit"), edit_tracing_request_path(@tracing_request, { follow: true }), class: 'green-button' %></li>
+        <% end %>	
+    </ul>
+<% end %>
+
+<% content_for :breadcrumbs do %>
+    <h2 class="float_left no_border">
+        <%= link_to t("tracing_requests.label"), tracing_requests_path %> &gt; <%= text_to_identify_tracing_request(@tracing_request) %>
+    </h2>
+<% end %>
+
+<% content_for :header_message do %>
+    <%= render 'header_message', tracing_request: @tracing_request, current_user: @current_user, duplicates: @duplicates %>
+<% end %>
+
+<div class="clearfix"></div>
+<% content_for :stylesheet do %>
+    <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
+<% end %>
+    
+<div class="page-content-new row">
+  <div class="large-4 medium-4 columns close-side-tab">
+    <div class="side-tab">
+      <%= render :partial => 'form_section/tabs', :object => @form_sections %>
+    </div>
+  </div>
+  <div class="side-tab-content large-8 medium-8 columns">
+    <div class="clearfix"></div>
+    <%# Removed for demo deploy %>
+    <%= render :partial => 'shared/sidebar' if false %>
+    <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @tracing_request} %>
+  </div>
+</div>

@@ -39,6 +39,9 @@
       <nav class="large-12 columns">
         <ul>
           <li><%= link_to t("navigation.home"), root_path %></li>
+          <% if can? :read, TracingRequest %>
+            <li><%= link_to t("navigation.tracing_request"), tracing_requests_path %></li>
+          <% end  %>
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.cases"), cases_path %></li>
           <% end  %>

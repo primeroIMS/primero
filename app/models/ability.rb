@@ -80,6 +80,30 @@ class Ability
     end
 
     #
+    # Tracing Requests
+    #
+    if user.has_permission?(Permission::TRACING_REQUESTS[:register])
+      can [:create], TracingRequest
+      can [:read], TracingRequest do |tracing_request|
+        tracing_request.created_by == user.user_name
+      end
+    end
+
+    if user.has_permission?(Permission::TRACING_REQUESTS[:edit])
+      can [:read, :update, :destroy], TracingRequest do |tracing_request|
+        tracing_request.created_by == user.user_name
+      end
+    end
+
+    if user.has_permission?(Permission::TRACING_REQUESTS[:view_and_search])
+      can [:read, :view_all, :view_and_search], TracingRequest
+    end
+
+    if user.has_permission?(Permission::TRACING_REQUESTS[:view_and_search]) and user.has_permission?(Permission::TRACING_REQUESTS[:edit])
+      can [:read, :update, :destroy], TracingRequest
+    end
+
+    #
     # ENQUIRIES
     #
 

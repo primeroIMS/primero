@@ -108,6 +108,18 @@ RapidFTR::Application.routes.draw do
   end
 
 #######################
+# TRACING REQUESTS URLS
+#######################  
+  resources :tracing_requests do
+    collection do
+      # post :sync_unverified
+      post :reindex
+      # get :advanced_search
+      get :search
+    end
+  end
+
+#######################
 # API URLS
 #######################
 
@@ -209,6 +221,7 @@ RapidFTR::Application.routes.draw do
   resources :system_logs, :only => :index
   match '/children/:id/history' => 'child_histories#index', :as => :child_history, :via => :get
   match '/incidents/:id/history' => 'incident_histories#index', :as => :incident_history, :via => :get
+  match '/tracing_requests/:id/history' => 'tracing_request_histories#index', :as => :tracing_request_history, :via => :get
   match '/cases/:id/history' => 'child_histories#index', :as => :cases_history, :via => :get
   match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
 

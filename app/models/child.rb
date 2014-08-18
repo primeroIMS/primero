@@ -464,7 +464,7 @@ class Child < CouchRest::Model::Base
     by_flag(:key => true)
   end
   
-  def createClassSpecificFields(fields)
+  def create_class_specific_fields(fields)
     self['case_id'] = self.case_id
     self['name'] = fields['name'] || self.name || ''
     self['registration_date'] ||= DateTime.now.strftime("%d-%b-%Y")
