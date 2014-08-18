@@ -14,7 +14,7 @@ var TickBoxField = Backbone.View.extend({
       var tick_box_control = tick_box.parent().find("input[type='hidden']");
       if (tick_box.is(':checked')) {
         tick_box_control.attr('disabled', true);
-      } else {
+      } else if (!tick_box.is(':disabled')) { 
         tick_box_control.attr('disabled', false);
       }
     });

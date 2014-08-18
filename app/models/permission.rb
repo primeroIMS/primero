@@ -35,9 +35,15 @@ class Permission
                                         {:export_csv => "Export Incidents to CSV"},
                                         {:export_pdf => "Export Incidents to PDF"}
   )
+  TRACING_REQUESTS = Permission.to_ordered_hash({:register => "Create Tracing Requests"},
+                                        {:edit => "Edit Tracing Requests"},
+                                        {:view_and_search => "View And Search Tracing Requests"},
+                                        {:export_csv => "Export Tracing Requests to CSV"},
+                                        {:export_pdf => "Export Tracing Requests to PDF"}
+  )
 
   def self.all
-    {"Cases" => CHILDREN, "Incidents" => INCIDENTS, "Forms" => FORMS, "Users" => USERS, "Devices" => DEVICES, "Reports" => REPORTS, "Roles" => ROLES, "System" => SYSTEM, "Enquires" => ENQUIRIES}
+    {"Cases" => CHILDREN, "Tracing Requests" => TRACING_REQUESTS, "Incidents" => INCIDENTS, "Forms" => FORMS, "Users" => USERS, "Devices" => DEVICES, "Reports" => REPORTS, "Roles" => ROLES, "System" => SYSTEM, "Enquires" => ENQUIRIES}
   end
 
   def self.all_permissions
@@ -45,7 +51,7 @@ class Permission
   end
 
   def self.hashed_values
-    {"Cases" => CHILDREN.values, "Incidents" => INCIDENTS.values, "Forms" => FORMS.values, "Users" => USERS.values, "Devices" => DEVICES.values, "Reports" => REPORTS.values, "Roles" => ROLES.values, "System" => SYSTEM.values, "Enquires" => ENQUIRIES.values}
+    {"Cases" => CHILDREN.values, "Tracing Requests" => TRACING_REQUESTS.values, "Incidents" => INCIDENTS.values, "Forms" => FORMS.values, "Users" => USERS.values, "Devices" => DEVICES.values, "Reports" => REPORTS.values, "Roles" => ROLES.values, "System" => SYSTEM.values, "Enquires" => ENQUIRIES.values}
   end
 
 end

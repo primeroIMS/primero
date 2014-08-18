@@ -51,3 +51,14 @@ create_or_update_user(
   "organisation" => "N/A",
   "role_ids" => [Role.by_name(:key => "Worker: Cases").first.id]
 )
+
+create_or_update_user(
+  "user_name" => "primero_tracing_request",
+  "password" => "qu01n23",
+  "password_confirmation" => "qu01n23",
+  "full_name" => "Tracing Request Worker",
+  "email" => "primero_tracing_request@primero.com",
+  "disabled" => "false",
+  "organisation" => "N/A",
+  "role_ids" => [Role.by_name(:key => "Worker: Tracing Requests").first.id]
+)

@@ -44,6 +44,20 @@ module FakeLogin
     fake_login user
   end
 
+  def fake_tracing_request_admin_login
+    user = User.new(:user_name => 'fakemrmadmin')
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::TRACING_REQUESTS[:view_and_search],
+                                                            Permission::TRACING_REQUESTS[:create],
+                                                            Permission::TRACING_REQUESTS[:edit]])])
+    fake_login user
+  end
+
+  def fake_tracing_request_worker_login
+    user = User.new(:user_name => 'fakemrmworker')
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::TRACING_REQUESTS[:register]])])
+    fake_login user
+  end
+
   def fake_login_as(permission = Permission.all_permissions)
     user = User.new(:user_name => 'fakelimited')
     user.stub(:roles).and_return([Role.new(:permissions => [permission].flatten)])

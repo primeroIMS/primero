@@ -72,6 +72,7 @@ en:
   navigation:
      home: "HOME"
      cases: "CASES"
+     tracing_request: "TRACING REQUESTS"
      incidents: "INCIDENTS"
      children: "CHILDREN"
      forms: "FORMS"
@@ -337,6 +338,29 @@ en:
     date_of_interview: "Date of Interview"
     date_of_incident: "Date of Incident"
     change_log: "Change Log"
+
+    actions:
+      change_log: "Change Log"
+
+    history_of: "History of %{short_id}"
+
+  tracing_requests:
+    label: "Tracing Requests"
+    register_new_tracing_request: "Create a New Tracing Request"
+
+  tracing_request:
+    last_updated: "Last updated"
+    registered_by: "Registered by"
+
+    messages:
+      update_success: "Tracing Request was successfully updated."
+      creation_success: "Tracing Request record successfully created."
+
+    view: "View Tracing Request %{short_id}"
+    edit: "Edit Tracing Request"
+    id: "ID#"
+    enquirer_name: "Inquirer Name"
+    enquirer_date: "Date of Inquiry"
 
     actions:
       change_log: "Change Log"
