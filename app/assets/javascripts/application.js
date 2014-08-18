@@ -40,6 +40,7 @@
 //= require date_range_controls.js
 //= require reload_violations.js
 //= require document_upload.js
+//= require tick_box_field.js
 
 
 $(function(){ $(document).foundation(); });
