@@ -54,8 +54,10 @@ class TracingRequestsController < ApplicationController
 
     @page_name = t("tracing_requests.register_new_tracing_request")
     @tracing_request = TracingRequest.new
+    @tracing_request['inquiry_date'] = DateTime.now.strftime("%d-%b-%Y")
     @tracing_request['status'] = ["Active"]
     @tracing_request['record_state'] = ["Valid record"]
+    @tracing_request['inquiry_status'] = ["Open"]
     @tracing_request['mrm_verification_status'] = "Pending"
     respond_to do |format|
       format.html
