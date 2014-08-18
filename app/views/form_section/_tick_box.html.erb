@@ -1,0 +1,18 @@
+<%
+  field_keys ||= []
+  name = field_tag_name formObject, tick_box, field_keys
+  value ||= field_value formObject, tick_box, field_keys
+%>
+
+<div class="row">
+  <div class="medium-4 columns">
+    <%= label_tag name, t(tick_box.name, :default => tick_box.display_name), {:class=>"key"}%>
+  </div>
+
+  <div class="medium-8 columns">
+    <%= check_box_tag name, "true", value == "true", :id => sanitize_to_id(name), :class => "tick_box" %>
+    <%= hidden_field_tag name, "false", :id => "#{sanitize_to_id(name)}_" %>
+  </div>
+
+  <%= image_tag "new/icon_help.png", title: tick_box.help_text, class: 'tool-tip-icon vtip' if tick_box.help_text.present? %>
+</div>
