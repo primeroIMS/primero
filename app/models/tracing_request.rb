@@ -268,6 +268,8 @@ class TracingRequest < CouchRest::Model::Base
 
   def create_class_specific_fields(fields)
     self['tracing_request_id'] = self.tracing_request_id
+    self['inquiry_date'] ||= DateTime.now.strftime("%d-%b-%Y")
+    self['inquiry_status'] ||= "Open"
   end
 
   def tracing_request_id
