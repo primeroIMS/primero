@@ -72,6 +72,10 @@ var SubformView = Backbone.View.extend({
             }
           }
           $(el).text(values.join(" - "));
+
+          // find violation id field and update it
+          violationIdEl = $(target).parents(".subform").find("input[id$='_violation_id']");
+          violationIdEl.val(values.join(" - "));
         }
       });
     } else if ($(target).hasClass("collapsed")) {

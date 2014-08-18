@@ -1,4 +1,8 @@
 attack_on_hospitals_subform_fields = [
+  Field.new({"name" => "violation_id",
+             "type" => "hidden_field",
+             "display_name_all" => "Violation ID"
+            }),
   Field.new({"name" => "site_number_attacked_hospital",
              "type" => "numeric_field",
              "display_name_all" => "Number of Sites Attacked"

@@ -281,12 +281,16 @@ class Incident < CouchRest::Model::Base
 
     if self['violations'].present?
       self['violations'].each do |key, value|
-        #TODO - add in weapon.. settle on id
-        #TODO - should that be added in the html id?
-        value.keys.each{|k| violations_list << key.titleize + " " + k}
+        value.each do |k, v|
+          if v['violation_id'].present?
+            violations_list << key.titleize + " " + v['violation_id'] + " " + k
+          else
+            violations_list << key.titleize + " " + k
+          end
+        end
       end
     end
-    
+
     if violations_list.blank?
       violations_list << "NONE"
     end
