@@ -3,7 +3,7 @@ class TracingRequest < CouchRest::Model::Base
 
   include RapidFTR::Model
   include RapidFTR::CouchRestRailsBackward
-  include SearchableRecord
+  include Searchable
 
   property :tracing_request_id
   property :enquirer_name

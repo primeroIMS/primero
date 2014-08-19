@@ -50,9 +50,10 @@ namespace :sunspot do
       incident.index!
     end
 
-    puts 'Reindexing Tracing Request...'
-    TracingRequest.all.all.each do |tracing|
-      tracing.index!
-    end
+    # TODO: Disabling reindexing until Tracing Request is refactored
+    # puts 'Reindexing Tracing Request...'
+    # TracingRequest.all.all.each do |tracing|
+    #   tracing.index!
+    # end
   end
 end
