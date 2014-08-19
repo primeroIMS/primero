@@ -190,7 +190,7 @@ class Field
     "#{objName}[#{name}]"
   end
 
-  def select_options(record)
+  def select_options(record, lookups)
     select_options = []
     select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
     if self.option_strings_source.present?
@@ -199,7 +199,7 @@ class Field
           select_options += record.violations_list
         end
       elsif self.option_strings_source.split.first == 'lookup'
-        lookup = Lookup.find_by_name(self.option_strings_source.split.last)
+        lookup = lookups.select {|lkp| lkp['name'] == self.option_strings_source.split.last}.first if lookups.present?
         select_options += lookup.lookup_values if lookup.present?
 
         if self.option_strings_source.split.second == 'group'

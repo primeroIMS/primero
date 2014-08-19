@@ -13,9 +13,9 @@
   </div>
   <div class="medium-8 columns">
     <% if select_box.multi_select %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject), value), 'multiple' => '', 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder") %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'multiple' => '', 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder") %>
     <% else %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject), value) %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value) %>
     <% end %>
     <%= image_tag "new/icon_help.png", title: select_box.help_text, class: 'tool-tip-icon vtip' if select_box.help_text.present? %>
   </div>
