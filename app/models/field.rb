@@ -121,7 +121,7 @@ class Field
 		FIELD_DISPLAY_TYPES[type]
 	end
 
-  # TODO: Refator this
+  # TODO: Refator this - Slow when you rebuild a form
   def self.all_searchable_field_names(parentForm = 'case')
     FormSection.find_by_parent_form(parentForm).map { |form| form.all_searchable_fields.map(&:name) }.flatten
   end

@@ -6,6 +6,7 @@ class Incident < CouchRest::Model::Base
 
   include Record
   include Searchable
+  include Scheduler
 
   property :incident_id
   property :description

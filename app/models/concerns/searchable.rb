@@ -42,7 +42,7 @@ module Searchable
     # TODO: Exclude duplicates I presume?
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
       self.search do
-        filters.each{|filter,value| with(filter, value)} if filters.present?
+        filters.each{|filter,value| with(filter, value) unless value == 'all'} if filters.present?
         with(:created_by, owner) if owner.present?
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
@@ -73,7 +73,10 @@ module Searchable
     end
 
     def searchable_text_fields
-      Field.all_searchable_field_names(self.parent_form)
+      ["unique_identifier", "short_id",
+       "created_by", "created_by_full_name",
+       "last_updated_by", "last_updated_by_full_name",
+       "created_organisation"] + Field.all_searchable_field_names(self.parent_form)
     end
 
     def searchable_date_fields
@@ -93,6 +96,13 @@ module Searchable
 
     def searchable_numeric_fields
       Field.all_filterable_numeric_field_names(self.parent_form)
+    end
+
+    # I would recommend leaving unless more scheduler task added. Then move to own concern
+    def schedule(scheduler)
+      scheduler.every("24h") do
+        self.reindex!
+      end
     end
   end
 end

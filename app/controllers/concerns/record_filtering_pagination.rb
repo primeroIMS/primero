@@ -9,7 +9,7 @@ module RecordFilteringPagination
   end
 
   def per_page
-    params[:per] ? params[:per].to_i : 25
+    params[:per] ? params[:per].to_i : 20
   end
 
   def pagination

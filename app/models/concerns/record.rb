@@ -124,11 +124,11 @@ module Record
     end
 
     #TODO: Do we need to ditch this method in favor of the Solr/Sunspot pagination?
-    def fetch_paginated(options, page, per_page)
-      row_count = send("#{options[:view_name]}_count", options.merge(:include_docs => false))['rows'].size
-      per_page = row_count if per_page == "all"
-      [row_count, self.paginate(options.merge(:design_doc => self.name, :page => page, :per_page => per_page, :include_docs => true))]
-    end
+    # def fetch_paginated(options, page, per_page)
+    #   row_count = send("#{options[:view_name]}_count", options.merge(:include_docs => false))['rows'].size
+    #   per_page = row_count if per_page == "all"
+    #   [row_count, self.paginate(options.merge(:design_doc => self.name, :page => page, :per_page => per_page, :include_docs => true))]
+    # end
   end
 
   def create_unique_id
