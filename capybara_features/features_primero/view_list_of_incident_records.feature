@@ -1,5 +1,5 @@
 # JIRA PRIMERO-279
-@javascript @primero
+@javascript @primero @search
 Feature: Primero View List of Incident Records
   I want to be able to access the record of a incident so that I can find and
   update my incident records with information about my interactions with the incident

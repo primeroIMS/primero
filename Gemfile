@@ -29,6 +29,7 @@ gem "zipruby-compat", :require => 'zipruby', :git => "https://github.com/jawspea
 
 gem 'sunspot_rails',  '2.1.1'
 gem 'sunspot_solr',   '2.1.1'
+gem 'sunspot_test'
 
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false

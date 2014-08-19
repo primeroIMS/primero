@@ -381,6 +381,8 @@ GEM
       rails (>= 3)
       sunspot (= 2.1.1)
     sunspot_solr (2.1.1)
+    sunspot_test (0.4.0)
+      sunspot_rails (>= 1.2.1)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -465,6 +467,7 @@ DEPENDENCIES
   simplecov-rcov (~> 0.2.3)
   sunspot_rails (= 2.1.1)
   sunspot_solr (= 2.1.1)
+  sunspot_test
   therubyracer (~> 0.11.4)
   thin (~> 1.6.1)
   uglifier (~> 2.0.1)

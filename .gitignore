@@ -48,7 +48,11 @@ coverage/
 spec/reports/
 capybara_features/reports/
 .ruby-gemset
-solr/
+solr/data
+solr/pids
+solr/development
+solr/default
+solr/test
 jmeter/logs/
 jmeter/*.log
 jmeter/*.csv
