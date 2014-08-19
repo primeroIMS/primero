@@ -98,7 +98,7 @@ module Searchable
       Field.all_filterable_numeric_field_names(self.parent_form)
     end
 
-    # I would recommend leaving unless more scheduler task added. Then move to own concern
+    # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date
     def schedule(scheduler)
       scheduler.every("24h") do
         self.reindex!
