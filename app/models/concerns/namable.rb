@@ -1,3 +1,4 @@
+#This describes all models that have a name and description fields, and may need to be retrieved from the database by name
 module Namable
   extend ActiveSupport::Concern
 
