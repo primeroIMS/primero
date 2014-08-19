@@ -31,7 +31,7 @@ describe "Child record field view model" do
 
   it "returns the html options tags for a select box with default option '(Select...)'" do
     @field = Field.new :type => Field::SELECT_BOX, :display_name => @field_name, :option_strings_text => "option 1\noption 2"
-    @field.select_options.should == [["(Select...)", ""], ["option 1", "option 1"], ["option 2", "option 2"]]
+    @field.select_options("", []).should == [["(Select...)", ""], ["option 1", "option 1"], ["option 2", "option 2"]]
   end
 
   it "should have form type" do

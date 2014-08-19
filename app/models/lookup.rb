@@ -26,10 +26,6 @@ class Lookup < CouchRest::Model::Base
     Lookup.by_name(:key => name).first
   end
 
-  # def has_permission(permission)
-    # self.permissions.include? permission
-  # end
-
   def sanitize_lookup_values
     self.lookup_values.reject! { |value| value.blank? } if self.lookup_values
   end
