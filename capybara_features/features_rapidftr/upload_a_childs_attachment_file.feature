@@ -100,6 +100,7 @@ Feature: Upload a childs attachment file
     Then I should see an audio element that can play the audio file named "sample.mp3"
     And I can download the "audio_link"
 
+  @wip
   Scenario: Photos and Audio field should always be visible
     Given I logout as "bob"
     And I am logged in as an admin

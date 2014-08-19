@@ -112,6 +112,14 @@ incident_fields = [
                 "Guest House - Hotel"
               ].join("\n")
             }),
+  Field.new({"name" => "incident_latitude",
+             "type" => "text_field",
+             "display_name_all" => "Latitude"
+            }),
+  Field.new({"name" => "incident_longitude",
+             "type" => "text_field",
+             "display_name_all" => "Longitude"
+            }),
   Field.new({"name" => "incident_location_1", # TODO: Customizable
              "type" => "text_field",
              "display_name_all" => "Area"
@@ -137,19 +145,24 @@ incident_fields = [
             }),
   Field.new({"name" => "incident_total_boys",
              "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Boys"
+             "display_name_all" => "Incident Total Victims/Survivors:Boys",
+             "autosum_group" => "incident_number_of_victims_survivors"
             }),
   Field.new({"name" => "incident_total_girls",
              "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Girls"
+             "display_name_all" => "Incident Total Victims/Survivors:Girls",
+             "autosum_group" => "incident_number_of_victims_survivors"
             }),
   Field.new({"name" => "incident_total_unknown",
              "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Unknown"
+             "display_name_all" => "Incident Total Victims/Survivors:Unknown",
+             "autosum_group" => "incident_number_of_victims_survivors"
             }), 
   Field.new({"name" => "incident_total_total",
              "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Total"
+             "display_name_all" => "Incident Total Victims/Survivors:Total",
+             "autosum_total" => true,
+             "autosum_group" => "incident_number_of_victims_survivors"
             }),
 ]
 

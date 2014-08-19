@@ -49,5 +49,10 @@ namespace :sunspot do
     Incident.all.all.each do |incident|
       incident.index!
     end
+
+    puts 'Reindexing Tracing Request...'
+    TracingRequest.all.all.each do |tracing|
+      tracing.index!
+    end
   end
 end

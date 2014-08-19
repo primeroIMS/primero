@@ -49,6 +49,8 @@ module SearchingForRecords
       redirect_to case_path @results.first
     elsif "Incident" == @className.name
       redirect_to incident_path @results.first
+    elsif "TracingRequest" == @className.name
+      redirect_to tracing_request_path @results.first
     end
   end
 

@@ -17,9 +17,9 @@ module FieldsHelper
 
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
-      "#{object.class.name.downcase}[#{field_keys.join('][')}]"
+      "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"
     else
-      field.tag_name_attribute(object.class.name.downcase)
+      field.tag_name_attribute(object.class.name.underscore.downcase)
     end
   end
 

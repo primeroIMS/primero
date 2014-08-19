@@ -4,6 +4,7 @@
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
 #JIRA PRIMERO-365
+#JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Attack on Hospitals Form
@@ -23,7 +24,6 @@ Feature: Attack on Hospitals Form
       | Number of Boys Killed                             | 23                          |
       | Number of Girls Killed                            | 15                          |
       | Number of Unknown Children Killed                 | 5                           |
-      | Total Children Killed                             | 43                          |
       | Number of Boys Injured                            | 6                           |
       | Number of Girls Injured                           | 10                          |
       | Number of Unknown Children Injured                | 0                           |

@@ -46,6 +46,9 @@ module NavigationHelpers
 
       when /incidents page/
         incidents_path(options)
+        
+      when /tracing requests page/
+        tracing_requests_path(options)
 
       when /children display page/
 

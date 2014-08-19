@@ -30,24 +30,6 @@ module RecordHelper
     self['last_updated_at'] || self['created_at']
   end
 
-  def update_age_birth_date
-    age_date_of_birth_fields.each do |key, pairs|
-      if key == "self"
-        #Update fields at the top level if needed.
-        pairs.each do |pair|
-          auto_calculate_age_date_of_birth(self, pair["age"], pair["date"])
-        end
-      elsif self[key].present? and self[key].is_a?(Array)
-        #Update fields in subforms if needed.
-        self[key].each do |item|
-          pairs.each do |pair|
-            auto_calculate_age_date_of_birth(item, pair["age"], pair["date"])
-          end
-        end
-      end
-    end
-  end
-
   def update_history
     if field_name_changes.any?
       changes = changes_for(field_name_changes)
@@ -64,7 +46,7 @@ module RecordHelper
                                   'user_name' => created_by,
                                   'user_organisation' => organisation_of(created_by),
                                   'datetime' => created_at,
-                                  'changes' => {"#{self.class.name.downcase}" => {:created => created_at}}
+                                  'changes' => {"#{self.class.name.underscore.downcase}" => {:created => created_at}}
                               })
   end
 
@@ -74,16 +56,17 @@ module RecordHelper
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
     new_audio = params[:child].delete("audio")
     delete_child_audio = params["delete_child_audio"].present?
-    update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child])
+    update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
   end
 
-  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties)
+  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties, delete_child_document_names = nil)
     update_properties(properties, user_name)
     self.delete_photos(photo_names)
     self.update_photo_keys
     self.photo = new_photo
     self.delete_audio if delete_child_audio
     self.audio = new_audio
+    self.delete_documents delete_child_document_names if delete_child_document_names.present?
   end
 
   def field_definitions
@@ -213,79 +196,6 @@ module RecordHelper
           (history["changes"]["recorded_audio"].present? and history["changes"]["recorded_audio"]["to"].present? and !history["changes"]["recorded_audio"]["to"].start_with?("audio-"))
     end
     given_histories
-  end
-
-  #Returns true or false if the field is an age or date of birth field, so we'll be auto calculated.
-  def is_age_date_of_birth?(field)
-    field.visible? and field.type != Field::SUBFORM and field.type != Field::SEPARATOR and
-    (field["name"] == "age" or field["name"] == "date_of_birth" or
-     field["name"].ends_with?("_date_of_birth") or field["name"].ends_with?("_age"))
-  end
-
-  #Returns the corresponding date of birth field based on the age field. For example
-  #if exists the field relation_age, it is possible to find out another field relation_date_of_birth.
-  def get_date_of_birth_field_name(field_name)
-    prefix = nil
-    if field_name == "age"
-      prefix = ""
-    elsif
-      prefix = field_name.gsub(/_age$/, "_")
-    end
-    prefix + "date_of_birth"
-  end
-
-  #Returns the list of pairs age and date of birth fields, so we'll be auto calculated.
-  def age_date_of_birth_fields
-    #get all fields that are not subforms.
-    all_visible_fields = FormSection.all.select(&:visible?).map{ |form_section| form_section.fields }.flatten
-    #map all to array of strings.
-    top_level_fields = all_visible_fields.select{ |field| is_age_date_of_birth?(field) }.map{ |field| field["name"] }.flatten
-
-    pairs = {}
-
-    #find out the age and date of birth field that should be consider as a pair,
-    #look up in the list of fields that are not subforms.
-    top_level_fields.select do |field_name|
-      field_name == "age" or field_name.ends_with?("_age")
-    end.each do |field_name|
-      date_field = get_date_of_birth_field_name(field_name)
-      if top_level_fields.include?(date_field)
-        pairs["self"] = [] if pairs["self"].blank?
-        pairs["self"] << { "age" => field_name, "date" => date_field }
-      end
-    end
-
-    #inspect the subforms to retrieve the age and date of birth fields.
-    all_visible_fields.select do |field|
-      field.visible? and field.type == Field::SUBFORM
-    end.each do |subform|
-      #fields name as an array of string.
-      subform_fields = subform.subform_section.fields.select{ |field| is_age_date_of_birth?(field) }.map{ |field| field["name"] }.flatten
-      #find out the age and date of birth field that should be consider as a pair,
-      #look up in the fields that are part of subforms.
-      subform_fields.select do |field_name|
-        field_name == "age" or field_name.ends_with?("_age")
-      end.each do |field_name|
-        date_field = get_date_of_birth_field_name(field_name)
-        if subform_fields.include?(date_field)
-          pairs[subform.name] = [] if pairs[subform.name].blank?
-          pairs[subform.name] << { "age" => field_name, "date" => date_field }
-        end
-      end
-    end
-
-    pairs
-  end
-
-  #auto calculate the value for fields age and date of birth. object is the container
-  #of the value, it can be self or it can be a subform record.
-  def auto_calculate_age_date_of_birth(object, age_field_name, date_field_name)
-    if object[age_field_name].blank? and object[date_field_name].present?
-      object[age_field_name] = "#{Date.today.year - Date.parse(object[date_field_name]).year}"
-    elsif object[date_field_name].blank? and object[age_field_name].present?
-      year_of_birth = Date.today.year - object[age_field_name].to_i
-      object[date_field_name] = Date.parse("01-Jan-#{year_of_birth}").strftime("%d-%b-%Y")
-    end
   end
 
 end

@@ -7,17 +7,20 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 #JIRA PRIMERO-365
+#JIRA PRIMERO-244
 
 @javascript @primero
 Feature: Family Details Form
   As a Social worker, I want to enter the information related to the family details.
-
-  Scenario: I create a case with family details information.
+  
+  Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
     And I click on "Family Details" in form group "Family / Partner Details"
+
+  Scenario: I create a case with family details information.
     And I fill in the following:
       | Size of Family                        | 3                  |
       | Notes about Family                    | Some Family Notes  |
@@ -135,11 +138,6 @@ Feature: Family Details Form
       |Other persons well known to the child                 | Juan                         |
 
   Scenario: I create a case that auto calculate date of birth for family detail
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "cases page"
-    And I press the "Create a New Case" button
-    And I press the "Family / Partner Details" button
-    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the 1st "Family Details Section" subform with the follow:
       | Age | 39 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
@@ -154,11 +152,6 @@ Feature: Family Details Form
       | Date of Birth | Calculated date 25 years ago  |
 
   Scenario: I create a case that auto calculate age for family detail
-    Given I am logged in as an admin with username "primero" and password "primero"
-    When I access "cases page"
-    And I press the "Create a New Case" button
-    And I press the "Family / Partner Details" button
-    And I click on "Family Details" in form group "Family / Partner Details"
     And I fill in the 1st "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1975 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
@@ -171,3 +164,15 @@ Feature: Family Details Form
     And I should see in the 2nd "Family Details Section" subform with the follow:
       | Age           | Calculated age from 1989  |
       | Date of Birth | 01-Jan-1989               |
+
+  Scenario: As a logged in user When I enter an invalid number in 'Age' field I should see a validation message
+    And I fill in the 1st "Family Details Section" subform with the follow:
+      | Name              | Jimmy     |
+      | Age               | Jimmy Age |
+    And I fill in the 2nd "Family Details Section" subform with the follow:
+      | Name              | Timmy     |
+      | Age               | 160       |
+    And I press "Save"
+    Then I should see "There were problems with the following fields:" on the page
+    And I should see "Family Details: Age must be a valid number" on the page
+    And I should see "Family Details: Age must be between 0 and 130" on the page

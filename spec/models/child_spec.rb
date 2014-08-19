@@ -401,6 +401,26 @@ describe Child do
       child.should_not be_valid
     end
 
+    it "should disallow uploading executable files for documents" do
+      child = Child.new
+      child.upload_document = [uploadable_executable_file]
+      child.should_not be_valid
+    end
+
+    it "should disallow uploading more than 10 documents" do
+      documents = []
+      11.times { documents.push uploadable_photo_gif }
+      child = Child.new
+      child.upload_document = documents
+      child.should_not be_valid
+    end
+
+    it "should disallow uploading a document larger than 10 megabytes" do
+      child = Child.new
+      child.upload_document = [uploadable_large_photo]
+      child.should_not be_valid
+    end
+
     it "should disallow file formats that are not supported audio formats" do
       child = Child.new
       child.audio = uploadable_photo_gif
@@ -595,6 +615,37 @@ describe Child do
       child.short_id.should == "7654321"
     end
 
+  end
+
+  describe "document attachments" do
+    before(:each) do
+      Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
+    end
+
+    context "with no documents" do
+      it "should have an empty set" do
+        Child.new.document_keys.should be_empty
+      end
+    end
+
+    context "with a single new document" do
+      before :each do
+        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+        @child = Child.create('upload_document' => [uploadable_photo], 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+      end
+
+      it "should only have one document on creation" do
+        @child.other_documents.size.should eql 1
+      end
+    end
+
+    context "with multiple documents" do
+      it "should only have one document on creation" do
+        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+        @child = Child.create('upload_document' => [uploadable_photo, uploadable_photo_jeff, uploadable_photo_jorge], 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        @child.other_documents.size.should eql 3
+      end
+    end
   end
 
   describe "photo attachments" do
@@ -1621,101 +1672,8 @@ describe Child do
         "description_all" => "Second Form Section Test",
       })
     end
-
-    it "should calculate age based on the date of birth" do
-      subform0_section = [{"subform0_date_of_birth" => "02-May-1984"},
-                          {"subform0_age" => "50", "subform0_date_of_birth" => "02-May-1993"}]
-
-      subform1_section = [{"subform1_age" => "", "subform1_date_of_birth" => "02-May-1989"},
-                          {"subform1_age" => "", "subform1_date_of_birth" => "02-May-1993"},
-                          {"subform1_age" => "", "subform1_date_of_birth" => "02-May-#{Date.today.year}"}]
-
-      child = create_child "Bob McBobberson", :date_of_birth => "02-May-1990", :another_date_of_birth => "30-Oct-1975",
-                           "subform1_section" => subform1_section, "subform2_section" => "", "1_age" => "56", 
-                           "2_date_of_birth" => "12-Dec-1930", "subform0_section" => subform0_section
-
-      age = Date.today.year - 1990
-      child['age'].should eq(age.to_s)
-      child['date_of_birth'].should eq("02-May-1990")
-
-      another_age = Date.today.year - 1975
-      child['another_age'].should eq(another_age.to_s)
-      child['another_date_of_birth'].should eq("30-Oct-1975")
-
-      subform1_1_age = Date.today.year - 1989
-      child['subform1_section'][0]["subform1_age"].should eq(subform1_1_age.to_s)
-      child['subform1_section'][0]["subform1_date_of_birth"].should eq("02-May-1989")
-
-      subform1_2_age = Date.today.year - 1993
-      child['subform1_section'][1]["subform1_age"].should eq(subform1_2_age.to_s)
-      child['subform1_section'][1]["subform1_date_of_birth"].should eq("02-May-1993")
-
-      child['subform1_section'][2]['subform1_age'].should eq("0")
-
-      subform0_1_age = Date.today.year - 1984
-      child['subform0_section'][0]["subform0_age"].should eq(subform0_1_age.to_s)
-      child['subform0_section'][0]["subform0_date_of_birth"].should eq("02-May-1984")
-
-      #Both values were present, so no calculation
-      child['subform0_section'][1]["subform0_age"].should eq("50")
-      child['subform0_section'][1]["subform0_date_of_birth"].should eq("02-May-1993")
-
-      child['subform2_section'].should eq("")
-
-      #Check field age and date of birth with no pair field.
-      child['1_age'].should eq("56".to_s)
-      child['1_date_of_birth'].should eq(nil) #There is no such field, existing fields are auto calculated.
-
-      child['2_date_of_birth'].should eq("12-Dec-1930")
-      child['2_age'].should eq(nil)  #There is no such field, existing fields are auto calculated.
-    end
-
-    it "should calculate date of birth based on the age" do
-      subform0_section = [{"subform0_age" => "35"},
-                          {"subform0_age" => "50", "subform0_date_of_birth" => "02-May-1993"}]
-
-      subform1_section = [{"subform1_age" => "45", "subform1_date_of_birth" => ""},
-                          {"subform1_age" => "31", "subform1_date_of_birth" => ""}]
-      
-      child = create_child "Bob McBobberson", :age => "24", :another_age => "39",
-                           "subform1_section" => subform1_section, "subform2_section" => "", "1_age" => "56", 
-                           "2_date_of_birth" => "12-Dec-1930", "subform0_section" => subform0_section
-
-      year_of_birth = Date.today.year - 24
-      child['age'].should eq("24");
-      child['date_of_birth'].should eq(Date.parse("01-Jan-#{year_of_birth}").strftime("%d-%b-%Y"))
-
-      another_year_of_birth = Date.today.year - 39
-      child['another_age'].should eq("39");
-      child['another_date_of_birth'].should eq(Date.parse("01-Jan-#{another_year_of_birth}").strftime("%d-%b-%Y"))
-      
-      year = Date.today.year - 45
-      child['subform1_section'][0]["subform1_age"].should eq("45")
-      child['subform1_section'][0]["subform1_date_of_birth"].should eq(Date.parse("01-Jan-#{year}").strftime("%d-%b-%Y"))
-        
-      year = Date.today.year - 31
-      child['subform1_section'][1]["subform1_age"].should eq("31")
-      child['subform1_section'][1]["subform1_date_of_birth"].should eq(Date.parse("01-Jan-#{year}").strftime("%d-%b-%Y"))
-        
-      year = Date.today.year - 35
-      child['subform0_section'][0]["subform0_age"].should eq("35")
-      child['subform0_section'][0]["subform0_date_of_birth"].should eq(Date.parse("01-Jan-#{year}").strftime("%d-%b-%Y"))
-
-      #Both values were present, so no calculation
-      child['subform0_section'][1]["subform0_age"].should eq("50")
-      child['subform0_section'][1]["subform0_date_of_birth"].should eq("02-May-1993")
-
-      child['subform2_section'].should eq("")
-
-      #Check field age and date of birth with no pair field.
-      child['1_age'].should eq("56".to_s)
-      child['1_date_of_birth'].should eq(nil) #There is no such field, existing fields are auto calculated.
-
-      child['2_date_of_birth'].should eq("12-Dec-1930")
-      child['2_age'].should eq(nil)  #There is no such field, existing fields are auto calculated.
-    end
   end
-  
+
   describe 'validate dates and date ranges fields' do
     before do
       fields = [Field.new({"name" => "a_date_field",

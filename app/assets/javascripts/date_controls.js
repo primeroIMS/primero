@@ -21,13 +21,14 @@ var DateControl = Backbone.View.extend({
 	setup_date_parser: function() {
 	  $.datepicker.initialize_datepicker = function(el) {
 	    el.datepicker({ 
-	      dateFormat: 'dd-M-yy',
+	      dateFormat: $.datepicker.defaultDateFormat,
 	      changeMonth: true,
 	      changeYear: true,
 	      constrainInput: true,
 	      yearRange: "c-130:c+10"
 	    });
 	  };
+	  $.datepicker.defaultDateFormat = 'dd-M-yy';
 		$.datepicker.inputFormats = this.allowed_formats;
 		$.datepicker.originalParseDate = $.datepicker.parseDate;
 		$.datepicker.parseDate = function (format, value, settings) {

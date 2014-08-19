@@ -1,7 +1,13 @@
 class CustomFieldsValidator
+  attr_accessor :options
+
   def initialize(target, options)
+    @options = options
     fields = retrieve_field_definitions(target)
     validated_fields = select_validated_fields(fields, options[:type])
+    if options[:pattern_name].present?
+      validated_fields.select!{ |field| field.name =~ options[:pattern_name] }
+    end
     validate_fields(validated_fields, target)
   end
 
@@ -26,10 +32,14 @@ class CustomFieldsValidator
   def validate_fields(fields, target)
     fields.each do |field|
       nested_field = field.form ? field.form.is_nested : false
-      if nested_field && target[field.form.unique_id] && target[field.form.unique_id].respond_to?(:each)
-        target[field.form.unique_id].each do |k, t|
-          validate_field(field, target, t)
+      if nested_field
+        fields_instance = target[field.form.unique_id]
+        if target.class.name == "Incident" and target["violations"].present? and target["violations"][field.form.unique_id].present?
+          fields_instance = target["violations"][field.form.unique_id]
         end
+        fields_instance.each do |k, t|
+          validate_field(field, target, t)
+        end if fields_instance.respond_to?(:each)
       elsif field[:type] == Field::DATE_RANGE
         validate_field(field, target, nil, "_from") && validate_field(field, target, nil, "_to")
       else
@@ -120,6 +130,15 @@ class DateFieldsValidator < CustomFieldsValidator
   end
 end
 
+class NumericRangeValidator < CustomFieldsValidator
+  def is_not_valid value
+    return !(value.to_f >= @options[:min] && value.to_f <= @options[:max])
+  end
+  def validation_message_for field
+    I18n.t("errors.models.child.value_range", :field_name => field.display_name, :min => @options[:min], :max => @options[:max])
+  end
+end
+
 module Extensions
   module CustomValidator
     module CustomFieldsValidator
@@ -127,7 +146,11 @@ module Extensions
         def validate(record)
           case @options[:type]
             when Field::NUMERIC_FIELD
-              validator = CustomNumericFieldsValidator
+              if @options[:min].present? and @options[:max].present? and @options[:pattern_name].present?
+                validator = NumericRangeValidator
+              else
+                validator = CustomNumericFieldsValidator
+              end
             when Field::TEXT_FIELD
               validator = CustomTextFieldsValidator
             when Field::TEXT_AREA
