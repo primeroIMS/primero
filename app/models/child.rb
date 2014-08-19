@@ -9,9 +9,10 @@ class Child < CouchRest::Model::Base
   include AttachmentHelper
   include AudioHelper
   include PhotoHelper
-  
+
   include SearchableRecord
-  
+  include Ownable
+
   before_save :update_photo_keys
 
   property :nickname
@@ -61,7 +62,7 @@ class Child < CouchRest::Model::Base
                     }
                  }
               }"
-              
+
       #TODO - move this to record concern
       ['created_at', 'name', 'flag_at', 'reunited_at'].each do |field|
         view "by_all_view_with_created_by_#{field}",
@@ -329,7 +330,7 @@ class Child < CouchRest::Model::Base
                      }
                    }
                 }"
-      
+
 
       view :by_ids_and_revs,
               :map => "function(doc) {
@@ -351,7 +352,7 @@ class Child < CouchRest::Model::Base
       ids_and_revs << row["value"]
     end
     ids_and_revs
-  end 
+  end
 
   def validate_has_at_least_one_field_value
     return true if field_definitions.any? { |field| is_filled_in?(field) }
@@ -415,7 +416,7 @@ class Child < CouchRest::Model::Base
     errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
     error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
-  
+
   def to_s
     if self['name'].present?
       "#{self['name']} (#{self['unique_identifier']})"
@@ -427,11 +428,11 @@ class Child < CouchRest::Model::Base
   def self.all
     view('by_name', {})
   end
-  
+
   def self.search_field
     "name"
   end
-  
+
   def self.view_by_field_list
     ['created_at', 'name', 'flag_at', 'reunited_at']
   end
@@ -439,12 +440,12 @@ class Child < CouchRest::Model::Base
   def self.flagged
     by_flag(:key => true)
   end
-  
+
   def createClassSpecificFields(fields)
     self['case_id'] = self.case_id
     self['name'] = fields['name'] || self.name || ''
     self['registration_date'] ||= DateTime.now.strftime("%d-%b-%Y")
-  end 
+  end
 
   def case_id
     self['unique_identifier']
@@ -455,7 +456,7 @@ class Child < CouchRest::Model::Base
     user_names_after_deletion.delete(self['created_by'])
     self['last_updated_by'].blank? || user_names_after_deletion.blank?
   end
-  
+
 
   def error_with_section(field, message)
     lookup = field_definitions.select{ |f| f.name == field.to_s }
@@ -497,5 +498,5 @@ class Child < CouchRest::Model::Base
   def key_for_content_type(content_type)
     Mime::Type.lookup(content_type).to_sym.to_s
   end
-  
+
 end
