@@ -2,7 +2,7 @@ var ViolationListReload = Backbone.View.extend({
   el: '.side-tab-content',
 
   events: {
-    'click .incident_reload_violations': 'reload'
+    "click select[id$='_violations_']": 'reload'
   },
 
   initialize: function() {
@@ -10,7 +10,7 @@ var ViolationListReload = Backbone.View.extend({
 
   //Refresh Stuff....
   reload: function(event) {
-    event.preventDefault();
+    //event.preventDefault();
     var violation_list = [];
     var count = 0;
 
