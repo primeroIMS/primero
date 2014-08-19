@@ -397,6 +397,26 @@ describe Child do
       child.should_not be_valid
     end
 
+    it "should disallow uploading executable files for documents" do
+      child = Child.new
+      child.upload_document = [uploadable_executable_file]
+      child.should_not be_valid
+    end
+
+    it "should disallow uploading more than 10 documents" do
+      documents = []
+      11.times { documents.push uploadable_photo_gif }
+      child = Child.new
+      child.upload_document = documents
+      child.should_not be_valid
+    end
+
+    it "should disallow uploading a document larger than 10 megabytes" do
+      child = Child.new
+      child.upload_document = [uploadable_large_photo]
+      child.should_not be_valid
+    end
+
     it "should disallow file formats that are not supported audio formats" do
       child = Child.new
       child.audio = uploadable_photo_gif
@@ -591,6 +611,37 @@ describe Child do
       child.short_id.should == "7654321"
     end
 
+  end
+
+  describe "document attachments" do
+    before(:each) do
+      Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
+    end
+
+    context "with no documents" do
+      it "should have an empty set" do
+        Child.new.document_keys.should be_empty
+      end
+    end
+
+    context "with a single new document" do
+      before :each do
+        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+        @child = Child.create('upload_document' => [uploadable_photo], 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+      end
+
+      it "should only have one document on creation" do
+        @child.other_documents.size.should eql 1
+      end
+    end
+
+    context "with multiple documents" do
+      it "should only have one document on creation" do
+        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+        @child = Child.create('upload_document' => [uploadable_photo, uploadable_photo_jeff, uploadable_photo_jorge], 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        @child.other_documents.size.should eql 3
+      end
+    end
   end
 
   describe "photo attachments" do

@@ -67,6 +67,7 @@ RapidFTR::Application.routes.draw do
   match '/children/:id/photo' => 'children#update_photo', :as => :update_photo, :via => :put
   match '/children/:child_id/photos_index' => 'child_media#index', :as => :photos_index, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/photos' => 'child_media#manage_photos', :as => :manage_photos, :via => [:post, :get, :put, :delete]
+  match '/children/:child_id/document/:document_id' => 'child_media#download_document', :as => :child_document, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/audio(/:id)' => 'child_media#download_audio', :as => :child_audio, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/photo/:photo_id' => 'child_media#show_photo', :as => :child_photo, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/photo' => 'child_media#show_photo', :as => :child_legacy_photo, :via => [:post, :get, :put, :delete]
@@ -104,6 +105,18 @@ RapidFTR::Application.routes.draw do
 
     # resources :attachments, :only => :show
     # resource :duplicate, :only => [:new, :create]
+  end
+
+#######################
+# TRACING REQUESTS URLS
+#######################  
+  resources :tracing_requests do
+    collection do
+      # post :sync_unverified
+      post :reindex
+      # get :advanced_search
+      get :search
+    end
   end
 
 #######################
@@ -208,6 +221,7 @@ RapidFTR::Application.routes.draw do
   resources :system_logs, :only => :index
   match '/children/:id/history' => 'child_histories#index', :as => :child_history, :via => :get
   match '/incidents/:id/history' => 'incident_histories#index', :as => :incident_history, :via => :get
+  match '/tracing_requests/:id/history' => 'tracing_request_histories#index', :as => :tracing_request_history, :via => :get
   match '/cases/:id/history' => 'child_histories#index', :as => :cases_history, :via => :get
   match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
 

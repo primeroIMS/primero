@@ -38,6 +38,9 @@
 //= require age_birth_date
 //= require hidden_text_field.js
 //= require date_range_controls.js
+//= require document_upload.js
+//= require autosum_fields.js
+//= require tick_box_field.js
 
 
 $(function(){ $(document).foundation(); });

@@ -93,7 +93,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "documents_carried",
              "type" => "textarea",
-             "display_name_all" => "List Details of any documents carried by the child"
+             "display_name_all" => "List of documents carried by the child"
             }),
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,

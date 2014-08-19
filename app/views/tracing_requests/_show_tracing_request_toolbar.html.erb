@@ -1,0 +1,38 @@
+<li>
+    <%= link_to t("tracing_request.change_log"), tracing_request_history_path(@tracing_request), class: 'green-button' %>
+</li>
+
+<% if can? :update, tracing_request %>
+    <%#
+        TODO: We are taking out the "investigated" and "reunied" buttons.
+        Unlikely that we will put them back in. Delete the code in the future.
+    %>
+    <% if false %>
+    <% if @tracing_request.flag? %>
+        <li>
+            <div class="dropdown_btn dropdown_form">
+                <%= render 'investigated', tracing_request: @tracing_request %>
+            </div>
+        </li>
+    <% end %>
+    <li>
+        <div class="dropdown_btn dropdown_form">
+            <%= render 'reunited', tracing_request: @tracing_request %>
+        </div>
+    </li>
+    <li>
+        <div class="dropdown_btn dropdown_form">
+            <%= render 'suspect_flag', tracing_request: @tracing_request %>
+        </div>
+    </li>
+    <% end %>
+<% end %>
+<% if false %>
+<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, tracing_request)} %>
+    <li>
+        <div class="btn dropdown_btn btn_export">
+            <%= render 'export' %>
+        </div>
+    </li>
+<% end %>
+<% end %>

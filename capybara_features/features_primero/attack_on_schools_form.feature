@@ -4,6 +4,7 @@
 #JIRA PRIMERO-352
 #JIRA PRIMERO-363
 #JIRA PRIMERO-365
+#JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Attack on Schools Form
@@ -29,11 +30,9 @@ Feature: Attack on Schools Form
       | Number of Boys Killed                             | 100                                         |
       | Number of Girls Killed                            | 101                                         |
       | Number of Unknown Children Killed                 | 102                                         |
-      | Total Children Killed                             | 303                                         |
       | Number of Boys Injured                            | 103                                         |
       | Number of Girls Injured                           | 104                                         |
       | Number of Unknown Children Injured                | 105                                         |
-      | Total Children Injured                            | 312                                         |
       | Number of Staff Killed                            | 106                                         |
       | Number of Staff Injured                           | 107                                         |
       | Number of Other Adults Killed                     | 108                                         |

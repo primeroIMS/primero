@@ -32,35 +32,45 @@ attack_on_hospitals_subform_fields = [
             }),
   Field.new({"name" => "violation_boys_killed_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Boys Killed"
+             "display_name_all" => "Number of Boys Killed",
+             "autosum_group" => "attack_on_hospitals_number_of_children_killed"
             }),
   Field.new({"name" => "violation_girls_killed_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Girls Killed"
+             "display_name_all" => "Number of Girls Killed",
+             "autosum_group" => "attack_on_hospitals_number_of_children_killed"
             }),
   Field.new({"name" => "violation_unknown_killed_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Unknown Children Killed"
+             "display_name_all" => "Number of Unknown Children Killed",
+             "autosum_group" => "attack_on_hospitals_number_of_children_killed"
             }),
   Field.new({"name" => "violation_total_killed_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Total Children Killed"
+             "display_name_all" => "Total Children Killed",
+             "autosum_total" => true,
+             "autosum_group" => "attack_on_hospitals_number_of_children_killed"
             }),
   Field.new({"name" => "violation_boys_injured_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Boys Injured"
+             "display_name_all" => "Number of Boys Injured",
+             "autosum_group" => "attack_on_hospitals_number_of_children_injured"
             }),
   Field.new({"name" => "violation_girls_injured_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Girls Injured"
+             "display_name_all" => "Number of Girls Injured",
+             "autosum_group" => "attack_on_hospitals_number_of_children_injured"
             }),
   Field.new({"name" => "violation_unknown_injured_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Unknown Children Injured"
+             "display_name_all" => "Number of Unknown Children Injured",
+             "autosum_group" => "attack_on_hospitals_number_of_children_injured"
             }),
   Field.new({"name" => "violation_total_injured_attack_hospital",
              "type" => "numeric_field",
-             "display_name_all" => "Total Children Injured"
+             "display_name_all" => "Total Children Injured",
+             "autosum_total" => true,
+             "autosum_group" => "attack_on_hospitals_number_of_children_injured"
             }),
   Field.new({"name" => "hospital_staff_killed_attack",
              "type" => "numeric_field",

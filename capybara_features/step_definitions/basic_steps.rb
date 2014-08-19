@@ -60,6 +60,9 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
         if content.start_with?("<Date Range")
           content = content.gsub("<Date Range>", "").strip
           find(:xpath, ".//span[@class='value']/..").text.should eq(content)
+        elsif content.start_with?("<Documents>")
+          content = content.gsub("<Documents>", "").strip
+          find(:xpath, ".//div[@class='documents']", :text => content)
         else
           #Find the element that represent the value.
           find(:xpath, ".//span[@class='value']", :text => content)
@@ -171,6 +174,15 @@ end
 def update_subforms_field(num, subform, fields)
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
+  
+  #in viewing expand subforms if not already, make visible the fields we are testing.
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+                         "//div[@class='row collapse_expand_subform_header']" +
+                         "//span[contains(@class, 'collapse_expand_subform')]")
+  if (collapse_expand[:class].end_with?("collapsed"))
+    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+  end
+
   scope = "//div[@id='subform_container_#{subform}_#{num}']"
   within(:xpath, scope) do
     fields.rows_hash.each do |name, value|
@@ -188,6 +200,10 @@ def update_subforms_field(num, subform, fields)
         end
       elsif value.start_with?("<Radio>")
         step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{name}" radio button within "#{scope}"}
+      elsif value.start_with?("<Tickbox>")
+        label = find "//label", :text => name, :visible => true
+        checkbox_id = label["for"]
+        check("#{checkbox_id}", :visible => true)
       else
         step %Q{I fill in "#{name}" with "#{value}"}
       end
@@ -264,12 +280,23 @@ When /^I fill in the basic details of a child$/ do
   fill_in("Age", :with => "30")
 end
 
+When /^I attach a document "([^"]*)"$/ do |document_path|
+    step %Q{I attach the file "#{document_path}" to "child_upload_document_1"}
+end
+
 When /^I attach a photo "([^"]*)"$/ do |photo_path|
     step %Q{I attach the file "#{photo_path}" to "child_photo0"}
 end
 
 When /^I attach an audio file "([^"]*)"$/ do |audio_path|
     step %Q{I attach the file "#{audio_path}" to "child[audio]"}
+end
+
+When /^I attach the following documents:$/ do |table|
+  table.raw.each_with_index do |document, i|
+    step %Q{I attach the file "#{document.first}" to "child_upload_document_#{i+1}"}
+    step %Q{I click on the "Add another document" link}
+  end
 end
 
 When /^I attach the following photos:$/ do |table|
