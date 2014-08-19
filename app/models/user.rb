@@ -21,6 +21,8 @@ class User < CouchRest::Model::Base
   property :role_ids, :type => [String]
   property :time_zone, :default => "UTC"
   property :locale
+  property :module_ids, :type => [String]
+  property :direct_report_user_ids, :type => [String]
 
   attr_accessor :password_confirmation, :password
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]

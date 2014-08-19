@@ -6,9 +6,10 @@ module Ownable
 
     property :owned_by_id
     property :assigned_user_ids, :type => [String]
+    property :module_id
 
     def owner
-      User.get self.owned_by_id  if self.owned_by_id
+      User.get(self.owned_by_id)  if self.owned_by_id
     end
 
     #Nothe this returns all associated usres, including the owner
@@ -19,6 +20,10 @@ module Ownable
       else
         []
       end
+    end
+
+    def module
+      Module.get(self.module_id) if self.module_id
     end
 
   end
