@@ -5,6 +5,7 @@
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
 #JIRA PRIMERO-244
+#JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Killing Form
@@ -22,7 +23,6 @@ Feature: Killing Form
       | Number of victims: boys                                                            | 1                                      |
       | Number of victims: girls                                                           | 2                                      |
       | Number of victims: unknown                                                         | 3                                      |
-      | Number of total victims                                                            | 6                                      |
       | Method                                                                             | <Select> Summary                       |
       | Cause                                                                              | <Select> IED                           |
       | Details                                                                            | Some details                           |

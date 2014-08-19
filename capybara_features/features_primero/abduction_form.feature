@@ -4,6 +4,7 @@
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
+#JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Abduction Form
@@ -19,7 +20,6 @@ Feature: Abduction Form
       | Number of survivors: boys               | 1                   |
       | Number of survivors: girls              | 2                   |
       | Number of survivors: unknown            | 3                   |
-      | Number of total survivors               | 6                   |
       | Category                                | <Select> Other      |
       | Cross Border                            | <Radio> Yes         |
       | Location where they were abducting from | Some location       |

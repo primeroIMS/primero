@@ -4,6 +4,7 @@
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
+#JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Recruitment Form
@@ -19,7 +20,6 @@ Feature: Recruitment Form
       | Number of survivors: boys    | 1 |
       | Number of survivors: girls   | 2 |
       | Number of survivors: unknown | 3 |
-      | Number of total survivors    | 6 |
       | Forced vs. Voluntary         | <Radio> Forced |
       | Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)? | <Radio> Yes |
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Conscription<Choose>Lack of Basic Services<Choose>Idealism |

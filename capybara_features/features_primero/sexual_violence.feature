@@ -5,6 +5,7 @@
 #JIRA PRIMERO-363
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
+#JIRA PRIMERO-283
 
 @javascript @primero
 Feature: Sexual Violence Form
@@ -21,7 +22,6 @@ Feature: Sexual Violence Form
       | Number of survivors: boys                                                           | 1                                                        |
       | Number of survivors: girls                                                          | 2                                                        |
       | Number of survivors: unknown                                                        | 3                                                        |
-      | Number of total survivors                                                           | 6                                                        |
       | Type of Violence                                                                    | <Choose>Forced Marriage<Choose>Forced Sterilization      |
       | Type of GBV                                                                         | <Select> Denial of Resources, Opportunities, or Services |
       | If Non-GBV, describe                                                                | describe: It is not a GBV                                |
