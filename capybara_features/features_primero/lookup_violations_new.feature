@@ -38,7 +38,8 @@ Feature: Lookup Violations New
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
-      | Number of survivors: boys    | 1 |
+      | Number of survivors: boys    | 1                    |
+      | Cause                        | <Select> Landmines   |
     And I press the "Individual Details" button
     Then the "Violations" select box should have the following options:
       | label                     | selected? |
@@ -67,74 +68,78 @@ Feature: Lookup Violations New
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
-      | Number of survivors: boys    | 1 |
+      | Number of survivors: boys    | 1                    |
+      | Cause                        | <Select> Landmines   |
     And I press the "Reload Violations" button
     And I press the "Individual Details" button
     Then the "Violations" select box should have the following options:
       | label                     | selected? |
-      | maiming_0                 | no        |
+      | Maiming Landmines 0       | no        |
     And I press the "Group Details" button
     And I add a "Group Details Section" subform
     Then the "Violations" select box in the 1st "Group Details Section" subform should have the following options:
       | label                     | selected? |
-      | maiming_0                 | no        |
+      | Maiming Landmines 0       | no        |
     And I press the "Source" button
     And I add a "Source Subform Section" subform
     Then the "Violations" select box in the 1st "Source Subform Section" subform should have the following options:
       | label                     | selected? |
-      | maiming_0                 | no        |
+      | Maiming Landmines 0       | no        |
     And I press the "Perpetrator" button
     And I add a "Perpetrator Subform Section" subform
     Then the "Violations" select box in the 1st "Perpetrator Subform Section" subform should have the following options:
       | label                     | selected? |
-      | maiming_0                 | no        |
+      | Maiming Landmines 0       | no        |
     And I press the "Intervention" button
     Then the "Violations" select box should have the following options:
       | label                     | selected? |
-      | maiming_0                 | no        |
+      | Maiming Landmines 0       | no        |
       
   Scenario: As a logged in user, if I add multiple violations, after reload, the violations select should contain those violations
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
-      | Number of survivors: boys    | 1 |
+      | Number of survivors: boys    | 1                    |
+      | Cause                        | <Select> Landmines   |
     And I press the "Recruitment" button
     And I fill in the following:
-      | Number of survivors: boys    | 1 |
+      | Number of survivors: boys                                                         | 1                                                                  |
+      | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Conscription<Choose>Lack of Basic Services<Choose>Idealism |
     And I press the "Abduction" button
     And I fill in the following:
-      | Number of survivors: boys    | 1 |
+      | Number of survivors: boys               | 1                       |
+      | Category                                | <Select> Child Use      |
     And I press the "Reload Violations" button
     And I press the "Individual Details" button
     Then the "Violations" select box should have the following options:
-      | label                     | selected? |
-      | maiming_0                 | no        |
-      | recruitment_0             | no        |
-      | abduction_0               | no        |
+      | label                                                           | selected? |
+      | Maiming Landmines 0                                             | no        |
+      | Recruitment Conscription, Lack of Basic Services, Idealism 0    | no        |
+      | Abduction Child Use 0                                           | no        |
     And I press the "Group Details" button
     And I add a "Group Details Section" subform
     Then the "Violations" select box in the 1st "Group Details Section" subform should have the following options:
-      | label                     | selected? |
-      | maiming_0                 | no        |
-      | recruitment_0             | no        |
-      | abduction_0               | no        |
+      | label                                                           | selected? |
+      | Maiming Landmines 0                                             | no        |
+      | Recruitment Conscription, Lack of Basic Services, Idealism 0    | no        |
+      | Abduction Child Use 0                                           | no        |
     And I press the "Source" button
     And I add a "Source Subform Section" subform
     Then the "Violations" select box in the 1st "Source Subform Section" subform should have the following options:
-      | label                     | selected? |
-      | maiming_0                 | no        |
-      | recruitment_0             | no        |
-      | abduction_0               | no        |
+      | label                                                           | selected? |
+      | Maiming Landmines 0                                             | no        |
+      | Recruitment Conscription, Lack of Basic Services, Idealism 0    | no        |
+      | Abduction Child Use 0                                           | no        |
     And I press the "Perpetrator" button
     And I add a "Perpetrator Subform Section" subform
     Then the "Violations" select box in the 1st "Perpetrator Subform Section" subform should have the following options:
-      | label                     | selected? |
-      | maiming_0                 | no        |
-      | recruitment_0             | no        |
-      | abduction_0               | no        |
+      | label                                                           | selected? |
+      | Maiming Landmines 0                                             | no        |
+      | Recruitment Conscription, Lack of Basic Services, Idealism 0    | no        |
+      | Abduction Child Use 0                                           | no        |
     And I press the "Intervention" button
     Then the "Violations" select box should have the following options:
-      | label                     | selected? |
-      | maiming_0                 | no        |
-      | recruitment_0             | no        |
-      | abduction_0               | no        |
+      | label                                                           | selected? |
+      | Maiming Landmines 0                                             | no        |
+      | Recruitment Conscription, Lack of Basic Services, Idealism 0    | no        |
+      | Abduction Child Use 0                                           | no        |
