@@ -2,6 +2,8 @@
 <%= env %>:
   solr:
     hostname: <%= @hostnames[env] %>
-    port: <%= @ports[env]  %>
+    port: 8983
     log_level: <%= @log_levels[env] %>
+    pid_dir: tmp/pids
+    path: /solr/<%= env %>
 <% end %>

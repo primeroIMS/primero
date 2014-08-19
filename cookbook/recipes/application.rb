@@ -145,21 +145,21 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   group node[:primero][:app_group]
 end
 
+execute_bundle 'restart-solr' do
+  command "rake sunspot:solr:start"
+end
+
+# TODO: This will have to be subtle. Will need to define "what is sutble"?
+execute_bundle 'reindex-solr' do
+  command "rake sunspot:reindex"
+end
+
 execute_bundle 'setup-db' do
   command "rake db:seed db:migrate"
 end
 
 execute_bundle 'precompile-assets' do
   command "rake app:assets_precompile"
-end
-
-execute_bundle 'restart-solr' do
-  command "rake sunspot:solr:restart"
-end
-
-# TODO: This will have to be subtle. Will need to define "what is sutble"?
-execute_bundle 'reindex-solr' do
-  command "rake sunspot:reindex"
 end
 
 execute_bundle 'restart-scheduler' do

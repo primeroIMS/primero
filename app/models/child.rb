@@ -12,7 +12,6 @@ class Child < CouchRest::Model::Base
   include PhotoHelper
   include Record
   include Searchable
-  include Scheduler
   include DocumentHelper
   
   before_save :update_photo_keys
