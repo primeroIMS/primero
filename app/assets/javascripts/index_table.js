@@ -55,8 +55,8 @@ var IndexTable = Backbone.View.extend({
   },
 
   set_current_scope: function() {
-    current_scope = _primero.get_param('scope').replace('scope[', '').replace(']', '');
-    console.log(current_scope)
+    current_scope = _primero.get_param('scope');
+    current_scope = current_scope ? current_scope.replace('scope[', '').replace(']', '') : false
     if (current_scope) {
       $('#record_scope').val(decodeURI(current_scope));
     }
