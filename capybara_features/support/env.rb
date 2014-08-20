@@ -16,6 +16,7 @@ require 'spec/support/child_finder'
 require 'json_spec/cucumber'
 require 'rack/test'
 require 'selenium/webdriver'
+require 'sunspot_test/cucumber'
 
 if ENV["COVERAGE"] == 'true'
   require 'simplecov'

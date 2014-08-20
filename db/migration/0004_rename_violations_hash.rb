@@ -18,13 +18,12 @@ incidents.each do |incident|
       "sexual_violence_subform_section" => "sexual_violence"
     }
     incident.violations.keys.each { |k| incident.violations[ mappings[k] ] = incident.violations.delete(k) if mappings[k] }
-  end
 
-  if incident.valid?
-    puts "Saving changes to incident record #{incident.id}..."
-    incident.save!
-  else
-    puts "Incident #{incident.id} still not valid... not saving"
+    if incident.valid?
+      puts "Saving changes to incident record #{incident.id}..."
+      incident.save!
+    else
+      puts "Incident #{incident.id} still not valid... not saving"
+    end
   end
-
 end

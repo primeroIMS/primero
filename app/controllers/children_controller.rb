@@ -1,8 +1,8 @@
 class ChildrenController < ApplicationController
   include RecordActions
-  include SearchingForRecords  
-  
-  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]  
+  include RecordFilteringPagination
+
+  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
@@ -13,12 +13,15 @@ class ChildrenController < ApplicationController
 
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
-    @filter = params[:filter] || params[:status] || "all"
-    @order = params[:order_by] || 'name'
-    per_page = params[:per_page] || ChildrenHelper::View::PER_PAGE
-    per_page = per_page.to_i unless per_page == 'all'
 
-    filter_children per_page
+    search = Child.list_records filter, order, pagination, current_user_name
+    @children = search.results
+    @total_records = search.total
+    @per_page = per_page
+
+    # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
+    # index average 400ms to 600ms without and 1000ms to 3000ms with.
+    @highlighted_fields = FormSection.sorted_highlighted_fields
 
     respond_to do |format|
       format.html
@@ -29,7 +32,6 @@ class ChildrenController < ApplicationController
           redirect_to :action => :index and return
         end
       end
-
       respond_to_export format, @children
     end
   end
@@ -268,34 +270,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def filter_children(per_page)
-    total_rows, children = children_by_user_access(@filter, per_page)
-    @children = paginated_collection children, total_rows
-  end
-
-  def children_by_user_access(filter_option, per_page)
-    keys = [filter_option]
-    params[:scope] ||= {}
-    options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_#{params[:order_by] || 'name'}".to_sym}
-    unless  can?(:view_all, Child)
-      keys = [filter_option, current_user_name]
-      options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_with_created_by_#{params[:order_by] || 'created_at'}".to_sym}
-    end
-    if ['created_at', 'reunited_at', 'flag_at'].include? params[:order_by]
-      options.merge!({:descending => true, :startkey => [keys, {}].flatten, :endkey => keys})
-    else
-      options.merge!({:startkey => keys, :endkey => [keys, {}].flatten})
-    end
-    Child.fetch_paginated(options, (params[:page] || 1).to_i, per_page)
-  end
-
-  def paginated_collection instances, total_rows
-    page = params[:page] || 1
-    WillPaginate::Collection.create(page, ChildrenHelper::View::PER_PAGE, total_rows) do |pager|
-      pager.replace(instances)
-    end
-  end
-
   def update_child_from params
     child = @child || Child.get(params[:id]) || Child.new_with_user_name(current_user, params[:child])
     authorize! :update, child
@@ -333,7 +307,7 @@ class ChildrenController < ApplicationController
   def export_filename(children, export_task)
     (children.length == 1 ? children.first.short_id : current_user_name) + '_' + export_task.id.to_s + '.zip'
   end
-  
+
   def set_class_name
     @className = Child
   end

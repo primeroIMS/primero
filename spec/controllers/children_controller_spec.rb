@@ -126,12 +126,12 @@ describe ChildrenController do
         it "should assign all childrens as @childrens" do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
-          children = [mock_child(@stubs)]
+          children = mock_child(@stubs)
           @status ||= "all"
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:fetch_paginated).with(@options, page, per_page).and_return([1, children])
+          Child.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldadmin").and_return(children)
 
-          get :index, :status => @status
+          get :index, :scope => @status
           assigns[:children].should == children
         end
       end
@@ -147,13 +147,15 @@ describe ChildrenController do
         end
 
         it "should assign the children created by the user as @childrens" do
-          children = [mock_child(@stubs)]
+          children = mock_child(@stubs)
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           @status ||= "all"
+          order = {:created_at=>:desc}
+
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:fetch_paginated).with(@options, page, per_page).and_return([1, children])
-          @params.merge!(:status => @status)
+          Child.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(children)
+          @params.merge!(:scope => @status)
           get :index, @params
           assigns[:children].should == children
         end
@@ -170,7 +172,7 @@ describe ChildrenController do
 
       context "when status is passed for field worker" do
         before { @status = "all"}
-        before {@options = {:startkey=>["all", "fakefieldworker"], :endkey=>["all","fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
+        before {@options = {:page=>1, :per_page=>20}}
 
         it_should_behave_like "viewing children as a field worker"
       end
@@ -518,27 +520,30 @@ describe ChildrenController do
       assigns[:search].should be_nil
     end
 
-    it "should render error if search is invalid" do
-      get(:search, :format => 'html', :query => '2'*160)
-      search = assigns[:search]
-      search.errors.should_not be_empty
-    end
+    # TODO: full text searching not implemented yet.
+    # it "should render error if search is invalid" do
+    #   get(:search, :format => 'html', :query => '2'*160)
+    #   search = assigns[:search]
+    #   search.errors.should_not be_empty
+    # end
 
-    it "should stay in the page if search is invalid" do
-      get(:search, :format => 'html', :query => '1'*160)
-      response.should render_template("search")
-    end
+    # TODO: full text searching not implemented yet.
+    # it "should stay in the page if search is invalid" do
+    #   get(:search, :format => 'html', :query => '1'*160)
+    #   response.should render_template("search")
+    # end
+    
+    # TODO: full text searching not implemented yet.
+    # it "performs a search using the parameters passed to it" do
+    #   search = double("search", :query => 'the child name', :valid? => true, :page => 1)
+    #   Search.stub(:new).and_return(search)
 
-    it "performs a search using the parameters passed to it" do
-      search = double("search", :query => 'the child name', :valid? => true, :page => 1)
-      Search.stub(:new).and_return(search)
-
-      fake_results = ["fake_child","fake_child"]
-      fake_full_results =  [:fake_child,:fake_child, :fake_child, :fake_child]
-      Child.should_receive(:search).with(search, 1).and_return([fake_results, fake_full_results])
-      get(:search, :format => 'html', :query => 'the child name')
-      assigns[:results].should == fake_results
-    end
+    #   fake_results = ["fake_child","fake_child"]
+    #   fake_full_results =  [:fake_child,:fake_child, :fake_child, :fake_child]
+    #   Child.should_receive(:search).with(search, 1).and_return([fake_results, fake_full_results])
+    #   get(:search, :format => 'html', :query => 'the child name')
+    #   assigns[:results].should == fake_results
+    # end
 
     describe "with no results" do
       before do
@@ -555,23 +560,24 @@ describe ChildrenController do
 
     end
   end
+  
+  # TODO: full text searching not implemented yet.
+  # describe "searching as field worker" do
+  #   before :each do
+  #     @session = fake_field_worker_login
+  #   end
+  #   it "should only list the children which the user has registered" do
+  #     search = double("search", :query => 'some_name', :valid? => true, :page => 1)
+  #     Search.stub(:new).and_return(search)
 
-  describe "searching as field worker" do
-    before :each do
-      @session = fake_field_worker_login
-    end
-    it "should only list the children which the user has registered" do
-      search = double("search", :query => 'some_name', :valid? => true, :page => 1)
-      Search.stub(:new).and_return(search)
+  #     fake_results = [:fake_child,:fake_child]
+  #     fake_full_results =  [:fake_child,:fake_child, :fake_child, :fake_child]
+  #     Child.should_receive(:search_by_created_user).with(search, @session.user_name, 1).and_return([fake_results, fake_full_results])
 
-      fake_results = [:fake_child,:fake_child]
-      fake_full_results =  [:fake_child,:fake_child, :fake_child, :fake_child]
-      Child.should_receive(:search_by_created_user).with(search, @session.user_name, 1).and_return([fake_results, fake_full_results])
-
-      get(:search, :query => 'some_name')
-      assigns[:results].should == fake_results
-    end
-  end
+  #     get(:search, :query => 'some_name')
+  #     assigns[:results].should == fake_results
+  #   end
+  # end
 
   it 'should export children using #respond_to_export' do
     child1 = build :child

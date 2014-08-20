@@ -1,6 +1,6 @@
 #JIRA PRIMERO-338
 
-@javascript @primero
+@javascript @primero @search
 Feature: Incident change log
   Test weather each incident has a proper change log attached to it.
 

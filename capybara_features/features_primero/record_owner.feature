@@ -1,6 +1,6 @@
 # JIRA PRIMERO-294
 
-@javascript @primero @clean_db
+@javascript @primero
 Feature: Record Owner
   As a Social worker, I want to enter information related to the record owner 
 

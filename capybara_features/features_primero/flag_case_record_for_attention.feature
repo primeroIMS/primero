@@ -1,7 +1,7 @@
 # JIRA PRIMERO-76
 # JIRA PRIMERO-346
 
-@javascript @primero @clean_db
+@javascript @primero @search
 Feature: Flag Case Record For Attention
   As a Administrator / supervisor, I want to to be able to flag case records that have issues 
   so that the social worker for the case will know there is an issue that needs to be corrected.

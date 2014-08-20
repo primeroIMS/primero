@@ -1,6 +1,6 @@
 # JIRA PRIMERO-96
 # JIRA PRIMERO-148
-@javascript @primero @clean_db
+@javascript @primero @search
 Feature: Edit Case Record
   As a admin user, I want to be able to edit a case record
 
