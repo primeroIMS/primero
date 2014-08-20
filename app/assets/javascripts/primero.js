@@ -9,7 +9,7 @@ _primero.clean_page_params = function(q_param) {
       for (var i = params_arr.length - 1; i >= 0; i -= 1) {
           param = params_arr[i].split("=")[0];
           for(var j = 0; j < q_param.length; j++) {
-            if (param === q_param[j]) {
+            if (param === q_param[j] || param.indexOf(q_param) === 0) {
                 params_arr.splice(i, 1);
             }
           }
@@ -28,6 +28,9 @@ _primero.get_param = function(param) {
     var key_val = params[i].split("=");
     if(key_val[0] == param){
       return key_val[1];
+    }
+    if(key_val[0].indexOf(param) === 0) {
+      return key_val[0] + ':' + key_val[1]
     }
   }
   return false;

@@ -150,7 +150,7 @@ class FormSection < CouchRest::Model::Base
 
   def all_filterable_numeric_fields
     self.fields.select  do |field|
-      [Field::NUMERIC_FIELD].include? field.type if field.multi_select
+      [Field::NUMERIC_FIELD].include? field.type
     end
   end
 
