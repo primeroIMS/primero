@@ -20,6 +20,7 @@ module RecordActions
     @form_sections = FormSection.find_form_groups_by_parent_form(@className.parent_form)
   end
 
+  #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
   def get_lookups
     @lookups = Lookup.all
   end
