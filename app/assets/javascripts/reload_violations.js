@@ -6,6 +6,9 @@ var ViolationListReload = Backbone.View.extend({
   },
 
   initialize: function() {
+    $('body').on('violation-removed', $.proxy(function() {
+      this.reload();
+    }, this));
   },
 
   //Refresh the options in the violations select
