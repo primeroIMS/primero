@@ -50,6 +50,9 @@ var ViolationListReload = Backbone.View.extend({
 
     // Find all violations selects and replace options with new list
     $(context).find("select[id$='_violations_']").each(function(x, violationSelectEl){
+      // Save the select values
+      var selectedItems = $(violationSelectEl).val();
+
       //Clear out existing options
       $(violationSelectEl).empty();
 
@@ -58,6 +61,10 @@ var ViolationListReload = Backbone.View.extend({
         var newOption = $('<option value="' + i + '">' + i + '</option>');
         $(violationSelectEl).append(newOption);
       });
+
+      //Add back the select values
+      $(violationSelectEl).val(selectedItems);
+
       $(violationSelectEl).trigger("chosen:updated");
     });
   },
