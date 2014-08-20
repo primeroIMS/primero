@@ -59,9 +59,8 @@ basic_identity_fields = [
             "display_name_all" => "Date of Birth"
             }),
   Field.new({"name" => "estimated",
-             "type" => "radio_button",
+             "type" => "tick_box",
              "display_name_all" => "Estimated",
-             "option_strings_text_all" => "Yes\nNo",
             }),
   Field.new({"name" => "physical_characteristics",
              "type" => "textarea",
