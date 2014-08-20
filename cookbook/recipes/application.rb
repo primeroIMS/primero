@@ -146,7 +146,7 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
 end
 
 execute_bundle 'restart-solr' do
-  command "rake sunspot:solr:start"
+  command "rake sunspot:solr:restart"
 end
 
 # TODO: This will have to be subtle. Will need to define "what is sutble"?
