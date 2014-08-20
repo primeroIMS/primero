@@ -20,7 +20,7 @@ protection_concern_fields = [
             }),
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
-             "display_name_all" => "Current Displacement Status",
+             "display_name_all" => "Displacement Status",
              "option_strings_text_all" => 
                           ["Resident",
                            "IDP",
