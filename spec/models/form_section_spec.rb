@@ -33,7 +33,7 @@ describe FormSection do
     select_box = Field.new(:name => "select_box", :type => Field::SELECT_BOX)
     radio_button = Field.new(:name => "radio_button", :type => Field::RADIO_BUTTON)
     f = FormSection.new(:fields => [text_field, text_area, select_box, radio_button])
-    f.all_searchable_fields.should == [text_field, text_area, select_box]
+    f.all_searchable_fields.should == [text_area]
   end
 
   describe '#unique_id' do

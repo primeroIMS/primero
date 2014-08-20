@@ -119,12 +119,39 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
+  # TODO: all searchable/filterable methods can possible be refactored
   def all_text_fields
     self.fields.select { |field| field.type == Field::TEXT_FIELD || field.type == Field::TEXT_AREA }
   end
 
   def all_searchable_fields
-    self.fields.select { |field| field.type == Field::TEXT_FIELD || field.type == Field::TEXT_AREA || field.type == Field::SELECT_BOX }
+    self.fields.select do |field|
+      [Field::TEXT_AREA].include? field.type
+    end
+  end
+
+  def all_searchable_date_fields
+    self.fields.select do |field|
+      [Field::DATE_FIELD, Field::DATE_RANGE].include? field.type
+    end
+  end
+
+  def all_filterable_fields
+    self.fields.select  do |field|
+      [Field::TEXT_FIELD, Field::RADIO_BUTTON, Field::SELECT_BOX, Field::CHECK_BOXES, Field::NUMERIC_FIELD].include? field.type unless field.multi_select
+    end
+  end
+
+  def all_filterable_multi_fields
+    self.fields.select  do |field|
+      [Field::SELECT_BOX].include? field.type if field.multi_select
+    end
+  end
+
+  def all_filterable_numeric_fields
+    self.fields.select  do |field|
+      [Field::NUMERIC_FIELD].include? field.type if field.multi_select
+    end
   end
 
   def self.get_by_unique_id unique_id

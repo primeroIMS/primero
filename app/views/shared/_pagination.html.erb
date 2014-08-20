@@ -1,7 +1,10 @@
+<% content_for :pagination_details do %>
 <script type="text/javascript">
 	var pagination_details = {
 		info: "<%= page_entries_info results %>",
-		current_page: "<%=  results.current_page %>",
-		total_pages: "<%=  results.total_pages %>"
+		start: "<%= results.offset %>",
+		total: "<%= total %>",
+		per: "<%= per %>"
 	}
 </script>
+<% end %>
