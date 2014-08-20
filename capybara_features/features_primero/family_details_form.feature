@@ -46,7 +46,7 @@ Feature: Family Details Form
       |Last Known Location                                   | Coco's Last Known Location                 |
       |Telephone                                             | Coco's Telephone                           |
       |Other persons well known to the child                 | Pedro                                      |
-    And I fill in the 2st "Family Details Section" subform with the follow:
+    And I fill in the 2nd "Family Details Section" subform with the follow:
       |Name                                                  | Pedro                                      |
       |How are they related to the child?                    | <Select> Father                            |
       |Is this person the caregiver?                         | <Radio> No                                 |
@@ -118,6 +118,8 @@ Feature: Family Details Form
       | Age | 39 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
       | Age | 25 |
+    And the value of "Date of Birth" in the 1st "Family Details Section" subform should be January 1, "39" years ago
+    And the value of "Date of Birth" in the 2nd "Family Details Section" subform should be January 1, "25" years ago
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see in the 1st "Family Details Section" subform with the follow:
@@ -132,6 +134,8 @@ Feature: Family Details Form
       | Date of Birth | 01-Jan-1975 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1989 |
+    And the value of "Age" in the 1st "Family Details Section" subform should be the calculated age of someone born in "1975"
+    And the value of "Age" in the 2nd "Family Details Section" subform should be the calculated age of someone born in "1989"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see in the 1st "Family Details Section" subform with the follow:

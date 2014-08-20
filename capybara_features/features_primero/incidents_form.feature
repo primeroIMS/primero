@@ -25,6 +25,7 @@ Feature: Incidents Form
     And I fill in "Incident Total Victims/Survivors:Unknown" with "5"
     And I fill in the following:
       | Date of Incident | <Date Range>from: '15-Jan-2013', to: '22-Feb-2013' |
+    And the value of "Incident Total Victims/Survivors:Total" should be "10"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see a value for "Incident Total Victims/Survivors:Total" on the show page with the value of "10"

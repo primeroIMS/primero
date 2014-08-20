@@ -29,6 +29,8 @@ Feature: Other Violation Form
       | Number of survivors: boys   | 2 |
       | Number of survivors: girls  | 3 |
       | Number of survivors: unknown| 4 |
+    And the value of "Number of total survivors" in the 1st "Other Violation" subform should be "6"
+    And the value of "Number of total survivors" in the 2nd "Other Violation" subform should be "9"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see in the 1st "Other Violation" subform with the follow:

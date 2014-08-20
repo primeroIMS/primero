@@ -30,6 +30,7 @@ Feature: Maiming Form
       | Mine Incident             | <Radio> Yes                            |
       | Was the survivor directly participating in hostilities at the time of the violation? | <Radio> No      |
       | Did the violation occur during or as a direct result of abduction?                   | <Radio> Unknown |
+    And the value of "Number of total survivors" in the 1st "Maiming" subform should be "6"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Maiming"

@@ -33,6 +33,7 @@ Feature: Tracing Request Inquirer
       | Additional info that could help in tracing? | It is at some place in the world  |
 
   Scenario: As a logged in user, I create a tracing request by fill up inquirer form
+    And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
     Then I should see "Tracing Request record successfully created" on the page
     And I should see a value for "Inquiry Status" on the show page with the value of "Open"
@@ -59,6 +60,7 @@ Feature: Tracing Request Inquirer
     And I should see a value for "Additional info that could help in tracing?" on the show page with the value of "It is at some place in the world"
 
   Scenario: As a logged in user, I edit a tracing request by changing inquirer form
+    And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
     And I press the "Edit" button
     And I fill in the following:
@@ -83,6 +85,7 @@ Feature: Tracing Request Inquirer
       | Last Location               | Update Last Location Value place |
       | Last Telephone              | Update Last Telephone Value      |
       | Additional info that could help in tracing? |  somewhere       |
+    And the value of "Age" should be the calculated age of someone born in "1991"
     And I press "Save"
     Then I should see "Tracing Request was successfully updated" on the page
     And I should see a value for "Inquiry Status" on the show page with the value of "Closed"

@@ -45,6 +45,8 @@ Feature: Denial of Humanitarian Access Form
       | Number of survivors: unknown              | 40     |
       | Adults                                    | 60     |
       | Population Affected by Service Disruption | 80000  |
+    And the value of "Number of total survivors" in the 1st "Denial Humanitarian Access" subform should be "60"
+    And the value of "Number of total survivors" in the 2nd "Denial Humanitarian Access" subform should be "90"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see in the 1st "Denial Humanitarian Access" subform with the follow:

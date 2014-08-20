@@ -34,6 +34,7 @@ Feature: Sexual Violence Form
       | Name of the service provider                                                        | Organization 1                                           |
       | Is this a GBV reporting organization?                                               | <Radio> Yes                                              |
       | Has the client had any previous incidents of GBV perpetrated against them?          | <Radio> No                                               |
+    And the value of "Number of total survivors" in the 1st "Sexual Violence" subform should be "6"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Sexual Violence"
