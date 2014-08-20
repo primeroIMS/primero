@@ -1,6 +1,6 @@
 # JIRA PRIMERO-449
 
-@javascript @primero
+@search @javascript @primero
 Feature: Survivor Information Form
   As an administrator, I want to be able to enter information about survivors.
 
@@ -10,11 +10,11 @@ Feature: Survivor Information Form
     And I press the "Create a New Case" button
     And I press the "Identification / Registration" button
     And I press the "Survivor Information" button
+    #TODO: Add Date of Birth when PRIMERO-455 is merged
     And I fill in the following:
       | Case Status                                                                                 | <Select> Transferred            |
       | Name                                                                                        | Tiki Thomas Taliaferro          |
       | Survivor Code                                                                               | BBB111                          |
-      | Date of Birth                                                                               | 04-May-1992                     |
       | Sex                                                                                         | <Select> Female                 |
       | Clan or Ethnicity                                                                           | <Select> Ethnicity1             |
       | Country of Origin                                                                           | <Select> Country1               |
@@ -36,7 +36,6 @@ Feature: Survivor Information Form
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
     And I should see a value for "Survivor Code" on the show page with the value of "BBB111"
-    And I should see a value for "Date of Birth" on the show page with the value of "04-May-1992"
     And I should see a value for "Sex" on the show page with the value of "Female"
     And I should see a value for "Clan or Ethnicity" on the show page with the value of "Ethnicity1"
     And I should see a value for "Country of Origin" on the show page with the value of "Country1"

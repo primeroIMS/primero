@@ -28,10 +28,15 @@ survivor_information_fields = [
              "type" => "text_field", 
              "display_name_all" => "Survivor Code"
             }),
-  Field.new({"name" => "gbv_date_of_birth",
-            "type" => "date_field",
-            "display_name_all" => "Date of Birth"
-            }),
+  # TODO: Uncomment Age and Date of Birth when PRIMERO-455 is merged.
+  # Field.new({"name" => "age",
+  #           "type" => "numeric_field",
+  #           "display_name_all" => "Age"
+  #           }),
+  # Field.new({"name" => "date_of_birth",
+  #           "type" => "date_field",
+  #           "display_name_all" => "Date of Birth"
+  #           }),
   Field.new({"name" => "gbv_sex",
              "type" => "select_box",
              "option_strings_text_all" => "Female\nMale",
