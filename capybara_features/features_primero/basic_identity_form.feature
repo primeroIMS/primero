@@ -16,6 +16,7 @@
 # JIRA PRIMERO-354
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-453
 
 @javascript @primero
 Feature: Basic Identity Form
@@ -37,7 +38,7 @@ Feature: Basic Identity Form
       | Name(s) given to child after separation? | <Radio> No                         |
       | Sex                                      | <Select> Male                      |
       | Date of Birth                            | 04-May-1992                        |
-      | Estimated                                | <Radio> No                         |
+      | Estimated                                | <Tickbox>                          |
       | Distinguishing Physical Characteristics  | Really tall, dark hair, brown eyes |
       | ICRC Ref No.                             | 131313                             |
       | RC ID No.                                | 141414                             |
@@ -71,7 +72,7 @@ Feature: Basic Identity Form
     And I should see a value for "Sex" on the show page with the value of "Male"
     And I should see the calculated Age of a child born in "1992"
     And I should see a value for "Date of Birth" on the show page with the value of "04-May-1992"
-    And I should see a value for "Estimated" on the show page with the value of "No"
+    And I should see a value for "Estimated" on the show page with the value of "Yes"
     And I should see a value for "Distinguishing Physical Characteristics" on the show page with the value of "Really tall, dark hair, brown eyes"
     And I should see a value for "ICRC Ref No." on the show page with the value of "131313"
     And I should see a value for "RC ID No." on the show page with the value of "141414"
@@ -107,7 +108,7 @@ Feature: Basic Identity Form
     And I should see a value for "Sex" on the show page with the value of ""
     And I should see a value for "Age" on the show page with the value of ""
     And I should see a value for "Date of Birth" on the show page with the value of ""
-    And I should see a value for "Estimated" on the show page with the value of ""
+    And I should see a value for "Estimated" on the show page with the value of "No"
     And I should see a value for "Distinguishing Physical Characteristics" on the show page with the value of ""
     And I should see a value for "ICRC Ref No." on the show page with the value of ""
     And I should see a value for "RC ID No." on the show page with the value of ""
