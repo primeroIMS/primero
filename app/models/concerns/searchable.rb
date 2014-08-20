@@ -7,7 +7,7 @@ module Searchable
     # TODO: Not sure how well this will work when the set of indexable fields changes with the form
     searchable do
       searchable_text_fields.each {|f| text f}
-      searchable_string_fields.each {|f| string f}
+      searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true}
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each {|f| string f}
@@ -15,7 +15,7 @@ module Searchable
       # TODO: boolean with have to change if we want to index arbitrary index fields
       boolean :duplicate
       boolean :flag
-      string :sortable_name
+      string :sortable_name, as: :sortable_name_sci
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self

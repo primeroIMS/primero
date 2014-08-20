@@ -80,4 +80,4 @@ Feature: Primero View List of Case Records
     And I click text "Previous"
     And I should see "kim" on the page
     And I visit cases page "2"
-    And I should see "vivian" on the page
+    And I should see "josh" on the page
