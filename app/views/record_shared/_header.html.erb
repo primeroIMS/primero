@@ -1,16 +1,16 @@
-<h1 class="no_border float_left"><%= t("cases.label") %></h1>
-<% if can? :create, Child %>
-    <%= link_to content_tag(:span, t("cases.register_new_case"), :class => 'create_user'), new_case_path, :class=>'btn green-button right' %>
+<h1 class="no_border float_left"><%= t("#{record.pluralize}.label") %></h1>
+<% if can? :create, model %>
+    <%= link_to content_tag(:span, t("#{record.pluralize}.register_new_#{record}"), :class => 'create_user'), new_polymorphic_path(record), :class=>'btn green-button right' %>
 <% end %>
 
 <%# TODO: Removing the export link temporarily %>
 <% if false %>
-<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, Child)} %>
+<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, model)} %>
 <div class="btn dropdown_btn">
-  <span class="export"><%= t("cases.export") %></span>
+  <span class="export"><%= t("#{record}.export") %></span>
   <div class="dropdown hide">
     <% RapidftrAddon::ExportTask.active.each do |export_task| %>
-      <% if can?("export_#{export_task.id}".to_sym, Child) %>
+      <% if can?("export_#{export_task.id}".to_sym, model) %>
         <%= link_to t("addons.export_task.#{export_task.id}.all"), children_path(:format => export_task.id, :per_page => :all), :class => "password-prompt" %>
       <% end %>
     <% end %>

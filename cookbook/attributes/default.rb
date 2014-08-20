@@ -18,8 +18,9 @@ default[:primero].tap do |p|
     c[:username] = 'primero'
   end
 
-  p[:solr_url] = 'http://localhost:8983/solr'
-  p[:local_solr_port] = 8983
+  p[:solr_hostname] = 'localhost'
+  p[:solr_port] = 8983
+  p[:solr_log_level] = 'INFO'
   p[:ruby_version] = '2.1.2'
   p[:ruby_patch] = 'railsexpress'
 end

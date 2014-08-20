@@ -1,103 +1,108 @@
 module Searchable
-  extend ActiveSupport::Concern  
-  
+  extend ActiveSupport::Concern
+
   included do
+    include Sunspot::Rails::Searchable
+
+    # TODO: Not sure how well this will work when the set of indexable fields changes with the form
+    searchable do
+      searchable_text_fields.each {|f| text f}
+      searchable_string_fields.each {|f| string f}
+      searchable_multi_fields.each {|f| string f, multiple: true}
+      # TODO: Left date as string. Getting invalid date format error
+      searchable_date_fields.each {|f| string f}
+      searchable_numeric_fields.each {|f| integer f}
+      # TODO: boolean with have to change if we want to index arbitrary index fields
+      boolean :duplicate
+      boolean :flag
+      string :sortable_name
+    end
+
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
-    
-    after_create :index_record
-    after_update :index_record
-    after_save :index_record
-    
-    def index_record
-      begin
-        self.class.build_solar_schema
-        Sunspot.index!(self)
-      rescue
-        Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
-      end
-      true
-    end
-  end
-  
-  class DocumentInstanceAccessor < Sunspot::Adapters::InstanceAdapter
-    def id
-      @instance.id
-    end
   end
 
-  class DocumentDataAccessor < Sunspot::Adapters::DataAccessor
-    def load(id)
-      @clazz.get(id)
-    end
-  end
+  # #TODO: Remove this, once we have satisied that its not neccessary to refresh Sunspot with every save
+  # def index_record
+  #   #TODO: Experiment with getting rid of the solr schema rebuild on EVERY save.
+  #   #      This should take place when the form sections change.
+  #   begin
+  #     #self.class.refresh_in_sunspot
+  #     Sunspot.index!(self)
+  #   rescue
+  #     Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
+  #   end
+  #   true
+  # end
 
-  module ClassMethods  
-    def sunspot_search(page_number, query = "")
-      self.build_solar_schema
+  module ClassMethods
 
-      begin
-        return paginated_and_full_results(page_number, query)
-      rescue
-        self.reindex!
-        Sunspot.commit
-        return paginated_and_full_results(page_number, query)
+    #Pull back all records from CouchDB that pass the filter criteria.
+    #Searching, filtering, sorting, and pagination is handled by Solr.
+    # TODO: Exclude duplicates I presume?
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
+      self.search do
+        filters.each{|filter,value| with(filter, value) unless value == 'all'} if filters.present?
+        with(:created_by, owner) if owner.present?
+        sort.each{|sort,order| order_by(sort, order)}
+        paginate pagination
       end
-
     end
 
-    def paginated_and_full_results(page_number, query)
-      full_result = []
-      get_search(nil, query).hits.each do |hit|
-        full_result.push hit.to_param
-      end
-      return get_search(page_number, query).results, full_result
-    end
-
+    # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
+    #      Currently nothing calls this?
     def reindex!
-      self.build_solar_schema
+      self.refresh_in_sunspot
       Sunspot.remove_all(self)
       self.all.each { |record| Sunspot.index!(record) }
     end
 
-    def get_search(page_number, query)
-      response = Sunspot.search(self) do |q|
-        q.fulltext(query)
-        q.without(:duplicate, true)
-        if page_number
-          q.paginate :page => page_number, :per_page => ::ChildrenHelper::View::PER_PAGE
-        else
-          q.paginate :per_page => ::ChildrenHelper::View::MAX_PER_PAGE
-        end
-        q.adjust_solr_params do |params|
-          params[:defType] = "lucene"
-          params[:qf] = nil
-        end
+
+    # TODO: What is going on with that date_fields loop?
+    #Refreshes Sunspot to index this class correctly after new field definitions were added.
+    # TODO: We should probably just get rid of this, or attach to a form rebuild
+    def refresh_in_sunspot
+      text_fields = searchable_text_fields
+      date_fields = searchable_date_fields
+      Sunspot.setup(self) do
+        text *text_fields
+        date *date_fields
+        date_fields.each { |date_field| date date_field }
+        boolean :duplicate
       end
-      response
     end
 
+    def searchable_text_fields
+      ["unique_identifier", "short_id",
+       "created_by", "created_by_full_name",
+       "last_updated_by", "last_updated_by_full_name",
+       "created_organisation"] + Field.all_searchable_field_names(self.parent_form)
+    end
 
-    def sunspot_matches(query = "")
-      self.build_solar_schema
+    def searchable_date_fields
+      ["created_at", "last_updated_at"] + Field.all_searchable_date_field_names(self.parent_form)
+    end
 
-      begin
-        return get_matches(query).results
-      rescue
+    def searchable_string_fields
+      ["unique_identifier", "short_id",
+       "created_by", "created_by_full_name",
+       "last_updated_by", "last_updated_by_full_name",
+       "created_organisation"] + Field.all_filterable_field_names(self.parent_form)
+    end
+
+    def searchable_multi_fields
+      Field.all_filterable_multi_field_names(self.parent_form)
+    end
+
+    def searchable_numeric_fields
+      Field.all_filterable_numeric_field_names(self.parent_form)
+    end
+
+    # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date
+    def schedule(scheduler)
+      scheduler.every("24h") do
         self.reindex!
-        Sunspot.commit
-        return get_matches(query).results
-      end
-    end
-
-    def get_matches(criteria)
-      Sunspot.search(self) do
-        fulltext(criteria, :minimum_match => 1)
-        adjust_solr_params do |params|
-          params[:defType] = "dismax"
-        end
       end
     end
   end
-
 end

@@ -1,11 +1,11 @@
-/*! DataTables 1.10.1
- * ©2008-2014 SpryMedia Ltd - datatables.net/license
+/*! DataTables 1.10.2
+ * Â©2008-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     DataTables
  * @description Paginate, search and order HTML tables
- * @version     1.10.1
+ * @version     1.10.2
  * @file        jquery.dataTables.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -113,7 +113,7 @@
 	
 	// U+2009 is thin space and U+202F is narrow no-break space, both used in many
 	// standards as thousands separators
-	var _re_formatted_numeric = /[',$£€¥%\u2009\u202F]/g;
+	var _re_formatted_numeric = /[',$Â£â‚¬Â¥%\u2009\u202F]/g;
 	
 	
 	var _empty = function ( d ) {
@@ -437,9 +437,9 @@
 		_fnCompatMap( init, 'pageLength',    'iDisplayLength' );
 		_fnCompatMap( init, 'searching',     'bFilter' );
 		// PRIMERO - ADDED 2 SETTINGS FOR PAGINATION
-		_fnCompatMap( init, 'primero_pages', 'aPrimeroPaginationPages' );
-		_fnCompatMap( init, 'primero_page',  'aPrimeroPaginationPage' );
-
+		_fnCompatMap( init, 'primero_start', 'aPrimeroPaginationStart' );
+		_fnCompatMap( init, 'primero_total', 'aPrimeroPaginationTotal' );
+	
 		// Column search objects are in an array, so it needs to be converted
 		// element by element
 		var searchCols = init.aoSearchCols;
@@ -1981,7 +1981,7 @@
 					'class':   oSettings.oClasses.sRowEmpty
 				} ).html( sZero ) )[0];
 		}
-	
+
 		/* Header and footer callbacks */
 		_fnCallbackFire( oSettings, 'aoHeaderCallback', 'header', [ $(oSettings.nTHead).children('tr')[0],
 			_fnGetDataMaster( oSettings ), iDisplayStart, iDisplayEnd, aiDisplay ] );
@@ -1990,10 +1990,13 @@
 			_fnGetDataMaster( oSettings ), iDisplayStart, iDisplayEnd, aiDisplay ] );
 	
 		var body = $(oSettings.nTBody);
-	
-		body.children().detach();
-		body.append( $(anRows) );
-	
+		
+		// PRIMERO - Only remove/add the table rows the first time.
+		if (iInitDisplayStart == 0) {
+			body.children().detach();
+			body.append( $(anRows) );
+	 	}
+
 		/* Call all required callback functions for the end of a draw */
 		_fnCallbackFire( oSettings, 'aoDrawCallback', 'draw', [oSettings] );
 	
@@ -2037,7 +2040,7 @@
 		// Let any modules know about the draw hold position state (used by
 		// scrolling internally)
 		settings._drawHold = holdPosition;
-	
+
 		_fnDraw( settings );
 	
 		settings._drawHold = false;
@@ -2976,34 +2979,40 @@
 					if ( column.bSearchable ) {
 						cellData = _fnGetCellData( settings, i, j, 'filter' );
 	
-						cellData = fomatters[ column.sType ] ?
-							fomatters[ column.sType ]( cellData ) :
-							cellData !== null ?
-								cellData :
-								'';
+						if ( fomatters[ column.sType ] ) {
+							cellData = fomatters[ column.sType ]( cellData );
+						}
+	
+						// Search in DataTables 1.10 is string based. In 1.11 this
+						// should be altered to also allow strict type checking.
+						if ( cellData === null ) {
+							cellData = '';
+						}
+	
+						if ( typeof cellData !== 'string' && cellData.toString ) {
+							cellData = cellData.toString();
+						}
 					}
 					else {
 						cellData = '';
 					}
 	
-					if ( cellData ) {
-						// If it looks like there is an HTML entity in the string,
-						// attempt to decode it so sorting works as expected. Note that
-						// we could use a single line of jQuery to do this, but the DOM
-						// method used here is much faster http://jsperf.com/html-decode
-						if ( cellData.indexOf && cellData.indexOf('&') !== -1 ) {
-							__filter_div.innerHTML = cellData;
-							cellData = __filter_div_textContent ?
-								__filter_div.textContent :
-								__filter_div.innerText;
-						}
-	
-						if ( cellData.replace ) {
-							cellData = cellData.replace(/[\r\n]/g, '');
-						}
-	
-						filterData.push( cellData );
+					// If it looks like there is an HTML entity in the string,
+					// attempt to decode it so sorting works as expected. Note that
+					// we could use a single line of jQuery to do this, but the DOM
+					// method used here is much faster http://jsperf.com/html-decode
+					if ( cellData.indexOf && cellData.indexOf('&') !== -1 ) {
+						__filter_div.innerHTML = cellData;
+						cellData = __filter_div_textContent ?
+							__filter_div.textContent :
+							__filter_div.innerText;
 					}
+	
+					if ( cellData.replace ) {
+						cellData = cellData.replace(/[\r\n]/g, '');
+					}
+	
+					filterData.push( cellData );
 				}
 	
 				row._aFilterData = filterData;
@@ -3356,15 +3365,15 @@
 				"fn": function( settings ) {
 					if ( modern ) {
 						var
-							start      = settings._iDisplayStart,
+							start      = settings.aPrimeroPaginationStart,
 							len        = settings._iDisplayLength,
 							visRecords = settings.fnRecordsDisplay(),
 							all        = len === -1,
-							// PRIMERO - OVERRIDING DATATABLES PAGINATION VARS
-							page = settings.aPrimeroPaginationPage - 1,
-							pages = settings.aPrimeroPaginationPages,
+							page = all ? 0 : Math.ceil( start / len ),
+							pages = all ? 1 : Math.ceil( visRecords / len ),
 							buttons = plugin(page, pages),
 							i, ien;
+	
 						for ( i=0, ien=features.p.length ; i<ien ; i++ ) {
 							_fnRenderer( settings, 'pageButton' )(
 								settings, features.p[i], i, buttons, page, pages
@@ -3416,7 +3425,7 @@
 	function _fnPageChange ( settings, action, redraw )
 	{
 		var
-			start     = settings._iDisplayStart,
+			start     = settings.aPrimeroPaginationStart,
 			len       = settings._iDisplayLength,
 			records   = settings.fnRecordsDisplay();
 	
@@ -3427,6 +3436,7 @@
 		else if ( typeof action === "number" )
 		{
 			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
+			redraw = false;
 			var prev_params = clean_page_params();
 			window.location.search = prev_params + '&page=' + (action + 1);
 		}
@@ -3436,31 +3446,22 @@
 		}
 		else if ( action == "previous" )
 		{
-			// start = len >= 0 ?
-			// 	start - len :
-			// 	0;
-	
-			// if ( start < 0 )
-			// {
-			//   start = 0;
-			// }
 			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
-			if (settings.aPrimeroPaginationPage > 1) {
-				var prev_params = clean_page_params();
-				window.location.search = prev_params + '&page=' + (parseInt(settings.aPrimeroPaginationPage) - 1);
+			var page = Math.ceil( start / len ),
+					prev_params = clean_page_params(),
+					redraw = false;
+			if(start > 0) {
+				window.location.search = prev_params + '&page=' + page;
 			}
 		}
 		else if ( action == "next" )
 		{
-			// if ( start + len < records )
-			// {
-			// 	start += len;
-			// }
-
 			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
-			if (settings.aPrimeroPaginationPage < settings.aPrimeroPaginationPages) {
-				var prev_params = clean_page_params();
-				window.location.search = prev_params + '&page=' + (parseInt(settings.aPrimeroPaginationPage) + 1);
+			var page = Math.ceil( start / len ) + 2,
+					prev_params = clean_page_params(),
+					redraw = false;
+			if ((parseInt(start) + parseInt(len)) < records) {
+				window.location.search = prev_params + '&page=' + page;
 			}
 		}
 		else if ( action == "last" )
@@ -4469,7 +4470,7 @@
 			sortCol,
 			displayMaster = oSettings.aiDisplayMaster,
 			aSort;
-	
+
 		// Resolve any column types that are unknown due to addition or invalidation
 		// @todo Can this be moved into a 'data-ready' handler which is called when
 		//   data is going to be used in the table?
@@ -6104,8 +6105,8 @@
 			] );
 			_fnMap( oSettings, oInit, [
 				// PRIMERO = ADDED 2 SETTINGS FOR PAGINATION
-				"aPrimeroPaginationPage",
-				"aPrimeroPaginationPages",
+				"aPrimeroPaginationStart",
+				"aPrimeroPaginationTotal",
 				"asStripeClasses",
 				"ajax",
 				"fnServerData",
@@ -8018,7 +8019,7 @@
 	// can be an array of these items, comma separated list, or an array of comma
 	// separated lists
 	
-	var __re_column_selector = /^(.*):(name|visIdx|visible)$/;
+	var __re_column_selector = /^(.+):(name|visIdx|visible)$/;
 	
 	var __column_selector = function ( settings, selector, opts )
 	{
@@ -8086,7 +8087,7 @@
 	
 	
 	
-	var __setColumnVis = function ( settings, column, vis ) {
+	var __setColumnVis = function ( settings, column, vis, recalc ) {
 		var
 			cols = settings.aoColumns,
 			col  = cols[ column ],
@@ -8129,12 +8130,14 @@
 		_fnDrawHead( settings, settings.aoHeader );
 		_fnDrawHead( settings, settings.aoFooter );
 	
-		// Automatically adjust column sizing
-		_fnAdjustColumnSizing( settings );
+		if ( recalc === undefined || recalc ) {
+			// Automatically adjust column sizing
+			_fnAdjustColumnSizing( settings );
 	
-		// Realign columns for scrolling
-		if ( settings.oScroll.sX || settings.oScroll.sY ) {
-			_fnScrollDraw( settings );
+			// Realign columns for scrolling
+			if ( settings.oScroll.sX || settings.oScroll.sY ) {
+				_fnScrollDraw( settings );
+			}
 		}
 	
 		_fnCallbackFire( settings, null, 'column-visibility', [settings, column, vis] );
@@ -8221,11 +8224,11 @@
 	
 	
 	
-	_api_registerPlural( 'columns().visible()', 'column().visible()', function ( vis ) {
+	_api_registerPlural( 'columns().visible()', 'column().visible()', function ( vis, calc ) {
 		return this.iterator( 'column', function ( settings, column ) {
 			return vis === undefined ?
 				settings.aoColumns[ column ].bVisible :
-				__setColumnVis( settings, column, vis );
+				__setColumnVis( settings, column, vis, calc );
 		} );
 	} );
 	
@@ -8582,33 +8585,34 @@
 	} );
 	
 	
-	_api_register( [
+	_api_registerPlural(
 		'columns().search()',
-		'column().search()'
-	], function ( input, regex, smart, caseInsen ) {
-		return this.iterator( 'column', function ( settings, column ) {
-			var preSearch = settings.aoPreSearchCols;
+		'column().search()',
+		function ( input, regex, smart, caseInsen ) {
+			return this.iterator( 'column', function ( settings, column ) {
+				var preSearch = settings.aoPreSearchCols;
 	
-			if ( input === undefined ) {
-				// get
-				return preSearch[ column ].sSearch;
-			}
+				if ( input === undefined ) {
+					// get
+					return preSearch[ column ].sSearch;
+				}
 	
-			// set
-			if ( ! settings.oFeatures.bFilter ) {
-				return;
-			}
+				// set
+				if ( ! settings.oFeatures.bFilter ) {
+					return;
+				}
 	
-			$.extend( preSearch[ column ], {
-				"sSearch": input+"",
-				"bRegex":  regex === null ? false : regex,
-				"bSmart":  smart === null ? true  : smart,
-				"bCaseInsensitive": caseInsen === null ? true : caseInsen
+				$.extend( preSearch[ column ], {
+					"sSearch": input+"",
+					"bRegex":  regex === null ? false : regex,
+					"bSmart":  smart === null ? true  : smart,
+					"bCaseInsensitive": caseInsen === null ? true : caseInsen
+				} );
+	
+				_fnFilterComplete( settings, settings.oPreviousSearch, 1 );
 			} );
-	
-			_fnFilterComplete( settings, settings.oPreviousSearch, 1 );
-		} );
-	} );
+		}
+	);
 	
 	/*
 	 * State API methods
@@ -8917,7 +8921,7 @@
 	 *  @type string
 	 *  @default Version number
 	 */
-	DataTable.version = "1.10.1";
+	DataTable.version = "1.10.2";
 
 	/**
 	 * Private data store, containing all of the settings objects that are
@@ -9636,14 +9640,8 @@
 		 *    } );
 		 */
 		"aLengthMenu": [ 10, 25, 50, 100 ],
-
-
-		/**
-		 * PRIMERO Added to make pagination non-ajax
-		 */
 	
-		"aPrimeroPaginationPage": 0,
-		"aPrimeroPaginationPages": 0,
+	
 		/**
 		 * The `columns` option in the initialisation parameter allows you to define
 		 * details about the way individual columns behave. For a full list of
@@ -9678,7 +9676,13 @@
 		 *  @name DataTable.defaults.columnDefs
 		 */
 		"aoColumnDefs": null,
+
+		/**
+		 * PRIMERO Added to make pagination non-ajax
+		 */
 	
+		"aPrimeroPaginationStart": 0,
+		"aPrimeroPaginationTotal": 0,
 	
 		/**
 		 * Basically the same as `search`, this parameter defines the individual column
@@ -10985,7 +10989,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+			"sInfoFiltered": "",
 	
 	
 			/**
@@ -13168,7 +13172,7 @@
 		{
 			return _fnDataSource( this ) == 'ssp' ?
 				this._iRecordsDisplay * 1 :
-				this.aiDisplay.length;
+				this.aPrimeroPaginationTotal;
 		},
 	
 		/**
@@ -13964,8 +13968,7 @@
 	
 								case 'next':
 									btnDisplay = lang.sNext;
-									console.log(page+1, pages-1)
-									btnClass = button + (page+1 < pages ? // PRIMERO - (EDITED) WAS (page < pages-1 ?
+									btnClass = button + (page < pages-1 ?
 										'' : ' '+classes.sPageButtonDisabled);
 									break;
 	
@@ -14652,4 +14655,3 @@
 }));
 
 }(window, document));
-

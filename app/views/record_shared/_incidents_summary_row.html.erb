@@ -1,0 +1,10 @@
+<tr>
+  <td id="child_<%= record.id %>" class="id_column">
+      <%= link_to text_to_identify_incident(record), incident_path(record), class: 'id_link' %>
+      <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
+  </td>
+  <td><%= record.survivor_code %></td>
+  <td><%= record.caseworker_code %></td>
+  <td><%= record.date_of_first_report %></td>
+  <td><%= record.start_date_of_incident_from %></td>
+</tr>

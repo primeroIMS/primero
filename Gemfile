@@ -13,10 +13,8 @@ gem 'rails',          '4.0.3'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
-gem 'sunspot',        '2.0.0'
 gem 'rake',           '0.9.3'
 gem 'jquery-rails'
-#gem 'cancan',         '~> 1.6.9'
 gem 'cancancan', '~> 1.7'
 gem 'capistrano',     '~> 2.14.2'
 gem 'highline',       '1.6.16'
@@ -27,8 +25,11 @@ gem 'os',             '~> 0.9.6'
 gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
 gem 'request_exception_handler'
 gem 'multi_json',     '~> 1.8.2'
-gem 'sunspot_solr',   '2.0.0'
 gem "zipruby-compat", :require => 'zipruby', :git => "https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git", :tag => "v0.3.7"
+
+gem 'sunspot_rails',  '2.1.1'
+gem 'sunspot_solr',   '2.1.1'
+gem 'sunspot_test'
 
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false
@@ -44,6 +45,7 @@ gem 'rack-mini-profiler', require: false
 
 gem 'yui-compressor'
 gem 'closure-compiler'
+gem 'progress_bar'
 
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'

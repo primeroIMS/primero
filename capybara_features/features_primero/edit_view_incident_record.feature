@@ -1,6 +1,6 @@
 # JIRA PRIMERO-289
 
-@javascript @primero
+@javascript @primero @search
 Feature: Edit and View Incident Record
   As a admin user, I want to be able to edit a incident record and view the incident record
 

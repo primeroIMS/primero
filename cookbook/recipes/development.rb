@@ -68,24 +68,32 @@ template "/home/vagrant/primero/config/couchdb.yml" do
   group 'vagrant'
 end
 
-template '/home/vagrant/primero/config/solr.yml' do
-  source "solr.yml.erb"
+
+template '/home/vagrant/primero/config/sunspot.yml' do
+  source "sunspot.yml.erb"
   variables({
     :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
-    :local_solr_ports => {'development' => 8984,
-                       'cucumber' => 8984,
-                       'test' => 8984,
-                       'uat' => 8901,
-                       'standalone' => 8903,
-                       'android' => 8902,
-                       'production' => node[:primero][:local_solr_port]},
-    :solr_urls => {'development' => 'http://localhost:8984/solr', 
-                  'cucumber' => 'http://localhost:8984/solr', 
-                  'test' => 'http://localhost:8984/solr', 
-                  'uat' => 'http://localhost:8901/solr', 
-                  'standalone' => 'http://localhost:8903/solr', 
-                  'android' => 'http://localhost:8902/solr',
-                  'production' => node[:primero][:solr_url]}
+    :hostnames => {'development' => 'localhost',
+                   'cucumber' => 'localhost',
+                   'test' => 'localhost',
+                   'uat' => 'localhost',
+                   'standalone' => 'localhost',
+                   'android' => 'localhost',
+                   'production' => node[:primero][:solr_hostname]},
+    :ports => {'development' => 8982,
+               'cucumber' => 8981,
+               'test' => 8981,
+               'uat' => 8901,
+               'standalone' => 8903,
+               'android' => 8902,
+               'production' => node[:primero][:solr_port]},
+    :log_levels => {'development' => 'INFO',
+                    'cucumber' => 'INFO',
+                    'test' => 'INFO',
+                    'uat' => 'INFO',
+                    'standalone' => 'INFO',
+                    'android' => 'INFO',
+                    'production' => node[:primero][:solr_log_level]}
   })
   owner 'vagrant'
   group 'vagrant'

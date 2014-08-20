@@ -1,3 +1,6 @@
+#TODO: When we start looking at refactoring advanced search we should
+#      get rid of this class in favor of native Sunspot methods.
+
 class SearchDateFilter < SearchCriteria
 
   attr_accessor :from_value, :to_value

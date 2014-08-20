@@ -2,7 +2,7 @@
 # JIRA PRIMERO-399
 # JIRA PRIMERO-340
 
-@javascript @primero
+@javascript @primero @search
 Feature: Primero View List of Case Records
   I want to be able to access the record of a registered child (or other individual) so that I can find and
   update my case records with information about my interactions with the cases in my care after registration
@@ -76,7 +76,7 @@ Feature: Primero View List of Case Records
     Then I should see "Cases"
     And I should see "Displaying cases 1 - 20 of 25 in total"
     And I click text "Next"
-    And I should see "stan" on the page
+    And I should see "jaco" on the page
     And I click text "Previous"
     And I should see "kim" on the page
     And I visit cases page "2"
