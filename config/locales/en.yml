@@ -99,6 +99,8 @@ en:
     register_new_case: "Create a New Case"
     export: "Export"
     filter_by:
+      valid: "Valid records"
+      invalid: "Invalid records"
       label: "Filter by"
       all: "All"
       active: "Active"
@@ -304,6 +306,14 @@ en:
     label: "Incidents"
     register_new_incident: "Create a New Incident"
 
+    filter_by:
+      valid: "Valid records"
+      invalid: "Invalid records"
+      all: "All"
+      active: "Active"
+      reunited: "Reunited"
+      flagged: "Flagged"
+
   incident:
     flagged_by: "Flagged By"
     last_updated: "Last updated"
@@ -370,6 +380,10 @@ en:
     on_label: "on"
     because: "Because"
     at_label: "at"
+
+  pagination:
+    zero: "No %{model} found"
+    page_entries_info: Displaying _START_ to _END_ of _TOTAL_ %{model}
 
   will_paginate:
     previous_label: "&#8592; Previous"

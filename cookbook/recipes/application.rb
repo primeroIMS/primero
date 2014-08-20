@@ -99,16 +99,19 @@ unless node[:primero][:rails_env]
   Chef::Application.fatal!("You must specify the Primero Rails environment in node[:primero][:rails_env]!")
 end
 
-template File.join(node[:primero][:app_dir], 'config', 'solr.yml') do
-  source "solr.yml.erb"
+
+template File.join(node[:primero][:app_dir], 'config', 'sunspot.yml') do
+  source "sunspot.yml.erb"
   variables({
     :environments => [ node[:primero][:rails_env] ],
-    :local_solr_ports => {node[:primero][:rails_env].to_s => node[:primero][:local_solr_port]},
-    :solr_urls => {node[:primero][:rails_env].to_s => node[:primero][:solr_url]}
+    :hostnames => {node[:primero][:rails_env].to_s => node[:primero][:solr_hostname]},
+    :ports => {node[:primero][:rails_env].to_s => node[:primero][:solr_port]},
+    :log_levels => {node[:primero][:rails_env].to_s => node[:primero][:solr_log_level]}
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
 end
+
 
 template File.join(node[:primero][:app_dir], "public", "version.txt") do
   source 'version.txt.erb'
@@ -142,16 +145,21 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   group node[:primero][:app_group]
 end
 
+execute_bundle 'restart-solr' do
+  command "rake sunspot:solr:restart"
+end
+
+# TODO: This will have to be subtle. Will need to define "what is sutble"?
+execute_bundle 'reindex-solr' do
+  command "rake sunspot:reindex"
+end
+
 execute_bundle 'setup-db' do
   command "rake db:seed db:migrate"
 end
 
 execute_bundle 'precompile-assets' do
   command "rake app:assets_precompile"
-end
-
-execute_bundle 'restart-solr' do
-  command "rake sunspot:restart"
 end
 
 execute_bundle 'restart-scheduler' do

@@ -10,10 +10,11 @@ class Child < CouchRest::Model::Base
   include AttachmentHelper
   include AudioHelper
   include PhotoHelper
+  include Record
+  include Searchable
   include DocumentHelper
-
-  include SearchableRecord
   include Ownable
+
 
   before_save :update_photo_keys
 
@@ -69,263 +70,6 @@ class Child < CouchRest::Model::Base
                  }
               }"
 
-      #TODO - move this to record concern
-      ['created_at', 'name', 'flag_at', 'reunited_at'].each do |field|
-        view "by_all_view_with_created_by_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == 'Child')
-                    {
-                      emit(['all', doc['created_by'], fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by'], fDate], doc);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by'], fDate], doc);
-                        } else {
-                          emit(['active', doc['created_by'], fDate], doc);
-                        }
-                      } else {
-                        emit(['active', doc['created_by'], fDate], doc);
-                      }
-                   }
-                }"
-        view "by_valid_record_view_with_created_by_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Valid record')
-                    {
-                      emit(['all', doc['created_by'], fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by'], fDate], doc);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by'], fDate], doc);
-                        } else {
-                          emit(['active', doc['created_by'], fDate], doc);
-                        }
-                      } else {
-                        emit(['active', doc['created_by'], fDate], doc);
-                      }
-                   }
-                }"
-        view "by_invalid_record_view_with_created_by_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Invalid record')
-                    {
-                      emit(['all', doc['created_by'], fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by'], fDate], doc);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by'], fDate], doc);
-                        } else {
-                          emit(['active', doc['created_by'], fDate], doc);
-                        }
-                      } else {
-                        emit(['active', doc['created_by'], fDate], doc);
-                      }
-                   }
-                }"
-
-        view "by_all_view_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == 'Child')
-                    {
-                      emit(['all', fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', fDate], doc);
-                      }
-
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', fDate], doc);
-                        } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                          emit(['active', fDate], doc);
-                        }
-                        }
-                      } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                                        emit(['active', fDate], doc);
-                      }
-                      }
-                   }
-                }"
-
-        view "by_valid_record_view_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Valid record')
-                    {
-                      emit(['all', fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', fDate], doc);
-                      }
-
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', fDate], doc);
-                        } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                          emit(['active', fDate], doc);
-                        }
-                        }
-                      } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                                        emit(['active', fDate], doc);
-                      }
-                      }
-                   }
-                }"
-
-        view "by_invalid_record_view_#{field}",
-                :map => "function(doc) {
-                    var fDate = doc['#{field}'];
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Invalid record')
-                    {
-                      emit(['all', fDate], doc);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', fDate], doc);
-                      }
-
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', fDate], doc);
-                        } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                          emit(['active', fDate], doc);
-                        }
-                        }
-                      } else {
-                         if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                                        emit(['active', fDate], doc);
-                      }
-                      }
-                   }
-                }"
-
-        view "by_all_view_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Child')
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-        view "by_valid_record_view_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Valid record')
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-        view "by_invalid_record_view_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Invalid record')
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-
-        view "by_all_view_with_created_by_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Child')
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-        view "by_valid_record_view_with_created_by_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Valid record')
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-        view "by_invalid_record_view_with_created_by_#{field}_count",
-                :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Child' && doc['record_state'] == 'Invalid record')
-                   {
-                      emit(['all', doc['created_by']], 1);
-                      if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        emit(['flag', doc['created_by']], 1);
-                      }
-                      if (doc.hasOwnProperty('reunited')) {
-                        if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          emit(['reunited', doc['created_by']], 1);
-                        } else {
-                          emit(['active', doc['created_by']], 1);
-                        }
-                      } else {
-                        emit(['active', doc['created_by']], 1);
-                      }
-                   }
-                }"
-      end
 
       view :by_flag,
               :map => "function(doc) {
@@ -449,9 +193,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def self.all
-    view('by_name', {})
-  end
 
   def self.search_field
     "name"
@@ -473,6 +214,10 @@ class Child < CouchRest::Model::Base
 
   def case_id
     self['unique_identifier']
+  end
+
+  def sortable_name
+    self['name']
   end
 
   def has_one_interviewer?

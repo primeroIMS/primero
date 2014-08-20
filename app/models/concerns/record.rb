@@ -15,7 +15,7 @@ module Record
     property :created_organisation
     property :created_by
     property :created_at
-    property :duplicate, TrueClass 
+    property :duplicate, TrueClass
 
     validate :validate_created_at
     validate :validate_last_updated_at
@@ -62,7 +62,7 @@ module Record
                 }"
 
       view :by_created_by
-      
+
       view :by_duplicate,
               :map => "function(doc) {
                 if (doc.hasOwnProperty('duplicate')) {
@@ -76,108 +76,18 @@ module Record
                   emit(doc['duplicate_of'], doc);
                 }
               }"
-      
-      # TODO - make this work for incidents and cases
-      #Child.view_by_field_list.each do |field|
-      # ['created_at', 'name', 'description', 'flag_at', 'reunited_at'].each do |field|
-        # view "by_all_view_with_created_by_#{field}",
-                # :map => "function(doc) {
-                    # var fDate = doc['#{field}'];
-                    # if (doc['couchrest-type'] == 'Child')
-                    # {
-                      # emit(['all', doc['created_by'], fDate], doc);
-                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        # emit(['flag', doc['created_by'], fDate], doc);
-                      # }
-                      # if (doc.hasOwnProperty('reunited')) {
-                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          # emit(['reunited', doc['created_by'], fDate], doc);
-                        # } else {
-                          # emit(['active', doc['created_by'], fDate], doc);
-                        # }
-                      # } else {
-                        # emit(['active', doc['created_by'], fDate], doc);
-                      # }
-                   # }
-                # }"
-# 
-        # view "by_all_view_#{field}",
-                # :map => "function(doc) {
-                    # var fDate = doc['#{field}'];
-                    # if (doc['couchrest-type'] == 'Child')
-                    # {
-                      # emit(['all', fDate], doc);
-                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        # emit(['flag', fDate], doc);
-                      # }
-# 
-                      # if (doc.hasOwnProperty('reunited')) {
-                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          # emit(['reunited', fDate], doc);
-                        # } else {
-                         # if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                          # emit(['active', fDate], doc);
-                        # }
-                        # }
-                      # } else {
-                         # if (!doc.hasOwnProperty('duplicate') && !doc['duplicate']) {
-                                        # emit(['active', fDate], doc);
-                      # }
-                      # }
-                   # }
-                # }"
-# 
-        # view "by_all_view_#{field}_count",
-                # :map => "function(doc) {
-                    # if (doc['couchrest-type'] == 'Child')
-                   # {
-                      # emit(['all', doc['created_by']], 1);
-                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        # emit(['flag', doc['created_by']], 1);
-                      # }
-                      # if (doc.hasOwnProperty('reunited')) {
-                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          # emit(['reunited', doc['created_by']], 1);
-                        # } else {
-                          # emit(['active', doc['created_by']], 1);
-                        # }
-                      # } else {
-                        # emit(['active', doc['created_by']], 1);
-                      # }
-                   # }
-                # }"
-# 
-        # view "by_all_view_with_created_by_#{field}_count",
-                # :map => "function(doc) {
-                    # if (doc['couchrest-type'] == 'Child')
-                   # {
-                      # emit(['all', doc['created_by']], 1);
-                      # if (doc.hasOwnProperty('flag') && (doc['flag'] == 'true' || doc['flag'] == true)) {
-                        # emit(['flag', doc['created_by']], 1);
-                      # }
-                      # if (doc.hasOwnProperty('reunited')) {
-                        # if (doc['reunited'] == 'true' || doc['reunited'] == true) {
-                          # emit(['reunited', doc['created_by']], 1);
-                        # } else {
-                          # emit(['active', doc['created_by']], 1);
-                        # }
-                      # } else {
-                        # emit(['active', doc['created_by']], 1);
-                      # }
-                   # }
-                # }"
-      # end
+
     end
 
     def short_id
       (self['unique_identifier'] || "").last 7
     end
 
-    def unique_identifier   
+    def unique_identifier
       self['unique_identifier']
-    end   
+    end
 
-  end 
+  end
 
   module ClassMethods
     def new_with_user_name(user, fields = {})
@@ -204,7 +114,7 @@ module Record
     def all_by_creator(created_by)
       self.by_created_by :key => created_by
     end
-    
+
     # this is a helper to see the duplicates for test purposes ... needs some more thought. - cg
     def duplicates
       by_duplicate(:key => true)
@@ -214,11 +124,12 @@ module Record
       by_duplicates_of(:key => id).all
     end
 
-    def fetch_paginated(options, page, per_page)
-      row_count = send("#{options[:view_name]}_count", options.merge(:include_docs => false))['rows'].size
-      per_page = row_count if per_page == "all"
-      [row_count, self.paginate(options.merge(:design_doc => self.name, :page => page, :per_page => per_page, :include_docs => true))]
-    end
+    #TODO: Do we need to ditch this method in favor of the Solr/Sunspot pagination?
+    # def fetch_paginated(options, page, per_page)
+    #   row_count = send("#{options[:view_name]}_count", options.merge(:include_docs => false))['rows'].size
+    #   per_page = row_count if per_page == "all"
+    #   [row_count, self.paginate(options.merge(:design_doc => self.name, :page => page, :per_page => per_page, :include_docs => true))]
+    # end
   end
 
   def create_unique_id
@@ -250,7 +161,7 @@ module Record
       errors.add(:last_updated_at, '')
     end
   end
-  
+
   def validate_duplicate_of
     return errors.add(:duplicate, I18n.t("errors.models.child.validate_duplicate")) if self["duplicate"] && self["duplicate_of"].blank?
   end
@@ -258,7 +169,7 @@ module Record
   def method_missing(m, *args, &block)
     self[m]
   end
-  
+
   def mark_as_duplicate(parent_id)
     self['duplicate'] = true
     self['duplicate_of'] = self.class.by_short_id(:key => parent_id).first.try(:id)
