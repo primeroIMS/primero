@@ -18,7 +18,6 @@ def create_or_update_user(user_hash)
 end
 
 
-
 create_or_update_user(
   "user_name" => "primero",
   "password" => "qu01n23",
@@ -27,38 +26,48 @@ create_or_update_user(
   "email" => "primero@primero.com",
   "disabled" => "false",
   "organisation" => "N/A",
-  "role_ids" => Role.by_name.all.map{|r| r.id}
+  "role_ids" => Role.by_name.all.map{|r| r.id},
+  "module_ids" => PrimeroModule.by_name.all.map{|m| m.id}
 )
 
 create_or_update_user(
-  "user_name" => "primero_incident",
+  "user_name" => "primero_cp",
   "password" => "qu01n23",
   "password_confirmation" => "qu01n23",
-  "full_name" => "Incident Worker",
-  "email" => "primero_incident@primero.com",
+  "full_name" => "CP Worker",
+  "email" => "primero_cp@primero.com",
   "disabled" => "false",
   "organisation" => "N/A",
-  "role_ids" => [Role.by_name(:key => "Worker: Incidents").first.id]
+  "role_ids" => [
+    Role.by_name(:key => "Worker: Cases").first.id,
+    Role.by_name(:key => "Worker: Tracing Requests").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id]
 )
 
 create_or_update_user(
-  "user_name" => "primero_case",
+  "user_name" => "primero_gbv",
   "password" => "qu01n23",
   "password_confirmation" => "qu01n23",
-  "full_name" => "Case Worker",
-  "email" => "primero_case@primero.com",
+  "full_name" => "GBV Worker",
+  "email" => "primero_gbv@primero.com",
   "disabled" => "false",
   "organisation" => "N/A",
-  "role_ids" => [Role.by_name(:key => "Worker: Cases").first.id]
+  "role_ids" => [
+    Role.by_name(:key => "Worker: Incidents").first.id,
+    Role.by_name(:key => "Worker: Cases").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id]
 )
 
 create_or_update_user(
-  "user_name" => "primero_tracing_request",
+  "user_name" => "primero_mrm",
   "password" => "qu01n23",
   "password_confirmation" => "qu01n23",
-  "full_name" => "Tracing Request Worker",
-  "email" => "primero_tracing_request@primero.com",
+  "full_name" => "MRM Worker",
+  "email" => "primero_mrm@primero.com",
   "disabled" => "false",
   "organisation" => "N/A",
-  "role_ids" => [Role.by_name(:key => "Worker: Tracing Requests").first.id]
+  "role_ids" => [Role.by_name(:key => "Worker: Incidents").first.id],
+  "module_ids" => ["MRM"]
 )

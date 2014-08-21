@@ -38,12 +38,22 @@ namespace :db do
             puts "Role '#{args[:role]}' can't be removed from user: #{user.user_name} because is the last role of the user."
           end
         end
-      end 
+      end
       result = role.destroy if remove
       puts "Removed role '#{args[:role]}'" if result
       puts "Unable to removed role '#{args[:role]}'" unless result
     else
       puts "Was not found the role '#{args[:role]}'"
+    end
+  end
+
+  desc "Delete out a user"
+  task :remove_user, [:user] => :environment do |t, args|
+    #TODO: need to handle record owners, associated users?
+    user = User.by_user_name(key: args[:user]).all.first
+    if user.present?
+      puts "Deleting user #{user.user_name}"
+      user.destroy
     end
   end
 

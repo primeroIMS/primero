@@ -32,9 +32,13 @@ def clean_db_table(table)
 end
 
 
-#Reseed the dfault roles and users
+#Reseed the default roles and users, and modules
 puts "Seeding Roles"
 require File.dirname(__FILE__) + "/users/roles.rb"
+puts "Seeding Programs"
+require File.dirname(__FILE__) + "/users/default_programs.rb"
+puts "Seeding Modules"
+require File.dirname(__FILE__) + "/users/default_modules.rb"
 puts "Seeding Users"
 require File.dirname(__FILE__) + "/users/default_users.rb"
 
