@@ -39,6 +39,10 @@ describe FormSection do
   describe "get_permitted_form_sections" do
 
     before do
+      FormSection.all.each &:destroy
+      PrimeroModule.all.each &:destroy
+      Role.all.each &:destroy
+
       @form_section_a = FormSection.create!(unique_id: "A", name: "A")
       @form_section_b = FormSection.create!(unique_id: "B", name: "B")
       @form_section_c = FormSection.create!(unique_id: "C", name: "C")

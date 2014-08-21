@@ -262,6 +262,31 @@ describe User do
     end
   end
 
+  describe "permitted forms" do
+
+    before do
+      FormSection.all.each &:destroy
+      PrimeroModule.all.each &:destroy
+      Role.all.each &:destroy
+
+      @form_section_a = FormSection.create!(unique_id: "A", name: "A")
+      @form_section_b = FormSection.create!(unique_id: "B", name: "B")
+      @form_section_c = FormSection.create!(unique_id: "C", name: "C")
+      @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"])
+      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+    end
+
+    it "inherits the forms permitted by the modules" do
+      user = User.new(user_name: "test_user", module_ids: [@primero_module.id])
+      expect(user.permitted_form_ids).to match_array(["A", "B"])
+    end
+
+    it "will be permitted to only use forms granted by roles if such forms are explicitly set" do
+      user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+      expect(user.permitted_form_ids).to match_array(["B", "C"])
+    end
+  end
+
   describe "unverified users" do
     it "should get all un-verified users" do
       unverified_user1 = build_and_save_user(:verified => false)

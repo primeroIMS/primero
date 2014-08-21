@@ -29,7 +29,15 @@ module Namable
     end
 
     def generate_id
-      self["_id"] ||= "#{self.class.name}-#{self.name}".parameterize.dasherize
+      self["_id"] ||= self.class.id_from_name(self.name)
+    end
+
+  end
+
+  module ClassMethods
+
+    def id_from_name(name)
+      "#{self.name}-#{name}".parameterize.dasherize
     end
 
   end

@@ -151,6 +151,11 @@ class User < CouchRest::Model::Base
     @roles ||= role_ids.collect { |id| Role.get(id) }.flatten
   end
 
+  #TODO: Change this into a single bulk query
+  def modules
+    @modules ||= module_ids.collect{|id| PrimeroModule.get(id)}.flatten
+  end
+
   def has_permission?(permission)
     permissions && permissions.include?(permission)
   end
@@ -168,7 +173,22 @@ class User < CouchRest::Model::Base
   end
 
   def permitted_form_ids
+    permitted = []
+    from_roles = role_permitted_form_ids
+    if from_roles.present?
+      permitted = from_roles
+    elsif self.module_ids.present?
+      permitted = module_permitted_form_ids
+    end
+    return permitted
+  end
+
+  def role_permitted_form_ids
     roles.compact.collect(&:permitted_form_ids).flatten
+  end
+
+  def module_permitted_form_ids
+    modules.compact.collect(&:associated_form_ids).flatten
   end
 
   def add_mobile_login_event imei, mobile_number
