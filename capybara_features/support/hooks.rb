@@ -38,6 +38,7 @@ Before do
 
     $db_seeded = true
   end
+
 end
 
 Before('@roles') do |scenario|
