@@ -1,6 +1,6 @@
 #JIRA PRIMERO-422
 
-@javascript @primero
+@javascript @primero @search
 Feature: Tracing Request Inquirer
   As a Social worker, I want to enter information related to the inquirer for tracing requests
 

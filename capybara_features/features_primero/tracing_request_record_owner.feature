@@ -1,6 +1,6 @@
 #JIRA PRIMERO-421
 
-@javascript @primero
+@javascript @primero @search
 Feature: Tracing Request Record Owner
   As a Social worker, I want to enter information related to the record owner for tracing requests
 

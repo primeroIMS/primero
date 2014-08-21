@@ -1,6 +1,6 @@
 #JIRA PRIMERO-423
 
-@javascript @primero
+@javascript @primero @search
 Feature: Tracing Request Tracing Requests
   As a Social worker, I want to enter information related to the tracing request for tracing requests
 
