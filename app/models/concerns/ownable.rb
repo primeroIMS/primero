@@ -23,7 +23,7 @@ module Ownable
     end
 
     def module
-      Module.get(self.module_id) if self.module_id
+      PrimeroModule.get(self.module_id) if self.module_id
     end
 
   end

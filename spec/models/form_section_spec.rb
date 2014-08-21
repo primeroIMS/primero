@@ -36,6 +36,25 @@ describe FormSection do
     f.all_searchable_fields.should == [text_area]
   end
 
+  describe "get_permitted_form_sections" do
+
+    before do
+      @form_section_a = FormSection.create!(unique_id: "A", name: "A")
+      @form_section_b = FormSection.create!(unique_id: "B", name: "B")
+      @form_section_c = FormSection.create!(unique_id: "C", name: "C")
+      @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"])
+      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+      @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+    end
+
+    it "returns all FormSection objects that are bound to the case's module that the user has access to" do
+      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+      result = FormSection.get_permitted_form_sections(child, @user)
+      expect(result).to eq([@form_section_b])
+    end
+
+  end
+
   describe '#unique_id' do
     it "should be generated when not provided" do
       f = FormSection.new
@@ -422,7 +441,7 @@ describe FormSection do
     it "should create the FormSection if it does not exist" do
       form_section = FormSection.create_or_update_form_section(
         {"visible"=>true,
-         :order=>11, 
+         :order=>11,
          :unique_id=>"tracing",
          :perm_visible => true,
          "editable"=>true,
@@ -443,9 +462,9 @@ describe FormSection do
       #Create a new FormSection should not exists.
       form_section = FormSection.create_or_update_form_section(
         {"visible"=>true,
-         :order=>11, 
-         :unique_id=>"tracing", 
-         :perm_visible => true, 
+         :order=>11,
+         :unique_id=>"tracing",
+         :perm_visible => true,
          "editable"=>true,
          "name_all" => "Tracing Name",
          "description_all" => "Tracing Description"
@@ -463,9 +482,9 @@ describe FormSection do
       #Should not change any property.
       form_section_1 = FormSection.create_or_update_form_section(
         {"visible"=>false,
-         :order=>12, 
-         :unique_id=>"tracing", 
-         :perm_visible => false, 
+         :order=>12,
+         :unique_id=>"tracing",
+         :perm_visible => false,
          "editable"=>false,
          "name_all" => "Tracing Name All",
          "description_all" => "Tracing Description All"
@@ -491,7 +510,7 @@ describe FormSection do
       #Create a new FormSection should not exists.
       form_section = FormSection.create_or_update_form_section(
         {"visible"=>true,
-         :order=>11, 
+         :order=>11,
          :unique_id=>"tracing",
           :fields => fields,
          :perm_visible => true,
@@ -522,7 +541,7 @@ describe FormSection do
       #no update the existing field, but add the new field.
       form_section_1 = FormSection.create_or_update_form_section(
         {"visible"=>false,
-         :order=>12, 
+         :order=>12,
          :unique_id=>"tracing",
           :fields => fields_1,
          :perm_visible => false,
@@ -544,7 +563,7 @@ describe FormSection do
       form_section_1.fields[0].name.should == "date_of_separation"
       form_section_1.fields[0].type.should == "text_field"
       form_section_1.fields[0].display_name.should == "Date of Separation All"
-      
+
       #Check the new field.
       form_section_1.fields[1].name.should == "separation_cause"
       form_section_1.fields[1].type.should == "select_box"
@@ -554,7 +573,7 @@ describe FormSection do
     it "should create FormSection" do
       properties = {
         "visible"=>true,
-        :order=>11, 
+        :order=>11,
         :unique_id=>"tracing",
         :perm_visible => true,
         "editable"=>true,
@@ -584,7 +603,7 @@ describe FormSection do
       ]
       properties = {
         "visible"=>true,
-        :order=>11, 
+        :order=>11,
         :unique_id=>"tracing",
         :fields => fields,
         :perm_visible => true,

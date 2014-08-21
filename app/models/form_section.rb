@@ -165,11 +165,11 @@ class FormSection < CouchRest::Model::Base
   def self.find_by_parent_form parent_form
     by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
   end
-  
+
   #TODO - can this be done more efficiently?
   def self.find_form_groups_by_parent_form parent_form
     all_forms = self.find_by_parent_form(parent_form)
-    
+
     form_sections = []
     subforms_hash = {}
 
@@ -187,9 +187,29 @@ class FormSection < CouchRest::Model::Base
         field.subform ||= subforms_hash[field.subform_section_id]
       end
     end
-    
+
     form_groups = form_sections.group_by{|e| e.form_group_name}
   end
+
+  #Return only those forms that can be accessed by the user given their role permissions and the record's module
+  def self.get_permitted_form_sections(record, user)
+    #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the record's module
+    allowed_form_ids = user.permitted_form_ids
+    record_module = record.module
+    record_module && (allowed_form_ids &= record_module.associated_form_ids)
+
+    form_sections = []
+    if allowed_form_ids.present?
+      form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all #TODO: Does this need to include subforms?
+    else
+      #TODO: This may be controversial. If nothing is allowed, why display everything?
+      #      For now this is a stop gap when no modules are defined is defined
+      form_sections = FormSection.find_form_groups_by_parent_form(record.class.parent_form)
+    end
+
+    return form_sections
+  end
+
 
 
   def self.add_field_to_formsection formsection, field
