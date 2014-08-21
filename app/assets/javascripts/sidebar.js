@@ -144,7 +144,7 @@ $(document).ready(function() {
   new tabNavigation();
 
   $("ul.side-nav").sticky({ 
-    topSpacing: 0,
+    topSpacing: 50,
     bottomSpacing: 40 
   });
 
