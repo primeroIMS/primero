@@ -43,7 +43,8 @@ survivor_information_fields = [
              "display_name_all" => "Sex"
             }),
   Field.new({"name" => "ethnicity",
-             "type" => "select_box",
+             "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Clan or Ethnicity",
              "option_strings_text_all" =>
                           ["Ethnicity1",
@@ -60,6 +61,7 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Nationality (if different than country of origin)",
              "option_strings_text_all" =>
                           ["Nationality1",
@@ -67,7 +69,8 @@ survivor_information_fields = [
                            "Nationality3"].join("\n")
             }),
   Field.new({"name" => "religion",
-             "type" => "select_box", 
+             "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Religion",
              "option_strings_text_all" =>
                           ["Religion1",
