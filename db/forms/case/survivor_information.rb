@@ -61,7 +61,7 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
-             "multi_select" => true, 
+             "multi_select" => true,
              "display_name_all" => "Religion",
              "option_strings_source" => "lookup Religion"
             }),
