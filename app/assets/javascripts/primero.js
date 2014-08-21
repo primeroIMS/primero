@@ -36,5 +36,4 @@ _primero.get_param = function(param) {
   return false;
 };
 
-$(document).ready(function() {
-});
+$(document).ready(function() {});

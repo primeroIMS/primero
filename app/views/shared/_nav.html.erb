@@ -1,0 +1,57 @@
+<div class="contain-to-grid sticky">
+  <% if logged_in? %>
+    <nav class="top-bar" data-topbar>
+      <div class="row">
+        <div class="large-12 columns">
+          <section class="top-bar-section">
+            <ul class="right">
+              <% if can? :view_and_search, Child %>
+                <li class="has-form">
+                  <%= form_tag search_children_path, :method => :get, :id => "search_form" do %>
+                    <div class="row collapse">
+                      <% #link_to t("navigation.advanced_search"), new_advanced_search_path %>
+                      <div class="large-9 small-10 columns">
+                        <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH' %>
+                      </div>
+                      <div class="large-3 small-2 columns">
+                        <%= button_tag  :action => "children/search", :method => "get", :onclick => "return RapidFTR.validateSearch();" do %>
+                        <%= icon('angle-right') %>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+            <ul class="left">
+              <li><%= link_to t("navigation.home"), root_path %></li>
+              <% if can? :read, TracingRequest %>
+                <li><%= link_to t("navigation.tracing_request"), tracing_requests_path %></li>
+              <% end  %>
+              <% if can? :read, Child %>
+                <li><%= link_to t("navigation.cases"), cases_path %></li>
+              <% end  %>
+              <% if can? :read, Incident %>
+                <li><%= link_to t("navigation.incidents"), incidents_path %></li>
+              <% end  %>
+              <% if false %>
+                <% if current_user_name==nil or can? :manage, FormSection %>
+                    <li><%= link_to t("navigation.forms"), form_sections_path %></li>
+                <% end %>
+                <% if can? :read, User or can? :show, Role %>
+                  <li><%= link_to t("navigation.users"), users_path %></li>
+                <% end %>
+                <% if can?(:read, Device) or can?(:read, Replication) %>
+                  <li><%= link_to t("navigation.devices"), devices_path %></li>
+                <% end %>
+              <% end %>
+              <% if can? :read, Report%>
+                <li><%= link_to t("navigation.reports"), reports_path %></li>
+              <% end %>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </nav>
+  <% end %>
+</div>
