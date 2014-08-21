@@ -201,10 +201,6 @@ class FormSection < CouchRest::Model::Base
     form_sections = []
     if allowed_form_ids.present?
       form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all #TODO: Does this need to include subforms?
-    else
-      #TODO: This may be controversial. If nothing is allowed, why display everything?
-      #      For now this is a stop gap when no modules are defined is defined
-      form_sections = FormSection.find_form_groups_by_parent_form(record.class.parent_form)
     end
 
     return form_sections

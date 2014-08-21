@@ -53,6 +53,15 @@ describe FormSection do
       expect(result).to eq([@form_section_b])
     end
 
+    it "returns no FormSection objects if the user cannot view the permitted module forms" do
+      role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions: ["test_permission"])
+      user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
+      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+
+      result = FormSection.get_permitted_form_sections(child, user)
+      expect(result.present?).to be_false
+    end
+
   end
 
   describe '#unique_id' do
