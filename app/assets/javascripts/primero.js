@@ -88,5 +88,4 @@ _primero.update_subform_heading = function(subformEl) {
   });
 }
 
-$(document).ready(function() {
-});
+$(document).ready(function() {});

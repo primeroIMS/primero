@@ -45,4 +45,6 @@
 //= require tick_box_field.js
 
 
-$(function(){ $(document).foundation(); });
+$(document).ready(function() {
+	$(document).foundation();
+});
