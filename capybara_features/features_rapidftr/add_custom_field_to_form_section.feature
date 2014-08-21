@@ -272,7 +272,6 @@ Feature: Add custom field to form section
       | Barbie     | no       |
       | Lego       | yes      |
 
-  
   Scenario: can not create a custom field for forms that aren't editable
 
     Given I am on the edit form section page for "basic_details"
