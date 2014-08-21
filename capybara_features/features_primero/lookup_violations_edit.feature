@@ -1,6 +1,6 @@
 #JIRA PRIMERO-315
 
-@javascript @primero
+@javascript @primero @search
 Feature: Lookup Violations
   As a User I want to be able to associate different entities with one or more violations when editing an incident
 

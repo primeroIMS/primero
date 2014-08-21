@@ -66,7 +66,7 @@ class Field
                         SUBFORM          => "subform",
                         SEPARATOR        => "separator",
                         TICK_BOX         => "tick_box",
-                        HIDDEN_FIELD     => "basic"
+                        HIDDEN_FIELD     => "hidden"
                       }
 
   DEFAULT_VALUES = {
