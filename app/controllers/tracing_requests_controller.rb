@@ -1,22 +1,19 @@
 class TracingRequestsController < ApplicationController
   include RecordActions
-  include SearchingForRecords
+  include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
 
-  #TODO index will be refactored for Solr (Josh's changes).
   def index
     authorize! :index, TracingRequest
 
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
-    @filter = params[:filter] || params[:status] || "all"
-    @order = params[:order_by] || 'enquirer_name'
 
-    per_page = params[:per_page] || TracingRequestsHelper::View::PER_PAGE
-    per_page = per_page.to_i unless per_page == 'all'
-
-    filter_tracing_requests per_page
+    search = TracingRequest.list_records filter, order, pagination, current_user_name
+    @tracing_requests = search.results
+    @total_records = search.total
+    @per_page = per_page
 
     respond_to do |format|
       format.html

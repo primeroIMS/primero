@@ -358,6 +358,8 @@ en:
     register_new_tracing_request: "Create a New Tracing Request"
 
   tracing_request:
+    name_of_inquirer: "Name of Inquirer"
+    date_of_inquiry: "Date of Inquiry"
     last_updated: "Last updated"
     registered_by: "Registered by"
 
