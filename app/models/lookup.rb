@@ -1,3 +1,4 @@
+#TODO - add i18n
 class Lookup < CouchRest::Model::Base
   use_database :lookup
 

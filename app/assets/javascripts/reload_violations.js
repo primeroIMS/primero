@@ -13,10 +13,8 @@ var ViolationListReload = Backbone.View.extend({
 
   //Refresh the options in the violations select
   reload: function(event) {
-    var violation_list = [];
-    var count = 0;
-
-    var context = this.el;
+    var violation_list = [],
+        context = this.el;
 
     // Build new violations list
     $(context).find("fieldset[id$='_violation_wrapper']").each(function(x, violationListEl){

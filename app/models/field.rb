@@ -207,6 +207,7 @@ class Field
     select_options = []
     select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
     if self.option_strings_source.present?
+      #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
       if self.option_strings_source == 'violations'
         if record.present? && record.class == Incident
           select_options += record.violations_list
