@@ -76,9 +76,10 @@ describe "children/show.html.erb" do
         render :partial => "children/header_message", :locals => {:child => @child, :current_user => @user, :duplicates => ""}
 
         rendered.should have_tag("#interviewer_details")
-        rendered.should be_include('Registered by: jsmith')
+        rendered.should be_include('Registered by')
+        rendered.should be_include('jsmith')
         rendered.should_not be_include("and others")
-        rendered.should_not be_include("Last updated:")
+        rendered.should_not be_include("Last updated")
       end
 
       it "should show link to change log if child has been updated by multiple people" do
@@ -90,18 +91,20 @@ describe "children/show.html.erb" do
         render :partial => "children/header_message", :locals => {:child => child, :current_user => @user, :duplicates => ""}
 
         rendered.should have_tag("#interviewer_details")
-        rendered.should be_include('Registered by: jsmith')
+        rendered.should be_include('Registered by')
+        rendered.should be_include('jsmith')
         rendered.should have_tag("#interviewer_details")
         rendered.should be_include('and others')
         rendered.should have_tag("#interviewer_details")
-        rendered.should be_include('Last updated:')
+        rendered.should be_include('Last updated')
       end
 
       it "should not show link to change log if child was registered by and updated again by only the same person" do
         render :partial => "children/header_message", :locals => {:child => @child, :current_user => @user, :duplicates => ""}
 
         rendered.should have_tag("#interviewer_details")
-        rendered.should be_include('Registered by: jsmith')
+        rendered.should be_include('Registered by')
+        rendered.should be_include('jsmith')
         rendered.should_not be_include("and others")
       end
 
