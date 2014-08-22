@@ -29,7 +29,8 @@ var ViolationListReload = Backbone.View.extend({
           var valueLength = 0;
           $(violationEl).find('input, select, textarea').each(function(x, fieldEl){
             var tmpLen = $.trim($(fieldEl).val()).length;
-            if (tmpLen > 0 && $(fieldEl).val() != fieldEl.defaultValue){
+            // don't count radio fields as they initailly have a default value which would lead to a false positive
+            if (tmpLen > 0 && $(fieldEl).attr('type') != 'radio'){
                valueLength++;
                return false;
             }
