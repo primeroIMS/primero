@@ -38,10 +38,11 @@ Feature: Recruitment Form
       | If yes, when did the children leave the armed group?         | 10-Oct-1995 |
       | If the children left the armed group, how did it happen?               | <Select> Dissolution of Armed Group |
       | What factors contributed towards the children leaving the armed group? | <Select> Government Pressure        |
+    And the value of "Number of total survivors" in the 1st "Recruitment" subform should be "6"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see 1 subform on the show page for "Recruitment Subform Section"
-    And I should see in the 1st "Recruitment Subform Section" subform with the follow:
+    And I should see 1 subform on the show page for "Recruitment"
+    And I should see in the 1st "Recruitment" subform with the follow:
       | Number of survivors: boys                                                                                      | 1                                              |
       | Number of survivors: girls                                                                                     | 2                                              |
       | Number of survivors: unknown                                                                                   | 3                                              |

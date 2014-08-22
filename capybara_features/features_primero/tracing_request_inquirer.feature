@@ -15,12 +15,6 @@ Feature: Tracing Request Inquirer
       | How are they related to the child?      | <Select> Father           |
       | Nickname of inquirer                    | Timmy                     |
       | Date of Birth                           | 30-May-1990               |
-      | Language                                | <Choose>Language 1        |
-      | Religion                                | <Choose>Religion 1        |
-      | Ethnicity                               | <Select> Ethnicity 1      |
-      | Sub Ethnicity 1                         | <Select> Sub Ethnicity 1  |
-      | Sub Ethnicity 2                         | <Select> Sub Ethnicity 2  |
-      | Nationality                             | <Choose>Nationality 1     |
       | Additional details / comments           | This is a test            |
       | Current Address                         | Current Address Value     |
       | Current Location                        | Current Location Value    |
@@ -39,6 +33,7 @@ Feature: Tracing Request Inquirer
       | Additional info that could help in tracing? | It is at some place in the world  |
 
   Scenario: As a logged in user, I create a tracing request by fill up inquirer form
+    And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
     Then I should see "Tracing Request record successfully created" on the page
     And I should see a value for "Inquiry Status" on the show page with the value of "Open"
@@ -47,12 +42,6 @@ Feature: Tracing Request Inquirer
     And I should see a value for "Nickname of inquirer" on the show page with the value of "Timmy"
     And I should see the calculated Age of a child born in "1990"
     And I should see a value for "Date of Birth" on the show page with the value of "30-May-1990"
-    And I should see a value for "Language" on the show page with the value of "Language 1"
-    And I should see a value for "Religion" on the show page with the value of "Religion 1"
-    And I should see a value for "Ethnicity" on the show page with the value of "Ethnicity 1"
-    And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Sub Ethnicity 1"
-    And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Sub Ethnicity 2"
-    And I should see a value for "Nationality" on the show page with the value of "Nationality 1"
     And I should see a value for "Additional details / comments" on the show page with the value of "This is a test"
     And I should see a value for "Current Address" on the show page with the value of "Current Address Value"
     And I should see a value for "Current Location" on the show page with the value of "Current Location Value"
@@ -71,6 +60,7 @@ Feature: Tracing Request Inquirer
     And I should see a value for "Additional info that could help in tracing?" on the show page with the value of "It is at some place in the world"
 
   Scenario: As a logged in user, I edit a tracing request by changing inquirer form
+    And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
     And I press the "Edit" button
     And I fill in the following:
@@ -79,12 +69,6 @@ Feature: Tracing Request Inquirer
       | How are they related to the child?      | <Select> Uncle            |
       | Nickname of inquirer                    | Timmy Tim                 |
       | Date of Birth                           | 28-May-1991               |
-      | Language                                | <Choose>Language 2        |
-      | Religion                                | <Choose>Religion 2        |
-      | Ethnicity                               | <Select> Ethnicity 2      |
-      | Sub Ethnicity 1                         | <Select> Sub Ethnicity 2  |
-      | Sub Ethnicity 2                         | <Select> Sub Ethnicity 1  |
-      | Nationality                             | <Choose>Nationality 2     |
       | Additional details / comments           | This is a test comments   |
       | Current Address                         | Update Current Address Value  |
       | Current Location                        | Update Current Location Value |
@@ -101,6 +85,7 @@ Feature: Tracing Request Inquirer
       | Last Location               | Update Last Location Value place |
       | Last Telephone              | Update Last Telephone Value      |
       | Additional info that could help in tracing? |  somewhere       |
+    And the value of "Age" should be the calculated age of someone born in "1991"
     And I press "Save"
     Then I should see "Tracing Request was successfully updated" on the page
     And I should see a value for "Inquiry Status" on the show page with the value of "Closed"
@@ -109,12 +94,6 @@ Feature: Tracing Request Inquirer
     And I should see a value for "Nickname of inquirer" on the show page with the value of "Timmy Tim"
     And I should see the calculated Age of a child born in "1991"
     And I should see a value for "Date of Birth" on the show page with the value of "28-May-1991"
-    And I should see a value for "Language" on the show page with the value of "Language 1, Language 2"
-    And I should see a value for "Religion" on the show page with the value of "Religion 1, Religion 2"
-    And I should see a value for "Ethnicity" on the show page with the value of "Ethnicity 2"
-    And I should see a value for "Sub Ethnicity 1" on the show page with the value of "Sub Ethnicity 2"
-    And I should see a value for "Sub Ethnicity 2" on the show page with the value of "Sub Ethnicity 1"
-    And I should see a value for "Nationality" on the show page with the value of "Nationality 1, Nationality 2"
     And I should see a value for "Additional details / comments" on the show page with the value of "This is a test comments"
     And I should see a value for "Current Address" on the show page with the value of "Update Current Address Value"
     And I should see a value for "Current Location" on the show page with the value of "Update Current Location Value"

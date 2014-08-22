@@ -414,7 +414,7 @@ end
 #Chosen with the values to select in the table.
 When /^I choose from "([^\"]*)":$/ do |chosen, table |
   label = find("//label[text()='#{chosen}']", :visible => true)
-  chosen_id = label["for"] + "__chosen"
+  chosen_id = label["for"] + "_chosen"
   chosen = find(:xpath, "//div[@id='#{chosen_id}']", :visible => true)
   table.raw.flatten.each do |option|
     #This make visible the options to choose.
@@ -430,7 +430,7 @@ end
 When /^I choose option "([^\"]*)" from "([^\"]*)"(?: within "([^"]*)")?$/ do |option, chosen, selector |
   selector ||= ""
   label = find("#{selector}//label[text()='#{chosen}']", :visible => true)
-  chosen_id = label["for"] + "__chosen"
+  chosen_id = label["for"] + "_chosen"
   chosen = find(:xpath, "//div[@id='#{chosen_id}']",  :visible => true)
   #This make visible the options to choose.
   chosen.click
@@ -443,7 +443,7 @@ end
 #Chosen with the values to select in the table.
 When /^the chosen "([^\"]*)" should have the following values:$/ do |chosen, table |
   label = find("//label[text()='#{chosen}']", :visible => true)
-  chosen_select_id = label["for"] + "_"
+  chosen_select_id = label["for"]
   chosen_select = find(:xpath, "//select[@id='#{chosen_select_id}']", :visible => false)
   table.raw.flatten.each do |option|
     chosen_select.value.include?(option).should eq(true)
@@ -452,7 +452,7 @@ end
 
 When /^the chosen "([^\"]*)" should not have any selected value$/ do |chosen|
   label = find("//label[text()='#{chosen}']", :visible => true)
-  chosen_select_id = label["for"] + "_"
+  chosen_select_id = label["for"]
   chosen_select = find(:xpath, "//select[@id='#{chosen_select_id}']", :visible => false)
   chosen_select.value.blank?.should be true
 end

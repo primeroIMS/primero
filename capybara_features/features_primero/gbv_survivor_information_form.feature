@@ -16,10 +16,6 @@ Feature: Survivor Information Form
       | Name                                                                                        | Tiki Thomas Taliaferro          |
       | Survivor Code                                                                               | BBB111                          |
       | Sex                                                                                         | <Select> Female                 |
-      | Clan or Ethnicity                                                                           | <Select> Ethnicity1             |
-      | Country of Origin                                                                           | <Select> Country1               |
-      | Nationality (if different than country of origin)                                           | <Select> Nationality1           |
-      | Religion                                                                                    | <Select> Religion1              |
       | Current Civil/Marital Status                                                                | <Select> Single                 |
       | Number and age of children and other dependents                                             | 2 children. 8 and 10 years old. |
       | Occupation                                                                                  | Some occupation                 |
@@ -37,10 +33,6 @@ Feature: Survivor Information Form
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
     And I should see a value for "Survivor Code" on the show page with the value of "BBB111"
     And I should see a value for "Sex" on the show page with the value of "Female"
-    And I should see a value for "Clan or Ethnicity" on the show page with the value of "Ethnicity1"
-    And I should see a value for "Country of Origin" on the show page with the value of "Country1"
-    And I should see a value for "Nationality (if different than country of origin)" on the show page with the value of "Nationality1"
-    And I should see a value for "Religion" on the show page with the value of "Religion1"
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Single"
     And I should see a value for "Number and age of children and other dependents" on the show page with the value of "2 children. 8 and 10 years old."
     And I should see a value for "Occupation" on the show page with the value of "Some occupation"

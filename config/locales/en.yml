@@ -788,6 +788,10 @@ en:
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
 
+      lookup:
+        value_presence: "Please select at least one lookup value"
+        unique_name: "A lookup with that name already exists, please enter a different name"
+
       system_users:
         username_unique: "User name has already been taken! Please select a new User name"
 

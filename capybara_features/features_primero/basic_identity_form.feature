@@ -54,6 +54,7 @@ Feature: Basic Identity Form
       | Current Location                         | Southern Region                    |
       | Is this address permanent?               | <Radio> Yes                        |
       | Current Telephone                        | 336-555-1313                       |
+    And the value of "Age" should be the calculated age of someone born in "1992"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
@@ -172,6 +173,7 @@ Feature: Basic Identity Form
       | UNHCR ID          | AAA000                               |
       | Nickname          | Tommy                                |
       | Other Name        | Bob                                  |
+    And the value of "Date of Birth" should be January 1, "24" years ago
     And I press "Save"
     Then I should see a value for "Age" on the show page with the value of "24"
     Then I should see a value for "Date of Birth" on the show page which is January 1, "24" years ago
@@ -187,6 +189,7 @@ Feature: Basic Identity Form
       | UNHCR ID          | AAA000                               |
       | Nickname          | Tommy                                |
       | Other Name        | Bob                                  |
+    And the value of "Date of Birth" should be January 1, "0" years ago
     And I press "Save"
     Then I should see a value for "Age" on the show page with the value of "0"
     Then I should see a value for "Date of Birth" on the show page which is January 1, "0" years ago
@@ -194,6 +197,7 @@ Feature: Basic Identity Form
   Scenario: As a logged in user, When I fill in the Date of Birth field the Age should be calculated
     And I fill in the following:
       | Date of Birth | 02-May-1990 |
+    And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
     Then I should see a value for "Date of Birth" on the show page with the value of "02-May-1990"
     Then I should see the calculated Age of a child born in "1990"

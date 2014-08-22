@@ -38,6 +38,7 @@
 //= require age_birth_date
 //= require hidden_text_field.js
 //= require date_range_controls.js
+//= require reload_violations.js
 //= require index_table
 //= require document_upload.js
 //= require autosum_fields.js

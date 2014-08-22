@@ -51,9 +51,9 @@ abduction_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 40,
-  :order => 80,
+  :order => 50,
   :order_subform => 1,
-  :unique_id => "abduction_subform_section",
+  :unique_id => "abduction",
   :parent_form=>"incident",
   "editable" => true,
   :fields => abduction_subform_fields,
@@ -66,7 +66,7 @@ abduction_subform_section = FormSection.create_or_update_form_section({
 })
 
 abduction_fields = [
-  Field.new({"name" => "abduction_subform_section",
+  Field.new({"name" => "abduction",
              "type" => "subform", "editable" => true,
              "subform_section_id" => abduction_subform_section.id,
              "display_name_all" => "Abduction"
@@ -74,11 +74,11 @@ abduction_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "abduction",
+  :unique_id => "abduction_violation_wrapper",
   :parent_form=>"incident",
   "visible" => true,
   :order_form_group => 40,
-  :order => 80,
+  :order => 50,
   :order_subform => 0,
   :form_group_name => "Violations",
   "editable" => true,

@@ -1,6 +1,6 @@
 #JIRA PRIMERO-291
 
-@javascript @primero
+@javascript @primero @search
 Feature: Date Of Birth Age Recalculate Edit
   As an user, I want that age will recalculated when enter on edit screen if the age is out of synchronization
   respect to the current year.

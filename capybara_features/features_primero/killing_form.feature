@@ -32,10 +32,11 @@ Feature: Killing Form
       | Mine Incident                                                                      | <Radio> No                             |
       | Was the victim directly participating in hostilities at the time of the violation? | <Select> Yes                           |
       | Did the violation occur during or as a direct result of abduction?                 | <Select> Yes                           |
+    And the value of "Number of total victims" in the 1st "Killing" subform should be "6"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see 1 subform on the show page for "Killing Subform Section"
-    And I should see in the 1st "Killing Subform Section" subform with the follow:
+    And I should see 1 subform on the show page for "Killing"
+    And I should see in the 1st "Killing" subform with the follow:
       | Number of victims: boys                                                            | 1                             |
       | Number of victims: girls                                                           | 2                             |
       | Number of victims: unknown                                                         | 3                             |

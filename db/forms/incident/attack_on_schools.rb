@@ -130,7 +130,7 @@ attack_on_schools_subform_fields = [
              "display_name_all" => "Number of Adults Affected by Service Disruption"
             }),
   Field.new({"name" => "number_children_recruited",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of Children Recruited During Attack"
             }),
   Field.new({"name" => "facility_management",
@@ -170,9 +170,9 @@ attack_on_schools_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 40,
-  :order => 50,
+  :order => 60,
   :order_subform => 1,
-  :unique_id => "attack_on_schools_subform_section",
+  :unique_id => "attack_on_schools",
   :parent_form=>"incident",
   "editable" => true,
   :fields => attack_on_schools_subform_fields,
@@ -185,7 +185,7 @@ attack_on_schools_subform_section = FormSection.create_or_update_form_section({
 })
 
 attack_on_schools_fields = [
-  Field.new({"name" => "attack_on_schools_subform_section",
+  Field.new({"name" => "attack_on_schools",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_schools_subform_section.id,
              "display_name_all" => "Attack on Schools"
@@ -193,11 +193,11 @@ attack_on_schools_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "attack_on_schools",
+  :unique_id => "attack_on_schools_violation_wrapper",
   :parent_form=>"incident",
   "visible" => true,
   :order_form_group => 40,
-  :order => 50,
+  :order => 60,
   :order_subform => 0,
   :form_group_name => "Violations",
   "editable" => true,

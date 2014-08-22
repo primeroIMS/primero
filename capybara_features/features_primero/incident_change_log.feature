@@ -15,10 +15,11 @@ Feature: Incident change log
     Then I should see change log of creation by user "primero"
     And I follow "Back"
     And I press the "Edit" button
-    And I fill in "Case Worker" with "Bob"
+    And I press the "Record Owner" button
+    And I fill in "Field/Case/Social Worker" with "Bob"
     And I press "Save"
     And I press the "Change Log" button
-    And I should see change log for initially setting the field "Caseworker code" to value "Bob" by "primero"
+    And I should see change log for initially setting the field "Caseworker name" to value "Bob" by "primero"
 
   @javascript @primero
   Scenario: Access the Change Log Feature From Case Page
@@ -50,11 +51,12 @@ Feature: Incident change log
     When I press the "INCIDENTS" button
     And I press the "7af3aa9" link
     And I press the "Edit" button
-    And I fill in "Case Worker" with "Bob"
+    And I press the "Record Owner" button
+    And I fill in "Field/Case/Social Worker" with "Bob"
     And I press "Save"
     And I press the "Change Log" button
     Then I see the list is in order with this <item>
     Examples:
     | item                                            |
-    | Case Worker initially set to Bob by Primero belonging to N/A |
+    | Caseworker name initially set to Bob by Primero belonging to N/A |
     | Record created by primero belonging to N/A          |
