@@ -1,8 +1,4 @@
 denial_humanitarian_access_section_fields = [
-  Field.new({"name" => "violation_id",
-             "type" => "hidden_field",
-             "display_name_all" => "Violation ID"
-            }),
   Field.new({"name" => "denial_method",
              "type" => "select_box",
              "display_name_all" => "What method(s) were used to deny humanitarian access?",

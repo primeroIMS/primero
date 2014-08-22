@@ -80,10 +80,6 @@ _primero.update_subform_heading = function(subformEl) {
         }
       }
       $(el).text(values.join(" - "));
-
-      // find violation id field and update it
-      violationIdEl = $(subformEl).find("input[id$='_violation_id']");
-      violationIdEl.val(values.join(" - "));
     }
   });
 }

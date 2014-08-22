@@ -1,8 +1,4 @@
 other_violation_section_fields = [
-  Field.new({"name" => "violation_id",
-             "type" => "hidden_field",
-             "display_name_all" => "Violation ID"
-            }),
   Field.new({"name" => "violation_other_type",
              "type" => "select_box",
              "display_name_all" => "Other Violation Type",

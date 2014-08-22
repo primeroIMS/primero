@@ -21,6 +21,7 @@ var ViolationListReload = Backbone.View.extend({
     // Build new violations list
     $(context).find("fieldset[id$='_violation_wrapper']").each(function(x, violationListEl){
       var index = 0;  // counter for each type of violation
+      var violation_name = $(violationListEl).find(".subforms").attr('id');
       $(violationListEl).find(".subforms").children('div').each(function(x, violationEl){
         if ($(violationEl).children().length > 0) {
 
@@ -37,10 +38,23 @@ var ViolationListReload = Backbone.View.extend({
           if (valueLength > 0) {
             // get subform header
             _primero.update_subform_heading(violationEl);
+            var subformHeaderEl = $(violationEl).find(".collapse_expand_subform_header");
             var tmpValue = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
             var tmpRes = $(violationEl).find(".collapse_expand_subform_header label").text();
             var res = tmpRes + " " + tmpValue + " " + index;
             violation_list.push(res);
+
+            //If hidden input field 'violation_id' exists, update it.  Otherwise add it.
+            if($(violationEl).find("input[id$='_violation_id']").length > 0){
+              violationIdEl = $(violationEl).find("input[id$='_violation_id']");
+              violationIdEl.val(res);
+            }else{
+              var i = parseInt($(violationEl).attr("id").split("_").pop());
+              var id = _primero.model_object + "_violations_" + violation_name + "_" + i + "_violation_id";
+              var name = _primero.model_object + "[violations][" + violation_name + "][" + i + "][violation_id]";
+              $(subformHeaderEl).append("<input id=\"" + id + "\" type=\"hidden\" name=\"" + name + "\" value=\"" + res + "\" />");
+            }
+
             index++;
           }
         }

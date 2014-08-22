@@ -6,9 +6,7 @@
       <%= render :partial => "form_section/form_section_info", :locals => {:form_section => section} %>
       <hr>
       <% (section.fields.select{|field| field.visible?}).each do |field| %>
-        <% unless field.display_type == 'hidden' %>
-          <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject, :form_group_name => form_group_name, :display_audio_delete_checkbox => false} %>
-        <% end %>
+        <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject, :form_group_name => form_group_name, :display_audio_delete_checkbox => false} %>
       <% end %>
     </fieldset>
   <% end %>
