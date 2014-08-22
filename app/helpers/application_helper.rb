@@ -5,6 +5,10 @@ module ApplicationHelper
     url_for( params.merge( :format => format ) )
   end
 
+  def current_page(path)
+    "current" if current_page?(path)
+  end
+
   def session
     current_session
   end
