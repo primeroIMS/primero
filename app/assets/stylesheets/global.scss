@@ -507,8 +507,8 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
 ////////////////////////////////////////////////
 
 .panel {
-  background: #fff;
-  border: 1px solid $green_color;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
 }
 
 
@@ -546,13 +546,22 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
 
 header {
   padding: 20px 0;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+
+  .columns {
+    padding: 0;
+  }
 }
 
-.logo {
+a.logo {
   font-family: 'Libre Baskerville', serif;
   font-size: 3rem;
   font-weight: bold;
+
+  &:hover {
+    text-decoration: none;
+  }
+
 }
 
 ul.links {
@@ -871,12 +880,30 @@ li.current {
 
 ul.side-nav {
   width: 333px;
-}
 
+  li ul {
+    display: none;
+    list-style: none;
+  }
 
-ul.side-nav li ul {
-  display: none;
-  list-style: none;
+  li .panel {
+    width: 325px;
+
+    strong {
+      text-transform: uppercase;
+    }
+
+    a {
+      padding: 0;
+      display: inline;
+      font-size: 1rem;
+
+      &:hover {
+        color: $grey_color !important;
+        background: none !important;
+      }
+    }
+  }
 }
 
 ////////////////////////////////////////////////

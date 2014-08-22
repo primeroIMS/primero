@@ -3,7 +3,8 @@ class ReportsController < ApplicationController
 
   def index
     authorize! :index, Report
-    @reports = paginated_reports
+    # TODO: Reports needs to be refactored. Pagination is now done with Solr.
+    # @reports = paginated_reports
     @page_name = t("report.heading")
   end
 
