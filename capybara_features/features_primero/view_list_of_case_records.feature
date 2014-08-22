@@ -17,7 +17,6 @@ Feature: Primero View List of Case Records
       | meredith | primero    | 13  | female | 03-Feb-2004             | closed | 51c4cba8-b410-4af6-b349-68c557af3aa6 |
       | jane     | primero    | 14  | male   | 03-Feb-2004             | open   | 61c4cba8-b410-4af6-b349-68c557af3aa5 |
     When I press the "CASES" button
-    Then I should see "Cases"
     And I should see "Displaying all 5 cases"
     And I should see an id "7af3aa9" link on the page
     And I press the "7af3aa9" link
@@ -34,13 +33,11 @@ Feature: Primero View List of Case Records
       | andreas  | primero    | 10  | male   | 03-Feb-2004             | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
 
     When I press the "CASES" button
-    Then I should see "Cases"
     And I should see "open" on the page
 
   Scenario: I want to see my cases but I do not have any
     Given I am logged in as an admin with username "primero" and password "primero"
     When I press the "CASES" button
-    Then I should see "Cases"
     And I should see "No entries found"
 
   Scenario: Pagination links are available for more than 20 records
@@ -73,7 +70,6 @@ Feature: Primero View List of Case Records
       | stan     | primero    | 13  | female | 03-Feb-2004             | closed |
       | marilyn  | primero    | 14  | male   | 03-Feb-2004             | open   |
     When I press the "CASES" button
-    Then I should see "Cases"
     And I should see "Displaying cases 1 - 20 of 25 in total"
     And I click text "Next"
     And I should see "jaco" on the page
