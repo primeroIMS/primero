@@ -320,9 +320,9 @@ fieldset {
     }
   }
 
-  .row:nth-child(even) {
-    background: #ebebeb;
-  }
+  // .row:nth-child(even) {
+  //   background: #ebebeb;
+  // }
 
   label {
     font-weight: bold;
@@ -599,6 +599,12 @@ ul.links {
     &:hover {
       text-decoration: none;
     }
+
+    &.current {
+      background: $white_color !important;
+      color: $grey_color !important;
+      border-top: 1px solid #333;
+    }
   }
   
   button {
@@ -789,11 +795,11 @@ nav {
 
 .side-tab {
   position: relative;
-  background: #fff;
-  border: 1px solid #bbb;
   border-top: none;
   min-height: 38rem;
   margin-bottom: 3rem;
+  border-right: 1px solid #ccc;
+
   a {
     color: $green_color !important;
     font-size: 1.1rem;
@@ -805,14 +811,14 @@ nav {
       text-decoration: none;
     }
   }
-
-  ul.side-nav {
-    width: 316px;
-  }
 }
 
 .side-tab-content {
-  padding-left: 0
+  padding-left: 0;
+  background: #f1f1f1;
+  border-right: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 .close-side-tab {
@@ -828,7 +834,14 @@ li.group a.group:after {
 }
 
 li.current {
-  background: #f1f1f1;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+
+  &:not(.group) {
+    background: #f1f1f1;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #f1f1f1;
+  }
 
   a.group:after {
     content: '-';
@@ -855,6 +868,11 @@ li.current {
     padding: 4px 0 4px;
   }
 }
+
+ul.side-nav {
+  width: 333px;
+}
+
 
 ul.side-nav li ul {
   display: none;

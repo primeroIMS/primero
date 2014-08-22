@@ -1,8 +1,7 @@
 
 <fieldset id="tab_<%= form_section.section_name %>" class="<%= form_section.section_name %> tab no-border" data-first-tab="<%= form_section.is_first_tab %>">
-  <%= render partial: 'form_section/form_section_info', locals: {form_section: form_section} %>
+  <div class="clearfix"></div>
   <%= render 'form_section/error_message', formObject: formObject %>
-  <hr >
   <% (form_section.fields.select {|field| field.visible? }).each do |field| %>
         <%= render partial: "form_section/#{field.type}", object: field, locals: {formObject: formObject, form_group_name: form_group_name} %>
   <% end %>
