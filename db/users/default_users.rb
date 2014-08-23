@@ -10,7 +10,8 @@ def create_or_update_user(user_hash)
     user_attributes = {
        "user_name" => user_hash["user_name"],
        "full_name" => user_hash["full_name"],
-       "role_ids" => user_hash["role_ids"]
+       "role_ids" => user_hash["role_ids"],
+       "module_ids" => user_hash["module_ids"]
     }
     user.update_attributes user_attributes
   end
