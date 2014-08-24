@@ -177,7 +177,7 @@ class FormSection < CouchRest::Model::Base
       if form.visible?
         form_sections.push form
       else
-        subforms_hash[form.id] = form
+        subforms_hash[form.unique_id] = form
       end
     end
 
@@ -190,6 +190,37 @@ class FormSection < CouchRest::Model::Base
 
     form_groups = form_sections.group_by{|e| e.form_group_name}
   end
+
+
+  #Given an arbitrary list of forms go through and link up the forms to subforms.
+  #Functionally this isn't important, but this will improve performance if the list
+  #contains both the top forms and the subforms by avoiding extra queries.
+  def self.link_subforms(forms)
+    subforms_hash = forms.reduce({}) do |hash, form|
+      hash[form.unique_id] = form unless form.visible?
+      hash
+    end
+
+    forms.map{|f| f.fields}.flatten.each do |field|
+      if field.type == Field::SUBFORM && field.subform_section_id
+        field.subform ||= subforms_hash[field.subform_section_id]
+      end
+    end
+
+    return forms
+  end
+
+
+  #Return a hash of subforms, where the keys are the form groupings
+  def self.group_forms(forms)
+    grouped_forms = {}
+    visible_forms = forms.select{|f| f.visible?}
+    if visible_forms.present?
+      grouped_forms = visible_forms.group_by{|f| f.form_group_name}
+    end
+    return grouped_forms
+  end
+
 
   #Return only those forms that can be accessed by the user given their role permissions and the record's module
   def self.get_permitted_form_sections(record, user)

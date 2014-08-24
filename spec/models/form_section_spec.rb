@@ -36,35 +36,88 @@ describe FormSection do
     f.all_searchable_fields.should == [text_area]
   end
 
-  describe "get_permitted_form_sections" do
 
-    before do
-      FormSection.all.each &:destroy
-      PrimeroModule.all.each &:destroy
-      Role.all.each &:destroy
+  describe "loading subforms in controller" do
 
-      @form_section_a = FormSection.create!(unique_id: "A", name: "A")
-      @form_section_b = FormSection.create!(unique_id: "B", name: "B")
-      @form_section_c = FormSection.create!(unique_id: "C", name: "C")
-      @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"])
-      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
-      @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+    describe "get_permitted_form_sections" do
+      before do
+        FormSection.all.each &:destroy
+        PrimeroModule.all.each &:destroy
+        Role.all.each &:destroy
+
+        @form_section_a = FormSection.create!(unique_id: "A", name: "A")
+        @form_section_b = FormSection.create!(unique_id: "B", name: "B")
+        @form_section_c = FormSection.create!(unique_id: "C", name: "C")
+        @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"])
+        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+        @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+      end
+
+      it "returns all FormSection objects that are bound to the case's module that the user has access to" do
+        child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+        result = FormSection.get_permitted_form_sections(child, @user)
+        expect(result).to eq([@form_section_b])
+      end
+
+      it "returns no FormSection objects if the user cannot view the permitted module forms" do
+        role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions: ["test_permission"])
+        user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
+        child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+
+        result = FormSection.get_permitted_form_sections(child, user)
+        expect(result.present?).to be_false
+      end
     end
 
-    it "returns all FormSection objects that are bound to the case's module that the user has access to" do
-      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-      result = FormSection.get_permitted_form_sections(child, @user)
-      expect(result).to eq([@form_section_b])
+    describe "group_forms" do
+      it "groups forms by the group name" do
+        form_section_a = FormSection.new(unique_id: "A", name: "A", form_group_name: "X")
+        form_section_b = FormSection.new(unique_id: "B", name: "B", form_group_name: "X")
+        form_section_c = FormSection.new(unique_id: "C", name: "C", form_group_name: "Y")
+
+        result = FormSection.group_forms([form_section_a, form_section_b, form_section_c])
+
+        expect(result).to be_a Hash
+        expect(result.keys).to match_array(["X", "Y"])
+        expect(result["X"]).to match_array([form_section_a, form_section_b])
+        expect(result["Y"]).to match_array([form_section_c])
+      end
     end
 
-    it "returns no FormSection objects if the user cannot view the permitted module forms" do
-      role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions: ["test_permission"])
-      user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
-      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+    describe "link_subforms" do
+      it "links forms to subforms if both are provided in the input list" do
 
-      result = FormSection.get_permitted_form_sections(child, user)
-      expect(result.present?).to be_false
+        fields_a = [
+          Field.new(name: "a_0", type: Field::TEXT_FIELD),
+          Field.new(name: "a_1", type: Field::TEXT_FIELD)
+        ]
+        form_section_a = FormSection.new(unique_id: "A", name: "A", fields: fields_a, visible: false)
+
+        fields_b = [
+          Field.new(name: "b_0", type: Field::TEXT_FIELD),
+          Field.new(name: "b_1", type: Field::TEXT_FIELD)
+        ]
+        form_section_b = FormSection.new(unique_id: "B", name: "B", fields: fields_b)
+
+        fields_c = [
+          Field.new(name: "c_0", type: Field::TEXT_FIELD),
+          Field.new(name: "c_1", type: Field::SUBFORM, subform_section_id: "A")
+        ]
+        form_section_c = FormSection.new(unique_id: "C", name: "C", fields: fields_c)
+
+        result = FormSection.link_subforms([form_section_a, form_section_b, form_section_c])
+        result_subform_field = result.select{|f|f.unique_id=='C'}.first.fields.select{|f|f.name=='c_1'}.first
+
+        expect(result).to be_an Array
+        expect(result_subform_field.subform).to be_a FormSection
+        expect(result_subform_field.subform.unique_id).to eq("A")
+      end
+
+
     end
+
+
+
 
   end
 
