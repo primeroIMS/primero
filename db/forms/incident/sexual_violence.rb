@@ -1,21 +1,21 @@
 sexual_violence_subform_fields = [
   Field.new({"name" => "violation_boys",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: boys",
              "autosum_group" => "sexual_violence_number_of_survivors"
             }),
   Field.new({"name" => "violation_girls",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: girls",
              "autosum_group" => "sexual_violence_number_of_survivors"
             }),
   Field.new({"name" => "violation_unknown",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: unknown",
              "autosum_group" => "sexual_violence_number_of_survivors"
             }),
   Field.new({"name" => "violation_total",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of total survivors",
              "autosum_total" => true,
              "autosum_group" => "sexual_violence_number_of_survivors"
@@ -96,7 +96,7 @@ sexual_violence_subform_fields = [
                                      "Other"].join("\n")
             }),
   Field.new({"name" => "gbv_reported_elsewhere_organization_provider",
-             "type" => "text_field", 
+             "type" => "text_field",
              "display_name_all" => "Name of the service provider"
             }),
   Field.new({"name" => "gbv_reported_elsewhere_reporting",
@@ -132,7 +132,7 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
 sexual_violence_fields = [
   Field.new({"name" => "sexual_violence_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => sexual_violence_subform_section.id,
+             "subform_section_id" => sexual_violence_subform_section.unique_id,
              "display_name_all" => "Sexual Violence"
             })
 ]

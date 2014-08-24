@@ -60,7 +60,7 @@ describe Child do
     after :all do
       FormSection.all.all.each { |form| form.destroy }
     end
-    
+
     # TODO: full text searching not implemented yet. Effects the next 13 test.
 
     # it "should return empty array if search is not valid" do
@@ -380,7 +380,7 @@ describe Child do
       #Update the child so the current audio is removed.
       properties = {:name => "Some Child Name"}
       child.update_properties_with_user_name 'Jane Doe', nil, nil, nil, true, properties
-    
+
       #Validate the file was removed.
       child['_attachments'].should be_blank
       child['audio_attachments'].should be_nil
@@ -800,7 +800,7 @@ describe Child do
 
       it "should save child after delete some photos" do
         photos = []
-        (1..10).each do |i|          
+        (1..10).each do |i|
           photos << stub_photo_properties(i)
         end
         child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
@@ -831,7 +831,7 @@ describe Child do
         photo.stub(:content_type).and_return("image/jpg")
         photo
       end
-      
+
     end
 
   end
@@ -1438,7 +1438,7 @@ describe Child do
         record_duplicate = create_duplicate(record_active)
 
         duplicates = Child.duplicates_of(record_active.id)
-        all = Child.all
+        all = Child.all.all
 
         duplicates.size.should be 1
         all.size.should be 1
@@ -1559,7 +1559,7 @@ describe Child do
           "name_all" => "Nested Subform 0",
           "description_all" => "Subform 0 subform"
       })
-            
+
       fields = [Field.new({"name" => "age",
                            "type" => "text_field",
                            "display_name_all" => "Age"
@@ -1570,9 +1570,9 @@ describe Child do
                           }),
                 ##Subform##
                 Field.new({"name" => "subform0_section",
-                           "type" => "subform", 
+                           "type" => "subform",
                            "editable" => true,
-                           "subform_section_id" => subform0_section.id,
+                           "subform_section_id" => subform0_section.unique_id,
                            "display_name_all" => "Subform 0"
                           })
                 ##Subform##
@@ -1648,15 +1648,15 @@ describe Child do
                           }),
                 ##Subform##
                 Field.new({"name" => "subform1_section",
-                           "type" => "subform", 
+                           "type" => "subform",
                            "editable" => true,
-                           "subform_section_id" => subform1_section.id,
+                           "subform_section_id" => subform1_section.unique_id,
                            "display_name_all" => "Subform 1"
                           }),
                 Field.new({"name" => "subform2_section",
-                           "type" => "subform", 
+                           "type" => "subform",
                            "editable" => true,
-                           "subform_section_id" => subform2_section.id,
+                           "subform_section_id" => subform2_section.unique_id,
                            "display_name_all" => "Subform 2"
                           })
                 ##Subform##

@@ -171,7 +171,7 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => [Field.new({"name" => "individual_details_subform_section",
                          "type" => "subform", "editable" => true,
-                         "subform_section_id" => individual_details_subform_section.id,
+                         "subform_section_id" => individual_details_subform_section.unique_id,
                          "display_name_all" => "Individual Details"
                         })
              ],

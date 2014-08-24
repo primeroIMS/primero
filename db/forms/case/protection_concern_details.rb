@@ -60,8 +60,8 @@ protection_concern_detail_subform_fields = [
     "type" => "select_box",
     "display_name_all" => "Intervention needed?",
     "option_strings_text_all" => [
-      "No Further Action Needed", 
-      "Ongoing Monitoring", 
+      "No Further Action Needed",
+      "Ongoing Monitoring",
       "Urgent Intervention"
     ].join("\n")
   }),
@@ -101,7 +101,7 @@ protection_concern_detail_subform_section = FormSection.create_or_update_form_se
   "collapsed_fields" => ["protection_concern_type"]
 })
 
-protection_concern_detail_fields = [  
+protection_concern_detail_fields = [
   Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "multi_select" => true,
@@ -128,7 +128,7 @@ protection_concern_detail_fields = [
             }),
   Field.new({"name" => "protection_concern_detail_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => protection_concern_detail_subform_section.id,
+             "subform_section_id" => protection_concern_detail_subform_section.unique_id,
              "display_name_all" => "Protection Concern Details"
             })
 ]

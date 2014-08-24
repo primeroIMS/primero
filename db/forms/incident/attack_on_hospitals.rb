@@ -154,7 +154,7 @@ attack_on_hospitals_subform_section = FormSection.create_or_update_form_section(
 attack_on_hospitals_fields = [
   Field.new({"name" => "attack_on_hospitals_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => attack_on_hospitals_subform_section.id,
+             "subform_section_id" => attack_on_hospitals_subform_section.unique_id,
              "display_name_all" => "Attack on Hospitals"
             })
 ]

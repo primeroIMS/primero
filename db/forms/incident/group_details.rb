@@ -1,6 +1,6 @@
 group_details_section_fields_subform = [
   Field.new({"name" => "group_description",
-             "type" => "text_field", 
+             "type" => "text_field",
              "display_name_all" => "Description of the Group of Children"
             }),
   Field.new({"name" => "group_violations",
@@ -13,7 +13,7 @@ group_details_section_fields_subform = [
                                      "Option 4"].join("\n")
             }),
   Field.new({"name" => "group_number",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "How many children were involved?"
             }),
   Field.new({"name" => "group_gender",
@@ -44,7 +44,7 @@ group_details_section_fields_subform = [
                                      "Ethnicity 2",
                                      "Ethnicity 3",
                                      "Other",
-                                     "Mixed", 
+                                     "Mixed",
                                      "Unknown"].join("\n")
             }),
   Field.new({"name" => "group_nationality",
@@ -55,7 +55,7 @@ group_details_section_fields_subform = [
                                      "Nationality 2",
                                      "Nationality 3",
                                      "Other",
-                                     "Mixed", 
+                                     "Mixed",
                                      "Unknown"].join("\n")
             }),
   Field.new({"name" => "group_religion",
@@ -66,7 +66,7 @@ group_details_section_fields_subform = [
                                      "Religion 2",
                                      "Religion 3",
                                      "Other",
-                                     "Mixed", 
+                                     "Mixed",
                                      "Unknown"].join("\n")
             }),
   Field.new({"name" => "group_displacement_at_time_of_incident",
@@ -102,9 +102,9 @@ group_details_section = FormSection.create_or_update_form_section({
 group_details_fields = [
   ##Subform##
   Field.new({"name" => "group_details_section",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => true,
-             "subform_section_id" => group_details_section.id,
+             "subform_section_id" => group_details_section.unique_id,
              "display_name_all" => "Group Details"
             }),
   ##Subform##

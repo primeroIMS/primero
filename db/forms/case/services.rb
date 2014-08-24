@@ -104,7 +104,7 @@ services_fields = [
   Field.new({
     "name" => "services_section",
     "type" => "subform", "editable" => true,
-    "subform_section_id" => services_section.id,
+    "subform_section_id" => services_section.unique_id,
     "display_name_all" => "Services"
   })
 ]

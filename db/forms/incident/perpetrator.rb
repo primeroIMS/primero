@@ -125,7 +125,7 @@ perpetrator_subform_section = FormSection.create_or_update_form_section({
 perpetrator_fields = [
   Field.new({"name" => "perpetrator_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => perpetrator_subform_section.id,
+             "subform_section_id" => perpetrator_subform_section.unique_id,
              "display_name_all" => "Perpetrator"
             })
 ]

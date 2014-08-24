@@ -121,7 +121,7 @@ killing_subform_section = FormSection.create_or_update_form_section({
 killing_fields = [
   Field.new({"name" => "killing_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => killing_subform_section.id,
+             "subform_section_id" => killing_subform_section.unique_id,
              "display_name_all" => "Killing"
             })
 ]

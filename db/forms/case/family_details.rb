@@ -10,15 +10,15 @@ family_details_fields_subform = [
              "type" => "select_box",
              "display_name_all" => "How are they related to the child?",
              "option_strings_text_all" =>
-                                    ["Mother", 
+                                    ["Mother",
                                      "Father",
-                                     "Aunt", 
+                                     "Aunt",
                                      "Uncle",
                                      "Grandmother",
                                      "Grandfather",
-                                     "Brother", 
+                                     "Brother",
                                      "Sister",
-                                     "Husband", 
+                                     "Husband",
                                      "Wife",
                                      "Partner",
                                      "Other Family",
@@ -173,9 +173,9 @@ family_details_fields = [
            }),
   ##Subform##
   Field.new({"name" => "family_details_section",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => true,
-             "subform_section_id" => family_details_section.id,
+             "subform_section_id" => family_details_section.unique_id,
              "display_name_all" => "Family Details"
             }),
   ##Subform##
