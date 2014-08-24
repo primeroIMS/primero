@@ -2,6 +2,21 @@ def create_or_update_module(module_hash)
   module_id = PrimeroModule.id_from_name(module_hash[:name])
   primero_module = PrimeroModule.get(module_id)
 
+
+  #Include associated subforms
+  if module_hash[:associated_form_ids].present?
+    associated_forms = FormSection.by_unique_id(keys: module_hash[:associated_form_ids]).all
+    if associated_forms.present?
+      subform_ids = []
+      associated_forms.map{|f| f.fields}.flatten.each do |field|
+        if field.type == 'subform' && field.subform_section_id
+          subform_ids.push field.subform_section_id
+        end
+      end
+      module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | subform_ids
+    end
+  end
+
   if primero_module.nil?
     puts "Creating module #{module_id}"
     PrimeroModule.create! module_hash

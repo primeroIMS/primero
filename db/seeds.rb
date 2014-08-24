@@ -32,6 +32,12 @@ def clean_db_table(table)
 end
 
 
+#Create the forms
+clean_db_table('form_section')
+puts "[Re-]Seeding the forms"
+Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
+
+
 #Reseed the default roles and users, and modules
 puts "Seeding Roles"
 require File.dirname(__FILE__) + "/users/roles.rb"
@@ -42,11 +48,6 @@ require File.dirname(__FILE__) + "/users/default_modules.rb"
 puts "Seeding Users"
 require File.dirname(__FILE__) + "/users/default_users.rb"
 
-
-#Create the forms
-clean_db_table('form_section')
-puts "[Re-]Seeding the forms"
-Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
 
 
 #TODO We will to revisit the I18n Setup when we address translations.
