@@ -6,11 +6,12 @@ class TracingRequest < CouchRest::Model::Base
 
   include Record
   include Searchable
+  include Ownable
 
   property :tracing_request_id
   property :relation_name
 
-  def initialize *args 
+  def initialize *args
     self['histories'] = []
     super *args
   end
