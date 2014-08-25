@@ -232,8 +232,13 @@ class FormSection < CouchRest::Model::Base
 
     form_sections = []
     if allowed_form_ids.present?
-      form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all #TODO: Does this need to include subforms?
+      form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all
     end
+
+    #Now exclude the forms that do not belong to this record
+    #TODO: This is too chatty. Better to ask for exactly what you need from DB
+    record_parent_form = record.class.parent_form
+    form_sections = form_sections.select{|f| f.parent_form == record_parent_form}
 
     return form_sections
   end
