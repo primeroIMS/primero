@@ -137,9 +137,9 @@ attack_on_hospitals_subform_section = FormSection.create_or_update_form_section(
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 40,
-  :order => 60,
+  :order => 70,
   :order_subform => 1,
-  :unique_id => "attack_on_hospitals_subform_section",
+  :unique_id => "attack_on_hospitals",
   :parent_form=>"incident",
   "editable" => true,
   :fields => attack_on_hospitals_subform_fields,
@@ -152,7 +152,7 @@ attack_on_hospitals_subform_section = FormSection.create_or_update_form_section(
 })
 
 attack_on_hospitals_fields = [
-  Field.new({"name" => "attack_on_hospitals_subform_section",
+  Field.new({"name" => "attack_on_hospitals",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_hospitals_subform_section.unique_id,
              "display_name_all" => "Attack on Hospitals"
@@ -160,11 +160,11 @@ attack_on_hospitals_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "attack_on_hospitals",
+  :unique_id => "attack_on_hospitals_violation_wrapper",
   :parent_form=>"incident",
   "visible" => true,
   :order_form_group => 40,
-  :order => 60,
+  :order => 70,
   :order_subform => 0,
   :form_group_name => "Violations",
   "editable" => true,

@@ -3,6 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=3.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
   <title><%= @page_name %></title>
   <link rel="shortcut icon" href="/favicon.ico?v=2"/>
   <%= stylesheet_link_tag "application" %>
@@ -23,7 +27,7 @@
   <% end %>
 </head>
 <body class="<%= @body_class %>">
-<div class="page_container">
+  <!-- Header -->
   <div class="row">
     <header>
       <div class="large-12 columns">
@@ -34,52 +38,11 @@
       </div>
     </header>
   </div>
-  <div class="main_bar">
-    <div class="row">
-    <% if logged_in? %>
-      <nav class="large-12 columns">
-        <ul>
-          <li><%= link_to t("navigation.home"), root_path %></li>
-          <% if can? :read, TracingRequest %>
-            <li><%= link_to t("navigation.tracing_request"), tracing_requests_path %></li>
-          <% end  %>
-          <% if can? :read, Child %>
-            <li><%= link_to t("navigation.cases"), cases_path %></li>
-          <% end  %>
-          <% if can? :read, Incident %>
-            <li><%= link_to t("navigation.incidents"), incidents_path %></li>
-          <% end  %>
-          <% if false %>
-            <% if current_user_name==nil or can? :manage, FormSection %>
-                <li><%= link_to t("navigation.forms"), form_sections_path %></li>
-            <% end %>
-            <% if can? :read, User or can? :show, Role %>
-              <li><%= link_to t("navigation.users"), users_path %></li>
-            <% end %>
-            <% if can?(:read, Device) or can?(:read, Replication) %>
-              <li><%= link_to t("navigation.devices"), devices_path %></li>
-            <% end %>
-          <% end %>
-          <% if can? :read, Report%>
-            <li><%= link_to t("navigation.reports"), reports_path %></li>
-          <% end %>
-          <% if can? :view_and_search, Child %>
-            <li>
-              <%= form_tag search_children_path, :method => :get, :id => "search_form" do %>
-                <div class="search">
-                  <%= link_to t("navigation.advanced_search"), new_advanced_search_path %>
-                  <%= text_field_tag 'query', params[:query] %>
-                  <%= submit_tag t("navigation.go"), :action => "children/search", :method => "get", :onclick => "return RapidFTR.validateSearch();" %>
-                </div>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-        <div class="clearB"></div>
-      </nav>
-    <% end %>
-    </div>
-  </div>
+  <!-- End Header -->
+  <!-- Nav -->
+    <%= render 'shared/nav' %>
+  <!-- End Nav -->
+<div class="page_container">
   <% if flash[:notice].present? %>
       <div class='flash row'>
         <p class='notice large-12'><%= flash[:notice] %></p>
@@ -97,15 +60,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="large-6 columns">
+      <div class="large-12 columns">
         <%= yield :breadcrumbs %>
-      </div>
-      <div class="large-6 columns">
-        <%= yield :header_message %>
       </div>
     </div>
   </div>
-  <hr />
   <div class="page_content">
     <%= yield %>
   </div>

@@ -26,6 +26,7 @@ Feature: Hide Name
       | UN Number                                | EEE444                             |
       | Other Agency ID                          | ABC12345                           |
       | Other Agency Name                        | Test Agency                        |
+    And the value of "Age" should be the calculated age of someone born in "1992"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page

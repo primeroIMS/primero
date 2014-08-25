@@ -2,9 +2,6 @@
   <% section_list.each do |section| %>
     <fieldset id='tab_<%= section.section_name.underscore %>' class='<%= section.section_name %> tab no-border ' data-first-tab="<%= section.is_first_tab %>">
       <div class="clearfix"></div>
-
-      <%= render :partial => "form_section/form_section_info", :locals => {:form_section => section} %>
-      <hr>
       <% (section.fields.select{|field| field.visible?}).each do |field| %>
         <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject, :form_group_name => form_group_name, :display_audio_delete_checkbox => false} %>
       <% end %>

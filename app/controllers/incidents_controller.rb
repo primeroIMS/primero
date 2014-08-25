@@ -1,8 +1,9 @@
 class IncidentsController < ApplicationController
-  include RecordActions
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
+
+  include RecordActions
 
   def index
     authorize! :index, Incident

@@ -96,6 +96,27 @@ And /^I should see a value for "(.+)" on the show page which is January 1, "(.+)
   end
 end
 
+#Step to match field/value in show view.
+And /^I should see values on the page for the following:$/ do |fields|
+  #Iterate over the fields.
+  fields.rows_hash.each do |name, value|
+    content = value
+    if content.start_with?('Calculated date')
+      content = content.gsub("Calculated date", "").gsub("years ago", "").strip
+      content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
+    elsif content.start_with?('Calculated age from')
+      year = content.gsub("Calculated age from", "").strip
+      content = Date.today.year - year.to_i
+    end
+    within(:xpath, ".//div[@class='row']//label[@class='key']", :text => name) do
+      #Up to the parent of the label to find the value.
+      within(:xpath, '../..') do
+        find(:xpath, ".//span[@class='value']", :text => content)
+      end
+    end
+  end
+end
+
 #Step to match field/value in subforms in show view.
 And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
   num = num.to_i - 1
@@ -259,7 +280,70 @@ And /^I add a "(.*)" subform$/ do |form|
 end
 
 And /^the value of "(.*)" should be "(.*)"$/ do |field, value|
-  field_labeled(field).value.should =~ /#{value}/
+  page.has_field?(field, :with => value)
+end
+
+And /^the value of "(.*)" should be the calculated age of someone born in "(.+)"?$/ do |field, year|
+  value = Date.today.year - year.to_i
+  page.has_field?(field, :with => value)
+end
+
+And /^the value of "(.*)" should be January 1, "(.+)" years ago$/ do |field, years_ago|
+  value = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
+  page.has_field?(field, :with => value)
+end
+
+And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be "(.*)"$/ do |field, num, subform, value|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+
+  #in viewing expand subforms if not already, make visible the fields we are testing.
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+                         "//div[@class='row collapse_expand_subform_header']" +
+                         "//span[contains(@class, 'collapse_expand_subform')]")
+  if (collapse_expand[:class].end_with?("collapsed"))
+    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+  end
+
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+    page.has_field?(field, :with => value)
+  end
+end
+
+And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be the calculated age of someone born in "(.+)"?$/ do |field, num, subform, year|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+
+  #in viewing expand subforms if not already, make visible the fields we are testing.
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+                         "//div[@class='row collapse_expand_subform_header']" +
+                         "//span[contains(@class, 'collapse_expand_subform')]")
+  if (collapse_expand[:class].end_with?("collapsed"))
+    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+  end
+
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+    value = Date.today.year - year.to_i
+    page.has_field?(field, :with => value)
+  end
+end
+
+And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be January 1, "(.+)" years ago$/ do |field, num, subform, years_ago|
+  num = num.to_i - 1
+  subform = subform.downcase.gsub(" ", "_")
+
+  #in viewing expand subforms if not already, make visible the fields we are testing.
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+                         "//div[@class='row collapse_expand_subform_header']" +
+                         "//span[contains(@class, 'collapse_expand_subform')]")
+  if (collapse_expand[:class].end_with?("collapsed"))
+    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+  end
+
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+    value = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
+    page.has_field?(field, :with => value)
+  end
 end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
@@ -339,6 +423,15 @@ Given /^the following fields exists on "([^"]*)":$/ do |form_section_name, table
     form_section.fields.push Field.new(field_hash)
   end
   form_section.save!
+end
+
+Given /^the following lookups exist in the system:$/ do |lookup_table|
+  Lookup.all.each {|u| u.destroy }
+  lookup_table.hashes.each do |lookup_hash|
+    value_list = lookup_hash["lookup_values"].split(', ')
+    lookup_hash.merge!("lookup_values" => value_list)
+    Lookup.create! lookup_hash
+  end
 end
 
 Then /^there should be (\d+) child records in the database$/ do |number_of_records|

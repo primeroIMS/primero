@@ -83,6 +83,12 @@ FactoryGirl.define do
     permissions { Permission.all_permissions }
   end
 
+  factory :lookup, :traits => [ :model ] do
+    name { "test_lookup_#{counter}" }
+    description "test description"
+    lookup_values ['value1', 'value2']
+  end
+
   factory :report, :traits => [ :model ] do
     ignore do
       filename "test_report.csv"

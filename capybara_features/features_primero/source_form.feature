@@ -17,7 +17,6 @@ Feature: Source Form
       | Other Reporting Agency                                     | <Select> Option2            |
       | Location of Report                                         | Some location               |
       | Type of Source                                             | <Select> Primary            |
-      | Violations                                                 | <Select> Option3            |
       | Notes                                                      | Some notes about the source |
       | Category of Source                                         | <Select> Option3            |
       | Sex of Source                                              | <Select> Male               |
@@ -38,7 +37,6 @@ Feature: Source Form
       | Other Reporting Agency                                     | Option2                     |
       | Location of Report                                         | Some location               |
       | Type of Source                                             | Primary                     |
-      | Violations                                                 | Option3                     |
       | Notes                                                      | Some notes about the source |
       | Category of Source                                         | Option3                     |
       | Sex of Source                                              | Male                        |

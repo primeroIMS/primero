@@ -121,7 +121,7 @@ class User < CouchRest::Model::Base
   end
 
   def self.find_by_user_name(user_name)
-    User.by_user_name(:key => user_name.downcase).first
+    User.by_user_name(:key => user_name.downcase).first if user_name.present?
   end
 
   def initialize(args = {}, args1 = {})

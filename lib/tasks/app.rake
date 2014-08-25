@@ -4,12 +4,12 @@ namespace :app do
   end
 
   desc "Start the server in development mode with Sunspot running"
-  task :run => %w( sunspot:clean_start scheduler:restart app:assets_precompile) do
+  task :run => %w( sunspot:solr:restart sunspot:reindex scheduler:restart app:assets_precompile) do
     sh 'bundle exec rails server'
   end
 
   desc "Start the thin server in development mode with Sunspot running"
-  task :run_standalone => %w( sunspot:clean_start scheduler:restart app:assets_precompile) do
+  task :run_standalone => %w( sunspot:solr:restart sunspot:reindex scheduler:restart app:assets_precompile) do
     sh "bundle exec thin start --daemonize --chdir #{Rails.root}"
   end
 
@@ -29,7 +29,8 @@ namespace :app do
     #Rake::Task['couchdb:create'].invoke
     Rake::Task['db:seed'].invoke
     Rake::Task['db:migrate'].invoke
-    Rake::Task['sunspot:clean_start'].invoke
+    Rake::Task['sunspot:solr:restart'].invoke
+    Rake::Task['sunspot:reindex'].invoke
     Rake::Task['passenger:restart'].invoke
   end
 

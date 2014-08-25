@@ -2,4 +2,7 @@
   <% tabs.each do |form_group, forms| %>
     <%= build_form_tabs(form_group, forms) %>
   <% end %>
+  <li>
+		<%= yield :header_message %>
+  </li>
 </ul>

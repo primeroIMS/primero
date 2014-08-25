@@ -31,6 +31,9 @@ def clean_db_table(table)
   myDb.delete! rescue nil
 end
 
+#Reseed the lookups
+puts "Seeding Lookups"
+require File.dirname(__FILE__) + "/lookups/lookups.rb"
 
 #Create the forms
 clean_db_table('form_section')
@@ -47,7 +50,6 @@ puts "Seeding Modules"
 require File.dirname(__FILE__) + "/users/default_modules.rb"
 puts "Seeding Users"
 require File.dirname(__FILE__) + "/users/default_users.rb"
-
 
 
 #TODO We will to revisit the I18n Setup when we address translations.

@@ -12,6 +12,7 @@ class Field
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
+  property :option_strings_source  #If options are dynamic, this is where to fetch them
   property :base_language, :default=>'en'
   property :subform_section_id
   property :autosum_total, TrueClass, :default => false
@@ -202,10 +203,28 @@ class Field
     "#{objName}[#{name}]"
   end
 
-  def select_options
+  def select_options(record, lookups)
     select_options = []
     select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
-    select_options += @options.collect { |option| [option.option_name, option.option_name] }
+    if self.option_strings_source.present?
+      #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
+      if self.option_strings_source == 'violations'
+        if record.present? && record.class == Incident
+          select_options += record.violations_list
+        end
+      elsif self.option_strings_source.split.first == 'lookup'
+        lookup = lookups.select {|lkp| lkp['name'] == self.option_strings_source.split.last}.first if lookups.present?
+        select_options += lookup.lookup_values if lookup.present?
+
+        if self.option_strings_source.split.second == 'group'
+          select_options += ['Other', 'Mixed', 'Unknown']
+        end
+      end
+    else
+      select_options += @options.collect { |option| [option.option_name, option.option_name] }
+    end
+
+    return select_options
   end
 
   def is_highlighted?
@@ -268,7 +287,7 @@ class Field
 
   def validate_has_2_options
     return true unless (type == RADIO_BUTTON || type == SELECT_BOX)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings == nil || option_strings.length < 2
+    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings == nil || option_strings.length < 2)
     true
   end
 

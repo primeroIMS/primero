@@ -31,7 +31,7 @@ Feature: Denial of Humanitarian Access Form
       | Number of survivors: unknown              | 30     |
       | Adults                                    | 50     |
       | Population Affected by Service Disruption | 70000  |
-    And I fill in the 2nd "Denial Humanitarian Access Section" subform with the follow:
+    And I fill in the 2nd "Denial Humanitarian Access" subform with the follow:
       | What method(s) were used to deny humanitarian access? | <Select> Travel Restrictions in Country |
       | What organizations were affected?                     | <Choose>Red Cross / Crescent<Choose>NGO |
       | Number of Personnel Killed                | 2      |
@@ -45,9 +45,11 @@ Feature: Denial of Humanitarian Access Form
       | Number of survivors: unknown              | 40     |
       | Adults                                    | 60     |
       | Population Affected by Service Disruption | 80000  |
+    And the value of "Number of total survivors" in the 1st "Denial Humanitarian Access" subform should be "60"
+    And the value of "Number of total survivors" in the 2nd "Denial Humanitarian Access" subform should be "90"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see in the 1st "Denial Humanitarian Access Section" subform with the follow:
+    And I should see in the 1st "Denial Humanitarian Access" subform with the follow:
      | What method(s) were used to deny humanitarian access? | Import Restrictions for Goods          |
      | What organizations were affected?                     | International, United Nations Agencies |
      | Number of Personnel Killed                | 1      |
@@ -62,7 +64,7 @@ Feature: Denial of Humanitarian Access Form
      | Number of total survivors                 | 60     |
      | Adults                                    | 50     |
      | Population Affected by Service Disruption | 70000  |
-   And I should see in the 2nd "Denial Humanitarian Access Section" subform with the follow:
+   And I should see in the 2nd "Denial Humanitarian Access" subform with the follow:
       | What method(s) were used to deny humanitarian access? | Travel Restrictions in Country |
       | What organizations were affected?                     | NGO, Red Cross / Crescent      |
       | Number of Personnel Killed                | 2      |

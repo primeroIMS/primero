@@ -32,25 +32,26 @@ describe "form_section/_form_section.html.erb" do
     # end
   end
 
-  describe "translating form section heading" do
-    it "should be shown with translated heading" do
-      translated_name = "translated_heading"
-      I18n.locale = :fr
-      I18n.backend.store_translations("fr", @form_section.unique_id => translated_name)
-      @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
+  # Section heading were removed.
+  # describe "translating form section heading" do
+  #   it "should be shown with translated heading" do
+  #     translated_name = "translated_heading"
+  #     I18n.locale = :fr
+  #     I18n.backend.store_translations("fr", @form_section.unique_id => translated_name)
+  #     @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
 
-      render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
+  #     render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
 
-      rendered.should be_include(translated_name)
-      rendered.should_not be_include(@form_section.name)
-    end
+  #     rendered.should be_include(translated_name)
+  #     rendered.should_not be_include(@form_section.name)
+  #   end
 
-      it "should not be shown with translated heading" do
-        I18n.backend.store_translations("fr", @form_section.unique_id => nil)
-        @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
-        render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
-      end
-  end
+  #     it "should not be shown with translated heading" do
+  #       I18n.backend.store_translations("fr", @form_section.unique_id => nil)
+  #       @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
+  #       render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
+  #     end
+  # end
 
   describe "rendering text fields" do
 

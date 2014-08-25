@@ -117,7 +117,7 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
   :order_form_group => 40,
   :order => 40,
   :order_subform => 1,
-  :unique_id => "sexual_violence_subform_section",
+  :unique_id => "sexual_violence",
   :parent_form=>"incident",
   "editable" => true,
   :fields => sexual_violence_subform_fields,
@@ -130,7 +130,7 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
 })
 
 sexual_violence_fields = [
-  Field.new({"name" => "sexual_violence_subform_section",
+  Field.new({"name" => "sexual_violence",
              "type" => "subform", "editable" => true,
              "subform_section_id" => sexual_violence_subform_section.unique_id,
              "display_name_all" => "Sexual Violence"
@@ -138,7 +138,7 @@ sexual_violence_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "sexual_violence",
+  :unique_id => "sexual_violence_violation_wrapper",
   :parent_form=>"incident",
   "visible" => true,
   :order_form_group => 40,

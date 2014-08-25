@@ -2,21 +2,22 @@
   <h2><%= link_to t("incidents.label"), incidents_path %> &gt; <%= t("incidents.register_new_incident") %></h2>
 <% end %>
 <%= form_tag incidents_path, :multipart => true do %>
-    <div class="page-content-new row">
+    <div class="page-content-new row collapse" data-equalizer>
   	<%= hidden_field_tag "incident[posted_from]", "Browser" %>
       <div class="large-4 medium-4 columns close-side-tab">
-        <div class="side-tab">
+        <div class="side-tab" data-equalizer-watch>
           <%= render :partial => 'form_section/tabs', :object => @form_sections %>
         </div>
       </div>
-      <div class="side-tab-content large-8 medium-8 columns">
-        <div class="clearfix"></div>
-        <% @form_sections.each do |form_group_name, form_list| %>
-          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @incident, :form_group_name => form_group_name} %>
-        <% end %>
-        <div class="btn_panel">
-            <%= render 'children/reset_button'%>
-            <%= submit_button %>
+      <div class="large-8 medium-8 columns">
+        <div class="side-tab-content" data-equalizer-watch>
+          <% @form_sections.each do |form_group_name, form_list| %>
+            <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @incident, :form_group_name => form_group_name} %>
+          <% end %>
+          <div class="btn_panel">
+              <%= render 'children/reset_button'%>
+              <%= submit_button %>
+          </div>
         </div>
       </div>
     </div>    

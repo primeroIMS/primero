@@ -8,6 +8,7 @@ module RecordActions
     before_filter :set_class_name
     before_filter :current_user, :except => [:reindex]
     before_filter :get_form_sections, :only => [:show, :new, :edit]
+    before_filter :get_lookups, :only => [:new, :edit]
   end
 
   def reindex
@@ -16,11 +17,14 @@ module RecordActions
   end
 
   def get_form_sections
-    #@form_sections = FormSection.find_form_groups_by_parent_form(@className.parent_form)
-    #binding.pry
     permitted_forms = FormSection.get_permitted_form_sections(record, current_user)
     FormSection.link_subforms(permitted_forms)
     @form_sections = FormSection.group_forms(permitted_forms)
+  end
+
+  #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
+  def get_lookups
+    @lookups = Lookup.all
   end
 
   # This is to ensure that if a hash has numeric keys, then the keys are sequential

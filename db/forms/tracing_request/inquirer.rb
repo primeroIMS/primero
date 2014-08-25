@@ -55,34 +55,34 @@ tracing_request_inquirer_fields = [
              "type" => "select_box",
              "display_name_all" => "Language",
              "multi_select" => true,
-             "option_strings_text_all" => "Language 1\nLanguage 2"
+             "option_strings_source" => "lookup Language"
            }),
   Field.new({"name" => "relation_religion",
              "type" => "select_box",
              "display_name_all" => "Religion",
              "multi_select" => true,
-             "option_strings_text_all" => "Religion 1\nReligion 2"
+             "option_strings_source" => "lookup Religion"
              }),
   Field.new({"name" => "relation_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Ethnicity",
-             "option_strings_text_all" => "Ethnicity 1\nEthnicity 2"
+             "option_strings_source" => "lookup Ethnicity"
              }),
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 1",
-             "option_strings_text_all" => "Sub Ethnicity 1\nSub Ethnicity 2"
+             "option_strings_source" => "lookup Ethnicity"
              }),
   Field.new({"name" => "relation_sub_ethnicity2",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 2",
-             "option_strings_text_all" => "Sub Ethnicity 1\nSub Ethnicity 2"
+             "option_strings_source" => "lookup Ethnicity"
            }),
   Field.new({"name" => "relation_nationality",
              "type" => "select_box",
              "display_name_all" => "Nationality",
              "multi_select" => true,
-             "option_strings_text_all" => "Nationality 1\nNationality 2"
+             "option_strings_source" => "lookup Nationality"
            }),
   Field.new({"name" => "relation_comments",
              "type" => "textarea",

@@ -5,7 +5,7 @@ var IndexTable = Backbone.View.extend({
   el: 'body',
 
   events: {
-    'change #record_state_scope': 'change_scope',
+    'change #record_scope': 'change_scope',
     'change .dataTables_length select': 'change_display_count',
     'click th': 'change_sorting'
   },
@@ -36,7 +36,8 @@ var IndexTable = Backbone.View.extend({
       pageLength: self.pagination.per,
       primero_start: self.pagination.start,
       primero_total: self.pagination.total,
-      responsive: true
+      responsive: true,
+      aaSorting: []
     });
   },
 
@@ -54,9 +55,10 @@ var IndexTable = Backbone.View.extend({
   },
 
   set_current_scope: function() {
-    current_scope = _primero.get_param('scope[record_state]')
+    current_scope = _primero.get_param('scope');
+    current_scope = current_scope ? current_scope.replace('scope[', '').replace(']', '') : false
     if (current_scope) {
-      $('#record_state_scope').val(decodeURI(current_scope));
+      $('#record_scope').val(decodeURI(current_scope));
     }
   },
 
@@ -72,9 +74,11 @@ var IndexTable = Backbone.View.extend({
   },
 
   change_scope: function(event) {
-    var prev_params = _primero.clean_page_params(['scope[record_state]']),
-        select_val = $(event.target).val();
-    window.location.search = prev_params + '&scope[record_state]=' + $(event.target).val();
+    var select_val = $(event.target).val(),
+        scope = select_val.split(':'),
+        prev_params = _primero.clean_page_params(['scope']);
+
+    window.location.search = prev_params + '&scope[' + scope[0]  + ']=' + scope[1];
   },
 
   change_display_count: function(event) {

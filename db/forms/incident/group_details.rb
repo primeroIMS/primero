@@ -5,12 +5,9 @@ group_details_section_fields_subform = [
             }),
   Field.new({"name" => "group_violations",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Violations",
-             "option_strings_text_all" =>
-                                    ["Option 1",
-                                     "Option 2",
-                                     "Option 3",
-                                     "Option 4"].join("\n")
+             "option_strings_source" => "violations"
             }),
   Field.new({"name" => "group_number",
              "type" => "numeric_field",
@@ -39,35 +36,17 @@ group_details_section_fields_subform = [
   Field.new({"name" => "group_ethnicity",
              "type" => "select_box",
              "display_name_all" => "What were the ethnic affiliations of the children involved?",
-             "option_strings_text_all" =>
-                                    ["Ethnicity 1",
-                                     "Ethnicity 2",
-                                     "Ethnicity 3",
-                                     "Other",
-                                     "Mixed",
-                                     "Unknown"].join("\n")
+             "option_strings_source" => "lookup group Ethnicity"
             }),
   Field.new({"name" => "group_nationality",
              "type" => "select_box",
              "display_name_all" => "What was the nationality of the children involved?",
-             "option_strings_text_all" =>
-                                    ["Nationality 1",
-                                     "Nationality 2",
-                                     "Nationality 3",
-                                     "Other",
-                                     "Mixed",
-                                     "Unknown"].join("\n")
+             "option_strings_source" => "lookup group Nationality"
             }),
   Field.new({"name" => "group_religion",
              "type" => "select_box",
              "display_name_all" => "What was the religious affiliation of the children involved?",
-             "option_strings_text_all" =>
-                                    ["Religion 1",
-                                     "Religion 2",
-                                     "Religion 3",
-                                     "Other",
-                                     "Mixed",
-                                     "Unknown"].join("\n")
+             "option_strings_source" => "lookup group Religion"
             }),
   Field.new({"name" => "group_displacement_at_time_of_incident",
              "type" => "select_box",

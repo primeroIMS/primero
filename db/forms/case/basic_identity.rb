@@ -24,10 +24,6 @@ basic_identity_fields = [
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "hidden_text_field" => true
             }),
-  Field.new({"name" => "survivor_code_no",
-             "type" => "text_field", 
-             "display_name_all" => "Survivor Code"
-            }), 
   Field.new({"name" => "name_nickname",
              "type" => "text_field",
              "display_name_all" => "Nickname"
@@ -59,9 +55,8 @@ basic_identity_fields = [
             "display_name_all" => "Date of Birth"
             }),
   Field.new({"name" => "estimated",
-             "type" => "radio_button",
+             "type" => "tick_box",
              "display_name_all" => "Estimated",
-             "option_strings_text_all" => "Yes\nNo",
             }),
   Field.new({"name" => "physical_characteristics",
              "type" => "textarea",
@@ -129,24 +124,7 @@ basic_identity_fields = [
   Field.new({"name" => "telephone_current",
              "type" => "text_field",
              "display_name_all" => "Current Telephone"
-            }),
-  #TODO verify this
-  Field.new({"name" => "dependents_no",
-             "type" =>"text_field" ,
-             "display_name_all" => "Number and age of children and other dependents"
-            }),
-  Field.new({"name" => "location_camp",
-             "type" =>"text_field" ,
-             "display_name_all" => "Camp"
-            }),
-  Field.new({"name" => "section_no",
-             "type" =>"text_field" ,
-             "display_name_all" => "Section Number"
-            }),
-  Field.new({"name" => "telephone_contact",
-            "type" => "text_field",
-            "display_name_all" => "Contact Number"
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({
