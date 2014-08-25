@@ -55,6 +55,8 @@
   <% end %>
   <% if content_for?(:breadcrumbs) || content_for?(:record_sub_nav) || content_for?(:record_sub_nav_controls) %>
     <%= render 'shared/record_controls' %>
+  <% else %>
+    <div class="clearfix"></div>
   <% end %>
   <div class="page_content">
     <%= yield %>
