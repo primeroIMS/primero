@@ -1,22 +1,22 @@
 <% content_for :breadcrumbs do %>
-  <h2><%= link_to t("tracing_requests.label"), tracing_requests_path %> &gt; <%= t("tracing_requests.register_new_tracing_request") %></h2>
+  <%= t("tracing_requests.register_new_tracing_request") %>
 <% end %>
-<%= form_tag tracing_requests_path, :multipart => true do %>
-    <div class="page-content-new row">
+<% content_for :record_sub_nav_controls do %>
+  <%= render 'record_toolbar', tracing_request: @tracing_request %> 
+<% end %>
+<%= form_tag tracing_requests_path, :multipart => true, :class => "default-form" do %>
+    <div class="page-content-new row collapse" data-equalizer>
   	<%= hidden_field_tag "tracing_request[posted_from]", "Browser" %>
       <div class="large-4 medium-4 columns close-side-tab">
-        <div class="side-tab">
+        <div class="side-tab" data-equalizer-watch>
           <%= render :partial => 'form_section/tabs', :object => @form_sections %>
         </div>
       </div>
-      <div class="side-tab-content large-8 medium-8 columns">
-        <div class="clearfix"></div>
-        <% @form_sections.each do |form_group_name, form_list| %>
-          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>
-        <% end %>
-        <div class="btn_panel">
-            <%= render 'children/reset_button'%>
-            <%= submit_button %>
+      <div class="large-8 medium-8 columns">
+        <div class="side-tab-content" data-equalizer-watch>
+          <% @form_sections.each do |form_group_name, form_list| %>
+            <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>
+          <% end %>
         </div>
       </div>
     </div>    

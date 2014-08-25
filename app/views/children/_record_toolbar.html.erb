@@ -1,0 +1,13 @@
+<% if current_page(new_case_path) %>
+	<li><%= render 'children/reset_button'%></li>
+	<li><%= submit_button %></li>
+<% else %>
+  <% if can? :update, child %>        
+    <li class="rec_ctl"><%= link_to t("buttons.edit"), edit_case_path(child, { follow: true }), 
+    class: "green-button #{'arrow' if current_page(edit_case_path(child, {follow: true}))}" %></li>
+    <% if current_page(edit_case_path(child, {follow: true})) %>
+      <li class="rec_ctl"><%= discard_button cases_path %></li>
+      <li class="rec_ctl"><%= submit_button %></li>
+    <% end %>
+  <% end %>
+<% end %> 

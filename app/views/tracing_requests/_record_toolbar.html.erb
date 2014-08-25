@@ -1,0 +1,13 @@
+  <% if current_page(new_tracing_request_path) %>
+  	<li><%= render 'children/reset_button'%></li>
+  	<li><%= submit_button %></li>
+  <% else %>
+	  <% if can? :update, tracing_request %>        
+	    <li class="rec_ctl"><%= link_to t("buttons.edit"), edit_tracing_request_path(tracing_request, { follow: true }), 
+	    class: "green-button #{'arrow' if current_page(edit_tracing_request_path(tracing_request, {follow: true}))}" %></li>
+	    <% if current_page(edit_tracing_request_path(tracing_request, {follow: true})) %>
+	      <li class="rec_ctl"><%= discard_button tracing_requests_path %></li>
+	      <li class="rec_ctl"><%= submit_button %></li>
+	    <% end %>
+	  <% end %> 
+  <% end %>
