@@ -31,6 +31,7 @@ end
 create_or_update_module(
   name: "CP",
   description: "Child Protection",
+  associated_record_types: ["case", "tracing_request"],
   associated_form_ids: [
     "activities", "basic_identity", "best_interest", "caafag_profile",
     "care_arrangements", "care_assessment", "child_under_5",
@@ -47,6 +48,7 @@ create_or_update_module(
 create_or_update_module(
   name: "GBV",
   description: "Gender Based Violence",
+  associated_record_types: ["case", "incident"],
   associated_form_ids: [
     "record_owner", "gbv_survivor_information", "gbv_data_confidentiality", "followup", "services",
     "closure_form", "other_documents",
@@ -59,6 +61,7 @@ create_or_update_module(
 create_or_update_module(
   name: "MRM",
   description: "Monitoring and Reporting Mechanism",
+  associated_record_types: ["incident"],
   associated_form_ids: [
     "incident_record_owner", "incident_form",
     "killing_violation_wrapper", "maiming_violation_wrapper", "recruitment_violation_wrapper",
