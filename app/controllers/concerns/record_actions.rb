@@ -9,6 +9,7 @@ module RecordActions
     before_filter :current_user, :except => [:reindex]
     before_filter :get_form_sections, :only => [:show, :edit]
     before_filter :get_lookups, :only => [:new, :edit]
+    before_filter :user_modules, :only => [:index]
   end
 
   def reindex
@@ -52,6 +53,10 @@ module RecordActions
   #Note that the controller needs to load this record before this concern method is invoked.
   def record
     @record ||= eval("@#{@className.name.underscore}")
+  end
+
+  def user_modules
+    @user_modules = current_user.modules
   end
 
 end

@@ -1,6 +1,4 @@
-<% if can? :create, model %>
-    <%= link_to content_tag(:span, t("#{record.pluralize}.register_new_#{record}"), :class => 'create_user'), new_polymorphic_path(record), :class=>'btn green-button right' %>
-<% end %>
+<%= render partial: 'record_shared/create_button', locals: {model: model, record: record, modules: modules} %>
 
 <%# TODO: Removing the export link temporarily %>
 <% if false %>
