@@ -58,6 +58,9 @@ class TracingRequestsController < ApplicationController
     @tracing_request['record_state'] = ["Valid record"]
     @tracing_request['inquiry_status'] = ["Open"]
     @tracing_request['mrm_verification_status'] = "Pending"
+
+    get_form_sections
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @tracing_request }

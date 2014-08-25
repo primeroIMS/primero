@@ -58,6 +58,9 @@ class IncidentsController < ApplicationController
     @incident['status'] = ["Active"]
     @incident['record_state'] = ["Valid record"]
     @incident['mrm_verification_status'] = "Pending"
+
+    get_form_sections
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @incident }

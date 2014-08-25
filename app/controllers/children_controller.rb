@@ -64,6 +64,9 @@ class ChildrenController < ApplicationController
     @child.registration_date = DateTime.now.strftime("%d-%b-%Y")
     @child['record_state'] = ["Valid record"]
     @child['child_status'] = ["Open"]
+
+    get_form_sections
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @child }

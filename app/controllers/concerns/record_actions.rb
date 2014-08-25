@@ -7,7 +7,7 @@ module RecordActions
 
     before_filter :set_class_name
     before_filter :current_user, :except => [:reindex]
-    before_filter :get_form_sections, :only => [:show, :new, :edit]
+    before_filter :get_form_sections, :only => [:show, :edit]
     before_filter :get_lookups, :only => [:new, :edit]
   end
 
