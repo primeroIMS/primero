@@ -70,5 +70,5 @@ create_or_update_user(
   "disabled" => "false",
   "organisation" => "N/A",
   "role_ids" => [Role.by_name(:key => "Worker: Incidents").first.id],
-  "module_ids" => ["MRM"]
+  "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id]
 )

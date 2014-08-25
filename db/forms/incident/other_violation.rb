@@ -55,7 +55,6 @@ other_violation_subform_section = FormSection.create_or_update_form_section({
 
 other_violation_fields = [
   ##Subform##
-
   Field.new({"name" => "other_violation",
              "type" => "subform",
              "editable" => true,
