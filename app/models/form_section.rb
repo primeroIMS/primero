@@ -195,6 +195,7 @@ class FormSection < CouchRest::Model::Base
   #Given an arbitrary list of forms go through and link up the forms to subforms.
   #Functionally this isn't important, but this will improve performance if the list
   #contains both the top forms and the subforms by avoiding extra queries.
+  #TODO: Potentially this method is expensive
   def self.link_subforms(forms)
     subforms_hash = forms.reduce({}) do |hash, form|
       hash[form.unique_id] = form unless form.visible?

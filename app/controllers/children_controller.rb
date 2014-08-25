@@ -1,10 +1,11 @@
 class ChildrenController < ApplicationController
-  include RecordActions
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
+
+  include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
   # GET /children
   # GET /children.xml

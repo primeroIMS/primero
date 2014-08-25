@@ -21,7 +21,7 @@ class TracingRequestsController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => @tracing_requests }
-        
+
       unless params[:format].nil?
         if @tracing_requests.empty?
           flash[:notice] = t('tracing_requests.export_error')
@@ -38,7 +38,8 @@ class TracingRequestsController < ApplicationController
     authorize! :read, @tracing_request if @tracing_request["created_by"] != current_user_name
     @page_name = t "tracing_request.view", :short_id => @tracing_request.short_id
     @body_class = 'profile-page'
-    @duplicates = TracingRequest.duplicates_of(params[:id])
+    #TODO: Are duplicated implemented for TracingRequests? CARLOS!?!
+    #@duplicates = TracingRequest.duplicates_of(params[:id])
 
     respond_to do |format|
       format.html
@@ -89,7 +90,7 @@ class TracingRequestsController < ApplicationController
       else
         format.html {
           @form_sections = get_form_sections
-         
+
           render :action => "new"
         }
         format.xml { render :xml => @tracing_request.errors, :status => :unprocessable_entity }

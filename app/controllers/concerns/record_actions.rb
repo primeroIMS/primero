@@ -16,7 +16,11 @@ module RecordActions
   end
 
   def get_form_sections
-    @form_sections = FormSection.find_form_groups_by_parent_form(@className.parent_form)
+    #@form_sections = FormSection.find_form_groups_by_parent_form(@className.parent_form)
+    #binding.pry
+    permitted_forms = FormSection.get_permitted_form_sections(record, current_user)
+    FormSection.link_subforms(permitted_forms)
+    @form_sections = FormSection.group_forms(permitted_forms)
   end
 
   # This is to ensure that if a hash has numeric keys, then the keys are sequential
@@ -38,6 +42,12 @@ module RecordActions
         end
       end
     end
+  end
+
+  #Gets the record which is the objects of the implementing controller.
+  #Note that the controller needs to load this record before this concern method is invoked.
+  def record
+    @record ||= eval("@#{@className.name.underscore}")
   end
 
 end
