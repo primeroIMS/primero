@@ -48,7 +48,7 @@ describe FormSection do
         @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case')
         @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
         @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
-        @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"])
+        @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
         @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
         @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
       end
@@ -70,7 +70,7 @@ describe FormSection do
 
       it "returns the FormSection objects that correspond to the record's type" do
         form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'incident')
-        primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_form_ids: ["A", "B", "D"])
+        primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_record_types: ['case', 'incident'], associated_form_ids: ["A", "B", "D"])
         user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.id])
         child = Child.new(unique_identifier: "123", module_id: primero_module.id)
 

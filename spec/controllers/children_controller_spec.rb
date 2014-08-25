@@ -326,7 +326,7 @@ describe ChildrenController do
   describe "GET new" do
     it "assigns a new child as @child" do
       Child.stub(:new).and_return(mock_child)
-      controller.stub get_form_sections
+      controller.stub :get_form_sections
       get :new
       assigns[:child].should equal(mock_child)
     end

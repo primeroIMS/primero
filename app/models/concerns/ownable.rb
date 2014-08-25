@@ -23,7 +23,7 @@ module Ownable
     end
 
     def module
-      PrimeroModule.get(self.module_id) if self.module_id
+      @record_module ||= PrimeroModule.get(self.module_id) if self.module_id
     end
 
   end
