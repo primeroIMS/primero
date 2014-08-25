@@ -42,20 +42,16 @@ $(".profile-tools .investigated a").click( function(){
 </script>
 <% end %>
 
-<% content_for :header_sub_nav do %>
-    <ul class="inline-list">
-        <%= render 'show_child_toolbar', child: @child %>
+<% content_for :record_sub_nav do %>
+  <%= render 'show_child_toolbar', child: @child %>
+<% end %>
 
-        <% if can? :update, @child %>        
-            <li><%= link_to t("buttons.edit"), edit_case_path(@child, { follow: true }), class: 'green-button' %></li>
-        <% end %>	
-    </ul>
+<% content_for :record_sub_nav_controls do %>
+  <%= render 'record_toolbar', child: @child %> 
 <% end %>
 
 <% content_for :breadcrumbs do %>
-    <h2 class="float_left no_border">
-        <%= link_to t("cases.label"), cases_path %> &gt; <%= text_to_identify_child(@child) %>
-    </h2>
+    <%= t("case.label") %> #<%= text_to_identify_child(@child) %>
 <% end %>
 
 <% content_for :header_message do %>

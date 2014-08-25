@@ -53,18 +53,11 @@
         <p class='error large-12'><%= flash[:error] %></p>
       </div>
   <% end %>
-  <div class="page_content header_section">
-    <div class="row">
-      <div class="large-12 columns">
-        <%= yield :header_sub_nav %>
-      </div>
-    </div>
-    <div class="row">
-      <div class="large-12 columns">
-        <%= yield :breadcrumbs %>
-      </div>
-    </div>
-  </div>
+  <% if content_for?(:breadcrumbs) || content_for?(:record_sub_nav) || content_for?(:record_sub_nav_controls) %>
+    <%= render 'shared/record_controls' %>
+  <% else %>
+    <div class="clearfix"></div>
+  <% end %>
   <div class="page_content">
     <%= yield %>
   </div>
