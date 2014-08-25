@@ -9,7 +9,7 @@ module RecordActions
     before_filter :current_user, :except => [:reindex]
     before_filter :get_form_sections, :only => [:show, :edit]
     before_filter :get_lookups, :only => [:new, :edit]
-    before_filter :user_modules, :only => [:index]
+    before_filter :current_modules, :only => [:index]
   end
 
   def reindex
@@ -55,8 +55,9 @@ module RecordActions
     @record ||= eval("@#{@className.name.underscore}")
   end
 
-  def user_modules
-    @user_modules = current_user.modules
+  def current_modules
+    record_type = @className.parent_form
+    @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
   end
 
 end
