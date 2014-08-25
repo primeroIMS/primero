@@ -1,6 +1,7 @@
 # JIRA PRIMERO-48
 # JIRA PRIMERO-399
 # JIRA PRIMERO-340
+# JIRA PRIMERO-455
 
 @javascript @primero @search
 Feature: Primero View List of Case Records
@@ -23,7 +24,7 @@ Feature: Primero View List of Case Records
     And I should see "Cases > 7af3aa9"
     And I should see an "Edit" button on the page
     And I press the "Edit" button
-    And I should see the "child_name" field
+    And I should see the "basic_identity_child_name" field
     And I should see a "Save" button on the page
 
   Scenario: List of cases should display the status

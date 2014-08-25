@@ -2,20 +2,21 @@
    field_keys ||= []
    name = field_tag_name formObject, select_box, field_keys
    name += "[]" if select_box.multi_select   
+   field_id = "#{select_box.form.name.dehumanize}_#{sanitize_to_id name}"
    value ||= field_value formObject, select_box, field_keys
 %>
 
 <div class="row">
   <div class="medium-4 columns">
       <span class="tool-tip-label">
-        <%= label_tag name, t(select_box.name, :default => select_box.display_name), :class=>'key'  %>
+        <%= label_tag field_id, t(select_box.name, :default => select_box.display_name), :class=>'key'  %>
       </span>
   </div>
   <div class="medium-8 columns">
     <% if select_box.multi_select %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'multiple' => '', 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder") %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'multiple' => '', 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id %>
     <% else %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value) %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), :id => field_id %>
     <% end %>
     <%= image_tag "new/icon_help.png", title: select_box.help_text, class: 'tool-tip-icon vtip' if select_box.help_text.present? %>
   </div>

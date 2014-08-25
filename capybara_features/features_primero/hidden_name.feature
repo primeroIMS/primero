@@ -12,13 +12,11 @@ Feature: Hide Name
     And I fill in the following:
       | Case Status                              | <Select> Transferred               |
       | Name                                     | Tiki Thomas Taliaferro             |
-      | Survivor Code                            | BBB111                             |
       | Nickname                                 | Tommy                              |
       | Other Name                               | Bob                                |
       | Name(s) given to child after separation? | <Radio> No                         |
       | Sex                                      | <Select> Male                      |
       | Date of Birth                            | 04-May-1992                        |
-      | Estimated                                | <Radio> No                         |
       | Distinguishing Physical Characteristics  | Really tall, dark hair, brown eyes |
       | ICRC Ref No.                             | 131313                             |
       | RC ID No.                                | 141414                             |
@@ -33,7 +31,6 @@ Feature: Hide Name
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
-    And I should see a value for "Survivor Code" on the show page with the value of "BBB111"
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
     And I should see a value for "Other Name" on the show page with the value of "Bob"
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"
@@ -60,7 +57,6 @@ Feature: Hide Name
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "*****"
-    And I should see a value for "Survivor Code" on the show page with the value of "BBB111"
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
     And I should see a value for "Other Name" on the show page with the value of "Bob"
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"
@@ -86,7 +82,6 @@ Feature: Hide Name
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
-    And I should see a value for "Survivor Code" on the show page with the value of "BBB111"
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
     And I should see a value for "Other Name" on the show page with the value of "Bob"
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"

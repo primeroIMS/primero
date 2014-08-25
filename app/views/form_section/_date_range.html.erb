@@ -1,6 +1,7 @@
 <%
    field_keys ||= []
    name = field_tag_name formObject, date_range, field_keys
+   field_id = "#{date_range.form.name.dehumanize}_#{sanitize_to_id name}"
    value_from, value_to = field_value formObject, date_range, field_keys
    value_date_field = formObject[date_range[:name]] || ""
    date_or_date_range = formObject["#{date_range[:name]}_date_or_date_range"] || "date_range"
@@ -11,26 +12,26 @@
 <div class="row">
   <div class="medium-4 columns">
     <span class="tool-tip-label">
-      <%= label_tag name, t(date_range.name, :default => date_range.display_name), :class=>'key' %>
+      <%= label_tag field_id, t(date_range.name, :default => date_range.display_name), :class=>'key' %>
     </span>
   </div>
   <div class="medium-8 columns">
     <div class="date_or_date_range_selector">
       <% ["date", "date_range"].each do |option| %>
         <% option_name = name.gsub(date_range[:name], "#{date_range[:name]}_date_or_date_range") %>
-        <%= radio_button_tag option_name, option, date_or_date_range == option%>
+        <%= radio_button_tag option_name, option, date_or_date_range == option, :id => "#{date_range.form.name.dehumanize}_#{sanitize_to_id option_name}_#{option}"%>
         <%= label_tag "#{option_name}_#{option}", I18n.t("fields.date_range.#{option}") %>
       <% end %>
     </div>
     <div class="date" style ="<%= "display:none;" if date_or_date_range == "date_range" %>">
-      <%= text_field_tag name, value_date_field, :class => 'form_date_field', :disabled => !date_range.editable %>
+      <%= text_field_tag name, value_date_field, :class => 'form_date_field', :disabled => !date_range.editable, :id => field_id %>
       <%= image_tag "new/icon_help.png", class: 'tool-tip-icon vtip', title: date_range.help_text.present? ? date_range.help_text: "(dd-mmm-yyyy)" %>
     </div>
     <div class="date_range" style ="<%= "display:none;" if date_or_date_range == "date" %>">
       <span><%="#{I18n.t("fields.date_range.from")}:"%></span>
-      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_from"), value_from, :class => 'form_date_field', :disabled => date_range.editable == false ? true : false %>
+      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_from"), value_from, :class => 'form_date_field', :disabled => date_range.editable == false ? true : false, :id => "#{field_id}_from" %>
       <span><%="#{I18n.t("fields.date_range.to")}:"%></span>
-      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_to"), value_to, :class => 'form_date_field', :disabled => date_range.editable == false ? true : false %>
+      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_to"), value_to, :class => 'form_date_field', :disabled => date_range.editable == false ? true : false, :id => "#{field_id}_to" %>
       <%= image_tag "new/icon_help.png", class: 'tool-tip-icon vtip', title: date_range.help_text.present? ? date_range.help_text: "(dd-mmm-yyyy)" %>
     </div>
   </div>
