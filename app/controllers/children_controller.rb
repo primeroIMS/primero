@@ -64,6 +64,7 @@ class ChildrenController < ApplicationController
     @child.registration_date = DateTime.now.strftime("%d-%b-%Y")
     @child['record_state'] = ["Valid record"]
     @child['child_status'] = ["Open"]
+    @child['module_id'] = params['module_id']
 
     get_form_sections
 

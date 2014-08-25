@@ -58,6 +58,7 @@ class IncidentsController < ApplicationController
     @incident['status'] = ["Active"]
     @incident['record_state'] = ["Valid record"]
     @incident['mrm_verification_status'] = "Pending"
+    @incident['module_id'] = params['module_id']
 
     get_form_sections
 

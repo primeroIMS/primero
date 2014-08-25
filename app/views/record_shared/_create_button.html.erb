@@ -6,10 +6,10 @@
         <ul id="modules-dropdown" class="f-dropdown" data-dropdown-content>
         <% modules.each do |primero_module| %>
             <%# TODO: translate the module name %>
-            <li><%= link_to primero_module.name, new_polymorphic_path(record, record_module: primero_module.id) %></li>
+            <li><%= link_to primero_module.name, new_polymorphic_path(record, module_id: primero_module.id) %></li>
         <% end %>
         </ul>
     <% elsif modules.size == 1 %>
-        <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {record_module: modules.first.id}),  class: 'btn green-button right' %>
+        <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {module_id: modules.first.id}),  class: 'btn green-button right' %>
     <% end %>
 <% end %>

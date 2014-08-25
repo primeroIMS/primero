@@ -58,6 +58,7 @@ class TracingRequestsController < ApplicationController
     @tracing_request['record_state'] = ["Valid record"]
     @tracing_request['inquiry_status'] = ["Open"]
     @tracing_request['mrm_verification_status'] = "Pending"
+    @tracing_request['module_id'] = params['module_id']
 
     get_form_sections
 
