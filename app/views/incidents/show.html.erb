@@ -47,7 +47,7 @@ $(".profile-tools .investigated a").click( function(){
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <%= render 'record_toolbar', incident: @incident %> 
+  <%= render_controls(@incident) %> 
 <% end %>
 
 <% content_for :breadcrumbs do %>
