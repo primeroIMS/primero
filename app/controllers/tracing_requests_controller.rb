@@ -2,7 +2,8 @@ class TracingRequestsController < ApplicationController
   include RecordActions
   include RecordFilteringPagination
 
-  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
+  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
+  before_filter :sanitize_params, :only => [:update]
 
   def index
     authorize! :index, TracingRequest
@@ -21,7 +22,7 @@ class TracingRequestsController < ApplicationController
         
       unless params[:format].nil?
         if @tracing_requests.empty?
-          flash[:notice] = t('tracing_requests.export_error')
+          flash[:notice] = t('tracing_request.export_error')
           redirect_to :action => :index and return
         end
       end
@@ -49,7 +50,7 @@ class TracingRequestsController < ApplicationController
   def new
     authorize! :create, TracingRequest
 
-    @page_name = t("tracing_requests.register_new_tracing_request")
+    @page_name = t("tracing_request.register_new_tracing_request")
     @tracing_request = TracingRequest.new
     @tracing_request['inquiry_date'] = DateTime.now.strftime("%d-%b-%Y")
     @tracing_request['status'] = ["Active"]
@@ -72,8 +73,8 @@ class TracingRequestsController < ApplicationController
     authorize! :create, TracingRequest
     params[:tracing_request] = JSON.parse(params[:tracing_request]) if params[:tracing_request].is_a?(String)
     reindex_hash params['tracing_request']
-
     create_or_update_tracing_request(params[:tracing_request])
+    params[:tracing_request][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
     @tracing_request['created_by_full_name'] = current_user_full_name
 
     respond_to do |format|
@@ -128,6 +129,34 @@ class TracingRequestsController < ApplicationController
     end
   end
 
+  def edit_photo
+    authorize! :update, @tracing_request
+    @page_name = t("tracing_request.edit_photo")
+  end
+
+  def update_photo
+    authorize! :update, @tracing_request
+    orientation = params[:tracing_request].delete(:photo_orientation).to_i
+    if orientation != 0
+      @tracing_request.rotate_photo(orientation)
+      @tracing_request.set_updated_fields_for current_user_name
+      @tracing_request.save
+    end
+    redirect_to(@tracing_request)
+  end
+
+  def select_primary_photo
+    @tracing_request = TracingRequest.get(params[:tracing_request_id])
+    authorize! :update, @tracing_request
+    begin
+      @tracing_request.primary_photo_id = params[:photo_id]
+      @tracing_request.save
+      head :ok
+    rescue
+      head :error
+    end
+  end
+
   def destroy
     authorize! :destroy, @tracing_request
     @tracing_request.destroy
@@ -141,6 +170,11 @@ class TracingRequestsController < ApplicationController
 
 
   private
+
+  def sanitize_params
+    tracing_request = params['tracing_request']
+    tracing_request['histories'] = JSON.parse(tracing_request['histories']) if tracing_request and tracing_request['histories'].is_a?(String) #histories might come as string from the mobile client.
+  end
 
   def load_record_or_redirect
     @tracing_request = TracingRequest.get(params[:id])
@@ -183,7 +217,7 @@ class TracingRequestsController < ApplicationController
       pager.replace(instances)
     end
   end
-
+  
   def tracing_request_short_id tracing_request_params
     tracing_request_params[:short_id] || tracing_request_params[:unique_identifier].last(7)
   end
@@ -200,8 +234,23 @@ class TracingRequestsController < ApplicationController
   def update_tracing_request_from params
     tracing_request = @tracing_request || TracingRequest.get(params[:id]) || TracingRequest.new_with_user_name(current_user, params[:tracing_request])
     authorize! :update, tracing_request
-    reindex_hash params['tracing_request']
-    tracing_request.update_properties(params[:tracing_request], current_user_name)
+
+    resolved_params = params.clone
+    if params[:tracing_request][:revision] != tracing_request._rev
+      resolved_params[:tracing_request] = tracing_request.merge_conflicts(params[:tracing_request])
+    end
+
+    reindex_hash resolved_params['tracing_request']
+    update_tracing_request_with_attachments(tracing_request, resolved_params)
+  end
+
+  def update_tracing_request_with_attachments(tracing_request, params)
+    tracing_request['last_updated_by_full_name'] = current_user_full_name
+    new_photo = params[:tracing_request].delete("photo")
+    new_photo = (params[:tracing_request][:photo] || "") if new_photo.nil?
+    new_audio = params[:tracing_request].delete("audio")
+    delete_tracing_request_audio = params["delete_tracing_request_audio"].present?
+    tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"], new_audio, delete_tracing_request_audio, params[:tracing_request], params[:delete_tracing_request_document])
     tracing_request
   end
 
@@ -215,6 +264,10 @@ class TracingRequestsController < ApplicationController
         #encrypt_exported_files results, export_filename(children, export_task)
       end
     end
+  end
+
+  def export_filename(tracing_requests, export_task)
+    (tracing_requests.length == 1 ? tracing_requests.first.short_id : current_user_name) + '_' + export_task.id.to_s + '.zip'
   end
 
   def set_class_name
