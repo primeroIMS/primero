@@ -146,14 +146,12 @@ class User < CouchRest::Model::Base
     !disabled? && crypted_password == self.class.encrypt(check, self.salt)
   end
 
-  #TODO: Change this into a single bulk query
   def roles
-    @roles ||= role_ids.collect { |id| Role.get(id) }.flatten
+    @roles ||= Role.all(keys: self.role_ids).all
   end
 
-  #TODO: Change this into a single bulk query
   def modules
-    @modules ||= module_ids.collect{|id| PrimeroModule.get(id)}.flatten
+    @modules ||= PrimeroModule.all(keys: self.module_ids).all
   end
 
   def has_permission?(permission)
