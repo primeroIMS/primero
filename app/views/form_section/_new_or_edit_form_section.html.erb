@@ -10,19 +10,37 @@
         </div>
         <fieldset>
 
-          <div>
-            <%= f.label :name, t("name", :locale => I18n.default_locale), :class => 'key' %>
-            <%= f.text_field "name_#{I18n.default_locale}", :id => "form_section_name" %>
+          <div class="row">
+            <div class="medium-3 columns">
+              <%= f.label :name, t("name", :locale => I18n.default_locale), :class => 'key' %>
+            </div>
+            <div class="medium-9 columns">
+              <%= f.text_field "name_#{I18n.default_locale}", :id => "form_section_name" %>
+            </div>
           </div>
-
-          <div>
-            <%= f.label :description, t("description", :locale => I18n.default_locale), :class => 'key' %>
-            <%= f.text_field "description_#{I18n.default_locale}", :id => "form_section_description" %>
+          <div class="row">
+            <div class="medium-3 columns">
+              <%= f.label :description, t("description", :locale => I18n.default_locale), :class => 'key' %>
+            </div>
+            <div class="medium-9 columns">
+              <%= f.text_field "description_#{I18n.default_locale}", :id => "form_section_description" %>
+            </div>
           </div>
-
-          <div>
-            <%= f.label :help_text, t("help_text", :locale => I18n.default_locale), :class => 'key' %>
-            <%= f.text_field "help_text_#{I18n.default_locale}", :id => "form_section_help_text" %>
+          <div class="row">
+            <div class="medium-3 columns">
+              <%= f.label :help_text, t("help_text", :locale => I18n.default_locale), :class => 'key' %>
+            </div>
+            <div class="medium-9 columns">
+              <%= f.text_field "help_text_#{I18n.default_locale}", :id => "form_section_help_text" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-3 columns">
+              <%= f.label :form_group_name, t("form_group_name", :locale => I18n.default_locale), :class => 'key' %>
+            </div>
+            <div class="medium-9 columns">
+              <%= f.text_field "form_group_name", :id => "form_section_form_group_name" %>
+            </div>
           </div>
 
 

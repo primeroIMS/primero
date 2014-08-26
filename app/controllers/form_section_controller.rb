@@ -4,7 +4,6 @@ class FormSectionController < ApplicationController
     authorize! :index, FormSection
     @page_name = t("form_section.manage")
     get_form_sections
-    #@form_sections = FormSection.all.sort_by(&:order)
   end
 
   def create

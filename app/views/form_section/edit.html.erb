@@ -1,8 +1,21 @@
-<h1 class="no_border"><%= link_to t("form"), form_sections_path %> &gt;
-  <span id='sectionId'><%= @form_section.unique_id %></span></h1>
-<div class="page-content-new form_page">
-<div class="side-tab-content full_width">
-  <%= render :partial => "form_section/new_or_edit_form_section" %>
+<div class="row">
+  <div class="large-4 medium-4 columns">
+    <%
+       #TODO i18n and STYLE
+    %>
+    <h4><%= "Form > #{@form_section.parent_form.humanize} > #{t(@form_section.unique_id, :default => @form_section.name)}"%></h4>
+  </div>
+  <div class="large-8 medium-8 columns">
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-12 medium-12 columns">
+    <div class="page-content-new form_page">
+      <div class="side-tab-content full_width">
+        <%= render :partial => "form_section/new_or_edit_form_section" %>
+
+
   <% if @form_section.editable? %>
     <h3><%= t("fields.label") %><%= link_to t("fields.add"), "javascript:void(0)", :class => "add_field" %></h3>
   <% else %>
@@ -94,6 +107,11 @@
   <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>
 </div>
 </div>
+
+
+  </div>
+</div>
+
 <script>
     var show_add_field = <%= show_add_field ||= (params[:show_add_field] || false) %>;
     var field_type = "<%= @field.type || 'text_field' %>";
