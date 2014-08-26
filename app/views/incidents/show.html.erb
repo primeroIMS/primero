@@ -42,20 +42,16 @@ $(".profile-tools .investigated a").click( function(){
 </script>
 <% end %>
 
-<% content_for :header_sub_nav do %>
-    <ul class="inline-list">
-        <%= render 'show_incident_toolbar', incident: @incident %>
+<% content_for :record_sub_nav do %>
+  <%= render 'show_incident_toolbar', incident: @incident %>
+<% end %>
 
-        <% if can? :update, @incident %>        
-            <li><%= link_to t("buttons.edit"), edit_incident_path(@incident, { follow: true }), class: 'green-button' %></li>
-        <% end %>	
-    </ul>
+<% content_for :record_sub_nav_controls do %>
+  <%= render 'record_toolbar', incident: @incident %> 
 <% end %>
 
 <% content_for :breadcrumbs do %>
-    <h2 class="float_left no_border">
-        <%= link_to t("incidents.label"), incidents_path %> &gt; <%= text_to_identify_incident(@incident) %>
-    </h2>
+  <%= t("incidents.label") %>: <%= text_to_identify_incident(@incident) %>
 <% end %>
 
 <% content_for :header_message do %>
