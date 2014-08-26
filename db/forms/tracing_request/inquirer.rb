@@ -137,6 +137,10 @@ tracing_request_inquirer_fields = [
                         "Divorce/remarriage",
                         "Other (please specify)"].join("\n")
             }),
+  Field.new({"name" => "separation_cause_other",
+             "type" => "textarea",
+             "display_name_all" => "If Other, please specify"
+            }),
   Field.new({"name" => "separation_evacuation",
              "type" => "tick_box",
              "display_name_all" => "Did the separation occur in relation to evacuation?"
