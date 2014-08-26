@@ -216,6 +216,10 @@ class FormSection < CouchRest::Model::Base
   def self.group_forms(forms)
     grouped_forms = {}
     visible_forms = forms.select{|f| f.visible?}
+
+    #Order these forms by group and form
+    visible_forms = visible_forms.sort_by{|f| [f.order_form_group, f.order]}
+
     if visible_forms.present?
       grouped_forms = visible_forms.group_by{|f| f.form_group_name}
     end
