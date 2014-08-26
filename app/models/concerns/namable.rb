@@ -16,8 +16,7 @@ module Namable
               }"
     end
 
-    #TODO: I18n this
-    validates_presence_of :name, :message => I18n.t("errors.models.#{self.class.name.underscore}.name_present")
+    validates_presence_of :name, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
     validate :is_name_unique, :if => :name
 
     before_save :generate_id
@@ -35,6 +34,10 @@ module Namable
   end
 
   module ClassMethods
+
+    def find_by_name(name)
+       self.by_name(:key => name).first
+    end
 
     def id_from_name(name)
       "#{self.name}-#{name}".parameterize.dasherize

@@ -1,5 +1,5 @@
 def create_or_update_role(role_hash)
-  role_id = Role.role_id_from_name role_hash[:name]
+  role_id = Role.id_from_name role_hash[:name]
   role = Role.get role_id
 
   if role.nil?

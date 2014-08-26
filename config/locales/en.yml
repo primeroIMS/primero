@@ -786,8 +786,20 @@ en:
         malformed_query: "Invalid request"
 
       role:
+        name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
+
+      primero_module:
+        name_present: "Name must not be blank"
+        unique_name: "A module with that name already exists, please enter a different name"
+        program: "There must be a program associated with this module"
+        associated_form_ids: "At least one form must be associated with this module"
+        associated_record_types: "At least one record type must be associated with this module"
+
+      primero_program:
+        name_present: "Name must not be blank"
+        unique_name: "A program with that name already exists, please enter a different name"
 
       lookup:
         value_presence: "Please select at least one lookup value"
