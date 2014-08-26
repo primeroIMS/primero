@@ -14,11 +14,11 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
     //Find every date_of_birth field in order to update the age that there is a change to be wrong
     //according the current year.
     $(context).find("input[id$='_date_of_birth']").each(function(x, dateOfBirthEl){
-      var dateOfBirthId = $(dateOfBirthEl).attr("id");
+      var dateOfBirthName = $(dateOfBirthEl).attr("name");
       var dateOfBirthValue = $(dateOfBirthEl).val();
       if (dateOfBirthValue != "") {
-        var ageId = dateOfBirthId.replace(/_date_of_birth$/, "_age");
-        $(context).find("input[id='" + ageId + "']").each(function(x, ageEl){
+        var ageName = dateOfBirthName.replace(/date_of_birth\]$/, "age]");
+        $(context).find("input[name='" + ageName + "']").each(function(x, ageEl){
           try {
             var dateOfBirthDate = $.datepicker.parseDate($.datepicker.defaultDateFormat, dateOfBirthValue);
             var age = (new Date).getFullYear() - dateOfBirthDate.getFullYear();
@@ -38,8 +38,8 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
     event.preventDefault();
     var ageField = $(event.target);
     //Find the corresponding birth date field related to the age field.
-    var dateOfBirthId = ageField[0].getAttribute("id").replace(/_age$/, "_date_of_birth")
-    var dateOfBirthField = $(this.el).find("input[id='" + dateOfBirthId + "']");
+    var dateOfBirthName = ageField[0].getAttribute("name").replace(/age\]$/, "date_of_birth]")
+    var dateOfBirthField = $(this.el).find("input[name='" + dateOfBirthName + "']");
 
     if (dateOfBirthField.length > 0) {
       if (isNaN(ageField.val()) || ageField.val() < 0) {
@@ -61,8 +61,8 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
     event.preventDefault();
     var dateOfBirthField = $(event.target);
     //Find the corresponding age field related to the birth date field changed.
-    var ageId = dateOfBirthField[0].getAttribute("id").replace(/_date_of_birth$/, "_age")
-    var ageField = $(this.el).find("input[id='" + ageId + "']");
+    var ageName = dateOfBirthField[0].getAttribute("name").replace(/date_of_birth\]$/, "age]")
+    var ageField = $(this.el).find("input[name='" + ageName + "']");
 
     if (ageField.length > 0) {
       try {
