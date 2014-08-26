@@ -19,8 +19,6 @@ Feature: Perpetrator Form
       | Is this a known or unknown Perpetrator? | <Select> Known |
       | Sex of Alleged Perpetrator(s) | <Select> Male |
       | Past GBV by alledged perpetrator? | <Radio>  No |
-      | Nationality of alleged perpetrator | <Select> Nationality1 |
-      | Clan or Ethnicity of alleged perpetrator | <Select> Ethnicity3 |
       | Age group of alleged perpetrator | <Select> 18-25 |
       | Alleged perpetrator relationship with survivor | <Select> No relation |
       | Main occupation of alleged perpetrator (if known) | <Select> Unemployed |
@@ -32,7 +30,6 @@ Feature: Perpetrator Form
       | Is this a known or unknown Perpetrator? | <Select> Known |
       | Sex of Alleged Perpetrator(s) | <Select> Male |
       | Past GBV by alledged perpetrator? | <Radio>  No |
-      | Nationality of alleged perpetrator | <Select> Nationality2 |
       | Age group of alleged perpetrator | <Select> 18-25 |
       | Alleged perpetrator relationship with survivor | <Select> Other |
       | Main occupation of alleged perpetrator (if known) | <Select> Unemployed |
@@ -46,8 +43,6 @@ Feature: Perpetrator Form
       | Is this a known or unknown Perpetrator? | Known |
       | Sex of Alleged Perpetrator(s) | Male |
       | Past GBV by alledged perpetrator? |  No |
-      | Nationality of alleged perpetrator | Nationality1 |
-      | Clan or Ethnicity of alleged perpetrator | Ethnicity3 |
       | Age group of alleged perpetrator | 18-25 |
       | Alleged perpetrator relationship with survivor | No relation |
       | Main occupation of alleged perpetrator (if known) | Unemployed |
@@ -59,7 +54,6 @@ Feature: Perpetrator Form
       | Is this a known or unknown Perpetrator? | Known |
       | Sex of Alleged Perpetrator(s) | Male |
       | Past GBV by alledged perpetrator? | No |
-      | Nationality of alleged perpetrator | Nationality2 |
       | Age group of alleged perpetrator | 18-25 |
       | Alleged perpetrator relationship with survivor | Other |
       | Main occupation of alleged perpetrator (if known) | Unemployed |

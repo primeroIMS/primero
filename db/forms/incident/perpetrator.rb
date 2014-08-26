@@ -16,6 +16,12 @@ perpetrator_subform_fields = [
              "display_name_all" => "Past GBV by alledged perpetrator?",
              "option_strings_text_all" => "Yes\nNo"
             }),
+  Field.new({"name" => "perpetrator_violations",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Violations",
+             "option_strings_source" => "violations"
+            }),
   Field.new({"name" => "perpetrator_category",
              "type" => "select_box",
              "display_name_all" => "Was the alleged perpetrator(s) a State or Non-State Actor?",
@@ -63,18 +69,12 @@ perpetrator_subform_fields = [
   Field.new({"name" => "perpetrator_nationality",
              "type" => "select_box",
              "display_name_all" => "Nationality of alleged perpetrator",
-             "option_strings_text_all" =>
-                          ["Nationality1",
-                           "Nationality2",
-                           "Nationality3"].join("\n")
+             "option_strings_source" => "lookup Nationality"
             }),
   Field.new({"name" => "perpetrator_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Clan or Ethnicity of alleged perpetrator",
-             "option_strings_text_all" =>
-                          ["Ethnicity1",
-                           "Ethnicity2",
-                           "Ethnicity3"].join("\n")
+             "option_strings_source" => "lookup Ethnicity"
             }),
   Field.new({"name" => "perpetrator_relationship",
              "type" => "select_box",

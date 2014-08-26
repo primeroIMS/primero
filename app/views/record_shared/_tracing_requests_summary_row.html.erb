@@ -1,0 +1,7 @@
+<tr>
+  <td id="tracing_request_<%= record.id %>" class="id_column">
+    <%= link_to text_to_identify_tracing_request(record), tracing_request_path(record), class: 'id_link' %>
+  </td>
+  <td><%= record.relation_name %></td>
+  <td><%= record.inquiry_date %></td>
+</tr>

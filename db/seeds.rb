@@ -38,6 +38,9 @@ require File.dirname(__FILE__) + "/users/roles.rb"
 puts "Seeding Users"
 require File.dirname(__FILE__) + "/users/default_users.rb"
 
+#Reseed the lookups
+puts "Seeding Lookups"
+require File.dirname(__FILE__) + "/lookups/lookups.rb"
 
 #Create the forms
 clean_db_table('form_section')

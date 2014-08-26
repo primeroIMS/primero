@@ -1,25 +1,37 @@
-<div class="header_message">
+<div class="panel">
+  <div class="header_message">
     <% if child.reunited? %>
-        <div class="reunited-message"><%= reunited_message %></div>
+      <div class="reunited-message"><%= reunited_message %></div>
     <% end %>
     <% if child.flag? %>
-        <h3 class="flag-message"><%= flag_message %></h3>
+      <p class="flag-message"><%= flag_message %></p>
     <% end %>
     <% if child.duplicate? %>
-        <h3 class="duplicate-message"><%= duplicate_message %></h3>
+      <p class="duplicate-message"><%= duplicate_message %></p>
     <% end %>
     <% unless duplicates.empty? %>
-        <h3 class="duplicate-message"><%= t("child.another_duplicate_before_link") %>
-        <%= link_to 'here', child_path(duplicates.first) %><%= t("child.another_duplicate_after_link") %></h3>
+      <p class="duplicate-message"><%= t("child.another_duplicate_before_link") %>
+      <%= link_to 'here', child_path(duplicates.first) %><%= t("child.another_duplicate_after_link") %></p>
     <% end %>
 
     <div id='interviewer_details'>
-        <h3><%= t("child.registered_by") %>: <%= child['created_by'] %> <%= link_to_update_info(child) %> <%= t("preposition.on_label") %> <%= current_user.localize_date(child['created_at']) %></h3>
-        <% if child['last_updated_at']%>
-            <h3><%= t("child.last_updated") %>: <%= current_user.localize_date(child['last_updated_at']) %> </h3>
-        <% end %>
-        <% if child['posted_from']=="Mobile" %>
-            <h3><%= t("child.posted_from_mobile")  %> <%= current_user.localize_date(child['posted_at']) %> </h3>
-        <% end %>
+      <p>
+        <strong><%= t("child.registered_by") %></strong><br> 
+        <%= child['created_by'] %> <%= link_to_update_info(child) %><br> 
+        <%= current_user.localize_date(child['created_at']) %>
+      </p>
+      <% if child['last_updated_at']%>
+        <p>
+          <strong><%= t("child.last_updated") %></strong><br>
+          <%= current_user.localize_date(child['last_updated_at']) %> 
+        </p>
+      <% end %>
+      <% if child['posted_from']=="Mobile" %>
+        <p>
+          <strong><%= t("child.posted_from_mobile")  %></strong><br>
+          <%= current_user.localize_date(child['posted_at']) %>
+        </p>
+      <% end %>
     </div>
-</div>  
+  </div>
+</div>

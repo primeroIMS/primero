@@ -3,13 +3,11 @@ intervention_fields = [
              "type" => "text_field",
              "display_name_all" => "Action Taken by Survivors/Families"
             }),
-  Field.new({"name" => "individual_violations",
+  Field.new({"name" => "intervention_violations",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Violations",
-             "option_strings_text_all" =>
-                          ["Option1",
-                           "Option2",
-                           "Option3"].join("\n")
+             "option_strings_source" => "violations"
             }),
   Field.new({"name" => "intervention_task_force_date",
              "type" => "date_field",

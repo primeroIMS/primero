@@ -1,13 +1,13 @@
-<% content_for :header_sub_nav do %>
-    <ul class="inline-list">
-        <%= render 'show_tracing_request_toolbar', tracing_request: @tracing_request %>
-    </ul>
+<% content_for :record_sub_nav do %>
+  <%= render 'show_tracing_request_toolbar', tracing_request: @tracing_request %>
+<% end %>
+
+<% content_for :record_sub_nav_controls do %>
+  <%= render 'record_toolbar', tracing_request: @tracing_request %> 
 <% end %>
 
 <% content_for :breadcrumbs do %>
-    <h2 class="float_left no_border">
-        <%= link_to t("tracing_requests.label"), tracing_requests_path %> &gt; <%= text_to_identify_tracing_request(@tracing_request) %>
-    </h2>
+  <%= t("tracing_requests.label") %>: <%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
 <% content_for :header_message do %>    
@@ -21,22 +21,18 @@
 <div class="clearfix"></div>
 
 <%= form_tag tracing_request_path(@tracing_request), :method => :put, :multipart => true, :class => "edit-profile default-form" do %>
-  <div class="page-content-new row">
+  <div class="page-content-new row collapse" data-equalizer>
     <div class="large-4 medium-4 columns close-side-tab">
-      <div class="side-tab">
+      <div class="side-tab" data-equalizer-watch>
         <%= render :partial => 'form_section/tabs', :object => @form_sections %>
       </div>
     </div>
-
-    <div class="side-tab-content large-8 medium-8 columns">
-      <%= hidden_field_tag('tracing_request[revision]', @tracing_request._rev) %>
-      <% @form_sections.each do |form_group_name, form_list| %>
-        <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>
-      <% end %>
-      <div class="btn_panel">
-        <%= discard_button tracing_requests_path %>
-        <%= submit_button %>
-        <div class="clearfix"></div>
+    <div class="large-8 medium-8 columns">
+      <div class="side-tab-content" data-equalizer-watch>
+        <%= hidden_field_tag('tracing_request[revision]', @tracing_request._rev) %>
+        <% @form_sections.each do |form_group_name, form_list| %>
+          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>
+        <% end %>
       </div>
     </div>
   </div>

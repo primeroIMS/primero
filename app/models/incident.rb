@@ -52,4 +52,26 @@ class Incident < CouchRest::Model::Base
   def incident_code
     (self['unique_identifier'] || "").last 7
   end
+
+  def violations_list
+    violations_list = []
+
+    if self['violations'].present?
+      self['violations'].each do |key, value|
+        value.each do |k, v|
+          if v['violation_id'].present?
+            violations_list << v['violation_id']
+          else
+            violations_list << key.titleize + " " + k
+          end
+        end
+      end
+    end
+
+    if violations_list.blank?
+      violations_list << "NONE"
+    end
+
+    return violations_list
+  end
 end

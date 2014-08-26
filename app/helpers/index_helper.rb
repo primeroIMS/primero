@@ -27,6 +27,12 @@ module IndexHelper
 				{title: 'date_of_interview', sort_title: 'date_of_first_report'},
 				{title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
 			]
+			when "tracing_request"
+			return [
+			  {title: 'id', sort_title: 'short_id'},
+			  {title: 'name_of_inquirer', sort_title: 'relation_name'},
+			  {title: 'date_of_inquiry', sort_title: 'inquiry_date'}
+			  ]
 		else
 			[]
 		end

@@ -4,8 +4,8 @@
 #JIRA PRIMERO-232
 #JIRA PRIMERO-240
 #JIRA PRIMERO-238
-# JIRA PRIMERO-353
-# JIRA PRIMERO-363
+#JIRA PRIMERO-353
+#JIRA PRIMERO-363
 #JIRA PRIMERO-365
 #JIRA PRIMERO-244
 
@@ -37,12 +37,6 @@ Feature: Family Details Form
       |Nickname                                              | Coco                                       |
       |Are they alive?                                       | <Select> Alive                             |
       |If dead, please provide details                       | No Dead Notes                              |
-      |Language                                              | <Choose>Language 1<Choose>Language 2       |
-      |Religion                                              | <Choose>Religion 1<Choose>Religion 2       |
-      |Ethnicity                                             | <Select> Ethnicity 1                       |
-      |Sub Ethnicity 1                                       | <Select> Sub Ethnicity 1                   |
-      |Sub Ethnicity 2                                       | <Select> Sub Ethnicity 2                   |
-      |Nationality                                           | <Choose>Nationality 1<Choose>Nationality 2 |
       |Comments                                              | Some Comments About Coco                   |
       |Occupation                                            | Some Ocupation About Coco                  |
       |Current Address                                       | Coco's Current Address                     |
@@ -52,7 +46,7 @@ Feature: Family Details Form
       |Last Known Location                                   | Coco's Last Known Location                 |
       |Telephone                                             | Coco's Telephone                           |
       |Other persons well known to the child                 | Pedro                                      |
-    And I fill in the 2st "Family Details Section" subform with the follow:
+    And I fill in the 2nd "Family Details Section" subform with the follow:
       |Name                                                  | Pedro                                      |
       |How are they related to the child?                    | <Select> Father                            |
       |Is this person the caregiver?                         | <Radio> No                                 |
@@ -63,12 +57,6 @@ Feature: Family Details Form
       |Nickname                                              | Pepe                                       |
       |Are they alive?                                       | <Select> Unknown                           |
       |If dead, please provide details                       | Unknown Information                        |
-      |Language                                              | <Choose>Language 2                         |
-      |Religion                                              | <Choose>Religion 2                         |
-      |Ethnicity                                             | <Select> Ethnicity 2                       |
-      |Sub Ethnicity 1                                       | <Select> Sub Ethnicity 2                   |
-      |Sub Ethnicity 2                                       | <Select> Sub Ethnicity 1                   |
-      |Nationality                                           | <Choose>Nationality 2                      |
       |Comments                                              | Some Comments About Pepe                   |
       |Occupation                                            | Some Ocupation About Pepe                  |
       |Current Address                                       | Pepe's Current Address                     |
@@ -95,12 +83,6 @@ Feature: Family Details Form
       |Nickname                                              | Coco                         |
       |Are they alive?                                       | Alive                        |
       |If dead, please provide details                       | No Dead Notes                |
-      |Language                                              | Language 1, Language 2       |
-      |Religion                                              | Religion 1, Religion 2       |
-      |Ethnicity                                             | Ethnicity 1                  |
-      |Sub Ethnicity 1                                       | Sub Ethnicity 1              |
-      |Sub Ethnicity 2                                       | Sub Ethnicity 2              |
-      |Nationality                                           | Nationality 1, Nationality 2 |
       |Comments                                              | Some Comments About Coco     |
       |Occupation                                            | Some Ocupation About Coco    |
       |Current Address                                       | Coco's Current Address       |
@@ -121,12 +103,6 @@ Feature: Family Details Form
       |Nickname                                              | Pepe                         |
       |Are they alive?                                       | Unknown                      |
       |If dead, please provide details                       | Unknown Information          |
-      |Language                                              | Language 2                   |
-      |Religion                                              | Religion 2                   |
-      |Ethnicity                                             | Ethnicity 2                  |
-      |Sub Ethnicity 1                                       | Sub Ethnicity 2              |
-      |Sub Ethnicity 2                                       | Sub Ethnicity 1              |
-      |Nationality                                           | Nationality 2                |
       |Comments                                              | Some Comments About Pepe     |
       |Occupation                                            | Some Ocupation About Pepe    |
       |Current Address                                       | Pepe's Current Address       |
@@ -142,6 +118,8 @@ Feature: Family Details Form
       | Age | 39 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
       | Age | 25 |
+    And the value of "Date of Birth" in the 1st "Family Details Section" subform should be January 1, "39" years ago
+    And the value of "Date of Birth" in the 2nd "Family Details Section" subform should be January 1, "25" years ago
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see in the 1st "Family Details Section" subform with the follow:
@@ -156,6 +134,8 @@ Feature: Family Details Form
       | Date of Birth | 01-Jan-1975 |
     And I fill in the 2nd "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1989 |
+    And the value of "Age" in the 1st "Family Details Section" subform should be the calculated age of someone born in "1975"
+    And the value of "Age" in the 2nd "Family Details Section" subform should be the calculated age of someone born in "1989"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see in the 1st "Family Details Section" subform with the follow:

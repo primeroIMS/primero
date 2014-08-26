@@ -37,4 +37,15 @@ _primero.get_param = function(param) {
 };
 
 $(document).ready(function() {
+  $('.btn_submit').on('click', function() {
+    $('form.default-form').submit();
+  });
+
+  var stickem = $(".record_controls_container").sticky({ 
+    topSpacing: 50,
+    bottomSpacing: 40 
+  });
+
+  stickem.on('sticky-start', function() { $(this).addClass('sticking') });
+  stickem.on('sticky-end', function() { $(this).removeClass('sticking')  });
 });

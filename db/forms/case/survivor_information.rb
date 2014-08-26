@@ -44,35 +44,26 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "ethnicity",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Clan or Ethnicity",
-             "option_strings_text_all" =>
-                          ["Ethnicity1",
-                           "Ethnicity2",
-                           "Ethnicity3"].join("\n")
+             "option_strings_source" => "lookup Ethnicity"
             }),
   Field.new({"name" => "country_of_origin",
              "type" => "select_box", 
              "display_name_all" => "Country of Origin",
-             "option_strings_text_all" =>
-                          ["Country1",
-                           "Country2",
-                           "Country3"].join("\n")
+             "option_strings_source" => "lookup Country"
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Nationality (if different than country of origin)",
-             "option_strings_text_all" =>
-                          ["Nationality1",
-                           "Nationality2",
-                           "Nationality3"].join("\n")
+             "option_strings_source" => "lookup Nationality"
             }),
   Field.new({"name" => "religion",
-             "type" => "select_box", 
+             "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Religion",
-             "option_strings_text_all" =>
-                          ["Religion1",
-                           "Religion2",
-                           "Religion3"].join("\n")
+             "option_strings_source" => "lookup Religion"
             }),
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,

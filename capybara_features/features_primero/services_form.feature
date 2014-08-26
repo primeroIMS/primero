@@ -24,7 +24,7 @@ Feature: Services Form
       | Notes                                                  | Some nothes           |
     And I fill in the 1st "Health_Medical Referral Subform Section" subform with the follow:
       | Did you refer the client to Health/Medical Services? | <Select> No referral, Service provided by your agency |
-      | Appointment Date                                     | 22-07-2014                                            |
+      | Appointment Date                                     | 22-Jul-2014                                            |
       | Appointment Time                                     | 10:00 a.m.                                            |
       | Service Provider                                     | Health/Medical Service provider name                  |
       | Service Location                                     | Health/Medical Service location                       |

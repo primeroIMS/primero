@@ -1,5 +1,6 @@
 # JIRA PRIMERO-41
-@javascript @primero
+# TODO: Advanced Search link removed, and advanced search still pending.
+@javascript @primero @wip
 Feature: Primero nav search reports
   As a logged in user I can access search, advanced search, and reports from the nav bar
 

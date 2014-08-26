@@ -42,20 +42,16 @@ $(".profile-tools .investigated a").click( function(){
 </script>
 <% end %>
 
-<% content_for :header_sub_nav do %>
-    <ul class="inline-list">
-        <%= render 'show_incident_toolbar', incident: @incident %>
+<% content_for :record_sub_nav do %>
+  <%= render 'show_incident_toolbar', incident: @incident %>
+<% end %>
 
-        <% if can? :update, @incident %>        
-            <li><%= link_to t("buttons.edit"), edit_incident_path(@incident, { follow: true }), class: 'green-button' %></li>
-        <% end %>	
-    </ul>
+<% content_for :record_sub_nav_controls do %>
+  <%= render 'record_toolbar', incident: @incident %> 
 <% end %>
 
 <% content_for :breadcrumbs do %>
-    <h2 class="float_left no_border">
-        <%= link_to t("incidents.label"), incidents_path %> &gt; <%= text_to_identify_incident(@incident) %>
-    </h2>
+  <%= t("incidents.label") %>: <%= text_to_identify_incident(@incident) %>
 <% end %>
 
 <% content_for :header_message do %>
@@ -67,16 +63,17 @@ $(".profile-tools .investigated a").click( function(){
     <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
 <% end %>
     
-<div class="page-content-new row">
+<div class="page-content-new row collapse" data-equalizer>
   <div class="large-4 medium-4 columns close-side-tab">
-    <div class="side-tab">
+    <div class="side-tab" data-equalizer-watch>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
-  <div class="side-tab-content large-8 medium-8 columns">
-    <div class="clearfix"></div>
-    <%# Removed for demo deploy %>
-    <%= render :partial => 'shared/sidebar' if false %>
-    <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident} %>
+  <div class="large-8 medium-8 columns">
+    <div class="side-tab-content" data-equalizer-watch>
+      <%# Removed for demo deploy %>
+      <%= render :partial => 'shared/sidebar' if false %>
+      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident} %>
+    </div>
   </div>
 </div>

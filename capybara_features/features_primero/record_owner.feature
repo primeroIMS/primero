@@ -1,6 +1,6 @@
 # JIRA PRIMERO-294
 
-@javascript @primero
+@javascript @primero @search
 Feature: Record Owner
   As a Social worker, I want to enter information related to the record owner 
 
@@ -29,7 +29,6 @@ And I fill in the following:
   | Age               | 24                 |
   | Other Agency Name | Test Agency        |
   | UNHCR ID          | AAA000             |
-  | Survivor Code     | BBB111             |
   | Nickname          | Khaleesi           |
 And I press "Save"
 And I press the "Record Owner" button
@@ -55,7 +54,6 @@ And I fill in the following:
   | Other Agency ID   | ABC12345       |
   | Other Agency Name | Test Agency    |
   | UNHCR ID          | AAA001         |
-  | Survivor Code     | BBB112         |
   | Nickname          | Lord Stark     |
 And I press "Save"
 And I press the "Record Owner" button
@@ -77,7 +75,6 @@ And I fill in the following:
   | Age               | 24                 |
   | Other Agency Name | Test Agency        |
   | UNHCR ID          | AAA000             |
-  | Survivor Code     | BBB111             |
   | Nickname          | Khaleesi           |
 And I press "Save"
 And I press the "Record Owner" button
@@ -103,7 +100,6 @@ And I fill in the following:
   | Other Agency ID   | ABC12345       |
   | Other Agency Name | Test Agency    |
   | UNHCR ID          | AAA001         |
-  | Survivor Code     | BBB112         |
   | Nickname          | Lord Stark     |
 And I press "Save"
 And I press the "Record Owner" button

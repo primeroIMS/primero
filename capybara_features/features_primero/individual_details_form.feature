@@ -22,10 +22,6 @@ Feature: Individual Details Form
       | What is the child's Date of Birth? | 10-Jun-1993 |
     And I select "Female" from "What is the sex of the child?"
     And I select "Yes" for "Is the age estimated?" radio button
-    And I select "Ethnicity1" from "What is the ethnic affiliation of the individual?"
-    And I select "Nationality1" from "What is the national affiliation of the individual?"
-    And I select "Religion1" from "What is the religious affiliation of the individual?"
-    And I select "Country1" from "Country of Origin"
     And I select "Resident" from "Displacement Status at time of report"
     And I select "Both Parents" from "What were the care arrangements for the child at the time of the incident/violation(s)?"
     And I select "Anonymous" from "With whom is the child and/or adult caregiver willing to share their name and other personal details?"
@@ -42,10 +38,6 @@ Feature: Individual Details Form
       | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |
       | What is the sex of the child?                                                                                                                               | Female              |
       | Is the age estimated?                                                                                                                                       | Yes                 |
-      | What is the ethnic affiliation of the individual?                                                                                                           | Ethnicity1          |
-      | What is the national affiliation of the individual?                                                                                                         | Nationality1        |
-      | What is the religious affiliation of the individual?                                                                                                        | Religion1           |
-      | Country of Origin                                                                                                                                           | Country1            |
       | Displacement Status at time of report                                                                                                                       | Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
       | With whom is the child and/or adult caregiver willing to share their name and other personal details?                                                       | Anonymous           |
@@ -65,10 +57,6 @@ Feature: Individual Details Form
       | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |
       | What is the sex of the child?                                                                                                                               | Female              |
       | Is the age estimated?                                                                                                                                       | No                  |
-      | What is the ethnic affiliation of the individual?                                                                                                           | Ethnicity1          |
-      | What is the national affiliation of the individual?                                                                                                         | Nationality1        |
-      | What is the religious affiliation of the individual?                                                                                                        | Religion1           |
-      | Country of Origin                                                                                                                                           | Country1            |
       | Displacement Status at time of report                                                                                                                       | Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
       | With whom is the child and/or adult caregiver willing to share their name and other personal details?                                                       | Anonymous           |

@@ -100,7 +100,6 @@ tabNavigation = Backbone.View.extend({
       } else {
         this.determine_current_tab('first')
       }
-      _primero.set_content_sidebar_equality();
   }, 
 
   determine_current_tab: function(action) {
@@ -125,29 +124,14 @@ tabNavigation = Backbone.View.extend({
 });
 
 _primero.set_content_sidebar_equality = function() {
-  // Added to size sidebar and side content
-  var content = $('.side-tab-content'),
-      sidebar = $('.side-tab'),
-  content_height = function() {
-    var sidebar_height = sidebar.find('ul.side-nav').height();
-    if (content.height() < sidebar_height) {
-      return sidebar_height + 20;
-    } else {
-      return content.height() + 50
-    }
-  };
-
-  sidebar.height(content_height());
+  Foundation.libs.equalizer.reflow();
 };
 
 $(document).ready(function() {
   new tabNavigation();
 
   $("ul.side-nav").sticky({ 
-    topSpacing: 0,
-    bottomSpacing: 40 
+    topSpacing: 130,
+    bottomSpacing: 90 
   });
-
-  // set height of sidebar depending on side content
-  _primero.set_content_sidebar_equality();
 });

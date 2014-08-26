@@ -13,86 +13,86 @@ Feature: Subforms Collapses Fields Incidents
   Scenario: As a logged in user, I want to verify collapsed fields for killing
     And I press the "Violations" button
     And I press the "Killing" button
-    And I update in the 1st "Killing Subform Section" subform with the follow:
+    And I update in the 1st "Killing" subform with the follow:
       | Cause | <Select> IED      |
-    And I fill in the 2nd "Killing Subform Section" subform with the follow:
+    And I fill in the 2nd "Killing" subform with the follow:
       | Cause | <Select> Shooting |
-    And I collapsed the 1st "Killing Subform Section" subform
-    And I collapsed the 2nd "Killing Subform Section" subform
-    Then I should see header in the 1st "Killing Subform Section" subform within "IED"
-    And I should see header in the 2nd "Killing Subform Section" subform within "Shooting"
+    And I collapsed the 1st "Killing" subform
+    And I collapsed the 2nd "Killing" subform
+    Then I should see header in the 1st "Killing" subform within "IED"
+    And I should see header in the 2nd "Killing" subform within "Shooting"
 
   Scenario: As a logged in user, I want to verify collapsed fields for maiming
     And I press the "Violations" button
     And I press the "Maiming" button
-    And I update in the 1st "Maiming Subform Section" subform with the follow:
+    And I update in the 1st "Maiming" subform with the follow:
       | Cause | <Select> Cluster Munition |
-    And I fill in the 2nd "Maiming Subform Section" subform with the follow:
+    And I fill in the 2nd "Maiming" subform with the follow:
       | Cause | <Select> Landmines        |
-    And I collapsed the 1st "Maiming Subform Section" subform
-    And I collapsed the 2nd "Maiming Subform Section" subform
-    Then I should see header in the 1st "Maiming Subform Section" subform within "Cluster Munition"
-    And I should see header in the 2nd "Maiming Subform Section" subform within "Landmines"
+    And I collapsed the 1st "Maiming" subform
+    And I collapsed the 2nd "Maiming" subform
+    Then I should see header in the 1st "Maiming" subform within "Cluster Munition"
+    And I should see header in the 2nd "Maiming" subform within "Landmines"
 
   Scenario: As a logged in user, I want to verify collapsed fields for recruitment
     And I press the "Violations" button
     And I press the "Recruitment" button
-    And I update in the 1st "Recruitment Subform Section" subform with the follow:
+    And I update in the 1st "Recruitment" subform with the follow:
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Conscription<Choose>Lack of Basic Services<Choose>Idealism |
-    And I fill in the 2nd "Recruitment Subform Section" subform with the follow:
+    And I fill in the 2nd "Recruitment" subform with the follow:
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Abduction<Choose>Financial Reasons<Choose>Intimidation     |
-    And I collapsed the 1st "Recruitment Subform Section" subform
-    And I collapsed the 2nd "Recruitment Subform Section" subform
-    Then I should see header in the 1st "Recruitment Subform Section" subform within "Conscription, Lack of Basic Services, Idealism"
-    And I should see header in the 2nd "Recruitment Subform Section" subform within "Abduction, Intimidation, Financial Reason"
+    And I collapsed the 1st "Recruitment" subform
+    And I collapsed the 2nd "Recruitment" subform
+    Then I should see header in the 1st "Recruitment" subform within "Conscription, Lack of Basic Services, Idealism"
+    And I should see header in the 2nd "Recruitment" subform within "Abduction, Intimidation, Financial Reason"
 
   Scenario: As a logged in user, I want to verify collapsed fields for attack on schools
     And I press the "Violations" button
     And I press the "Attack on Schools" button
-    And I update in the 1st "Attack on Schools Subform Section" subform with the follow:
+    And I update in the 1st "Attack on Schools" subform with the follow:
       | Type of Attack On Site | <Select> Direct Attack on students/teachers |
-    And I fill in the 2nd "Attack on Schools Subform Section" subform with the follow:
+    And I fill in the 2nd "Attack on Schools" subform with the follow:
       | Type of Attack On Site | <Select> Shelling |
-    And I collapsed the 1st "Attack on Schools Subform Section" subform
-    And I collapsed the 2nd "Attack on Schools Subform Section" subform
-    Then I should see header in the 1st "Attack on Schools Subform Section" subform within "Direct Attack on students/teachers"
-    And I should see header in the 2nd "Attack on Schools Subform Section" subform within "Shelling"
+    And I collapsed the 1st "Attack on Schools" subform
+    And I collapsed the 2nd "Attack on Schools" subform
+    Then I should see header in the 1st "Attack on Schools" subform within "Direct Attack on students/teachers"
+    And I should see header in the 2nd "Attack on Schools" subform within "Shelling"
 
   Scenario: As a logged in user, I want to verify collapsed fields for attack on hospitals
     And I press the "Violations" button
     And I press the "Attack on Hospitals" button
-    And I update in the 1st "Attack on Hospitals Subform Section" subform with the follow:
+    And I update in the 1st "Attack on Hospitals" subform with the follow:
       | Type of Attack On Site | <Select> Occupation of Building |
-    And I fill in the 2nd "Attack on Hospitals Subform Section" subform with the follow:
+    And I fill in the 2nd "Attack on Hospitals" subform with the follow:
       | Type of Attack On Site | <Select> Physical Destruction |
-    And I collapsed the 1st "Attack on Hospitals Subform Section" subform
-    And I collapsed the 2nd "Attack on Hospitals Subform Section" subform
-    Then I should see header in the 1st "Attack on Hospitals Subform Section" subform within "Occupation of Building"
-    And I should see header in the 2nd "Attack on Hospitals Subform Section" subform within "Physical Destruction"
+    And I collapsed the 1st "Attack on Hospitals" subform
+    And I collapsed the 2nd "Attack on Hospitals" subform
+    Then I should see header in the 1st "Attack on Hospitals" subform within "Occupation of Building"
+    And I should see header in the 2nd "Attack on Hospitals" subform within "Physical Destruction"
 
   Scenario: As a logged in user, I want to verify collapsed fields for abduction
     And I press the "Violations" button
     And I press the "Abduction" button
-    And I update in the 1st "Abduction Subform Section" subform with the follow:
+    And I update in the 1st "Abduction" subform with the follow:
       | Category | <Select> Child Recruitment |
-    And I fill in the 2nd "Abduction Subform Section" subform with the follow:
+    And I fill in the 2nd "Abduction" subform with the follow:
       | Category | <Select> Sexual Violence |
-    And I collapsed the 1st "Abduction Subform Section" subform
-    And I collapsed the 2nd "Abduction Subform Section" subform
-    Then I should see header in the 1st "Abduction Subform Section" subform within "Child Recruitment"
-    And I should see header in the 2nd "Abduction Subform Section" subform within "Sexual Violence"
+    And I collapsed the 1st "Abduction" subform
+    And I collapsed the 2nd "Abduction" subform
+    Then I should see header in the 1st "Abduction" subform within "Child Recruitment"
+    And I should see header in the 2nd "Abduction" subform within "Sexual Violence"
 
   Scenario: As a logged in user, I want to verify collapsed fields for other violation
     And I press the "Violations" button
     And I press the "Other Violation" button
-    And I update in the 1st "Other Violation Section" subform with the follow:
+    And I update in the 1st "Other Violation" subform with the follow:
       | Other Violation Type | <Select> Forced Displacement |
-    And I fill in the 2nd "Other Violation Section" subform with the follow:
+    And I fill in the 2nd "Other Violation" subform with the follow:
       | Other Violation Type | <Select> Denial of Civil Rights |
-    And I collapsed the 1st "Other Violation Section" subform
-    And I collapsed the 2nd "Other Violation Section" subform
-    Then I should see header in the 1st "Other Violation Section" subform within "Forced Displacement"
-    And I should see header in the 2nd "Other Violation Section" subform within "Denial of Civil Rights"
+    And I collapsed the 1st "Other Violation" subform
+    And I collapsed the 2nd "Other Violation" subform
+    Then I should see header in the 1st "Other Violation" subform within "Forced Displacement"
+    And I should see header in the 2nd "Other Violation" subform within "Denial of Civil Rights"
 
   Scenario: As a logged in user, I want to verify collapsed fields for individual details
     And I press the "Individual Details" button
@@ -145,23 +145,23 @@ Feature: Subforms Collapses Fields Incidents
   Scenario: As a logged in user, I want to verify collapsed fields for sexual violence
     And I press the "Violations" button
     And I press the "Sexual Violence" button
-    And I fill in the 1st "Sexual Violence Subform Section" subform with the follow:
+    And I fill in the 1st "Sexual Violence" subform with the follow:
       | Type of Violence | <Choose>Forced Marriage<Choose>Forced Sterilization |
-    And I fill in the 2nd "Sexual Violence Subform Section" subform with the follow:
+    And I fill in the 2nd "Sexual Violence" subform with the follow:
       | Type of Violence | <Choose>Mutilation<Choose>Sexual Assault            |
-    And I collapsed the 1st "Sexual Violence Subform Section" subform
-    And I collapsed the 2nd "Sexual Violence Subform Section" subform
-    Then I should see header in the 1st "Sexual Violence Subform Section" subform within "Forced Marriage, Forced Sterilization"
-    And I should see header in the 2nd "Sexual Violence Subform Section" subform within "Sexual Assault, Mutilation"
+    And I collapsed the 1st "Sexual Violence" subform
+    And I collapsed the 2nd "Sexual Violence" subform
+    Then I should see header in the 1st "Sexual Violence" subform within "Forced Marriage, Forced Sterilization"
+    And I should see header in the 2nd "Sexual Violence" subform within "Sexual Assault, Mutilation"
 
   Scenario: As a logged in user, I want to verify collapsed fields for denial of humanitarian access
     And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
-    And I fill in the 1st "Denial Humanitarian Access Section" subform with the follow:
+    And I fill in the 1st "Denial Humanitarian Access" subform with the follow:
       | What method(s) were used to deny humanitarian access? | <Select> Import Restrictions for Goods |
-    And I fill in the 2nd "Denial Humanitarian Access Section" subform with the follow:
+    And I fill in the 2nd "Denial Humanitarian Access" subform with the follow:
       | What method(s) were used to deny humanitarian access? | <Select> Travel Restrictions in Country |
-    And I collapsed the 1st "Denial Humanitarian Access Section" subform
-    And I collapsed the 2nd "Denial Humanitarian Access Section" subform
-    Then I should see header in the 1st "Denial Humanitarian Access Section" subform within "Import Restrictions for Goods"
-    And I should see header in the 2nd "Denial Humanitarian Access Section" subform within "Travel Restrictions in Country"
+    And I collapsed the 1st "Denial Humanitarian Access" subform
+    And I collapsed the 2nd "Denial Humanitarian Access" subform
+    Then I should see header in the 1st "Denial Humanitarian Access" subform within "Import Restrictions for Goods"
+    And I should see header in the 2nd "Denial Humanitarian Access" subform within "Travel Restrictions in Country"

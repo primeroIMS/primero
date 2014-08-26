@@ -1,22 +1,24 @@
 <% content_for :breadcrumbs do %>
-  <h2><%= link_to t("cases.label"), cases_path %> &gt; <%= t("cases.register_new_case") %></h2>
+  <%= t("cases.register_new_case") %>
 <% end %>
-<%= form_tag children_path, :multipart => true do %>
-    <div class="page-content-new row">
+
+<% content_for :record_sub_nav_controls do %>
+  <%= render 'record_toolbar', child: @child %> 
+<% end %>
+
+<%= form_tag children_path, :multipart => true, :class => "default-form" do %>
+    <div class="page-content-new row collapse" data-equalizer>
   	<%= hidden_field_tag "child[posted_from]", "Browser" %>
       <div class="large-4 medium-4 columns close-side-tab">
-        <div class="side-tab">
+        <div class="side-tab" data-equalizer-watch>
           <%= render :partial => 'form_section/tabs', :object => @form_sections %>
         </div>
       </div>
-      <div class="side-tab-content large-8 medium-8 columns">
-        <div class="clearfix"></div>
-        <% @form_sections.each do |form_group_name, form_list| %>
-          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
-        <% end %>
-        <div class="btn_panel">
-            <%= render 'reset_button'%>
-            <%= submit_button %>
+      <div class="large-8 medium-8 columns">
+        <div class="side-tab-content" data-equalizer-watch>
+          <% @form_sections.each do |form_group_name, form_list| %>
+            <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
+          <% end %>
         </div>
       </div>
     </div>    

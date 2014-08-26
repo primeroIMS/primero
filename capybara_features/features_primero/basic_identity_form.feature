@@ -17,8 +17,9 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-453
+# JIRA PRIMERO-450
 
-@javascript @primero
+@javascript @primero @search
 Feature: Basic Identity Form
   As an administrator, I want to be able to create a case with a auto generated case id, short id, and registration date.
   I also want the case status to default to open leaving the option to set it another status by the user.
@@ -32,7 +33,6 @@ Feature: Basic Identity Form
     And I fill in the following:
       | Case Status                              | <Select> Transferred               |
       | Name                                     | Tiki Thomas Taliaferro             |
-      | Survivor Code                            | BBB111                             |
       | Nickname                                 | Tommy                              |
       | Other Name                               | Bob                                |
       | Name(s) given to child after separation? | <Radio> No                         |
@@ -54,17 +54,13 @@ Feature: Basic Identity Form
       | Current Location                         | Southern Region                    |
       | Is this address permanent?               | <Radio> Yes                        |
       | Current Telephone                        | 336-555-1313                       |
-      | Number and age of children and other dependents | 5                           |
-      | Camp                                     | Test Camp                          |
-      | Section Number                           | DDD333                             |
-      | Contact Number                           | 910-555-1515                       |
+    And the value of "Age" should be the calculated age of someone born in "1992"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
-    And I should see a value for "Survivor Code" on the show page with the value of "BBB111"
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
     And I should see a value for "Other Name" on the show page with the value of "Bob"
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"
@@ -88,10 +84,6 @@ Feature: Basic Identity Form
     And I should see a value for "Current Location" on the show page with the value of "Southern Region"
     And I should see a value for "Is this address permanent?" on the show page with the value of "Yes"
     And I should see a value for "Current Telephone" on the show page with the value of "336-555-1313"
-    And I should see a value for "Number and age of children and other dependents" on the show page with the value of "5"
-    And I should see a value for "Camp" on the show page with the value of "Test Camp"
-    And I should see a value for "Section Number" on the show page with the value of "DDD333"
-    And I should see a value for "Contact Number" on the show page with the value of "910-555-1515"
 
   Scenario: As a logged in user, I create a case without entering anything in any field in the basic identity form 
     And I press "Save"
@@ -100,7 +92,6 @@ Feature: Basic Identity Form
     And I should see a value for "Short ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of ""
     And I should see a value for "Name" on the show page with the value of ""
-    And I should see a value for "Survivor Code" on the show page with the value of ""
     And I should see a value for "Nickname" on the show page with the value of ""
     And I should see a value for "Other Name" on the show page with the value of ""
     And I should see a value for "Name(s) given to child after separation?" on the show page with the value of ""
@@ -124,10 +115,6 @@ Feature: Basic Identity Form
     And I should see a value for "Current Location" on the show page with the value of ""
     And I should see a value for "Is this address permanent?" on the show page with the value of ""
     And I should see a value for "Current Telephone" on the show page with the value of ""
-    And I should see a value for "Number and age of children and other dependents" on the show page with the value of ""
-    And I should see a value for "Camp" on the show page with the value of ""
-    And I should see a value for "Section Number" on the show page with the value of ""
-    And I should see a value for "Contact Number" on the show page with the value of ""
 
   Scenario: As a logged in user, I should be able to reset the basic identity form 
     And I fill in the following:
@@ -184,9 +171,9 @@ Feature: Basic Identity Form
       | ICRC Ref No.      | 131313                               |
       | RC ID No.         | 141414                               |
       | UNHCR ID          | AAA000                               |
-      | Survivor Code     | BBB111                               |
       | Nickname          | Tommy                                |
       | Other Name        | Bob                                  |
+    And the value of "Date of Birth" should be January 1, "24" years ago
     And I press "Save"
     Then I should see a value for "Age" on the show page with the value of "24"
     Then I should see a value for "Date of Birth" on the show page which is January 1, "24" years ago
@@ -200,9 +187,9 @@ Feature: Basic Identity Form
       | ICRC Ref No.      | 131313                               |
       | RC ID No.         | 141414                               |
       | UNHCR ID          | AAA000                               |
-      | Survivor Code     | BBB111                               |
       | Nickname          | Tommy                                |
       | Other Name        | Bob                                  |
+    And the value of "Date of Birth" should be January 1, "0" years ago
     And I press "Save"
     Then I should see a value for "Age" on the show page with the value of "0"
     Then I should see a value for "Date of Birth" on the show page which is January 1, "0" years ago
@@ -210,6 +197,7 @@ Feature: Basic Identity Form
   Scenario: As a logged in user, When I fill in the Date of Birth field the Age should be calculated
     And I fill in the following:
       | Date of Birth | 02-May-1990 |
+    And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
     Then I should see a value for "Date of Birth" on the show page with the value of "02-May-1990"
     Then I should see the calculated Age of a child born in "1990"

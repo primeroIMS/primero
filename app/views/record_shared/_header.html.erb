@@ -1,4 +1,3 @@
-<h1 class="no_border float_left"><%= t("#{record.pluralize}.label") %></h1>
 <% if can? :create, model %>
     <%= link_to content_tag(:span, t("#{record.pluralize}.register_new_#{record}"), :class => 'create_user'), new_polymorphic_path(record), :class=>'btn green-button right' %>
 <% end %>

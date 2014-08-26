@@ -1,3 +1,0 @@
-<li class="scope">
-  <%= select_tag "tracing_request_record_state_scope", options_for_select([[ "Valid Records", "valid_record" ],["Invalid Records", "invalid_record"]], params[:scope][:record_state] || "valid_record"), { :onchange => "this.form.submit();", :name => "scope[record_state]"}%>
-</li>
