@@ -179,7 +179,7 @@ RapidFTR::Application.routes.draw do
 # FORM SECTION URLS
 #######################
 
-  resources :form_sections, :path => 'form_section', :controller => 'form_section' do
+  resources :form_sections, :path => 'forms', :controller => 'form_section' do
     collection do
       match 'save_order', :via => [:post, :get, :put, :delete]
       match 'toggle', :via => [:post, :get, :put, :delete]

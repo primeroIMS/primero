@@ -3,7 +3,8 @@ class FormSectionController < ApplicationController
   def index
     authorize! :index, FormSection
     @page_name = t("form_section.manage")
-    @form_sections = FormSection.all.sort_by(&:order)
+    get_form_sections
+    #@form_sections = FormSection.all.sort_by(&:order)
   end
 
   def create
@@ -75,6 +76,10 @@ class FormSectionController < ApplicationController
   
   def parent_form
     @parent_form = params[:parent_form] || 'case'
+  end
+
+  def get_form_sections
+    @form_sections = FormSection.find_form_groups_by_parent_form(parent_form)
   end
 
 end
