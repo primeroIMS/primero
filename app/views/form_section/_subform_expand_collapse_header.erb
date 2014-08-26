@@ -19,7 +19,7 @@
              #get the names of the fields that belong to the subforms header
              #this will help to update the header if the user change something
              name = field_tag_name formObject, field, fk
-             fields_id << sanitize_to_id(name)
+             fields_id << "#{subform.subform.name.dehumanize}_#{sanitize_to_id(name)}"
 
              #field_type will be used to identify how to retrieve the changes in the subform fields
              #to update the static text placeholder if the field was changed by the user and the user 

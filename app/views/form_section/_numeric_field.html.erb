@@ -1,6 +1,7 @@
 <%
   field_keys ||= []
   name = field_tag_name formObject, numeric_field, field_keys
+  field_id = "#{numeric_field.form.name.dehumanize}_#{sanitize_to_id name}"
   value ||= field_value formObject, numeric_field, field_keys
   field_class = ""
   autosum_group = ""
@@ -11,12 +12,12 @@
 <div class="row">
   <div class="medium-4 columns">
     <span class="tool-tip-label">
-      <%= label_tag name, t(numeric_field.name, :default => numeric_field.display_name) , :class=>'key'%>
+      <%= label_tag field_id, t(numeric_field.name, :default => numeric_field.display_name) , :class=>'key'%>
     </span>
   </div>
   <div class="medium-8 columns">
     <% # NOTE: The field is readonly instead of disabled in order to send the calculated value to the server so we don't have to look for the list of autosum fields in the formsection and calculate again because it is an expensive task. %>
-    <%= text_field_tag name, value, :class => field_class.strip, :autosum_group => autosum_group.strip, :disabled => numeric_field.editable == false ? true : false, :readonly => numeric_field['autosum_total'] %>
+    <%= text_field_tag name, value, :class => field_class.strip, :autosum_group => autosum_group.strip, :disabled => numeric_field.editable == false ? true : false, :readonly => numeric_field['autosum_total'], :id => field_id %>
     <%= image_tag "new/icon_help.png", title: numeric_field.help_text, class: 'tool-tip-icon vtip' if numeric_field.help_text.present? %>
   </div>
 </div>

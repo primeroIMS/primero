@@ -1,16 +1,17 @@
 <%
   field_keys ||= []
   name = field_tag_name formObject, textarea, field_keys
+  field_id = "#{textarea.form.name.dehumanize}_#{sanitize_to_id name}"
   value ||= field_value formObject, textarea, field_keys
 %>
 <div class="row">
   <div class="medium-4 columns">
       <span class="tool-tip-label">
-          <%= label_tag name, t(textarea.name,:default => textarea.display_name), :class=>'key' %>
+          <%= label_tag field_id, t(textarea.name,:default => textarea.display_name), :class=>'key' %>
       </span>
   </div>
   <div class="medium-8 columns">
-    <%= text_area_tag name, value, :disabled => textarea.editable == false ? true : false %>
+    <%= text_area_tag name, value, :disabled => textarea.editable == false ? true : false, :id => field_id %>
     <%= image_tag "new/icon_help.png", title: textarea.help_text, class: 'tool-tip-icon vtip' if textarea.help_text.present? %>
   </div>
 </div>
