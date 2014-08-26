@@ -1,7 +1,7 @@
 <div class="row">
   <div class="file medium-12 columns">
-    <%= label_tag "child[audio]", "Recorded Audio", :class=>'key' %>
-    <%= file_field_tag "child[audio]" %>
+    <%= label_tag "#{formObject.class.name.underscore.downcase}[audio]", "Recorded Audio", :class=>'key' %>
+    <%= file_field_tag "#{formObject.class.name.underscore.downcase}[audio]" %>
 
     <ul class="audio_player_section">
       <%= render :partial => "form_section/field_display_audio", :locals => {:field => nil, :formObject => formObject, :display_audio_delete_checkbox => true} %>

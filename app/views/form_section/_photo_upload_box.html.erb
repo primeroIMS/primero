@@ -5,23 +5,23 @@
   <div class="row">
     <div class="file medium-12 columns">
       <span class="tool-tip-label">
-        <%= label_tag "child[photo]0", "Add Photo", :class=>'key' %>
+        <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", "Add Photo", :class=>'key' %>
 
       </span>
-      <%= file_field_tag "child[photo]0" %>
+      <%= file_field_tag "#{formObject.class.name.underscore.downcase}[photo]0" %>
 
       <%= image_tag "new/icon_help.png", title: photo_upload_box.help_text, class: 'tool-tip-icon vtip' if photo_upload_box.help_text.present? %>
 
     </div>
   </div>
 </div>
-<%= link_to 'Add another photo', '', id: 'add-photo', class: 'green-button right' %>
+<%= link_to 'Add another photo', '', id: 'add-photo', class: 'green-button right', "data-model" => "#{formObject.class.name.underscore.downcase}" %>
 <hr>
 <% formObject.photos.each do |photo| %>
     <div class="row">
       <div class="thumbnail medium-12 columns">
-        <%= label_tag "delete_child_photo[#{photo.name}]", t("child.actions.delete_photo") %>
-        <%= check_box_tag("delete_child_photo[#{photo.name}]") %>
+        <%= label_tag "delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]", t("#{formObject.class.name.underscore.downcase}.actions.delete_photo") %>
+        <%= check_box_tag("delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]") %>
         <%= thumbnail_tag(formObject, photo.name) %>
       </div>
     </div>

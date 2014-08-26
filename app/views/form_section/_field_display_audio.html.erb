@@ -1,20 +1,22 @@
 <% if formObject && formObject.has_valid_audio? %>
     <% if formObject.audio %>
+        <% model = formObject.class.name.underscore.downcase
+           audio_url = send("#{formObject.model_name_for_audio_link}_audio_url", formObject) %>
         <hr>
         <div class="audio row">
             <div class="medium-12 columns">
               <span class="profile-section-label"><strong><%= field ? field.display_name : 'Current Audio' %></strong></span>
-              <%= link_to "Download", case_audio_url(formObject), {:id => "audio_link", class: 'right green-button'} %>
+              <%= link_to "Download", audio_url, {:id => "audio_link", class: 'right green-button'} %>
               <% if display_audio_delete_checkbox %>
               <div class="delete_check_box">
-              <%= label_tag "delete_child_audio", t("child.actions.delete_audio") %>
-              <%= check_box_tag("delete_child_audio") %>
+              <%= label_tag "delete_#{model}_audio", t("#{model}.actions.delete_audio") %>
+              <%= check_box_tag("delete_#{model}_audio", "1", false, "data-model" => "#{model}") %>
               </div>
               <% end %>
               <div class="clearfix"></div>
             <% if is_playable_in_browser(formObject.audio) %>
                   <audio controls="controls" id="audio_player">
-                    <source src="<%= case_audio_url(formObject) %>"/>
+                    <source src="<%= audio_url %>"/>
                     Your browser is unable to play this audio file. You can download the file using the link above.
                   </audio>
 

@@ -62,7 +62,7 @@ Feature: Upload a childs attachment file
   #TODO: Absolutely pull this back in when we have put the audit log back into Primero
   @wip
   Scenario: Uploading a standard mp3 file to existing child record
-    Given I am on the new child page
+    Given I am on the new case page
     When I fill in "Name" with "Harry"
     And I press "Save"
     Then I should see "Case record successfully created"
@@ -114,7 +114,7 @@ Feature: Upload a childs attachment file
     Then I should see "Photos and Audio"
 
   Scenario: Should be able to delete audio
-    Given I am on the new child page
+    Given I am on the new case page
     And I fill in "Name" with "Harry"
     And I click the "Photos and Audio" link
     And I attach an audio file "capybara_features/resources/sample.mp3"
@@ -134,7 +134,7 @@ Feature: Upload a childs attachment file
   #TODO Add back in after demo deploy
   @wip
   Scenario: Should be able to delete photo
-    Given I am on the new child page
+    Given I am on the new case page
     And I fill in "Name" with "John"
     And I click the "Photos and Audio" link
     And I attach the following photos:
@@ -163,7 +163,7 @@ Feature: Upload a childs attachment file
   #TODO Add back in after demo deploy
   @wip
   Scenario: Manage & Edit Photo
-    Given I am on the new child page
+    Given I am on the new case page
     And I fill in "Name" with "John"
     And I click the "Photos and Audio" link
     And I attach a photo "capybara_features/resources/jorge.jpg"
@@ -182,7 +182,7 @@ Feature: Upload a childs attachment file
     And I should see "View full size photo"
 
   Scenario: Lightbox image is visible
-    Given I am on the new child page
+    Given I am on the new case page
     And I fill in "Name" with "John"
     And I click the "Photos and Audio" link
     And I attach a photo "capybara_features/resources/jorge.jpg"
