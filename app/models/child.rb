@@ -5,6 +5,10 @@ class Child < CouchRest::Model::Base
   MAX_DOCUMENTS = 10
   CHILD_PREFERENCE_MAX = 3
 
+  def self.parent_form
+    'case'
+  end
+
   include RapidFTR::Model
   include RapidFTR::CouchRestRailsBackward
   include AttachmentHelper

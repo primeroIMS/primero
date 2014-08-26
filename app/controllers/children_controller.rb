@@ -82,7 +82,7 @@ class ChildrenController < ApplicationController
     authorize! :create, Child
     params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
     reindex_hash params['child']
-    create_or_update_child(params[:child])
+    create_or_update_child(params[:id], params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
     @child['created_by_full_name'] = current_user_full_name
     @child['child_status'] = "Open" if @child['child_status'].blank?
@@ -114,7 +114,7 @@ class ChildrenController < ApplicationController
       respond_to do |format|
         format.json do
 
-          child = create_or_update_child(params[:child].merge(:verified => current_user.verified?))
+          child = create_or_update_child(params[:id], params[:child].merge(:verified => current_user.verified?))
 
           child['created_by_full_name'] = current_user.full_name
           if child.save
@@ -242,12 +242,12 @@ class ChildrenController < ApplicationController
     child_params[:short_id] || child_params[:unique_identifier].last(7)
   end
 
-  def create_or_update_child(child_params)
+  def create_or_update_child(id, child_params)
     @child = Child.by_short_id(:key => child_short_id(child_params)).first if child_params[:unique_identifier]
     if @child.nil?
       @child = Child.new_with_user_name(current_user, child_params)
     else
-      @child = update_child_from(params)
+      @child = update_child_from(id, child_params)
     end
   end
 
@@ -270,8 +270,8 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def update_child_from params
-    child = @child || Child.get(params[:id]) || Child.new_with_user_name(current_user, params[:child])
+  def update_child_from(id, child_params)
+    child = @child || Child.get(id) || Child.new_with_user_name(current_user, child_params)
     authorize! :update, child
 
     resolved_params = params.clone
@@ -291,21 +291,6 @@ class ChildrenController < ApplicationController
     delete_child_audio = params["delete_child_audio"].present?
     child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
     child
-  end
-
-  def respond_to_export(format, children)
-    RapidftrAddon::ExportTask.active.each do |export_task|
-      format.any(export_task.id) do
-        authorize! "export_#{export_task.id}".to_sym, Child
-        LogEntry.create! :type => LogEntry::TYPE[export_task.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => children.collect(&:id)
-        results = export_task.new.export(children)
-        encrypt_exported_files results, export_filename(children, export_task)
-      end
-    end
-  end
-
-  def export_filename(children, export_task)
-    (children.length == 1 ? children.first.short_id : current_user_name) + '_' + export_task.id.to_s + '.zip'
   end
 
   def set_class_name

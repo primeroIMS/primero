@@ -2,6 +2,8 @@ module RecordActions
   extend ActiveSupport::Concern
 
   included do
+    include ExportActions
+
     skip_before_filter :verify_authenticity_token
     skip_before_filter :check_authentication, :only => [:reindex]
 
@@ -40,4 +42,15 @@ module RecordActions
     end
   end
 
+  def exported_properties
+    # TODO: if models ever get properties added dynamically from forms this
+    # will be unnecessary
+    form_properties = @className.properties_hash_from_forms.map do |name,options|
+      CouchRest::Model::Property.new(name, options)
+    end
+
+    (@className.properties + form_properties).group_by {|p| p.name}.map do |name,properties|
+      properties[0]
+    end
+  end
 end

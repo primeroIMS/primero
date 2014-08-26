@@ -40,9 +40,16 @@ module FieldsHelper
   end
   
   def field_value_for_display field_value
-    return "" if field_value.nil? || field_value.length == 0
-    return field_value.join ", " if field_value.instance_of? Array
-    return field_value
+    case
+    when field_value.nil?
+      ""
+    when field_value.respond_to?(:length) && field_value.length == 0
+      ""
+    when field_value.instance_of?(Array)
+      field_value.join ", " 
+    else
+      field_value
+    end
   end
   
   def field_keys(subform_name, subform_index, field_name, form_group_name)

@@ -205,19 +205,6 @@ class IncidentsController < ApplicationController
     incident
   end
 
-
-
-  def respond_to_export(format, records)
-    RapidftrAddon::ExportTask.active.each do |export_task|
-      format.any(export_task.id) do
-        #authorize! "export_#{export_task.id}".to_sym, Child
-        #LogEntry.create! :type => LogEntry::TYPE[export_task.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => children.collect(&:id)
-        #results = export_task.new.export(children)
-        #encrypt_exported_files results, export_filename(children, export_task)
-      end
-    end
-  end
-
   def set_class_name
     @className = Incident
   end

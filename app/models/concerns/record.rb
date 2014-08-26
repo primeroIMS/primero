@@ -1,3 +1,5 @@
+require 'forms_to_properties'
+
 module Record
   extend ActiveSupport::Concern
 
@@ -17,15 +19,19 @@ module Record
     property :created_at
     property :duplicate, TrueClass
 
+    properties_hash_from_forms.each do |name,options|
+      property name.to_sym, options
+    end
+
     validate :validate_created_at
     validate :validate_last_updated_at
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
-    validates_with FieldValidator, :type => Field::NUMERIC_FIELD
-    validates_with FieldValidator, :type => Field::DATE_FIELD
-    validates_with FieldValidator, :type => Field::TEXT_AREA
-    validates_with FieldValidator, :type => Field::TEXT_FIELD
-    validates_with FieldValidator, :type => Field::DATE_RANGE
+    #validates_with FieldValidator, :type => Field::NUMERIC_FIELD
+    #validates_with FieldValidator, :type => Field::DATE_FIELD
+    #validates_with FieldValidator, :type => Field::TEXT_AREA
+    #validates_with FieldValidator, :type => Field::TEXT_FIELD
+    #validates_with FieldValidator, :type => Field::DATE_RANGE
 
     design do
       view :by_unique_identifier,
@@ -90,8 +96,10 @@ module Record
   end
 
   module ClassMethods
+    include FormToPropertiesConverter
+
     def new_with_user_name(user, fields = {})
-      record = new(fields)
+      record = new(convert_arrays(fields))
       record.create_unique_id
       record['short_id'] = record.short_id
       record['record_state'] = "Valid record" if record['record_state'].blank?
@@ -101,9 +109,40 @@ module Record
     end
 
     def parent_form
-      parent_form = self.name.underscore.downcase
-      parent_form = 'case' if parent_form == 'child'
-      parent_form
+      self.name.underscore.downcase
+    end
+
+    # To avoid changing the front end, just take those hashes with the array
+    # index as keys that it gives for nested subforms and convert it to real
+    # arrays for assignment on the model
+    def convert_arrays(fields)
+      hash_arrays_to_arrays = lambda do |h|
+        case h
+        when Hash
+          # If it isn't integers, just return the original
+          begin
+            h.sort_by {|k,v| Integer(k)}.map{|k,v| hash_arrays_to_arrays.call(v)}
+          rescue 
+            h.inject({}) {|acc, (k,v)| acc.merge({k => hash_arrays_to_arrays.call(v)})}
+          end
+        else
+          h
+        end
+      end
+
+      hash_arrays_to_arrays.call(fields)
+    end
+
+    def properties_hash_from_forms
+      form_sections = FormSection.find_by_parent_form(parent_form)
+
+      if !form_sections.length
+        raise "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
+      end
+
+      form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
+        acc.deep_merge(properties_hash_for(fs))
+      end
     end
 
     def all_connected_with(user_name)
