@@ -1,45 +1,18 @@
-<script type="text/javascript">
-  var show_add_field = true;
-  var field_type = null;
-</script>
-<div class="form_page">
-<h1 class="no_border float_left"><%= t("forms.label") %></h1>
-<%= link_to content_tag(:span,t("form_section.create"),:class=>'create_user') , new_form_section_path, :class=>'btn' %>
-<div class="clearfix"></div>
-<div class="page-content-new">
-  <div class="side-tab-content full_width">
-    <div class="flash" id="successNotice" style="display:none;">
-      <p class="notice"><%= t("form_section.messages.order_saved") %> </p>
-    </div>
-<p></p>
-
-
-<div class="text_info"><%= t("form_section.messages.drag_drop_help_text").html_safe %></div>
-<table id="form_sections" class="list_table">
-<thead>
-  <tr>
-    <th><%= t("name") %></th>
-    <th><%= t("description") %></th>
-    <th align="center">Hide</th>
-  </tr>
-</thead>
-<tbody>
-<input type='hidden' id="save_order_url" value="<%= save_order_form_sections_path %>">
-<input type='hidden' id="toggle_url" value="<%= toggle_form_sections_path %>">
-    <% @form_sections.each do |section| %>
-      <tr id="<%= section.unique_id%>_row" data="<%= section.unique_id %>" class="<%= section.visible? ? "rowEnabled": "rowDisabled" %>">
-          <td><%= link_to section.name, edit_form_section_path(section), :class => "formSectionLink" %></td>
-          <td><%= section.description %></td>
-        <td align="center">
-          <% if not section.perm_enabled? %>
-            <%= check_box_tag "sections[]", section.unique_id, !section.visible?, {:class => 'field_hide_show', :id => "sections_#{section.unique_id}"} %>
-          <% end %>
-        </td>
-
-        </tr>
-    <% end %>
-</tbody>
-</table>
+<div class="row">
+  <div class="large-4 medium-4 columns">
+    <h4>
+      <%= "Forms > #{@parent_form.humanize}"%>
+    </h4>
+  </div>
+  <div class="large-8 medium-8 columns">
+  </div>
 </div>
-</div>
+<div class="row">
+  <div class="large-12 medium-12 columns">
+    <ul>
+      <% @form_sections.each do |form_group, forms| %>
+        <%= build_form_custom_list(form_group, forms) %>
+      <% end %>
+    </ul>
+  </div>
 </div>
