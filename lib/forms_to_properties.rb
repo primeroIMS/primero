@@ -4,10 +4,14 @@ module FormToPropertiesConverter
       field.visible
     end
 
-    form_section.form_group_name
-
     form_section.fields.select(&include_field).inject({}) do |form_acc, f|
-      form_acc.merge(properties_for_field(f))
+      props = if form_section.form_group_name && form_section.form_group_keyed
+        {form_section.form_group_name => properties_for_field(f)}
+      else
+        properties_for_field(f)
+      end
+
+      form_acc.merge(props)
     end
   end
 

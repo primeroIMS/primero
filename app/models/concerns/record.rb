@@ -19,19 +19,20 @@ module Record
     property :created_at
     property :duplicate, TrueClass
 
-    properties_hash_from_forms.each do |name,options|
-      property name.to_sym, options
-    end
+    class_attribute(:form_properties_by_name)
+    self.form_properties_by_name = {}
+
+    create_form_properties
 
     validate :validate_created_at
     validate :validate_last_updated_at
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
-    #validates_with FieldValidator, :type => Field::NUMERIC_FIELD
-    #validates_with FieldValidator, :type => Field::DATE_FIELD
-    #validates_with FieldValidator, :type => Field::TEXT_AREA
-    #validates_with FieldValidator, :type => Field::TEXT_FIELD
-    #validates_with FieldValidator, :type => Field::DATE_RANGE
+    validates_with FieldValidator, :type => Field::NUMERIC_FIELD
+    validates_with FieldValidator, :type => Field::DATE_FIELD
+    validates_with FieldValidator, :type => Field::TEXT_AREA
+    validates_with FieldValidator, :type => Field::TEXT_FIELD
+    validates_with FieldValidator, :type => Field::DATE_RANGE
 
     design do
       view :by_unique_identifier,
@@ -142,6 +143,34 @@ module Record
 
       form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
         acc.deep_merge(properties_hash_for(fs))
+      end
+    end
+
+    def refresh_form_properties
+      remove_form_properties
+      create_form_properties
+    end
+
+    def remove_form_properties
+      form_properties_by_name.each do |name, prop|
+        properties_by_name.delete(name)
+        properties.delete(prop)
+        remove_method("#{name}=")
+
+        if method_defined?("#{name}?")
+          remove_method("#{name}?")
+        end
+
+        if prop.alias
+          remove_method("#{prop.alias}=")
+        end
+      end
+    end
+
+    def create_form_properties
+      properties_hash_from_forms.each do |name,options|
+        property name.to_sym, options
+        form_properties_by_name[name] = properties_by_name[name]
       end
     end
 

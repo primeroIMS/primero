@@ -134,13 +134,13 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       format.json do
         params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
-        child = update_child_from params
+        child = update_child_from(params[:id], params[:child])
         child.save
         render :json => child.compact.to_json
       end
 
       format.html do
-        @child = update_child_from params
+        @child = update_child_from(params[:id], params[:child])
         @child['child_status'] = "Open" if @child['child_status'].blank?
 
         if @child.save
@@ -156,7 +156,7 @@ class ChildrenController < ApplicationController
       end
 
       format.xml do
-        @child = update_child_from params
+        @child = update_child_from(params[:id], params[:child])
         if @child.save
           head :ok
         else

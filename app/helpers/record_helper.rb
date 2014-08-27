@@ -91,7 +91,6 @@ module RecordHelper
     should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
     if should_update
       attributes_to_update = {}
-      require 'pry'; binding.pry
       properties.each_pair do |name, value|
         if name == "histories"
           merge_histories(properties['histories'])
