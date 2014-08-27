@@ -34,10 +34,10 @@
               <% if can? :read, Incident %>
                 <li><%= link_to t("navigation.incidents"), incidents_path, class: current_page(incidents_path) %></li>
               <% end  %>
+              <% if current_user_name==nil or can? :manage, FormSection %>
+                <li><%= link_to t("navigation.forms"), form_sections_path %></li>
+              <% end %>
               <% if false %>
-                <% if current_user_name==nil or can? :manage, FormSection %>
-                    <li><%= link_to t("navigation.forms"), form_sections_path %></li>
-                <% end %>
                 <% if can? :read, User or can? :show, Role %>
                   <li><%= link_to t("navigation.users"), users_path %></li>
                 <% end %>
