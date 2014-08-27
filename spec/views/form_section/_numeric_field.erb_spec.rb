@@ -12,6 +12,7 @@ describe "form_section/_numeric_field.html.erb" do
     :type => 'numeric_field',
     :help_text => "This is my help text"
 
+    numeric_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/numeric_field', :locals => { :numeric_field => numeric_field, :formObject => @child }, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end
@@ -21,6 +22,7 @@ describe "form_section/_numeric_field.html.erb" do
     :display_name => "field name",
     :type => 'numeric_field'
 
+    numeric_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/numeric_field', :locals => { :numeric_field => numeric_field, :formObject => @child }, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("img.vtip")
   end
