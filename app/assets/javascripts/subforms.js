@@ -46,6 +46,7 @@ var SubformView = Backbone.View.extend({
     $(target).toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
     $(target).parents(".subform").find("div.row:gt(0)").toggle();
+    _primero.set_content_sidebar_equality();
   },
 
   add: function(event) {

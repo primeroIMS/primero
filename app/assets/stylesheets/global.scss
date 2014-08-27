@@ -452,6 +452,12 @@ fieldset {
       float: right;
       font-size: 1.5rem;
       cursor: pointer;
+      border: 1px solid #ccc;
+      background: $white_color;
+      display: block;
+      height: 30px;
+      width: 30px;
+      text-align: center;
     }
   }
 }
