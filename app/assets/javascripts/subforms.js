@@ -46,6 +46,7 @@ var SubformView = Backbone.View.extend({
     $(target).toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
     $(target).parents(".subform").find("div.row:gt(0)").toggle();
+    _primero.set_content_sidebar_equality();
   },
 
   add: function(event) {
@@ -129,7 +130,7 @@ var SubformView = Backbone.View.extend({
         self = this;
 
     if (confirm_remove == true) {
-      var subform = $(target).parent();
+      var subform = $(target).parents('fieldset.subform');
       subform.fadeOut(600, function() {
         var subform_group = $(target).parents('.subforms');
         $(this).remove();
