@@ -47,7 +47,7 @@ describe IncidentsController do
         response.status.should == 403
       end
 
-      it "GET search" do
+      xit "GET search" do
         @controller.current_ability.should_receive(:can?).with(:index, Incident).and_return(false);
         controller.stub :get_form_sections
         get :search
@@ -528,7 +528,7 @@ describe IncidentsController do
   #   end
   # end
 
-  it 'should export incidents using #respond_to_export' do
+  xit 'should export incidents using #respond_to_export' do
     incident1 = build :incident
     incident2 = build :incident
     controller.stub :paginated_collection => [ incident1, incident2 ], :render => true

@@ -5,22 +5,22 @@ describe ReportsController do
     fake_login_as [ Permission::REPORTS[:view] ]
   end
 
-  it "should fetch reports" do
+  xit "should fetch reports" do
     Report.should_receive(:paginate).with(hash_including(:design_doc => "Report")).and_return([])
     get :index
   end
 
-  it "should sort descending by date" do
+  xit "should sort descending by date" do
     Report.should_receive(:paginate).with(hash_including(:view_name => "by_as_of_date", :descending => true)).and_return([])
     get :index
   end
 
-  it "should set default page parameters" do
+  xit "should set default page parameters" do
     Report.should_receive(:paginate).with(hash_including(:per_page => 30, :page => 1)).and_return([])
     get :index
   end
 
-  it "should set page number from request" do
+  xit "should set page number from request" do
     Report.should_receive(:paginate).with(hash_including(:page => 5)).and_return([ Report.new ])
     get :index, :page => 5
   end
