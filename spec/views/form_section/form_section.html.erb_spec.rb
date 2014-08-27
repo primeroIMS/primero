@@ -65,8 +65,8 @@ describe "form_section/_form_section.html.erb" do
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
         @form_section.fields.each do |field|
-          rendered.should be_include("<label class=\"key\" for=\"#{field.tag_id}\">")
-          rendered.should be_include("<input id=\"#{field.tag_id}\" name=\"#{field.tag_name_attribute}\" type=\"text\" value=\"\" />")
+          rendered.should be_include("<label class=\"key\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
+          rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_#{field.tag_id}\" name=\"#{field.tag_name_attribute}\" type=\"text\" value=\"\" />")
         end
       end
     end
@@ -79,7 +79,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input id=\"child_name\" name=\"child[name]\" type=\"text\" value=\"Jessica\" />")
+        rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_child_name\" name=\"child[name]\" type=\"text\" value=\"Jessica\" />")
       end
     end
   end
@@ -94,8 +94,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input id=\"child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
-        rendered.should be_include("<input id=\"child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
+        rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
+        rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
       end
     end
 
@@ -108,8 +108,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input id=\"child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
-        rendered.should be_include("<input checked=\"checked\" id=\"child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
+        rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
+        rendered.should be_include("<input checked=\"checked\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
       end
     end
   end
@@ -124,8 +124,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<label class=\"key\" for=\"child_dateofseparation\">")
-        rendered.should be_include("<select id=\"child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
+        rendered.should be_include("<label class=\"key\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">")
+        rendered.should be_include("<select id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
       end
     end
   end
@@ -138,7 +138,7 @@ describe "form_section/_form_section.html.erb" do
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-      rendered.should be_include("<select id=\"child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
+      rendered.should be_include("<select id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
     end
   end
 
@@ -152,8 +152,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input checked=\"checked\" id=\"child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-        rendered.should be_include("<input checked=\"checked\" id=\"child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
+        rendered.should be_include("<input checked=\"checked\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
+        rendered.should be_include("<input checked=\"checked\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
       end
 
     end

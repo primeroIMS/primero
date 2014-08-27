@@ -4,6 +4,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-365
+# JIRA PRIMERO-478
 
 @javascript @primero
 Feature: Services
@@ -16,7 +17,6 @@ Feature: Services
     And I press the "Create a New Case" button
     And I press the "Services / Follow Up" button
     And I click on "Services" in form group "Services / Follow Up"
-    And I select "Psychosocial/Counseling Services" from "Who referred the client to you?"
     And I fill in the 1st "Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
       | Did you refer the client for this service? | <Select> Referred     |

@@ -12,15 +12,15 @@ child_preferences_fields_subform = [
              "type" => "select_box",
              "display_name_all" => "What is this person's relationship to the child?",
              "option_strings_text_all" =>
-                                  ["Mother", 
+                                  ["Mother",
                                    "Father",
-                                   "Aunt", 
+                                   "Aunt",
                                    "Uncle",
                                    "Grandmother",
                                    "Grandfather",
-                                   "Brother", 
+                                   "Brother",
                                    "Sister",
-                                   "Husband", 
+                                   "Husband",
                                    "Wife",
                                    "Partner",
                                    "Other Family",
@@ -91,9 +91,9 @@ child_wishes_fields = [
            }),
   ##Subform##
   Field.new({"name" => "child_preferences_section",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => true,
-             "subform_section_id" => child_preferences_section.id,
+             "subform_section_id" => child_preferences_section.unique_id,
              "display_name_all" => "Child's Preferences"
             }),
   ##Subform##

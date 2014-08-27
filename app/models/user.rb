@@ -21,6 +21,8 @@ class User < CouchRest::Model::Base
   property :role_ids, :type => [String]
   property :time_zone, :default => "UTC"
   property :locale
+  property :module_ids, :type => [String]
+  property :direct_report_user_ids, :type => [String]
 
   attr_accessor :password_confirmation, :password
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
@@ -145,11 +147,19 @@ class User < CouchRest::Model::Base
   end
 
   def roles
-    @roles ||= role_ids.collect { |id| Role.get(id) }.flatten
+    @roles ||= Role.all(keys: self.role_ids).all
+  end
+
+  def modules
+    @modules ||= PrimeroModule.all(keys: self.module_ids).all
   end
 
   def has_permission?(permission)
     permissions && permissions.include?(permission)
+  end
+
+  def has_permitted_form_id?(form_id)
+    permitted_form_ids && permitted_form_ids.include?(form_id)
   end
 
   def has_any_permission?(*any_of_permissions)
@@ -158,6 +168,25 @@ class User < CouchRest::Model::Base
 
   def permissions
     roles.compact.collect(&:permissions).flatten
+  end
+
+  def permitted_form_ids
+    permitted = []
+    from_roles = role_permitted_form_ids
+    if from_roles.present?
+      permitted = from_roles
+    elsif self.module_ids.present?
+      permitted = module_permitted_form_ids
+    end
+    return permitted
+  end
+
+  def role_permitted_form_ids
+    roles.compact.collect(&:permitted_form_ids).flatten
+  end
+
+  def module_permitted_form_ids
+    modules.compact.collect(&:associated_form_ids).flatten
   end
 
   def add_mobile_login_event imei, mobile_number
