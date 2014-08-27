@@ -51,6 +51,7 @@ describe 'children/' do
     describe field.type do
       before :each do
         @field = field
+        @field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
       end
 
       it_should_behave_like "label translation"
