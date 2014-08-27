@@ -277,9 +277,7 @@ describe TracingRequestsController do
       assigns[:tracing_request].should equal(mock_tracing_request)
     end
 
-<<<<<<< HEAD
-    it "retrieves the grouped forms that are permitted to this user and tracing request" do
-=======
+
     it 'should not fail if primary_photo_id is not present' do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", :created_by => "uname")
@@ -300,8 +298,7 @@ describe TracingRequestsController do
       get(:show, :format => 'json', :id => "37")
     end
 
-    it "orders and assigns the forms" do
->>>>>>> development
+    it "retrieves the grouped forms that are permitted to this user and tracing request" do
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
