@@ -1,7 +1,7 @@
 module IndexHelper
-	def index_highlighted_case_name(highlighted_fields, record)
-		highlighted_fields.each do |relevant_field|
-    	if relevant_field.visible?
+  def index_highlighted_case_name(highlighted_fields, record)
+    highlighted_fields.each do |relevant_field|
+      if relevant_field.visible?
         if relevant_field.hidden_text_field && record.hidden_name
           return I18n.t("cases.hidden_text_field_text")
         else
@@ -9,7 +9,7 @@ module IndexHelper
         end
       end
     end
-	end
+  end
 
 	def list_view_header(record)
 		case record
