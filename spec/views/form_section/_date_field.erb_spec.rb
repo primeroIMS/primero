@@ -12,6 +12,7 @@ describe "form_section/_date_field.html.erb" do
     :type => 'date_field',
     :help_text => "This is my help text"
 
+    date_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child  }, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end

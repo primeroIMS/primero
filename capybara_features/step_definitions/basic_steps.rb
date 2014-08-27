@@ -368,12 +368,14 @@ When /^I attach a document "([^"]*)"$/ do |document_path|
     step %Q{I attach the file "#{document_path}" to "child_upload_document_1"}
 end
 
-When /^I attach a photo "([^"]*)"$/ do |photo_path|
-    step %Q{I attach the file "#{photo_path}" to "child_photo0"}
+When /^I attach a photo "([^"]*)"(?: for model "(.*)")?$/ do |photo_path, model|
+    model ||= "child"
+    step %Q{I attach the file "#{photo_path}" to "#{model}_photo0"}
 end
 
-When /^I attach an audio file "([^"]*)"$/ do |audio_path|
-    step %Q{I attach the file "#{audio_path}" to "child[audio]"}
+When /^I attach an audio file "([^"]*)"(?: for model "(.*)")?$/ do |audio_path, model|
+    model ||= "child"
+    step %Q{I attach the file "#{audio_path}" to "#{model}[audio]"}
 end
 
 When /^I attach the following documents:$/ do |table|
@@ -383,9 +385,10 @@ When /^I attach the following documents:$/ do |table|
   end
 end
 
-When /^I attach the following photos:$/ do |table|
+When /^I attach the following photos(?: for model "(.*)")?:$/ do |model, table|
+  model ||= "child"
   table.raw.each_with_index do |photo, i|
-    step %Q{I attach the file "#{photo.first}" to "child[photo]#{i}"}
+    step %Q{I attach the file "#{photo.first}" to "#{model}[photo]#{i}"}
     step %Q{I click on the "Add another photo" link}
   end
 end
@@ -473,7 +476,7 @@ Given /^I am editing an existing child record$/ do
   child["unique_identifier"] = "UNIQUE_IDENTIFIER"
   raise "Failed to save a valid child record" unless child.save
 
-  visit children_path+"/#{child.id}/edit"
+  visit cases_path+"/#{child.id}/edit?follow=true"
 end
 
 Given /^an existing child with name "([^\"]*)" and a photo from "([^\"]*)"$/ do |name, photo_file_path|
@@ -484,7 +487,7 @@ end
 
 When /^I am editing the child with name "([^\"]*)"$/ do |name|
   child = find_child_by_name name
-  visit children_path+"/#{child.id}/edit"
+  visit cases_path+"/#{child.id}/edit?follow=true"
 end
 
 When /^I wait for (\d+) seconds$/ do |seconds|

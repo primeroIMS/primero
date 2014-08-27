@@ -37,7 +37,7 @@ en:
     this_user: " this user?"
     keep_working: "Yes, Keep Working"
     logoff: "No, Logoff"
-    confirmation_message: "Clicking OK Will Discard Any Unsaved Changes. Click Cancel To Return To The Child Record Instead."
+    confirmation_message: "Clicking OK Will Discard Any Unsaved Changes. Click Cancel To Return To The %{record} Records Instead."
     cancel_confirmation: "Are you sure you want to cancel?"
     logoff_warning_prefix: "You will be logged off in"
     logoff_warning_suffix: "seconds."
@@ -146,7 +146,6 @@ en:
       active: "Active"
       reunited: "Reunited"
       flagged: "Flagged"
-
 
   child:
     flagged_by: "Flagged By"
@@ -354,15 +353,22 @@ en:
 
     history_of: "History of %{short_id}"
 
-  tracing_requests:
+  tracing_request:
     label: "Tracing Requests"
     register_new_tracing_request: "Create a New Tracing Request"
-
-  tracing_request:
+    change_log: "Change Log"
     name_of_inquirer: "Name of Inquirer"
     date_of_inquiry: "Date of Inquiry"
+    change_log: "Change Log"
     last_updated: "Last updated"
     registered_by: "Registered by"
+    edit_photo: "Edit photo"
+    export_error: "No Records Available!"
+
+    actions:
+      change_log: "Change Log"
+      delete_photo: "Delete photo?"
+      delete_audio: "Delete audio?"
 
     messages:
       update_success: "Tracing Request was successfully updated."
@@ -374,10 +380,10 @@ en:
     enquirer_name: "Inquirer Name"
     enquirer_date: "Date of Inquiry"
 
-    actions:
-      change_log: "Change Log"
-
     history_of: "History of %{short_id}"
+    
+  tracing_requests:
+    register_new_tracing_request: "Create a New Tracing Request"
 
   preposition:
     on_label: "on"
@@ -728,6 +734,16 @@ en:
         body: "There were problems with the following fields:"
 
     models:
+      photo:
+        primary_photo_id: "Failed trying to set '%{photo_id}' to primary photo: no such photo key"
+        photo_size: "Please upload a file smaller than 10mb"
+        photo_format: "Please upload a valid photo file (jpg or png) for this %{model_name} record"
+        photo_count: "You are only allowed %{photos_count} photos per %{model_name}."
+
+      audio:
+        audio_size: "Please upload a file smaller than 10mb"
+        audio_format: "Please upload a valid audio file (amr or mp3) for this %{model_name} record"
+
       user:
         full_name: "Please enter full name of the user"
         password_confirmation: "Please enter password confirmation"
@@ -742,12 +758,6 @@ en:
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
         age: "Age must be between 0 and 130"
-        photo_format: "Please upload a valid photo file (jpg or png) for this case record"
-        photo_size: "Please upload a file smaller than 10mb"
-        photo_count: "You are only allowed %{photos_count} photos per case."
-        audio_format: "Please upload a valid audio file (amr or mp3) for this case record"
-        audio_size: "Please upload a file smaller than 10mb"
-        primary_photo_id: "Failed trying to set '%{photo_id}' to primary photo: no such photo key"
         validate_duplicate: "A valid duplicate ID must be provided"
         date_of_birth: "Please enter a valid date of birth for this case record"
         wishes_preferences_count: "You are only allowed %{preferences_count} child's preferences."

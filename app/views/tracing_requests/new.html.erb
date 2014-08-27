@@ -1,8 +1,8 @@
 <% content_for :breadcrumbs do %>
-  <%= t("tracing_requests.register_new_tracing_request") %>
+  <%= t("tracing_request.register_new_tracing_request") %>
 <% end %>
 <% content_for :record_sub_nav_controls do %>
-  <%= render 'record_toolbar', tracing_request: @tracing_request %> 
+  <%= render_controls(@tracing_request) %> 
 <% end %>
 <%= form_tag tracing_requests_path, :multipart => true, :class => "default-form" do %>
     <div class="page-content-new row collapse" data-equalizer>

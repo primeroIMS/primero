@@ -3,11 +3,11 @@
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <%= render 'record_toolbar', tracing_request: @tracing_request %> 
+  <%= render_controls(@tracing_request) %> 
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("tracing_requests.label") %>: <%= text_to_identify_tracing_request(@tracing_request) %>
+  <%= t("tracing_request.label") %>: <%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
 <% content_for :header_message do %>    

@@ -1434,6 +1434,8 @@ describe Child do
     end
 
       it "should return all duplicate records" do
+
+        # TODO: Solr changes need to review duplicates search
         record_active = Child.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organisation' => "stc")
         record_duplicate = create_duplicate(record_active)
 
@@ -1537,142 +1539,6 @@ describe Child do
     end
   end
 
-  describe 'auto calculate age and date of birth' do
-    before do
-      fields_subform_0 = [Field.new({"name" => "subform0_age",
-                                     "type" => "numeric_field",
-                                     "display_name_all" => "Subform 0 Age"
-                                    }),
-                          Field.new({"name" => "subform0_date_of_birth",
-                                     "type" => "date_field",
-                                     "display_name_all" => "Subform 0 Date of Birth"
-                                    })]
-      subform0_section = FormSection.create_or_update_form_section({
-          "visible"=>false,
-          "is_nested"=>true,
-          :order=> 1,
-          :unique_id=>"subform0_section",
-          "editable"=>true,
-          :fields => fields_subform_0,
-          :perm_enabled => false,
-          :perm_visible => false,
-          "name_all" => "Nested Subform 0",
-          "description_all" => "Subform 0 subform"
-      })
-
-      fields = [Field.new({"name" => "age",
-                           "type" => "text_field",
-                           "display_name_all" => "Age"
-                          }),
-                Field.new({"name" => "date_of_birth",
-                           "type" => "date_field",
-                           "display_name_all" => "Date of Birth"
-                          }),
-                ##Subform##
-                Field.new({"name" => "subform0_section",
-                           "type" => "subform",
-                           "editable" => true,
-                           "subform_section_id" => subform0_section.unique_id,
-                           "display_name_all" => "Subform 0"
-                          })
-                ##Subform##
-                        ]
-      FormSection.create_or_update_form_section({
-        :unique_id=> "first_form_section_test",
-        "visible" => true,
-        :order => 1,
-        "editable" => true,
-        :fields => fields,
-        :perm_enabled => true,
-        "name_all" => "First Form Section Test",
-        "description_all" => "First Form Section Test",
-      })
-
-      fields_subform_1 = [Field.new({"name" => "subform1_age",
-                                      "type" => "numeric_field",
-                                      "display_name_all" => "Subform 1 Age"
-                                     }),
-                           Field.new({"name" => "subform1_date_of_birth",
-                                      "type" => "date_field",
-                                      "display_name_all" => "Subform 1 Date of Birth"
-                                     })]
-      subform1_section = FormSection.create_or_update_form_section({
-          "visible"=>false,
-          "is_nested"=>true,
-          :order=> 1,
-          :unique_id=>"subform1_section",
-          "editable"=>true,
-          :fields => fields_subform_1,
-          :perm_enabled => false,
-          :perm_visible => false,
-          "name_all" => "Nested Subform 1",
-          "description_all" => "Subform 1 subform"
-      })
-
-      fields_subform_2 = [Field.new({"name" => "subform2_age",
-                                      "type" => "numeric_field",
-                                      "display_name_all" => "Subform 2 Age"
-                                     }),
-                           Field.new({"name" => "subform2_date_of_birth",
-                                      "type" => "date_field",
-                                      "display_name_all" => "Subform 2 Date of Birth"
-                                     })]
-      subform2_section = FormSection.create_or_update_form_section({
-          "visible"=>false,
-          "is_nested"=>true,
-          :order=> 1,
-          :unique_id=>"subform2_section",
-          "editable"=>true,
-          :fields => fields_subform_2,
-          :perm_enabled => false,
-          :perm_visible => false,
-          "name_all" => "Nested Subform 2",
-          "description_all" => "Subform 2 subform"
-      })
-
-      fields = [Field.new({"name" => "another_age",
-                           "type" => "text_field",
-                           "display_name_all" => "Another Age"
-                          }),
-                Field.new({"name" => "another_date_of_birth",
-                           "type" => "date_field",
-                           "display_name_all" => "Another Date of Birth"
-                          }),
-                Field.new({"name" => "1_age",
-                           "type" => "text_field",
-                           "display_name_all" => "Age With no pair"
-                          }),
-                Field.new({"name" => "2_date_of_birth",
-                           "type" => "date_field",
-                           "display_name_all" => "Date of Birth with no pair"
-                          }),
-                ##Subform##
-                Field.new({"name" => "subform1_section",
-                           "type" => "subform",
-                           "editable" => true,
-                           "subform_section_id" => subform1_section.unique_id,
-                           "display_name_all" => "Subform 1"
-                          }),
-                Field.new({"name" => "subform2_section",
-                           "type" => "subform",
-                           "editable" => true,
-                           "subform_section_id" => subform2_section.unique_id,
-                           "display_name_all" => "Subform 2"
-                          })
-                ##Subform##
-                          ]
-      FormSection.create_or_update_form_section({
-        :unique_id=> "second_form_section_test",
-        "visible" => true,
-        :order => 1,
-        "editable" => true,
-        :fields => fields,
-        :perm_enabled => true,
-        "name_all" => "Second Form Section Test",
-        "description_all" => "Second Form Section Test",
-      })
-    end
-  end
 
   describe 'validate dates and date ranges fields' do
     before do
