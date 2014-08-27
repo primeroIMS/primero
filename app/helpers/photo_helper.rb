@@ -1,4 +1,5 @@
 module PhotoHelper
+  include AttachmentHelper
 
   def rotate_photo(angle)
     existing_photo = primary_photo
@@ -87,8 +88,8 @@ module PhotoHelper
     return [] if self['photo_keys'].blank?
     self['photo_keys'].collect do |key|
       {
-          :photo_uri => child_photo_url(self, key),
-          :thumbnail_uri => child_photo_url(self, key)
+          :photo_uri => send("#{self.class.name.underscore.downcase}_photo_url", self, key),
+          :thumbnail_uri => send("#{self.class.name.underscore.downcase}_photo_url", self, key)
       }
     end
   end
@@ -104,8 +105,22 @@ module PhotoHelper
 
   def primary_photo_id=(photo_key)
     unless self['photo_keys'].include?(photo_key)
-      raise I18n.t("errors.models.child.primary_photo_id", :photo_id => photo_key)
+      raise I18n.t("errors.models.photo.primary_photo_id", :photo_id => photo_key)
     end
     self['current_photo_key'] = photo_key
   end
+
+  def thumbnail_tag(display_object, key = nil)
+    thumbnail_path = send("#{display_object.class.name.underscore.downcase}_thumbnail_path", display_object, key || display_object.current_photo_key, :ts => display_object.last_updated_at)
+    image_tag(thumbnail_path, :alt=> display_object['name'])
+  end
+
+  def link_to_photo_with_key(key, display_object)
+    photo_path = send("#{display_object.class.name.underscore.downcase}_photo_path", display_object, key, :ts => display_object.last_updated_at)
+    link_to thumbnail_tag(display_object, key),
+      photo_path,
+      :id => key,
+      :target => '_blank'
+  end
+
 end

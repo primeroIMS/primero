@@ -1,4 +1,6 @@
 module DocumentHelper
+  include AttachmentHelper
+
   def upload_document=(new_documents)
     @documents = []
     self['other_documents'] ||= []

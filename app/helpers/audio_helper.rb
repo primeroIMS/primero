@@ -1,4 +1,6 @@
 module AudioHelper
+  include AttachmentHelper
+
   def add_audio_file(audio_file, content_type)
     attachment = FileAttachment.from_file(audio_file, content_type, "audio", key_for_content_type(content_type))
     attach(attachment)
@@ -38,6 +40,19 @@ module AudioHelper
     self['recorded_audio'] = nil
   end
 
+  def link_to_download_audio_with_key(key, display_object)
+    audio_url = send("#{display_object.class.name.underscore.downcase}_audio_url", display_object.id, key)
+    link_to key.humanize, audio_url, :id => key, :target => '_blank'
+  end
+
+  def model_name_for_audio_link
+    model = self.class.name.underscore.downcase
+    if model == "child"
+      model = "case"
+    end
+    model
+  end
+
   private
   def setup_mime_specific_audio(file_attachment)
     audio_attachments = (self['audio_attachments'] ||= {})
@@ -56,5 +71,9 @@ module AudioHelper
     audio_key = self['audio_attachments']['original']
     delete_attachment(audio_key)
   end
-  
+
+  def key_for_content_type(content_type)
+    Mime::Type.lookup(content_type).to_sym.to_s
+  end
+
 end

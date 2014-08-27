@@ -2,9 +2,11 @@ $(document).ready(function() {
   var photo_field_count = 1
   $('#add-photo').click(function(e) {
     e.preventDefault();
-    photo_field = "<div class='row'><div class='file medium-12 columns'><span class='tool-tip-label'><label class='key' for='child[photo]"
-                   + photo_field_count + "'>Add Photo</label></span><input id='child_photo" + photo_field_count
-                   + "' name='child[photo]" + photo_field_count + "' type='file'></div></div>"
+    var target = e.target || e.srcElement;
+    var model = target.getAttribute("data-model");
+    photo_field = "<div class='row'><div class='file medium-12 columns'><span class='tool-tip-label'><label class='key' for='" + model + "_photo"
+                   + photo_field_count + "'>Add Photo</label></span><input id='" + model + "_photo" + photo_field_count
+                   + "' name='" + model + "[photo]" + photo_field_count + "' type='file'></div></div>"
     $('#photo-group').append(photo_field)
     photo_field_count++;
     if(photo_field_count == 10)
@@ -13,11 +15,12 @@ $(document).ready(function() {
 
   //Check the current audio for delete will disable the input file and clear it.
   $(".audio_player_section .audio .delete_check_box input[type='checkbox']" ).on("click", function() {
+    var model = $(this).attr("data-model");
     if ($(this).attr('checked')) {
-      $("#tab_photos_and_audio .file #child_audio").attr('disabled', 'disabled');
-      $("#tab_photos_and_audio .file #child_audio").val("");
+      $("fieldset[id$='photos_and_audio'] .file #" + model + "_audio").attr('disabled', 'disabled');
+      $("fieldset[id$='photos_and_audio'] .file #" + model + "_audio").val("");
     } else {
-      $("#tab_photos_and_audio .file #child_audio").removeAttr('disabled');
+      $("fieldset[id$='photos_and_audio'] .file #" + model + "_audio").removeAttr('disabled');
     }
   });
 });

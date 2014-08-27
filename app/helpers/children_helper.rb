@@ -10,21 +10,6 @@ module ChildrenHelper
   end
   ORDER_BY = {'active' => 'created_at', 'all' => 'created_at', 'reunited' => 'reunited_at', 'flag' => 'flag_at'}
 
-  def thumbnail_tag(child, key = nil)
-    image_tag(child_thumbnail_path(child, key || child.current_photo_key, :ts => child.last_updated_at), :alt=> child['name'])
-  end
-
-  def link_to_photo_with_key(key)
-    link_to thumbnail_tag(@child, key),
-      child_photo_path(@child, key, :ts => @child.last_updated_at),
-      :id => key,
-      :target => '_blank'
-  end
-
-  def link_to_download_audio_with_key(key)
-    link_to key.humanize, child_audio_url(@child.id,key),:id => key, :target => '_blank'
-  end
-
   def is_playable_in_browser audio
     AudioMimeTypes.browser_playable? audio.mime_type
   end
