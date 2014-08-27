@@ -76,7 +76,7 @@ describe "child_histories/index.html.erb" do
         @user.stub(:localize_date).and_return "2010-12-31 20:55:00 UTC"
       end
 
-      it "should render photo change record with links when adding a photo to an existing record" do
+      xit "should render photo change record with links when adding a photo to an existing record" do
         child = FakeRecordWithHistory.new "Bob", "Yesterday"
         child.add_photo_change "rapidftr", "2010/12/31 20:55:00 +0000", "new_photo_key"
 
@@ -89,7 +89,7 @@ describe "child_histories/index.html.erb" do
         end
       end
 
-      it "should render photo change record with links when adding photos to an existing record" do
+      xit "should render photo change record with links when adding photos to an existing record" do
         child = FakeRecordWithHistory.new "Bob", "Yesterday"
         child.add_photo_change "rapidftr", "2010/12/31 20:55:00 +0000", "new_photo_key", "new_photo_key2"
 
@@ -102,7 +102,7 @@ describe "child_histories/index.html.erb" do
         end
       end
 
-      it "should display the date/time of the change using the user's timezone setting" do
+      xit "should display the date/time of the change using the user's timezone setting" do
         child = FakeRecordWithHistory.new "bob", "fake"
         child.add_photo_change "rapidftr", "2010/12/31 20:55:00 +0000", "new_photo_key"
         assign(:child, child)
@@ -115,7 +115,7 @@ describe "child_histories/index.html.erb" do
         end
       end
 
-      it "should correctly format the change's date/time" do
+      xit "should correctly format the change's date/time" do
         child = FakeRecordWithHistory.new "bob", "fake"
         child.add_photo_change "rapidftr", "2010/12/31 20:55:00 +0000", "new_photo_key"
         assign(:child, child)
@@ -134,7 +134,7 @@ describe "child_histories/index.html.erb" do
         @user.stub(:localize_date).and_return "2010-12-31 20:55:00 UTC"
       end
 
-      it "should render audio change record" do
+      xit "should render audio change record" do
         child = FakeRecordWithHistory.new
         child.add_single_change "rapidftr", "2010/12/31 20:55:00 +0000", "recorded_audio", "First", "Second"
 
@@ -147,7 +147,7 @@ describe "child_histories/index.html.erb" do
         end
       end
 
-      it "should render audio change record with links when adding a sound file to an existing record for first time" do
+      xit "should render audio change record with links when adding a sound file to an existing record for first time" do
         child = FakeRecordWithHistory.new
         child.add_single_change "rapidftr", "2010/12/31 20:55:00 +0000", "recorded_audio", nil, "Audio"
 
@@ -160,7 +160,7 @@ describe "child_histories/index.html.erb" do
         end
       end
 
-      it "should display the date/time of the change using the user's timezone setting" do
+      xit "should display the date/time of the change using the user's timezone setting" do
         child = FakeRecordWithHistory.new "bob", "fake"
         child.add_single_change "rapidftr", "2010/12/31 20:55:00 +0000", "recorded_audio", nil, "Audio"
         assign(:child, child)
@@ -173,7 +173,7 @@ describe "child_histories/index.html.erb" do
         end
       end
 
-      it "should correctly format the change's date/time" do
+      xit "should correctly format the change's date/time" do
         child = FakeRecordWithHistory.new "bob", "fake"
         child.add_single_change "rapidftr", "2010/12/31 20:55:00 +0000", "recorded_audio", nil, "Audio"
         assign(:child, child)
