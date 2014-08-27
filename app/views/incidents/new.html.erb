@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <%= render 'record_toolbar', incident: @incident %> 
+  <%= render_controls(@incident) %> 
 <% end %>
 
 <%= form_tag incidents_path, :multipart => true, :class => "default-form" do %>

@@ -9,6 +9,14 @@ module ApplicationHelper
     "current" if current_page?(path)
   end
 
+  def current_actions(*requests)
+    requests.each do |request|
+      return true if request[:action].is_a?(Array) && request[:action].include?(controller.action_name)
+      return true if request[:action] == controller.action_name
+    end
+    false
+  end
+
   def session
     current_session
   end
@@ -21,8 +29,8 @@ module ApplicationHelper
       link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation')}, class: "link_cancel"
   end
 
-  def discard_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message')}, class: "grey-button"
+  def discard_button(path, confirm_model = nil)
+      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message', record: confirm_model ||= 'Cases')}, class: "grey-button"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
@@ -35,11 +43,11 @@ module ApplicationHelper
     confirm_options[:data] = { }
     confirm_message = t('messages.confirmation_message')
     if /children/.match(controller.controller_name) and /edit|new/.match(controller.action_name)
-      confirm_options[:data][:confirm] = confirm_message % 'Child Record'
+      confirm_options[:data][:confirm] = confirm_message % { record: 'Child Record' }
     elsif /user/.match(controller.controller_name) and /edit|new/.match(controller.action_name)
-      confirm_options[:data][:confirm] = confirm_message % 'Users Page'
+      confirm_options[:data][:confirm] = confirm_message % { record: 'Users Page' }
     elsif /form_section/.match(controller.controller_name) and /index/.match(controller.action_name)
-       confirm_options[:data][:confirm] = confirm_message % 'Manage Form Sections'
+      confirm_options[:data][:confirm] = confirm_message % { record: 'Manage Form Sections' }
     end
     confirm_options
   end
@@ -55,4 +63,41 @@ module ApplicationHelper
     end
   end
 
+  def ctl_edit_button(record)
+    ctl_button_wrapper do 
+      link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
+          class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+    end
+  end
+
+  def ctl_cancel_button(path)
+    record = controller.controller_name.gsub('_', ' ').titleize
+    ctl_button_wrapper do 
+      discard_button polymorphic_path(path), record
+    end
+  end
+
+  def ctl_save_button
+    ctl_button_wrapper do 
+      submit_button
+    end
+  end
+
+  def ctl_button_wrapper(&block)
+    content_tag :li, class: "#{'rec_ctl' unless current_actions(action: ['new', 'show'])}" do
+      block.call
+    end
+  end
+
+  def render_controls(record, path = nil)
+    path = path ||= record
+
+    if record.new?
+      ctl_cancel_button(path) + ctl_save_button
+    elsif current_actions(action: ['update', 'edit'])
+        ctl_edit_button(record) + ctl_cancel_button(path) + ctl_save_button
+    else
+      ctl_edit_button(record)
+    end
+  end
 end

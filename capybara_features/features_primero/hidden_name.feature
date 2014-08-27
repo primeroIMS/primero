@@ -1,7 +1,8 @@
 # JIRA PRIMERO-247
 # JIRA PRIMERO-248
+# JIRA PRIMERO-463
 
-@javascript @primero
+@javascript @primero @search
 Feature: Hide Name
   As a Social Worker I want to hide the survivor's name so that only people with access to the record can view the actual name of the child
   
