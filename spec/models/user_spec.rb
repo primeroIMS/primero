@@ -14,6 +14,7 @@ describe User do
                                :disabled => 'false',
                                :verified => true,
                                :role_ids => options[:role_ids] || ['random_role_id'],
+                               :module_ids => options[:module_ids] || ['test_module_id']
                            })
     user = User.new(options)
     user
@@ -226,7 +227,9 @@ describe User do
   it "should load roles only once" do
     role = double("roles")
     user = build_and_save_user
-    Role.should_receive(:get).with(user.role_ids.first).and_return(role)
+    couchdb_view = double("couchdb_view")
+    couchdb_view.should_receive(:all).and_return([role])
+    Role.should_receive(:all).with({keys: [user.role_ids.first]}).and_return(couchdb_view)
     user.roles.should == [role]
   end
 
@@ -272,7 +275,7 @@ describe User do
       @form_section_a = FormSection.create!(unique_id: "A", name: "A")
       @form_section_b = FormSection.create!(unique_id: "B", name: "B")
       @form_section_c = FormSection.create!(unique_id: "C", name: "C")
-      @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"])
+      @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
       @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
     end
 
