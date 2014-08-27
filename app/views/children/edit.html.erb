@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <%= render 'record_toolbar', child: @child %>  
+  <%= render_controls(@child, 'cases') %>  
 <% end %>
 
 <% content_for :breadcrumbs do %>
