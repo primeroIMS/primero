@@ -12,6 +12,7 @@ describe "form_section/_textarea.html.erb" do
     :type => 'textarea',
     :help_text => "This is my help text"
 
+    textarea.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/textarea', :locals => { :textarea => textarea, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("img.vtip")
   end
@@ -21,6 +22,7 @@ describe "form_section/_textarea.html.erb" do
     :display_name => "field name",
     :type => 'textarea'
 
+    textarea.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/textarea', :locals => { :textarea => textarea, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("img.vtip")
   end
