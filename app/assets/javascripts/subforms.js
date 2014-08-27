@@ -130,7 +130,7 @@ var SubformView = Backbone.View.extend({
         self = this;
 
     if (confirm_remove == true) {
-      var subform = $(target).parent();
+      var subform = $(target).parents('fieldset.subform');
       subform.fadeOut(600, function() {
         var subform_group = $(target).parents('.subforms');
         $(this).remove();

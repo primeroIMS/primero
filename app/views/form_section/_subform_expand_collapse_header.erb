@@ -7,7 +7,7 @@
     <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %></span>
   </div>
   <div class="medium-8 columns">
-    <div class="medium-11 columns display_field">
+    <div class="medium-6 columns display_field">
       <% fields_id=[]
          data_types=[]
          value_fields=[]
@@ -45,8 +45,10 @@
       </span>
       <% end %>
     </div>
-    <div class="medium-1 columns">
+    <div class="medium-6 columns header-btn-group">
       <span class="collapse_expand_subform expanded">-</span>
+      <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", 
+          data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
     </div>
   </div>
 </div>

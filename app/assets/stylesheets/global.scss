@@ -424,9 +424,14 @@ fieldset {
     border: none;
   }
 
+  .header-btn-group {
+    height: 35px;
+    padding-right: 0;
+  }
+
   .subform_remove {
-    margin-top: 10px;
-    margin-left: calc(50% - 37px)
+    float: right;
+    margin-right: 10px !important;
   }
 
   .collapse_expand_subform_header {
@@ -455,9 +460,10 @@ fieldset {
       border: 1px solid #ccc;
       background: $white_color;
       display: block;
-      height: 30px;
-      width: 30px;
+      height: 35px;
+      width: 35px;
       text-align: center;
+      line-height: 2rem;
     }
   }
 }
