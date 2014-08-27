@@ -243,4 +243,23 @@ module Record
     self['duplicate_of'] = self.class.by_short_id(:key => parent_id).first.try(:id)
   end
 
+  def model_name_for_messages
+    model_name = self.class.name.titleize.downcase
+    model_name = "case" if model_name == "child"
+    model_name
+  end
+
+  def error_with_section(field, message)
+    lookup = field_definitions.select{ |f| f.name == field.to_s }
+    if lookup.any?
+      lookup = lookup.first.form
+      error_info = {
+          internal_section: "#tab_#{lookup.unique_id}",
+          translated_section: lookup["name_#{I18n.locale}"],
+          message: message,
+          order: lookup.order }
+      errors.add(:section_errors, error_info)
+    end
+  end
+
 end

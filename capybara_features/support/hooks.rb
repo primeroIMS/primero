@@ -20,7 +20,7 @@ end
 Before do
   I18n.locale = I18n.default_locale = :en
 
-  models_2_clean = ['Child', 'Incident']
+  models_2_clean = ['Child', 'Incident', 'TracingRequest']
   CouchRest::Model::Base.descendants.each do |model|
     if models_2_clean.include? model.name
       docs = model.database.documents["rows"].map { |doc|

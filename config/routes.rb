@@ -61,6 +61,21 @@ RapidFTR::Application.routes.draw do
     resources :attachments, :only => :show
     resource :duplicate, :only => [:new, :create]
   end
+  
+  #######################
+  # TRACING REQUESTS URLS
+  #######################  
+  resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
+    collection do
+      # post :sync_unverified
+      post :reindex
+      # get :advanced_search
+      get :search
+    end
+
+    resources :attachments, :only => :show
+  end
+
 
   match '/children-ids' => 'child_ids#all', :as => :child_ids, :via => [:post, :get, :put, :delete]
   match '/children/:id/photo/edit' => 'children#edit_photo', :as => :edit_photo, :via => :get
@@ -92,6 +107,21 @@ RapidFTR::Application.routes.draw do
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:child_id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
+  match '/tracing_requests-ids' => 'tracing_request_ids#all', :as => :tracing_request_ids, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:id/photo/edit' => 'tracing_requests#edit_photo', :as => :edit_tracing_requests_photo, :via => :get
+  match '/tracing_requests/:id/photo' => 'tracing_requests#update_photo', :as => :update_tracing_requests_photo, :via => :put
+  match '/tracing_requests/:tracing_request_id/photos_index' => 'tracing_request_media#index', :as => :tracing_request_photos_index, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/photos' => 'tracing_request_media#manage_photos', :as => :manage_tracing_request_photos, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/document/:document_id' => 'tracing_request_media#download_document', :as => :tracing_request_document, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/audio(/:id)' => 'tracing_request_media#download_audio', :as => :tracing_request_audio, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/photo/:photo_id' => 'tracing_request_media#show_photo', :as => :tracing_request_photo, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/photo' => 'tracing_request_media#show_photo', :as => :tracing_request_legacy_photo, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/select_primary_photo/:photo_id' => 'tracing_requests#select_primary_photo', :as => :tracing_requests_select_primary_photo, :via => :put
+  match '/tracing_requests/:tracing_request_id/resized_photo/:size' => 'tracing_request_media#show_resized_photo', :as => :tracing_request_legacy_resized_photo, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/photo/:photo_id/resized/:size' => 'tracing_request_media#show_resized_photo', :as => :tracing_request_resized_photo, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests/:tracing_request_id/thumbnail(/:photo_id)' => 'tracing_request_media#show_thumbnail', :as => :tracing_request_thumbnail, :via => [:post, :get, :put, :delete]
+  match '/tracing_requests' => 'tracing_requests#index', :as => :tracing_request_filter, :via => [:post, :get, :put, :delete]
+
 #######################
 # INCIDENT URLS
 #######################  
@@ -105,18 +135,6 @@ RapidFTR::Application.routes.draw do
 
     # resources :attachments, :only => :show
     # resource :duplicate, :only => [:new, :create]
-  end
-
-#######################
-# TRACING REQUESTS URLS
-#######################  
-  resources :tracing_requests do
-    collection do
-      # post :sync_unverified
-      post :reindex
-      # get :advanced_search
-      get :search
-    end
   end
 
 #######################

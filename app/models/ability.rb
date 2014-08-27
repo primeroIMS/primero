@@ -103,6 +103,16 @@ class Ability
       can [:read, :update, :destroy], TracingRequest
     end
 
+    if user.has_permission?(Permission::TRACING_REQUESTS[:export_csv])
+      can [:export_csv], TracingRequest
+    end
+    if user.has_permission?(Permission::TRACING_REQUESTS[:export_photowall])
+      can [:export_photowall], TracingRequest
+    end
+    if  user.has_permission?(Permission::TRACING_REQUESTS[:export_pdf])
+      can [:export_pdf], TracingRequest
+    end
+
     #
     # ENQUIRIES
     #
