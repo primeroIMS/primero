@@ -1,21 +1,21 @@
 maiming_subform_fields = [
   Field.new({"name" => "violation_maiming_boys",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: boys",
              "autosum_group" => "maiming_number_of_survivors"
             }),
   Field.new({"name" => "violation_maiming_girls",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: girls",
              "autosum_group" => "maiming_number_of_survivors"
             }),
   Field.new({"name" => "violation_maiming_unknown",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: unknown",
              "autosum_group" => "maiming_number_of_survivors"
             }),
   Field.new({"name" => "violation_maiming_total",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of total survivors",
              "autosum_total" => true,
              "autosum_group" => "maiming_number_of_survivors"
@@ -32,7 +32,7 @@ maiming_subform_fields = [
              "type" => "select_box",
              "display_name_all" => "Cause",
              "option_strings_text_all" =>
-                                    ["IED", 
+                                    ["IED",
                                      "IED - Command Activated",
                                      "UXO/ERW",
                                      "Landmines",
@@ -48,7 +48,7 @@ maiming_subform_fields = [
                                      "Cruel and Inhumane Treatment"].join("\n")
             }),
   Field.new({"name" => "maim_cause_of_details",
-             "type" => "textarea", 
+             "type" => "textarea",
              "display_name_all" => "Details"
             }),
   Field.new({"name" => "circumstances_of_maiming",
@@ -114,7 +114,7 @@ maiming_subform_section = FormSection.create_or_update_form_section({
 maiming_fields = [
   Field.new({"name" => "maiming",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => maiming_subform_section.id,
+             "subform_section_id" => maiming_subform_section.unique_id,
              "display_name_all" => "Maiming"
             })
 ]

@@ -18,7 +18,7 @@ FactoryGirl.define do
       Child.stub(:get).with(child.id).and_return(child)
     end
   end
-  
+
   factory :incident, :traits => [ :model ] do
     unique_identifier { counter.to_s }
     description { "Test Incident #{counter}" }
@@ -81,6 +81,19 @@ FactoryGirl.define do
     name { "test_role_#{counter}" }
     description "test description"
     permissions { Permission.all_permissions }
+  end
+
+  factory :primero_program, :traits => [:model] do
+    name { "test_program_#{counter}"}
+    description "test description"
+  end
+
+  factory :primero_module, :traits => [:model] do
+    name { "test_module_#{counter}"}
+    description "test description"
+    program_id 'test-program'
+    associated_record_types ['case']
+    associated_form_ids ['test-form-1']
   end
 
   factory :lookup, :traits => [ :model ] do

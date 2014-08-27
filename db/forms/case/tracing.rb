@@ -255,12 +255,12 @@ tracing_fields = [
             }),
   Field.new({"name" => "tracing_actions_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => tracing_actions_section.id,
+             "subform_section_id" => tracing_actions_section.unique_id,
              "display_name_all" => "Tracing Actions"
             }),
   Field.new({"name" => "reunification_details_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => reunification_details_section.id,
+             "subform_section_id" => reunification_details_section.unique_id,
              "display_name_all" => "Reunification Details"
             })
 ]

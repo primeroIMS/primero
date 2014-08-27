@@ -1,21 +1,21 @@
 recruitment_subform_fields = [
   Field.new({"name" => "violation_recruit_boys",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: boys",
              "autosum_group" => "recruitment_number_of_survivors"
             }),
   Field.new({"name" => "violation_recruit_girls",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: girls",
              "autosum_group" => "recruitment_number_of_survivors"
             }),
   Field.new({"name" => "violation_recruit_unknown",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: unknown",
              "autosum_group" => "recruitment_number_of_survivors"
             }),
   Field.new({"name" => "violation_recruit_total",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of total survivors",
              "autosum_total" => true,
              "autosum_group" => "recruitment_number_of_survivors"
@@ -119,11 +119,11 @@ recruitment_subform_fields = [
              "option_strings_text_all" => "Yes (All)\nYes (Some)\nNone\nUnknown"
             }),
   Field.new({"name" => "released_number",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "If Yes, how many were released or have left the armed group?"
             }),
   Field.new({"name" => "date_child_leave",
-             "type" => "date_field", 
+             "type" => "date_field",
              "display_name_all" => "If yes, when did the children leave the armed group?"
             }),
   Field.new({"name" => "how_did_child_leave_armed_group",
@@ -176,7 +176,7 @@ recruitment_subform_section = FormSection.create_or_update_form_section({
 recruitment_fields = [
   Field.new({"name" => "recruitment",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => recruitment_subform_section.id,
+             "subform_section_id" => recruitment_subform_section.unique_id,
              "display_name_all" => "Recruitment"
             })
 ]

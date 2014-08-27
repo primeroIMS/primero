@@ -6,13 +6,15 @@ class TracingRequest < CouchRest::Model::Base
 
   include Record
   include Searchable
+  include Ownable
   include PhotoUploader
   include AudioUploader
 
   property :tracing_request_id
   property :relation_name
 
-  def initialize *args 
+
+  def initialize *args
     self['photo_keys'] ||= []
     arguments = args.first
 

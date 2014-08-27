@@ -17,17 +17,17 @@ record_owner_fields = [
   Field.new({"name" => "social_worker",
              "type" =>"select_box" ,
              "display_name_all" => "Caseworker Code",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Social Worker 1",
                            "Social Worker 2",
                            "Social Worker 3",
                            "Social Worker 4"].join("\n")
-          }),   
+          }),
   #TODO reconcile difference between Agency and Other Agency
   Field.new({"name" => "agency",
              "type" =>"select_box" ,
              "display_name_all" => "Agency",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["German Technical Cooperation",
                            "GTZ",
                            "ICRC",
@@ -54,7 +54,7 @@ record_owner_fields = [
   Field.new({"name" => "database_operator",
              "type" =>"select_box" ,
              "display_name_all" => "Database Operator",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Operator 1",
                            "Operator 2",
                            "Operator 3",
@@ -67,7 +67,7 @@ record_owner_fields = [
  	Field.new({"name" => "location_registration",
         	"type" => "text_field",
         	"display_name_all" => "Location Address"
-          }),  
+          }),
  	Field.new({"name" => "record_history_separator",
            "type" => "separator",
            "display_name_all" => "Record History",
@@ -75,19 +75,23 @@ record_owner_fields = [
  	Field.new({"name" => "created_by",
         	"type" => "text_field",
         	"display_name_all" => "Record created by"
-          }), 
+          }),
  	Field.new({"name" => "created_by_agency",
         	"type" => "text_field",
         	"display_name_all" => "Created by agency"
-          }),  
+          }),
  	Field.new({"name" => "previous_owner",
         	"type" => "text_field",
         	"display_name_all" => "Previous Owner"
-          }),  
+          }),
  	Field.new({"name" => "previous_agency",
         	"type" => "text_field",
         	"display_name_all" => "Previous Agency"
-          }),   
+          }),
+  Field.new({"name" => "module_id",
+          "type" => "text_field",
+          "display_name_all" => "Module"
+          }),
 ]
 
 FormSection.create_or_update_form_section({
