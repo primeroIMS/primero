@@ -6,6 +6,9 @@
     <h4><%= "Forms > #{@parent_form.humanize}"%></h4>
   </div>
   <div class="large-8 medium-8 columns">
+      <%= select_tag :parent_form,
+                     options_for_select('case', 'incident'),
+                     :onchange => "if(this.value){window.location='?&parent_form='+this.value;}" %>
   </div>
 </div>
 <div class="row">
