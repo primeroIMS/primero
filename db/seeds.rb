@@ -31,13 +31,6 @@ def clean_db_table(table)
   myDb.delete! rescue nil
 end
 
-
-#Reseed the dfault roles and users
-puts "Seeding Roles"
-require File.dirname(__FILE__) + "/users/roles.rb"
-puts "Seeding Users"
-require File.dirname(__FILE__) + "/users/default_users.rb"
-
 #Reseed the lookups
 puts "Seeding Lookups"
 require File.dirname(__FILE__) + "/lookups/lookups.rb"
@@ -46,6 +39,17 @@ require File.dirname(__FILE__) + "/lookups/lookups.rb"
 clean_db_table('form_section')
 puts "[Re-]Seeding the forms"
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
+
+
+#Reseed the default roles and users, and modules
+puts "Seeding Roles"
+require File.dirname(__FILE__) + "/users/roles.rb"
+puts "Seeding Programs"
+require File.dirname(__FILE__) + "/users/default_programs.rb"
+puts "Seeding Modules"
+require File.dirname(__FILE__) + "/users/default_modules.rb"
+puts "Seeding Users"
+require File.dirname(__FILE__) + "/users/default_users.rb"
 
 
 #TODO We will to revisit the I18n Setup when we address translations.

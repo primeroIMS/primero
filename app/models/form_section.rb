@@ -165,11 +165,11 @@ class FormSection < CouchRest::Model::Base
   def self.find_by_parent_form parent_form
     by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
   end
-  
+
   #TODO - can this be done more efficiently?
   def self.find_form_groups_by_parent_form parent_form
     all_forms = self.find_by_parent_form(parent_form)
-    
+
     form_sections = []
     subforms_hash = {}
 
@@ -177,7 +177,7 @@ class FormSection < CouchRest::Model::Base
       if form.visible?
         form_sections.push form
       else
-        subforms_hash[form.id] = form
+        subforms_hash[form.unique_id] = form
       end
     end
 
@@ -187,9 +187,66 @@ class FormSection < CouchRest::Model::Base
         field.subform ||= subforms_hash[field.subform_section_id]
       end
     end
-    
+
     form_groups = form_sections.group_by{|e| e.form_group_name}
   end
+
+
+  #Given an arbitrary list of forms go through and link up the forms to subforms.
+  #Functionally this isn't important, but this will improve performance if the list
+  #contains both the top forms and the subforms by avoiding extra queries.
+  #TODO: Potentially this method is expensive
+  def self.link_subforms(forms)
+    subforms_hash = forms.reduce({}) do |hash, form|
+      hash[form.unique_id] = form unless form.visible?
+      hash
+    end
+
+    forms.map{|f| f.fields}.flatten.each do |field|
+      if field.type == Field::SUBFORM && field.subform_section_id
+        field.subform ||= subforms_hash[field.subform_section_id]
+      end
+    end
+
+    return forms
+  end
+
+
+  #Return a hash of subforms, where the keys are the form groupings
+  def self.group_forms(forms)
+    grouped_forms = {}
+    visible_forms = forms.select{|f| f.visible?}
+
+    #Order these forms by group and form
+    visible_forms = visible_forms.sort_by{|f| [f.order_form_group, f.order]}
+
+    if visible_forms.present?
+      grouped_forms = visible_forms.group_by{|f| f.form_group_name}
+    end
+    return grouped_forms
+  end
+
+
+  #Return only those forms that can be accessed by the user given their role permissions and the record's module
+  def self.get_permitted_form_sections(record, user)
+    #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the record's module
+    user_form_ids = user.permitted_form_ids
+    record_module_form_ids = record.module ? record.module.associated_form_ids : []
+    allowed_form_ids = user_form_ids & record_module_form_ids
+
+    form_sections = []
+    if allowed_form_ids.present?
+      form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all
+    end
+
+    #Now exclude the forms that do not belong to this record type
+    #TODO: This is too chatty. Better to ask for exactly what you need from DB
+    record_parent_form = record.class.parent_form
+    form_sections = form_sections.select{|f| f.parent_form == record_parent_form}
+
+    return form_sections
+  end
+
 
 
   def self.add_field_to_formsection formsection, field

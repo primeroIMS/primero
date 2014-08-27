@@ -1,9 +1,10 @@
 class TracingRequestsController < ApplicationController
-  include RecordActions
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update]
+
+  include RecordActions
 
   def index
     authorize! :index, TracingRequest
@@ -19,7 +20,7 @@ class TracingRequestsController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => @tracing_requests }
-        
+
       unless params[:format].nil?
         if @tracing_requests.empty?
           flash[:notice] = t('tracing_request.export_error')
@@ -36,7 +37,8 @@ class TracingRequestsController < ApplicationController
     authorize! :read, @tracing_request if @tracing_request["created_by"] != current_user_name
     @page_name = t "tracing_request.view", :short_id => @tracing_request.short_id
     @body_class = 'profile-page'
-    @duplicates = TracingRequest.duplicates_of(params[:id])
+    #TODO: Are duplicated implemented for TracingRequests? CARLOS!?!
+    #@duplicates = TracingRequest.duplicates_of(params[:id])
 
     respond_to do |format|
       format.html
@@ -57,6 +59,10 @@ class TracingRequestsController < ApplicationController
     @tracing_request['record_state'] = ["Valid record"]
     @tracing_request['inquiry_status'] = ["Open"]
     @tracing_request['mrm_verification_status'] = "Pending"
+    @tracing_request['module_id'] = params['module_id']
+
+    get_form_sections
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @tracing_request }
@@ -87,7 +93,7 @@ class TracingRequestsController < ApplicationController
       else
         format.html {
           @form_sections = get_form_sections
-         
+
           render :action => "new"
         }
         format.xml { render :xml => @tracing_request.errors, :status => :unprocessable_entity }

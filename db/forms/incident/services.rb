@@ -366,32 +366,32 @@ services_fields = [
             }),
   Field.new({"name" => "health_medical_referral_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => health_medical_referral_subform_section.id,
+             "subform_section_id" => health_medical_referral_subform_section.unique_id,
              "display_name_all" => "Health/Medical Referral"
             }),
   Field.new({"name" => "psychosocial_counseling_services_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => psychosocial_counseling_services_subform_section.id,
+             "subform_section_id" => psychosocial_counseling_services_subform_section.unique_id,
              "display_name_all" => "Psychosocial/Counseling Services"
             }),
   Field.new({"name" => "legal_assistance_services_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => legal_assistance_services_subform_section.id,
+             "subform_section_id" => legal_assistance_services_subform_section.unique_id,
              "display_name_all" => "Legal Assistance Services"
             }),
   Field.new({"name" => "police_or_other_type_of_security_services_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => police_or_other_type_of_security_services_subform_section.id,
+             "subform_section_id" => police_or_other_type_of_security_services_subform_section.unique_id,
              "display_name_all" => "Police or Other Type of Security Services"
            }),
   Field.new({"name" => "livelihoods_services_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => livelihoods_services_subform_section.id,
+             "subform_section_id" => livelihoods_services_subform_section.unique_id,
              "display_name_all" => "Livelihoods Services"
             }),
   Field.new({"name" => "child_protection_services_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => child_protection_services_subform_section.id,
+             "subform_section_id" => child_protection_services_subform_section.unique_id,
              "display_name_all" => "Child Protection Services"
             })
 ]
