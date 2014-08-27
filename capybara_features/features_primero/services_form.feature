@@ -13,7 +13,7 @@ Feature: Services Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
-    And I press the "Services Referrals" button
+    And I press the "Service Referrals" button
     And I fill in the following:
       | Who referred the client to you?                        | <Choose>Other         |
       | If survivor referred from Other, please specify.       | Other service leader  |
