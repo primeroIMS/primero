@@ -43,6 +43,7 @@
 //= require document_upload.js
 //= require autosum_fields.js
 //= require tick_box_field.js
+//= require date_range_validation.js
 
 
 $(document).ready(function() {
