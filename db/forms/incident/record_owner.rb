@@ -55,7 +55,11 @@ record_owner_fields = [
   Field.new({"name" => "previous_agency",
              "type" => "text_field",
              "display_name_all" => "Previous Agency"
-            })
+            }),
+  Field.new({"name" => "module_id",
+          "type" => "text_field",
+          "display_name_all" => "Module"
+          }),
 ]
 
 FormSection.create_or_update_form_section({

@@ -14,6 +14,8 @@ class Child < CouchRest::Model::Base
   include Record
   include Searchable
   include DocumentHelper
+
+  include Ownable
   include PhotoUploader
   include AudioUploader
 
@@ -144,9 +146,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  # def self.all
-  #   view('by_name', {})
-  # end
 
   def self.search_field
     "name"

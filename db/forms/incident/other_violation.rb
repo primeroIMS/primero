@@ -9,26 +9,26 @@ other_violation_section_fields = [
                                      "Access Violations"].join("\n")
             }),
   Field.new({"name" => "violation_other_description",
-             "type" => "textarea", 
+             "type" => "textarea",
              "display_name_all" => "Other Violation Description"
             }),
   Field.new({"name" => "other_violation_boys",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: boys",
              "autosum_group" => "other_violation_number_of_survivors"
             }),
   Field.new({"name" => "other_violation_girls",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: girls",
              "autosum_group" => "other_violation_number_of_survivors"
             }),
   Field.new({"name" => "other_violation_unknown",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: unknown",
              "autosum_group" => "other_violation_number_of_survivors"
             }),
   Field.new({"name" => "other_violation_total",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of total survivors",
              "autosum_total" => true,
              "autosum_group" => "other_violation_number_of_survivors"
@@ -56,9 +56,9 @@ other_violation_subform_section = FormSection.create_or_update_form_section({
 other_violation_fields = [
   ##Subform##
   Field.new({"name" => "other_violation",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => true,
-             "subform_section_id" => other_violation_subform_section.id,
+             "subform_section_id" => other_violation_subform_section.unique_id,
              "display_name_all" => "Other Violations"
             }),
   ##Subform##

@@ -4,8 +4,10 @@ class Incident < CouchRest::Model::Base
   include RapidFTR::Model
   include RapidFTR::CouchRestRailsBackward
 
+
   include Record
   include Searchable
+  include Ownable
 
   property :incident_id
   property :description
@@ -18,14 +20,14 @@ class Incident < CouchRest::Model::Base
   design do
     view :by_incident_id
     view :by_description,
-              :map => "function(doc) {
-                  if (doc['couchrest-type'] == 'Incident')
-                 {
-                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                      emit(doc['description'], doc);
-                    }
-                 }
-              }"
+            :map => "function(doc) {
+                if (doc['couchrest-type'] == 'Incident')
+               {
+                  if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                    emit(doc['description'], doc);
+                  }
+               }
+            }"
   end
 
   def self.find_by_incident_id(incident_id)
@@ -39,7 +41,7 @@ class Incident < CouchRest::Model::Base
   def self.view_by_field_list
     ['created_at', 'description']
   end
-  
+
   def create_class_specific_fields(fields)
     self['incident_id'] = self.incident_id
     self['description'] = fields['description'] || self.description || ''

@@ -3,15 +3,15 @@ tracing_request_subform_fields = [
   Field.new({"name" => "tracing_request_status",
              "type" =>"select_box" ,
              "display_name_all" => "Tracing status",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                                  ["Open",
                                   "Tracing in Progress",
                                   "Verified",
                                   "Reunified",
                                   "Closed"].join("\n")
             }),
-  #TODO add tracing_request_match (Tracing request match): 
-  #     Short ID of Case that matches? 
+  #TODO add tracing_request_match (Tracing request match):
+  #     Short ID of Case that matches?
   #     autopopulate on match? (match is link?)
   Field.new({"name" => "individual_details_section",
              "type" => "separator",
@@ -162,9 +162,9 @@ tracing_request_subform_section = FormSection.create_or_update_form_section({
 
 tracing_request_tracing_request_fields = [
   Field.new({"name" => "tracing_request_subform_section",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => true,
-             "subform_section_id" => tracing_request_subform_section.id,
+             "subform_section_id" => tracing_request_subform_section.unique_id,
              "display_name_all" => "Tracing Request"
             })
 ]
