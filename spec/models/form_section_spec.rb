@@ -36,6 +36,101 @@ describe FormSection do
     f.all_searchable_fields.should == [text_area]
   end
 
+
+  describe "loading subforms in controller" do
+
+    describe "get_permitted_form_sections" do
+      before do
+        FormSection.all.each &:destroy
+        PrimeroModule.all.each &:destroy
+        Role.all.each &:destroy
+
+        @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case')
+        @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
+        @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
+        @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
+        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+        @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+      end
+
+      it "returns all FormSection objects that are bound to the case's module that the user has access to" do
+        child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+        result = FormSection.get_permitted_form_sections(child, @user)
+        expect(result).to eq([@form_section_b])
+      end
+
+      it "returns no FormSection objects if the user cannot view the permitted module forms" do
+        role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions: ["test_permission"])
+        user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
+        child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+
+        result = FormSection.get_permitted_form_sections(child, user)
+        expect(result.present?).to be_false
+      end
+
+      it "returns the FormSection objects that correspond to the record's type" do
+        form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'incident')
+        primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_record_types: ['case', 'incident'], associated_form_ids: ["A", "B", "D"])
+        user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.id])
+        child = Child.new(unique_identifier: "123", module_id: primero_module.id)
+
+        result = FormSection.get_permitted_form_sections(child, user)
+        expect(result).to eq([@form_section_b])
+      end
+    end
+
+    describe "group_forms" do
+      it "groups forms by the group name" do
+        form_section_a = FormSection.new(unique_id: "A", name: "A", form_group_name: "X")
+        form_section_b = FormSection.new(unique_id: "B", name: "B", form_group_name: "X")
+        form_section_c = FormSection.new(unique_id: "C", name: "C", form_group_name: "Y")
+
+        result = FormSection.group_forms([form_section_a, form_section_b, form_section_c])
+
+        expect(result).to be_a Hash
+        expect(result.keys).to match_array(["X", "Y"])
+        expect(result["X"]).to match_array([form_section_a, form_section_b])
+        expect(result["Y"]).to match_array([form_section_c])
+      end
+    end
+
+    describe "link_subforms" do
+      it "links forms to subforms if both are provided in the input list" do
+
+        fields_a = [
+          Field.new(name: "a_0", type: Field::TEXT_FIELD),
+          Field.new(name: "a_1", type: Field::TEXT_FIELD)
+        ]
+        form_section_a = FormSection.new(unique_id: "A", name: "A", fields: fields_a, visible: false)
+
+        fields_b = [
+          Field.new(name: "b_0", type: Field::TEXT_FIELD),
+          Field.new(name: "b_1", type: Field::TEXT_FIELD)
+        ]
+        form_section_b = FormSection.new(unique_id: "B", name: "B", fields: fields_b)
+
+        fields_c = [
+          Field.new(name: "c_0", type: Field::TEXT_FIELD),
+          Field.new(name: "c_1", type: Field::SUBFORM, subform_section_id: "A")
+        ]
+        form_section_c = FormSection.new(unique_id: "C", name: "C", fields: fields_c)
+
+        result = FormSection.link_subforms([form_section_a, form_section_b, form_section_c])
+        result_subform_field = result.select{|f|f.unique_id=='C'}.first.fields.select{|f|f.name=='c_1'}.first
+
+        expect(result).to be_an Array
+        expect(result_subform_field.subform).to be_a FormSection
+        expect(result_subform_field.subform.unique_id).to eq("A")
+      end
+
+
+    end
+
+
+
+
+  end
+
   describe '#unique_id' do
     it "should be generated when not provided" do
       f = FormSection.new
@@ -422,7 +517,7 @@ describe FormSection do
     it "should create the FormSection if it does not exist" do
       form_section = FormSection.create_or_update_form_section(
         {"visible"=>true,
-         :order=>11, 
+         :order=>11,
          :unique_id=>"tracing",
          :perm_visible => true,
          "editable"=>true,
@@ -443,9 +538,9 @@ describe FormSection do
       #Create a new FormSection should not exists.
       form_section = FormSection.create_or_update_form_section(
         {"visible"=>true,
-         :order=>11, 
-         :unique_id=>"tracing", 
-         :perm_visible => true, 
+         :order=>11,
+         :unique_id=>"tracing",
+         :perm_visible => true,
          "editable"=>true,
          "name_all" => "Tracing Name",
          "description_all" => "Tracing Description"
@@ -463,9 +558,9 @@ describe FormSection do
       #Should not change any property.
       form_section_1 = FormSection.create_or_update_form_section(
         {"visible"=>false,
-         :order=>12, 
-         :unique_id=>"tracing", 
-         :perm_visible => false, 
+         :order=>12,
+         :unique_id=>"tracing",
+         :perm_visible => false,
          "editable"=>false,
          "name_all" => "Tracing Name All",
          "description_all" => "Tracing Description All"
@@ -491,7 +586,7 @@ describe FormSection do
       #Create a new FormSection should not exists.
       form_section = FormSection.create_or_update_form_section(
         {"visible"=>true,
-         :order=>11, 
+         :order=>11,
          :unique_id=>"tracing",
           :fields => fields,
          :perm_visible => true,
@@ -522,7 +617,7 @@ describe FormSection do
       #no update the existing field, but add the new field.
       form_section_1 = FormSection.create_or_update_form_section(
         {"visible"=>false,
-         :order=>12, 
+         :order=>12,
          :unique_id=>"tracing",
           :fields => fields_1,
          :perm_visible => false,
@@ -544,7 +639,7 @@ describe FormSection do
       form_section_1.fields[0].name.should == "date_of_separation"
       form_section_1.fields[0].type.should == "text_field"
       form_section_1.fields[0].display_name.should == "Date of Separation All"
-      
+
       #Check the new field.
       form_section_1.fields[1].name.should == "separation_cause"
       form_section_1.fields[1].type.should == "select_box"
@@ -554,7 +649,7 @@ describe FormSection do
     it "should create FormSection" do
       properties = {
         "visible"=>true,
-        :order=>11, 
+        :order=>11,
         :unique_id=>"tracing",
         :perm_visible => true,
         "editable"=>true,
@@ -584,7 +679,7 @@ describe FormSection do
       ]
       properties = {
         "visible"=>true,
-        :order=>11, 
+        :order=>11,
         :unique_id=>"tracing",
         :fields => fields,
         :perm_visible => true,

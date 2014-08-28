@@ -21,31 +21,6 @@ namespace :db do
     end
   end
 
-  desc "Remove roles and any reference of the role from users."
-  task :remove_roles, [:role] => :environment do |t, args|
-    role = Role.find_by_name(args[:role])
-    if role
-      result = false
-      remove = true
-      User.all.all.each do |user|
-        if user.role_ids.include?(role.id)
-          if user.role_ids.size > 1
-            user.role_ids.delete(role.id)
-            user_changed = user.save
-            puts "Role '#{args[:role]}' removed from user: #{user.user_name}" if user_changed
-          else
-            remove = false
-            puts "Role '#{args[:role]}' can't be removed from user: #{user.user_name} because is the last role of the user."
-          end
-        end
-      end 
-      result = role.destroy if remove
-      puts "Removed role '#{args[:role]}'" if result
-      puts "Unable to removed role '#{args[:role]}'" unless result
-    else
-      puts "Was not found the role '#{args[:role]}'"
-    end
-  end
 
   desc "Seed with data (task manually created during the 3.0 upgrade, as it went missing)"
   task :seed => :environment do

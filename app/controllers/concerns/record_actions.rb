@@ -7,8 +7,9 @@ module RecordActions
 
     before_filter :set_class_name
     before_filter :current_user, :except => [:reindex]
-    before_filter :get_form_sections, :only => [:show, :new, :edit]
+    before_filter :get_form_sections, :only => [:show, :edit]
     before_filter :get_lookups, :only => [:new, :edit]
+    before_filter :current_modules, :only => [:index]
   end
 
   def reindex
@@ -17,7 +18,9 @@ module RecordActions
   end
 
   def get_form_sections
-    @form_sections = FormSection.find_form_groups_by_parent_form(@className.parent_form)
+    permitted_forms = FormSection.get_permitted_form_sections(record, current_user)
+    FormSection.link_subforms(permitted_forms)
+    @form_sections = FormSection.group_forms(permitted_forms)
   end
 
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
@@ -44,6 +47,17 @@ module RecordActions
         end
       end
     end
+  end
+
+  #Gets the record which is the objects of the implementing controller.
+  #Note that the controller needs to load this record before this concern method is invoked.
+  def record
+    @record ||= eval("@#{@className.name.underscore}")
+  end
+
+  def current_modules
+    record_type = @className.parent_form
+    @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
   end
 
 end

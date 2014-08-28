@@ -14,7 +14,7 @@ class Field
   attr_reader :options
   property :option_strings_source  #If options are dynamic, this is where to fetch them
   property :base_language, :default=>'en'
-  property :subform_section_id #TODO: Either load this using couchdb linking or load on creation
+  property :subform_section_id
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
   attr_accessor :subform
@@ -119,7 +119,7 @@ class Field
 
   def subform_section
     if (not self.subform and self.subform_section_id.present?)
-      self.subform = FormSection.get(subform_section_id)
+      self.subform = FormSection.get_by_unique_id(subform_section_id)
     end
     return self.subform
   end

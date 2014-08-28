@@ -1,8 +1,9 @@
 class IncidentsController < ApplicationController
-  include RecordActions
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
+
+  include RecordActions
 
   def index
     authorize! :index, Incident
@@ -57,6 +58,10 @@ class IncidentsController < ApplicationController
     @incident['status'] = ["Active"]
     @incident['record_state'] = ["Valid record"]
     @incident['mrm_verification_status'] = "Pending"
+    @incident['module_id'] = params['module_id']
+
+    get_form_sections
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @incident }

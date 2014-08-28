@@ -1,10 +1,11 @@
 class ChildrenController < ApplicationController
-  include RecordActions
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
+
+  include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
   # GET /children
   # GET /children.xml
@@ -63,6 +64,10 @@ class ChildrenController < ApplicationController
     @child.registration_date = DateTime.now.strftime("%d-%b-%Y")
     @child['record_state'] = ["Valid record"]
     @child['child_status'] = ["Open"]
+    @child['module_id'] = params['module_id']
+
+    get_form_sections
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @child }

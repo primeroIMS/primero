@@ -32,27 +32,27 @@ denial_humanitarian_access_section_fields = [
              "display_name_all" => "Impact on Humanitarian Personnel/Property"
             }),
   Field.new({"name" => "denial_personnel_killed",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of Personnel Killed"
             }),
   Field.new({"name" => "denial_personnel_injured",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of Personnel Injured"
             }),
   Field.new({"name" => "denial_personnel_abducted",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of Personnel Abducted"
             }),
   Field.new({"name" => "denial_personnel_threatened",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of Personnel Threatened"
             }),
   Field.new({"name" => "denial_vehicles_hijacked",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of Vehicles Hijacked"
             }),
   Field.new({"name" => "denial_value_property",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Value of Property Stolen / Damaged",
              "help_text_all" => "US $$"
             }),
@@ -61,32 +61,32 @@ denial_humanitarian_access_section_fields = [
              "display_name_all" => "Human Impact of Attack"
             }),
   Field.new({"name" => "violation_boys",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: boys",
              "autosum_group" => "denial_humanitarian_access_number_of_survivors"
             }),
   Field.new({"name" => "violation_girls",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: girls",
              "autosum_group" => "denial_humanitarian_access_number_of_survivors"
             }),
   Field.new({"name" => "violation_unknown",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of survivors: unknown",
              "autosum_group" => "denial_humanitarian_access_number_of_survivors"
             }),
   Field.new({"name" => "violation_total",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Number of total survivors",
              "autosum_total" => true,
              "autosum_group" => "denial_humanitarian_access_number_of_survivors"
             }),
   Field.new({"name" => "denial_total_affected_adults",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Adults"
             }),
   Field.new({"name" => "denial_total_affected",
-             "type" => "numeric_field", 
+             "type" => "numeric_field",
              "display_name_all" => "Population Affected by Service Disruption"
             })
 ]
@@ -112,9 +112,9 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
 denial_humanitarian_access_fields = [
   ##Subform##
   Field.new({"name" => "denial_humanitarian_access",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => true,
-             "subform_section_id" => denial_humanitarian_access_section.id,
+             "subform_section_id" => denial_humanitarian_access_section.unique_id,
              "display_name_all" => "Denial of Humanitarian Access"
             })
   ##Subform##

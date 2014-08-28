@@ -60,7 +60,7 @@ describe Child do
     after :all do
       FormSection.all.all.each { |form| form.destroy }
     end
-    
+
     # TODO: full text searching not implemented yet. Effects the next 13 test.
 
     # it "should return empty array if search is not valid" do
@@ -380,7 +380,7 @@ describe Child do
       #Update the child so the current audio is removed.
       properties = {:name => "Some Child Name"}
       child.update_properties_with_user_name 'Jane Doe', nil, nil, nil, true, properties
-    
+
       #Validate the file was removed.
       child['_attachments'].should be_blank
       child['audio_attachments'].should be_nil
@@ -800,7 +800,7 @@ describe Child do
 
       it "should save child after delete some photos" do
         photos = []
-        (1..10).each do |i|          
+        (1..10).each do |i|
           photos << stub_photo_properties(i)
         end
         child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
@@ -831,7 +831,7 @@ describe Child do
         photo.stub(:content_type).and_return("image/jpg")
         photo
       end
-      
+
     end
 
   end
@@ -1433,19 +1433,20 @@ describe Child do
       end
     end
 
-# TODO: Solr changes need to review duplicates search
-#      it "should return all duplicate records" do
-#        record_active = Child.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organisation' => "stc")
-#        record_duplicate = create_duplicate(record_active)
-#
-#        duplicates = Child.duplicates_of(record_active.id)
-#        all = Child.all.all
-#
-#        duplicates.size.should be 1
-#        all.size.should be 1
-#        duplicates.first.id.should == record_duplicate.id
-#        all.first.id.should == record_active.id
-#      end
+      it "should return all duplicate records" do
+
+        # TODO: Solr changes need to review duplicates search
+        record_active = Child.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organisation' => "stc")
+        record_duplicate = create_duplicate(record_active)
+
+        duplicates = Child.duplicates_of(record_active.id)
+        all = Child.all.all
+
+        duplicates.size.should be 1
+        all.size.should be 1
+        duplicates.first.id.should == record_duplicate.id
+        all.first.id.should == record_active.id
+      end
 
       it "should return duplicate from a record" do
         record_active = Child.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organisation' => "stc")
@@ -1537,6 +1538,7 @@ describe Child do
       Child.schedule scheduler
     end
   end
+
 
   describe 'validate dates and date ranges fields' do
     before do
