@@ -85,7 +85,7 @@ ongoing_services_fields = [
   Field.new({
     "name" => "ongoing_services_section",
     "type" => "subform", "editable" => true,
-    "subform_section_id" => ongoing_services_section.id,
+    "subform_section_id" => ongoing_services_section.unique_id,
     "display_name_all" => "Ongoing Services"
   })
 ]
