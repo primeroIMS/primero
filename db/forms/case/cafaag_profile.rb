@@ -117,6 +117,10 @@ caafag_profile_fields = [
                                    "Surrendered",
                                    "UNICEF DDR"].join("\n"),
             }),
+  Field.new({"name" => "cafaag_how_child_left_other",
+             "type" => "text_field",
+             "display_name_all" => "If Other, please specify"
+            }),
   Field.new({"name" => "address_cafaag_demobilization",
              "type" => "text_field",
              "display_name_all" => "Place of removal/demobilization (Area/Village)"

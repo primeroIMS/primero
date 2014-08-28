@@ -39,7 +39,8 @@ create_or_update_module(
     "interview_details", "other_documents", "other_identity_details", "partner_details",
     "photos_and_audio", "protection_concern_details", "protection_concern",
     "record_owner", "services", "tracing", "verification",
-    "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request"
+    "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
+    "tracing_request_photos_and_audio"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
@@ -52,7 +53,7 @@ create_or_update_module(
   associated_form_ids: [
     "record_owner", "gbv_survivor_information", "gbv_data_confidentiality", "followup", "services",
     "closure_form", "other_documents",
-    "incident_record_owner", "gbv_individual_details"
+    "incident_record_owner", "incident_service_referrals", "gbv_individual_details"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
