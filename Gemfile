@@ -47,6 +47,8 @@ gem 'yui-compressor'
 gem 'closure-compiler'
 gem 'progress_bar'
 
+gem 'writeexcel', '~> 1.0.3'
+
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
   gem 'font-awesome-sass'

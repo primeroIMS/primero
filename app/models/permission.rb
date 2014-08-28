@@ -14,6 +14,7 @@ class Permission
                                         {:view_and_search => "View And Search Cases"},
                                         {:export_photowall => "Export Cases to Photowall"},
                                         {:export_csv => "Export Cases to CSV"},
+                                        {:export_xls => "Export Cases to Excel"},
                                         {:export_pdf => "Export Cases to PDF"},
                                         {:export_cpims => "Export Cases to CPIMS"}
   )
@@ -33,12 +34,14 @@ class Permission
                                         {:edit => "Edit Incidents"},
                                         {:view_and_search => "View And Search Incidents"},
                                         {:export_csv => "Export Incidents to CSV"},
+                                        {:export_xls => "Export Incidents to Excel"},
                                         {:export_pdf => "Export Incidents to PDF"}
   )
   TRACING_REQUESTS = Permission.to_ordered_hash({:register => "Create Tracing Requests"},
                                         {:edit => "Edit Tracing Requests"},
                                         {:view_and_search => "View And Search Tracing Requests"},
                                         {:export_csv => "Export Tracing Requests to CSV"},
+                                        {:export_xls => "Export Tracing Requests to Excel"},
                                         {:export_pdf => "Export Tracing Requests to PDF"}
   )
 

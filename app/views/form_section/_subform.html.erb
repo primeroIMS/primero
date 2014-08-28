@@ -22,7 +22,7 @@
                          }
       %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <% fk = field_keys(subform.name, i.to_s, field.name, form_group_name) %>
+        <% fk = field_keys(subform.name, i, field.name, form_group_name) %>
         <%= render partial: "form_section/#{field.type}",
                    object: field,
                    locals: {

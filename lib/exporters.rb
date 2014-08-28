@@ -3,6 +3,6 @@ require 'exporters/csv'
 require 'exporters/excel'
 
 module Exporters
-  ACTIVE_EXPORTERS = [CSVExporter]
+  ACTIVE_EXPORTERS = [CSVExporter, ExcelExporter]
 end
 

@@ -1,12 +1,31 @@
 module FormToPropertiesConverter
-  def properties_hash_for(form_section)
+
+  def properties_hash_from_forms(form_sections)
+    prop_hash = form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
+      acc.deep_merge(process_form(fs))
+    end
+
+    # Handling stuff like violations.  How to make it clearer??
+    prop_hash.select {|k,v| v.is_a?(Hash) && !v.include?(:type)}.each do |name, props|
+      prop_hash[name] = {
+        :type => create_embeddable_model(props),
+        :read_only => false,
+        :array => false,
+      }
+    end
+    prop_hash
+  end
+
+  private
+
+  def process_form(form_section)
     include_field = lambda do |field|
       field.visible
     end
 
     form_section.fields.select(&include_field).inject({}) do |form_acc, f|
       props = if form_section.form_group_name && form_section.form_group_keyed
-        {form_section.form_group_name => properties_for_field(f)}
+        {form_section.form_group_name.downcase => properties_for_field(f)}
       else
         properties_for_field(f)
       end
@@ -15,11 +34,7 @@ module FormToPropertiesConverter
     end
   end
 
-  private
-
-  def create_embeddable_model(subform)
-    properties_hash = properties_hash_for(subform)
-
+  def create_embeddable_model(properties_hash)
     Class.new do
       include CouchRest::Model::Embeddable
 
@@ -40,7 +55,7 @@ module FormToPropertiesConverter
       subform = FormSection.get(field.subform_section_id)
 
       { field.name => {
-          :type => create_embeddable_model(subform),
+          :type => create_embeddable_model(process_form(subform)),
           :array => true
         }.update(base_options)
       }

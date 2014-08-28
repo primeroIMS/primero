@@ -38,6 +38,9 @@ class Ability
     if user.has_permission?(Permission::CHILDREN[:export_csv])
       can [:export_csv], Child
     end
+    if user.has_permission?(Permission::CHILDREN[:export_xls])
+      can [:export_xls], Child
+    end
     if user.has_permission?(Permission::CHILDREN[:export_photowall])
       can [:export_photowall], Child
     end
@@ -75,6 +78,9 @@ class Ability
     if user.has_permission?(Permission::INCIDENTS[:export_csv])
       can [:export_csv], Incident
     end
+    if user.has_permission?(Permission::INCIDENTS[:export_xls])
+      can [:export_xls], Incident
+    end
     if  user.has_permission?(Permission::INCIDENTS[:export_pdf])
       can [:export_pdf], Incident
     end
@@ -105,6 +111,9 @@ class Ability
 
     if user.has_permission?(Permission::TRACING_REQUESTS[:export_csv])
       can [:export_csv], TracingRequest
+    end
+    if user.has_permission?(Permission::TRACING_REQUESTS[:export_xls])
+      can [:export_xls], TracingRequest
     end
     if user.has_permission?(Permission::TRACING_REQUESTS[:export_photowall])
       can [:export_photowall], TracingRequest

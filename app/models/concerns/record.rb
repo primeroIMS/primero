@@ -134,18 +134,6 @@ module Record
       hash_arrays_to_arrays.call(fields)
     end
 
-    def properties_hash_from_forms
-      form_sections = FormSection.find_by_parent_form(parent_form)
-
-      if !form_sections.length
-        raise "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
-      end
-
-      form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
-        acc.deep_merge(properties_hash_for(fs))
-      end
-    end
-
     def refresh_form_properties
       remove_form_properties
       create_form_properties
@@ -168,7 +156,13 @@ module Record
     end
 
     def create_form_properties
-      properties_hash_from_forms.each do |name,options|
+      form_sections = FormSection.find_by_parent_form(parent_form)
+
+      if !form_sections.length
+        raise "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
+      end
+
+      properties_hash_from_forms(form_sections).each do |name,options|
         property name.to_sym, options
         form_properties_by_name[name] = properties_by_name[name]
       end
