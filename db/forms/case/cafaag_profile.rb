@@ -23,16 +23,14 @@ caafag_profile_fields = [
              "type" => "select_box",
              "display_name_all" => "If not forced, what was the main reason why the child became involved in the Armed Force or Armed Group? (type of recruitment)",
              "option_strings_text_all" =>
-                                  ["Enrollment Force",
-                                   "Enrollment volunteer",
+                                  ["Voluntary enrollment",
                                    "Family problems/abuse",
                                    "Financial reasons",
                                    "Lack of access to essential services",
-                                   "Lack of access to essential services (education/food/shelter/security)",
-                                   "Other",
                                    "Poverty",
                                    "Wanted to fight for their beliefs",
-                                   "Wanted to follow friends"].join("\n"),
+                                   "Wanted to follow friends",
+                                   "Other"].join("\n"),
             }),
   Field.new({"name" => "cafaag_enrollment_reason_not_forced_text",
              "type" => "text_field",
@@ -119,11 +117,11 @@ caafag_profile_fields = [
             }),
   Field.new({"name" => "address_cafaag_demobilization",
              "type" => "text_field",
-             "display_name_all" => "Place of removal/demobilization (Area/Village)"
+             "display_name_all" => "Address of Demobilization"
             }),
   Field.new({"name" => "location_cafaag_demobilization",
              "type" => "text_field",
-             "display_name_all" => "Place of demobilization"
+             "display_name_all" => "Location of Demobilization"
             }),
   Field.new({"name" => "cafaag_demobilization_papers_served",
              "type" => "select_box",
