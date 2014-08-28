@@ -34,7 +34,21 @@ Before do
   #Don't load the seed data on every scenario
   $db_seeded ||= false
   unless $db_seeded
+    #TODO: Commented out as per Ron's request. Some tests currently reseed these. 
+    #Long term should refactor to use the initial lookup seed.
+    #load File.dirname(__FILE__) + '/../../db/lookups/lookups.rb'
     Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
+    load File.dirname(__FILE__) + '/../../db/users/roles.rb'
+    load File.dirname(__FILE__) + '/../../db/users/default_programs.rb'
+    load File.dirname(__FILE__) + '/../../db/users/default_modules.rb'
+    load File.dirname(__FILE__) + "/../../db/users/default_users.rb"
+
+    #Fake the passwords
+    User.all.each do |user|
+      user.password = 'primero'
+      user.password_confirmation = 'primero'
+      user.save!
+    end
 
     $db_seeded = true
   end
