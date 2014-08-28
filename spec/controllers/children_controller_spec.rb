@@ -640,11 +640,11 @@ describe ChildrenController do
 
     it "should handle CSV" do
       Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything).and_return('data')
-      resp = get :index, :format => :csv
+      get :index, :format => :csv
     end
 
     it "should encrypt result" do
-      CSVExporter.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
+      CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything).and_return('data')
       controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
       get :index, :format => :csv
@@ -669,12 +669,6 @@ describe ChildrenController do
       controller.stub :current_user_name => 'test_user'
       controller.send(:export_filename, [ @child1, @child2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
     end
-
-    it "should handle CSV" do
-      Exporters::CSVExporter.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      get :index, :format => :csv
-    end
-
   end
 
   describe "PUT select_primary_photo" do

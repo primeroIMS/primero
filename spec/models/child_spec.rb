@@ -1567,7 +1567,7 @@ describe Child do
 
     it "should validate single date field" do
       #date field invalid.
-      child = create_child "Bob McBobberson", :a_date_field => "30/May/2014"
+      child = create_child "Bob McBobberson", :a_date_field => "asdlfkj"
       child.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #date valid.
@@ -1577,15 +1577,15 @@ describe Child do
 
     it "should validate range fields" do
       #_from is wrong.
-      child = create_child "Bob McBobberson", :a_range_field_from => "31/May/2014", :a_range_field_to => "31-May-2014"
+      child = create_child "Bob McBobberson", :a_range_field_from => "aslkdjflkj", :a_range_field_to => "31-May-2014"
       child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #_to is wrong.
-      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31/May/2014"
+      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "alkdfjlj"
       child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #_from and _to are wrong.
-      child = create_child "Bob McBobberson", :a_range_field_from => "31/May/2014", :a_range_field_to => "31/May/2014"
+      child = create_child "Bob McBobberson", :a_range_field_from => "aslkjlkj3", :a_range_field_to => "alkdfjlkj"
       child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #range valid dates.
