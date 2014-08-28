@@ -1,9 +1,13 @@
 class FormSectionController < ApplicationController
 
+  before_filter :current_modules, :only => [:index]
+  before_filter :get_form_sections, :only => [:index]
+  #before_filter :get_lookups, :only => [:index]
+
+
   def index
     authorize! :index, FormSection
     @page_name = t("form_section.manage")
-    get_form_sections
   end
 
   def create
@@ -70,15 +74,33 @@ class FormSectionController < ApplicationController
     @page_name = t("form_section.create")
     @form_section = FormSection.new(params[:form_section])
   end
-  
+
   private
-  
+
+  def current_modules
+    @current_modules ||= current_user.modules
+    @module_id = params[:module_id] || @current_modules.first.id
+    @module = @current_modules.select{|m| m.id == @module_id}.first
+  end
+
   def parent_form
     @parent_form = params[:parent_form] || 'case'
   end
 
   def get_form_sections
-    @form_sections = FormSection.find_form_groups_by_parent_form(parent_form)
+    @record_types = @module.associated_record_types
+
+    #only use the passed in parent_form if it is in the allowed form types for this module
+    #otherwise, default to the first allowed form type
+    if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
+      @parent_form = params[:parent_form]
+    else
+      @parent_form = @record_types.first
+    end
+
+    #TODO - handle modules - see Pavel's changes
+    #TODO - get all forms for this module, not just the visible ones
+    @form_sections = FormSection.find_form_groups_by_parent_form(@parent_form)
   end
 
 end

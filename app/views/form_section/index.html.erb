@@ -3,14 +3,19 @@
     <%
        #TODO i18n and STYLE
     %>
-    <h4><%= "Forms > #{@parent_form.humanize}"%></h4>
+    <h4><%= "Forms > #{@module.name} > #{@parent_form.titleize}"%></h4>
   </div>
-  <div class="large-6 medium-6 columns">
+  <div class="large-4 medium-4 columns">
+  </div>
+  <div class="large-2 medium-2 columns">
+      <%= select_tag :module_id,
+                     options_for_select(@current_modules.map{|m| [m.name, m.id]}, @module.id),
+                     :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
   </div>
   <div class="large-2 medium-2 columns">
       <%= select_tag :parent_form,
-                     options_for_select(['case', 'incident', 'tracing_request'], :include_blank => true),
-                     :onchange => "if(this.value){window.location='?&parent_form='+this.value;}" %>
+                     options_for_select(@record_types.map{|r| [r.titleize, r]}, @parent_form),
+                     :onchange => "if(this.value){window.location='?module_id=#{@module_id}&parent_form='+this.value;}" %>
   </div>
 </div>
 <div class="row">
