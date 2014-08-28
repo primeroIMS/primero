@@ -152,6 +152,8 @@ module Record
         if prop.alias
           remove_method("#{prop.alias}=")
         end
+
+        #TODO: also remove validations
       end
     end
 

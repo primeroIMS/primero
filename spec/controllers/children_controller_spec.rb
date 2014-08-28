@@ -625,6 +625,7 @@ describe ChildrenController do
       @child1 = build :child
       @child2 = build :child
       controller.stub :paginated_collection => [ @child1, @child2 ], :render => true
+      Child.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
     end
 
     xit "should handle full PDF" do
@@ -637,23 +638,14 @@ describe ChildrenController do
       get :index, :format => :photowall
     end
 
-    xit "should handle CSV" do
-      Addons::CsvExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      get :index, :format => :csv
+    it "should handle CSV" do
+      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything).and_return('data')
+      resp = get :index, :format => :csv
     end
 
-    xit "should handle custom export addon" do
-      mock_addon = double()
-      mock_addon_class = double(:new => mock_addon, :id => "mock")
-      RapidftrAddon::ExportTask.stub :active => [ mock_addon_class ]
-      controller.stub(:authorize!)
-      mock_addon.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      get :index, :format => :mock
-    end
-
-    xit "should encrypt result" do
-      Addons::CsvExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      controller.should_receive(:export_filename).with([ @child1, @child2 ], Addons::CsvExportTask).and_return("test_filename")
+    it "should encrypt result" do
+      CSVExporter.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
+      controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
       get :index, :format => :csv
     end
@@ -678,8 +670,8 @@ describe ChildrenController do
       controller.send(:export_filename, [ @child1, @child2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
     end
 
-    xit "should handle CSV" do
-      Addons::CsvExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
+    it "should handle CSV" do
+      Exporters::CSVExporter.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
       get :index, :format => :csv
     end
 

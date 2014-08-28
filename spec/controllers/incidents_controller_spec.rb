@@ -556,70 +556,62 @@ describe IncidentsController do
     get :show, :id => incident.id, :format => :mock
   end
 
-  # describe '#respond_to_export' do
-    # before :each do
-      # @incident1 = build :incident
-      # @incident2 = build :incident
-      # controller.stub :paginated_collection => [ @incident1, @incident2 ], :render => true
-    # end
-#
-    # it "should handle full PDF" do
-      # Addons::PdfExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-      # get :index, :format => :pdf
-    # end
-#
-    # it "should handle Photowall PDF" do
-      # Addons::PhotowallExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-      # get :index, :format => :photowall
-    # end
-#
-    # it "should handle CSV" do
-      # Addons::CsvExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-      # get :index, :format => :csv
-    # end
-#
-    # it "should handle custom export addon" do
-      # mock_addon = double()
-      # mock_addon_class = double(:new => mock_addon, :id => "mock")
-      # RapidftrAddon::ExportTask.stub :active => [ mock_addon_class ]
-      # controller.stub(:authorize!)
-      # mock_addon.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-      # get :index, :format => :mock
-    # end
-#
-    # it "should encrypt result" do
-      # Addons::CsvExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-      # controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Addons::CsvExportTask).and_return("test_filename")
-      # controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
-      # get :index, :format => :csv
-    # end
-#
-    # it "should create a log_entry when record is exported" do
-      # fake_login User.new(:user_name => 'fakeuser', :organisation => "STC", :role_ids => ["abcd"])
-      # @controller.stub(:authorize!)
-      # RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-#
-      # LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organisation => "STC", :incident_ids => [@incident1.id, @incident2.id]
-#
-      # get :index, :format => :cpims
-    # end
-#
-    # it "should generate filename based on incident ID and addon ID when there is only one incident" do
-      # @incident1.stub :short_id => 'test_short_id'
-      # controller.send(:export_filename, [ @incident1 ], Addons::PhotowallExportTask).should == "test_short_id_photowall.zip"
-    # end
-#
-    # it "should generate filename based on username and addon ID when there are multiple incidents" do
-      # controller.stub :current_user_name => 'test_user'
-      # controller.send(:export_filename, [ @incident1, @incident2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
-    # end
-#
-    # it "should handle CSV" do
-      # Addons::CsvExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
-      # get :index, :format => :csv
-    # end
-#
-  # end
+   describe '#respond_to_export' do
+     before :each do
+       @incident1 = build :incident
+       @incident2 = build :incident
+       controller.stub :paginated_collection => [ @incident1, @incident2 ], :render => true
+       Incident.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
+     end
+
+     xit "should handle full PDF" do
+       Addons::PdfExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
+       get :index, :format => :pdf
+     end
+
+     xit "should handle Photowall PDF" do
+       Addons::PhotowallExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
+       get :index, :format => :photowall
+     end
+
+     it "should handle CSV" do
+       Exporters::CSVExporter.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
+       get :index, :format => :csv
+     end
+
+     it "should encrypt result" do
+       Exporters::CSVExporter.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
+       controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Exporters::CSVExporter).and_return("test_filename")
+       controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
+       get :index, :format => :csv
+     end
+
+     xit "should create a log_entry when record is exported" do
+       fake_login User.new(:user_name => 'fakeuser', :organisation => "STC", :role_ids => ["abcd"])
+       @controller.stub(:authorize!)
+       RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
+
+       LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organisation => "STC", :incident_ids => [@incident1.id, @incident2.id]
+
+       get :index, :format => :cpims
+     end
+
+     xit "should generate filename based on incident ID and addon ID when there is only one incident" do
+       @incident1.stub :short_id => 'test_short_id'
+       controller.send(:export_filename, [ @incident1 ], Addons::PhotowallExportTask).should == "test_short_id_photowall.zip"
+     end
+
+     xit "should generate filename based on username and addon ID when there are multiple incidents" do
+       controller.stub :current_user_name => 'test_user'
+       controller.send(:export_filename, [ @incident1, @incident2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
+     end
+
+     it "should handle CSV" do
+       Exporters::CSVExporter.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
+       get :index, :format => :csv
+     end
+
+   end
 
   # describe "PUT select_primary_photo" do
     # before :each do

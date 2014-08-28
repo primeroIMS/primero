@@ -103,14 +103,12 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_date_of_birth
-    return true if self['date_of_birth'].blank?
-    begin
-      date_of_birth = Date.parse(self['date_of_birth'])
-      raise if date_of_birth.year > Date.today.year
-      return true
-    rescue
+    if !date_of_birth.nil? && date_of_birth.year > Date.today.year
       errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
       error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
+      false
+    else
+      true
     end
   end
 

@@ -28,7 +28,7 @@
     </li>
 <% end %>
 
-<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, Child)} %>
+<% if Exporters::ACTIVE_EXPORTERS.any?{|exporter| can?("export_#{exporter.id}".to_sym, Child)} %>
     <li>
         <div class="btn dropdown_btn btn_export">
             <%= render 'export' %>

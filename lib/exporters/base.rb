@@ -4,7 +4,6 @@ module Exporters
 
   # @param properties: array of CouchRest Model Property instances
   def self.to_2D_array(models, properties)
-    require 'pry'; binding.pry
     longest_nested_arrays = find_longest_nested_arrays(models, properties)
 
     header_columns = properties.map do |p|

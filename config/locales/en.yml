@@ -877,3 +877,7 @@ en:
         all: Export All to CSV
         one: Export to CSV
         selected: Export Selected to CSV
+      xls:
+        all: Export All to Excel
+        one: Export to Excel
+        selected: Export Selected to Excel
