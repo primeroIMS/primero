@@ -39,6 +39,14 @@ module MediaActions
     send_data(@attachment.data.read, :filename => document_filename(@attachment), :type => @attachment.content_type)
   end
 
+  def document_filename attachment
+    object = instance_variable_get("@#{@className.name.underscore.downcase}")
+    document_key_index = object['document_keys'].find_index attachment.name
+    unless document_key_index.nil?
+      object['other_documents'][document_key_index]['file_name']
+    end
+  end
+
   def manage_photos
     @photos_details = photos_details
   end
