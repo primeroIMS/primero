@@ -10,7 +10,7 @@ gbv_incident_fields = [
              "display_name_all" => "Incident Code"
             }),
   Field.new({"name" => "consent_reporting",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Consent is given to share non-identifiable information for reporting",
              "option_strings_text_all" => "Yes\nNo"
             }),
@@ -26,7 +26,7 @@ gbv_incident_fields = [
              "type" => "textarea",
              "display_name_all" => "Account of Incident"
             }),
-  Field.new({"name" => "displacement_at_time_of_incident",
+  Field.new({"name" => "displacement_incident",
              "type" => "select_box",
              "display_name_all" => "Stage of displacement at time of incident",
              "option_strings_text_all" => [
@@ -38,7 +38,7 @@ gbv_incident_fields = [
                 "Post-Displacement",
                 "Other, please specify"].join("\n")
             }),
-  Field.new({"name" => "if_other_specify",
+  Field.new({"name" => "displacement_at_time_of_incident_other",
              "type" => "text_field",
              "display_name_all" => "If other, please specify"
             }),
