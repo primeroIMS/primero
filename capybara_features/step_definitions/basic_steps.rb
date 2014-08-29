@@ -280,17 +280,17 @@ And /^I add a "(.*)" subform$/ do |form|
 end
 
 And /^the value of "(.*)" should be "(.*)"$/ do |field, value|
-  page.should have_field(field, :with => value)
+  expect(page).to have_field(field, with: value)
 end
 
 And /^the value of "(.*)" should be the calculated age of someone born in "(.+)"?$/ do |field, year|
   value = Date.today.year - year.to_i
-  page.should have_field(field, :with => value)
+  expect(page).to have_field(field, with: value)
 end
 
 And /^the value of "(.*)" should be January 1, "(.+)" years ago$/ do |field, years_ago|
   value = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
-  page.should have_field(field, :with => value)
+  expect(page).to have_field(field, with: value)
 end
 
 And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be "(.*)"$/ do |field, num, subform, value|
@@ -306,7 +306,7 @@ And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be "
   end
 
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
-    page.should have_field(field, :with => value)
+    expect(page).to have_field(field, with: value)
   end
 end
 
@@ -324,7 +324,7 @@ And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be t
 
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     value = Date.today.year - year.to_i
-    page.should have_field(field, :with => value)
+    expect(page).to have_field(field, with: value)
   end
 end
 
@@ -342,7 +342,7 @@ And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be J
 
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     value = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
-    page.should have_field(field, :with => value)
+    expect(page).to have_field(field, with: value)
   end
 end
 
