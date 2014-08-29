@@ -31,8 +31,8 @@ class AdvancedSearchController < ApplicationController
         raise ErrorResponse.bad_request('You must select at least one record to be exported') if record_ids.empty?
 
         children = record_ids.map { |child_id| Child.get child_id }
-        results = exporter.new.export(children)
-        encrypt_exported_files results, export_filename(children, exporter)
+        data = exporter.export(children, Child.properties)
+        encrypt_data_to_zip data, export_filename(children, exporter), params[:password]
       end
     end
   end

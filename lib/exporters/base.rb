@@ -3,6 +3,7 @@ module Exporters
   private
 
   # @param properties: array of CouchRest Model Property instances
+  # TODO: Rework to be more recursive to handle violations
   def self.to_2D_array(models, properties)
     longest_nested_arrays = find_longest_nested_arrays(models, properties)
 

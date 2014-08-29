@@ -582,7 +582,7 @@ describe IncidentsController do
      it "should encrypt result" do
        Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything).and_return('data')
        controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Exporters::CSVExporter).and_return("test_filename")
-       controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
+       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', anything).and_return(true)
        get :index, :format => :csv
      end
 

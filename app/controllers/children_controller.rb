@@ -302,4 +302,11 @@ class ChildrenController < ApplicationController
     @className = Child
   end
 
+  def export_filename(models, exporter)
+    if models.length == 1
+      "#{models[0].unique_identifier}.#{exporter.id}"
+    else
+      super
+    end
+  end
 end

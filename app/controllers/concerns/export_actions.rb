@@ -11,9 +11,13 @@ module ExportActions
           raise "You must specify the properties to export as a controller method called 'exported_properties'"
         end
 
-        export = exporter.export(models, exported_properties)
-        send_data export, :filename => "export.#{exporter.id}", :disposition => 'inline'
+        export_data = exporter.export(models, exported_properties)
+        encrypt_data_to_zip export_data, export_filename(models, exporter), params[:password]
       end
     end
+  end
+
+  def export_filename(models, exporter)
+    "#{current_user.user_name}.#{exporter.id}"
   end
 end
