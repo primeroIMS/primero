@@ -11,7 +11,7 @@ module Exporters
       if longest_nested_arrays.include? p
         if p.type.include?(CouchRest::Model::Embeddable) && longest_nested_arrays[p] > 0
           (1..longest_nested_arrays[p]).map do |n|
-            p.type.properties.map {|subp| "#{p.name}_#{n}_#{subp.name}"}
+            p.type.properties.map {|subp| "#{p.name}[#{n}]#{subp.name}"}
           end.flatten
         else
           []

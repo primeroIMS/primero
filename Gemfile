@@ -48,6 +48,7 @@ gem 'closure-compiler'
 gem 'progress_bar'
 
 gem 'writeexcel', '~> 1.0.3'
+gem "deep_merge", :require => 'deep_merge/rails_compat'
 
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'models/exporters/base'
 
 module Exporters
   describe Exporters do
@@ -42,15 +43,15 @@ module Exporters
         end
 
         arr.length.should == 2
-        expect(arr[0]).to include("family_members_1_name")
-        expect(arr[0]).to include("family_members_1_relationship")
-        expect(arr[0]).to include("family_members_2_name")
-        expect(arr[0]).to include("family_members_2_relationship")
+        expect(arr[0]).to include("family_members[1]name")
+        expect(arr[0]).to include("family_members[1]relationship")
+        expect(arr[0]).to include("family_members[2]name")
+        expect(arr[0]).to include("family_members[2]relationship")
 
-        arr[1][arr[0].index("family_members_1_name")].should == 'John'
-        arr[1][arr[0].index("family_members_2_name")].should == 'Mary'
-        arr[1][arr[0].index("family_members_1_relationship")].should == 'father'
-        arr[1][arr[0].index("family_members_2_relationship")].should == 'mother'
+        arr[1][arr[0].index("family_members[1]name")].should == 'John'
+        arr[1][arr[0].index("family_members[2]name")].should == 'Mary'
+        arr[1][arr[0].index("family_members[1]relationship")].should == 'father'
+        arr[1][arr[0].index("family_members[2]relationship")].should == 'mother'
       end
     end
   end
