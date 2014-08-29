@@ -665,6 +665,8 @@ en:
       to: "To"
       date: "Date"
       date_range: "Date Range"
+    document_upload_box:
+      file_restrictions_message: "Files should be no larger than 10mb (executable (.exe) files cannot be uploaded)."
 
   replication:
     label: Replication
