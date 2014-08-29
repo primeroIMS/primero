@@ -9,9 +9,9 @@
 @javascript @primero
 Feature: Individual Details Form
   As a social worker/data entry person, I want to to enter information about the survivor in Primero.
-  
+
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
     And I press the "Individual Details" button

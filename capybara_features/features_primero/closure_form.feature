@@ -5,7 +5,7 @@ Feature: Closure Form
   As a Social Worker I want to fill in the Closure Form
 
   Scenario: As a logged in user, I should be able to fill closure form
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Closure" button
