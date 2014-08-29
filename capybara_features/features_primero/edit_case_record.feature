@@ -5,7 +5,7 @@ Feature: Edit Case Record
   As a admin user, I want to be able to edit a case record
 
   Scenario: I edit a case record
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following cases exist in the system:
       | name     | created_by | age | sex    | registration_date      | status | unique_identifier                    |
       | andreas  | primero    | 10  | male   | 03-Feb-2004            | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
@@ -20,9 +20,9 @@ Feature: Edit Case Record
     Then I should see "Case was successfully updated" on the page
     And I should see "Tiki Thomas Taliaferro" on the page
     And I should see "Male" on the page
-    
+
   Scenario: I should not see description text
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following cases exist in the system:
       | name     | created_by | age | sex    | registration_date      | status | unique_identifier                    |
       | andreas  | primero    | 10  | male   | 03-Feb-2004            | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |

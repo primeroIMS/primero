@@ -5,7 +5,7 @@ Feature: Subforms Collapse Expand separators
   As a User, I want to collapse or expand subforms to reduce the amount of information displayed
 
   Scenario: As a logged in user and collapse subforms attack on schools, I want to collapse separators fields
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
     And I press the "Violations" button
