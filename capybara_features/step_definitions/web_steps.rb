@@ -353,7 +353,7 @@ Then /^I should see link to "(.*?)"$/ do |text|
 end
 
 Then /^I should( not)? be able to view the tab (.+)$/ do|not_visible,tab_name|
-  tab_element = page.has_xpath?("//div[@class='main_bar']//ul/li/a[text()=\"#{tab_name}"\"]")
+  tab_element = page.has_xpath?("//div[@class='main_bar']//ul/li/a[text()=\"#{tab_name}\"]")
   tab_element.should == !not_visible
 end
 
