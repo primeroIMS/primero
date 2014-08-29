@@ -2,11 +2,7 @@ other_documents_fields = [
     Field.new({"name" => "upload_document",
               "type" => "document_upload_box", "editable" => false,
               "display_name_all" => "Other Document"
-              }),
-    Field.new({"name" => "document_description",
-              "type" => "text_field",
-              "display_name_all" => "Document Description"
-      })
+              })
 ]
 
 FormSection.create_or_update_form_section({
