@@ -21,7 +21,8 @@ module RecordActions
     get_record
     permitted_forms = FormSection.get_permitted_form_sections(@record.module, @record.class.parent_form, current_user)
     FormSection.link_subforms(permitted_forms)
-    @form_sections = FormSection.group_forms(permitted_forms)
+    visible_forms = FormSection.get_visible_form_sections(permitted_forms)
+    @form_sections = FormSection.group_forms(visible_forms)
   end
 
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.

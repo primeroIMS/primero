@@ -215,15 +215,21 @@ class FormSection < CouchRest::Model::Base
   #Return a hash of subforms, where the keys are the form groupings
   def self.group_forms(forms)
     grouped_forms = {}
-    visible_forms = forms.select{|f| f.visible?}
 
     #Order these forms by group and form
-    visible_forms = visible_forms.sort_by{|f| [f.order_form_group, f.order]}
+    sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
 
-    if visible_forms.present?
-      grouped_forms = visible_forms.group_by{|f| f.form_group_name}
+    if sorted_forms.present?
+      grouped_forms = sorted_forms.group_by{|f| f.form_group_name}
     end
     return grouped_forms
+  end
+
+  def self.get_visible_form_sections(form_sections)
+    visible_forms = []
+    visible_forms = form_sections.select{|f| f.visible?} if form_sections.present?
+
+    return visible_forms
   end
 
 
