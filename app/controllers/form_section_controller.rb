@@ -98,10 +98,11 @@ class FormSectionController < ApplicationController
       @parent_form = @record_types.first
     end
 
-    #TODO - get all forms for this module, not just the visible ones
     permitted_forms = FormSection.get_permitted_form_sections(@module, @parent_form, current_user)
     FormSection.link_subforms(permitted_forms)
-    @form_sections = FormSection.group_forms(permitted_forms)
+    #filter out the subforms
+    no_subforms = FormSection.filter_subforms(permitted_forms)
+    @form_sections = FormSection.group_forms(no_subforms)
   end
 
 end

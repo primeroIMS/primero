@@ -232,6 +232,13 @@ class FormSection < CouchRest::Model::Base
     return visible_forms
   end
 
+  def self.filter_subforms(form_sections)
+    forms = []
+    forms = form_sections.select{|f| (f.is_nested.blank? || f.is_nested != true)} if form_sections.present?
+
+    return forms
+  end
+
 
   #Return only those forms that can be accessed by the user given their role permissions and the module
   def self.get_permitted_form_sections(a_module, parent_form, user)
