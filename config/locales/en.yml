@@ -826,7 +826,7 @@ en:
         user_name_mandatory: "Please enter a valid user name"
 
       ownership:
-        associated_user_ids_present: "A user must be associted with this record"
+        associated_user_names_present: "A user must be associted with this record"
         module_id_prsesnt: "A module must be associated wit this record"
 
 

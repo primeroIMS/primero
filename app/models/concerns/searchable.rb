@@ -17,8 +17,8 @@ module Searchable
       boolean :flag
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
-        string :associated_user_ids, multiple: true
-        string :owned_by_id
+        string :associated_user_names, multiple: true
+        string :owned_by
       end
     end
 
@@ -47,7 +47,7 @@ module Searchable
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
       self.search do
         filters.each{|filter,value| with(filter, value) unless value == 'all'} if filters.present?
-        with(:created_by, owner) if owner.present?
+        with(:owned_by, owner) if owner.present?
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
       end
