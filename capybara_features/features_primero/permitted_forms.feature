@@ -35,8 +35,9 @@ Feature: Permitted Forms
     Given I am logged in as a social worker with username "primero_gbv" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
-    #Then I should be able to access the following forms:
-    #  | TBD |
+    Then I should be able to access the following top level forms:
+      | Service Referrals |
+      | GBV Individual Details |
     And I shouldn't be able to access the following top level forms:
       | Individual Details |
       | Group Details |
@@ -51,9 +52,6 @@ Feature: Permitted Forms
       | Individual Details |
       | Group Details |
       | Source |
-    #And I shouldn't be able to access the following forms:
-    # | TBD |
-
-
-
-
+    And I shouldn't be able to access the following top level forms:
+      | Service Referrals |
+      | GBV Individual Details |

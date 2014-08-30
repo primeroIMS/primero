@@ -40,9 +40,11 @@
 //= require date_range_controls.js
 //= require reload_violations.js
 //= require index_table
+//= require index_filters
 //= require document_upload.js
 //= require autosum_fields.js
 //= require tick_box_field.js
+//= require date_range_validation.js
 
 
 $(document).ready(function() {

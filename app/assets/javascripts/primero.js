@@ -36,6 +36,38 @@ _primero.get_param = function(param) {
   return false;
 };
 
+//Create the <li /> item to the corresponding error messages.
+//message: message to show.
+//tab: tab where the element that generate the error exists.
+_primero.generate_error_message = function(message, tab) {
+  return "<li data-error-item='" + $(tab).attr("id") + "' class='error-item'>"
+         + message
+         + "</li>";
+};
+
+//Find the container errors messages.
+_primero.find_error_messages_container = function(form) {
+  return $(form).find("div#errorExplanation ul");
+};
+
+//create or clean the container errors messages: div#errorExplanation.
+_primero.create_or_clean_error_messages_container = function(form) {
+  if ($(form).find("div#errorExplanation").length == 0) {
+    $(form).find(".tab div.clearfix").each(function(x, el) {
+      //TODO make i18n able.
+      $(el).after("<div id='errorExplanation' class='errorExplanation'>"
+                  + "<h2>Errors prohibited this record from being saved</h2>"
+                  + "<p>There were problems with the following fields:</p>"
+                  + "<ul/>"
+                  + "</div>");
+    });
+  } else {
+    //TODO If we are going to implement other javascript validation
+    //     we must refactor this so don't lost the other errors messages.
+    $(form).find("div#errorExplanation ul").text("");
+  }
+};
+
 $(document).ready(function() {
   $('.btn_submit').on('click', function() {
     $('form.default-form').submit();
@@ -45,6 +77,8 @@ $(document).ready(function() {
     topSpacing: 50,
     bottomSpacing: 40 
   });
+  
+  $(".filter-chosen").chosen();
 
   stickem.on('sticky-start', function() { $(this).addClass('sticking') });
   stickem.on('sticky-end', function() { $(this).removeClass('sticking')  });

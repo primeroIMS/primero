@@ -60,13 +60,24 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
         if content.start_with?("<Date Range")
           content = content.gsub("<Date Range>", "").strip
           find(:xpath, ".//span[@class='value']/..").text.should eq(content)
-        elsif content.start_with?("<Documents>")
-          content = content.gsub("<Documents>", "").strip
-          find(:xpath, ".//div[@class='documents']", :text => content)
         else
           #Find the element that represent the value.
           find(:xpath, ".//span[@class='value']", :text => content)
         end
+      end
+    end
+  end
+end
+
+And /^I should see documents on the show page:$/ do |documents|
+  documents.rows_hash.each_with_index do |documents, index|
+    document, document_description = documents
+    within(:xpath, "//fieldset//div[@class='uploaded-documents']") do
+      within(:xpath, ".//div[@class='row'][#{index+1}]") do
+        find(:xpath, ".//label[@class='key document']", :text => "Other Document")
+        find(:xpath, ".//a[@class='document']", :text => document)
+        find(:xpath, ".//label[@class='key document-description']", :text => "Document Description")
+        find(:xpath, ".//span[@class='document-description']", :text => document_description)
       end
     end
   end
@@ -280,17 +291,17 @@ And /^I add a "(.*)" subform$/ do |form|
 end
 
 And /^the value of "(.*)" should be "(.*)"$/ do |field, value|
-  page.has_field?(field, :with => value)
+  expect(page).to have_field(field, with: value)
 end
 
 And /^the value of "(.*)" should be the calculated age of someone born in "(.+)"?$/ do |field, year|
   value = Date.today.year - year.to_i
-  page.has_field?(field, :with => value)
+  expect(page).to have_field(field, with: value)
 end
 
 And /^the value of "(.*)" should be January 1, "(.+)" years ago$/ do |field, years_ago|
   value = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
-  page.has_field?(field, :with => value)
+  expect(page).to have_field(field, with: value)
 end
 
 And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be "(.*)"$/ do |field, num, subform, value|
@@ -306,7 +317,7 @@ And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be "
   end
 
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
-    page.has_field?(field, :with => value)
+    expect(page).to have_field(field, with: value)
   end
 end
 
@@ -324,7 +335,7 @@ And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be t
 
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     value = Date.today.year - year.to_i
-    page.has_field?(field, :with => value)
+    expect(page).to have_field(field, with: value)
   end
 end
 
@@ -342,7 +353,7 @@ And /^the value of "(.*)" in the (\d+)(?:st|nd|rd|th) "(.*)" subform should be J
 
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     value = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
-    page.has_field?(field, :with => value)
+    expect(page).to have_field(field, with: value)
   end
 end
 
@@ -365,7 +376,7 @@ When /^I fill in the basic details of a child$/ do
 end
 
 When /^I attach a document "([^"]*)"$/ do |document_path|
-    step %Q{I attach the file "#{document_path}" to "child_upload_document_1"}
+    step %Q{I attach the file "#{document_path}" to "child_upload_document_0_document"}
 end
 
 When /^I attach a photo "([^"]*)"(?: for model "(.*)")?$/ do |photo_path, model|
@@ -379,10 +390,16 @@ When /^I attach an audio file "([^"]*)"(?: for model "(.*)")?$/ do |audio_path, 
 end
 
 When /^I attach the following documents:$/ do |table|
-  table.raw.each_with_index do |document, i|
-    step %Q{I attach the file "#{document.first}" to "child_upload_document_#{i+1}"}
-    step %Q{I click on the "Add another document" link}
+  table = table.raw
+  table.each_with_index do |documents, i|
+    document, document_description = documents
+    step %Q{I attach the file "#{document}" to "child_upload_document_#{i}_document"}
+    step %Q{I fill in "child_upload_document_#{i}_document_description" with "#{document_description}"}
+    step %Q{I click on the "Add another document" link} if (i+1) < table.length
   end
+  document, document_description = table.last
+  step %Q{I attach the file "#{document}" to "child_upload_document_#{table.length-1}_document"}
+  step %Q{I fill in "child_upload_document_#{table.length-1}_document_description" with "#{document_description}"}
 end
 
 When /^I attach the following photos(?: for model "(.*)")?:$/ do |model, table|
