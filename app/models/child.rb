@@ -8,10 +8,10 @@ class Child < CouchRest::Model::Base
   include RapidFTR::CouchRestRailsBackward
 
   include Record
-  include Searchable
   include DocumentHelper
 
   include Ownable
+  include Searchable #Needs to be after ownable
   include PhotoUploader
   include AudioUploader
 
