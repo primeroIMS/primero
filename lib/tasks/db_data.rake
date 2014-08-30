@@ -68,6 +68,24 @@ namespace :db do
     end
 
 
+    #Assign the default owner of all records to be the creator.
+    #If no creator exits, set it to be the fallback_user
+    desc "Assign default record owner for Cases, Incidents, and Tracing Requests"
+    task :set_default_record_owner, [:fallback_user_name] => :environment do |t, args|
+
+      default_user_id = User.by_user_name(key: args[:fallback_user_name]).first.id
+      [Child, Incident, TracingRequest].each do |record_class|
+        record_class.all.each do |record|
+          owner_id = record.created_by.present? ? record.created_by : default_user_id
+          unless record.owned_by_id.present?
+            record.owned_by_id = owner_id
+            record.save(validate: false)
+          end
+        end
+      end
+
+    end
+
   end
 
 
