@@ -16,6 +16,10 @@ module Searchable
       boolean :duplicate
       boolean :flag
       string :sortable_name, as: :sortable_name_sci
+      if self.include?(Ownable)
+        string :associated_user_ids, multiple: true
+        string :owned_by_id
+      end
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
