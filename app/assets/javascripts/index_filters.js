@@ -24,12 +24,6 @@ var IndexFilters = Backbone.View.extend({
         $(this).prop('checked', true)
       }
     });
-    // current_scope = _primero.get_param('scope');
-    // current_scope = current_scope ? current_scope.replace('scope[', '').replace(']', '') : false
-    // if (current_scope) {
-    //   $('#record_scope').val(decodeURI(current_scope));
-    // }
-
   },
 
   change_scope: function(event) {
@@ -53,7 +47,6 @@ var IndexFilters = Backbone.View.extend({
         }
 
         current_checked = _.uniq(prev_checked);
-        console.log(current_checked, filter)
         current_checked.length > 0 ?
           window.location.search = prev_params + '&scope[' + filter  + ']=' + current_checked
           : window.location.search = prev_params;
