@@ -15,12 +15,12 @@ When /^I access (.*)$/ do |page_name|
 end
 
 Given /^I am logged in as an admin with username "([^\"]*)" and password "([^\"]*)"$/ do |username, password|
-  data_populator.create_admin(username, password, nil)
+  #data_populator.create_admin(username, password, nil)
   login_page.login_as(username, password)
 end
 
 Given /^I am logged in as a social worker with username "([^\"]*)" and password "([^\"]*)"$/ do |username, password|
-  data_populator.create_registration_worker(username, password, nil)
+  #data_populator.create_registration_worker(username, password, nil)
   login_page.login_as(username, password)
 end
 

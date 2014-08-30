@@ -47,21 +47,21 @@ namespace :db do
       Child.all.each do |child|
         unless child.module_id.present?
           child.module_id = cp_module_id
-          child.save!
+          child.save(validate: false)
         end
       end
 
       TracingRequest.all.each do |tracing_request|
         unless tracing_request.module_id.present?
           tracing_request.module_id = cp_module_id
-          tracing_request.save!
+          tracing_request.save(validate: false)
         end
       end
 
       Incident.all.each do |incident|
         unless incident.module_id.present?
           incident.module_id = mrm_module_id
-          incident.save!
+          incident.save(validate: false)
         end
       end
 

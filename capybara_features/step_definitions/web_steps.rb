@@ -456,3 +456,65 @@ When /^the chosen "([^\"]*)" should not have any selected value$/ do |chosen|
   chosen_select = find(:xpath, "//select[@id='#{chosen_select_id}']", :visible => false)
   chosen_select.value.blank?.should be true
 end
+
+# def present_form_labels
+#   all(:xpath, "//ul[@class='tab-handles side-nav']/li/a | //ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a", visible: false).map{|f| f.text}
+# end
+
+def assert_has_top_form(form_label)
+  expect(page).to have_xpath("//ul[@class='tab-handles side-nav']/li/a[text()='#{form_label}']", visible: false)
+end
+
+def assert_has_grouped_form(form_label)
+  expect(page).to have_xpath("//ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a[text()='#{form_label}']", visible: false)
+end
+
+def assert_has_form_group(group_label)
+  #TODO: implement
+end
+
+def assert_doesnt_have_top_form(form_label)
+  expect(page).to have_no_xpath("//ul[@class='tab-handles side-nav']/li/a[text()='#{form_label}']", visible: false)
+end
+
+def assert_doesnt_have_grouped_form(form_label)
+  expect(page).to have_no_xpath("//ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a[text()='#{form_label}']", visible: false)
+end
+
+def assert_doesnt_have_form_group(group_label)
+  #TODO: implement
+end
+
+Then(/^I should be able to access the following top level forms:$/) do |table|
+  # table is a Cucumber::Ast::Table
+  #pending # express the regexp above with the code you wish you had
+  #present_forms = present_form_labels
+  table.raw.flatten.each do |form|
+    assert_has_top_form(form)
+  end
+end
+
+Then(/^I should be able to access the following grouped forms:$/) do |table|
+  # table is a Cucumber::Ast::Table
+  #pending # express the regexp above with the code you wish you had
+  #present_forms = present_form_labels
+  table.raw.flatten.each do |form|
+    assert_has_grouped_form(form)
+  end
+end
+
+Then(/^I shouldn't be able to access the following top level forms:$/) do |table|
+  # table is a Cucumber::Ast::Table
+  #present_forms = all(:xpath, "//ul[@class='tab-handles side-nav']/li/a | //ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a", visible: false).map{|f| f.text}
+  table.raw.flatten.each do |form|
+    assert_doesnt_have_top_form(form)
+  end
+end
+
+Then(/^I shouldn't be able to access the following grouped forms:$/) do |table|
+  # table is a Cucumber::Ast::Table
+  #present_forms = all(:xpath, "//ul[@class='tab-handles side-nav']/li/a | //ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a", visible: false).map{|f| f.text}
+  table.raw.flatten.each do |form|
+    assert_doesnt_have_grouped_form(form)
+  end
+end

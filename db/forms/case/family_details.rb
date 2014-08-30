@@ -115,9 +115,8 @@ family_details_fields_subform = [
              "display_name_all" => "Current Address"
            }),
   Field.new({"name" => "relation_address_is_permanent",
-             "type" => "radio_button",
-             "display_name_all" => "Is this a permanent location?",
-             "option_strings_text_all" => "Yes\nNo"
+             "type" => "tick_box",
+             "display_name_all" => "Is this a permanent location?"
             }),
   Field.new({"name" => "relation_location_current",
              "type" => "text_field",

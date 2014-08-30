@@ -5,13 +5,17 @@ module DocumentHelper
     @documents = []
     self['other_documents'] ||= []
     self['document_keys'] ||= []
-    new_documents.each do |uploaded_document|
-      @documents.push uploaded_document
-      @document_file_name = uploaded_document.original_filename
-      attachment = FileAttachment.from_uploadable_file uploaded_document, "document-#{uploaded_document.path.hash}"
-      self['document_keys'].push attachment.name
-      self['other_documents'].push({:file_name => @document_file_name, :attachment_key => attachment.name})
-      attach attachment
+    new_documents.each_key do |key|
+      uploaded_document = new_documents[key]["document"]
+      document_description = new_documents[key]["document_description"]
+      if uploaded_document.present?
+        @documents.push uploaded_document
+        @document_file_name = uploaded_document.original_filename
+        attachment = FileAttachment.from_uploadable_file uploaded_document, "document-#{uploaded_document.path.hash}"
+        self['document_keys'].push attachment.name
+        self['other_documents'].push({:file_name => @document_file_name, :attachment_key => attachment.name, :document_description => document_description})
+        attach attachment
+      end
     end
   end
 
