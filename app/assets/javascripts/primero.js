@@ -45,6 +45,8 @@ $(document).ready(function() {
     topSpacing: 50,
     bottomSpacing: 40 
   });
+  
+  $(".filter-chosen").chosen();
 
   stickem.on('sticky-start', function() { $(this).addClass('sticking') });
   stickem.on('sticky-end', function() { $(this).removeClass('sticking')  });

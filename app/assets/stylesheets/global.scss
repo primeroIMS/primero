@@ -47,10 +47,6 @@ table {
   background: none;
 }
 
-table tr:nth-child(odd){
-  background: #ebebeb !important;
-}
-
 table.list_view, table.record_list_view {
   border:none;
   margin-bottom: 20px;
@@ -80,9 +76,14 @@ table.list_view, table.record_list_view {
       &.id_column{
         min-width: 105px;
       }
+      &.sorting_1 {
+        background: #ebebeb;
+      }
     }
   }
 }
+
+
 
 .table_spacer {
   height: 60px;
@@ -596,14 +597,20 @@ header {
 }
 
 a.logo {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Roboto-Slab-Light', serif;
   font-size: 3rem;
-  font-weight: bold;
 
   &:hover {
     text-decoration: none;
   }
 
+}
+
+.sublogo {
+  clear: left;
+  float: left;
+  margin-top: 14px;
+  font-size: 1rem;
 }
 
 ul.links {
@@ -1097,5 +1104,64 @@ fieldset {
 
   .row:nth-child(2n+1) .section {
     background: none repeat scroll 0 0 #fff;
+  }
+}
+
+////////////////////////////////////////////////
+// Index filters
+////////////////////////////////////////////////
+
+.index_filters {
+  padding: 0;
+  margin-top: 32px;
+
+  .title {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+  }
+
+  .filter {
+    .filter-controls {
+      padding: 10px;
+    }
+
+    input[type="checkbox"] {
+      margin: 0;
+    }
+  }
+
+  h3 {
+    background: #ccc;
+    font-size: 0.8rem;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .panel {
+    padding: 0;
+    border: none;
+  }
+}
+
+////////////////////////////////////////////////
+// Dropdowns
+////////////////////////////////////////////////
+
+.f-dropdown {
+  -webkit-box-shadow: 0 0 3px 0 rgba(0,0,0,.3);
+  box-shadow: 0 0 3px 0 rgba(0,0,0,.3);
+
+  li {
+    &:not(:last-child) {
+      border-bottom: 1px dashed #ccc;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:before, &:after {
+    border: none !important
   }
 }

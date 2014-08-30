@@ -2072,6 +2072,7 @@
 		/* Loop over the user set positioning and place the elements as needed */
 		var aDom = oSettings.sDom.split('');
 		var featureNode, cOption, nNewNode, cNext, sAttr, j;
+		console.log(oSettings.sDom)
 		for ( var i=0 ; i<aDom.length ; i++ )
 		{
 			featureNode = null;
@@ -6165,7 +6166,7 @@
 				if ( oInit.sDom === defaults.sDom && defaults.sDom === "lfrtip" )
 				{
 					/* Set the DOM to use a layout suitable for jQuery UI's theming */
-					oSettings.sDom = '<"H"lfr>t<"F"ip>';
+					oSettings.sDom = '<"H"fr>t<"F"ip>';
 				}
 			
 				if ( ! oSettings.renderer ) {

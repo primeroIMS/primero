@@ -42,7 +42,14 @@ module Searchable
     # TODO: Exclude duplicates I presume?
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
       self.search do
-        filters.each{|filter,value| with(filter, value) unless value == 'all'} if filters.present?
+        if filters.present?
+          filters.each do |filter,value|
+            value = value.split(",")
+            value.each do |v|
+              with(filter, v) unless v == 'all'
+            end
+          end
+        end
         with(:created_by, owner) if owner.present?
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination

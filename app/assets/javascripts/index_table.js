@@ -31,13 +31,15 @@ var IndexTable = Backbone.View.extend({
     this.list_view_table = $('.record_list_view').DataTable({
       searching: false,
       language: {
-        info: self.pagination.info
+        info: self.pagination.info,
+        lengthMenu: self.pagination.per_translation
       },
       pageLength: self.pagination.per,
       primero_start: self.pagination.start,
       primero_total: self.pagination.total,
       responsive: true,
-      aaSorting: []
+      aaSorting: [],
+      sDom: 'fritlp',
     });
   },
 

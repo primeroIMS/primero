@@ -41,4 +41,28 @@ module IndexHelper
 			[]
 		end
 	end
+
+	def build_checkboxes(filter, items)
+		content_tag :div, class: 'filter-controls' do
+			items.each do |item|
+				if item.is_a?(Hash)
+					key = item.keys.first
+					label = item[key]
+					item = key.to_s
+				else
+					label = item
+				end
+				concat(check_box_tag filter, item.gsub('_', ' '), nil, id: "#{filter}_#{item}")
+				concat(label_tag "#{filter}_#{item}", label.gsub('_', ' ').titleize)
+				concat('<br>'.html_safe)
+			end
+		end
+	end
+
+	def build_filter_checkboxes(title, filter, items)
+		content_tag :div, class: 'filter' do
+			concat(content_tag(:h3, title))
+			concat(build_checkboxes(filter, items))
+		end
+	end
 end

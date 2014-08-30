@@ -3,19 +3,28 @@
 ////////////////////////////////////////////////
 
 @import "foundation/functions";
-@import "compass/css3/images";
+@import "compass/css3";
 
 ////////////////////////////////////////////////
 // Fonts
 ////////////////////////////////////////////////
 
-$headline-font-family: libreBaskerville, sans-serif;
-$primary-font-family: libreBaskerville, sans-serif;
-$secondary-font-family: libreBaskerville, sans-serif;
+@include font-face("Roboto", font-files(asset-path('Roboto-Regular.ttf'), asset-path('Roboto-Regular.woff')));
+@include font-face("Roboto-Slab", font-files(asset-path('RobotoSlab-Regular.ttf'), asset-path('RobotoSlab-Regular-webfont.woff')));
+@include font-face("Roboto-Bold", font-files(asset-path('Roboto-Bold.ttf'), asset-path('Roboto-Bold-webfont.woff')));
+@include font-face("Roboto-Slab-Light", font-files(asset-path('RobotoSlab-Light.ttf'), asset-path('RobotoSlab-Light-webfont.woff')));
+
+$headline-font-family: 'Roboto', sans-serif;
+$primary-font-family: 'Roboto', sans-serif;
+$secondary-font-family: 'Roboto', sans-serif;
 
 $base-font-size: 16px;
 $rem-base: $base-font-size;
 
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 ////////////////////////////////////////////////
 // Colors
