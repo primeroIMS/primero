@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="large-12 columns">
+  <div class="large-9 columns">
     <%= render :partial => "record_shared/header", locals: { model: model, record: record, modules: @current_modules } %>
     <div class="clearfix"></div>
 
@@ -7,6 +7,7 @@
       TODO: For now the filter and order-by have been removed as per PRIMRO-105.
       We will need to put them back in.
     %>
+    <% if false %>
     <div class="filter_bar" style="display: none;">
       <div class="row">
         <div class="large-6 medium-6 columns">
@@ -25,6 +26,7 @@
         </div>
       </div>
     </div>
+    <% end %>
     <table width="100%" class="record_list_view" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
@@ -40,6 +42,9 @@
       </tbody>
     </table>
     <div class="table_spacer"></div>
+  </div>
+  <div class="large-3 columns index_filters">
+    <%= render "record_shared/#{record.pluralize}_filter" rescue nil %>
   </div>
 </div>
 <%= render :partial => 'shared/pagination', :locals => { :results => collection, :total => @total_records, :per => @per_page } %>
