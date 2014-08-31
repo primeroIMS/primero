@@ -97,6 +97,7 @@ module Record
       record['record_state'] = "Valid record" if record['record_state'].blank?
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
+      record['owned_by'] ||= user.user_name
       record
     end
 
