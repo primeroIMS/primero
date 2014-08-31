@@ -88,7 +88,6 @@ class ChildrenController < ApplicationController
     reindex_hash params['child']
     create_or_update_child(params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
-    @child['created_by_full_name'] = current_user_full_name
     @child['child_status'] = "Open" if @child['child_status'].blank?
 
     respond_to do |format|
@@ -120,7 +119,6 @@ class ChildrenController < ApplicationController
 
           child = create_or_update_child(params[:child].merge(:verified => current_user.verified?))
 
-          child['created_by_full_name'] = current_user.full_name
           if child.save
             render :json => child.compact.to_json
           end

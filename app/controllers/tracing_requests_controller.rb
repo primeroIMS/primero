@@ -81,7 +81,6 @@ class TracingRequestsController < ApplicationController
     reindex_hash params['tracing_request']
     create_or_update_tracing_request(params[:tracing_request])
     params[:tracing_request][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
-    @tracing_request['created_by_full_name'] = current_user_full_name
 
     respond_to do |format|
       if @tracing_request.save
@@ -251,7 +250,6 @@ class TracingRequestsController < ApplicationController
   end
 
   def update_tracing_request_with_attachments(tracing_request, params)
-    tracing_request['last_updated_by_full_name'] = current_user_full_name
     new_photo = params[:tracing_request].delete("photo")
     new_photo = (params[:tracing_request][:photo] || "") if new_photo.nil?
     new_audio = params[:tracing_request].delete("audio")

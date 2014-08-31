@@ -81,7 +81,6 @@ class IncidentsController < ApplicationController
     reindex_hash params['incident']
 
     create_or_update_incident(params[:incident])
-    @incident['created_by_full_name'] = current_user_full_name
 
     respond_to do |format|
       if @incident.save
@@ -201,7 +200,6 @@ class IncidentsController < ApplicationController
   end
 
   def update_incident_with_attachments(incident, params)
-    incident['last_updated_by_full_name'] = current_user_full_name
     # new_photo = params[:child].delete("photo")
     # new_photo = (params[:child][:photo] || "") if new_photo.nil?
     # new_audio = params[:child].delete("audio")
