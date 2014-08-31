@@ -295,9 +295,9 @@ describe User do
     before do
       User.all.each &:destroy
 
-      @upper_manager = create :user
-      @middle_manager1 = create :user, reporting_hierarchy: [@upper_manager.user_name]
-      @middle_manager2 = create :user, reporting_hierarchy: [@upper_manager.user_name]
+      @upper_manager = create :user, is_manager: true
+      @middle_manager1 = create :user, reporting_hierarchy: [@upper_manager.user_name], is_manager: true
+      @middle_manager2 = create :user, reporting_hierarchy: [@upper_manager.user_name], is_manager: true
       @grunt1 = create :user, reporting_hierarchy: [@upper_manager.user_name, @middle_manager1.user_name]
       @grunt2 = create :user, reporting_hierarchy: [@upper_manager.user_name, @middle_manager1.user_name]
       @grunt3 = create :user, reporting_hierarchy: [@upper_manager.user_name, @middle_manager2.user_name]
@@ -321,6 +321,27 @@ describe User do
       expect(User).to_not receive(:get)
       expect(User).to_not receive(:by_user_name)
       @upper_manager.all_reports
+    end
+
+    it "adds user as a manager" do
+      user1 = create :user
+      user2 = create :user
+
+      user1.set_manager(user2)
+
+      expect(user2.is_manager?).to be_true
+      expect(user2.all_reports).to match_array [user1]
+    end
+
+    it "removes a user as a manager if the user has no more reports left" do
+      user1 = create :user
+      user2 = create :user, is_manager: true
+      user3 = create :user, reporting_hierarchy: [user2.user_name]
+
+      user3.set_manager(user1)
+
+      expect(user1.is_manager?).to be_true
+      expect(user2.is_manager?).to be_false
     end
 
   end

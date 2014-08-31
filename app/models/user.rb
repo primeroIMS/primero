@@ -22,6 +22,7 @@ class User < CouchRest::Model::Base
   property :time_zone, :default => "UTC"
   property :locale
   property :module_ids, :type => [String]
+  property :is_manager, TrueClass, :default => false
   property :reporting_hierarchy, :type => [String]
 
   attr_accessor :password_confirmation, :password
@@ -203,9 +204,23 @@ class User < CouchRest::Model::Base
     return response
   end
 
+
   def set_manager(manager_user)
+    #See if the old manager ceases to be a manager
+    current_manager = self.get_manager
+    if current_manager.present?
+      reports_of_current_manager = current_manager.all_reports
+      if reports_of_current_manager.size == 1
+        current_manager.is_manager = false
+        current_manager.save
+      end
+    end
+    #Switch the user over to a new manager
     reporting_hierarchy_of_manager = (manager_user.reporting_hierarchy.present? ? manager_user.reporting_hierarchy : [])
     self.reporting_hierarchy = reporting_hierarchy_of_manager + [manager_user.user_name]
+    manager_user.is_manager = true
+    manager_user.save
+    self.save
   end
 
   def get_manager
@@ -217,7 +232,16 @@ class User < CouchRest::Model::Base
   end
 
   def remove_manager
+    current_manager = self.get_manager
+    if current_manager.present?
+      reports_of_current_manager = current_manager.all_reports
+      if reports_of_current_manager.size == 1
+        current_manager.is_manager = false
+        current_manager.save
+      end
+    end
     self.reporting_hierarchy = nil
+    self.save
   end
 
   def is_manager?
