@@ -11,7 +11,8 @@ def create_or_update_user(user_hash)
        "user_name" => user_hash["user_name"],
        "full_name" => user_hash["full_name"],
        "role_ids" => user_hash["role_ids"],
-       "module_ids" => user_hash["module_ids"]
+       "module_ids" => user_hash["module_ids"],
+       "reporting_hierarchy" => user_hash["reporting_hierarchy"],
     }
     user.update_attributes user_attributes
   end
@@ -28,7 +29,8 @@ create_or_update_user(
   "disabled" => "false",
   "organisation" => "N/A",
   "role_ids" => Role.by_name.all.map{|r| r.id},
-  "module_ids" => PrimeroModule.by_name.all.map{|m| m.id}
+  "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
+  "is_manager" => "true"
 )
 
 create_or_update_user(
@@ -43,7 +45,8 @@ create_or_update_user(
     Role.by_name(:key => "Worker: Cases").first.id,
     Role.by_name(:key => "Worker: Tracing Requests").first.id
   ],
-  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id]
+  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+  "reporting_hierarchy" => ["primero"]
 )
 
 create_or_update_user(
@@ -58,7 +61,8 @@ create_or_update_user(
     Role.by_name(:key => "Worker: Incidents").first.id,
     Role.by_name(:key => "Worker: Cases").first.id
   ],
-  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id]
+  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+  "reporting_hierarchy" => ["primero"]
 )
 
 create_or_update_user(
@@ -70,5 +74,6 @@ create_or_update_user(
   "disabled" => "false",
   "organisation" => "N/A",
   "role_ids" => [Role.by_name(:key => "Worker: Incidents").first.id],
-  "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id]
+  "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
+  "reporting_hierarchy" => ["primero"]
 )

@@ -200,13 +200,14 @@ class User < CouchRest::Model::Base
 
   def all_reports
     response = User.by_manager(key: self.user_name)
-    response = response.all if response.present?
+    response = response.present? ? response.all : []
     return response
   end
 
 
   def set_manager(manager_user)
     #See if the old manager ceases to be a manager
+    #TODO: combine code with remove manager code below
     current_manager = self.get_manager
     if current_manager.present?
       reports_of_current_manager = current_manager.all_reports
@@ -221,6 +222,7 @@ class User < CouchRest::Model::Base
     manager_user.is_manager = true
     manager_user.save
     self.save
+    #TODO: add code for updating the reports of the manager
   end
 
   def get_manager
