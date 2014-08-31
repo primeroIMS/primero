@@ -8,8 +8,9 @@ module Ownable
     property :assigned_user_names, :type => [String]
     property :module_id
 
-    validates_presence_of :associated_user_names, message: I18n.t("errors.models.ownership.associated_user_names_present")
-    validates_presence_of :module_id,  message: I18n.t("errors.models.ownership.module_id_present")
+    #TODO: Does it make sense to have these validations? We cannot guarantee that module and owner will be set all the time, can we?
+    #validates_presence_of :associated_user_names, message: I18n.t("errors.models.ownership.associated_user_names_present")
+    #validates_presence_of :module_id,  message: I18n.t("errors.models.ownership.module_id_present")
 
     def owner
       User.get(self.owned_by)  if self.owned_by

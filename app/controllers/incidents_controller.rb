@@ -11,7 +11,7 @@ class IncidentsController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
 
-    search = Incident.list_records filter, order, pagination, current_user_name
+    search = Incident.list_records filter, order, pagination, associated_users
     @incidents = search.results
     @total_records = search.total
     @per_page = per_page

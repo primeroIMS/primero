@@ -1,4 +1,4 @@
-<% if formObject.errors.any? %>
+<% if formObject.errors.any? && formObject.errors.messages[:section_errors].present? %>
     <div class="errorExplanation" id="errorExplanation">
       <h2>Errors prohibited this record from being saved</h2>
       <p>There were problems with the following fields:</p>

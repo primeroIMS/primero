@@ -12,7 +12,7 @@ class TracingRequestsController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
 
-    search = TracingRequest.list_records filter, order, pagination, current_user_name
+    search = TracingRequest.list_records filter, order, pagination, associated_users
     @tracing_requests = search.results
     @total_records = search.total
     @per_page = per_page
@@ -223,7 +223,7 @@ class TracingRequestsController < ApplicationController
       pager.replace(instances)
     end
   end
-  
+
   def tracing_request_short_id tracing_request_params
     tracing_request_params[:short_id] || tracing_request_params[:unique_identifier].last(7)
   end

@@ -29,4 +29,13 @@ module RecordFilteringPagination
   def filter
     params[:scope] || {}
   end
+
+  def associated_users
+    if current_user.is_manager?
+      #TODO: This method needs to change here once Josh gets the users filter in place on the index page
+      current_user.all_reports.map(&:user_name) + [current_user.user_name]
+    else
+      [current_user.user_name]
+    end
+  end
 end
