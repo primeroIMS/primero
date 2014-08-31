@@ -22,7 +22,7 @@ class User < CouchRest::Model::Base
   property :time_zone, :default => "UTC"
   property :locale
   property :module_ids, :type => [String]
-  property :direct_report_user_ids, :type => [String]
+  property :reporting_hierarchy, :type => [String]
 
   attr_accessor :password_confirmation, :password
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
@@ -74,6 +74,14 @@ class User < CouchRest::Model::Base
                     emit(doc);
                  }
              }"
+    view :by_manager,
+            :map => "function(doc) {
+              if (doc['couchrest-type'] == 'User' && doc['reporting_hierarchy']){
+                for(var i in doc['reporting_hierarchy']){
+                  emit(doc['reporting_hierarchy'][i], null);
+                }
+              }
+            }"
   end
 
 
@@ -188,6 +196,34 @@ class User < CouchRest::Model::Base
   def module_permitted_form_ids
     modules.compact.collect(&:associated_form_ids).flatten
   end
+
+  def all_reports
+    response = User.by_manager(key: self.user_name)
+    response = response.all if response.present?
+    return response
+  end
+
+  def set_manager(manager_user)
+    reporting_hierarchy_of_manager = (manager_user.reporting_hierarchy.present? ? manager_user.reporting_hierarchy : [])
+    self.reporting_hierarchy = reporting_hierarchy_of_manager + [manager_user.user_name]
+  end
+
+  def get_manager
+    manager = nil
+    if self.reporting_hierarchy.present?
+      manager = User.get(self.reporting_hierarchy.last)
+    end
+    return manager
+  end
+
+  def remove_manager
+    self.reporting_hierarchy = nil
+  end
+
+  def is_manager?
+    User.by_manager(key: self.user_name).first.present?
+  end
+
 
   def add_mobile_login_event imei, mobile_number
     self.mobile_login_history << MobileLoginEvent.new(:imei => imei, :mobile_number => mobile_number)
