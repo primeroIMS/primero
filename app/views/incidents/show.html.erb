@@ -6,38 +6,20 @@ $(function() {
       return false;
   });
 
-$(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
+  $(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
 
-$(".profile-tools .mark-as-form").hide();
+  $(".profile-tools .mark-as-form").hide();
 
-$(".profile-tools .flag a").click( function(){
-    $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
-
-$(".profile-tools .reunited a").click( function(){
-    $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
-$(".profile-tools .investigated a").click( function(){
-    $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
-
-  $('.sub_export_record').hide();
-
-  $('.export_record_link').click( function(e) {
-    e.preventDefault();
+  $(".profile-tools .flag a").click( function(){
+      $(this).parent().siblings('form').children('.mark-as-form').toggle();
   });
 
-  $('.export_record').click( function(e) {
-    var $sub = $(this).find(".sub_export_record");
-
-    if ( $sub.is(":hidden") ) {
-      $sub.slideDown("slow");
-    }
-    else {
-      $sub.hide();
-    }
+  $(".profile-tools .reunited a").click( function(){
+      $(this).parent().siblings('form').children('.mark-as-form').toggle();
   });
-
+  $(".profile-tools .investigated a").click( function(){
+      $(this).parent().siblings('form').children('.mark-as-form').toggle();
+  });
 });
 </script>
 <% end %>
@@ -51,7 +33,7 @@ $(".profile-tools .investigated a").click( function(){
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("incidents.label") %>: <%= text_to_identify_incident(@incident) %>
+  <%= t("incidents.label") %> #<%= text_to_identify_incident(@incident) %>
 <% end %>
 
 <% content_for :header_message do %>
