@@ -59,7 +59,7 @@
     <div class="table_spacer"></div>
   </div>
   <div class="large-3 columns index_filters">
-    <%= render "record_shared/#{record.pluralize}_filter" rescue nil %>
+    <%= render "#{record.pluralize}_filter" rescue nil %>
   </div>
 </div>
 <%= render :partial => 'shared/pagination', :locals => { :results => collection, :total => @total_records, :per => @per_page } %>
