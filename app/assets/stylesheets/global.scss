@@ -104,28 +104,12 @@ hr {
   a {
     margin-left: 2rem;
   }
-  a, button, input[type="submit"] {
-    font-size: 0.875rem;
-    font-weight: normal;
-  }
-}
-
-fieldset .row:nth-child(even).separator_field {
-  background: #f7f7f7;
 }
 
 .separator {
-  border-bottom: 1px solid #ddd;
   margin-bottom: 20px;
-  background: #f7f7f7;
-
-  span {
-    margin-bottom: -14px;
-    float: left;
-    padding: 5px 10px;
-    font-weight: bold;
-    background: #f7f7f7;
-  }
+  font-family: 'Roboto-Light', sans-serif;
+  font-size: $twentyfive_px;
 }
 
 .tab {
@@ -137,14 +121,17 @@ fieldset .row:nth-child(even).separator_field {
 ////////////////////////////////////////////////
 
 .green-button {
-  color: #fff !important;
-  border: 1px solid $grey_color !important;
+  color: $green_color !important;
+  border: 1px solid $stroke_green_color !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  font-size: $thirteen_px !important;
+  text-transform: uppercase;
   $padding: 0.5rem;
   $radius: false;
   $full-width: false;
   $disabled: false;
   $is-input: false;
-  $bg: $green_color;
+  $bg: $desat_green_color;
   @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
 }
 
@@ -162,7 +149,6 @@ fieldset .row:nth-child(even).separator_field {
 }
 
 .grey-button, .green-button {
-  font-size: .9rem;
   text-decoration: none !important;
 }
 
@@ -272,11 +258,7 @@ input[type="password"] {
 }
 
 input[type="submit"] {
-  border:1px solid $grey_color;
-  background: $green_color;
-  color: #FFF;
   width:100%;
-  text-transform: capitalize;
   cursor: pointer;
 }
 
@@ -318,6 +300,10 @@ fieldset {
     padding: 1.5rem .5rem .8rem;
     span.value {
       word-wrap: break-word;
+      background: $desat_green_color;
+      font-size: $thirteen_px;
+      padding: 5px;
+      min-height: 30px;
     }
   }
 
@@ -510,6 +496,12 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
       color: $green_color;
     }
   }
+
+  h4 {
+    font-size: $twenty_px;
+    font-family: 'Roboto-Medium', sans-serif;
+    color: $green_color;
+  }
 }
 
 .record_controls_container {
@@ -517,6 +509,22 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
   height: 80px;
   z-index: 9999;
   background: $white_color;
+}
+
+.index_controls_container {
+  width: 100%;
+  height: 50px;
+  z-index: 9999;
+  background: $white_color;
+  padding-top: 7px;
+
+  .pagination_info {
+    margin-top: 6px;
+  }
+
+  .large-9 {
+    padding: 0;
+  }
 }
 
 .sticking {
@@ -587,6 +595,11 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
 // Header
 ////////////////////////////////////////////////
 
+.header_container {
+  background: $desat_green_color;
+  width: 100%;
+}
+
 header {
   padding: 20px 0;
   margin-bottom: 20px;
@@ -597,8 +610,9 @@ header {
 }
 
 a.logo {
-  font-family: 'Roboto-Slab-Light', serif;
-  font-size: 3rem;
+  font-family: 'RobotoSlab-Thin', serif;
+  font-size: $sixtythree_px;
+  color: $green_color;
 
   &:hover {
     text-decoration: none;
@@ -610,12 +624,19 @@ a.logo {
   clear: left;
   float: left;
   margin-top: 14px;
-  font-size: 1rem;
+  font-size: $thirteen_px;
+}
+
+img.agency_logos {
+  float: right;
+  position: absolute;
+  right: 0;
+  margin-top: -10px;
 }
 
 ul.links {
   padding: 15px 0 0 0;
-  font-size: 0.875rem;
+  font-size: $thirteen_px;
 
   a {
     display: inline-block;
@@ -695,7 +716,7 @@ ul.links {
 
 nav {
   ul {
-    font-size:  0.875rem;
+    font-size:  $fifteen_px;
     list-style-type: none;
     font-weight: normal;
 
@@ -714,11 +735,11 @@ nav {
       }
 
       &:first-child:not(.has-form) {
-        border-left: solid 1px #4e4e4e;
+        border-left: solid 1px $light_green_color;
       }
 
       &:not(.has-form) {
-        border-right: solid 1px #4e4e4e;
+        border-right: solid 1px $light_green_color;
       }
 
       &.hash-form {
@@ -851,17 +872,26 @@ nav {
 // Side Tab
 ////////////////////////////////////////////////
 
+.side-tab-container, .side-tab {
+  width: 250px;
+}
+
+.side-tab-content-container {
+  width: 750px;
+}
+
 .side-tab {
   position: relative;
   border-top: none;
   min-height: 38rem;
   margin-bottom: 3rem;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid $stroke_green_color;
 
   a {
-    color: $green_color !important;
-    font-size: 1.1rem;
+    color: $grey_color !important;
+    font-size: $fifteen_px;
     padding: 0.4rem 1rem;
+    font-family: 'Roboto', sans-serif;
 
     &:hover {
       color: #fff !important;
@@ -873,14 +903,29 @@ nav {
 
 .side-tab-content {
   padding-left: 0;
-  background: #f1f1f1;
-  border-right: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  background: $light_green_color;
+  border-right: 1px solid $stroke_green_color;
+  border-top: 1px solid $stroke_green_color;
+  border-bottom: 1px solid $stroke_green_color;
+
+  label {
+    text-align: right;
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: $thirteen_px;
+  }
+
+  .row {
+    padding: 8px 30px !important;
+  }
 }
 
 .close-side-tab {
   padding-right: 0
+}
+
+li.group.current {
+  background: $desat_green_color;
+  border-right: 1px solid $stroke_green_color;
 }
 
 li.group a.group:after {
@@ -888,17 +933,21 @@ li.group a.group:after {
   float: right;
   color: #ccc;
   font-size: .9rem;
-  padding: 4px 0 4px;
+}
+
+li.group ul a {
+  font-family: 'Roboto', sans-serif;
+  font-size: $thirteen_px;
 }
 
 li.current {
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid $stroke_green_color;
+  border-bottom: 1px solid $stroke_green_color;
+  font-family: 'Roboto-Medium', sans-serif;
 
   &:not(.group) {
-    background: #f1f1f1;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #f1f1f1;
+    background: $light_green_color;
+    border-left: 1px solid $stroke_green_color;
   }
 
   a.group:after {
@@ -906,7 +955,6 @@ li.current {
     float: right;
     color: $green_color;
     font-size: 1.4rem;
-    padding: 4px 0 4px;
     margin-top: -8px
   }
 
@@ -915,7 +963,7 @@ li.current {
     float: right;
     color: $green_color;
     font-size: .9rem;
-    padding: 4px 0 4px;
+    padding: 2px 0 4px;
   }
 
   ul li.current a:after {
@@ -923,20 +971,20 @@ li.current {
     float: right;
     color: $green_color;
     font-size: .9rem;
-    padding: 4px 0 4px;
   }
 }
 
 ul.side-nav {
-  width: 333px;
+  width: 250px;
 
   li ul {
     display: none;
     list-style: none;
+    width: 230px;
   }
 
   li .panel {
-    width: 325px;
+    width: 240px;
 
     strong {
       text-transform: uppercase;
@@ -945,7 +993,7 @@ ul.side-nav {
     a {
       padding: 0;
       display: inline;
-      font-size: 1rem;
+      font-size: $fifteen_px;
 
       &:hover {
         color: $grey_color !important;
@@ -1113,7 +1161,6 @@ fieldset {
 
 .index_filters {
   padding: 0;
-  margin-top: 32px;
 
   .title {
     text-transform: uppercase;
@@ -1140,6 +1187,17 @@ fieldset {
   .panel {
     padding: 0;
     border: none;
+  }
+
+  .field-controls-multi {
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 100px;
+    margin: 5px 0 10px;
+  }
+
+  label {
+    font-size: 0.8rem
   }
 }
 
