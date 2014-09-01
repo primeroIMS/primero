@@ -27,6 +27,7 @@ class User < CouchRest::Model::Base
 
   alias_method :agency, :organisation
   alias_method :agency=, :organisation=
+  alias_method :name, :user_name
 
   attr_accessor :password_confirmation, :password
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
