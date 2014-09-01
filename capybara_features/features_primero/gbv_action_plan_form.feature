@@ -1,7 +1,7 @@
 # JIRA PRIMERO-489
 
 @javascript @primero
-Feature: Incidents Form
+Feature: GBV Action Plan Form
   As a Social GBV Worker / Data Entry Person, I want to create an case record in Primero 
   so that I can enter details about a GBV action plan.
 
