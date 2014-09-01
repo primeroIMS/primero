@@ -53,7 +53,8 @@ create_or_update_module(
   associated_form_ids: [
     "record_owner", "gbv_survivor_information", "gbv_data_confidentiality", "followup", "services",
     "closure_form", "other_documents",
-    "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form"
+    "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
+    "gbv_sexual_violence"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
