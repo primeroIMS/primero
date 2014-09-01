@@ -26,16 +26,19 @@ gbv_individual_details_fields = [
             }),
   Field.new({"name" => "ethnicity",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "What is the ethnic affiliation of the individual?",
              "option_strings_source" => "lookup Ethnicity"
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "What is the national affiliation of the individual?",
              "option_strings_source" => "lookup Nationality"
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "What is the religious affiliation of the individual?",
              "option_strings_source" => "lookup Religion"
             }),
