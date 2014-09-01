@@ -7,7 +7,7 @@
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("incidents.label") %>: <%= text_to_identify_incident(@incident) %>
+  <%= t("incidents.label") %> #<%= text_to_identify_incident(@incident) %>
 <% end %>
 
 <% content_for :header_message do %>    
