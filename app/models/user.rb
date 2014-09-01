@@ -25,6 +25,9 @@ class User < CouchRest::Model::Base
   property :is_manager, TrueClass, :default => false
   property :reporting_hierarchy, :type => [String]
 
+  #agency
+  property :agency_id
+
   attr_accessor :password_confirmation, :password
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
 
