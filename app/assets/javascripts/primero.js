@@ -73,13 +73,12 @@ $(document).ready(function() {
     $('form.default-form').submit();
   });
 
-  var stickem = $(".record_controls_container").sticky({ 
-    topSpacing: 50,
-    bottomSpacing: 40 
+  var control = $(".record_controls_container, .index_controls_container"),
+      stickem = control.sticky({ 
+    topSpacing: control.data('top'),
+    bottomSpacing: control.data('bottom') 
   });
-  
-  $(".filter-chosen").chosen();
-
+      
   stickem.on('sticky-start', function() { $(this).addClass('sticking') });
   stickem.on('sticky-end', function() { $(this).removeClass('sticking')  });
 });

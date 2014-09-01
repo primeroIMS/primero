@@ -42,8 +42,8 @@ module IndexHelper
 		end
 	end
 
-	def build_checkboxes(filter, items)
-		content_tag :div, class: 'filter-controls' do
+	def build_checkboxes(filter, items, type)
+		content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
 			items.each do |item|
 				if item.is_a?(Hash)
 					key = item.keys.first
@@ -59,10 +59,23 @@ module IndexHelper
 		end
 	end
 
-	def build_filter_checkboxes(title, filter, items)
+	def build_filter_checkboxes(title, filter, items, type = false)
 		content_tag :div, class: 'filter' do
 			concat(content_tag(:h3, title))
-			concat(build_checkboxes(filter, items))
+			concat(build_checkboxes(filter, items, type))
+		end
+	end
+
+	def build_datefield(filter)
+		content_tag :div, class: 'filter-controls' do
+			concat(text_field_tag filter, nil, class: 'form_date_field')
+		end
+	end
+
+	def build_filter_date(title, filter)
+		content_tag :div, class: 'filter' do
+			concat(content_tag(:h3, title))
+			concat(build_datefield(filter))
 		end
 	end
 end
