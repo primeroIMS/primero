@@ -6,38 +6,20 @@ $(function() {
       return false;
   });
 
-$(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
+  $(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
 
-$(".profile-tools .mark-as-form").hide();
+  $(".profile-tools .mark-as-form").hide();
 
-$(".profile-tools .flag a").click( function(){
-    $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
-
-$(".profile-tools .reunited a").click( function(){
-    $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
-$(".profile-tools .investigated a").click( function(){
-    $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
-
-  $('.sub_export_record').hide();
-
-  $('.export_record_link').click( function(e) {
-    e.preventDefault();
+  $(".profile-tools .flag a").click( function(){
+      $(this).parent().siblings('form').children('.mark-as-form').toggle();
   });
 
-  $('.export_record').click( function(e) {
-    var $sub = $(this).find(".sub_export_record");
-
-    if ( $sub.is(":hidden") ) {
-      $sub.slideDown("slow");
-    }
-    else {
-      $sub.hide();
-    }
+  $(".profile-tools .reunited a").click( function(){
+      $(this).parent().siblings('form').children('.mark-as-form').toggle();
   });
-
+  $(".profile-tools .investigated a").click( function(){
+      $(this).parent().siblings('form').children('.mark-as-form').toggle();
+  });
 });
 </script>
 <% end %>
@@ -64,12 +46,12 @@ $(".profile-tools .investigated a").click( function(){
 <% end %>
     
 <div class="page-content-new row collapse" data-equalizer>
-  <div class="large-4 medium-4 columns close-side-tab">
+  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
     <div class="side-tab" data-equalizer-watch>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
-  <div class="large-8 medium-8 columns">
+  <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <%# Removed for demo deploy %>
       <%= render :partial => 'shared/sidebar' if false %>

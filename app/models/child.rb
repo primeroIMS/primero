@@ -123,7 +123,7 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_documents_file_type
-    return true if @documents.blank? || @documents.all? { |document| (/application\/(x-ms-dos-executable)/ =~ document.content_type).nil? }
+    return true if @documents.blank? || @documents.all? { |document| !document.original_filename.ends_with? ".exe" }
     errors.add(:document, "errors.models.child.document_format")
     error_with_section(:upload_document, I18n.t("errors.models.child.document_format"))
   end

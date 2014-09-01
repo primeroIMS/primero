@@ -14,7 +14,7 @@ Feature: Family Details Form
   As a Social worker, I want to enter the information related to the family details.
   
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Family / Partner Details" button
@@ -40,7 +40,7 @@ Feature: Family Details Form
       |Comments                                              | Some Comments About Coco                   |
       |Occupation                                            | Some Ocupation About Coco                  |
       |Current Address                                       | Coco's Current Address                     |
-      |Is this a permanent location?                         | <Radio> Yes                                |
+      |Is this a permanent location?                         | <Tickbox>                                  |
       |Current Location                                      | Coco's Current Location                    |
       |Last Known Address                                    | Coco's Last Known Address                  |
       |Last Known Location                                   | Coco's Last Known Location                 |
@@ -60,7 +60,6 @@ Feature: Family Details Form
       |Comments                                              | Some Comments About Pepe                   |
       |Occupation                                            | Some Ocupation About Pepe                  |
       |Current Address                                       | Pepe's Current Address                     |
-      |Is this a permanent location?                         | <Radio> No                                 |
       |Current Location                                      | Pepe's Current Location                    |
       |Last Known Address                                    | Pepe's Last Known Address                  |
       |Last Known Location                                   | Pepe's Last Known Location                 |
@@ -115,9 +114,11 @@ Feature: Family Details Form
 
   Scenario: I create a case that auto calculate date of birth for family detail
     And I fill in the 1st "Family Details Section" subform with the follow:
-      | Age | 39 |
+      | Age   | 39      |
+      |Name   | Pedro   |
     And I fill in the 2nd "Family Details Section" subform with the follow:
-      | Age | 25 |
+      | Age   | 25      |
+      |Name   | Pedro   |
     And the value of "Date of Birth" in the 1st "Family Details Section" subform should be January 1, "39" years ago
     And the value of "Date of Birth" in the 2nd "Family Details Section" subform should be January 1, "25" years ago
     And I press "Save"
@@ -132,8 +133,10 @@ Feature: Family Details Form
   Scenario: I create a case that auto calculate age for family detail
     And I fill in the 1st "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1975 |
+      |Name           | Pedro       |
     And I fill in the 2nd "Family Details Section" subform with the follow:
       | Date of Birth | 01-Jan-1989 |
+      |Name           | Pedro       |
     And the value of "Age" in the 1st "Family Details Section" subform should be the calculated age of someone born in "1975"
     And the value of "Age" in the 2nd "Family Details Section" subform should be the calculated age of someone born in "1989"
     And I press "Save"
