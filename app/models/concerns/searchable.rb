@@ -47,6 +47,7 @@ module Searchable
     # TODO: location, and date filters are still outstanding.
     # TODO: Also need integration/unit test for filters.
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[])
+      #TODO: Are the filters additive?
       self.search do
         if filters.present?
           filters.each do |filter,value|
@@ -56,7 +57,13 @@ module Searchable
             end
           end
         end
-        with(:associated_user_names, associated_user_names) if associated_user_names.present?
+        if associated_user_names.present?
+          any_of do
+            associated_user_names.each do |user_name|
+              with(:associated_user_names, user_name)
+            end
+          end
+        end
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
       end
