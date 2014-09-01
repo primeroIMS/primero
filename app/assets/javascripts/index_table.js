@@ -39,7 +39,7 @@ var IndexTable = Backbone.View.extend({
       primero_total: self.pagination.total,
       responsive: true,
       aaSorting: [],
-      sDom: 'fritlp',
+      sDom: 'frtlp',
     });
   },
 

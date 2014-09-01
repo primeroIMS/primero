@@ -32,32 +32,6 @@ sexual_violence_subform_fields = [
                                      "Forced Sterilization",
                                      "Other"].join("\n")
             }),
-  Field.new({"name" => "gbv_type",
-             "type" => "select_box",
-             "display_name_all" => "Type of GBV",
-             "option_strings_text_all" =>
-                                    ["Rape",
-                                     "Sexual Assault",
-                                     "Physical Assault",
-                                     "Forced Marriage",
-                                     "Denial of Resources, Opportunities, or Services",
-                                     "Psychological/Emotional Abuse",
-                                     "Non-GBV"].join("\n")
-            }),
-  Field.new({"name" => "non_gbv_tyoe_notes",
-             "type" => "textarea",
-             "display_name_all" => "If Non-GBV, describe"
-            }),
-  Field.new({"name" => "harmful_traditional_practice",
-             "type" => "select_box",
-             "display_name_all" => "Was this incident a Harmful Traditional Practice",
-             "option_strings_text_all" => "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nNo"
-            }),
-  Field.new({"name" => "goods_money_exchanged",
-             "type" => "radio_button",
-             "display_name_all" => "Were money, goods, benefits, and/or services exchanged in relation to the incident?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
-            }),
   Field.new({"name" => "displacement_at_time_of_incident",
              "type" => "select_box",
              "display_name_all" => "Stage of displacement at time of incident",
@@ -77,37 +51,6 @@ sexual_violence_subform_fields = [
                                      "Forced Conscription",
                                      "Trafficked",
                                      "Other Abduction/Kidnapping"].join("\n")
-            }),
-  Field.new({"name" => "gbv_reported_elsewhere",
-             "type" => "radio_button",
-             "display_name_all" => "Has the client reported this incident anywhere else?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
-            }),
-  Field.new({"name" => "gbv_reported_elsewhere_organization_type",
-             "type" => "select_box",
-             "display_name_all" => "If yes, type of service provider where the survivor reported the incident",
-             "option_strings_text_all" =>
-                                    ["Health/Medical Services",
-                                     "Psychosocial/Counseling Services",
-                                     "Police/Other Security Actor",
-                                     "Legal Assistance Services",
-                                     "Livelihoods Program",
-                                     "Safe House/Shelter",
-                                     "Other"].join("\n")
-            }),
-  Field.new({"name" => "gbv_reported_elsewhere_organization_provider",
-             "type" => "text_field",
-             "display_name_all" => "Name of the service provider"
-            }),
-  Field.new({"name" => "gbv_reported_elsewhere_reporting",
-             "type" => "radio_button",
-             "display_name_all" => "Is this a GBV reporting organization?",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "gbv_previous_incidents",
-             "type" => "radio_button",
-             "display_name_all" => "Has the client had any previous incidents of GBV perpetrated against them?",
-             "option_strings_text_all" => "Yes\nNo"
             })
 ]
 
