@@ -65,7 +65,7 @@ gbv_data_confidentiality_fields = [
             }),
   Field.new({"name" => "consent_to_share_info_by_livelihoods",
              "type" => "radio_button",
-             "display_name_all" => "Consent to Release Information Livelihoods Services",
+             "display_name_all" => "Consent to Release Information to Livelihoods Services",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "consent_to_share_livelihoods_organization",
