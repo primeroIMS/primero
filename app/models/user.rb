@@ -212,21 +212,46 @@ class User < CouchRest::Model::Base
   def set_manager(manager_user)
     #See if the old manager ceases to be a manager
     #TODO: combine code with remove manager code below
+
+    #Figure out the new reporting hierarchy
+    reporting_hierarchy_of_manager = (manager_user && manager_user.reporting_hierarchy.present? ? manager_user.reporting_hierarchy : [])
+    new_reporting_hierarchy = reporting_hierarchy_of_manager
+    if manager_user
+      new_reporting_hierarchy += [manager_user.user_name]
+    end
+
+    #Figure out all reporting users to update
     current_manager = self.get_manager
+    reports_of_current_manager = []
+    users_to_update = []
     if current_manager.present?
       reports_of_current_manager = current_manager.all_reports
-      if reports_of_current_manager.size == 1
+      users_to_update = reports_of_current_manager.select do |user|
+        (user.user_name == self.user_name) || (user.reporting_hierarchy.include? self.user_name)
+      end
+      if reports_of_current_manager.size == users_to_update.size
         current_manager.is_manager = false
         current_manager.save
       end
+    else
+      users_to_update = self.all_reports + [self]
     end
-    #Switch the user over to a new manager
-    reporting_hierarchy_of_manager = (manager_user.reporting_hierarchy.present? ? manager_user.reporting_hierarchy : [])
-    self.reporting_hierarchy = reporting_hierarchy_of_manager + [manager_user.user_name]
-    manager_user.is_manager = true
-    manager_user.save
-    self.save
-    #TODO: add code for updating the reports of the manager
+
+    #Update those users
+    users_to_update.each do |user|
+      old_hierarchy = user.reporting_hierarchy
+      index_of_self = old_hierarchy.find_index(self.user_name) || old_hierarchy.length
+      user.reporting_hierarchy = new_reporting_hierarchy +
+        old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
+      user.save
+    end
+
+    #update the new manager to make sure its a manager
+    unless manager_user.is_manager
+      manager_user.is_manager = true
+      manager_user.save
+    end
+
   end
 
   def get_manager
@@ -238,16 +263,7 @@ class User < CouchRest::Model::Base
   end
 
   def remove_manager
-    current_manager = self.get_manager
-    if current_manager.present?
-      reports_of_current_manager = current_manager.all_reports
-      if reports_of_current_manager.size == 1
-        current_manager.is_manager = false
-        current_manager.save
-      end
-    end
-    self.reporting_hierarchy = nil
-    self.save
+    self.set_manager nil
   end
 
   def is_manager?
