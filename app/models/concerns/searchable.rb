@@ -40,6 +40,8 @@ module Searchable
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
+    # TODO: location, caseworker, and date filters are still outstanding.
+    # TODO: Also need integration/unit test for filters.
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
       self.search do
         if filters.present?
