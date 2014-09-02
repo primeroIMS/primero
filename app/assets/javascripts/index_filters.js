@@ -7,7 +7,7 @@ var IndexFilters = Backbone.View.extend({
   form: 'form#index_filter_form',
 
   events: {
-    'click input[type="checkbox"': 'change_scope'
+    'click input[type="checkbox"]': 'change_scope'
   },
 
   initialize: function() {
