@@ -42,8 +42,6 @@ health_medical_referral_subform_section = FormSection.create_or_update_form_sect
   :parent_form=>"incident",
   "editable" => true,
   :fields => health_medical_referral_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Health/Medical Referral Subform",
   "description_all" => "Nested Health/Medical Referral Subform"
 })
@@ -100,8 +98,6 @@ psychosocial_counseling_services_subform_section = FormSection.create_or_update_
   :parent_form=>"incident",
   "editable" => true,
   :fields => psychosocial_counseling_services_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Psychosocial/Counseling Services Subform",
   "description_all" => "Nested Psychosocial/Counseling Services Subform"
 })

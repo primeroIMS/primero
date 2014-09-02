@@ -66,7 +66,6 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Intervention",
   :fields => intervention_fields,
-  :perm_visible => true,
   "editable" => true,
   "name_all" => "Intervention",
   "description_all" => "Intervention"

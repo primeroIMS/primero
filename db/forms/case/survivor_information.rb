@@ -160,7 +160,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Identification / Registration",
   "editable" => true,
   :fields => survivor_information_fields,
-  :perm_enabled => true,
   "name_all" => "Survivor Information",
   "description_all" => "Survivor Information"
 })

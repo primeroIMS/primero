@@ -48,7 +48,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Survivor Assessment",
   "editable" => true,
   :fields => survivor_assessment_fields,
-  :perm_enabled => true,
   "name_all" => "Survivor Assessment",
   "description_all" => "Survivor Assessment"
 })

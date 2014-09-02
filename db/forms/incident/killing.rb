@@ -110,8 +110,6 @@ killing_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => killing_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Killing Subform",
   "description_all" => "Nested Killing Subform",
   :initial_subforms => 1,
@@ -136,7 +134,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => killing_fields,
-  :perm_enabled => true,
   "name_all" => "Killing",
   "description_all" => "Killing"
 })

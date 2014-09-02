@@ -167,7 +167,6 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Incident",
   :fields => incident_fields,
-  :perm_visible => true,
   :is_first_tab => true,
   "editable" => true,
   "name_all" => "Incident",

@@ -79,7 +79,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Identification / Registration",
   "editable" => true,
   :fields => other_identity_details_fields,
-  :perm_enabled => true,
   "name_all" => "Other Identity Details",
   "description_all" => "Other Identity Details"
 })
