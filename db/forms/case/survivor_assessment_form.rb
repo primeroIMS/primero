@@ -23,17 +23,18 @@ survivor_assessment_fields = [
   Field.new({"name" => "assessment_other_info",
              "type" => "select_box",
              "display_name_all" => "How safe does the survivor feel at home?",
-             "option_strings_text_all" => ["Very safe",
-                  "Somewhat safe",
-                  "Neither safe nor unsafe",
-                  "Somewhat unsafe",
-                  "Not safe at all"].join("\n")
+             "option_strings_text_all" => ["1 = very safe",
+                  "2 = somewhat safe",
+                  "3 = neither safe nor unsafe",
+                  "4 = somewhat unsafe",
+                  "5 = not safe at all"].join("\n")
              }),
   Field.new({"name" => "assessment_safety_response",
              "type" => "select_box",
              "display_name_all" => "Describe the survivor’s emotional state",
-             "option_strings_text_all" => ["Everything is good and fine",
-                  "Things are so bad that they want to die or hurt themselves"]
+             "option_strings_text_all" => ["1 = everything is good and fine",
+                  "2 = to be determined", "3 = to be determined", "4 = to be determined",
+                  "5 = things are so bad that they want to die or hurt themselves"]
              })
 ]
 
