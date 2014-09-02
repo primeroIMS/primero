@@ -122,7 +122,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Data Confidentiality",
   "editable" => true,
   :fields => consent_fields,
-  :perm_enabled => true,
   "name_all" => "Data Confidentiality",
   "description_all" => "Data Confidentiality"
 })

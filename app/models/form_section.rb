@@ -14,7 +14,7 @@ class FormSection < CouchRest::Model::Base
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false
   property :perm_visible, TrueClass, :default => false
-  property :perm_enabled, TrueClass
+  property :perm_enabled, TrueClass, :default => false
   property :validations, [String]
   property :base_language, :default=>'en'
   property :is_nested, TrueClass, :default => false

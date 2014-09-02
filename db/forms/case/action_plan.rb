@@ -19,8 +19,6 @@ action_plan_subform_section = FormSection.create_or_update_form_section({
     :parent_form=>"case",
     "editable"=>true,
     :fields => action_plan_subform_fields,
-    :perm_enabled => false,
-    :perm_visible => false,
     "name_all" => "Nested Action Plan",
     "description_all" => "Action Plan Subform"
 })
@@ -70,7 +68,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Action Plan",
   "editable" => true,
   :fields => action_plan_fields,
-  :perm_enabled => true,
   "name_all" => "Action Plan",
   "description_all" => "Action Plan"
 })
