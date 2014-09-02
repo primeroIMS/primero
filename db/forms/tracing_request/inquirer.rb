@@ -191,7 +191,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Inquirer",
   "editable" => true,
   :fields => tracing_request_inquirer_fields,
-  :perm_enabled => true,
   "name_all" => "Inquirer",
   "description_all" => "Inquirer"
 })
