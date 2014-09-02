@@ -1,69 +1,77 @@
-<h1 class="no_border"><%=	 t("roles.label") %></h1>
-<div class="page-content-new row">
-  <div class="large-4 medium-4 columns close-side-tab">
+<% content_for :breadcrumbs do %>
+  <%=   t("roles.label") %>
+<% end %>
+
+<div class="page-content-new row collapse" data-equalizer>
+  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
   <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'roles'} %>
   </div>
-  <div class="side-tab-content large-8 medium-8 columns">
-    <h2><%= link_to t("roles.list"), roles_path %> &gt; <%= t( "role.create" ) %> </h2>
-    <div class="clearfix"></div>
-    <div class="mandate_panel"><span>*</span> <%= t("mandatory_field") %></div>
-    <div class="clearfix"></div>
-    <%= form_for @role, :html => {:class => ''} do |f| %>
-        <div class="clearfix"></div>
-        <%= error_messages_for :role %>
-        <fieldset>
-          <div class="row">
-            <div class="medium-3 columns">
-              <span class="tool-tip-label">
-                <%= f.label :name, t("name"), :class=>'key'  %>
-              </span>
-            </div>
-            <div class="medium-8 columns">
-              <%= f.text_field :name %>
-            </div>
-            <div class="medium-1 columns">
-              <span class="required">*</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="medium-3 columns">
-              <span class="tool-tip-label">
-                <%= f.label :description,t("description"), :class=>'key'  %>
-              </span>
-            </div>
-            <div class="medium-8 columns">
-              <%= f.text_area :description %>
-            </div>
-            <div class="medium-1 columns"> </div>
-          </div>
-          <div class="row">
-            <div class="medium-3 columns">
-              <span class="tool-tip-label">
-                <%= f.label :permissions, t("permissions.label"), :class=>'key'  %>
-              </span>
-            </div>
-            <div class="medium-8 columns">
-              <span class="value">
-                <% translated_permissions.each do |group_name, permissions| %>
-                    <span class="section">
-                    <span class="title"><%= t("permissions.#{group_name}") %></span>
-                    <% Hash[*permissions.flatten].values.each do |permission| %>
-                        <label><%= f.check_box :permissions, {:id => permission.dehumanize, :name => "role[permissions][]"}, permission, "" %>
-                        <%= t("permissions.permission.#{permission}") %></label>
-                    <% end %>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="mandate_panel"><span>*</span> <%= t("mandatory_field") %></div>
+          <div class="clearfix"></div>
+          <%= form_for @role, :html => {:class => 'default-form'} do |f| %>
+              <div class="clearfix"></div>
+              <%= error_messages_for :role %>
+              <fieldset class="no-border">
+                <div class="row">
+                  <div class="medium-3 columns">
+                    <span class="tool-tip-label">
+                      <%= f.label :name, t("name"), :class=>'key inline'  %>
                     </span>
-                <% end %>
-              </span>
-            </div>
-            <div class="medium-1 columns">
-              <span class="required">*</span>
-            </div>
-          </div>
-          <div class="btn_panel">
-            <%= cancel_button(roles_path) %>
-            <%= submit_button(t("buttons.save")) %>
-          </div>
-        </fieldset>
-    <% end %>
+                  </div>
+                  <div class="medium-8 columns">
+                    <%= f.text_field :name %>
+                  </div>
+                  <div class="medium-1 columns">
+                    <span class="required">*</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="medium-3 columns">
+                    <span class="tool-tip-label">
+                      <%= f.label :description,t("description"), :class=>'key inline'  %>
+                    </span>
+                  </div>
+                  <div class="medium-8 columns">
+                    <%= f.text_area :description %>
+                  </div>
+                  <div class="medium-1 columns"> </div>
+                </div>
+                <div class="row">
+                  <div class="medium-3 columns">
+                    <span class="tool-tip-label">
+                      <%= f.label :permissions, t("permissions.label"), :class=>'key inline'  %>
+                    </span>
+                  </div>
+                  <div class="medium-8 columns">
+                    <span class="value value_form">
+                      <% translated_permissions.each do |group_name, permissions| %>
+                          <span class="section">
+                          <span class="title"><%= t("permissions.#{group_name}") %></span>
+                          <% Hash[*permissions.flatten].values.each do |permission| %>
+                              <label><%= f.check_box :permissions, {:id => permission.dehumanize, :name => "role[permissions][]"}, permission, "" %>
+                              <%= t("permissions.permission.#{permission}") %></label>
+                          <% end %>
+                          </span>
+                      <% end %>
+                    </span>
+                  </div>
+                  <div class="medium-1 columns">
+                    <span class="required">*</span>
+                  </div>
+                </div>
+              </fieldset>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<% content_for :record_sub_nav do %>
+  <!--TODO: After we got the user object in the session replace the DB query with User object-->
+  <%= render_controls(@role) %> 
+<% end %>
