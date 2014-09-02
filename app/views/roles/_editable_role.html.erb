@@ -1,11 +1,11 @@
-<%= form_for editable_role, :html => {:class => ''} do |f| %>
+<%= form_for editable_role, :html => {:class => 'default-form'} do |f| %>
     <div class="clearfix"></div>
     <%= f.error_messages :header_tag => :h3 %>
 
     <div class="clearfix"></div>
     <div class="mandate_panel"><span>*</span> <%= t("mandatory_field")%></div>
     <div class="clearfix"></div>
-    <fieldset>
+    <fieldset class="no-border">
 
       <div class="row">
         <div class="medium-3 columns">
@@ -40,7 +40,7 @@
           </span>
         </div>
         <div class="medium-8 columns">
-          <span class="value">
+          <span class="value value_form">
             <% translated_permissions.each do |group_name, permissions| %>
               <span class="section">
                 <span class="title"><%= t("permissions.#{group_name}") %></span>
@@ -58,10 +58,9 @@
       </div>
 
     </fieldset>
-    <div class="btn_panel">
-      <%= cancel_button(roles_path) %>
-    <%= submit_button(editable_role.new_record? ? t("roles.actions.create") : t("roles.actions.update")) %>
-    <!--TODO: After we got the user object in the session replace the DB query with User object-->
+<% end %>
 
-        </div>
+<% content_for :record_sub_nav do %>
+  <!--TODO: After we got the user object in the session replace the DB query with User object-->
+  <%= render_controls(@role) %> 
 <% end %>

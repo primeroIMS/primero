@@ -20,7 +20,7 @@ var IndexFilters = Backbone.View.extend({
           current_scope = _primero.get_param('scope[' + name + ']');
           current_scope = current_scope ? current_scope.split(',') : false;
 
-      if ($(this).is(':checkbox') && _.indexOf(current_scope, $(this).val()) > -1) {
+      if ($(this).is(':checkbox') && _.indexOf(current_scope, encodeURI($(this).val())) > -1) {
         $(this).prop('checked', true)
       }
     });
