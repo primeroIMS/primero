@@ -64,7 +64,7 @@ FormSection.create_or_update_form_section({
   :unique_id=>"action_plan_form",
   :parent_form=>"case",
   "visible" => true,
-  :order_form_group => 30,
+  :order_form_group => 75,
   :order => 10,
   :order_subform => 0,
   :form_group_name => "Action Plan",
