@@ -36,7 +36,7 @@ closure_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "closure_form",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 110,
   :order => 21,
   :order_subform => 0,
