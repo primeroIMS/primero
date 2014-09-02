@@ -72,7 +72,7 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "goods_money_exchanged",
              "type" => "radio_button",
              "display_name_all" => "Were money, goods, benefits, and/or services exchanged in relation to the incident?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+             "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "abduction_status_time_of_incident",
              "type" => "select_box",
@@ -86,7 +86,7 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "gbv_reported_elsewhere",
              "type" => "radio_button",
              "display_name_all" => "Has the client reported this incident anywhere else?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+             "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "gbv_reported_elsewhere_subform",
              "type" => "subform", 

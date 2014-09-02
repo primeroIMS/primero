@@ -93,6 +93,7 @@ en:
      change_password: "Change Password"
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
+     create_incident: "Create Incident"
 
   cases:
     label: "Cases"

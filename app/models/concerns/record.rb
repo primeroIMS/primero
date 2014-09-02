@@ -194,4 +194,13 @@ module Record
     end
   end
 
+  #Copy the value of the fields from the source object.
+  #The mapping parameter has the form as
+  # { "field_name in source object" => "field_name in target object" }.
+  def copy_fields(source, mapping)
+    mapping.each do |source_key, target_key|
+      self[target_key] = source[source_key] if source[source_key].present?
+    end
+  end
+
 end
