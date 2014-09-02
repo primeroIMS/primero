@@ -7,7 +7,7 @@
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("incidents.label") %>: <%= text_to_identify_incident(@incident) %>
+  <%= t("incidents.label") %> #<%= text_to_identify_incident(@incident) %>
 <% end %>
 
 <% content_for :header_message do %>    
@@ -20,15 +20,15 @@
 
 <div class="clearfix"></div>
 
-<%= form_tag incident_path(@incident), :method => :put, :multipart => true, :class => "edit-profile default-form" do %>
+<%= form_tag incident_path(@incident), :method => :put, :multipart => true, :class => "edit-profile default-form data-form" do %>
   <div class="page-content-new row collapse" data-equalizer>
-    <div class="large-4 medium-4 columns close-side-tab">
+    <div class="large-4 medium-4 columns close-side-tab side-tab-container">
       <div class="side-tab" data-equalizer-watch>
         <%= render :partial => 'form_section/tabs', :object => @form_sections %>
       </div>
     </div>
 
-    <div class="large-8 medium-8 columns">
+    <div class="large-8 medium-8 columns side-tab-content-container">
       <div class="side-tab-content" data-equalizer-watch>      
         <% @form_sections.each do |form_group_name, form_list| %>
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @incident, :form_group_name => form_group_name} %>

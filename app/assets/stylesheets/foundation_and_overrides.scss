@@ -3,28 +3,48 @@
 ////////////////////////////////////////////////
 
 @import "foundation/functions";
-@import "compass/css3/images";
+@import "compass/css3";
 
 ////////////////////////////////////////////////
 // Fonts
 ////////////////////////////////////////////////
 
-$headline-font-family: libreBaskerville, sans-serif;
-$primary-font-family: libreBaskerville, sans-serif;
-$secondary-font-family: libreBaskerville, sans-serif;
+@include font-face("Roboto", font-files(asset-path('Roboto-Regular.ttf'), asset-path('Roboto-Regular-webfont.woff')));
+@include font-face("Roboto-Light", font-files(asset-path('Roboto-Light.ttf'), asset-path('Roboto-Light-webfont.woff')));
+@include font-face("Roboto-Medium", font-files(asset-path('Roboto-Medium.ttf'), asset-path('Roboto-Medium-webfont.woff')));
+@include font-face("Roboto-Slab", font-files(asset-path('RobotoSlab-Regular.ttf'), asset-path('RobotoSlab-Regular-webfont.woff')));
+@include font-face("Roboto-Bold", font-files(asset-path('Roboto-Bold.ttf'), asset-path('Roboto-Bold-webfont.woff')));
+@include font-face("RobotoSlab-Thin", font-files(asset-path('RobotoSlab-Thin.ttf'), asset-path('RobotoSlab-Thin-webfont.woff')));
+
+$headline-font-family: 'Roboto', sans-serif;
+$primary-font-family: 'Roboto', sans-serif;
+$secondary-font-family: 'Roboto', sans-serif;
 
 $base-font-size: 16px;
 $rem-base: $base-font-size;
 
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+$thirteen_px: 0.8125rem;
+$fifteen_px: 0.9375rem;
+$twenty_px: 1.25rem;
+$twentyfive_px: 1.563rem;
+$sixtythree_px: 3.938rem;
 
 ////////////////////////////////////////////////
 // Colors
 ////////////////////////////////////////////////
-
-$grey_color: #474747;
-$green_color: #7dae37;
+$light_grey_color: #8A8A8A;
+$grey_color: #575757;
+$desat_green_color: #f9faf6;
+$light_green_color: #ebf0e4;
+$stroke_green_color: #aec687;
+$green_color: #86A05D;
 $red_color: #8d0000;
-$white_color: #f7f7f7;
+$white_color: #fff;
 
 ////////////////////////////////////////////////
 // General
@@ -37,6 +57,7 @@ $body-font-family: $secondary-font-family;
 $secondary-bg: $grey_color;
 
 $button-font-color: $green_color;
+$button-function-factor: -8%;
 
 ////////////////////////////////////////////////
 // Foundation - Topbar overrides
@@ -44,6 +65,7 @@ $button-font-color: $green_color;
 $nav_height: 50px;
 $topbar-height: $nav_height;
 $topbar-link-color: #fff !important;
+$topbar-bg-color: $grey_color;
 
 
 ////////////////////////////////////////////////

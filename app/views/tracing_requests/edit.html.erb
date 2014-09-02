@@ -7,7 +7,7 @@
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("tracing_request.label") %>: <%= text_to_identify_tracing_request(@tracing_request) %>
+  <%= t("tracing_request.label") %> #<%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
 <% content_for :header_message do %>    
@@ -20,14 +20,14 @@
 
 <div class="clearfix"></div>
 
-<%= form_tag tracing_request_path(@tracing_request), :method => :put, :multipart => true, :class => "edit-profile default-form" do %>
+<%= form_tag tracing_request_path(@tracing_request), :method => :put, :multipart => true, :class => "edit-profile default-form data-form" do %>
   <div class="page-content-new row collapse" data-equalizer>
-    <div class="large-4 medium-4 columns close-side-tab">
+    <div class="large-4 medium-4 columns close-side-tab side-tab-container">
       <div class="side-tab" data-equalizer-watch>
         <%= render :partial => 'form_section/tabs', :object => @form_sections %>
       </div>
     </div>
-    <div class="large-8 medium-8 columns">
+    <div class="large-8 medium-8 columns side-tab-content-container">
       <div class="side-tab-content" data-equalizer-watch>
         <%= hidden_field_tag('tracing_request[revision]', @tracing_request._rev) %>
         <% @form_sections.each do |form_group_name, form_list| %>

@@ -38,7 +38,7 @@ class TracingRequestsController < ApplicationController
     @page_name = t "tracing_request.view", :short_id => @tracing_request.short_id
     @body_class = 'profile-page'
     #TODO: Are duplicated implemented for TracingRequests? CARLOS!?!
-    #@duplicates = TracingRequest.duplicates_of(params[:id])
+    @duplicates = TracingRequest.duplicates_of(params[:id])
 
     respond_to do |format|
       format.html

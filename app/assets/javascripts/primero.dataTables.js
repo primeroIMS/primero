@@ -310,7 +310,6 @@
 				newKey = key.replace( match[0], match[2].toLowerCase() );
 				map[ newKey ] = key;
 	
-				//console.log( key, match );
 				if ( match[1] === 'o' )
 				{
 					_fnHungarianMap( o[key] );
@@ -6165,7 +6164,7 @@
 				if ( oInit.sDom === defaults.sDom && defaults.sDom === "lfrtip" )
 				{
 					/* Set the DOM to use a layout suitable for jQuery UI's theming */
-					oSettings.sDom = '<"H"lfr>t<"F"ip>';
+					oSettings.sDom = '<"H"fr>t<"F"ip>';
 				}
 			
 				if ( ! oSettings.renderer ) {

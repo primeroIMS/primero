@@ -1,0 +1,76 @@
+<div class="title">Filter Cases By</div>
+<div class="panel">
+  <form id="index_filter_form">
+    <%= build_filter_checkboxes('Flagged:', 'flag', [
+      {flag: 'flagged?'}
+    ]) %>    
+    <%= build_filter_checkboxes('Field/Case/Social Worker:', 'caseworker', [
+      'caseworker1',
+      'caseworker2',
+      'caseworker3',
+    ]) %>
+    <%= build_filter_checkboxes('Status:', 'child_status', [
+      'all',
+      'open',
+      'closed',
+      'duplicate',
+      'transferred'
+    ]) %>
+    <%= build_filter_checkboxes('Age Range:', 'age', [
+      'all',
+      '0-5',
+      '5-11',
+      '12-17',
+      '18+'
+    ]) %>
+    <%= build_filter_checkboxes('Sex:', 'sex', [
+      'male',
+      'female'
+    ]) %>
+    <%= build_filter_checkboxes('Protection Status:', 'protection_status', [
+      'unaccompanied',
+      'separated',
+    ]) %>
+    <%= build_filter_checkboxes('Urgent Protection Concern:', 'urgent_protection_concern', [
+      'yes',
+      'no',
+    ]) %>
+    <%= build_filter_checkboxes('Risk Level:', 'risk_level', [
+      'all',
+      'high',
+      'medium',
+      'low'
+    ]) %>
+    <%= build_filter_checkboxes('Current Location:', 'current_location', [
+      'location1',
+      'location2',
+      'location3'
+    ]) %>
+    <% # TODO: create helper to generate this %>
+    <div class="filter">
+      <h3>Registration Date:</h3>
+      <div class="filter-controls">
+        <div class="row">
+          <div class="medium-2 columns">
+            <label>From</label>
+          </div>
+          <div class="medium-10 columns">
+            <input type="text" id="registration_date" class="form_date_field" name="registration_date" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-2 columns">
+            <label>To</label>
+          </div>
+          <div class="medium-10 columns">
+            <input type="text" id="registration_date" class="form_date_field" name="registration_date" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= build_filter_checkboxes('Record State:', 'record_state', [
+      { valid_record: 'valid' },
+      { invalid_record: 'invalid' }
+    ]) %>
+  </form>
+</div>
