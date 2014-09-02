@@ -7,7 +7,7 @@ Feature: Closure Form
   Scenario: As a logged in user, I should be able to fill closure form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Closure" button
     And I should see the following fields:
       | Date of Closure           |

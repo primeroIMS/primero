@@ -7,7 +7,7 @@ Feature: GBV Individual Details Form
   Scenario: As a logged in user, I create a new incident
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "GBV Individual Details" button
     And I fill in the following:
       | Survivor Code                      | SRV1001     |

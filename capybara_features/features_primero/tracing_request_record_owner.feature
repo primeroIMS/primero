@@ -7,7 +7,7 @@ Feature: Tracing Request Record Owner
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "tracing requests page"
-    And I press the "Create a New Tracing Request" button
+    And I press the "New Tracing Request" button
     And I press the "Record Owner" button
     And I fill in the following:
       | Field/Case/Social Worker | Tom                   |

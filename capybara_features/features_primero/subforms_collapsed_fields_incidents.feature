@@ -8,7 +8,7 @@ Feature: Subforms Collapses Fields Incidents
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
 
   Scenario: As a logged in user, I want to verify collapsed fields for killing
     And I press the "Violations" button

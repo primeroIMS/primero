@@ -13,7 +13,7 @@ Feature: Individual Details Form
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Individual Details" button
 
   Scenario: As a logged in user, I create a new incident

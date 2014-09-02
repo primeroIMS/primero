@@ -8,7 +8,7 @@ Feature: Tracing Separation History
   Scenario: As a logged in user, I create a case with tracing information
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Tracing" button
     And I click on "Tracing" in form group "Tracing"
     When I select "Open" from "Tracing Status"

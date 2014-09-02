@@ -7,7 +7,7 @@ Feature: Form Tab Validation Navigation
   Scenario: As a logged in user, I create a case with correct Basic Identity data and incorrect Photos and Audio data
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 22                                   |
@@ -22,7 +22,7 @@ Feature: Form Tab Validation Navigation
   Scenario: As a logged in user, I create a case with both incorrect Basic Identity and Photos and Audio data
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro                 |
       | Age               | 2223                                   |

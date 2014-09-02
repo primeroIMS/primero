@@ -7,7 +7,7 @@ Feature: Tracing Request Tracing Requests
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "tracing requests page"
-    And I press the "Create a New Tracing Request" button
+    And I press the "New Tracing Request" button
     And I press the "Tracing Request" button
     And I update in the 1st "Tracing Request Subform Section" subform with the follow:
       | Tracing status  | <Select> Open |

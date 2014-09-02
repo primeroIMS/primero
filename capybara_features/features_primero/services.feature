@@ -14,7 +14,7 @@ Feature: Services
   Scenario: As a logged in user, I should be able to create a new case and save information from the services form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Services / Follow Up" button
     And I click on "Services" in form group "Services / Follow Up"
     And I fill in the 1st "Services Section" subform with the follow:

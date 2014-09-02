@@ -13,7 +13,7 @@ Feature: Abduction Form
   Scenario: As a logged in user, I will create a incident for abduction
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Violations" button
     And I press the "Abduction" button
     And I fill in the following:

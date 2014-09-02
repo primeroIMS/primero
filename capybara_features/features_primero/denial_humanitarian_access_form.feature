@@ -14,7 +14,7 @@ Feature: Denial of Humanitarian Access Form
     Scenario: As a logged in user, I will create a incident for sexual violence
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
     And I fill in the following:

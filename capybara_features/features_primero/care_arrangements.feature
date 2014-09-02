@@ -13,7 +13,7 @@ Feature: Care Arrangement
   Background:
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Services / Follow Up" button
     And I press the "Care Arrangement" button
 

@@ -8,7 +8,7 @@ Feature: Other documents form
   Scenario: I upload an executable file
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Other Documents" button
     Then I attach a document "capybara_features/resources/exe_file.exe"
     And I should see "Executable files are not allowed." on the page
@@ -16,7 +16,7 @@ Feature: Other documents form
   Scenario: I upload a document file with the incorrect size
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Other Documents" button
     Then I attach a document "capybara_features/resources/huge.jpg"
     And I should see "Please upload a document smaller than 10mb" on the page
@@ -24,7 +24,7 @@ Feature: Other documents form
   Scenario: Uploading multiple documents
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I click the "Other Documents" link
     And I attach the following documents:
       |capybara_features/resources/jorge.jpg|Document 1 (jorge.jpg)|
@@ -43,7 +43,7 @@ Feature: Other documents form
   Scenario: Uploading more documents than allowed
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I click the "Other Documents" link
     And I attach the following documents:
       |capybara_features/resources/jorge.jpg|Document 1 |

@@ -9,7 +9,7 @@ Feature: Tracing Section Headers
   Scenario: As a logged in user, I should be able see section headers in the new Tracing Form
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Tracing" button
     And I should see "Separation History" on the page
     And I should see "Tracing Actions" on the page

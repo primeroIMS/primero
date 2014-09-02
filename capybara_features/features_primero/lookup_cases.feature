@@ -15,7 +15,7 @@ Feature: Lookup Cases
       | language       | Language1, Language2, Language3, Language4             |
       | religion       | Religion1, Religion2, Religion3, Religion4             |
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
 
   Scenario: As a logged in user, I will select lookup values from Other Identity Details
     And I press the "Other Identity Details" button

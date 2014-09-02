@@ -11,7 +11,7 @@ Feature: Care Assessment
   Scenario: As a logged in user, I create a case with Care Assessment information
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Assessment" button
     And I press the "Care Assessment" button
     And I select "No Further Action Needed" from "Personal intervention needed?"
