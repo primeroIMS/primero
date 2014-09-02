@@ -1,10 +1,18 @@
-<h1 class="no_border">Roles</h1>
-<div class="page-content-new row">
-  <div class="large-4 medium-4 columns close-side-tab">
+<% content_for :breadcrumbs do %>
+  <%=	t("role.edit")  %> (<%= @role.name %>)
+<% end %>
+
+<div class="page-content-new row collapse" data-equalizer>
+  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
   <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'roles'} %>
   </div>
-  <div class="side-tab-content large-8 medium-8 columns">
-    <h2><%= link_to t("roles.list"), roles_path %> &gt; <%=	t("role.edit")  %> (<%= @role.name %>)</h2>
-    <%= render :partial => "editable_role", :object => @role %>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <div class="row">
+	      <div class="large-12 columns">
+	    		<%= render :partial => "editable_role", :object => @role %>
+	    	</div>
+    	</div>
+    </div>
   </div>
 </div>
