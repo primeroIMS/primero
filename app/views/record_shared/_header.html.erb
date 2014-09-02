@@ -6,7 +6,7 @@
   <div class="dropdown hide">
     <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
       <% if can?("export_#{exporter.id}".to_sym, model) %>
-        <%= link_to t("addons.export_task.#{exporter.id}.all"), children_path(:format => exporter.id, :per_page => :all), :class => "password-prompt" %>
+        <%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
       <% end %>
     <% end %>
   </div>

@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'base.rb'
 
 module Exporters
   class CSVExporter

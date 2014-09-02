@@ -164,6 +164,10 @@ class IncidentsController < ApplicationController
     end
   end
 
+  def exported_properties
+    @className.properties.reject {|p| p.name == 'violations' }
+  end
+
   private
 
   def load_record_or_redirect

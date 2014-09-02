@@ -2,8 +2,9 @@
 <ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
     <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
         <% if can?("export_#{exporter.id}".to_sym, Child) %>
+          <li>
             <%= link_to t("addons.export_task.#{exporter.id}.one"), child_path(@child, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
+          </li>
         <% end %>
     <% end %>
-  <% end %>
 </ul>
