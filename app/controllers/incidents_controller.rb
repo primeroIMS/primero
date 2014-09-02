@@ -63,10 +63,10 @@ class IncidentsController < ApplicationController
     if params['module_id'].present? and params['case_id'].present?
       primero_module = PrimeroModule.get(params['module_id'])
       case_record = Child.get(params['case_id'])
-      @incident.copy_survivor_information(case_record) if primero_module.present? and
-                                                          case_record.present? and
-                                                          primero_module.name == PrimeroModule::GBV and
-                                                          case_record.module.name == PrimeroModule::GBV
+      if primero_module.present? and case_record.present? and
+         primero_module.name == PrimeroModule::GBV and case_record.module.name == PrimeroModule::GBV
+         @incident.copy_survivor_information(case_record)
+      end
     end
 
     get_form_sections
