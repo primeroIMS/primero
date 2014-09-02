@@ -84,6 +84,12 @@ module ApplicationHelper
     end
   end
 
+  def ctl_create_incident_button(record)
+    ctl_button_wrapper do 
+      submit_button(t("buttons.create_incident"))
+    end if record.present? and record.class.name == "Child" and record.module.name == PrimeroModule::GBV
+  end
+
   def ctl_button_wrapper(&block)
     content_tag :li, class: "#{'rec_ctl' unless current_actions(action: ['new', 'show'])}" do
       block.call
@@ -96,7 +102,7 @@ module ApplicationHelper
     if record.new?
       ctl_cancel_button(path) + ctl_save_button
     elsif current_actions(action: ['update', 'edit'])
-        ctl_edit_button(path) + ctl_cancel_button(path) + ctl_save_button
+        ctl_edit_button(path) + ctl_cancel_button(path) + ctl_save_button + ctl_create_incident_button(record)
     else
       ctl_edit_button(path)
     end
