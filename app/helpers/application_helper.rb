@@ -29,7 +29,7 @@ module ApplicationHelper
       link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation')}, class: "link_cancel"
   end
 
-  def discard_button(path, confirm_model = nil)
+  def discard_button(path)
       link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message')}, class: "grey-button"
   end
 
