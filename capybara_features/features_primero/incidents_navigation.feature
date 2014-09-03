@@ -16,5 +16,5 @@ Feature: Incidents Navigation
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "incidents page"
     Then I should see "Create a  New Incident"
-    And I press the "Create a New Incident" button
-    Then I should see "Incidents > Create a New Incident" on the page
+    And I press the "New Incident" button
+    Then I should see "Incidents > New Incident" on the page

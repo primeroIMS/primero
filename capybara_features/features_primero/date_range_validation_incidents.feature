@@ -7,7 +7,7 @@ Feature: Date Range Validation Incidents
   Background:
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Incident" button
 
   Scenario: As a logged in user and create an Incident with invalid date range, I want to see the error message

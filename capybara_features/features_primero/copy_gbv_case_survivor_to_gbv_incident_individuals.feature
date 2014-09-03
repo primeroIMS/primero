@@ -14,7 +14,7 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
       | ethnicity      | Ethnicity1, Ethnicity2     |
       | religion       | Religion1, Religion2       |
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Survivor Information" button
     And I fill in the following:
       | Survivor Code       | SRV1001                              |

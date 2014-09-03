@@ -8,7 +8,7 @@ Feature: Subforms In Incidents
   Background:
     Given I am logged in as an admin with username "primero_mrmr" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Group Details" button
     And I add a "Group Details Section" subform
     And I fill in the following:

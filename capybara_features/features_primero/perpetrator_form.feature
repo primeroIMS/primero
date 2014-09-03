@@ -9,7 +9,7 @@ Feature: Perpetrator Form
   Scenario: As a logged in user, I create a new incident
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Perpetrator" button
     And I fill in the 1st "Perpetrator Subform Section" subform with the follow:
       | Is this the primary perpetrator? | <Radio> Yes |
