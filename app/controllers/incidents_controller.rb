@@ -60,11 +60,9 @@ class IncidentsController < ApplicationController
     @incident['mrm_verification_status'] = "Pending"
     @incident['module_id'] = params['module_id']
 
-    if params['module_id'].present? and params['case_id'].present?
-      primero_module = PrimeroModule.get(params['module_id'])
+    if params['case_id'].present?
       case_record = Child.get(params['case_id'])
-      if primero_module.present? and case_record.present? and
-         primero_module.name == PrimeroModule::GBV and case_record.module.name == PrimeroModule::GBV
+      if case_record.present?
          @incident.copy_survivor_information(case_record)
       end
     end
