@@ -40,13 +40,13 @@ module FormSectionHelper
   def build_group_tabs(forms)
     group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
-     for form in forms
-      concat(content_tag(:li, 
-        link_to("#tab_#{form.section_name}") do 
-          concat(t(form.unique_id, :default => form.name))
-        end, class: "#{form.is_first_tab ? 'current': ''}"
-      ))
-     end
+      for form in forms
+        concat(content_tag(:li,
+          link_to("#tab_#{form.section_name}") do
+            concat(t(form.unique_id, :default => form.name))
+          end, class: "#{form.is_first_tab ? 'current': ''}"
+        ))
+      end
     end
   end
 
@@ -80,7 +80,7 @@ module FormSectionHelper
       concat(content_tag(:li,
         link_to(edit_form_section_path(form.section_name)) do
           concat(t(form.unique_id, :default => form.name))
-        end, class: "#{(form.visible.present? && form.visible == false) ? 'hidden_form' : ''}" 
+        end, class: "#{form.visible? ? '' : 'hidden_form'}"
       ))
      end
     end
