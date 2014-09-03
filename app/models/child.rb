@@ -32,7 +32,7 @@ class Child < CouchRest::Model::Base
   validate :validate_documents_size
   validate :validate_documents_count
   validate :validate_documents_file_type
-  validate :validate_date_closure
+  # validate :validate_date_closure
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -135,11 +135,11 @@ class Child < CouchRest::Model::Base
     error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
 
-  def validate_date_closure
-    return true if self["date_closure"].nil? || Date.parse(self["date_closure"]) >= Date.parse(self["registration_date"])
-    errors.add(:date_closure, I18n.t("errors.models.child.date_closure"))
-    error_with_section(:date_closure, I18n.t("errors.models.child.date_closure"))
-  end
+  # def validate_date_closure
+  #   return true if self["date_closure"].nil? || Date.parse(self["date_closure"]) >= Date.parse(self["registration_date"])
+  #   errors.add(:date_closure, I18n.t("errors.models.child.date_closure"))
+  #   error_with_section(:date_closure, I18n.t("errors.models.child.date_closure"))
+  # end
 
   def to_s
     if self['name'].present?
