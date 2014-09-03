@@ -102,9 +102,7 @@ module ApplicationHelper
     if record.new?
       ctl_cancel_button(path) + ctl_save_button
     elsif current_actions(action: ['update', 'edit'])
-        #TODO - Create Incident is not ready for release.  Commenting out for now...
-        # ctl_edit_button(path) + ctl_cancel_button(path) + ctl_save_button + ctl_create_incident_button(record)
-        ctl_edit_button(path) + ctl_cancel_button(path) + ctl_save_button
+      ctl_edit_button(path) + ctl_cancel_button(path) + ctl_save_button + ctl_create_incident_button(record)
     else
       ctl_edit_button(path)
     end
