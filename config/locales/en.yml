@@ -90,6 +90,8 @@ en:
      reunite: "Reunite"
      edit: "Edit"
      back: "Back"
+     export: "Export"
+     import: "Import"
      change_password: "Change Password"
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
@@ -889,3 +891,4 @@ en:
         selected: Export Selected to Excel
 
   per_page_translation: "Per page _MENU_"
+  import_successful: "File was imported successfully"

@@ -32,7 +32,8 @@ module ImportActions
       end
     end
 
-    render :nothing => true
+    flash[:notice] = t('import_successful')
+    redirect_to :action => :index
   end
 
   def handle_import(upload_file, importer)

@@ -1,7 +1,7 @@
 <%= render partial: 'record_shared/create_button', locals: {model: model, record: record, modules: modules} %>
 
 <% if Exporters::ACTIVE_EXPORTERS.any?{|exporter| can?("export_#{exporter.id}".to_sym, model)} %>
-<div class="btn dropdown_btn">
+<div class="btn green-button dropdown_btn">
   <span class="export"><%= t("#{record}.export") %></span>
   <div class="dropdown hide">
     <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
@@ -12,6 +12,8 @@
   </div>
 </div>
 <% end %>
+
+<%= render partial: 'record_shared/imports', locals: {model: model, record: record} %>
 
 <script type="text/javascript">
   $(".export-password-prompt").each(function() {
