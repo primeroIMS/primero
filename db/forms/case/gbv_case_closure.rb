@@ -82,7 +82,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Case Closure",
   "editable" => true,
   :fields => case_closure_fields,
-  :perm_enabled => true,
   "name_all" => "Case Closure",
   "description_all" => "Case Closure"
 })
