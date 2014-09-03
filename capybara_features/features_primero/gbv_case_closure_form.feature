@@ -11,7 +11,7 @@ Feature: GBV Case Closure Form
     And I press the "New Case" button
     And I press the "Case Closure" button
     And I fill in the following:
-      | Case Closure Date                                                                                                                          | 03-Sep-2014                  |
+      | Case Closure Date                                                                                                                          | today's date                 |
       | Closure Assessement                                                                                                                        | Closure assessement          |
       | Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days) | <Radio> Yes                  |
       | Explain (survivor's needs)                                                                                                                 | Survivor's needs explanation |
@@ -24,7 +24,7 @@ Feature: GBV Case Closure Form
       | Case supervisor has reviewed case closure/exit plan                                                                                        | <Radio> Yes                  |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see a value for "Case Closure Date" on the show page with the value of "03-Sep-2014"
+    And I should see a value for "Case Closure Date" on the show page with the value of "today's date"
     And I should see a value for "Closure Assessement" on the show page with the value of "Closure assessement"
     And I should see a value for "Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days)" on the show page with the value of "Yes"
     And I should see a value for "Explain (survivor's needs)" on the show page with the value of "Survivor's needs explanation"
