@@ -63,7 +63,7 @@ module FormSectionHelper
         concat(build_group_custom_list(forms))
       end
     else
-      content_tag :li, class: "#{(form.visible.present? && form.visible == false) ? 'hidden_form' : ''}" do
+      content_tag :li, class: "#{form.visible? ? '' : 'hidden_form'}" do
         concat(
           link_to(edit_form_section_path(form.section_name), class: 'non-group') do
             concat(t(form.unique_id, :default => form.name))

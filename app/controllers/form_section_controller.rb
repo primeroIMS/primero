@@ -10,6 +10,12 @@ class FormSectionController < ApplicationController
     @page_name = t("form_section.manage")
   end
 
+  def new
+    authorize! :create, FormSection
+    @page_name = t("form_section.create")
+    @form_section = FormSection.new(params[:form_section])
+  end
+
   def create
     authorize! :create, FormSection
     form_section = FormSection.new_with_order params[:form_section]
@@ -69,11 +75,6 @@ class FormSectionController < ApplicationController
     end
   end
 
-  def new
-    authorize! :create, FormSection
-    @page_name = t("form_section.create")
-    @form_section = FormSection.new(params[:form_section])
-  end
 
   private
 

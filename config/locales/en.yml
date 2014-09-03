@@ -555,7 +555,7 @@ en:
     cannot_be_edited: "Fields on this form cannot be edited."
 
   form_section:
-    create: "Create New Form Section"
+    create: "New Form"
     visibility: "Visibility"
     ordering: "Ordering"
     details: "Form details"
