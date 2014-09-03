@@ -11,7 +11,7 @@ Feature: Shared Fields
   Scenario: As a logged in user, I create a case and I should see shared fields populated with the same value
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I fill in "Date of Birth" with "10-Jun-1993"
     And I press the "Survivor Information" button
     And the value of "Date of Birth" should be "10-Jun-1993"

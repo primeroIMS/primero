@@ -13,7 +13,7 @@ Feature: Incidents Form
   Scenario: As a logged in user, I create a new incident
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Incident" button
     And I choose from "Violation Category":
       |  Abduction    |
@@ -34,7 +34,7 @@ Feature: Incidents Form
   Scenario: As a logged in user, I create a new incident and I should be able to enter a date or a date range for the date of incident
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Incident" button
     And I fill in the following:
       | Date of First Report or Interview | 06-Aug-2014                    |

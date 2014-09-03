@@ -8,7 +8,7 @@ Feature: Subforms Collapses Fields Cases
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
 
   Scenario: As a logged in user, I want to verify collapsed fields for tracing
     And I press the "Tracing" button

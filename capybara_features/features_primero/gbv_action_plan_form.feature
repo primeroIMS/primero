@@ -8,7 +8,7 @@ Feature: GBV Action Plan Form
   Scenario: As a logged in user, I create a new case
     Given I am logged in as an admin with username "primero" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "GBV" link
     And I press the "Action Plan" button
     And I fill in the following:

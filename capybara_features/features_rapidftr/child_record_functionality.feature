@@ -197,7 +197,7 @@ Feature: Child record functionality
 
   @wip
   Scenario: Editing a child record
-    When I follow "Create a New Case"
+    When I follow "New Case"
     And I fill in "Name" with "Jorge Just"
     And I fill in "Date of Birth (dd/mm/yyyy)" with "27/12/2000"
     And I select "Male" from "Sex"
@@ -236,7 +236,7 @@ Feature: Child record functionality
 
   # Test no longer valid
   # Scenario: Should not be able to successfully edit child record with all empty fields
-  # When I follow "Create a New Case"
+  # When I follow "New Case"
   # And I fill in "Name" with "Jorge Just"
   # And I press "Save"
   # Then I follow "Edit"
