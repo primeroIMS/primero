@@ -5,11 +5,11 @@
 
 @javascript @primero
 Feature: Care Assessment
-  As a Social Worker, I want to fill in form information for children (individuals) in particular circumstances, 
+  As a Social Worker, I want to fill in form information for children (individuals) in particular circumstances,
   so that we can track and report on areas of particular concern.
 
   Scenario: As a logged in user, I create a case with Care Assessment information
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Assessment" button

@@ -6,7 +6,7 @@ Feature: Other documents form
   As a social user I want to upload documents that are not photos or audio files and enter a description of the document.
 
   Scenario: I upload an executable file
-    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Other Documents" button
@@ -14,7 +14,7 @@ Feature: Other documents form
     And I should see "Executable files are not allowed." on the page
 
   Scenario: I upload a document file with the incorrect size
-    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Other Documents" button
@@ -22,7 +22,7 @@ Feature: Other documents form
     And I should see "Please upload a document smaller than 10mb" on the page
 
   Scenario: Uploading multiple documents
-    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I click the "Other Documents" link
@@ -41,7 +41,7 @@ Feature: Other documents form
     And I should see "jeff.png" on the page
 
   Scenario: Uploading more documents than allowed
-    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I click the "Other Documents" link

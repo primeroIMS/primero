@@ -5,7 +5,7 @@ Feature: Intervention Form
   As a User, I want to report on action taken by the monitoring agency (or other task force member), so that we can report on this information to help encourage change in legislation, or to track the lack of resources
 
   Scenario: As a logged in user, I will create a incident for intervention
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "Create a New Incident" button
     And I press the "Intervention" button

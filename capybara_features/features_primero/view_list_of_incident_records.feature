@@ -5,7 +5,7 @@ Feature: Primero View List of Incident Records
   update my incident records with information about my interactions with the incident
 
   Scenario: I want to see my incidents
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following incidents exist in the system:
       | created_by  | date_of_first_report    | status   | unique_identifier                    |
       | primero     | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |

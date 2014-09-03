@@ -5,7 +5,7 @@ Feature: Form Tab Validation Navigation
   As an administrator, I want to be able to return to the first tab with validation errors
 
   Scenario: As a logged in user, I create a case with correct Basic Identity data and incorrect Photos and Audio data
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I fill in the following:
@@ -20,7 +20,7 @@ Feature: Form Tab Validation Navigation
     And I should see "Photos and Audio: Please upload a valid photo file (jpg or png) for this case record" on the page
 
   Scenario: As a logged in user, I create a case with both incorrect Basic Identity and Photos and Audio data
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I fill in the following:
