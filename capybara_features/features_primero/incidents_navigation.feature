@@ -4,7 +4,7 @@ Feature: Incidents Navigation
   As a Social Worker/Data Entry user, I want to view my open Incident records so that I can easily find the incidents I am currently managing
 
   Scenario Outline: The incidents link exists
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access <page>
     Then I should see a "INCIDENTS" button on the page
     Examples:

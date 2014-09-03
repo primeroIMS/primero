@@ -16,8 +16,8 @@ end
 
 Then /^I press the "([^\"]*)" (button|link)(?: "(.+)" times)?$/ do |label, type, times|
   times = 1 if times.blank?
-  (1..times.to_i).each do 
-    click_on(label, :visible => true) 
+  (1..times.to_i).each do
+    click_on(label, :visible => true)
   end
 end
 
@@ -52,7 +52,8 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
   end
 
   #Find the element that represent the field name
-  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/, :visible => true) do
+  #within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/, :visible => true) do
+  within(:xpath, "//fieldset//label[@class='key' and text()=\"#{field}\"]", :visible => true) do
     #Sometime we just check if the field appears in the page.
     if content
       #Lookup the parent of the field to search the value
@@ -60,9 +61,12 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
         if content.start_with?("<Date Range")
           content = content.gsub("<Date Range>", "").strip
           find(:xpath, ".//span[@class='value']/..").text.should eq(content)
+        elsif content.start_with?("<Documents>")
+          content = content.gsub("<Documents>", "").strip
+          find(:xpath, ".//div[@class='documents' and text()=\"#{content}\"]")
         else
           #Find the element that represent the value.
-          find(:xpath, ".//span[@class='value']", :text => content)
+          find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
         end
       end
     end
@@ -87,21 +91,21 @@ And /^I should see the calculated Age(?: for "([^\"]*)")? of a child born in "(.
   age = Date.today.year - year.to_i
   field_name ||= "Age"
   #Find the element that represent the age field
-  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape("#{field_name}")}\z/) do
+  within(:xpath, "//fieldset//label[@class='key' and text()=\"#{field_name}\"]") do
     #Lookup the parent of the field to search the value
     within(:xpath, '../..') do
       #Find the element that represent the value.
-      find(:xpath, ".//span[@class='value']", :text => "#{age}")
+      find(:xpath, ".//span[@class='value' and text()=\"#{age}\"]")
     end
   end
 end
 
 And /^I should see a value for "(.+)" on the show page which is January 1, "(.+)" years ago$/ do |field, years_ago|
-  within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/) do
+  within(:xpath, "//fieldset//label[@class='key' and text()=\"#{field}\"]") do
     if years_ago
       content = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
       within(:xpath, '../..') do
-        find(:xpath, ".//span[@class='value']", :text => content)
+        find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
       end
     end
   end
@@ -119,10 +123,10 @@ And /^I should see values on the page for the following:$/ do |fields|
       year = content.gsub("Calculated age from", "").strip
       content = Date.today.year - year.to_i
     end
-    within(:xpath, ".//div[@class='row']//label[@class='key']", :text => name) do
+    within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
       #Up to the parent of the label to find the value.
       within(:xpath, '../..') do
-        find(:xpath, ".//span[@class='value']", :text => content)
+        find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
       end
     end
   end
@@ -152,10 +156,10 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
         year = content.gsub("Calculated age from", "").strip
         content = Date.today.year - year.to_i
       end
-      within(:xpath, ".//div[@class='row']//label[@class='key']", :text => name) do
+      within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
         #Up to the parent of the label to find the value.
         within(:xpath, '../..') do
-          find(:xpath, ".//span[@class='value']", :text => content)
+          find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
         end
       end
     end
@@ -184,7 +188,7 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   end
   #Check static text placeholder.
   scope = scope + "//div[@class='row collapse_expand_subform_header']"
-  find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}']", :text => (state == 'collapsed' ? "+" : "-"))
+  find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}' and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
 end
 
 And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
@@ -206,7 +210,7 @@ end
 def update_subforms_field(num, subform, fields)
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
-  
+
   #in viewing expand subforms if not already, make visible the fields we are testing.
   collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
                          "//div[@class='row collapse_expand_subform_header']" +
@@ -233,7 +237,7 @@ def update_subforms_field(num, subform, fields)
       elsif value.start_with?("<Radio>")
         step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{name}" radio button within "#{scope}"}
       elsif value.start_with?("<Tickbox>")
-        label = find "//label", :text => name, :visible => true
+        label = find "//label[text()=\"#{name}\"]", :visible => true
         checkbox_id = label["for"]
         check("#{checkbox_id}", :visible => true)
       else
@@ -247,9 +251,9 @@ Then /^I should see header in the (\d+)(?:st|nd|rd|th) "(.*)" subform within "(.
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   scope = "//div[@id='subform_container_#{subform}_#{num}']" +
-          "//div[@class='row collapse_expand_subform_header']" + 
+          "//div[@class='row collapse_expand_subform_header']" +
           "//div[contains(@class, 'display_field')]"
-  find(scope + "//span", :text => value)
+  find(scope + "//span[text()=\"#{value}\"]")
 end
 
 And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
@@ -257,7 +261,7 @@ And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state
   subform = subform.downcase.gsub(" ", "_")
   expected_state = state == "expanded" ? "collapsed" : "expanded"
   xpath = "//div[@id='subform_container_#{subform}_#{num}']" +
-          "//div[@class='row collapse_expand_subform_header']" + 
+          "//div[@class='row collapse_expand_subform_header']" +
           "//span[@class='collapse_expand_subform #{expected_state}']"
   find(xpath).click
 end
@@ -276,7 +280,7 @@ And /^pause$/ do
 end
 
 And /^I should stay on the "(.+)" tab on the case "(.+)" page$/ do |tab, page_action|
-  page.should have_css('h1', :text => tab, :visible => true)
+  page.should have_xpath("//h1[text()=\"#{tab}\"]", :visible => true)
   path = Rails.application.routes.recognize_path(current_url)
   page_action.should eql(path[:action])
 end

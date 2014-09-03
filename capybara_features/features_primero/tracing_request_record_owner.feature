@@ -5,7 +5,7 @@ Feature: Tracing Request Record Owner
   As a Social worker, I want to enter information related to the record owner for tracing requests
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "tracing requests page"
     And I press the "New Tracing Request" button
     And I press the "Record Owner" button

@@ -9,7 +9,7 @@ Feature: Primero View List of Case Records
   update my case records with information about my interactions with the cases in my care after registration
 
   Scenario: I want to see my cases and update them
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following cases exist in the system:
       | name     | created_by | age | sex    | registration_date       | child_status | unique_identifier                    |
       | andreas  | primero    | 10  | male   | 03-Feb-2004             | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |

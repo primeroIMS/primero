@@ -5,7 +5,7 @@ Feature: Lookup Violations New
   As a User I want to be able to associate different entities with one or more violations when creating a new incident
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
 
@@ -32,9 +32,9 @@ Feature: Lookup Violations New
     And I press the "Intervention" button
     Then the "Violations" select box should have the following options:
       | label                     | selected? |
-      | NONE                      | no        |      
-  
-      
+      | NONE                      | no        |
+
+
   Scenario: As a logged in user, if I add a violation, the violations select should contain the violation
     And I press the "Violations" button
     And I press the "Maiming" button
@@ -64,7 +64,7 @@ Feature: Lookup Violations New
     Then the "Violations" select box should have the following options:
       | label                     | selected? |
       | Maiming Landmines 0       | no        |
-      
+
   Scenario: As a logged in user, if I add multiple violations, the violations select should contain those violations
     And I press the "Violations" button
     And I press the "Maiming" button
@@ -112,7 +112,7 @@ Feature: Lookup Violations New
       | Maiming Landmines 0                                             | no        |
       | Recruitment Conscription, Lack of Basic Services, Idealism 0    | no        |
       | Abduction Child Use 0                                           | no        |
-      
+
   Scenario: As a logged in user, if I remove a violation, that violation should not be part of the violation select
     And I press the "Violations" button
     And I press the "Maiming" button

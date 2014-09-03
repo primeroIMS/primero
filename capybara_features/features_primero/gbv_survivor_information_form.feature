@@ -5,7 +5,7 @@ Feature: Survivor Information Form
   As an administrator, I want to be able to enter information about survivors.
 
   Scenario: As a logged in user, I create a case by entering something in every field in the survivor information form
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Identification / Registration" button

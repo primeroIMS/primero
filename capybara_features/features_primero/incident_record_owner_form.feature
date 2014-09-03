@@ -2,10 +2,10 @@
 
 @javascript @primero
 Feature: Record Owner Form
-  As a Social worker, I want to enter information related to the record owner 
+  As a Social worker, I want to enter information related to the record owner
 
   Scenario: As a logged in user, I will enter information related to the record owner
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Record Owner" button

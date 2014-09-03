@@ -12,7 +12,7 @@
 @javascript @primero
 Feature: Family Details Form
   As a Social worker, I want to enter the information related to the family details.
-  
+
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"

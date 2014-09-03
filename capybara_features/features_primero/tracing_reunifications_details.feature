@@ -10,7 +10,7 @@ Feature: Tracing Reunification Details
   so that we can record the status of the child in the reunification process.
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Tracing" button

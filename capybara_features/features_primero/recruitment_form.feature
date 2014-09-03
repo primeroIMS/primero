@@ -8,10 +8,10 @@
 
 @javascript @primero
 Feature: Recruitment Form
-  I want to indicate the violation category so that I can report on all types of violations associated 
+  I want to indicate the violation category so that I can report on all types of violations associated
   with the incident
   Scenario: As a logged in user, I will create a incident for sexual violence
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Violations" button

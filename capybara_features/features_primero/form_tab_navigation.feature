@@ -6,7 +6,7 @@ Feature: Form Tab Navigation
   to the last viewed tab on edit from the show page.
 
   Scenario: As a logged in user, I create a case and return to the last viewed tab.
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Photos and Audio" button
@@ -16,7 +16,7 @@ Feature: Form Tab Navigation
     And I should stay on the "Photos and Audio" tab on the case "show" page
 
   Scenario: As a logged in user, I view the photos and audio tab and click edit
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following cases exist in the system:
       | name     | created_by | age | sex    | registration_date      | status | unique_identifier                    |
       | andreas  | primero    | 10  | male   | 03-Feb-2004            | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |

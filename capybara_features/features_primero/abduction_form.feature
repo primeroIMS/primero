@@ -11,7 +11,7 @@ Feature: Abduction Form
   As a User I want to be able to choose the type of abduction so that I can have that information available for reporting and analysis
 
   Scenario: As a logged in user, I will create a incident for abduction
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Violations" button

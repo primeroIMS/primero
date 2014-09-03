@@ -10,7 +10,7 @@ Feature: Subforms Collapse Expand
   As a User, I want to collapse or expand subforms to reduce the amount of information displayed
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Family / Partner Details" button

@@ -5,7 +5,7 @@ Feature: Lookup Tracing Requests
   As a User I want to be able to choose values that are configurable using lookup tables
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following lookups exist in the system:
       | name           | lookup_values                                          |
       | country        | Country1, Country2, Country3, Country4                 |

@@ -6,7 +6,7 @@ Feature: Subforms Collapses Fields Incidents
   so that I can distinguish one collapsed form from the other
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
 

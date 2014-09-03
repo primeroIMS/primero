@@ -7,11 +7,11 @@
 
 @javascript @primero
 Feature: Incidents Form
-  As a Social Worker / Data Entry Person, I want to create an incident record in Primero 
+  As a Social Worker / Data Entry Person, I want to create an incident record in Primero
   so that I can enter supporting details about a GBV incident for reporting purposes.
 
   Scenario: As a logged in user, I create a new incident
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Incident" button
@@ -32,7 +32,7 @@ Feature: Incidents Form
     And I should see a value for "Date of Incident" on the show page with the value of "<Date Range> From: 15-Jan-2013 To: 22-Feb-2013"
 
   Scenario: As a logged in user, I create a new incident and I should be able to enter a date or a date range for the date of incident
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Incident" button

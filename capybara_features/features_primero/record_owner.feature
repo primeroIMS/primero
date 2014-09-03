@@ -2,10 +2,10 @@
 
 @javascript @primero @search
 Feature: Record Owner
-  As a Social worker, I want to enter information related to the record owner 
+  As a Social worker, I want to enter information related to the record owner
 
 Background:
-  Given I am logged in as an admin with username "primero" and password "primero"
+  Given I am logged in as an admin with username "primero_cp" and password "primero"
   When I access "cases page"
   And I press the "New Case" button
 
