@@ -6,7 +6,7 @@ Feature: Subforms Collapses Fields Cases Viewing
   so that I can distinguish one collapsed form from the other
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
 

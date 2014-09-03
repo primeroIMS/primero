@@ -8,7 +8,7 @@ Feature: Interview Details Form
   that it's easier for users to opt to not use certain sections (like protection or care concerns)
 
   Scenario: As a logged in user, I create a case by entering other identity details information
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Other Identity Details" button

@@ -3,17 +3,17 @@
 
 @javascript @primero @search
 Feature: Flag Case Record For Attention
-  As a Administrator / supervisor, I want to to be able to flag case records that have issues 
+  As a Administrator / supervisor, I want to to be able to flag case records that have issues
   so that the social worker for the case will know there is an issue that needs to be corrected.
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following children exist in the system:
       | name    | unique_identifier |
       | Shaggy  | id_1              |
 
 
-  Scenario Outline: I should have a Flag Record button on the case record 
+  Scenario Outline: I should have a Flag Record button on the case record
     And I am on the <page> for "Shaggy"
     Then I should see a "Flag Record" button on the page
 
@@ -59,8 +59,8 @@ Feature: Flag Case Record For Attention
       | page |
       | case record page |
       | case record edit page |
-      
-  Scenario Outline: I should have Cases as the root of the breadcrumb on the case record 
+
+  Scenario Outline: I should have Cases as the root of the breadcrumb on the case record
     And I am on the <page> for "Shaggy"
     Then I should see a "Cases" link on the page
     And I click on the "Cases" link

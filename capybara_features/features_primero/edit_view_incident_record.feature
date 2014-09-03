@@ -5,7 +5,7 @@ Feature: Edit and View Incident Record
   As a admin user, I want to be able to edit a incident record and view the incident record
 
   Scenario: I edit a incident record
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following incidents exist in the system:
       | created_by  | date_of_first_report    | status   | unique_identifier                    |
       | primero     | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
@@ -25,7 +25,7 @@ Feature: Edit and View Incident Record
     And I should see a value for "Incident Total Victims/Survivors:Girls" on the show page with the value of "2"
 
   Scenario: I view a incident record
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following incidents exist in the system:
       | created_by  | date_of_first_report    | status   | unique_identifier                    | incident_total_boys | incident_timeofday         |
       | primero     | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 | 3                   | Afternoon (noon to sunset) |

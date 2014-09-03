@@ -5,7 +5,7 @@ Feature: Lookup Violations
   As a User I want to be able to associate different entities with one or more violations when editing an incident
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following incidents with violations exist in the system:
       | created_by  | date_of_first_report    | status   | unique_identifier                    | violations                   |
       | primero     | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 | killing, maiming, abduction  |
@@ -39,7 +39,7 @@ Feature: Lookup Violations
     Then the "Violations" select box should have the following options:
       | label                     | selected? |
       | NONE                      | no        |
-      
+
   Scenario: As a logged in user, if the current incident has multiple violations, the violations select should contain those violations
     And I press the "7af3aa9" link
     And I press the "Edit" button
