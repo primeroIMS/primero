@@ -311,6 +311,11 @@ input[type="text"][disabled]{
   border: none !important;
 }
 
+.file {
+  border-bottom: 1px solid $stroke_green_color;
+  margin: 0 40px;
+}
+
 ////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////
