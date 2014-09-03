@@ -316,6 +316,7 @@ en:
       flagged: "Flagged"
 
   incident:
+    label: "Incident ID"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
     registered_by: "Registered by"
@@ -355,7 +356,7 @@ en:
     history_of: "History of %{short_id}"
 
   tracing_request:
-    label: "Tracing Requests"
+    label: "Inquirer ID"
     register_new_tracing_request: "New Tracing Request"
     change_log: "Change Log"
     name_of_inquirer: "Name of Inquirer"
