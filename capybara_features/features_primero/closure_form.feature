@@ -1,4 +1,5 @@
 #JIRA PRIMERO-429
+#JIRA PRIMERO-486
 
 @javascript @primero
 Feature: Closure Form
@@ -17,7 +18,7 @@ Feature: Closure Form
       | Caregiver Location        |
     And I fill in the following:
       | What is the reason for closing the child's file? | <Select> Death of Child |
-      | Date of Closure                                  | 04-May-2014             |
+      | Date of Closure                                  | today's date            |
       | Caregiver Name                                   | Shabazz Nurendu         |
       | Caregiver Relationship                           | Father                  |
       | Caregiver Address                                | 1900 B. Ave             |
@@ -25,7 +26,7 @@ Feature: Closure Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "What is the reason for closing the child's file?" on the show page with the value of "Death of Child"
-    And I should see a value for "Date of Closure" on the show page with the value of "04-May-2014"
+    And I should see a value for "Date of Closure" on the show page with the value of "today's date"
     And I should see a value for "Caregiver Name" on the show page with the value of "Shabazz Nurendu"
     And I should see a value for "Caregiver Relationship" on the show page with the value of "Father"
     And I should see a value for "Caregiver Address" on the show page with the value of "1900 B. Ave"
