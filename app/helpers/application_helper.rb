@@ -74,7 +74,7 @@ module ApplicationHelper
   def ctl_cancel_button(path)
     record = controller.controller_name.gsub('_', ' ').titleize
     ctl_button_wrapper do 
-      discard_button polymorphic_path(path), record
+      discard_button polymorphic_path(path)
     end
   end
 
