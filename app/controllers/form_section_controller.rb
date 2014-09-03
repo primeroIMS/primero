@@ -1,6 +1,7 @@
 class FormSectionController < ApplicationController
 
-  before_filter :current_modules, :only => [:index]
+  before_filter :current_modules, :only => [:index, :new, :edit]
+  before_filter :parent_form, :only => [:new, :edit]
   before_filter :get_form_sections, :only => [:index]
   #before_filter :get_lookups, :only => [:index]
 
@@ -14,6 +15,12 @@ class FormSectionController < ApplicationController
     authorize! :create, FormSection
     @page_name = t("form_section.create")
     @form_section = FormSection.new(params[:form_section])
+    unless @form_section.order.present?
+      @form_section.order = 999
+    end
+    unless @form_section.order_form_group.present?
+      @form_section.order_form_group = 999
+    end
   end
 
   def create
@@ -22,6 +29,20 @@ class FormSectionController < ApplicationController
     form_section.base_language = I18n.default_locale
     if (form_section.valid?)
       form_section.create
+
+      #TODO WIP.... kinda hack... need to refactor
+      module_id = params[:module_id]
+      if module_id.present?
+        primero_module = PrimeroModule.get(module_id)
+        if primero_module.present?
+          unless primero_module.associated_form_ids.include? form_section.unique_id
+            primero_module.associated_form_ids << form_section.unique_id
+
+            primero_module.save
+          end
+        end
+      end
+
       flash[:notice] = t("form_section.messages.updated")
       redirect_to edit_form_section_path(form_section.unique_id)
     else

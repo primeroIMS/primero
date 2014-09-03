@@ -241,10 +241,10 @@ class FormSection < CouchRest::Model::Base
 
 
   #Return only those forms that can be accessed by the user given their role permissions and the module
-  def self.get_permitted_form_sections(a_module, parent_form, user)
+  def self.get_permitted_form_sections(primero_module, parent_form, user)
     #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
     user_form_ids = user.permitted_form_ids
-    module_form_ids = a_module.present? ? a_module.associated_form_ids : []
+    module_form_ids = primero_module.present? ? primero_module.associated_form_ids : []
     allowed_form_ids = user_form_ids & module_form_ids
 
     form_sections = []
