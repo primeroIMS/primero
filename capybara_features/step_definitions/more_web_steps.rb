@@ -10,7 +10,7 @@ World(WithinHelpers)
 
 When /^I click text "([^"]*)"(?: within "([^\"]*)")?$/ do |text_value, selector|
   with_scope(selector) do
-    page.find('//a', :visible => true, :text => text_value).click
+    page.find("//a[text()=\"#{text_value}\"]", :visible => true).click
   end
 end
 
@@ -159,14 +159,14 @@ Then /^the "([^"]*)" select box in the (\d+)(?:st|nd|rd|th) "(.*)" subform shoul
 
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     options = table.hashes
-    page.has_select?(dropdown_label, :options => options.collect{|element| element['label']}).should == true 
+    page.has_select?(dropdown_label, :options => options.collect{|element| element['label']}).should == true
   end
 end
 
 Then /^I should find the following links:$/ do |table|
   table.rows_hash.each do |label, named_path|
     href = path_to(named_path)
-    page.should have_xpath "//a[@href='#{href}' and text()='#{label}']"
+    page.should have_xpath "//a[@href='#{href}' and text()=\"#{label}\"]"
   end
 end
 
@@ -193,7 +193,7 @@ end
 
 When /^I check "([^"]*)" for "([^"]*)"(?: within "([^\"]*)")?$/ do |value, checkbox_name, scope|
   scope ||= ""
-  label = find "#{scope}//label", :text => checkbox_name
+  label = find "#{scope}//label[text()=\"#{checkbox_name}\"]"
   checkbox_id = label["for"]
   check("#{checkbox_id}_#{value.dehumanize}")
 end
@@ -201,7 +201,7 @@ end
 When /^I select "(.*)" for "(.*)" radio button(?: within "([^\"]*)")?$/ do |value, radiobutton_name, scope|
   scope ||= ""
   scope = "//fieldset[@id='#{scope.gsub("<Form>", "").strip.dehumanize}']" if scope.include?("<Form>")
-  label = find "#{scope}//label", :text => radiobutton_name, :visible => true
+  label = find "#{scope}//label[text()=\"#{radiobutton_name}\"]", :visible => true
   radiobutton_id = label["for"]
   choose("#{radiobutton_id}_#{value.dehumanize}", :visible => true)
 end

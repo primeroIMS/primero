@@ -1,4 +1,4 @@
- <div class="side-tab">
+ <div class="side-tab" data-equalizer-watch>
     <ul class="side-nav">
       <%# TODO: We are hiding the user options for the time being. %>
       <li class=<%= (highlight_page == 'users' ? 'current' : '') %>><%= link_to I18n.t("users.label"), users_path if can?(:read, User)%></li>

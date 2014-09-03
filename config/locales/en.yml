@@ -93,10 +93,11 @@ en:
      change_password: "Change Password"
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
+     create_incident: "Create Incident"
 
   cases:
     label: "Cases"
-    register_new_case: "Create a New Case"
+    register_new_case: "New Case"
     export: "Export"
     filter_by:
       valid: "Valid records"
@@ -304,7 +305,7 @@ en:
 
   incidents:
     label: "Incidents"
-    register_new_incident: "Create a New Incident"
+    register_new_incident: "New Incident"
 
     filter_by:
       valid: "Valid records"
@@ -355,7 +356,7 @@ en:
 
   tracing_request:
     label: "Tracing Requests"
-    register_new_tracing_request: "Create a New Tracing Request"
+    register_new_tracing_request: "New Tracing Request"
     change_log: "Change Log"
     name_of_inquirer: "Name of Inquirer"
     date_of_inquiry: "Date of Inquiry"
@@ -383,7 +384,7 @@ en:
     history_of: "History of %{short_id}"
     
   tracing_requests:
-    register_new_tracing_request: "Create a New Tracing Request"
+    register_new_tracing_request: "New Tracing Request"
 
   preposition:
     on_label: "on"
@@ -769,6 +770,7 @@ en:
         document_size: "Please upload a document smaller than 10mb"
         documents_count: "You are only allowed %{documents_count} documents per case."
         document_format: "Executable files are not allowed."
+        date_closure: "The Case Closure Date should be greater or equal than Case Opening Date."
 
       field:
         display_name_presence: "Display name must not be blank"

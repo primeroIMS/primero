@@ -7,7 +7,7 @@ Feature: GBV Sexual Violence
   Scenario: As a logged in user, I will create a GBV incident for sexual violence
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Sexual Violence" button
     And I fill in the following:
       | Type of Incident Violence                                                           | <Select> Denial of Resources, Opportunities, or Services |

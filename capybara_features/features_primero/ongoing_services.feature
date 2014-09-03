@@ -6,9 +6,9 @@ Feature: Services
   so that we can verify that we are providing for the child's needs
 
   Scenario: As a logged in user, I should be able to create a new case and save information from the services form
-    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Services / Follow Up" button
     And I click on "Ongoing Services" in form group "Services / Follow Up"
     And I fill in the 1st "Ongoing Services Section" subform with the follow:

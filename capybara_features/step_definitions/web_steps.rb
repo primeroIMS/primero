@@ -58,7 +58,7 @@ When /^(?:|I )(?:can )?click "([^\"]*)"(?: within "([^\"]*)")?$/ do |selector, w
 end
 
 When /^I follow "(.+)" span$/ do |locator|
-  find(:xpath, "//span[text()='#{locator}']").click
+  find(:xpath, "//span[text()=\"#{locator}\"]").click
 end
 
 When /^I cannot follow "([^\"]*)"(?: within "([^\"]*)")?$/ do |link, selector|
@@ -77,7 +77,7 @@ end
 When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field, value, selector|
   if value.start_with?("<Date Range>")
       value = value.gsub("<Date Range>", "").strip
-      label = find "//label", :text => field, :visible => true
+      label = find "//label[text()=\"#{field}\"]", :visible => true
       if value.start_with?("<Date>")
         value = value.gsub("<Date>", "").strip
         radio_button_id = "#{label["for"]}_date_or_date_range_date"
@@ -107,7 +107,7 @@ When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field,
   elsif value.start_with?("<Radio>")
     step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{field}" radio button}
   elsif value.start_with?("<Tickbox>")
-    label = find "//label", :text => field
+    label = find "//label[text()=\"#{field}\""
     checkbox_id = label["for"]
     check("#{checkbox_id}")
   elsif value.start_with?("<Checkbox>")
@@ -116,6 +116,7 @@ When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field,
       step %Q{I check "#{option.strip}" for "#{field}"}
     end
   else
+    value = DateTime.now.strftime("%d-%b-%Y") if value.strip == "today's date"
     with_scope(selector) do
       fill_in(field, :visible => true, :with => value)
     end
@@ -203,9 +204,9 @@ Then /^(?:|I )should not see \/([^\/]*)\/(?: within "([^\"]*)")?$/ do |regexp, s
   regexp = Regexp.new(regexp)
   with_scope(selector) do
     if defined?(Spec::Rails::Matchers)
-      page.should have_no_xpath('//*', :text => regexp)
+      page.should have_no_xpath("//*[text()=\"#{regexp}\"]")
     else
-      assert page.has_no_xpath?('//*', :text => regexp)
+      assert page.has_no_xpath?("//*[text()=\"#{regexp}\"]")
     end
   end
 end
@@ -340,7 +341,7 @@ Then /^I should see first (\d+) records in the search results$/ do |arg1|
 end
 
 When /^I goto the "(.*?)"$/ do |text|
-  find(:xpath,"//a[@class='"+text+"']").click
+  find(:xpath,"//a[@class=\""+text+"\"]").click
 end
 
 
@@ -349,11 +350,11 @@ Then /^I should see next records in the search results$/ do
 end
 
 Then /^I should see link to "(.*?)"$/ do |text|
-  page.should have_xpath("//span[@class='"+text+"']")
+  page.should have_xpath("//span[@class=\""+text+"\"]")
 end
 
 Then /^I should( not)? be able to view the tab (.+)$/ do|not_visible,tab_name|
-  tab_element = page.has_xpath?("//div[@class='main_bar']//ul/li/a[text()='"+tab_name+"']")
+  tab_element = page.has_xpath?("//div[@class='main_bar']//ul/li/a[text()=\"#{tab_name}\"]")
   tab_element.should == !not_visible
 end
 
@@ -413,13 +414,13 @@ end
 
 #Chosen with the values to select in the table.
 When /^I choose from "([^\"]*)":$/ do |chosen, table |
-  label = find("//label[text()='#{chosen}']", :visible => true)
+  label = find("//label[text()=\"#{chosen}\"]", :visible => true)
   chosen_id = label["for"] + "_chosen"
   chosen = find(:xpath, "//div[@id='#{chosen_id}']", :visible => true)
   table.raw.flatten.each do |option|
     #This make visible the options to choose.
     chosen.click
-    chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']").click
+    chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()=\"#{option}\"]").click
     #To select another items, it is needed the chosen lost the focus to make click again
     #to make visible the items to select.
     label.click
@@ -429,12 +430,12 @@ end
 #Chosen to select the values one by one, this is useful in subforms because we can't send the table from the string.
 When /^I choose option "([^\"]*)" from "([^\"]*)"(?: within "([^"]*)")?$/ do |option, chosen, selector |
   selector ||= ""
-  label = find("#{selector}//label[text()='#{chosen}']", :visible => true)
+  label = find("#{selector}//label[text()=\"#{chosen}\"]", :visible => true)
   chosen_id = label["for"] + "_chosen"
   chosen = find(:xpath, "//div[@id='#{chosen_id}']",  :visible => true)
   #This make visible the options to choose.
   chosen.click
-  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()='#{option}']", :visible => true).click
+  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()=\"#{option}\"]", :visible => true).click
   #To select another items, it is needed the chosen lost the focus to make click again
   #to make visible the items to select.
   label.click
@@ -442,7 +443,7 @@ end
 
 #Chosen with the values to select in the table.
 When /^the chosen "([^\"]*)" should have the following values:$/ do |chosen, table |
-  label = find("//label[text()='#{chosen}']", :visible => true)
+  label = find("//label[text()=\"#{chosen}\"]", :visible => true)
   chosen_select_id = label["for"]
   chosen_select = find(:xpath, "//select[@id='#{chosen_select_id}']", :visible => false)
   table.raw.flatten.each do |option|
@@ -451,7 +452,7 @@ When /^the chosen "([^\"]*)" should have the following values:$/ do |chosen, tab
 end
 
 When /^the chosen "([^\"]*)" should not have any selected value$/ do |chosen|
-  label = find("//label[text()='#{chosen}']", :visible => true)
+  label = find("//label[text()=\"#{chosen}\"]", :visible => true)
   chosen_select_id = label["for"]
   chosen_select = find(:xpath, "//select[@id='#{chosen_select_id}']", :visible => false)
   chosen_select.value.blank?.should be true
@@ -462,11 +463,11 @@ end
 # end
 
 def assert_has_top_form(form_label)
-  expect(page).to have_xpath("//ul[@class='tab-handles side-nav']/li/a[text()='#{form_label}']", visible: false)
+  expect(page).to have_xpath("//ul[@class='tab-handles side-nav']/li/a[text()=\"#{form_label}\"]", visible: false)
 end
 
 def assert_has_grouped_form(form_label)
-  expect(page).to have_xpath("//ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a[text()='#{form_label}']", visible: false)
+  expect(page).to have_xpath("//ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a[text()=\"#{form_label}\"]", visible: false)
 end
 
 def assert_has_form_group(group_label)
@@ -474,11 +475,11 @@ def assert_has_form_group(group_label)
 end
 
 def assert_doesnt_have_top_form(form_label)
-  expect(page).to have_no_xpath("//ul[@class='tab-handles side-nav']/li/a[text()='#{form_label}']", visible: false)
+  expect(page).to have_no_xpath("//ul[@class='tab-handles side-nav']/li/a[text()=\"#{form_label}\"]", visible: false)
 end
 
 def assert_doesnt_have_grouped_form(form_label)
-  expect(page).to have_no_xpath("//ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a[text()='#{form_label}']", visible: false)
+  expect(page).to have_no_xpath("//ul[@class='tab-handles side-nav']/li/ul[@class='sub']/li/a[text()=\"#{form_label}\"]", visible: false)
 end
 
 def assert_doesnt_have_form_group(group_label)

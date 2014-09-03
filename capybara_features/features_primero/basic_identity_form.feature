@@ -24,11 +24,11 @@
 Feature: Basic Identity Form
   As an administrator, I want to be able to create a case with a auto generated case id, short id, and registration date.
   I also want the case status to default to open leaving the option to set it another status by the user.
-  
+
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
 
   Scenario: As a logged in user, I create a case by entering something in every field in the basic identity form
     And I fill in the following:
@@ -85,7 +85,7 @@ Feature: Basic Identity Form
       | Is this address permanent?               | Yes                                |
       | Current Telephone                        | 336-555-1313                       |
 
-  Scenario: As a logged in user, I create a case without entering anything in any field in the basic identity form 
+  Scenario: As a logged in user, I create a case without entering anything in any field in the basic identity form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
@@ -116,7 +116,7 @@ Feature: Basic Identity Form
     And I should see a value for "Is this address permanent?" on the show page with the value of "No"
     And I should see a value for "Current Telephone" on the show page with the value of ""
 
-  Scenario: As a logged in user, I should be able to reset the basic identity form 
+  Scenario: As a logged in user, I should be able to reset the basic identity form
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 22                                   |
@@ -126,7 +126,7 @@ Feature: Basic Identity Form
     Then I should be on the cases page
     And I should not see "Case record successfully created" on the page
 
-  Scenario: As a logged in user, I should be able to cancel out of a reset of the basic identity form 
+  Scenario: As a logged in user, I should be able to cancel out of a reset of the basic identity form
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 22                                   |

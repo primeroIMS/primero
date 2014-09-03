@@ -55,7 +55,7 @@ Feature: Add suggested field to form sections
      Then I should see "Field successfully added"
 
      When I am on children listing page
-     And I follow "Create a New Case"
+     And I follow "New Case"
      Then the field "Field with options" should have the following options:
        | option1 |
        | option2 |

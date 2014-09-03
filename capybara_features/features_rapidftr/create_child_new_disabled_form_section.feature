@@ -14,7 +14,7 @@ Feature: Create child new disabled form section
       | Caregiver Details |                               | caregiver_details | case        | 3     | true    |
       | Disabled          |                               | disabled_details  | case        | 4     | false   |
     And I am on children listing page
-    And I follow "Create a New Case"
+    And I follow "New Case"
 
     Then I should see the "Basic Details" tab
     And I should see the "Family Details" tab

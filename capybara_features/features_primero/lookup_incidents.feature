@@ -5,7 +5,7 @@ Feature: Lookup Incidents
   As a User I want to be able to choose values that are configurable using lookup tables
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following lookups exist in the system:
       | name           | lookup_values                                          |
       | country        | Country1, Country2, Country3, Country4                 |
@@ -14,7 +14,7 @@ Feature: Lookup Incidents
       | language       | Language1, Language2, Language3, Language4             |
       | religion       | Religion1, Religion2, Religion3, Religion4             |
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
 
   Scenario: As a logged in user, I will select lookup values from Group Details
     And I press the "Group Details" button
@@ -43,7 +43,7 @@ Feature: Lookup Incidents
       | What is the ethnic affiliation of the individual?    | <Select> Ethnicity1     |
       | What is the national affiliation of the individual?  | <Select> Nationality1   |
       | What is the religious affiliation of the individual? | <Select> Religion1      |
-      | Country of Origin                                    | <Select> Country1       |    
+      | Country of Origin                                    | <Select> Country1       |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see in the 1st "Individual Details Subform Section" subform with the follow:

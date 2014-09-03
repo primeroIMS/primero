@@ -6,9 +6,9 @@ Feature: Source Form
 
   @javascript @primero
   Scenario: As a logged in user, I will create a incident for source
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Source" button
     And I fill in the 1st "Source Subform Section" subform with the follow:
       | Date of Interview                                          | 19-Jul-1979                 |
