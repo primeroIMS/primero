@@ -37,7 +37,7 @@ en:
     this_user: " this user?"
     keep_working: "Yes, Keep Working"
     logoff: "No, Logoff"
-    confirmation_message: "Clicking OK Will Discard Any Unsaved Changes. Click Cancel To Return To The %{record} Records Instead."
+    confirmation_message: "Clicking OK will discard any unsaved changes and return to the list view . Click cancel to return to the record."
     cancel_confirmation: "Are you sure you want to cancel?"
     logoff_warning_prefix: "You will be logged off in"
     logoff_warning_suffix: "seconds."
@@ -661,6 +661,7 @@ en:
     select_box_empty_item: "(Select...)"
     chosen_placeholder: "Select all that apply"
     multi_select: "Multiple Selection"
+    date_help: "dd-mmm-yyyy"
     date_range:
       from: "From"
       to: "To"

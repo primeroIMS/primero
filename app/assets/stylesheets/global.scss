@@ -311,6 +311,22 @@ input[type="text"][disabled]{
   border: none !important;
 }
 
+.file {
+  border-bottom: 1px solid $stroke_green_color;
+  margin: 0 40px;
+}
+
+p.help {
+  background: none !important;
+  padding: 0;
+  font-size: 0.8rem;
+  color: $green_color;
+}
+
+.has_help {
+  margin-bottom: 2px !important;
+}
+
 ////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////
