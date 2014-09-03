@@ -12,9 +12,9 @@ Feature: Killing Form
   As a User, I want to capture the weapon type for killing or maiming violations so that information is recorded for reporting purposes
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Violations" button
     And I press the "Killing" button
 

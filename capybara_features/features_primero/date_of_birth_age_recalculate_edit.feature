@@ -6,7 +6,7 @@ Feature: Date Of Birth Age Recalculate Edit
   respect to the current year.
 
   Scenario: As a logged in user and enter to edit, I want that age be recalculated
-   Given I am logged in as an admin with username "primero" and password "primero"
+   Given I am logged in as an admin with username "primero_cp" and password "primero"
    And the following cases exist in the system:
      | name   | unique_identifier | age | date_of_birth |
      | timmy  | timmy             | 10  | 30-May-1990   |

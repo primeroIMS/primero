@@ -13,13 +13,13 @@
 
 @javascript @primero
 Feature: Protection Concern Form
-  As an administrator, I want to enter information related to protection concerns 
+  As an administrator, I want to enter information related to protection concerns
   so that we can know the vulnerabilities of the child.
 
   Scenario: As a logged in user, I create a case by entering something in every field in the protection concern form
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Protection Concern" button
     And I fill in the following:
       | Protection Status                                                                 | <Select> Separated                |
@@ -39,9 +39,9 @@ Feature: Protection Concern Form
     And I should see a value for "Disability Type" on the show page with the value of "Physical Disability"
 
   Scenario: As a logged in user, I create a case by entering something in every field in the protection concern details form
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Assessment" button
     And I click on "Protection Concern Details" in form group "Assessment"
     And I fill in the following:
@@ -69,9 +69,9 @@ Feature: Protection Concern Form
       | Date when action was taken | 12-May-2014         |
 
   Scenario: As a logged in user, I want to correctly initialize the chosen in groups
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Assessment" button
     And I click on "Protection Concern Details" in form group "Assessment"
     And I fill in the following:
@@ -94,9 +94,9 @@ Feature: Protection Concern Form
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Statelessness, Other"
 
   Scenario: As a logged in user, , I want to correctly initialize the chosen in groups
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Protection Concern" button
     And I fill in the following:
       | Protection Status                                                                 | <Select> Separated                |

@@ -8,7 +8,7 @@ Feature: Permitted Forms
   Scenario: As a CP user I create a new CP case record
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     Then I should be able to access the following grouped forms:
       | Basic Identity |
       | Protection Concerns |
@@ -21,7 +21,7 @@ Feature: Permitted Forms
   Scenario: As a GBV user I create a new GBV case record
     Given I am logged in as a social worker with username "primero_gbv" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     Then I should be able to access the following top level forms:
       | Survivor Information |
     And I shouldn't be able to access the following grouped forms:
@@ -34,7 +34,7 @@ Feature: Permitted Forms
   Scenario: As a GBV user I create a new GBV incident record
     Given I am logged in as a social worker with username "primero_gbv" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     Then I should be able to access the following top level forms:
       | Service Referrals |
       | GBV Individual Details |
@@ -47,7 +47,7 @@ Feature: Permitted Forms
   Scenario: As an MRM user I create a new MRM incident record
     Given I am logged in as a social worker with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     Then I should be able to access the following top level forms:
       | Individual Details |
       | Group Details |

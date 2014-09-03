@@ -9,9 +9,9 @@ Feature: Activities Form
   so that we can track and report on areas of particular concern.
 
   Scenario: As a logged in user, I create a case with activities information
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Services / Follow Up" button
     And I press the "Activities" button
     And I select "Yes" for "Is the Child in school or training?" radio button
@@ -26,7 +26,7 @@ Feature: Activities Form
     And I fill in the following:
       | Start Date of Training                 | 04-May-1992 |
       | Duration of Training                   | 3           |
-      | Other details about school or training | Some Other Details School/Training | 
+      | Other details about school or training | Some Other Details School/Training |
     And I choose from "What other activities is the child involved in?":
       | Recreational Activities |
       | Livelihood activities   |

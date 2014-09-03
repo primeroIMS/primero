@@ -43,7 +43,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Closure",
   "editable" => true,
   :fields => closure_fields,
-  :perm_enabled => true,
   "name_all" => "Closure",
   "description_all" => "Closure"
 })

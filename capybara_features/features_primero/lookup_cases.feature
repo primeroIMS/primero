@@ -6,7 +6,7 @@ Feature: Lookup Cases
   As a User I want to be able to choose values that are configurable using lookup tables
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following lookups exist in the system:
       | name           | lookup_values                                          |
       | country        | Country1, Country2, Country3, Country4                 |
@@ -15,7 +15,7 @@ Feature: Lookup Cases
       | language       | Language1, Language2, Language3, Language4             |
       | religion       | Religion1, Religion2, Religion3, Religion4             |
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
 
   Scenario: As a logged in user, I will select lookup values from Other Identity Details
     And I press the "Other Identity Details" button

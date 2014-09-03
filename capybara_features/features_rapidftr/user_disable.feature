@@ -43,6 +43,6 @@ Feature: User disable
     And I am on the cases page
 
     When user "george" is disabled
-    And I follow "Create a New Case"
+    And I follow "New Case"
 
     Then I am on the login page

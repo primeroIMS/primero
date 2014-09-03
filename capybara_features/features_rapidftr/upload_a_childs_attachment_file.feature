@@ -110,7 +110,7 @@ Feature: Upload a childs attachment file
 
     When I select the form section "photos_and_audio" to toggle visibility
     And I am on cases page
-    And I follow "Create a New Case"
+    And I follow "New Case"
     Then I should see "Photos and Audio"
 
   Scenario: Should be able to delete audio

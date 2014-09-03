@@ -6,9 +6,9 @@ Feature: Tracing Request Limits Photo Upload
   so that the system does not become overloaded
 
   Background:
-    Given I am logged in as a social worker with username "primero" and password "primero"
+    Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    And I press the "Create a New Tracing Request" button
+    And I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
 
   Scenario: Hide "Add another photo" button after click 9 times
