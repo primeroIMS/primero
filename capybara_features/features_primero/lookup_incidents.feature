@@ -14,7 +14,7 @@ Feature: Lookup Incidents
       | language       | Language1, Language2, Language3, Language4             |
       | religion       | Religion1, Religion2, Religion3, Religion4             |
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
 
   Scenario: As a logged in user, I will select lookup values from Group Details
     And I press the "Group Details" button

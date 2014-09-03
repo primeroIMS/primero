@@ -11,7 +11,7 @@ Feature: Activities Form
   Scenario: As a logged in user, I create a case with activities information
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Services / Follow Up" button
     And I press the "Activities" button
     And I select "Yes" for "Is the Child in school or training?" radio button

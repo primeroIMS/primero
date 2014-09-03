@@ -25,7 +25,7 @@ Feature: Hide Child Record Form Fields
   Scenario: Hidden field does not appear of form
    Given I follow "CHILDREN"
      And I am on children listing page
-     And I follow "Create a New Case"
+     And I follow "New Case"
      And I follow "Family details"
      And I fill in "Name" with "Will"
     When I press "Save"
@@ -41,7 +41,7 @@ Feature: Hide Child Record Form Fields
   Scenario: Hidden field does not appear on PDF
    Given I follow "CHILDREN"
      And I am on children listing page
-     And I follow "Create a New Case"
+     And I follow "New Case"
      And I follow "Family details"
      And I fill in "Name" with "Will"
     When I press "Save"

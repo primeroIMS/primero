@@ -7,7 +7,7 @@ Feature: Lookup Violations New
   Background:
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
 
   Scenario: As a logged in user, if the current incident has no violations, the violations select should be empty
     And I press the "Individual Details" button

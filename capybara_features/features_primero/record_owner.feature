@@ -7,7 +7,7 @@ Feature: Record Owner
 Background:
   Given I am logged in as an admin with username "primero_cp" and password "primero"
   When I access "cases page"
-  And I press the "Create a New Case" button
+  And I press the "New Case" button
 
 Scenario: As a logged in user, I create a case by entering something in the record owner form
 And I press the "Record Owner" button
@@ -34,7 +34,7 @@ And I press "Save"
 And I press the "Record Owner" button
 And I should see a value for "Record state" on the show page with the value of "Valid record"
 And I access "cases page"
-And I press the "Create a New Case" button
+And I press the "New Case" button
 And I fill in the following:
   | Name              | John Snow   |
   | Age               | 24          |
@@ -47,7 +47,7 @@ And I press "Save"
 And I press the "Record Owner" button
 And I should see a value for "Record state" on the show page with the value of "Valid record"
 And I access "cases page"
-And I press the "Create a New Case" button
+And I press the "New Case" button
 And I fill in the following:
   | Name              | Eddard Stark   |
   | Age               | 45             |
@@ -80,7 +80,7 @@ And I press "Save"
 And I press the "Record Owner" button
 And I should see a value for "Record state" on the show page with the value of "Valid record"
 And I access "cases page"
-And I press the "Create a New Case" button
+And I press the "New Case" button
 And I fill in the following:
   | Name              | John Snow   |
   | Age               | 24          |
@@ -93,7 +93,7 @@ And I press "Save"
 And I press the "Record Owner" button
 And I should see a value for "Record state" on the show page with the value of "Valid record"
 And I access "cases page"
-And I press the "Create a New Case" button
+And I press the "New Case" button
 And I fill in the following:
   | Name              | Eddard Stark   |
   | Age               | 45             |

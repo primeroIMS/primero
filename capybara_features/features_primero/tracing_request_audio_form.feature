@@ -7,7 +7,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: I upload a photo with the incorrect format
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    Then I press the "Create a New Tracing Request" button
+    Then I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/textfile.txt" for model "tracing_request"
     And I press "Save"
@@ -16,7 +16,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: I upload a audio file with the incorrect format
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    Then I press the "Create a New Tracing Request" button
+    Then I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/textfile.txt" for model "tracing_request"
     And I press "Save"
@@ -25,7 +25,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: I upload a photo file with the incorrect size
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    Then I press the "Create a New Tracing Request" button
+    Then I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/huge.jpg" for model "tracing_request"
     And I press "Save"
@@ -34,7 +34,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: I upload a audio file with the incorrect size
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    Then I press the "Create a New Tracing Request" button
+    Then I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/huge.mp3" for model "tracing_request"
     And I press "Save"
@@ -43,7 +43,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: I upload a photo file with the correct size and format
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    Then I press the "Create a New Tracing Request" button
+    Then I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/jorge.jpg" for model "tracing_request"
     And I press "Save"
@@ -52,7 +52,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: I upload a audio file with the correct size and format
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    Then I press the "Create a New Tracing Request" button
+    Then I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/sample.mp3" for model "tracing_request"
     And I press "Save"
@@ -61,7 +61,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: Uploading multiple images
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    And I press the "Create a New Tracing Request" button
+    And I press the "New Tracing Request" button
     And I click the "Photos and Audio" link
     And I attach the following photos for model "tracing_request":
       |capybara_features/resources/jorge.jpg|
@@ -77,7 +77,7 @@ Feature: Tracing Request Case Audio Form
   Scenario: I delete the audio file
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
     And I access "tracing requests page"
-    And I press the "Create a New Tracing Request" button
+    And I press the "New Tracing Request" button
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/sample.mp3" for model "tracing_request"
     And I press "Save"

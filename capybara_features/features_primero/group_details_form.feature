@@ -9,7 +9,7 @@ Feature: Group Details Form
   Scenario: As a logged in user, I will create a incident for group details
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Group Details" button
     And I fill in the 1st "Group Details Section" subform with the follow:
       | Description of the Group of Children                                        | Some Children Group    |

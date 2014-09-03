@@ -14,7 +14,7 @@ Feature: Lookup Tracing Requests
       | language       | Language1, Language2, Language3, Language4             |
       | religion       | Religion1, Religion2, Religion3, Religion4             |
     When I access "tracing requests page"
-    And I press the "Create a New Tracing Request" button
+    And I press the "New Tracing Request" button
 
   Scenario: As a logged in user, I will select lookup values from Inquirer
     And I press the "Inquirer" button

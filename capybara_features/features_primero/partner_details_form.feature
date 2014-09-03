@@ -10,7 +10,7 @@ Feature: Partner Details Form
   Scenario: As a user, I want to enter information on the marital details of a case person, so that I can track information about spouses or significant others.
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Family / Partner Details" button
     And I click on "Partner/Spouse Details" in form group "Family / Partner Details"
     And I fill in the following:
