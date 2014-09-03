@@ -116,6 +116,7 @@ When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field,
       step %Q{I check "#{option.strip}" for "#{field}"}
     end
   else
+    value = DateTime.now.strftime("%d-%b-%Y") if value.strip == "today's date"
     with_scope(selector) do
       fill_in(field, :visible => true, :with => value)
     end
