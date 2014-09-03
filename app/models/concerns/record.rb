@@ -337,7 +337,6 @@ module Record
 
   def determine_changing_fields(props)
     self.to_hash.select do |key, value|
-      require 'pry'; binding.pry if props.nil?
       props.include?(key) ? (props[key] != value) : false
     end
   end

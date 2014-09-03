@@ -7,7 +7,7 @@ module Exporters
   def self.to_2D_array(models, properties)
     longest_nested_arrays = find_longest_nested_arrays(models, properties)
 
-    header_columns = properties.map do |p|
+    header_columns = ['model_type'] + properties.map do |p|
       if longest_nested_arrays.include? p
         if p.type.include?(CouchRest::Model::Embeddable) && longest_nested_arrays[p] > 0
           (1..longest_nested_arrays[p]).map do |n|
@@ -24,7 +24,7 @@ module Exporters
     yield header_columns
 
     models.each do |m|
-      row = properties.map do |p|
+      row = [m.class.name] + properties.map do |p|
         if !p.type.nil? && p.type.include?(CouchRest::Model::Embeddable) && m[p.name].length > 0
           m.send(p.name.to_sym).map do |elm|
             p.type.properties.map do |subp|

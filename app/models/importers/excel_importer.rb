@@ -1,12 +1,13 @@
 
 module Importers
-  class CSVImporter
+  class ExcelImporter
     def self.id
-      'csv'
+      'xls'
     end
-
+    
     def self.import(file_obj)
-      rows = CSV.parse(file_obj)
+      book = Spreadsheet.open(file_obj)
+      rows = book.worksheets[0].to_a
 
       return Importers.flat_to_nested(rows)
     end

@@ -1,6 +1,8 @@
 module RecordActions
   extend ActiveSupport::Concern
 
+  include ImportActions
+
   included do
     include ExportActions
 
@@ -66,4 +68,20 @@ module RecordActions
     @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
   end
 
+  def create_new_model(attributes={})
+    @className.new_with_user_name(current_user, attributes)
+  end
+
+  # Attributes is just a hash
+  def get_unique_instance(attributes)
+    if attributes.include? 'unique_identifier'
+      @className.by_unique_identifier(:key => attributes['unique_identifier']).first
+    else
+      raise TypeError("attributes must include unique_identifier for Records")
+    end
+  end
+
+  def update_existing_model(instance, attributes)
+    instance.update_properties(attributes, current_user_name)
+  end
 end

@@ -1,3 +1,6 @@
+# The importers are responsible for parsing the input data and converting it to
+# a hash that corresponds to the various properties of a model
+#
 require 'deep_merge/rails_compat'
 
 module Importers

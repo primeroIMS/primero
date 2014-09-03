@@ -48,6 +48,7 @@ gem 'closure-compiler'
 gem 'progress_bar'
 
 gem 'writeexcel', '~> 1.0.3'
+gem 'spreadsheet',        '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
 
 group :development, :assets, :cucumber do
@@ -85,5 +86,4 @@ group :test, :cucumber do
   gem 'simplecov-rcov',     '~> 0.2.3'
   gem 'ci_reporter',        '~> 1.9.1'
   gem "pdf-inspector",      '~> 1.1.0', :require => 'pdf/inspector'
-  gem 'spreadsheet',        '~> 1.0.0'
 end
