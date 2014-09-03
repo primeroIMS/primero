@@ -661,6 +661,7 @@ en:
     select_box_empty_item: "(Select...)"
     chosen_placeholder: "Select all that apply"
     multi_select: "Multiple Selection"
+    date_help: "dd-mmm-yyyy"
     date_range:
       from: "From"
       to: "To"
