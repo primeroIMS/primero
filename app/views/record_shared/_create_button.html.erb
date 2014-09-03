@@ -1,7 +1,6 @@
 <% if can? :create, model %>
     <% button_label = t("#{record.pluralize}.register_new_#{record}") %>
     <% if modules.size > 1 %>
-        <%# TODO: Style better %>
         <%= link_to content_tag(:span, button_label), '#', :'data-dropdown' => 'modules-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button right' %>
         <ul id="modules-dropdown" class="f-dropdown" data-dropdown-content>
         <% modules.each do |primero_module| %>

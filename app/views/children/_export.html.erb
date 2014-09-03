@@ -1,8 +1,10 @@
-<span class="export"> <%= link_to t("children.export"), "#", class: "green-button" %> </span>
-<div class="dropdown hide">
-    <% RapidftrAddon::ExportTask.active.each do |export_task| %>
-        <% if can?("export_#{export_task.id}".to_sym, Child) %>
-            <%= link_to t("addons.export_task.#{export_task.id}.one"), child_path(@child, :format => export_task.id, :per_page => :all), :class => "password-prompt" %>
-        <% end %>
+<%= link_to content_tag(:span, t("children.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button right' %>
+<ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
+  <% RapidftrAddon::ExportTask.active.each do |export_task| %>
+    <% if can?("export_#{export_task.id}".to_sym, Child) %>
+      <li>
+      	<%= link_to t("addons.export_task.#{export_task.id}.one"), child_path(@child, :format => export_task.id, :per_page => :all), :class => "password-prompt" %>
+      </li>
     <% end %>
-</div>
+  <% end %>
+</ul>

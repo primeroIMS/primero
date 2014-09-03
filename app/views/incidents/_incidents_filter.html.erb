@@ -1,0 +1,54 @@
+<div class="title">Filter Cases By</div>
+<div class="panel">
+  <form id="index_filter_form">
+    <%= build_filter_checkboxes('Violation:', 'violation', [
+      'killing',
+      'maiming',
+      'recruitment',
+      'sexual_violence',
+      'abduction',
+      'attack_on_schools',
+      'attack_on_hospitals',
+      'denial_of_humanitarian_access',
+      'other_violation'
+    ], multi: true) %>    
+    <%= build_filter_checkboxes('Status:', 'status', [
+      'all',
+      'open',
+      'closed',
+      'duplicate',
+      'transferred'
+    ]) %>
+    <%= build_filter_checkboxes('Age Range:', 'age', [
+      'all',
+      '0-5',
+      '5-11',
+      '12-17',
+      '18+'
+    ]) %>
+    <%= build_filter_checkboxes('Sex:', 'sex', [
+      'male',
+      'female'
+    ]) %>
+    <%= build_filter_checkboxes('Verification Status:', 'verification_status', [
+      'unaccompanied',
+      'separated'
+    ]) %>
+    <%= build_filter_checkboxes('Location:', 'location', [
+      'location1',
+      'location2',
+      'location3'
+    ]) %>
+    <%= build_filter_date('Interview Date', 'interview_date') %>
+    <%= build_filter_date('Incident Date', 'incident_date') %>
+    <%= build_filter_checkboxes('Perpetrator Type:', 'perpetrator_type', [
+      "national_army",
+      "security_forces",
+      "international_forces",
+      "police_forces",
+      "paramilitary_forces",
+      "unknown",
+      "other"
+    ], multi: true) %>
+  </form>
+</div>

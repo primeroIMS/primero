@@ -6,6 +6,7 @@
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
 #JIRA PRIMERO-283
+#JIRA PRIMERO-505
 
 @javascript @primero
 Feature: Sexual Violence Form
@@ -23,17 +24,8 @@ Feature: Sexual Violence Form
       | Number of survivors: girls                                                          | 2                                                        |
       | Number of survivors: unknown                                                        | 3                                                        |
       | Type of Violence                                                                    | <Choose>Forced Marriage<Choose>Forced Sterilization      |
-      | Type of GBV                                                                         | <Select> Denial of Resources, Opportunities, or Services |
-      | If Non-GBV, describe                                                                | describe: It is not a GBV                                |
-      | Was this incident a Harmful Traditional Practice                                    | <Select> Option 1                                        |
-      | Were money, goods, benefits, and/or services exchanged in relation to the incident? | <Radio> Yes                                              |
       | Stage of displacement at time of incident                                           | <Select> During Flight                                   |
       | Type of abduction at time of the incident                                           | <Select> Forced Conscription                             |
-      | Has the client reported this incident anywhere else?                                | <Radio> Unknown                                          |
-      | If yes, type of service provider where the survivor reported the incident           | <Select> Legal Assistance Services                       |
-      | Name of the service provider                                                        | Organization 1                                           |
-      | Is this a GBV reporting organization?                                               | <Radio> Yes                                              |
-      | Has the client had any previous incidents of GBV perpetrated against them?          | <Radio> No                                               |
     And the value of "Number of total survivors" in the 1st "Sexual Violence" subform should be "6"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
@@ -44,14 +36,5 @@ Feature: Sexual Violence Form
       | Number of survivors: unknown                                                        | 3                                               |
       | Number of total survivors                                                           | 6                                               |
       | Type of Violence                                                                    | Forced Marriage, Forced Sterilization           |
-      | Type of GBV                                                                         | Denial of Resources, Opportunities, or Services |
-      | If Non-GBV, describe                                                                | describe: It is not a GBV                       |
-      | Was this incident a Harmful Traditional Practice                                    | Option 1                                        |
-      | Were money, goods, benefits, and/or services exchanged in relation to the incident? | Yes                                             |
       | Stage of displacement at time of incident                                           | During Flight                                   |
       | Type of abduction at time of the incident                                           | Forced Conscription                             |
-      | Has the client reported this incident anywhere else?                                | Unknown                                         |
-      | If yes, type of service provider where the survivor reported the incident           | Legal Assistance Services                       |
-      | Name of the service provider                                                        | Organization 1                                  |
-      | Is this a GBV reporting organization?                                               | Yes                                             |
-      | Has the client had any previous incidents of GBV perpetrated against them?          | No                                              |

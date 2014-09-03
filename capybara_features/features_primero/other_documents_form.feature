@@ -1,4 +1,5 @@
 #JIRA PRIMERO-413
+#JIRA PRIMERO-445
 
 @javascript @primero
 Feature: Other documents form
@@ -9,8 +10,7 @@ Feature: Other documents form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Other Documents" button
-    And I attach a document "capybara_features/resources/exe_file.exe"
-    Then I press "Save"
+    Then I attach a document "capybara_features/resources/exe_file.exe"
     And I should see "Executable files are not allowed." on the page
 
   Scenario: I upload a document file with the incorrect size
@@ -18,8 +18,7 @@ Feature: Other documents form
     When I access "cases page"
     And I press the "Create a New Case" button
     And I press the "Other Documents" button
-    And I attach a document "capybara_features/resources/huge.jpg"
-    Then I press "Save"
+    Then I attach a document "capybara_features/resources/huge.jpg"
     And I should see "Please upload a document smaller than 10mb" on the page
 
   Scenario: Uploading multiple documents
@@ -28,13 +27,14 @@ Feature: Other documents form
     And I press the "Create a New Case" button
     And I click the "Other Documents" link
     And I attach the following documents:
-      |capybara_features/resources/jorge.jpg|
-      |capybara_features/resources/jeff.png |
-    And I fill in "Document Description" with "Document upload test"
+      |capybara_features/resources/jorge.jpg|Document 1 (jorge.jpg)|
+      |capybara_features/resources/jeff.png |Document 2 (jeff.png) |
     Then I press "Save"
     And I should see "Case record successfully created"
     And I click the "Other Documents" link
-    And I should see a value for "Other Document" on the show page with the value of "<Documents>jorge.jpg jeff.png"
+    And I should see documents on the show page:
+      |jorge.jpg|Document 1 (jorge.jpg)|
+      |jeff.png |Document 2 (jeff.png) |
     And I follow "Edit"
     And I click the "Other Documents" link
     And I should see "jorge.jpg" on the page
@@ -46,18 +46,14 @@ Feature: Other documents form
     And I press the "Create a New Case" button
     And I click the "Other Documents" link
     And I attach the following documents:
-      |capybara_features/resources/jorge.jpg|
-      |capybara_features/resources/jeff.png |
-      |capybara_features/resources/jorge.jpg|
-      |capybara_features/resources/jeff.png |
-      |capybara_features/resources/jorge.jpg|
-      |capybara_features/resources/jeff.png |
-      |capybara_features/resources/jorge.jpg|
-      |capybara_features/resources/jeff.png |
-      |capybara_features/resources/jorge.jpg|
-      |capybara_features/resources/jeff.png |
-      |capybara_features/resources/jorge.jpg|
-      |capybara_features/resources/jeff.png |
-    And I fill in "Document Description" with "Document upload test"
-    Then I press "Save"
-    And I should see "You are only allowed 10 documents per case." on the page
+      |capybara_features/resources/jorge.jpg|Document 1 |
+      |capybara_features/resources/jeff.png |Document 2 |
+      |capybara_features/resources/jorge.jpg|Document 3 |
+      |capybara_features/resources/jeff.png |Document 4 |
+      |capybara_features/resources/jorge.jpg|Document 5 |
+      |capybara_features/resources/jeff.png |Document 6 |
+      |capybara_features/resources/jorge.jpg|Document 7 |
+      |capybara_features/resources/jeff.png |Document 8 |
+      |capybara_features/resources/jorge.jpg|Document 9 |
+      |capybara_features/resources/jeff.png |Document 10|
+    And I should not see "Add another document" on the page

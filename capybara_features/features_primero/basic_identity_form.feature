@@ -18,6 +18,7 @@
 # JIRA PRIMERO-363
 # JIRA PRIMERO-453
 # JIRA PRIMERO-450
+# JIRA PRIMERO-493
 
 @javascript @primero @search
 Feature: Basic Identity Form
@@ -52,38 +53,37 @@ Feature: Basic Identity Form
       | Current Address                          | 111 Main St, Davidson NC, 28036    |
       | Landmark                                 | Old Oak Tree                       |
       | Current Location                         | Southern Region                    |
-      | Is this address permanent?               | <Radio> Yes                        |
+      | Is this address permanent?               | <Tickbox>                          |
       | Current Telephone                        | 336-555-1313                       |
     And the value of "Age" should be the calculated age of someone born in "1992"
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
-    And I should see a value for "Case Status" on the show page with the value of "Transferred"
-    And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
-    And I should see a value for "Nickname" on the show page with the value of "Tommy"
-    And I should see a value for "Other Name" on the show page with the value of "Bob"
-    And I should see a value for "Name(s) given to child after separation?" on the show page with the value of "No"
-    And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
-    And I should see a value for "Sex" on the show page with the value of "Male"
-    And I should see the calculated Age of a child born in "1992"
-    And I should see a value for "Date of Birth" on the show page with the value of "04-May-1992"
-    And I should see a value for "Estimated" on the show page with the value of "Yes"
-    And I should see a value for "Distinguishing Physical Characteristics" on the show page with the value of "Really tall, dark hair, brown eyes"
-    And I should see a value for "ICRC Ref No." on the show page with the value of "131313"
-    And I should see a value for "RC ID No." on the show page with the value of "141414"
-    And I should see a value for "UNHCR ID" on the show page with the value of "AAA000"
-    And I should see a value for "UN Number" on the show page with the value of "EEE444"
-    And I should see a value for "Other Agency ID" on the show page with the value of "ABC12345"
-    And I should see a value for "Other Agency Name" on the show page with the value of "Test Agency"
-    And I should see a value for "List of documents carried by the child" on the show page with the value of "Driver's License, Passport, Birth Certificate"
-    And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Married/Cohabitating"
-    And I should see a value for "Occupation" on the show page with the value of "Farmer"
-    And I should see a value for "Current Address" on the show page with the value of "111 Main St, Davidson NC, 28036"
-    And I should see a value for "Landmark" on the show page with the value of "Old Oak Tree"
-    And I should see a value for "Current Location" on the show page with the value of "Southern Region"
-    And I should see a value for "Is this address permanent?" on the show page with the value of "Yes"
-    And I should see a value for "Current Telephone" on the show page with the value of "336-555-1313"
+    And I should see values on the page for the following:
+      | Case Status                              | Transferred                        |
+      | Name                                     | Tiki Thomas Taliaferro             |
+      | Nickname                                 | Tommy                              |
+      | Other Name                               | Bob                                |
+      | Name(s) given to child after separation? | No                                 |
+      | Sex                                      | Male                               |
+      | Date of Birth                            | 04-May-1992                        |
+      | Estimated                                | Yes                                |
+      | Distinguishing Physical Characteristics  | Really tall, dark hair, brown eyes |
+      | ICRC Ref No.                             | 131313                             |
+      | RC ID No.                                | 141414                             |
+      | UNHCR ID                                 | AAA000                             |
+      | UN Number                                | EEE444                             |
+      | Other Agency ID                          | ABC12345                           |
+      | Other Agency Name                        | Test Agency                        |
+      | List of documents carried by the child   | Driver's License, Passport, Birth Certificate |
+      | Current Civil/Marital Status             | Married/Cohabitating               |
+      | Occupation                               | Farmer                             |
+      | Current Address                          | 111 Main St, Davidson NC, 28036    |
+      | Landmark                                 | Old Oak Tree                       |
+      | Current Location                         | Southern Region                    |
+      | Is this address permanent?               | Yes                                |
+      | Current Telephone                        | 336-555-1313                       |
 
   Scenario: As a logged in user, I create a case without entering anything in any field in the basic identity form
     And I press "Save"
@@ -113,7 +113,7 @@ Feature: Basic Identity Form
     And I should see a value for "Current Address" on the show page with the value of ""
     And I should see a value for "Landmark" on the show page with the value of ""
     And I should see a value for "Current Location" on the show page with the value of ""
-    And I should see a value for "Is this address permanent?" on the show page with the value of ""
+    And I should see a value for "Is this address permanent?" on the show page with the value of "No"
     And I should see a value for "Current Telephone" on the show page with the value of ""
 
   Scenario: As a logged in user, I should be able to reset the basic identity form
@@ -121,20 +121,17 @@ Feature: Basic Identity Form
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 22                                   |
     And I select "Male" from "Sex"
-    And I press "Cancel"
+    And I press the "Cancel" button
     And I click OK in the browser popup
-    Then I should be on the new case page
+    Then I should be on the cases page
     And I should not see "Case record successfully created" on the page
-    And the "Name" field should not contain "Tiki Thomas Taliaferro"
-    And the "Age" field should not contain "22"
-    And the "Sex" field should not contain "Male"
 
   Scenario: As a logged in user, I should be able to cancel out of a reset of the basic identity form
     And I fill in the following:
       | Name              | Tiki Thomas Taliaferro               |
       | Age               | 22                                   |
     And I select "Male" from "Sex"
-    And I press "Cancel"
+    And I press the "Cancel" button
     And I click Cancel in the browser popup
     Then I should be on the new case page
     And I should not see "Case record successfully created" on the page
@@ -196,7 +193,10 @@ Feature: Basic Identity Form
 
   Scenario: As a logged in user, When I fill in the Date of Birth field the Age should be calculated
     And I fill in the following:
-      | Date of Birth | 02-May-1990 |
+      | Date of Birth     | 02-May-1990 |
+      | Name              | Tiki Thomas Taliaferro               |
+      | Nickname          | Tommy                                |
+      | Other Name        | Bob                                  |
     And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
     Then I should see a value for "Date of Birth" on the show page with the value of "02-May-1990"

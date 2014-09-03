@@ -70,14 +70,33 @@ _primero.create_or_clean_error_messages_container = function(form) {
 
 $(document).ready(function() {
   $('.btn_submit').on('click', function() {
-    $('form.default-form').submit();
+    //find out if the submit button is part of the form or not.
+    //if not part will need to add the "commit" parameter to let it know
+    //the controller what was triggered.
+    var parent = $(this).parents("form.default-form");
+    if (parent.length > 0) {
+      //Just a regular submit in the form.
+      parent.submit();
+    } else {
+      //Because some design thing we need to add the "commit" parameter
+      //to the form because the submit triggered is outside of the form.
+      var form = $('form.default-form');
+      var commit = form.find("input[class='submit-outside-form']");
+      if (commit.length == 0) {
+        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + this.value + "'/>")
+      } else {
+        $(commit).val(this.value);
+      }
+      form.submit();
+    }
   });
 
-  var stickem = $(".record_controls_container").sticky({ 
-    topSpacing: 50,
-    bottomSpacing: 40 
+  var control = $(".record_controls_container, .index_controls_container"),
+      stickem = control.sticky({ 
+    topSpacing: control.data('top'),
+    bottomSpacing: control.data('bottom') 
   });
-
+      
   stickem.on('sticky-start', function() { $(this).addClass('sticking') });
   stickem.on('sticky-end', function() { $(this).removeClass('sticking')  });
 });

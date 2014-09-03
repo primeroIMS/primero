@@ -1,49 +1,64 @@
-<h1 class="no_border"><%= t("roles.label") %></h1>
-<div class="page-content-new row">
-  <div class="large-4 medium-4 columns close-side-tab">
-  <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'roles'} %>
-  </div>
-  <div class="side-tab-content large-8 medium-8 columns">
-    <h2><%= t("roles.list") %></h2>
-    <% if can?(:create, Role) %>
-    <%= link_to content_tag(:span, t("role.create"), :class => 'create_user'), new_role_path, :class => 'btn' %>
-    <% end %>
-    <div class="clearfix"></div>
+<% content_for :breadcrumbs do %>
+  <%= t("roles.label") %>
+<% end %>
 
-    <form class="filter_bar">
-      <div class="show_count"> <%= t("roles.actions.show_all") %> <%= pluralize(@roles.length, t("record")) %> </div>
-      <% permissions_for_filter = translated_permissions %>
-      <% permissions_for_filter << [I18n.t("All", :scope => 'permissions.permission'), ["All"]] %>
-      <div class="float_left"> <%= t("roles.actions.show") %>: <%= select_tag :show, grouped_options_for_select(permissions_for_filter, params[:show]), :onchange => "this.form.submit()"  %> </div>
-      <div class="float_left"> <%= t("roles.sort_by.label") %>:  <%= select_tag :sort_by_descending_order, options_for_select([[t("roles.sort_by.ascending"),"false"],[ t("roles.sort_by.descending"), "true"]], params[:sort_by_descending_order]), { :onchange => "this.form.submit();"} %> </div>
-    </form>
-    <table class="list_table">
-      <thead>
-        <tr>
-            <th><%= t("role.name") %></th>
-            <th><%= t("description") %></th>
-          <% if can?(:edit, Role) %>
-            <th></th>
-          <% end %>
-          <% if can?(:view, Role) %>
-              <th></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @roles.each do |role| %>
-            <tr>
-              <td class='role_name'><%= role.name %></td>
-              <td><%= truncate(role.description, :length => 40) %></td>
-              <% if can?(:view, Role) %>
-                  <td><%= link_to(t("roles.actions.show"), role_path(role))%></td>
-            <% end %>
-              <% if can?(:edit, Role) %>
-                  <td><%= link_to(t("roles.actions.edit"), edit_role_path(role))%></td>
+<% content_for :record_sub_nav_controls do %>
+  <% if can?(:create, Role) %>
+    <%= link_to content_tag(:span, t("role.create"), :class => 'create_user'), new_role_path, :class => 'btn green-button' %>
+  <% end %>
+<% end %>
+
+<div class="page-content-new row collapse" data-equalizer>
+  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
+    <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'roles'} %>
+  </div>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <div class="row">
+        <div class="large-12 columns">    
+          <form class="filter_bar">
+            <% permissions_for_filter = translated_permissions %>
+            <% permissions_for_filter << [I18n.t("All", :scope => 'permissions.permission'), ["All"]] %>
+            <div class="row">
+              <div class="medium-6 columns">
+                <div class="float_left"> <%= t("roles.actions.show") %>: <%= select_tag :show, grouped_options_for_select(permissions_for_filter, params[:show]), :onchange => "this.form.submit()"  %> </div>
+              </div>
+              <div class="medium-6 columns">
+                <div class="float_left"> <%= t("roles.sort_by.label") %>:  <%= select_tag :sort_by_descending_order, options_for_select([[t("roles.sort_by.ascending"),"false"],[ t("roles.sort_by.descending"), "true"]], params[:sort_by_descending_order]), { :onchange => "this.form.submit();"} %> </div>
+              </div>
+            </div>
+          </form>
+          <div class="show_count"> <%= t("roles.actions.show_all") %> <%= pluralize(@roles.length, t("record")) %> </div>
+          <table id="list_table" class="list_table">
+            <thead>
+              <tr>
+                  <th><%= t("role.name") %></th>
+                  <th><%= t("description") %></th>
+                <% if can?(:edit, Role) %>
+                  <th></th>
+                <% end %>
+                <% if can?(:view, Role) %>
+                    <th></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% @roles.each do |role| %>
+                  <tr>
+                    <td class='role_name'><%= role.name %></td>
+                    <td><%= truncate(role.description, :length => 40) %></td>
+                    <% if can?(:view, Role) %>
+                        <td><%= link_to(t("roles.actions.show"), role_path(role))%></td>
+                  <% end %>
+                    <% if can?(:edit, Role) %>
+                        <td><%= link_to(t("roles.actions.edit"), edit_role_path(role))%></td>
+                    <% end %>
+                  </tr>
               <% end %>
-            </tr>
-        <% end %>
-      </tbody>
-    </table>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

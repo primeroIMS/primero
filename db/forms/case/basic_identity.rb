@@ -117,9 +117,8 @@ basic_identity_fields = [
              "display_name_all" => "Current Location"
             }),
   Field.new({"name" => "address_is_permanent",
-             "type" => "radio_button",
-             "display_name_all" => "Is this address permanent?",
-             "option_strings_text_all" => "Yes\nNo",
+             "type" => "tick_box",
+             "display_name_all" => "Is this address permanent?"
             }),  
   Field.new({"name" => "telephone_current",
              "type" => "text_field",
