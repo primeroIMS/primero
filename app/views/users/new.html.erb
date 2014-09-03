@@ -1,10 +1,21 @@
-<h1 class="no_border"><%= t("users.label") %></h1>
-<div class="page-content-new row">
-  <div class="large-4 medium-4 columns close-side-tab">
+<% content_for :breadcrumbs do %>
+    <%= link_to t("users.label"), users_path %>: <%= t("users.create") %>
+<% end %>
+
+
+<div class="page-content-new row collapse" data-equalizer>
+  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
   <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'users'} %>
   </div>
-  <div class="side-tab-content large-8 medium-8 columns">
-    <h2><%= link_to t("users.label"), users_path %>&gt; <%= t("users.create") %></h2>
-    <%= render :partial => "editable_user", :object => @user %>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+  	<div class="side-tab-content" data-equalizer-watch>
+  		<div class="row">
+	  		<div class="large-12 columns">
+			    <%= render :partial => "editable_user", :object => @user %>
+		    </div>
+	    </div>
+    </div>
   </div>
 </div>
+
+

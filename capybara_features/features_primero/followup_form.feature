@@ -16,9 +16,9 @@ Feature: Followup
   As a Social worker, I want to enter information related to follow up visits so that we can report on our interactions with the child (individual) in our care.
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Services / Follow Up" button
     And I click on "Follow Up" in form group "Services / Follow Up"
 

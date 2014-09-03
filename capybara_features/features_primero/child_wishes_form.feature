@@ -9,9 +9,9 @@ Feature: Child Wishes Form
   As a Social worker, I want to enter the information related to the child's wishes.
 
   Scenario: I create a case with child's wishes information.
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Tracing" button
     And I click on "Child's Wishes" in form group "Tracing"
     And I fill in the following:
@@ -97,9 +97,9 @@ Feature: Child Wishes Form
       | Telephone                                                | Second Telephone      |
 
   Scenario: I create a case with child's wishes with more that 3 child's preferences.
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Tracing" button
     And I click on "Child's Wishes" in form group "Tracing"
     And I fill in the 1st "Child Preferences Section" subform with the follow:

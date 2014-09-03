@@ -6,9 +6,9 @@ Feature: Tracing Subforms
   As a Social Worker I want to fill in form information for children's tracing actions.
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I press the "Tracing" button
     And I click on "Tracing" in form group "Tracing"
 

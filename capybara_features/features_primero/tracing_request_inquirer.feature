@@ -5,9 +5,9 @@ Feature: Tracing Request Inquirer
   As a Social worker, I want to enter information related to the inquirer for tracing requests
 
   Background:
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "tracing requests page"
-    And I press the "Create a New Tracing Request" button
+    And I press the "New Tracing Request" button
     And I press the "Inquirer" button
     And I fill in the following:
       | Inquiry Status                          | <Select> Open             |

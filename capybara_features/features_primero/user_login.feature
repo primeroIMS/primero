@@ -6,7 +6,7 @@ Feature: Primero user login
   Scenario Outline: I am a logged out user who tries to access any page
     When I access <page>
     Then I should see "Login details" on the page
-    And I should not see "Create a New Case" on the page
+    And I should not see "New Case" on the page
     Examples:
       | page |
       | new child page |

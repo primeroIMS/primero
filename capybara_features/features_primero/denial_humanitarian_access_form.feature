@@ -10,11 +10,11 @@
 @javascript @primero
 Feature: Denial of Humanitarian Access Form
   As a User, I want to be able to select a type for Denial of humanitarian access so that I can collect more detailed information about the incident
-  
+
     Scenario: As a logged in user, I will create a incident for sexual violence
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
-    And I press the "Create a New Incident" button
+    And I press the "New Incident" button
     And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
     And I fill in the following:

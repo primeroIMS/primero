@@ -53,7 +53,7 @@ module IndexHelper
 					label = item
 				end
 				if format
-					label = label.gsub('_', ' ').titleize
+					label = label.gsub('_', ' ').split.map(&:capitalize).join(' ')
 					item = item.gsub('_', ' ')
 				end
 				concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}")

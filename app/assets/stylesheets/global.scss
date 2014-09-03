@@ -57,7 +57,6 @@ table.list_view, table.record_list_view {
     }
   }
   tr{
-    background: none;
     line-height:1.3rem;
     &.table_row:nth-child(5n+1) td{
       padding-bottom:20px;
@@ -66,7 +65,7 @@ table.list_view, table.record_list_view {
       text-align: left;
       font-size:1.0rem;
       padding-bottom:10px;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $stroke_green_color;
       &.id_column{
         min-width: 105px;
       }
@@ -83,7 +82,17 @@ table.list_view, table.record_list_view {
   }
 }
 
+table tr:nth-of-type(even) {
+  background: none;
+}
 
+table tr td {
+  background: #fff;
+}
+
+.show_count {
+  margin-bottom: 10px;
+}
 
 .table_spacer {
   height: 60px;
@@ -294,6 +303,14 @@ input[type="text"][disabled]{
   font-size: .9rem
 }
 
+.value_form {
+  background: none !important;
+}
+
+.section-show {
+  border: none !important;
+}
+
 ////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////
@@ -491,6 +508,14 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
   background: #ebebeb;
 }
 
+span.section {
+  border: 1px solid $stroke_green_color;
+
+  label {
+    text-align: left;
+  }
+}
+
 
 ////////////////////////////////////////////////
 // Record Controls
@@ -512,7 +537,12 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
       padding: 0 0 0 15px;
       position: absolute;
       z-index: 10;
-      color: $green_color;
+      color: $stroke_green_color;
+    }
+
+    li.rec_ctl a.grey-button {
+      border-left: none !important;
+      border-right: none !important;
     }
   }
 
@@ -521,7 +551,7 @@ fieldset .row:nth-child(even) h5.tool-tip-label span {
   }
 
   h4 {
-    font-size: 1.15rem;
+    font-size: $twenty_px;
     font-family: 'Roboto-Medium', sans-serif;
     color: $green_color;
   }
@@ -1180,12 +1210,12 @@ fieldset {
         padding: 10px;
 
         .title {
-          border-bottom: 1px dashed #ddd;
+          border-bottom: 1px dashed $stroke_green_color;
           color: #333;
           display: block;
-          font-style: italic;
           margin-bottom: 5px;
           padding-bottom: 8px;
+          font-weight: bold;
         }
 
         label {
@@ -1216,7 +1246,7 @@ fieldset {
 
   .filter {
     .filter-controls {
-      padding: 10px;
+      padding: 5px;
     }
 
     input[type="checkbox"] {

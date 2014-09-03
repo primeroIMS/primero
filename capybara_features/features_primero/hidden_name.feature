@@ -5,11 +5,11 @@
 @javascript @primero @search
 Feature: Hide Name
   As a Social Worker I want to hide the survivor's name so that only people with access to the record can view the actual name of the child
-  
+
   Scenario: As a logged in user, I create a case and hide the survivor's name
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I fill in the following:
       | Case Status                              | <Select> Transferred               |
       | Name                                     | Tiki Thomas Taliaferro             |
@@ -101,7 +101,7 @@ Feature: Hide Name
     When I access "cases page"
     And I should see "Tiki Thomas Taliaferro" on the page
     And I should not see "*****" on the page
-    And I press the "Create a New Case" button
+    And I press the "New Case" button
     And I fill in the following:
       | Name                                     | Tiki Thomas Taliaferro             |
     And I press "Save"
