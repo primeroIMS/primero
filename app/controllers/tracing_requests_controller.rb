@@ -12,7 +12,8 @@ class TracingRequestsController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
 
-    search = TracingRequest.list_records filter, order, pagination, current_user_name
+    associated_users
+    search = TracingRequest.list_records filter, order, pagination, users_filter
     @tracing_requests = search.results
     @total_records = search.total
     @per_page = per_page
@@ -34,7 +35,7 @@ class TracingRequestsController < ApplicationController
 
 
   def show
-    authorize! :read, @tracing_request if @tracing_request["created_by"] != current_user_name
+    authorize! :read, @tracing_request #if @tracing_request["created_by"] != current_user_name
     @page_name = t "tracing_request.view", :short_id => @tracing_request.short_id
     @body_class = 'profile-page'
     #TODO: Are duplicated implemented for TracingRequests? CARLOS!?!
@@ -81,7 +82,6 @@ class TracingRequestsController < ApplicationController
     reindex_hash params['tracing_request']
     create_or_update_tracing_request(params[:tracing_request])
     params[:tracing_request][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
-    @tracing_request['created_by_full_name'] = current_user_full_name
 
     respond_to do |format|
       if @tracing_request.save
@@ -223,7 +223,7 @@ class TracingRequestsController < ApplicationController
       pager.replace(instances)
     end
   end
-  
+
   def tracing_request_short_id tracing_request_params
     tracing_request_params[:short_id] || tracing_request_params[:unique_identifier].last(7)
   end
@@ -251,7 +251,6 @@ class TracingRequestsController < ApplicationController
   end
 
   def update_tracing_request_with_attachments(tracing_request, params)
-    tracing_request['last_updated_by_full_name'] = current_user_full_name
     new_photo = params[:tracing_request].delete("photo")
     new_photo = (params[:tracing_request][:photo] || "") if new_photo.nil?
     new_audio = params[:tracing_request].delete("audio")

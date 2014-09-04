@@ -383,7 +383,7 @@ en:
     enquirer_date: "Date of Inquiry"
 
     history_of: "History of %{short_id}"
-    
+
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
 
@@ -832,6 +832,10 @@ en:
 
       password_recovery_request:
         user_name_mandatory: "Please enter a valid user name"
+
+      ownership:
+        associated_user_names_present: "A user must be associted with this record"
+        module_id_prsesnt: "A module must be associated wit this record"
 
 
 

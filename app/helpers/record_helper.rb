@@ -4,6 +4,7 @@ module RecordHelper
 
   def set_creation_fields_for(user)
     self['created_by'] = user.try(:user_name)
+    self['created_by_full_name'] = user.try(:full_name)
     self['created_organisation'] = user.try(:organisation)
     self['created_at'] ||= RapidFTR::Clock.current_formatted_time
     self['posted_at'] = RapidFTR::Clock.current_formatted_time
@@ -34,6 +35,7 @@ module RecordHelper
     if field_name_changes.any?
       changes = changes_for(field_name_changes)
       (add_to_history(changes) unless (!self['histories'].empty? && (self['histories'].last["changes"].to_s.include? changes.to_s)))
+      self.previously_owned_by = original_data['owned_by']
     end
   end
 
@@ -143,7 +145,7 @@ module RecordHelper
         "flag", "flag_message",
         "reunited", "reunited_message",
         "investigated", "investigated_message",
-        "duplicate", "duplicate_of"
+        "duplicate", "duplicate_of", "owned_by"
     ]
     all_fields = model_field_names + other_fields
     all_fields.select { |field_name| changed_field?(field_name) }
