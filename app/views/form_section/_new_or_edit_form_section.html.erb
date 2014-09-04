@@ -16,8 +16,6 @@
         <fieldset>
           <%= hidden_field_tag "module_id", @module_id, :id => "form_section_parent_form" %>
           <%= hidden_field_tag "form_section[parent_form]", @parent_form, :id => "form_section_parent_form" %>
-          <%= hidden_field_tag "form_section[order]", @form_section.order, :id => "form_section_order" %>
-          <%= hidden_field_tag "form_section[order_form_group]", @form_section.order_form_group, :id => "form_section_order_form_group" %>
 
           <% unless @form_section.perm_enabled? %>
             <div class="row">

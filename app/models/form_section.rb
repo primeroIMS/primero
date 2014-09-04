@@ -1,6 +1,9 @@
 class FormSection < CouchRest::Model::Base
   include RapidFTR::Model
   include PropertiesLocalization
+
+  #TODO - include Namable - will require a fair amount of refactoring
+
   use_database :form_section
   localize_properties [:name, :help_text, :description]
   property :unique_id
@@ -15,6 +18,7 @@ class FormSection < CouchRest::Model::Base
   property :fixed_order, TrueClass, :default => false
   property :perm_visible, TrueClass, :default => false
   property :perm_enabled, TrueClass, :default => false
+  property :core_form, TrueClass, :default => true
   property :validations, [String]
   property :base_language, :default=>'en'
   property :is_nested, TrueClass, :default => false
