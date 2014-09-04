@@ -9,6 +9,7 @@
       uid = form_section.unique_id
       if inst[uid].is_a?(String) && inst[uid] == ''
         inst.delete(uid)
+        puts "Deleted key #{uid} from #{model.name} #{inst['_id']}"
         inst.save
       end
     end
