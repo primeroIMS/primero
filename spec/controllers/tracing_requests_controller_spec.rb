@@ -18,8 +18,10 @@ end
 describe TracingRequestsController do
 
   before :each do
-    @user = User.new(:user_name => 'fakeadmin')
-    @session = fake_admin_login @user
+    unless example.metadata[:skip_session]
+      @user = User.new(:user_name => 'fakeadmin')
+      @session = fake_admin_login @user
+    end
   end
 
   def mock_tracing_request(stubs={})
@@ -245,6 +247,37 @@ describe TracingRequestsController do
         it_should_behave_like "viewing tracing requests as a field worker"
       end
     end
+
+    describe "permissions to view lists of tracing request records", search: true, skip_session: true do
+
+      before do
+        User.all.each{|u| u.delete}
+        TracingRequest.all.each{|t| t.delete}
+        Sunspot.remove_all!
+
+        roles = [Role.new(permissions: [Permission::TRACING_REQUESTS[:view_and_search]])]
+
+        @case_worker1 = create(:user)
+        @case_worker1.stub(:roles).and_return(roles)
+        @case_worker2 = create(:user)
+        @case_worker2.stub(:roles).and_return(roles)
+
+        @tracing_request1 = create(:tracing_request, owned_by: @case_worker1.user_name)
+        @tracing_request2 = create(:tracing_request, owned_by: @case_worker1.user_name)
+        @tracing_request3 = create(:tracing_request, owned_by: @case_worker2.user_name)
+
+        Sunspot.commit
+      end
+
+
+      it "loads only tracing requests owned by or associated with this user" do
+        session = fake_login @case_worker1
+        get :index
+        expect(assigns[:tracing_requests]).to match_array([@tracing_request1, @tracing_request2])
+      end
+
+    end
+
 
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       before do

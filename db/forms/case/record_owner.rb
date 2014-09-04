@@ -1,4 +1,5 @@
 record_owner_fields = [
+  #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "record_state",
            "type" => "select_box",
            "display_name_all" => "Record state",
@@ -6,24 +7,22 @@ record_owner_fields = [
                         ["Valid record",
                          "Invalid record"].join("\n")
           }),
+  #TODO: Get rid of
   Field.new({"name" => "current_owner_separator",
            "type" => "separator",
            "display_name_all" => "Current Owner",
           }),
-  Field.new({"name" => "social_worker_case",
+  Field.new({"name" => "owned_by_text",
         "type" => "text_field",
         "display_name_all" => "Field/Case/Social Worker"
           }),
-  Field.new({"name" => "social_worker",
+  Field.new({"name" => "owned_by",
              "type" =>"select_box" ,
              "display_name_all" => "Caseworker Code",
-             "option_strings_text_all" =>
-                          ["Social Worker 1",
-                           "Social Worker 2",
-                           "Social Worker 3",
-                           "Social Worker 4"].join("\n")
+             "option_strings_source" => "User"
           }),
   #TODO reconcile difference between Agency and Other Agency
+  #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "agency",
              "type" =>"select_box" ,
              "display_name_all" => "Agency",
@@ -46,12 +45,13 @@ record_owner_fields = [
                            "UNICEF",
                            "United Nations Childrens Fund"].join("\n")
             }),
+  #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "telephone_agency",
           "type" => "text_field",
           "display_name_all" => "Agency Telephone"
            }),
   #TODO spreadsheet says this comes from valid users
-  Field.new({"name" => "database_operator",
+  Field.new({"name" => "database_operator_user_name",
              "type" =>"select_box" ,
              "display_name_all" => "Database Operator",
              "option_strings_text_all" =>
@@ -68,26 +68,33 @@ record_owner_fields = [
         	"type" => "text_field",
         	"display_name_all" => "Location Address"
           }),
+  #TODO: get rid of
  	Field.new({"name" => "record_history_separator",
            "type" => "separator",
            "display_name_all" => "Record History",
           }),
+  #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "created_by",
         	"type" => "text_field",
         	"display_name_all" => "Record created by"
           }),
+  #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "created_by_agency",
         	"type" => "text_field",
         	"display_name_all" => "Created by agency"
           }),
- 	Field.new({"name" => "previous_owner",
+  #TODO: Move data to hardcoded record status panel
+ 	Field.new({"name" => "previously_owned_by",
         	"type" => "text_field",
         	"display_name_all" => "Previous Owner"
           }),
+  #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "previous_agency",
         	"type" => "text_field",
         	"display_name_all" => "Previous Agency"
           }),
+  #TODO: This is needed to preserve the module on record creation. Can we make this elegant?
+  #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "module_id",
           "type" => "text_field",
           "display_name_all" => "Module"

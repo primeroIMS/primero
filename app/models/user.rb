@@ -22,7 +22,12 @@ class User < CouchRest::Model::Base
   property :time_zone, :default => "UTC"
   property :locale
   property :module_ids, :type => [String]
-  property :direct_report_user_ids, :type => [String]
+  property :is_manager, TrueClass, :default => false
+  property :reporting_hierarchy, :type => [String]
+
+  alias_method :agency, :organisation
+  alias_method :agency=, :organisation=
+  alias_method :name, :user_name
 
   attr_accessor :password_confirmation, :password
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
@@ -74,6 +79,14 @@ class User < CouchRest::Model::Base
                     emit(doc);
                  }
              }"
+    view :by_manager,
+            :map => "function(doc) {
+              if (doc['couchrest-type'] == 'User' && doc['reporting_hierarchy']){
+                for(var i in doc['reporting_hierarchy']){
+                  emit(doc['reporting_hierarchy'][i], null);
+                }
+              }
+            }"
   end
 
 
@@ -188,6 +201,75 @@ class User < CouchRest::Model::Base
   def module_permitted_form_ids
     modules.compact.collect(&:associated_form_ids).flatten
   end
+
+  def all_reports
+    response = User.by_manager(key: self.user_name)
+    response = response.present? ? response.all : []
+    return response
+  end
+
+
+  def set_manager(manager_user)
+    #See if the old manager ceases to be a manager
+    #TODO: combine code with remove manager code below
+
+    #Figure out the new reporting hierarchy
+    reporting_hierarchy_of_manager = (manager_user && manager_user.reporting_hierarchy.present? ? manager_user.reporting_hierarchy : [])
+    new_reporting_hierarchy = reporting_hierarchy_of_manager
+    if manager_user
+      new_reporting_hierarchy += [manager_user.user_name]
+    end
+
+    #Figure out all reporting users to update
+    current_manager = self.get_manager
+    reports_of_current_manager = []
+    users_to_update = []
+    if current_manager.present?
+      reports_of_current_manager = current_manager.all_reports
+      users_to_update = reports_of_current_manager.select do |user|
+        (user.user_name == self.user_name) || (user.reporting_hierarchy.include? self.user_name)
+      end
+      if reports_of_current_manager.size == users_to_update.size
+        current_manager.is_manager = false
+        current_manager.save
+      end
+    else
+      users_to_update = self.all_reports + [self]
+    end
+
+    #Update those users
+    users_to_update.each do |user|
+      old_hierarchy = user.reporting_hierarchy
+      index_of_self = old_hierarchy.find_index(self.user_name) || old_hierarchy.length
+      user.reporting_hierarchy = new_reporting_hierarchy +
+        old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
+      user.save
+    end
+
+    #update the new manager to make sure its a manager
+    unless manager_user.is_manager
+      manager_user.is_manager = true
+      manager_user.save
+    end
+
+  end
+
+  def get_manager
+    manager = nil
+    if self.reporting_hierarchy.present?
+      manager = User.get(self.reporting_hierarchy.last)
+    end
+    return manager
+  end
+
+  def remove_manager
+    self.set_manager nil
+  end
+
+  def is_manager?
+    User.by_manager(key: self.user_name).first.present?
+  end
+
 
   def add_mobile_login_event imei, mobile_number
     self.mobile_login_history << MobileLoginEvent.new(:imei => imei, :mobile_number => mobile_number)

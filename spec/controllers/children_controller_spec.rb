@@ -18,8 +18,10 @@ end
 describe ChildrenController do
 
   before :each do
-    @user = User.new(:user_name => 'fakeadmin')
-    @session = fake_admin_login @user
+    unless example.metadata[:skip_session]
+      @user = User.new(:user_name => 'fakeadmin')
+      @session = fake_admin_login @user
+    end
   end
 
   def mock_child(stubs={})
@@ -199,6 +201,36 @@ describe ChildrenController do
         before {@params = {:order_by => 'created_at', :page => 2}}
         it_should_behave_like "viewing children as a field worker"
       end
+    end
+
+    describe "permissions to view lists of case records", search: true, skip_session: true do
+
+      before do
+        User.all.each{|u| u.delete}
+        Child.all.each{|c| c.delete}
+        Sunspot.remove_all!
+
+        roles = [Role.new(permissions: [Permission::CHILDREN[:view_and_search]])]
+
+        @case_worker1 = create(:user)
+        @case_worker1.stub(:roles).and_return(roles)
+        @case_worker2 = create(:user)
+        @case_worker2.stub(:roles).and_return(roles)
+
+        @case1 = create(:child, owned_by: @case_worker1.user_name)
+        @case2 = create(:child, owned_by: @case_worker1.user_name)
+        @case3 = create(:child, owned_by: @case_worker2.user_name)
+
+        Sunspot.commit
+      end
+
+
+      it "loads only cases owned by or associated with this user" do
+        session = fake_login @case_worker1
+        get :index
+        expect(assigns[:children]).to match_array([@case1, @case2])
+      end
+
     end
 
     context "viewing reunited children" do
