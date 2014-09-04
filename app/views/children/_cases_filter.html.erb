@@ -3,21 +3,15 @@
   <form id="index_filter_form">
     <%= build_filter_checkboxes('Flagged:', 'flag', [
       {flag: 'flagged?'}
-    ]) %>    
-    <%= build_filter_checkboxes('Field/Case/Social Worker:', 'caseworker', [
-      'caseworker1',
-      'caseworker2',
-      'caseworker3',
     ]) %>
+    <%= build_filter_checkboxes('Field/Case/Social Worker:', 'users', @associated_users, false, false) %>
     <%= build_filter_checkboxes('Status:', 'child_status', [
-      'all',
       'open',
       'closed',
       'duplicate',
       'transferred'
     ]) %>
     <%= build_filter_checkboxes('Age Range:', 'age', [
-      'all',
       '0-5',
       '5-11',
       '12-17',
@@ -36,7 +30,6 @@
       'no',
     ]) %>
     <%= build_filter_checkboxes('Risk Level:', 'risk_level', [
-      'all',
       'high',
       'medium',
       'low'

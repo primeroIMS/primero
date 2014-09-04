@@ -16,6 +16,10 @@ module Searchable
       boolean :duplicate
       boolean :flag
       string :sortable_name, as: :sortable_name_sci
+      if self.include?(Ownable)
+        string :associated_user_names, multiple: true
+        string :owned_by
+      end
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -40,9 +44,10 @@ module Searchable
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
-    # TODO: location, caseworker, and date filters are still outstanding.
+    # TODO: location, and date filters are still outstanding.
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, owner=nil)
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[])
+      #TODO: Are the filters additive?
       self.search do
         if filters.present?
           filters.each do |filter,value|
@@ -52,7 +57,13 @@ module Searchable
             end
           end
         end
-        with(:created_by, owner) if owner.present?
+        if associated_user_names.present?
+          any_of do
+            associated_user_names.each do |user_name|
+              with(:associated_user_names, user_name)
+            end
+          end
+        end
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
       end

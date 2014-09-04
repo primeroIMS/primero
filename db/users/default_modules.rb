@@ -40,7 +40,7 @@ create_or_update_module(
     "photos_and_audio", "protection_concern_details", "protection_concern",
     "record_owner", "services", "tracing", "verification",
     "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
-    "tracing_request_photos_and_audio"
+    "tracing_request_photos_and_audio", "followup"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
@@ -51,10 +51,11 @@ create_or_update_module(
   description: "Gender Based Violence",
   associated_record_types: ["case", "incident"],
   associated_form_ids: [
-    "record_owner", "gbv_survivor_information", "gbv_data_confidentiality", "followup", "ongoing_services",
+    "record_owner", "gbv_survivor_information", "gbv_data_confidentiality", "ongoing_services",
     "other_documents",
     "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
-    "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper"
+    "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
+    "gbv_follow_up_form"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )

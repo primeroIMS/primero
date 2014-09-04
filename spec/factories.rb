@@ -12,7 +12,9 @@ FactoryGirl.define do
   factory :child, :traits => [ :model ] do
     unique_identifier { counter.to_s }
     name { "Test Child #{counter}" }
-    created_by { "test_user" }
+    created_by "test_user"
+    owned_by "test_user"
+    module_id "CP"
 
     after_build do |child, factory|
       Child.stub(:get).with(child.id).and_return(child)
@@ -22,7 +24,9 @@ FactoryGirl.define do
   factory :incident, :traits => [ :model ] do
     unique_identifier { counter.to_s }
     description { "Test Incident #{counter}" }
-    created_by { "test_user" }
+    created_by "test_user"
+    owned_by "test_user"
+    module_id "CP"
 
     after_build do |incident, factory|
       Incident.stub(:get).with(incident.id).and_return(incident)
@@ -32,11 +36,18 @@ FactoryGirl.define do
   factory :tracing_request, :traits => [ :model ] do
     unique_identifier { counter.to_s }
     enquirer_name { "Test Tracing Request #{counter}" }
-    created_by { "test_user" }
+    created_by "test_user"
+    owned_by "test_user"
+    module_id "CP"
 
     after_build do |tracing_request, factory|
       TracingRequest.stub(:get).with(tracing_request.id).and_return(tracing_request)
     end
+  end
+
+  factory :location, :traits => [ :model ] do
+    name { "location_#{counter}"}
+    description { "location_#{counter}"}
   end
 
   factory :replication, :traits => [ :model ] do
@@ -75,6 +86,7 @@ FactoryGirl.define do
     disabled false
     verified true
     role_ids ['random_role_id']
+    module_ids ['CP']
   end
 
   factory :role, :traits => [ :model ] do

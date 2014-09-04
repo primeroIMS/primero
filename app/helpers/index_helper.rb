@@ -42,7 +42,7 @@ module IndexHelper
 		end
 	end
 
-	def build_checkboxes(filter, items, type)
+	def build_checkboxes(filter, items, type, format = true)
 		content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
 			items.each do |item|
 				if item.is_a?(Hash)
@@ -52,17 +52,21 @@ module IndexHelper
 				else
 					label = item
 				end
-				concat(check_box_tag filter, item.gsub('_', ' '), nil, id: "#{filter}_#{item}")
-				concat(label_tag "#{filter}_#{item}", label.gsub('_', ' ').split.map(&:capitalize).join(' '))
+				if format
+					label = label.gsub('_', ' ').split.map(&:capitalize).join(' ')
+					item = item.gsub('_', ' ')
+				end
+				concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}")
+				concat(label_tag "#{filter}_#{item}", label)
 				concat('<br>'.html_safe)
 			end
 		end
 	end
 
-	def build_filter_checkboxes(title, filter, items, type = false)
+	def build_filter_checkboxes(title, filter, items, type = false, format = true)
 		content_tag :div, class: 'filter' do
 			concat(content_tag(:h3, title))
-			concat(build_checkboxes(filter, items, type))
+			concat(build_checkboxes(filter, items, type, format))
 		end
 	end
 

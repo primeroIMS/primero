@@ -14,8 +14,8 @@ class ChildrenController < ApplicationController
 
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
-
-    search = Child.list_records filter, order, pagination, current_user_name
+    associated_users
+    search = Child.list_records filter, order, pagination, users_filter
     @children = search.results
     @total_records = search.total
     @per_page = per_page
@@ -40,7 +40,7 @@ class ChildrenController < ApplicationController
   # GET /children/1
   # GET /children/1.xml
   def show
-    authorize! :read, @child if @child["created_by"] != current_user_name
+    authorize! :read, @child #if @child["created_by"] != current_user_name
     @page_name = t "case.view", :short_id => @child.short_id
     @body_class = 'profile-page'
     @duplicates = Child.duplicates_of(params[:id])
@@ -89,7 +89,6 @@ class ChildrenController < ApplicationController
     reindex_hash params['child']
     create_or_update_child(params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
-    @child['created_by_full_name'] = current_user_full_name
     @child['child_status'] = "Open" if @child['child_status'].blank?
 
     respond_to do |format|
@@ -121,7 +120,6 @@ class ChildrenController < ApplicationController
 
           child = create_or_update_child(params[:child].merge(:verified => current_user.verified?))
 
-          child['created_by_full_name'] = current_user.full_name
           if child.save
             render :json => child.compact.to_json
           end
@@ -152,7 +150,7 @@ class ChildrenController < ApplicationController
           flash[:notice] = I18n.t("case.messages.update_success")
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           case_module = @child.module
-          if params[:commit] == "Create Incident" and case_module.name == PrimeroModule::GBV
+          if params[:commit] == t("buttons.create_incident") and case_module.name == PrimeroModule::GBV
             #It is a GBV cases and the user indicate that want to create a GBV incident.
             redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
           else

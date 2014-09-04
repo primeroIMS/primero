@@ -208,17 +208,24 @@ class Field
     select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
     if self.option_strings_source.present?
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
-      if self.option_strings_source == 'violations'
+      #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
+      source_options = self.option_strings_source.split
+      if source_options.first == 'violations'
         if record.present? && record.class == Incident
           select_options += record.violations_list
         end
-      elsif self.option_strings_source.split.first == 'lookup'
-        lookup = lookups.select {|lkp| lkp['name'] == self.option_strings_source.split.last}.first if lookups.present?
+      elsif source_options.first == 'lookup'
+        lookup = lookups.select {|lkp| lkp['name'] == source_options.last}.first if lookups.present?
         select_options += lookup.lookup_values if lookup.present?
 
-        if self.option_strings_source.split.second == 'group'
+        if source_options.second == 'group'
+          #TODO: What about I18n? What is this?
           select_options += ['Other', 'Mixed', 'Unknown']
         end
+      else
+        #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
+        clazz = eval source_options.first #TODO: hoping this guy exists and is a class!
+        select_options += clazz.all.map{|r| r.name}
       end
     else
       select_options += @options.collect { |option| [option.option_name, option.option_name] }
