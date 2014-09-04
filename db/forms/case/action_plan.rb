@@ -37,19 +37,28 @@ action_plan_fields = [
             }),
   Field.new({"name" => "action_plan_safety_text",
              "type" => "textarea",
-             "display_name_all" => "Explain"
+             "display_name_all" => "Explain",
+             "guiding_questions" => "
+                What are the safety options available to the survivor?
+                Referral to a safe house?
+                Does she have her own safe place that she can go temporarily?
+                Will the survivor return home?
+             "
             }),
   Field.new({"name" => "action_plan_health",
              "type" => "textarea",
-             "display_name_all" => "Describe the health action plan."
+             "display_name_all" => "Describe the health action plan.",
+             "guiding_questions" => "Referral to health clinic/hospital?"
             }),
   Field.new({"name" => "action_plan_legal_action",
              "type" => "textarea",
-             "display_name_all" => "Describe the legal action plan."
+             "display_name_all" => "Describe the legal action plan.",
+             "guiding_questions" => "Referral to legal assistance services?"
             }),
   Field.new({"name" => "action_plan_psychosocial",
              "type" => "textarea",
-             "display_name_all" => "Describe the psychosocial action plan."
+             "display_name_all" => "Describe the psychosocial action plan.",
+             "guiding_questions" => "Referral to psychosocial provider?"
             }),
   Field.new({"name" => "action_plan_subform_section",
              "type" => "subform",

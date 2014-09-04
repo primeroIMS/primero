@@ -94,6 +94,7 @@ en:
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
+     guiding_questions: "Guiding Questions"
 
   cases:
     label: "Cases"

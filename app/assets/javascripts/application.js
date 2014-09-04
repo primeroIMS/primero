@@ -15,6 +15,7 @@
 //= require plugins/vtip-min
 //= require primero.dataTables.js
 //= require plugins/dataTables.responsive
+//= require plugins/popovers
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations

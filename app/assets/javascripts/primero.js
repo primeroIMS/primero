@@ -99,4 +99,12 @@ $(document).ready(function() {
       
   stickem.on('sticky-start', function() { $(this).addClass('sticking') });
   stickem.on('sticky-end', function() { $(this).removeClass('sticking')  });
+
+  $('.gq_popovers').click(function(event){ event.preventDefault()});
+  $('.gq_popovers').popover({
+    content: function() {
+      return $(this).next('.popover_content').html().replace(/\n/g, "<br/>");
+    }, 
+    placement: 'bottom'
+  });
 });
