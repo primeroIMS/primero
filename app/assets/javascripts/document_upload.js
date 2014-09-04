@@ -8,9 +8,9 @@ var DocumentUploadField = Backbone.View.extend({
   add_document_upload_field: function(event) {
     event.preventDefault();
     var action_link = $(event.target);
-    var file_group = action_link.parent().find('div#file-group');
-    var new_document_upload_box = file_group.find('div.row:first').clone();
-    var upload_inputs_count = file_group.find('div.row').length;
+    var file_group = action_link.parents('#file_container').find('div#file-group');
+    var new_document_upload_box = file_group.find('div.file:first-child').clone();
+    var upload_inputs_count = file_group.find('div.file').length;
     var new_document_input = new_document_upload_box.find('input[type="file"]').val(''); //.attr('id', 'child_upload_document_' + upload_inputs_count + 'document');
     var new_document_description = new_document_upload_box.find('input[type="text"]').val('');//.attr('id', 'child_upload_document_' + upload_inputs_count + '');
     $([new_document_input, new_document_description]).each(function(){
@@ -22,9 +22,10 @@ var DocumentUploadField = Backbone.View.extend({
       label.attr('for', id);
     });
     file_group.append(new_document_upload_box);
-    if (file_group.find('div.row').length >= 10) {
+    if (file_group.find('div.file').length >= 10) {
       action_link.remove();
     }
+    _primero.set_content_sidebar_equality();
   },
 
   validate_document: function(event) {

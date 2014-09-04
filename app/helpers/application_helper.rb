@@ -29,8 +29,8 @@ module ApplicationHelper
       link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation')}, class: "link_cancel"
   end
 
-  def discard_button(path, confirm_model = nil)
-      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message', record: confirm_model ||= 'Cases')}, class: "grey-button"
+  def discard_button(path)
+      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message')}, class: "grey-button"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
@@ -74,7 +74,7 @@ module ApplicationHelper
   def ctl_cancel_button(path)
     record = controller.controller_name.gsub('_', ' ').titleize
     ctl_button_wrapper do 
-      discard_button polymorphic_path(path), record
+      discard_button polymorphic_path(path)
     end
   end
 

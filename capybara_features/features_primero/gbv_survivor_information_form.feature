@@ -1,4 +1,5 @@
 # JIRA PRIMERO-449
+# JIRA PRIMERO-520
 
 @search @javascript @primero
 Feature: Survivor Information Form
@@ -8,7 +9,6 @@ Feature: Survivor Information Form
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
-    And I press the "Identification / Registration" button
     And I press the "Survivor Information" button
     #TODO: Add Date of Birth when PRIMERO-455 is merged
     And I fill in the following:
@@ -20,8 +20,8 @@ Feature: Survivor Information Form
       | Number and age of children and other dependents                                             | 2 children. 8 and 10 years old. |
       | Occupation                                                                                  | Some occupation                 |
       | Displacement Status at time of report                                                       | <Select> IDP                    |
-      | Is the Client a Person with Disabilities?                                                   | <Select> No                     |
-      | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?           | <Select> No                     |
+      | Is the Survivor a Person with Disabilities?                                                 | <Select> No                     |
+      | Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?         | <Select> No                     |
       | If the survivor is a child, does he/she live alone?                                         | <Radio> No                      |
       | If the survivor lives with someone, what is the relation between her/him and the caretaker? | <Select> Relative               |
       | If other relation between her/him and the caretaker, please specify.                        | Other relation                  |
@@ -37,8 +37,8 @@ Feature: Survivor Information Form
     And I should see a value for "Number and age of children and other dependents" on the show page with the value of "2 children. 8 and 10 years old."
     And I should see a value for "Occupation" on the show page with the value of "Some occupation"
     And I should see a value for "Displacement Status at time of report" on the show page with the value of "IDP"
-    And I should see a value for "Is the Client a Person with Disabilities?" on the show page with the value of "No"
-    And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "No"
+    And I should see a value for "Is the Survivor a Person with Disabilities?" on the show page with the value of "No"
+    And I should see a value for "Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "No"
     And I should see a value for "If the survivor is a child, does he/she live alone?" on the show page with the value of "No"
     And I should see a value for "If the survivor lives with someone, what is the relation between her/him and the caretaker?" on the show page with the value of "Relative"
     And I should see a value for "If other relation between her/him and the caretaker, please specify." on the show page with the value of "Other relation"

@@ -1,4 +1,5 @@
 # JIRA PRIMERO-474
+# JIRA PRIMERO-520
 
 @javascript @primero
 Feature: Copy GBV Case Survivor to GBV Incident Individuals.
@@ -26,8 +27,8 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
       | Religion                                          | <Choose>Religion1<Choose>Religion2        |
       | Current Civil/Marital Status              | <Select> Single            |
       | Displacement Status at time of report     | <Select> Refugee           |
-      | Is the Client a Person with Disabilities? | <Select> Mental Disability |
-      | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? | <Select> Unaccompanied Minor |
+      | Is the Survivor a Person with Disabilities? | <Select> Mental Disability |
+      | Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child? | <Select> Unaccompanied Minor |
     And I press "Save"
     And I press the "Edit" button
 
@@ -46,7 +47,6 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     And I should see a value for "Current civil/marital status" on the show page with the value of "Single"
     And I should see a value for "What was the status of the child at the time of the violation?" on the show page with the value of "Refugee"
     And I should see a value for "Disability Type" on the show page with the value of "Mental Disability"
-    And I should see a value for "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor"
 
   Scenario: As a logged in user and I have GBV Cases with validation issues, I should see validation errors messages and stay on the GBV Cases form.
     And I fill in the following:

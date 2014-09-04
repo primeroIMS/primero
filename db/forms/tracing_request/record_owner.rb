@@ -73,6 +73,5 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => tracing_request_record_owner_fields,
   "name_all" => "Record Owner",
-  "description_all" => "Record Owner",
-  :is_first_tab => true
+  "description_all" => "Record Owner"
 })

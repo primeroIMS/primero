@@ -192,5 +192,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => tracing_request_inquirer_fields,
   "name_all" => "Inquirer",
-  "description_all" => "Inquirer"
+  "description_all" => "Inquirer",
+  :is_first_tab => true
 })

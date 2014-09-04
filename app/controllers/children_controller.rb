@@ -152,7 +152,7 @@ class ChildrenController < ApplicationController
           flash[:notice] = I18n.t("case.messages.update_success")
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           case_module = @child.module
-          if params[:commit] == "Create Incident" and case_module.name == PrimeroModule::GBV
+          if params[:commit] == t("buttons.create_incident") and case_module.name == PrimeroModule::GBV
             #It is a GBV cases and the user indicate that want to create a GBV incident.
             redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
           else
