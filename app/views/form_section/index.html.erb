@@ -3,14 +3,14 @@
     <%
        #TODO i18n and STYLE
     %>
-    <h4><%= "Forms > #{@module.name} > #{@parent_form.titleize}"%></h4>
+    <h4><%= "Forms > #{@primero_module.name} > #{@parent_form.titleize}"%></h4>
   </div>
   <div class="large-4 medium-4 columns">
       <%= link_to content_tag(:span, t("form_section.create"), class: 'create_user'), new_form_section_path({module_id: @module_id, parent_form: @parent_form}),  class: 'btn green-button' %>
   </div>
   <div class="large-2 medium-2 columns">
       <%= select_tag :module_id,
-                     options_for_select(@current_modules.map{|m| [m.name, m.id]}, @module.id),
+                     options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
                      :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
   </div>
   <div class="large-2 medium-2 columns">

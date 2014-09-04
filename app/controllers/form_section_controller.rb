@@ -1,6 +1,6 @@
 class FormSectionController < ApplicationController
 
-  before_filter :current_modules, :only => [:index, :new, :edit]
+  before_filter :current_modules, :only => [:index, :new, :edit, :create]
   before_filter :parent_form, :only => [:new, :edit]
   before_filter :get_form_sections, :only => [:index]
   #before_filter :get_lookups, :only => [:index]
@@ -29,20 +29,10 @@ class FormSectionController < ApplicationController
     form_section.base_language = I18n.default_locale
     if (form_section.valid?)
       form_section.create
-
-      #TODO WIP.... kinda hack... need to refactor
-      module_id = params[:module_id]
-      if module_id.present?
-        primero_module = PrimeroModule.get(module_id)
-        if primero_module.present?
-          unless primero_module.associated_form_ids.include? form_section.unique_id
-            primero_module.associated_form_ids << form_section.unique_id
-
-            primero_module.save
-          end
-        end
+      unless @primero_module.associated_form_ids.include? form_section.unique_id
+        @primero_module.associated_form_ids << form_section.unique_id
+        @primero_module.save
       end
-
       flash[:notice] = t("form_section.messages.updated")
       redirect_to edit_form_section_path(form_section.unique_id)
     else
@@ -102,7 +92,7 @@ class FormSectionController < ApplicationController
   def current_modules
     @current_modules ||= current_user.modules
     @module_id = params[:module_id] || @current_modules.first.id
-    @module = @current_modules.select{|m| m.id == @module_id}.first
+    @primero_module = @current_modules.select{|m| m.id == @module_id}.first
   end
 
   def parent_form
@@ -110,7 +100,7 @@ class FormSectionController < ApplicationController
   end
 
   def get_form_sections
-    @record_types = @module.associated_record_types
+    @record_types = @primero_module.associated_record_types
 
     #only use the passed in parent_form if it is in the allowed form types for this module
     #otherwise, default to the first allowed form type
@@ -120,7 +110,7 @@ class FormSectionController < ApplicationController
       @parent_form = @record_types.first
     end
 
-    permitted_forms = FormSection.get_permitted_form_sections(@module, @parent_form, current_user)
+    permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
     FormSection.link_subforms(permitted_forms)
     #filter out the subforms
     no_subforms = FormSection.filter_subforms(permitted_forms)
