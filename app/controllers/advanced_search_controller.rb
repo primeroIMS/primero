@@ -24,15 +24,15 @@ class AdvancedSearchController < ApplicationController
   end
 
   def export_data
-    RapidftrAddon::ExportTask.active.each do |export_task|
-      if params[:commit] == t("addons.export_task.#{export_task.id}.selected")
-        authorize! "export_#{export_task.id}".to_sym, Child
+    Exporters::ACTIVE_EXPORTERS.each do |exporter|
+      if params[:commit] == t("addons.export_task.#{exporter.id}.selected")
+        authorize! "export_#{exporter.id}".to_sym, Child
         record_ids = (params["all"] == "Select all records") ? params["full_results"].split(/,/) : Hash[params["selections"].sort].values rescue {}
         raise ErrorResponse.bad_request('You must select at least one record to be exported') if record_ids.empty?
 
         children = record_ids.map { |child_id| Child.get child_id }
-        results = export_task.new.export(children)
-        encrypt_exported_files results, export_filename(children, export_task)
+        data = exporter.export(children, Child.properties)
+        encrypt_data_to_zip data, export_filename(children, exporter), params[:password]
       end
     end
   end

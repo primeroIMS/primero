@@ -1,6 +1,6 @@
 class ChildrenController < ApplicationController
   include RecordFilteringPagination
-
+  
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
@@ -87,7 +87,7 @@ class ChildrenController < ApplicationController
     authorize! :create, Child
     params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
     reindex_hash params['child']
-    create_or_update_child(params[:child])
+    create_or_update_child(params[:id], params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
     @child['child_status'] = "Open" if @child['child_status'].blank?
 
@@ -118,7 +118,7 @@ class ChildrenController < ApplicationController
       respond_to do |format|
         format.json do
 
-          child = create_or_update_child(params[:child].merge(:verified => current_user.verified?))
+          child = create_or_update_child(params[:id], params[:child].merge(:verified => current_user.verified?))
 
           if child.save
             render :json => child.compact.to_json
@@ -137,13 +137,13 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       format.json do
         params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
-        child = update_child_from params
+        child = update_child_from(params[:id], params[:child])
         child.save
         render :json => child.compact.to_json
       end
 
       format.html do
-        @child = update_child_from params
+        @child = update_child_from(params[:id], params[:child])
         @child['child_status'] = "Open" if @child['child_status'].blank?
 
         if @child.save
@@ -165,7 +165,7 @@ class ChildrenController < ApplicationController
       end
 
       format.xml do
-        @child = update_child_from params
+        @child = update_child_from(params[:id], params[:child])
         if @child.save
           head :ok
         else
@@ -251,12 +251,12 @@ class ChildrenController < ApplicationController
     child_params[:short_id] || child_params[:unique_identifier].last(7)
   end
 
-  def create_or_update_child(child_params)
+  def create_or_update_child(id, child_params)
     @child = Child.by_short_id(:key => child_short_id(child_params)).first if child_params[:unique_identifier]
     if @child.nil?
       @child = Child.new_with_user_name(current_user, child_params)
     else
-      @child = update_child_from(params)
+      @child = update_child_from(id, child_params)
     end
   end
 
@@ -279,8 +279,8 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def update_child_from params
-    child = @child || Child.get(params[:id]) || Child.new_with_user_name(current_user, params[:child])
+  def update_child_from(id, child_params)
+    child = @child || Child.get(id) || Child.new_with_user_name(current_user, child_params)
     authorize! :update, child
 
     resolved_params = params.clone
@@ -302,23 +302,15 @@ class ChildrenController < ApplicationController
     child
   end
 
-  def respond_to_export(format, children)
-    RapidftrAddon::ExportTask.active.each do |export_task|
-      format.any(export_task.id) do
-        authorize! "export_#{export_task.id}".to_sym, Child
-        LogEntry.create! :type => LogEntry::TYPE[export_task.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => children.collect(&:id)
-        results = export_task.new.export(children)
-        encrypt_exported_files results, export_filename(children, export_task)
-      end
-    end
-  end
-
-  def export_filename(children, export_task)
-    (children.length == 1 ? children.first.short_id : current_user_name) + '_' + export_task.id.to_s + '.zip'
-  end
-
   def set_class_name
     @className = Child
   end
 
+  def export_filename(models, exporter)
+    if models.length == 1
+      "#{models[0].unique_identifier}.#{exporter.id}"
+    else
+      super
+    end
+  end
 end

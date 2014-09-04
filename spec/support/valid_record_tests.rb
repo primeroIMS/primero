@@ -6,7 +6,7 @@ shared_examples "a valid record" do
   end
 
   it "should not allow invalid formatted dates" do
-    record['a_datefield'] = '27 Feb 10'
+    record['a_datefield'] = 'asldkjf'
     record.should_not be_valid
     record.errors[:a_datefield].should == ["Please enter the date in a valid format (dd-mmm-yyyy)"]
   end
@@ -43,7 +43,7 @@ shared_examples "a valid record" do
   end
 
   it "should pass numeric fields that are valid numbers to 1 dp" do
-    record['a_numericfield'] = '10.2'
+    record['a_numericfield'] = 10.2
     record.should be_valid
   end
 

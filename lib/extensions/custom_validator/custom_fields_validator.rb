@@ -54,11 +54,14 @@ class CustomFieldsValidator
     field_name = field[:name]
     field_name = field_name + suffix if suffix
 
-    value = 
-      if subfield
-        subfield[field_name].nil? ? '' : subfield[field_name].strip
+    value_obj = (subfield || target)[field_name]
+    value =
+      if value_obj.nil?
+        ''
+      elsif value_obj.respond_to?(:strip)
+        value_obj.strip
       else
-        target[field_name].nil? ? '' : target[field_name].strip
+        value_obj
       end
 
     if value.present? and is_not_valid(value)
@@ -89,8 +92,9 @@ end
 
 class CustomNumericFieldsValidator < CustomFieldsValidator
   def is_not_valid value
-    !value.is_number?
+    !value.is_a? Numeric
   end
+
   def validation_message_for field
     "#{field.display_name} must be a valid number"
   end
@@ -100,6 +104,7 @@ class CustomTextFieldsValidator < CustomFieldsValidator
   def is_not_valid value
     value.length > 200
   end
+
   def validation_message_for field
     "#{field.display_name} cannot be more than 200 characters long"
   end
@@ -118,8 +123,9 @@ end
 class DateFieldsValidator < CustomFieldsValidator
   # Blackberry client can only parse specific date formats
   def is_not_valid value
+    return false if value.is_a?(Date)
     begin
-      Date.strptime(value, '%d-%b-%Y')
+      Date.parse(value)
       false
     rescue
       true
