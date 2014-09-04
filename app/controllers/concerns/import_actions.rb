@@ -14,8 +14,8 @@ module ImportActions
   end
 
   def import_file
-    if params[:import_data].is_a? ActionDispatch::Http::UploadedFile
-      file = params[:import_data]
+    if params[:import_file].is_a? ActionDispatch::Http::UploadedFile
+      file = params[:import_file]
       type = params[:import_type] || file.original_filename.split('.')[-1]
 
       importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == type}.first
@@ -30,10 +30,13 @@ module ImportActions
         flash[:error] = "Error importing data: #{e}"
         redirect_to :action => :index and return
       end
-    end
 
-    flash[:notice] = t('import_successful')
-    redirect_to :action => :index
+      flash[:notice] = t('import_successful')
+      redirect_to :action => :index
+    else
+      flash[:error] = "No file provided!"
+      redirect_to :action => :index
+    end
   end
 
   def handle_import(upload_file, importer)

@@ -14,7 +14,6 @@ module Importers
       # Merges those hashes with index and value keys into final hashes
       # Only handles one level of arrays
       merge_arrays_of_hashes = lambda do |h|
-        puts "h: #{h}"
         h.inject({}) do |acc, (k, v)|
           array_merged = {k => case v
             when Array

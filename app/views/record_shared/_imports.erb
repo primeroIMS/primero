@@ -8,5 +8,14 @@
     <%= file_field_tag("import_file") %>
     <%= select_tag("import_type", options_for_select(Importers::ACTIVE_IMPORTERS.map {|i| i.id}, 'csv')) %>
     <%= submit_tag("Import") %>
+    <%= javascript_tag defer: 'defer' do %>
+      $('#import_file').on('change', function(e) {
+        var file_ext = e.target.value.split('.').pop()
+        $('#import_type')
+          .children('option')
+          .filter(function(i, el) { return el.value == file_ext })
+          .prop('selected', true);
+      });
+    <% end %>
   <% end %>
 </div>
