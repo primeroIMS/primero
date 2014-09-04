@@ -122,6 +122,7 @@ module Record
       hash_arrays_to_arrays = lambda do |h|
         case h
         when Hash
+          return h if h.length == 0
           # If it isn't integers, just return the original
           begin
             h.sort_by {|k,v| Integer(k)}.map{|k,v| hash_arrays_to_arrays.call(v)}
