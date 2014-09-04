@@ -96,7 +96,7 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "gbv_disability_type",
              "type" => "select_box", 
-             "display_name_all" => "Is the Client a Person with Disabilities?",
+             "display_name_all" => "Is the Survivor a Person with Disabilities?",
              "option_strings_text_all" =>
                           ["No",
                            "Mental Disability",
@@ -105,7 +105,7 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "unaccompanied_separated_status",
              "type" => "select_box",
-             "display_name_all" => "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
+             "display_name_all" => "Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
              "option_strings_text_all" =>
                           ["No",
                            "Unaccompanied Minor",

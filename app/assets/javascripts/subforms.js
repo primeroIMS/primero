@@ -138,6 +138,7 @@ var SubformView = Backbone.View.extend({
         self.count_subforms(subform_group);
         $('body').trigger('violation-removed');
       });
+      _primero.set_content_sidebar_equality();
     }
   },
 
