@@ -18,7 +18,9 @@ end
 describe IncidentsController do
 
   before :each do
-    fake_admin_login
+    unless example.metadata[:skip_session]
+      fake_admin_login
+    end
   end
 
   def mock_incident(stubs={})
@@ -180,6 +182,37 @@ describe IncidentsController do
         before {@params = {:order_by => 'created_at', :page => 2}}
         it_should_behave_like "viewing incidents as a mrm worker"
       end
+    end
+
+
+    describe "permissions to view lists of incident records", search: true, skip_session: true do
+
+      before do
+        User.all.each{|u| u.delete}
+        Incident.all.each{|c| c.delete}
+        Sunspot.remove_all!
+
+        roles = [Role.new(permissions: [Permission::INCIDENTS[:view_and_search]])]
+
+        @incident_manager1 = create(:user)
+        @incident_manager1.stub(:roles).and_return(roles)
+        @incident_manager2 = create(:user)
+        @incident_manager2.stub(:roles).and_return(roles)
+
+        @incident1 = create(:incident, owned_by: @incident_manager1.user_name)
+        @incident2 = create(:incident, owned_by: @incident_manager1.user_name)
+        @incident3 = create(:incident, owned_by: @incident_manager2.user_name)
+
+        Sunspot.commit
+      end
+
+
+      it "loads only incidents owned by or associated with this user" do
+        session = fake_login @incident_manager1
+        get :index
+        expect(assigns[:incidents]).to match_array([@incident1, @incident2])
+      end
+
     end
 
     # context "viewing active incidents" do

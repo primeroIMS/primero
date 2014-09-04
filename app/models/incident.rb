@@ -6,8 +6,8 @@ class Incident < CouchRest::Model::Base
 
 
   include Record
-  include Searchable
   include Ownable
+  include Searchable #Needs to be after Ownable
 
   property :incident_id
   property :description

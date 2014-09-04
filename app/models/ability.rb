@@ -11,19 +11,26 @@ class Ability
 
     @user = user
 
+    #TODO: As part of nailing down the permissions, this code needs to tightened and refactored.
+    #      At the moment, competing permissions fail to limit show and edit under certain situations
+
     #
     # CHILDREN (i.e. cases)
     #
     if user.has_permission?(Permission::CHILDREN[:register])
       can [:create], Child
       can [:read], Child do |child|
-        child.created_by == user.user_name
+        #binding.pry
+        #child.created_by == user.user_name
+        child.associated_user_names.include? user.user_name
       end
     end
 
     if user.has_permission?(Permission::CHILDREN[:edit])
       can [:read, :update, :destroy], Child do |child|
-        child.created_by == user.user_name
+        #binding.pry
+        #child.created_by == user.user_name
+        child.associated_user_names.include? user.user_name
       end
     end
 
@@ -50,20 +57,22 @@ class Ability
     if  user.has_permission?(Permission::CHILDREN[:export_cpims])
       can [:export_cpims], Child
     end
-    
+
     #
     # Incidents
     #
     if user.has_permission?(Permission::INCIDENTS[:register])
       can [:create], Incident
       can [:read], Incident do |incident|
-        incident.created_by == user.user_name
+        #incident.created_by == user.user_name
+        incident.associated_user_names.include? user.user_name
       end
     end
 
     if user.has_permission?(Permission::INCIDENTS[:edit])
       can [:read, :update, :destroy], Incident do |incident|
-        incident.created_by == user.user_name
+        #incident.created_by == user.user_name
+        incident.associated_user_names.include? user.user_name
       end
     end
 
@@ -91,13 +100,15 @@ class Ability
     if user.has_permission?(Permission::TRACING_REQUESTS[:register])
       can [:create], TracingRequest
       can [:read], TracingRequest do |tracing_request|
-        tracing_request.created_by == user.user_name
+        #tracing_request.created_by == user.user_name
+        tracing_request.associated_user_names.include? user.user_name
       end
     end
 
     if user.has_permission?(Permission::TRACING_REQUESTS[:edit])
       can [:read, :update, :destroy], TracingRequest do |tracing_request|
-        tracing_request.created_by == user.user_name
+        #tracing_request.created_by == user.user_name
+        tracing_request.associated_user_names.include? user.user_name
       end
     end
 
@@ -228,5 +239,19 @@ class Ability
   def cannot(action = nil, subject = nil, conditions = nil, &block)
     rules << CanCan::CustomRule.new(false, action, subject, conditions, block)
   end
+
+  #TODO: Implement these so hat we do not copy and paste record-related ability code
+  def can_read_record(record_class)
+  end
+
+  def can_write_record(record_class)
+  end
+
+  def can_list_records(record_class)
+  end
+
+  def can_export_records(record_class)
+  end
+
 
 end

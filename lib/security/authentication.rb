@@ -1,3 +1,4 @@
+#TODO: Some of these methods are replaced by Rails 4 (current_user, looking at you). Do we even need this lib?
 module Security
   module Authentication
 

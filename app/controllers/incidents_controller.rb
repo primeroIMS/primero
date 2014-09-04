@@ -11,7 +11,7 @@ class IncidentsController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
 
-    search = Incident.list_records filter, order, pagination, current_user_name
+    search = Incident.list_records filter, order, pagination, associated_users
     @incidents = search.results
     @total_records = search.total
     @per_page = per_page
@@ -36,7 +36,7 @@ class IncidentsController < ApplicationController
 
 
   def show
-    authorize! :read, @incident if @incident["created_by"] != current_user_name
+    authorize! :read, @incident #if @incident["created_by"] != current_user_name
     @page_name = t "incident.view", :short_id => @incident.short_id
     @body_class = 'profile-page'
     @duplicates = Incident.duplicates_of(params[:id])
@@ -88,7 +88,6 @@ class IncidentsController < ApplicationController
     reindex_hash params['incident']
 
     create_or_update_incident(params[:incident])
-    @incident['created_by_full_name'] = current_user_full_name
 
     respond_to do |format|
       if @incident.save
@@ -212,7 +211,6 @@ class IncidentsController < ApplicationController
   end
 
   def update_incident_with_attachments(incident, params)
-    incident['last_updated_by_full_name'] = current_user_full_name
     # new_photo = params[:child].delete("photo")
     # new_photo = (params[:child][:photo] || "") if new_photo.nil?
     # new_audio = params[:child].delete("audio")

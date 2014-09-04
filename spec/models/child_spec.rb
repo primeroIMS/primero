@@ -1594,6 +1594,43 @@ describe Child do
     end
   end
 
+  describe "record ownership" do
+
+    before do
+      User.all.each{|u| u.destroy}
+      Child.all.each{|c| c.destroy}
+
+      @owner = create :user
+      @previous_owner = create :user
+      @referral = create :user
+      @operator = create :user
+
+      @case = build :child, owned_by: @owner.user_name, previously_owned_by: @previous_owner.user_name,
+                             database_operator_user_name: @operator.user_name,
+                             assigned_user_names: [@referral.user_name]
+
+    end
+
+    it "can fetch the record owner" do
+      expect(@case.owner).to eq(@owner)
+    end
+
+    it "can fetch the previous owner" do
+      expect(@case.previous_owner).to eq(@previous_owner)
+    end
+
+    it "can fetch the database operator" do
+      expect(@case.database_operator).to eq(@operator)
+    end
+
+    it "doesn't repeat CouchDB queries when fetching different user types" do
+      expect(User).to receive(:by_user_name).once.and_return(double(all: []))
+      @case.owner
+      @case.previous_owner
+    end
+
+  end
+
   private
 
   def create_child(name, options={})
