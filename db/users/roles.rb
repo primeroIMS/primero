@@ -33,6 +33,7 @@ create_or_update_role(
     Permission::CHILDREN[:edit],
     Permission::CHILDREN[:export_photowall],
     Permission::CHILDREN[:export_csv],
+    Permission::CHILDREN[:export_xls],
     Permission::CHILDREN[:export_pdf],
     Permission::CHILDREN[:export_cpims],
     Permission::REPORTS[:view],
@@ -51,6 +52,7 @@ create_or_update_role(
     Permission::CHILDREN[:export_csv],
     Permission::CHILDREN[:export_pdf],
     Permission::CHILDREN[:export_cpims],
+    Permission::CHILDREN[:export_xls],
     Permission::REPORTS[:view]
   ]
 )
@@ -62,6 +64,7 @@ create_or_update_role(
     Permission::INCIDENTS[:register],
     Permission::INCIDENTS[:edit],
     Permission::INCIDENTS[:export_csv],
+    Permission::INCIDENTS[:export_xls],
     Permission::INCIDENTS[:export_pdf],
     Permission::REPORTS[:view]
   ]
@@ -75,6 +78,7 @@ create_or_update_role(
     Permission::TRACING_REQUESTS[:edit],
     Permission::TRACING_REQUESTS[:export_csv],
     Permission::TRACING_REQUESTS[:export_pdf],
+    Permission::TRACING_REQUESTS[:export_xls],
     Permission::REPORTS[:view]
   ]
 )
@@ -94,6 +98,7 @@ create_or_update_role(
     Permission::CHILDREN[:view_and_search],
     Permission::CHILDREN[:export_photowall],
     Permission::CHILDREN[:export_csv],
+    Permission::CHILDREN[:export_xls],
     Permission::CHILDREN[:export_pdf],
     Permission::CHILDREN[:export_cpims],
     Permission::REPORTS[:view],

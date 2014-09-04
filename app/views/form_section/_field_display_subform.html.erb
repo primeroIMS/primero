@@ -12,7 +12,7 @@
   <div class="subforms">
     <% (number_of_subforms).times do |i| %>
       <%
-        formObject_i = subform_object["#{i}"]
+        formObject_i = subform_object[i]
         formObject_i[:hidden_name] = formObject.hidden_name
       %>
       <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">

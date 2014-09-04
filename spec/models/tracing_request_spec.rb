@@ -1352,7 +1352,7 @@ describe TracingRequest do
 
     it "should validate single date field" do
       #date field invalid.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_date_field => "30/May/2014"
+      tracing_request = create_tracing_request "Bob McBobberson", :a_date_field => "asldkfjlj3234"
       tracing_request.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #date valid.
@@ -1362,15 +1362,15 @@ describe TracingRequest do
 
     it "should validate range fields" do
       #_from is wrong.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31/May/2014", :a_range_field_to => "31-May-2014"
+      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "lkjlj", :a_range_field_to => "31-May-2014"
       tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #_to is wrong.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31/May/2014"
+      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "lk2j3lk45"
       tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #_from and _to are wrong.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31/May/2014", :a_range_field_to => "31/May/2014"
+      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "lk2j34lkj", :a_range_field_to => "akdf34lk4j"
       tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #range valid dates.

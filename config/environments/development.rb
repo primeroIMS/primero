@@ -22,7 +22,6 @@ RapidFTR::Application.configure do
 
   # Asset pipeline
   config.assets.compress = false
-  config.assets.debug = false
   config.assets.debug = ENV['DEBUG_ASSETS'] == 'no' ? false : true
 
   config.eager_load = false

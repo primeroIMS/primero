@@ -52,52 +52,36 @@ describe ApplicationController do
     end
   end
 
-  describe '#encrypt_exported_files' do
+  describe '#encrypt_data_to_zip' do
     before :each do
       controller.params[:password] = 'test_password'
     end
 
     it 'should send encrypted zip with one file' do
+      password = 's3cr3t'
       files = [ RapidftrAddon::ExportTask::Result.new("/1/2/3/file_1.pdf", "content 1") ]
+      data = "content 1"
+      filename = "test"
 
       controller.should_receive(:send_file) do |file, opts|
         ZipRuby::Archive.open(file) do |ar|
           ar.num_files.should == 1
-          ar.decrypt 'test_password'
-          ar.fopen("file_1.pdf") do |f|
-            f.read.should == "content 1"
+          ar.decrypt password
+          ar.fopen(filename) do |f|
+            f.read.should == data
           end
         end
       end
 
-      controller.send(:encrypt_exported_files, files, nil)
-    end
-
-    it 'should send encrypted zip with multiple files' do
-      files = [ RapidftrAddon::ExportTask::Result.new("/1/2/3/file_1.pdf", "content 1"), RapidftrAddon::ExportTask::Result.new("file_2.xls", "content 2") ]
-
-      controller.should_receive(:send_file) do |file, opts|
-        ZipRuby::Archive.open(file) do |ar|
-          ar.num_files.should == 2
-          ar.decrypt 'test_password'
-          ar.fopen("file_1.pdf") do |f|
-            f.read.should == "content 1"
-          end
-          ar.fopen("file_2.xls") do |f|
-            f.read.should == "content 2"
-          end
-        end
-      end
-
-      controller.send(:encrypt_exported_files, files, nil)
+      controller.send(:encrypt_data_to_zip, data, filename, password)
     end
 
     it 'should send proper filename to the browser' do
       CleansingTmpDir.stub :temp_file_name => 'encrypted_file'
       ZipRuby::Archive.stub :open => true
 
-      controller.should_receive(:send_file).with('encrypted_file', hash_including(:filename => 'test_filename.zip', :type => 'application/zip', :disposition => "inline"))
-      controller.encrypt_exported_files [], 'test_filename.zip'
+      controller.should_receive(:send_file).with('encrypted_file', hash_including(:filename => 'test_filename.csv.zip', :type => 'application/zip', :disposition => "inline"))
+      controller.encrypt_data_to_zip '', 'test_filename.csv', ''
     end
   end
 

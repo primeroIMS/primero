@@ -42,6 +42,7 @@ RapidFTR::Application.routes.draw do
     collection do
       post :sync_unverified
       post :reindex
+      post :import_file
       get :advanced_search
       get :search
     end
@@ -54,6 +55,7 @@ RapidFTR::Application.routes.draw do
     collection do
       post :sync_unverified
       post :reindex
+      post :import_file
       get :advanced_search
       get :search
     end
@@ -69,6 +71,7 @@ RapidFTR::Application.routes.draw do
     collection do
       # post :sync_unverified
       post :reindex
+      post :import_file
       # get :advanced_search
       get :search
     end
@@ -129,6 +132,7 @@ RapidFTR::Application.routes.draw do
     collection do
       # post :sync_unverified
       post :reindex
+      post :import_file
       # get :advanced_search
       get :search
     end
