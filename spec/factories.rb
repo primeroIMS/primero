@@ -45,6 +45,11 @@ FactoryGirl.define do
     end
   end
 
+  factory :location, :traits => [ :model ] do
+    name { "location_#{counter}"}
+    description { "location_#{counter}"}
+  end
+
   factory :replication, :traits => [ :model ] do
     description 'Sample Replication'
     remote_app_url 'app:1234'
