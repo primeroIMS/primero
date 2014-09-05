@@ -59,12 +59,12 @@ class Incident < CouchRest::Model::Base
     violations_list = []
 
     if self['violations'].present?
-      self['violations'].each do |key, value|
-        value.each do |k, v|
+      self['violations'].to_hash.each do |key, value|
+        value.each_with_index do |v, i|
           if v['violation_id'].present?
             violations_list << v['violation_id']
           else
-            violations_list << key.titleize + " " + k
+            violations_list << "#{key.titleize} #{i}"
           end
         end
       end

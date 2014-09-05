@@ -12,7 +12,18 @@
   </div>
   <div class="medium-8 columns">
     <%= text_area_tag name, value, :disabled => textarea.editable == false ? true : false, :id => field_id %>
-    <%= image_tag "new/icon_help.png", title: textarea.help_text, class: 'tool-tip-icon vtip' if textarea.help_text.present? %>
+    <% if textarea.guiding_questions.present? %>
+      <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0', 
+            data: { 
+              toggle: 'popover', 
+              trigger: 'focus', 
+              title: t('buttons.guiding_questions'), 
+              html: true 
+            }) %>
+      <div class='popover_content' style="display:none;">
+        <%=  textarea.guiding_questions %>
+      </div>
+    <% end %>
   </div>
 </div>
 
