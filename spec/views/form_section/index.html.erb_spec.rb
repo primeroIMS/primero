@@ -40,23 +40,23 @@ describe "form_section/index.html.erb" do
     @searchable_response = Hpricot(rendered)
   end
 
-  it "renders a table row for each form section" do
+  xit "renders a table row for each form section" do
     (@searchable_response.form_section_row_for @form_section_1.unique_id).should_not be_nil
     (@searchable_response.form_section_row_for @form_section_2.unique_id).should_not be_nil
     (@searchable_response.form_section_row_for @form_section_3.unique_id).should_not be_nil
   end
 
-  it "renders the name of each form section as a link" do
+  xit "renders the name of each form section as a link" do
     (@searchable_response.form_section_row_for @form_section_1.unique_id).search("a.formSectionLink").should_not be_nil
     (@searchable_response.form_section_row_for @form_section_2.unique_id).search("a.formSectionLink").should_not be_nil
     (@searchable_response.form_section_row_for @form_section_3.unique_id).search("a.formSectionLink").should_not be_nil
   end
 
-  it "renders the description text for each form section" do
+  xit "renders the description text for each form section" do
     should_have_description(@form_section_1)
   end
 
-  it "renders the enable/disable checkbox for each form section" do
+  xit "renders the enable/disable checkbox for each form section" do
     should_have_enable_or_disable_checkbox(@form_section_2, true)
     should_have_enable_or_disable_checkbox(@form_section_3, false)
     should_not_have_enable_or_disable_checkbox(@form_section_1)
