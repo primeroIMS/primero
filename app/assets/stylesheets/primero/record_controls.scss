@@ -1,0 +1,67 @@
+////////////////////////////////////////////////
+// Record Controls
+////////////////////////////////////////////////
+
+.record_controls {
+  padding-top: 20px;
+
+  ul.inline-list {
+    padding-left: 5px;
+
+    li:not(.rec_ctl) {
+      margin-right: 10px;
+    }
+
+    a.arrow:after {
+      content: '\25BA';
+      float: right;
+      padding: 0 0 0 15px;
+      position: absolute;
+      z-index: 10;
+      color: $stroke_green_color;
+    }
+
+    li.rec_ctl a.grey-button {
+      border-left: none !important;
+      border-right: none !important;
+    }
+  }
+
+  ul#export-dropdown li {
+    margin-right: 0;
+  }
+
+  h4 {
+    font-size: $twenty_px;
+    font-family: 'Roboto-Medium', sans-serif;
+    color: $green_color;
+  }
+}
+
+.record_controls_container {
+  width: 100%;
+  height: 80px;
+  z-index: 9999;
+  background: $white_color;
+}
+
+.index_controls_container {
+  width: 100%;
+  height: 50px;
+  z-index: 9999;
+  background: $white_color;
+  padding-top: 7px;
+
+  .pagination_info {
+    margin-top: 6px;
+  }
+
+  .large-9 {
+    padding: 0;
+  }
+}
+
+.sticking {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
+}

@@ -1,3 +1,4 @@
+// TODO: refactor into Primero when refactoring filters behavior - JT
 _primero.clean_page_params = function(q_param) {
   var source = location.href,
       rtn = source.split("?")[0],
@@ -68,43 +69,100 @@ _primero.create_or_clean_error_messages_container = function(form) {
   }
 };
 
-$(document).ready(function() {
-  $('.btn_submit').on('click', function() {
-    //find out if the submit button is part of the form or not.
-    //if not part will need to add the "commit" parameter to let it know
-    //the controller what was triggered.
-    var parent = $(this).parents("form.default-form");
+var Primero = Backbone.View.extend({
+  el: 'body',
+
+  events: {
+    'click .btn_submit': 'submit_form',
+    'click .gq_popovers': 'engage_popover',
+    'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
+    'sticky-end .record_controls_container, .index_controls_container': 'end_sticky'
+  },
+
+  initialize: function() {
+    this.init_sticky();
+    this.init_popovers();
+  },
+
+  init_popovers: function() {
+    var guided_questions = $('.gq_popovers'),
+        field = guided_questions.parent().find('input, textarea');
+
+    guided_questions.prev('input, textarea').addClass('has_help');
+    guided_questions.popover({
+      content: function() {
+        return $(this).next('.popover_content').html().replace(/\n/g, "<br/>");
+      }, 
+      placement: 'bottom',
+      trigger: 'manual'
+    });
+            
+    field.on('focus', function(evt) {
+      guided_questions.popover('hide');
+
+      var field = $(evt.target),
+          popover_trigger = $(evt.target).next();
+
+      popover_trigger.popover('show');
+
+      $(evt.target).parent().bind('clickoutside', function(e) {
+        popover_trigger.popover('hide');
+      });
+
+    });
+  },
+
+  engage_popover: function(evt) {
+    evt.preventDefault();
+
+    var selected_input = $(evt.target).parent().find('input, textarea');
+
+    selected_input.trigger('focus');
+  },
+
+  init_sticky: function() {
+    var control = $(".record_controls_container, .index_controls_container"),
+    stickem = control.sticky({ 
+      topSpacing: control.data('top'),
+      bottomSpacing: control.data('bottom') 
+    });
+  },
+
+  start_sticky: function(evt) {
+    $(evt.target).addClass('sticking')
+  },
+
+  end_sticky: function(evt) {
+    $(evt.target).removeClass('sticking')
+  },
+
+  submit_form: function(evt) {
+    var button = $(evt.target),
+        //find out if the submit button is part of the form or not.
+        //if not part will need to add the "commit" parameter to let it know
+        //the controller what was triggered.
+        parent = button.parents("form.default-form");
+
     if (parent.length > 0) {
       //Just a regular submit in the form.
       parent.submit();
     } else {
       //Because some design thing we need to add the "commit" parameter
       //to the form because the submit triggered is outside of the form.
-      var form = $('form.default-form');
-      var commit = form.find("input[class='submit-outside-form']");
+      var form = $('form.default-form'),
+          commit = form.find("input[class='submit-outside-form']");
+
       if (commit.length == 0) {
-        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + this.value + "'/>")
+        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + button.value + "'/>")
       } else {
-        $(commit).val(this.value);
+        $(commit).val(button.value);
       }
+
       form.submit();
     }
-  });
+  }
+});
 
-  var control = $(".record_controls_container, .index_controls_container"),
-      stickem = control.sticky({ 
-    topSpacing: control.data('top'),
-    bottomSpacing: control.data('bottom') 
-  });
-      
-  stickem.on('sticky-start', function() { $(this).addClass('sticking') });
-  stickem.on('sticky-end', function() { $(this).removeClass('sticking')  });
-
-  $('.gq_popovers').click(function(event){ event.preventDefault()});
-  $('.gq_popovers').popover({
-    content: function() {
-      return $(this).next('.popover_content').html().replace(/\n/g, "<br/>");
-    }, 
-    placement: 'bottom'
-  });
+$(document).ready(function() {
+  new Primero();
 });

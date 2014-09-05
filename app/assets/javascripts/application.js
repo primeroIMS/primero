@@ -13,6 +13,7 @@
 //= require plugins/jquery.jplayer.min
 //= require plugins/jquery.rotate.1-1
 //= require plugins/vtip-min
+//= require plugins/outside_events.min
 //= require primero.dataTables.js
 //= require plugins/dataTables.responsive
 //= require plugins/popovers

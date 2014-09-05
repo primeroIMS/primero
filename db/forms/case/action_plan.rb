@@ -40,8 +40,11 @@ action_plan_fields = [
              "display_name_all" => "Explain",
              "guiding_questions" => "
                 What are the safety options available to the survivor?
+
                 Referral to a safe house?
+                
                 Does she have her own safe place that she can go temporarily?
+                
                 Will the survivor return home?
              "
             }),
