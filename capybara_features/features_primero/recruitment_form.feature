@@ -5,6 +5,7 @@
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
 #JIRA PRIMERO-283
+#JIRA PRIMERO-526
 
 @javascript @primero
 Feature: Recruitment Form
@@ -38,6 +39,16 @@ Feature: Recruitment Form
       | If yes, when did the children leave the armed group?         | 10-Oct-1995 |
       | If the children left the armed group, how did it happen?               | <Select> Dissolution of Armed Group |
       | What factors contributed towards the children leaving the armed group? | <Select> Government Pressure        |
+      | Verifier                                                                                                                        | Verifier name                                                           |
+      | Verification Decision Date                                                                                                      | today's date                                                            |
+      | Has the information been received from a primary and reliable source?                                                           | <Select> Yes, from a credible Primary Source who witnessed the incident |
+      | Was the incident witnessed by UN staff or other MRM-trained affiliates?                                                         | <Radio> Yes                                                             |
+      | Is the information consistent across various independent sources?                                                               | <Radio> Yes                                                             |
+      | Has the veracity of the allegations been deemed credible using reasonable and sound judgement of trained and reliable monitors? | <Radio> No                                                              |
+      | If not verified, why?                                                                                                           | <Select> Other                                                          |
+      | Notes on Verification Decision                                                                                                  | Notes                                                                   |
+      | Verified by CTFMR                                                                                                               | <Radio> No                                                              |
+      | Date verified by CTFMR                                                                                                          | today's date                                                            |
     And the value of "Number of total survivors" in the 1st "Recruitment" subform should be "6"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
@@ -65,3 +76,14 @@ Feature: Recruitment Form
       | If yes, when did the children leave the armed group?                                                           | 10-Oct-1995                                    |
       | If the children left the armed group, how did it happen?                                                       | Dissolution of Armed Group                     |
       | What factors contributed towards the children leaving the armed group?                                         | Government Pressure                            |
+      | Verifier                                                                                                                        | Verifier name                                                  |
+      # | Verification Decision Date                                                                                                      | today's date                                                   |
+      | Verification Status                                                                                                             | Pending                                                        |
+      | Has the information been received from a primary and reliable source?                                                           | Yes, from a credible Primary Source who witnessed the incident |
+      | Was the incident witnessed by UN staff or other MRM-trained affiliates?                                                         | Yes                                                            |
+      | Is the information consistent across various independent sources?                                                               | Yes                                                            |
+      | Has the veracity of the allegations been deemed credible using reasonable and sound judgement of trained and reliable monitors? | No                                                             |
+      | If not verified, why?                                                                                                           | Other                                                          |
+      | Notes on Verification Decision                                                                                                  | Notes                                                          |
+      | Verified by CTFMR                                                                                                               | No                                                             |
+      # | Date verified by CTFMR                                                                                                          | today's date                                                   |

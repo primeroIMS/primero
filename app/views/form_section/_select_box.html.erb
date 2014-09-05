@@ -3,6 +3,7 @@
    name = field_tag_name formObject, select_box, field_keys
    name += "[]" if select_box.multi_select   
    field_id = "#{select_box.form.name.dehumanize}_#{sanitize_to_id name}"
+   value = select_box.initial_value if select_box.initial_value.present? && formObject.new_record?
    value ||= field_value formObject, select_box, field_keys
 %>
 
