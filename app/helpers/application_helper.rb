@@ -52,6 +52,7 @@ module ApplicationHelper
     confirm_options
   end
 
+  #TODO: Fix this when fixing customizations. Do we need them as hashed values
   def translated_permissions
     permissions = Permission.hashed_values.map do |group, permissions|
       [
@@ -65,7 +66,7 @@ module ApplicationHelper
 
   def ctl_edit_button(record)
     record = record.singularize if record.instance_of? String
-    ctl_button_wrapper do 
+    ctl_button_wrapper do
       link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
           class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
     end
@@ -73,19 +74,19 @@ module ApplicationHelper
 
   def ctl_cancel_button(path)
     record = controller.controller_name.gsub('_', ' ').titleize
-    ctl_button_wrapper do 
+    ctl_button_wrapper do
       discard_button polymorphic_path(path)
     end
   end
 
   def ctl_save_button
-    ctl_button_wrapper do 
+    ctl_button_wrapper do
       submit_button
     end
   end
 
   def ctl_create_incident_button(record)
-    ctl_button_wrapper do 
+    ctl_button_wrapper do
       submit_button(t("buttons.create_incident"))
     end if record.present? and record.class.name == "Child" and record.module.name == PrimeroModule::GBV
   end
