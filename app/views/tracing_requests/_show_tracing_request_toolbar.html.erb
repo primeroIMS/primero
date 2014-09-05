@@ -27,12 +27,10 @@
     </li>
     <% end %>
 <% end %>
-<% if false %>
-<% if Exporters::ACTIVE_EXPORTERS.any?{|exporter| can?("export_#{exporter.id}".to_sym, tracing_request)} %>
+<% if can?(:export, tracing_request) %>
     <li>
         <div class="btn dropdown_btn btn_export">
             <%= render 'export' %>
         </div>
     </li>
-<% end %>
 <% end %>

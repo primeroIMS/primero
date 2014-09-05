@@ -35,27 +35,11 @@ class Ability
     end
 
     if user.has_permission?(Permission::CHILDREN[:view_and_search])
-      can [:read, :view_all, :view_and_search], Child
+      can [:read, :view_all, :view_and_search, :export], Child
     end
 
     if user.has_permission?(Permission::CHILDREN[:view_and_search]) and user.has_permission?(Permission::CHILDREN[:edit])
       can [:read, :update, :destroy], Child
-    end
-
-    if user.has_permission?(Permission::CHILDREN[:export_csv])
-      can [:export_csv], Child
-    end
-    if user.has_permission?(Permission::CHILDREN[:export_xls])
-      can [:export_xls], Child
-    end
-    if user.has_permission?(Permission::CHILDREN[:export_photowall])
-      can [:export_photowall], Child
-    end
-    if  user.has_permission?(Permission::CHILDREN[:export_pdf])
-      can [:export_pdf], Child
-    end
-    if  user.has_permission?(Permission::CHILDREN[:export_cpims])
-      can [:export_cpims], Child
     end
 
     #
@@ -77,21 +61,11 @@ class Ability
     end
 
     if user.has_permission?(Permission::INCIDENTS[:view_and_search])
-      can [:read, :view_all, :view_and_search], Incident
+      can [:read, :view_all, :view_and_search, :export], Incident
     end
 
     if user.has_permission?(Permission::INCIDENTS[:view_and_search]) and user.has_permission?(Permission::INCIDENTS[:edit])
       can [:read, :update, :destroy], Incident
-    end
-
-    if user.has_permission?(Permission::INCIDENTS[:export_csv])
-      can [:export_csv], Incident
-    end
-    if user.has_permission?(Permission::INCIDENTS[:export_xls])
-      can [:export_xls], Incident
-    end
-    if  user.has_permission?(Permission::INCIDENTS[:export_pdf])
-      can [:export_pdf], Incident
     end
 
     #
@@ -113,24 +87,11 @@ class Ability
     end
 
     if user.has_permission?(Permission::TRACING_REQUESTS[:view_and_search])
-      can [:read, :view_all, :view_and_search], TracingRequest
+      can [:read, :view_all, :view_and_search, :export], TracingRequest
     end
 
     if user.has_permission?(Permission::TRACING_REQUESTS[:view_and_search]) and user.has_permission?(Permission::TRACING_REQUESTS[:edit])
       can [:read, :update, :destroy], TracingRequest
-    end
-
-    if user.has_permission?(Permission::TRACING_REQUESTS[:export_csv])
-      can [:export_csv], TracingRequest
-    end
-    if user.has_permission?(Permission::TRACING_REQUESTS[:export_xls])
-      can [:export_xls], TracingRequest
-    end
-    if user.has_permission?(Permission::TRACING_REQUESTS[:export_photowall])
-      can [:export_photowall], TracingRequest
-    end
-    if  user.has_permission?(Permission::TRACING_REQUESTS[:export_pdf])
-      can [:export_pdf], TracingRequest
     end
 
     #

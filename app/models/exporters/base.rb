@@ -47,4 +47,14 @@ module Exporters
       end
     end
   end
+
+  def self.convert_model_to_hash(model, properties)
+    prop_names = properties.map {|p| p.name}
+    JSON.parse(model.to_json).select do |k,v|
+      prop_names.include? k
+    end.tap do |h|
+      h['model_type'] = model.class.name
+      h
+    end
+  end
 end
