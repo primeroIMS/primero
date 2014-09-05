@@ -146,6 +146,7 @@ class ChildrenController < ApplicationController
         @child = update_child_from(params[:id], params[:child])
         @child['child_status'] = "Open" if @child['child_status'].blank?
 
+        require 'pry'; binding.pry
         if @child.save
           flash[:notice] = I18n.t("case.messages.update_success")
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]

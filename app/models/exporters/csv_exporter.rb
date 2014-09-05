@@ -2,7 +2,7 @@ require 'csv'
 require_relative 'base.rb'
 
 module Exporters
-  class CSVExporter
+  class CSVExporter < BaseExporter
     class << self
       def id
         'csv'

@@ -2,8 +2,8 @@ module ExportActions
   extend ActiveSupport::Concern
 
   def respond_to_export(format, models)
-    Exporters::ACTIVE_EXPORTERS.each do |exporter|
-      format.any(exporter.id) do
+    Exporters::active_exporters_for_model(@className).each do |exporter|
+      format.any(exporter.mime_type) do
         authorize! :export, @className
         LogEntry.create! :type => LogEntry::TYPE[exporter.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => models.collect(&:id)
 

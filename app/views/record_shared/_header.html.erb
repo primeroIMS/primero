@@ -4,7 +4,7 @@
 <div class="btn green-button dropdown_btn">
   <span class="export"><%= t("#{record}.export") %></span>
   <div class="dropdown hide">
-    <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
+    <% Exporters::active_exporters_for_model(model).each do |exporter| %>
       <%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
     <% end %>
   </div>
