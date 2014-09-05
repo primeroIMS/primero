@@ -46,7 +46,7 @@ module FormToPropertiesConverter
   def properties_for_field(field)
     base_options = {
       :read_only => !field.editable,
-      :allow_blank => true
+      :allow_blank => false
     }
 
     date_options = {

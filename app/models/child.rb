@@ -104,7 +104,7 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_date_of_birth
-    if !date_of_birth.nil? && date_of_birth.year > Date.today.year
+    if !date_of_birth.nil? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
       errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
       error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
       false
