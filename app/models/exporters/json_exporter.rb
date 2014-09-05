@@ -1,5 +1,5 @@
 module Exporters
-  class JSONExporter
+  class JSONExporter < BaseExporter
     class << self
       def id
         'json'
