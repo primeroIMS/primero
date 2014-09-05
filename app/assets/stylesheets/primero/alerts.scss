@@ -1,0 +1,27 @@
+////////////////////////////////////////////////
+// Alert box
+////////////////////////////////////////////////
+
+.alert-box {
+  margin-bottom: .5rem !important;
+}
+
+.flash {
+  width: 60%;
+  margin: 20px auto;
+  text-align: center;
+  background-color: #FFF;
+  p {
+    padding: 5px;
+    margin-bottom: 0;
+    font-size:14px;
+    &.error {
+      color: $red_color;
+      border: 1px solid $red_color;
+    }
+    &.notice {
+      color: $grey_color;
+      border: 1px solid $green_color;
+    }
+  }
+}
