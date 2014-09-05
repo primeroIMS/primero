@@ -3,7 +3,7 @@ module ExportActions
 
   def respond_to_export(format, models)
     Exporters::active_exporters_for_model(@className).each do |exporter|
-      format.any(exporter.mime_type) do
+      format.any(exporter.id) do
         authorize! :export, @className
         LogEntry.create! :type => LogEntry::TYPE[exporter.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => models.collect(&:id)
 
@@ -18,6 +18,6 @@ module ExportActions
   end
 
   def export_filename(models, exporter)
-    "#{current_user.user_name}.#{exporter.id}"
+    "#{current_user.user_name}.#{exporter.mime_type}"
   end
 end
