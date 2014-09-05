@@ -4,9 +4,9 @@
       <h4><%= t("fields.label") %></h4>
     </div>
     <div class="large-4 medium-4 columns">
-        <%= link_to t("fields.add"), "javascript:void(0)", class: 'add_field btn green-button' %>
     </div>
     <div class="large-4 medium-4 columns">
+        <a href="#" data-reveal-id="add_field_modal" class="btn green-button"><%=t("fields.add")%></a>
     </div>
   <% else %>
     <div class="large-12 medium-12 columns">
@@ -21,73 +21,65 @@
   </div>
 </div>
 
-    <input type="hidden" id="toggle_url" value="<%= toggle_fields_form_section_fields_path(@form_section) %>">
-    <input type="hidden" id="edit_url" value="<%= edit_form_section_path(@form_section) %>">
-    <input type="hidden" id="move_url" value="<%= change_form_form_section_fields_path(@form_section) %>">
-    <input type="hidden" id="save_order_url" value="<%= save_order_form_section_fields_path(@form_section) %>">
-    
+<input type="hidden" id="toggle_url" value="<%= toggle_fields_form_section_fields_path(@form_section) %>">
+<input type="hidden" id="edit_url" value="<%= edit_form_section_path(@form_section) %>">
+<input type="hidden" id="move_url" value="<%= change_form_form_section_fields_path(@form_section) %>">
+<input type="hidden" id="save_order_url" value="<%= save_order_form_section_fields_path(@form_section) %>">
 
-    <table id="form_sections" class="list_table">
-      <thead>
-      <tr>
-        <th><%= t("name") %></th>
-        <th><%= t("help_text") %></th>
-        <th><%= t("form_section.options") %></th>
-        <th><%= t("fields.type") %></th>
-        <th align="center"><%= t("form_section.hide") %></th>
-
-        <th align="center">Actions</th>
-      </tr>
-      </thead>
-
-
-      <tbody>
-      <% @form_section.fields.each do |field| %>
-          <% unless field.new? %>
-          <tr data="<%= field.name %>" class="<%= field.visible? ? "rowEnabled" : "rowDisabled" %>">
-            <td><%= field.display_name %></td>
-            <td><%= field.help_text %></td>
-            <td><%= field.option_strings unless field.option_strings.empty? %></td>
-            <td><%= field.type.try(:humanize) %></td>
-
-            <% if @form_section.editable? %>
-                <td align="center">
-                  <% if field.editable? %>
-                    <%= check_box_tag "fields[]", field.name, !field.visible? , {:id => "fields_#{field.name}", :class => "field_hide_show"} %>
-                  <% end %>
-                </td>
-            <% else %>
+<table id="form_sections" class="list_table">
+  <thead>
+    <tr>
+      <th><%= t("name") %></th>
+      <th><%= t("help_text") %></th>
+      <th><%= t("form_section.options") %></th>
+      <th><%= t("fields.type") %></th>
+      <th align="center"><%= t("form_section.hide") %></th>
+      <th align="center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @form_section.fields.each do |field| %>
+      <% unless field.new? %>
+        <tr data="<%= field.name %>" class="<%= field.visible? ? "rowEnabled" : "rowDisabled" %>">
+          <td><%= field.display_name %></td>
+          <td><%= field.help_text %></td>
+          <td><%= field.option_strings unless field.option_strings.empty? %></td>
+          <td><%= field.type.try(:humanize) %></td>
+          <% if @form_section.editable? %>
+            <td align="center">
+              <% if field.editable? %>
+                <%= check_box_tag "fields[]", field.name, !field.visible? , {:id => "fields_#{field.name}", :class => "field_hide_show"} %>
+              <% end %>
+            </td>
+          <% else %>
              <td align="center"> </td>
-            <% end %>
-            <% if @form_section.editable? %>
+          <% end %>
+          <% if @form_section.editable? %>
             <td class='field-buttons'>
-                  <% if field.editable? %>
-                      <a href="javascript:void(0)" class="link_moveto"><%= t("fields.move_to") %></a>
-                      <%= link_to t("buttons.edit"), edit_form_section_field_path(:form_section_id => @form_section.unique_id, :id => field.name), :id => "#{field.name}_edit" %>
-                      <%= render :partial => "form_section/delete_button", :locals => {:field => field, :url => delete_form_section_fields_path(@form_section.unique_id),
-                                                                          :warning => I18n.t("messages.warning")} %> <%= hidden_field_tag "field_name" "#{field.name}" %>
-                      <div class="move_to_panel hide">
-                        <%= form_tag change_form_form_section_fields_path(@form_section), :html => {:method => :post} do -%>
-                          <input type='hidden' name='id' value='<%= field.name %>' style="display:none;"/>
-                          <input type='hidden' class="destination_form_id" name='destination_form_id' style="display:none;"/>
-                        <% end %>
-                        <%= select_tag "#{field.name}_destination_form_id", options_for_select(forms_for_display, @form_section.unique_id), :class => "field_location"%>
-                      </div>
+              <% if field.editable? %>
+                <a href="javascript:void(0)" class="link_moveto"><%= t("fields.move_to") %></a>
+                <%= link_to t("buttons.edit"), edit_form_section_field_path(:form_section_id => @form_section.unique_id, :id => field.name), :id => "#{field.name}_edit" %>
+                <%= render :partial => "form_section/delete_button", :locals => {:field => field, :url => delete_form_section_fields_path(@form_section.unique_id),
+                                                                     :warning => I18n.t("messages.warning")} %> <%= hidden_field_tag "field_name" "#{field.name}" %>
+                <div class="move_to_panel hide">
+                  <%= form_tag change_form_form_section_fields_path(@form_section), :html => {:method => :post} do -%>
+                    <input type='hidden' name='id' value='<%= field.name %>' style="display:none;"/>
+                    <input type='hidden' class="destination_form_id" name='destination_form_id' style="display:none;"/>
                   <% end %>
-                </td>
-            <% else %>
-             <td class='field-buttons'> </td>
-            <% end %>
-          </tr>
-         <% end %>
+                  <%= select_tag "#{field.name}_destination_form_id", options_for_select(forms_for_display, @form_section.unique_id), :class => "field_location"%>
+                </div>
+              <% end %>
+            </td>
+          <% else %>
+            <td class='field-buttons'> </td>
+          <% end %>
+        </tr>
       <% end %>
-      </tbody>
+    <% end %>
+  </tbody>
+</table>
 
-      
-    </table>
-    
-<div class="field_details_overlay hide"></div>
-<div class="field_details_panel hide">
+<div id="add_field_modal" class="reveal-modal" data-reveal>
   <ul class="field_types clearfix">
     <li><%= link_to t("fields.text_field"), "javascript:void(0)", :id => "text_field", :class => "field_links sel" %> </li>
     <li><%= link_to t("fields.text_area"), "javascript:void(0)", :id => "textarea", :class => "field_links" %></li>
@@ -97,6 +89,7 @@
     <li><%= link_to t("fields.numeric_field"), "javascript:void(0)", :id => "numeric_field", :class => "field_links" %></li>
     <li><%= link_to t("fields.date_field"), "javascript:void(0)", :id => "date_field", :class => "field_links" %></li>
   </ul>
+
   <% @field ||= Field.new(:type => 'text_field') %>
   <%= error_messages_for  :field,
                           :header_tag => :h3,
@@ -104,4 +97,6 @@
                           :message => t('form_section.messages.correct_errors') %>
   <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:help_text => :text_area}] } %>
   <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>
+
+  <a class="close-reveal-modal">&#215;</a>
 </div>

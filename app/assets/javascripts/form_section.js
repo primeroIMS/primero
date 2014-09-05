@@ -52,9 +52,7 @@ $(document).ready(function() {
             div_to_show = "#field_details";
         }
         var edit_url = $($("#edit_url")).val();
-        //TODO - Commenting this out to test
-        //if(event != null && $(event.target).hasClass("add_field") && edit_url.indexOf(window.location.pathname) < 0){
-        if(event != null && $(event.target).hasClass("add_field") ){
+        if(event != null && $(event.target).hasClass("add_field") && edit_url.indexOf(window.location.pathname) < 0){
           window.location = edit_url + "?show_add_field=true";
           return;
         }
