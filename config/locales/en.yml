@@ -563,7 +563,7 @@ en:
     visibility: "Visibility"
     ordering: "Ordering"
     details: "Form details"
-    label: "Form Section"
+    label: "Form"
     back: "Back To Forms Page"
     actions:
       add_custom_field: "Add Custom Field"
