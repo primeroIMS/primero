@@ -5,9 +5,9 @@ module DocumentHelper
     @documents = []
     self['other_documents'] ||= []
     self['document_keys'] ||= []
-    new_documents.each_key do |key|
-      uploaded_document = new_documents[key]["document"]
-      document_description = new_documents[key]["document_description"]
+    new_documents.each do |doc|
+      uploaded_document = doc["document"]
+      document_description = doc["document_description"]
       if uploaded_document.present?
         @documents.push uploaded_document
         @document_file_name = uploaded_document.original_filename

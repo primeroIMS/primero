@@ -1,20 +1,19 @@
 <%= render partial: 'record_shared/create_button', locals: {model: model, record: record, modules: modules} %>
 
-<%# TODO: Removing the export link temporarily %>
-<% if false %>
-<% if RapidftrAddon::ExportTask.active.any?{|export_task| can?("export_#{export_task.id}".to_sym, model)} %>
-<div class="btn dropdown_btn">
+<% if Exporters::ACTIVE_EXPORTERS.any?{|exporter| can?("export_#{exporter.id}".to_sym, model)} %>
+<div class="btn green-button dropdown_btn">
   <span class="export"><%= t("#{record}.export") %></span>
   <div class="dropdown hide">
-    <% RapidftrAddon::ExportTask.active.each do |export_task| %>
-      <% if can?("export_#{export_task.id}".to_sym, model) %>
-        <%= link_to t("addons.export_task.#{export_task.id}.all"), children_path(:format => export_task.id, :per_page => :all), :class => "password-prompt" %>
+    <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
+      <% if can?("export_#{exporter.id}".to_sym, model) %>
+        <%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
       <% end %>
     <% end %>
   </div>
 </div>
 <% end %>
-<% end %>
+
+<%= render partial: 'record_shared/imports', locals: {model: model, record: record} %>
 
 <script type="text/javascript">
   $(".export-password-prompt").each(function() {

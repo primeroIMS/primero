@@ -1,9 +1,12 @@
+require 'forms_to_properties'
+
 module Record
   extend ActiveSupport::Concern
 
   require "uuidtools"
-  include RecordHelper
   include Extensions::CustomValidator::CustomFieldsValidator
+  include RapidFTR::Model
+  include RapidFTR::Clock
 
   included do
     before_save :update_history, :unless => :new?
@@ -16,6 +19,11 @@ module Record
     property :created_by
     property :created_at
     property :duplicate, TrueClass
+
+    class_attribute(:form_properties_by_name)
+    self.form_properties_by_name = {}
+
+    create_form_properties
 
     validate :validate_created_at
     validate :validate_last_updated_at
@@ -90,8 +98,10 @@ module Record
   end
 
   module ClassMethods
+    include FormToPropertiesConverter
+
     def new_with_user_name(user, fields = {})
-      record = new(fields)
+      record = new(convert_arrays(fields))
       record.create_unique_id
       record['short_id'] = record.short_id
       record['record_state'] = "Valid record" if record['record_state'].blank?
@@ -102,9 +112,65 @@ module Record
     end
 
     def parent_form
-      parent_form = self.name.underscore.downcase
-      parent_form = 'case' if parent_form == 'child'
-      parent_form
+      self.name.underscore.downcase
+    end
+
+    # To avoid changing the front end, just take those hashes with the array
+    # index as keys that it gives for nested subforms and convert it to real
+    # arrays for assignment on the model
+    def convert_arrays(fields)
+      hash_arrays_to_arrays = lambda do |h|
+        case h
+        when Hash
+          return h if h.length == 0
+          # If it isn't integers, just return the original
+          begin
+            h.sort_by {|k,v| Integer(k)}.map{|k,v| hash_arrays_to_arrays.call(v)}
+          rescue 
+            h.inject({}) {|acc, (k,v)| acc.merge({k => hash_arrays_to_arrays.call(v)})}
+          end
+        else
+          h
+        end
+      end
+
+      hash_arrays_to_arrays.call(fields)
+    end
+
+    def refresh_form_properties
+      remove_form_properties
+      create_form_properties
+    end
+
+    def remove_form_properties
+      form_properties_by_name.each do |name, prop|
+        properties_by_name.delete(name)
+        properties.delete(prop)
+        remove_method("#{name}=")
+
+        if method_defined?("#{name}?")
+          remove_method("#{name}?")
+        end
+
+        if prop.alias
+          remove_method("#{prop.alias}=")
+        end
+
+        #TODO: also remove validations
+      end
+    end
+
+    def create_form_properties
+      form_sections = FormSection.find_by_parent_form(parent_form)
+
+      if !form_sections.length
+        raise "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
+      end
+
+      properties_hash_from_forms(form_sections).each do |name,options|
+        property name.to_sym, options
+        form_properties_by_name[name] = properties_by_name[name]
+      end
     end
 
     def all_connected_with(user_name)
@@ -193,6 +259,205 @@ module Record
           order: lookup.order }
       errors.add(:section_errors, error_info)
     end
+  end
+
+  def set_creation_fields_for(user)
+    self['created_by'] = user.try(:user_name)
+    self['created_by_full_name'] = user.try(:full_name)
+    self['created_organisation'] = user.try(:organisation)
+    self['created_at'] ||= RapidFTR::Clock.current_formatted_time
+    self['posted_at'] = RapidFTR::Clock.current_formatted_time
+  end
+
+  def update_organisation
+    self['created_organisation'] ||= created_by_user.try(:organisation)
+  end
+
+  def created_by_user
+    User.find_by_user_name self['created_by'] unless self['created_by'].to_s.empty?
+  end
+
+  def set_updated_fields_for(user_name)
+    self['last_updated_by'] = user_name
+    self['last_updated_at'] = RapidFTR::Clock.current_formatted_time
+  end
+
+  def last_updated_by
+    self['last_updated_by'] || self['created_by']
+  end
+
+  def last_updated_at
+    self['last_updated_at'] || self['created_at']
+  end
+
+  def update_history
+    if field_name_changes.any?
+      changes = changes_for(field_name_changes)
+      (add_to_history(changes) unless (!self['histories'].empty? && (self['histories'].last["changes"].to_s.include? changes.to_s)))
+      self.previously_owned_by = original_data['owned_by']
+    end
+  end
+
+  def ordered_histories
+    (self["histories"] || []).sort { |that, this| DateTime.parse(this["datetime"]) <=> DateTime.parse(that["datetime"]) }
+  end
+
+  def add_creation_history
+    self['histories'].unshift({
+                                  'user_name' => created_by,
+                                  'user_organisation' => organisation_of(created_by),
+                                  'datetime' => created_at,
+                                  'changes' => {"#{self.class.name.underscore.downcase}" => {:created => created_at}}
+                              })
+  end
+
+  def update_with_attachments(params, user)
+    self['last_updated_by_full_name'] = user.full_name
+    new_photo = params[:child].delete("photo")
+    new_photo = (params[:child][:photo] || "") if new_photo.nil?
+    new_audio = params[:child].delete("audio")
+    delete_child_audio = params["delete_child_audio"].present?
+    update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
+  end
+
+  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties, delete_child_document_names = nil)
+    update_properties(properties, user_name)
+    self.delete_photos(photo_names)
+    self.update_photo_keys
+    self.photo = new_photo
+    self.delete_audio if delete_child_audio
+    self.audio = new_audio
+    self.delete_documents delete_child_document_names if delete_child_document_names.present?
+  end
+
+  def field_definitions
+    parent_form = self.class.parent_form
+    @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
+  end
+
+  def add_updated_fields_attr(props)
+    self['updated_fields'] = determine_changing_fields(props)
+  end
+
+  def determine_changing_fields(props)
+    self.to_hash.select do |key, value|
+      props.include?(key) ? (props[key] != value) : false
+    end
+  end
+
+  def update_properties(properties, user_name)
+    properties = self.class.convert_arrays(properties)
+    add_updated_fields_attr(properties)
+    properties['histories'] = remove_newly_created_media_history(properties['histories'])
+    properties['record_state'] = "Valid record" if properties['record_state'].blank?
+    should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
+    if should_update
+      attributes_to_update = {}
+      properties.each_pair do |name, value|
+        if name == "histories"
+          merge_histories(properties['histories'])
+        else
+          attributes_to_update[name] = value unless value == nil
+        end
+        attributes_to_update["#{name}_at"] = RapidFTR::Clock.current_formatted_time if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
+      end
+      self.set_updated_fields_for user_name
+      self.attributes = attributes_to_update
+    else
+      merge_histories(properties['histories'])
+    end
+  end
+
+  def merge_conflicts(properties)
+    props_to_update = properties.clone
+    if !self.updated_fields.nil?
+      determine_changing_fields(properties).each do |key,value|
+        if self.updated_fields[key] == props_to_update[key]
+          props_to_update.delete key
+        end
+      end
+    end
+
+    props_to_update
+  end
+
+  protected
+
+  def add_to_history(changes)
+    last_updated_user_name = last_updated_by
+    self['histories'].unshift({
+                                  'user_name' => last_updated_user_name,
+                                  'user_organisation' => organisation_of(last_updated_user_name),
+                                  'datetime' => last_updated_at,
+                                  'changes' => changes})
+  end
+
+  def organisation_of(user_name)
+    User.find_by_user_name(user_name).try(:organisation)
+  end
+
+  def model_field_names
+    field_definitions.map { |f| f.name }
+  end
+
+  def field_name_changes
+    other_fields = [
+        "flag", "flag_message",
+        "reunited", "reunited_message",
+        "investigated", "investigated_message",
+        "duplicate", "duplicate_of", "owned_by"
+    ]
+    all_fields = model_field_names + other_fields
+    all_fields.select { |field_name| changed_field?(field_name) }
+  end
+
+  def changes_for(field_names)
+    field_names.inject({}) do |changes, field_name|
+      changes.merge(field_name => {
+          'from' => original_data[field_name],
+          'to' => self[field_name]
+      })
+    end
+  end
+
+  def changed_field?(field_name)
+    return false if self[field_name].blank? && original_data[field_name].blank?
+    return true if original_data[field_name].blank?
+    if self[field_name].respond_to? :strip and original_data[field_name].respond_to? :strip
+      self[field_name].strip != original_data[field_name].strip
+    else
+      self[field_name] != original_data[field_name]
+    end
+  end
+
+  def original_data
+    (@original_data ||= self.class.get(self.id) rescue nil) || self
+  end
+
+  def is_filled_in? field
+    !(self[field.name].nil? || self[field.name] == field.default_value || self[field.name].to_s.empty?)
+  end
+
+  private
+
+  def merge_histories(given_histories)
+    current_histories = self['histories']
+    to_be_merged = []
+    (given_histories || []).each do |history|
+      matched = current_histories.find do |c_history|
+        c_history["user_name"] == history["user_name"] && c_history["datetime"] == history["datetime"] && c_history["changes"].keys == history["changes"].keys
+      end
+      to_be_merged.push(history) unless matched
+    end
+    self["histories"] = current_histories.push(to_be_merged).flatten!
+  end
+
+  def remove_newly_created_media_history(given_histories)
+    (given_histories || []).delete_if do |history|
+      (history["changes"]["current_photo_key"].present? and history["changes"]["current_photo_key"]["to"].present? and !history["changes"]["current_photo_key"]["to"].start_with?("photo-")) ||
+          (history["changes"]["recorded_audio"].present? and history["changes"]["recorded_audio"]["to"].present? and !history["changes"]["recorded_audio"]["to"].start_with?("audio-"))
+    end
+    given_histories
   end
 
   #Copy the value of the fields from the source object.

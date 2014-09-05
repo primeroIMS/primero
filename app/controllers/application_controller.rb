@@ -70,19 +70,17 @@ class ApplicationController < ActionController::Base
     param.reject{|value| value.blank?}
   end
 
-  def encrypt_exported_files(results, zip_filename)
-    if params[:password].present?
-      enc_filename = CleansingTmpDir.temp_file_name
+  def encrypt_data_to_zip(data, data_filename, password)
+    enc_filename = CleansingTmpDir.temp_file_name
 
-      ZipRuby::Archive.open(enc_filename, ZipRuby::CREATE) do |ar|
-        results.each do |result|
-          ar.add_or_replace_buffer File.basename(result.filename), result.data
-        end
-        ar.encrypt params[:password]
+    ZipRuby::Archive.open(enc_filename, ZipRuby::CREATE) do |ar|
+      ar.add_or_replace_buffer data_filename, data
+      if password
+        ar.encrypt password
       end
-
-      send_file enc_filename, :filename => zip_filename, :disposition => "inline", :type => 'application/zip'
     end
+
+    send_file enc_filename, :filename => "#{data_filename}.zip", :disposition => "inline", :type => 'application/zip'
   end
 
   #Override action_view in order to avoid the wrap of inputs when some validation was triggered.
