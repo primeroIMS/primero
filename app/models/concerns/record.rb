@@ -107,7 +107,7 @@ module Record
       record['record_state'] = "Valid record" if record['record_state'].blank?
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
-      record['owned_by'] ||= user.user_name
+      record['owned_by'] = user.user_name if record['owned_by'].blank?
       record
     end
 
@@ -126,7 +126,7 @@ module Record
           # If it isn't integers, just return the original
           begin
             h.sort_by {|k,v| Integer(k)}.map{|k,v| hash_arrays_to_arrays.call(v)}
-          rescue 
+          rescue
             h.inject({}) {|acc, (k,v)| acc.merge({k => hash_arrays_to_arrays.call(v)})}
           end
         else
