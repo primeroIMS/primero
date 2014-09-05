@@ -1,0 +1,70 @@
+////////////////////////////////////////////////
+// Header
+////////////////////////////////////////////////
+
+.header_container {
+  background: $desat_green_color;
+  width: 100%;
+}
+
+header {
+  padding: 20px 0;
+  margin-bottom: 20px;
+
+  .columns {
+    padding: 0;
+  }
+}
+
+a.logo {
+  font-family: 'RobotoSlab-Thin', serif;
+  font-size: $sixtythree_px;
+  color: $green_color;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+}
+
+.sublogo {
+  clear: left;
+  float: left;
+  margin-top: 14px;
+  font-size: $thirteen_px;
+}
+
+img.agency_logos {
+  float: right;
+  position: absolute;
+  right: 0;
+  margin-top: -10px;
+}
+
+ul.links {
+  padding: 15px 0 0 0;
+  font-size: $thirteen_px;
+
+  a {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  li:last-of-type a {
+      margin-right: 0;
+  }
+
+  li:not(:last-child):after {
+    content: ("|");
+    margin-left: 5px;
+    color: #bbb;
+  }
+
+  li:first-of-type:after {
+    margin-left: 12px;
+  }
+}
+
+.inline-list > li {
+  margin-left: 0;
+}

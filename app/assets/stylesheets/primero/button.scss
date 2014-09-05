@@ -1,0 +1,83 @@
+////////////////////////////////////////////////
+// Buttons
+////////////////////////////////////////////////
+
+.green-button {
+  color: $green_color !important;
+  border: 1px solid $stroke_green_color !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  font-size: $thirteen_px !important;
+  text-transform: uppercase;
+  $padding: 0.5rem;
+  $radius: false;
+  $full-width: false;
+  $disabled: false;
+  $is-input: false;
+  $bg: $desat_green_color;
+  @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
+}
+
+
+.grey-button {
+  color: $grey_color !important;
+  border: 1px solid $grey_color !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  font-size: $thirteen_px !important;
+  text-transform: uppercase;
+  $padding: 0.5rem;
+  $radius: false;
+  $full-width: false;
+  $disabled: false;
+  $is-input: false;
+  $bg: #ebebeb;
+  @include button($padding, $bg, $radius, $full-width, $disabled, $is-input);
+}
+
+.grey-button, .green-button {
+  text-decoration: none !important;
+}
+
+////////////////////////////////////////////////
+// Dropdown Buttons
+////////////////////////////////////////////////
+
+.dropdown_btn {
+  .green-button {
+   margin: 0;
+  }
+
+  .dropdown {
+    background: #eee;
+    position: absolute;
+    border: 1px solid #9F9F9F;
+    z-index: 999;
+  }
+}
+
+.mark-as-form {
+    padding: .3rem;
+
+    h3{
+      margin: 0px 5px;
+      label {
+        font-weight: bold;
+      }
+    }
+
+    input[type="text"]{
+      margin: .3rem 0 .5rem .3rem;
+      width: 20rem !important;
+      height: 2rem;
+      float: left;
+      border-right: none;
+    }
+
+    .mark-as-submit {
+      margin: .3rem .3rem .5rem 0;
+      width: auto;
+      height: 2rem;
+      padding: .5rem;
+      float: left;
+      border-left: none;
+    }
+}

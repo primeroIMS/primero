@@ -1,0 +1,22 @@
+////////////////////////////////////////////////
+// Dropdowns
+////////////////////////////////////////////////
+
+.f-dropdown {
+  -webkit-box-shadow: 0 0 3px 0 rgba(0,0,0,.3);
+  box-shadow: 0 0 3px 0 rgba(0,0,0,.3);
+
+  li {
+    &:not(:last-child) {
+      border-bottom: 1px dashed #ccc;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:before, &:after {
+    border: none !important
+  }
+}

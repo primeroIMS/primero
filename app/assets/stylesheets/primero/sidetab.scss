@@ -1,0 +1,138 @@
+////////////////////////////////////////////////
+// Side Tab
+////////////////////////////////////////////////
+
+.side-tab-container, .side-tab {
+  width: 250px;
+}
+
+.side-tab-content-container {
+  width: 750px;
+}
+
+.side-tab {
+  position: relative;
+  border-top: none;
+  min-height: 38rem;
+  margin-bottom: 3rem;
+  border-right: 1px solid $stroke_green_color;
+
+  a {
+    color: $grey_color !important;
+    font-size: $fifteen_px;
+    padding: 0.4rem 1rem;
+    font-family: 'Roboto', sans-serif;
+
+    &:hover {
+      color: #fff !important;
+      background: $grey_color !important;
+      text-decoration: none;
+    }
+  }
+}
+
+.side-tab-content {
+  padding-left: 0;
+  background: $light_green_color;
+  border-right: 1px solid $stroke_green_color;
+  border-top: 1px solid $stroke_green_color;
+  border-bottom: 1px solid $stroke_green_color;
+
+  label {
+    text-align: right;
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: $thirteen_px;
+  }
+
+  .row {
+    padding: 8px 30px;
+  }
+}
+
+.close-side-tab {
+  padding-right: 0
+}
+
+li.group.current {
+  background: $desat_green_color;
+  border-right: 1px solid $stroke_green_color;
+}
+
+li.group a.group:after {
+  content: '+';
+  float: right;
+  color: #ccc;
+  font-size: .9rem;
+}
+
+li.group ul a {
+  font-family: 'Roboto', sans-serif;
+  font-size: $thirteen_px;
+}
+
+li.current {
+  border-top: 1px solid $stroke_green_color;
+  border-bottom: 1px solid $stroke_green_color;
+  font-family: 'Roboto-Medium', sans-serif;
+
+  &:not(.group) {
+    background: $light_green_color;
+    border-left: 1px solid $stroke_green_color;
+
+    a {
+      color: $green_color !important;
+    }
+  }
+
+  a.group:after {
+    content: '-';
+    float: right;
+    color: $green_color;
+    font-size: 1.4rem;
+    margin-top: -8px
+  }
+
+  a.non-group:after {
+    content: '\25BA';
+    float: right;
+    color: $green_color;
+    font-size: .9rem;
+    padding: 2px 0 4px;
+  }
+
+  ul li.current a:after {
+    content: '\25BA';
+    float: right;
+    color: $green_color;
+    font-size: .9rem;
+  }
+}
+
+ul.side-nav {
+  width: 250px;
+
+  li ul {
+    display: none;
+    list-style: none;
+    width: 230px;
+  }
+
+  li .panel {
+    width: 240px;
+
+    strong {
+      text-transform: uppercase;
+    }
+
+    a {
+      padding: 0;
+      display: inline;
+      font-size: $fifteen_px;
+
+      &:hover {
+        color: $grey_color !important;
+        background: none !important;
+      }
+    }
+  }
+}
