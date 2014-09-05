@@ -1,3 +1,3 @@
 module Exporters
-  ACTIVE_EXPORTERS = [CSVExporter, ExcelExporter]
+  ACTIVE_EXPORTERS = [CSVExporter, ExcelExporter, JSONExporter]
 end

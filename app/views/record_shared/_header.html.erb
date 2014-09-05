@@ -1,13 +1,11 @@
 <%= render partial: 'record_shared/create_button', locals: {model: model, record: record, modules: modules} %>
 
-<% if Exporters::ACTIVE_EXPORTERS.any?{|exporter| can?("export_#{exporter.id}".to_sym, model)} %>
+<% if can?(:export, model) %>
 <div class="btn green-button dropdown_btn">
   <span class="export"><%= t("#{record}.export") %></span>
   <div class="dropdown hide">
     <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
-      <% if can?("export_#{exporter.id}".to_sym, model) %>
-        <%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
-      <% end %>
+      <%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
     <% end %>
   </div>
 </div>
