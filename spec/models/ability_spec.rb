@@ -4,292 +4,70 @@ describe Ability do
 
   CRUD = [:index, :create, :view, :edit, :update, :destroy]
 
-  let(:permissions) { [] }
-  let(:user) { stub_model User, :user_name => 'test', :permissions => permissions }
 
-  subject { Ability.new user }
+  describe "Records" do
 
-  context 'base behavior' do
-    # Weird behavior warning:
-    # We would expect:
-    #   can :update, User do { |user| user.user_name == 'test' }
-    # To be applicable *only* for users with user_name = 'test', i.e.
-    #   can? :update, User.new(:user_name => 'test') # will be true
-    # BUT it also returns true for the entire User class!
-    #   can? :update, User == true!!
-    # It is messing up life a bit, so it is here as a test
-    describe '#class and object assumptions' do
-      subject {
-        ability = Object.new.extend CanCan::Ability
-        ability.can :update, Child do |child|
-          child.name == 'test'
-        end
-        ability.stub :user => user
-        ability
-      }
-
-      it { should authorize :update, Child }
-      it { should authorize :update, Child.new(:name => 'test') }
-      it { should_not authorize :update, Child.new }
+    it "allows an owned record to be read given a read permission" do
     end
 
-    describe '#manage with exceptions patch' do
-      subject {
-        ability = Object.new.extend CanCan::Ability
-        ability.can :manage, User, :except => [:update, :disable]
-        ability.stub :user => user
-        ability
-      }
-
-      it { should authorize_all [:blah, :foo, :bar], User }
-      it { should_not authorize_any [:update, :disable], [User, User.new] }
+    it "doesn't allow an owned record to be written to given only a read permission" do
     end
 
-    describe '#edit my account' do
-      let(:permissions) { [] }
-      it { should_not authorize_any [:update, :show], User, User.new, User.new(:user_name => 'some_other_user') }
-      it { should authorize :update, stub_model(User, :user_name => user.user_name, :id => user.id) }
-      it { should authorize :show, stub_model(User, :user_name => user.user_name, :id => user.id) }
+    it "allows a non-owned but associated record to be read" do
     end
+
+    it "allows an owned record to be written to given a write permission" do
+    end
+
+    it "allows an owned record to be flagged" do
+    end
+
+    it "allows an owned record to be reassigned" do
+    end
+
+    it "doesn't allow a record to be written to even if the record can be flagged and assigned" do
+    end
+
+    it "doesn't allow a record owned by someone else to be read by a user with no specified scope" do
+    end
+
+    it "doesn't allow a record owned by someone else to be read by a user with a 'self' scope" do
+    end
+
+    it "allows a record owned by a fellow group member to be read by a user with 'group' scope" do
+    end
+
+    it "allows a record owned by someone else to be read by a user with full 'all' scope" do
+    end
+
   end
 
-  context 'enquiries' do
-    describe '#create enquiry' do
-      let(:permissions) { [Permission::ENQUIRIES[:create]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Child }
-      it { should authorize :create, Enquiry }
-      it { should_not authorize :update, Enquiry.new }
+  describe "Users" do
+    it "allows a user with read permissions to edit their own user" do
     end
 
-    describe '#update enquiry' do
-      let(:permissions) { [Permission::ENQUIRIES[:update]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Child }
-      it { should authorize :update, Enquiry.new }
-      it { should_not authorize :create, Enquiry }
+    it "allows a user with no expicit 'user' permission to edit their own user" do
     end
+
+    it "doesn't allow a user with no explicit 'user' permission to read or edit another user" do
+    end
+
+    it "doesn't allow a user with no specified scope to edit another user" do
+    end
+
+    it "allows a user with group scope to only edit another user in that group" do
+    end
+
+    it "allows viewing and editing of Users, Groups, Roles, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
+    end
+
   end
 
-  context 'children' do
-    describe '#view,search all data and edit' do
-      let(:permissions) { [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:edit]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :index, Child }
-      it { should authorize :view_and_search, Child }
-      it { should_not authorize :create, Child }
-      it { should authorize :read, Child.new }
-      it { should authorize :update, Child.new }
+  describe "Other resources" do
+    it "allows viewing and editing of Metadata resources if that permission is set along with 'read' and 'write'" do
     end
 
-    describe '#register child' do
-      let(:permissions) { [Permission::CHILDREN[:register]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, Report }
-
-      it { should authorize :index, Child }
-      it { should authorize :create, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should authorize :read, Child.new(:created_by => 'test') }
-    end
-
-    describe '#edit child' do
-      let(:permissions) { [Permission::CHILDREN[:edit]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should authorize :read, Child.new(:created_by => 'test') }
-      it { should authorize :update, Child.new(:created_by => 'test') }
-    end
-
-    describe "export children to photowall" do
-      let(:permissions) { [Permission::CHILDREN[:export_photowall]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_photowall, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_pdf, Child.new }
-      it { should_not authorize :export_cpims, Child.new }
-      it { should_not authorize :export_csv, Child.new }
-    end
-
-    describe "export children to csv" do
-      let(:permissions) { [Permission::CHILDREN[:export_csv]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_csv, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_pdf, Child.new }
-      it { should_not authorize :export_cpims, Child.new }
-      it { should_not authorize :export_photowall, Child.new }
-    end
-
-    describe "export children to pdf" do
-      let(:permissions) { [Permission::CHILDREN[:export_pdf]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_pdf, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_cpims, Child.new }
-      it { should_not authorize :export_csv, Child.new }
-      it { should_not authorize :export_photowall, Child.new }
-    end
-
-    describe "export children to cpims" do
-      let(:permissions) { [Permission::CHILDREN[:export_cpims]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_cpims, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_pdf, Child.new }
-      it { should_not authorize :export_csv, Child.new }
-      it { should_not authorize :export_photowall, Child.new }
-    end
-
-    describe "view and search child records" do
-      let(:permissions) { [Permission::CHILDREN[:view_and_search]] }
-
-      it { should authorize :index, Child.new }
-      it { should authorize :read, Child.new }
-      it { should authorize :view_all, Child }
-    end
-  end
-
-  context 'users' do
-    describe '#view users' do
-      let(:permissions) { [Permission::USERS[:view]] }
-
-      it { should authorize :list, User }
-      it { should authorize :read, User.new }
-      it { should_not authorize :update, User.new }
-      it { should_not authorize :create, User.new }
-    end
-
-    describe '#create and edit users' do
-      let(:permissions) { [Permission::USERS[:create_and_edit]] }
-
-      it { should authorize :create, User.new }
-      it { should authorize :update, User.new }
-      it { should authorize :edit, User.new }
-      it { should_not authorize :destroy, User.new }
-      it { should authorize :read, User.new }
-    end
-
-    describe "destroy users" do
-      let(:permissions) { [Permission::USERS[:destroy]] }
-
-      it { should authorize :destroy, User.new }
-      it { should authorize :read, User.new }
-      it { should_not authorize :edit, User.new }
-    end
-
-    describe "disable users" do
-      let(:permissions) { [Permission::USERS[:disable]] }
-
-      it { should_not authorize_any [:create, :update], User.new }
-      it { should authorize :disable, User.new }
-      it { should authorize :read, User.new }
-    end
-
-    describe "blacklist" do
-      let(:permissions) { [Permission::DEVICES[:black_list]] }
-
-      it { should_not authorize_any CRUD, Child, ContactInformation, FormSection, Session, SuggestedField, User, Role, Replication, SystemUsers, Report }
-
-      it { should authorize :update, Device }
-      it { should authorize :index, Device }
-      it { should_not authorize :read, User.new }
-    end
-
-    describe "replication" do
-      let(:permissions) { [Permission::DEVICES[:replications]] }
-
-      it { should_not authorize_any CRUD, Child, ContactInformation, FormSection, Session, SuggestedField, User, Role, SystemUsers, Report }
-
-      it { should authorize :update, Replication }
-      it { should_not authorize :read, User.new }
-      it { should_not authorize :manage, Device }
-    end
-  end
-
-  context 'roles' do
-    describe "view roles permission" do
-      let(:permissions) { [Permission::ROLES[:view]] }
-
-      it { should authorize :list, Role.new }
-      it { should authorize :view, Role.new }
-      it { should_not authorize :create, Role.new }
-      it { should_not authorize :update, Role.new }
-    end
-
-    describe "create and edit roles permission" do
-      let(:permissions) { [Permission::ROLES[:create_and_edit]] }
-
-      it { should authorize :list, Role.new }
-      it { should authorize :create, Role.new }
-      it { should authorize :update, Role.new }
-    end
-  end
-
-  context 'forms' do
-    describe "manage forms" do
-      let(:permissions) { [Permission::FORMS[:manage]] }
-
-      it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, SystemUsers, Report }
-
-      it { should authorize :manage, FormSection.new }
-      it { should authorize :manage, Field.new }
-      it { should_not authorize :highlight, Field }
-    end
-
-    describe "highlight fields" do
-      let(:permissions) { [Permission::SYSTEM[:highlight_fields]] }
-      it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers, Report }
-      it { should authorize :highlight, Field }
-    end
-  end
-
-  describe "replications" do
-    let(:permissions) { [Permission::DEVICES[:replications]] }
-    it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers, Report }
-    it { should authorize :manage, Replication }
-  end
-
-  describe 'reports' do
-    let(:permissions) { [Permission::REPORTS[:view]] }
-    it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers, Replication }
-    it { should authorize :manage, Report }
-  end
-
-  context 'other' do
-    describe "contact information" do
-      let(:permissions) { [Permission::SYSTEM[:contact_information]] }
-      it { should_not authorize_any CRUD, Child, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers }
-      it { should authorize :manage, ContactInformation }
-    end
-
-    describe "system users for synchronisation" do
-      let(:permissions) { [Permission::SYSTEM[:system_users]] }
-      it { should_not authorize_any CRUD, Child, Device, Session, SuggestedField, User, Role, FormSection, Field, ContactInformation }
-      it { should authorize :manage, SystemUsers }
+    it "allows viewing and editing of System resources if that permission is set along with 'read' and 'write'" do
     end
 
   end
