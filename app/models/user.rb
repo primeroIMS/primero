@@ -24,6 +24,7 @@ class User < CouchRest::Model::Base
   property :module_ids, :type => [String]
   property :is_manager, TrueClass, :default => false
   property :reporting_hierarchy, :type => [String]
+  property :user_group
 
   alias_method :agency, :organisation
   alias_method :agency=, :organisation=
@@ -79,6 +80,9 @@ class User < CouchRest::Model::Base
                     emit(doc);
                  }
              }"
+
+    view :by_user_group
+
     view :by_manager,
             :map => "function(doc) {
               if (doc['couchrest-type'] == 'User' && doc['reporting_hierarchy']){
