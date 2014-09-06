@@ -10,7 +10,9 @@ class Permission
   USER = {user: I18n.t('permission.user')}
   METADATA = {metadata: I18n.t('permission.metadata')}
   SYSTEM = {system: I18n.t('permission.system')}
-  MANAGER = {manager: I18n.t('permission.manager')}
+  SELF = {self: I18n.t('permission.self')} # A redundant permission. This is implied.
+  GROUP = {group: I18n.t('permission.group')}
+  ALL = {all: I18n.t('permission.all')}
 
 
   def self.actions
@@ -22,7 +24,7 @@ class Permission
   end
 
   def self.management
-    [MANAGER]
+    [SELF, GROUP, ALL]
   end
 
   def self.all
