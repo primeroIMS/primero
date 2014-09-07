@@ -142,31 +142,107 @@ describe Ability do
   end
 
   describe "Users" do
-    it "allows a user with read permissions to edit their own user" do
+    it "allows a user with read permissions to manage their own user" do
+      role = create :role, permissions: [Permission::READ, Permission::USER]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, @user1)
+      expect(ability).to authorize(:write, @user1)
     end
 
-    it "allows a user with no expicit 'user' permission to edit their own user" do
+    it "allows a user with no user permissions to manage their own user" do
+      role = create :role, permissions: [Permission::READ, Permission::CASE]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, @user1)
+      expect(ability).to authorize(:write, @user1)
     end
 
-    it "doesn't allow a user with no explicit 'user' permission to read or edit another user" do
+    it "doesn't allow a user with no explicit 'user' permission to manage another user" do
+      role = create :role, permissions: [Permission::READ, Permission::CASE]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, @user2)
+      expect(ability).not_to authorize(:write, @user2)
     end
 
     it "doesn't allow a user with no specified scope to edit another user" do
+      role = create :role, permissions: [Permission::READ, Permission::USER]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to_not authorize(:read, @user2)
+      expect(ability).to_not authorize(:write, @user2)
     end
 
     it "allows a user with group scope to only edit another user in that group" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
+      @user1.role_ids = [role.id]
+      @user1.user_groups = ['test_group']
+      @user1.save
+      @user2.user_groups = ['test_group']
+      @user2.save
+      user3 = create :user, user_groups: ['other_test_group']
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, @user2)
+      expect(ability).to authorize(:write, @user2)
+      expect(ability).to_not authorize(:read, user3)
+      expect(ability).to_not authorize(:write, user3)
     end
 
-    it "allows viewing and editing of Users, Groups, Roles, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
+    it "allows viewing and editing of Groups, Roles, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      [UserGroup, Role, Agency].each do |resource|
+        expect(ability).to authorize(:read, resource)
+        expect(ability).to authorize(:write, resource)
+      end
     end
 
   end
 
   describe "Other resources" do
     it "allows viewing and editing of Metadata resources if that permission is set along with 'read' and 'write'" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::METADATA]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      [FormSection, Field, Location, Lookup, PrimeroModule, PrimeroProgram].each do |resource|
+        expect(ability).to authorize(:read, resource)
+        expect(ability).to authorize(:write, resource)
+      end
     end
 
     it "allows viewing and editing of System resources if that permission is set along with 'read' and 'write'" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::SYSTEM]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      [ContactInformation, Device, Replication, SystemUsers].each do |resource|
+        expect(ability).to authorize(:read, resource)
+        expect(ability).to authorize(:write, resource)
+      end
     end
 
   end

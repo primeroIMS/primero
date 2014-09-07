@@ -9,35 +9,55 @@ class Ability
 
     @user = user
 
+    actions = Permission.actions.reduce([]) do |array, action|
+      if (user.has_permission? action)
+        array << action.to_sym
+      end
+      array
+    end
+
     if user.has_permission? Permission::CASE
-      configure_resource Child, true
+      configure_resource Child, actions, true
     end
 
     if user.has_permission? Permission::INCIDENT
-      configure_resource Incident, true
+      configure_resource Incident, actions, true
     end
 
     if user.has_permission? Permission::TRACING_REQUEST
-      configure_resource TracingRequest, true
+      configure_resource TracingRequest, actions, true
+    end
+
+    #Deal with users
+    can [:read, :write], User do |uzer|
+      uzer.user_name == user.user_name
     end
 
     if user.has_permission? Permission::USER
-      #TODO: add Group
-      #TODO: User is a funny permission.
-      [User, Role, Group, Agency].each do |resource|
-        configure_resource resource
+      can actions, User do |uzer|
+        if user.has_permission? Permission::ALL
+          true
+        elsif user.has_permission? Permission::GROUP
+          (user.user_groups & uzer.user_groups).size > 0
+        else
+          uzer.user_name == user.user_name
+        end
+      end
+
+      [Role, UserGroup, Agency].each do |resource|
+        configure_resource resource, actions
       end
     end
 
     if user.has_permission? Permission::METADATA
       [FormSection, Field, Location, Lookup, PrimeroModule, PrimeroProgram].each do |resource|
-        configure_resource resource
+        configure_resource resource, actions
       end
     end
 
     if user.has_permission? Permission::SYSTEM
       [ContactInformation, Device, Replication, SystemUsers].each do |resource|
-        configure_resource resource
+        configure_resource resource, actions
       end
     end
 
@@ -47,25 +67,20 @@ class Ability
     @user
   end
 
-  def configure_resource(resource, is_record=false)
-    Permission.actions.each do |action|
-      if user.has_permission? action
-        ability = action.to_sym
-        if is_record
-          can [ability], resource do |instance|
-            if user.has_permission? Permission::ALL
-              true
-            elsif user.has_permission? Permission::GROUP
-              allowed_groups = instance.associated_users.map{|u|u.user_groups}.flatten.compact
-              (user.user_groups & allowed_groups).size > 0
-            else
-              instance.associated_user_names.include? user.user_name
-            end
-          end
+  def configure_resource(resource, actions, is_record=false)
+    if is_record
+      can actions, resource do |instance|
+        if user.has_permission? Permission::ALL
+          true
+        elsif user.has_permission? Permission::GROUP
+          allowed_groups = instance.associated_users.map{|u|u.user_groups}.flatten.compact
+          (user.user_groups & allowed_groups).size > 0
         else
-          can [ability], resource
+          instance.associated_user_names.include? user.user_name
         end
       end
+    else
+      can actions, resource
     end
   end
 
