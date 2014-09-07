@@ -24,7 +24,7 @@ class Ability
     if user.has_permission? Permission::USER
       #TODO: add Group
       #TODO: User is a funny permission.
-      [User, Role, Agency].each do |resource|
+      [User, Role, Group, Agency].each do |resource|
         configure_resource resource
       end
     end
@@ -43,27 +43,28 @@ class Ability
 
   end
 
-    def user
+  def user
     @user
   end
 
   def configure_resource(resource, is_record=false)
     Permission.actions.each do |action|
       if user.has_permission? action
-        ability = action.keys.first
+        ability = action.to_sym
         if is_record
           can [ability], resource do |instance|
             if user.has_permission? Permission::ALL
               true
             elsif user.has_permission? Permission::GROUP
-              true #TODO: implement for groups!!!
+              allowed_groups = instance.associated_users.map{|u|u.user_groups}.flatten.compact
+              (user.user_groups & allowed_groups).size > 0
             else
               instance.associated_user_names.include? user.user_name
             end
           end
+        else
+          can [ability], resource
         end
-      else
-        can [ability], resource
       end
     end
   end

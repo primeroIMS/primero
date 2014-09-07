@@ -1,19 +1,23 @@
 class Permission
 
-  READ = {read: I18n.t('permission.read')}
-  WRITE = {write: I18n.t('permission.write')}
-  FLAG = {flag: I18n.t('permission.flag')}
-  ASSIGN = {assign: I18n.t('permission.assign')}
-  CASE = {:case => I18n.t('permission.case')}
-  INCIDENT = {incident: I18n.t('permission.incident')}
-  TRACING_REQUEST = {tracing_request: I18n.t('permission.tracing_request')}
-  USER = {user: I18n.t('permission.user')}
-  METADATA = {metadata: I18n.t('permission.metadata')}
-  SYSTEM = {system: I18n.t('permission.system')}
-  SELF = {self: I18n.t('permission.self')} # A redundant permission. This is implied.
-  GROUP = {group: I18n.t('permission.group')}
-  ALL = {all: I18n.t('permission.all')}
 
+  READ = 'read'
+  WRITE = 'write'
+  FLAG = 'flag'
+  ASSIGN = 'assign'
+  CASE = 'case'
+  INCIDENT = 'incident'
+  TRACING_REQUEST = 'tracing_request'
+  USER = 'user'
+  METADATA = 'metadata'
+  SYSTEM = 'system'
+  SELF = 'self' # A redundant permission. This is implied.
+  GROUP = 'group'
+  ALL = 'all'
+
+  def self.description(permission)
+    I18n.t("permission.#{permission}")
+  end
 
   def self.actions
     [READ, WRITE, FLAG, ASSIGN]
