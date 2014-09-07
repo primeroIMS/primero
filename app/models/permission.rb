@@ -35,8 +35,14 @@ class Permission
     actions + resources + management
   end
 
+  class << self
+    alias_method :all_permissions, :all
+  end
+
   def self.all_grouped
     {'actions' => actions, 'resources' => resources, 'management' => management}
   end
+
+
 
 end

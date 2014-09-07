@@ -92,7 +92,7 @@ FactoryGirl.define do
   factory :role, :traits => [ :model ] do
     name { "test_role_#{counter}" }
     description "test description"
-    permissions { Permission.all_permissions }
+    permissions { Permission.all }
   end
 
   factory :primero_program, :traits => [:model] do

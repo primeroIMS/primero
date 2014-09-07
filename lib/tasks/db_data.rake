@@ -3,7 +3,7 @@ namespace :db do
   namespace :data do
 
     desc "Remove roles and any reference of the role from users."
-    task :remove_roles, [:role] => :environment do |t, args|
+    task :remove_role, [:role] => :environment do |t, args|
       role = Role.find_by_name(args[:role])
       if role
         result = false
@@ -24,7 +24,7 @@ namespace :db do
         puts "Removed role '#{args[:role]}'" if result
         puts "Unable to removed role '#{args[:role]}'" unless result
       else
-        puts "Was not found the role '#{args[:role]}'"
+        puts "Role was not found: '#{args[:role]}'"
       end
     end
 

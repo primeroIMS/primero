@@ -28,7 +28,9 @@ create_or_update_user(
   "email" => "primero@primero.com",
   "disabled" => "false",
   "organisation" => "N/A",
-  "role_ids" => Role.by_name.all.map{|r| r.id},
+  "role_ids" => [
+    Role.by_name(key: "Superuser").first.id
+  ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
   "is_manager" => "true"
 )
@@ -42,8 +44,7 @@ create_or_update_user(
   "disabled" => "false",
   "organisation" => "N/A",
   "role_ids" => [
-    Role.by_name(:key => "Worker: Cases").first.id,
-    Role.by_name(:key => "Worker: Tracing Requests").first.id
+    Role.by_name(key: "CP Case Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "reporting_hierarchy" => ["primero"]
@@ -58,8 +59,7 @@ create_or_update_user(
   "disabled" => "false",
   "organisation" => "N/A",
   "role_ids" => [
-    Role.by_name(:key => "Worker: Incidents").first.id,
-    Role.by_name(:key => "Worker: Cases").first.id
+    Role.by_name(key: "GBV Social Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "reporting_hierarchy" => ["primero"]
@@ -73,7 +73,9 @@ create_or_update_user(
   "email" => "primero_mrm@primero.com",
   "disabled" => "false",
   "organisation" => "N/A",
-  "role_ids" => [Role.by_name(:key => "Worker: Incidents").first.id],
+  "role_ids" => [
+    Role.by_name(key: "MRM Worker").first.id
+  ],
   "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
   "reporting_hierarchy" => ["primero"]
 )
