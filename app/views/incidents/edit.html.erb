@@ -14,7 +14,7 @@
   <div class="panel">
     <div class="header_message">
     <% if @incident.flag? %>
-      <p class="flag-message"><%= @incident.flagged_by %></p>
+      <p class="flag-message"><%= @incident.flag_message_flagged_by %></p>
     <% end %>
     </div>
   </div>

@@ -4,7 +4,7 @@
             <div class="reunited-message"><%= reunited_message %></div>
         <% end %>
         <% if tracing_request.flag? %>
-            <p class="flag-message"><%= tracing_request.flagged_by %></p>
+            <p class="flag-message"><%= tracing_request.flag_message_flagged_by %></p>
         <% end %>
         <% if tracing_request.duplicate? %>
             <h3 class="duplicate-message"><%= duplicate_message %></h3>

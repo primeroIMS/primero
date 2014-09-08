@@ -19,7 +19,7 @@ module Flaggable
               }"
     end
 
-    def flagged_by
+    def flag_message_flagged_by
       user = self.histories.select{|h| h["changes"]["flag"]}.first["user_name"]
       message = (self.flag_message.blank? && "") || ": \"#{self.flag_message}\""
       I18n.t("#{self.class.name.underscore.downcase}.flagged_as_suspected")+" #{user}#{message}"

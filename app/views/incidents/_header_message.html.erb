@@ -4,7 +4,7 @@
         <div class="reunited-message"><%= reunited_message %></div>
     <% end %>
     <% if incident.flag? %>
-        <p class="flag-message"><%= incident.flagged_by %></p>
+        <p class="flag-message"><%= incident.flag_message_flagged_by %></p>
     <% end %>
     <% if incident.duplicate? %>
         <p class="duplicate-message"><%= duplicate_message %></p>
