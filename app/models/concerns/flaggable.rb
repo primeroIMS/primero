@@ -1,4 +1,4 @@
-module Flagable
+module Flaggable
   extend ActiveSupport::Concern
 
   included do

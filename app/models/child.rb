@@ -18,7 +18,7 @@ class Child < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
   include PhotoUploader
   include AudioUploader
-  include Flagable
+  include Flaggable
 
   property :nickname
   property :name
