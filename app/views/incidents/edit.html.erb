@@ -13,7 +13,7 @@
 <% content_for :header_message do %>    
     <% if @incident.flag? %>
         <div class="header_message">
-        <h3 class="flag-message"><%= flag_message%></h3>
+        <h3 class="flag-message"><%= @incident.flagged_by %></h3>
         </div>
     <% end %>
 <% end %>

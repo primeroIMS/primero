@@ -9,6 +9,7 @@ class TracingRequest < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
   include PhotoUploader
   include AudioUploader
+  include Flagable
 
   property :tracing_request_id
   property :relation_name

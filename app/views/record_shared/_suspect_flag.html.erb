@@ -1,0 +1,32 @@
+<% unless record.flag? %>
+        <%= render :partial => "record_shared/mark_as",
+                   :locals=> {
+                               :record => record,
+                               :mark_as_label => t("#{record.class.name.underscore.downcase}.flag_record"),
+                               :mark_as_message_id => "flag_message",
+                               :mark_as_message => t("#{record.class.name.underscore.downcase}.flag_reason")+":",
+                               :mark_as_message_date => t("#{record.class.name.underscore.downcase}.flag_reason_date")+":",
+                               :mark_as_property => "flag",
+                               :mark_as_property_value => "true",
+                               :mark_as_submit_label => t("#{record.class.name.underscore.downcase}.flag_label"),
+                               :error_message => t("#{record.class.name.underscore.downcase}.flag_error_message"),
+                               :style => "flag",
+                               :button_style => "green-button"
+                   }
+        %>
+    <% else %>
+        <%= render :partial => "record_shared/mark_as",
+                   :locals=> {
+                               :record => record,
+                               :mark_as_label => t("#{record.class.name.underscore.downcase}.unflag_record"),
+                               :mark_as_message_id => "flag_message",
+                               :mark_as_message => t("#{record.class.name.underscore.downcase}.unflag_reason")+":",
+                               :mark_as_property => "flag",
+                               :mark_as_property_value => "false",
+                               :mark_as_submit_label => t("#{record.class.name.underscore.downcase}.unflag_label"),
+                               :error_message =>  t("#{record.class.name.underscore.downcase}.unflag_error_message")  ,
+                               :style => "flag",
+                               :button_style => "green-button"
+                   }
+        %>
+<% end %>

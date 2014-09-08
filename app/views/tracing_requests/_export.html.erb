@@ -1,0 +1,10 @@
+<%= link_to content_tag(:span, t("children.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button right' %>
+<ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
+    <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
+        <% if can?("export_#{exporter.id}".to_sym, TracingRequest) %>
+          <li>
+            <%= link_to t("addons.export_task.#{exporter.id}.one"), tracing_request_path(@tracing_request, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
+          </li>
+        <% end %>
+    <% end %>
+</ul>

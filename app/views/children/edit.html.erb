@@ -13,7 +13,7 @@
 <% content_for :header_message do %>    
     <% if @child.flag? %>
         <div class="header_message">
-        <h3 class="flag-message"><%= flag_message%></h3>
+        <h3 class="flag-message"><%= @child.flagged_by %></h3>
         </div>
     <% end %>
 <% end %>
