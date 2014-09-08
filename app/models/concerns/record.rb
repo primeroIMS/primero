@@ -18,6 +18,7 @@ module Record
     property :created_organisation
     property :created_by
     property :created_at
+    property :last_updated_by_full_name
     property :duplicate, TrueClass
 
     class_attribute(:form_properties_by_name)
@@ -312,7 +313,6 @@ module Record
   end
 
   def update_with_attachments(params, user)
-    self['last_updated_by_full_name'] = user.full_name
     new_photo = params[:child].delete("photo")
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
     new_audio = params[:child].delete("audio")

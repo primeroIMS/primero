@@ -19,7 +19,7 @@ module UploadableFiles
       File.binread self.path
     end
 
-    { 'document' => photo }
+    photo
   end
 
   def uploadable_executable_file
@@ -41,7 +41,7 @@ module UploadableFiles
       File.binread self.path
     end
 
-    { 'document' => executable_file }
+    executable_file
   end
 
   def uploadable_large_photo
@@ -90,7 +90,7 @@ module UploadableFiles
       self.path
     end
 
-    { 'document' => file }
+    file
   end
 
   def uploadable_audio(audio_path = "capybara_features/resources/sample.amr")
@@ -125,7 +125,7 @@ module UploadableFiles
       File.binread self.path
     end
 
-    { 'document' => audio }
+    audio
   end
 
   def uploadable_large_audio

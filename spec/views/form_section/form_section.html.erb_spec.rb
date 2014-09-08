@@ -65,7 +65,7 @@ describe "form_section/_form_section.html.erb" do
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
         @form_section.fields.each do |field|
-          rendered.should be_include("<label class=\"key\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
+          rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
           rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_#{field.tag_id}\" name=\"#{field.tag_name_attribute}\" type=\"text\" value=\"\" />")
         end
       end
@@ -124,7 +124,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<label class=\"key\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">")
+        rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">")
         rendered.should be_include("<select id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
       end
     end
