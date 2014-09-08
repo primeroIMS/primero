@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/Quoin/couchrest_model.git
-  revision: 3b2a27d14f666697aa7f53be5dda9bd5d6d9bc23
-  ref: 3b2a27d14f666697aa7f53be5dda9bd5d6d9bc23
+  revision: bc2eb396b9f325a26b9f5d46fb451ac6eaa684cc
+  ref: bc2eb396b9f325a26b9f5d46fb451ac6eaa684cc
   specs:
     couchrest_model (2.0.3)
       activemodel (>= 4.0, >= 3.0)

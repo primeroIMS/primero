@@ -3,7 +3,7 @@
 <% if can?(:export, model) %>
   <%= link_to content_tag(:span, t("#{record}.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button' %>
   <ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
-    <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
+    <% Exporters::active_exporters_for_model(model).each do |exporter| %>
       <li><%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %></li>
     <% end %>
   </ul>
