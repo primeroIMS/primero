@@ -4,7 +4,7 @@
 [[Child, 'case'],
  [Incident, 'incident'],
  [TracingRequest, 'tracing_request']].each do |(model, parent_form)|
-  fields_to_check = FormSection.all_visible_form_fields(parent_form).select {|f| f.multi_select?}
+  fields_to_check = FormSection.find_by_parent_form(parent_form).map {|fs| fs.fields.find_all(&:visible)}.flatten.select {|f| f.multi_select?}
 
   model.all.rows.map {|r| model.database.get(r["id"]) }.each do |inst|
     fields_to_check.each do |field|
