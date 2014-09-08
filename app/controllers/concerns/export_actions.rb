@@ -1,6 +1,10 @@
 module ExportActions
   extend ActiveSupport::Concern
 
+  def exported_properties
+    self.model_class.properties
+  end
+
   def respond_to_export(format, models)
     Exporters::active_exporters_for_model(@className).each do |exporter|
       format.any(exporter.id) do

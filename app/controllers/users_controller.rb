@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
 
+  include ExportActions
+  include ImportActions
+
   before_filter :clean_role_ids, :only => [:update, :create]
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
+
+  model_class = User
 
   def index
     authorize! :read, User

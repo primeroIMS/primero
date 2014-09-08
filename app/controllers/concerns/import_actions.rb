@@ -2,15 +2,15 @@ module ImportActions
   extend ActiveSupport::Concern
 
   def create_new_model(attributes={})
-    raise "You must declare a method called 'create_new_model' for this controller to have import capabilities"
+    self.model_class.create(attributes)
   end
 
   def get_unique_instance(attributes)
-    raise "You must declare a method called 'get_unique_instance' for this controller to have import capabilities"
+    self.model_class.get(attributes['id'])
   end
 
   def update_existing_model(instance, attributes)
-    raise "You must declare a method called 'updated_existing_model' for this controller to have import capabilities"
+    instance.attributes = attributes
   end
 
   def import_file
