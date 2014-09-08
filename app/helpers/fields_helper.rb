@@ -48,7 +48,7 @@ module FieldsHelper
     when field_value.is_a?(Array)
       field_value.join ", " 
     else
-      field_value
+      field_value.to_s
     end
   end
   
