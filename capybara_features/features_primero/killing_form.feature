@@ -33,6 +33,7 @@ Feature: Killing Form
       | Mine Incident                                                                      | <Radio> No                             |
       | Was the victim directly participating in hostilities at the time of the violation? | <Select> Yes                           |
       | Did the violation occur during or as a direct result of abduction?                 | <Select> Yes                           |
+      | Verifier                                                                                                                        | primero_mrm                                                             |
       | Verification Decision Date                                                                                                      | today's date                                                            |
       | Has the information been received from a primary and reliable source?                                                           | <Select> Yes, from a credible Primary Source who witnessed the incident |
       | Was the incident witnessed by UN staff or other MRM-trained affiliates?                                                         | <Radio> Yes                                                             |

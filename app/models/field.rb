@@ -17,7 +17,7 @@ class Field
   property :subform_section_id
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
-  property :initial_value, :default => ""
+  property :selected_value, :default => ""
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"

@@ -171,7 +171,6 @@ attack_on_schools_subform_fields = [
             }),
   Field.new({"name" => "verifier_id_code",
              "type" => "text_field",
-             "initial_value" => "{user_name}",
              "display_name_all" => "Verifier"
             }),
   Field.new({"name" => "verification_decision_date",
@@ -181,7 +180,7 @@ attack_on_schools_subform_fields = [
   Field.new({"name" => "verified",
              "type" => "select_box",
              "display_name_all" => "Verification Status",
-             "initial_value" => "Pending",
+             "selected_value" => "Pending",
              "option_strings_text_all" =>
                                     ["Verified",
                                      "Unverified",
