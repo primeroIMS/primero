@@ -5,10 +5,15 @@
         <ul id="modules-dropdown" class="f-dropdown" data-dropdown-content>
         <% modules.each do |primero_module| %>
             <%# TODO: translate the module name %>
-            <li><%= link_to primero_module.name, new_polymorphic_path(record, module_id: primero_module.id) %></li>
+            <%# Temp hiding of GBV form link for build %>
+            <% unless primero_module.name == 'GBV' %>
+                <li><%= link_to primero_module.name, new_polymorphic_path(record, module_id: primero_module.id) %></li>
+            <% end %>
         <% end %>
         </ul>
     <% elsif modules.size == 1 %>
+        <% unless modules.first.name == 'GBV' %>
         <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {module_id: modules.first.id}),  class: 'btn green-button right' %>
+        <% end %>
     <% end %>
 <% end %>

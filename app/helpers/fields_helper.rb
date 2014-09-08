@@ -26,7 +26,22 @@ module FieldsHelper
   def field_value(object, field, field_keys=[])
     if field_keys.present? && !object.new?
       field_value = object
-      field_keys.each {|k| field_value = field_value[k]}
+      if field.type == Field::TALLY_FIELD
+        tally_values = []
+        field.tally << 'total'
+        field.tally.each do |t|
+          field_keys.each do |k| 
+            k = k.gsub(k, "#{k}_#{t}") if k == field_keys.last
+            field_value = field_value[k]
+          end
+          tally_values << field_value
+          field_value = object
+        end
+        field.tally.pop
+        field_value = tally_values
+      else
+        field_keys.each {|k| field_value = field_value[k]}
+      end
     else
       if field == 'status'
         return 'Open'

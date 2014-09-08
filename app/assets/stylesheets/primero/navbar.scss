@@ -99,3 +99,7 @@ nav {
     display: inline;
   }
 }
+
+.top-bar-section li:not(.has-form) a:not(.button):hover {
+  background: $green_color;
+}

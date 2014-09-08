@@ -32,7 +32,11 @@ var IndexTable = Backbone.View.extend({
       searching: false,
       language: {
         info: self.pagination.info,
-        lengthMenu: self.pagination.per_translation
+        lengthMenu: self.pagination.per_translation,
+        paginate: {
+          previous: "&lt;",
+          next: "&gt;"
+        }
       },
       pageLength: self.pagination.per,
       primero_start: self.pagination.start,
