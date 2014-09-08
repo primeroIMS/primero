@@ -1,10 +1,4 @@
 gbv_data_confidentiality_fields = [
-  Field.new({"name" => "gbv_consent_name",
-             "type" => "text_field",
-             "display_name_all" => "Name",
-             "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
-             "hidden_text_field" => true
-            }),
   Field.new({"name" => "consent_release_separator",
              "type" => "separator",
              "display_name_all" => "Consent to Release Information by Referral Type",
