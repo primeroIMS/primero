@@ -12,6 +12,8 @@
         <% end %>
         </ul>
     <% elsif modules.size == 1 %>
+        <% unless modules.first.name == 'GBV' %>
         <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {module_id: modules.first.id}),  class: 'btn green-button right' %>
+        <% end %>
     <% end %>
 <% end %>
