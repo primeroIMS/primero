@@ -85,9 +85,10 @@ module ApplicationHelper
   end
 
   def ctl_create_incident_button(record)
-    ctl_button_wrapper do 
-      submit_button(t("buttons.create_incident"))
-    end if record.present? and record.class.name == "Child" and record.module.name == PrimeroModule::GBV
+    # Temp hiding of create incident button for build
+    # ctl_button_wrapper do 
+    #   submit_button(t("buttons.create_incident"))
+    # end if record.present? and record.class.name == "Child" and record.module.name == PrimeroModule::GBV
   end
 
   def ctl_button_wrapper(&block)
