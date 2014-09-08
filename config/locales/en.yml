@@ -389,6 +389,7 @@ en:
 
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
+    export: "Exports"
 
   preposition:
     on_label: "on"
