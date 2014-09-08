@@ -1,25 +1,11 @@
 killing_subform_fields = [
-  Field.new({"name" => "violation_killing_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of victims: boys",
-             "autosum_group" => "killing_number_of_victims"
-            }),
-  Field.new({"name" => "violation_killing_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of victims: girls",
-             "autosum_group" => "killing_number_of_victims"
-            }),
-  Field.new({"name" => "violation_killing_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of victims: unknown",
-             "autosum_group" => "killing_number_of_victims"
-            }),
-  Field.new({"name" => "violation_killing_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total victims",
-             "autosum_total" => true,
-             "autosum_group" => "killing_number_of_victims"
-            }),
+  Field.new({"name" => "violation_killing_tally",
+           "type" => "tally_field",
+           "display_name_all" => "Number of victims",
+           "autosum_group" => "killing_number_of_victims",
+           "tally" => ['boys', 'girls', 'unknown'],
+           "autosum_total" => true,
+          }),
   Field.new({"name" => "kill_method",
              "type" => "select_box",
              "display_name_all" => "Method",
@@ -110,8 +96,6 @@ killing_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => killing_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Killing Subform",
   "description_all" => "Nested Killing Subform",
   :initial_subforms => 1,
@@ -137,7 +121,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => killing_fields,
-  :perm_enabled => true,
   "name_all" => "Killing",
   "description_all" => "Killing"
 })

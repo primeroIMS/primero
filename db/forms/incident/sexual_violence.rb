@@ -1,25 +1,11 @@
 sexual_violence_subform_fields = [
-  Field.new({"name" => "violation_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: boys",
-             "autosum_group" => "sexual_violence_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: girls",
-             "autosum_group" => "sexual_violence_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: unknown",
-             "autosum_group" => "sexual_violence_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total survivors",
-             "autosum_total" => true,
-             "autosum_group" => "sexual_violence_number_of_survivors"
-            }),
+  Field.new({"name" => "violation_tally",
+       "type" => "tally_field",
+       "display_name_all" => "Number of survivors",
+       "autosum_group" => "sexual_violence_number_of_survivors",
+       "tally" => ['boys', 'girls', 'unknown'],
+       "autosum_total" => true,
+      }),
   Field.new({"name" => "sexual_violence_type",
              "type" => "select_box",
              "multi_select" => true,
@@ -64,8 +50,6 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => sexual_violence_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Sexual Violence Subform",
   "description_all" => "Nested Sexual Violence Subform",
   :initial_subforms => 1,
@@ -91,7 +75,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => sexual_violence_fields,
-  :perm_enabled => true,
   "name_all" => "Sexual Violence",
   "description_all" => "Sexual Violence"
 })

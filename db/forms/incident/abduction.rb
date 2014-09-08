@@ -1,25 +1,11 @@
 abduction_subform_fields = [
-  Field.new({"name" => "violation_abduction_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: boys",
-             "autosum_group" => "abduction_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_abduction_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: girls",
-             "autosum_group" => "abduction_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_abduction_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: unknown",
-             "autosum_group" => "abduction_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_abduction_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total survivors",
-             "autosum_total" => true,
-             "autosum_group" => "abduction_number_of_survivors"
-            }),
+  Field.new({"name" => "violation_abductions_tally",
+         "type" => "tally_field",
+         "display_name_all" => "Number of survivors",
+         "autosum_group" => "abduction_number_of_survivors",
+         "tally" => ['boys', 'girls', 'unknown'],
+         "autosum_total" => true,
+        }),
   Field.new({"name" => "abduction_purpose",
              "type" => "select_box",
              "display_name_all" => "Category",
@@ -57,8 +43,6 @@ abduction_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => abduction_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Abduction Subform",
   "description_all" => "Nested Abduction Subform",
   :initial_subforms => 1,
@@ -84,7 +68,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => abduction_fields,
-  :perm_enabled => true,
   "name_all" => "Abduction",
   "description_all" => "Abduction"
 })

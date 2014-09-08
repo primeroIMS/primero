@@ -23,7 +23,10 @@ table.dataTable thead td {
   border-right: 1px solid $stroke_green_color;
   border-top: 1px solid $stroke_green_color;
   background: #ebf0e4 !important;
-  font-size: 0.875rem
+  color: $green_color !important;
+  font-size: $thirteen_px !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  text-transform: uppercase;
 }
 
 table.dataTable thead td {
@@ -345,7 +348,22 @@ table.dataTable td {
   float: left;
   text-align: right;
   padding-top: 0.25em;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  font-size: $thirteen_px !important;
 }
+
+a.previous, a.next {
+  border: 1px solid $stroke_green_color !important;
+  background: $desat_green_color !important;
+  color: $green_color !important;
+  line-height: 24px;
+}
+
+a.previous:hover, a.next:hover {
+  background: $stroke_green_color !important;
+  color: $green_color !important;
+}
+
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   box-sizing: border-box;
   display: inline-block;
@@ -356,49 +374,27 @@ table.dataTable td {
   text-decoration: none !important;
   cursor: pointer;
   *cursor: hand;
-  color: #333333 !important;
+  color: $green_color !important;
   border: 1px solid transparent;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-  color: #333333 !important;
-  border: 1px solid #cacaca;
-  background-color: white;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, gainsboro));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, white 0%, gainsboro 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -moz-linear-gradient(top, white 0%, gainsboro 100%);
-  /* FF3.6+ */
-  background: -ms-linear-gradient(top, white 0%, gainsboro 100%);
-  /* IE10+ */
-  background: -o-linear-gradient(top, white 0%, gainsboro 100%);
-  /* Opera 11.10+ */
-  background: linear-gradient(to bottom, white 0%, gainsboro 100%);
-  /* W3C */
+  color: #fff !important;
+  border: 1px solid $stroke_green_color;
+  background: $stroke_green_color;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
   cursor: default;
-  color: #666 !important;
+  font-family: 'Roboto-Medium', sans-serif;
+  font-size: $thirteen_px;
+  color: $green_color !important;
   border: 1px solid transparent;
   background: transparent;
   box-shadow: none;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
   color: white !important;
-  border: 1px solid #111111;
-  background-color: #585858;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111111));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #585858 0%, #111111 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -moz-linear-gradient(top, #585858 0%, #111111 100%);
-  /* FF3.6+ */
-  background: -ms-linear-gradient(top, #585858 0%, #111111 100%);
-  /* IE10+ */
-  background: -o-linear-gradient(top, #585858 0%, #111111 100%);
-  /* Opera 11.10+ */
-  background: linear-gradient(to bottom, #585858 0%, #111111 100%);
-  /* W3C */
+  border: none;
+  background-color: $green_color;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button:active {
   outline: none;
@@ -447,7 +443,7 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_info,
 .dataTables_wrapper .dataTables_processing,
 .dataTables_wrapper .dataTables_paginate {
-  color: #333333;
+  color: $green_color !important;
 }
 .dataTables_wrapper .dataTables_scroll {
   clear: both;
@@ -481,8 +477,16 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_length {
   margin-top: 5px;
 
+  label {
+    color: $green_color;
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: $thirteen_px;
+  }
+
   select {
     width: 60px;
+    color: $green_color;
+    font-size: $thirteen_px;
   }
 }
 

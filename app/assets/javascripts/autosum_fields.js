@@ -8,7 +8,7 @@ var AutosumFields = Backbone.View.extend({
     var autosum_total = 0;
     var input = $(event.target);
     var autosum_group = input.attr('autosum_group');
-    var fieldset = input.parent().parent().parent();
+    var fieldset = input.parents('.summary_group');
     var autosum_total_input = fieldset.find('input.autosum_total[type="text"][autosum_group="' + autosum_group + '"]');
     fieldset.find('input.autosum[type="text"][autosum_group="' + autosum_group + '"]').each(function(){
       var value = $(this).val();

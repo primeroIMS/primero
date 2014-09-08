@@ -54,8 +54,6 @@ child_preferences_section = FormSection.create_or_update_form_section({
     :parent_form=>"case",
     "editable"=>true,
     :fields => child_preferences_fields_subform,
-    :perm_enabled => false,
-    :perm_visible => false,
     "name_all" => "Nested Child's Preferences",
     "description_all" => "Child's Preferences Subform",
   "collapsed_fields" => ["wishes_preference_relocated", "wishes_name"]
@@ -145,7 +143,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Tracing",
   "editable" => true,
   :fields => child_wishes_fields,
-  :perm_enabled => true,
   "name_all" => "Child's Wishes",
   "description_all" => "Child's Wishes"
 })

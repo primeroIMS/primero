@@ -22,8 +22,17 @@
     }
 
     li.rec_ctl a.grey-button {
-      border-left: none !important;
+      border-top: 1px solid $stroke_green_color !important;
+      border-bottom: 1px solid $stroke_green_color !important;
       border-right: none !important;
+      border-left: none !important;
+      background: $desat_green_color !important;
+      color: $green_color !important;
+    }
+
+    li.rec_ctl a.green-button {
+      background: $stroke_green_color;
+      color: #fff !important;
     }
   }
 
@@ -54,6 +63,7 @@
 
   .pagination_info {
     margin-top: 6px;
+    text-transform: uppercase;
   }
 
   .large-9 {

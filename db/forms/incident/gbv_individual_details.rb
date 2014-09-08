@@ -150,7 +150,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "GBV Individual Details",
   "editable" => true,
   :fields => gbv_individual_details_fields,
-  :perm_enabled => true,
   "name_all" => "GBV Individual Details",
   "description_all" => "GBV Individual Details"
 })

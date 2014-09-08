@@ -48,7 +48,7 @@ table.list_view, table.record_list_view {
   border:none;
   margin-bottom: 20px;
   a.id_link{
-    text-decoration: underline;
+    text-decoration: none;
     &:hover{
       font-weight:bold;
     }
@@ -73,17 +73,21 @@ table.list_view, table.record_list_view {
         min-width: 105px;
       }
       &.sorting_1 {
-        background: #ebebeb;
+        background: rgba(134,160,93,.15);
       }
     }
   }
 }
 
-table tr:nth-of-type(even) {
-  background: none;
+table.record_list_view tr td:nth-child(2) {
+  text-transform: uppercase;
 }
 
-table tr td {
+table tr:nth-of-type(even) {
+  background: $desat_green_color !important;
+}
+
+table:not(.record_list_view) tr td {
   background: #fff;
 }
 

@@ -1,6 +1,9 @@
 class FormSection < CouchRest::Model::Base
   include RapidFTR::Model
   include PropertiesLocalization
+
+  #TODO - include Namable - will require a fair amount of refactoring
+
   use_database :form_section
   localize_properties [:name, :help_text, :description]
   property :unique_id
@@ -15,7 +18,8 @@ class FormSection < CouchRest::Model::Base
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false
   property :perm_visible, TrueClass, :default => false
-  property :perm_enabled, TrueClass
+  property :perm_enabled, TrueClass, :default => false
+  property :core_form, TrueClass, :default => true
   property :validations, [String]
   property :base_language, :default=>'en'
   property :is_nested, TrueClass, :default => false
@@ -216,24 +220,37 @@ class FormSection < CouchRest::Model::Base
   #Return a hash of subforms, where the keys are the form groupings
   def self.group_forms(forms)
     grouped_forms = {}
-    visible_forms = forms.select{|f| f.visible?}
 
     #Order these forms by group and form
-    visible_forms = visible_forms.sort_by{|f| [f.order_form_group, f.order]}
+    sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
 
-    if visible_forms.present?
-      grouped_forms = visible_forms.group_by{|f| f.form_group_name}
+    if sorted_forms.present?
+      grouped_forms = sorted_forms.group_by{|f| f.form_group_name}
     end
     return grouped_forms
   end
 
+  def self.get_visible_form_sections(form_sections)
+    visible_forms = []
+    visible_forms = form_sections.select{|f| f.visible?} if form_sections.present?
 
-  #Return only those forms that can be accessed by the user given their role permissions and the record's module
-  def self.get_permitted_form_sections(record, user)
-    #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the record's module
+    return visible_forms
+  end
+
+  def self.filter_subforms(form_sections)
+    forms = []
+    forms = form_sections.select{|f| (f.is_nested.blank? || f.is_nested != true)} if form_sections.present?
+
+    return forms
+  end
+
+
+  #Return only those forms that can be accessed by the user given their role permissions and the module
+  def self.get_permitted_form_sections(primero_module, parent_form, user)
+    #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
     user_form_ids = user.permitted_form_ids
-    record_module_form_ids = record.module ? record.module.associated_form_ids : []
-    allowed_form_ids = user_form_ids & record_module_form_ids
+    module_form_ids = primero_module.present? ? primero_module.associated_form_ids : []
+    allowed_form_ids = user_form_ids & module_form_ids
 
     form_sections = []
     if allowed_form_ids.present?
@@ -242,8 +259,7 @@ class FormSection < CouchRest::Model::Base
 
     #Now exclude the forms that do not belong to this record type
     #TODO: This is too chatty. Better to ask for exactly what you need from DB
-    record_parent_form = record.class.parent_form
-    form_sections = form_sections.select{|f| f.parent_form == record_parent_form}
+    form_sections = form_sections.select{|f| f.parent_form == parent_form}
 
     return form_sections
   end
