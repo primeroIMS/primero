@@ -54,7 +54,7 @@ module FormToPropertiesConverter
       :init_method => :parse,
     }
 
-    property_hash = case field.type
+    case field.type
     when "subform"
       subform = FormSection.get_by_unique_id(field.subform_section_id)
 
@@ -102,7 +102,6 @@ module FormToPropertiesConverter
     else
       raise "Unknown field type #{field.type}"
     end
-    return property_hash
   end
 end
 
