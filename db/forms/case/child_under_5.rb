@@ -76,7 +76,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Assessment",
   "editable"=>true,
   :fields => child_under_5_fields,
-  :perm_visible => true, 
   "name_all" => "Child Under 5",
   "description_all" => "Child Under 5"
 })

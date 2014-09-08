@@ -11,6 +11,7 @@ class FieldsController < ApplicationController
 
   def create
     @field = Field.new params[:field]
+    @field.name = @field.display_name.parameterize.underscore
     FormSection.add_field_to_formsection @form_section, @field
     @field.base_language = I18n.default_locale
     if (@field.errors.length == 0)

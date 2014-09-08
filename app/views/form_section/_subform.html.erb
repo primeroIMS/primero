@@ -5,9 +5,6 @@
      number_of_subforms = subforms_count formObject, subform, form_group_name
      collapsed_fields = subform_section.collapsed_list
    %>
-  <h5 class="tool-tip-label">
-    <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %></span>
-  </h5>
   <div class="subforms" id="<%= subform.name %>">
     <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">

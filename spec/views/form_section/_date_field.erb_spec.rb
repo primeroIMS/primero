@@ -6,7 +6,7 @@ describe "form_section/_date_field.html.erb" do
     assigns[:child] = @child
   end
 
-  it "should include image for tooltip when help text exists" do
+  xit "should include image for tooltip when help text exists" do
     date_field = Field.new :name => "new field",
     :display_name => "field name",
     :type => 'date_field',

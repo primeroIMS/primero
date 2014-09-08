@@ -146,8 +146,6 @@ individual_details_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => individual_details_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Individual Details Subform",
   "description_all" => "Nested Individual Details Subform",
   :initial_subforms => 1,
@@ -169,7 +167,6 @@ FormSection.create_or_update_form_section({
                          "display_name_all" => "Individual Details"
                         })
              ],
-  :perm_enabled => true,
   "name_all" => "Individual Details",
   "description_all" => "Individual Details"
 })

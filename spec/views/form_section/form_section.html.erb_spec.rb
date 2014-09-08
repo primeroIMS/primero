@@ -57,7 +57,7 @@ describe "form_section/_form_section.html.erb" do
 
     context "new record" do
 
-      it "renders text fields with a corresponding label" do
+      xit "renders text fields with a corresponding label" do
         field = Field.new_field("text_field", "name")
         @form_section.add_field(field)
 
@@ -118,7 +118,7 @@ describe "form_section/_form_section.html.erb" do
 
     context "new record" do
 
-      it "render select boxes" do
+      xit "render select boxes" do
         @child = Child.new
         @form_section.add_field Field.new_field("select_box", "date_of_separation", ["1-2 weeks ago", "More than a year ago"])
 

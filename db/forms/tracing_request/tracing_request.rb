@@ -152,8 +152,6 @@ tracing_request_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"tracing_request",
   "editable" => true,
   :fields => tracing_request_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Tracing Request Subform",
   "description_all" => "Nested Tracing Request Subform",
   :initial_subforms => 1,
@@ -179,7 +177,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Tracing Request",
   "editable" => true,
   :fields => tracing_request_tracing_request_fields,
-  :perm_enabled => true,
   "name_all" => "Tracing Request",
   "description_all" => "Tracing Request"
 })

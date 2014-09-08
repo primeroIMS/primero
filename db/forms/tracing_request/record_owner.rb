@@ -72,7 +72,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Record Owner",
   "editable" => true,
   :fields => tracing_request_record_owner_fields,
-  :perm_enabled => true,
   "name_all" => "Record Owner",
   "description_all" => "Record Owner"
 })

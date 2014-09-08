@@ -60,7 +60,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Assessment",
   "editable" => true,
   :fields => best_interest_fields,
-  :perm_enabled => true,
   "name_all" => "Best Interest",
   "description_all" => "Best Interest"
 })

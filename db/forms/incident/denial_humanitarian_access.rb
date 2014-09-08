@@ -60,27 +60,13 @@ denial_humanitarian_access_section_fields = [
              "type" => "separator",
              "display_name_all" => "Human Impact of Attack"
             }),
-  Field.new({"name" => "violation_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: boys",
-             "autosum_group" => "denial_humanitarian_access_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: girls",
-             "autosum_group" => "denial_humanitarian_access_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: unknown",
-             "autosum_group" => "denial_humanitarian_access_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total survivors",
-             "autosum_total" => true,
-             "autosum_group" => "denial_humanitarian_access_number_of_survivors"
-            }),
+  Field.new({"name" => "violation_tally",
+       "type" => "tally_field",
+       "display_name_all" => "Number of survivors",
+       "autosum_group" => "denial_humanitarian_access_number_of_survivors",
+       "tally" => ['boys', 'girls', 'unknown'],
+       "autosum_total" => true,
+      }),
   Field.new({"name" => "denial_total_affected_adults",
              "type" => "numeric_field",
              "display_name_all" => "Adults"
@@ -174,8 +160,6 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable"=>true,
   :fields => denial_humanitarian_access_section_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Human Impact of Attack Subform",
   "description_all" => "Nested Human Impact of Attack Subform",
   "collapsed_fields" => ["denial_method"],
@@ -204,7 +188,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => denial_humanitarian_access_fields,
-  :perm_enabled => true,
   "name_all" => "Denial of Humanitarian Access",
   "description_all" => "Denial of Humanitarian Access"
 })

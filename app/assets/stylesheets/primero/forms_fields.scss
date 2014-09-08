@@ -92,6 +92,35 @@ p.help {
   overflow-y: scroll;
 }
 
+.summary_group {
+  .row:first-of-type {
+    padding-left: 0 !important;
+  }
+
+  .row {
+    padding: 2px 0 !important;
+  }
+
+  .postfix {
+    font-size: $thirteen_px;
+  }
+
+  .tally_item {
+    height: 45px;
+    padding: 0 2px !important;
+
+    &:last-of-type {
+      padding-right: 0 !important;
+
+    }
+
+    &:first-of-type {
+      padding-left: 0 !important;
+
+    }
+  }
+}
+
 ////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////
@@ -293,6 +322,26 @@ span.section {
   }
 }
 
+span.postfix, label.postfix {
+  background: #fff;
+  border-right: none;
+  border-left: 1px solid $stroke_green_color;
+  border-color: $stroke_green_color;
+
+  &.total {
+    background: #ddd !important;
+  }
+}
+
+span.postfix_val {
+  font-family: 'Roboto-Medium', sans-serif;
+  margin-right: 20px;
+}
+
+.autosum, .autosum_total {
+  border-left: none !important;
+}
+
 ////////////////////////////////////////////////
 // Chosen Field
 ////////////////////////////////////////////////
@@ -362,3 +411,9 @@ fieldset {
   }
 }
 
+////////////////////////////////////////////////
+// Form Customization
+////////////////////////////////////////////////
+li.hidden_form a {
+  color: $red_color;
+}
