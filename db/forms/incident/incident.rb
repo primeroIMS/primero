@@ -135,27 +135,13 @@ incident_fields = [
                 "Unknown"
               ].join("\n")
             }),
-  Field.new({"name" => "incident_total_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Boys",
-             "autosum_group" => "incident_number_of_victims_survivors"
-            }),
-  Field.new({"name" => "incident_total_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Girls",
-             "autosum_group" => "incident_number_of_victims_survivors"
-            }),
-  Field.new({"name" => "incident_total_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Unknown",
-             "autosum_group" => "incident_number_of_victims_survivors"
-            }), 
-  Field.new({"name" => "incident_total_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Incident Total Victims/Survivors:Total",
-             "autosum_total" => true,
-             "autosum_group" => "incident_number_of_victims_survivors"
-            }),
+  Field.new({"name" => "incident_total_tally",
+       "type" => "tally_field",
+       "display_name_all" => "Incident Total Victims/Survivors",
+       "autosum_group" => "incident_number_of_victims_survivors",
+       "tally" => ['boys', 'girls', 'unknown'],
+       "autosum_total" => true,
+      }),
 ]
 
 FormSection.create_or_update_form_section({

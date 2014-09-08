@@ -1,14 +1,12 @@
 <%= render partial: 'record_shared/create_button', locals: {model: model, record: record, modules: modules} %>
 
 <% if can?(:export, model) %>
-<div class="btn green-button dropdown_btn">
-  <span class="export"><%= t("#{record}.export") %></span>
-  <div class="dropdown hide">
+  <%= link_to content_tag(:span, t("#{record}.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button' %>
+  <ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
     <% Exporters::ACTIVE_EXPORTERS.each do |exporter| %>
-      <%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %>
+      <li><%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %></li>
     <% end %>
-  </div>
-</div>
+  </ul>
 <% end %>
 
 <%= render partial: 'record_shared/imports', locals: {model: model, record: record} %>

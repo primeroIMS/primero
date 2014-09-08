@@ -30,17 +30,19 @@ div.scope_bar {
 // Index filters
 ////////////////////////////////////////////////
 
+.filter-title {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 20px 0 0 25px;
+}
+
 .index_filters {
   padding: 0;
-
-  .title {
-    text-transform: uppercase;
-    font-size: 0.8rem;
-  }
+  width: 225px;
 
   .filter {
     .filter-controls {
-      padding: 5px;
+      padding: 10px 5px 20px 10px;
     }
 
     input[type="checkbox"] {
@@ -49,17 +51,23 @@ div.scope_bar {
   }
 
   h3 {
-    background: $light_green_color;
-    font-size:$thirteen_px;
-    padding: 10px;
+    font-size: $thirteen_px;
+    padding: 20px 10px 0 10px;
     margin: 0;
     font-family: 'Roboto-Medium', sans-serif;
+    border-top: 1px solid $stroke_green_color;
+    text-transform: uppercase;
   }
 
   .panel {
     padding: 0;
     border: none;
-    background: $desat_green_color;
+    background: #f1f5ec;
+  }
+
+  input[type="text"] {
+    height: 1.5rem;
+    margin-bottom: 0;
   }
 
   .field-controls-multi {
@@ -70,6 +78,11 @@ div.scope_bar {
   }
 
   label {
-    font-size: 0.8rem
+    font-size: 0.8rem;
+    margin-left: 0.3rem !important;
+
+    &:not(.has_date) {
+      margin-right: 0 !important;
+    }
   }
 }

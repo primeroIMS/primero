@@ -12,27 +12,13 @@ other_violation_section_fields = [
              "type" => "textarea",
              "display_name_all" => "Other Violation Description"
             }),
-  Field.new({"name" => "other_violation_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: boys",
-             "autosum_group" => "other_violation_number_of_survivors"
-            }),
-  Field.new({"name" => "other_violation_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: girls",
-             "autosum_group" => "other_violation_number_of_survivors"
-            }),
-  Field.new({"name" => "other_violation_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: unknown",
-             "autosum_group" => "other_violation_number_of_survivors"
-            }),
-  Field.new({"name" => "other_violation_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total survivors",
-             "autosum_total" => true,
-             "autosum_group" => "other_violation_number_of_survivors"
-            })
+  Field.new({"name" => "other_violation_tally",
+         "type" => "tally_field",
+         "display_name_all" => "Number of survivors",
+         "autosum_group" => "other_violation_number_of_survivors",
+         "tally" => ['boys', 'girls', 'unknown'],
+         "autosum_total" => true,
+        }),
 ]
 
 other_violation_subform_section = FormSection.create_or_update_form_section({

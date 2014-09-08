@@ -1,25 +1,11 @@
 maiming_subform_fields = [
-  Field.new({"name" => "violation_maiming_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: boys",
-             "autosum_group" => "maiming_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_maiming_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: girls",
-             "autosum_group" => "maiming_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_maiming_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: unknown",
-             "autosum_group" => "maiming_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_maiming_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total survivors",
-             "autosum_total" => true,
-             "autosum_group" => "maiming_number_of_survivors"
-            }),
+  Field.new({"name" => "violation_maiming_tally",
+         "type" => "tally_field",
+         "display_name_all" => "Number of survivors",
+         "autosum_group" => "maiming_number_of_survivors",
+         "tally" => ['boys', 'girls', 'unknown'],
+         "autosum_total" => true,
+        }),
   Field.new({"name" => "maim_method",
              "type" => "select_box",
              "display_name_all" => "Method",

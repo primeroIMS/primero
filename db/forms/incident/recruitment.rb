@@ -1,25 +1,11 @@
 recruitment_subform_fields = [
-  Field.new({"name" => "violation_recruit_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: boys",
-             "autosum_group" => "recruitment_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_recruit_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: girls",
-             "autosum_group" => "recruitment_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_recruit_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: unknown",
-             "autosum_group" => "recruitment_number_of_survivors"
-            }),
-  Field.new({"name" => "violation_recruit_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total survivors",
-             "autosum_total" => true,
-             "autosum_group" => "recruitment_number_of_survivors"
-            }),
+  Field.new({"name" => "violation_recruit_tally",
+       "type" => "tally_field",
+       "display_name_all" => "Number of survivors",
+       "autosum_group" => "recruitment_number_of_survivors",
+       "tally" => ['boys', 'girls', 'unknown'],
+       "autosum_total" => true,
+      }),
   Field.new({"name" => "forced_vs_voluntary",
              "type" => "radio_button",
              "display_name_all" => "Forced vs. Voluntary",
