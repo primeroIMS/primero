@@ -659,7 +659,7 @@ en:
     successfully_added: "Field successfully added"
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
-    add: "New Field"
+    add: "Add"
     type: "Field type"
     move_to: "Move to"
     select_box_empty_item: "(Select...)"
