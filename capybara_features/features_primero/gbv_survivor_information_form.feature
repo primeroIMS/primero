@@ -1,5 +1,6 @@
 # JIRA PRIMERO-449
 # JIRA PRIMERO-520
+# JIRA PRIMERO-518
 
 @search @javascript @primero
 Feature: Survivor Information Form
@@ -9,7 +10,6 @@ Feature: Survivor Information Form
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
-    And I press the "Survivor Information" button
     #TODO: Add Date of Birth when PRIMERO-455 is merged
     And I fill in the following:
       | Case Status                                                                                 | <Select> Transferred            |
