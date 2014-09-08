@@ -10,12 +10,14 @@
   <%= t("tracing_request.label") %> #<%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
-<% content_for :header_message do %>    
-    <% if @tracing_request.flag? %>
-        <div class="header_message">
-        <h3 class="flag-message"><%= @tracing_request.flagged_by %></h3>
-        </div>
-    <% end %>
+<% content_for :header_message do %>
+  <div class="panel">
+    <div class="header_message">
+      <% if @tracing_request.flag? %>
+        <p class="flag-message"><%= @tracing_request.flagged_by %></p>
+      <% end %>
+    </div>
+  </div>
 <% end %>
 
 <div class="clearfix"></div>

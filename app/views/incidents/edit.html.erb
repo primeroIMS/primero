@@ -10,12 +10,14 @@
   <%= t("incident.label") %> #<%= text_to_identify_incident(@incident) %>
 <% end %>
 
-<% content_for :header_message do %>    
+<% content_for :header_message do %>
+  <div class="panel">
+    <div class="header_message">
     <% if @incident.flag? %>
-        <div class="header_message">
-        <h3 class="flag-message"><%= @incident.flagged_by %></h3>
-        </div>
+      <p class="flag-message"><%= @incident.flagged_by %></p>
     <% end %>
+    </div>
+  </div>
 <% end %>
 
 <div class="clearfix"></div>
