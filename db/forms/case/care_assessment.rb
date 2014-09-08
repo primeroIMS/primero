@@ -130,7 +130,6 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Assessment",
   :fields => care_assessment_fields,
-  :perm_visible => true,
   "editable" => true,
   "name_all" => "Care Assessment",
   "description_all" => "Care Assessment"

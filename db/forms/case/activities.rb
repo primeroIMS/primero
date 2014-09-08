@@ -93,7 +93,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Services / Follow Up",
   "editable" => true,
   :fields => activities_fields,
-  :perm_enabled => true,
   "name_all" => "Activities",
   "description_all" => "Activities"
 })

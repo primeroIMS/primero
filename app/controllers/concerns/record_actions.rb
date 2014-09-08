@@ -22,9 +22,11 @@ module RecordActions
   end
 
   def get_form_sections
-    permitted_forms = FormSection.get_permitted_form_sections(record, current_user)
+    get_record
+    permitted_forms = FormSection.get_permitted_form_sections(@record.module, @record.class.parent_form, current_user)
     FormSection.link_subforms(permitted_forms)
-    @form_sections = FormSection.group_forms(permitted_forms)
+    visible_forms = FormSection.get_visible_form_sections(permitted_forms)
+    @form_sections = FormSection.group_forms(visible_forms)
   end
 
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
@@ -59,7 +61,7 @@ module RecordActions
 
   #Gets the record which is the objects of the implementing controller.
   #Note that the controller needs to load this record before this concern method is invoked.
-  def record
+  def get_record
     @record ||= eval("@#{@className.name.underscore}")
   end
 

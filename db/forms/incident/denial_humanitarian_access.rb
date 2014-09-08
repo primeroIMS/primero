@@ -101,8 +101,6 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable"=>true,
   :fields => denial_humanitarian_access_section_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Human Impact of Attack Subform",
   "description_all" => "Nested Human Impact of Attack Subform",
   "collapsed_fields" => ["denial_method"],
@@ -131,7 +129,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => denial_humanitarian_access_fields,
-  :perm_enabled => true,
   "name_all" => "Denial of Humanitarian Access",
   "description_all" => "Denial of Humanitarian Access"
 })

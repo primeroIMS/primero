@@ -42,8 +42,6 @@ health_medical_referral_subform_section = FormSection.create_or_update_form_sect
   :parent_form=>"incident",
   "editable" => true,
   :fields => health_medical_referral_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Health/Medical Referral Subform",
   "description_all" => "Nested Health/Medical Referral Subform"
 })
@@ -100,8 +98,6 @@ psychosocial_counseling_services_subform_section = FormSection.create_or_update_
   :parent_form=>"incident",
   "editable" => true,
   :fields => psychosocial_counseling_services_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Psychosocial/Counseling Services Subform",
   "description_all" => "Nested Psychosocial/Counseling Services Subform"
 })
@@ -150,8 +146,6 @@ legal_assistance_services_subform_section = FormSection.create_or_update_form_se
   :parent_form=>"incident",
   "editable" => true,
   :fields => legal_assistance_services_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Legal Assistance Services Subform",
   "description_all" => "Nested Legal Assistance Services Subform"
 })
@@ -200,8 +194,6 @@ police_or_other_type_of_security_services_subform_section = FormSection.create_o
   :parent_form=>"incident",
   "editable" => true,
   :fields => police_or_other_type_of_security_services_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Police or Other Type of Security Services Subform",
   "description_all" => "Nested Police or Other Type of Security Services Subform"
 })
@@ -250,8 +242,6 @@ livelihoods_services_subform_section = FormSection.create_or_update_form_section
   :parent_form=>"incident",
   "editable" => true,
   :fields => livelihoods_services_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Livelihoods Services Subform",
   "description_all" => "Nested Livelihoods Services Subform"
 })
@@ -300,8 +290,6 @@ child_protection_services_subform_section = FormSection.create_or_update_form_se
   :parent_form=>"incident",
   "editable" => true,
   :fields => child_protection_services_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Child Protection Services Subform",
   "description_all" => "Nested Child Protection Services Subform"
 })
@@ -406,7 +394,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Service Referral",
   "editable" => true,
   :fields => services_fields,
-  :perm_enabled => true,
   "name_all" => "Service Referrals",
   "description_all" => "Service Referrals"
 })

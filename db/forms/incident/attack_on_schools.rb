@@ -176,8 +176,6 @@ attack_on_schools_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => attack_on_schools_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Attack on Schools Subform",
   "description_all" => "Nested Attack on Schools Subform",
   :initial_subforms => 1,
@@ -203,7 +201,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => attack_on_schools_fields,
-  :perm_enabled => true,
   "name_all" => "Attack on Schools",
   "description_all" => "Attack on Schools"
 })

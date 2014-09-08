@@ -64,8 +64,6 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => sexual_violence_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Sexual Violence Subform",
   "description_all" => "Nested Sexual Violence Subform",
   :initial_subforms => 1,
@@ -91,7 +89,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => sexual_violence_fields,
-  :perm_enabled => true,
   "name_all" => "Sexual Violence",
   "description_all" => "Sexual Violence"
 })

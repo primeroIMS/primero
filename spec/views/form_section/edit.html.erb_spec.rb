@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'nokogiri'
 
 describe "form_section/edit.html.erb" do
-  it "should not allow to show/hide fields for non editable formsections" do
+  xit "should not allow to show/hide fields for non editable formsections" do
     fields = [Field.new(:name => 'my_field', :display_name => 'My Field', :type=>"text_field", :visible => true)]
     form_section = FormSection.new "name" => "Basic Details", "enabled"=> "true", "description"=>"Blah blah", "order"=>"10", "unique_id"=> "basic_details", :editable => "false", :fields => fields
 
@@ -15,7 +15,7 @@ describe "form_section/edit.html.erb" do
     document.css(".formSectionButtons").should be_empty
   end
 
-  it "should not have Down or Up UI elements for uneditable field" do
+  xit "should not have Down or Up UI elements for uneditable field" do
     fields = [{:name=>"topfield"}, {:name=>"field", :editable=>false},{:name=>"bottomfield"}]
     form_section = FormSection.new :fields => fields, :unique_id=>"foo"
 
@@ -28,7 +28,7 @@ describe "form_section/edit.html.erb" do
     document.css("#fieldRow .down-link").should be_empty
   end
 
-  it "should be blank if the options is empty" do
+  xit "should be blank if the options is empty" do
     fields = [{:option_strings_text=>""}]
     form_section = FormSection.new :fields => fields, :unique_id=>"foo"
     assign(:form_section, form_section)
@@ -39,7 +39,7 @@ describe "form_section/edit.html.erb" do
     document.css("#form_sections tbody tr td:nth-child(3)").inner_text.should be_empty
   end
 
-  it "should have the options if the options strings text is not empty" do
+  xit "should have the options if the options strings text is not empty" do
     fields = [{:option_strings_text=>"1", :display_name => "Display Name"}]
     form_section = FormSection.new :fields => fields, :unique_id=>"foo", :name => "Form Section"
     assign(:form_section, form_section)
@@ -53,7 +53,7 @@ describe "form_section/edit.html.erb" do
     document.css("#form_sections tbody tr td:nth-child(3)").inner_text.should =='["1"]'
   end
 
-  it "should not have edit or delete or enable UI elements for uneditable fields" do
+  xit "should not have edit or delete or enable UI elements for uneditable fields" do
     fields = [{:name=>"topfield"}, {:name=>"field", :editable=>false},{:name=>"bottomfield"}]
     form_section = FormSection.new :fields => fields, :unique_id=>"foo"
 
@@ -67,7 +67,7 @@ describe "form_section/edit.html.erb" do
     document.css("#fields_field").should be_empty
   end
 
-  it "should display forms in system language when user language is different" do
+  xit "should display forms in system language when user language is different" do
     I18n.default_locale = :fr
     user = double('user', :has_permission? => true, :user_name => 'name', :locale => :en)
     controller.stub(:current_user).and_return(user)

@@ -103,8 +103,6 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => maiming_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Maiming Subform",
   "description_all" => "Nested Maiming Subform",
   :initial_subforms => 1,
@@ -130,7 +128,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => maiming_fields,
-  :perm_enabled => true,
   "name_all" => "Maiming",
   "description_all" => "Maiming"
 })

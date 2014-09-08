@@ -143,8 +143,6 @@ attack_on_hospitals_subform_section = FormSection.create_or_update_form_section(
   :parent_form=>"incident",
   "editable" => true,
   :fields => attack_on_hospitals_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Attack on Hospitals Subform",
   "description_all" => "Nested Attack on Hospitals Subform",
   :initial_subforms => 1,
@@ -170,7 +168,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => attack_on_hospitals_fields,
-  :perm_enabled => true,
   "name_all" => "Attack on Hospitals",
   "description_all" => "Attack on Hospitals"
 })

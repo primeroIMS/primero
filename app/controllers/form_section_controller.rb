@@ -1,17 +1,41 @@
 class FormSectionController < ApplicationController
 
+  before_filter :current_modules, :only => [:index, :new, :edit, :create]
+  before_filter :parent_form, :only => [:new, :edit]
+  before_filter :get_form_sections, :only => [:index]
+  #before_filter :get_lookups, :only => [:index]
+
+
   def index
     authorize! :index, FormSection
     @page_name = t("form_section.manage")
-    @form_sections = FormSection.all.sort_by(&:order)
+  end
+
+  def new
+    authorize! :create, FormSection
+    @page_name = t("form_section.create")
+    @form_section = FormSection.new(params[:form_section])
   end
 
   def create
     authorize! :create, FormSection
     form_section = FormSection.new_with_order params[:form_section]
     form_section.base_language = I18n.default_locale
+    form_section.core_form = false   #Indicates this is a user-added form
+
+    #TODO - have unique id generated as part of Namable
+    form_section.unique_id = "#{@primero_module.name}-#{form_section.name}".parameterize.dasherize
+
+    #TODO - need more elegant way to set the form's order
+    form_section.order = 999
+    form_section.order_form_group = 999
+
     if (form_section.valid?)
       form_section.create
+      unless @primero_module.associated_form_ids.include? form_section.unique_id
+        @primero_module.associated_form_ids << form_section.unique_id
+        @primero_module.save
+      end
       flash[:notice] = t("form_section.messages.updated")
       redirect_to edit_form_section_path(form_section.unique_id)
     else
@@ -65,16 +89,35 @@ class FormSectionController < ApplicationController
     end
   end
 
-  def new
-    authorize! :create, FormSection
-    @page_name = t("form_section.create")
-    @form_section = FormSection.new(params[:form_section])
-  end
-  
+
   private
-  
+
+  def current_modules
+    @current_modules ||= current_user.modules
+    @module_id = params[:module_id] || @current_modules.first.id
+    @primero_module = @current_modules.select{|m| m.id == @module_id}.first
+  end
+
   def parent_form
     @parent_form = params[:parent_form] || 'case'
+  end
+
+  def get_form_sections
+    @record_types = @primero_module.associated_record_types
+
+    #only use the passed in parent_form if it is in the allowed form types for this module
+    #otherwise, default to the first allowed form type
+    if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
+      @parent_form = params[:parent_form]
+    else
+      @parent_form = @record_types.first
+    end
+
+    permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
+    FormSection.link_subforms(permitted_forms)
+    #filter out the subforms
+    no_subforms = FormSection.filter_subforms(permitted_forms)
+    @form_sections = FormSection.group_forms(no_subforms)
   end
 
 end

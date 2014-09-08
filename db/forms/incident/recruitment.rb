@@ -165,8 +165,6 @@ recruitment_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => recruitment_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Recruitment Subform",
   "description_all" => "Nested Recruitment Subform",
   :initial_subforms => 1,
@@ -192,7 +190,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => recruitment_fields,
-  :perm_enabled => true,
   "name_all" => "Recruitment",
   "description_all" => "Recruitment"
 })
