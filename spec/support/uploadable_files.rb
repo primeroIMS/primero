@@ -19,11 +19,12 @@ module UploadableFiles
       File.binread self.path
     end
 
-    photo
+    { 'document' => photo }
   end
 
   def uploadable_executable_file
     executable_file = File.new("capybara_features/resources/exe_file.exe")
+
     def executable_file.content_type
       "application/x-ms-dos-executable"
     end
@@ -39,7 +40,8 @@ module UploadableFiles
     def executable_file.data
       File.binread self.path
     end
-    executable_file
+
+    { 'document' => executable_file }
   end
 
   def uploadable_large_photo
@@ -88,7 +90,7 @@ module UploadableFiles
       self.path
     end
 
-    file
+    { 'document' => file }
   end
 
   def uploadable_audio(audio_path = "capybara_features/resources/sample.amr")
@@ -123,7 +125,7 @@ module UploadableFiles
       File.binread self.path
     end
 
-    audio
+    { 'document' => audio }
   end
 
   def uploadable_large_audio
