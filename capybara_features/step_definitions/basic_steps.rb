@@ -155,6 +155,8 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
       elsif content.start_with?('Calculated age from')
         year = content.gsub("Calculated age from", "").strip
         content = Date.today.year - year.to_i
+      elsif content == "today's date"
+        content = DateTime.now.strftime("%d-%b-%Y")
       end
       within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
         #Up to the parent of the label to find the value.
