@@ -45,7 +45,7 @@ module FieldsHelper
       ""
     when field_value.respond_to?(:length) && field_value.length == 0
       ""
-    when field_value.instance_of?(Array)
+    when field_value.is_a?(Array)
       field_value.join ", " 
     else
       field_value
