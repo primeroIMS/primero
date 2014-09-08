@@ -2,6 +2,20 @@
 module Exporters
   private
 
+  class BaseExporter
+    def self.id
+      raise NotImplementedError
+    end
+
+    def self.supported_models
+      CouchRest::Model::Base.descendants
+    end
+
+    def self.mime_type
+      self.id
+    end
+  end
+
   # @param properties: array of CouchRest Model Property instances
   # TODO: Rework to be more recursive to handle violations
   def self.to_2D_array(models, properties)

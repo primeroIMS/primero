@@ -8,7 +8,7 @@ class Field
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions]
+  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally]
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
@@ -17,6 +17,7 @@ class Field
   property :subform_section_id
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
+  property :selected_value, :default => ""
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"
@@ -33,6 +34,7 @@ class Field
   SUBFORM = "subform"
   SEPARATOR = "separator"
   TICK_BOX = "tick_box"
+  TALLY_FIELD = "tally_field"
 
   FIELD_FORM_TYPES = {  TEXT_FIELD       => "basic",
                         TEXT_AREA        => "basic",
@@ -47,7 +49,8 @@ class Field
                         NUMERIC_FIELD    => "basic",
                         SUBFORM          => "subform",
                         SEPARATOR        => "separator",
-                        TICK_BOX         => "basic"
+                        TICK_BOX         => "basic",
+                        TALLY_FIELD      => "tally_field"
                       }
   FIELD_DISPLAY_TYPES = {
 												TEXT_FIELD       => "basic",
@@ -63,7 +66,8 @@ class Field
                         NUMERIC_FIELD    => "basic",
                         SUBFORM          => "subform",
                         SEPARATOR        => "separator",
-                        TICK_BOX         => "tick_box"
+                        TICK_BOX         => "tick_box",
+                        TALLY_FIELD      => "tally_field"
                       }
 
   DEFAULT_VALUES = {
@@ -79,7 +83,8 @@ class Field
                         DATE_RANGE       => "",
                         NUMERIC_FIELD    => "",
                         SUBFORM          => nil,
-                        TICK_BOX         => "false"
+                        TICK_BOX         => "false",
+                        TALLY_FIELD      => ""
                       }
 
   validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")

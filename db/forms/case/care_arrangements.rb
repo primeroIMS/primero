@@ -128,7 +128,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Services / Follow Up",
   "editable" => true,
   :fields => care_arrangements_fields,
-  :perm_enabled => true,
   "name_all" => "Care Arrangements",
   "description_all" => "Care Arrangements"
 })

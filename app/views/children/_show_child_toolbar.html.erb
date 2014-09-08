@@ -28,8 +28,6 @@
     </li>
 <% end %>
 
-<% if Exporters::ACTIVE_EXPORTERS.any?{|exporter| can?("export_#{exporter.id}".to_sym, Child)} %>
-    <li>
-        <%= render 'export' %>
-    </li>
-<% end %>
+  <li>
+      <%= render 'export' %>
+  </li>

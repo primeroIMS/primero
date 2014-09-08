@@ -12,26 +12,85 @@ other_violation_section_fields = [
              "type" => "textarea",
              "display_name_all" => "Other Violation Description"
             }),
-  Field.new({"name" => "other_violation_boys",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: boys",
-             "autosum_group" => "other_violation_number_of_survivors"
+  Field.new({"name" => "other_violation_tally",
+         "type" => "tally_field",
+         "display_name_all" => "Number of survivors",
+         "autosum_group" => "other_violation_number_of_survivors",
+         "tally" => ['boys', 'girls', 'unknown'],
+         "autosum_total" => true,
+        }),
+  # Verification fields
+  Field.new({"name" => "verification_section",
+             "type" => "separator",
+             "display_name_all" => "Verification"
             }),
-  Field.new({"name" => "other_violation_girls",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: girls",
-             "autosum_group" => "other_violation_number_of_survivors"
+  Field.new({"name" => "verifier_id_code",
+             "type" => "text_field",
+             "display_name_all" => "Verifier"
             }),
-  Field.new({"name" => "other_violation_unknown",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of survivors: unknown",
-             "autosum_group" => "other_violation_number_of_survivors"
+  Field.new({"name" => "verification_decision_date",
+             "type" => "date_field",
+             "display_name_all" => "Verification Decision Date"
             }),
-  Field.new({"name" => "other_violation_total",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of total survivors",
-             "autosum_total" => true,
-             "autosum_group" => "other_violation_number_of_survivors"
+  Field.new({"name" => "verified",
+             "type" => "select_box",
+             "display_name_all" => "Verification Status",
+             "selected_value" => "Pending",
+             "option_strings_text_all" =>
+                                    ["Verified",
+                                     "Unverified",
+                                     "Pending",
+                                     "Falsely Attributed",
+                                     "Rejected"].join("\n")
+            }),
+  Field.new({"name" => "verification_source_weight",
+             "type" => "select_box",
+             "display_name_all" => "Has the information been received from a primary and reliable source?",
+             "option_strings_text_all" =>
+                                    ["Yes, from a credible Primary Source who witnessed the incident",
+                                     "Yes, from a credible Primary Source who did not witness the incident",
+                                     "No, but there is sufficient supporting documentation of the incident",
+                                     "No, all the information is from a Secondary Source(s)",
+                                     "No, the Primary Source information is deemed insufficient or not credible"].join("\n")
+            }),
+  Field.new({"name" => "un_eyewitness",
+             "type" => "radio_button",
+             "display_name_all" => "Was the incident witnessed by UN staff or other MRM-trained affiliates?",
+             "option_strings_text_all" => "Yes\nNo"
+            }),
+  Field.new({"name" => "verification_info_consistent",
+             "type" => "radio_button",
+             "display_name_all" => "Is the information consistent across various independent sources?",
+             "option_strings_text_all" => "Yes\nNo"
+            }),
+  Field.new({"name" => "verification_info_credibility",
+             "type" => "radio_button",
+             "display_name_all" => "Has the veracity of the allegations been deemed credible using reasonable and sound judgement of trained and reliable monitors?",
+             "option_strings_text_all" => "Yes\nNo"
+            }),
+  Field.new({"name" => "reason_non_verification",
+             "type" => "select_box",
+             "display_name_all" => "If not verified, why?",
+             "option_strings_text_all" =>
+                                    ["Unwilling Sources",
+                                     "Security Constraints",
+                                     "Resource Constraints",
+                                     "Contradictory Information",
+                                     "Pending Further Monitoring",
+                                     "Other"].join("\n")
+            }),
+  Field.new({"name" => "verification_decision_description",
+             "type" => "text_field",
+             "display_name_all" => "Notes on Verification Decision"
+            }),
+  Field.new({"name" => "CTFMR_verified",
+             "type" => "radio_button",
+             "display_name_all" => "Verified by CTFMR",
+             "option_strings_text_all" => "Yes\nNo"
+            }),
+  Field.new({"name" => "verification_date_CTFMR",
+             "type" => "date_field",
+             "display_name_all" => "Date verified by CTFMR"
             })
 ]
 
@@ -45,8 +104,6 @@ other_violation_subform_section = FormSection.create_or_update_form_section({
   :order_subform => 1,
   "editable" => true,
   :fields => other_violation_section_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Other Violations",
   "description_all" => "Other Violations Subform",
   :initial_subforms => 1,
@@ -75,7 +132,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => other_violation_fields,
-  :perm_enabled => true,
   "name_all" => "Other Violation",
   "description_all" => "Other Violation"
 })

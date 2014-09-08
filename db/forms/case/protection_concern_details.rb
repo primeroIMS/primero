@@ -94,8 +94,6 @@ protection_concern_detail_subform_section = FormSection.create_or_update_form_se
   :parent_form=>"case",
   "editable" => true,
   :fields => protection_concern_detail_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Protection Concerns Subform",
   "description_all" => "Nested Protection Concerns Subform",
   "collapsed_fields" => ["protection_concern_type"]
@@ -142,7 +140,6 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Assessment",
   :fields => protection_concern_detail_fields,
-  :perm_visible => true,
   "editable" => true,
   "name_all" => "Protection Concern Details",
   "description_all" => "Protection Concern Details"

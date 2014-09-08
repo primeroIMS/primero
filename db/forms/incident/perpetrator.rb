@@ -115,8 +115,6 @@ perpetrator_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => perpetrator_subform_fields,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Perpetrator Subform",
   "description_all" => "Nested Perpetrator Subform",
   "collapsed_fields" => ["perpetrator_sub_category"]
@@ -140,7 +138,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Perpetrator",
   "editable" => true,
   :fields => perpetrator_fields,
-  :perm_enabled => true,
   "name_all" => "Perpetrator",
   "description_all" => "Perpetrator"
 })

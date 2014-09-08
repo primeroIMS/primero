@@ -573,11 +573,11 @@ en:
     cannot_be_edited: "Fields on this form cannot be edited."
 
   form_section:
-    create: "Create New Form Section"
+    create: "New Form"
     visibility: "Visibility"
     ordering: "Ordering"
     details: "Form details"
-    label: "Form Section"
+    label: "Form"
     back: "Back To Forms Page"
     actions:
       add_custom_field: "Add Custom Field"
@@ -673,7 +673,7 @@ en:
     successfully_added: "Field successfully added"
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
-    add: "Add"
+    add: "New Field"
     type: "Field type"
     move_to: "Move to"
     select_box_empty_item: "(Select...)"
@@ -917,3 +917,4 @@ en:
 
   per_page_translation: "Per page _MENU_"
   import_successful: "File was imported successfully"
+  total: Total

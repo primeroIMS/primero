@@ -24,9 +24,9 @@ class AdvancedSearchController < ApplicationController
   end
 
   def export_data
-    Exporters::ACTIVE_EXPORTERS.each do |exporter|
+    Exporters::active_exporters_for_model(Child).each do |exporter|
       if params[:commit] == t("addons.export_task.#{exporter.id}.selected")
-        authorize! "export_#{exporter.id}".to_sym, Child
+        authorize! :export, Child
         record_ids = (params["all"] == "Select all records") ? params["full_results"].split(/,/) : Hash[params["selections"].sort].values rescue {}
         raise ErrorResponse.bad_request('You must select at least one record to be exported') if record_ids.empty?
 

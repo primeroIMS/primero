@@ -71,8 +71,6 @@ group_details_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable"=>true,
   :fields => group_details_section_fields_subform,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Group Details",
   "description_all" => "Group Details Subform",
   "collapsed_fields" => ["group_gender", "group_age_band"]
@@ -99,7 +97,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Group Details",
   "editable" => true,
   :fields => group_details_fields,
-  :perm_enabled => true,
   "name_all" => "Group Details",
   "description_all" => "Group Details"
 })

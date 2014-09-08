@@ -308,7 +308,7 @@ class ChildrenController < ApplicationController
 
   def export_filename(models, exporter)
     if models.length == 1
-      "#{models[0].unique_identifier}.#{exporter.id}"
+      "#{models[0].unique_identifier}.#{exporter.mime_type}"
     else
       super
     end

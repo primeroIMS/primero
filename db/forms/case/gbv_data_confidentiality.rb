@@ -93,7 +93,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "GBV Data Confidentiality",
   "editable" => true,
   :fields => gbv_data_confidentiality_fields,
-  :perm_enabled => true,
   "name_all" => "GBV Data Confidentiality",
   "description_all" => "GBV Data Confidentiality"
 })

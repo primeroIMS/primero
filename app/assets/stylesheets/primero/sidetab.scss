@@ -119,9 +119,18 @@ ul.side-nav {
 
   li .panel {
     width: 240px;
+    background: #f5f5f5;
+    border: 1px solid #e3e3e3;
+
+    p {
+      font-family: 'Roboto', sans-serif;
+      font-size: $thirteen_px;
+    }
 
     strong {
       text-transform: uppercase;
+      font-family: 'Roboto-Medium', sans-serif;
+      font-size: $fifteen_px;
     }
 
     a {
