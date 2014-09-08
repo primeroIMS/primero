@@ -27,7 +27,9 @@
     </li>
     <% end %>
 <% end %>
-<% if can?(:export, tracing_request) %>
+<%#TODO: Make exports work for tracing requests %>
+<% if false %>
+<%# if can?(:export, tracing_request) %>
     <li>
         <div class="btn dropdown_btn btn_export">
             <%= render 'export' %>
