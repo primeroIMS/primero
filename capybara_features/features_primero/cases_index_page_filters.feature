@@ -1,10 +1,11 @@
 # JIRA PRIMERO-514
 
 @search @javascript @primero
-Feature: Survivor Information Form
-  As an administrator, I want to be able to enter information about survivors.
+Feature: Cases Index Page
+  The cases index page should display only "Open" cases by default
 
-  Scenario: As a logged in user, I create a case by entering something in every field in the survivor information form
+  Scenario: As a logged in user, I create a case by entering something in the survivor information form.
+    The cases index page should only display Open cases by default.
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
