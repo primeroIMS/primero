@@ -70,6 +70,7 @@ class Ability
 
   def configure_resource(resource, actions, is_record=false)
     if is_record
+      can actions, Report
       can actions, resource do |instance|
         if user.has_permission? Permission::ALL
           true
