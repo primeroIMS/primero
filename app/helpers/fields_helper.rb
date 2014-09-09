@@ -62,6 +62,8 @@ module FieldsHelper
       ""
     when field_value.is_a?(Array)
       field_value.join ", " 
+    when field_value.is_a?(Date)
+      field_value.strftime("%d-%b-%Y")
     else
       field_value.to_s
     end

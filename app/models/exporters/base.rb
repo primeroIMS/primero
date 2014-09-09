@@ -19,42 +19,61 @@ module Exporters
   # @param properties: array of CouchRest Model Property instances
   # TODO: Rework to be more recursive to handle violations
   def self.to_2D_array(models, properties)
-    longest_nested_arrays = find_longest_nested_arrays(models, properties)
 
-    header_columns = ['model_type'] + properties.map do |p|
-      if longest_nested_arrays.include? p
-        if p.type.include?(CouchRest::Model::Embeddable) && longest_nested_arrays[p] > 0
-          (1..longest_nested_arrays[p]).map do |n|
-            p.type.properties.map {|subp| "#{p.name}[#{n}]#{subp.name}"}
-          end.flatten
+    def emit_columns(props, context=nil, &column_generator)
+
+      props.map do |p|
+        longest_arrays = find_longest_array(models, parent_props[p])
+        if longest_arrays.include? p
+          if p.array && longest_arrays[p] > 0
+            (1..longest_arrays[p]).map do |n|
+              new_context = context.deeper_merge({:parent_props => [p], :n => [n]})
+              if p.type.include?(CouchRest::Model::Embeddable)
+                emit_columns(p.type.properties, new_context, column_generator)
+              else
+                yield(p, new_context)
+              end
+            end.flatten
+          else
+            []
+          end
         else
-          []
+          yield(p, context)
         end
+      end.flatten
+    end
+
+    header_columns = ['model_type'] + emit_columns(properties) do |prop, context|
+      if context[:n].is_a?(Array)
+        ns = context[:n]
+        init = prop.array ? "#{prop.name}[#{n.pop}]" : prop.name
+        (context[:parent_props] || []).reverse.inject(init) {|acc, pp| "#{pp.name}[#{ns.pop}]#{acc}"}
       else
-        p.name
+        prop.name
       end
-    end.flatten
+    end
 
     yield header_columns
 
     models.each do |m|
-      row = [m.class.name] + properties.map do |p|
-        if !p.type.nil? && p.type.include?(CouchRest::Model::Embeddable) && m[p.name].length > 0
-          m.send(p.name.to_sym).map do |elm|
-            p.type.properties.map do |subp|
-              elm.send(subp.name.to_sym)
-            end
-          end.flatten
+      row = [m.class.name] + emit_columns(properties, {:model => m}) do |prop, context|
+        if prop.array
+          if prop.type.include?(CouchRest::Model::Embeddable) && context[prop.name].length > 0
+            prop.type.properties
+              emit_columns(context.send(prop.name.to_sym), n, 
+            end.flatten
+          else
+          end
         else
-          m.send(p.name.to_sym)
+          context.send(prop.name.to_sym)
         end
-      end.flatten
+      end
 
       yield row
     end
   end
 
-  def self.find_longest_nested_arrays(models, properties)
+  def self.find_longest_arrays(models, properties)
     properties.select {|p| p.array}.inject({}) do |acc, p|
       if p.array
         acc.update({p => models.map {|m| m.send(p.name.to_sym).length}.max})

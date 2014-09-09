@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  @@model_class = User
 
   include ExportActions
   include ImportActions
@@ -7,8 +8,6 @@ class UsersController < ApplicationController
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
-
-  model_class = User
 
   def index
     authorize! :read, User
@@ -19,6 +18,11 @@ class UsersController < ApplicationController
 
     @users=User.view("by_#{sort_option}_filter_view", {:startkey => [filter_option], :endkey => [filter_option, {}]})
     @users_details = users_details
+
+    respond_to do |format|
+      format.html
+      respond_to_export(format, @users)
+    end
 
     if params[:ajax] == "true"
       render :partial => "users/user", :collection => @users
@@ -35,6 +39,11 @@ class UsersController < ApplicationController
   def show
     @page_name = t("users.account_details")
     authorize! :show, @user
+
+    respond_to do |format|
+      format.html
+      respond_to_export(format, @user)
+    end
   end
 
   def new
@@ -162,4 +171,9 @@ class UsersController < ApplicationController
       }
     end
   end
+
+  def get_unique_instance(attributes)
+    User.find_by_user_name(attributes['user_name'])
+  end
+
 end

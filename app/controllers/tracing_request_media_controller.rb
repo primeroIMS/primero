@@ -6,6 +6,6 @@ class TracingRequestMediaController < ApplicationController
   private
 
   def set_class_name
-    @className = TracingRequest
+    model_class = TracingRequest
   end
 end

@@ -1,4 +1,6 @@
 class IncidentsController < ApplicationController
+  @@model_class = Incident
+
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
@@ -171,7 +173,7 @@ class IncidentsController < ApplicationController
   end
 
   def exported_properties
-    @className.properties.reject {|p| p.name == 'violations' }
+    model_class.properties.reject {|p| p.name == 'violations' }
   end
 
   private
@@ -217,10 +219,6 @@ class IncidentsController < ApplicationController
     # delete_child_audio = params["delete_child_audio"].present?
     incident.update_properties(params[:incident], current_user_name)
     incident
-  end
-
-  def set_class_name
-    @className = Incident
   end
 
 end

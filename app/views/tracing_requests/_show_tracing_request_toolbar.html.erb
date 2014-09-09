@@ -29,8 +29,6 @@
 <% end %>
 <% if can?(:export, tracing_request) %>
     <li>
-        <div class="btn dropdown_btn btn_export">
-            <%= render 'export' %>
-        </div>
+      <%= render partial: 'exports/button', locals: {model: TracingRequest, instance: @tracing_request} %>
     </li>
 <% end %>

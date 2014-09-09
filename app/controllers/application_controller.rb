@@ -100,4 +100,5 @@ class ApplicationController < ActionController::Base
     params
   end
 
+  cattr_accessor :model_class
 end

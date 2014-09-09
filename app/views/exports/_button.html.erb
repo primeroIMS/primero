@@ -1,0 +1,13 @@
+<% if can?(:export, controller.model_class) %>
+  <%= link_to content_tag(:span, t("buttons.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button right' %>
+  <ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
+      <% Exporters::active_exporters_for_model(controller.model_class).each do |exporter| %>
+        <li>
+        <%= link_to(t("exports.#{exporter.id}.#{defined?(instance) ? 'one' : 'all'}"),
+                    url_for(:format => exporter.id, :per_page => :all, :id => (defined?(instance) ? instance.id : nil)),
+                    :class => "password-prompt") %>
+        </li>
+      <% end %>
+  </ul>
+<% end %>
+

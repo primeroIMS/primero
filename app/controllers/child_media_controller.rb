@@ -6,6 +6,6 @@ class ChildMediaController < ApplicationController
   private
 
   def set_class_name
-    @className = Child
+    model_class = Child
   end
 end

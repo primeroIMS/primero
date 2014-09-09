@@ -27,20 +27,20 @@ module MediaActions
 
   def download_audio
     find_audio_attachment
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
-    redirect_to(:controller => @className.name.underscore.downcase.pluralize, :action => 'show', :id => object.id) and return unless @attachment
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
+    redirect_to(:controller => model_class.name.underscore.downcase.pluralize, :action => 'show', :id => object.id) and return unless @attachment
     send_data( @attachment.data.read, :filename => audio_filename(@attachment), :type => @attachment.content_type )
   end
 
   def download_document
     find_document_attachment
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
-    redirect_to(:controller => @className.name.underscore.downcase.pluralize, :action => 'show', :id => object.id) and return unless @attachment
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
+    redirect_to(:controller => model_class.name.underscore.downcase.pluralize, :action => 'show', :id => object.id) and return unless @attachment
     send_data(@attachment.data.read, :filename => document_filename(@attachment), :type => @attachment.content_type)
   end
 
   def document_filename attachment
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
     document_key_index = object['document_keys'].find_index attachment.name
     unless document_key_index.nil?
       object['other_documents'][document_key_index]['file_name']
@@ -54,13 +54,13 @@ module MediaActions
   private
 
   def find_object
-    obj_name = @className.name.underscore.downcase
+    obj_name = model_class.name.underscore.downcase
     id = params["#{obj_name}_id"]
-    instance_variable_set("@#{obj_name}", @className.get(id))
+    instance_variable_set("@#{obj_name}", model_class.get(id))
   end
 
   def find_document_attachment
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
     begin
       @attachment = object.media_for_key(params[:document_id])
     rescue => e
@@ -69,7 +69,7 @@ module MediaActions
   end
 
   def find_audio_attachment
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
     begin
       @attachment = params[:id] ? object.media_for_key(params[:id]) : object.audio
     rescue => e
@@ -78,7 +78,7 @@ module MediaActions
   end
 
   def find_photo_attachment
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
     redirect_to(:photo_id => object.current_photo_key, :ts => object.last_updated_at) and return if
       params[:photo_id].to_s.empty? and object.current_photo_key.present?
 
@@ -98,12 +98,12 @@ module MediaActions
   end
 
   def audio_filename attachment
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
     "audio_" + object.unique_identifier + AudioMimeTypes.to_file_extension(attachment.mime_type)
   end
 
   def photos_details
-    object = instance_variable_get("@#{@className.name.underscore.downcase}")
+    object = instance_variable_get("@#{model_class.name.underscore.downcase}")
     object['photo_keys'].collect do |photo_key|
       {
         :photo_url => photo_url(object, photo_key),

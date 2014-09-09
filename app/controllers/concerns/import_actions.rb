@@ -20,21 +20,21 @@ module ImportActions
 
       importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == type}.first
       if importer.nil?
-        flash[:error] = "Import type is unknown"
+        flash[:error] = t('imports.unknown_type')
         redirect_to :action => :index and return
       end
 
       begin
         handle_import(file.tempfile, importer)
       rescue TypeError => e
-        flash[:error] = "Error importing data: #{e}"
+        flash[:error] = t("imports.error", error: e)
         redirect_to :action => :index and return
       end
 
-      flash[:notice] = t('import_successful')
+      flash[:notice] = t('imports.successful')
       redirect_to :action => :index
     else
-      flash[:error] = "No file provided!"
+      flash[:error] = t('imports.file_missing')
       redirect_to :action => :index
     end
   end
