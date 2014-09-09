@@ -1,4 +1,7 @@
 <tr>
+  <td>
+    <%= icon('flag', '', class: 'flagged') if record.flag? %>
+  </td>
   <td id="tracing_request_<%= record.id %>" class="id_column">
     <%= link_to text_to_identify_tracing_request(record), tracing_request_path(record), class: 'id_link' %>
   </td>

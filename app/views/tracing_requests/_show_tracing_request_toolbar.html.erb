@@ -20,12 +20,12 @@
             <%= render 'reunited', tracing_request: @tracing_request %>
         </div>
     </li>
+    <% end %>
     <li>
         <div class="dropdown_btn dropdown_form">
-            <%= render 'suspect_flag', tracing_request: @tracing_request %>
+            <%= render 'record_shared/suspect_flag', record: @tracing_request %>
         </div>
     </li>
-    <% end %>
 <% end %>
 <%#TODO: Make exports work for tracing requests %>
 <% if false %>

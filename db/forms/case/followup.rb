@@ -120,6 +120,7 @@ followup_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"case",
   "editable" => true,
   :fields => followup_subform_fields,
+  :initial_subforms => 1,
   "name_all" => "Nested Followup Subform",
   "description_all" => "Nested Followup Subform",
   "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
