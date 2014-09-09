@@ -18,12 +18,6 @@ module ChildrenHelper
     link_to('and others', child_history_path(child)) unless child.has_one_interviewer?
   end
 
-  def flag_message
-    user = @child.histories.select{|h| h["changes"]["flag"]}.first["user_name"]
-    message = (@child.flag_message.blank? && "") || ": \"#{@child.flag_message}\""
-    I18n.t("child.flagged_as_suspected")+" #{user}#{message}"
-  end
-
   def flag_summary_for_child(child)
     flag_history = child["histories"].select{|h| h["changes"].keys.include?("flag") }.first
      "<b>"+ I18n.t("child.flagged_by")+" </b>"+ flag_history["user_name"] +"<b> "+I18n.t("preposition.on_label")+"</b> " + current_user.localize_date(flag_history["datetime"]) +"<b> "+I18n.t("preposition.because")+"</b> "+ child["flag_message"]

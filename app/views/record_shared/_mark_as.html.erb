@@ -1,10 +1,13 @@
-<% if can? :update, child %>    
+<% if can? :update, record %>
+    <% mark_as_message_date ||= "" %>
     <span id="<%= mark_as_property %>" class="<%= style %>"><%= link_to mark_as_label, "#", class: button_style %></span>
     <div class="dropdown hide"
-         data-form_action="<%= child_path(child) %>"
-         data-form_id="<%= "child_#{child.id}" %>"
+         data-model="<%= "#{record.class.name.underscore.downcase}" %>"
+         data-form_action="<%= send("#{record.class.name.underscore.downcase}_path", record) %>"
+         data-form_id="<%= "#{record.class.name.underscore.downcase}_#{record.id}" %>"
          data-message_id="<%= mark_as_message_id %>"
          data-message="<%= mark_as_message %>"
+         data-message_date="<%= mark_as_message_date %>"
          data-property="<%= mark_as_property %>"
          data-property_value="<%= mark_as_property_value %>"
          data-request_url="<%= request.url %>"

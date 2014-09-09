@@ -20,12 +20,12 @@
             <%= render 'reunited', incident: @incident %>
         </div>
     </li>
+    <% end %>
     <li>
         <div class="dropdown_btn dropdown_form">
-            <%= render 'suspect_flag', incident: @incident %>
+            <%= render 'record_shared/suspect_flag', record: @incident %>
         </div>
     </li>
-    <% end %>
 <% end %>
   <li>
       <div class="btn dropdown_btn btn_export">

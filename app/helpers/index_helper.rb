@@ -25,6 +25,7 @@ module IndexHelper
 			]
 		when "incident"
 			return [
+        {title: nil, sort_title: 'flag'},
 				{title: 'id', sort_title: 'short_id'},
 				{title: 'survivor_code', sort_title: 'survivor_code'},
 				{title: 'case_worker_code', sort_title: 'caseworker_code'},
@@ -33,6 +34,7 @@ module IndexHelper
 			]
 			when "tracing_request"
 			return [
+        {title: nil, sort_title: 'flag'},
 			  {title: 'id', sort_title: 'short_id'},
 			  {title: 'name_of_inquirer', sort_title: 'relation_name'},
 			  {title: 'date_of_inquiry', sort_title: 'inquiry_date'}
