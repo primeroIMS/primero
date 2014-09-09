@@ -73,7 +73,8 @@ group_details_section = FormSection.create_or_update_form_section({
   :fields => group_details_section_fields_subform,
   "name_all" => "Nested Group Details",
   "description_all" => "Group Details Subform",
-  "collapsed_fields" => ["group_gender", "group_age_band"]
+  "collapsed_fields" => ["group_gender", "group_age_band"],
+  :initial_subforms => 1
 })
 
 group_details_fields = [
