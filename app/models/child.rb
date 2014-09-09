@@ -18,6 +18,7 @@ class Child < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
   include PhotoUploader
   include AudioUploader
+  include Flaggable
 
   property :nickname
   property :name
@@ -25,7 +26,6 @@ class Child < CouchRest::Model::Base
   property :case_id
   property :registration_date
   property :reunited, TrueClass
-  property :flag, TrueClass
   property :investigated, TrueClass
   property :verified, TrueClass
   property :verified
@@ -66,18 +66,6 @@ class Child < CouchRest::Model::Base
                     }
                  }
               }"
-
-
-      view :by_flag,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('flag'))
-                   {
-                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                       emit(doc['flag'],doc);
-                     }
-                   }
-                }"
-
 
       view :by_ids_and_revs,
               :map => "function(doc) {
