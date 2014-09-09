@@ -36,7 +36,7 @@ class IncidentsController < ApplicationController
 
 
   def show
-    authorize! :read, @incident #if @incident["created_by"] != current_user_name
+    authorize! :read, @incident
     @page_name = t "incident.view", :short_id => @incident.short_id
     @body_class = 'profile-page'
     @duplicates = Incident.duplicates_of(params[:id])

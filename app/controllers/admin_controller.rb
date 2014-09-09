@@ -1,8 +1,8 @@
 class AdminController < ApplicationController
 
-  before_filter {
-    authorize!(false, false) if cannot?(:manage, ContactInformation) and cannot?(:highlight, Field) and cannot?(:manage, SystemUsers)
-  }
+  before_filter do
+    authorize!(:manage, SystemUsers) #This sounds arbitrary, but implies that the user can manage other System settings
+  end
 
   def index
     @page_name = t("header.system_settings")

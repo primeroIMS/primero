@@ -35,7 +35,7 @@ class TracingRequestsController < ApplicationController
 
 
   def show
-    authorize! :read, @tracing_request #if @tracing_request["created_by"] != current_user_name
+    authorize! :read, @tracing_request
     @page_name = t "tracing_request.view", :short_id => @tracing_request.short_id
     @body_class = 'profile-page'
     #TODO: Are duplicated implemented for TracingRequests? CARLOS!?!

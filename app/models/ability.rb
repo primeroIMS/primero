@@ -4,8 +4,7 @@ class Ability
 
   def initialize(user)
     alias_action :index, :view, :list, :to => :read
-    #alias_action :edit, :to => :update
-    alias_action :edit, :to => :write
+    alias_action :edit, :update, :create, :new, :destroy, :to => :write
 
     @user = user
 
@@ -51,13 +50,15 @@ class Ability
 
     if user.has_permission? Permission::METADATA
       [FormSection, Field, Location, Lookup, PrimeroModule, PrimeroProgram].each do |resource|
-        configure_resource resource, actions
+        #configure_resource resource, actions
+        can :manage, resource
       end
     end
 
     if user.has_permission? Permission::SYSTEM
       [ContactInformation, Device, Replication, SystemUsers].each do |resource|
-        configure_resource resource, actions
+        #configure_resource resource, actions
+        can :manage, resource
       end
     end
 
