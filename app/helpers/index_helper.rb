@@ -20,8 +20,7 @@ module IndexHelper
 				{title: 'name', sort_title: 'sortable_name'},
 				{title: 'age', sort_title: 'age'},
 				{title: 'sex', sort_title: 'sex'},
-				{title: 'registration_date', sort_title: 'registration_date'},
-				{title: 'status', sort_title: 'child_status'}
+				{title: 'registration_date', sort_title: 'registration_date'}
 			]
 		when "incident"
 			return [
@@ -56,7 +55,10 @@ module IndexHelper
 					label = label.gsub('_', ' ').split.map(&:capitalize).join(' ')
 					item = item.gsub('_', ' ')
 				end
-				concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}")
+				if @scope[filter].present?
+					checked = true if @scope[filter].include? item.gsub('_', '')
+				end
+				concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}", checked: checked || false)
 				concat(label_tag "#{filter}_#{item}", label)
 				concat('<br>'.html_safe)
 			end

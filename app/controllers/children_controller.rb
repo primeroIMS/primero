@@ -14,6 +14,9 @@ class ChildrenController < ApplicationController
 
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
+    _filter = filter
+    _filter["child_status"] ||= "open"
+    filter = _filter
     associated_users
     search = Child.list_records filter, order, pagination, users_filter
     @children = search.results
