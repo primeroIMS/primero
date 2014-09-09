@@ -96,6 +96,7 @@ en:
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
+     guiding_questions: "Guiding Questions"
 
   cases:
     label: "Cases"
@@ -388,6 +389,7 @@ en:
 
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
+    export: "Exports"
 
   preposition:
     on_label: "on"
@@ -548,11 +550,11 @@ en:
     cannot_be_edited: "Fields on this form cannot be edited."
 
   form_section:
-    create: "Create New Form Section"
+    create: "New Form"
     visibility: "Visibility"
     ordering: "Ordering"
     details: "Form details"
-    label: "Form Section"
+    label: "Form"
     back: "Back To Forms Page"
     actions:
       add_custom_field: "Add Custom Field"
@@ -892,3 +894,4 @@ en:
 
   per_page_translation: "Per page _MENU_"
   import_successful: "File was imported successfully"
+  total: Total

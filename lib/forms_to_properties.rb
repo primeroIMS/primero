@@ -46,12 +46,16 @@ module FormToPropertiesConverter
   def properties_for_field(field)
     base_options = {
       :read_only => !field.editable,
-      :allow_blank => true
+      :allow_blank => false
     }
 
     date_options = {
       :type => Date,
       :init_method => :parse,
+    }
+
+    tally_options = {
+      :type => Integer
     }
 
     case field.type
@@ -68,9 +72,8 @@ module FormToPropertiesConverter
         }.update(base_options)
       }
     # TODO: add validation for select_box and radio_button options
-    when "select_box", "textarea", "text_field", "radio_button", "check_boxes", "numeric_field", "tick_box"
+    when "textarea", "text_field", "radio_button", "check_boxes", "numeric_field", "tick_box"
       type_map = {
-        :select_box => String,
         :textarea => String,
         :text_field => String,
         :radio_button => String,
@@ -83,6 +86,11 @@ module FormToPropertiesConverter
           :type => type_map[field.type.to_sym]
         }.update(base_options)
       }
+    when "select_box"
+      { field.name => {
+          :type => field.multi_select ? [String] : String
+        }.update(base_options)
+      }
     when "date_field"
       { field.name => date_options.update(base_options) }
     when "date_range"
@@ -92,6 +100,12 @@ module FormToPropertiesConverter
         "#{field.name}_date_or_date_range" => {:type => String}.update(base_options),
         field.name => date_options.update(base_options),
       }
+    when "tally_field"
+      tallys = {}
+      field.tally.each { |t| tallys["#{field.name}_#{t}"] = tally_options.update(base_options) }
+      tallys["#{field.name}_total"] = tally_options.update(base_options)
+      tallys
+
     # TODO: Figure out how to handle these things
     when 'separator', 'photo_upload_box', 'audio_upload_box', 'document_upload_box'
       {}

@@ -18,7 +18,6 @@ FormSection.create_or_update_form_section({
   :order_subform_ => 0,
   :form_group_name => "Photos and Audio",
   :fields => tracing_request_photo_audio_fields,
-  :perm_visible => true,
   "editable" => false,
   "name_all" => "Photos and Audio",
   "name_all" => "Photos and Audio"

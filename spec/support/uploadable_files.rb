@@ -24,6 +24,7 @@ module UploadableFiles
 
   def uploadable_executable_file
     executable_file = File.new("capybara_features/resources/exe_file.exe")
+
     def executable_file.content_type
       "application/x-ms-dos-executable"
     end
@@ -39,6 +40,7 @@ module UploadableFiles
     def executable_file.data
       File.binread self.path
     end
+
     executable_file
   end
 

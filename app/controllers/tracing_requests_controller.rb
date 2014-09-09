@@ -254,6 +254,7 @@ class TracingRequestsController < ApplicationController
     new_photo = params[:tracing_request].delete("photo")
     new_photo = (params[:tracing_request][:photo] || "") if new_photo.nil?
     new_audio = params[:tracing_request].delete("audio")
+    tracing_request.last_updated_by_full_name = current_user_full_name
     delete_tracing_request_audio = params["delete_tracing_request_audio"].present?
     tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"], new_audio, delete_tracing_request_audio, params[:tracing_request], params[:delete_tracing_request_document])
     tracing_request

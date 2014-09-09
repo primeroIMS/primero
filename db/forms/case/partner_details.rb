@@ -76,7 +76,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Family / Partner Details",
   "editable" => true,
   :fields => partner_details_fields,
-  :perm_enabled => true,
   "name_all" => "Partner/Spouse Details",
   "description_all" => "Partner/Spouse Details"
 })

@@ -136,7 +136,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Identification / Registration",
   "editable" => true,
   :fields => basic_identity_fields,
-  :perm_enabled => true,
   :is_first_tab => true,
   "name_all" => "Basic Identity",
   "description_all" => "Basic identity information about a separated or unaccompanied child."

@@ -1,7 +1,7 @@
 require 'writeexcel'
 
 module Exporters
-  class ExcelExporter
+  class ExcelExporter < BaseExporter
     class << self
       def id
         'xls'

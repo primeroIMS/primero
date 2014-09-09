@@ -13,7 +13,6 @@ FormSection.create_or_update_form_section({
   :order => 11,
   :order_subform_ => 0,
   :fields => other_documents_fields,
-  :perm_visible => true,
   "editable" => false,
   "name_all" => "Other Documents",
   "description_all" => "Other Documents",

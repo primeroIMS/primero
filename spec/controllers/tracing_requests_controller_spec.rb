@@ -251,8 +251,8 @@ describe TracingRequestsController do
     describe "permissions to view lists of tracing request records", search: true, skip_session: true do
 
       before do
-        User.all.each{|u| u.delete}
-        TracingRequest.all.each{|t| t.delete}
+        User.all.each{|u| u.destroy}
+        TracingRequest.all.each{|t| t.destroy}
         Sunspot.remove_all!
 
         roles = [Role.new(permissions: [Permission::TRACING_REQUESTS[:view_and_search]])]
@@ -517,7 +517,7 @@ describe TracingRequestsController do
 
       put :update, :id => 123, :tracing_request => {:flag => true, :flag_message => "Test"}
 
-      tracing_request['last_updated_by_full_name'].should=='Bill Clinton'
+      tracing_request.last_updated_by_full_name.should == 'Bill Clinton'
     end
 
     it "should not set photo if photo is not passed" do

@@ -27,10 +27,8 @@
     </li>
     <% end %>
 <% end %>
-<% if Exporters::ACTIVE_EXPORTERS.any?{|exporter| can?("export_#{exporter.id}".to_sym, incident)} %>
-    <li>
-        <div class="btn dropdown_btn btn_export">
-            <%= render 'export' %>
-        </div>
-    </li>
-<% end %>
+  <li>
+      <div class="btn dropdown_btn btn_export">
+          <%= render 'export' %>
+      </div>
+  </li>

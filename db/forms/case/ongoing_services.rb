@@ -74,8 +74,6 @@ ongoing_services_section = FormSection.create_or_update_form_section({
   :parent_form=>"case",
   "editable"=>true,
   :fields => ongoing_services_subform,
-  :perm_enabled => false,
-  :perm_visible => false,
   "name_all" => "Nested Ongoing Services",
   "description_all" => "Ongoing Services Subform",
   "collapsed_fields" => ["service_type", "service_appointment_date"]
@@ -99,7 +97,6 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Services / Follow Up",
   :fields => ongoing_services_fields,
-  :perm_visible => true,
   "editable" => false,
   "name_all" => "Ongoing Services",
   "description_all" => "Ongoing Services form",

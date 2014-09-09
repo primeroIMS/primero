@@ -154,13 +154,13 @@ FormSection.create_or_update_form_section({
   :unique_id=>"gbv_survivor_information",
   :parent_form=>"case",
   "visible" => true,
-  :order_form_group => 30,
+  :order_form_group => 40,
   :order => 60,
   :order_subform => 0,
   :form_group_name => "Identification / Registration",
   "editable" => true,
   :fields => survivor_information_fields,
-  :perm_enabled => true,
+  :is_first_tab => true,
   "name_all" => "Survivor Information",
   "description_all" => "Survivor Information"
 })

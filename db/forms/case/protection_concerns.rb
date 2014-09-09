@@ -73,7 +73,6 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Identification / Registration",
   :fields => protection_concern_fields,
-  :perm_visible => true,
   "editable" => true,
   "name_all" => "Protection Concerns",
   "description_all" => "Protection concerns"
