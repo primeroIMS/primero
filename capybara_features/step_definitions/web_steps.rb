@@ -107,7 +107,7 @@ When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field,
   elsif value.start_with?("<Radio>")
     step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{field}" radio button}
   elsif value.start_with?("<Tickbox>")
-    label = find "//label[text()=\"#{field}\""
+    label = find "//label[text()=\"#{field}\"]"
     checkbox_id = label["for"]
     check("#{checkbox_id}")
   elsif value.start_with?("<Checkbox>")
