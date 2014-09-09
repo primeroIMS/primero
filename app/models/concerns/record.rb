@@ -18,6 +18,7 @@ module Record
     property :created_organisation
     property :created_by
     property :created_at
+    property :last_updated_by_full_name
     property :duplicate, TrueClass
 
     class_attribute(:form_properties_by_name)
@@ -107,7 +108,7 @@ module Record
       record['record_state'] = "Valid record" if record['record_state'].blank?
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
-      record['owned_by'] = user.user_name if record['owned_by'].blank?
+      record.owned_by = user.user_name if record.owned_by.blank?
       record
     end
 
@@ -163,8 +164,8 @@ module Record
     def create_form_properties
       form_sections = FormSection.find_by_parent_form(parent_form)
 
-      if !form_sections.length
-        raise "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
+      if form_sections.length == 0
+        Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
       properties_hash_from_forms(form_sections).each do |name,options|
@@ -312,7 +313,6 @@ module Record
   end
 
   def update_with_attachments(params, user)
-    self['last_updated_by_full_name'] = user.full_name
     new_photo = params[:child].delete("photo")
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
     new_audio = params[:child].delete("audio")

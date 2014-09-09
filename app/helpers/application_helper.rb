@@ -63,10 +63,10 @@ module ApplicationHelper
     end
   end
 
-  def ctl_edit_button(record)
-    record = record.singularize if record.instance_of? String
+  def ctl_edit_button(record, path=nil)
+    path = path.singularize if path.instance_of? String
     ctl_button_wrapper do 
-      link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
+      link_to t("buttons.edit"), edit_polymorphic_path(path || record, { follow: true, id: record.id }),
           class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
     end
   end
@@ -97,15 +97,13 @@ module ApplicationHelper
     end
   end
 
-  def render_controls(record, path = nil)
-    path = path ||= record
-
+  def render_controls(record, path=nil)
     if record.new?
-      ctl_cancel_button(path) + ctl_save_button
+      ctl_cancel_button(path || record) + ctl_save_button
     elsif current_actions(action: ['update', 'edit'])
-      ctl_edit_button(path) + ctl_cancel_button(path) + ctl_save_button + ctl_create_incident_button(record)
+      ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button + ctl_create_incident_button(record)
     else
-      ctl_edit_button(path)
+      ctl_edit_button(record, path)
     end
   end
 end
