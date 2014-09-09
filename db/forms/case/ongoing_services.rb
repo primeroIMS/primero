@@ -74,6 +74,7 @@ ongoing_services_section = FormSection.create_or_update_form_section({
   :parent_form=>"case",
   "editable"=>true,
   :fields => ongoing_services_subform,
+  :initial_subforms => 1,
   "name_all" => "Nested Ongoing Services",
   "description_all" => "Ongoing Services Subform",
   "collapsed_fields" => ["service_type", "service_appointment_date"]

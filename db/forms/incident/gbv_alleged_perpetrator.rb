@@ -78,6 +78,7 @@ alleged_perpetrator_subform_section = FormSection.create_or_update_form_section(
   :parent_form=>"incident",
   "editable" => true,
   :fields => alleged_perpetrator_subform_fields,
+  :initial_subforms => 1,
   "name_all" => "Nested Alleged Perpetrator Subform",
   "description_all" => "Nested Alleged Perpetrator Subform"
 })

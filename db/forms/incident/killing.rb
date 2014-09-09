@@ -34,7 +34,7 @@ killing_subform_fields = [
                                      "Cruel and Inhumane Treatment",
                                      "Summary and Arbitrary Execution/ Extra Judicial Killing"].join("\n")
             }),
-Field.new({"name" => "kill_cause_of_details",
+  Field.new({"name" => "kill_cause_of_details",
              "type" => "text_field",
              "display_name_all" => "Details"
             }),
