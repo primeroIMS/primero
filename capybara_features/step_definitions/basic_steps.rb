@@ -254,9 +254,9 @@ Then /^I should see header in the (\d+)(?:st|nd|rd|th) "(.*)" subform within "(.
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   scope = "//div[@id='subform_container_#{subform}_#{num}']" +
-          "//div[@class='row collapse_expand_subform_header']" +
+          "//div[contains(@class, 'collapse_expand_subform_header')]" +
           "//div[contains(@class, 'display_field')]"
-  find(scope + "//span[text()=\"#{value}\"]")
+  find(scope + "//span[contains(text(), '#{value}')]")
 end
 
 And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
