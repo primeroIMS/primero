@@ -1,10 +1,4 @@
 gbv_data_confidentiality_fields = [
-  Field.new({"name" => "gbv_consent_name",
-             "type" => "text_field",
-             "display_name_all" => "Name",
-             "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
-             "hidden_text_field" => true
-            }),
   Field.new({"name" => "consent_release_separator",
              "type" => "separator",
              "display_name_all" => "Consent to Release Information by Referral Type",
@@ -87,7 +81,7 @@ FormSection.create_or_update_form_section({
   :unique_id=>"gbv_data_confidentiality",
   :parent_form=>"case",
   "visible" => true,
-  :order_form_group => 40,
+  :order_form_group => 30,
   :order => 10,
   :order_subform => 0,
   :form_group_name => "GBV Data Confidentiality",

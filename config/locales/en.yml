@@ -159,6 +159,7 @@ en:
     flag_record: "Flag Record"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
+    flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
@@ -237,6 +238,7 @@ en:
     flag_record: "Flag Record"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
+    flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
@@ -323,10 +325,12 @@ en:
     flag_record: "Flag Record"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
+    flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
+    flagged_as_suspected: "Flagged by"
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
     duplicate_header: "Marking %{child_name} as Duplicate"
     flag_error_message: "Please explain why you are flagging this record."
@@ -363,6 +367,16 @@ en:
     last_updated: "Last updated"
     registered_by: "Registered by"
     edit_photo: "Edit photo"
+    flag_record: "Flag Record"
+    flag_label: "Flag"
+    flag_reason: "Flag Reason"
+    flag_reason_date: "Date (optional)"
+    unflag_record: "Unflag Record"
+    unflag_reason: "Unflag Reason"
+    unflag_label: "Unflag"
+    unflag_error_message: "Please explain why you are unflagging this record."
+    flag_error_message: "Please explain why you are flagging this record."
+    flagged_as_suspected: "Flagged by"
 
     actions:
       change_log: "Change Log"
@@ -383,6 +397,7 @@ en:
 
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
+    export: "Exports"
 
   preposition:
     on_label: "on"
@@ -653,7 +668,7 @@ en:
     successfully_added: "Field successfully added"
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
-    add: "New Field"
+    add: "Add"
     type: "Field type"
     move_to: "Move to"
     select_box_empty_item: "(Select...)"

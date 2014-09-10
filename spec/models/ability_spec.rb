@@ -93,7 +93,7 @@ describe Ability do
       it { should authorize :create, Child }
       it { should_not authorize :read, Child.new }
       it { should_not authorize :update, Child.new }
-      it { should authorize :read, Child.new(:created_by => 'test') }
+      it { should authorize :read, Child.new(:owned_by => 'test') }
     end
 
     describe '#edit child' do
@@ -104,64 +104,8 @@ describe Ability do
       it { should authorize :index, Child }
       it { should_not authorize :read, Child.new }
       it { should_not authorize :update, Child.new }
-      it { should authorize :read, Child.new(:created_by => 'test') }
-      it { should authorize :update, Child.new(:created_by => 'test') }
-    end
-
-    describe "export children to photowall" do
-      let(:permissions) { [Permission::CHILDREN[:export_photowall]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_photowall, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_pdf, Child.new }
-      it { should_not authorize :export_cpims, Child.new }
-      it { should_not authorize :export_csv, Child.new }
-    end
-
-    describe "export children to csv" do
-      let(:permissions) { [Permission::CHILDREN[:export_csv]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_csv, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_pdf, Child.new }
-      it { should_not authorize :export_cpims, Child.new }
-      it { should_not authorize :export_photowall, Child.new }
-    end
-
-    describe "export children to pdf" do
-      let(:permissions) { [Permission::CHILDREN[:export_pdf]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_pdf, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_cpims, Child.new }
-      it { should_not authorize :export_csv, Child.new }
-      it { should_not authorize :export_photowall, Child.new }
-    end
-
-    describe "export children to cpims" do
-      let(:permissions) { [Permission::CHILDREN[:export_cpims]] }
-
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
-
-      it { should authorize :export_cpims, Child }
-      it { should_not authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should_not authorize :export_pdf, Child.new }
-      it { should_not authorize :export_csv, Child.new }
-      it { should_not authorize :export_photowall, Child.new }
+      it { should authorize :read, Child.new(:owned_by => 'test') }
+      it { should authorize :update, Child.new(:owned_by => 'test') }
     end
 
     describe "view and search child records" do
@@ -170,6 +114,7 @@ describe Ability do
       it { should authorize :index, Child.new }
       it { should authorize :read, Child.new }
       it { should authorize :view_all, Child }
+      it { should authorize :export, Child }
     end
   end
 

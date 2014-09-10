@@ -188,8 +188,8 @@ describe IncidentsController do
     describe "permissions to view lists of incident records", search: true, skip_session: true do
 
       before do
-        User.all.each{|u| u.delete}
-        Incident.all.each{|c| c.delete}
+        User.all.each{|u| u.destroy}
+        Incident.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
         roles = [Role.new(permissions: [Permission::INCIDENTS[:view_and_search]])]

@@ -150,6 +150,7 @@ family_details_section = FormSection.create_or_update_form_section({
     :parent_form=>"case",
     "editable"=>true,
     :fields => family_details_fields_subform,
+    :initial_subforms => 1,
     "name_all" => "Nested Family Details",
     "description_all" => "Family Details Subform",
     "collapsed_fields" => ["relation", "relation_name"]

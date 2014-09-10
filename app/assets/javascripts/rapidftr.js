@@ -122,13 +122,20 @@ RapidFTR.showDropdown = function(){
     });
 
     $('html').click(function(event){
+        //Inspect if the click event was triggered or not
+        //by a datepicker widget, we don't want to close
+        //the flag form in this case.
+        var el = $(event.target),
+            parent = el.parents("div.ui-datepicker");
+        if (parent.length == 0) {
 
-        $(".dropdown").children().each(function() {
-            if ($(this).is('form')) {
-                $(this).remove();
-            }
-        });
-        $(".dropdown").hide();
+            $(".dropdown").children().each(function() {
+                if ($(this).is('form')) {
+                    $(this).remove();
+                }
+            });
+            $(".dropdown").hide();
+        }
     });
 };
 
@@ -139,7 +146,7 @@ RapidFTR.Utils = {
 
     enableFormErrorChecking: function() {
         $('.dropdown').delegate(".mark-as-submit", 'click', function(){
-            if(!$(this).siblings('input[type=text]').val()){
+            if($(this).parents("form").find("input.flag_message").val()==""){
                 alert($(this).attr('data-error-message'));
                 return false;
             }
@@ -154,31 +161,35 @@ RapidFTR.Utils = {
     },
 
     generateForm: function(selector) {
+        var model = selector.data('model');
         var form_action = selector.data('form_action');
         var form_id = selector.data('form_id');
         var authenticity_token =  selector.data('authenticity_token');
         var message_id = selector.data('message_id');
         var message = selector.data('message');
+        var message_date = selector.data('message_date');
         var property = selector.data('property');
         var property_value = selector.data('property_value');
         var redirect_url = selector.data('request_url');
         var submit_label = selector.data('submit_label');
         var submit_error_message = selector.data('submit_error_message');
 
-        return "<form accept-charset=\"UTF-8\" action=\""+ form_action +"\" class=\"edit_child\" " +
+        return "<form accept-charset=\"UTF-8\" action=\""+ form_action +"\" class=\"edit_" + model + "\" " +
             "id=\""+ form_id +"\" method=\"post\">" +
             "<div style=\"margin:0;padding:0;display:inline\">" +
             "<input name=\"utf8\" type=\"hidden\" value=\"✓\">" +
             "<input name=\"_method\" type=\"hidden\" value=\"put\">" +
-            "<input name=\"authenticity_token\" type=\"hidden\" value=\""+ authenticity_token +"\"></div>" +
+            "<input name=\"authenticity_token\" type=\"hidden\" value=\""+ authenticity_token +"\">"+
+            "<input id=\"" + model + "_"+ property +"\" name=\"" + model + "["+ property +"]\" type=\"hidden\" value=\""+ property_value +"\">" +
+            "<input id=\"" + model + "_redirect_url\" name=\"redirect_url\" type=\"hidden\" value=\""+ redirect_url +"\"></div>" +
 
             "<div class=\"mark-as-form\">" +
-            "<h3><label for=\"child_"+ message_id +"\">"+ message +"</label></h3>" +
-            "<input id=\"child_"+ message_id +"\" name=\"child["+ message_id +"]\" size=\"30\" type=\"text\" value=\"\">" +
-            "<input id=\"child_"+ property +"\" name=\"child["+ property +"]\" type=\"hidden\" value=\""+ property_value +"\">" +
-            "<input id=\"child_redirect_url\" name=\"redirect_url\" type=\"hidden\" value=\""+ redirect_url +"\">" +
-            "<input class=\"mark-as-submit\" data-error-message=\""+ submit_error_message +"\" id=\"child_submit\"" +
-            " name=\"commit\" type=\"submit\" value=\""+ submit_label +"\">" +
+            "<div class=\"field\"><h3><label for=\"" + model + "_"+ message_id +"\">"+ message +"</label></h3>" +
+            "<input id=\"" + model + "_"+ message_id +"\" name=\"" + model + "["+ message_id +"]\" size=\"30\" type=\"text\" value=\"\" class=\"flag_message\"></div>" +
+            (property_value && message_date != null ? "<div class=\"field\"><h3><label for=\"" + model + "_"+ property +"_date\">"+ message_date +"</label></h3>" : "") +
+            (property_value && message_date != null ? "<input id=\"" + model + "_"+ property +"_date\" name=\"" + model + "["+ property +"_date]\" size=\"12\" type=\"text\" class=\"form_date_field\"></div>" : "") +
+            "<div class=\"field\"><input class=\"mark-as-submit\" data-error-message=\""+ submit_error_message +"\" id=\"" + model + "_submit\"" +
+            " name=\"commit\" type=\"submit\" value=\""+ submit_label +"\"></div>" +
             "</div></form>"
     }
 };

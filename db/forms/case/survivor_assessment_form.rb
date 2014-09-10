@@ -2,7 +2,7 @@ survivor_assessment_fields = [
   Field.new({"name" => "assessment_emotional_state_start",
              "type" => "textarea",
              "display_name_all" => "Survivor Context",
-             "guiding_question" => "
+             "guiding_questions" => "
                 Her family situation:  Does she have a husband (if the husband is not the perpetrator, does he know about what happened to her)? Does she have children? Does the survivor have other relatives that are present in her life?
 
                 Her current living situation.  Does the survivor have a place to live? Where? Who lives in the house with her? 

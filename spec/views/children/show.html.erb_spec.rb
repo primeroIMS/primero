@@ -25,6 +25,7 @@ describe "children/show.html.erb" do
       @child.stub(:has_one_interviewer?).and_return(true)
       @child.stub(:short_id).and_return('2341234')
 
+      controller.stub(:child, @child)
       assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
       assign(:child, @child)
       assign(:current_user, User.new)

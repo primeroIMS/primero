@@ -4,8 +4,8 @@ require 'models/exporters/base'
 module Exporters
   describe Exporters do
     before :each do
-      @model_class = Child.dup
-      @model_class.class_eval do
+      @model_class = Class.new(CouchRest::Model::Base) do
+        property :name, String
         property :survivor_code, String
         property :date_last_seen, Date
         property :family_members, [Class.new do
@@ -24,9 +24,11 @@ module Exporters
 
     describe "to_2D_array" do
       it "converts simple models to 2D array" do
-        child = build(:child, :name => 'John Doe')
+        child = @model_class.new
+        child.name = 'John Doe'
+
         arr = []
-        Exporters.to_2D_array([ child ], Child.properties) do |row|
+        Exporters.to_2D_array([ child ], @model_class.properties) do |row|
           arr << row
         end
 
@@ -61,14 +63,15 @@ module Exporters
         hash.should == {'family_members' => [
           {'name' => 'John', 'relationship' => 'father'},
           {'name' => 'Mary', 'relationship' => 'mother'},
-        ]}
+        ],
+        'model_type' => @model_class.name}
       end
 
       it "should exclude unlisted properties" do
         hash = Exporters.convert_model_to_hash(@instance,
                                                [@model_class.properties_by_name['survivor_code']])
 
-        hash.keys.should == ['survivor_code']
+        hash.keys.should == ['survivor_code', 'model_type']
       end
     end
   end

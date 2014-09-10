@@ -140,6 +140,7 @@ verification_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"case",
   "editable" => true,
   :fields => verification_subform_fields,
+  :initial_subforms => 1,
   "name_all" => "Nested Verification Subform",
   "description_all" => "Nested Verification Subform",
   "collapsed_fields" => ["verification_inquirer_relationship", "verification_name_inquirer"]

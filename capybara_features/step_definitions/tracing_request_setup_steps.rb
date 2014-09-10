@@ -1,0 +1,36 @@
+def create_user(user_name)
+  User.create!("user_name" => user_name,
+               "password" => "rapidftr",
+               "password_confirmation" => "rapidftr",
+               "full_name" => user_name,
+               "organisation" => "UNICEF",
+               "disabled" => "false",
+               "email" => "rapidftr@rapidftr.com",
+               "role_ids" => ["ADMIN"])
+end
+
+Given /^the following tracing request exist in the system:$/ do |tracing_request_table|
+  tracing_request_table.hashes.each do |tracing_request_hash|
+    user_name = tracing_request_hash['created_by']
+    if User.find_by_user_name(user_name).nil?
+      create_user(user_name)
+    end
+
+    User.find_by_user_name(user_name).
+        update_attributes({:organisation => tracing_request_hash['created_organisation']}) if tracing_request_hash['created_organisation']
+
+    tracing_request_hash['flag_at'] = tracing_request_hash['flagged_at'] || DateTime.new(2001, 2, 3, 4, 5, 6)
+    flag, flag_message = tracing_request_hash.delete('flag') == 'true', tracing_request_hash.delete('flag_message')
+    tracing_request = TracingRequest.new_with_user_name(User.find_by_user_name(user_name), tracing_request_hash)
+    tracing_request['histories'] ||= []
+    tracing_request['histories'] << {'datetime' => tracing_request['flag_at'], 'changes' => {'flag' => 'anything'}}
+
+    tracing_request.create!
+    # Need this because of how children_helper grabs flag_message from child history - cg
+    if flag
+      tracing_request['flag'] = flag
+      tracing_request['flag_message'] = flag_message
+      tracing_request.save!
+    end
+  end
+end

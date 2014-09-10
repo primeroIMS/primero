@@ -26,9 +26,19 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
     User.find_by_user_name(user_name).
         update_attributes({:organisation => incident_hash['created_organisation']}) if incident_hash['created_organisation']
 
+    incident_hash['flag_at'] = incident_hash['flagged_at'] || DateTime.new(2001, 2, 3, 4, 5, 6)
+    flag, flag_message = incident_hash.delete('flag') == 'true', incident_hash.delete('flag_message')
     incident = Incident.new_with_user_name(User.find_by_user_name(user_name), incident_hash)
+    incident['histories'] ||= []
+    incident['histories'] << {'datetime' => incident['flag_at'], 'changes' => {'flag' => 'anything'}}
 
     incident.create!
+    # Need this because of how children_helper grabs flag_message from child history - cg
+    if flag
+      incident['flag'] = flag
+      incident['flag_message'] = flag_message
+      incident.save!
+    end
   end
 end
 

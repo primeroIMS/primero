@@ -76,7 +76,7 @@ FormSection.create_or_update_form_section({
   :unique_id=>"gbv_case_closure_form",
   :parent_form=>"case",
   "visible" => true,
-  :order_form_group => 0,
+  :order_form_group => 120,
   :order => 80,
   :order_subform => 0,
   :form_group_name => "Case Closure",
