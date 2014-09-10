@@ -87,6 +87,7 @@ FactoryGirl.define do
     verified true
     role_ids ['random_role_id']
     module_ids ['CP']
+    user_groups ["Test"]
   end
 
   factory :role, :traits => [ :model ] do
