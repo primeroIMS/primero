@@ -1,4 +1,6 @@
 class ChildrenController < ApplicationController
+  @model_class = Child
+
   include RecordFilteringPagination
   
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
@@ -29,7 +31,7 @@ class ChildrenController < ApplicationController
       format.xml { render :xml => @children }
       unless params[:format].nil?
         if @children.empty?
-          flash[:notice] = t('child.export_error')
+          flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
         end
       end
@@ -300,10 +302,6 @@ class ChildrenController < ApplicationController
     delete_child_audio = params["delete_child_audio"].present?
     child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
     child
-  end
-
-  def set_class_name
-    @className = Child
   end
 
   def export_filename(models, exporter)

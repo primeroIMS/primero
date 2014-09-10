@@ -10,6 +10,7 @@ describe "children/show.html.erb" do
       @user = double('user', :has_permission? => true, :user_name => 'name', :id => 'test-user-id')
       @user.stub(:localize_date)
       controller.stub(:current_user).and_return(@user)
+      controller.stub(:model_class).and_return(Child)
       view.stub(:current_user).and_return(@user)
       view.stub(:logged_in?).and_return(true)
       view.stub(:current_user_name).and_return('name')

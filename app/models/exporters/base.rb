@@ -3,72 +3,99 @@ module Exporters
   private
 
   class BaseExporter
-    def self.id
-      raise NotImplementedError
-    end
+    class << self
+      extend Memoist
 
-    def self.supported_models
-      CouchRest::Model::Base.descendants
-    end
+      public 
 
-    def self.mime_type
-      self.id
-    end
-  end
-
-  # @param properties: array of CouchRest Model Property instances
-  # TODO: Rework to be more recursive to handle violations
-  def self.to_2D_array(models, properties)
-    longest_nested_arrays = find_longest_nested_arrays(models, properties)
-
-    header_columns = ['model_type'] + properties.map do |p|
-      if longest_nested_arrays.include? p
-        if p.type.include?(CouchRest::Model::Embeddable) && longest_nested_arrays[p] > 0
-          (1..longest_nested_arrays[p]).map do |n|
-            p.type.properties.map {|subp| "#{p.name}[#{n}]#{subp.name}"}
-          end.flatten
-        else
-          []
-        end
-      else
-        p.name
+      def id
+        raise NotImplementedError
       end
-    end.flatten
 
-    yield header_columns
+      def supported_models
+        CouchRest::Model::Base.descendants
+      end
 
-    models.each do |m|
-      row = [m.class.name] + properties.map do |p|
-        if !p.type.nil? && p.type.include?(CouchRest::Model::Embeddable) && m[p.name].length > 0
-          m.send(p.name.to_sym).map do |elm|
-            p.type.properties.map do |subp|
-              elm.send(subp.name.to_sym)
+      def mime_type
+        id
+      end
+
+      # @param properties: array of CouchRest Model Property instances
+      def to_2D_array(models, properties)
+        emit_columns = lambda do |props, parent_props=[], &column_generator|
+          props.map do |p|
+            prop_tree = parent_props + [p]
+            if p.array
+              longest_array = find_longest_array(models, prop_tree)
+              (1..(longest_array || 0)).map do |n|
+                new_prop_tree = prop_tree.clone + [n]
+                if p.type.include?(CouchRest::Model::Embeddable)
+                  emit_columns.call(p.type.properties, new_prop_tree, &column_generator)
+                else
+                  column_generator.call(new_prop_tree)
+                end
+              end.flatten
+            else
+              if !p.type.nil? && p.type.include?(CouchRest::Model::Embeddable)
+                emit_columns.call(p.type.properties, prop_tree, &column_generator)
+              else
+                column_generator.call(prop_tree)
+              end
             end
           end.flatten
-        else
-          m.send(p.name.to_sym)
         end
-      end.flatten
 
-      yield row
-    end
-  end
+        header_columns = ['model_type'] + emit_columns.call(properties) do |prop_tree|
+          pt = prop_tree.clone
+          init = pt.shift.name
+          pt.inject(init) do |acc, prop|
+            if prop.is_a?(Numeric)
+              "#{acc}[#{prop}]"
+            else
+              "#{acc}#{prop.name}"
+            end
+          end
+        end
 
-  def self.find_longest_nested_arrays(models, properties)
-    properties.select {|p| p.array}.inject({}) do |acc, p|
-      if p.array
-        acc.update({p => models.map {|m| m.send(p.name.to_sym).length}.max})
+        yield header_columns
+
+        models.each do |m|
+          row = [m.class.name] + emit_columns.call(properties) do |prop_tree|
+            get_value_from_prop_tree(m, prop_tree)
+          end
+
+          yield row
+        end
       end
-    end
-  end
 
-  def self.convert_model_to_hash(model, properties)
-    prop_names = properties.map {|p| p.name}
-    JSON.parse(model.to_json).select do |k,v|
-      prop_names.include? k
-    end.tap do |h|
-      h['model_type'] = model.class.name
-      h
+      def find_longest_array(models, prop_tree)
+        models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
+      end
+      memoize :find_longest_array
+
+      def get_value_from_prop_tree(model, prop_tree)
+        prop_tree.inject(model) do |acc, prop|
+          if acc.nil?
+            nil
+          elsif prop.is_a?(Numeric)
+            # We use 1-based numbering in the output but arrays in Ruby are
+            # still 0-based
+            acc[prop - 1]
+          else
+            acc.send(prop.name.to_sym)
+          end
+        end
+      end
+
+      def convert_model_to_hash(model, properties)
+        prop_names = properties.map {|p| p.name}
+        JSON.parse(model.to_json).select do |k,v|
+          prop_names.include? k
+        end.tap do |h|
+          h['model_type'] = model.class.name
+          h
+        end
+      end
     end
   end
 end

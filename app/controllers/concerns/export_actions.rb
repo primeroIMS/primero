@@ -1,10 +1,14 @@
 module ExportActions
   extend ActiveSupport::Concern
 
+  def exported_properties
+    self.model_class.properties
+  end
+
   def respond_to_export(format, models)
-    Exporters::active_exporters_for_model(@className).each do |exporter|
+    Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
-        authorize! :export, @className
+        authorize! :export, model_class
         LogEntry.create! :type => LogEntry::TYPE[exporter.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => models.collect(&:id)
 
         unless self.respond_to?(:exported_properties)
@@ -18,6 +22,6 @@ module ExportActions
   end
 
   def export_filename(models, exporter)
-    "#{current_user.user_name}.#{exporter.mime_type}"
+    "#{current_user.user_name}-#{model_class.name.underscore}.#{exporter.mime_type}"
   end
 end
