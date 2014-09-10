@@ -3,6 +3,7 @@ class TracingRequestsController < ApplicationController
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update]
+  #TODO: Dp we need to filter_params_array_duplicates?
 
   include RecordActions
 
@@ -12,7 +13,7 @@ class TracingRequestsController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
 
-    associated_users
+    @associated_users = current_user.managed_user_names
     search = TracingRequest.list_records filter, order, pagination, users_filter
     @tracing_requests = search.results
     @total_records = search.total

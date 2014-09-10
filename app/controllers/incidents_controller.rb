@@ -2,6 +2,8 @@ class IncidentsController < ApplicationController
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
+  #TODO: Do we need to sanitize params?
+  #TODO: Dp we need to filter_params_array_duplicates?
 
   include RecordActions
 
@@ -11,7 +13,8 @@ class IncidentsController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
 
-    search = Incident.list_records filter, order, pagination, associated_users
+    @associated_users = current_user.managed_user_names
+    search = Incident.list_records filter, order, pagination, users_filter
     @incidents = search.results
     @total_records = search.total
     @per_page = per_page
