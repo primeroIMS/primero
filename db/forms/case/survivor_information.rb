@@ -14,7 +14,7 @@ survivor_information_fields = [
              "display_name_all" => "Case Status",
              "option_strings_text_all" => 
                           ["Open",
-                           "Closed ",
+                           "Closed",
                            "Transferred",
                            "Duplicate"].join("\n")
             }),
