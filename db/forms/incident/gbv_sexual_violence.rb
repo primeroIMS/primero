@@ -33,6 +33,7 @@ gbv_reported_elsewhere_subform = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => gbv_reported_elsewhere_subform_fields,
+  :initial_subforms => 1,
   "name_all" => "GBV Reported Elsewhere Subform",
   "description_all" => "GBV Reported Elsewhere Subform",
   "collapsed_fields" => ["gbv_reported_elsewhere_organization_provider"]

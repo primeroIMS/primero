@@ -370,6 +370,12 @@ And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record,
   end
 end
 
+And /^the record for "(.*)" should not display a "(.*)" icon beside it$/ do |record, icon|
+  within(:xpath, "//tr[contains(.,'#{record}')]") do
+    should_not have_selector(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
+  end
+end
+
 And /^I visit cases page "([^\"]*)"$/ do|page_number|
     page.find("//a[contains(@class, 'paginate_button')][contains(text(), '#{page_number}')]").click
 end
