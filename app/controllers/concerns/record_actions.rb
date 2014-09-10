@@ -9,7 +9,6 @@ module RecordActions
     skip_before_filter :verify_authenticity_token
     skip_before_filter :check_authentication, :only => [:reindex]
 
-    before_filter :set_class_name
     before_filter :current_user, :except => [:reindex]
     before_filter :get_form_sections, :only => [:show, :edit]
     before_filter :get_lookups, :only => [:new, :edit]
@@ -17,7 +16,7 @@ module RecordActions
   end
 
   def reindex
-    @className.reindex!
+    model_class.reindex!
     render :nothing => true
   end
 
@@ -56,28 +55,28 @@ module RecordActions
   end
 
   def exported_properties
-    @className.properties
+    model_class.properties
   end
 
   #Gets the record which is the objects of the implementing controller.
   #Note that the controller needs to load this record before this concern method is invoked.
   def get_record
-    @record ||= eval("@#{@className.name.underscore}")
+    @record ||= eval("@#{self.model_class.name.underscore}")
   end
 
   def current_modules
-    record_type = @className.parent_form
+    record_type = model_class.parent_form
     @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
   end
 
   def create_new_model(attributes={})
-    @className.new_with_user_name(current_user, attributes)
+    model_class.new_with_user_name(current_user, attributes)
   end
 
   # Attributes is just a hash
   def get_unique_instance(attributes)
     if attributes.include? 'unique_identifier'
-      @className.by_unique_identifier(:key => attributes['unique_identifier']).first
+      model_class.by_unique_identifier(:key => attributes['unique_identifier']).first
     else
       raise TypeError("attributes must include unique_identifier for Records")
     end

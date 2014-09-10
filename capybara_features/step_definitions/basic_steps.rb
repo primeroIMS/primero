@@ -16,6 +16,7 @@ end
 
 Then /^I press the "([^\"]*)" (button|link)(?: "(.+)" times)?$/ do |label, type, times|
   times = 1 if times.blank?
+  page.execute_script("$('body').css('text-transform','none !important')");
   (1..times.to_i).each do
     click_on(label, :visible => true)
   end
@@ -114,8 +115,7 @@ end
 #Step to match field/value in show view.
 And /^I should see values on the page for the following:$/ do |fields|
   #Iterate over the fields.
-  fields.rows_hash.each do |name, value|
-    content = value
+  fields.rows_hash.each do |name, content|
     if content.start_with?('Calculated date')
       content = content.gsub("Calculated date", "").gsub("years ago", "").strip
       content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
@@ -253,9 +253,9 @@ Then /^I should see header in the (\d+)(?:st|nd|rd|th) "(.*)" subform within "(.
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   scope = "//div[@id='subform_container_#{subform}_#{num}']" +
-          "//div[@class='row collapse_expand_subform_header']" +
+          "//div[contains(@class, 'collapse_expand_subform_header')]" +
           "//div[contains(@class, 'display_field')]"
-  find(scope + "//span[text()=\"#{value}\"]")
+  find(scope + "//span[contains(text(), '#{value}')]")
 end
 
 And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state, num, subform|
@@ -366,6 +366,12 @@ end
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
   within(:xpath, "//tr[contains(.,'#{record}')]") do
     find(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
+  end
+end
+
+And /^the record for "(.*)" should not display a "(.*)" icon beside it$/ do |record, icon|
+  within(:xpath, "//tr[contains(.,'#{record}')]") do
+    should_not have_selector(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
   end
 end
 

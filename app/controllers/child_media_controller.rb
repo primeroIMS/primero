@@ -1,11 +1,9 @@
 class ChildMediaController < ApplicationController
+  @model_class = Child
+
   include MediaActions
 
   helper :children
 
   private
-
-  def set_class_name
-    @className = Child
-  end
 end

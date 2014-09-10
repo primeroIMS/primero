@@ -1,4 +1,6 @@
 class ChildrenController < ApplicationController
+  @model_class = Child
+
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
@@ -15,7 +17,7 @@ class ChildrenController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
-    search = Child.list_records filter, order, pagination, users_filter
+    search = Child.list_records case_filter(filter), order, pagination, users_filter
     @children = search.results
     @total_records = search.total
     @per_page = per_page
@@ -29,7 +31,7 @@ class ChildrenController < ApplicationController
       format.xml { render :xml => @children }
       unless params[:format].nil?
         if @children.empty?
-          flash[:notice] = t('child.export_error')
+          flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
         end
       end
@@ -193,6 +195,12 @@ class ChildrenController < ApplicationController
     redirect_to(@child)
   end
 
+  #TODO: We need to define the filter values as Constants
+  def case_filter(filter)
+    filter["child_status"] ||= "open"
+    filter
+  end
+
 # POST
   def select_primary_photo
     @child = Child.get(params[:child_id])
@@ -300,10 +308,6 @@ class ChildrenController < ApplicationController
     delete_child_audio = params["delete_child_audio"].present?
     child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
     child
-  end
-
-  def set_class_name
-    @className = Child
   end
 
   def export_filename(models, exporter)

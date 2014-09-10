@@ -54,6 +54,7 @@ child_preferences_section = FormSection.create_or_update_form_section({
     :parent_form=>"case",
     "editable"=>true,
     :fields => child_preferences_fields_subform,
+    :initial_subforms => 1,
     "name_all" => "Nested Child's Preferences",
     "description_all" => "Child's Preferences Subform",
   "collapsed_fields" => ["wishes_preference_relocated", "wishes_name"]

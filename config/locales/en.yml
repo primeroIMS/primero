@@ -250,7 +250,6 @@ en:
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
-    export_error: "No Records Available!"
     # TODO: Possibly use another method to label the list view columns
     id: "ID#"
     name: "Name"
@@ -274,9 +273,6 @@ en:
     actions:
       mark_as_investigated: "Mark as Investigated"
       mark_as_reunited: "Mark as Reunited"
-      export_to_photo_wall: "Export to Photo Wall"
-      export_to_pdf: "Export to PDF"
-      export_to_csv: "Export to CSV"
       change_log: "Change Log"
       mark_as_not_investigated: "Mark as Not Investigated"
       reunited: "Mark as Reunited"
@@ -342,7 +338,6 @@ en:
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
-    export_error: "No Records Available!"
 
     messages:
       update_success: "Incident was successfully updated."
@@ -372,7 +367,6 @@ en:
     last_updated: "Last updated"
     registered_by: "Registered by"
     edit_photo: "Edit photo"
-    export_error: "No Records Available!"
     flag_record: "Flag Record"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
@@ -883,29 +877,33 @@ en:
       child_status_changed: "Child status changed to active by"
       with_details: "with these details:"
 
-  addons:
-    export_task:
-      pdf:
-        all: Export All to PDF
-        one: Export to PDF
-        selected: Export Selected to PDF
-      photowall:
-        all: Export All to Photo Wall
-        one: Export to Photo Wall
-        selected: Export Selected to Photo Wall
-      csv:
-        all: Export All to CSV
-        one: Export to CSV
-        selected: Export Selected to CSV
-      xls:
-        all: Export All to Excel
-        one: Export to Excel
-        selected: Export Selected to Excel
-      json:
-        all: Export All to JSON
-        one: Export to JSON
-        selected: Export Selected to JSON
+  exports:
+    no_records: "No Records Available!"
+    pdf:
+      all: Export All to PDF
+      one: Export to PDF
+      selected: Export Selected to PDF
+    photowall:
+      all: Export All to Photo Wall
+      one: Export to Photo Wall
+      selected: Export Selected to Photo Wall
+    csv:
+      all: Export All to CSV
+      one: Export to CSV
+      selected: Export Selected to CSV
+    xls:
+      all: Export All to Excel
+      one: Export to Excel
+      selected: Export Selected to Excel
+    json:
+      all: Export All to JSON
+      one: Export to JSON
+      selected: Export Selected to JSON
+  imports:
+    successful: "File was imported successfully"
+    error: "Import had the following error: %{error}"
+    file_missing: "You must select a file to import"
+    unknown_type: "Import filetype unknown or invalid"
 
   per_page_translation: "Per page _MENU_"
-  import_successful: "File was imported successfully"
   total: Total

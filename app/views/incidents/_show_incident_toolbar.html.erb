@@ -28,7 +28,5 @@
     </li>
 <% end %>
   <li>
-      <div class="btn dropdown_btn btn_export">
-          <%= render 'export' %>
-      </div>
+    <%= render partial: 'exports/button', locals: {model: Incident, instance: @incident} %>
   </li>

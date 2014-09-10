@@ -19,6 +19,7 @@ action_plan_subform_section = FormSection.create_or_update_form_section({
     :parent_form=>"case",
     "editable"=>true,
     :fields => action_plan_subform_fields,
+    :initial_subforms => 1,
     "name_all" => "Nested Action Plan",
     "description_all" => "Action Plan Subform"
 })

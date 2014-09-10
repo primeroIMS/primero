@@ -5,17 +5,17 @@ include UploadableFiles
 uploadable_large_photo
 uploadable_large_audio
 
-Before do
-  Child.stub :index_record => true, :reindex! => true, :build_solar_schema => true
-  Sunspot.stub :index => true, :index! => true
-end
+# Before do
+#   Child.stub :index_record => true, :reindex! => true, :build_solar_schema => true
+#   Sunspot.stub :index => true, :index! => true
+# end
 
-Before('@search') do
-  RSpec::Mocks.proxy_for(Child).reset
-  RSpec::Mocks.proxy_for(Sunspot).reset
-  Sunspot.remove_all!(Child)
-  Sunspot.remove_all!(Enquiry)
-end
+# Before('@search') do
+#   RSpec::Mocks.proxy_for(Child).reset
+#   RSpec::Mocks.proxy_for(Sunspot).reset
+#   Sunspot.remove_all!(Child)
+#   Sunspot.remove_all!(Enquiry)
+# end
 
 Before do
   I18n.locale = I18n.default_locale = :en
@@ -38,6 +38,10 @@ Before do
     #Long term should refactor to use the initial lookup seed.
     #load File.dirname(__FILE__) + '/../../db/lookups/lookups.rb'
     Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
+
+    #Reload the form properties
+    [Child, Incident, TracingRequest].each {|record_cls| record_cls.refresh_form_properties}
+
     load File.dirname(__FILE__) + '/../../db/users/roles.rb'
     load File.dirname(__FILE__) + '/../../db/users/default_programs.rb'
     load File.dirname(__FILE__) + '/../../db/users/default_modules.rb'

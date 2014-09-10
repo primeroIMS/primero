@@ -6,7 +6,7 @@ module SearchingForRecords
 
 
   def search
-    authorize! :index, @className
+    authorize! :index, model_class
 
     @page_name = t("search")
     if (params[:query])
@@ -23,10 +23,10 @@ module SearchingForRecords
   private
 
   def search_by_user_access(page_number = 1)
-    if can? :view_all, @className
-      @results, @full_results = @className.search(@search, page_number)
+    if can? :view_all, model_class
+      @results, @full_results = model_class.search(@search, page_number)
     else
-      @results, @full_results = @className.search_by_created_user(@search, current_user_name, page_number)
+      @results, @full_results = model_class.search_by_created_user(@search, current_user_name, page_number)
     end
   end
 
@@ -45,11 +45,11 @@ module SearchingForRecords
 
   def redirect_to_show_page
     #TODO - is there a better way to do this?
-    if "Child" == @className.name
+    if "Child" == model_class.name
       redirect_to case_path @results.first
-    elsif "Incident" == @className.name
+    elsif "Incident" == model_class.name
       redirect_to incident_path @results.first
-    elsif "TracingRequest" == @className.name
+    elsif "TracingRequest" == model_class.name
       redirect_to tracing_request_path @results.first
     end
   end

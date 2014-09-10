@@ -3,7 +3,7 @@ require 'spec_helper'
 module Exporters
   describe CSVExporter do
     it "converts data to CSV format" do
-      Exporters.should_receive(:to_2D_array)
+      BaseExporter.should_receive(:to_2D_array)
         .and_yield([ 'name', 'age', 'birthday', 'height' ])
         .and_yield([ 'Joe', 12, Date.today, 120 ])
         .and_yield([ 'Mo', 14, Date.today, 140 ])

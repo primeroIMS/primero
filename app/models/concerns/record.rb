@@ -147,10 +147,11 @@ module Record
       form_properties_by_name.each do |name, prop|
         properties_by_name.delete(name)
         properties.delete(prop)
-        remove_method("#{name}=")
 
-        if method_defined?("#{name}?")
-          remove_method("#{name}?")
+        %w(= ?).each do |suffix|
+          if method_defined?("#{name}#{suffix}")
+            remove_method("#{name}#{suffix}")
+          end
         end
 
         if prop.alias

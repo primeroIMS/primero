@@ -18,7 +18,7 @@ class User < CouchRest::Model::Base
   property :location
   property :disabled, TrueClass, :default => false
   property :mobile_login_history, [MobileLoginEvent]
-  property :role_ids, :type => [String]
+  property :role_ids, [String]
   property :time_zone, :default => "UTC"
   property :locale
   property :module_ids, :type => [String]

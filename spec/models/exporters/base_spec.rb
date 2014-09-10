@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'models/exporters/base'
 
 module Exporters
-  describe Exporters do
+  describe BaseExporter do
     before :each do
       @model_class = Class.new(CouchRest::Model::Base) do
         property :name, String
@@ -13,6 +13,7 @@ module Exporters
             property :name, String
             property :relationship, String
           end]
+        property :organizations, [String]
       end
 
       @instance = @model_class.new
@@ -20,6 +21,7 @@ module Exporters
         {:name => 'John', :relationship => 'father'},
         {:name => 'Mary', :relationship => 'mother'},
       ]
+      @instance.organizations = ['Red Cross', 'UNICEF', 'Save the Children']
     end
 
     describe "to_2D_array" do
@@ -28,7 +30,7 @@ module Exporters
         child.name = 'John Doe'
 
         arr = []
-        Exporters.to_2D_array([ child ], @model_class.properties) do |row|
+        BaseExporter.to_2D_array([ child ], @model_class.properties) do |row|
           arr << row
         end
 
@@ -39,7 +41,7 @@ module Exporters
 
       it "flattens out nested forms" do
         arr = []
-        Exporters.to_2D_array([ @instance ], [@model_class.properties_by_name['family_members']]) do |row|
+        BaseExporter.to_2D_array([ @instance ], [@model_class.properties_by_name['family_members']]) do |row|
           arr << row
         end
 
@@ -54,11 +56,38 @@ module Exporters
         arr[1][arr[0].index("family_members[1]relationship")].should == 'father'
         arr[1][arr[0].index("family_members[2]relationship")].should == 'mother'
       end
+
+      it "fills in nil for missing array slots" do
+        second = @instance.clone
+        second.family_members = [{:name => 'Larry', :relationship => 'father'}]
+
+        arr = []
+        BaseExporter.to_2D_array([ @instance, second ], [@model_class.properties_by_name['family_members']]) do |row|
+          arr << row
+        end
+
+        arr.length.should == 3
+        arr[2][arr[0].index("family_members[1]name")].should == 'Larry'
+        arr[2][arr[0].index("family_members[1]relationship")].should == 'father'
+        arr[2][arr[0].index("family_members[2]name")].should == nil
+        arr[2][arr[0].index("family_members[2]relationship")].should == nil
+      end
+
+      it "handles normal arrays" do
+        arr = []
+        BaseExporter.to_2D_array([ @instance ], [@model_class.properties_by_name['organizations']]) do |row|
+          arr << row
+        end
+
+        arr.length.should == 2
+        arr[0][1..-1].should == ['organizations[1]', 'organizations[2]', 'organizations[3]']
+        arr[1][1..-1].should == [@instance.organizations[0], @instance.organizations[1], @instance.organizations[2]]
+      end
     end
 
     describe "convert_model_to_hash" do
       it "should handled nested data" do
-        hash = Exporters.convert_model_to_hash(@instance,
+        hash = BaseExporter.convert_model_to_hash(@instance,
                                                [@model_class.properties_by_name['family_members']])
         hash.should == {'family_members' => [
           {'name' => 'John', 'relationship' => 'father'},
@@ -68,7 +97,7 @@ module Exporters
       end
 
       it "should exclude unlisted properties" do
-        hash = Exporters.convert_model_to_hash(@instance,
+        hash = BaseExporter.convert_model_to_hash(@instance,
                                                [@model_class.properties_by_name['survivor_code']])
 
         hash.keys.should == ['survivor_code', 'model_type']

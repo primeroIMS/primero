@@ -124,6 +124,7 @@ source_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => source_subform_fields,
+  :initial_subforms => 1,
   "name_all" => "Nested Source Subform",
   "description_all" => "Nested Source Subform",
   "collapsed_fields" => ["source_type", "source_violations"]
