@@ -8,9 +8,9 @@ Feature: Flag Case Record For Attention
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
-    And the following children exist in the system:
-      | name    | unique_identifier |
-      | Shaggy  | id_1              |
+    And the following cases exist in the system:
+      | name    | created_by | unique_identifier |
+      | Shaggy  | primero_cp | id_1              |
 
 
   Scenario Outline: I should have a Flag Record button on the case record
@@ -37,9 +37,9 @@ Feature: Flag Case Record For Attention
     When I press the "Flag Record" button
     Then I fill in "Flag Reason" with "Just Because"
     And I press "Flag"
-    Then I should see "Flagged by primero"
+    Then I should see "Flagged by primero_cp"
     And I should see "Just Because"
-    And the record history should log "Record was flagged by primero belonging to UNICEF because: Just Because"
+    And the record history should log "Record was flagged by primero_cp belonging to UNICEF because: Just Because"
 
     Examples:
       | page |
@@ -60,23 +60,12 @@ Feature: Flag Case Record For Attention
       | case record page |
       | case record edit page |
 
-  Scenario Outline: I should have Cases as the root of the breadcrumb on the case record
-    And I am on the <page> for "Shaggy"
-    Then I should see a "Cases" link on the page
-    And I click on the "Cases" link
-    Then I should be on the cases page
-
-    Examples:
-      | page |
-      | case record page |
-      | case record edit page |
-
   Scenario Outline: I should be able see a flag icon on the page
     And I am on the <page> for "Shaggy"
     When I press the "Flag Record" button
     Then I fill in "Flag Reason" with "Just Because"
     And I press "Flag"
-    Then I should see "Flagged by primero"
+    Then I should see "Flagged by primero_cp"
     And I should see "Just Because"
     Then I press the "Cases" button
     And the record for "Shaggy" should display a "flag" icon beside it
