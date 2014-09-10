@@ -146,7 +146,7 @@ describe "children/show.html.erb" do
 
       it "should show links to export when user has appropriate permissions" do
       link = child_path @child, :format => :csv, :per_page => :all
-      @user.stub(:has_permission?).with([Permission::READ).and_return(true)
+      @user.stub(:has_permission?).with([Permission::READ]).and_return(true)
 
       render :partial => "children/show_child_toolbar", :locals => {:child => @child}
 
