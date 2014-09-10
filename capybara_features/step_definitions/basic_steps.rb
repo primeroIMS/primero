@@ -115,8 +115,7 @@ end
 #Step to match field/value in show view.
 And /^I should see values on the page for the following:$/ do |fields|
   #Iterate over the fields.
-  fields.rows_hash.each do |name, value|
-    content = value
+  fields.rows_hash.each do |name, content|
     if content.start_with?('Calculated date')
       content = content.gsub("Calculated date", "").gsub("years ago", "").strip
       content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
