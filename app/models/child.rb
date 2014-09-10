@@ -20,15 +20,10 @@ class Child < CouchRest::Model::Base
   include AudioUploader
   include Flaggable
 
-  property :nickname
-  property :name
   property :hidden_name, TrueClass, :default => false
-  property :case_id
-  property :registration_date
   property :reunited, TrueClass
   property :investigated, TrueClass
   property :verified, TrueClass
-  property :verified
 
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth

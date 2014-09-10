@@ -11,10 +11,6 @@ class TracingRequest < CouchRest::Model::Base
   include AudioUploader
   include Flaggable
 
-  property :tracing_request_id
-  property :relation_name
-
-
   def initialize *args
     self['photo_keys'] ||= []
     arguments = args.first

@@ -40,10 +40,7 @@ Before do
     Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
 
     #Reload the form properties
-    #TODO - This really  should call 'refresh_form_properties'.
-    # But, there is a bug in that which Ben is working on
-    # Once he has fixed that bug,
-    [Child, Incident, TracingRequest].each {|record| record.create_form_properties}
+    [Child, Incident, TracingRequest].each {|record_cls| record_cls.refresh_form_properties}
 
     load File.dirname(__FILE__) + '/../../db/users/roles.rb'
     load File.dirname(__FILE__) + '/../../db/users/default_programs.rb'
