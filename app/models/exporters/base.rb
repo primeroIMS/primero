@@ -21,7 +21,6 @@ module Exporters
       end
 
       # @param properties: array of CouchRest Model Property instances
-      # TODO: Rework to be more recursive to handle violations
       def to_2D_array(models, properties)
         emit_columns = lambda do |props, parent_props=[], &column_generator|
           props.map do |p|
