@@ -34,10 +34,17 @@ Before do
   #Don't load the seed data on every scenario
   $db_seeded ||= false
   unless $db_seeded
-    #TODO: Commented out as per Ron's request. Some tests currently reseed these. 
+    #TODO: Commented out as per Ron's request. Some tests currently reseed these.
     #Long term should refactor to use the initial lookup seed.
     #load File.dirname(__FILE__) + '/../../db/lookups/lookups.rb'
     Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
+
+    #Reload the form properties
+    #TODO - This really  should call 'refresh_form_properties'.
+    # But, there is a bug in that which Ben is working on
+    # Once he has fixed that bug,
+    [Child, Incident, TracingRequest].each {|record| record.create_form_properties}
+
     load File.dirname(__FILE__) + '/../../db/users/roles.rb'
     load File.dirname(__FILE__) + '/../../db/users/default_programs.rb'
     load File.dirname(__FILE__) + '/../../db/users/default_modules.rb'
