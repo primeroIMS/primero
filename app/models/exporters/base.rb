@@ -6,6 +6,8 @@ module Exporters
     class << self
       extend Memoist
 
+      public 
+
       def id
         raise NotImplementedError
       end
@@ -28,9 +30,7 @@ module Exporters
             if p.array
               longest_array = find_longest_array(models, prop_tree)
               (1..(longest_array || 0)).map do |n|
-                # We use 1-based numbering in the output but arrays in Ruby are
-                # still 0-based
-                new_prop_tree = prop_tree.clone + [n-1]
+                new_prop_tree = prop_tree.clone + [n]
                 if p.type.include?(CouchRest::Model::Embeddable)
                   emit_columns.call(p.type.properties, new_prop_tree, &column_generator)
                 else
@@ -80,7 +80,9 @@ module Exporters
           if acc.nil?
             nil
           elsif prop.is_a?(Numeric)
-            acc[prop]
+            # We use 1-based numbering in the output but arrays in Ruby are
+            # still 0-based
+            acc[prop - 1]
           else
             acc.send(prop.name.to_sym)
           end

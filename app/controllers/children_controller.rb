@@ -31,7 +31,7 @@ class ChildrenController < ApplicationController
       format.xml { render :xml => @children }
       unless params[:format].nil?
         if @children.empty?
-          flash[:notice] = t('child.export_error')
+          flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
         end
       end

@@ -26,7 +26,7 @@ class TracingRequestsController < ApplicationController
 
       unless params[:format].nil?
         if @tracing_requests.empty?
-          flash[:notice] = t('tracing_request.export_error')
+          flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
         end
       end

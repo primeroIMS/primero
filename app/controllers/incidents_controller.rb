@@ -27,7 +27,7 @@ class IncidentsController < ApplicationController
       format.xml { render :xml => @incidents }
       unless params[:format].nil?
         if @incidents.empty?
-          flash[:notice] = t('incident.export_error')
+          flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
         end
       end
