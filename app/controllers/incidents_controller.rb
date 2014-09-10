@@ -172,9 +172,9 @@ class IncidentsController < ApplicationController
     end
   end
 
-  def exported_properties
-    model_class.properties.reject {|p| p.name == 'violations' }
-  end
+  #def exported_properties
+    #model_class.properties.reject {|p| p.name == 'violations' }
+  #end
 
   private
 

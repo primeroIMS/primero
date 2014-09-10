@@ -55,6 +55,7 @@ module RecordActions
   end
 
   def exported_properties
+    require 'pry'; binding.pry
     model_class.properties
   end
 
