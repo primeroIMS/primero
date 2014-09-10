@@ -271,7 +271,31 @@ class User < CouchRest::Model::Base
   end
 
   def is_manager?
-    User.by_manager(key: self.user_name).first.present?
+    self.has_permission?(Permission::ALL) || self.has_permission?(Permission::GROUP)
+  end
+
+  def managed_users
+    if self.has_permission? Permission::ALL
+      @managed_users ||= User.all.all
+      @record_scope = [Searchable::ALL_FILTER]
+    elsif self.has_permission?(Permission::GROUP) && self.user_groups.present?
+      @managed_users ||= User.by_user_group(keys: self.user_groups).all + [self]
+    else
+      @managed_users ||= [self]
+    end
+    @managed_user_names ||= @managed_users.map(&:user_name)
+    @record_scope ||= @managed_user_names
+    return @managed_users
+  end
+
+  def managed_user_names
+    managed_users
+    return @managed_user_names
+  end
+
+  def record_scope
+    managed_users
+    return @record_scope
   end
 
 

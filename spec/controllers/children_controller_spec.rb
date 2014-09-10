@@ -118,6 +118,15 @@ describe ChildrenController do
 
   describe "GET index" do
 
+    #TODO: We need a whole new test suite for the index. We need to test the following:
+    #         * filters are being generated correctly from params
+    #         * right subset of data based on current user
+    #         * definitely have tests for active/inactive
+    #         * pagination
+    #         * sorting
+
+
+    #TODO: Leaving this code as a potential basis for future refactoring of controller tests
     shared_examples_for "viewing children by user with access to all data" do
       describe "when the signed in user has access all data" do
         before do
@@ -126,20 +135,21 @@ describe ChildrenController do
           @stubs ||= {}
         end
 
-        it "should assign all childrens as @childrens" do
+        it "should assign all children as @children" do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           children = mock_child(@stubs)
-          @status ||= "all"
+          scope = {}
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldadmin").and_return(children)
+          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"]).and_return(children)
 
-          get :index, :scope => @status
+          get :index, :scope => scope
           assigns[:children].should == children
         end
       end
     end
 
+    #TODO: Maybe get rid of this?
     shared_examples_for "viewing children as a field worker" do
       describe "when the signed in user is a field worker" do
         before do
@@ -153,54 +163,28 @@ describe ChildrenController do
           children = mock_child(@stubs)
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
-          @status ||= "all"
+          scope ||= {}
           order = {:created_at=>:desc}
 
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(children)
-          @params.merge!(:scope => @status)
+          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(children)
+          @params.merge!(:scope => scope)
           get :index, @params
           assigns[:children].should == children
         end
       end
     end
 
+    #TODO: Leaving this test around for now
     context "viewing all children" do
-      before { @stubs = { :reunited? => false } }
+      #before { @stubs = { :reunited? => false } }
       context "when status is passed for admin" do
-        before { @status = "all"}
+        before { scope = {} }
         before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
         it_should_behave_like "viewing children by user with access to all data"
       end
 
-      context "when status is passed for field worker" do
-        before { @status = "all"}
-        before {@options = {:page=>1, :per_page=>20}}
 
-        it_should_behave_like "viewing children as a field worker"
-      end
-
-      context "when status is not passed admin" do
-        before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
-        it_should_behave_like "viewing children by user with access to all data"
-      end
-
-      context "when status is not passed field_worker" do
-        before {@options = {:startkey=>["all", "fakefieldworker"], :endkey=>["all","fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing children as a field worker"
-      end
-
-      context "when status is not passed field_worker and order is name" do
-        before {@options = {:startkey=>["all", "fakefieldworker"], :endkey=>["all","fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_name}}
-        before {@params = {:order_by => 'name'}}
-        it_should_behave_like "viewing children as a field worker"
-      end
-
-      context "when status is not passed field_worker, order is created_at and page is 2" do
-        before {@options = {:view_name=>:by_valid_record_view_with_created_by_created_at, :startkey=>["all", "fakefieldworker", {}], :endkey=>["all", "fakefieldworker"], :descending=>true, :page=>2, :per_page=>20}}
-        before {@params = {:order_by => 'created_at', :page => 2}}
-        it_should_behave_like "viewing children as a field worker"
-      end
     end
 
     describe "permissions to view lists of case records", search: true, skip_session: true do
@@ -210,7 +194,7 @@ describe ChildrenController do
         Child.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-        roles = [Role.new(permissions: [Permission::CHILDREN[:view_and_search]])]
+        roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
 
         @case_worker1 = create(:user)
         @case_worker1.stub(:roles).and_return(roles)
@@ -233,47 +217,6 @@ describe ChildrenController do
 
     end
 
-    context "viewing reunited children" do
-      before do
-        @status = "reunited"
-        @stubs = {:reunited? => true}
-      end
-      context "admin" do
-        before { @options = {:startkey=>["reunited"], :endkey=>["reunited", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name} }
-        it_should_behave_like "viewing children by user with access to all data"
-      end
-      context "field worker" do
-        before { @options = {:startkey=>["reunited", "fakefieldworker"], :endkey=>["reunited", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing children as a field worker"
-      end
-    end
-
-    context "viewing flagged children" do
-      before { @status = "flagged" }
-      context "admin" do
-        before {@options = {:startkey=>["flagged"], :endkey=>["flagged", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
-        it_should_behave_like "viewing children by user with access to all data"
-      end
-      context "field_worker" do
-        before {@options = {:startkey=>["flagged", "fakefieldworker"], :endkey=>["flagged", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing children as a field worker"
-      end
-    end
-
-    context "viewing active children" do
-      before do
-        @status = "active"
-        @stubs = {:reunited? => false}
-      end
-      context "admin" do
-        before {@options = {:startkey=>["active"], :endkey=>["active", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
-        it_should_behave_like "viewing children by user with access to all data"
-      end
-      context "field worker" do
-        before {@options = {:startkey=>["active", "fakefieldworker"], :endkey=>["active", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing children as a field worker"
-      end
-    end
 
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       before do
