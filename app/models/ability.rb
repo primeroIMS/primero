@@ -4,7 +4,7 @@ class Ability
 
   def initialize(user)
     alias_action :index, :view, :list, :to => :read
-    alias_action :edit, :update, :create, :new, :destroy, :to => :write
+    alias_action :edit, :update, :create, :new, :destroy, :disable, :to => :write
 
     @user = user
 

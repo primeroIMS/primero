@@ -73,7 +73,7 @@ describe "children/show.html.erb" do
     end
 
     describe "interviewer details" do
-      it "should show registered by details and no link to change log if child has not been updated" do        
+      it "should show registered by details and no link to change log if child has not been updated" do
         render :partial => "children/header_message", :locals => {:child => @child, :current_user => @user, :duplicates => ""}
 
         rendered.should have_tag("#interviewer_details")
@@ -145,10 +145,10 @@ describe "children/show.html.erb" do
 
       it "should show links to export when user has appropriate permissions" do
       link = child_path @child, :format => :csv, :per_page => :all
-      @user.stub(:has_permission?).with(Permission::CHILDREN[:export_csv]).and_return(true)
-      
+      @user.stub(:has_permission?).with([Permission::READ).and_return(true)
+
       render :partial => "children/show_child_toolbar", :locals => {:child => @child}
-      
+
       rendered.should have_link "Export to CSV", link
       end
     end

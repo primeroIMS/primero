@@ -4,7 +4,7 @@ require 'spec_helper'
 describe FieldsController do
   before :each do
     user = User.new(:user_name => 'manager_of_forms')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::FORMS[:manage]])])
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
     fake_login user
   end
 
