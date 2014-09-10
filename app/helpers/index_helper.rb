@@ -21,7 +21,7 @@ module IndexHelper
 				{title: 'age', sort_title: 'age'},
 				{title: 'sex', sort_title: 'sex'},
 				{title: 'registration_date', sort_title: 'registration_date'},
-				{title: 'status', sort_title: 'child_status'}
+				{title: 'photo', sort_title: 'photo'}
 			]
 		when "incident"
 			return [

@@ -23,6 +23,14 @@ module FieldsHelper
     end
   end
 
+  def field_format_date(a_date)
+    if a_date.present? && a_date.is_a?(Date)
+      a_date.strftime("%d-%b-%Y")
+    else
+      a_date
+    end
+  end
+
   def field_value(object, field, field_keys=[])
     if field_keys.present? && !object.new?
       field_value = object
@@ -47,6 +55,8 @@ module FieldsHelper
         return 'Open'
       elsif field.type == Field::DATE_RANGE
         return [object["#{field.name}_from"], object["#{field.name}_to"]]
+      elsif field.type == Field::DATE_FIELD
+        field_value = field_format_date(object[field.name])
       else
         field_value = object[field.name] || ''
       end
@@ -61,9 +71,9 @@ module FieldsHelper
     when field_value.respond_to?(:length) && field_value.length == 0
       ""
     when field_value.is_a?(Array)
-      field_value.join ", " 
+      field_value.join ", "
     when field_value.is_a?(Date)
-      field_value.strftime("%d-%b-%Y")
+      field_format_date(field_value)
     else
       field_value.to_s
     end
