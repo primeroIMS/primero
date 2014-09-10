@@ -55,14 +55,13 @@ module RecordActions
   end
 
   def exported_properties
-    require 'pry'; binding.pry
     model_class.properties
   end
 
   #Gets the record which is the objects of the implementing controller.
   #Note that the controller needs to load this record before this concern method is invoked.
   def get_record
-    @record ||= eval("@#{model_class.name.underscore}")
+    @record ||= eval("@#{self.model_class.name.underscore}")
   end
 
   def current_modules

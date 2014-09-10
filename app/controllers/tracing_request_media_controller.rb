@@ -1,11 +1,8 @@
 class TracingRequestMediaController < ApplicationController
+  @model_class = TracingRequest
   include MediaActions
 
   helper :tracing_requests
 
   private
-
-  def set_class_name
-    model_class = TracingRequest
-  end
 end

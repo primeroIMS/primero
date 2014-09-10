@@ -1,5 +1,5 @@
 class TracingRequestsController < ApplicationController
-  @@model_class = TracingRequest
+  @model_class = TracingRequest
 
   include RecordFilteringPagination
 

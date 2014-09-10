@@ -1,5 +1,5 @@
 class IncidentsController < ApplicationController
-  @@model_class = Incident
+  @model_class = Incident
 
   include RecordFilteringPagination
 

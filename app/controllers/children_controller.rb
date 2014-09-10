@@ -1,5 +1,5 @@
 class ChildrenController < ApplicationController
-  @@model_class = Child
+  @model_class = Child
 
   include RecordFilteringPagination
   

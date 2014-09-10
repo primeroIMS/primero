@@ -100,5 +100,11 @@ class ApplicationController < ActionController::Base
     params
   end
 
-  cattr_accessor :model_class
+  class << self
+    attr_accessor :model_class
+  end
+
+  def model_class
+    self.class.model_class
+  end
 end

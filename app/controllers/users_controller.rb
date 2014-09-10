@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  @@model_class = User
+  @model_class = User
 
   include ExportActions
   include ImportActions
