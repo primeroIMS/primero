@@ -20,7 +20,8 @@ module IndexHelper
 				{title: 'name', sort_title: 'sortable_name'},
 				{title: 'age', sort_title: 'age'},
 				{title: 'sex', sort_title: 'sex'},
-				{title: 'registration_date', sort_title: 'registration_date'}
+				{title: 'registration_date', sort_title: 'registration_date'},
+				{title: 'photo', sort_title: 'photo'}
 			]
 		when "incident"
 			return [
