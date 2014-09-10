@@ -11,6 +11,7 @@ RapidFTR::Application.routes.draw do
       get :change_password
       get :unverified
       post :update_password
+      post :import_file
     end
   end
   match '/users/register_unverified' => 'users#register_unverified', :as => :register_unverified_user, :via => :post

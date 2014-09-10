@@ -23,6 +23,7 @@
 //= require primero
 //= require sidebar
 //= require rapidftr
+//= require password_prompt
 //= require date_controls
 //= require jquery_plugin
 //= require advanced_search

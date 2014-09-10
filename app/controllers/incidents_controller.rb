@@ -1,4 +1,6 @@
 class IncidentsController < ApplicationController
+  @model_class = Incident
+
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
@@ -25,7 +27,7 @@ class IncidentsController < ApplicationController
       format.xml { render :xml => @incidents }
       unless params[:format].nil?
         if @incidents.empty?
-          flash[:notice] = t('incident.export_error')
+          flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
         end
       end
@@ -170,9 +172,9 @@ class IncidentsController < ApplicationController
     end
   end
 
-  def exported_properties
-    @className.properties.reject {|p| p.name == 'violations' }
-  end
+  #def exported_properties
+    #model_class.properties.reject {|p| p.name == 'violations' }
+  #end
 
   private
 
@@ -217,10 +219,6 @@ class IncidentsController < ApplicationController
     # delete_child_audio = params["delete_child_audio"].present?
     incident.update_properties(params[:incident], current_user_name)
     incident
-  end
-
-  def set_class_name
-    @className = Incident
   end
 
 end

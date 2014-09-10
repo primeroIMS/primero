@@ -1,4 +1,6 @@
 class TracingRequestsController < ApplicationController
+  @model_class = TracingRequest
+
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
@@ -24,7 +26,7 @@ class TracingRequestsController < ApplicationController
 
       unless params[:format].nil?
         if @tracing_requests.empty?
-          flash[:notice] = t('tracing_request.export_error')
+          flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
         end
       end
@@ -258,14 +260,6 @@ class TracingRequestsController < ApplicationController
     delete_tracing_request_audio = params["delete_tracing_request_audio"].present?
     tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"], new_audio, delete_tracing_request_audio, params[:tracing_request], params[:delete_tracing_request_document])
     tracing_request
-  end
-
-  def export_filename(tracing_requests, export_task)
-    (tracing_requests.length == 1 ? tracing_requests.first.short_id : current_user_name) + '_' + export_task.id.to_s + '.zip'
-  end
-
-  def set_class_name
-    @className = TracingRequest
   end
 
 end

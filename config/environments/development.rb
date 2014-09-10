@@ -25,4 +25,6 @@ RapidFTR::Application.configure do
   config.assets.debug = ENV['DEBUG_ASSETS'] == 'no' ? false : true
 
   config.eager_load = false
+
+  BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
 end

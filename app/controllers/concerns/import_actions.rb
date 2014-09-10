@@ -2,15 +2,15 @@ module ImportActions
   extend ActiveSupport::Concern
 
   def create_new_model(attributes={})
-    raise "You must declare a method called 'create_new_model' for this controller to have import capabilities"
+    self.model_class.create(attributes)
   end
 
   def get_unique_instance(attributes)
-    raise "You must declare a method called 'get_unique_instance' for this controller to have import capabilities"
+    self.model_class.get(attributes['id'])
   end
 
   def update_existing_model(instance, attributes)
-    raise "You must declare a method called 'updated_existing_model' for this controller to have import capabilities"
+    instance.attributes = attributes
   end
 
   def import_file
@@ -20,21 +20,21 @@ module ImportActions
 
       importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == type}.first
       if importer.nil?
-        flash[:error] = "Import type is unknown"
+        flash[:error] = t('imports.unknown_type')
         redirect_to :action => :index and return
       end
 
       begin
         handle_import(file.tempfile, importer)
       rescue TypeError => e
-        flash[:error] = "Error importing data: #{e}"
+        flash[:error] = t("imports.error", error: e)
         redirect_to :action => :index and return
       end
 
-      flash[:notice] = t('import_successful')
+      flash[:notice] = t('imports.successful')
       redirect_to :action => :index
     else
-      flash[:error] = "No file provided!"
+      flash[:error] = t('imports.file_missing')
       redirect_to :action => :index
     end
   end

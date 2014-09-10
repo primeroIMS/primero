@@ -1,28 +1,5 @@
 <%= render partial: 'record_shared/create_button', locals: {model: model, record: record, modules: modules} %>
 
-<% if can?(:export, model) %>
-  <%= link_to content_tag(:span, t("#{record}.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button' %>
-  <ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
-    <% Exporters::active_exporters_for_model(model).each do |exporter| %>
-      <li><%= link_to t("addons.export_task.#{exporter.id}.all"), url_for(controller: controller_name, :format => exporter.id, :per_page => :all), :class => "password-prompt" %></li>
-    <% end %>
-  </ul>
-<% end %>
+<%= render partial: 'exports/button', locals: {model: model} %>
+<%= render 'imports/button' %>
 
-<%= render partial: 'record_shared/imports', locals: {model: model, record: record} %>
-
-<script type="text/javascript">
-  $(".export-password-prompt").each(function() {
-    var el = $(this);
-    el.data("original-href", el.attr("href"));
-    el.data("password", null);
-  });
-
-  $(".export-password-prompt").click(function() {
-    var el=$(this), password=el.data("password"), href=el.attr("original-href");
-    if (password == null || password == undefined || password == "") {
-      password = prompt("Enter password");
-      el.attr("href", href + (href.indexOf("?") == -1 ? "?" : "") + "&password=" + escape(password));
-    }
-  });
-</script>

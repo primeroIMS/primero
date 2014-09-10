@@ -15,7 +15,7 @@ module Exporters
 
         i = 0
         column_widths = []
-        Exporters.to_2D_array(models, properties) do |row|
+        to_2D_array(models, properties) do |row|
           worksheet.write_row(i,0,row)
 
           row.each_with_index do |r, i|
