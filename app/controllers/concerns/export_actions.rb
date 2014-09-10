@@ -22,6 +22,6 @@ module ExportActions
   end
 
   def export_filename(models, exporter)
-    "#{current_user.user_name}-#{model_class.name.downcase}.#{exporter.mime_type}"
+    "#{current_user.user_name}-#{model_class.name.underscore}.#{exporter.mime_type}"
   end
 end
