@@ -18,7 +18,8 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
         'created_by' => 'Billy',
         'created_organisation' => 'UNICEF',
         'age_is' => 'Approximate',
-        'flag_message' => 'Reason for flagging'
+        'flag_message' => 'Reason for flagging',
+        'module_id' => PrimeroModule.find_by_name('CP').id,
     )
     user_name = child_hash['created_by']
     if User.find_by_user_name(user_name).nil?
