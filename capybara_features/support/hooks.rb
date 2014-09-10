@@ -34,7 +34,7 @@ Before do
   #Don't load the seed data on every scenario
   $db_seeded ||= false
   unless $db_seeded
-    #TODO: Commented out as per Ron's request. Some tests currently reseed these. 
+    #TODO: Commented out as per Ron's request. Some tests currently reseed these.
     #Long term should refactor to use the initial lookup seed.
     #load File.dirname(__FILE__) + '/../../db/lookups/lookups.rb'
     Dir[File.dirname(__FILE__) + '/../../db/forms/*/*.rb'].each {|file| load file }
@@ -57,8 +57,8 @@ end
 
 Before('@roles') do |scenario|
   #TODO: Instead of the roles below, consider loading db/users/roles.rb
-  Role.create(:name => 'Field Worker', :permissions => [Permission::CHILDREN[:register]])
-  Role.create(:name => 'Field Admin', :permissions => [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:create], Permission::CHILDREN[:edit]])
+  Role.create(:name => 'Field Worker', :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
+  Role.create(:name => 'Field Admin', :permissions => [Permission::CASE, Permission::READ, Permission::WRITE, Permission::USER])
   Role.create(:name => 'Admin', :permissions => Permission.all_permissions)
 end
 

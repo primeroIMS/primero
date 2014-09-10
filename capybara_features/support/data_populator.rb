@@ -28,14 +28,10 @@ private
   def create_account(user_type, username, password, permission, primero_modules=nil)
     permissions = []
     permissions.push(Permission.all_permissions) if user_type.downcase == "admin" and permission.nil?
-    permissions.push(Permission::CHILDREN[:register], Permission::TRACING_REQUESTS[:register], Permission::INCIDENTS[:register]) if user_type.downcase == "user" and permission.nil?
-    permissions.push(Permission::REPORTS[:view]) if user_type.downcase == "senior official" and permission.nil?
+    permissions.push(Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::READ, Permission::WRITE) if user_type.downcase == "user" and permission.nil?
+    permissions.push(Permission::READ, Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST) if user_type.downcase == "senior official" and permission.nil?
     permissions.push(
-      Permission::CHILDREN[:edit], Permission::CHILDREN[:register], Permission::CHILDREN[:view_and_search],
-      Permission::TRACING_REQUESTS[:edit], Permission::TRACING_REQUESTS[:register], Permission::TRACING_REQUESTS[:view_and_search],
-      Permission::INCIDENTS[:edit], Permission::INCIDENTS[:register], Permission::INCIDENTS[:view_and_search],
-      Permission::ENQUIRIES[:create],
-      Permission::ENQUIRIES[:update]) if user_type.downcase == "registration worker" and permission.nil?
+      Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::READ, Permission::WRITE) if user_type.downcase == "registration worker" and permission.nil?
     permissions.push(Permission.all_permissions) if permission.to_s.downcase.split(',').include?('admin')
     permissions.push(permission.split(",")) if permission
     permissions.flatten!
