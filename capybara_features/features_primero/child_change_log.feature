@@ -1,38 +1,28 @@
+@javascript @primero
 Feature: Child change log
   Test weather each child has a proper change log attached to it.
 
-  @javascript @primero
-  Scenario: Validate child creating and initial setting of field
-
-    Given "bob" logs in with "Create Cases,Edit Cases" permissions
+  Background:
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    When I access "cases page"
+    And I press the "New Case" button
     And someone has entered a child with the name "automation"
 
+  Scenario: Validate child creating and initial setting of field
     When I press the "Change Log" button
-    Then I should see change log of creation by user "bob"
+    Then I should see change log of creation by user "primero_cp"
     And I follow "Back"
     And I press the "Edit" button
     And I fill in "Age" with "32"
     And I submit the form
     And I press the "Change Log" button
-    And I should see change log for initially setting the field "Age" to value "32" by "bob"
+    And I should see change log for initially setting the field "Age" to value "32" by "primero_cp"
 
-  @javascript @primero
-  Scenario: Access the Change Log Feature From Case Page
-    Given "bob" logs in with "Create Cases,Edit Cases" permissions
-    And someone has entered a child with the name "automation"
-    Then I should see a "Change Log" button on the page
-
-  @javascript @primero
   Scenario: Access the Change Log Feature
-    Given "bob" logs in with "Create Cases,Edit Cases" permissions
-    And someone has entered a child with the name "automation"
     And I press the "Edit" button
     Then I should see a "Change Log" button on the page
 
-  @javascript @primero
   Scenario Outline: Change log is in the correct order
-    Given "bob" logs in with "Create Cases,Edit Cases" permissions
-    And someone has entered a child with the name "automation"
     And I press the "Edit" button
     And I fill in "Age" with "32"
     And I submit the form

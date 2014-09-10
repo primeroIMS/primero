@@ -8,8 +8,8 @@ Feature: Edit and View Incident Record
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following incidents exist in the system:
       | created_by  | date_of_first_report    | status   | unique_identifier                    |
-      | primero     | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
-      | primero     | 03-Feb-2004             | Inactive | 31c4cba8-b410-4af6-b349-68c557af3aa8 |
+      | primero_mrm | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
+      | primero_mrm | 03-Feb-2004             | Inactive | 31c4cba8-b410-4af6-b349-68c557af3aa8 |
     When I press the "INCIDENTS" button
     And I press the "7af3aa9" link
     And I press the "Edit" button
@@ -28,7 +28,7 @@ Feature: Edit and View Incident Record
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following incidents exist in the system:
       | created_by  | date_of_first_report    | status   | unique_identifier                    | incident_total_boys | incident_timeofday         |
-      | primero     | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 | 3                   | Afternoon (noon to sunset) |
+      | primero_mrm | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 | 3                   | Afternoon (noon to sunset) |
     When I press the "INCIDENTS" button
     And I press the "7af3aa9" link
     And I should see a value for "Date of First Report or Interview" on the show page with the value of "03-Feb-2004"
