@@ -131,11 +131,21 @@ Then /^the "([^"]*)" radio_button should have the following options:$/ do |radio
 
 end
 
+Then /^the "(.*)" dropdown should not have the following options:$/ do |select, options|
+  label = find "//label[text()=\"#{select}\"]"
+  dropdown = find "//select[@id=\"#{label["for"]}\"]"
+  options.raw.flatten.each do |option|
+    dropdown.has_no_content?(option).should eq(true)
+  end
+end
+
+
+
 #PRIMERO - Leaving this one alone, not sure it works
 Then /^the "([^"]*)" dropdown should have the following options:$/ do |dropdown_label, table|
   options = table.hashes
   page.has_select?(dropdown_label, :options => options.collect{|element| element['label']},
-                   :selected => options.collect{|element| element['label'] if element['selected?'] == 'yes'}.compact!)
+                   :selected => options.collect{|element| element['label'] if element['selected?'] == 'yes'}.compact!).should eq(true)
 end
 
 #PRIMERO

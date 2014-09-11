@@ -12,12 +12,9 @@ gbv_follow_up_subform_fields = [
                             "Child Protection Service",
                             "Family Mediation Service",
                             "Family Reunification Service",
-                            "Social Support Service",
                             "Education Service",
-                            "BID or BIA / Care Plan Service",
                             "NFI/Clothes/Shoes Service",
                             "Water/Sanitation Service",
-                            "Care Arrangement Service",
                             "Registration Service",
                             "Food Service",
                             "Other Service"].join("\n")
@@ -52,32 +49,60 @@ gbv_follow_up_subform_fields = [
   Field.new({"name" => "followup_comments",
              "type" => "text_field",
              "display_name_all" => "Comments"
-            })
-]
-
-evaluate_progress_subform_fields = [
-  Field.new({"name" => "gbv_assessment_goal",
-             "type" => "select_box",
-             "display_name_all" => "Goal",
-             "option_strings_text_all" =>
-                ["Safety",
-                 "Health Care",
-                 "Psychosocial Support",
-                 "Access to Justice",
-                 "Other, please specify"].join("\n")
             }),
-  Field.new({"name" => "gbv_assessment_goal_other",
+  Field.new({"name" => "progress_made_towards_goals",
+             "type" => "separator",
+             "display_name_all" => "Progress made towards GOALS",
+             "help_text_all" => "Evaluate Progress Made Towards GOALS agreed on in Survivor Assessment & Case Action Plan"
+            }),
+  Field.new({"name" => "gbv_assessment_progress_safety",
+             "type" => "radio_button",
+             "display_name_all" => "Progress towards Safety goals",
+             "option_strings_text_all" => "N/A\nin progress\nmet"
+            }),
+  Field.new({"name" => "gbv_assessment_progress_safety_text",
              "type" => "text_field",
-             "display_name_all" => "If Other, please specify"
+             "display_name_all" => "Explain Progress towards Safety goals"
             }),
-  Field.new({"name" => "gbv_assessment_goal_status",
-             "type" => "select_box",
-             "display_name_all" => "Status towards Goal",
-             "option_strings_text_all" => "In Progress\nMet"
+  Field.new({"name" => "gbv_assessment_progress_health",
+             "type" => "radio_button",
+             "display_name_all" => "Progress towards Heath care goals",
+             "option_strings_text_all" => "N/A\nin progress\nmet"
             }),
-  Field.new({"name" => "gbv_assessment_explaination",
+  Field.new({"name" => "gbv_assessment_progress_health_text",
              "type" => "text_field",
              "display_name_all" => "Explain"
+            }),
+  Field.new({"name" => "gbv_assessment_progress_psychosocial",
+             "type" => "radio_button",
+             "display_name_all" => "Progress towards Psychosocial Support goals",
+             "option_strings_text_all" => "N/A\nin progress\nmet"
+            }),
+  Field.new({"name" => "gbv_assessment_progress_psychosocial_text",
+             "type" => "text_field",
+             "display_name_all" => "Explain Progress towards Psychosocial Support goals"
+            }),
+  Field.new({"name" => "gbv_assessment_progress_justice",
+             "type" => "radio_button",
+             "display_name_all" => "Progress towards Access to Justice goals",
+             "option_strings_text_all" => "N/A\nin progress\nmet"
+            }),
+  Field.new({"name" => "gbv_assessment_progress_justice_text",
+             "type" => "text_field",
+             "display_name_all" => "Explain Progress towards Access to Justice goals"
+            }),
+  Field.new({"name" => "gbv_assessment_other_goals_list",
+             "type" => "text_field",
+             "display_name_all" => "Other goals (list here)"
+            }),
+  Field.new({"name" => "gbv_assessment_other_goals",
+             "type" => "radio_button",
+             "display_name_all" => "Progress towards other goals",
+             "option_strings_text_all" => "N/A\nin progress\nmet"
+            }),
+  Field.new({"name" => "gbv_assessment_other_goals_text",
+             "type" => "text_field",
+             "display_name_all" => "Explain Progress towards other goals"
             })
 ]
 
@@ -98,32 +123,11 @@ gbv_follow_up_subform_section = FormSection.create_or_update_form_section({
   "collapsed_fields" => ["followup_service_type", "followup_date"]
 })
 
-evaluate_progress_subform_section = FormSection.create_or_update_form_section({
-  "visible" => false,
-  "is_nested" => true,
-  :order_form_group => 20,
-  :order => 20,
-  :order_subform => 2,
-  :unique_id => "evaluate_progress_subform_section",
-  :parent_form=>"case",
-  "editable" => true,
-  :fields => evaluate_progress_subform_fields,
-  :initial_subforms => 1,
-  :perm_visible => false,
-  "name_all" => "Nested Evaluate Progress Made Towards GOALS agreed on in Survivor Assessment & Case Action Plan Subform",
-  "description_all" => "Nested Evaluate Progress Made Towards GOALS agreed on in Survivor Assessment & Case Action Plan Subform"
-})
-
 gbv_follow_up_fields = [
   Field.new({"name" => "gbv_follow_up_subform_section",
              "type" => "subform", "editable" => true,
              "subform_section_id" => gbv_follow_up_subform_section.unique_id,
              "display_name_all" => "Follow Up"
-            }),
-  Field.new({"name" => "evaluate_progress_subform_section",
-             "type" => "subform", "editable" => true,
-             "subform_section_id" => evaluate_progress_subform_section.unique_id,
-             "display_name_all" => "Evaluate Progress Made Towards GOALS agreed on in Survivor Assessment & Case Action Plan"
             })
 ]
 
