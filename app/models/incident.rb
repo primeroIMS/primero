@@ -31,6 +31,8 @@ class Incident < CouchRest::Model::Base
             }"
   end
 
+  before_save :set_violation_verification_default
+
   def self.find_by_incident_id(incident_id)
     by_incident_id(:key => incident_id).first
   end
@@ -94,6 +96,18 @@ class Incident < CouchRest::Model::Base
         "gbv_disability_type" => "disability_type",
         "unaccompanied_separated_status" => "unaccompanied_separated_status"
      })
+  end
+
+  def set_violation_verification_default
+    if self['violations'].present?
+      self['violations'].to_hash.each do |key, value|
+        value.each do |v|
+          unless v['verified'].present?
+            v['verified'] = "Pending"
+          end
+        end
+      end
+    end
   end
 
 end
