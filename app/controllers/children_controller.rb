@@ -17,7 +17,7 @@ class ChildrenController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     associated_users
-    search = Child.list_records filter, order, pagination, users_filter
+    search = Child.list_records case_filter(filter), order, pagination, users_filter
     @children = search.results
     @total_records = search.total
     @per_page = per_page
@@ -193,6 +193,12 @@ class ChildrenController < ApplicationController
       @child.save
     end
     redirect_to(@child)
+  end
+
+  #TODO: We need to define the filter values as Constants
+  def case_filter(filter)
+    filter["child_status"] ||= "open"
+    filter
   end
 
 # POST

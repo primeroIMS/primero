@@ -8,8 +8,8 @@ Feature: Lookup Violations
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following incidents with violations exist in the system:
       | created_by  | date_of_first_report    | status   | unique_identifier                    | violations                   |
-      | primero     | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 | killing, maiming, abduction  |
-      | primero     | 03-Feb-2004             | Inactive | 31c4cba8-b410-4af6-b349-68c557af3aa8 |                              |
+      | primero_mrm | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 | killing, maiming, abduction  |
+      | primero_mrm | 03-Feb-2004             | Inactive | 31c4cba8-b410-4af6-b349-68c557af3aa8 |                              |
     When I access "incidents page"
 
   Scenario: As a logged in user, if the current incident has no violations, the violations select should be empty
