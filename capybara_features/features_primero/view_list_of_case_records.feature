@@ -2,6 +2,7 @@
 # JIRA PRIMERO-399
 # JIRA PRIMERO-340
 # JIRA PRIMERO-455
+# JIRA PRIMERO-514
 
 @javascript @primero @search
 Feature: Primero View List of Case Records
@@ -28,13 +29,12 @@ Feature: Primero View List of Case Records
     And I should see a "Save" button on the page
 
   Scenario: List of cases should display the status
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following cases exist in the system:
-      | name     | created_by | age | sex    | registration_date       | child_status | unique_identifier                    |
-      | andreas  | primero    | 10  | male   | 03-Feb-2004             | open   | 21c4cba8-b410-4af6-b349-68c557af3aa9 |
-
+      | name     | created_by | age | sex    | registration_date       | unique_identifier                    | module_id        | created_by | owned_by   | child_status |
+      | andreas  | primero    | 10  | male   | 03-Feb-2004             | 21c4cba8-b410-4af6-b349-68c557af3aa9 | primeromodule-cp | primero_cp | primero_cp | Open         |
     When I press the "CASES" button
-    And I should see "open" on the page
+    And I should see "andreas" on the page
 
   Scenario: I want to see my cases but I do not have any
     Given I am logged in as an admin with username "primero" and password "primero"
