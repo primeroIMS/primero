@@ -25,6 +25,7 @@ Feature: Validate Date Field
   Scenario: As a logged in user, I create a case and validate the date field and allow different formats
     And I press the "Basic Identity" button
     And I fill in "Date of Birth" with "12/02/2014"
+    And I press the tab key
     And the value of "Date of Birth" should be "12-Feb-2014"
     And I press the "Assessment" button
     And I press the "Best Interest" button
@@ -40,7 +41,7 @@ Feature: Validate Date Field
     And I press the "Identification / Registration" button
     And I press the "Basic Identity" button
     And I should see a value for "Date of Birth" on the show page with the value of "12-Feb-2014"
-    And I press the "Assessment" button
+    And I press the "Assessment" button "2" times
     And I press the "Best Interest" button
     And I should see a value for "Date of Recommendation" on the show page with the value of "12-Feb-2014"
     And I should see a value for "Date of submission" on the show page with the value of "12-Feb-2014"

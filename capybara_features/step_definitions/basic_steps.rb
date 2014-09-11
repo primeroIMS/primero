@@ -684,6 +684,10 @@ Then /^I should see errors$/ do
   page.should have_xpath '//div[@class="errorExplanation"]'
 end
 
+When /^I press the tab key$/ do
+  find("//body").native.send_key :tab
+end
+
 private
 
 def click_flag_as_suspect_record_link_for(name)
