@@ -4,237 +4,245 @@ describe Ability do
 
   CRUD = [:index, :create, :view, :edit, :update, :destroy]
 
-  let(:permissions) { [] }
-  let(:user) { stub_model User, :user_name => 'test', :permissions => permissions }
-
-  subject { Ability.new user }
-
-  context 'base behavior' do
-    # Weird behavior warning:
-    # We would expect:
-    #   can :update, User do { |user| user.user_name == 'test' }
-    # To be applicable *only* for users with user_name = 'test', i.e.
-    #   can? :update, User.new(:user_name => 'test') # will be true
-    # BUT it also returns true for the entire User class!
-    #   can? :update, User == true!!
-    # It is messing up life a bit, so it is here as a test
-    describe '#class and object assumptions' do
-      subject {
-        ability = Object.new.extend CanCan::Ability
-        ability.can :update, Child do |child|
-          child.name == 'test'
-        end
-        ability.stub :user => user
-        ability
-      }
-
-      it { should authorize :update, Child }
-      it { should authorize :update, Child.new(:name => 'test') }
-      it { should_not authorize :update, Child.new }
-    end
-
-    describe '#manage with exceptions patch' do
-      subject {
-        ability = Object.new.extend CanCan::Ability
-        ability.can :manage, User, :except => [:update, :disable]
-        ability.stub :user => user
-        ability
-      }
-
-      it { should authorize_all [:blah, :foo, :bar], User }
-      it { should_not authorize_any [:update, :disable], [User, User.new] }
-    end
-
-    describe '#edit my account' do
-      let(:permissions) { [] }
-      it { should_not authorize_any [:update, :show], User, User.new, User.new(:user_name => 'some_other_user') }
-      it { should authorize :update, stub_model(User, :user_name => user.user_name, :id => user.id) }
-      it { should authorize :show, stub_model(User, :user_name => user.user_name, :id => user.id) }
-    end
+  before do
+    @user1 = create :user
+    @user2 = create :user
   end
 
-  context 'enquiries' do
-    describe '#create enquiry' do
-      let(:permissions) { [Permission::ENQUIRIES[:create]] }
+  describe "Records" do
 
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Child }
-      it { should authorize :create, Enquiry }
-      it { should_not authorize :update, Enquiry.new }
+    it "allows an owned record to be read given a read permission" do
+      role = create :role, permissions: [Permission::READ, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user1.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, Child)
+      expect(ability).to authorize(:read, case1)
     end
 
-    describe '#update enquiry' do
-      let(:permissions) { [Permission::ENQUIRIES[:update]] }
+    it "doesn't allow an owned record to be written to given only a read permission" do
+      role = create :role, permissions: [Permission::READ, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user1.user_name
 
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Child }
-      it { should authorize :update, Enquiry.new }
-      it { should_not authorize :create, Enquiry }
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:write, Child)
+      expect(ability).not_to authorize(:write, case1)
     end
+
+    it "allows a non-owned but associated record to be read" do
+      role = create :role, permissions: [Permission::READ, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user2.user_name, assigned_user_names: [@user1.user_name]
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, Child)
+      expect(ability).to authorize(:read, case1)
+
+    end
+
+    it "allows an owned record to be written to given a write permission" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user1.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:write, Child)
+      expect(ability).to authorize(:write, case1)
+    end
+
+    it "allows an owned record to be flagged given a flag permission" do
+      role = create :role, permissions: [Permission::FLAG, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user1.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:flag, case1)
+    end
+
+    it "allows an owned record to be reassigned" do
+      role = create :role, permissions: [Permission::ASSIGN, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user1.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:assign, case1)
+    end
+
+    it "doesn't allow a record to be written to even if the record can be flagged and assigned" do
+      role = create :role, permissions: [Permission::FLAG, Permission::ASSIGN, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user1.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:write, Child)
+      expect(ability).not_to authorize(:write, case1)
+    end
+
+    it "doesn't allow a record owned by someone else to be managed by a user with no specified scope" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::CASE]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user2.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, case1)
+      expect(ability).not_to authorize(:write, case1)
+    end
+
+    it "doesn't allow a record owned by someone else to be managed by a user with a 'self' scope" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::CASE, Permission::SELF]
+      @user1.role_ids = [role.id]
+      case1 = create :child, owned_by: @user2.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, case1)
+      expect(ability).not_to authorize(:write, case1)
+    end
+
+    it "allows a record owned by a fellow group member to be managed by a user with 'group' scope" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::CASE, Permission::GROUP]
+      @user1.role_ids = [role.id]
+      @user1.user_groups = ['test_group']
+      @user1.save
+      @user2.user_groups = ['test_group']
+      @user2.save
+      case1 = create :child, owned_by: @user2.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, case1)
+      expect(ability).to authorize(:write, case1)
+    end
+
+    it "allows a record owned by someone else to be read by a user with full 'all' scope" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::CASE, Permission::ALL]
+      @user1.role_ids = [role.id]
+      @user1.user_groups = ['test_group']
+      @user1.save
+      @user2.user_groups = ['other_test_group']
+      @user2.save
+      case1 = create :child, owned_by: @user2.user_name
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, case1)
+      expect(ability).to authorize(:write, case1)
+    end
+
   end
 
-  context 'children' do
-    describe '#view,search all data and edit' do
-      let(:permissions) { [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:edit]] }
+  describe "Users" do
+    it "allows a user with read permissions to manage their own user" do
+      role = create :role, permissions: [Permission::READ, Permission::USER]
+      @user1.role_ids = [role.id]
+      @user1.save
 
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
+      ability = Ability.new @user1
 
-      it { should authorize :index, Child }
-      it { should authorize :view_and_search, Child }
-      it { should_not authorize :create, Child }
-      it { should authorize :read, Child.new }
-      it { should authorize :update, Child.new }
+      expect(ability).to authorize(:read, @user1)
+      expect(ability).to authorize(:write, @user1)
     end
 
-    describe '#register child' do
-      let(:permissions) { [Permission::CHILDREN[:register]] }
+    it "allows a user with no user permissions to manage their own user" do
+      role = create :role, permissions: [Permission::READ, Permission::CASE]
+      @user1.role_ids = [role.id]
+      @user1.save
 
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, Report }
+      ability = Ability.new @user1
 
-      it { should authorize :index, Child }
-      it { should authorize :create, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should authorize :read, Child.new(:owned_by => 'test') }
+      expect(ability).to authorize(:read, @user1)
+      expect(ability).to authorize(:write, @user1)
     end
 
-    describe '#edit child' do
-      let(:permissions) { [Permission::CHILDREN[:edit]] }
+    it "doesn't allow a user with no explicit 'user' permission to manage another user" do
+      role = create :role, permissions: [Permission::READ, Permission::CASE]
+      @user1.role_ids = [role.id]
+      @user1.save
 
-      it { should_not authorize_any CRUD, ContactInformation, Device, FormSection, Field, Session, SuggestedField, User, Role, SystemUsers, Report, Enquiry }
+      ability = Ability.new @user1
 
-      it { should authorize :index, Child }
-      it { should_not authorize :read, Child.new }
-      it { should_not authorize :update, Child.new }
-      it { should authorize :read, Child.new(:owned_by => 'test') }
-      it { should authorize :update, Child.new(:owned_by => 'test') }
+      expect(ability).not_to authorize(:read, @user2)
+      expect(ability).not_to authorize(:write, @user2)
     end
 
-    describe "view and search child records" do
-      let(:permissions) { [Permission::CHILDREN[:view_and_search]] }
+    it "doesn't allow a user with no specified scope to edit another user" do
+      role = create :role, permissions: [Permission::READ, Permission::USER]
+      @user1.role_ids = [role.id]
+      @user1.save
 
-      it { should authorize :index, Child.new }
-      it { should authorize :read, Child.new }
-      it { should authorize :view_all, Child }
-      it { should authorize :export, Child }
+      ability = Ability.new @user1
+
+      expect(ability).to_not authorize(:read, @user2)
+      expect(ability).to_not authorize(:write, @user2)
     end
+
+    it "allows a user with group scope to only edit another user in that group" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
+      @user1.role_ids = [role.id]
+      @user1.user_groups = ['test_group']
+      @user1.save
+      @user2.user_groups = ['test_group']
+      @user2.save
+      user3 = create :user, user_groups: ['other_test_group']
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, @user2)
+      expect(ability).to authorize(:write, @user2)
+      expect(ability).to_not authorize(:read, user3)
+      expect(ability).to_not authorize(:write, user3)
+    end
+
+    it "allows viewing and editing of Groups, Roles, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      [UserGroup, Role, Agency].each do |resource|
+        expect(ability).to authorize(:read, resource)
+        expect(ability).to authorize(:write, resource)
+      end
+    end
+
   end
 
-  context 'users' do
-    describe '#view users' do
-      let(:permissions) { [Permission::USERS[:view]] }
+  describe "Other resources" do
+    it "allows viewing and editing of Metadata resources if that permission is set along with 'read' and 'write'" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::METADATA]
+      @user1.role_ids = [role.id]
+      @user1.save
 
-      it { should authorize :list, User }
-      it { should authorize :read, User.new }
-      it { should_not authorize :update, User.new }
-      it { should_not authorize :create, User.new }
+      ability = Ability.new @user1
+
+      [FormSection, Field, Location, Lookup, PrimeroModule, PrimeroProgram].each do |resource|
+        expect(ability).to authorize(:read, resource)
+        expect(ability).to authorize(:write, resource)
+      end
     end
 
-    describe '#create and edit users' do
-      let(:permissions) { [Permission::USERS[:create_and_edit]] }
+    it "allows viewing and editing of System resources if that permission is set along with 'read' and 'write'" do
+      role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::SYSTEM]
+      @user1.role_ids = [role.id]
+      @user1.save
 
-      it { should authorize :create, User.new }
-      it { should authorize :update, User.new }
-      it { should authorize :edit, User.new }
-      it { should_not authorize :destroy, User.new }
-      it { should authorize :read, User.new }
-    end
+      ability = Ability.new @user1
 
-    describe "destroy users" do
-      let(:permissions) { [Permission::USERS[:destroy]] }
-
-      it { should authorize :destroy, User.new }
-      it { should authorize :read, User.new }
-      it { should_not authorize :edit, User.new }
-    end
-
-    describe "disable users" do
-      let(:permissions) { [Permission::USERS[:disable]] }
-
-      it { should_not authorize_any [:create, :update], User.new }
-      it { should authorize :disable, User.new }
-      it { should authorize :read, User.new }
-    end
-
-    describe "blacklist" do
-      let(:permissions) { [Permission::DEVICES[:black_list]] }
-
-      it { should_not authorize_any CRUD, Child, ContactInformation, FormSection, Session, SuggestedField, User, Role, Replication, SystemUsers, Report }
-
-      it { should authorize :update, Device }
-      it { should authorize :index, Device }
-      it { should_not authorize :read, User.new }
-    end
-
-    describe "replication" do
-      let(:permissions) { [Permission::DEVICES[:replications]] }
-
-      it { should_not authorize_any CRUD, Child, ContactInformation, FormSection, Session, SuggestedField, User, Role, SystemUsers, Report }
-
-      it { should authorize :update, Replication }
-      it { should_not authorize :read, User.new }
-      it { should_not authorize :manage, Device }
-    end
-  end
-
-  context 'roles' do
-    describe "view roles permission" do
-      let(:permissions) { [Permission::ROLES[:view]] }
-
-      it { should authorize :list, Role.new }
-      it { should authorize :view, Role.new }
-      it { should_not authorize :create, Role.new }
-      it { should_not authorize :update, Role.new }
-    end
-
-    describe "create and edit roles permission" do
-      let(:permissions) { [Permission::ROLES[:create_and_edit]] }
-
-      it { should authorize :list, Role.new }
-      it { should authorize :create, Role.new }
-      it { should authorize :update, Role.new }
-    end
-  end
-
-  context 'forms' do
-    describe "manage forms" do
-      let(:permissions) { [Permission::FORMS[:manage]] }
-
-      it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, SystemUsers, Report }
-
-      it { should authorize :manage, FormSection.new }
-      it { should authorize :manage, Field.new }
-      it { should_not authorize :highlight, Field }
-    end
-
-    describe "highlight fields" do
-      let(:permissions) { [Permission::SYSTEM[:highlight_fields]] }
-      it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers, Report }
-      it { should authorize :highlight, Field }
-    end
-  end
-
-  describe "replications" do
-    let(:permissions) { [Permission::DEVICES[:replications]] }
-    it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers, Report }
-    it { should authorize :manage, Replication }
-  end
-
-  describe 'reports' do
-    let(:permissions) { [Permission::REPORTS[:view]] }
-    it { should_not authorize_any CRUD, Child, ContactInformation, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers, Replication }
-    it { should authorize :manage, Report }
-  end
-
-  context 'other' do
-    describe "contact information" do
-      let(:permissions) { [Permission::SYSTEM[:contact_information]] }
-      it { should_not authorize_any CRUD, Child, Device, Session, SuggestedField, User, Role, FormSection, Field, SystemUsers }
-      it { should authorize :manage, ContactInformation }
-    end
-
-    describe "system users for synchronisation" do
-      let(:permissions) { [Permission::SYSTEM[:system_users]] }
-      it { should_not authorize_any CRUD, Child, Device, Session, SuggestedField, User, Role, FormSection, Field, ContactInformation }
-      it { should authorize :manage, SystemUsers }
+      [ContactInformation, Device, Replication, SystemUsers].each do |resource|
+        expect(ability).to authorize(:read, resource)
+        expect(ability).to authorize(:write, resource)
+      end
     end
 
   end

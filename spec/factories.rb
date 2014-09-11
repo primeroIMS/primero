@@ -15,6 +15,7 @@ FactoryGirl.define do
     created_by "test_user"
     owned_by "test_user"
     module_id "CP"
+    child_status "Open"
 
     after_build do |child, factory|
       Child.stub(:get).with(child.id).and_return(child)
@@ -87,12 +88,13 @@ FactoryGirl.define do
     verified true
     role_ids ['random_role_id']
     module_ids ['CP']
+    user_groups ["Test"]
   end
 
   factory :role, :traits => [ :model ] do
     name { "test_role_#{counter}" }
     description "test description"
-    permissions { Permission.all_permissions }
+    permissions { Permission.all }
   end
 
   factory :primero_program, :traits => [:model] do

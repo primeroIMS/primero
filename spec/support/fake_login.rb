@@ -7,11 +7,13 @@ module FakeLogin
     User.stub(:get).with(user.id).and_return(user)
 
     @controller.stub(:current_session).and_return(session)
-    Role.stub(:get).with("abcd").and_return(Role.new(:name => "default", 
+    Role.stub(:get).with("abcd").and_return(Role.new(:name => "default",
                                                      :permissions => [
-                                                        Permission::CHILDREN[:register], 
-                                                        Permission::INCIDENTS[:register], 
-                                                        Permission::TRACING_REQUESTS[:register]]))
+                                                        Permission::CASE,
+                                                        Permission::INCIDENT,
+                                                        Permission::TRACING_REQUEST,
+                                                        Permission::READ,
+                                                        Permission::WRITE]))
     User.stub(:find_by_user_name).with(user.user_name).and_return(user)
     session
   end
@@ -23,32 +25,37 @@ module FakeLogin
 
   def fake_field_admin_login
     user = User.new(:user_name => 'fakefieldadmin')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::CHILDREN[:view_and_search],
-                                                             Permission::CHILDREN[:create], Permission::CHILDREN[:edit],
-                                                            Permission::INCIDENTS[:view_and_search],
-                                                             Permission::INCIDENTS[:create], Permission::INCIDENTS[:edit],
-                                                            Permission::TRACING_REQUESTS[:view_and_search],
-                                                             Permission::TRACING_REQUESTS[:create], Permission::TRACING_REQUESTS[:edit]])])
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::CASE,
+                                                        Permission::INCIDENT,
+                                                        Permission::TRACING_REQUEST,
+                                                        Permission::READ,
+                                                        Permission::WRITE])])
     fake_login user
   end
 
   def fake_field_worker_login
     user = User.new(:user_name => 'fakefieldworker')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::CHILDREN[:register], Permission::INCIDENTS[:register], Permission::TRACING_REQUESTS[:register]])])
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::CASE,
+                                                            Permission::INCIDENT,
+                                                            Permission::TRACING_REQUEST,
+                                                            Permission::READ,
+                                                            Permission::WRITE])])
     fake_login user
   end
-  
+
   def fake_mrm_admin_login
     user = User.new(:user_name => 'fakemrmadmin')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENTS[:view_and_search],
-                                                            Permission::INCIDENTS[:create],
-                                                            Permission::INCIDENTS[:edit]])])
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENT,
+                                                            Permission::READ,
+                                                            Permission::WRITE])])
     fake_login user
   end
-  
+
   def fake_mrm_worker_login
     user = User.new(:user_name => 'fakemrmworker')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENTS[:register]])])
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::INCIDENT,
+                                                            Permission::READ,
+                                                            Permission::WRITE])])
     fake_login user
   end
 

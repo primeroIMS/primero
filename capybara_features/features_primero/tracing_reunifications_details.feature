@@ -24,7 +24,7 @@ Feature: Tracing Reunification Details
       | Location of adult with whom the child was reunified  | 124 C.Ave                 |
       | Address where the reunification is taking place      | 125 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
-      | What type of reunification                           | <Select> Mass Tracing     |
+      | What type of reunification?                          | <Select> Mass Tracing     |
       | Was the child reunified with the verfified adult?    | <Radio> No                |
       | If not, what was the reason for the change?          | <Select> Change of Mind   |
       | Is there a need for follow up?                       | <Radio> Yes               |
@@ -50,7 +50,7 @@ Feature: Tracing Reunification Details
       | Location of adult with whom the child was reunified  | 124 C.Ave                 |
       | Address where the reunification is taking place      | 125 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
-      | What type of reunification                           | Mass Tracing              |
+      | What type of reunification?                          | Mass Tracing              |
       | Was the child reunified with the verfified adult?    | No                        |
       | If not, what was the reason for the change?          | Change of Mind            |
       | Is there a need for follow up?                       | Yes                       |

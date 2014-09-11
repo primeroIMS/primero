@@ -2,7 +2,7 @@ class ChildrenController < ApplicationController
   @model_class = Child
 
   include RecordFilteringPagination
-  
+
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
@@ -16,7 +16,7 @@ class ChildrenController < ApplicationController
 
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
-    associated_users
+    @associated_users = current_user.managed_user_names
     search = Child.list_records case_filter(filter), order, pagination, users_filter
     @children = search.results
     @total_records = search.total
@@ -42,7 +42,7 @@ class ChildrenController < ApplicationController
   # GET /children/1
   # GET /children/1.xml
   def show
-    authorize! :read, @child #if @child["created_by"] != current_user_name
+    authorize! :read, @child
     @page_name = t "case.view", :short_id => @child.short_id
     @body_class = 'profile-page'
     @duplicates = Child.duplicates_of(params[:id])

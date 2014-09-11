@@ -28,7 +28,7 @@ Feature: Primero user account
       | Full Name         | George Harrison     |
       | Email             | abcd@unicef.com     |
       | Location          | Charleston          |
-    And I press "Update"
+    And I press "Save"
     Then I should see "User was successfully updated"
     And I should see "George Harrison"
     And I should see "abcd@unicef.com"

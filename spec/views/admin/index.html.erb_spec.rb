@@ -19,25 +19,25 @@ describe 'admin/index.html.erb' do
   # PRIMERO-72
   # Removed System Settings content as part of demo cleanup
   # TODO add test back when functionality is added back
-  # describe 'with system settings permission' do
-    # let(:permissions) { [Permission::SYSTEM[:contact_information]] }
-    # it { should have_link 'Admin Contact Information', :href => edit_contact_information_path(:administrator) }
-  # end
+  describe 'with system settings permission' do
+    let(:permissions) { [Permission::SYSTEM] }
+    xit { should have_link 'Admin Contact Information', :href => edit_contact_information_path(:administrator) }
+  end
 
   # PRIMERO-72
   # Removed System Settings content as part of demo cleanup
   # TODO add test back when functionality is added back
-  # describe 'with manage forms permisssion' do
-    # let(:permissions) { [Permission::SYSTEM[:highlight_fields]] }
-    # it { should have_link 'Highlight Fields', :href => highlight_fields_path }
-  # end
+  describe 'with manage forms permisssion' do
+    let(:permissions) { [Permission::SYSTEM] }
+    xit { should have_link 'Highlight Fields', :href => highlight_fields_path }
+  end
 
   # PRIMERO-72
   # Removed System Settings content as part of demo cleanup
   # TODO add test back when functionality is added back
-  # describe 'with manage replications permission' do
-    # let(:permissions) { [Permission::SYSTEM[:system_users]] }
-    # it { should have_link 'Manage Server Synchronisation Users', :href => system_users_path }
-  # end
+  describe 'with manage replications permission' do
+    let(:permissions) { [Permission::SYSTEM] }
+    xit { should have_link 'Manage Server Synchronisation Users', :href => system_users_path }
+  end
 
 end
