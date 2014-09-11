@@ -11,6 +11,8 @@ end
 
 Given /^the following tracing request exist in the system:$/ do |tracing_request_table|
   tracing_request_table.hashes.each do |tracing_request_hash|
+    tracing_request_hash['module_id'] ||= PrimeroModule.find_by_name('CP').id
+
     user_name = tracing_request_hash['created_by']
     if User.find_by_user_name(user_name).nil?
       create_user(user_name)

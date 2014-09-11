@@ -58,7 +58,10 @@ module IndexHelper
 					label = label.gsub('_', ' ').split.map(&:capitalize).join(' ')
 					item = item.gsub('_', ' ')
 				end
-				concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}")
+				if @scope[filter].present?
+					checked = true if @scope[filter].include? item.gsub('_', '')
+				end
+				concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}", checked: checked || false)
 				concat(label_tag "#{filter}_#{item}", label)
 				concat('<br>'.html_safe)
 			end

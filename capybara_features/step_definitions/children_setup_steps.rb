@@ -18,7 +18,8 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
         'created_by' => 'Billy',
         'created_organisation' => 'UNICEF',
         'age_is' => 'Approximate',
-        'flag_message' => 'Reason for flagging'
+        'flag_message' => 'Reason for flagging',
+        'module_id' => PrimeroModule.find_by_name('CP').id,
     )
     user_name = child_hash['created_by']
     if User.find_by_user_name(user_name).nil?
@@ -69,7 +70,6 @@ Given /^I add to cases "(.*)" the following subform "(.*)":$/ do |name, subform_
 end
 
 Given /^someone has entered a child with the name "([^\"]*)"$/ do |child_name|
-  visit path_to('new case page')
   fill_in('Name', :with => child_name)
   # Birthplace removed. Waiting on finalize form fields
   # fill_in('Birthplace', :with => 'Haiti')

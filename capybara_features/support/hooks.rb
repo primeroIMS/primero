@@ -5,17 +5,17 @@ include UploadableFiles
 uploadable_large_photo
 uploadable_large_audio
 
-Before do
-  Child.stub :index_record => true, :reindex! => true, :build_solar_schema => true
-  Sunspot.stub :index => true, :index! => true
-end
+# Before do
+#   Child.stub :index_record => true, :reindex! => true, :build_solar_schema => true
+#   Sunspot.stub :index => true, :index! => true
+# end
 
-Before('@search') do
-  RSpec::Mocks.proxy_for(Child).reset
-  RSpec::Mocks.proxy_for(Sunspot).reset
-  Sunspot.remove_all!(Child)
-  Sunspot.remove_all!(Enquiry)
-end
+# Before('@search') do
+#   RSpec::Mocks.proxy_for(Child).reset
+#   RSpec::Mocks.proxy_for(Sunspot).reset
+#   Sunspot.remove_all!(Child)
+#   Sunspot.remove_all!(Enquiry)
+# end
 
 Before do
   I18n.locale = I18n.default_locale = :en

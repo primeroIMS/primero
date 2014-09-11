@@ -17,6 +17,7 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
       'incident_total_boys' => '3',
       'incident_total_girls' => '5',
       'incident_total_unknown' => '2',
+      'module_id' => PrimeroModule.find_by_name('MRM').id,
     )
     user_name = incident_hash['created_by']
     if User.find_by_user_name(user_name).nil?
