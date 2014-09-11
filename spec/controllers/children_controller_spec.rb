@@ -119,7 +119,8 @@ describe ChildrenController do
   describe "GET index" do
 
     #TODO: We need a whole new test suite for the index. We need to test the following:
-    #         * filters are being generated correctly from params
+    #         * filters are being generated correctly from params.
+    #         * Test that the default filtering is correctly initialized
     #         * right subset of data based on current user
     #         * definitely have tests for active/inactive
     #         * pagination
@@ -139,7 +140,7 @@ describe ChildrenController do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           children = mock_child(@stubs)
-          scope = {}
+          scope = {"child_status"=>"open"} if not scope.present?
           children.stub(:paginate).and_return(children)
           Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"]).and_return(children)
 
@@ -163,8 +164,9 @@ describe ChildrenController do
           children = mock_child(@stubs)
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
-          scope ||= {}
+          scope = {"child_status"=>"open"} if not scope.present?
           order = {:created_at=>:desc}
+          binding.pry
 
           children.stub(:paginate).and_return(children)
           Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(children)
@@ -183,19 +185,23 @@ describe ChildrenController do
         before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
         it_should_behave_like "viewing children by user with access to all data"
       end
-
-
     end
+
 
     describe "permissions to view lists of case records", search: true, skip_session: true do
 
       before do
+
+        Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
+
         User.all.each{|u| u.destroy}
         Child.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
+
         roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
 
+        Child.any_instance.stub(:child_status).and_return("Open")
         @case_worker1 = create(:user)
         @case_worker1.stub(:roles).and_return(roles)
         @case_worker2 = create(:user)
@@ -206,6 +212,7 @@ describe ChildrenController do
         @case3 = create(:child, owned_by: @case_worker2.user_name)
 
         Sunspot.commit
+
       end
 
 

@@ -3,8 +3,8 @@ class Ability
 
 
   def initialize(user)
-    alias_action :index, :view, :list, :to => :read
-    alias_action :edit, :update, :create, :new, :destroy, :disable, :to => :write
+    alias_action :index, :view, :list, :export, :to => :read
+    alias_action :edit, :update, :create, :new, :destroy, :disable, :import, :to => :write
 
     @user = user
 
