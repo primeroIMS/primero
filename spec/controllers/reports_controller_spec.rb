@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ReportsController do
   before :each do
-    fake_login_as [ Permission::REPORTS[:view] ]
+    fake_login_as [ Permission::READ, Permission::CASE, Permission::INCIDENT ]
   end
 
   xit "should fetch reports" do

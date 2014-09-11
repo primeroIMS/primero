@@ -16,7 +16,7 @@ describe "children/edit.html.erb" do
     @child = Child.create(:name => "name", :unique_identifier => '12341234123', :created_by => "me")
     assign(:child, @child)
     @user = User.new
-    @user.stub(:permissions => Permission::USERS[:create_and_edit])
+    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::USER])
     controller.stub(:current_user).and_return(@user)
   end
 

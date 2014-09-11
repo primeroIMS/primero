@@ -101,6 +101,16 @@ describe IncidentsController do
 
   describe "GET index" do
 
+
+    #TODO: We need a whole new test suite for the index. We need to test the following:
+    #         * filters are being generated correctly from params
+    #         * right subset of data based on current user
+    #         * definitely have tests for active/inactive
+    #         * pagination
+    #         * sorting
+
+
+    #TODO: Keep these two shared examples around for future refactor
     shared_examples_for "viewing incidents by user with access to all data" do
       describe "when the signed in user has access all data" do
         before do
@@ -113,11 +123,11 @@ describe IncidentsController do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           incidents = mock_incident(@stubs)
-          @status ||= "all"
+          scope ||= {}
           incidents.stub(:paginate).and_return(incidents)
-          Incident.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakemrmadmin").and_return(incidents)
+          Incident.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakemrmadmin"]).and_return(incidents)
 
-          get :index, :scope => @status
+          get :index, :scope => scope
           assigns[:incidents].should == incidents
         end
       end
@@ -147,40 +157,11 @@ describe IncidentsController do
     end
 
     context "viewing all incidents" do
-      before { @stubs = { :reunited? => false } }
+      #before { @stubs = { :reunited? => false } }
       context "when status is passed for admin" do
         before { @status = "all"}
         before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
         it_should_behave_like "viewing incidents by user with access to all data"
-      end
-
-      context "when status is passed for mrm worker" do
-        before { @status = "all"}
-        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-
-        it_should_behave_like "viewing incidents as a mrm worker"
-      end
-
-      context "when status is not passed admin" do
-        before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
-        it_should_behave_like "viewing incidents by user with access to all data"
-      end
-
-      context "when status is not passed mrm worker" do
-        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing incidents as a mrm worker"
-      end
-
-      context "when status is not passed mrm worker and order is name" do
-        before {@options = {:startkey=>["all", "fakemrmworker"], :endkey=>["all","fakemrmworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_name}}
-        before {@params = {:order_by => 'name'}}
-        it_should_behave_like "viewing incidents as a mrm worker"
-      end
-
-      context "when status is not passed mrm worker, order is created_at and page is 2" do
-        before {@options = {:view_name=>:by_valid_record_view_with_created_by_created_at, :startkey=>["all", "fakemrmworker", {}], :endkey=>["all", "fakemrmworker"], :descending=>true, :page=>2, :per_page=>20}}
-        before {@params = {:order_by => 'created_at', :page => 2}}
-        it_should_behave_like "viewing incidents as a mrm worker"
       end
     end
 
@@ -192,7 +173,7 @@ describe IncidentsController do
         Incident.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-        roles = [Role.new(permissions: [Permission::INCIDENTS[:view_and_search]])]
+        roles = [Role.new(permissions: [Permission::READ, Permission::INCIDENT])]
 
         @incident_manager1 = create(:user)
         @incident_manager1.stub(:roles).and_return(roles)
@@ -215,21 +196,8 @@ describe IncidentsController do
 
     end
 
-    # context "viewing active incidents" do
-      # before do
-        # @status = "active"
-        # @stubs = {:reunited? => false}
-      # end
-      # context "admin" do
-        # before {@options = {:startkey=>["active"], :endkey=>["active", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_name}}
-        # it_should_behave_like "viewing incidents by user with access to all data"
-      # end
-      # context "field worker" do
-        # before {@options = {:startkey=>["active", "fakefieldworker"], :endkey=>["active", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_all_view_with_created_by_created_at}}
-        # it_should_behave_like "viewing incidents as a field worker"
-      # end
-    # end
-#
+    #TODO: Why is this commented out?
+    #
     # describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       # before do
         # fake_field_admin_login

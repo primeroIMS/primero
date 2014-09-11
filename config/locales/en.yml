@@ -529,35 +529,25 @@ en:
   permissions:
     label: "Permissions"
     group:
-      Reports: Reports
-      Devices: Devices
-      System: System
-      Roles: Roles
-      Children: Children
-      Forms: Forms
-      Users: Users
-      ALL: All
+      actions: "Actions"
+      resources: "Resources"
+      management: "Management"
 
     permission:
-      "Register Child": "Register Child"
-      "Edit Child": "Edit Child"
-      "View And Search Child": "View And Search Child"
-      "Export to Photowall/CSV/PDF": "Export to Photowall/CSV/PDF"
-      "Manage Forms": "Manage Forms"
-      "Create and Edit Users": "Create and Edit Users"
-      "View Users": "View Users"
-      "Delete Users": "Delete Users"
-      "Disable Users": "Disable Users"
-      "BlackList Devices": "BlackList Devices"
-      "Create and Edit Roles": "Create and Edit Roles"
-      "View roles": "View roles"
-      "System Settings": "System Settings"
-      "Highlight Fields": "Highlight Fields"
-      "Manage Replications": "Manage Replications"
-      "View roles": "View roles"
-      "All": "All"
-      "Users for synchronisation": "Manage Server Synchronisation Users"
-      "View and Download Reports": "View and Download Reports"
+      read: "Read"
+      write: "Write"
+      flag: "Flag"
+      assign: "Assign record owner"
+      case: "Case"
+      incident: "Incident"
+      tracing_request: "Tracing Request"
+      user: "Users, Groups, Roles"
+      metadata: "Forms, Lookups"
+      system: "System"
+      self: "Access only my records"
+      group: "Access all records owned by users in my group"
+      all: "Access all records"
+
   forms:
     label: "Forms"
     save: "Save Form"
