@@ -27,7 +27,7 @@ incident_fields = [
             }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",
-             "display_name_all" => "Date of First Report or Interview"
+             "display_name_all" => "Date of First Report"
             }),
   Field.new({"name" => "date_of_incident",
              "type" => "date_range",
@@ -54,15 +54,8 @@ incident_fields = [
   Field.new({"name" => "status",
              "type" => "select_box",
              "display_name_all" => "Incident Status",
-             "option_strings_text_all" => [
-                "Active",
-                "Inactive"
-              ].join("\n")
+             "option_strings_text_all" => ["Open", "Closed", "Duplicate"].join("\n")
             }),
-  Field.new({"name" => "mrm_verification_status", # TODO: populate from verified
-             "type" => "text_field",
-             "display_name_all" => "MRM Verification Status"
-            }), 
   Field.new({"name" => "incident_description",
              "type" => "textarea",
              "display_name_all" => "Account of Incident"
@@ -85,7 +78,6 @@ incident_fields = [
              "type" => "select_box",
              "display_name_all" => "Type of place where the incident took place",
              "option_strings_text_all" => [
-                "Customizable. Default values:",
                 "Bush/Forest",
                 "Garden/Cultivated Field",
                 "School",
@@ -112,6 +104,9 @@ incident_fields = [
              "type" => "text_field",
              "display_name_all" => "Longitude"
             }),
+  #TODO: 
+  #      - replace Area, Sub-Area, Camp/Town/Site/Village with the Location lookup field as used elsewhere in the application (e.g., in Cases)
+  #      - add a Notes on Location field; move location and location notes fields to be above Latitude and Longitude fields
   Field.new({"name" => "incident_location_1", # TODO: Customizable
              "type" => "text_field",
              "display_name_all" => "Area"

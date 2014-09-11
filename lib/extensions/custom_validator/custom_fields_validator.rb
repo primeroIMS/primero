@@ -37,7 +37,7 @@ class CustomFieldsValidator
         if target.class.name == "Incident" and target["violations"].present? and target["violations"][field.form.unique_id].present?
           fields_instance = target["violations"][field.form.unique_id]
         end
-        fields_instance.each do |k, t|
+        fields_instance.each do |t|
           validate_field(field, target, t)
         end if fields_instance.respond_to?(:each)
       elsif field[:type] == Field::DATE_RANGE
