@@ -72,9 +72,9 @@ Feature: Primero View List of Case Records
       | marilyn  | primero    | 14  | male   | 03-Feb-2004             | open   |
     When I press the "CASES" button
     And I should see "Displaying cases 1 - 20 of 25 in total"
-    And I click text "Next"
+    And I click text ">"
     And I should see "jaco" on the page
-    And I click text "Previous"
-    And I should see "kim" on the page
+    And I click text "<"
+    And I should see "homer" on the page
     And I visit cases page "2"
-    And I should see "josh" on the page
+    And I should see "andreas" on the page
