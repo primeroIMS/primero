@@ -10,6 +10,7 @@ class Incident < CouchRest::Model::Base
   include Searchable #Needs to be after Ownable
   include Flaggable
 
+  property :incident_id
   property :description
 
   def initialize *args
