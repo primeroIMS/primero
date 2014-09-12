@@ -152,7 +152,6 @@ attack_on_schools_subform_fields = [
   Field.new({"name" => "verified",
              "type" => "select_box",
              "display_name_all" => "Verification Status",
-             "selected_value" => "Pending",
              "option_strings_text_all" =>
                                     ["Verified",
                                      "Unverified",
