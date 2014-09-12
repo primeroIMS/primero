@@ -40,17 +40,19 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
 
     photo = uploadable_photo(child_hash.delete('photo_path')) if child_hash['photo_path'] != ''
     child = Child.new_with_user_name(User.find_by_user_name(user_name), child_hash)
+    #TODO for some reason the method short_id always return null in cucumber, but works as expected in the app
+    child['short_id'] = (child['unique_identifier'] || "").last 7
     child.photo = photo
     child['histories'] ||= []
     child['histories'] << {'datetime' => child_hash['flag_at'], 'changes' => {'flag' => 'anything'}}
     child['histories'] << {'datetime' => child_hash['reunited_at'], 'changes' => {'reunited' => {'from' => nil, 'to' => "true"}, 'reunited_message' => {'from' => nil, 'to' => 'some message'}}}
     child['investigated'] = child_hash['investigated'] == 'true'
+    child['child_status'] = "Open" if child_hash['child_status'].blank?
 
     child.create!
     # Need this because of how children_helper grabs flag_message from child history - cg
     if flag
-      child['flag'] = flag
-      child['flag_message'] = flag_message
+      child.flags = [Flag.new(:message => flag_message, :flagged_by => user_name)]
       child.save!
     end
   end
