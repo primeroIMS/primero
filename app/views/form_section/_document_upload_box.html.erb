@@ -27,9 +27,9 @@
         <% value = document["document_description"] || "" %>
         <span class="value"><%= value %></span>
         <div>
-          <% checkbox_id = "delete_child_document_#{document["attachment_key"]}" %>
-          <%= check_box_tag("delete_child_document[#{document["attachment_key"]}]", :id => checkbox_id) %>
-          <%= label_tag checkbox_id, t("child.actions.delete_document") %>
+          <% checkbox_id = "delete_#{formObject.class.name.underscore.downcase}_document_#{document["attachment_key"]}" %>
+          <%= check_box_tag("delete_#{formObject.class.name.underscore.downcase}_document[#{document["attachment_key"]}]", :id => checkbox_id) %>
+          <%= label_tag checkbox_id, t("#{formObject.class.name.underscore.downcase}.actions.delete_document") %>
         </div>
       </div>
     </div>
@@ -41,22 +41,22 @@
       <div class="row">
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "child[upload_document][0][document]", "Add Document", :class=>'key inline' %>
+            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", "Add Document", :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns">
-          <%= file_field_tag "child[upload_document][0][document]", :id => "child_upload_document_0_document" %>
+          <%= file_field_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", :id => "#{formObject.class.name.underscore.downcase}_upload_document_0_document" %>
           <%= image_tag "new/icon_help.png", title: document_upload_box.help_text, class: 'tool-tip-icon vtip' if document_upload_box.help_text.present? %>
         </div>
       </div>
       <div class="row">
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "child[upload_document][0][document_description]", "Document Description", :class=>'key inline' %>
+            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document_description]", "Document Description", :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns">
-          <%= text_field_tag "child[upload_document][0][document_description]", "", :id => "child_upload_document_0_document_description" %>
+          <%= text_field_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document_description]", "", :id => "#{formObject.class.name.underscore.downcase}_upload_document_0_document_description" %>
         </div>
       </div>
     </div>
