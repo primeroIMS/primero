@@ -90,7 +90,7 @@ Feature: Basic Identity Form
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Short ID" on the show page
-    And I should see a value for "Case Status" on the show page with the value of ""
+    And I should see a value for "Case Status" on the show page with the value of "Open"
     And I should see a value for "Name" on the show page with the value of ""
     And I should see a value for "Nickname" on the show page with the value of ""
     And I should see a value for "Other Name" on the show page with the value of ""

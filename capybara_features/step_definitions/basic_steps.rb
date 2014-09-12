@@ -67,7 +67,7 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
           find(:xpath, ".//div[@class='documents' and text()=\"#{content}\"]")
         else
           #Find the element that represent the value.
-          find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
+          find(:xpath, ".//span[@class='value' and . = '#{content}']")
         end
       end
     end
