@@ -26,12 +26,12 @@ Given /^the following tracing request exist in the system:$/ do |tracing_request
     tracing_request = TracingRequest.new_with_user_name(User.find_by_user_name(user_name), tracing_request_hash)
     tracing_request['histories'] ||= []
     tracing_request['histories'] << {'datetime' => tracing_request['flag_at'], 'changes' => {'flag' => 'anything'}}
+    tracing_request['inquiry_status'] = "Open" if tracing_request_hash['inquiry_status'].blank?
 
     tracing_request.create!
     # Need this because of how children_helper grabs flag_message from child history - cg
     if flag
-      tracing_request['flag'] = flag
-      tracing_request['flag_message'] = flag_message
+      tracing_request.flags = [Flag.new(:message => flag_message, :flagged_by => user_name)]
       tracing_request.save!
     end
   end

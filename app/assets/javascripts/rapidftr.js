@@ -168,8 +168,8 @@ RapidFTR.Utils = {
         var message_id = selector.data('message_id');
         var message = selector.data('message');
         var message_date = selector.data('message_date');
+        var message_date_id = selector.data('message_date_id');
         var property = selector.data('property');
-        var property_value = selector.data('property_value');
         var redirect_url = selector.data('request_url');
         var submit_label = selector.data('submit_label');
         var submit_error_message = selector.data('submit_error_message');
@@ -180,14 +180,13 @@ RapidFTR.Utils = {
             "<input name=\"utf8\" type=\"hidden\" value=\"✓\">" +
             "<input name=\"_method\" type=\"hidden\" value=\"put\">" +
             "<input name=\"authenticity_token\" type=\"hidden\" value=\""+ authenticity_token +"\">"+
-            "<input id=\"" + model + "_"+ property +"\" name=\"" + model + "["+ property +"]\" type=\"hidden\" value=\""+ property_value +"\">" +
             "<input id=\"" + model + "_redirect_url\" name=\"redirect_url\" type=\"hidden\" value=\""+ redirect_url +"\"></div>" +
 
             "<div class=\"mark-as-form\">" +
             "<div class=\"field\"><h3><label for=\"" + model + "_"+ message_id +"\">"+ message +"</label></h3>" +
-            "<input id=\"" + model + "_"+ message_id +"\" name=\"" + model + "["+ message_id +"]\" size=\"30\" type=\"text\" value=\"\" class=\"flag_message\"></div>" +
-            (property_value && message_date != null ? "<div class=\"field\"><h3><label for=\"" + model + "_"+ property +"_date\">"+ message_date +"</label></h3>" : "") +
-            (property_value && message_date != null ? "<input id=\"" + model + "_"+ property +"_date\" name=\"" + model + "["+ property +"_date]\" size=\"12\" type=\"text\" class=\"form_date_field\"></div>" : "") +
+            "<input id=\"" + model + "_"+ message_id +"\" name=\"" + message_id +"\" size=\"30\" type=\"text\" value=\"\" class=\"flag_message\"></div>" +
+            "<div class=\"field\"><h3><label for=\"" + model + "_"+ message_date_id +"\">"+ message_date +"</label></h3>" +
+            "<input id=\"" + model + "_"+ message_date_id +"\" name=\"" + message_date_id +"\" size=\"12\" type=\"text\" class=\"form_date_field\"></div>" +
             "<div class=\"field\"><input class=\"mark-as-submit\" data-error-message=\""+ submit_error_message +"\" id=\"" + model + "_submit\"" +
             " name=\"commit\" type=\"submit\" value=\""+ submit_label +"\"></div>" +
             "</div></form>"

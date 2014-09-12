@@ -3,7 +3,7 @@
     <% if child.reunited? %>
       <div class="reunited-message"><%= reunited_message %></div>
     <% end %>
-    <% if child.flag? %>
+    <% if child.flagged? %>
       <p class="flag-message"><%= child.flag_message_flagged_by %></p>
     <% end %>
     <% if child.duplicate? %>

@@ -31,6 +31,8 @@ Feature: Flag Date Cases Records
    Then I should see "Flagged by primero_cp"
    And I should see "Future Processing"
 
+  #Remove flag in the GUI will be refactoring because it allow multiple flags now
+  @wip
   Scenario: As a logged in user and enter to view page, I want to remove the flag from case
    And I click the "7af3aa9" link
    And I press the "Unflag Record" button
@@ -39,6 +41,8 @@ Feature: Flag Date Cases Records
    Then I should not see "Flagged by primero_cp"
    And I should not see "Future Processing"
 
+  #Remove flag in the GUI will be refactoring because it allow multiple flags now
+  @wip
   Scenario: As a logged in user and enter to edit page, I want to remove the flag from case
    And I click the "7af3aa9" link
    And I press the "Edit" button
@@ -47,4 +51,3 @@ Feature: Flag Date Cases Records
    And I press "Unflag"
    Then I should not see "Flagged by primero_cp"
    And I should not see "Future Processing"
-   

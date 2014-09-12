@@ -18,6 +18,8 @@ Feature: Suspect Records
   When I am on the home page
   Then I should see "3 Records need Attention"
 
+  #Flags has been changed, allow multiple flags, don't know how investigated will be manage
+  @wip
   Scenario: Admin user should only see flagged children which have not been investigated
   When I am on the child listing filtered by flag
   Then I should see "Steve"
@@ -49,6 +51,8 @@ Feature: Suspect Records
   And I follow "id_3"
   Then I should see "Mark as Not Investigated"
 
+  #Flags has been changed, allow multiple flags, don't know how investigated will be manage
+  @wip
   Scenario: When a record is not flagged admin should not be able to mark as investigated or not investigated
   When I am on the cases page
   And I follow "id_4"
