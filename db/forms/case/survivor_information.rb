@@ -43,7 +43,6 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "ethnicity",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Clan or Ethnicity",
              "option_strings_source" => "lookup Ethnicity"
             }),
@@ -54,13 +53,11 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Nationality (if different than country of origin)",
              "option_strings_source" => "lookup Nationality"
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Religion",
              "option_strings_source" => "lookup Religion"
             }),
@@ -91,8 +88,7 @@ survivor_information_fields = [
                            "Stateless Person",
                            "Returnee",
                            "Foreign National",
-                           "Asylum Seeker",
-                           "N/A"].join("\n")
+                           "Asylum Seeker"].join("\n")
             }),
   Field.new({"name" => "gbv_disability_type",
              "type" => "select_box", 
