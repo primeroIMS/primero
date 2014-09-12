@@ -148,10 +148,6 @@ class Child < CouchRest::Model::Base
     ['created_at', 'name', 'flag_at', 'reunited_at']
   end
 
-  def self.flagged
-    by_flag(:key => true)
-  end
-
   def create_class_specific_fields(fields)
     self['case_id'] = self.case_id
     self['name'] = fields['name'] || self.name || ''

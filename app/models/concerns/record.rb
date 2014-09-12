@@ -403,7 +403,7 @@ module Record
 
   def field_name_changes
     other_fields = [
-        "flag", "flag_message",
+        "flag", "flag_message", "flags",
         "reunited", "reunited_message",
         "investigated", "investigated_message",
         "duplicate", "duplicate_of", "owned_by"

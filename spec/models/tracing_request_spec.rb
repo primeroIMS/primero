@@ -1089,15 +1089,11 @@ describe TracingRequest do
 
     it "should maintain history when tracing request is flagged and message is added" do
       tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['flag'] = 'true'
-      tracing_request['flag_message'] = 'Duplicate record!'
+      tracing_request.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
       tracing_request.save!
-      flag_history = tracing_request['histories'].first['changes']['flag']
-      flag_history['from'].should be_nil
-      flag_history['to'].should == 'true'
-      flag_message_history = tracing_request['histories'].first['changes']['flag_message']
-      flag_message_history['from'].should be_nil
-      flag_message_history['to'].should == 'Duplicate record!'
+      flag_history = tracing_request['histories'].first['changes']['flags']
+      flag_history['from'].should == []
+      flag_history['to'].should == [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
     end
 
     it "should maintain history when tracing_request is reunited and message is added" do

@@ -421,18 +421,6 @@ describe TracingRequestsController do
       TracingRequest.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
     end
 
-    it "should update flag (cast as boolean) and flag message" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
-      tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
-      put :update, :id => tracing_request.id,
-        :tracing_request => {
-          :flag => true,
-          :flag_message => "Possible Duplicate"
-        }
-      assigns[:tracing_request]['flag'].should be_true
-      assigns[:tracing_request]['flag_message'].should == "Possible Duplicate"
-    end
-
     it "should update history on flagging of record" do
       current_time_in_utc = Time.parse("20 Jan 2010 17:10:32UTC")
       current_time = Time.parse("20 Jan 2010 17:10:32")
