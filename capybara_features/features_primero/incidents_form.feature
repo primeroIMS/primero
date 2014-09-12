@@ -41,6 +41,8 @@ Feature: Incidents Form
       | Date of First Report              | 06-Aug-2014                    |
       | Date of Incident                  | <Date Range><Date> 10-Aug-2014 |
       | Is the date estimated?            | <Radio> No                     |
+      | Incident Location                 | Incident location              |
+      | Notes on Location                 | Notes on location              |
       | Latitude                          | Incident latitude              |
       | Longitude                         | Incident longitude             |
     And I press "Save"
@@ -48,6 +50,8 @@ Feature: Incidents Form
     And I should see a value for "Date of First Report" on the show page with the value of "06-Aug-2014"
     And I should see a value for "Date of Incident" on the show page with the value of "10-Aug-2014"
     And I should see a value for "Is the date estimated?" on the show page with the value of "No"
+    And I should see a value for "Incident Location" on the show page with the value of "Incident location"
+    And I should see a value for "Notes on Location" on the show page with the value of "Notes on location"
     And I should see a value for "Latitude" on the show page with the value of "Incident latitude"
     And I should see a value for "Longitude" on the show page with the value of "Incident longitude"
     And I press the "Edit" button
