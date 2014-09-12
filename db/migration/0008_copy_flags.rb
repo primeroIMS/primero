@@ -7,7 +7,7 @@
       user = record.histories.select{|h| h["changes"]["flag"]}.first["user_name"]
       flags = [Flag.new(:message => record["flag_message"], :flagged_by => user, :date => record["flag_date"])]
       record[:flags] = flags
-      record.save!
+      record.save(validate: false) #workaround some dates values seems to be wrong, avoid validation.
     end
   end
 
