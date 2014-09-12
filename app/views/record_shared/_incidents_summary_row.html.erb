@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <%= icon('flag', '', class: 'flagged') if record.flag? %>
+    <%= icon('flag', '', class: 'flagged') if record.flagged? %>
   </td>
   <td id="incident_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_incident(record), incident_path(record), class: 'id_link' %>

@@ -3,7 +3,7 @@
         <% if tracing_request.reunited? %>
             <div class="reunited-message"><%= reunited_message %></div>
         <% end %>
-        <% if tracing_request.flag? %>
+        <% if tracing_request.flagged? %>
             <p class="flag-message"><%= tracing_request.flag_message_flagged_by %></p>
         <% end %>
         <% if tracing_request.duplicate? %>

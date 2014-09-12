@@ -3,7 +3,7 @@
     <% if incident.reunited? %>
         <div class="reunited-message"><%= reunited_message %></div>
     <% end %>
-    <% if incident.flag? %>
+    <% if incident.flagged? %>
         <p class="flag-message"><%= incident.flag_message_flagged_by %></p>
     <% end %>
     <% if incident.duplicate? %>

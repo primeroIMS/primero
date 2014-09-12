@@ -2,18 +2,15 @@ module Flaggable
   extend ActiveSupport::Concern
 
   included do
-    before_save :flaggable_update_flag
-
-    property :flag, TrueClass, :default => false
     property :flags, [Flag], :default => []
 
     design do
       view :by_flag,
             :map => "function(doc) {
-                  if (doc.hasOwnProperty('flag'))
+                  if (doc.hasOwnProperty('flags'))
                  {
                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                     emit(doc['flag'],null);
+                     emit(doc['flags'].length > 0,null);
                    }
                  }
               }"
@@ -46,19 +43,18 @@ module Flaggable
         nil
       end
     end
+
+    def flagged?
+      self.flags.present?
+    end
+    alias_method :flag, :flagged?
+
   end
 
   module ClassMethods
     def flagged
       by_flag(:key => true)
     end
-  end
-
-  private
-
-  def flaggable_update_flag
-    self.flag = self.flags.present? and self.flags.length > 0
-    true
   end
 
 end
