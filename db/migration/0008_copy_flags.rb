@@ -5,7 +5,7 @@
   model.all.all.each do |record|
     if record[:flag]
       user = record.histories.select{|h| h["changes"]["flag"]}.first["user_name"]
-      flags = [Flag.new(:message => record["flag_message"], :flagged_by => user, :date => record["flag_date"])]
+      flags = [Flag.new(:message => record["flag_message"], :flagged_by => user)]
       record[:flags] = flags
       record.save!
     end
@@ -19,6 +19,6 @@
         inst.save
         puts "Deleted key #{field_name} from #{model.name} #{inst['_id']}"
       end
-    end 
+    end
   end
 end
