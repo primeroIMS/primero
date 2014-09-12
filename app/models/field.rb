@@ -18,6 +18,7 @@ class Field
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
   property :selected_value, :default => ""
+  property :create_property, TrueClass, :default => true
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"
@@ -171,6 +172,7 @@ class Field
     self.hidden_text_field ||= false
     self.autosum_total ||= false
     self.autosum_group ||= ""
+    self.create_property ||= true
     self.attributes = properties
     create_unique_id
   end

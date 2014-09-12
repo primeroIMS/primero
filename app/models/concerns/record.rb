@@ -13,7 +13,6 @@ module Record
     before_save :update_organisation
     before_save :add_creation_history, :if => :new?
 
-    property :short_id
     property :unique_identifier
     property :created_organisation
     property :created_by
@@ -87,15 +86,6 @@ module Record
               }"
 
     end
-
-    def short_id
-      (self['unique_identifier'] || "").last 7
-    end
-
-    def unique_identifier
-      self['unique_identifier']
-    end
-
   end
 
   module ClassMethods
@@ -104,7 +94,6 @@ module Record
     def new_with_user_name(user, fields = {})
       record = new(convert_arrays(fields))
       record.create_unique_id
-      record['short_id'] = record.short_id
       record['record_state'] = "Valid record" if record['record_state'].blank?
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
@@ -273,6 +262,14 @@ module Record
 
   def update_organisation
     self['created_organisation'] ||= created_by_user.try(:organisation)
+  end
+
+  def short_id
+    (self['unique_identifier'] || "").last 7
+  end
+
+  def unique_identifier
+    self['unique_identifier']
   end
 
   def created_by_user

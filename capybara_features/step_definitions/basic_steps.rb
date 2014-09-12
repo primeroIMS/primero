@@ -134,18 +134,18 @@ end
 
 #Step to match field/value in subforms in show view.
 And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
-  num = num.to_i - 1
+  index = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
 
   #in viewing expand subforms if not already, make visible the fields we are testing.
-  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{index}']" +
                          "//div[@class='row collapse_expand_subform_header']" +
                          "//span[contains(@class, 'collapse_expand_subform')]")
   if (collapse_expand[:class].end_with?("collapsed"))
-    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+    step %Q{I expanded the #{num}st "#{subform}" subform}
   end
 
-  within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
+  within(:xpath, "//div[@id='subform_container_#{subform}_#{index}']") do
     #Iterate over the fields.
     fields.rows_hash.each do |name, value|
       content = value
@@ -161,7 +161,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
       within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
         #Up to the parent of the label to find the value.
         within(:xpath, '../..') do
-          find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
+          find(:xpath, ".//span[@class='value' and . = '#{content}']")
         end
       end
     end

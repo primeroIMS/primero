@@ -1,7 +1,6 @@
 case_closure_fields = [
   Field.new({"name" => "registration_date",
              "type" => "date_field",
-             "editable" => false,
              "display_name_all" => "Case Opening Date"
             }),
   Field.new({"name" => "date_closure",
