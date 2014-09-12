@@ -744,6 +744,11 @@ en:
         body: "There were problems with the following fields:"
 
     models:
+      flags:
+         message: "Flags: message field is invalid"
+         date: "Flags: date field is invalid"
+         index: "Flags: unable to remove the flag at the position %{index}"
+
       date_range_invalid: "<span>%{field_name}:</span> Please enter a valid date range 'From:' should be earlier than 'To:'"
 
       photo:

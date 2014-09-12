@@ -1179,15 +1179,11 @@ describe Child do
 
     it "should maintain history when child is flagged and message is added" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      child['flag'] = 'true'
-      child['flag_message'] = 'Duplicate record!'
+      child.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
       child.save!
-      flag_history = child['histories'].first['changes']['flag']
-      flag_history['from'].should be_nil
-      flag_history['to'].should == 'true'
-      flag_message_history = child['histories'].first['changes']['flag_message']
-      flag_message_history['from'].should be_nil
-      flag_message_history['to'].should == 'Duplicate record!'
+      flag_history = child['histories'].first['changes']['flags']
+      flag_history['from'].should == []
+      flag_history['to'].should == [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
     end
 
     it "should maintain history when child is reunited and message is added" do

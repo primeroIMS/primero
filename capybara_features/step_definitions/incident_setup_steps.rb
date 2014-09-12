@@ -36,8 +36,7 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
     incident.create!
     # Need this because of how children_helper grabs flag_message from child history - cg
     if flag
-      incident['flag'] = flag
-      incident['flag_message'] = flag_message
+      incident.flags = [Flag.new(:message => flag_message, :flagged_by => user_name)]
       incident.save!
     end
   end

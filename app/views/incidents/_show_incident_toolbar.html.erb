@@ -8,7 +8,7 @@
         Unlikely that we will put them back in. Delete the code in the future.
     %>
     <% if false %>
-    <% if @incident.flag? %>
+    <% if @incident.flagged? %>
         <li>
             <div class="dropdown_btn dropdown_form">
                 <%= render 'investigated', incident: @incident %>

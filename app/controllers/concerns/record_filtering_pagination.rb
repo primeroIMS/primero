@@ -40,7 +40,9 @@ module RecordFilteringPagination
 
   def users_filter
     if params[:scope].present? and params[:scope][:users].present?
-      params[:scope][:users].split(',')
+      users = params[:scope][:users].split(',')
+      users.shift
+      users
     else
       current_user.record_scope
     end
