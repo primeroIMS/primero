@@ -210,18 +210,18 @@ And /^I update in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do 
 end
 
 def update_subforms_field(num, subform, fields)
-  num = num.to_i - 1
+  index = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
 
   #in viewing expand subforms if not already, make visible the fields we are testing.
-  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{index}']" +
                          "//div[@class='row collapse_expand_subform_header']" +
                          "//span[contains(@class, 'collapse_expand_subform')]")
   if (collapse_expand[:class].end_with?("collapsed"))
-    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+    step %Q{I expanded the #{num}st "#{subform}" subform}
   end
 
-  scope = "//div[@id='subform_container_#{subform}_#{num}']"
+  scope = "//div[@id='subform_container_#{subform}_#{index}']"
   within(:xpath, scope) do
     fields.rows_hash.each do |name, value|
       if value.start_with?("<Select>")
