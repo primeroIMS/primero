@@ -34,10 +34,13 @@ module PhotoHelper
   def photo=(new_photos)
     return unless new_photos
     #basically to support any client passing a single photo param, only used by child_spec AFAIK
-    if new_photos.is_a? Hash
-      photos = new_photos.to_a.sort.map { |k, v| v }
+    photos = case new_photos
+    when Hash
+      new_photos.to_a.sort.map { |k, v| v }
+    when Array
+      new_photos
     else
-      photos = [new_photos]
+      [new_photos]
     end
     self.photos = photos
   end

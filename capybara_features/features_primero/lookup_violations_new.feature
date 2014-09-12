@@ -39,7 +39,7 @@ Feature: Lookup Violations New
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
-      | Number of survivors: boys    | 1                    |
+      | Number of survivors          | <Tally>Boys:1        |
       | Cause                        | <Select> Landmines   |
     And I press the "Individual Details" button
     Then the "Violations" select box should have the following options:
@@ -69,15 +69,15 @@ Feature: Lookup Violations New
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
-      | Number of survivors: boys    | 1                    |
+      | Number of survivors          | <Tally>Boys:1        |
       | Cause                        | <Select> Landmines   |
     And I press the "Recruitment" button
     And I fill in the following:
-      | Number of survivors: boys                                                         | 1                                                                  |
+      | Number of survivors          | <Tally>Boys:1        |
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Conscription<Choose>Lack of Basic Services<Choose>Idealism |
     And I press the "Abduction" button
     And I fill in the following:
-      | Number of survivors: boys               | 1                       |
+      | Number of survivors                     | <Tally>Boys:1           |
       | Category                                | <Select> Child Use      |
     And I press the "Individual Details" button
     Then the "Violations" select box should have the following options:
@@ -117,15 +117,15 @@ Feature: Lookup Violations New
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
-      | Number of survivors: boys    | 1                    |
+      | Number of survivors          | <Tally>Boys:1        |
       | Cause                        | <Select> Landmines   |
     And I press the "Recruitment" button
     And I fill in the following:
-      | Number of survivors: boys                                                         | 1                                                                  |
+      | Number of survivors          | <Tally>Boys:1        |
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Conscription<Choose>Lack of Basic Services<Choose>Idealism |
     And I press the "Abduction" button
     And I fill in the following:
-      | Number of survivors: boys               | 1                       |
+      | Number of survivors                     | <Tally>Boys:1           |
       | Category                                | <Select> Child Use      |
     And I press the "Individual Details" button
     Then the "Violations" select box should have the following options:

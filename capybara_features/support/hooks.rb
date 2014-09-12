@@ -61,8 +61,8 @@ end
 
 Before('@roles') do |scenario|
   #TODO: Instead of the roles below, consider loading db/users/roles.rb
-  Role.create(:name => 'Field Worker', :permissions => [Permission::CHILDREN[:register]])
-  Role.create(:name => 'Field Admin', :permissions => [Permission::CHILDREN[:view_and_search], Permission::CHILDREN[:create], Permission::CHILDREN[:edit]])
+  Role.create(:name => 'Field Worker', :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
+  Role.create(:name => 'Field Admin', :permissions => [Permission::CASE, Permission::READ, Permission::WRITE, Permission::USER])
   Role.create(:name => 'Admin', :permissions => Permission.all_permissions)
 end
 

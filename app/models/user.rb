@@ -22,8 +22,7 @@ class User < CouchRest::Model::Base
   property :time_zone, :default => "UTC"
   property :locale
   property :module_ids, :type => [String]
-  property :is_manager, TrueClass, :default => false
-  property :reporting_hierarchy, :type => [String]
+  property :user_groups, :type => [String], :default => []
 
   alias_method :agency, :organisation
   alias_method :agency=, :organisation=
@@ -79,14 +78,17 @@ class User < CouchRest::Model::Base
                     emit(doc);
                  }
              }"
-    view :by_manager,
+
+    view :by_user_group,
             :map => "function(doc) {
-              if (doc['couchrest-type'] == 'User' && doc['reporting_hierarchy']){
-                for(var i in doc['reporting_hierarchy']){
-                  emit(doc['reporting_hierarchy'][i], null);
+                if (doc['couchrest-type'] == 'User' && doc['user_groups'])
+                {
+                  for (var i in doc['user_groups']){
+                    emit(doc['user_groups'][i], null);
+                  }
                 }
-              }
             }"
+
   end
 
 
@@ -202,72 +204,33 @@ class User < CouchRest::Model::Base
     modules.compact.collect(&:associated_form_ids).flatten
   end
 
-  def all_reports
-    response = User.by_manager(key: self.user_name)
-    response = response.present? ? response.all : []
-    return response
-  end
-
-
-  def set_manager(manager_user)
-    #See if the old manager ceases to be a manager
-    #TODO: combine code with remove manager code below
-
-    #Figure out the new reporting hierarchy
-    reporting_hierarchy_of_manager = (manager_user && manager_user.reporting_hierarchy.present? ? manager_user.reporting_hierarchy : [])
-    new_reporting_hierarchy = reporting_hierarchy_of_manager
-    if manager_user
-      new_reporting_hierarchy += [manager_user.user_name]
-    end
-
-    #Figure out all reporting users to update
-    current_manager = self.get_manager
-    reports_of_current_manager = []
-    users_to_update = []
-    if current_manager.present?
-      reports_of_current_manager = current_manager.all_reports
-      users_to_update = reports_of_current_manager.select do |user|
-        (user.user_name == self.user_name) || (user.reporting_hierarchy.include? self.user_name)
-      end
-      if reports_of_current_manager.size == users_to_update.size
-        current_manager.is_manager = false
-        current_manager.save
-      end
-    else
-      users_to_update = self.all_reports + [self]
-    end
-
-    #Update those users
-    users_to_update.each do |user|
-      old_hierarchy = user.reporting_hierarchy
-      index_of_self = old_hierarchy.find_index(self.user_name) || old_hierarchy.length
-      user.reporting_hierarchy = new_reporting_hierarchy +
-        old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
-      user.save
-    end
-
-    #update the new manager to make sure its a manager
-    unless manager_user.is_manager
-      manager_user.is_manager = true
-      manager_user.save
-    end
-
-  end
-
-  def get_manager
-    manager = nil
-    if self.reporting_hierarchy.present?
-      manager = User.get(self.reporting_hierarchy.last)
-    end
-    return manager
-  end
-
-  def remove_manager
-    self.set_manager nil
-  end
 
   def is_manager?
-    User.by_manager(key: self.user_name).first.present?
+    self.has_permission?(Permission::ALL) || self.has_permission?(Permission::GROUP)
+  end
+
+  def managed_users
+    if self.has_permission? Permission::ALL
+      @managed_users ||= User.all.all
+      @record_scope = [Searchable::ALL_FILTER]
+    elsif self.has_permission?(Permission::GROUP) && self.user_groups.present?
+      @managed_users ||= User.by_user_group(keys: self.user_groups).all.uniq{|u| u.user_name}
+    else
+      @managed_users ||= [self]
+    end
+    @managed_user_names ||= @managed_users.map(&:user_name)
+    @record_scope ||= @managed_user_names
+    return @managed_users
+  end
+
+  def managed_user_names
+    managed_users
+    return @managed_user_names
+  end
+
+  def record_scope
+    managed_users
+    return @record_scope
   end
 
 

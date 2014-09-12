@@ -9,6 +9,7 @@ class Role < CouchRest::Model::Base
 
   validates_presence_of :permissions, :message => I18n.t("errors.models.role.permission_presence")
 
+  before_save :sanitize_permissions
 
   def has_permission(permission)
     self.permissions.include? permission
@@ -20,12 +21,6 @@ class Role < CouchRest::Model::Base
 
   def has_permitted_form_id?(form_id)
     self.permitted_form_ids.include? form_id
-  end
-
-  def valid?(context = :default)
-    self.name = self.name.try(:titleize)
-    sanitize_permissions
-    super(context)
   end
 
 end

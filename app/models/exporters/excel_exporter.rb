@@ -27,8 +27,6 @@ module Exporters
           i += 1
         end
 
-        make_headers_bold(workbook)
-
         column_widths.each_with_index {|w, i| worksheet.set_column(i, i, w)}
 
         workbook.close

@@ -67,7 +67,7 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
           find(:xpath, ".//div[@class='documents' and text()=\"#{content}\"]")
         else
           #Find the element that represent the value.
-          find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
+          find(:xpath, ".//span[@class='value' and . = '#{content}']")
         end
       end
     end
@@ -210,18 +210,18 @@ And /^I update in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do 
 end
 
 def update_subforms_field(num, subform, fields)
-  num = num.to_i - 1
+  index = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
 
   #in viewing expand subforms if not already, make visible the fields we are testing.
-  collapse_expand = find("//div[@id='subform_container_#{subform}_#{num}']" +
+  collapse_expand = find("//div[@id='subform_container_#{subform}_#{index}']" +
                          "//div[@class='row collapse_expand_subform_header']" +
                          "//span[contains(@class, 'collapse_expand_subform')]")
   if (collapse_expand[:class].end_with?("collapsed"))
-    step %Q{I expanded the #{num.to_i + 1}st "#{subform}" subform}
+    step %Q{I expanded the #{num}st "#{subform}" subform}
   end
 
-  scope = "//div[@id='subform_container_#{subform}_#{num}']"
+  scope = "//div[@id='subform_container_#{subform}_#{index}']"
   within(:xpath, scope) do
     fields.rows_hash.each do |name, value|
       if value.start_with?("<Select>")
@@ -387,8 +387,8 @@ When /^I fill in the basic details of a child$/ do
   fill_in("Age", :with => "30")
 end
 
-When /^I attach a document "([^"]*)"$/ do |document_path|
-    step %Q{I attach the file "#{document_path}" to "child_upload_document_0_document"}
+When /^I attach a document "([^"]*)" for "(.*)"$/ do |document_path, parent_form|
+    step %Q{I attach the file "#{document_path}" to "#{parent_form}_upload_document_0_document"}
 end
 
 When /^I attach a photo "([^"]*)"(?: for model "(.*)")?$/ do |photo_path, model|
@@ -401,17 +401,17 @@ When /^I attach an audio file "([^"]*)"(?: for model "(.*)")?$/ do |audio_path, 
     step %Q{I attach the file "#{audio_path}" to "#{model}[audio]"}
 end
 
-When /^I attach the following documents:$/ do |table|
+When /^I attach the following documents for "(.*)":$/ do |parent_form, table|
   table = table.raw
   table.each_with_index do |documents, i|
     document, document_description = documents
-    step %Q{I attach the file "#{document}" to "child_upload_document_#{i}_document"}
-    step %Q{I fill in "child_upload_document_#{i}_document_description" with "#{document_description}"}
+    step %Q{I attach the file "#{document}" to "#{parent_form}_upload_document_#{i}_document"}
+    step %Q{I fill in "#{parent_form}_upload_document_#{i}_document_description" with "#{document_description}"}
     step %Q{I click on the "Add another document" link} if (i+1) < table.length
   end
   document, document_description = table.last
-  step %Q{I attach the file "#{document}" to "child_upload_document_#{table.length-1}_document"}
-  step %Q{I fill in "child_upload_document_#{table.length-1}_document_description" with "#{document_description}"}
+  step %Q{I attach the file "#{document}" to "#{parent_form}_upload_document_#{table.length-1}_document"}
+  step %Q{I fill in "#{parent_form}_upload_document_#{table.length-1}_document_description" with "#{document_description}"}
 end
 
 When /^I attach the following photos(?: for model "(.*)")?:$/ do |model, table|
@@ -682,6 +682,10 @@ end
 
 Then /^I should see errors$/ do
   page.should have_xpath '//div[@class="errorExplanation"]'
+end
+
+When /^I press the tab key$/ do
+  find("//body").native.send_key :tab
 end
 
 private

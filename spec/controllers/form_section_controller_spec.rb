@@ -54,7 +54,7 @@ describe FormSectionController do
     @form_section_c = FormSection.create!(unique_id: "C", name: "C")
     primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
     user = User.new(:user_name => 'manager_of_forms', module_ids: [primero_module.id])
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::FORMS[:manage]])])
+    user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
     fake_login user
   end
 

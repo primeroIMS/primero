@@ -6,7 +6,8 @@
           <label class="key document">Other Document</label>
         </div>
         <div class="medium-8 columns">
-          <%= link_to document["file_name"], child_document_url(formObject.id, document["attachment_key"]), :class => "document" %>
+          <% document_url = send("#{formObject.class.name.underscore.downcase}_document_url", formObject.id, document["attachment_key"]) %>
+          <%= link_to document["file_name"], document_url, :class => "document" %>
         </div>
         <div class="medium-4 columns">
           <label class="key document-description">Document Description</label>

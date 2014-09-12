@@ -70,7 +70,7 @@ create_or_update_module(
     "killing_violation_wrapper", "maiming_violation_wrapper", "recruitment_violation_wrapper",
     "sexual_violence_violation_wrapper", "attack_on_schools_violation_wrapper", "attack_on_hospitals_violation_wrapper",
     "denial_humanitarian_access_violation_wrapper", "abduction_violation_wrapper", "other_violation_wrapper",
-    "individual_details", "group_details", "source", "perpetrators_form", "intervention_form"
+    "individual_details", "group_details", "source", "perpetrators_form", "intervention_form", "incident_other_documents"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )

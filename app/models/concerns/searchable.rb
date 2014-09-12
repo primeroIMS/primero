@@ -1,6 +1,8 @@
 module Searchable
   extend ActiveSupport::Concern
 
+  ALL_FILTER = 'all'
+
   included do
     include Sunspot::Rails::Searchable
 
@@ -79,7 +81,7 @@ module Searchable
             end
           end
         end
-        if associated_user_names.present?
+        if associated_user_names.present? && associated_user_names.first != ALL_FILTER
           any_of do
             associated_user_names.each do |user_name|
               with(:associated_user_names, user_name)

@@ -120,6 +120,15 @@ describe TracingRequestsController do
 
   describe "GET index" do
 
+
+    #TODO: We need a whole new test suite for the index. We need to test the following:
+    #         * filters are being generated correctly from params
+    #         * right subset of data based on current user
+    #         * definitely have tests for active/inactive
+    #         * pagination
+    #         * sorting
+
+    #TODO: Keep the shared example around until refactoring the tracing requests
     shared_examples_for "viewing tracing requests by user with access to all data" do
       describe "when the signed in user has access all data" do
         before do
@@ -132,11 +141,11 @@ describe TracingRequestsController do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           tracing_requests = mock_tracing_request(@stubs)
-          @status ||= "all"
+          scope ||= {}
           tracing_requests.stub(:paginate).and_return(tracing_requests)
-          TracingRequest.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldadmin").and_return(tracing_requests)
+          TracingRequest.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"]).and_return(tracing_requests)
 
-          get :index, :scope => @status
+          get :index, :scope => scope
           assigns[:tracing_requests].should == tracing_requests
         end
       end
@@ -168,85 +177,15 @@ describe TracingRequestsController do
     end
 
     context "viewing all tracing requests" do
-      before { @stubs = { :reunited? => false } }
+      #before { @stubs = { :reunited? => false } }
       context "when status is passed for admin" do
-        before { @status = "all"}
+        #before { @status = "all"}
         before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
         it_should_behave_like "viewing tracing requests by user with access to all data"
       end
 
-      context "when status is passed for field worker" do
-        before { @status = "all"}
-        before {@options = {:page=>1, :per_page=>20}}
-
-        it_should_behave_like "viewing tracing requests as a field worker"
-      end
-
-      context "when status is not passed admin" do
-        before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
-        it_should_behave_like "viewing tracing requests by user with access to all data"
-      end
-
-      context "when status is not passed field_worker" do
-        before {@options = {:startkey=>["all", "fakefieldworker"], :endkey=>["all","fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing tracing requests as a field worker"
-      end
-
-      context "when status is not passed field_worker and order is name" do
-        before {@options = {:startkey=>["all", "fakefieldworker"], :endkey=>["all","fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_name}}
-        before {@params = {:order_by => 'name'}}
-        it_should_behave_like "viewing tracing requests as a field worker"
-      end
-
-      context "when status is not passed field_worker, order is created_at and page is 2" do
-        before {@options = {:view_name=>:by_valid_record_view_with_created_by_created_at, :startkey=>["all", "fakefieldworker", {}], :endkey=>["all", "fakefieldworker"], :descending=>true, :page=>2, :per_page=>20}}
-        before {@params = {:order_by => 'created_at', :page => 2}}
-
-        it_should_behave_like "viewing tracing requests as a field worker"
-      end
     end
 
-    context "viewing reunited tracing requests" do
-      before do
-        @status = "reunited"
-        @stubs = {:reunited? => true}
-      end
-      context "admin" do
-        before { @options = {:startkey=>["reunited"], :endkey=>["reunited", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name} }
-        it_should_behave_like "viewing tracing requests by user with access to all data"
-      end
-      context "field worker" do
-        before { @options = {:startkey=>["reunited", "fakefieldworker"], :endkey=>["reunited", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing tracing requests as a field worker"
-      end
-    end
-
-    context "viewing flagged tracing requests" do
-      before { @status = "flagged" }
-      context "admin" do
-        before {@options = {:startkey=>["flagged"], :endkey=>["flagged", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
-        it_should_behave_like "viewing tracing requests by user with access to all data"
-      end
-      context "field_worker" do
-        before {@options = {:startkey=>["flagged", "fakefieldworker"], :endkey=>["flagged", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing tracing requests as a field worker"
-      end
-    end
-
-    context "viewing active tracing requests" do
-      before do
-        @status = "active"
-        @stubs = {:reunited? => false}
-      end
-      context "admin" do
-        before {@options = {:startkey=>["active"], :endkey=>["active", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
-        it_should_behave_like "viewing tracing requests by user with access to all data"
-      end
-      context "field worker" do
-        before {@options = {:startkey=>["active", "fakefieldworker"], :endkey=>["active", "fakefieldworker", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_with_created_by_created_at}}
-        it_should_behave_like "viewing tracing requests as a field worker"
-      end
-    end
 
     describe "permissions to view lists of tracing request records", search: true, skip_session: true do
 
@@ -255,7 +194,7 @@ describe TracingRequestsController do
         TracingRequest.all.each{|t| t.destroy}
         Sunspot.remove_all!
 
-        roles = [Role.new(permissions: [Permission::TRACING_REQUESTS[:view_and_search]])]
+        roles = [Role.new(permissions: [Permission::TRACING_REQUEST, Permission::READ])]
 
         @case_worker1 = create(:user)
         @case_worker1.stub(:roles).and_return(roles)
