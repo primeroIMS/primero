@@ -103,7 +103,7 @@ class Incident < CouchRest::Model::Base
       self.violations.to_hash.each do |key, value|
         value.each do |v|
           unless v.verified.present?
-            v.verified = "Pending"
+            v.verified = I18n.t('incident.violation.pending')
           end
         end
       end
