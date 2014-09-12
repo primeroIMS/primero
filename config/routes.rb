@@ -112,14 +112,14 @@ RapidFTR::Application.routes.draw do
   match '/cases/:child_id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
   #Flag routing
-  match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, class_name:'Child', :via => [:post, :put]
-  match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, class_name:'Incident', :via => [:post, :put]
-  match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, class_name:'TracingRequest', :via => [:post, :put]
+  match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class:'Child', :via => [:post, :put]
+  match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class:'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, model_class:'TracingRequest', :via => [:post, :put]
 
   #Unflag routing
-  match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, class_name:'Child', :via => [:post, :put]
-  match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, class_name:'Incident', :via => [:post, :put]
-  match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, class_name:'TracingRequest', :via => [:post, :put]
+  match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]
+  match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class:'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, model_class:'TracingRequest', :via => [:post, :put]
 
   match '/tracing_requests-ids' => 'tracing_request_ids#all', :as => :tracing_request_ids, :via => [:post, :get, :put, :delete]
   match '/tracing_requests/:id/photo/edit' => 'tracing_requests#edit_photo', :as => :edit_tracing_requests_photo, :via => :get

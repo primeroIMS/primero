@@ -33,12 +33,12 @@ class RecordFlagController < ApplicationController
   def set_class_name
     #Tag the model from the params, the parameter is injected by the routes and don't allow any arbitrary class
     #just the one defined in the routes.
-    @className = params[:class_name].constantize
+    @model_class = params[:model_class].constantize
   end
 
   def set_record
     id = params[:id]
-    @record = @className.get(id)
+    @record = @model_class.get(id)
   end
 
 end
