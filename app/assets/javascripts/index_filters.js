@@ -23,12 +23,22 @@ var IndexFilters = Backbone.View.extend({
 
     $(this.form).find('input').each(function() {
       var name = $(this).attr('name'),
-          current_scope = _primero.get_param('scope[' + name + ']');
-          current_scope = current_scope ? current_scope.split(',') : false;
+          current_scope = _primero.get_param('scope[' + name + ']'),
+          current_scope = current_scope ? current_scope.split(',') : false,
+          type = $(this).attr('filter_type') || 'single';
 
-      if ($(this).is(':checkbox') && _.indexOf(current_scope, encodeURI($(this).val())) > -1) {
-        $(this).prop('checked', true);
-        self.set_array_filter(name, $(this).val());
+      if ($(this).is(':checkbox') && _.contains(current_scope, encodeURI($(this).val()))) {
+        $(this).attr('checked', true);
+        self.set_array_filter(name, $(this).val(), type);
+      }
+
+      if (type === 'date_range') {
+        fields = $(this).parents('.filter-controls').find('input');
+        current_scope = _.without(current_scope, type);
+        current_scope = current_scope[0].split('.');
+        $(fields[0]).val(current_scope[0]);
+        $(fields[1]).val(current_scope[1]);
+        self.set_date_range(fields, name, type);
       }
     });
   },
@@ -57,46 +67,57 @@ var IndexFilters = Backbone.View.extend({
     window.location.search = prev_params + add_amp + url_string;
   },
 
-  set_remove_filter: function(condition, filter, value) {
+  set_date_range: function(fields, filter, filter_type) {
+    var date_from = $(fields[0]).val(),
+      date_to = $(fields[1]).val(),
+      date_separator = date_from && date_to ? '.': '';
+
+    if (!date_to && !date_from) {
+      date_range = '';
+    } else {
+      date_range = [filter_type, date_from + date_separator + date_to];
+    }
+
+    this.set_remove_filter(filter, date_range);
+  },
+
+  set_remove_filter: function(filter, value) {
     this.filters[filter] = value;
 
-    if(condition) {
+    if (this.filters[filter].length === 1 || this.filters[filter] === '') {
       delete this.filters[filter];
-    } else {
-      return false;
     }
   },
 
-  set_array_filter: function(filter, value) {
+  set_array_filter: function(filter, value, type) {
     if (_.isArray(this.filters[filter])) {
       this.filters[filter].push(value);
     } else {
-      this.filters[filter] = [value];
+      this.filters[filter] = [type, value];
     }
   },
 
   change_scope: function(event) {
     var target = $(event.target),
         selected_val = target.val(),
-        filter = target.attr('name');
+        filter = target.attr('name'),
+        filter_type = target.attr('filter_type') || 'single',
+        self = this;
 
     // Checkboxes
     if (target.is(':checkbox')) {
       if (target.prop('checked')) {
-        this.set_array_filter(filter, selected_val);
+        this.set_array_filter(filter, selected_val, filter_type);
       } else {
-        this.set_remove_filter((this.filters[filter].length === 0), filter,
-            _.without(this.filters[filter], selected_val));
+        this.set_remove_filter(filter, _.without(self.filters[filter], selected_val));
       }
     } else if ($(target).is("input") && $(target).hasClass('hasDatepicker')) {
       // Date Ranges
       var date_inputs = $(target).parents('.filter-controls').find('input');
-
-      this.set_remove_filter((!$(date_inputs[0]).val() && !$(date_inputs[0]).val()), filter,
-              $(date_inputs[0]).val() + '...' + $(date_inputs[1]).val());
+      this.set_date_range(date_inputs, filter, filter_type);
     } else {
       // Everything else
-      this.set_remove_filter((!input_val), filter, $(target).val());
+      this.set_remove_filter(filter, $(target).val(), filter_type);
     }
   }
 });
