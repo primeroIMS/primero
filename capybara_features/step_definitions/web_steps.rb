@@ -115,6 +115,16 @@ When /^(?:|I )fill in "(.*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field,
     options.each do |option|
       step %Q{I check "#{option.strip}" for "#{field}"}
     end
+  elsif value.start_with?("<Tally>")
+    label = find "//label[text()=\"#{field}\"]", :visible => true
+    options = value.gsub(/^<Tally>/, "").split("<Tally>")
+    options.each do |option|
+      key_value = option.split(':')
+      k = key_value[0].downcase
+      v = key_value[1].strip
+      tally_field_id = "#{label["for"]}_#{k}"
+      fill_in(tally_field_id, :visible => true, :with => v)
+    end
   else
     value = DateTime.now.strftime("%d-%b-%Y") if value.strip == "today's date"
     with_scope(selector) do
