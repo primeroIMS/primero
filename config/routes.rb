@@ -142,6 +142,8 @@ RapidFTR::Application.routes.draw do
     # resource :duplicate, :only => [:new, :create]
   end
 
+  match '/incidents/:incident_id/document/:document_id' => 'incident_media#download_document', :as => :incident_document, :via => [:post, :get, :put, :delete]
+
 #######################
 # API URLS
 #######################

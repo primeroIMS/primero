@@ -387,8 +387,8 @@ When /^I fill in the basic details of a child$/ do
   fill_in("Age", :with => "30")
 end
 
-When /^I attach a document "([^"]*)"$/ do |document_path|
-    step %Q{I attach the file "#{document_path}" to "child_upload_document_0_document"}
+When /^I attach a document "([^"]*)" for "(.*)"$/ do |document_path, parent_form|
+    step %Q{I attach the file "#{document_path}" to "#{parent_form}_upload_document_0_document"}
 end
 
 When /^I attach a photo "([^"]*)"(?: for model "(.*)")?$/ do |photo_path, model|
@@ -401,17 +401,17 @@ When /^I attach an audio file "([^"]*)"(?: for model "(.*)")?$/ do |audio_path, 
     step %Q{I attach the file "#{audio_path}" to "#{model}[audio]"}
 end
 
-When /^I attach the following documents:$/ do |table|
+When /^I attach the following documents for "(.*)":$/ do |parent_form, table|
   table = table.raw
   table.each_with_index do |documents, i|
     document, document_description = documents
-    step %Q{I attach the file "#{document}" to "child_upload_document_#{i}_document"}
-    step %Q{I fill in "child_upload_document_#{i}_document_description" with "#{document_description}"}
+    step %Q{I attach the file "#{document}" to "#{parent_form}_upload_document_#{i}_document"}
+    step %Q{I fill in "#{parent_form}_upload_document_#{i}_document_description" with "#{document_description}"}
     step %Q{I click on the "Add another document" link} if (i+1) < table.length
   end
   document, document_description = table.last
-  step %Q{I attach the file "#{document}" to "child_upload_document_#{table.length-1}_document"}
-  step %Q{I fill in "child_upload_document_#{table.length-1}_document_description" with "#{document_description}"}
+  step %Q{I attach the file "#{document}" to "#{parent_form}_upload_document_#{table.length-1}_document"}
+  step %Q{I fill in "#{parent_form}_upload_document_#{table.length-1}_document_description" with "#{document_description}"}
 end
 
 When /^I attach the following photos(?: for model "(.*)")?:$/ do |model, table|
