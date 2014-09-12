@@ -9,6 +9,7 @@ class Incident < CouchRest::Model::Base
   include Ownable
   include Searchable #Needs to be after Ownable
   include Flaggable
+  include DocumentHelper
 
   property :incident_id
   property :description

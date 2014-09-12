@@ -220,6 +220,7 @@ class IncidentsController < ApplicationController
     # new_photo = (params[:child][:photo] || "") if new_photo.nil?
     # new_audio = params[:child].delete("audio")
     # delete_child_audio = params["delete_child_audio"].present?
+    incident.delete_documents params[:delete_incident_document] if params[:delete_incident_document].present?
     incident.update_properties(params[:incident], current_user_name)
     incident
   end
