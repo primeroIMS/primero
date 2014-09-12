@@ -35,10 +35,12 @@ var IndexFilters = Backbone.View.extend({
       if (type === 'date_range') {
         fields = $(this).parents('.filter-controls').find('input');
         current_scope = _.without(current_scope, type);
-        current_scope = current_scope[0].split('.');
-        $(fields[0]).val(current_scope[0]);
-        $(fields[1]).val(current_scope[1]);
-        self.set_date_range(fields, name, type);
+        if (current_scope.length > 0) {
+          current_scope = current_scope[0].split('.');
+          $(fields[0]).val(current_scope[0]);
+          $(fields[1]).val(current_scope[1]);
+          self.set_date_range(fields, name, type);
+        }
       }
     });
   },
