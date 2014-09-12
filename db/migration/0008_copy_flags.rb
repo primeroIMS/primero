@@ -13,8 +13,8 @@
 
   #Remove properties
   model.all.rows.map {|r| model.database.get(r["id"]) }.each do |inst|
-    ["flag_message", "flag_date"].each do |field_name|
-      if inst[:flag]
+    ["flag_message", "flag_date", "flag"].each do |field_name|
+      if inst[field_name]
         inst.delete(field_name)
         inst.save
         puts "Deleted key #{field_name} from #{model.name} #{inst['_id']}"
