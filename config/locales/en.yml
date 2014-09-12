@@ -357,6 +357,9 @@ en:
 
     history_of: "History of %{short_id}"
 
+    violation:
+        pending: 'Pending'
+
   tracing_request:
     label: "Inquirer ID"
     register_new_tracing_request: "New Tracing Request"

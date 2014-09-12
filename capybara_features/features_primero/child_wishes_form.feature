@@ -29,7 +29,7 @@ Feature: Child Wishes Form
     And I select "Yes" for "Does the child wish to continue in the current care arrangement?" radio button
     And I select "With husband/wife/partner" from "Type of care arrangement child wishes to have"
     #Added First Child's Preference
-    And I fill in the 1st "Child Preferences Section" subform with the follow:
+    And I update in the 1st "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Father's Name         |
       | Preference of the child to be relocated with this person | <Select> Third choice |
       | What is this person's relationship to the child?         | <Select> Father       |
