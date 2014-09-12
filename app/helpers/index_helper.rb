@@ -44,7 +44,7 @@ module IndexHelper
 		end
 	end
 
-	def build_checkboxes(filter, items, type, format = true)
+	def build_checkboxes(filter, items, type, format = true, filter_type = nil)
 		content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
 			items.each do |item|
 				if item.is_a?(Hash)
@@ -57,21 +57,25 @@ module IndexHelper
 				if format
 					label = label.gsub('_', ' ').split.map(&:capitalize).join(' ')
 					item = item.gsub('_', ' ')
-				end
-				if @scope[filter].present?
-					checked = true if @scope[filter].include? item.gsub('_', '')
-				end
-				concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}", checked: checked || false)
+        end
+
+        #TODO: Temp removing. Need to make defaults sync with front-end js
+        # if @scope[filter].present?
+					# checked = true if @scope[filter].include? item.gsub('_', '')
+        # end
+
+        concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}",
+                             filter_type: filter_type)
 				concat(label_tag "#{filter}_#{item}", label)
 				concat('<br>'.html_safe)
 			end
 		end
 	end
 
-	def build_filter_checkboxes(title, filter, items, type = false, format = true)
+	def build_filter_checkboxes(title, filter, items, type = false, format = true, filter_type = nil )
 		content_tag :div, class: 'filter' do
 			concat(content_tag(:h3, title))
-			concat(build_checkboxes(filter, items, type, format))
+			concat(build_checkboxes(filter, items, type, format, filter_type))
 		end
 	end
 

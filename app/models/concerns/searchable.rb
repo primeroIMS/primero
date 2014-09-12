@@ -12,7 +12,7 @@ module Searchable
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true}
       # TODO: Left date as string. Getting invalid date format error
-      searchable_date_fields.each {|f| string f}
+      searchable_date_fields.each {|f| date f}
       searchable_numeric_fields.each {|f| integer f}
       # TODO: boolean with have to change if we want to index arbitrary index fields
       boolean :duplicate
@@ -53,9 +53,31 @@ module Searchable
       self.search do
         if filters.present?
           filters.each do |filter,value|
-            value = value.split(",")
-            value.each do |v|
-              with(filter, v) unless v == 'all'
+            values = value.split(",")
+            type = values.shift
+            any_of do
+              values.each do |v|
+                if type == 'range'
+                  v = v.split("-")
+                  if v.count == 1
+                    # Range +
+                    with(filter).greater_than_or_equal_to(v.first.to_i)
+                  else
+                    range_start, range_stop = v.first.to_i, v.last.to_i
+                    with(filter, range_start...range_stop)
+                  end
+                elsif type == 'date_range'
+                  v = v.split('.').each { |d| convert_date(d) }
+                  if v.count > 1
+                    to, from = v.first, v.last
+                    with(filter).between(to..from)
+                  else
+                    with(filter, v.first)
+                  end
+                else
+                  with(filter, v) unless v == 'all'
+                end
+              end
             end
           end
         end
@@ -69,6 +91,10 @@ module Searchable
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
       end
+    end
+
+    def convert_date(date)
+      Date.parse(date)
     end
 
     # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
@@ -102,7 +128,7 @@ module Searchable
     end
 
     def searchable_date_fields
-      ["created_at", "last_updated_at"] + Field.all_searchable_date_field_names(self.parent_form)
+      ["created_at", "last_updated_at", "registration_date"] + Field.all_searchable_date_field_names(self.parent_form)
     end
 
     def searchable_string_fields

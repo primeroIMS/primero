@@ -30,16 +30,15 @@ div.scope_bar {
 // Index filters
 ////////////////////////////////////////////////
 
-.filter-title {
+.filter_title {
   text-transform: uppercase;
   font-size: 0.8rem;
-  padding: 20px 0 0 25px;
+  padding: 8px 0 0 25px;
 }
 
 .index_filters {
   padding: 0;
   width: 225px;
-  margin-top: -23px;
 
   .filter {
     .filter-controls {
