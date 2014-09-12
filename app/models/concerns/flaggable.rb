@@ -20,6 +20,8 @@ module Flaggable
     end
 
     def flag_message_flagged_by
+      #TODO Keep the panel in the show and the edit show one of the flag, the last one.
+      #that panel eventually will change.
       flag = self.flags.last
       I18n.t("#{self.class.name.underscore.downcase}.flagged_as_suspected")+" #{flag.flagged_by}: #{flag.message}" if flag
     end
