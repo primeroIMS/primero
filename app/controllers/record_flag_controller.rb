@@ -5,7 +5,7 @@ class RecordFlagController < ApplicationController
   before_filter :set_record
 
   def flag
-    authorize! :update, @record
+    authorize! :flag, @record
     flag = @record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
     if @record.save
       render :json => flag if params[:redirect_url].blank?
@@ -17,7 +17,7 @@ class RecordFlagController < ApplicationController
   end
 
   def unflag
-    authorize! :update, @record
+    authorize! :flag, @record
     flag = @record.remove_flag(params[:flag_message], params[:flag_index], current_user_name)
     if flag.present? and @record.save
       render :json => flag if params[:redirect_url].blank?

@@ -1,4 +1,4 @@
-<% if can? :update, record %>
+<% if can? :flag, record %>
     <span id="<%= mark_as_property %>" class="<%= style %>"><%= link_to mark_as_label, "#", class: button_style %></span>
     <div class="dropdown hide"
          data-model="<%= "#{record.class.name.underscore.downcase}" %>"
