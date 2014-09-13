@@ -6,7 +6,12 @@ class Location < CouchRest::Model::Base
   include Namable #delivers "name" and "description" fields
 
 
-  property :location_type #TODO: what types do we have? Do we even need to specify?
+
+  BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
+
+
+
+  property :type #TODO: what types do we have? Do we even need to specify?
   #TODO: This is the somewhat generalized version of the user/manager code. We may need to refactor into a hierarchical concern.
   property :hierarchy, type: [String]
 

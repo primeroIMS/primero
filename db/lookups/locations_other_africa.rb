@@ -1,0 +1,7 @@
+Location.create! name: "Sudan", type: "country"
+Location.create! name: "Chad", type: "country"
+Location.create! name: "Rwanda", type: "country"
+Location.create! name: "Ethiopia", type: "country"
+Location.create! name: "Democratic Republic of the Congo (DRC)", type: "country"
+Location.create! name: "Central African Republic (CAR)", type: "country"
+Location.create! name: "Other Country", type: "country"
