@@ -45,7 +45,9 @@ module FormToPropertiesConverter
 
   def properties_for_field(field)
     base_options = {
-      :read_only => !field.editable,
+     # field.editable just means that it's not editable in a particular form.
+     # The system can still edit to its heart's content.
+     # :read_only => !field.editable,
       :allow_blank => false
     }
 
@@ -94,7 +96,7 @@ module FormToPropertiesConverter
     when "date_field"
       { field.name => date_options.update(base_options) }
     when "date_range"
-      { 
+      {
         "#{field.name}_from" => date_options.update(base_options),
         "#{field.name}_to" => date_options.update(base_options),
         "#{field.name}_date_or_date_range" => {:type => String}.update(base_options),
