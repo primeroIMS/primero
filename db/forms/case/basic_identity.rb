@@ -115,6 +115,7 @@ basic_identity_fields = [
   Field.new({"name" => "location_current",
              "type" =>"select_box",
              "display_name_all" => "Current Location",
+             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_is_permanent",
