@@ -3,14 +3,11 @@ class Location < CouchRest::Model::Base
   use_database :location
 
   include RapidFTR::Model
-  include Namable #delivers "name" and "description" fields
-
 
 
   BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
 
-
-
+  property :name
   property :type #TODO: what types do we have? Do we even need to specify?
   #TODO: This is the somewhat generalized version of the user/manager code. We may need to refactor into a hierarchical concern.
   property :hierarchy, type: [String]
@@ -24,6 +21,15 @@ class Location < CouchRest::Model::Base
                 }
               }
             }"
+    view :by_type
+    view :by_name
+  end
+
+
+  def self.find_by_location(name)
+    #TODO: Forn now this makes the bold assumption that high-level locations are uniqueish.
+    location = Location.by_name(key: name).all[0..0]
+    return location + location.first.descendants
   end
 
   def hierarchical_name

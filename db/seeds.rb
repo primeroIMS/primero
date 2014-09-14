@@ -34,6 +34,8 @@ end
 #Reseed the lookups
 puts "Seeding Lookups"
 require File.dirname(__FILE__) + "/lookups/lookups.rb"
+puts "Seeding Locations"
+require File.dirname(__FILE__) + "/lookups/locations.rb"
 
 #Create the forms
 clean_db_table('form_section')

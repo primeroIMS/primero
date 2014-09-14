@@ -38,6 +38,14 @@ namespace :db do
       end
     end
 
+    desc "Remove locations by key"
+    task :remove_locations, [:location_key] => :environment do |t, args|
+      name = args[:location_key]
+      puts "Removing locations hierarchy starting at #{name}"
+      locations = Location.find_by_location(name)
+      locations.each(&:destroy)
+    end
+
     desc "Allocates default modules to records"
     task :set_module_defaults => :environment do
 
