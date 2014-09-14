@@ -47,11 +47,7 @@ Feature: Killing Form
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Killing"
     And I should see in the 1st "Killing" subform with the follow:
-      #TODO - fix
-      #| Number of victims: boys                                                            | 1                             |
-      #| Number of victims: girls                                                           | 2                             |
-      #| Number of victims: unknown                                                         | 3                             |
-      #| Number of total victims                                                            | 6                             |
+      | Number of victims                                                                  |<Tally> Boys:1 Girls:2 Unknown:3 Total number of victims:6 |
       | Method                                                                             | Summary                       |
       | Cause                                                                              | IED                           |
       | Details                                                                            | Some details                  |

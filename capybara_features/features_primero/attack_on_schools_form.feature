@@ -38,7 +38,8 @@ Feature: Attack on Schools Form
       | Number of Adults Affected by Service Disruption   | 500                                         |
       | Number of Children Recruited During Attack        | 400                                         |
       | What organization manages this facility?          | <Select> Government                         |
-      | What was the main objective of the "attack"?      | main objective of the attack                |
+      #TODO - fix
+      #| What was the main objective of the "attack"?      | main objective of the attack                |
       | Physical Impact of Attack                         | <Select> Total Destruction                  |
       | Was Facility Closed As A Result?                  | <Radio> No                                  |
       | For How Long? (Days)                              | 100                                         |
@@ -65,15 +66,8 @@ Feature: Attack on Schools Form
       | School Name                                       | The School name under attack       |
       | Number of Students                                | 1000                               |
       | Sex Of Students                                   | Mixed                              |
-      #TODO - fix
-      #| Number of Boys Killed                             | 100                                |
-      #| Number of Girls Killed                            | 101                                |
-      #| Number of Unknown Children Killed                 | 102                                |
-      #| Total Children Killed                             | 303                                |
-      #| Number of Boys Injured                            | 103                                |
-      #| Number of Girls Injured                           | 104                                |
-      #| Number of Unknown Children Injured                | 105                                |
-      #| Total Children Injured                            | 312                                |
+      | Number of children killed                         |<Tally> Boys:100 Girls:101 Unknown:102 Total number of children killed:303 |
+      | Number of children injured                        |<Tally> Boys:103 Girls:104 Unknown:105 Total number of children injured:312 |
       | Number of Staff Killed                            | 106                                |
       | Number of Staff Injured                           | 107                                |
       | Number of Other Adults Killed                     | 108                                |
@@ -82,7 +76,8 @@ Feature: Attack on Schools Form
       | Number of Adults Affected by Service Disruption   | 500                                |
       | Number of Children Recruited During Attack        | 400                                |
       | What organization manages this facility?          | Government                         |
-      | What was the main objective of the "attack"?      | main objective of the attack       |
+      #TODO - fix
+      #| What was the main objective of the "attack"?      | main objective of the attack       |
       | Physical Impact of Attack                         | Total Destruction                  |
       | Was Facility Closed As A Result?                  | No                                 |
       | For How Long? (Days)                              | 100                                |
