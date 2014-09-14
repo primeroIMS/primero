@@ -24,7 +24,7 @@ describe TracingRequest do
     end
 
     it "should build with date search fields" do
-      TracingRequest.searchable_date_fields.should == ["created_at", "last_updated_at"]
+      expect(TracingRequest.searchable_date_fields).to include("created_at", "last_updated_at")
     end
 
     it "fields build with all fields in form sections" do
@@ -60,7 +60,7 @@ describe TracingRequest do
     after :all do
       FormSection.all.all.each { |form| form.destroy }
     end
-    
+
     # TODO: full text searching not implemented yet. Effects the next 13 test.
 
     # it "should return empty array if search is not valid" do
@@ -365,7 +365,7 @@ describe TracingRequest do
       #Update the tracing_request so the current audio is removed.
       properties = {:relation_name => "Some TracingRequest Name"}
       tracing_request.update_properties_with_user_name 'Jane Doe', nil, nil, nil, true, properties
-    
+
       #Validate the file was removed.
       tracing_request['_attachments'].should be_blank
       tracing_request['audio_attachments'].should be_nil
@@ -712,7 +712,7 @@ describe TracingRequest do
 
       it "should save tracing request after delete some photos" do
         photos = []
-        (1..10).each do |i|          
+        (1..10).each do |i|
           photos << stub_photo_properties(i)
         end
         tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
@@ -743,7 +743,7 @@ describe TracingRequest do
         photo.stub(:content_type).and_return("image/jpg")
         photo
       end
-      
+
     end
 
   end
