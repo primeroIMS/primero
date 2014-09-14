@@ -1,10 +1,10 @@
 #Country
-Location.create! name: "Uganda", type: "country"
+Location.create! placename: "Uganda", type: "country"
 
-Location.create! name:"Central Region", type: "region", hierarchy: ["Uganda"]
-Location.create! name:"Eastern Region", type: "region", hierarchy: ["Uganda"]
-Location.create! name:"Western Region", type: "region", hierarchy: ["Uganda"]
-Location.create! name:"Northern Region", type: "region", hierarchy: ["Uganda"]
+Location.create! placename:"Central Region", type: "region", hierarchy: ["Uganda"]
+Location.create! placename:"Eastern Region", type: "region", hierarchy: ["Uganda"]
+Location.create! placename:"Western Region", type: "region", hierarchy: ["Uganda"]
+Location.create! placename:"Northern Region", type: "region", hierarchy: ["Uganda"]
 
-Location.create! name:"Kampala", type: "city", hierarchy: ["Uganda", "Central Region"]
-Location.create! name:"Entebbe", type: "city", hierarchy: ["Uganda", "Central Region"]
+Location.create! placename:"Kampala", type: "city", hierarchy: ["Uganda", "Central Region"]
+Location.create! placename:"Entebbe", type: "city", hierarchy: ["Uganda", "Central Region"]
