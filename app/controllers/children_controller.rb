@@ -240,6 +240,13 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def create_incident
+    authorize! :create, Incident
+    child = Child.get(params[:child_id])
+    #It is a GBV cases and the user indicate that want to create a GBV incident.
+    redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
+  end
+
 # DELETE /children/1
 # DELETE /children/1.xml
   def destroy
