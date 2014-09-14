@@ -49,8 +49,7 @@ Feature: Denial of Humanitarian Access Form
       | Number of Personnel Threatened            | 5      |
       | Number of Vehicles Hijacked               | 6      |
       | Value of Property Stolen / Damaged        | 70000  |
-      #TODO - fix
-      #| Number of survivors                       | <Tally>Boys:20<Tally>Girls:30<Tally>Unknown:40       |
+      | Number of survivors                       | <Tally>Boys:20<Tally>Girls:30<Tally>Unknown:40       |
       | Adults                                    | 60     |
       | Population Affected by Service Disruption | 80000  |
     #TODO - fix
@@ -90,10 +89,6 @@ Feature: Denial of Humanitarian Access Form
       | Number of Personnel Threatened            | 5      |
       | Number of Vehicles Hijacked               | 6      |
       | Value of Property Stolen / Damaged        | 70000  |
-      #TODO - fix
-      #| Number of survivors: boys                 | 20     |
-      #| Number of survivors: girls                | 30     |
-      #| Number of survivors: unknown              | 40     |
-      #| Number of total survivors                 | 90     |
+      | Number of survivors                       |<Tally> Boys:20 Girls:30 Unknown:40 Total number of survivors:90 |
       | Adults                                    | 60     |
       | Population Affected by Service Disruption | 80000  |

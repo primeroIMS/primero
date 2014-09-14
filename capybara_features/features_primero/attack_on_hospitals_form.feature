@@ -32,7 +32,7 @@ Feature: Attack on Hospitals Form
       | Number of Adults Affected by Service Disruption   | 12                          |
       | Number of Children Recruited During Attack        | 3                           |
       | What organization manages this facilty?           | <Select> Government         |
-      #Todo - fix
+      #TODO - fix
       #| What was the main objective of the "attack"?      | Some information            |
       | Physical Impact of Attack                         | <Select> Serious Damage     |
       | Was Facility Closed As A Result?                  | <Radio> Yes                 |

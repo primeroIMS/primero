@@ -35,8 +35,7 @@ Feature: Other Violation Form
     And I fill in the 2nd "Other Violation" subform with the follow:
       | Other Violation Type        | <Select> Access Violations |
       | Other Violation Description | Some Violation Description |
-      #TODO - fix
-      #| Number of survivors         | <Tally>Boys:2<Tally>Girls:3<Tally>Unknown:4  |
+      | Number of survivors         | <Tally>Boys:2<Tally>Girls:3<Tally>Unknown:4  |
     #TODO - fix
     #And the value of "Number of total survivors" in the 1st "Other Violation" subform should be "6"
     #And the value of "Number of total survivors" in the 2nd "Other Violation" subform should be "9"
@@ -60,8 +59,4 @@ Feature: Other Violation Form
     And I should see in the 2nd "Other Violation" subform with the follow:
       | Other Violation Type        | Access Violations          |
       | Other Violation Description | Some Violation Description |
-      #TODO - fix
-      #| Number of survivors: boys   | 2 |
-      #| Number of survivors: girls  | 3 |
-      #| Number of survivors: unknown| 4 |
-      #| Number of total survivors   | 9 |
+      | Number of survivors         |<Tally> Boys:2 Girls:3 Unknown:4 Total number of survivors:9 |

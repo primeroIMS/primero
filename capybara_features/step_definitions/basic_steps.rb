@@ -250,9 +250,19 @@ def update_subforms_field(num, subform, fields)
       elsif value.start_with?("<Radio>")
         step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{name}" radio button within "#{scope}"}
       elsif value.start_with?("<Tickbox>")
-        label = find "//label[text()=\"#{name}\"]", :visible => true
+        label = find("#{scope}//label[text()=\"#{name}\"]", :visible => true)
         checkbox_id = label["for"]
         check("#{checkbox_id}", :visible => true)
+      elsif value.start_with?("<Tally>")
+        label = find("#{scope}//label[text()=\"#{name}\"]", :visible => true)
+        options = value.gsub(/^<Tally>/, "").split("<Tally>")
+        options.each do |option|
+          key_value = option.split(':')
+          k = key_value[0].downcase
+          v = key_value[1].strip
+          tally_field_id = "#{label["for"]}_#{k}"
+          fill_in(tally_field_id, :visible => true, :with => v)
+        end
       else
         step %Q{I fill in "#{name}" with "#{value}"}
       end
