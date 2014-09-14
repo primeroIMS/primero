@@ -153,9 +153,9 @@ var Primero = Backbone.View.extend({
           commit = form.find("input[class='submit-outside-form']");
 
       if (commit.length == 0) {
-        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + button.value + "'/>")
+        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + button.val() + "'/>")
       } else {
-        $(commit).val(button.value);
+        $(commit).val(button.val());
       }
 
       form.submit();

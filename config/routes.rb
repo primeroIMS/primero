@@ -111,6 +111,9 @@ RapidFTR::Application.routes.draw do
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:child_id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
+  #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
+  match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
+
   #Flag routing
   match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class:'Child', :via => [:post, :put]
   match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class:'Incident', :via => [:post, :put]
