@@ -27,7 +27,8 @@ Feature: Flag child record
 
 #    And I follow "View All Children"
 #    Then I should see flagged details
-  @javascript
+  #Remove flag in the GUI will be refactoring because it allow multiple flags now
+  @javascript @wip
   Scenario: Removing flag from a child record
     Given I flag "Peter" as suspect
     When I am on the child record page for "Peter"

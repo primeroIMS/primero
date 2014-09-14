@@ -9,6 +9,7 @@ class Incident < CouchRest::Model::Base
   include Ownable
   include Searchable #Needs to be after Ownable
   include Flaggable
+  include DocumentHelper
 
   property :incident_id
   property :description
@@ -30,6 +31,8 @@ class Incident < CouchRest::Model::Base
                }
             }"
   end
+
+  before_save :set_violation_verification_default
 
   def self.find_by_incident_id(incident_id)
     by_incident_id(:key => incident_id).first
@@ -53,17 +56,17 @@ class Incident < CouchRest::Model::Base
   end
 
   def incident_code
-    (self['unique_identifier'] || "").last 7
+    (self.unique_identifier || "").last 7
   end
 
   def violations_list
     violations_list = []
 
-    if self['violations'].present?
-      self['violations'].to_hash.each do |key, value|
+    if self.violations.present?
+      self.violations.to_hash.each do |key, value|
         value.each_with_index do |v, i|
-          if v['violation_id'].present?
-            violations_list << v['violation_id']
+          if v.violation_id.present?
+            violations_list << v.violation_id
           else
             violations_list << "#{key.titleize} #{i}"
           end
@@ -80,7 +83,7 @@ class Incident < CouchRest::Model::Base
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
   def copy_survivor_information(case_record)
-    self.copy_fields(case_record, {
+    copy_fields(case_record, {
         "survivor_code_no" => "survivor_code",
         "age" => "age",
         "date_of_birth" => "date_of_birth",
@@ -94,6 +97,18 @@ class Incident < CouchRest::Model::Base
         "gbv_disability_type" => "disability_type",
         "unaccompanied_separated_status" => "unaccompanied_separated_status"
      })
+  end
+
+  def set_violation_verification_default
+    if self.violations.present?
+      self.violations.to_hash.each do |key, value|
+        value.each do |v|
+          unless v.verified.present?
+            v.verified = I18n.t('incident.violation.pending')
+          end
+        end
+      end
+    end
   end
 
 end

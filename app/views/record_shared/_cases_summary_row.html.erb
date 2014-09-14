@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <%= icon('flag', '', class: 'flagged') if record.flag? %>
+    <%= icon('flag', '', class: 'flagged') if record.flagged? %>
   </td>
   <td id="child_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
@@ -10,5 +10,5 @@
   <td><%= record.age %></td>
   <td><%= record.sex %></td>
   <td><%= record.created_at %></td>
-  <td><%= icon('picture-o') if record.photo_keys.present? %></td>
+  <td><%= icon('camera') if record.photo_keys.present? %></td>
 </tr>

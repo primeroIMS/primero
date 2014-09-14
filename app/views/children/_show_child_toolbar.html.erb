@@ -8,7 +8,7 @@
         Unlikely that we will put them back in. Delete the code in the future.
     %>
     <% if false %>
-    <% if @child.flag? %>
+    <% if @child.flagged? %>
         <li>
             <div class="dropdown_btn dropdown_form">
                 <%= render 'investigated', child: @child %>
@@ -26,6 +26,7 @@
             <%= render 'record_shared/suspect_flag', record: @child %>
         </div>
     </li>
+    <%= ctl_create_incident_button(@child) %>
 <% end %>
 
   <li>

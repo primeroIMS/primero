@@ -111,6 +111,19 @@ RapidFTR::Application.routes.draw do
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:child_id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
+  #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
+  match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
+
+  #Flag routing
+  match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class:'Child', :via => [:post, :put]
+  match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class:'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, model_class:'TracingRequest', :via => [:post, :put]
+
+  #Unflag routing
+  match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]
+  match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class:'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, model_class:'TracingRequest', :via => [:post, :put]
+
   match '/tracing_requests-ids' => 'tracing_request_ids#all', :as => :tracing_request_ids, :via => [:post, :get, :put, :delete]
   match '/tracing_requests/:id/photo/edit' => 'tracing_requests#edit_photo', :as => :edit_tracing_requests_photo, :via => :get
   match '/tracing_requests/:id/photo' => 'tracing_requests#update_photo', :as => :update_tracing_requests_photo, :via => :put
@@ -141,6 +154,8 @@ RapidFTR::Application.routes.draw do
     # resources :attachments, :only => :show
     # resource :duplicate, :only => [:new, :create]
   end
+
+  match '/incidents/:incident_id/document/:document_id' => 'incident_media#download_document', :as => :incident_document, :via => [:post, :get, :put, :delete]
 
 #######################
 # API URLS

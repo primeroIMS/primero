@@ -26,7 +26,7 @@ describe Child do
     end
 
     it "should build with date search fields" do
-      Child.searchable_date_fields.should == ["created_at", "last_updated_at"]
+      expect(Child.searchable_date_fields).to include("created_at", "last_updated_at", "registration_date")
     end
 
     it "fields build with all fields in form sections" do
@@ -480,7 +480,7 @@ describe Child do
       child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => '19/Jul/2014')
       child.save!
       child[:case_id].should_not be_nil
-      child[:registration_date].should eq '19/Jul/2014'
+      child[:registration_date].should eq Date.parse('19/Jul/2014')
     end
 
     it "should not save file formats that are not photo formats" do
@@ -1179,15 +1179,11 @@ describe Child do
 
     it "should maintain history when child is flagged and message is added" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      child['flag'] = 'true'
-      child['flag_message'] = 'Duplicate record!'
+      child.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
       child.save!
-      flag_history = child['histories'].first['changes']['flag']
-      flag_history['from'].should be_nil
-      flag_history['to'].should == 'true'
-      flag_message_history = child['histories'].first['changes']['flag_message']
-      flag_message_history['from'].should be_nil
-      flag_message_history['to'].should == 'Duplicate record!'
+      flag_history = child['histories'].first['changes']['flags']
+      flag_history['from'].should == []
+      flag_history['to'].should == [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
     end
 
     it "should maintain history when child is reunited and message is added" do
