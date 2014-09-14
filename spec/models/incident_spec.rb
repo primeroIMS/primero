@@ -23,7 +23,7 @@ describe Incident do
     end
 
     it "should build with date search fields" do
-      Incident.searchable_date_fields.should == ["created_at", "last_updated_at"]
+      expect(Incident.searchable_date_fields).to  include("created_at", "last_updated_at")
     end
 
     it "fields build with all fields in form sections" do
@@ -33,7 +33,7 @@ describe Incident do
       Incident.searchable_text_fields.should include("description")
       FormSection.all.each { |form_section| form_section.destroy }
     end
-    
+
     # TODO: build_solr_schema under development. Temp removed
     # it "should call Sunspot with all fields" do
     #   Sunspot.should_receive(:setup)
@@ -106,7 +106,7 @@ describe Incident do
     #   incident_duplicate = Incident.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
 
     #   search = double("search", :query => "aquiles", :valid? => true)
-    #   result = Incident.search(search)   
+    #   result = Incident.search(search)
 
     #   result.first.map(&:description).should == ["eduardo aquiles"]
     # end
@@ -282,7 +282,7 @@ describe Incident do
       # child = create_child("timothy cochran")
       # child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:reunited => true}
       # child.reunited_at.should == "2010-01-17 19:05:00UTC"
-    # end    
+    # end
 
   end
 
@@ -369,7 +369,7 @@ describe Incident do
     end
 
   end
-  
+
 
   describe "history log" do
 
@@ -515,7 +515,7 @@ describe Incident do
       incidents.first['description'].should == 'Abc'
       incidents.last['description'].should == 'Zxy'
     end
-    
+
     xit "should order incidents with blank descriptions first" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       Incident.create('description' => 'Zxy', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
@@ -531,7 +531,7 @@ describe Incident do
 
   end
 
-  
+
   context "duplicate" do
     before do
       Incident.all.each { |incident| incident.destroy }
