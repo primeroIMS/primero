@@ -1,6 +1,6 @@
 class Field
   include CouchRest::Model::CastedModel
-  include RapidFTR::Model
+  include PrimeroModel
   include PropertiesLocalization
 
   property :name

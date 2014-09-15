@@ -1,6 +1,6 @@
 class Enquiry < CouchRest::Model::Base
   use_database :enquiry
-  include RapidFTR::Model
+  include PrimeroModel
   include Record
 
   before_save :find_matching_children

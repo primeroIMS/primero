@@ -2,7 +2,7 @@ class Replication < CouchRest::Model::Base
   MODELS_TO_SYNC = [ Role, Child, User, MobileDbKey, Device ]
   STABLE_WAIT_TIME = 2.minutes
 
-  include RapidFTR::Model
+  include PrimeroModel
 
   use_database :replication_config
 

@@ -1,6 +1,6 @@
 class Flag
   include CouchRest::Model::Embeddable
-  include RapidFTR::Model
+  include PrimeroModel
 
   validate :validate_record
 

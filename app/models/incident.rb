@@ -1,7 +1,7 @@
 class Incident < CouchRest::Model::Base
   use_database :incident
 
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
 

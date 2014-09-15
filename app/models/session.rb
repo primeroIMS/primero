@@ -1,7 +1,7 @@
 class Session < CouchRest::Model::Base
   use_database :sessions
 
-  include RapidFTR::Model
+  include PrimeroModel
 
   property :imei
   property :user_name

@@ -1,6 +1,6 @@
 class Ability
   include CanCan::Ability
-
+  include PrimeroModel
 
   def initialize(user)
     alias_action :index, :view, :list, :export, :to => :read

@@ -5,7 +5,7 @@
 
 class Report < CouchRest::Model::Base
   use_database :report
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
   validate :must_have_attached_report

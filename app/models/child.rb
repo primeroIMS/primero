@@ -8,7 +8,7 @@ class Child < CouchRest::Model::Base
     'case'
   end
 
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
   include Record

@@ -73,6 +73,9 @@ module Exporters
       end
       memoize :find_longest_array
 
+      # TODO: axe this in favor of the similar function in the Accessible model
+      # concern.  Have to figure out the inheritance tree for the models first
+      # so that all exportable models get that method.
       def get_value_from_prop_tree(model, prop_tree)
         prop_tree.inject(model) do |acc, prop|
           if acc.nil?

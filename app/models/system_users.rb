@@ -1,6 +1,6 @@
 class SystemUsers < CouchRest::Model::Base
 
-  include RapidFTR::Model
+  include PrimeroModel
   self.database = COUCHDB_SERVER.database("_users")
 
   property :name

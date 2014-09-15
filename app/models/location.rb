@@ -2,7 +2,7 @@ class Location < CouchRest::Model::Base
 
   use_database :location
 
-  include RapidFTR::Model
+  include PrimeroModel
   include Namable #delivers "name" and "description" fields
 
 
