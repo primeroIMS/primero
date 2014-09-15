@@ -1,7 +1,7 @@
 <%
    field_keys ||= []
    name = field_tag_name formObject, select_box, field_keys
-   name += "[]" if select_box.multi_select   
+   name += "[]" if select_box.multi_select
    field_id = "#{select_box.form.name.dehumanize}_#{sanitize_to_id name}"
    value = select_box.selected_value if select_box.selected_value.present? && formObject.new_record?
    value ||= field_value formObject, select_box, field_keys
@@ -16,6 +16,8 @@
   <div class="medium-8 columns">
     <% if select_box.multi_select %>
       <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'multiple' => '', 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id %>
+    <% elsif select_box.searchable_select %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), :id => field_id %>
     <% else %>
       <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), :id => field_id %>
     <% end %>

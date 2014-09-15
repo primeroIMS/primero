@@ -1,18 +1,18 @@
 basic_identity_fields = [
   Field.new({"name" => "case_id",
-             "type" => "text_field", 
+             "type" => "text_field",
              "editable" => false,
              "display_name_all" => "Case ID"
             }),
   Field.new({"name" => "short_id",
-             "type" => "text_field", 
+             "type" => "text_field",
              "editable" => false,
              "display_name_all" => "Short ID"
             }),
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Open",
                            "Closed",
                            "Transferred",
@@ -38,14 +38,14 @@ basic_identity_fields = [
              "option_strings_text_all" => "Yes\nNo",
             }),
   Field.new({"name" => "registration_date",
-             "type" => "date_field", 
+             "type" => "date_field",
              "display_name_all" => "Date of Registration or Interview"
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
              "option_strings_text_all" => "Male\nFemale",
              "display_name_all" => "Sex"
-            }),                  
+            }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
              "display_name_all" => "Age"
@@ -65,7 +65,7 @@ basic_identity_fields = [
   Field.new({"name" => "icrc_ref_no",
              "type" => "text_field",
              "display_name_all" => "ICRC Ref No."
-            }),  
+            }),
   Field.new({"name" => "rc_id_no",
              "type" => "text_field",
              "display_name_all" => "RC ID No."
@@ -73,7 +73,7 @@ basic_identity_fields = [
   Field.new({"name" => "unhcr_id_no",
              "type" => "text_field",
              "display_name_all" => "UNHCR ID"
-            }),  
+            }),
   Field.new({"name" => "un_no",
             "type" => "text_field",
             "display_name_all" => "UN Number"
@@ -93,7 +93,7 @@ basic_identity_fields = [
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
              "display_name_all" => "Current Civil/Marital Status",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Single",
                            "Married/Cohabitating",
                            "Divorced/Separated",
@@ -113,13 +113,15 @@ basic_identity_fields = [
             }),
   #TODO location picker
   Field.new({"name" => "location_current",
-             "type" =>"text_field" ,
-             "display_name_all" => "Current Location"
+             "type" =>"select_box",
+             "display_name_all" => "Current Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_is_permanent",
              "type" => "tick_box",
              "display_name_all" => "Is this address permanent?"
-            }),  
+            }),
   Field.new({"name" => "telephone_current",
              "type" => "text_field",
              "display_name_all" => "Current Telephone"
