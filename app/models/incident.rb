@@ -37,9 +37,11 @@ class Incident < CouchRest::Model::Base
   searchable do
     string :violations, multiple: true do
       violation_list = []
-      violations.keys.each do |v|
-        if violations[v].present?
-          violation_list << v
+      if violations.present?
+        violations.keys.each do |v|
+          if violations[v].present?
+            violation_list << v
+          end
         end
       end
       violation_list
