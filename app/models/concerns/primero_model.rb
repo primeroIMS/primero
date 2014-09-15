@@ -8,15 +8,15 @@ module PrimeroModel
   # Ex: `child.value_for_attr_keys(['family_details_section', 0, 'relation_name'])`
   # is equivalent to doing `child.family_details_section[0].relation_name`
   def value_for_attr_keys(attr_keys)
-    attr_keys.inject(self) do |acc, prop|
+    attr_keys.inject(self) do |acc, attr|
       if acc.nil?
         nil
-      elsif prop.is_a?(Numeric)
+      elsif attr.is_a?(Numeric)
         # We use 1-based numbering in the output but arrays in Ruby are
         # still 0-based
-        acc[prop - 1]
+        acc[attr - 1]
       else
-        acc.send(prop.name.to_sym)
+        acc.send(attr.to_sym)
       end
     end
   end
