@@ -23,7 +23,7 @@ class Child < CouchRest::Model::Base
   property :nickname
   property :name
   property :hidden_name, TrueClass, :default => false
-  property :registration_date
+  property :registration_date, Date
   property :reunited, TrueClass
   property :investigated, TrueClass
   property :verified, TrueClass
@@ -148,7 +148,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_class_specific_fields(fields)
-    self.registration_date ||= DateTime.now.strftime("%d-%b-%Y")
+    self.registration_date ||= Date.today
   end
 
   def case_id

@@ -3,8 +3,7 @@ gbv_reported_elsewhere_subform_fields = [
              "type" => "select_box",
              "display_name_all" => "Type of service provider where the survivor reported the incident",
              "option_strings_text_all" =>
-                                    ["No",
-                                     "Health/Medical Services",
+                                    ["Health/Medical Services",
                                      "Psychosocial/Counseling Services",
                                      "Police/Other Security Actor",
                                      "Legal Assistance Services",

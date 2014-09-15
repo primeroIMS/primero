@@ -96,6 +96,14 @@ incident_fields = [
                 "Guest House - Hotel"
               ].join("\n")
             }),
+  Field.new({"name" => "incident_location",
+              "type" => "text_field",
+              "display_name_all" => "Incident Location"
+            }),
+  Field.new({"name" => "incident_location_notes",
+              "type" => "text_field",
+              "display_name_all" => "Notes on Location"
+            }),
   Field.new({"name" => "incident_latitude",
              "type" => "text_field",
              "display_name_all" => "Latitude"
@@ -104,21 +112,6 @@ incident_fields = [
              "type" => "text_field",
              "display_name_all" => "Longitude"
             }),
-  #TODO: 
-  #      - replace Area, Sub-Area, Camp/Town/Site/Village with the Location lookup field as used elsewhere in the application (e.g., in Cases)
-  #      - add a Notes on Location field; move location and location notes fields to be above Latitude and Longitude fields
-  Field.new({"name" => "incident_location_1", # TODO: Customizable
-             "type" => "text_field",
-             "display_name_all" => "Area"
-            }),
-  Field.new({"name" => "incident_location_2", # TODO: Customizable
-             "type" => "text_field",
-             "display_name_all" => "Sub-Area"
-            }),
-  Field.new({"name" => "Incident_location_3", # TODO: Customizable
-             "type" => "text_field",
-             "display_name_all" => "Camp/Town/Site/Village"
-            }), 
   Field.new({"name" => "number_of_individual_perpetrators",
              "type" => "select_box",
              "display_name_all" => "Number of alleged perpetrator(s)",
