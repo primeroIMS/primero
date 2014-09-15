@@ -79,8 +79,14 @@ table.list_view, table.record_list_view {
   }
 }
 
-table.record_list_view tr td:nth-child(2) {
-  text-transform: uppercase;
+table.record_list_view {
+  tr td.photo {
+    text-align: center !important;
+  }
+
+  table.record_list_view tr td:nth-child(2) {
+    text-transform: uppercase;
+  }
 }
 
 table tr:nth-of-type(even) {
