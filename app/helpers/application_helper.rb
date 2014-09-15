@@ -54,7 +54,7 @@ module ApplicationHelper
 
   #TODO: Fix this when fixing customizations. Do we need them as hashed values
   def translated_permissions
-    permissions = Permission.hashed_values.map do |group, permissions|
+    permissions = Permission.all_grouped.map do |group, permissions|
       [
           I18n.t(group, :scope => "permissions.group"),
           permissions.map do |permission|

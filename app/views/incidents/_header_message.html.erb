@@ -9,7 +9,7 @@
     <% if incident.duplicate? %>
         <p class="duplicate-message"><%= duplicate_message %></p>
     <% end %>
-    <% unless duplicates.empty? %>
+    <% if duplicates.present? %>
         <p class="duplicate-message"><%= t("incident.another_duplicate_before_link") %>
         <%= link_to 'here', incident_path(duplicates.first) %><%= t("incident.another_duplicate_after_link") %></p>
     <% end %>

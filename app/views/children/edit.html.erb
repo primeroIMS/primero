@@ -10,14 +10,8 @@
     <%= t("case.label") %> #<%= text_to_identify_child(@child) %>
 <% end %>
 
-<% content_for :header_message do %> 
-  <div class="panel">
-    <div class="header_message">   
-      <% if @child.flagged? %>
-        <p class="flag-message"><%= @child.flag_message_flagged_by %></p>
-      <% end %>
-    </div>
-  </div>
+<% content_for :header_message do %>
+  <%= render 'header_message', child: @child, current_user: @current_user, duplicates: @duplicates %>
 <% end %>
 
 <div class="clearfix"></div>

@@ -22,6 +22,7 @@ module Searchable
         string :associated_user_names, multiple: true
         string :owned_by
       end
+      searchable_location_fields.each {|f| text f, as: "#{f}_text".to_sym}
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -144,6 +145,10 @@ module Searchable
 
     def searchable_numeric_fields
       Field.all_filterable_numeric_field_names(self.parent_form)
+    end
+
+    def searchable_location_fields
+      ['location_current', 'incident_location']
     end
 
     # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date

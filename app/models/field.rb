@@ -19,6 +19,7 @@ class Field
   property :autosum_group, :default => ""
   property :selected_value, :default => ""
   property :create_property, TrueClass, :default => true
+  property :searchable_select, TrueClass, :default => false
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"

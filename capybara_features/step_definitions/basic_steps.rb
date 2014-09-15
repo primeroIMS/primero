@@ -65,6 +65,9 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
         elsif content.start_with?("<Documents>")
           content = content.gsub("<Documents>", "").strip
           find(:xpath, ".//div[@class='documents' and text()=\"#{content}\"]")
+        elsif content.start_with?("<Tally>")
+          content = content.gsub("<Tally>", "").strip
+          find(:xpath, ".//span[@class='value']/..").text.should eq(content)
         else
           #Find the element that represent the value.
           find(:xpath, ".//span[@class='value' and . = '#{content}']")
@@ -149,6 +152,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
     #Iterate over the fields.
     fields.rows_hash.each do |name, value|
       content = value
+      tally_search = false
       if content.start_with?('Calculated date')
         content = content.gsub("Calculated date", "").gsub("years ago", "").strip
         content = (Date.today.at_beginning_of_year - content.to_i.years).strftime("%d-%b-%Y")
@@ -157,11 +161,18 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
         content = Date.today.year - year.to_i
       elsif content == "today's date"
         content = DateTime.now.strftime("%d-%b-%Y")
+      elsif content.start_with?("<Tally>")
+        content = content.gsub("<Tally>", "").strip
+        tally_search = true
       end
       within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
         #Up to the parent of the label to find the value.
         within(:xpath, '../..') do
-          find(:xpath, ".//span[@class='value' and . = '#{content}']")
+          if tally_search == true
+            find(:xpath, ".//span[@class='value']/..").text.should eq(content)
+          else
+            find(:xpath, ".//span[@class='value' and . = '#{content}']")
+          end
         end
       end
     end
@@ -239,9 +250,19 @@ def update_subforms_field(num, subform, fields)
       elsif value.start_with?("<Radio>")
         step %Q{I select "#{value.gsub("<Radio>", "").strip}" for "#{name}" radio button within "#{scope}"}
       elsif value.start_with?("<Tickbox>")
-        label = find "//label[text()=\"#{name}\"]", :visible => true
+        label = find("#{scope}//label[text()=\"#{name}\"]", :visible => true)
         checkbox_id = label["for"]
         check("#{checkbox_id}", :visible => true)
+      elsif value.start_with?("<Tally>")
+        label = find("#{scope}//label[text()=\"#{name}\"]", :visible => true)
+        options = value.gsub(/^<Tally>/, "").split("<Tally>")
+        options.each do |option|
+          key_value = option.split(':')
+          k = key_value[0].downcase
+          v = key_value[1].strip
+          tally_field_id = "#{label["for"]}_#{k}"
+          fill_in(tally_field_id, :visible => true, :with => v)
+        end
       else
         step %Q{I fill in "#{name}" with "#{value}"}
       end

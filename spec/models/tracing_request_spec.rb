@@ -259,7 +259,6 @@ describe TracingRequest do
       sleep 1
       tracing_request.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
       tracing_request.save!
-      binding.pry
       tracing_request["histories"].size.should == 1
     end
 

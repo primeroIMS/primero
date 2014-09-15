@@ -260,7 +260,16 @@ class User < CouchRest::Model::Base
   end
 
   def localize_date(date_time, format = "%d %B %Y at %H:%M (%Z)")
-    DateTime.parse(date_time).in_time_zone(self[:time_zone]).strftime(format)
+    #TODO - This is merely a patch for the deploy
+    # This needs to be refactored as a helper
+    # Further work needs to be done to clean up how dates are handled
+    if date_time.is_a?(Date)
+      date_time.in_time_zone(self[:time_zone]).strftime(format)
+    elsif date_time.is_a?(String)
+      DateTime.parse(date_time).in_time_zone(self[:time_zone]).strftime(format)
+    else
+      DateTime.parse(date_time.to_s).in_time_zone(self[:time_zone]).strftime(format)
+    end
   end
 
   def has_role_ids?(attributes)

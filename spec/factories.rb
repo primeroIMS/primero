@@ -47,7 +47,7 @@ FactoryGirl.define do
   end
 
   factory :location, :traits => [ :model ] do
-    name { "location_#{counter}"}
+    placename { "location_#{counter}"}
     description { "location_#{counter}"}
   end
 
