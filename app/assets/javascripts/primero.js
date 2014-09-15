@@ -82,6 +82,11 @@ var Primero = Backbone.View.extend({
   initialize: function() {
     this.init_sticky();
     this.init_popovers();
+    this.init_autogrow();
+  },
+
+  init_autogrow: function() {
+    $('textarea').autogrow();
   },
 
   init_popovers: function() {
