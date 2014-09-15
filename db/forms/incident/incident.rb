@@ -41,7 +41,7 @@ incident_fields = [
   Field.new({"name" => "super_incident_name",
              "type" => "text_field",
              "display_name_all" => "Name of Super Incident/Event"
-            }),  
+            }),
   Field.new({"name" => "UN_eyewitness",
              "type" => "radio_button",
              "display_name_all" => "Did UN staff or other MRM-trained affiliate witness the incident?",
@@ -59,7 +59,7 @@ incident_fields = [
   Field.new({"name" => "incident_description",
              "type" => "textarea",
              "display_name_all" => "Account of Incident"
-            }), 
+            }),
   Field.new({"name" => "incident_description_for_public_sharing",
              "type" => "textarea",
              "display_name_all" => "Account of Incident for Public Sharing"
@@ -97,8 +97,10 @@ incident_fields = [
               ].join("\n")
             }),
   Field.new({"name" => "incident_location",
-              "type" => "text_field",
-              "display_name_all" => "Incident Location"
+              "type" => "select_box",
+              "display_name_all" => "Incident Location",
+              "option_strings_source" => "Location",
+              "searchable_select" => true
             }),
   Field.new({"name" => "incident_location_notes",
               "type" => "text_field",
