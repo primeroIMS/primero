@@ -19,6 +19,7 @@ module Record
     property :created_at
     property :last_updated_by_full_name
     property :duplicate, TrueClass
+    property :short_id
 
     class_attribute(:form_properties_by_name)
     self.form_properties_by_name = {}
@@ -93,8 +94,6 @@ module Record
 
     def new_with_user_name(user, fields = {})
       record = new(convert_arrays(fields))
-      record.create_unique_id
-      record['record_state'] = "Valid record" if record['record_state'].blank?
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
       record.owned_by = user.user_name if record.owned_by.blank?
@@ -190,6 +189,14 @@ module Record
     # end
   end
 
+  def initialize(*args)
+    super
+
+    self.create_unique_id
+    self.short_id = self.unique_identifier.last 7
+    self['record_state'] = "Valid record" if self['record_state'].blank?
+  end
+
   def create_unique_id
     self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
   end
@@ -262,14 +269,6 @@ module Record
 
   def update_organisation
     self['created_organisation'] ||= created_by_user.try(:organisation)
-  end
-
-  def short_id
-    (self['unique_identifier'] || "").last 7
-  end
-
-  def unique_identifier
-    self['unique_identifier']
   end
 
   def created_by_user

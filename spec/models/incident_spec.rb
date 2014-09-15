@@ -355,16 +355,14 @@ describe Incident do
 
   describe "unique id" do
     it "should create a unique id" do
-      incident = Incident.new
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      incident.create_unique_id
-      incident["unique_identifier"].should == "12345"
+      incident = Incident.new
+      incident.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      incident = Incident.new
       UUIDTools::UUID.stub("random_create").and_return(1212127654321)
-      incident.create_unique_id
+      incident = Incident.new
       incident.short_id.should == "7654321"
     end
 

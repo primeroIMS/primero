@@ -12,9 +12,9 @@ describe ChildHistoriesController do
   end
 
   it "should set the page name to the child short ID" do
-    child = build :child, :unique_identifier => "1234"
+    child = build :child
     get :index, :id => child.id
-    assigns(:page_name).should == "History of 1234"
+    assigns(:page_name).should == "History of #{child.short_id}"
   end
 
 end

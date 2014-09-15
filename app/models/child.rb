@@ -20,6 +20,7 @@ class Child < CouchRest::Model::Base
   include AudioUploader
   include Flaggable
 
+  property :case_id
   property :nickname
   property :name
   property :hidden_name, TrueClass, :default => false
@@ -49,7 +50,10 @@ class Child < CouchRest::Model::Base
     end
 
     self['histories'] = []
+
     super *args
+
+    self.case_id = self.unique_identifier
   end
 
 

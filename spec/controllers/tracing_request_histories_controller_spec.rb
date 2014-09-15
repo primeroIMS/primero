@@ -12,9 +12,9 @@ describe TracingRequestHistoriesController do
   end
 
   it "should set the page name to the tracing request short ID" do
-    tracing_request = build :tracing_request, :unique_identifier => "1234"
+    tracing_request = build :tracing_request
     get :index, :id => tracing_request.id
-    assigns(:page_name).should == "History of 1234"
+    assigns(:page_name).should == "History of #{tracing_request.short_id}"
   end
 
 end

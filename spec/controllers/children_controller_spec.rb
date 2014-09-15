@@ -245,7 +245,7 @@ describe ChildrenController do
       child = build :child, :unique_identifier => "1234"
       controller.stub :render
       get :show, :id => child.id
-      assigns[:page_name].should == "View Case 1234"
+      assigns[:page_name].should == "View Case #{child.short_id}"
     end
 
     it "assigns the requested child" do
