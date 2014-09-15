@@ -37,15 +37,11 @@ Feature: Abduction Form
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Abduction"
     And I should see in the 1st "Abduction" subform with the follow:
-      # TODO - Fix handle TALLY in the show
-      #| Number of survivors: boys               | 1                   |
-      #| Number of survivors: girls              | 2                   |
-      #| Number of survivors: unknown            | 3                   |
-      #| Number of total survivors               | 6                   |
-      | Category                                | Other               |
-      | Cross Border                            | Yes                 |
-      | Location where they were abducting from | Some location       |
-      | Location where they were held           | Some other location |
+      | Number of survivors                     |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |
+      | Category                                | Other                                                       |
+      | Cross Border                            | Yes                                                         |
+      | Location where they were abducting from | Some location                                               |
+      | Location where they were held           | Some other location                                         |
       | Verifier                                                                                                                        | Verifier name                                                  |
       # | Verification Decision Date                                                                                                      | today's date                                                   |
       | Verification Status                                                                                                             | Pending                                                        |

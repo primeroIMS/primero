@@ -166,7 +166,6 @@ describe ChildrenController do
           per_page = @options.delete(:per_page)
           scope = {"child_status"=>"open"} if not scope.present?
           order = {:created_at=>:desc}
-          binding.pry
 
           children.stub(:paginate).and_return(children)
           Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(children)

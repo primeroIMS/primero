@@ -41,11 +41,7 @@ Feature: Sexual Violence Form
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Sexual Violence"
     And I should see in the 1st "Sexual Violence" subform with the follow:
-      #TODO - fix
-      #| Number of survivors: boys                                                           | 1                                               |
-      #| Number of survivors: girls                                                          | 2                                               |
-      #| Number of survivors: unknown                                                        | 3                                               |
-      #| Number of total survivors                                                           | 6                                               |
+      | Number of survivors                                                                 |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |
       | Type of Violence                                                                    | Forced Marriage, Forced Sterilization           |
       | Stage of displacement at time of incident                                           | During Flight                                   |
       | Type of abduction at time of the incident                                           | Forced Conscription                             |

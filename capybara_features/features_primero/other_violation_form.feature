@@ -44,11 +44,7 @@ Feature: Other Violation Form
     And I should see in the 1st "Other Violation" subform with the follow:
       | Other Violation Type        | Denial of Civil Rights     |
       | Other Violation Description | Some Violation Description |
-      #TODO - fix
-      #| Number of survivors: boys   | 1 |
-      #| Number of survivors: girls  | 2 |
-      #| Number of survivors: unknown| 3 |
-      #| Number of total survivors   | 6 |
+      | Number of survivors                                                                                                             |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |
       | Verifier                                                                                                                        | Verifier name                                                  |
       # | Verification Decision Date                                                                                                      | today's date                                                   |
       | Verification Status                                                                                                             | Pending                                                        |
@@ -63,8 +59,4 @@ Feature: Other Violation Form
     And I should see in the 2nd "Other Violation" subform with the follow:
       | Other Violation Type        | Access Violations          |
       | Other Violation Description | Some Violation Description |
-      #TODO - fix
-      #| Number of survivors: boys   | 2 |
-      #| Number of survivors: girls  | 3 |
-      #| Number of survivors: unknown| 4 |
-      #| Number of total survivors   | 9 |
+      | Number of survivors         |<Tally> Boys:2 Girls:3 Unknown:4 Total number of survivors:9 |
