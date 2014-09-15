@@ -5,7 +5,7 @@
         <div class="large-12 columns">
           <section class="top-bar-section">
             <ul class="right">
-              <% if can? :view_and_search, Child %>
+              <% if can? :read, Child %>
                 <li class="has-form">
                   <%= form_tag search_children_path, :method => :get, :id => "search_form" do %>
                     <div class="row collapse">
