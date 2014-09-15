@@ -9,7 +9,7 @@
     <% if child.duplicate? %>
       <p class="duplicate-message"><%= duplicate_message %></p>
     <% end %>
-    <% unless duplicates.empty? %>
+    <% if duplicates.present? %>
       <p class="duplicate-message"><%= t("child.another_duplicate_before_link") %>
       <%= link_to 'here', child_path(duplicates.first) %><%= t("child.another_duplicate_after_link") %></p>
     <% end %>

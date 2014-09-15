@@ -11,13 +11,7 @@
 <% end %>
 
 <% content_for :header_message do %>
-  <div class="panel">
-    <div class="header_message">
-    <% if @incident.flagged? %>
-      <p class="flag-message"><%= @incident.flag_message_flagged_by %></p>
-    <% end %>
-    </div>
-  </div>
+  <%= render 'header_message', incident: @incident, current_user: @current_user, duplicates: @duplicates %>
 <% end %>
 
 <div class="clearfix"></div>
