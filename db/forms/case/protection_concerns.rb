@@ -30,6 +30,10 @@ protection_concern_fields = [
                            "Foreign National",
                            "Asylum Seeker"].join("\n")
             }),
+  Field.new({"name" => "unhcr_protection_code",
+             "type" => "text_field",
+             "display_name_all" => "UNHCR Protection Code"
+            }),
   Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "multi_select" => true,
