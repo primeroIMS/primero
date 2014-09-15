@@ -377,7 +377,7 @@ describe Child do
       child['audio_attachments']['mp3'].should be_nil
       #Others
       child['recorded_audio'].should == "audio-2010-01-17T140532"
-      child['name'].should be_nil
+      child.name.should be_nil
 
       #Update the child so the current audio is removed.
       properties = {:name => "Some Child Name"}
@@ -388,7 +388,7 @@ describe Child do
       child['audio_attachments'].should be_nil
       #Others
       child['recorded_audio'].should be_nil
-      child['name'].should == "Some Child Name"
+      child.name.should == "Some Child Name"
     end
 
   end
@@ -472,15 +472,15 @@ describe Child do
     it "should save with generated case_id and registration_date" do
       child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
       child.save!
-      child[:case_id].should_not be_nil
-      child[:registration_date].should_not be_nil
+      child.case_id.should_not be_nil
+      child.registration_date.should_not be_nil
     end
 
     it "should allow edit registration_date" do
       child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => '19/Jul/2014')
       child.save!
-      child[:case_id].should_not be_nil
-      child[:registration_date].should eq Date.parse('19/Jul/2014')
+      child.case_id.should_not be_nil
+      child.registration_date.should eq Date.parse('19/Jul/2014')
     end
 
     it "should not save file formats that are not photo formats" do
@@ -576,11 +576,11 @@ describe Child do
       child['posted_at'].should == "2010-01-22 14:05:00UTC"
     end
 
-    it "should assign name property as '' if name is not passed before saving child record" do
+    it "should assign name property as nil if name is not passed before saving child record" do
       child = Child.new_with_user_name(double('user', :user_name => 'user', :organisation => 'org'), {'some_field' => 'some_value'})
       child.save
       child = Child.get(child.id)
-      child.name.should == ''
+      child.name.should == nil
     end
 
     describe "when the created at field is not supplied" do
