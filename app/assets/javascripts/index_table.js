@@ -44,6 +44,7 @@ var IndexTable = Backbone.View.extend({
       responsive: true,
       aaSorting: [],
       sDom: 'frtlp',
+      lengthMenu: [ 20, 50, 75, 100 ]
     });
   },
 
