@@ -34,6 +34,18 @@ class Incident < CouchRest::Model::Base
 
   before_save :set_violation_verification_default
 
+  searchable do
+    string :violations, multiple: true do
+      violation_list = []
+      violations.keys.each do |v|
+        if violations[v].present?
+          violation_list << v
+        end
+      end
+      violation_list
+    end
+  end
+
   def self.find_by_incident_id(incident_id)
     by_incident_id(:key => incident_id).first
   end

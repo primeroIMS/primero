@@ -1,6 +1,7 @@
+<% #All options need to be translated %>
 <div class="panel">
   <form id="index_filter_form">
-    <%= build_filter_checkboxes('Violation:', 'violation', [
+    <%= build_filter_checkboxes('Violation:', 'violations', [
       'killing',
       'maiming',
       'recruitment',
@@ -8,9 +9,9 @@
       'abduction',
       'attack_on_schools',
       'attack_on_hospitals',
-      'denial_of_humanitarian_access',
+      { denial_humanitarian_access: 'Denial of Humanitarian Access' },
       'other_violation'
-    ], multi: true) %>    
+    ], { multi: true }, false) %>
     <%= build_filter_checkboxes('Status:', 'status', [
       'open',
       'closed',
