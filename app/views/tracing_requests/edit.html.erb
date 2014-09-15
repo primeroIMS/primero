@@ -11,13 +11,7 @@
 <% end %>
 
 <% content_for :header_message do %>
-  <div class="panel">
-    <div class="header_message">
-      <% if @tracing_request.flagged? %>
-        <p class="flag-message"><%= @tracing_request.flag_message_flagged_by %></p>
-      <% end %>
-    </div>
-  </div>
+  <%= render 'header_message', tracing_request: @tracing_request, current_user: @current_user, duplicates: @duplicates %>
 <% end %>
 
 <div class="clearfix"></div>
