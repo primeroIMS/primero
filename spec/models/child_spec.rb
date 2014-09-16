@@ -267,7 +267,7 @@ describe Child do
     it "should populate last_updated_by field with the user_name who is updating" do
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      child['last_updated_by'].should == 'jdoe'
+      child.last_updated_by.should == 'jdoe'
     end
 
 
@@ -281,10 +281,10 @@ describe Child do
     end
 
     it "should populate last_updated_at field with the time of the update" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      child['last_updated_at'].should == "2010-01-17 19:05:00UTC"
+      child.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     it "should not update attachments when the photo value is nil" do
@@ -313,17 +313,17 @@ describe Child do
     end
 
     it "should set flagged_at if the record has been flagged" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = create_child("timothy cochran")
       child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:flag => true}
-      child.flag_at.should == "2010-01-17 19:05:00UTC"
+      child.flag_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     it "should set reunited_at if the record has been reunited" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = create_child("timothy cochran")
       child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:reunited => true}
-      child.reunited_at.should == "2010-01-17 19:05:00UTC"
+      child.reunited_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
 
@@ -571,9 +571,9 @@ describe Child do
     end
 
     it "should create a posted_at field with the current date" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
       child = create_child_with_created_by('some_user', 'some_field' => 'some_value')
-      child['posted_at'].should == "2010-01-22 14:05:00UTC"
+      child.posted_at.should == DateTime.parse("2010-01-22 14:05:00UTC")
     end
 
     it "should assign name property as nil if name is not passed before saving child record" do
@@ -586,9 +586,9 @@ describe Child do
     describe "when the created at field is not supplied" do
 
       it "should create a created_at field with time of creation" do
-        Clock.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
+        DateTime.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
         child = create_child_with_created_by('some_user', 'some_field' => 'some_value')
-        child['created_at'].should == "2010-01-14 14:05:00UTC"
+        child.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
 
     end
@@ -1107,9 +1107,9 @@ describe Child do
     it "should update history with the datetime from last_updated_at" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
       child['last_known_location'] = 'Philadelphia'
-      child['last_updated_at'] = '2010-01-14 14:05:00UTC'
+      child.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
       child.save!
-      child['histories'].first['datetime'].should == '2010-01-14 14:05:00UTC'
+      child['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
     end
 
     describe "photo logging" do

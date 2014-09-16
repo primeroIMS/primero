@@ -16,10 +16,15 @@ module Record
     property :unique_identifier
     property :created_organisation
     property :created_by
-    property :created_at
+    property :created_at, DateTime
+    property :last_updated_at, DateTime
+    property :last_updated_by
     property :last_updated_by_full_name
+    property :posted_at, DateTime
     property :duplicate, TrueClass
     property :short_id
+    property :flag_at, DateTime
+    property :reunited_at, DateTime
 
     class_attribute(:form_properties_by_name)
     self.form_properties_by_name = {}
@@ -192,7 +197,7 @@ module Record
   end
 
   def create_unique_id
-    self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
+    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
   end
 
   def valid_record?
@@ -200,23 +205,13 @@ module Record
   end
 
   def validate_created_at
-    begin
-      if self['created_at']
-        DateTime.parse self['created_at']
-      end
-      true
-    rescue
+    unless self.created_at.nil? || self.created_at.is_a?(DateTime)
       errors.add(:created_at, '')
     end
   end
 
   def validate_last_updated_at
-    begin
-      if self['last_updated_at']
-        DateTime.parse self['last_updated_at']
-      end
-      true
-    rescue
+    unless self.last_updated_at.nil? || self.last_updated_at.is_a?(DateTime)
       errors.add(:last_updated_at, '')
     end
   end
@@ -254,11 +249,11 @@ module Record
   end
 
   def set_creation_fields_for(user)
-    self['created_by'] = user.try(:user_name)
+    self.last_updated_by = self.created_by = user.try(:user_name)
     self['created_by_full_name'] = user.try(:full_name)
     self['created_organisation'] = user.try(:organisation)
-    self['created_at'] ||= RapidFTR::Clock.current_formatted_time
-    self['posted_at'] = RapidFTR::Clock.current_formatted_time
+    self.last_updated_at ||= self.created_at ||= DateTime.now
+    self.posted_at = DateTime.now
   end
 
   def update_organisation
@@ -266,20 +261,12 @@ module Record
   end
 
   def created_by_user
-    User.find_by_user_name self['created_by'] unless self['created_by'].to_s.empty?
+    User.find_by_user_name self.created_by unless self.created_by.to_s.empty?
   end
 
   def set_updated_fields_for(user_name)
-    self['last_updated_by'] = user_name
-    self['last_updated_at'] = RapidFTR::Clock.current_formatted_time
-  end
-
-  def last_updated_by
-    self['last_updated_by'] || self['created_by']
-  end
-
-  def last_updated_at
-    self['last_updated_at'] || self['created_at']
+    self.last_updated_by = user_name
+    self.last_updated_at = DateTime.now
   end
 
   def update_history
@@ -341,7 +328,7 @@ module Record
     add_updated_fields_attr(properties)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
     properties['record_state'] = "Valid record" if properties['record_state'].blank?
-    should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
+    should_update = self.last_updated_at && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > self.last_updated_at) : true
     if should_update
       attributes_to_update = {}
       properties.each_pair do |name, value|
@@ -350,7 +337,7 @@ module Record
         else
           attributes_to_update[name] = value unless value == nil
         end
-        attributes_to_update["#{name}_at"] = RapidFTR::Clock.current_formatted_time if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
+        attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
       end
       self.set_updated_fields_for user_name
       self.attributes = attributes_to_update

@@ -426,21 +426,6 @@ describe ChildrenController do
       Child.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
     end
 
-    it "should update history on flagging of record" do
-      current_time_in_utc = Time.parse("20 Jan 2010 17:10:32UTC")
-      current_time = Time.parse("20 Jan 2010 17:10:32")
-      Clock.stub(:now).and_return(current_time)
-      current_time.stub(:getutc).and_return current_time_in_utc
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
-      child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
-
-      put :update, :id => child.id, :child => {:flag => true, :flag_message => "Test"}
-
-      history = Child.get(child.id)["histories"].first
-      history['changes'].should have_key('flag')
-      history['datetime'].should == "2010-01-20 17:10:32UTC"
-    end
-
     it "should update the last_updated_by_full_name field with the logged in user full name" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       child = Child.new_with_user_name(user, {:name => 'existing child'})

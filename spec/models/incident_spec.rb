@@ -250,7 +250,7 @@ describe Incident do
     it "should populate last_updated_by field with the user_name who is updating" do
       incident = Incident.new
       incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      incident['last_updated_by'].should == 'jdoe'
+      incident.last_updated_by.should == 'jdoe'
     end
 
 
@@ -264,10 +264,10 @@ describe Incident do
     end
 
     it "should populate last_updated_at field with the time of the update" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       incident = Incident.new
       incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      incident['last_updated_at'].should == "2010-01-17 19:05:00UTC"
+      incident.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     # it "should set flagged_at if the record has been flagged" do
@@ -337,9 +337,9 @@ describe Incident do
     describe "when the created at field is not supplied" do
 
       it "should create a created_at field with time of creation" do
-        Clock.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
+        DateTime.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
         incident = create_incident_with_created_by('some_user', 'some_field' => 'some_value')
-        incident['created_at'].should == "2010-01-14 14:05:00UTC"
+        incident.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
 
     end
@@ -487,9 +487,9 @@ describe Incident do
     it "should update history with the datetime from last_updated_at" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
       child['last_known_location'] = 'Philadelphia'
-      child['last_updated_at'] = '2010-01-14 14:05:00UTC'
+      child.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
       child.save!
-      child['histories'].first['datetime'].should == '2010-01-14 14:05:00UTC'
+      child['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
     end
 
   end

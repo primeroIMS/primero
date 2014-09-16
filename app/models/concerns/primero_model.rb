@@ -12,9 +12,7 @@ module PrimeroModel
       if acc.nil?
         nil
       elsif attr.is_a?(Numeric)
-        # We use 1-based numbering in the output but arrays in Ruby are
-        # still 0-based
-        acc[attr - 1]
+        acc[attr]
       else
         acc.send(attr.to_sym)
       end
