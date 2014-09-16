@@ -64,6 +64,10 @@ basic_identity_fields = [
              "type" => "textarea",
              "display_name_all" => "Distinguishing Physical Characteristics"
             }),
+  Field.new({"name" => "ration_card_no",
+             "type" => "text_field",
+             "display_name_all" => "Ration Card Number"
+            }),
   Field.new({"name" => "icrc_ref_no",
              "type" => "text_field",
              "display_name_all" => "ICRC Ref No."
