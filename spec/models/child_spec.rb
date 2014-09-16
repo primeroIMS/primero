@@ -197,9 +197,9 @@ describe Child do
       child['last_known_location'].should == "London"
     end
 
-    it "should not replace old properties when updated ones have nil value" do
+    it "should not replace old properties when when missing from update" do
       child = Child.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
+      new_properties = {"last_known_location" => "Manchester"}
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       child['last_known_location'].should == "Manchester"
       child['origin'].should == "Croydon"

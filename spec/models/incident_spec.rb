@@ -194,9 +194,9 @@ describe Incident do
       incident['last_known_location'].should == "London"
     end
 
-    it "should not replace old properties when updated ones have nil value" do
+    it "should not replace old properties when when missing from update" do
       incident = Incident.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
+      new_properties = {"last_known_location" => "Manchester"}
       incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       incident['last_known_location'].should == "Manchester"
       incident['origin'].should == "Croydon"

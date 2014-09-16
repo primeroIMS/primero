@@ -98,7 +98,7 @@ module Record
     include FormToPropertiesConverter
 
     def new_with_user_name(user, fields = {})
-      record = new(convert_arrays(fields))
+      record = new(blank_to_nil(convert_arrays(fields)))
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
       record.owned_by = user.user_name if record.owned_by.blank?
@@ -129,6 +129,19 @@ module Record
       end
 
       hash_arrays_to_arrays.call(fields)
+    end
+
+    def blank_to_nil(field)
+      case field
+      when Hash
+        field.inject({}) {|acc, (k,v)| acc.merge({k => blank_to_nil(v)}) }
+      when Array
+        field.map {|el| blank_to_nil(el) }
+      when String
+        (field == "") ? nil : field
+      else
+        field
+      end
     end
 
     def refresh_form_properties
@@ -324,7 +337,7 @@ module Record
   end
 
   def update_properties(properties, user_name)
-    properties = self.class.convert_arrays(properties)
+    properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     add_updated_fields_attr(properties)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
     properties['record_state'] = "Valid record" if properties['record_state'].blank?
@@ -335,7 +348,7 @@ module Record
         if name == "histories"
           merge_histories(properties['histories'])
         else
-          attributes_to_update[name] = value unless value == nil
+          attributes_to_update[name] = value
         end
         attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
       end

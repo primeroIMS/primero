@@ -195,9 +195,9 @@ describe TracingRequest do
       tracing_request['last_known_location'].should == "London"
     end
 
-    it "should not replace old properties when updated ones have nil value" do
+    it "should not replace old properties when when missing from update" do
       tracing_request = TracingRequest.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
+      new_properties = {"last_known_location" => "Manchester"}
       tracing_request.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       tracing_request['last_known_location'].should == "Manchester"
       tracing_request['origin'].should == "Croydon"

@@ -73,7 +73,7 @@ Feature: Subforms In Cases
     And I should not see "Jane Doe" on the page
 
   Scenario: As a logged in user and edit case, I should be able to remove all subforms and update
-    And I fill in the 3rd "Family Details Section" subform with the follow:
+    And I fill in the 2rd "Family Details Section" subform with the follow:
       | Name | Timmy |
     And I press "Save"
     And I press the "Edit" button
