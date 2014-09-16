@@ -61,13 +61,12 @@ module IndexHelper
           item = item.gsub('_', ' ')
         end
 
-        #TODO: Temp removing. Need to make defaults sync with front-end js
-        # if @scope[filter].present?
-        # checked = true if @scope[filter].include? item.gsub('_', '')
-        # end
+        if @scope.present? && @scope[filter].present?
+          checked = true if @scope[filter].split(',').include? item.gsub('_', '')
+        end
 
         concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}",
-                             filter_type: filter_type)
+            filter_type: filter_type, checked: checked)
         concat(label_tag "#{filter}_#{item}", label)
         concat('<br>'.html_safe)
       end
