@@ -34,11 +34,13 @@
       'medium',
       'low'
     ]) %>
-    <%= build_filter_checkboxes('Current Location:', 'current_location', [
+    <%#= build_filter_checkboxes('Current Location:', 'current_location', [
       'location1',
       'location2',
       'location3'
     ]) %>
+    <%= build_filter_location('Current Location', 'location_current') %>
+
     <% # TODO: create helper to generate this %>
     <div class="filter">
       <h3>Registration Date:</h3>

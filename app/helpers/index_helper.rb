@@ -93,4 +93,16 @@ module IndexHelper
       concat(build_datefield(filter))
     end
   end
+
+  def build_filter_location(title, filter)
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(select_tag filter,
+             options_for_select(Location.all.all.map(&:name), nil),
+             'class' => 'chosen-select',
+             'filter_type' => 'location',
+             'data-placeholder' => t("fields.chosen_placeholder"), :id => filter)
+    end
+  end
+
 end
