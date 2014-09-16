@@ -98,7 +98,7 @@ module IndexHelper
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(select_tag filter,
-             options_for_select(Location.all.all.map(&:name), nil),
+             options_for_select(Location.all.all.map(&:name)),
              'class' => 'chosen-select',
              'filter_type' => 'location',
              'data-placeholder' => t("fields.chosen_placeholder"), :id => filter)
