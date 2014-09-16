@@ -55,7 +55,7 @@ module Searchable
           #TODO: pop off the locations filter and perform a fulltext search
           filters.each do |filter,value|
             if searchable_location_fields.include? filter
-              fulltext(value, fields: filter)
+              fulltext("\"#{value}\"", fields: filter)
             else
               values = value.split(",")
               type = values.shift
