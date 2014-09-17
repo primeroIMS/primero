@@ -1,10 +1,16 @@
 <tr>
   <td>
-    <%= icon('flag', '', class: 'flagged') if record.flagged? %>
+    
   </td>
   <td id="child_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
       <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
+      <% if record.flagged? %>
+        <div class="flag">
+          <%= icon('bookmark fa-rotate-270') %>
+          <span><%= record.flags.count %></span>
+        </div>
+      <% end %>
   </td>
   <td><%= index_highlighted_case_name(@highlighted_fields, record) %></td>
   <td><%= record.age %></td>

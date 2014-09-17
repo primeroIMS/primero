@@ -2,7 +2,7 @@ var IndexFilters = Backbone.View.extend({
 
   pagination: typeof pagination_details === 'undefined' ? false : pagination_details,
 
-  el: 'body',
+  el: '.page_content',
 
   form: 'form#index_filter_form',
 

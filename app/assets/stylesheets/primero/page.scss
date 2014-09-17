@@ -48,6 +48,7 @@ table.list_view, table.record_list_view {
   border:none;
   margin-bottom: 20px;
   a.id_link{
+    float: left;
     text-decoration: none;
     &:hover{
       font-weight:bold;
