@@ -15,7 +15,6 @@ module IndexHelper
     case record
       when "case"
         return [
-            {title: nil, sort_title: 'flag'},
             {title: 'id', sort_title: 'short_id'},
             {title: 'name', sort_title: 'sortable_name'},
             {title: 'age', sort_title: 'age'},

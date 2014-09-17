@@ -455,7 +455,7 @@ DEPENDENCIES
   deep_merge
   dynamic_form (~> 1.1.4)
   factory_girl (~> 2.6)
-  font-awesome-sass
+  font-awesome-sass (~> 4.2.0)
   foundation-rails (~> 5.3.3.0)
   highline (= 1.6.16)
   hpricot (~> 0.8.6)
