@@ -2,6 +2,7 @@ class FormSection < CouchRest::Model::Base
   include RapidFTR::Model
   include PropertiesLocalization
 
+
   #TODO - include Namable - will require a fair amount of refactoring
 
   use_database :form_section
@@ -72,6 +73,8 @@ class FormSection < CouchRest::Model::Base
   alias to_param unique_id
 
   class << self
+    extend Memoist
+
     def enabled_by_order
       by_order.select(&:visible?)
     end
@@ -110,6 +113,18 @@ class FormSection < CouchRest::Model::Base
       form_section.save
       form_section
     end
+
+    def find_all_visible_by_parent_form parent_form
+      #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+      find_by_parent_form(parent_form).select(&:visible?)
+    end
+
+    def find_by_parent_form parent_form
+      #TODO: the sortby can be moved to a couchdb view
+      by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+    end
+    memoize :find_by_parent_form
+
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -163,13 +178,6 @@ class FormSection < CouchRest::Model::Base
     by_unique_id(:key => unique_id).first
   end
 
-  def self.find_all_visible_by_parent_form parent_form
-    by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
-  end
-
-  def self.find_by_parent_form parent_form
-    by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
-  end
 
   #TODO - can this be done more efficiently?
   def self.find_form_groups_by_parent_form parent_form
