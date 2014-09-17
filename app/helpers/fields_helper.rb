@@ -32,36 +32,17 @@ module FieldsHelper
   end
 
   def field_value(object, field, field_keys=[])
-    if field_keys.present? && !object.new?
-      field_value = object
-      if field.type == Field::TALLY_FIELD
-        tally_values = []
-        field.tally << 'total'
-        field.tally.each do |t|
-          field_keys.each do |k| 
-            k = k.gsub(k, "#{k}_#{t}") if k == field_keys.last
-            field_value = field_value[k]
-          end
-          tally_values << field_value
-          field_value = object
-        end
-        field.tally.pop
-        field_value = tally_values
-      else
-        field_keys.each {|k| field_value = field_value[k]}
-      end
+    parent_obj = object.value_for_attr_keys(field_keys[0..-2])
+    case field.type
+    when Field::TALLY_FIELD
+      (['total'] + field.tally).map {|t| parent_obj["#{field.name}_#{t}"] }
+    when Field::DATE_RANGE
+      [parent_obj["#{field.name}_from"], parent_obj["#{field.name}_to"]]
+    when Field::DATE_FIELD
+      field_format_date(parent_obj[field.name])
     else
-      if field == 'status'
-        return 'Open'
-      elsif field.type == Field::DATE_RANGE
-        return [object["#{field.name}_from"], object["#{field.name}_to"]]
-      elsif field.type == Field::DATE_FIELD
-        field_value = field_format_date(object[field.name])
-      else
-        field_value = object[field.name] || ''
-      end
+      parent_obj[field.name] || ''
     end
-    return field_value
   end
   
   def field_value_for_display field_value

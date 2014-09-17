@@ -74,6 +74,25 @@ module IndexHelper
       concat(build_datefield(filter))
     end
   end
+  
+  def build_filter_location(title, filter)
+    options = [I18n.t("fields.select_box_empty_item"), ''] + Location.all.all.map{|loc| [loc.name, loc.name]}
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(select_tag filter,
+             options_for_select(options, filter_value(filter)),
+             'class' => 'chosen-select',
+             'filter_type' => 'location',
+             'data-placeholder' => t("fields.chosen_placeholder"), :id => filter)
+    end
+  end
+
+  def filter_value(filter)
+    value = nil
+    if params['scope'].present?
+      value = params['scope'][filter]
+    end
+  end
 
   private
 
@@ -118,4 +137,5 @@ module IndexHelper
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'}
     ]
   end
+
 end

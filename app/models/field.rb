@@ -1,6 +1,6 @@
 class Field
   include CouchRest::Model::CastedModel
-  include RapidFTR::Model
+  include PrimeroModel
   include PropertiesLocalization
 
   property :name
@@ -18,6 +18,7 @@ class Field
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
   property :selected_value, :default => ""
+  property :create_property, TrueClass, :default => true
   property :searchable_select, TrueClass, :default => false
   attr_accessor :subform
 
@@ -172,6 +173,7 @@ class Field
     self.hidden_text_field ||= false
     self.autosum_total ||= false
     self.autosum_group ||= ""
+    self.create_property ||= true
     self.attributes = properties
     create_unique_id
   end

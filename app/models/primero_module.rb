@@ -5,7 +5,7 @@ class PrimeroModule < CouchRest::Model::Base
 
   use_database :primero_module
 
-  include RapidFTR::Model
+  include PrimeroModel
   include Namable #delivers "name" and "description" fields
 
   property :program_id

@@ -19,7 +19,7 @@ module FormToPropertiesConverter
 
   def process_form(form_section)
     include_field = lambda do |field|
-      field.visible
+      field.visible && field.create_property
     end
 
     form_section.fields.select(&include_field).inject({}) do |form_acc, f|

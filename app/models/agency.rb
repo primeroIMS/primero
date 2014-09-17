@@ -1,7 +1,7 @@
 class Agency < CouchRest::Model::Base
   use_database :agency
 
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
   include Namable

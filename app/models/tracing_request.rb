@@ -1,7 +1,7 @@
 class TracingRequest < CouchRest::Model::Base
   use_database :tracing_request
 
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
   include Record
@@ -26,6 +26,8 @@ class TracingRequest < CouchRest::Model::Base
 
     self['histories'] = []
     super *args
+
+    self.tracing_request_id = self.unique_identifier
   end
 
   design do
@@ -57,9 +59,5 @@ class TracingRequest < CouchRest::Model::Base
     self['tracing_request_id'] = self.tracing_request_id
     self['inquiry_date'] ||= DateTime.now.strftime("%d-%b-%Y")
     self['inquiry_status'] ||= "Open"
-  end
-
-  def tracing_request_id
-    self['unique_identifier']
   end
 end

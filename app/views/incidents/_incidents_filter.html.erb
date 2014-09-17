@@ -1,6 +1,7 @@
 <% #All options need to be translated %>
 <div class="panel">
   <form id="index_filter_form">
+    <%# TODO: Make all this I18n!!! %>
     <%= build_filter_checkboxes('Violation:', 'violations', [
       'killing',
       'maiming',
@@ -32,11 +33,7 @@
       'unaccompanied',
       'separated'
     ]) %>
-    <%= build_filter_checkboxes('Location:', 'location', [
-      'location1',
-      'location2',
-      'location3'
-    ]) %>
+    <%= build_filter_location('Current Location', 'incident_location') %>
     <%= build_filter_date('Interview Date', 'interview_date') %>
     <%= build_filter_date('Incident Date', 'incident_date') %>
     <%= build_filter_checkboxes('Perpetrator Type:', 'perpetrator_type', [

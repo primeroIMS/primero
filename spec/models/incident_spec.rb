@@ -194,9 +194,9 @@ describe Incident do
       incident['last_known_location'].should == "London"
     end
 
-    it "should not replace old properties when updated ones have nil value" do
+    it "should not replace old properties when when missing from update" do
       incident = Incident.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
+      new_properties = {"last_known_location" => "Manchester"}
       incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       incident['last_known_location'].should == "Manchester"
       incident['origin'].should == "Croydon"
@@ -250,7 +250,7 @@ describe Incident do
     it "should populate last_updated_by field with the user_name who is updating" do
       incident = Incident.new
       incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      incident['last_updated_by'].should == 'jdoe'
+      incident.last_updated_by.should == 'jdoe'
     end
 
 
@@ -264,10 +264,10 @@ describe Incident do
     end
 
     it "should populate last_updated_at field with the time of the update" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       incident = Incident.new
       incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      incident['last_updated_at'].should == "2010-01-17 19:05:00UTC"
+      incident.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     # it "should set flagged_at if the record has been flagged" do
@@ -337,9 +337,9 @@ describe Incident do
     describe "when the created at field is not supplied" do
 
       it "should create a created_at field with time of creation" do
-        Clock.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
+        DateTime.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
         incident = create_incident_with_created_by('some_user', 'some_field' => 'some_value')
-        incident['created_at'].should == "2010-01-14 14:05:00UTC"
+        incident.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
 
     end
@@ -355,16 +355,14 @@ describe Incident do
 
   describe "unique id" do
     it "should create a unique id" do
-      incident = Incident.new
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      incident.create_unique_id
-      incident["unique_identifier"].should == "12345"
+      incident = Incident.new
+      incident.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      incident = Incident.new
       UUIDTools::UUID.stub("random_create").and_return(1212127654321)
-      incident.create_unique_id
+      incident = Incident.new
       incident.short_id.should == "7654321"
     end
 
@@ -489,9 +487,9 @@ describe Incident do
     it "should update history with the datetime from last_updated_at" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
       child['last_known_location'] = 'Philadelphia'
-      child['last_updated_at'] = '2010-01-14 14:05:00UTC'
+      child.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
       child.save!
-      child['histories'].first['datetime'].should == '2010-01-14 14:05:00UTC'
+      child['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
     end
 
   end
