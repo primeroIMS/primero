@@ -13,3 +13,4 @@ Mime::Type.register "image/jpeg", :jpg
 Mime::Type.register "application/vnd.ms-excel", :xls
 Mime::Type.register_alias "application/pdf", :photowall
 Mime::Type.register_alias "application/pdf", :case_pdf
+Mime::Type.register_alias "text/csv", :unhcr_csv
