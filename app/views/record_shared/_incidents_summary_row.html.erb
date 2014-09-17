@@ -8,6 +8,6 @@
   </td>
   <td><%= record.survivor_code %></td>
   <td><%= record.caseworker_code %></td>
-  <td><%= record.date_of_first_report %></td>
-  <td><%= record.start_date_of_incident_from %></td>
+  <td><%= field_format_date(record.date_of_first_report) %></td>
+  <td><%= field_format_date(record.start_date_of_incident_from) %></td>
 </tr>
