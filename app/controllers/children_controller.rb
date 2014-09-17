@@ -24,7 +24,8 @@ class ChildrenController < ApplicationController
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
     # index average 400ms to 600ms without and 1000ms to 3000ms with.
-    @highlighted_fields = FormSection.sorted_highlighted_fields
+    #@highlighted_fields = FormSection.sorted_highlighted_fields
+    @highlighted_fields = []
 
     respond_to do |format|
       format.html
