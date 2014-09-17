@@ -169,6 +169,10 @@ class User < CouchRest::Model::Base
     @modules ||= PrimeroModule.all(keys: self.module_ids).all
   end
 
+  def has_module?(module_id)
+    self.module_ids.include?(module_id)
+  end
+
   def has_permission?(permission)
     permissions && permissions.include?(permission)
   end

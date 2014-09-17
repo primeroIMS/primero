@@ -12,12 +12,12 @@ module IndexHelper
     end
   end
 
-  def list_view_header(record, current_modules)
+  def list_view_header(record)
     case record
       when "case"
-        list_view_header_case current_modules
+        list_view_header_case
       when "incident"
-        list_view_header_incident current_modules
+        list_view_header_incident
       when "tracing_request"
         list_view_header_tracing_request
       else
@@ -77,10 +77,10 @@ module IndexHelper
 
   private
 
-  def list_view_header_case(current_modules)
+  def list_view_header_case
     is_manager = @current_user.is_manager?
-    is_cp = current_modules.select {|m| m.name == "CP"}.count > 0
-    is_gbv = current_modules.select {|m| m.name == "GBV"}.count > 0
+    is_cp = @current_user.has_module?(PrimeroModule::CP)
+    is_gbv = @current_user.has_module?(PrimeroModule::GBV)
 
     header_list = [
       {title: nil, sort_title: 'flag'}
@@ -99,7 +99,7 @@ module IndexHelper
     return header_list
   end
 
-  def list_view_header_incident(current_modules)
+  def list_view_header_incident
     return [
         {title: nil, sort_title: 'flag'},
         {title: 'id', sort_title: 'short_id'},

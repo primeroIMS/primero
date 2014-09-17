@@ -23,7 +23,7 @@
     <table width="100%" class="record_list_view" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
-          <% list_view_header(record, @current_modules).each_with_index do |field, i| %>
+          <% list_view_header(record).each_with_index do |field, i| %>
             <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>">
               <%= field[:title] ? t("#{record}.#{field[:title]}") : "" %>
             </th>
