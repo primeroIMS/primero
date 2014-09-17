@@ -61,7 +61,7 @@ activities_fields = [
              "display_name_all" => "Start Date of Training"
            }),
   Field.new({"name" => "activities_training_duration",
-             "type" => "numeric_field",
+             "type" => "text_field",
              "display_name_all" => "Duration of Training"
            }),
   Field.new({"name" => "activities_notes",
