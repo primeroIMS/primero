@@ -108,7 +108,6 @@ module FormToPropertiesConverter
       field.tally.each { |t| tallys["#{field.name}_#{t}"] = tally_options.update(base_options) }
       tallys["#{field.name}_total"] = tally_options.update(base_options)
       tallys
-
     # TODO: Figure out how to handle these things
     when 'separator', 'photo_upload_box', 'audio_upload_box', 'document_upload_box'
       {}

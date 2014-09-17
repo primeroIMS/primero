@@ -1,5 +1,4 @@
-require 'prawn/measurement_extensions'
-require 'prawn/layout'
+require 'prawn/document'
 
 module Exporters
   class PhotoWallExporter < BaseExporter
