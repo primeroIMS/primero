@@ -123,7 +123,7 @@ class FormSection < CouchRest::Model::Base
       #TODO: the sortby can be moved to a couchdb view
       by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
     end
-    memoize :find_by_parent_form
+    memoize :find_by_parent_form if Rails.env == 'development'
 
   end
 
