@@ -1,5 +1,6 @@
 <tr>  
   <% if fields_to_show.include? 'owned_by_text' %>
+    <% #TODO - Get name or code.  Prob should be in helper%>
     <td><%= record.owned_by %></td>
   <% end %>
   <% if fields_to_show.include? 'short_id' %>
