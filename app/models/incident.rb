@@ -1,7 +1,7 @@
 class Incident < CouchRest::Model::Base
   use_database :incident
 
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
 
@@ -16,7 +16,10 @@ class Incident < CouchRest::Model::Base
 
   def initialize *args
     self['histories'] = []
+
     super *args
+
+    self.incident_id = self.unique_identifier
   end
 
   design do
@@ -63,10 +66,6 @@ class Incident < CouchRest::Model::Base
   def create_class_specific_fields(fields)
     self['incident_id'] = self.incident_id
     self['description'] = fields['description'] || self.description || ''
-  end
-
-  def incident_id
-    self['unique_identifier']
   end
 
   def incident_code

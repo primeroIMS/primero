@@ -3,7 +3,7 @@ require 'spec_helper'
 describe HighlightFieldsController do
 
   describe "index" do
-    it "should have no highlight fields" do
+    xit "should have no highlight fields" do
       FormSection.stub(:highlighted_fields).and_return([])
       user = User.new(:user_name => 'manager_of_forms')
       user.stub(:roles).and_return([Role.new(:permissions => [Permission::SYSTEM])])

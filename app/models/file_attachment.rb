@@ -1,5 +1,6 @@
 class FileAttachment
-  include RapidFTR::Model
+  extend ActiveModel::Naming
+
   attr_reader :name, :content_type, :child
 
   def initialize(name, content_type, data, child=nil)

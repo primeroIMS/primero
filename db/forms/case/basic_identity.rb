@@ -2,12 +2,14 @@ basic_identity_fields = [
   Field.new({"name" => "case_id",
              "type" => "text_field",
              "editable" => false,
-             "display_name_all" => "Case ID"
+             "display_name_all" => "Case ID",
+             "create_property" => false
             }),
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "editable" => false,
-             "display_name_all" => "Short ID"
+             "display_name_all" => "Short ID",
+             "create_property" => false
             }),
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,

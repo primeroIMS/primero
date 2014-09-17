@@ -235,11 +235,11 @@ describe TracingRequestsController do
 
   describe "GET show" do
     it 'does not assign tracing request name in page name' do
-      tracing_request = build :tracing_request, :unique_identifier => "1234"
+      tracing_request = build :tracing_request
       controller.stub :render
       controller.stub :get_form_sections
       get :show, :id => tracing_request.id
-      assigns[:page_name].should == "View Tracing Request 1234"
+      assigns[:page_name].should == "View Tracing Request #{tracing_request.short_id}"
     end
 
     it "assigns the requested tracing request" do

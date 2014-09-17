@@ -54,15 +54,15 @@ describe Enquiry do
 
     describe "timestamp" do
       it "should create a posted_at and created_at fields with the current date" do
-        Clock.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
+        DateTime.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
         enquiry = create_enquiry_with_created_by('some_user', 'some_field' => 'some_value')
-        enquiry['posted_at'].should == "2010-01-22 14:05:00UTC"
-        enquiry['created_at'].should == "2010-01-22 14:05:00UTC"
+        enquiry.posted_at.should == DateTime.parse("2010-01-22 14:05:00UTC")
+        enquiry.created_at.should == DateTime.parse("2010-01-22 14:05:00UTC")
       end
 
       it "should use the supplied created at value" do
-        enquiry = create_enquiry_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => '2010-01-14 14:05:00UTC')
-        enquiry['created_at'].should == "2010-01-14 14:05:00UTC"
+        enquiry = create_enquiry_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => DateTime.parse('2010-01-14 14:05:00UTC'))
+        enquiry.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
     end
 

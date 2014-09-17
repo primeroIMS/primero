@@ -1,5 +1,5 @@
 class FormSection < CouchRest::Model::Base
-  include RapidFTR::Model
+  include PrimeroModel
   include PropertiesLocalization
 
 

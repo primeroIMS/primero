@@ -215,11 +215,11 @@ describe IncidentsController do
 
   describe "GET show" do
     it 'does not assign incident name in page name' do
-      incident = build :incident, :unique_identifier => "1234"
+      incident = build :incident
       controller.stub :render
       controller.stub :get_form_sections
       get :show, :id => incident.id
-      assigns[:page_name].should == "View Incident 1234"
+      assigns[:page_name].should == "View Incident #{incident.short_id}"
     end
 
     it "assigns the requested incident" do

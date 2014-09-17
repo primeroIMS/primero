@@ -1,7 +1,7 @@
 class PasswordRecoveryRequest < CouchRest::Model::Base
   use_database :password_recovery_request
 
-  include RapidFTR::Model
+  include PrimeroModel
 
   property :user_name
   property :hidden, TrueClass, :default => false
