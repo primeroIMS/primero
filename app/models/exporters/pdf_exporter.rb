@@ -39,16 +39,25 @@ module Exporters
       end
 
       def render_case(pdf, _case, base_subforms)
+        render_title(pdf, _case)
+
         render_photo(pdf, _case)
+
         base_subforms.each do |fs|
           pdf.text fs.name, :style => :bold, :size => 16
           pdf.move_down 10
           pdf.outline.add_subsection_to(section_title(_case)) do
             pdf.outline.section(fs.name, :destination => pdf.page_number)
           end
+
           render_form_section(pdf, _case, fs)
+
           pdf.move_down 10
         end
+      end
+
+      def render_title(pdf, _case)
+        pdf.text "#{_case.name} (#{_case.short_id})", :style => :bold, :size => 20, :align => :center
       end
 
       def render_photo(pdf, _case)
@@ -60,7 +69,6 @@ module Exporters
 
         pdf.image(photo_file,
           :position => :center,
-          :vposition => :top,
           :fit => [pdf.bounds.width, pdf.bounds.width])
       end
 
