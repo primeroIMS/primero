@@ -911,6 +911,10 @@ en:
       all: Export All to JSON
       one: Export to JSON
       selected: Export Selected to JSON
+    unhcr_csv:
+      all: Export All to UNHCR
+      one: Export to UNHCR
+      selected: Export Selected to UNHCR
   imports:
     successful: "File was imported successfully"
     error: "Import had the following error: %{error}"

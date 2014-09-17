@@ -13,7 +13,7 @@ partner_details_fields = [
              "display_name_all" => "Partner/Spouse Details"
             }),
   Field.new({"name" => "relationship_length",
-             "type" => "numeric_field",
+             "type" => "text_field",
              "display_name_all" => "Length of Marriage/Relationship"
             }),
   Field.new({"name" => "number_of_children",
@@ -35,7 +35,7 @@ partner_details_fields = [
              "display_name_all" => "Partner/Spouse Details During Separation"
             }),
   Field.new({"name" => "relationship_length_during_separation",
-             "type" => "numeric_field",
+             "type" => "text_field",
              "display_name_all" => "Length of Marriage/Relationship During Separation"
             }),
   Field.new({"name" => "number_of_children_during_separation",
@@ -57,7 +57,7 @@ partner_details_fields = [
              "display_name_all" => "Partner/Spouse Details Prior to Separation"
             }),
   Field.new({"name" => "relationship_length_pre_separation",
-             "type" => "numeric_field",
+             "type" => "text_field",
              "display_name_all" => "Length of Marriage/Relationship Prior to Separation"
             }),
   Field.new({"name" => "number_of_children_pre_separation",
