@@ -81,7 +81,7 @@ module Exporters
           pdf.move_down 10
           pdf.text subf.display_name, :style => :bold, :size => 12
           _case.__send__(subf.name).each do |el|
-            render_fields(pdf, el, subf.subform.fields)
+            render_fields(pdf, el, subf.subform_section.fields)
           end
         end
       end
