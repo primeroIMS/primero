@@ -1,6 +1,8 @@
 <div class="panel">
   <form id="index_filter_form">
+    <%# TODO: Why are we setting a global variable in the template?!? %>
     <% @scope = params["scope"] || {"child_status" => "open"} %>
+    <%# TODO: Make all this I18n!!! %>
     <%= build_filter_checkboxes('Flagged:', 'flag', [
       {flag: 'flagged?'}
     ]) %>
