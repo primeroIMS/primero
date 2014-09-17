@@ -25,6 +25,12 @@ module IndexHelper
     end
   end
 
+  def index_fields_to_show(header_list)
+    fields_to_show = []
+    header_list.each {|hl| fields_to_show << hl[:sort_title]}
+    return fields_to_show
+  end
+
   def build_checkboxes(filter, items, type, format = true, filter_type = nil)
     content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
       items.each do |item|
@@ -74,7 +80,7 @@ module IndexHelper
       concat(build_datefield(filter))
     end
   end
-  
+
   def build_filter_location(title, filter)
     options = [I18n.t("fields.select_box_empty_item"), ''] + Location.all.all.map{|loc| [loc.name, loc.name]}
     content_tag :div, class: 'filter' do
@@ -97,23 +103,17 @@ module IndexHelper
   private
 
   def list_view_header_case
-    is_manager = @current_user.is_manager?
-    is_cp = @current_user.has_module?(PrimeroModule::CP)
-    is_gbv = @current_user.has_module?(PrimeroModule::GBV)
+    header_list = [{title: nil, sort_title: 'flag'}]
 
-    header_list = [
-      {title: nil, sort_title: 'flag'}
-    ]
-
-    header_list << {title: 'social_worker', sort_title: 'owned_by_text'} if is_manager
+    header_list << {title: 'social_worker', sort_title: 'owned_by_text'} if @is_manager
     header_list << {title: 'id', sort_title: 'short_id'}
-    header_list << {title: 'name', sort_title: 'sortable_name'} if (is_cp && !is_manager)
-    header_list << {title: 'survivor_code', sort_title: 'survivor_code_no'} if (is_gbv && !is_manager)
-    header_list << {title: 'age', sort_title: 'age'} if is_cp
-    header_list << {title: 'sex', sort_title: 'sex'} if is_cp
-    header_list << {title: 'registration_date', sort_title: 'registration_date'} if is_cp
-    header_list << {title: 'interview_date', sort_title: 'interview_date'} if is_gbv
-    header_list << {title: 'photo', sort_title: 'photo'} if is_cp
+    header_list << {title: 'name', sort_title: 'sortable_name'} if (@is_cp && !@is_manager)
+    header_list << {title: 'survivor_code', sort_title: 'survivor_code_no'} if (@is_gbv && !@is_manager)
+    header_list << {title: 'age', sort_title: 'age'} if @is_cp
+    header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
+    header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
+    header_list << {title: 'interview_date', sort_title: 'interview_date'} if @is_gbv
+    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
 
     return header_list
   end

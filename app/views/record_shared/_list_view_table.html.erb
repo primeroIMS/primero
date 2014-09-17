@@ -21,9 +21,10 @@
   <div class="large-9 columns">
     <div class="clearfix"></div>
     <table width="100%" class="record_list_view" cellpadding="0" cellspacing="0">
+      <% header_list = list_view_header(record)%>
       <thead>
         <tr>
-          <% list_view_header(record).each_with_index do |field, i| %>
+          <% header_list.each_with_index do |field, i| %>
             <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>">
               <%= field[:title] ? t("#{record}.#{field[:title]}") : "" %>
             </th>
@@ -31,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <%= render :partial => "record_shared/#{record.pluralize}_summary_row", collection: collection, as: :record %>
+        <%= render :partial => "record_shared/#{record.pluralize}_summary_row", collection: collection, as: :record, :locals => {:fields_to_show => index_fields_to_show(header_list)} %>
       </tbody>
     </table>
     <div class="table_spacer"></div>
