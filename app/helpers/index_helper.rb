@@ -61,8 +61,8 @@ module IndexHelper
           item = item.gsub('_', ' ')
         end
 
-        if @scope.present? && @scope[filter].present?
-          checked = true if @scope[filter].split(',').include? item.gsub('_', '')
+        if filter_value(filter)
+          checked = true if filter_value(filter).split(',').include? item.gsub('_', '')
         end
 
         concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}",
