@@ -4,13 +4,33 @@ describe FieldsHelper do
 
   before(:all) do
     @child = Child.create(:name => "Simon", created_by: "bob")
-    @child["nested_form_section"] = {
-      "0"=>{"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
-      "1"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}
-    }
+    @child["nested_form_section"] = [
+      {"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
+      {"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}
+    ]
     @child.save!
+
+    @nested_form = FormSection.new({
+      "visible"=>false,
+      "is_nested"=>true,
+      :order_form_group => 50,
+      :order => 10,
+      :order_subform => 1,
+      :unique_id=>"family_details_section",
+      :parent_form=>"case",
+      "editable"=>true,
+      :fields => [
+        Field.new({"name" => "nested_1", "type" => "text_field"}),
+        Field.new({"name" => "nested_2", "type" => "text_field"}),
+        Field.new({"name" => "nested_3", "type" => "text_field"}),
+      ],
+      :initial_subforms => 1,
+      "name_all" => "Nested Form Section",
+      "description_all" => "Nested Subform",
+    })
     @nested_field = Field.new({"name" => "nested_form_section",
                "type" => "subform", "editable" => true,
+               "subform_section_id" => @nested_form.id,
                "display_name_all" => "Top 2 Subform"})
   end
 
@@ -52,15 +72,15 @@ describe FieldsHelper do
 
   describe "field_tag_name" do
     it "should build a tag name from the array of keys" do
-      tag_name = @fields_helper.field_tag_name(@child, @nested_field, ["nested_form_section", "0"])
+      tag_name = @fields_helper.field_tag_name(@child, @nested_field, ["nested_form_section", 0])
       expect(tag_name).to eq("child[nested_form_section][0]")
     end
   end
 
   describe "field_value" do
     it "should return a value of a nested form for an existing child" do
-      value = @fields_helper.field_value(@child, @nested_field, ["nested_form_section", "0"])
-      expect(value).to eq({"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"})
+      value = @fields_helper.field_value(@child, @nested_form.fields[0], ["nested_form_section", 0, "nested_1"])
+      expect(value).to eq("Keep")
     end
   end
 

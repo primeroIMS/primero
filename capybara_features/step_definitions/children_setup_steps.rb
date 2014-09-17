@@ -19,6 +19,7 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
         'created_organisation' => 'UNICEF',
         'age_is' => 'Approximate',
         'flag_message' => 'Reason for flagging',
+        'child_status' => 'open',
         'module_id' => PrimeroModule.find_by_name('CP').id,
     )
     user_name = child_hash['created_by']
@@ -40,8 +41,6 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
 
     photo = uploadable_photo(child_hash.delete('photo_path')) if child_hash['photo_path'] != ''
     child = Child.new_with_user_name(User.find_by_user_name(user_name), child_hash)
-    #TODO for some reason the method short_id always return null in cucumber, but works as expected in the app
-    child['short_id'] = (child['unique_identifier'] || "").last 7
     child.photo = photo
     child['histories'] ||= []
     child['histories'] << {'datetime' => child_hash['flag_at'], 'changes' => {'flag' => 'anything'}}
@@ -59,15 +58,8 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
 end
 
 Given /^I add to cases "(.*)" the following subform "(.*)":$/ do |name, subform_name_id, subform_table|
-  index = 0
-  subform = { }
-  subform_table.hashes.each do |subform_hash|
-    subform[index.to_s] = subform_hash
-    index += 1
-  end
   child = Child.by_name(:key => name).first
-  subform = child[subform_name_id].merge subform if child[subform_name_id]
-  child[subform_name_id] = subform
+  subform_table.hashes.each {|h| child[subform_name_id].push(h) }
   child.save!
 end
 

@@ -9,13 +9,13 @@ Feature: Date Of Birth Age Recalculate Edit
    Given I am logged in as an admin with username "primero_cp" and password "primero"
    And the following cases exist in the system:
      | name   |created_by    | unique_identifier | age | date_of_birth |
-     | timmy  |primero_cp    | timmy             | 10  | 30-May-1990   |
+     | timmy  |primero_cp    | bcdef12          | 10  | 30-May-1990   |
    And I add to cases "timmy" the following subform "family_details_section":
      | relation_age | relation_date_of_birth |
      |     35       |   30-May-1975          |
      |     36       |   30-May-1974          |
    When I access "cases page"
-   And I click the "timmy" link
+   And I click the "bcdef12" link
    And I press the "Edit" button
    And I press "Save"
    Then I should see "Case was successfully updated" on the page

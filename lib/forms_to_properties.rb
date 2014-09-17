@@ -19,7 +19,7 @@ module FormToPropertiesConverter
 
   def process_form(form_section)
     include_field = lambda do |field|
-      field.visible
+      field.visible && field.create_property
     end
 
     form_section.fields.select(&include_field).inject({}) do |form_acc, f|
@@ -62,7 +62,8 @@ module FormToPropertiesConverter
 
     case field.type
     when "subform"
-      subform = FormSection.get_by_unique_id(field.subform_section_id)
+      #subform = FormSection.get_by_unique_id(field.subform_section_id)
+      subform = field.subform
 
       if subform.nil?
         raise "The FormSection pointed to (#{field.subform_section_id}) by the subform #{field.name} does not exist"

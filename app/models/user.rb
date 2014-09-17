@@ -2,7 +2,8 @@ require 'digest/sha2'
 class User < CouchRest::Model::Base
   use_database :user
 
-  include RapidFTR::Model
+  include PrimeroModel
+
   include RapidFTR::CouchRestRailsBackward
 
   property :full_name

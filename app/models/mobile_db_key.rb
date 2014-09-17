@@ -1,7 +1,7 @@
 class MobileDbKey < CouchRest::Model::Base
   use_database :mobile_db_key
 
-  include RapidFTR::Model
+  include PrimeroModel
 
   property :imei
   property :db_key

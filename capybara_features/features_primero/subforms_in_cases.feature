@@ -13,7 +13,6 @@ Feature: Subforms In Cases
     And I press the "New Case" button
     And I press the "Family / Partner Details" button
     And I press the "Family Details" button
-    And I add a "Family Details Section" subform
     And I fill in the following:
       | Name | John Doe |
     And I remove the 1st "Family Details Section" subform
@@ -74,7 +73,7 @@ Feature: Subforms In Cases
     And I should not see "Jane Doe" on the page
 
   Scenario: As a logged in user and edit case, I should be able to remove all subforms and update
-    And I fill in the 3rd "Family Details Section" subform with the follow:
+    And I fill in the 2rd "Family Details Section" subform with the follow:
       | Name | Timmy |
     And I press "Save"
     And I press the "Edit" button

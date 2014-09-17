@@ -1,7 +1,7 @@
 class ContactInformation < CouchRest::Model::Base
   use_database :contact_information
 
-  include RapidFTR::Model
+  include PrimeroModel
 
   property :id
   property :name

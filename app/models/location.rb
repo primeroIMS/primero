@@ -2,9 +2,8 @@ class Location < CouchRest::Model::Base
 
   use_database :location
 
-  include RapidFTR::Model
+  include PrimeroModel
   include Namable
-
 
   BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
 
