@@ -55,7 +55,7 @@ gem 'memoist', '~> 0.10.0'
 
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
-  gem 'font-awesome-sass'
+  gem 'font-awesome-sass', '~> 4.2.0'
 end
 
 group :development do
