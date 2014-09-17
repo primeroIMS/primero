@@ -4,13 +4,17 @@ $(document).ready(function() {
     e.preventDefault();
     var target = e.target || e.srcElement;
     var model = target.getAttribute("data-model");
-    photo_field = "<div class='row'><div class='file medium-12 columns'><span class='tool-tip-label'><label class='key' for='" + model + "_photo"
-                   + photo_field_count + "'>Add Photo</label></span><input id='" + model + "_photo" + photo_field_count
+    photo_field = "<div class='row'><div class='file medium-4 columns'><span class='tool-tip-label'><label class='key inline' for='" + model + "_photo"
+                   + photo_field_count + "'>Add Photo</label></span></div><div class='medium-8 columns'><input id='" + model + "_photo" + photo_field_count
                    + "' name='" + model + "[photo]" + photo_field_count + "' type='file'></div></div>"
     $('#photo-group').append(photo_field)
     photo_field_count++;
-    if(photo_field_count == 10)
+
+    if(photo_field_count == 10){
       $(this).remove();
+    }
+    
+    _primero.set_content_sidebar_equality()
   });
 
   //Check the current audio for delete will disable the input file and clear it.

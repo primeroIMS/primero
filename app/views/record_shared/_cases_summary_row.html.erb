@@ -1,16 +1,17 @@
-<tr>
-  <% if fields_to_show.include? 'flag' %>
-    <td>
-      <%= icon('flag', '', class: 'flagged') if record.flagged? %>
-    </td>
-  <% end %>
+<tr>  
   <% if fields_to_show.include? 'owned_by_text' %>
-    <td><%= record.owned_by_text %></td>
+    <td><%= record.owned_by %></td>
   <% end %>
   <% if fields_to_show.include? 'short_id' %>
     <td id="child_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
       <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
+      <% if record.flagged? %>
+        <div class="flag_icon">
+          <%= icon('bookmark fa-rotate-270') %>
+          <span><%= record.flags.count %></span>
+        </div>
+      <% end %>
     </td>
   <% end %>
   <% if fields_to_show.include? 'sortable_name' %>
@@ -27,7 +28,7 @@
   <% end %>
   <% if fields_to_show.include? 'registration_date' %>
     <% #TODO - verify this field %>
-    <td><%= record.registration_date %></td>
+    <td><%= field_format_date(record.registration_date) %></td>
   <% end %>
   <% if fields_to_show.include? 'interview_date' %>
     <% #TODO - verify this field %>

@@ -74,19 +74,19 @@ module RecordActions
   end
 
   def is_manager
-    @is_manager = @current_user.is_manager?
+    @is_manager ||= @current_user.is_manager?
   end
 
   def is_cp
-    @is_cp = @current_user.has_module?(PrimeroModule::CP)
+    @is_cp ||= @current_user.has_module?(PrimeroModule::CP)
   end
 
   def is_gbv
-    @is_gbv = @current_user.has_module?(PrimeroModule::GBV)
+    @is_gbv ||= @current_user.has_module?(PrimeroModule::GBV)
   end
 
   def is_mrm
-    @is_mrm = @current_user.has_module?(PrimeroModule::MRM)
+    @is_mrm ||= @current_user.has_module?(PrimeroModule::MRM)
   end
 
   def create_new_model(attributes={})

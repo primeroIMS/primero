@@ -48,13 +48,12 @@ module IndexHelper
           item = item.gsub('_', ' ')
         end
 
-        #TODO: Temp removing. Need to make defaults sync with front-end js
-        # if @scope[filter].present?
-        # checked = true if @scope[filter].include? item.gsub('_', '')
-        # end
+        if filter_value(filter)
+          checked = true if filter_value(filter).split(',').include? item.gsub('_', '')
+        end
 
         concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}",
-                             filter_type: filter_type)
+            filter_type: filter_type, checked: checked)
         concat(label_tag "#{filter}_#{item}", label)
         concat('<br>'.html_safe)
       end
@@ -103,7 +102,7 @@ module IndexHelper
   private
 
   def list_view_header_case
-    header_list = [{title: nil, sort_title: 'flag'}]
+    header_list = []
 
     header_list << {title: 'social_worker', sort_title: 'owned_by_text'} if @is_manager
     header_list << {title: 'id', sort_title: 'short_id'}
