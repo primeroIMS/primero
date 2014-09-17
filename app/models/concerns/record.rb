@@ -164,6 +164,7 @@ module Record
 
     def create_form_properties
       form_sections = FormSection.find_by_parent_form(parent_form)
+      FormSection.link_subforms(form_sections)
 
       if form_sections.length == 0
         Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
