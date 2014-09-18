@@ -30,7 +30,11 @@ RapidFTR::Application.routes.draw do
   resources :devices
   match 'devices/update_blacklist' => 'devices#update_blacklist', :via => :post
 
-  resources :roles
+  resources :roles do
+    collection do
+      post :import_file
+    end
+  end
   match 'admin' => 'admin#index', :as => :admin, :via => [:post, :get, :put, :delete]
   match 'admin/update' => 'admin#update', :as => :admin_update, :via => [:post, :get, :put, :delete]
 

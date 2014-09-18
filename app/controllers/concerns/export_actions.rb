@@ -9,7 +9,12 @@ module ExportActions
     Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
         authorize! :export, model_class
-        LogEntry.create! :type => LogEntry::TYPE[exporter.id], :user_name => current_user.user_name, :organisation => current_user.organisation, :child_ids => models.collect(&:id)
+        LogEntry.create!(
+          :type => LogEntry::TYPE[exporter.id],
+          :user_name => current_user.user_name,
+          :organisation => current_user.organisation,
+          :model_type => model_class.name.downcase,
+          :ids => models.collect(&:id))
 
         unless self.respond_to?(:exported_properties)
           raise "You must specify the properties to export as a controller method called 'exported_properties'"
