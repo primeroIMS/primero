@@ -13,12 +13,9 @@ ongoing_services_subform = [
       "Child Protection",
       "Family Mediation",
       "Family Reunification",
-      "Social Support",
       "Education",
-      "BID or BIA / Care-Plan",
       "NFI/Clothes/Shoes",
       "Water/Sanitation",
-      "Care Arrangement",
       "Refugee Registration",
       "Food",
       "Other"
