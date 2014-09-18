@@ -1,4 +1,7 @@
 # JIRA PRIMERO-514
+# JIRA PRIMERO-599
+
+#TODO - RSE - Fix
 
 @search @javascript @primero
 Feature: Cases Index Page
