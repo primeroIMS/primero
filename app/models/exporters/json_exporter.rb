@@ -5,7 +5,7 @@ module Exporters
         'json'
       end
 
-      def export(models, properties)
+      def export(models, properties, *args)
         hashes = models.map {|m| convert_model_to_hash(m, properties) }
 
         JSON.pretty_generate(hashes)

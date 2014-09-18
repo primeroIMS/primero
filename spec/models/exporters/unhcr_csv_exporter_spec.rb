@@ -17,11 +17,12 @@ module Exporters
         end]
       end
       @test_child = @child_cls.new
+      @test_child.stub(:module => double(:name => PrimeroModule::CP))
     end
 
     it "converts religion to comma separated string" do
       @test_child.religion = ['abc', 'def']
-      data = UnhcrCSVExporter.export([@test_child], nil)
+      data = UnhcrCSVExporter.export([@test_child])
 
       parsed = CSV.parse(data)
       parsed[1][parsed[0].index("Religion of the Child")].should == 'abc, def'

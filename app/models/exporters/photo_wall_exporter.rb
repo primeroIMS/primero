@@ -15,7 +15,7 @@ module Exporters
         [Child]
       end
 
-      def export(child_data, properties)
+      def export(child_data, properties, *args)
         pdf = Prawn::Document.new
         child_data.each do |child|
           begin
