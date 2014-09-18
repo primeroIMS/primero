@@ -6,6 +6,8 @@
   <% if can?(:create, Role) %>
     <%= link_to content_tag(:span, t("role.create"), :class => 'create_user'), new_role_path, :class => 'btn green-button' %>
   <% end %>
+  <%= render 'exports/button' %>
+  <%= render 'imports/button' %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
