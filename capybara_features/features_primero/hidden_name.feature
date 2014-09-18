@@ -29,7 +29,7 @@ Feature: Hide Name
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
-    And I should see a value for "Short ID" on the show page
+    And I should see a value for "Long ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
@@ -55,7 +55,7 @@ Feature: Hide Name
     And I press "Save"
     And I should see "Case was successfully updated" on the page
     And I should see a value for "Case ID" on the show page
-    And I should see a value for "Short ID" on the show page
+    And I should see a value for "Long ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "*****"
     And I should see a value for "Nickname" on the show page with the value of "Tommy"
@@ -80,7 +80,7 @@ Feature: Hide Name
     And I press "Save"
     And I should see "Case was successfully updated" on the page
     And I should see a value for "Case ID" on the show page
-    And I should see a value for "Short ID" on the show page
+    And I should see a value for "Long ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
     And I should see a value for "Nickname" on the show page with the value of "Tommy"

@@ -59,7 +59,7 @@ Feature: Basic Identity Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
-    And I should see a value for "Short ID" on the show page
+    And I should see a value for "Long ID" on the show page
     And I should see values on the page for the following:
       | Case Status                              | Transferred                        |
       | Name                                     | Tiki Thomas Taliaferro             |
@@ -89,7 +89,7 @@ Feature: Basic Identity Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
-    And I should see a value for "Short ID" on the show page
+    And I should see a value for "Long ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Open"
     And I should see a value for "Name" on the show page with the value of ""
     And I should see a value for "Nickname" on the show page with the value of ""
@@ -143,7 +143,7 @@ Feature: Basic Identity Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case ID" on the show page
-    And I should see a value for "Short ID" on the show page
+    And I should see a value for "Long ID" on the show page
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
 
   Scenario: As a logged in user, I should be able to change the date of registration in the basic identity form
