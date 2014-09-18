@@ -31,7 +31,7 @@
     <td><%= field_format_date(record.registration_date) %></td>
   <% end %>
   <% if fields_to_show.include? 'case_opening_date' %>
-    <td><%= record.created_at %></td>
+    <td><%= field_format_date(record.created_at) %></td>
   <% end %>
   <% if fields_to_show.include? 'photo' %>
     <td class="photo"><%= icon('camera') if record.photo_keys.present? %></td>

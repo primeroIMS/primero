@@ -30,6 +30,7 @@ Feature: Primero View List of Case Records By Role
     Then I should see "Displaying all 9 cases"
     And I should see "andreas" on the page
     And I should not see "marilyn" on the page
+    And I should see a "New Case" button on the page
 
   Scenario: As a GBV user, I want to see my cases 
     And I am logged in as a social worker with username "primero_gbv" and password "primero"
@@ -40,6 +41,7 @@ Feature: Primero View List of Case Records By Role
     And I should not see "7af3aa9" on the page
     And I should not see "andreas" on the page
     And I should not see "marilyn" on the page
+    And I should see a "New Case" button on the page
     
   Scenario: As a CP manager, I want to see all cases owned by all users in my group
     And I am logged in as a manager with username "primero_mgr_cp" and password "primero"
@@ -48,6 +50,7 @@ Feature: Primero View List of Case Records By Role
     And I should see an id "7af3aa9" link on the page
     And I should not see "andreas" on the page
     And I should not see "marilyn" on the page
+    And I should not see a "New Case" button on the page
 
   Scenario: As a GBV manager, I want to see all cases owned by all users in my group
     And I am logged in as a manager with username "primero_mgr_gbv" and password "primero"
@@ -58,6 +61,7 @@ Feature: Primero View List of Case Records By Role
     And I should not see "7af3aa9" on the page
     And I should not see "andreas" on the page
     And I should not see "marilyn" on the page
+    And I should not see a "New Case" button on the page
 
   Scenario: As a manager of multiple groups, I want to see all cases owned by all users in all my groups
     And I am logged in as a manager with username "primero" and password "primero"
