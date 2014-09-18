@@ -5,7 +5,7 @@
       <% if record.flagged? %>
         <div class="flag_icon">
           <%= icon('bookmark fa-rotate-270') %>
-          <span><%= record.flags.count %></span>
+          <span><%= record.flags.select{|f| !f.removed}.count %></span>
         </div>
       <% end %>
   </td>

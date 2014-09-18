@@ -7,6 +7,8 @@ class Flag
   property :date, Date
   property :message, String
   property :flagged_by, String
+  property :removed, TrueClass
+  property :unflag_message, String
 
   private
 

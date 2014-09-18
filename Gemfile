@@ -41,6 +41,7 @@ gem 'sass-rails',    '~> 4.0.1'
 gem 'compass-rails', '~> 1.1.3'
 gem 'coffee-rails',  '~> 4.0.1'
 gem 'chosen-rails',  '~> 1.1.0'
+gem 'handlebars_assets'
 
 gem 'rack-mini-profiler', require: false
 
