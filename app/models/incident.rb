@@ -102,7 +102,7 @@ class Incident < CouchRest::Model::Base
         "nationality" => "nationality",
         "religion"  => "religion",
         "maritial_status" => "maritial_status",
-        "gbv_displacement_status" => "displacement_at_time_of_incident",
+        "gbv_displacement_status" => "displacement_status",
         "gbv_disability_type" => "disability_type",
         "unaccompanied_separated_status" => "unaccompanied_separated_status"
      })

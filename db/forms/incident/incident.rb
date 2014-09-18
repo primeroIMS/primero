@@ -2,7 +2,14 @@ incident_fields = [
   Field.new({"name" => "incident_id",
              "type" => "text_field",
              "editable" => false,
-             "display_name_all" => "Incident ID"
+             "display_name_all" => "Long ID",
+             "create_property" => false
+            }),
+  Field.new({"name" => "short_id",
+             "type" => "text_field",
+             "editable" => false,
+             "display_name_all" => "Incident ID",
+             "create_property" => false
             }),
   Field.new({"name" => "incident_code",
              "type" => "text_field",

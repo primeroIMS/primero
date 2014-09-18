@@ -1,13 +1,15 @@
 survivor_information_fields = [
-  Field.new({"name" => "case_ID",
+  Field.new({"name" => "case_id",
+             "type" => "text_field", 
+             "display_name_all" => "Long ID",
+             "editable" => false,
+             "create_property" => false
+            }),
+  Field.new({"name" => "short_id",
              "type" => "text_field", 
              "display_name_all" => "Case ID",
-             "editable" => false
-            }),
-  Field.new({"name" => "short_ID",
-             "type" => "text_field", 
-             "display_name_all" => "Short ID",
-             "editable" => false
+             "editable" => false,
+             "create_property" => false
             }),
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
@@ -41,9 +43,8 @@ survivor_information_fields = [
              "option_strings_text_all" => "Female\nMale",
              "display_name_all" => "Sex"
             }),
-  Field.new({"name" => "ethnicity",
+  Field.new({"name" => "gbv_ethnicity",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Clan or Ethnicity",
              "option_strings_source" => "lookup Ethnicity"
             }),
@@ -52,15 +53,13 @@ survivor_information_fields = [
              "display_name_all" => "Country of Origin",
              "option_strings_source" => "lookup Country"
             }),
-  Field.new({"name" => "nationality",
+  Field.new({"name" => "gbv_nationality",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Nationality (if different than country of origin)",
              "option_strings_source" => "lookup Nationality"
             }),
-  Field.new({"name" => "religion",
+  Field.new({"name" => "gbv_religion",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Religion",
              "option_strings_source" => "lookup Religion"
             }),
@@ -91,8 +90,7 @@ survivor_information_fields = [
                            "Stateless Person",
                            "Returnee",
                            "Foreign National",
-                           "Asylum Seeker",
-                           "N/A"].join("\n")
+                           "Asylum Seeker"].join("\n")
             }),
   Field.new({"name" => "gbv_disability_type",
              "type" => "select_box", 

@@ -529,3 +529,7 @@ Then(/^I shouldn't be able to access the following grouped forms:$/) do |table|
     assert_doesnt_have_grouped_form(form)
   end
 end
+
+Then /^I should not see a stacktrace$/ do 
+  step 'I should not see "Toggle session dump"'
+end

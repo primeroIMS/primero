@@ -2,7 +2,14 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "tracing_request_id",
              "type" => "text_field", 
              "editable" => false,
-             "display_name_all" => "Inquirer ID"
+             "display_name_all" => "Long ID",
+             "create_property" => false
+            }),
+  Field.new({"name" => "short_id",
+             "type" => "text_field",
+             "editable" => false,
+             "display_name_all" => "Inquirer ID",
+             "create_property" => false
             }),
   Field.new({"name" => "inquiry_date",
              "type" => "date_field", 
