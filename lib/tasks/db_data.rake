@@ -1,7 +1,7 @@
 namespace :db do
 
   namespace :data do
-    desc "Create test users for quickly testing out features"
+    desc "Create test records for quickly testing out features"
     task :dev_fixtures => :environment do
       unless Rails.env == 'development'
         raise "These fixtures are only meant for development"
