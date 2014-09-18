@@ -101,7 +101,12 @@ perpetrator_subform_fields = [
              "option_strings_text_all" =>
                           ["Other",
                            "Unemployed",
-                           "Unknown"].join("\n")
+                           "Unknown",
+                           "Occupation 1",
+                           "Occupation 2",
+                           "Occupation 3",
+                           "Occupation 4",
+                           "Occupation 5"].join("\n")
             })
 ]
 
