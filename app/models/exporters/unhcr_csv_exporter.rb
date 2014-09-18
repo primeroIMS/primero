@@ -23,7 +23,7 @@ module Exporters
           # Supposedly Ruby 1.9+ maintains hash insertion ordering
           rows << self.field_map.keys
 
-          cases.each do |c|
+          cases.select {|c| c.module.try(:name) == PrimeroModule::CP }.each do |c|
             rows << @field_map.map do |_, generator|
               case generator
               when Array
