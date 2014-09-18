@@ -9,7 +9,7 @@ module Exporters
       end
 
       # @returns: a String with the CSV data and header
-      def export(models, properties)
+      def export(models, properties, *args)
         CSV.generate do |rows|
           to_2D_array(models, properties) do |row|
             rows << row
