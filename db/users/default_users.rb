@@ -12,6 +12,7 @@ def create_or_update_user(user_hash)
        "full_name" => user_hash["full_name"],
        "role_ids" => user_hash["role_ids"],
        "module_ids" => user_hash["module_ids"],
+       "user_groups" => user_hash["user_groups"],
        "reporting_hierarchy" => user_hash["reporting_hierarchy"],
     }
     user.update_attributes user_attributes
@@ -32,6 +33,7 @@ create_or_update_user(
     Role.by_name(key: "Superuser").first.id
   ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
+  "user_groups" => UserGroup.by_name.all.map{|g| g.id},
   "is_manager" => "true"
 )
 
@@ -47,7 +49,25 @@ create_or_update_user(
     Role.by_name(key: "CP Case Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+  "user_groups" => [UserGroup.by_name(key: "Primero CP").first.id],
   "reporting_hierarchy" => ["primero"]
+)
+
+create_or_update_user(
+  "user_name" => "primero_mgr_cp",
+  "password" => "qu01n23",
+  "password_confirmation" => "qu01n23",
+  "full_name" => "CP Manager",
+  "email" => "primero_mgr_cp@primero.com",
+  "disabled" => "false",
+  "organisation" => "N/A",
+  "role_ids" => [
+    Role.by_name(key: "CP Manager").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+  "user_groups" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "reporting_hierarchy" => ["primero"],
+  "is_manager" => "true"
 )
 
 create_or_update_user(
@@ -62,7 +82,25 @@ create_or_update_user(
     Role.by_name(key: "GBV Social Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+  "user_groups" => [UserGroup.by_name(key: "Primero GBV").first.id],
   "reporting_hierarchy" => ["primero"]
+)
+
+create_or_update_user(
+  "user_name" => "primero_mgr_gbv",
+  "password" => "qu01n23",
+  "password_confirmation" => "qu01n23",
+  "full_name" => "GBV Manager",
+  "email" => "primero_mgr_gbv@primero.com",
+  "disabled" => "false",
+  "organisation" => "N/A",
+  "role_ids" => [
+    Role.by_name(key: "GBV Manager").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+  "user_groups" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "reporting_hierarchy" => ["primero"],
+  "is_manager" => "true"
 )
 
 create_or_update_user(
@@ -77,5 +115,23 @@ create_or_update_user(
     Role.by_name(key: "MRM Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
+  "user_groups" => [UserGroup.by_name(key: "Primero MRM").first.id],
   "reporting_hierarchy" => ["primero"]
+)
+
+create_or_update_user(
+  "user_name" => "primero_mgr_mrm",
+  "password" => "qu01n23",
+  "password_confirmation" => "qu01n23",
+  "full_name" => "MRM Manager",
+  "email" => "primero_mgr_mrm@primero.com",
+  "disabled" => "false",
+  "organisation" => "N/A",
+  "role_ids" => [
+    Role.by_name(key: "MRM Manager").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
+  "user_groups" => [UserGroup.by_name(key: "Primero MRM").first.id],
+  "reporting_hierarchy" => ["primero"],
+  "is_manager" => "true"
 )

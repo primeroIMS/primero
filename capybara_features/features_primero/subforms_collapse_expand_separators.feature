@@ -14,7 +14,7 @@ Feature: Subforms Collapse Expand separators
     Then I should see collapsed the 1st "Attack on Schools" subform
 
   Scenario: As a logged in user and collapse subforms attack on hospitals, I want to collapse separators fields
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Violations" button
@@ -23,7 +23,7 @@ Feature: Subforms Collapse Expand separators
     Then I should see collapsed the 1st "Attack on Hospitals" subform
 
   Scenario: As a logged in user and collapse subforms denial of humanitarian access, I want to collapse separators fields
-    Given I am logged in as an admin with username "primero" and password "primero"
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Violations" button
