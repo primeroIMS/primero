@@ -222,6 +222,7 @@ RapidFTR::Application.routes.draw do
       match 'save_order', :via => [:post, :get, :put, :delete]
       match 'toggle', :via => [:post, :get, :put, :delete]
       match 'published', :via => [:post, :get, :put, :delete]
+      post :import_file
     end
 
     resources :fields, :controller => 'fields' do
