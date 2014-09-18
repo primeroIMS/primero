@@ -171,7 +171,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
           if tally_search == true
             find(:xpath, ".//span[@class='value']/..").text.should eq(content)
           else
-            find(:xpath, ".//span[@class='value' and . = '#{content}']")
+            find(:xpath, ".//span[@class='value' and . = \"#{content}\"]")
           end
         end
       end
