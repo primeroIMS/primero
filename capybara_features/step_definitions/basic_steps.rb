@@ -10,6 +10,10 @@ Then /^I should see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
+Then /^I should not see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
+  expect(page).to_not have_selector(:link_or_button, label)
+end
+
 Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end

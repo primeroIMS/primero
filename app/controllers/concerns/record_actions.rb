@@ -13,6 +13,10 @@ module RecordActions
     before_filter :get_form_sections, :only => [:show, :edit]
     before_filter :get_lookups, :only => [:new, :edit]
     before_filter :current_modules, :only => [:index]
+    before_filter :is_manager, :only => [:index]
+    before_filter :is_cp, :only => [:index]
+    before_filter :is_gbv, :only => [:index]
+    before_filter :is_mrm, :only => [:index]
   end
 
   def reindex
@@ -67,6 +71,22 @@ module RecordActions
   def current_modules
     record_type = model_class.parent_form
     @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
+  end
+
+  def is_manager
+    @is_manager ||= @current_user.is_manager?
+  end
+
+  def is_cp
+    @is_cp ||= @current_user.has_module?(PrimeroModule::CP)
+  end
+
+  def is_gbv
+    @is_gbv ||= @current_user.has_module?(PrimeroModule::GBV)
+  end
+
+  def is_mrm
+    @is_mrm ||= @current_user.has_module?(PrimeroModule::MRM)
   end
 
   def create_new_model(attributes={})
