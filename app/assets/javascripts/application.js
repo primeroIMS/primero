@@ -3,6 +3,8 @@
 //= require plugins/jquery.tmpl.min
 //= require plugins/jquery_ujs
 //= require plugins/json2
+//= require handlebars.runtime
+//= require_tree ./templates
 //= require foundation
 //= require plugins/underscore
 //= require plugins/backbone

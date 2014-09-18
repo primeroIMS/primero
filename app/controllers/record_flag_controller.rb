@@ -18,7 +18,7 @@ class RecordFlagController < ApplicationController
 
   def unflag
     authorize! :flag, @record
-    flag = @record.remove_flag(params[:flag_message], params[:flag_index], current_user_name)
+    flag = @record.remove_flag(params[:flag_message], params[:flag_index], current_user_name, params[:unflag_message])
     if flag.present? and @record.save
       render :json => flag if params[:redirect_url].blank?
     else

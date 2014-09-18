@@ -35,10 +35,12 @@ module Flaggable
     #The method was added to be called in the controller. It returns the flag removed or nil if the tag is not removed.
     #To remove a tag the value of the message_to_delete should be found in the position described by the index parameter.
     #The index is used as a key to identify what flag should be removed.
-    def remove_flag(message_to_delete, index, user_name)
+    def remove_flag(message_to_delete, index, user_name, unflag_message)
       flag = self.flags[index.to_i]
       if flag.present? and flag.message == message_to_delete
-        self.flags.delete_at(index.to_i)
+        # self.flags.delete_at(index.to_i)
+        flag[:unflag_message] =unflag_message
+        flag[:removed] = true
       else
         nil
       end
