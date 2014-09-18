@@ -28,11 +28,9 @@
     <td><%= record.sex %></td>
   <% end %>
   <% if fields_to_show.include? 'registration_date' %>
-    <% #TODO - verify this field %>
     <td><%= field_format_date(record.registration_date) %></td>
   <% end %>
-  <% if fields_to_show.include? 'interview_date' %>
-    <% #TODO - verify this field %>
+  <% if fields_to_show.include? 'case_opening_date' %>
     <td><%= record.created_at %></td>
   <% end %>
   <% if fields_to_show.include? 'photo' %>

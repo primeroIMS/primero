@@ -20,7 +20,7 @@ Then I should see "Case record successfully created" on the page
 And I should see a value for "Location Address" on the show page with the value of "Kenya"
 And I should see a value for "Previous Owner" on the show page with the value of "admin"
 And I should see a value for "Previous Agency" on the show page with the value of "Test Agency"
-And I should see a value for "Record created by" on the show page with the value of "primero"
+And I should see a value for "Record created by" on the show page with the value of "primero_cp"
 And I should see a value for "Record state" on the show page with the value of "Valid record"
 
 Scenario: As a logged in user, When I am on the case index page only valid recrods should be displayed

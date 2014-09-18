@@ -111,7 +111,7 @@ module IndexHelper
     header_list << {title: 'age', sort_title: 'age'} if @is_cp
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
-    header_list << {title: 'interview_date', sort_title: 'interview_date'} if @is_gbv
+    header_list << {title: 'case_opening_date', sort_title: 'case_opening_date'} if @is_gbv
     header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
 
     return header_list
