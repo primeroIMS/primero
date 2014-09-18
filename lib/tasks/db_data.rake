@@ -1,6 +1,16 @@
 namespace :db do
 
   namespace :data do
+    desc "Create test users for quickly testing out features"
+    task :dev_fixtures => :environment do
+      unless Rails.env == 'development'
+        raise "These fixtures are only meant for development"
+      end
+
+      load(Rails.root.join("db/dev_fixtures", "cases.rb"))
+      load(Rails.root.join("db/dev_fixtures", "incidents.rb"))
+      load(Rails.root.join("db/dev_fixtures", "tracing_requests.rb"))
+    end
 
     desc "Remove roles and any reference of the role from users."
     task :remove_role, [:role] => :environment do |t, args|
