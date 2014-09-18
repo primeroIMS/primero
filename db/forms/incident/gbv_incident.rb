@@ -42,12 +42,7 @@ gbv_incident_fields = [
                 "During Flight",
                 "During Refuge",
                 "During Return/Transit",
-                "Post-Displacement",
-                "Other, please specify"].join("\n")
-            }),
-  Field.new({"name" => "displacement_at_time_of_incident_other",
-             "type" => "text_field",
-             "display_name_all" => "If other, please specify"
+                "Post-Displacement"].join("\n")
             }),
   Field.new({"name" => "incident_timeofday",
              "type" => "select_box",
