@@ -9,22 +9,22 @@
         <% if tracing_request.duplicate? %>
             <h3 class="duplicate-message"><%= duplicate_message %></h3>
         <% end %>
-        <% unless duplicates.empty? %>
+        <% if duplicates.present? %>
             <h3 class="duplicate-message"><%= t("tracing_request.another_duplicate_before_link") %>
             <%= link_to 'here', tracing_request_path(duplicates.first) %><%= t("tracing_request.another_duplicate_after_link") %></h3>
         <% end %>
 
         <div id='interviewer_details'>
             <p><strong><%= t("tracing_request.registered_by") %></strong><br>
-             <%= tracing_request['created_by'] %> <%= link_to_tracing_request_update_info(tracing_request) %> 
-             <%= current_user.localize_date(tracing_request['created_at']) %></p>
+             <%= tracing_request['created_by'] %> <%= link_to_tracing_request_update_info(tracing_request) %><br>
+             <%= field_format_date(tracing_request.created_at) %></p>
             <% if tracing_request['last_updated_at']%>
                 <p><strong><%= t("tracing_request.last_updated") %></strong><br>
-                <%= current_user.localize_date(tracing_request['last_updated_at']) %> </p>
+                <%= field_format_date(tracing_request.last_updated_at) %> </p>
             <% end %>
             <% if tracing_request['posted_from']=="Mobile" %>
                 <p><strong><%= t("tracing_request.posted_from_mobile")  %></strong><br>
-                <%= current_user.localize_date(tracing_request['posted_at']) %> </p>
+                <%= field_format_date(tracing_request.posted_at) %> </p>
             <% end %>
         </div>
     </div>

@@ -19,7 +19,7 @@ module FormToPropertiesConverter
 
   def process_form(form_section)
     include_field = lambda do |field|
-      field.visible
+      field.visible && field.create_property
     end
 
     form_section.fields.select(&include_field).inject({}) do |form_acc, f|
@@ -45,7 +45,9 @@ module FormToPropertiesConverter
 
   def properties_for_field(field)
     base_options = {
-      :read_only => !field.editable,
+     # field.editable just means that it's not editable in a particular form.
+     # The system can still edit to its heart's content.
+     # :read_only => !field.editable,
       :allow_blank => false
     }
 
@@ -60,7 +62,8 @@ module FormToPropertiesConverter
 
     case field.type
     when "subform"
-      subform = FormSection.get_by_unique_id(field.subform_section_id)
+      #subform = FormSection.get_by_unique_id(field.subform_section_id)
+      subform = field.subform
 
       if subform.nil?
         raise "The FormSection pointed to (#{field.subform_section_id}) by the subform #{field.name} does not exist"
@@ -94,7 +97,7 @@ module FormToPropertiesConverter
     when "date_field"
       { field.name => date_options.update(base_options) }
     when "date_range"
-      { 
+      {
         "#{field.name}_from" => date_options.update(base_options),
         "#{field.name}_to" => date_options.update(base_options),
         "#{field.name}_date_or_date_range" => {:type => String}.update(base_options),
@@ -105,7 +108,6 @@ module FormToPropertiesConverter
       field.tally.each { |t| tallys["#{field.name}_#{t}"] = tally_options.update(base_options) }
       tallys["#{field.name}_total"] = tally_options.update(base_options)
       tallys
-
     # TODO: Figure out how to handle these things
     when 'separator', 'photo_upload_box', 'audio_upload_box', 'document_upload_box'
       {}

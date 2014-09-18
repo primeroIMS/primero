@@ -1,7 +1,7 @@
 class Incident < CouchRest::Model::Base
   use_database :incident
 
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
 
@@ -16,7 +16,10 @@ class Incident < CouchRest::Model::Base
 
   def initialize *args
     self['histories'] = []
+
     super *args
+
+    self.incident_id = self.unique_identifier
   end
 
   design do
@@ -33,6 +36,20 @@ class Incident < CouchRest::Model::Base
   end
 
   before_save :set_violation_verification_default
+
+  searchable do
+    string :violations, multiple: true do
+      violation_list = []
+      if violations.present?
+        violations.keys.each do |v|
+          if violations[v].present?
+            violation_list << v
+          end
+        end
+      end
+      violation_list
+    end
+  end
 
   def self.find_by_incident_id(incident_id)
     by_incident_id(:key => incident_id).first
@@ -51,10 +68,6 @@ class Incident < CouchRest::Model::Base
     self['description'] = fields['description'] || self.description || ''
   end
 
-  def incident_id
-    self['unique_identifier']
-  end
-
   def incident_code
     (self.unique_identifier || "").last 7
   end
@@ -65,11 +78,7 @@ class Incident < CouchRest::Model::Base
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each_with_index do |v, i|
-          if v.violation_id.present?
-            violations_list << v.violation_id
-          else
-            violations_list << "#{key.titleize} #{i}"
-          end
+          violations_list << "#{key.titleize} #{i}"
         end
       end
     end
@@ -83,7 +92,7 @@ class Incident < CouchRest::Model::Base
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
   def copy_survivor_information(case_record)
-    self.copy_fields(case_record, {
+    copy_fields(case_record, {
         "survivor_code_no" => "survivor_code",
         "age" => "age",
         "date_of_birth" => "date_of_birth",

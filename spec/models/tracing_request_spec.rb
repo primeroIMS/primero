@@ -24,7 +24,7 @@ describe TracingRequest do
     end
 
     it "should build with date search fields" do
-      TracingRequest.searchable_date_fields.should == ["created_at", "last_updated_at"]
+      expect(TracingRequest.searchable_date_fields).to include("created_at", "last_updated_at")
     end
 
     it "fields build with all fields in form sections" do
@@ -60,7 +60,7 @@ describe TracingRequest do
     after :all do
       FormSection.all.all.each { |form| form.destroy }
     end
-    
+
     # TODO: full text searching not implemented yet. Effects the next 13 test.
 
     # it "should return empty array if search is not valid" do
@@ -195,9 +195,9 @@ describe TracingRequest do
       tracing_request['last_known_location'].should == "London"
     end
 
-    it "should not replace old properties when updated ones have nil value" do
+    it "should not replace old properties when when missing from update" do
       tracing_request = TracingRequest.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
+      new_properties = {"last_known_location" => "Manchester"}
       tracing_request.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       tracing_request['last_known_location'].should == "Manchester"
       tracing_request['origin'].should == "Croydon"
@@ -259,14 +259,13 @@ describe TracingRequest do
       sleep 1
       tracing_request.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
       tracing_request.save!
-      binding.pry
       tracing_request["histories"].size.should == 1
     end
 
     it "should populate last_updated_by field with the user_name who is updating" do
       tracing_request = TracingRequest.new
       tracing_request.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      tracing_request['last_updated_by'].should == 'jdoe'
+      tracing_request.last_updated_by.should == 'jdoe'
     end
 
 
@@ -280,10 +279,10 @@ describe TracingRequest do
     end
 
     it "should populate last_updated_at field with the time of the update" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       tracing_request = TracingRequest.new
       tracing_request.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      tracing_request['last_updated_at'].should == "2010-01-17 19:05:00UTC"
+      tracing_request.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     it "should not update attachments when the photo value is nil" do
@@ -366,7 +365,7 @@ describe TracingRequest do
       #Update the tracing_request so the current audio is removed.
       properties = {:relation_name => "Some TracingRequest Name"}
       tracing_request.update_properties_with_user_name 'Jane Doe', nil, nil, nil, true, properties
-    
+
       #Validate the file was removed.
       tracing_request['_attachments'].should be_blank
       tracing_request['audio_attachments'].should be_nil
@@ -520,17 +519,17 @@ describe TracingRequest do
     end
 
     it "should create a posted_at field with the current date" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
       tracing_request = create_tracing_request_with_created_by('some_user', 'some_field' => 'some_value')
-      tracing_request['posted_at'].should == "2010-01-22 14:05:00UTC"
+      tracing_request.posted_at.should == DateTime.parse("2010-01-22 14:05:00UTC")
     end
 
     describe "when the created at field is not supplied" do
 
       it "should create a created_at field with time of creation" do
-        Clock.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
+        DateTime.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
         tracing_request = create_tracing_request_with_created_by('some_user', 'some_field' => 'some_value')
-        tracing_request['created_at'].should == "2010-01-14 14:05:00UTC"
+        tracing_request.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
 
     end
@@ -538,24 +537,22 @@ describe TracingRequest do
     describe "when the created at field is supplied" do
 
       it "should use the supplied created at value" do
-        tracing_request = create_tracing_request_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => '2010-01-14 14:05:00UTC')
-        tracing_request['created_at'].should == "2010-01-14 14:05:00UTC"
+        tracing_request = create_tracing_request_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => DateTime.parse('2010-01-14 14:05:00UTC'))
+        tracing_request.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
     end
   end
 
   describe "unique id" do
     it "should create a unique id" do
-      tracing_request = TracingRequest.new
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      tracing_request.create_unique_id
-      tracing_request["unique_identifier"].should == "12345"
+      tracing_request = TracingRequest.new
+      tracing_request.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      tracing_request = TracingRequest.new
       UUIDTools::UUID.stub("random_create").and_return(1212127654321)
-      tracing_request.create_unique_id
+      tracing_request = TracingRequest.new
       tracing_request.short_id.should == "7654321"
     end
 
@@ -713,7 +710,7 @@ describe TracingRequest do
 
       it "should save tracing request after delete some photos" do
         photos = []
-        (1..10).each do |i|          
+        (1..10).each do |i|
           photos << stub_photo_properties(i)
         end
         tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
@@ -744,7 +741,7 @@ describe TracingRequest do
         photo.stub(:content_type).and_return("image/jpg")
         photo
       end
-      
+
     end
 
   end
@@ -1019,9 +1016,9 @@ describe TracingRequest do
     it "should update history with the datetime from last_updated_at" do
       tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
       tracing_request['last_known_location'] = 'Philadelphia'
-      tracing_request['last_updated_at'] = '2010-01-14 14:05:00UTC'
+      tracing_request.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
       tracing_request.save!
-      tracing_request['histories'].first['datetime'].should == '2010-01-14 14:05:00UTC'
+      tracing_request['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
     end
 
     describe "photo logging" do

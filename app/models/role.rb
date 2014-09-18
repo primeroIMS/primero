@@ -1,7 +1,7 @@
 class Role < CouchRest::Model::Base
   use_database :role
 
-  include RapidFTR::Model
+  include PrimeroModel
   include Namable
 
   property :permissions, :type => [String]

@@ -4,8 +4,8 @@ module Record
   extend ActiveSupport::Concern
 
   require "uuidtools"
+  include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
-  include RapidFTR::Model
   include RapidFTR::Clock
 
   included do
@@ -13,13 +13,18 @@ module Record
     before_save :update_organisation
     before_save :add_creation_history, :if => :new?
 
-    property :short_id
     property :unique_identifier
     property :created_organisation
     property :created_by
-    property :created_at
+    property :created_at, DateTime
+    property :last_updated_at, DateTime
+    property :last_updated_by
     property :last_updated_by_full_name
+    property :posted_at, DateTime
     property :duplicate, TrueClass
+    property :short_id
+    property :flag_at, DateTime
+    property :reunited_at, DateTime
 
     class_attribute(:form_properties_by_name)
     self.form_properties_by_name = {}
@@ -87,25 +92,13 @@ module Record
               }"
 
     end
-
-    def short_id
-      (self['unique_identifier'] || "").last 7
-    end
-
-    def unique_identifier
-      self['unique_identifier']
-    end
-
   end
 
   module ClassMethods
     include FormToPropertiesConverter
 
     def new_with_user_name(user, fields = {})
-      record = new(convert_arrays(fields))
-      record.create_unique_id
-      record['short_id'] = record.short_id
-      record['record_state'] = "Valid record" if record['record_state'].blank?
+      record = new(blank_to_nil(convert_arrays(fields)))
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
       record.owned_by = user.user_name if record.owned_by.blank?
@@ -138,6 +131,19 @@ module Record
       hash_arrays_to_arrays.call(fields)
     end
 
+    def blank_to_nil(field)
+      case field
+      when Hash
+        field.inject({}) {|acc, (k,v)| acc.merge({k => blank_to_nil(v)}) }
+      when Array
+        field.map {|el| blank_to_nil(el) }
+      when String
+        (field == "") ? nil : field
+      else
+        field
+      end
+    end
+
     def refresh_form_properties
       remove_form_properties
       create_form_properties
@@ -164,6 +170,7 @@ module Record
 
     def create_form_properties
       form_sections = FormSection.find_by_parent_form(parent_form)
+      FormSection.link_subforms(form_sections)
 
       if form_sections.length == 0
         Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
@@ -193,16 +200,18 @@ module Record
       by_duplicates_of(:key => id).all
     end
 
-    #TODO: Do we need to ditch this method in favor of the Solr/Sunspot pagination?
-    # def fetch_paginated(options, page, per_page)
-    #   row_count = send("#{options[:view_name]}_count", options.merge(:include_docs => false))['rows'].size
-    #   per_page = row_count if per_page == "all"
-    #   [row_count, self.paginate(options.merge(:design_doc => self.name, :page => page, :per_page => per_page, :include_docs => true))]
-    # end
+  end
+
+  def initialize(*args)
+    super
+
+    self.create_unique_id
+    self.short_id = self.unique_identifier.last 7
+    self['record_state'] = "Valid record" if self['record_state'].blank?
   end
 
   def create_unique_id
-    self['unique_identifier'] ||= UUIDTools::UUID.random_create.to_s
+    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
   end
 
   def valid_record?
@@ -210,23 +219,13 @@ module Record
   end
 
   def validate_created_at
-    begin
-      if self['created_at']
-        DateTime.parse self['created_at']
-      end
-      true
-    rescue
+    unless self.created_at.nil? || self.created_at.is_a?(DateTime)
       errors.add(:created_at, '')
     end
   end
 
   def validate_last_updated_at
-    begin
-      if self['last_updated_at']
-        DateTime.parse self['last_updated_at']
-      end
-      true
-    rescue
+    unless self.last_updated_at.nil? || self.last_updated_at.is_a?(DateTime)
       errors.add(:last_updated_at, '')
     end
   end
@@ -264,11 +263,11 @@ module Record
   end
 
   def set_creation_fields_for(user)
-    self['created_by'] = user.try(:user_name)
+    self.last_updated_by = self.created_by = user.try(:user_name)
     self['created_by_full_name'] = user.try(:full_name)
     self['created_organisation'] = user.try(:organisation)
-    self['created_at'] ||= RapidFTR::Clock.current_formatted_time
-    self['posted_at'] = RapidFTR::Clock.current_formatted_time
+    self.last_updated_at ||= self.created_at ||= DateTime.now
+    self.posted_at = DateTime.now
   end
 
   def update_organisation
@@ -276,20 +275,12 @@ module Record
   end
 
   def created_by_user
-    User.find_by_user_name self['created_by'] unless self['created_by'].to_s.empty?
+    User.find_by_user_name self.created_by unless self.created_by.to_s.empty?
   end
 
   def set_updated_fields_for(user_name)
-    self['last_updated_by'] = user_name
-    self['last_updated_at'] = RapidFTR::Clock.current_formatted_time
-  end
-
-  def last_updated_by
-    self['last_updated_by'] || self['created_by']
-  end
-
-  def last_updated_at
-    self['last_updated_at'] || self['created_at']
+    self.last_updated_by = user_name
+    self.last_updated_at = DateTime.now
   end
 
   def update_history
@@ -347,20 +338,20 @@ module Record
   end
 
   def update_properties(properties, user_name)
-    properties = self.class.convert_arrays(properties)
+    properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     add_updated_fields_attr(properties)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
     properties['record_state'] = "Valid record" if properties['record_state'].blank?
-    should_update = self["last_updated_at"] && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > DateTime.parse(self['last_updated_at'])) : true
+    should_update = self.last_updated_at && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > self.last_updated_at) : true
     if should_update
       attributes_to_update = {}
       properties.each_pair do |name, value|
         if name == "histories"
           merge_histories(properties['histories'])
         else
-          attributes_to_update[name] = value unless value == nil
+          attributes_to_update[name] = value
         end
-        attributes_to_update["#{name}_at"] = RapidFTR::Clock.current_formatted_time if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
+        attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
       end
       self.set_updated_fields_for user_name
       self.attributes = attributes_to_update

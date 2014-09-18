@@ -22,6 +22,7 @@ module Searchable
         string :associated_user_names, multiple: true
         string :owned_by
       end
+      searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -46,36 +47,40 @@ module Searchable
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
-    # TODO: location, and date filters are still outstanding.
+    # TODO: locations are still outstanding.
     # TODO: Also need integration/unit test for filters.
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[])
-      #TODO: Are the filters additive?
       self.search do
         if filters.present?
+          #TODO: pop off the locations filter and perform a fulltext search
           filters.each do |filter,value|
-            values = value.split(",")
-            type = values.shift
-            any_of do
-              values.each do |v|
-                if type == 'range'
-                  v = v.split("-")
-                  if v.count == 1
-                    # Range +
-                    with(filter).greater_than_or_equal_to(v.first.to_i)
+            if searchable_location_fields.include? filter
+              fulltext("\"#{value}\"", fields: filter)
+            else
+              values = value.split(",")
+              type = values.shift
+              any_of do
+                values.each do |v|
+                  if type == 'range'
+                    v = v.split("-")
+                    if v.count == 1
+                      # Range +
+                      with(filter).greater_than_or_equal_to(v.first.to_i)
+                    else
+                      range_start, range_stop = v.first.to_i, v.last.to_i
+                      with(filter, range_start...range_stop)
+                    end
+                  elsif type == 'date_range'
+                    v = v.split('.').each { |d| convert_date(d) }
+                    if v.count > 1
+                      to, from = v.first, v.last
+                      with(filter).between(to..from)
+                    else
+                      with(filter, v.first)
+                    end
                   else
-                    range_start, range_stop = v.first.to_i, v.last.to_i
-                    with(filter, range_start...range_stop)
+                    with(filter, v) unless v == 'all'
                   end
-                elsif type == 'date_range'
-                  v = v.split('.').each { |d| convert_date(d) }
-                  if v.count > 1
-                    to, from = v.first, v.last
-                    with(filter).between(to..from)
-                  else
-                    with(filter, v.first)
-                  end
-                else
-                  with(filter, v) unless v == 'all'
                 end
               end
             end
@@ -144,6 +149,10 @@ module Searchable
 
     def searchable_numeric_fields
       Field.all_filterable_numeric_field_names(self.parent_form)
+    end
+
+    def searchable_location_fields
+      ['location_current', 'incident_location']
     end
 
     # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date

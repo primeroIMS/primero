@@ -74,17 +74,11 @@ gbv_incident_fields = [
                 "Guest House - Hotel"
               ].join("\n")
             }),
-  Field.new({"name" => "incident_location_1",
-             "type" => "text_field",
-             "display_name_all" => "Area"
-            }),
-  Field.new({"name" => "incident_location_2",
-             "type" => "text_field",
-             "display_name_all" => "Sub-Area"
-            }),
-  Field.new({"name" => "Incident_location_3",
-             "type" => "text_field",
-             "display_name_all" => "Camp/Town/Site/Village"
+   Field.new({"name" => "incident_location",
+              "type" => "select_box",
+              "display_name_all" => "Incident Location",
+              "option_strings_source" => "Location",
+              "searchable_select" => true
             })
 ]
 

@@ -53,11 +53,7 @@ Feature: Recruitment Form
     Then I should see "Incident record successfully created" on the page
     And I should see 1 subform on the show page for "Recruitment"
     And I should see in the 1st "Recruitment" subform with the follow:
-      #TODO - fix
-      #| Number of survivors: boys                                                                                      | 1                                              |
-      #| Number of survivors: girls                                                                                     | 2                                              |
-      #| Number of survivors: unknown                                                                                   | 3                                              |
-      #| Number of total survivors                                                                                      | 6                                              |
+      | Number of survivors                                                                                            |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |
       | Forced vs. Voluntary                                                                                           | Forced                                         |
       | Was the recruitment primarily "Forced" (e.g. Conscription, Abduction, or the use of intimidation and threats)? | Yes                                            |
       | What factors contributed towards the recruitment of the child by the armed group?                              | Conscription, Lack of Basic Services, Idealism |

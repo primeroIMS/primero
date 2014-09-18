@@ -54,7 +54,7 @@ module ApplicationHelper
 
   #TODO: Fix this when fixing customizations. Do we need them as hashed values
   def translated_permissions
-    permissions = Permission.hashed_values.map do |group, permissions|
+    permissions = Permission.all_grouped.map do |group, permissions|
       [
           I18n.t(group, :scope => "permissions.group"),
           permissions.map do |permission|
@@ -86,9 +86,17 @@ module ApplicationHelper
   end
 
   def ctl_create_incident_button(record)
-    ctl_button_wrapper do
-      submit_button(t("buttons.create_incident"))
-    end if record.present? and record.class.name == "Child" and record.module.name == PrimeroModule::GBV
+    if record.present? and record.class.name == "Child" and record.module.name == PrimeroModule::GBV
+      if current_actions(action: ['update', 'edit'])
+        content_tag :li do
+          submit_button(t("buttons.create_incident"))
+        end
+      elsif current_actions(action: ['show'])
+        content_tag :li do
+          link_to t("buttons.create_incident"), child_create_incident_path(record), class: "green-button"
+        end
+      end
+    end
   end
 
   def ctl_button_wrapper(&block)
@@ -101,7 +109,7 @@ module ApplicationHelper
     if record.new?
       ctl_cancel_button(path || record) + ctl_save_button
     elsif current_actions(action: ['update', 'edit'])
-      ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button + ctl_create_incident_button(record)
+      ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button
     else
       ctl_edit_button(record, path)
     end

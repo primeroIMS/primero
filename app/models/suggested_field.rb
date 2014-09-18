@@ -1,7 +1,7 @@
 class SuggestedField   < CouchRest::Model::Base
   use_database :suggested_field
 
-  include RapidFTR::Model
+  include PrimeroModel
 
   property :unique_id
   property :name

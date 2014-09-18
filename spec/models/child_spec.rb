@@ -26,7 +26,7 @@ describe Child do
     end
 
     it "should build with date search fields" do
-      Child.searchable_date_fields.should == ["created_at", "last_updated_at"]
+      expect(Child.searchable_date_fields).to include("created_at", "last_updated_at", "registration_date")
     end
 
     it "fields build with all fields in form sections" do
@@ -197,9 +197,9 @@ describe Child do
       child['last_known_location'].should == "London"
     end
 
-    it "should not replace old properties when updated ones have nil value" do
+    it "should not replace old properties when when missing from update" do
       child = Child.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"origin" => nil, "last_known_location" => "Manchester"}
+      new_properties = {"last_known_location" => "Manchester"}
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       child['last_known_location'].should == "Manchester"
       child['origin'].should == "Croydon"
@@ -267,7 +267,7 @@ describe Child do
     it "should populate last_updated_by field with the user_name who is updating" do
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      child['last_updated_by'].should == 'jdoe'
+      child.last_updated_by.should == 'jdoe'
     end
 
 
@@ -281,10 +281,10 @@ describe Child do
     end
 
     it "should populate last_updated_at field with the time of the update" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      child['last_updated_at'].should == "2010-01-17 19:05:00UTC"
+      child.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     it "should not update attachments when the photo value is nil" do
@@ -313,17 +313,17 @@ describe Child do
     end
 
     it "should set flagged_at if the record has been flagged" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = create_child("timothy cochran")
       child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:flag => true}
-      child.flag_at.should == "2010-01-17 19:05:00UTC"
+      child.flag_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     it "should set reunited_at if the record has been reunited" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = create_child("timothy cochran")
       child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:reunited => true}
-      child.reunited_at.should == "2010-01-17 19:05:00UTC"
+      child.reunited_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
 
@@ -377,7 +377,7 @@ describe Child do
       child['audio_attachments']['mp3'].should be_nil
       #Others
       child['recorded_audio'].should == "audio-2010-01-17T140532"
-      child['name'].should be_nil
+      child.name.should be_nil
 
       #Update the child so the current audio is removed.
       properties = {:name => "Some Child Name"}
@@ -388,7 +388,7 @@ describe Child do
       child['audio_attachments'].should be_nil
       #Others
       child['recorded_audio'].should be_nil
-      child['name'].should == "Some Child Name"
+      child.name.should == "Some Child Name"
     end
 
   end
@@ -472,15 +472,15 @@ describe Child do
     it "should save with generated case_id and registration_date" do
       child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
       child.save!
-      child[:case_id].should_not be_nil
-      child[:registration_date].should_not be_nil
+      child.case_id.should_not be_nil
+      child.registration_date.should_not be_nil
     end
 
     it "should allow edit registration_date" do
       child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => '19/Jul/2014')
       child.save!
-      child[:case_id].should_not be_nil
-      child[:registration_date].should eq '19/Jul/2014'
+      child.case_id.should_not be_nil
+      child.registration_date.should eq Date.parse('19/Jul/2014')
     end
 
     it "should not save file formats that are not photo formats" do
@@ -571,24 +571,24 @@ describe Child do
     end
 
     it "should create a posted_at field with the current date" do
-      Clock.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
       child = create_child_with_created_by('some_user', 'some_field' => 'some_value')
-      child['posted_at'].should == "2010-01-22 14:05:00UTC"
+      child.posted_at.should == DateTime.parse("2010-01-22 14:05:00UTC")
     end
 
-    it "should assign name property as '' if name is not passed before saving child record" do
+    it "should assign name property as nil if name is not passed before saving child record" do
       child = Child.new_with_user_name(double('user', :user_name => 'user', :organisation => 'org'), {'some_field' => 'some_value'})
       child.save
       child = Child.get(child.id)
-      child.name.should == ''
+      child.name.should == nil
     end
 
     describe "when the created at field is not supplied" do
 
       it "should create a created_at field with time of creation" do
-        Clock.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
+        DateTime.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
         child = create_child_with_created_by('some_user', 'some_field' => 'some_value')
-        child['created_at'].should == "2010-01-14 14:05:00UTC"
+        child.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
 
     end
@@ -604,16 +604,14 @@ describe Child do
 
   describe "unique id" do
     it "should create a unique id" do
-      child = Child.new
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      child.create_unique_id
-      child["unique_identifier"].should == "12345"
+      child = Child.new
+      child.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      child = Child.new
       UUIDTools::UUID.stub("random_create").and_return(1212127654321)
-      child.create_unique_id
+      child = Child.new
       child.short_id.should == "7654321"
     end
 
@@ -1109,9 +1107,9 @@ describe Child do
     it "should update history with the datetime from last_updated_at" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
       child['last_known_location'] = 'Philadelphia'
-      child['last_updated_at'] = '2010-01-14 14:05:00UTC'
+      child.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
       child.save!
-      child['histories'].first['datetime'].should == '2010-01-14 14:05:00UTC'
+      child['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
     end
 
     describe "photo logging" do

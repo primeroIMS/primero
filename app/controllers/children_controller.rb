@@ -63,7 +63,7 @@ class ChildrenController < ApplicationController
 
     @page_name = t("cases.register_new_case")
     @child = Child.new
-    @child.registration_date = DateTime.now.strftime("%d-%b-%Y")
+    @child.registration_date = Date.today
     @child['record_state'] = ["Valid record"]
     @child['child_status'] = ["Open"]
     @child['module_id'] = params['module_id']
@@ -238,6 +238,13 @@ class ChildrenController < ApplicationController
       puts child.errors.messages
       render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
     end
+  end
+
+  def create_incident
+    authorize! :create, Incident
+    child = Child.get(params[:child_id])
+    #It is a GBV cases and the user indicate that want to create a GBV incident.
+    redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
   end
 
 # DELETE /children/1

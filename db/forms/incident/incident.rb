@@ -41,7 +41,7 @@ incident_fields = [
   Field.new({"name" => "super_incident_name",
              "type" => "text_field",
              "display_name_all" => "Name of Super Incident/Event"
-            }),  
+            }),
   Field.new({"name" => "UN_eyewitness",
              "type" => "radio_button",
              "display_name_all" => "Did UN staff or other MRM-trained affiliate witness the incident?",
@@ -59,7 +59,7 @@ incident_fields = [
   Field.new({"name" => "incident_description",
              "type" => "textarea",
              "display_name_all" => "Account of Incident"
-            }), 
+            }),
   Field.new({"name" => "incident_description_for_public_sharing",
              "type" => "textarea",
              "display_name_all" => "Account of Incident for Public Sharing"
@@ -96,6 +96,16 @@ incident_fields = [
                 "Guest House - Hotel"
               ].join("\n")
             }),
+  Field.new({"name" => "incident_location",
+              "type" => "select_box",
+              "display_name_all" => "Incident Location",
+              "option_strings_source" => "Location",
+              "searchable_select" => true
+            }),
+  Field.new({"name" => "incident_location_notes",
+              "type" => "text_field",
+              "display_name_all" => "Notes on Location"
+            }),
   Field.new({"name" => "incident_latitude",
              "type" => "text_field",
              "display_name_all" => "Latitude"
@@ -104,21 +114,6 @@ incident_fields = [
              "type" => "text_field",
              "display_name_all" => "Longitude"
             }),
-  #TODO: 
-  #      - replace Area, Sub-Area, Camp/Town/Site/Village with the Location lookup field as used elsewhere in the application (e.g., in Cases)
-  #      - add a Notes on Location field; move location and location notes fields to be above Latitude and Longitude fields
-  Field.new({"name" => "incident_location_1", # TODO: Customizable
-             "type" => "text_field",
-             "display_name_all" => "Area"
-            }),
-  Field.new({"name" => "incident_location_2", # TODO: Customizable
-             "type" => "text_field",
-             "display_name_all" => "Sub-Area"
-            }),
-  Field.new({"name" => "Incident_location_3", # TODO: Customizable
-             "type" => "text_field",
-             "display_name_all" => "Camp/Town/Site/Village"
-            }), 
   Field.new({"name" => "number_of_individual_perpetrators",
              "type" => "select_box",
              "display_name_all" => "Number of alleged perpetrator(s)",

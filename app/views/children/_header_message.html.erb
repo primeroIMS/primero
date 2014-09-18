@@ -9,7 +9,7 @@
     <% if child.duplicate? %>
       <p class="duplicate-message"><%= duplicate_message %></p>
     <% end %>
-    <% unless duplicates.empty? %>
+    <% if duplicates.present? %>
       <p class="duplicate-message"><%= t("child.another_duplicate_before_link") %>
       <%= link_to 'here', child_path(duplicates.first) %><%= t("child.another_duplicate_after_link") %></p>
     <% end %>
@@ -18,18 +18,18 @@
       <p>
         <strong><%= t("child.registered_by") %></strong><br> 
         <%= child['created_by'] %> <%= link_to_update_info(child) %><br> 
-        <%= current_user.localize_date(child['created_at']) %>
+        <%= field_format_date(child.created_at) %>
       </p>
       <% if child['last_updated_at']%>
         <p>
           <strong><%= t("child.last_updated") %></strong><br>
-          <%= current_user.localize_date(child['last_updated_at']) %> 
+          <%= field_format_date(child.last_updated_at) %> 
         </p>
       <% end %>
       <% if child['posted_from']=="Mobile" %>
         <p>
           <strong><%= t("child.posted_from_mobile")  %></strong><br>
-          <%= current_user.localize_date(child['posted_at']) %>
+          <%= field_format_date(child.posted_at) %>
         </p>
       <% end %>
     </div>

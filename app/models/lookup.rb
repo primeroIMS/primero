@@ -2,7 +2,7 @@
 class Lookup < CouchRest::Model::Base
   use_database :lookup
 
-  include RapidFTR::Model
+  include PrimeroModel
 
   property :name
   property :description

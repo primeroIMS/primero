@@ -8,7 +8,7 @@ class Child < CouchRest::Model::Base
     'case'
   end
 
-  include RapidFTR::Model
+  include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
   include Record
@@ -20,11 +20,11 @@ class Child < CouchRest::Model::Base
   include AudioUploader
   include Flaggable
 
+  property :case_id
   property :nickname
   property :name
   property :hidden_name, TrueClass, :default => false
-  property :case_id
-  property :registration_date
+  property :registration_date, Date
   property :reunited, TrueClass
   property :investigated, TrueClass
   property :verified, TrueClass
@@ -50,7 +50,10 @@ class Child < CouchRest::Model::Base
     end
 
     self['histories'] = []
+
     super *args
+
+    self.case_id = self.unique_identifier
   end
 
 
@@ -149,9 +152,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_class_specific_fields(fields)
-    self['case_id'] = self.case_id
-    self['name'] = fields['name'] || self.name || ''
-    self['registration_date'] ||= DateTime.now.strftime("%d-%b-%Y")
+    self.registration_date ||= Date.today
   end
 
   def case_id

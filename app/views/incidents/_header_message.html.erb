@@ -9,7 +9,7 @@
     <% if incident.duplicate? %>
         <p class="duplicate-message"><%= duplicate_message %></p>
     <% end %>
-    <% unless duplicates.empty? %>
+    <% if duplicates.present? %>
         <p class="duplicate-message"><%= t("incident.another_duplicate_before_link") %>
         <%= link_to 'here', incident_path(duplicates.first) %><%= t("incident.another_duplicate_after_link") %></p>
     <% end %>
@@ -17,18 +17,18 @@
     <div id='interviewer_details'>
       <p><strong><%= t("incident.registered_by") %></strong><br>
         <%= incident['created_by'] %> <%= link_to_incident_update_info(incident) %><br>
-        <%= current_user.localize_date(incident['created_at']) %>
+        <%= field_format_date(incident.created_at) %>
       </p>
         <% if incident['last_updated_at']%>
           <p>
             <strong><%= t("incident.last_updated") %></strong><br>
-            <%= current_user.localize_date(incident['last_updated_at']) %> 
+            <%= field_format_date(incident.last_updated_at) %> 
           </p>
         <% end %>
         <% if incident['posted_from']=="Mobile" %>
           <p>
             <strong><%= t("incident.posted_from_mobile")  %></strong><br>
-            <%= current_user.localize_date(incident['posted_at']) %>
+            <%= field_format_date(incident.posted_at) %>
           </p>
         <% end %>
     </div>

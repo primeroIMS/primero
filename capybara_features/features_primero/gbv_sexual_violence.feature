@@ -1,4 +1,5 @@
 #JIRA PRIMERO-501
+#JIRA PRIMERO-534
 
 @javascript @primero
 Feature: GBV Sexual Violence
@@ -9,6 +10,8 @@ Feature: GBV Sexual Violence
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Sexual Violence" button
+    And the "Type of service provider where the survivor reported the incident" dropdown should not have the following options:
+      |No|
     And I fill in the following:
       | Type of Incident Violence                                                           | <Select> Denial of Resources, Opportunities, or Services |
       | If Non-GBV, describe                                                                | describe: It is not a GBV                                |

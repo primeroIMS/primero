@@ -17,6 +17,7 @@
 //= require primero.dataTables.js
 //= require plugins/dataTables.responsive
 //= require plugins/popovers
+//= require plugins/autogrow
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations

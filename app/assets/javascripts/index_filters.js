@@ -2,18 +2,20 @@ var IndexFilters = Backbone.View.extend({
 
   pagination: typeof pagination_details === 'undefined' ? false : pagination_details,
 
-  el: 'body',
+  el: '.page_content',
 
   form: 'form#index_filter_form',
 
   events: {
     'click .filter-controls input[type="checkbox"]': 'change_scope',
     'change .filter-controls input[type="text"]': 'change_scope',
+    'change select[filter_type="location"]': 'change_scope',
     'click #apply_filter': 'apply_filters'
   },
 
   initialize: function() {
     this.set_current_scope();
+    _primero.chosen('select.chosen-select:visible');
   },
 
   filters: {},
@@ -41,6 +43,9 @@ var IndexFilters = Backbone.View.extend({
           $(fields[1]).val(current_scope[1]);
           self.set_date_range(fields, name, type);
         }
+      }
+      else if (type === 'location') {
+        self.set_array_filter(name, $(this).val(), type);
       }
     });
   },
@@ -117,6 +122,8 @@ var IndexFilters = Backbone.View.extend({
       // Date Ranges
       var date_inputs = $(target).parents('.filter-controls').find('input');
       this.set_date_range(date_inputs, filter, filter_type);
+    } else if ($(target).is("input") && filter_type === 'location'){
+      this.set_array_filter(filter, selected_val, filter_type);
     } else {
       // Everything else
       this.set_remove_filter(filter, $(target).val(), filter_type);
