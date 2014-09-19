@@ -28,7 +28,8 @@
     </li>
     <%= ctl_create_incident_button(@child) %>
 <% end %>
-
+<% if controller.action_name != 'edit' %>
   <li>
     <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
   </li>
+<% end %>
