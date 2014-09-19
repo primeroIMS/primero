@@ -41,6 +41,7 @@ module Flaggable
         # self.flags.delete_at(index.to_i)
         flag[:unflag_message] =unflag_message
         flag[:removed] = true
+        return flag
       else
         nil
       end

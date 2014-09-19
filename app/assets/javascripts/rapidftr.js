@@ -104,41 +104,6 @@ RapidFTR.childPhotoRotation = {
     }
 };
 
-RapidFTR.showDropdown = function(){
-
-    // $(".dropdown_form").click(function(event) {
-    //     var dropdownDOM = $(".dropdown",this);
-    //     RapidFTR.Utils.toggle(dropdownDOM);
-    // });
-
-    // $(".dropdown_btn").click( function(event){
-    //     $(".dropdown").not(this).hide();
-    //     $(".dropdown",this).show();
-    //     event.stopPropagation();
-    // });
-
-    // $(".dropdown").click(function(event){
-    //     event.stopPropagation();
-    // });
-
-    $('html').click(function(event){
-        //Inspect if the click event was triggered or not
-        //by a datepicker widget, we don't want to close
-        //the flag form in this case.
-        var el = $(event.target),
-            parent = el.parents("div.ui-datepicker");
-        if (parent.length == 0) {
-
-            $(".dropdown").children().each(function() {
-                if ($(this).is('form')) {
-                    $(this).remove();
-                }
-            });
-            $(".dropdown").hide();
-        }
-    });
-};
-
 RapidFTR.Utils = {
     dehumanize: function(val){
         return jQuery.trim(val.toString()).replace(/\s/g, "_").replace(/\W/g, "").toLowerCase();
@@ -151,43 +116,6 @@ RapidFTR.Utils = {
                 return false;
             }
         });
-    },
-
-    toggle: function(selector) {
-        selector.toggleClass('hide').show();
-        selector.find('.add_flag_form').html(RapidFTR.Utils.generateForm(selector));
-    },
-
-    generateForm: function(selector) {
-        var model = selector.data('model');
-        var form_action = selector.data('form_action');
-        var form_id = selector.data('form_id');
-        var authenticity_token =  selector.data('authenticity_token');
-        var message_id = selector.data('message_id');
-        var message = selector.data('message');
-        var message_date = selector.data('message_date');
-        var message_date_id = selector.data('message_date_id');
-        var property = selector.data('property');
-        var redirect_url = selector.data('request_url');
-        var submit_label = selector.data('submit_label');
-        var submit_error_message = selector.data('submit_error_message');
-
-        return "<form accept-charset=\"UTF-8\" action=\""+ form_action +"\" class=\"edit_" + model + "\" " +
-            "id=\""+ form_id +"\" method=\"post\">" +
-            "<div style=\"margin:0;padding:0;display:inline\">" +
-            "<input name=\"utf8\" type=\"hidden\" value=\"✓\">" +
-            "<input name=\"_method\" type=\"hidden\" value=\"put\">" +
-            "<input name=\"authenticity_token\" type=\"hidden\" value=\""+ authenticity_token +"\">"+
-            "<input id=\"" + model + "_redirect_url\" name=\"redirect_url\" type=\"hidden\" value=\""+ redirect_url +"\"></div>" +
-
-            "<div class=\"mark-as-form\">" +
-            "<div class=\"field\"><h3><label for=\"" + model + "_"+ message_id +"\">"+ message +"</label></h3>" +
-            "<input id=\"" + model + "_"+ message_id +"\" name=\"" + message_id +"\" size=\"30\" type=\"text\" value=\"\" class=\"flag_message\"></div>" +
-            "<div class=\"field\"><h3><label for=\"" + model + "_"+ message_date_id +"\">"+ message_date +"</label></h3>" +
-            "<input id=\"" + model + "_"+ message_date_id +"\" name=\"" + message_date_id +"\" size=\"12\" type=\"text\" class=\"form_date_field\"></div>" +
-            "<div class=\"field\"><input class=\"mark-as-submit\" data-error-message=\""+ submit_error_message +"\" id=\"" + model + "_submit\"" +
-            " name=\"commit\" type=\"submit\" value=\""+ submit_label +"\"></div>" +
-            "</div></form>"
     }
 };
 
@@ -215,7 +143,6 @@ $(document).ready(function() {
   }
 
   RapidFTR.Utils.enableFormErrorChecking();
-  RapidFTR.showDropdown();
 
   //Initialize chosen in the current tab. There is a chance that
   //the element we get is a group, if that is the case we need to

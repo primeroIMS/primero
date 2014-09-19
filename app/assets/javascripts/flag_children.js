@@ -1,13 +1,3 @@
-// $(function() {
-//     $(".action_panel li span.flag a").click( function(event){
-//     		console.log('here')
-//         var dropdownDOM = $(this).parent().siblings('.dropdown');
-//         console.log(dropdownDOM)
-//         RapidFTR.Utils.toggle(dropdownDOM);
-//         return false;
-//     });
-// });
-
 var FlagChild = Backbone.View.extend({
 
 	el: 'body',
@@ -15,7 +5,7 @@ var FlagChild = Backbone.View.extend({
 	events: {
 		'click .dropdown_btn': 'show_hide_dropdown',
 		'click .dropdown': 'stop_propagation',
-		'click .remove_flag': 'remove_flag'
+		'click i.remove_flag': 'remove_flag'
 	},
 
 	stop_propagation: function(event) {
@@ -28,14 +18,11 @@ var FlagChild = Backbone.View.extend({
     dropdown.toggleClass('hide').show();
     this.generate_form(dropdown);
 
+    $(dropdown).bind('clickoutside', function(e) {
+    	$(this).toggleClass('hide').hide();
+    });
+
     event.stopPropagation();
-	},
-
-	toggle: function(event) {
-		var dropdown = $(event.target).parent().find('.dropdown');
-
-		dropdown.toggleClass('hide').show();
-    dropdown.find('.add_flag_form').html(this.generate_form(dropdown));
 	},
 
 	generate_form: function(dropdown) {

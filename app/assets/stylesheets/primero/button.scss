@@ -87,8 +87,14 @@
       margin-bottom: 5px;
     }
 
+    i.remove_flag {
+      font-size: 1rem;
+      color: $grey_color;
+    }
+
     input.flag_submit {
       margin-top: 19px;
+      padding: 0 5px  !important;
     }
 
     .remove_flag_record_container {
