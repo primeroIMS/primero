@@ -1,3 +1,12 @@
+
+# Create enough cases to make a second page in the index view
+filler_cases = (0..25).inject({}) do |acc, i|
+  acc.merge({("ff928802-455b-4735-9e5c-4ed9acace1%.2d" % i) => ->(c) do
+    c.name = "Child #{i}"
+    c.created_at = DateTime.new(2014, 01, 01)
+  end})
+end
+
 {
   "ff928802-455b-4735-9e5c-4ed9acace001" => ->(c) do
     c.module_id = 'primeromodule-cp'
@@ -24,7 +33,7 @@
     c.sex = 'Female'
   end,
 
-}.each do |k, v|
+}.merge(filler_cases).each do |k, v|
   default_owner = User.find_by_user_name("primero")
   c = Child.find_by_unique_identifier(k) || Child.new_with_user_name(default_owner, {:unique_identifier => k})
   v.call(c)

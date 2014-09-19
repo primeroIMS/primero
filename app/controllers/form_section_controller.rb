@@ -1,4 +1,8 @@
 class FormSectionController < ApplicationController
+  @model_class = FormSection
+
+  include ExportActions
+  include ImportActions
 
   before_filter :current_modules, :only => [:index, :new, :edit, :create]
   before_filter :parent_form, :only => [:new, :edit]
@@ -9,6 +13,11 @@ class FormSectionController < ApplicationController
   def index
     authorize! :index, FormSection
     @page_name = t("form_section.manage")
+
+    respond_to do |format|
+      format.html
+      respond_to_export(format, @form_sections.values.flatten)
+    end
   end
 
   def new
@@ -120,4 +129,7 @@ class FormSectionController < ApplicationController
     @form_sections = FormSection.group_forms(no_subforms)
   end
 
+  def get_unique_instance(attributes)
+    FormSection.get_by_unique_id(attributes['unique_id'])
+  end
 end

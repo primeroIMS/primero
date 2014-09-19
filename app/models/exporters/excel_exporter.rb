@@ -8,7 +8,7 @@ module Exporters
       end
 
       # @returns: a String with the Excel file data
-      def export(models, properties)
+      def export(models, properties, *args)
         io = StringIO.new
         workbook = WriteExcel.new(io)
         worksheet = workbook.add_worksheet

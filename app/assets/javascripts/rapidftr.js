@@ -106,20 +106,20 @@ RapidFTR.childPhotoRotation = {
 
 RapidFTR.showDropdown = function(){
 
-    $(".dropdown_form").click(function(event) {
-        var dropdownDOM = $(".dropdown",this);
-        RapidFTR.Utils.toggle(dropdownDOM);
-    });
+    // $(".dropdown_form").click(function(event) {
+    //     var dropdownDOM = $(".dropdown",this);
+    //     RapidFTR.Utils.toggle(dropdownDOM);
+    // });
 
-    $(".dropdown_btn").click( function(event){
-        $(".dropdown").not(this).hide();
-        $(".dropdown",this).show();
-        event.stopPropagation();
-    });
+    // $(".dropdown_btn").click( function(event){
+    //     $(".dropdown").not(this).hide();
+    //     $(".dropdown",this).show();
+    //     event.stopPropagation();
+    // });
 
-    $(".dropdown").click(function(event){
-        event.stopPropagation();
-    });
+    // $(".dropdown").click(function(event){
+    //     event.stopPropagation();
+    // });
 
     $('html').click(function(event){
         //Inspect if the click event was triggered or not
@@ -155,9 +155,7 @@ RapidFTR.Utils = {
 
     toggle: function(selector) {
         selector.toggleClass('hide').show();
-        if (selector.children().size() == 0) {
-            selector.append(RapidFTR.Utils.generateForm(selector));
-        }
+        selector.find('.add_flag_form').html(RapidFTR.Utils.generateForm(selector));
     },
 
     generateForm: function(selector) {

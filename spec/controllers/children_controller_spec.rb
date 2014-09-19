@@ -593,13 +593,13 @@ describe ChildrenController do
     end
 
     it "should handle CSV" do
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
       get :index, :format => :csv
     end
 
     it "should encrypt result" do
       password = 's3cr3t'
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
       controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
       get :index, :format => :csv, :password => password

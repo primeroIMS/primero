@@ -1,6 +1,7 @@
 # JIRA PRIMERO-288
 # JIRA PRIMERO-403
 # JIRA PRIMERO-365
+# JIRA PRIMERO-564
 
 @javascript @primero
 Feature: Perpetrator Form
@@ -11,6 +12,17 @@ Feature: Perpetrator Form
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Perpetrator" button
+    And the "Main occupation of alleged perpetrator (if known)" dropdown should have the following options:
+      | label        | selected? |
+      | (Select...)  | yes       |
+      | Other        | no        |
+      | Unemployed   | no        |
+      | Unknown      | no        |
+      | Occupation 1 | no        |
+      | Occupation 2 | no        |
+      | Occupation 3 | no        |
+      | Occupation 4 | no        |
+      | Occupation 5 | no        |
     And I fill in the 1st "Perpetrator Subform Section" subform with the follow:
       | Is this the primary perpetrator? | <Radio> Yes |
       | Was the alleged perpetrator(s) a State or Non-State Actor? | <Select> State Actor |

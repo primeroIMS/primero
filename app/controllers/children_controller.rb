@@ -48,6 +48,8 @@ class ChildrenController < ApplicationController
     @body_class = 'profile-page'
     @duplicates = Child.duplicates_of(params[:id])
 
+    @flag_count = @child.flags.select{|f| !f.removed}.count
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @child }

@@ -4,6 +4,7 @@
 
 @import "foundation/functions";
 @import "compass/css3";
+@import "foundation/components/labels";
 
 ////////////////////////////////////////////////
 // Fonts
@@ -34,6 +35,7 @@ $twenty_px: 1.25rem;
 $twentyfive_px: 1.563rem;
 $sixtythree_px: 3.938rem;
 
+
 ////////////////////////////////////////////////
 // Colors
 ////////////////////////////////////////////////
@@ -58,6 +60,16 @@ $secondary-bg: $grey_color;
 
 $button-font-color: $green_color;
 $button-function-factor: -8%;
+
+.primero_jewel {
+  @include label(
+    $padding: 0.25rem .5rem,
+    $bg: $green_color,
+    $radius: 20px
+  );
+
+  margin: 0 2px;
+}
 
 ////////////////////////////////////////////////
 // Foundation - Topbar overrides

@@ -8,6 +8,7 @@
       <%=	link_to "(" + I18n.t("buttons.change_password") +")", change_password_users_path %>
   <% end %>
   <% end %>
+  <%= render partial: 'exports/button', locals: {model: User, instance: @user} %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>

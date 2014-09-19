@@ -18,7 +18,7 @@ module Exporters
 
       attr_accessor :field_map
 
-      def export(cases, _)
+      def export(cases, *args)
         CSV.generate do |rows|
           # Supposedly Ruby 1.9+ maintains hash insertion ordering
           rows << self.field_map.keys

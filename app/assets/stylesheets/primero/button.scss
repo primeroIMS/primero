@@ -8,6 +8,7 @@
   font-family: 'Roboto-Medium', sans-serif !important;
   font-size: $thirteen_px !important;
   text-transform: uppercase;
+  height: 37px;
   $padding: 0.5rem;
   $radius: false;
   $full-width: false;
@@ -52,40 +53,46 @@
   }
 
   .dropdown {
-    background: #eee;
+    background: $desat_green_color;
     position: absolute;
-    border: 1px solid #9F9F9F;
-    z-index: 999;
-  }
-}
+    z-index: 998;
+    -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+    padding: 10px;
 
-.mark-as-form {
-    padding: .3rem;
+    ul {
+      list-style-type: none;
+      margin-left: 0;
 
-    div.field {
-      width: auto;
-      display: inline-block;
-      float: left;
-      margin: .3rem 0 .5rem .3rem;
-      position: relative;
+      li {
+        border-bottom: 1px dashed #ccc !important;
+        padding: 2px;
+        font-size: $thirteen_px;
 
-      h3 {
-        margin: 0px 5px;
-        label {
-          font-weight: bold;
+        span {
+          font-size: .7rem;
+          color: $light_grey_color;
         }
       }
-
-      input[type="text"] {
-        height: 2rem;
-        float: left;
-      }
-
-      .mark-as-submit {
-        width: auto;
-        height: 2rem;
-        position: relative;
-        top: 20px;
-      }
     }
+
+    label {
+      font-family: 'Roboto-Medium', sans-serif;
+      font-size: $thirteen_px;
+    }
+
+    .add_flag_form {
+      height: 80px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 5px;
+    }
+
+    input.flag_submit {
+      margin-top: 19px;
+    }
+
+    .remove_flag_record_container {
+      margin: 15px 0;
+    }
+  }
 }
