@@ -84,6 +84,8 @@ class ChildrenController < ApplicationController
     authorize! :update, @child
 
     @page_name = t("case.edit")
+    @flag_count = @child.flags.select{|f| !f.removed}.count
+    
   end
 
   # POST /children

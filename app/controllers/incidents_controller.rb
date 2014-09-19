@@ -87,6 +87,8 @@ class IncidentsController < ApplicationController
     authorize! :update, @incident
 
     @page_name = t("incident.edit")
+
+    @flag_count = @incident.flags.select{|f| !f.removed}.count
   end
 
   def create

@@ -77,6 +77,8 @@ class TracingRequestsController < ApplicationController
     authorize! :update, @tracing_request
 
     @page_name = t("tracing_request.edit")
+
+    @flag_count = @tracing_request.flags.select{|f| !f.removed}.count
   end
 
   def create
