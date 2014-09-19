@@ -1,13 +1,34 @@
 <tr>
-  <td>
-    <%= icon('flag', '', class: 'flagged') if record.flagged? %>
-  </td>
-  <td id="incident_<%= record.id %>" class="id_column">
+  <% if fields_to_show.include? 'owned_by_text' %>
+    <% #TODO - Get name or code.  Prob should be in helper%>
+    <td><%= record.owned_by %></td>
+  <% end %>
+  <% if fields_to_show.include? 'short_id' %>
+    <td id="incident_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_incident(record), incident_path(record), class: 'id_link' %>
       <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
-  </td>
-  <td><%= record.survivor_code %></td>
-  <td><%= record.caseworker_code %></td>
-  <td><%= field_format_date(record.date_of_first_report) %></td>
-  <td><%= field_format_date(record.start_date_of_incident_from) %></td>
+      <% if record.flagged? %>
+        <div class="flag_icon">
+          <%= icon('bookmark fa-rotate-270') %>
+          <span><%= record.flags.count %></span>
+        </div>
+      <% end %>
+    </td>
+  <% end %>
+  <% if fields_to_show.include? 'date_of_first_report' %>
+    <td><%= field_format_date(record.date_of_first_report) %></td>
+  <% end %>
+  <% if fields_to_show.include? 'start_date_of_incident_from' %>
+    <% #TODO - Clean up - spreadsheet is a little confusing %>
+    <td><%= field_format_date(record.date_of_incident_from) %></td>
+  <% end %>
+  <% if fields_to_show.include? 'violence_type' %>
+    <td><%= record.gbv_sexual_violence_type %></td>
+  <% end %>
+  <% if fields_to_show.include? 'incident_location' %>
+    <td><%= record.incident_location %></td>
+  <% end %>
+  <% if fields_to_show.include? 'violations' %>
+    <td><%= index_violations(record) %></td>
+  <% end %>
 </tr>
