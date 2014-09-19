@@ -31,6 +31,16 @@ module IndexHelper
     return fields_to_show
   end
 
+  def index_violations(incident)
+    #TODO - WIP
+    violations = incident.violations_list
+    if violations.present?
+      return violations.join ", "
+    else
+      return ""
+    end
+  end
+
   def build_checkboxes(filter, items, type, format = true, filter_type = nil)
     content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
       items.each do |item|
@@ -98,7 +108,7 @@ module IndexHelper
       value = params['scope'][filter]
     end
   end
-
+  
   private
 
   def list_view_header_case
@@ -118,19 +128,26 @@ module IndexHelper
   end
 
   def list_view_header_incident
-    return [
-        {title: nil, sort_title: 'flag'},
-        {title: 'id', sort_title: 'short_id'},
-        {title: 'survivor_code', sort_title: 'survivor_code'},
-        {title: 'case_worker_code', sort_title: 'caseworker_code'},
-        {title: 'date_of_interview', sort_title: 'date_of_first_report'},
-        {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
-    ]
+    header_list = []
+
+    header_list << {title: 'social_worker', sort_title: 'owned_by_text'} if @is_manager
+
+    #TODO - do I need to handle Incident Code???
+    header_list << {title: 'id', sort_title: 'short_id'}
+
+    header_list << {title: 'date_of_interview', sort_title: 'date_of_first_report'} if @is_gbv
+    header_list << {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'}
+    header_list << {title: 'violence_type', sort_title: 'violence_type'} if @is_gbv
+    header_list << {title: 'incident_location', sort_title: 'incident_location'}
+
+    #TODO - how to display violations
+    header_list << {title: 'violations', sort_title: 'violations'} if @is_mrm
+
+    return header_list
   end
 
   def list_view_header_tracing_request
     return [
-        {title: nil, sort_title: 'flag'},
         {title: 'id', sort_title: 'short_id'},
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'}

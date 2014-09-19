@@ -24,10 +24,10 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
       | Survivor Code       | SRV1001                              |
       | Date of Birth       | 23-Sep-2007                          |
       | Sex                 | <Select> Female                      |
-      | Clan or Ethnicity   | <Choose>Ethnicity1<Choose>Ethnicity2 |
+      | Clan or Ethnicity   | <Select> Ethnicity1                  |
       | Country of Origin   | <Select> Country1                    |
-      | Nationality (if different than country of origin) | <Choose>Nationality1<Choose>Nationality2  |
-      | Religion                                          | <Choose>Religion1<Choose>Religion2        |
+      | Nationality (if different than country of origin) | <Select> Nationality1  |
+      | Religion                                          | <Select> Religion1     |
       | Current Civil/Marital Status              | <Select> Single            |
       | Displacement Status at time of report     | <Select> Refugee           |
       | Is the Survivor a Person with Disabilities? | <Select> Mental Disability |
@@ -43,10 +43,10 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
     And I should see a value for "What is the survivor's Date of Birth?" on the show page with the value of "23-Sep-2007"
     And I should see a value for "What is the sex of the survivor?" on the show page with the value of "Female"
-    And I should see a value for "What is the ethnic affiliation of the survivor?" on the show page with the value of "Ethnicity1, Ethnicity2"
+    And I should see a value for "What is the ethnic affiliation of the survivor?" on the show page with the value of "Ethnicity1"
     And I should see a value for "Country of Origin" on the show page with the value of "Country1"
-    And I should see a value for "What is the national affiliation of the survivor?" on the show page with the value of "Nationality1, Nationality2"
-    And I should see a value for "What is the religious affiliation of the survivor?" on the show page with the value of "Religion1, Religion2"
+    And I should see a value for "What is the national affiliation of the survivor?" on the show page with the value of "Nationality1"
+    And I should see a value for "What is the religious affiliation of the survivor?" on the show page with the value of "Religion1"
     And I should see a value for "Current civil/marital status" on the show page with the value of "Single"
     And I should see a value for "Displacement Status at time of report" on the show page with the value of "Refugee"
     And I should see a value for "Is the survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor"
@@ -60,10 +60,10 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
     And I should see a value for "What is the survivor's Date of Birth?" on the show page with the value of "23-Sep-2007"
     And I should see a value for "What is the sex of the survivor?" on the show page with the value of "Female"
-    And I should see a value for "What is the ethnic affiliation of the survivor?" on the show page with the value of "Ethnicity1, Ethnicity2"
+    And I should see a value for "What is the ethnic affiliation of the survivor?" on the show page with the value of "Ethnicity1"
     And I should see a value for "Country of Origin" on the show page with the value of "Country1"
-    And I should see a value for "What is the national affiliation of the survivor?" on the show page with the value of "Nationality1, Nationality2"
-    And I should see a value for "What is the religious affiliation of the survivor?" on the show page with the value of "Religion1, Religion2"
+    And I should see a value for "What is the national affiliation of the survivor?" on the show page with the value of "Nationality1"
+    And I should see a value for "What is the religious affiliation of the survivor?" on the show page with the value of "Religion1"
     And I should see a value for "Current civil/marital status" on the show page with the value of "Single"
     And I should see a value for "Displacement Status at time of report" on the show page with the value of "Refugee"
     And I should see a value for "Is the survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor"

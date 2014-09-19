@@ -15,7 +15,6 @@ class Child < CouchRest::Model::Base
   include DocumentHelper
 
   include Ownable
-  include Searchable #Needs to be after ownable
   include PhotoUploader
   include AudioUploader
   include Flaggable
@@ -77,6 +76,14 @@ class Child < CouchRest::Model::Base
               }
             }"
   end
+
+  def self.quicksearch_fields
+    [
+      'unique_identifier', 'short_id', 'name', 'name_nickname', 'name_other',
+      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'un_no', 'other_agency_id'
+    ]
+  end
+  include Searchable #Needs to be after ownable, quicksearch fields
 
   def self.fetch_all_ids_and_revs
     ids_and_revs = []
@@ -143,6 +150,7 @@ class Child < CouchRest::Model::Base
   end
 
 
+  #TODO: Keep this?
   def self.search_field
     "name"
   end

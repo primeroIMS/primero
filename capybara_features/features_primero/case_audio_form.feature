@@ -53,7 +53,7 @@ Feature: Case Audio Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I access the "cases page"
-    And the record for "Shaggy" should display a "picture-o" icon beside it
+    And the record for "Shaggy" should display a "camera" icon beside it
 
   Scenario: I upload a audio file with the correct size and format
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
@@ -65,7 +65,7 @@ Feature: Case Audio Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I access the "cases page"
-    And the record for "Shaggy" should not display a "picture-o" icon beside it
+    And the record for "Shaggy" should not display a "camera" icon beside it
 
   Scenario: Uploading multiple images
     Given I am logged in as a social worker with username "primero_cp" and password "primero"

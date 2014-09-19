@@ -6,7 +6,6 @@ class TracingRequest < CouchRest::Model::Base
 
   include Record
   include Ownable
-  include Searchable #Needs to be after ownable
   include PhotoUploader
   include AudioUploader
   include Flaggable
@@ -43,16 +42,41 @@ class TracingRequest < CouchRest::Model::Base
             }"
   end
 
+  def self.quicksearch_fields
+    [
+      'tracing_request_id', 'short_id', 'relation_name', 'relation_nickname', 'tracing_names', 'tracing_nicknames',
+      'monitor_number', 'survivor_code'
+    ]
+  end
+  include Searchable #Needs to be after ownable
+
   def self.find_by_tracing_request_id(tracing_request_id)
     by_tracing_request_id(:key => tracing_request_id).first
   end
 
+  #TODO: Keep this?
   def self.search_field
     "relation_name"
   end
 
   def self.view_by_field_list
     ['created_at', 'relation_name']
+  end
+
+  def tracing_names
+    names = []
+    if self.tracing_request_subform_section.present?
+      names = self.tracing_request_subform_section.map(&:name).compact
+    end
+    return names
+  end
+
+  def tracing_nicknames
+    names = []
+    if self.tracing_request_subform_section.present?
+      names = self.tracing_request_subform_section.map(&:name_nickname).compact
+    end
+    return names
   end
 
   def create_class_specific_fields(fields)

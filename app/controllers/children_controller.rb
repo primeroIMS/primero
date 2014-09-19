@@ -17,7 +17,7 @@ class ChildrenController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
-    search = Child.list_records case_filter(filter), order, pagination, users_filter
+    search = Child.list_records case_filter(filter), order, pagination, users_filter, params[:query]
     @children = search.results
     @total_records = search.total
     @per_page = per_page
@@ -47,8 +47,6 @@ class ChildrenController < ApplicationController
     @page_name = t "case.view", :short_id => @child.short_id
     @body_class = 'profile-page'
     @duplicates = Child.duplicates_of(params[:id])
-
-    @flag_count = @child.flags.select{|f| !f.removed}.count
 
     respond_to do |format|
       format.html

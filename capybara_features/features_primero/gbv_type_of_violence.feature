@@ -1,15 +1,16 @@
 #JIRA PRIMERO-501
 #JIRA PRIMERO-534
+#JIRA PRIMERO-553
 
 @javascript @primero
-Feature: GBV Sexual Violence
+Feature: Type of Violence
   As a GBV Social Worker / Data Entry Person, I want to enter information about the GBV Sexual Violence on the incident.
 
   Scenario: As a logged in user, I will create a GBV incident for sexual violence
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
-    And I press the "Sexual Violence" button
+    And I press the "Type of Violence" button
     And the "Type of service provider where the survivor reported the incident" dropdown should not have the following options:
       |No|
     And I fill in the following:

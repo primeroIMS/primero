@@ -1,6 +1,7 @@
 # JIRA PRIMERO-247
 # JIRA PRIMERO-248
 # JIRA PRIMERO-463
+# JIRA PRIMERO-562
 
 @javascript @primero @search
 Feature: Hide Name
@@ -117,3 +118,24 @@ Feature: Hide Name
     When I access "cases page"
     And I should see "Tiki Thomas Taliaferro" on the page
     And I should see "*****" on the page
+
+  Scenario: On the Case forms, when I change a name, hide it, then save then go back and view the name, it should be the name I edited before hiding.
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    When I access "cases page"
+    And I press the "New Case" button
+    And I fill in "Name" with "Tiki Thomas Taliaferro"
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I press the "Edit" button
+    And I fill in "Name" with "Edited Name"
+    And I press the "Hide Name" link
+    And I wait for 2 seconds
+    And the "Name" field should be disabled
+    And the disabled "Name" field should have the value of "*****"
+    And I press "Save"
+    And I should see "Case was successfully updated" on the page
+    And I should see a value for "Name" on the show page with the value of "*****"
+    And I press the "Edit" button
+    And I press the "View Name" link
+    And I wait for 2 seconds
+    And the "Name" field should contain "Edited Name"

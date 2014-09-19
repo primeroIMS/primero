@@ -82,7 +82,79 @@ describe IndexHelper do
   end
 
   context "Viewing incidents"  do
-    #TODO - coming in future story
+    context "when MRM" do
+      before :each do
+        @view.instance_variable_set(:@is_mrm, true)
+        @view.instance_variable_set(:@is_gbv, false)
+      end
+
+      context "when the signed in user is a field worker" do
+        before :each do
+          @view.instance_variable_set(:@is_manager, false)
+        end
+        it "should return a header list" do
+          @view.list_view_header('incident').should == [
+                                                    {:title=>"id", :sort_title=>"short_id"},
+                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
+                                                    {title: 'incident_location', sort_title: 'incident_location'},
+                                                    {title: 'violations', sort_title: 'violations'}
+                                                   ]
+        end
+      end
+
+      context "when the signed in user is a manager" do
+        before :each do
+          @view.instance_variable_set(:@is_manager, true)
+        end
+        it "should return a header list" do
+          @view.list_view_header('incident').should == [
+                                                    {:title=>"social_worker", :sort_title=>"owned_by_text"},
+                                                    {:title=>"id", :sort_title=>"short_id"},
+                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
+                                                    {title: 'incident_location', sort_title: 'incident_location'},
+                                                    {title: 'violations', sort_title: 'violations'}
+                                                   ]
+        end
+      end
+    end
+
+    context "when GBV" do
+      before :each do
+        @view.instance_variable_set(:@is_mrm, false)
+        @view.instance_variable_set(:@is_gbv, true)
+      end
+
+      context "when the signed in user is a field worker" do
+        before :each do
+          @view.instance_variable_set(:@is_manager, false)
+        end
+        it "should return a header list" do
+          @view.list_view_header('incident').should == [
+                                                    {:title=>"id", :sort_title=>"short_id"},
+                                                    {title: 'date_of_interview', sort_title: 'date_of_first_report'},
+                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
+                                                    {title: 'violence_type', sort_title: 'violence_type'},
+                                                    {title: 'incident_location', sort_title: 'incident_location'}
+                                                   ]
+        end
+      end
+
+      context "when the signed in user is a manager" do
+        before :each do
+          @view.instance_variable_set(:@is_manager, true)
+        end
+        it "should return a header list" do
+          @view.list_view_header('incident').should == [
+                                                    {:title=>"social_worker", :sort_title=>"owned_by_text"},
+                                                    {:title=>"id", :sort_title=>"short_id"},
+                                                    {title: 'date_of_interview', sort_title: 'date_of_first_report'},
+                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
+                                                    {title: 'violence_type', sort_title: 'violence_type'},
+                                                    {title: 'incident_location', sort_title: 'incident_location'}
+                                                   ]
+        end
+      end
+    end
   end
 
   context "Viewing tracing requests"  do

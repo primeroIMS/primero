@@ -2,8 +2,8 @@
     <span id="<%= mark_as_property %>" class="<%= style %>">
       <%= link_to "#", class: button_style do %>
         <%= mark_as_label %>
-        <% if record.flagged? %>
-          <span class="primero_jewel"><%= @flag_count %></span>
+        <% if record.flagged? && record.flag_count > 0 %>
+          <span class="primero_jewel"><%= record.flag_count %></span>
         <% end %>
       <% end %>
     </span>
@@ -29,7 +29,7 @@
         <% record.flags.each_with_index do |f, i| %>
           <% unless f.removed %>
           <li>
-            <a class="right remove_flag" data-message="<%= f.message %>" data-message_index="<%= i %>">x</a>
+            <i class="right fa fa-times-circle remove_flag" data-message="<%= f.message %>" data-message_index="<%= i %>"></i>
             <%= f.message %><br>
             <span><%= f.flagged_by %> <% if f.date %>|<% end %> <%= f.date %></span>
           </li>

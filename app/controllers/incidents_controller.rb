@@ -16,7 +16,7 @@ class IncidentsController < ApplicationController
     @aside = 'shared/sidebar_links'
 
     @associated_users = current_user.managed_user_names
-    search = Incident.list_records filter, order, pagination, users_filter
+    search = Incident.list_records filter, order, pagination, users_filter, params[:query]
     @incidents = search.results
     @total_records = search.total
     @per_page = per_page

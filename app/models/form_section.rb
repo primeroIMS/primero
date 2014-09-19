@@ -56,6 +56,10 @@ class FormSection < CouchRest::Model::Base
   validate :validate_fixed_order
   validate :validate_perm_visible
 
+  def inspect
+    "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
+  end
+
   def valid_presence_of_base_language_name
     if base_language==nil
       self.base_language='en'
@@ -421,5 +425,4 @@ class FormSection < CouchRest::Model::Base
   def create_unique_id
     self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
   end
-
 end
