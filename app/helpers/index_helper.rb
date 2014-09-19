@@ -108,13 +108,6 @@ module IndexHelper
       value = params['scope'][filter]
     end
   end
-
-  def display_flag_count(flags)
-    count = flags.select{|f| !f.removed}.count
-    if count > 0
-      return count
-    end
-  end
   
   private
 
@@ -155,7 +148,6 @@ module IndexHelper
 
   def list_view_header_tracing_request
     return [
-        {title: nil, sort_title: 'flag'},
         {title: 'id', sort_title: 'short_id'},
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'}

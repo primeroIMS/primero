@@ -9,6 +9,15 @@ case_closure_fields = [
              "type" => "date_field",
              "display_name_all" => "Case Closure Date"
             }),
+  Field.new({"name" => "child_status",
+             "type" =>"select_box" ,
+             "display_name_all" => "Case Status",
+             "option_strings_text_all" => 
+                          ["Open",
+                           "Closed",
+                           "Transferred",
+                           "Duplicate"].join("\n")
+            }),
   Field.new({"name" => "closure_assessment",
              "type" => "text_field",
              "display_name_all" => "Closure Assessement"
