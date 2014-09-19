@@ -36,7 +36,7 @@ RapidFTR.activateToggleFormSectionLinks = function() {
     return function() {
             if(!$('#form_sections input:checked').length) {
                 alert(I18n.t("messages.show_hide_forms"));
-            } 
+            }
                 else if(confirm(message)) {
     		    $("#enable_or_disable_form_section").attr("action", "form_section/" + action).submit();
     		return true;
@@ -45,7 +45,7 @@ RapidFTR.activateToggleFormSectionLinks = function() {
 			}
     };
   }
-  
+
   $("#enable_form").click(toggleFormSection("enable", I18n.t("messages.show_forms")));
   $("#disable_form").click(toggleFormSection("disable", I18n.t("messages.hide_forms")));
 }
@@ -193,6 +193,7 @@ RapidFTR.Utils = {
     }
 };
 
+//TODO: No longer used. Delete.
 RapidFTR.validateSearch = function() {
   var query = $("#query").val();
   if (query == undefined || query == null || query.toString().trim() == "") {
