@@ -1,117 +1,168 @@
-module Record
+module Historical
   extend ActiveSupport::Concern
+  include Ownable
+  include PrimeroModel
 
   included do
     before_save :update_history, :unless => :new?
     before_save :update_organisation
     before_save :add_creation_history, :if => :new?
-  end
 
-  def update_history
-    if self.changed?
-      require 'pry'; binding.pry
-      changes = changes_to_history(self.changes, self.properties_by_name)
-      (add_to_history(changes) unless (!self['histories'].empty? && (self['histories'].last["changes"].to_s.include? changes.to_s)))
-      self.previously_owned_by = original_data['owned_by']
+    property :created_organisation
+    property :created_by
+    property :created_by_full_name
+    property :created_at, DateTime
+    property :last_updated_at, DateTime
+    property :last_updated_by
+    property :last_updated_by_full_name
+    property :posted_at, DateTime
+
+    validate :validate_created_at
+    validate :validate_last_updated_at
+
+    property :histories, [Class.new do
+      include CouchRest::Model::Embeddable
+
+      property 'datetime', DateTime
+      property 'user_name', String
+      property 'user_organization', String
+      property 'action', Symbol, :init_method => 'to_sym'
+      property 'changes', Hash, :default => {}
+    end], :default => []
+
+    design do
+      view :by_created_by
     end
   end
 
+  module ClassMethods
+    def all_by_creator(created_by)
+      self.by_created_by :key => created_by
+    end
+  end
+
+  def validate_created_at
+    unless self.created_at.nil? || self.created_at.is_a?(DateTime)
+      errors.add(:created_at, '')
+    end
+  end
+
+  def validate_last_updated_at
+    unless self.last_updated_at.nil? || self.last_updated_at.is_a?(DateTime)
+      errors.add(:last_updated_at, '')
+    end
+  end
+
+  def set_creation_fields_for(user)
+    self.last_updated_by = self.created_by = user.try(:user_name)
+    self.created_by_full_name = user.try(:full_name)
+    self.created_organisation = user.try(:organisation)
+    self.last_updated_at ||= self.created_at ||= DateTime.now
+    self.posted_at = DateTime.now
+  end
+
+  def update_organisation
+    self.created_organisation ||= created_by_user.try(:organisation)
+  end
+
+  def created_by_user
+    User.find_by_user_name self.created_by unless self.created_by.to_s.empty?
+  end
+
+  def set_updated_fields_for(user_name)
+    self.last_updated_by = user_name
+    self.last_updated_at = DateTime.now
+  end
+
   def ordered_histories
-    (self["histories"] || []).sort { |that, this| DateTime.parse(this["datetime"]) <=> DateTime.parse(that["datetime"]) }
+    (self.histories || []).sort { |that, this| DateTime.parse(this["datetime"]) <=> DateTime.parse(that["datetime"]) }
+  end
+
+  def update_history
+    require 'pry'; binding.pry
+    if self.changed?
+      history_changes = changes_to_history(self.changes, self.properties_by_name)
+      add_update_to_history(history_changes)
+    end
+    true
   end
 
   def add_creation_history
-    self['histories'].unshift({
-                                  'user_name' => created_by,
-                                  'user_organisation' => organisation_of(created_by),
-                                  'datetime' => created_at,
-                                  'changes' => {"#{self.class.name.underscore.downcase}" => {:created => created_at}}
-                              })
+    without_dirty_tracking do
+      self.histories.unshift({
+        :user_name => created_by,
+        :user_organisation => organisation_of(created_by),
+        :datetime => created_at,
+        :action => :create,
+      })
+    end
+    true
   end
 
-  def add_to_history(changes)
-    last_updated_user_name = last_updated_by
-    self['histories'].unshift({
-                                  'user_name' => last_updated_user_name,
-                                  'user_organisation' => organisation_of(last_updated_user_name),
-                                  'datetime' => last_updated_at,
-                                  'changes' => changes})
+  def add_update_to_history(changes)
+    without_dirty_tracking do
+      self.histories.unshift({
+        :user_name => last_updated_by,
+        :user_organisation => organisation_of(last_updated_by),
+        :datetime => last_updated_at,
+        :action => :update,
+        :changes => changes,
+      })
+    end
   end
 
   def organisation_of(user_name)
     User.find_by_user_name(user_name).try(:organisation)
   end
 
-  def field_name_changes
-    other_fields = [
-        "flags",
-        "reunited", "reunited_message",
-        "investigated", "investigated_message",
-        "duplicate", "duplicate_of", "owned_by"
-    ]
-    all_fields = model_field_names + other_fields
-    all_fields.select { |field_name| changed_field?(field_name) }
-  end
+  private
 
   def changes_to_history(changes, properties_by_name)
     changes.inject({}) do |acc, (prop_name, (prev, current))|
-      change_hash = if properties_by_name.include?(prop_name)
-        prop = properties_by_name[prop_name]
-        if prop.array
-          (prev_hash, current_hash) = [prev, current].map do |arr|
-                                        arr.inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
-                                      end
+      prop = properties_by_name[prop_name]
+      require 'pry'; binding.pry
+      return acc if prop.nil? 
 
-          (prev_hash.keys & current_hash.keys).map do |k|
-            if prev_hash[k] != current_hash[k]
-              {
-                'from' => prev_hash[k].to_hash,
-                'to' => current_hash[k].to_hash,
-              }
-            end
-          end.compact
-        elsif prop.type.include? CouchRest::Model::Embeddable
-          # TODO: Make more generic
-          prop.type.properties_by_name.inject({}) do |acc2, sub_prop|
-            changes_to_history([prev, current].map {|h| h.__send__(sub_prop.name)}, sub_prop.type.properties_by_name)
+      change_hash = if prop.array && prop.type.include?(CouchRest::Model::Embeddable)
+        (prev_hash, current_hash) = [prev, current].map do |arr|
+                                      arr.inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
+                                    end
+
+        (prev_hash.keys | current_hash.keys).map do |k|
+          if prev_hash[k] != current_hash[k]
+            {
+              :from => prev_hash[k].try(:to_hash),
+              :to => current_hash[k].try(:to_hash),
+            }
           end
+        end.compact
+      elsif prop.type.include? CouchRest::Model::Embeddable
+        # TODO: Make more generic
+        prop.type.properties_by_name.inject({}) do |acc2, sub_prop|
+          changes_to_history([prev, current].map {|h| h.__send__(sub_prop.name)}, sub_prop.type.properties_by_name)
         end
       else
-        change_hash = {
-            'from' => prev,
-            'to' => current,
-          }
+        {
+          :from => prev,
+          :to => current,
+        }
       end
       acc.merge({prop_name => change_hash})
     end
   end
 
-  def changed_field?(field_name)
-    return false if self[field_name].blank? && original_data[field_name].blank?
-    return true if original_data[field_name].blank?
-    if self[field_name].respond_to? :strip and original_data[field_name].respond_to? :strip
-      self[field_name].strip != original_data[field_name].strip
-    else
-      self[field_name] != original_data[field_name]
-    end
-  end
-
-  def original_data
-    (@original_data ||= self.class.get(self.id) rescue nil) || self
-  end
-
-  private
-
   def merge_histories(given_histories)
-    current_histories = self['histories']
-    to_be_merged = []
-    (given_histories || []).each do |history|
-      matched = current_histories.find do |c_history|
-        c_history["user_name"] == history["user_name"] && c_history["datetime"] == history["datetime"] && c_history["changes"].keys == history["changes"].keys
+    without_dirty_tracking do
+      current_histories = self.histories
+      to_be_merged = []
+      (given_histories || []).each do |history|
+        matched = current_histories.find do |c_history|
+          c_history.user_name == history.user_name && c_history.datetime == history.datetime && c_history.changes.keys == history.changes.keys
+        end
+        to_be_merged.push(history) unless matched
       end
-      to_be_merged.push(history) unless matched
+      self.histories = current_histories.push(to_be_merged).flatten!
     end
-    self["histories"] = current_histories.push(to_be_merged).flatten!
   end
 
 end

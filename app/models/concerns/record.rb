@@ -7,22 +7,14 @@ module Record
   include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
   include RapidFTR::Clock
+  include Historical
 
   included do
-    before_save :update_history, :unless => :new?
-    before_save :update_organisation
-    before_save :add_creation_history, :if => :new?
-
     property :unique_identifier
-    property :created_organisation
-    property :created_by
-    property :created_at, DateTime
-    property :last_updated_at, DateTime
-    property :last_updated_by
-    property :last_updated_by_full_name
-    property :posted_at, DateTime
     property :duplicate, TrueClass
+    property :duplicate_of, String
     property :short_id
+    property :record_state, String
     property :flag_at, DateTime
     property :reunited_at, DateTime
 
@@ -31,8 +23,6 @@ module Record
 
     create_form_properties
 
-    validate :validate_created_at
-    validate :validate_last_updated_at
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD
@@ -75,8 +65,6 @@ module Record
                    }
                 }"
 
-      view :by_created_by
-
       view :by_duplicate,
               :map => "function(doc) {
                 if (doc.hasOwnProperty('duplicate')) {
@@ -96,7 +84,7 @@ module Record
 
   module ClassMethods
     include FormToPropertiesConverter
-
+ 
     def new_with_user_name(user, fields = {})
       record = new(blank_to_nil(convert_arrays(fields)))
       record.create_class_specific_fields(fields)
@@ -187,10 +175,6 @@ module Record
        (self.by_user_name(:key => user_name).all + self.all_by_creator(user_name).all).uniq {|record| record.unique_identifier}
     end
 
-    def all_by_creator(created_by)
-      self.by_created_by :key => created_by
-    end
-
     # this is a helper to see the duplicates for test purposes ... needs some more thought. - cg
     def duplicates
       by_duplicate(:key => true)
@@ -199,7 +183,6 @@ module Record
     def duplicates_of(id)
       by_duplicates_of(:key => id).all
     end
-
   end
 
   def initialize(*args)
@@ -207,7 +190,7 @@ module Record
 
     self.create_unique_id
     self.short_id = self.unique_identifier.last 7
-    self['record_state'] = "Valid record" if self['record_state'].blank?
+    self.record_state = "Valid record" if self.record_state.blank?
   end
 
   def create_unique_id
@@ -215,23 +198,11 @@ module Record
   end
 
   def valid_record?
-    self['record_state'] == "Valid record"
-  end
-
-  def validate_created_at
-    unless self.created_at.nil? || self.created_at.is_a?(DateTime)
-      errors.add(:created_at, '')
-    end
-  end
-
-  def validate_last_updated_at
-    unless self.last_updated_at.nil? || self.last_updated_at.is_a?(DateTime)
-      errors.add(:last_updated_at, '')
-    end
+    self.record_state == "Valid record"
   end
 
   def validate_duplicate_of
-    return errors.add(:duplicate, I18n.t("errors.models.child.validate_duplicate")) if self["duplicate"] && self["duplicate_of"].blank?
+    return errors.add(:duplicate, I18n.t("errors.models.child.validate_duplicate")) if self.duplicate && self.duplicate_of.blank?
   end
 
   def method_missing(m, *args, &block)
@@ -239,8 +210,8 @@ module Record
   end
 
   def mark_as_duplicate(parent_id)
-    self['duplicate'] = true
-    self['duplicate_of'] = self.class.by_short_id(:key => parent_id).first.try(:id)
+    self.duplicate = true
+    self.duplicate_of = self.class.by_short_id(:key => parent_id).first.try(:id)
   end
 
   def model_name_for_messages
@@ -260,27 +231,6 @@ module Record
           order: lookup.order }
       errors.add(:section_errors, error_info)
     end
-  end
-
-  def set_creation_fields_for(user)
-    self.last_updated_by = self.created_by = user.try(:user_name)
-    self['created_by_full_name'] = user.try(:full_name)
-    self['created_organisation'] = user.try(:organisation)
-    self.last_updated_at ||= self.created_at ||= DateTime.now
-    self.posted_at = DateTime.now
-  end
-
-  def update_organisation
-    self['created_organisation'] ||= created_by_user.try(:organisation)
-  end
-
-  def created_by_user
-    User.find_by_user_name self.created_by unless self.created_by.to_s.empty?
-  end
-
-  def set_updated_fields_for(user_name)
-    self.last_updated_by = user_name
-    self.last_updated_at = DateTime.now
   end
 
   def update_with_attachments(params, user)

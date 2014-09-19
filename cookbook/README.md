@@ -10,10 +10,6 @@ Designed to run on Ubuntu 12.04 (to be upgraded to 14.04 LTS).
 Attributes
 ----------
 
- **node[:primero][:environment]** (Required) - This attribute is used to select
- the ssh keys for the server among other things.  Permitted values: dev, qa,
- uat, prod
-
 Usage
 -----
 #### primero::default
