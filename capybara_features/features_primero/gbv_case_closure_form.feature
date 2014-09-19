@@ -1,4 +1,5 @@
 # JIRA PRIMERO-486
+# JIRA PRIMERO-596
 
 @javascript @primero
 Feature: GBV Case Closure Form
@@ -50,3 +51,36 @@ Feature: GBV Case Closure Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case Closure Date" on the show page with the value of "03-Sep-2014"
+
+  Scenario: The Case Closure Form should have the Case Status field. This should be shared with Survivor Information Form
+    Given I am logged in as an admin with username "primero_gbv" and password "primero"
+    When I access "cases page"
+    And I press the "New Case" button
+    And I press the "Case Closure" button
+    And the "Case Status" dropdown should have the following options:
+      | label        | selected? |
+      | (Select...)  | no        |
+      | Open         | yes       |
+      | Closed       | no        |
+      | Transferred  | no        |
+      | Duplicate    | no        |
+    And I fill in the following:
+      | Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days) | <Radio> Yes                  |
+      | Survivor’s safety plan has been reviewed and is in place                                                                                   | <Radio> No                   |
+      | Explain (safety plan)                                                                                                                      | Safety plan explanation      |
+      | The case plan is complete and satisfactory, and follow-up is finished                                                                      | <Radio> Yes                  |
+      | Explain (complete and satisfactory)                                                                                                        | Some text                    |
+      | The survivor client and caseworker agree that no further support is needed                                                                 | <Radio> Yes                  |
+      | Survivor has been informed that she can resume services at any time                                                                        | <Radio> Yes                  |
+      | Case supervisor has reviewed case closure/exit plan                                                                                        | <Radio> Yes                  |
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I should see a value for "Case Status" on the show page with the value of "Open"
+    And I should see a value for "Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days)" on the show page with the value of "Yes"
+    And I should see a value for "Survivor’s safety plan has been reviewed and is in place" on the show page with the value of "No"
+    And I should see a value for "Explain (safety plan)" on the show page with the value of "Safety plan explanation"
+    And I should see a value for "The case plan is complete and satisfactory, and follow-up is finished" on the show page with the value of "Yes"
+    And I should see a value for "Explain (complete and satisfactory)" on the show page with the value of "Some text"
+    And I should see a value for "The survivor client and caseworker agree that no further support is needed" on the show page with the value of "Yes"
+    And I should see a value for "Survivor has been informed that she can resume services at any time" on the show page with the value of "Yes"
+    And I should see a value for "Case supervisor has reviewed case closure/exit plan" on the show page with the value of "Yes"
