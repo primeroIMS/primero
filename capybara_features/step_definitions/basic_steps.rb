@@ -74,7 +74,7 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
           find(:xpath, ".//span[@class='value']/..").text.should eq(content)
         else
           #Find the element that represent the value.
-          find(:xpath, ".//span[@class='value' and . = '#{content}']")
+          find(:xpath, ".//span[@class='value' and . = \"#{content}\"]")
         end
       end
     end
