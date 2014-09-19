@@ -24,7 +24,6 @@ module IndexHelper
         ]
       when "incident"
         return [
-            {title: nil, sort_title: 'flag'},
             {title: 'id', sort_title: 'short_id'},
             {title: 'survivor_code', sort_title: 'survivor_code'},
             {title: 'case_worker_code', sort_title: 'caseworker_code'},

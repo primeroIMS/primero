@@ -18,10 +18,6 @@ var FlagChild = Backbone.View.extend({
     dropdown.toggleClass('hide').show();
     this.generate_form(dropdown);
 
-    $(dropdown).bind('clickoutside', function(e) {
-    	$(this).toggleClass('hide').hide();
-    });
-
     event.stopPropagation();
 	},
 

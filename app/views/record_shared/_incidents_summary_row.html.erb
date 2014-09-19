@@ -1,10 +1,13 @@
 <tr>
-  <td>
-    <%= icon('flag', '', class: 'flagged') if record.flagged? %>
-  </td>
   <td id="incident_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_incident(record), incident_path(record), class: 'id_link' %>
       <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
+      <% if record.flagged? && display_flag_count(record.flags) %>
+        <div class="flag_icon">
+          <%= icon('bookmark fa-rotate-270') %>
+          <span><%= display_flag_count(record.flags) %></span>
+        </div>
+      <% end %>
   </td>
   <td><%= record.survivor_code %></td>
   <td><%= record.caseworker_code %></td>
