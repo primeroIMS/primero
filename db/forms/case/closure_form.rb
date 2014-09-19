@@ -28,8 +28,10 @@ closure_fields = [
              "display_name_all" => "Caregiver Address",
             }),
   Field.new({"name" => "location_caregiver_closing",
-             "type" => "text_field",
+             "type" => "select_box",
              "display_name_all" => "Caregiver Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             })
 ]
 

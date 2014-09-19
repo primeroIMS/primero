@@ -28,8 +28,10 @@ source_subform_fields = [
                            "Option3"].join("\n")
             }),
   Field.new({"name" => "location_report",
-             "type" => "text_field",
-             "display_name_all" => "Location of Report"
+             "type" => "select_box",
+             "display_name_all" => "Location of Report",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "source_type",
              "type" => "select_box",

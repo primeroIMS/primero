@@ -119,16 +119,20 @@ family_details_fields_subform = [
              "display_name_all" => "Is this a permanent location?"
             }),
   Field.new({"name" => "relation_location_current",
-             "type" => "text_field",
-             "display_name_all" => "Current Location"
+             "type" => "select_box",
+             "display_name_all" => "Current Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
            }),
   Field.new({"name" => "relation_address_last",
              "type" => "text_field",
              "display_name_all" => "Last Known Address"
            }),
   Field.new({"name" => "relation_location_last",
-             "type" => "text_field",
-             "display_name_all" => "Last Known Location"
+             "type" => "select_box",
+             "display_name_all" => "Last Known Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
            }),
   Field.new({"name" => "relation_telephone",
              "type" => "text_field",

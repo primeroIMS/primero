@@ -29,8 +29,10 @@ interview_details_fields = [
              "display_name_all" => "Interview Landmark"
             }),
   Field.new({"name" => "location_interview",
-             "type" =>"text_field" ,
-             "display_name_all" => "Interview Location"
+             "type" =>"select_box",
+             "display_name_all" => "Interview Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "source_interview",
              "type" =>"select_box" ,

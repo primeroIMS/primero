@@ -29,8 +29,10 @@ other_identity_details_fields = [
             }),
   #TODO location picker
   Field.new({"name" => "location_last",
-             "type" =>"text_field" ,
-             "display_name_all" => "Last Location"
+             "type" =>"select_box" ,
+             "display_name_all" => "Last Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "telephone_last",
              "type" => "text_field",
