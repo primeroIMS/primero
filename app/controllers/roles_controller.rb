@@ -1,4 +1,8 @@
 class RolesController < ApplicationController
+  @model_class = Role
+
+  include ExportActions
+  include ImportActions
 
   def index
     authorize! :index, Role
@@ -6,11 +10,21 @@ class RolesController < ApplicationController
     sort_option = params[:sort_by_descending_order] || false
     params[:show] ||= "All"
     @roles = params[:show] == "All" ? Role.by_name(:descending => sort_option) : Role.by_name(:descending => sort_option).find_all{|role| role.has_permission(params[:show])}
+
+    respond_to do |format|
+      format.html
+      respond_to_export(format, @roles)
+    end
   end
 
   def show
     @role = Role.get(params[:id])
     authorize! :view, @role
+
+    respond_to do |format|
+      format.html
+      respond_to_export(format, [@role])
+    end
   end
 
   def edit
@@ -41,5 +55,9 @@ class RolesController < ApplicationController
     @role = Role.new(params[:role])
     return redirect_to roles_path if @role.save
     render :new
+  end
+
+  def get_unique_instance(attributes)
+    Role.find_by_name(attributes['name'])
   end
 end

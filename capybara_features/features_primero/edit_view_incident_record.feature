@@ -33,6 +33,5 @@ Feature: Edit and View Incident Record
     And I press the "7af3aa9" link
     And I should see a value for "Date of First Report" on the show page with the value of "03-Feb-2004"
     And I should see a value for "Time of day that the Incident took place" on the show page with the value of "Afternoon (noon to sunset)"
-    And I should see a value for "Incident Total Victims/Survivors:Boys" on the show page with the value of "3"
     And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls: Unknown: Total incident total victims/survivors:3"
 

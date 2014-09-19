@@ -10,6 +10,10 @@ Then /^I should see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
+Then /^I should not see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
+  expect(page).to_not have_selector(:link_or_button, label)
+end
+
 Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
@@ -70,7 +74,7 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
           find(:xpath, ".//span[@class='value']/..").text.should eq(content)
         else
           #Find the element that represent the value.
-          find(:xpath, ".//span[@class='value' and . = '#{content}']")
+          find(:xpath, ".//span[@class='value' and . = \"#{content}\"]")
         end
       end
     end
@@ -171,7 +175,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
           if tally_search == true
             find(:xpath, ".//span[@class='value']/..").text.should eq(content)
           else
-            find(:xpath, ".//span[@class='value' and . = '#{content}']")
+            find(:xpath, ".//span[@class='value' and . = \"#{content}\"]")
           end
         end
       end

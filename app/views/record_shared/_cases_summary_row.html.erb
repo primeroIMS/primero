@@ -1,5 +1,10 @@
-<tr>
-  <td id="child_<%= record.id %>" class="id_column">
+<tr>  
+  <% if fields_to_show.include? 'owned_by_text' %>
+    <% #TODO - Get name or code.  Prob should be in helper%>
+    <td><%= record.owned_by %></td>
+  <% end %>
+  <% if fields_to_show.include? 'short_id' %>
+    <td id="child_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
       <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
       <% if record.flagged? && display_flag_count(record.flags) %>
@@ -8,10 +13,27 @@
           <span><%= display_flag_count(record.flags) %></span>
         </div>
       <% end %>
-  </td>
-  <td><%= index_highlighted_case_name(@highlighted_fields, record) %></td>
-  <td><%= record.age %></td>
-  <td><%= record.sex %></td>
-  <td><%= record.created_at %></td>
-  <td class="photo"><%= icon('camera') if record.photo_keys.present? %></td>
+    </td>
+  <% end %>
+  <% if fields_to_show.include? 'sortable_name' %>
+    <td><%= index_highlighted_case_name(@highlighted_fields, record) %></td>
+  <% end %>
+  <% if fields_to_show.include? 'survivor_code_no' %>
+    <td><%= record.survivor_code_no %></td>
+  <% end %>
+  <% if fields_to_show.include? 'age' %>
+    <td><%= record.age %></td>
+  <% end %>
+  <% if fields_to_show.include? 'sex' %>
+    <td><%= record.sex %></td>
+  <% end %>
+  <% if fields_to_show.include? 'registration_date' %>
+    <td><%= field_format_date(record.registration_date) %></td>
+  <% end %>
+  <% if fields_to_show.include? 'case_opening_date' %>
+    <td><%= field_format_date(record.created_at) %></td>
+  <% end %>
+  <% if fields_to_show.include? 'photo' %>
+    <td class="photo"><%= icon('camera') if record.photo_keys.present? %></td>
+  <% end %>
 </tr>

@@ -16,14 +16,15 @@ class IncidentsController < ApplicationController
     @aside = 'shared/sidebar_links'
 
     @associated_users = current_user.managed_user_names
-    search = Incident.list_records filter, order, pagination, users_filter
+    search = Incident.list_records filter, order, pagination, users_filter, params[:query]
     @incidents = search.results
     @total_records = search.total
     @per_page = per_page
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
     # index average 400ms to 600ms without and 1000ms to 3000ms with.
-    @highlighted_fields = FormSection.sorted_highlighted_fields
+    #@highlighted_fields = FormSection.sorted_highlighted_fields
+    @highlighted_fields = []
 
     respond_to do |format|
       format.html

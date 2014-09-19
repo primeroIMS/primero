@@ -1,5 +1,7 @@
 class PrimeroModule < CouchRest::Model::Base
-  GBV = "GBV"
+  CP = 'primeromodule-cp'
+  GBV = 'primeromodule-gbv'
+  MRM = 'primeromodule-mrm'
 
   use_database :primero_module
 

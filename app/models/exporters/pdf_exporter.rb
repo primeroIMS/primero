@@ -15,7 +15,7 @@ module Exporters
         [Child]
       end
 
-      def export(cases, _)
+      def export(cases, _, current_user)
         pdf = Prawn::Document.new(:info => {
           :Title => "Primero Child Export",
           :Author => "Primero",
@@ -23,9 +23,8 @@ module Exporters
           :CreationDate => Time.now,
         })
 
-        subforms_sorted = FormSection.find_all_visible_by_parent_form('case')
-
         cases.each do |c|
+          subforms_sorted = FormSection.get_permitted_form_sections(c.module, 'case', current_user)
           pdf.start_new_page if pdf.page_number > 1
           pdf.outline.section(section_title(c), :destination => pdf.page_number)
           render_case(pdf, c, subforms_sorted)
@@ -79,9 +78,13 @@ module Exporters
 
         subforms.map do |subf|
           pdf.move_down 10
-          pdf.text subf.display_name, :style => :bold, :size => 12
-          _case.__send__(subf.name).each do |el|
-            render_fields(pdf, el, subf.subform.fields)
+
+          form_data = _case.__send__(subf.name)
+          if (form_data.try(:length) || 0) > 0
+            pdf.text subf.display_name, :style => :bold, :size => 12
+            form_data.each do |el|
+              render_fields(pdf, el, subf.subform_section.fields)
+            end
           end
         end
       end
@@ -106,9 +109,9 @@ module Exporters
         when String
           value
         when DateTime
-          value.rfc822
+          value.strftime("%d-%b-%Y")
         when Date
-          value.iso8601
+          value.strftime("%d-%b-%Y")
         when Array
           value.map {|el| format_field(field, el) }.join(', ')
         #when Hash

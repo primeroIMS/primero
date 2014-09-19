@@ -80,7 +80,7 @@ group :test, :cucumber do
   gem 'capybara',         '~> 2.2.1'
   gem 'cucumber',           '~> 1.3.11'
   gem 'cucumber-rails',     '~> 1.4.0', :require => false
-  gem 'selenium-webdriver', '~> 2.40.0'
+  gem 'selenium-webdriver', '~> 2.43.0'
   gem 'hpricot',            '~> 0.8.6'
   gem "json_spec",          '~> 1.1.1'
   gem 'rubocop'

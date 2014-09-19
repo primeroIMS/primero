@@ -17,7 +17,7 @@ class ChildrenController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
-    search = Child.list_records case_filter(filter), order, pagination, users_filter
+    search = Child.list_records case_filter(filter), order, pagination, users_filter, params[:query]
     @children = search.results
     @total_records = search.total
     @per_page = per_page
@@ -25,6 +25,7 @@ class ChildrenController < ApplicationController
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
     # index average 400ms to 600ms without and 1000ms to 3000ms with.
     @highlighted_fields = FormSection.sorted_highlighted_fields
+    #@highlighted_fields = []
 
     respond_to do |format|
       format.html
@@ -154,7 +155,7 @@ class ChildrenController < ApplicationController
           flash[:notice] = I18n.t("case.messages.update_success")
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           case_module = @child.module
-          if params[:commit] == t("buttons.create_incident") and case_module.name == PrimeroModule::GBV
+          if params[:commit] == t("buttons.create_incident") and case_module.id == PrimeroModule::GBV
             #It is a GBV cases and the user indicate that want to create a GBV incident.
             redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
           else

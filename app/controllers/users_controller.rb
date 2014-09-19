@@ -42,7 +42,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html
-      respond_to_export(format, @user)
+      respond_to_export(format, [@user])
     end
   end
 
