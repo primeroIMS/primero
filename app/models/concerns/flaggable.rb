@@ -41,6 +41,7 @@ module Flaggable
         # self.flags.delete_at(index.to_i)
         flag[:unflag_message] =unflag_message
         flag[:removed] = true
+        return flag
       else
         nil
       end
@@ -50,6 +51,10 @@ module Flaggable
       self.flags.present?
     end
     alias_method :flag, :flagged?
+
+    def flag_count
+      self.flags.select{|f| !f.removed}.count
+    end
 
   end
 

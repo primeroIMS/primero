@@ -25,8 +25,6 @@ class TracingRequest < CouchRest::Model::Base
 
     self['histories'] = []
     super *args
-
-    self.tracing_request_id = self.unique_identifier
   end
 
   design do
@@ -79,8 +77,11 @@ class TracingRequest < CouchRest::Model::Base
     return names
   end
 
+  def set_instance_id
+    self.tracing_request_id ||= self.unique_identifier
+  end
+
   def create_class_specific_fields(fields)
-    self['tracing_request_id'] = self.tracing_request_id
     self['inquiry_date'] ||= DateTime.now.strftime("%d-%b-%Y")
     self['inquiry_status'] ||= "Open"
   end

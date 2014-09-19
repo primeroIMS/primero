@@ -71,7 +71,7 @@ gbv_follow_up_subform_fields = [
             }),
   Field.new({"name" => "gbv_assessment_progress_health_text",
              "type" => "text_field",
-             "display_name_all" => "Explain"
+             "display_name_all" => "Explain Progress towards Heath care goals"
             }),
   Field.new({"name" => "gbv_assessment_progress_psychosocial",
              "type" => "radio_button",

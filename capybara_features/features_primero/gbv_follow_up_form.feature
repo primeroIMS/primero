@@ -1,5 +1,6 @@
 #JIRA PRIMERO-485
 #JIRA PRIMERO-550
+#JIRA PRIMERO-611
 
 @javascript @primero
 Feature: GBV Follow Up
@@ -28,7 +29,7 @@ Feature: GBV Follow Up
       | Progress towards Safety goals                       | <Radio> in progress                                 |
       | Explain Progress towards Safety goals               | explain progress towards safety goals               |
       | Progress towards Heath care goals                   | <Radio> in progress                                 |
-      | Explain                                             | explain                                             |
+      | Explain Progress towards Heath care goals           | Explain progress towards heath care goals           |
       | Progress towards Psychosocial Support goals         | <Radio> in progress                                 |
       | Explain Progress towards Psychosocial Support goals | explain progress towards psychosocial support goals |
       | Progress towards Access to Justice goals            | <Radio> in progress                                 |
@@ -57,7 +58,7 @@ Feature: GBV Follow Up
       | Progress towards Safety goals                       | in progress                                         |
       | Explain Progress towards Safety goals               | explain progress towards safety goals               |
       | Progress towards Heath care goals                   | in progress                                         |
-      | Explain                                             | explain                                             |
+      | Explain Progress towards Heath care goals           | Explain progress towards heath care goals           |
       | Progress towards Psychosocial Support goals         | in progress                                         |
       | Explain Progress towards Psychosocial Support goals | explain progress towards psychosocial support goals |
       | Progress towards Access to Justice goals            | in progress                                         |

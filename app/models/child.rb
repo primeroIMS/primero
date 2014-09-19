@@ -51,8 +51,6 @@ class Child < CouchRest::Model::Base
     self['histories'] = []
 
     super *args
-
-    self.case_id = self.unique_identifier
   end
 
 
@@ -159,12 +157,12 @@ class Child < CouchRest::Model::Base
     ['created_at', 'name', 'flag_at', 'reunited_at']
   end
 
-  def create_class_specific_fields(fields)
-    self.registration_date ||= Date.today
+  def set_instance_id
+    self.case_id ||= self.unique_identifier
   end
 
-  def case_id
-    self['unique_identifier']
+  def create_class_specific_fields(fields)
+    self.registration_date ||= Date.today
   end
 
   def sortable_name

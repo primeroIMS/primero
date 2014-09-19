@@ -17,8 +17,6 @@ class Incident < CouchRest::Model::Base
     self['histories'] = []
 
     super *args
-
-    self.incident_id = self.unique_identifier
   end
 
   design do
@@ -72,8 +70,11 @@ class Incident < CouchRest::Model::Base
     ['created_at', 'description']
   end
 
+  def set_instance_id
+    self.incident_id ||= self.unique_identifier
+  end
+
   def create_class_specific_fields(fields)
-    self['incident_id'] = self.incident_id
     self['description'] = fields['description'] || self.description || ''
   end
 
@@ -106,10 +107,10 @@ class Incident < CouchRest::Model::Base
         "age" => "age",
         "date_of_birth" => "date_of_birth",
         "gbv_sex" => "sex",
-        "ethnicity" => "ethnicity",
+        "gbv_ethnicity" => "ethnicity",
         "country_of_origin" => "country_of_origin",
-        "nationality" => "nationality",
-        "religion"  => "religion",
+        "gbv_nationality" => "nationality",
+        "gbv_religion"  => "religion",
         "maritial_status" => "maritial_status",
         "gbv_displacement_status" => "displacement_status",
         "gbv_disability_type" => "disability_type",

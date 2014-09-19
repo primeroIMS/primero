@@ -257,7 +257,6 @@ describe ChildrenController do
     it 'should not fail if primary_photo_id is not present' do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       child = Child.create('last_known_location' => "London", :created_by => "uname")
-      child.create_unique_id
       Child.stub(:get).with("37").and_return(child)
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
 
@@ -268,7 +267,6 @@ describe ChildrenController do
     it "should set current photo key as blank instead of nil" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       child = Child.create('last_known_location' => "London", :created_by => "uname")
-      child.create_unique_id
       Child.stub(:get).with("37").and_return(child)
       assigns[child[:current_photo_key]] == ""
       get(:show, :format => 'json', :id => "37")

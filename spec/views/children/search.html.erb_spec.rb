@@ -41,7 +41,6 @@ describe "children/search.html.erb" do
     #  "field_1" => "field 1", "field_2" => "field 2", "field_3" => "field 3", "field_4" => "field 4",
     #  "current_photo_key" => "some-photo-id")
     #  child.stub(:has_one_interviewer?).and_return(true)
-    #  child.create_unique_id
     #  @results.clear
     #  @results << child
     #  assign(:results, @results)
@@ -109,7 +108,6 @@ describe "children/search.html.erb" do
 
     def random_child_summary(id = 'some_id')
       child = Child.create("age_is" => "Approx", "created_by" => "dave", "current_photo_key" => "photo-id")
-      child.create_unique_id
       child.stub(:has_one_interviewer?).and_return(true)
       child
     end

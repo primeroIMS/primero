@@ -51,6 +51,13 @@ Then /^I should see the following (.+):$/ do |selector, table|
   end
 end
 
+And /^I should see a value for "(.+)" on the edit page(?: with the value of "(.*)")?$/ do |field, content|
+  field_label = find("//fieldset//label[@class='key inline' and text()=\"#{field}\"]", :visible => true)
+  field_id = field_label["for"]
+  field = find("//fieldset//input[@id='#{field_id}']", :visible => true)
+  field.value.should eq(content)
+end
+
 And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*)")?$/ do |field, content|
   if content == "today's date"
     content = DateTime.now.strftime("%d-%b-%Y")
@@ -74,7 +81,7 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
           find(:xpath, ".//span[@class='value']/..").text.should eq(content)
         else
           #Find the element that represent the value.
-          find(:xpath, ".//span[@class='value' and . = '#{content}']")
+          find(:xpath, ".//span[@class='value' and . = \"#{content}\"]")
         end
       end
     end
@@ -175,7 +182,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
           if tally_search == true
             find(:xpath, ".//span[@class='value']/..").text.should eq(content)
           else
-            find(:xpath, ".//span[@class='value' and . = '#{content}']")
+            find(:xpath, ".//span[@class='value' and . = \"#{content}\"]")
           end
         end
       end

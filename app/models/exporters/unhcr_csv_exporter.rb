@@ -54,7 +54,7 @@ module Exporters
       'Flight Information' => ->(c) do
         [c.location_separation, c.separation_cause, c.separation_details].compact.join('; ')
       end,
-      'Protection Concern' => ['UNHCR_protection_code'],
+      'Protection Concern' => ['unhcr_protection_code'],
       'Protection Status' => ['protection_status'],
       'Protection Concerns' => ->(c) { c.protection_concerns.join(', ') },
       'Disability Type' => ['disability_type'],

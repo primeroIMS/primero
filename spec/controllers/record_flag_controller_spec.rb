@@ -46,7 +46,8 @@ describe RecordFlagController do
 
     it "should flag the record with all parameters" do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => "15-Jul-2014"
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag", "date" => "2014/07/15", "flagged_by" => "#{@user.user_name}"})
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag", "date" => "2014/07/15", 
+        "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil})
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
       flag = record_db.flags.last
@@ -57,7 +58,8 @@ describe RecordFlagController do
 
     it "should flag the record with empty date parameter" do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => ""
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag", "date" => "", "flagged_by" => "#{@user.user_name}"})
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag", "date" => "", 
+        "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil})
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
       flag = record_db.flags.last
@@ -68,7 +70,8 @@ describe RecordFlagController do
 
     it "should flag the record with no date parameter" do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag"
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag", "date" => nil, "flagged_by" => "#{@user.user_name}"})
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag", "date" => nil,
+       "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil})
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
       flag = record_db.flags.last
@@ -81,10 +84,10 @@ describe RecordFlagController do
   shared_examples_for "Flagging more than one time" do
     it "should add flag the record with flags already" do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 1", :flag_date => "15-Jul-2014"
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag 1", "date" => "2014/07/15", "flagged_by" => "#{@user.user_name}"})
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag 1", "date" => "2014/07/15", "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil})
 
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 2", :flag_date => "16-Jul-2014"
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag 2", "date" => "2014/07/16", "flagged_by" => "#{@user.user_name}"})
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Testing Flag 2", "date" => "2014/07/16", "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil})
 
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
@@ -101,32 +104,40 @@ describe RecordFlagController do
       record.flags = [Flag.new(:message => "#{model.name} Flag 1"), Flag.new(:message => "#{model.name} Flag 2"), Flag.new(:message => "#{model.name} Flag 3")]
       record.save
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 2", "date" => nil, "flagged_by" => nil})
+      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => 'unflagging due to reason'
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 2", "date" => nil, "flagged_by" => nil, "unflag_message" => "unflagging due to reason", "removed" => true})
 
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
-      record_db.flags.length.should eq(2)
+      record_db.flags.length.should eq(3)
       record_db.flags[0].message.should eq("#{model.name} Flag 1")
-      record_db.flags[1].message.should eq("#{model.name} Flag 3")
+      record_db.flags[1].message.should eq("#{model.name} Flag 2")
+      record_db.flags[1].unflag_message.should eq("unflagging due to reason")
+      record_db.flags[1].removed.should eq(true)
     end
 
     it "should remove flag from record" do
       record.flags = [Flag.new(:message => "#{model.name} Flag 1"), Flag.new(:message => "#{model.name} Flag 2"), Flag.new(:message => "#{model.name} Flag 3")]
       record.save
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 2", "date" => nil, "flagged_by" => nil})
+      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => "unflagging due to reason2"
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 2", "date" => nil, "flagged_by" => nil, "unflag_message" => "unflagging due to reason2", "removed" => true})
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 1", :flag_index => 0
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 1", "date" => nil, "flagged_by" => nil})
+      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 1", :flag_index => 0, :unflag_message => "unflagging due to reason1"
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 1", "date" => nil, "flagged_by" => nil, "unflag_message" => "unflagging due to reason1", "removed" => true})
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 3", :flag_index => 0
-      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 3", "date" => nil, "flagged_by" => nil})
+      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 3", :flag_index => 2, :unflag_message => "unflagging due to reason3"
+      JSON.parse(response.body).should eq({"message" => "#{model.name} Flag 3", "date" => nil, "flagged_by" => nil, "unflag_message" => "unflagging due to reason3", "removed" => true})
 
       record_db = model.get(record.id)
-      record_db.flags.length.should eq(0)
-      record_db.flag.should eq(false)
+      record_db.flags.length.should eq(3)
+      record_db.flag.should eq(true)
+      record_db.flags[0].unflag_message.should eq("unflagging due to reason1")
+      record_db.flags[0].removed.should eq(true)
+      record_db.flags[1].unflag_message.should eq("unflagging due to reason2")
+      record_db.flags[1].removed.should eq(true)
+      record_db.flags[2].unflag_message.should eq("unflagging due to reason3")
+      record_db.flags[2].removed.should eq(true)
     end
 
     it "should not remove flag from record wrong index" do

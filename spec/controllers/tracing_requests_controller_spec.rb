@@ -253,7 +253,6 @@ describe TracingRequestsController do
     it 'should not fail if primary_photo_id is not present' do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", :created_by => "uname")
-      tracing_request.create_unique_id
       TracingRequest.stub(:get).with("37").and_return(tracing_request)
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
 
@@ -264,7 +263,6 @@ describe TracingRequestsController do
     it "should set current photo key as blank instead of nil" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", :created_by => "uname")
-      tracing_request.create_unique_id
       TracingRequest.stub(:get).with("37").and_return(tracing_request)
       assigns[tracing_request[:current_photo_key]] == ""
       get(:show, :format => 'json', :id => "37")

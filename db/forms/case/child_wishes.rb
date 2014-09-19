@@ -35,8 +35,10 @@ child_preferences_fields_subform = [
              "display_name_all" => "Landmark"
             }),
   Field.new({"name" => "wishes_location",
-             "type" => "text_field",
-             "display_name_all" => "Last Known Location"
+             "type" => "select_box",
+             "display_name_all" => "Last Known Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "wishes_telephone",
              "type" => "text_field",
@@ -121,8 +123,10 @@ child_wishes_fields = [
              "display_name_all" => "If type of care arrangement child wishes to have is Other, specify"
            }),
   Field.new({"name" => "wishes_location_plan_live",
-             "type" => "text_field",
-             "display_name_all" => "Where does the child wish/plan to live?"
+             "type" => "select_box",
+             "display_name_all" => "Where does the child wish/plan to live?",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
            }),
   Field.new({"name" => "wishes_address_plan_live",
              "type" => "text_field",
