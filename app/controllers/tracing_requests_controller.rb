@@ -44,8 +44,6 @@ class TracingRequestsController < ApplicationController
     #TODO: Are duplicated implemented for TracingRequests? CARLOS!?!
     @duplicates = TracingRequest.duplicates_of(params[:id])
 
-    @flag_count = @tracing_request.flags.select{|f| !f.removed}.count
-
     respond_to do |format|
       format.html
       format.xml { render :xml => @tracing_request }
@@ -79,8 +77,6 @@ class TracingRequestsController < ApplicationController
     authorize! :update, @tracing_request
 
     @page_name = t("tracing_request.edit")
-
-    @flag_count = @tracing_request.flags.select{|f| !f.removed}.count
   end
 
   def create

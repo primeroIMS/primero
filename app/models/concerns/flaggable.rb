@@ -3,6 +3,7 @@ module Flaggable
 
   included do
     property :flags, [Flag], :default => []
+    property :flag_count, :default => 0
 
     design do
       view :by_flag,
@@ -51,6 +52,10 @@ module Flaggable
       self.flags.present?
     end
     alias_method :flag, :flagged?
+
+    def flag_count
+      self.flags.select{|f| !f.removed}.count
+    end
 
   end
 
