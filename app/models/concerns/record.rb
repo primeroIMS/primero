@@ -284,8 +284,10 @@ module Record
   end
 
   def update_history
-    if field_name_changes.any?
-      changes = changes_for(field_name_changes)
+    require 'pry'; binding.pry
+    if self.changed?
+      changes = changes_in_hash_form(self.changes, self.properties_by_name)
+      require 'pry'; binding.pry
       (add_to_history(changes) unless (!self['histories'].empty? && (self['histories'].last["changes"].to_s.include? changes.to_s)))
       self.previously_owned_by = original_data['owned_by']
     end
@@ -329,12 +331,6 @@ module Record
 
   def add_updated_fields_attr(props)
     self['updated_fields'] = determine_changing_fields(props)
-  end
-
-  def determine_changing_fields(props)
-    self.to_hash.select do |key, value|
-      props.include?(key) ? (props[key] != value) : false
-    end
   end
 
   def update_properties(properties, user_name)
@@ -403,12 +399,36 @@ module Record
     all_fields.select { |field_name| changed_field?(field_name) }
   end
 
-  def changes_for(field_names)
-    field_names.inject({}) do |changes, field_name|
-      changes.merge(field_name => {
-          'from' => original_data[field_name],
-          'to' => self[field_name]
-      })
+  def changes_in_hash_form(changes, properties_by_name)
+    changes.inject({}) do |acc, (prop_name, (prev, current))|
+      change_hash = if properties_by_name.include?(prop_name)
+        prop = properties_by_name[prop_name]
+        if prop.array
+          (prev_hash, current_hash) = [prev, current].map do |arr|
+                                        arr.inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
+                                      end
+
+          (prev_hash.keys & current_hash.keys).map do |k|
+            if prev_hash[k] != current_hash[k]
+              {
+                'from' => prev_hash[k].to_hash,
+                'to' => current_hash[k].to_hash,
+              }
+            end
+          end.compact
+        elsif prop.type.include? CouchRest::Model::Embeddable
+          # TODO: Make more generic
+          prop.type.properties_by_name.inject({}) do |acc2, sub_prop|
+            changes_in_hash_form([prev, current].map {|h| h.__send__(sub_prop.name)}, sub_prop.type.properties_by_name)
+          end
+        end
+      else
+        change_hash = {
+            'from' => prev,
+            'to' => current,
+          }
+      end
+      acc.merge({prop_name => change_hash})
     end
   end
 

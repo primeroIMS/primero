@@ -83,6 +83,7 @@ class Incident < CouchRest::Model::Base
       end
     end
 
+
     if violations_list.blank?
       violations_list << "NONE"
     end

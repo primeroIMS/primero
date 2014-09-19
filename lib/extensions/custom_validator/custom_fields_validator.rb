@@ -26,7 +26,6 @@ class CustomFieldsValidator
 
   def retrieve_field_definitions(target)
     return target.field_definitions if (target.respond_to? :field_definitions) && !target.field_definitions.nil?
-    return FormSection.all_enabled_child_fields
   end
 
   def validate_fields(fields, target)

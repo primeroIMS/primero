@@ -8,19 +8,6 @@ end
 module CouchRest
   module Model
     class Base
-      #This is a monkeypatch to set the dirty flag for arbitrary attributes when mass assignment is turned on.
-      #Couchrest_model is using the inherited []= setter which fails to set the flag.
-      #See: https://github.com/couchrest/couchrest_model/issues/114
-      #See: https://github.com/couchrest/couchrest_model/issues/130
-      #TODO: Still a hack, doesn't cover the model['foo']['bar']='value' case.
-      alias :set_a_value :[]=
-      def []=(key, value)
-        prev_value = self[key]
-        changed_attributes[key] = prev_value
-        set_a_value key, value
-      end
-      #TODO: what about overriding the delete method?
-
       #flag as saved CastedArray and CastedHash fields.
       after_save do
         flag_saved_embedded_properties
