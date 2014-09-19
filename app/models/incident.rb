@@ -7,7 +7,6 @@ class Incident < CouchRest::Model::Base
 
   include Record
   include Ownable
-  include Searchable #Needs to be after Ownable
   include Flaggable
   include DocumentHelper
 
@@ -37,6 +36,15 @@ class Incident < CouchRest::Model::Base
 
   before_save :set_violation_verification_default
 
+  def self.quicksearch_fields
+    [
+      'incident_id', 'incident_code', 'super_incident_name', 'incident_description',
+      'monitor_number', 'survivor_code',
+      'individual_ids'
+    ]
+  end
+  include Searchable #Needs to be after Ownable
+
   searchable do
     string :violations, multiple: true do
       violation_list = []
@@ -55,6 +63,7 @@ class Incident < CouchRest::Model::Base
     by_incident_id(:key => incident_id).first
   end
 
+  #TODO: Keep this?
   def self.search_field
     "description"
   end
@@ -106,6 +115,14 @@ class Incident < CouchRest::Model::Base
         "gbv_disability_type" => "disability_type",
         "unaccompanied_separated_status" => "unaccompanied_separated_status"
      })
+  end
+
+  def individual_ids
+    ids = []
+    if self.individual_details_subform_section.present?
+      ids = self.individual_details_subform_section.map(&:id_number).compact
+    end
+    return ids
   end
 
   def set_violation_verification_default

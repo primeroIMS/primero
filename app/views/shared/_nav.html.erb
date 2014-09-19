@@ -4,25 +4,27 @@
       <div class="row">
         <div class="large-12 columns">
           <section class="top-bar-section">
-            <ul class="right">
-              <% if can? :read, Child %>
-                <li class="has-form">
-                  <%= form_tag search_children_path, :method => :get, :id => "search_form" do %>
-                    <div class="row collapse">
-                      <% #link_to t("navigation.advanced_search"), new_advanced_search_path %>
-                      <div class="large-9 small-10 columns">
-                        <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH' %>
+            <% model = controller.model_class %>
+            <% if [Child, TracingRequest, Incident].include? model %>
+              <ul class="quicksearch right">
+                <% if can? :read, model %>
+                  <li class="has-form">
+                    <%= form_tag polymorphic_path(model), :method => :get, :id => "search_form" do %>
+                      <div class="row collapse">
+                        <div class="large-9 small-10 columns">
+                          <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH' %>
+                        </div>
+                        <div class="large-3 small-2 columns">
+                          <%= button_tag  :action => polymorphic_path(model), :method => "get" do %>
+                          <%= icon('angle-right') %>
+                          <% end %>
+                        </div>
                       </div>
-                      <div class="large-3 small-2 columns">
-                        <%= button_tag  :action => "children/search", :method => "get", :onclick => "return RapidFTR.validateSearch();" do %>
-                        <%= icon('angle-right') %>
-                        <% end %>
-                      </div>
-                    </div>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
             <ul class="left">
               <li><%= link_to t("navigation.home"), root_path, class: current_page(root_path) %></li>
               <% if can? :read, Child %>
