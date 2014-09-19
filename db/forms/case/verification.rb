@@ -31,8 +31,10 @@ verification_subform_fields = [
                "display_name_all" => "Age"
               }),
     Field.new({"name" => "verification_address_inquirer_current",
-               "type" => "text_field",
-               "display_name_all" => "Current Location"
+               "type" => "select_box",
+               "display_name_all" => "Current Location",
+               "searchable_select" => true,
+               "option_strings_source" => "Location"
               }),
     Field.new({"name" => "verification_location_inquirer",
                "type" => "textarea",

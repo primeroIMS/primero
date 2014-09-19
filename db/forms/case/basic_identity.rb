@@ -117,7 +117,6 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Landmark"
             }),
-  #TODO location picker
   Field.new({"name" => "location_current",
              "type" =>"select_box",
              "display_name_all" => "Current Location",

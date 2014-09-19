@@ -4,8 +4,10 @@ child_under_5_fields = [
              "display_name_all" => "Date child was found"
             }),
   Field.new({"name" => "location_child_found",
-             "type" => "text_field",
-             "display_name_all" => "Exact location where child was found"
+             "type" => "select_box",
+             "display_name_all" => "Location where child was found",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_child_found",
              "type" => "text_field",
@@ -32,8 +34,10 @@ child_under_5_fields = [
              "display_name_all" => "What is this person's relationship to the child?"
             }),
   Field.new({"name" => "location_child_finder",
-             "type" => "text_field",
-             "display_name_all" => "Location of person who found the child"
+             "type" => "select_box",
+             "display_name_all" => "Location of person who found the child",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_child_finder",
              "type" => "text_field",
