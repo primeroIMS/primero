@@ -505,6 +505,7 @@ describe TracingRequest do
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       tracing_request = create_tracing_request_with_created_by('jdoe', 'last_known_location' => 'London')
+      tracing_request.save!
       tracing_request['unique_identifier'].should == "12345"
     end
 
@@ -547,12 +548,14 @@ describe TracingRequest do
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       tracing_request = TracingRequest.new
+      tracing_request.save!
       tracing_request.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
       UUIDTools::UUID.stub("random_create").and_return(1212127654321)
       tracing_request = TracingRequest.new
+      tracing_request.save!
       tracing_request.short_id.should == "7654321"
     end
 

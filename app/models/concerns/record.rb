@@ -9,6 +9,7 @@ module Record
   include RapidFTR::Clock
 
   included do
+    before_create :create_identification
     before_save :update_history, :unless => :new?
     before_save :update_organisation
     before_save :add_creation_history, :if => :new?
@@ -204,14 +205,7 @@ module Record
 
   def initialize(*args)
     super
-
-    self.create_unique_id
-    self.short_id = self.unique_identifier.last 7
     self['record_state'] = "Valid record" if self['record_state'].blank?
-  end
-
-  def create_unique_id
-    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
   end
 
   def valid_record?
@@ -371,6 +365,13 @@ module Record
     end
 
     props_to_update
+  end
+
+  def create_identification
+    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
+    self.short_id ||= self.unique_identifier.last 7
+    #Method should be defined by the derived classes.
+    self.set_instance_id
   end
 
   protected

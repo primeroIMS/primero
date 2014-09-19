@@ -65,7 +65,7 @@ describe ChildrenHelper do
   describe "#text_to_identify_child" do
     it "should show the case id" do
       identifier = "00001234567"
-      child = Child.new(:unique_identifier => identifier)
+      child = Child.create!(:unique_identifier => identifier)
       helper.text_to_identify_child(child).should == "1234567"
     end
 

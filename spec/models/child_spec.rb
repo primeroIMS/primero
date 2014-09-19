@@ -557,6 +557,7 @@ describe Child do
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       child = create_child_with_created_by('jdoe', 'last_known_location' => 'London')
+      child.save!
       child['unique_identifier'].should == "12345"
     end
 
@@ -606,12 +607,14 @@ describe Child do
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       child = Child.new
+      child.save!
       child.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
       UUIDTools::UUID.stub("random_create").and_return(1212127654321)
       child = Child.new
+      child.save!
       child.short_id.should == "7654321"
     end
 
