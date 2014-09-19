@@ -41,14 +41,15 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     Then I should see "Incident record successfully created" on the page
     And I press the "GBV Individual Details" button
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
-    And I should see a value for "What is the child's Date of Birth?" on the show page with the value of "23-Sep-2007"
-    And I should see a value for "What is the sex of the child?" on the show page with the value of "Female"
-    And I should see a value for "What is the ethnic affiliation of the individual?" on the show page with the value of "Ethnicity1, Ethnicity2"
+    And I should see a value for "What is the survivor's Date of Birth?" on the show page with the value of "23-Sep-2007"
+    And I should see a value for "What is the sex of the survivor?" on the show page with the value of "Female"
+    And I should see a value for "What is the ethnic affiliation of the survivor?" on the show page with the value of "Ethnicity1, Ethnicity2"
     And I should see a value for "Country of Origin" on the show page with the value of "Country1"
-    And I should see a value for "What is the national affiliation of the individual?" on the show page with the value of "Nationality1, Nationality2"
-    And I should see a value for "What is the religious affiliation of the individual?" on the show page with the value of "Religion1, Religion2"
+    And I should see a value for "What is the national affiliation of the survivor?" on the show page with the value of "Nationality1, Nationality2"
+    And I should see a value for "What is the religious affiliation of the survivor?" on the show page with the value of "Religion1, Religion2"
     And I should see a value for "Current civil/marital status" on the show page with the value of "Single"
-    And I should see a value for "What was the status of the child at the time of the violation?" on the show page with the value of "Refugee"
+    And I should see a value for "Displacement Status at time of report" on the show page with the value of "Refugee"
+    And I should see a value for "Is the survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor"
     And I should see a value for "Disability Type" on the show page with the value of "Mental Disability"
 
   Scenario: As a logged in user, I create an GBV Incident from a GBV Cases with Survivor Information when viewing.
@@ -57,14 +58,15 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     Then I should see "Incident record successfully created" on the page
     And I press the "GBV Individual Details" button
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
-    And I should see a value for "What is the child's Date of Birth?" on the show page with the value of "23-Sep-2007"
-    And I should see a value for "What is the sex of the child?" on the show page with the value of "Female"
-    And I should see a value for "What is the ethnic affiliation of the individual?" on the show page with the value of "Ethnicity1, Ethnicity2"
+    And I should see a value for "What is the survivor's Date of Birth?" on the show page with the value of "23-Sep-2007"
+    And I should see a value for "What is the sex of the survivor?" on the show page with the value of "Female"
+    And I should see a value for "What is the ethnic affiliation of the survivor?" on the show page with the value of "Ethnicity1, Ethnicity2"
     And I should see a value for "Country of Origin" on the show page with the value of "Country1"
-    And I should see a value for "What is the national affiliation of the individual?" on the show page with the value of "Nationality1, Nationality2"
-    And I should see a value for "What is the religious affiliation of the individual?" on the show page with the value of "Religion1, Religion2"
+    And I should see a value for "What is the national affiliation of the survivor?" on the show page with the value of "Nationality1, Nationality2"
+    And I should see a value for "What is the religious affiliation of the survivor?" on the show page with the value of "Religion1, Religion2"
     And I should see a value for "Current civil/marital status" on the show page with the value of "Single"
-    And I should see a value for "What was the status of the child at the time of the violation?" on the show page with the value of "Refugee"
+    And I should see a value for "Displacement Status at time of report" on the show page with the value of "Refugee"
+    And I should see a value for "Is the survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?" on the show page with the value of "Unaccompanied Minor"
     And I should see a value for "Disability Type" on the show page with the value of "Mental Disability"
 
   Scenario: As a logged in user and I have GBV Cases with validation issues, I should see validation errors messages and stay on the GBV Cases form.

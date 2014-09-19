@@ -7,6 +7,8 @@
   </div>
   <div class="large-4 medium-4 columns">
       <%= link_to content_tag(:span, t("form_section.create"), class: 'create_user'), new_form_section_path({module_id: @module_id, parent_form: @parent_form}),  class: 'btn green-button' %>
+      <%= render 'exports/button', locals: {model: FormSection} %>
+      <%= render 'imports/button' %>
   </div>
   <div class="large-2 medium-2 columns">
       <%= select_tag :module_id,

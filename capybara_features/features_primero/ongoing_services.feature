@@ -1,4 +1,5 @@
 # JIRA PRIMERO-484
+# JIRA PRIMERO-551
 
 @javascript @primero
 Feature: Services
@@ -11,6 +12,10 @@ Feature: Services
     And I press the "New Case" button
     And I press the "Services / Follow Up" button
     And I click on "Ongoing Services" in form group "Services / Follow Up"
+    And the "Type of Service" dropdown should not have the following options:
+      | Social Support         |
+      | BID or BIA / Care-Plan |
+      | Care Arrangement       |
     And I fill in the 1st "Ongoing Services Section" subform with the follow:
       | Type of Service                            | <Select> Safehouse    |
       | Did you refer the client for this service? | <Select> Referred     |

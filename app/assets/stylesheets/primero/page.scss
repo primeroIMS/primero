@@ -48,6 +48,7 @@ table.list_view, table.record_list_view {
   border:none;
   margin-bottom: 20px;
   a.id_link{
+    float: left;
     text-decoration: none;
     &:hover{
       font-weight:bold;
@@ -71,6 +72,7 @@ table.list_view, table.record_list_view {
       font-size: 0.875rem;
       &.id_column{
         min-width: 105px;
+        text-transform: uppercase;
       }
       &.sorting_1 {
         background: rgba(134,160,93,.15);

@@ -150,7 +150,7 @@ execute_bundle 'restart-solr' do
 end
 
 execute_bundle 'setup-db' do
-  command "rake db:seed db:migrate"
+  command "rake db:migrate db:seed"
 end
 
 # TODO: This will have to be subtle. Will need to define "what is sutble"?

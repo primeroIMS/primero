@@ -77,7 +77,6 @@ create_or_update_role(
     Permission::READ,
     Permission::FLAG,
     Permission::ASSIGN,
-    Permission::CASE,
     Permission::INCIDENT,
     Permission::USER,
     Permission::GROUP

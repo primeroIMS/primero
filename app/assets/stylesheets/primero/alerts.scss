@@ -25,3 +25,29 @@
     }
   }
 }
+
+.flag_icon {
+  width: 30px;
+  padding: 3px 5px;
+  font-size: 2rem;
+  color: $green_color;
+  position: relative;
+  margin: -10px 0 0 10px;
+  float: right;
+  
+
+  span {
+    float: left;
+    font-size: $thirteen_px;
+    color: #fff;
+    z-index: 99;
+    position: absolute;
+    margin-top: 6px;
+  }
+
+  i {
+    float: left;
+    position: absolute;
+    z-index: 5;
+  }
+}

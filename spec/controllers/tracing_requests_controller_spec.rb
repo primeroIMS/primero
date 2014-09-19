@@ -588,12 +588,12 @@ describe TracingRequestsController do
     end
 
     xit "should handle CSV" do
-      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
       get :index, :format => :csv
     end
 
     xit "should encrypt result" do
-      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
       controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
       get :index, :format => :csv

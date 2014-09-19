@@ -1,28 +1,38 @@
-<p>
-  Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better.
-</p>
+<div class="row">
+  <p>
+    Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better.
+  </p>
+</div>
 <div id="photo-group">
   <div class="row">
-    <div class="file medium-12 columns">
-      <span class="tool-tip-label">
-        <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", "Add Photo", :class=>'key' %>
+      <div class="medium-4 columns">
+        <span class="tool-tip-label">
+          <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", "Add Photo", :class=>'key inline' %>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <div>
+          <%= file_field_tag "#{formObject.class.name.underscore.downcase}[photo]0" %>
 
-      </span>
-      <%= file_field_tag "#{formObject.class.name.underscore.downcase}[photo]0" %>
-
-      <%= image_tag "new/icon_help.png", title: photo_upload_box.help_text, class: 'tool-tip-icon vtip' if photo_upload_box.help_text.present? %>
-
-    </div>
+          <%= image_tag "new/icon_help.png", title: photo_upload_box.help_text, class: 'tool-tip-icon vtip' if photo_upload_box.help_text.present? %>
+        </div>
+      </div>
   </div>
 </div>
-<%= link_to 'Add another photo', '', id: 'add-photo', class: 'green-button right', "data-model" => "#{formObject.class.name.underscore.downcase}" %>
-<hr>
+<div class="row">
+  <div class="large-12 columns">
+    <%= link_to 'Add another photo', '', id: 'add-photo', class: 'green-button right', "data-model" => "#{formObject.class.name.underscore.downcase}" %>
+  </div>
+</div>
 <% formObject.photos.each do |photo| %>
     <div class="row">
-      <div class="thumbnail medium-12 columns">
+      <div class="thumbnail medium-4 columns">
         <%= label_tag "delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]", t("#{formObject.class.name.underscore.downcase}.actions.delete_photo") %>
+      </div>
+      <div class="medium-8 columns">
         <%= check_box_tag("delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]") %>
         <%= thumbnail_tag(formObject, photo.name) %>
       </div>
     </div>
 <% end %>
+

@@ -1,17 +1,40 @@
 <% if can? :flag, record %>
-    <span id="<%= mark_as_property %>" class="<%= style %>"><%= link_to mark_as_label, "#", class: button_style %></span>
+    <span id="<%= mark_as_property %>" class="<%= style %>">
+      <%= link_to "#", class: button_style do %>
+        <%= mark_as_label %>
+        <% if record.flagged? %>
+          <span class="primero_jewel"><%= @flag_count %></span>
+        <% end %>
+      <% end %>
+    </span>
     <div class="dropdown hide"
          data-model="<%= "#{record.class.name.underscore.downcase}" %>"
          data-form_action="<%= send("#{record.class.name.underscore.downcase}_flag_path", record) %>"
+         data-form_unflag_action="<%= send("#{record.class.name.underscore.downcase}_unflag_path", record) %>"
          data-form_id="<%= "#{record.class.name.underscore.downcase}_#{record.id}" %>"
          data-message_id="<%= mark_as_message_id %>"
          data-message="<%= mark_as_message %>"
+         data-message_unflag="<%= mark_as_message_unflag %>"
          data-message_date="<%= mark_as_message_date %>"
          data-message_date_id="<%= mark_as_message_date_id %>"
          data-property="<%= mark_as_property %>"
          data-request_url="<%= request.url %>"
          data-submit_label="<%= mark_as_submit_label %>"
+         data-submit_unflag_label="<%= unmark_as_submit_label %>"
          data-submit_error_message="<%= error_message %>"
          data-authenticity_token="<%= form_authenticity_token %>" >
+        <div class="add_flag_form"></div>
+        <div class="clear"></div>
+        <ul>
+        <% record.flags.each_with_index do |f, i| %>
+          <% unless f.removed %>
+          <li>
+            <a class="right remove_flag" data-message="<%= f.message %>" data-message_index="<%= i %>">x</a>
+            <%= f.message %><br>
+            <span><%= f.flagged_by %> <% if f.date %>|<% end %> <%= f.date %></span>
+          </li>
+          <% end %>
+        <% end %>
+        </ul>
     </div>
 <%end%>

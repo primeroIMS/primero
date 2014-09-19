@@ -45,6 +45,7 @@ Before do
     load File.dirname(__FILE__) + '/../../db/users/roles.rb'
     load File.dirname(__FILE__) + '/../../db/users/default_programs.rb'
     load File.dirname(__FILE__) + '/../../db/users/default_modules.rb'
+    load File.dirname(__FILE__) + '/../../db/users/default_user_groups.rb'
     load File.dirname(__FILE__) + "/../../db/users/default_users.rb"
 
     #Fake the passwords

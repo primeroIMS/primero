@@ -8,7 +8,8 @@ gem 'couchrest_model', '~> 2.0.3', :git => "https://github.com/Quoin/couchrest_m
 gem 'mime-types',     '1.16'
 gem 'mini_magick',    '1.3.2'
 gem 'pdf-reader',     '1.3.3'
-gem 'prawn',          '0.8.4'
+gem 'prawn',          '~> 1.2.1'
+gem 'prawn-table',    '~> 0.1.1'
 gem 'rails',          '4.0.3'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
@@ -40,6 +41,7 @@ gem 'sass-rails',    '~> 4.0.1'
 gem 'compass-rails', '~> 1.1.3'
 gem 'coffee-rails',  '~> 4.0.1'
 gem 'chosen-rails',  '~> 1.1.0'
+gem 'handlebars_assets'
 
 gem 'rack-mini-profiler', require: false
 
@@ -54,7 +56,7 @@ gem 'memoist', '~> 0.10.0'
 
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
-  gem 'font-awesome-sass'
+  gem 'font-awesome-sass', '~> 4.2.0'
 end
 
 group :development do
@@ -78,7 +80,7 @@ group :test, :cucumber do
   gem 'capybara',         '~> 2.2.1'
   gem 'cucumber',           '~> 1.3.11'
   gem 'cucumber-rails',     '~> 1.4.0', :require => false
-  gem 'selenium-webdriver', '~> 2.40.0'
+  gem 'selenium-webdriver', '~> 2.43.0'
   gem 'hpricot',            '~> 0.8.6'
   gem "json_spec",          '~> 1.1.1'
   gem 'rubocop'

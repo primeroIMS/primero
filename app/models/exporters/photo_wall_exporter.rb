@@ -1,5 +1,4 @@
-require 'prawn/measurement_extensions'
-require 'prawn/layout'
+require 'prawn/document'
 
 module Exporters
   class PhotoWallExporter < BaseExporter
@@ -16,7 +15,7 @@ module Exporters
         [Child]
       end
 
-      def export(child_data, properties)
+      def export(child_data, properties, *args)
         pdf = Prawn::Document.new
         child_data.each do |child|
           begin

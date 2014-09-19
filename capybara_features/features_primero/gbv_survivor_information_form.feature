@@ -1,21 +1,34 @@
 # JIRA PRIMERO-449
 # JIRA PRIMERO-520
 # JIRA PRIMERO-518
+# JIRA PRIMERO-539
 
 @search @javascript @primero
 Feature: Survivor Information Form
   As an administrator, I want to be able to enter information about survivors.
 
-  Scenario: As a logged in user, I create a case by entering something in every field in the survivor information form
+  Background:
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
+    And the following lookups exist in the system:
+      | name           | lookup_values                                          |
+      | nationality    | Nationality1, Nationality2, Nationality3, Nationality4 |
+      | ethnicity      | Ethnicity1, Ethnicity2, Ethnicity3, Ethnicity4         |
+      | religion       | Religion1, Religion2, Religion3, Religion4             |
     When I access "cases page"
     And I press the "New Case" button
+
+  Scenario: As a logged in user, I create a case by entering something in every field in the survivor information form
     #TODO: Add Date of Birth when PRIMERO-455 is merged
+    And the "Displacement Status at time of report" dropdown should not have the following options:
+      | N/A |
     And I fill in the following:
       | Case Status                                                                                 | <Select> Transferred            |
       | Name                                                                                        | Tiki Thomas Taliaferro          |
       | Survivor Code                                                                               | BBB111                          |
       | Sex                                                                                         | <Select> Female                 |
+      | Clan or Ethnicity                                                                           | <Select> Ethnicity1             |
+      | Nationality (if different than country of origin)                                           | <Select> Nationality1           |
+      | Religion                                                                                    | <Select> Religion1              |
       | Current Civil/Marital Status                                                                | <Select> Single                 |
       | Number and age of children and other dependents                                             | 2 children. 8 and 10 years old. |
       | Occupation                                                                                  | Some occupation                 |
@@ -44,3 +57,6 @@ Feature: Survivor Information Form
     And I should see a value for "If other relation between her/him and the caretaker, please specify." on the show page with the value of "Other relation"
     And I should see a value for "What is the caretaker's current marital status?" on the show page with the value of "Single"
     And I should see a value for "What is the caretaker's primary occupation?" on the show page with the value of "Caretaker occupation"
+    And I should see a value for "Clan or Ethnicity" on the show page with the value of "Ethnicity1"
+    And I should see a value for "Nationality (if different than country of origin)" on the show page with the value of "Nationality1"
+    And I should see a value for "Religion" on the show page with the value of "Religion1"

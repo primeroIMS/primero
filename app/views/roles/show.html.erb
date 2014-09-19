@@ -8,6 +8,7 @@
       <span class="edit"><%= t("buttons.edit") %></span>
     </a>
   <% end %>
+  <%= render partial: 'exports/button', locals: {model: Role, instance: @role} %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
