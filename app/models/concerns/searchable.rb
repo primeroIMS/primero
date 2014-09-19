@@ -48,7 +48,7 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[])
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil)
       self.search do
         if filters.present?
           #TODO: pop off the locations filter and perform a fulltext search
@@ -92,16 +92,13 @@ module Searchable
             end
           end
         end
+        if query.present?
+          fulltext(query.strip) do
+            fields(*self.quicksearch_fields)
+          end
+        end
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
-      end
-    end
-
-    def quicksearch(text)
-      self.search do
-        fulltext(text) do
-          fields(*self.quicksearch_fields)
-        end
       end
     end
 

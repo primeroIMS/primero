@@ -16,7 +16,7 @@ class TracingRequestsController < ApplicationController
     @aside = 'shared/sidebar_links'
 
     @associated_users = current_user.managed_user_names
-    search = TracingRequest.list_records filter, order, pagination, users_filter
+    search = TracingRequest.list_records filter, order, pagination, users_filter, params[:query]
     @tracing_requests = search.results
     @total_records = search.total
     @per_page = per_page
