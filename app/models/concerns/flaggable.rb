@@ -3,7 +3,6 @@ module Flaggable
 
   included do
     property :flags, [Flag], :default => []
-    property :flag_count, :default => 0
 
     design do
       view :by_flag,
