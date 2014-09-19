@@ -6,9 +6,9 @@ module Searchable
   included do
     include Sunspot::Rails::Searchable
 
-    # TODO: Not sure how well this will work when the set of indexable fields changes with the form
+    # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
     searchable do
-      searchable_text_fields.each {|f| text f}
+      eval(self.name).quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true}
       # TODO: Left date as string. Getting invalid date format error
@@ -47,7 +47,6 @@ module Searchable
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
-    # TODO: locations are still outstanding.
     # TODO: Also need integration/unit test for filters.
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[])
       self.search do
@@ -98,6 +97,14 @@ module Searchable
       end
     end
 
+    def quicksearch(text)
+      self.search do
+        fulltext(text) do
+          fields(*self.quicksearch_fields)
+        end
+      end
+    end
+
     def convert_date(date)
       Date.parse(date)
     end
@@ -125,11 +132,11 @@ module Searchable
       end
     end
 
+    #TODO: do we need these?
     def searchable_text_fields
-      ["unique_identifier", "short_id",
-       "created_by", "created_by_full_name",
-       "last_updated_by", "last_updated_by_full_name",
-       "created_organisation"] + Field.all_searchable_field_names(self.parent_form)
+      # "created_by", "created_by_full_name",
+      #  "last_updated_by", "last_updated_by_full_name",
+      ["unique_identifier", "short_id"]
     end
 
     def searchable_date_fields
@@ -140,7 +147,8 @@ module Searchable
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organisation"] + Field.all_filterable_field_names(self.parent_form)
+       "created_organisation"] +
+       Field.all_filterable_field_names(self.parent_form)
     end
 
     def searchable_multi_fields
