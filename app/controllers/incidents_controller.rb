@@ -47,6 +47,8 @@ class IncidentsController < ApplicationController
     @body_class = 'profile-page'
     @duplicates = Incident.duplicates_of(params[:id])
 
+    @flag_count = @incident.flags.select{|f| !f.removed}.count
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @incident }

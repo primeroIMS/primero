@@ -109,6 +109,13 @@ module IndexHelper
     end
   end
 
+  def display_flag_count(flags)
+    count = flags.select{|f| !f.removed}.count
+    if count > 0
+      return count
+    end
+  end
+  
   private
 
   def list_view_header_case
