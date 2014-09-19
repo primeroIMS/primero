@@ -23,18 +23,27 @@ module Exporters
           :CreationDate => Time.now,
         })
 
+        form_sections = form_sections_by_module(cases, current_user)
+
         cases.each do |c|
-          subforms_sorted = FormSection.get_permitted_form_sections(c.module, 'case', current_user)
           pdf.start_new_page if pdf.page_number > 1
           pdf.outline.section(section_title(c), :destination => pdf.page_number)
-          render_case(pdf, c, subforms_sorted)
+          render_case(pdf, c, form_sections[c.module.name])
         end
 
         pdf.render
       end
 
+      def form_sections_by_module(cases, current_user)
+        cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
+          acc.merge({mod.name => FormSection.get_permitted_form_sections(mod, 'case', current_user)
+                                       .select(&:visible)
+                                       .sort {|a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] } })
+        end
+      end
+
       def section_title(_case)
-        _case.name || _case.short_id
+        (!_case.hidden_name && _case.name) || _case.short_id
       end
 
       def render_case(pdf, _case, base_subforms)
@@ -42,21 +51,28 @@ module Exporters
 
         render_photo(pdf, _case)
 
-        base_subforms.each do |fs|
-          pdf.text fs.name, :style => :bold, :size => 16
-          pdf.move_down 10
-          pdf.outline.add_subsection_to(section_title(_case)) do
-            pdf.outline.section(fs.name, :destination => pdf.page_number)
+        grouped_subforms = base_subforms.group_by(&:form_group_name)
+
+        pdf.outline.add_subsection_to(section_title(_case)) do
+          grouped_subforms.each do |(parent_group, fss)|
+            pdf.outline.section(parent_group, :destination => pdf.page_number, :closed => true) do
+              fss.each do |fs|
+                pdf.text fs.name, :style => :bold, :size => 16
+                pdf.move_down 10
+
+                pdf.outline.section(fs.name, :destination => pdf.page_number)
+
+                render_form_section(pdf, _case, fs)
+
+                pdf.move_down 10
+              end
+            end
           end
-
-          render_form_section(pdf, _case, fs)
-
-          pdf.move_down 10
         end
       end
 
       def render_title(pdf, _case)
-        pdf.text "#{_case.name} (#{_case.short_id})", :style => :bold, :size => 20, :align => :center
+        pdf.text section_title(_case), :style => :bold, :size => 20, :align => :center
       end
 
       def render_photo(pdf, _case)
@@ -84,6 +100,7 @@ module Exporters
             pdf.text subf.display_name, :style => :bold, :size => 12
             form_data.each do |el|
               render_fields(pdf, el, subf.subform_section.fields)
+              pdf.move_down 10
             end
           end
         end
@@ -91,7 +108,8 @@ module Exporters
 
       def render_fields(pdf, obj, fields)
         table_data = fields.map do |f|
-          [f.display_name, format_field(f, obj.__send__(f.name))]
+          value = censor_value(f.name, obj)
+          [f.display_name, format_field(f, value)]
         end
 
         table_options = {
@@ -104,8 +122,19 @@ module Exporters
         pdf.table(table_data, table_options) if table_data.length > 0
       end
 
+      def censor_value(attr_name, obj)
+        case attr_name
+        when 'name'
+          obj.try(:hidden_name) ? '***hidden***' : obj.name
+        else
+          obj.__send__(attr_name)
+        end
+      end
+
       def format_field(field, value)
         case value
+        when TrueClass, FalseClass
+          value ? {:image => Rails.root.join("app/assets/images/icon-tick.png")} : ""
         when String
           value
         when DateTime
