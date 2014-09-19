@@ -2,8 +2,8 @@
     <span id="<%= mark_as_property %>" class="<%= style %>">
       <%= link_to "#", class: button_style do %>
         <%= mark_as_label %>
-        <% if record.flagged? && @flag_count > 0 %>
-          <span class="primero_jewel"><%= @flag_count %></span>
+        <% if record.flagged? && record.flag_count > 0 %>
+          <span class="primero_jewel"><%= record.flag_count %></span>
         <% end %>
       <% end %>
     </span>

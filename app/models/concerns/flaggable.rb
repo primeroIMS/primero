@@ -52,6 +52,10 @@ module Flaggable
     end
     alias_method :flag, :flagged?
 
+    def flag_count
+      self.flags.select{|f| !f.removed}.count
+    end
+
   end
 
   module ClassMethods
