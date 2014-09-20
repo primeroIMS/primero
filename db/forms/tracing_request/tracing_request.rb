@@ -114,10 +114,11 @@ tracing_request_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "Separation Address (Place)"
             }),
-  #TODO location picker
   Field.new({"name" => "location_separation",
-             "type" => "text_field",
-             "display_name_all" => "Separation Location"
+             "type" => "select_box",
+             "display_name_all" => "Separation Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",
@@ -127,10 +128,11 @@ tracing_request_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "Last Landmark"
             }),
-  #TODO location picker
   Field.new({"name" => "location_last",
-             "type" =>"text_field" ,
-             "display_name_all" => "Last Location"
+             "type" =>"select_box" ,
+             "display_name_all" => "Last Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "telephone_last",
              "type" => "text_field",

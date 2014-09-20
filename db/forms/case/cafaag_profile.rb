@@ -49,8 +49,10 @@ caafag_profile_fields = [
              "display_name_all" => "Area of Military Unit"
             }),
   Field.new({"name" => "location_cafaag_militaryunit",
-             "type" => "text_field",
-             "display_name_all" => "Location of Military Unit"
+             "type" => "select_box",
+             "display_name_all" => "Location of Military Unit",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "cafaag_child_role",
              "type" => "select_box",
@@ -89,8 +91,10 @@ caafag_profile_fields = [
              "display_name_all" => "Area of Mobilization"
             }),
   Field.new({"name" => "location_cafaag_mobilization",
-             "type" => "text_field",
-             "display_name_all" => "Location of Mobilization"
+             "type" => "select_box",
+             "display_name_all" => "Location of Mobilization",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "cafaag_date_child_leave",
              "type" => "date_range",
@@ -124,8 +128,10 @@ caafag_profile_fields = [
              "display_name_all" => "Address of Demobilization"
             }),
   Field.new({"name" => "location_cafaag_demobilization",
-             "type" => "text_field",
-             "display_name_all" => "Location of Demobilization"
+             "type" => "select_box",
+             "display_name_all" => "Location of Demobilization",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "cafaag_demobilization_papers_served",
              "type" => "select_box",
