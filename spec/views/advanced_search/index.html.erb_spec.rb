@@ -1,8 +1,11 @@
+#TODO: All tests in this file have been disabled. Keeping them around for reference only.
+#      When advanced search is fully re-implemnted, everything here should be rewritten.
+
 require 'spec_helper'
 require 'nokogiri'
 
 describe "advanced_search/index.html.erb" do
-  
+
   # PRIMERO-72
   # Stubbed out Advanced Search functionality as part of demo cleanup
   # TODO add test back when functionality is added back
@@ -17,7 +20,7 @@ describe "advanced_search/index.html.erb" do
     # document.css(".field").count.should == 1
   # end
 
-  it "show navigation links for logged in user" do
+  xit "show navigation links for logged in user" do
     user = stub_model(User, :user_name => "bob", :has_permission? => true)
     form_sections = [FormSection.new("name" => "Basic Details", "enabled"=> "true", "description"=>"Blah blah", "order"=>"10", "unique_id"=> "basic_details", :editable => "false", :fields => [])]
     assign(:forms, form_sections)
@@ -33,14 +36,14 @@ describe "advanced_search/index.html.erb" do
     render :template => "advanced_search/index", :layout => "layouts/application"
 
     rendered.should have_tag("nav")
-    
+
     # PRIMERO-72
     # Removed CHILDREN link as part of demo cleanup
     # TODO add test back when functionality is added back
     #rendered.should have_link "CHILDREN", :href => children_path
   end
 
-  it "show not navigation links when no user logged in" do
+  xit "show not navigation links when no user logged in" do
     form_sections = [FormSection.new("name" => "Basic Details", "enabled"=> "true", "description"=>"Blah blah", "order"=>"10", "unique_id"=> "basic_details", :editable => "false", :fields => [])]
     view.stub(:current_user).and_return(nil)
     view.stub(:logged_in?).and_return(false)
