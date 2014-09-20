@@ -257,6 +257,10 @@ en:
     sex: "Sex"
     registration_date: "Registration Date"
     status: "Status"
+    social_worker: "Social Worker"
+    survivor_code: "Survivor Code"
+    case_opening_date: "Case Opening Date"
+    photo: "Photo"
 
     messages:
       update_success: "Case was successfully updated."

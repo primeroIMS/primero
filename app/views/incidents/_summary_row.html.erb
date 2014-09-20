@@ -1,8 +1,4 @@
 <tr>
-  <% if fields_to_show.include? 'owned_by_text' %>
-    <% #TODO - Get name or code.  Prob should be in helper%>
-    <td><%= record.owned_by %></td>
-  <% end %>
   <% if fields_to_show.include? 'short_id' %>
     <td id="incident_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_incident(record), incident_path(record), class: 'id_link' %>
@@ -30,5 +26,9 @@
   <% end %>
   <% if fields_to_show.include? 'violations' %>
     <td><%= index_violations(record) %></td>
+  <% end %>
+  <% if fields_to_show.include? 'owned_by' %>
+    <% #TODO - Get name or code.  Prob should be in helper%>
+    <td><%= record.owned_by %></td>
   <% end %>
 </tr>

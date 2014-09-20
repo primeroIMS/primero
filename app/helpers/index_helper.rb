@@ -114,23 +114,21 @@ module IndexHelper
   def list_view_header_case
     header_list = []
 
-    header_list << {title: 'social_worker', sort_title: 'owned_by_text'} if @is_manager
     header_list << {title: 'id', sort_title: 'short_id'}
     header_list << {title: 'name', sort_title: 'sortable_name'} if (@is_cp && !@is_manager)
     header_list << {title: 'survivor_code', sort_title: 'survivor_code_no'} if (@is_gbv && !@is_manager)
     header_list << {title: 'age', sort_title: 'age'} if @is_cp
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
-    header_list << {title: 'case_opening_date', sort_title: 'case_opening_date'} if @is_gbv
+    header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv
     header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
+    header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
 
     return header_list
   end
 
   def list_view_header_incident
     header_list = []
-
-    header_list << {title: 'social_worker', sort_title: 'owned_by_text'} if @is_manager
 
     #TODO - do I need to handle Incident Code???
     header_list << {title: 'id', sort_title: 'short_id'}
@@ -140,8 +138,9 @@ module IndexHelper
     header_list << {title: 'violence_type', sort_title: 'violence_type'} if @is_gbv
     header_list << {title: 'incident_location', sort_title: 'incident_location'}
 
-    #TODO - how to display violations
+    #TODO - how to display violations... should they be sortable?
     header_list << {title: 'violations', sort_title: 'violations'} if @is_mrm
+    header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
 
     return header_list
   end
