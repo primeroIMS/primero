@@ -88,7 +88,8 @@ module Exporters
       end
 
       def render_form_section(pdf, _case, form_section)
-        (subforms, normal_fields) = form_section.fields.partition {|f| f.type == Field::SUBFORM }
+        (subforms, normal_fields) = form_section.fields.reject {|f| f.type == 'separator' }
+                                                       .partition {|f| f.type == Field::SUBFORM }
 
         render_fields(pdf, _case, normal_fields)
 
