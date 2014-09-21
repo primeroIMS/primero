@@ -259,7 +259,7 @@ en:
     status: "Status"
     social_worker: "Social Worker"
     survivor_code: "Survivor Code"
-    case_opening_date: "Case Opening Date"
+    case_opening_date: "Case Open Date"
     photo: "Photo"
 
     messages:
@@ -354,6 +354,10 @@ en:
     case_worker_code: "Case Worker Code"
     date_of_interview: "Date of Interview"
     date_of_incident: "Date of Incident"
+    violence_type: "Violence Type"
+    incident_location: "Incident Location"
+    violations: "Violations"
+    social_worker: "Social Worker"
     change_log: "Change Log"
 
     actions:
