@@ -9,13 +9,13 @@
               <ul class="quicksearch right">
                 <% if can? :read, model %>
                   <li class="has-form">
-                    <%= form_tag polymorphic_path(model), :method => :get, :id => "search_form" do %>
+                    <%= form_tag path_for_model(model), :method => :get, :id => "search_form" do %>
                       <div class="row collapse">
                         <div class="large-9 small-10 columns">
                           <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH' %>
                         </div>
                         <div class="large-3 small-2 columns">
-                          <%= button_tag  :action => polymorphic_path(model), :method => "get" do %>
+                          <%= button_tag  :action => path_for_model(model), :method => "get" do %>
                           <%= icon('angle-right') %>
                           <% end %>
                         </div>
