@@ -114,4 +114,20 @@ module ApplicationHelper
       ctl_edit_button(record, path)
     end
   end
+
+  #TODO: Will we refactor the Child/Case once and for all? Get rid of this method when we do!
+  def path_for_model(*args)
+    model = args.first
+    model_class = if model.is_a? Class
+      model_class = model
+    else
+      model_class = model.class
+    end
+
+    result = polymorphic_path(*args)
+    if model_class == Child
+      result = result.sub('children','cases')
+    end
+    return result
+  end
 end
