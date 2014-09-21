@@ -126,9 +126,7 @@ module IndexHelper
     header_list << {title: 'date_of_interview', sort_title: 'date_of_first_report'} if @is_gbv
     header_list << {title: 'date_of_incident', sort_title: 'date_of_incident'}
     header_list << {title: 'violence_type', sort_title: 'gbv_sexual_violence_type'} if @is_gbv
-    header_list << {title: 'incident_location', sort_title: 'incident_location'}
-
-    #TODO - how to display violations... should they be sortable?
+    header_list << {title: 'incident_location', sort_title: 'incident_location'} if @is_mrm
     header_list << {title: 'violations', sort_title: 'violations'} if @is_mrm
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
 

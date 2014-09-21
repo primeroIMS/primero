@@ -35,12 +35,12 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('case').should == [
-                                                    {:title=>"social_worker", :sort_title=>"owned_by_text"}, 
                                                     {:title=>"id", :sort_title=>"short_id"}, 
                                                     {:title=>"age", :sort_title=>"age"}, 
                                                     {:title=>"sex", :sort_title=>"sex"}, 
                                                     {:title=>"registration_date", :sort_title=>"registration_date"}, 
-                                                    {:title=>"photo", :sort_title=>"photo"}
+                                                    {:title=>"photo", :sort_title=>"photo"},
+                                                    {:title=>"social_worker", :sort_title=>"owned_by"}
                                                    ]
         end
       end
@@ -61,7 +61,7 @@ describe IndexHelper do
           @view.list_view_header('case').should == [
                                                     {:title=>"id", :sort_title=>"short_id"},
                                                     {:title=>"survivor_code", :sort_title=>"survivor_code_no"},
-                                                    {:title=>"case_opening_date", :sort_title=>"case_opening_date"}
+                                                    {:title=>"case_opening_date", :sort_title=>"created_at"}
                                                    ]
         end
       end
@@ -72,9 +72,9 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('case').should == [
-                                                    {:title=>"social_worker", :sort_title=>"owned_by_text"}, 
                                                     {:title=>"id", :sort_title=>"short_id"}, 
-                                                    {:title=>"case_opening_date", :sort_title=>"case_opening_date"}
+                                                    {:title=>"case_opening_date", :sort_title=>"created_at"},
+                                                    {:title=>"social_worker", :sort_title=>"owned_by"}
                                                    ]
         end
       end
@@ -95,7 +95,7 @@ describe IndexHelper do
         it "should return a header list" do
           @view.list_view_header('incident').should == [
                                                     {:title=>"id", :sort_title=>"short_id"},
-                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
+                                                    {title: 'date_of_incident', sort_title: 'date_of_incident'},
                                                     {title: 'incident_location', sort_title: 'incident_location'},
                                                     {title: 'violations', sort_title: 'violations'}
                                                    ]
@@ -108,11 +108,11 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('incident').should == [
-                                                    {:title=>"social_worker", :sort_title=>"owned_by_text"},
                                                     {:title=>"id", :sort_title=>"short_id"},
-                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
+                                                    {title: 'date_of_incident', sort_title: 'date_of_incident'},
                                                     {title: 'incident_location', sort_title: 'incident_location'},
-                                                    {title: 'violations', sort_title: 'violations'}
+                                                    {title: 'violations', sort_title: 'violations'},
+                                                    {:title=>"social_worker", :sort_title=>"owned_by"}
                                                    ]
         end
       end
@@ -132,9 +132,8 @@ describe IndexHelper do
           @view.list_view_header('incident').should == [
                                                     {:title=>"id", :sort_title=>"short_id"},
                                                     {title: 'date_of_interview', sort_title: 'date_of_first_report'},
-                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
-                                                    {title: 'violence_type', sort_title: 'violence_type'},
-                                                    {title: 'incident_location', sort_title: 'incident_location'}
+                                                    {title: 'date_of_incident', sort_title: 'date_of_incident'},
+                                                    {title: 'violence_type', sort_title: 'gbv_sexual_violence_type'}
                                                    ]
         end
       end
@@ -145,12 +144,11 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('incident').should == [
-                                                    {:title=>"social_worker", :sort_title=>"owned_by_text"},
                                                     {:title=>"id", :sort_title=>"short_id"},
                                                     {title: 'date_of_interview', sort_title: 'date_of_first_report'},
-                                                    {title: 'date_of_incident', sort_title: 'start_date_of_incident_from'},
-                                                    {title: 'violence_type', sort_title: 'violence_type'},
-                                                    {title: 'incident_location', sort_title: 'incident_location'}
+                                                    {title: 'date_of_incident', sort_title: 'date_of_incident'},
+                                                    {title: 'violence_type', sort_title: 'gbv_sexual_violence_type'},
+                                                    {:title=>"social_worker", :sort_title=>"owned_by"}
                                                    ]
         end
       end

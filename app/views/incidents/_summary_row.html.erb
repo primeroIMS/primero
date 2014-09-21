@@ -28,7 +28,7 @@
     <td><%= render 'summary_row_violations', incident: record %></td>
   <% end %>
   <% if fields_to_show.include? 'owned_by' %>
-    <% #TODO - Get name or code.  Prob should be in helper%>
+    <% #TODO - Get name or code.  Prob should be in helper. Should this be owned_by_text?%>
     <td><%= record.owned_by %></td>
   <% end %>
 </tr>
