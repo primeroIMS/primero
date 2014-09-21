@@ -35,9 +35,15 @@ class Location < CouchRest::Model::Base
 
 
   def self.find_by_location(placename)
-    #TODO: Forn now this makes the bold assumption that high-level locations are uniqueish.
+    #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
     location = Location.by_placename(key: placename).all[0..0]
     return location + location.first.descendants
+  end
+
+  def self.placename_from_name(name)
+    result = ""
+    result = name.split('::').last if name.present?
+    return result
   end
 
   def hierarchical_name
