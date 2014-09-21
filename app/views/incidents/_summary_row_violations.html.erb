@@ -1,4 +1,7 @@
-<% violations = incident.violations_list %>
+<%
+  compact_flag = true
+  violations = incident.violations_list(compact_flag)
+%>
 <% if violations.present? %>
   <ul>
     <% violations.each do |violation| %>
