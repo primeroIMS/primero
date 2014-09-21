@@ -4,14 +4,8 @@
     <li><%= link_with_confirm t("header.logout"), logout_path, id: "logout" %></li>
     <li><%= link_with_confirm t("header.my_account"), user_path(current_user.id) %></li>
 
-    <%
-      #TODO - Temporary - commented out for speed
-      #Child formsection load bug
-    %>
-    <% if false%>
     <% if can?(:manage, ContactInformation) or can?(:highlight, Field) %>
       <li><%= link_to t("header.system_settings"), admin_path %></li>
-    <% end %>
     <% end %>
   <% end %>
 
