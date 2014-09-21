@@ -9,6 +9,11 @@ class Flag
   property :flagged_by, String
   property :removed, TrueClass
   property :unflag_message, String
+  property :created_at, Date
+
+  def parent_record
+    base_doc
+  end
 
   private
 

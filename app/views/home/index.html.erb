@@ -1,32 +1,9 @@
-<h4 class="text-center">&lt;Placeholder for <%= I18n.t("home.dashboard") %>&gt;</h4>
-
-<% if false %>
-<h2><%= t "home.welcome" %></h2>
-
-<%= render 'notifications' %>
-
-<p>
-  <%= form_for @user, :url => user_preference_path(current_user_name), :html => {:method => :put} do |f| %>
-      <%= label_tag "user_time_zone", t("home.current_time_zone") %>
-      <%= f.time_zone_select "time_zone" %>
-      <%= label_tag "user_locale", t("home.language") %>
-      <%= f.select "locale", RapidFTR::Application::LOCALES_WITH_DESCRIPTION %>
-      <p class='submitButton' >
-        <%= f.submit t("buttons.save") %>
-      </p>
-  <% end %>
-</p>
-
-	<% if can? :create, Child %>
-		<%= link_to t("children.register_new_child"), new_child_path %> <br/><br/>
-	<% end %>
-
-<% if can? :read, Child %>
-  <%= link_to t('home.view_records'), children_path %> <br/><br/>
-  <%= link_to @suspect_record_count.to_s + " " + t("home.records_need_attention"), child_filter_path(:filter => "flag") %>
-<% end %>
-
-<% end %>
-
-<br/>
-<br/>
+<div id="dashboard" class="row">
+  <div id="content" class="large-8 columns">
+    <%= render 'scheduled_activities', scheduled_activities: @scheduled_activities %>
+  </div>
+  <div id="sidebar" class="large-4 columns">
+    <%= render 'new_cases_assigned', cases: @cases %>
+    <%= render 'recently_flagged', recently_flagged: @recently_flagged %>
+  </div>
+</div>

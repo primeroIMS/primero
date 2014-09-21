@@ -1,0 +1,15 @@
+<div class="panel">
+ <div class="panel_header">
+  <h4>Recently Flagged Cases</h4>  
+ </div>
+ <div class="panel_content scrollable">
+  <ul>
+  	<% recently_flagged.each do |r| %>
+    	<li>
+    		<%= link_to "#{r.parent_record.short_id} #{r.parent_record.name}", case_path(r.parent_record) %>
+    		<p><%= r.message %></p>
+    	</li>
+    <% end %>
+  </ul>
+ </div>
+</div>

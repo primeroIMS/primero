@@ -1,0 +1,117 @@
+#dashboard {
+  margin-top: 50px;
+
+  .panel {
+    border: 1px solid $stroke_green_color;
+    background: #fff;
+    padding: 0;
+    
+    .panel_content {
+      padding: 10px;
+    }
+
+    .panel_header {
+      h4 {
+        font-size: $fifteen_px;
+        font-family: 'Roboto-Medium', san-serif;
+        background: $light_green_color;
+        margin-top: 0;
+        padding: 10px;
+        color: $green_color;
+        text-transform: uppercase;
+      }
+    }
+
+    .no-padding {
+      padding: 0 !important
+    }
+  }
+
+  #content {
+    .panel {
+
+      .panel_header h4 {
+        margin-bottom: 0;
+      }
+    }
+
+    table {
+      border: none;
+      width: 100%;
+      margin-bottom: 0;
+
+      thead {
+        background: none;
+
+        th {
+          border-bottom: 1px solid $stroke_green_color;
+          border-right: 1px solid $stroke_green_color;
+          text-transform: uppercase;
+          color: $green_color;
+          font-size: 'Roboto-Medium', sans-serif;
+          font-size: $thirteen_px;
+
+          &:last-of-type {
+            border-right: none;
+          }
+        }
+      }
+
+      tbody {
+        tr td {
+          border-bottom: 1px dashed #ccc;
+          border-right: 1px solid $stroke_green_color;
+
+          &:last-of-type {
+            border-right: none;
+          }
+        }
+
+        tr:last-of-type td {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  #sidebar {
+    font-size: $thirteen_px;
+
+    .scrollable {
+      height: 300px;
+      overflow: hidden;
+      overflow-y: scroll;
+    }
+
+    p {
+      font-size: $thirteen_px;
+      margin-bottom: 0;
+    }
+
+    ul {
+      list-style-type: none;
+      margin-left: 0;
+
+      li {
+        border-bottom: 1px dashed #ccc;
+        padding: 5px 0;
+
+        &:last-of-type {
+          border-bottom: none;
+        }
+      }
+    }
+
+    a {
+      font-size: $thirteen_px;
+      font-family: 'Roboto-Medium', san-serif;
+    }
+
+    .panel_header {
+      h4 {
+        font-size: $thirteen_px;
+        font-family: 'Roboto-Medium', san-serif;
+      }
+    }
+  }
+}

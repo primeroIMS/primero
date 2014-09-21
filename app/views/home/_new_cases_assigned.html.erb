@@ -1,0 +1,12 @@
+<div class="panel">
+ <div class="panel_header">
+  <h4>New Cases Assigned To You</h4>  
+ </div>
+ <div class="panel_content">
+  <ul>
+  	<% cases.each do |c| %>
+    	<li><%= link_to "#{c.short_id} #{c.name} - #{c.created_at.strftime("%d/%b/%Y")}", case_path(c) %></li>
+    <% end %>
+  </ul>
+ </div>
+</div>
