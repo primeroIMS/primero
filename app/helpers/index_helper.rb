@@ -31,16 +31,6 @@ module IndexHelper
     return fields_to_show
   end
 
-  def index_violations(incident)
-    #TODO - WIP
-    violations = incident.violations_list
-    if violations.present?
-      return violations.join ", "
-    else
-      return ""
-    end
-  end
-
   def build_checkboxes(filter, items, type, format = true, filter_type = nil)
     content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
       items.each do |item|

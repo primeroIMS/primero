@@ -1,0 +1,8 @@
+<% violations = incident.violations_list %>
+<% if violations.present? %>
+  <ul>
+    <% violations.each do |violation| %>
+      <li><%= violation %></li>
+    <% end %>
+  </ul>
+<% end %>

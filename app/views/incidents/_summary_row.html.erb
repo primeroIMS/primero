@@ -25,7 +25,7 @@
     <td><%= record.incident_location %></td>
   <% end %>
   <% if fields_to_show.include? 'violations' %>
-    <td><%= index_violations(record) %></td>
+    <td><%= render 'summary_row_violations', incident: record %></td>
   <% end %>
   <% if fields_to_show.include? 'owned_by' %>
     <% #TODO - Get name or code.  Prob should be in helper%>
