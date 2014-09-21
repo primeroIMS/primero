@@ -349,7 +349,7 @@ en:
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
-    id: "Incident Id"
+    id: "ID#"
     survivor_code: "Survivor Code"
     case_worker_code: "Case Worker Code"
     date_of_interview: "Date of Interview"
