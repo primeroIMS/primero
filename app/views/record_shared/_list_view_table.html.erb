@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <%= render :partial => "record_shared/#{record.pluralize}_summary_row", collection: collection, as: :record, :locals => {:fields_to_show => index_fields_to_show(header_list)} %>
+        <%= render :partial => "#{controller.controller_name}/summary_row", collection: collection, as: :record, :locals => {:fields_to_show => index_fields_to_show(header_list)} %>
       </tbody>
     </table>
     <div class="table_spacer"></div>

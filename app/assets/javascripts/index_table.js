@@ -105,7 +105,10 @@ var IndexTable = Backbone.View.extend({
         column_field_idx = column.attr('aria-field-index');
 
     order = order == 'ascending' ? 'asc' : 'desc';
-    window.location.search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
+    // Disable the sorting for the Violations and Photo columns
+    if (column_field != 'violations' && column_field != 'photo'){
+      window.location.search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
+    }
   }
 });
 
