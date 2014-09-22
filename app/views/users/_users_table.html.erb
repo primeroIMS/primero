@@ -3,7 +3,8 @@
       <%= link_to content_tag(:span, t("users.create"), :class => 'create_user'), new_user_path, :class => 'btn green-button' %>
   <% end %>
   <%= render 'exports/button' %>
-  <%= render 'imports/button' %>
+  <%# TODO: Hiding imports so that QA doesn't get into trouble %>
+  <%#= render 'imports/button' %>
 <% end %>
 <div class="row">
   <div class="large-12 columns">
