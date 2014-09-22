@@ -10,6 +10,7 @@ describe Record do
   end
 
   before :all do
+    FormSection.all.each {|form| form.destroy}
     create_form_section_date_field("case")
     create_form_section_date_field("tracing_request")
     create_form_section_date_field("incident")

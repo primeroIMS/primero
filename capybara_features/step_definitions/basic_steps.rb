@@ -498,6 +498,13 @@ Given /^the following lookups exist in the system:$/ do |lookup_table|
   end
 end
 
+Given /^the following location country exist in the system:$/ do |location_table|
+  Location.all.each {|u| u.destroy }
+  location_table.hashes.each do |location_hash|
+    Location.create! placename: location_hash['placename'], type: "country"
+  end
+end
+
 Then /^there should be (\d+) child records in the database$/ do |number_of_records|
   Child.all.length.should == number_of_records.to_i
 end

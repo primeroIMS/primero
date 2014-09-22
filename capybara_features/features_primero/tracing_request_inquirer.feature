@@ -6,6 +6,15 @@ Feature: Tracing Request Inquirer
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename                 |
+      | Current Location Value    |
+      | Separation Location Value |
+      | Last Location Value       |
+      | Update Current Location Value    |
+      | Update Separation Location Value |
+      | Update Last Location Value place |
+      
     When I access "tracing requests page"
     And I press the "New Tracing Request" button
     And I press the "Inquirer" button
@@ -17,7 +26,7 @@ Feature: Tracing Request Inquirer
       | Date of Birth                           | 30-May-1990               |
       | Additional details / comments           | This is a test            |
       | Current Address                         | Current Address Value     |
-      | Current Location                        | Current Location Value    |
+      | Current Location                        | <Choose>Current Location Value    |
       | Is this a permanent location?           | <Tickbox>                 |
       | Telephone                               | Telephone Value           |
       | Date of Separation                      | 26-Jul-2006               |
@@ -25,10 +34,10 @@ Feature: Tracing Request Inquirer
       | Did the separation occur in relation to evacuation?  | <Tickbox>                         |
       | Circumstances of Separation (please provide details) | Details about the separation here |
       | Separation Address (Place)  | Separation Address (Place) Value  |
-      | Separation Location         | Separation Location Value         |
+      | Separation Location         | <Choose>Separation Location Value |
       | Last Address                | Last Address Value                |
       | Last Landmark               | Last Landmark Value               |
-      | Last Location               | Last Location Value               |
+      | Last Location               | <Choose>Last Location Value       |
       | Last Telephone              | Last Telephone Value              |
       | Additional info that could help in tracing? | It is at some place in the world  |
 
@@ -71,7 +80,7 @@ Feature: Tracing Request Inquirer
       | Date of Birth                           | 28-May-1991               |
       | Additional details / comments           | This is a test comments   |
       | Current Address                         | Update Current Address Value  |
-      | Current Location                        | Update Current Location Value |
+      | Current Location                        | <Choose>Update Current Location Value |
       | Is this a permanent location?           | <Tickbox>                   |
       | Telephone                               | Update Telephone Value      |
       | Date of Separation                      | 20-Jul-2007                 |
@@ -79,10 +88,10 @@ Feature: Tracing Request Inquirer
       | Did the separation occur in relation to evacuation?  | <Tickbox>               |
       | Circumstances of Separation (please provide details) | separation here details |
       | Separation Address (Place)  | Update Separation Address (Place) Value               |
-      | Separation Location         | Update Separation Location Value |
+      | Separation Location         | <Choose>Update Separation Location Value |
       | Last Address                | Update Last Address Value place  |
       | Last Landmark               | Update Last Landmark Value place |
-      | Last Location               | Update Last Location Value place |
+      | Last Location               | <Choose>Update Last Location Value place |
       | Last Telephone              | Update Last Telephone Value      |
       | Additional info that could help in tracing? |  somewhere       |
     And the value of "Age" should be the calculated age of someone born in "1991"

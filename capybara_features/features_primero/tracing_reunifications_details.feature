@@ -11,6 +11,9 @@ Feature: Tracing Reunification Details
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename |
+      | Kenya     |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Tracing" button
@@ -21,9 +24,9 @@ Feature: Tracing Reunification Details
       | Name of adult child was reunified with               | Verma Webol               |
       | Relationship of adult to child                       | Father                    |
       | Address                                              | Test Village 2            |
-      | Location of adult with whom the child was reunified  | 124 C.Ave                 |
+      | Location of adult with whom the child was reunified  | <Choose>Kenya             |
       | Address where the reunification is taking place      | 125 B.Ave                 |
-      | Location where the reunifcation is taking place      | Kenya                     |
+      | Location where the reunifcation is taking place      | <Choose>Kenya             |
       | What type of reunification?                          | <Select> Mass Tracing     |
       | Was the child reunified with the verfified adult?    | <Radio> No                |
       | If not, what was the reason for the change?          | <Select> Change of Mind   |
@@ -32,9 +35,9 @@ Feature: Tracing Reunification Details
       | Name of adult child was reunified with               | Vivian Nelson             |
       | Relationship of adult to child                       | Mother                    |
       | Address                                              | Test Village              |
-      | Location of adult with whom the child was reunified  | 123 C.Ave                 |
+      | Location of adult with whom the child was reunified  | <Choose>Kenya             |
       | Address where the reunification is taking place      | 123 B.Ave                 |
-      | Location where the reunifcation is taking place      | Kenya                     |
+      | Location where the reunifcation is taking place      | <Choose>Kenya             |
       | What type of reunification?                          | <Select> Mass Tracing     |
       | Date of reunification                                | 30-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |
@@ -47,7 +50,7 @@ Feature: Tracing Reunification Details
       | Name of adult child was reunified with               | Verma Webol               |
       | Relationship of adult to child                       | Father                    |
       | Address                                              | Test Village 2            |
-      | Location of adult with whom the child was reunified  | 124 C.Ave                 |
+      | Location of adult with whom the child was reunified  | Kenya                     |
       | Address where the reunification is taking place      | 125 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
       | What type of reunification?                          | Mass Tracing              |
@@ -58,7 +61,7 @@ Feature: Tracing Reunification Details
       | Name of adult child was reunified with               | Vivian Nelson             |
       | Relationship of adult to child                       | Mother                    |
       | Address                                              | Test Village              |
-      | Location of adult with whom the child was reunified  | 123 C.Ave                 |
+      | Location of adult with whom the child was reunified  | Kenya                     |
       | Address where the reunification is taking place      | 123 B.Ave                 |
       | Location where the reunifcation is taking place      | Kenya                     |
       | What type of reunification?                          | Mass Tracing              |
@@ -73,9 +76,9 @@ Feature: Tracing Reunification Details
       | Name of adult child was reunified with               | Vivian Nelson             |
       | Relationship of adult to child                       | Mother                    |
       | Address                                              | Test Village              |
-      | Location of adult with whom the child was reunified  | 123 C.Ave                 |
+      | Location of adult with whom the child was reunified  | <Choose>Kenya             |
       | Address where the reunification is taking place      | 123 B.Ave                 |
-      | Location where the reunifcation is taking place      | Kenya                     |
+      | Location where the reunifcation is taking place      | <Choose>Kenya             |
       | What type of reunification?                          | <Select> Mass Tracing     |
       | Date of reunification                                | 30-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |
@@ -85,9 +88,9 @@ Feature: Tracing Reunification Details
       | Name of adult child was reunified with               | Verma Webol               |
       | Relationship of adult to child                       | Father                    |
       | Address                                              | Test Village 2            |
-      | Location of adult with whom the child was reunified  | 124 C.Ave                 |
+      | Location of adult with whom the child was reunified  | <Choose>Kenya             |
       | Address where the reunification is taking place      | 125 B.Ave                 |
-      | Location where the reunifcation is taking place      | Kenya                     |
+      | Location where the reunifcation is taking place      | <Choose>Kenya             |
       | What type of reunification?                          | <Select> Mass Tracing     |
       | Date of reunification                                | 31-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> No                |
@@ -102,9 +105,9 @@ Feature: Tracing Reunification Details
       | Name of adult child was reunified with               | Marvin Martian            |
       | Relationship of adult to child                       | Father                    |
       | Address                                              | Test Village 3            |
-      | Location of adult with whom the child was reunified  | 123 E.Ave                 |
+      | Location of adult with whom the child was reunified  | <Choose>Kenya             |
       | Address where the reunification is taking place      | 123 G.Ave                 |
-      | Location where the reunifcation is taking place      | Kenya                     |
+      | Location where the reunifcation is taking place      | <Choose>Kenya             |
       | What type of reunification?                          | <Select> Mass Tracing     |
       | Date of reunification                                | 29-May-2014               |
       | Was the child reunified with the verfified adult?    | <Radio> Yes               |

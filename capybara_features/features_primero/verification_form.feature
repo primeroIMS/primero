@@ -10,6 +10,10 @@ Feature: Verification
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename    |
+      | Springfield  |
+      | The North    |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Tracing" button
@@ -21,7 +25,7 @@ Feature: Verification
       | Relationship                                                | <Select> Father          |
       | Sex                                                         | <Select> Male            |
       | Age                                                         | 58                       |
-      | Current Location                                            | Springfield              |
+      | Current Location                                            | <Choose>Springfield      |
       | Address                                                     | TUCSON AZ 85705          |
       | Phone                                                       | 732-757-2923             |
       | Do you want the child to come and live with you?            | <Radio> Yes              |
@@ -39,7 +43,7 @@ Feature: Verification
       | Relationship                                                | <Select> Brother         |
       | Sex                                                         | <Select> Male            |
       | Age                                                         | 24                       |
-      | Current Location                                            | The North                |
+      | Current Location                                            | <Choose>The North        |
       | Address                                                     | Some address             |
       | Do you want the child to come and live with you?            | <Radio> Yes              |
       | Are you able to care for him/her/them?                      | <Radio> Yes              |
