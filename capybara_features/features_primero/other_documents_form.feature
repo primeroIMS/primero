@@ -1,5 +1,6 @@
 #JIRA PRIMERO-413
 #JIRA PRIMERO-445
+#JIRA PRIMERO-607
 
 @javascript @primero
 Feature: Other documents form
@@ -32,6 +33,7 @@ Feature: Other documents form
     Then I press "Save"
     And I should see "Case record successfully created"
     And I click the "Other Documents" link
+    And I should not see "Click the EDIT button to add Other Documents"
     And I should see documents on the show page:
       |jorge.jpg|Document 1 (jorge.jpg)|
       |jeff.png |Document 2 (jeff.png) |
