@@ -7,6 +7,9 @@ Feature: Closure Form
 
   Scenario: As a logged in user, I should be able to fill closure form
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename   |
+      | Kenya       |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Closure" button
@@ -22,7 +25,7 @@ Feature: Closure Form
       | Caregiver Name                                   | Shabazz Nurendu         |
       | Caregiver Relationship                           | Father                  |
       | Caregiver Address                                | 1900 B. Ave             |
-      | Caregiver Location                               | Kenya                   |
+      | Caregiver Location                               | <Choose>Kenya           |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "What is the reason for closing the child's file?" on the show page with the value of "Death of Child"

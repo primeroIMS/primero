@@ -28,6 +28,7 @@ describe TracingRequest do
     end
 
     it "fields build with all fields in form sections" do
+      FormSection.all.each { |form_section| form_section.destroy }
       form = FormSection.new(:name => "test_form", :parent_form => 'tracing_request')
       form.fields << Field.new(:name => "relation_name", :type => Field::TEXT_FIELD, :display_name => "relation_name")
       form.save!
@@ -52,13 +53,10 @@ describe TracingRequest do
     end
 
     before :all do
+      FormSection.all.all.each { |form| form.destroy }
       form = FormSection.new(:name => "test_form", :parent_form => 'tracing_request')
       form.fields << Field.new(:name => "relation_name", :type => Field::TEXT_FIELD, :display_name => "relation_name")
       form.save!
-    end
-
-    after :all do
-      FormSection.all.all.each { |form| form.destroy }
     end
 
     # TODO: full text searching not implemented yet. Effects the next 13 test.
@@ -164,13 +162,10 @@ describe TracingRequest do
     end
 
     before :all do
+      FormSection.all.each { |form| form.destroy }
       form = FormSection.new(:name => "test_form", :parent_form => 'tracing_request')
       form.fields << Field.new(:name => "relation_name", :type => Field::TEXT_FIELD, :display_name => "relation_name")
       form.save!
-    end
-
-    after :all do
-      FormSection.all.each { |form| form.destroy }
     end
 
     # TODO: full text searching not implemented yet.

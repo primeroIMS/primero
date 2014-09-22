@@ -7,6 +7,9 @@ Feature: Source Form
   @javascript @primero
   Scenario: As a logged in user, I will create a incident for source
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    And the following location country exist in the system:
+      | placename     |
+      | Some location |
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Source" button
@@ -15,7 +18,7 @@ Feature: Source Form
       | Monitor ID                                                 | <Select> Option1            |
       | Primary Report Agency                                      | <Select> Option1            |
       | Other Reporting Agency                                     | <Select> Option2            |
-      | Location of Report                                         | Some location               |
+      | Location of Report                                         | <Choose>Some location       |
       | Type of Source                                             | <Select> Primary            |
       | Notes                                                      | Some notes about the source |
       | Category of Source                                         | <Select> Option3            |

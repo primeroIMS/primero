@@ -6,6 +6,12 @@ Feature: Tracing Request Tracing Requests
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename                  |
+      | Separation Location Value  |
+      | Last Location Value        |
+      | Update Separation Location Value |
+      | Update Last Location Value       |
     When I access "tracing requests page"
     And I press the "New Tracing Request" button
     And I press the "Tracing Request" button
@@ -26,10 +32,10 @@ Feature: Tracing Request Tracing Requests
       | Did the separation occur in relation to evacuation?  | <Tickbox>         |
       | Circumstances of Separation (please provide details) | No special reason |
       | Separation Address (Place) | Separation Address (Place) Value |
-      | Separation Location        | Separation Location Value        |
+      | Separation Location        | <Choose>Separation Location Value|
       | Last Address               | Last Address Value               |
       | Last Landmark              | Last Landmark Value              |
-      | Last Location              | Last Location Value              |
+      | Last Location              | <Choose>Last Location Value      |
       | Last Telephone             | Last Telephone Value             |
       | Additional info that could help in tracing? | Some Info Here  |
 
@@ -81,10 +87,10 @@ Feature: Tracing Request Tracing Requests
       | Did the separation occur in relation to evacuation?  | <Tickbox>      |
       | Circumstances of Separation (please provide details) | No reason      |
       | Separation Address (Place) | Update Separation Address (Place) Value |
-      | Separation Location        | Update Separation Location Value        |
+      | Separation Location        | <Choose>Update Separation Location Value|
       | Last Address               | Update Last Address Value               |
       | Last Landmark              | Update Last Landmark Value              |
-      | Last Location              | Update Last Location Value              |
+      | Last Location              | <Choose>Update Last Location Value      |
       | Last Telephone             | Update Last Telephone Value             |
       | Additional info that could help in tracing? | Update Some Info Here  |
     And I press "Save"
