@@ -12,8 +12,10 @@
     </div>
     <div class="large-3 columns">
       <%# TODO: translate these %>
-      <div class="filter_title left">Filter:</div>
-      <%= link_to 'Apply Filter','', class: 'green-button right', id: 'apply_filter' %>
+      <% unless record == 'tracing_request' %>
+        <div class="filter_title left">Filter:</div>
+        <%= link_to 'Apply Filter','', class: 'green-button right', id: 'apply_filter' %>
+      <% end %>
     </div>  
   </div>
 </div>
