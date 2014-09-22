@@ -9,18 +9,18 @@
       <tr>
         <th>Case #ID</th>
         <th>Name</th>
-        <th>Reason</th>
-        <th>Appointment Date</th>
+        <th>Activity</th>
+        <th>Date</th>
       </tr>
     </thead>
     <tbody>
       <% scheduled_activities.each do |s| %>
         <tr>
-          <td><%= link_to text_to_identify_child(s.parent_record), case_path(s.parent_record), class: 'id_link' %></td>
+          <td class="id_column"><%= link_to text_to_identify_child(s.parent_record), case_path(s.parent_record), class: 'id_link' %></td>
           <td><%= s.parent_record.name %></td>
           <td><%= s.message %></td>
           <td>
-            <%= s.date %>
+            <%= field_format_date(s.date) %>
           </td>
         </tr>
       <% end %>

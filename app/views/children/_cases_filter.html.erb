@@ -6,7 +6,7 @@
     <%= build_filter_checkboxes('Flagged:', 'flag', [
       {flag: 'flagged?'}
     ]) %>
-    <%= build_filter_checkboxes('Field/Case/Social Worker:', 'users', @associated_users, false, false) %>
+    <%= build_filter_checkboxes('Field/Case/Social Worker:', 'users', @associated_users, { multi: true }, false) %>
     <%= build_filter_checkboxes('Status:', 'child_status', [
       'open',
       'closed',
@@ -36,11 +36,7 @@
       'medium',
       'low'
     ]) %>
-    <%#= build_filter_checkboxes('Current Location:', 'current_location', [
-      'location1',
-      'location2',
-      'location3'
-    ]) %>
+
     <%= build_filter_location('Current Location', 'location_current') %>
 
     <% # TODO: create helper to generate this %>

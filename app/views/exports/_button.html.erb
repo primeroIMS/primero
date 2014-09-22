@@ -1,5 +1,5 @@
 <% if can?(:export, controller.model_class) %>
-  <%= link_to content_tag(:span, t("buttons.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button right' %>
+  <%= link_to content_tag(:span, t("buttons.export")), '#', :'data-dropdown' => 'export-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button' %>
   <ul id="export-dropdown" class="f-dropdown" data-dropdown-content>
       <% Exporters::active_exporters_for_model(controller.model_class).each do |exporter| %>
         <li>
