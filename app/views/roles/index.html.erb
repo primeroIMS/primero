@@ -7,7 +7,8 @@
     <%= link_to content_tag(:span, t("role.create"), :class => 'create_user'), new_role_path, :class => 'btn green-button' %>
   <% end %>
   <%= render 'exports/button' %>
-  <%= render 'imports/button' %>
+  <%# TODO: Hiding imports so that QA doesn't get into trouble %>
+  <%#= render 'imports/button' %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
@@ -17,7 +18,7 @@
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <div class="row">
-        <div class="large-12 columns">    
+        <div class="large-12 columns">
           <form class="filter_bar">
             <% permissions_for_filter = translated_permissions %>
             <% permissions_for_filter << [I18n.t("All", :scope => 'permissions.permission'), ["All"]] %>
