@@ -1,4 +1,5 @@
 <tr>
+  <td><input type="checkbox" class="select_record" value="<%= record.id %>"></td>
   <td id="tracing_request_<%= record.id %>" class="id_column">
     <%= link_to text_to_identify_tracing_request(record), tracing_request_path(record), class: 'id_link' %>
     <% if record.flagged? && record.flag_count > 0 %>

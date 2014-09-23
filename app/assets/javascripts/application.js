@@ -51,6 +51,7 @@
 //= require autosum_fields.js
 //= require tick_box_field.js
 //= require date_range_validation.js
+//= require flag_records.js
 
 
 $(document).ready(function() {

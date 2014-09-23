@@ -1,4 +1,5 @@
 <tr>
+  <td><input type="checkbox" class="select_record" value="<%= record.id %>"></td>
   <% if fields_to_show.include? 'short_id' %>
     <td id="child_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>

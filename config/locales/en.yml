@@ -97,6 +97,7 @@ en:
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
      guiding_questions: "Guiding Questions"
+     flag_records: "Flag"
 
   cases:
     label: "Cases"
@@ -167,6 +168,7 @@ en:
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
     duplicate_header: "Marking %{child_name} as Duplicate"
     flag_error_message: "Please explain why you are flagging this record."
+    flag_records_error_message: "Please explain why you are flagging these records."
     investigation_details: "Investigation Details:"
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
@@ -338,6 +340,7 @@ en:
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
     duplicate_header: "Marking %{child_name} as Duplicate"
     flag_error_message: "Please explain why you are flagging this record."
+    flag_records_error_message: "Please explain why you are flagging these records."
     investigation_details: "Investigation Details:"
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
@@ -382,6 +385,7 @@ en:
     flag_label: "Flag"
     flag_reason: "Flag Reason"
     flag_reason_date: "Date (optional)"
+    flag_records_error_message: "Please explain why you are flagging these records."
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
