@@ -95,8 +95,8 @@
     </div>
     <% end %>
     
-    <% if filters_to_show.include? 'Interview Date' %>
-      <% # TODO %>
+    <% if filters_to_show.include? 'Case Open Date' %>
+      <%= build_filter_date(t("cases.filter_by.case_open_date"), 'created_at') %>
     <% end %>
     
     <% if filters_to_show.include? 'Record State' %>    

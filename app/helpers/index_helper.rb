@@ -168,7 +168,7 @@ module IndexHelper
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Registration Date" if @is_cp
-    filters << "Interview Date" if @is_gbv
+    filters << "Case Open Date" if @is_gbv
     filters << "Record State"
   end
 

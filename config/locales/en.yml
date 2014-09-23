@@ -115,6 +115,7 @@ en:
       urgent_protection_concern: "Urgent Protection Concern:"
       risk_level: "Risk Level:"
       current_location: "Current Location"
+      case_open_date: "Case Open Date:"
       record_state: "Record State:"
     order_by:
       most_recently: "Most recently"
