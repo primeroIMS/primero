@@ -1,8 +1,5 @@
 <div class="panel">
   <form id="index_filter_form">
-    <%# TODO: Why are we setting a global variable in the template?!? %>
-    <% @scope = params["scope"] || {"child_status" => "open"} %>
-    
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("cases.filter_by.flag"), 'flag', [
         {flag: 'flagged?'}
@@ -12,7 +9,9 @@
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
-      <% #TODO - should list be translated? %>
+      <%
+        #TODO - Need better way to handle select lists that are defined in the form sections
+      %>
       <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', [
         'open',
         'closed',
@@ -29,13 +28,18 @@
       ], nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'Sex' %>
-      <% #TODO - should list be translated? %>
+      <%
+        #TODO - Need better way to handle select lists that are defined in the form sections
+      %>
       <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', [
         'male',
         'female'
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'GBV Displacement Status' %>
+      <%
+        #TODO - Need better way to handle select lists that are defined in the form sections
+      %>
       <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status', [
         'Resident',
         'IDP',
@@ -47,18 +51,27 @@
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
+      <%
+        #TODO - Need better way to handle select lists that are defined in the form sections
+      %>
       <%= build_filter_checkboxes(t("cases.filter_by.protection_status"), 'protection_status', [
         'unaccompanied',
         'separated',
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'Urgent Protection Concern' %>
+      <%
+        #TODO - Need better way to handle select lists that are defined in the form sections
+      %>
       <%= build_filter_checkboxes(t("cases.filter_by.urgent_protection_concern"), 'urgent_protection_concern', [
         'yes',
         'no',
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'Risk Level' %>
+      <%
+        #TODO - Need better way to handle select lists that are defined in the form sections
+      %>
       <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', [
         'high',
         'medium',
@@ -94,17 +107,20 @@
       </div>
     </div>
     <% end %>
-    
+
     <% if filters_to_show.include? 'Case Open Date' %>
       <%= build_filter_date(t("cases.filter_by.case_open_date"), 'created_at') %>
     <% end %>
-    
-    <% if filters_to_show.include? 'Record State' %>    
+
+    <% if filters_to_show.include? 'Record State' %>
+      <%
+        #TODO - Need better way to handle select lists that are defined in the form sections
+      %>
       <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state', [
         { valid_record: 'valid' },
         { invalid_record: 'invalid' }
       ]) %>
     <% end %>
-    
+
   </form>
 </div>
