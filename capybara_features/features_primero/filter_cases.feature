@@ -1,12 +1,10 @@
-# JIRA PRIMERO-514
-# JIRA PRIMERO-599
-
-#TODO - RSE - Fix
+# JIRA PRIMERO-617
 
 @search @javascript @primero
-Feature: Cases Index Page
-  The cases index page should display only "Open" cases by default
+Feature: Filter Cases
+  The case filters that display should depend upon the user login--CP worker, CP manager, GBV worker, GBV manager
 
+  #TODO - fix - This needs to be refactored per Primero-617
   Scenario: As a logged in user, I create a case by entering something in the survivor information form.
     The cases index page should only display Open cases by default.
     Given I am logged in as an admin with username "primero_gbv" and password "primero"

@@ -1,0 +1,110 @@
+<div class="panel">
+  <form id="index_filter_form">
+    <%# TODO: Why are we setting a global variable in the template?!? %>
+    <% @scope = params["scope"] || {"child_status" => "open"} %>
+    
+    <% if filters_to_show.include? 'Flagged' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.flag"), 'flag', [
+        {flag: 'flagged?'}
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Social Worker' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'Status' %>
+      <% #TODO - should list be translated? %>
+      <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', [
+        'open',
+        'closed',
+        'duplicate',
+        'transferred'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Age Range' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.age_range"), 'age', [
+        '0-5',
+        '6-11',
+        '12-17',
+        '18+'
+      ], nil, nil, 'range') %>
+    <% end %>
+    <% if filters_to_show.include? 'Sex' %>
+      <% #TODO - should list be translated? %>
+      <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', [
+        'male',
+        'female'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'GBV Displacement Status' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status', [
+        'Resident',
+        'IDP',
+        'Refugee',
+        'Stateless Person',
+        'Returnee',
+        'Foreign National',
+        'Asylum Seeker'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Protection Status' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.protection_status"), 'protection_status', [
+        'unaccompanied',
+        'separated',
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Urgent Protection Concern' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.urgent_protection_concern"), 'urgent_protection_concern', [
+        'yes',
+        'no',
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Risk Level' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', [
+        'high',
+        'medium',
+        'low'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Current Location' %>
+      <%= build_filter_location(t("cases.filter_by.current_location"), 'location_current') %>
+    <% end %>
+
+    <% if filters_to_show.include? 'Registration Date' %>
+    <% # TODO: create helper to generate this %>
+    <div class="filter">
+      <h3>Registration Date:</h3>
+      <div class="filter-controls">
+        <div class="row">
+          <div class="medium-2 columns">
+            <label class="has_date">From</label>
+          </div>
+          <div class="medium-10 columns">
+            <input type="text" id="registration_date_to" class="form_date_field" name="registration_date" filter_type="date_range" />
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="medium-2 columns">
+            <label class="has_date">To</label>
+          </div>
+          <div class="medium-10 columns">
+            <input type="text" id="registration_date_from" class="form_date_field" name="registration_date" filter_type="date_range" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    
+    <% if filters_to_show.include? 'Interview Date' %>
+      <% # TODO %>
+    <% end %>
+    
+    <% if filters_to_show.include? 'Record State' %>    
+      <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state', [
+        { valid_record: 'valid' },
+        { invalid_record: 'invalid' }
+      ]) %>
+    <% end %>
+    
+  </form>
+</div>

@@ -27,6 +27,14 @@ describe IndexHelper do
                                                     {:title=>"photo", :sort_title=>"photo"}
                                                    ]
         end
+
+        it "should return filters to show" do
+          @view.index_filters_to_show('case').should == [
+                                                         "Flagged", "Status", "Age Range", "Sex", "Protection Status", 
+                                                         "Urgent Protection Concern", "Risk Level", "Current Location",
+                                                         "Registration Date", "Record State"
+                                                        ]
+        end
       end
 
       context "when the signed in user is a manager" do
@@ -43,8 +51,16 @@ describe IndexHelper do
                                                     {:title=>"social_worker", :sort_title=>"owned_by"}
                                                    ]
         end
+
+        it "should return filters to show" do
+          @view.index_filters_to_show('case').should == [
+                                                         "Flagged", "Social Worker", "Status", "Age Range", "Sex", "Protection Status", 
+                                                         "Urgent Protection Concern", "Risk Level", "Current Location",
+                                                         "Registration Date", "Record State"
+                                                        ]
+        end
       end
-      
+
     end
 
     context "when GBV" do
@@ -64,6 +80,13 @@ describe IndexHelper do
                                                     {:title=>"case_opening_date", :sort_title=>"created_at"}
                                                    ]
         end
+
+        it "should return filters to show" do
+          @view.index_filters_to_show('case').should == [
+                                                         "Flagged", "Status", "Age Range", "Sex", "GBV Displacement Status", 
+                                                         "Protection Status", "Interview Date", "Record State"
+                                                        ]
+        end
       end
 
       context "when the signed in user is a manager" do
@@ -76,6 +99,13 @@ describe IndexHelper do
                                                     {:title=>"case_opening_date", :sort_title=>"created_at"},
                                                     {:title=>"social_worker", :sort_title=>"owned_by"}
                                                    ]
+        end
+
+        it "should return filters to show" do
+          @view.index_filters_to_show('case').should == [
+                                                         "Flagged", "Social Worker", "Status", "Age Range", "Sex", "GBV Displacement Status", 
+                                                         "Protection Status", "Interview Date", "Record State"
+                                                        ]
         end
       end
     end

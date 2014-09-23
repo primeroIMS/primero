@@ -31,6 +31,19 @@ module IndexHelper
     return fields_to_show
   end
 
+  def index_filters_to_show(record)
+    case record
+      when "case"
+        index_filters_case
+      when "incident"
+        index_filters_incident
+      when "tracing_request"
+        index_filters_tracing_request
+      else
+        []
+    end
+  end
+
   def build_checkboxes(filter, items, type, format = true, filter_type = nil)
     content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
       items.each do |item|
@@ -139,6 +152,32 @@ module IndexHelper
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'}
     ]
+  end
+
+  def index_filters_case
+    filters = []
+
+    filters << "Flagged"
+    filters << "Social Worker" if @is_manager
+    filters << "Status"
+    filters << "Age Range"
+    filters << "Sex"
+    filters << "GBV Displacement Status" if @is_gbv
+    filters << "Protection Status"
+    filters << "Urgent Protection Concern" if @is_cp
+    filters << "Risk Level" if @is_cp
+    filters << "Current Location" if @is_cp
+    filters << "Registration Date" if @is_cp
+    filters << "Interview Date" if @is_gbv
+    filters << "Record State"
+  end
+
+  def index_filters_incident
+    filters = []
+  end
+
+  def index_filters_tracing_request
+    filters = []
   end
 
 end

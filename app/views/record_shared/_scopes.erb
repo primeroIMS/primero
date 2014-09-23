@@ -1,5 +1,0 @@
-<%# TODO: This needs to be really tightened up. There is no reason why these values are being hard-coded. In fact there will be any number of arbitrary filters.%>
-<%# TODO: Furthermore, we are adding application logic in a template which is an antipattern. Also we are hard-codinmg English?! Fix this! %>
-<li class="scope">
-  <%=select_tag "record_scope", options_for_select(scope_values(record)) %>
-</li>
