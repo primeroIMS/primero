@@ -893,36 +893,39 @@ en:
       child_status_changed: "Child status changed to active by"
       with_details: "with these details:"
 
+  actions:
+    button: 'Actions'
+
   exports:
     no_records: "No Records Available!"
     pdf:
-      all: Export All to PDF
-      one: Export to PDF
-      selected: Export Selected to PDF
+      all:  PDF
+      one:  PDF
+      selected:  Selected to PDF
     photowall:
-      all: Export All to Photo Wall
-      one: Export to Photo Wall
-      selected: Export Selected to Photo Wall
+      all:  Photo Wall
+      one:  Photo Wall
+      selected:  Selected to Photo Wall
     case_pdf:
-      all: Export All to PDF
-      one: Export to PDF
-      selected: Export Selected to PDF
+      all:  PDF
+      one:  PDF
+      selected:  Selected to PDF
     csv:
-      all: Export All to CSV
-      one: Export to CSV
-      selected: Export Selected to CSV
+      all:  CSV
+      one:  CSV
+      selected:  Selected to CSV
     xls:
-      all: Export All to Excel
-      one: Export to Excel
-      selected: Export Selected to Excel
+      all:  Excel
+      one:  Excel
+      selected:  Selected to Excel
     json:
-      all: Export All to JSON
-      one: Export to JSON
-      selected: Export Selected to JSON
+      all:  JSON
+      one:  JSON
+      selected:  Selected to JSON
     unhcr_csv:
-      all: Export All to UNHCR
-      one: Export to UNHCR
-      selected: Export Selected to UNHCR
+      all:  UNHCR
+      one:  UNHCR
+      selected:  Selected to UNHCR
   imports:
     successful: "File was imported successfully"
     error: "Import had the following error: %{error}"

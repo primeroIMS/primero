@@ -30,7 +30,12 @@
 <%#TODO: Make exports work for tracing requests %>
 <% if false %>
 <%# if can?(:export, tracing_request) %>
-    <li>
-      <%= render partial: 'exports/button', locals: {model: TracingRequest, instance: @tracing_request} %>
-    </li>
+    <ul id="menu" class="sf-menu">
+      <li class="init_btn">
+        <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
+        <ul>
+            <%= render partial: 'exports/button', locals: {model: TracingRequest, instance: @tracing_request} %>
+        </ul>
+      </li>
+    </ul>
 <% end %>
