@@ -27,6 +27,11 @@
         </div>
     </li>
 <% end %>
-  <li>
-    <%= render partial: 'exports/button', locals: {model: Incident, instance: @incident} %>
+<ul id="menu" class="sf-menu">
+  <li class="init_btn">
+    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
+    <ul>
+        <%= render partial: 'exports/button', locals: {model: Incident, instance: @incident} %>
+    </ul>
   </li>
+</ul>
