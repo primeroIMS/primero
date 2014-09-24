@@ -30,6 +30,7 @@ Feature: Incidents Other documents form
       |capybara_features/resources/jeff.png |Document 2 (jeff.png) |
     Then I press "Save"
     And I should see "Incident record successfully created"
+    And I should not see "Click the EDIT button to add Other Documents"
     And I click the "Other Documents" link
     And I should see documents on the show page:
       |jorge.jpg|Document 1 (jorge.jpg)|

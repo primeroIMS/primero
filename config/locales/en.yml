@@ -45,6 +45,7 @@ en:
     warning: "Warning: If you continue, any data associated with this field will be lost.\nIf you're uncertain, disable the field instead.\nClick Cancel to go back. Click OK to Delete the field."
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
+    form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
