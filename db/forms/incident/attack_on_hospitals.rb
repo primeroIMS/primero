@@ -163,7 +163,7 @@ attack_on_hospitals_subform_fields = [
                                      "Other"].join("\n")
             }),
   Field.new({"name" => "verification_decision_description",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Notes on Verification Decision"
             }),
   Field.new({"name" => "CTFMR_verified",

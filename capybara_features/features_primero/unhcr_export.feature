@@ -23,8 +23,9 @@ Feature: UNHCR CSV Export
       | Religion               | <Choose>Religion1<Choose>Religion2       |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    When I press the "Export" button
-    And I press the "Export to UNHCR" button
+    When I press the "Actions" button
+    And I press the "Export" button
+    And I press the "UNHCR" button
     When I fill in "password-prompt-field" with "abcd"
     And I press the "OK" button
     Then I should not see a stacktrace

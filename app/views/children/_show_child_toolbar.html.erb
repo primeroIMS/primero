@@ -29,7 +29,12 @@
     <%= ctl_create_incident_button(@child) %>
 <% end %>
 <% if controller.action_name != 'edit' %>
-  <li>
-    <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
+<ul id="menu" class="sf-menu">
+  <li class="init_btn">
+    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
+    <ul>
+        <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
+    </ul>
   </li>
+</ul>
 <% end %>

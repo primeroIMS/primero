@@ -76,13 +76,25 @@ var Primero = Backbone.View.extend({
     'click .btn_submit': 'submit_form',
     'click .gq_popovers': 'engage_popover',
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
-    'sticky-end .record_controls_container, .index_controls_container': 'end_sticky'
+    'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
+    'click .action_btn': 'disable_default_events'
   },
 
   initialize: function() {
     this.init_sticky();
     this.init_popovers();
     this.init_autogrow();
+    this.init_action_menu();
+  },
+
+  init_action_menu: function() {
+    $('ul.sf-menu').superfish({
+      delay: 0,
+      speed: 'fast',
+      onInit : function() {
+        $(this).find('ul').css('display','none');
+      }
+    });
   },
 
   init_autogrow: function() {
@@ -165,6 +177,10 @@ var Primero = Backbone.View.extend({
 
       form.submit();
     }
+  },
+
+  disable_default_events: function(evt) {
+    evt.preventDefault();
   }
 });
 
