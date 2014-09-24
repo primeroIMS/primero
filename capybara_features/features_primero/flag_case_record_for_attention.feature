@@ -13,9 +13,9 @@ Feature: Flag Case Record For Attention
       | Shaggy  | primero_cp | id_1              |
 
 
-  Scenario Outline: I should have a Flag Record button on the case record
+  Scenario Outline: I should have a Flags button on the case record
     And I am on the <page> for "Shaggy"
-    Then I should see a "Flag Record" button on the page
+    Then I should see a "Flags" button on the page
 
     Examples:
       | page |
@@ -24,7 +24,7 @@ Feature: Flag Case Record For Attention
 
   Scenario Outline: I should be able to see a Flag Reason text box
     And I am on the <page> for "Shaggy"
-    When I press the "Flag Record" button
+    When I press the "Flags" button
     Then I should see "Flag Reason"
 
     Examples:
@@ -36,7 +36,7 @@ Feature: Flag Case Record For Attention
   @wip
   Scenario Outline: I should be able to enter a Flag Reason
     And I am on the <page> for "Shaggy"
-    When I press the "Flag Record" button
+    When I press the "Flags" button
     Then I fill in "Flag Reason" with "Just Because"
     And I press "Flag"
     Then I should see "Flagged by primero_cp"
@@ -50,7 +50,7 @@ Feature: Flag Case Record For Attention
 
   Scenario Outline: I should not be able to flag a record without entering a Flag Reason
     And I am on the <page> for "Shaggy"
-    When I press the "Flag Record" button
+    When I press the "Flags" button
     And I press "Flag"
     And I click OK in the browser popup
     Then I should not see "Flagged by"
@@ -64,13 +64,13 @@ Feature: Flag Case Record For Attention
 
   Scenario Outline: I should be able see a flag icon on the page
     And I am on the <page> for "Shaggy"
-    When I press the "Flag Record" button
+    When I press the "Flags" button
     Then I fill in "Flag Reason" with "Just Because"
     And I press "Flag"
     Then I should see "Flagged by primero_cp"
     And I should see "Just Because"
     Then I access "cases page"
-    And the record for "Shaggy" should display a "flag" icon beside it
+    And the record for "Shaggy" should display a "bookmark" icon beside it
 
     Examples:
       | page |
