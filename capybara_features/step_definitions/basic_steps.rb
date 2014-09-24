@@ -18,12 +18,21 @@ Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
-Then /^I press the "([^\"]*)" (button|link)(?: "(.+)" times)?$/ do |label, type, times|
+Then /^I press the "([^\"]*)" (button|link|span)(?: "(.+)" times)?$/ do |label, type, times|
   times = 1 if times.blank?
   page.execute_script("$('body').css('text-transform','none !important')");
   (1..times.to_i).each do
-    click_on(label, :visible => true)
+    if type == "span"
+      find("//span[text()=\"#{label}\"]", :visible => true).click
+    else
+      click_on(label, :visible => true)
+    end
   end
+end
+
+Then /^I click on the link with text "(.*)"$/ do |text|
+  page.execute_script("$('body').css('text-transform','none !important')");
+  find("//a[text()=\"#{text}\"]", :visible => true).click
 end
 
 Then /^I click on the "([^\"]*)" link/ do |label|
@@ -397,7 +406,7 @@ end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
   within(:xpath, "//tr[contains(.,'#{record}')]") do
-    find(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
+    find(:xpath, "//td/div[@class='flag_icon']/i[contains(@class, 'fa-#{icon}')]")
   end
 end
 

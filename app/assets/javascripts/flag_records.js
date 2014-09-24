@@ -3,7 +3,7 @@ var FlagRecord = Backbone.View.extend({
   el: 'body',
 
   events: {
-    'click div.flag_records span.flag' : 'flag_records'
+    'click div.flag_records a.flag' : 'flag_records'
   },
 
   flag_records: function(event) {
@@ -13,6 +13,7 @@ var FlagRecord = Backbone.View.extend({
     var form_action = target.data('form_action');
     var redirect_url = target.data('request_url');
     var flag_error_message = target.data('submit_error_message');
+    var selected_records_error_message = target.data('selected_records_error_message');
     var flag_message = target.parents('.flag_records').find('input.flag_message').val();
     var flag_date = target.parents('.flag_records').find('input.flag_date').val();
     if (flag_message.length > 0) {
@@ -38,6 +39,8 @@ var FlagRecord = Backbone.View.extend({
             }
           }
         );
+      } else {
+        alert(selected_records_error_message);
       }
     } else {
       alert(flag_error_message);
