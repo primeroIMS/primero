@@ -9,15 +9,7 @@
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
-      <%
-        #TODO - Need better way to handle select lists that are defined in the form sections
-      %>
-      <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', [
-        'open',
-        'closed',
-        'duplicate',
-        'transferred'
-      ]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', Lookup.values('Case Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Age Range' %>
       <%= build_filter_checkboxes(t("cases.filter_by.age_range"), 'age', [
@@ -37,27 +29,10 @@
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'GBV Displacement Status' %>
-      <%
-        #TODO - Need better way to handle select lists that are defined in the form sections
-      %>
-      <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status', [
-        'Resident',
-        'IDP',
-        'Refugee',
-        'Stateless Person',
-        'Returnee',
-        'Foreign National',
-        'Asylum Seeker'
-      ]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status', Lookup.values('Displacement Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
-      <%
-        #TODO - Need better way to handle select lists that are defined in the form sections
-      %>
-      <%= build_filter_checkboxes(t("cases.filter_by.protection_status"), 'protection_status', [
-        'unaccompanied',
-        'separated',
-      ]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.protection_status"), 'protection_status', Lookup.values('Protection Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Urgent Protection Concern' %>
       <%
@@ -83,43 +58,15 @@
     <% end %>
 
     <% if filters_to_show.include? 'Registration Date' %>
-    <% # TODO: create helper to generate this %>
-    <div class="filter">
-      <h3>Registration Date:</h3>
-      <div class="filter-controls">
-        <div class="row">
-          <div class="medium-2 columns">
-            <label class="has_date">From</label>
-          </div>
-          <div class="medium-10 columns">
-            <input type="text" id="registration_date_to" class="form_date_field" name="registration_date" filter_type="date_range" />
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="medium-2 columns">
-            <label class="has_date">To</label>
-          </div>
-          <div class="medium-10 columns">
-            <input type="text" id="registration_date_from" class="form_date_field" name="registration_date" filter_type="date_range" />
-          </div>
-        </div>
-      </div>
-    </div>
+      <%= render "record_shared/filter_date", date_field_title: 'registration_date', date_field: 'registration_date' %>
     <% end %>
 
     <% if filters_to_show.include? 'Case Open Date' %>
-      <%= build_filter_date(t("cases.filter_by.case_open_date"), 'created_at') %>
+      <%= render "record_shared/filter_date", date_field_title: 'case_open_date', date_field: 'created_at' %>
     <% end %>
 
     <% if filters_to_show.include? 'Record State' %>
-      <%
-        #TODO - Need better way to handle select lists that are defined in the form sections
-      %>
-      <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state', [
-        { valid_record: 'valid' },
-        { invalid_record: 'invalid' }
-      ]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state', Lookup.values('Record State', @lookups)) %>
     <% end %>
 
   </form>

@@ -223,8 +223,7 @@ class Field
           select_options += record.violations_list
         end
       elsif source_options.first == 'lookup'
-        lookup = lookups.select {|lkp| lkp['name'] == source_options.last}.first if lookups.present?
-        select_options += lookup.lookup_values if lookup.present?
+        select_options += Lookup.values(source_options.last.titleize, lookups)
 
         if source_options.second == 'group'
           #TODO: What about I18n? What is this?

@@ -65,7 +65,7 @@ module IndexHelper
           checked = true if filter_value(filter).split(',').include? item.gsub('_', '')
         end
 
-        concat(check_box_tag filter, item, nil, id: "#{filter}_#{item}",
+        concat(check_box_tag filter, item, nil, id: "#{filter}_#{item.gsub(' ', '_')}",
             filter_type: filter_type, checked: checked)
         concat(label_tag "#{filter}_#{item}", label)
         concat('<br>'.html_safe)

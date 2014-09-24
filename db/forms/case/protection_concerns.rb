@@ -1,7 +1,7 @@
 protection_concern_fields = [
   Field.new({"name" => "protection_status",
              "type" => "select_box",
-             "option_strings_text_all" => "Unaccompanied\nSeparated",
+             "option_strings_source" => "lookup ProtectionStatus",
              "display_name_all" => "Protection Status"
             }),
   Field.new({"name" => "urgent_protection_concern",
@@ -21,14 +21,7 @@ protection_concern_fields = [
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
              "display_name_all" => "Displacement Status",
-             "option_strings_text_all" => 
-                          ["Resident",
-                           "IDP",
-                           "Refugee",
-                           "Stateless Person",
-                           "Returnee",
-                           "Foreign National",
-                           "Asylum Seeker"].join("\n")
+             "option_strings_source" => "lookup DisplacementStatus"
             }),
   Field.new({"name" => "unhcr_protection_code",
              "type" => "text_field",

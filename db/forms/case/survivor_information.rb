@@ -14,11 +14,7 @@ survivor_information_fields = [
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_text_all" => 
-                          ["Open",
-                           "Closed",
-                           "Transferred",
-                           "Duplicate"].join("\n")
+             "option_strings_source" => "lookup CaseStatus"
             }),
   Field.new({"name" => "name",
              "type" => "text_field",
@@ -83,14 +79,7 @@ survivor_information_fields = [
   Field.new({"name" => "gbv_displacement_status",
              "type" => "select_box",
              "display_name_all" => "Displacement Status at time of report",
-             "option_strings_text_all" => 
-                          ["Resident",
-                           "IDP",
-                           "Refugee",
-                           "Stateless Person",
-                           "Returnee",
-                           "Foreign National",
-                           "Asylum Seeker"].join("\n")
+             "option_strings_source" => "lookup DisplacementStatus"
             }),
   Field.new({"name" => "gbv_disability_type",
              "type" => "select_box", 
