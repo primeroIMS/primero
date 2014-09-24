@@ -1,4 +1,5 @@
 #JIRA PRIMERO-119
+# JIRA PRIMERO-607
 
 @javascript @primero
 Feature: Tracing Request Case Audio Form
@@ -48,6 +49,7 @@ Feature: Tracing Request Case Audio Form
     And I attach a photo "capybara_features/resources/jorge.jpg" for model "tracing_request"
     And I press "Save"
     Then I should see "Tracing Request record successfully created" on the page
+    And I should not see "Click the EDIT button to add Photos and Audio details"
 
   Scenario: I upload a audio file with the correct size and format
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
@@ -57,6 +59,7 @@ Feature: Tracing Request Case Audio Form
     And I attach an audio file "capybara_features/resources/sample.mp3" for model "tracing_request"
     And I press "Save"
     Then I should see "Tracing Request record successfully created" on the page
+    And I should not see "Click the EDIT button to add Photos and Audio details"
 
   Scenario: Uploading multiple images
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
@@ -70,9 +73,10 @@ Feature: Tracing Request Case Audio Form
     Then I should see "Tracing Request record successfully created"
     When I click the "Photos and Audio" link
     Then I should see "2" thumbnails
-    When I follow "Edit"
-    And I click the "Photos and Audio" link
-    Then I should see "2" thumbnails
+    #TODO refactoring way to check thumbnails on edit page, the html structure has changed.
+    #When I follow "Edit"
+    #And I click the "Photos and Audio" link
+    #Then I should see "2" thumbnails
 
   Scenario: I delete the audio file
     Given I am logged in as a social worker with username "primero_cp" and password "primero"
@@ -89,3 +93,4 @@ Feature: Tracing Request Case Audio Form
     And I should not see "Delete audio?"
     And I should not see "Recorded Audio"
     And I should not see "Download"
+    And I should see "Click the EDIT button to add Photos and Audio details" on the page

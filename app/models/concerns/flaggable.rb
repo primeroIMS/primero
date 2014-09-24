@@ -48,7 +48,7 @@ module Flaggable
     end
 
     def flagged?
-      self.flags.present?
+      self.flags.any? { |f| !f.removed }
     end
     alias_method :flag, :flagged?
 

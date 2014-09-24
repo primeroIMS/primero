@@ -21,4 +21,5 @@ FormSection.create_or_update_form_section({
   "editable" => false,
   "name_all" => "Photos and Audio",
   "description_all" => "All Photo and Audio Files Associated with a Child Record",
+  "display_help_text_view" => true
 })

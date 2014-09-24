@@ -20,6 +20,8 @@
 //= require plugins/dataTables.responsive
 //= require plugins/popovers
 //= require plugins/autogrow
+//= require plugins/hoverintent
+//= require plugins/superfish
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations
