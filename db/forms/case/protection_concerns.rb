@@ -12,7 +12,7 @@ protection_concern_fields = [
   Field.new({"name" => "risk_level",
              "type" => "select_box",
              "display_name_all" => "Risk Level",
-             "option_strings_text_all" => ["High", "Medium", "Low"].join("\n")
+             "option_strings_source" => "lookup RiskLevel"
             }),
   Field.new({"name" => "system_generated_followup",
              "type" => "tick_box",

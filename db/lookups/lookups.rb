@@ -132,3 +132,12 @@ create_or_update_lookup(
     "Invalid record"
   ]
 )
+
+create_or_update_lookup(
+  :name => "risk_level",
+  :lookup_values => [
+    "High",
+    "Medium",
+    "Low"
+  ]
+)

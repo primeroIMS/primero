@@ -111,6 +111,8 @@ en:
       status: "Status:"
       age_range: "Age Range:"
       sex: "Sex:"
+      male: "Male"
+      female: "Female"
       displacement_status: "Displacement Status:"
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
