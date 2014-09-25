@@ -59,3 +59,22 @@ Feature: Flag Case Records For Attention
       | cases page            | "primero_cp"  |
       | incidents page        | "primero_mrm" |
       | tracing requests page | "primero_cp"  |
+
+  Scenario Outline: I can select all records
+    Given I am logged in as an admin with username <user> and password "primero"
+    When I access <page>
+    And I check the "select_all_records" field
+    And I press the "Flag" span
+    And I fill in "Flag Reason" with "Some reason"
+    And I fill in "Date (optional)" with "today's date"
+    And I click on the link with text "Flag"
+    And I wait for 3 seconds
+    And the record for "7af3aa9" should display a "bookmark" icon beside it
+    And the record for "7af3aa7" should display a "bookmark" icon beside it
+    And the record for "7af3aa8" should display a "bookmark" icon beside it
+
+    Examples:
+      | page                  | user          |
+      | cases page            | "primero_cp"  |
+      | incidents page        | "primero_mrm" |
+      | tracing requests page | "primero_cp"  |
