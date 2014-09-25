@@ -172,8 +172,4 @@ class UsersController < ApplicationController
     end
   end
 
-  def get_unique_instance(attributes)
-    User.find_by_user_name(attributes['user_name'])
-  end
-
 end
