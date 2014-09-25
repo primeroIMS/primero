@@ -1,7 +1,9 @@
+#TODO: All tests in this file have been disabled. Keeping them around for reference only.
+#      When advanced search is fully re-implemnted, everything here should be rewritten.
 require 'spec_helper'
 
 describe AdvancedSearchHelper do
-  it "should generate the appropriate html for given text field criteria" do
+  xit "should generate the appropriate html for given text field criteria" do
     field = Field.new(:name => "name", :display_name => "Name", :type => Field::TEXT_FIELD)
     criteria = SearchCriteria.new({:join => "", :display_name => "Name", :index => "0", :field => "name", :value => "test"})
     helper.generate_html(criteria, [field]).gsub("\n", '').should == %Q{<p class='criterion-selected'><a class="select-criteria">Name</a>
@@ -12,7 +14,7 @@ describe AdvancedSearchHelper do
   end
 
 
-  it "should generate the appropriate html for given select box criteria" do
+  xit "should generate the appropriate html for given select box criteria" do
     field = Field.new(:name => "protection_status", :display_name => "Protection Status", :type => Field::SELECT_BOX, :option_strings_text => "\nUnaccompanied\nSeparated")
     criteria = SearchCriteria.new({:join => "AND", :display_name => "Protection Status", :index => "1", :field => "protection_status", :value => "Separated"})
     helper.generate_html(criteria, [field]).gsub("\n", '').should == %Q{<p class='criterion-selected'>
@@ -33,7 +35,7 @@ describe AdvancedSearchHelper do
 </p>}.gsub("\n", "")
   end
 
-  it "should return '' string if criteria's display_name is empty" do
+  xit "should return '' string if criteria's display_name is empty" do
     helper.generate_html(SearchCriteria.new(:name => "some_name", :field => "some_field", :display_name => ""), []).should == ""
   end
 end

@@ -17,8 +17,6 @@ class Incident < CouchRest::Model::Base
     self['histories'] = []
 
     super *args
-
-    self.incident_id = self.unique_identifier
   end
 
   design do
@@ -72,8 +70,11 @@ class Incident < CouchRest::Model::Base
     ['created_at', 'description']
   end
 
+  def set_instance_id
+    self.incident_id ||= self.unique_identifier
+  end
+
   def create_class_specific_fields(fields)
-    self['incident_id'] = self.incident_id
     self['description'] = fields['description'] || self.description || ''
   end
 
@@ -81,20 +82,46 @@ class Incident < CouchRest::Model::Base
     (self.unique_identifier || "").last 7
   end
 
-  def violations_list
+  # Each violation type has a field that is used as part of the identification
+  # of that violation
+  def violation_id_fields
+    {
+      'killing' => 'kill_cause_of_death',
+      'maiming' => 'maim_cause_of',
+      'recruitment' => 'factors_of_recruitment',
+      'sexual_violence' => 'sexual_violence_type',
+      'abduction' => 'abduction_purpose',
+      'attack_on_schools' => 'site_attack_type',
+      'attack_on_hospitals' => 'site_attack_type_hospital',
+      'denial_humanitarian_access' => 'denial_method',
+      'other_violation' => 'violation_other_type'
+    }
+  end
+
+  def violation_label(violation_type, violation)
+    id_fields = self.violation_id_fields
+    label_id = violation.send(id_fields[violation_type].to_sym)
+    label = label_id.present? ? "#{violation_type.titleize} - #{label_id}" : "#{violation_type.titleize}"
+  end
+
+  def violations_list(compact_flag = false)
     violations_list = []
 
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each_with_index do |v, i|
-          violations_list << "#{key.titleize} #{i}"
+          # Add an index if compact_flag is false
+          compact_flag ? violations_list << "#{violation_label(key, v)}" : violations_list << "#{violation_label(key, v)} #{i}"
         end
       end
     end
 
-
-    if violations_list.blank?
-      violations_list << "NONE"
+    if compact_flag
+      violations_list.uniq! if violations_list.present?
+    else
+      if violations_list.blank?
+        violations_list << "NONE"
+      end
     end
 
     return violations_list

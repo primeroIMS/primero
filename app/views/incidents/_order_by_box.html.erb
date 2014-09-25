@@ -1,8 +1,0 @@
-<form  class="orderby_panel">
-
-  <input type="hidden" name="filter" value="<%= @filter %>"/>
-	<%= t("incidents.order_by.label") %>:
-	<ul>
-<span><li class="first"><%= select_tag :order_by, options_for_select([[t("incidents.order_by.most_recently")+" "+ t("incidents.filter_by.#{@filter == 'all'? 'created' : @filter}").downcase, IncidentsHelper::ORDER_BY[@filter]], [t('incidents.order_by.name'), "name"]], @order), { :onchange => "this.form.submit();"} %></li></span>
-	</ul>
-</form>

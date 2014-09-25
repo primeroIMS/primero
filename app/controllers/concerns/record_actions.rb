@@ -11,7 +11,7 @@ module RecordActions
 
     before_filter :current_user, :except => [:reindex]
     before_filter :get_form_sections, :only => [:show, :edit]
-    before_filter :get_lookups, :only => [:new, :edit]
+    before_filter :get_lookups, :only => [:new, :edit, :index]
     before_filter :current_modules, :only => [:index]
     before_filter :is_manager, :only => [:index]
     before_filter :is_cp, :only => [:index]

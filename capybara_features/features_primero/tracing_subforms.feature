@@ -7,6 +7,11 @@ Feature: Tracing Subforms
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename  |
+      | Kenya      |
+      | Nepal      |
+      | Uganda     |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Tracing" button
@@ -18,14 +23,14 @@ Feature: Tracing Subforms
       | Action taken and remarks                             | Test remarks              |
       | Address/Village where the tracing action took place  | Test Village              |
       | Outcome of tracing action                            | <Select> Pending          |
-      | Place of tracing                                     | <Select> Kenya            |
+      | Location of Tracing                                  | <Choose>Kenya             |
       | Type of action taken                                 | <Select> Photo Tracing    |
     And I fill in the 2nd "Tracing Actions Section" subform with the follow:
       | Date of tracing                                      | 30-Jun-2014               |
       | Action taken and remarks                             | Test remarks2             |
       | Address/Village where the tracing action took place  | Test Village2             |
       | Outcome of tracing action                            | <Select> Unsuccessful     |
-      | Place of tracing                                     | <Select> Nepal            |
+      | Location of Tracing                                  | <Choose>Nepal             |
       | Type of action taken                                 | <Select> Mass Tracing     |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
@@ -39,14 +44,14 @@ Feature: Tracing Subforms
       | Action taken and remarks                             | Test remarks              |
       | Address/Village where the tracing action took place  | Test Village              |
       | Outcome of tracing action                            | <Select> Pending          |
-      | Place of tracing                                     | <Select> Kenya            |
+      | Location of Tracing                                  | <Choose>Kenya             |
       | Type of action taken                                 | <Select> Photo Tracing    |
     And I fill in the 2nd "Tracing Actions Section" subform with the follow:
       | Date of tracing                                      | 30-Jun-2014               |
       | Action taken and remarks                             | Test remarks2             |
       | Address/Village where the tracing action took place  | Test Village2             |
       | Outcome of tracing action                            | <Select> Unsuccessful     |
-      | Place of tracing                                     | <Select> Nepal            |
+      | Location of Tracing                                  | <Choose>Nepal             |
       | Type of action taken                                 | <Select> Mass Tracing     |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
@@ -54,11 +59,11 @@ Feature: Tracing Subforms
     And I remove the 1st "Tracing Actions Section" subform
     And I click OK in the browser popup
     And I fill in the 3rd "Tracing Actions Section" subform with the follow:
-      | Date of tracing                                      | 10-Jun-2014              |
+      | Date of tracing                                      | 10-Jun-2014               |
       | Action taken and remarks                             | Test remarks3             |
       | Address/Village where the tracing action took place  | Test Village3             |
       | Outcome of tracing action                            | <Select> Successful       |
-      | Place of tracing                                     | <Select> Uganda           |
+      | Location of Tracing                                  | <Choose>Uganda            |
       | Type of action taken                                 | <Select> Photo Tracing    |
     And I press "Save"
     Then I should not see "Kenya" on the page
@@ -71,7 +76,7 @@ Feature: Tracing Subforms
       | Action taken and remarks                             | Test remarks              |
       | Address/Village where the tracing action took place  | Test Village              |
       | Outcome of tracing action                            | <Select> Pending          |
-      | Place of tracing                                     | <Select> Kenya            |
+      | Location of Tracing                                  | <Choose>Kenya             |
       | Type of action taken                                 | <Select> Photo Tracing    |
     And I press "Save"
     Then I should see "Case record successfully created" on the page

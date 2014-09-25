@@ -28,6 +28,25 @@ class RecordFlagController < ApplicationController
     redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url].present?
   end
 
+  def flag_records
+    authorize! :flag, @model_class
+    success = true
+    reload_page = false
+    error_message = ""
+    params[:selected_records].each do |id|
+      record = @model_class.get(id)
+      record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
+      if record.save
+        reload_page = true
+      else
+        success = false
+        error_message += "\n#{record.short_id}: Not flagged"
+      end
+    end
+    error_message = "There was an error trying to flag records:" + error_message unless success
+    render :json => {:success => success, :error_message => error_message, :reload_page => reload_page}
+  end
+
   private
 
   def set_class_name

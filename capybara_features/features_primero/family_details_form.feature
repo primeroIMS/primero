@@ -15,6 +15,9 @@ Feature: Family Details Form
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename            |
+      | A Location Country   |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Family / Partner Details" button
@@ -41,9 +44,9 @@ Feature: Family Details Form
       |Occupation                                            | Some Ocupation About Coco                  |
       |Current Address                                       | Coco's Current Address                     |
       |Is this a permanent location?                         | <Tickbox>                                  |
-      |Current Location                                      | Coco's Current Location                    |
+      |Current Location                                      | <Choose>A Location Country                 |
       |Last Known Address                                    | Coco's Last Known Address                  |
-      |Last Known Location                                   | Coco's Last Known Location                 |
+      |Last Known Location                                   | <Choose>A Location Country                 |
       |Telephone                                             | Coco's Telephone                           |
       |Other persons well known to the child                 | Pedro                                      |
     And I fill in the 2nd "Family Details Section" subform with the follow:
@@ -60,9 +63,9 @@ Feature: Family Details Form
       |Comments                                              | Some Comments About Pepe                   |
       |Occupation                                            | Some Ocupation About Pepe                  |
       |Current Address                                       | Pepe's Current Address                     |
-      |Current Location                                      | Pepe's Current Location                    |
+      |Current Location                                      | <Choose>A Location Country                 |
       |Last Known Address                                    | Pepe's Last Known Address                  |
-      |Last Known Location                                   | Pepe's Last Known Location                 |
+      |Last Known Location                                   | <Choose>A Location Country                 |
       |Telephone                                             | Pepe's Telephone                           |
       |Other persons well known to the child                 | Juan                                       |
     And I press "Save"
@@ -86,9 +89,9 @@ Feature: Family Details Form
       |Occupation                                            | Some Ocupation About Coco    |
       |Current Address                                       | Coco's Current Address       |
       |Is this a permanent location?                         | Yes                          |
-      |Current Location                                      | Coco's Current Location      |
+      |Current Location                                      | A Location Country           |
       |Last Known Address                                    | Coco's Last Known Address    |
-      |Last Known Location                                   | Coco's Last Known Location   |
+      |Last Known Location                                   | A Location Country           |
       |Telephone                                             | Coco's Telephone             |
       |Other persons well known to the child                 | Pedro                        |
     And I should see in the 2nd "Family Details Section" subform with the follow:
@@ -106,9 +109,9 @@ Feature: Family Details Form
       |Occupation                                            | Some Ocupation About Pepe    |
       |Current Address                                       | Pepe's Current Address       |
       |Is this a permanent location?                         | No                           |
-      |Current Location                                      | Pepe's Current Location      |
+      |Current Location                                      | A Location Country           |
       |Last Known Address                                    | Pepe's Last Known Address    |
-      |Last Known Location                                   | Pepe's Last Known Location   |
+      |Last Known Location                                   | A Location Country           |
       |Telephone                                             | Pepe's Telephone             |
       |Other persons well known to the child                 | Juan                         |
 

@@ -18,12 +18,21 @@ Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
-Then /^I press the "([^\"]*)" (button|link)(?: "(.+)" times)?$/ do |label, type, times|
+Then /^I press the "([^\"]*)" (button|link|span)(?: "(.+)" times)?$/ do |label, type, times|
   times = 1 if times.blank?
   page.execute_script("$('body').css('text-transform','none !important')");
   (1..times.to_i).each do
-    click_on(label, :visible => true)
+    if type == "span"
+      find("//span[text()=\"#{label}\"]", :visible => true).click
+    else
+      click_on(label, :visible => true)
+    end
   end
+end
+
+Then /^I click on the link with text "(.*)"$/ do |text|
+  page.execute_script("$('body').css('text-transform','none !important')");
+  find("//a[text()=\"#{text}\"]", :visible => true).click
 end
 
 Then /^I click on the "([^\"]*)" link/ do |label|
@@ -49,6 +58,13 @@ Then /^I should see the following (.+):$/ do |selector, table|
   table.raw.flatten.each do |value|
     expect(page).to have_content(value)
   end
+end
+
+And /^I should see a value for "(.+)" on the edit page(?: with the value of "(.*)")?$/ do |field, content|
+  field_label = find("//fieldset//label[@class='key inline' and text()=\"#{field}\"]", :visible => true)
+  field_id = field_label["for"]
+  field = find("//fieldset//input[@id='#{field_id}']", :visible => true)
+  field.value.should eq(content)
 end
 
 And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*)")?$/ do |field, content|
@@ -390,7 +406,7 @@ end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
   within(:xpath, "//tr[contains(.,'#{record}')]") do
-    find(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
+    find(:xpath, "//td/div[@class='flag_icon']/i[contains(@class, 'fa-#{icon}')]")
   end
 end
 
@@ -488,6 +504,13 @@ Given /^the following lookups exist in the system:$/ do |lookup_table|
     value_list = lookup_hash["lookup_values"].split(', ')
     lookup_hash.merge!("lookup_values" => value_list)
     Lookup.create! lookup_hash
+  end
+end
+
+Given /^the following location country exist in the system:$/ do |location_table|
+  Location.all.each {|u| u.destroy }
+  location_table.hashes.each do |location_hash|
+    Location.create! placename: location_hash['placename'], type: "country"
   end
 end
 

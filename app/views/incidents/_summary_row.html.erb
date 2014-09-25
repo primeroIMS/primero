@@ -1,8 +1,5 @@
 <tr>
-  <% if fields_to_show.include? 'owned_by_text' %>
-    <% #TODO - Get name or code.  Prob should be in helper%>
-    <td><%= record.owned_by %></td>
-  <% end %>
+  <td><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_child record %>"></td>
   <% if fields_to_show.include? 'short_id' %>
     <td id="incident_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_incident(record), incident_path(record), class: 'id_link' %>
@@ -18,17 +15,21 @@
   <% if fields_to_show.include? 'date_of_first_report' %>
     <td><%= field_format_date(record.date_of_first_report) %></td>
   <% end %>
-  <% if fields_to_show.include? 'start_date_of_incident_from' %>
+  <% if fields_to_show.include? 'date_of_incident' %>
     <% #TODO - Clean up - spreadsheet is a little confusing %>
     <td><%= field_format_date(record.date_of_incident_from) %></td>
   <% end %>
-  <% if fields_to_show.include? 'violence_type' %>
+  <% if fields_to_show.include? 'gbv_sexual_violence_type' %>
     <td><%= record.gbv_sexual_violence_type %></td>
   <% end %>
   <% if fields_to_show.include? 'incident_location' %>
-    <td><%= record.incident_location %></td>
+    <td><%= Location.placename_from_name(record.incident_location) %></td>
   <% end %>
   <% if fields_to_show.include? 'violations' %>
-    <td><%= index_violations(record) %></td>
+    <td><%= render 'summary_row_violations', incident: record %></td>
+  <% end %>
+  <% if fields_to_show.include? 'owned_by' %>
+    <% #TODO - Get name or code.  Prob should be in helper. Should this be owned_by_text?%>
+    <td><%= record.owned_by %></td>
   <% end %>
 </tr>

@@ -11,6 +11,8 @@ module Record
   include Syncable
 
   included do
+    before_create :create_identification
+
     property :unique_identifier
     property :duplicate, TrueClass
     property :duplicate_of, String
@@ -188,14 +190,7 @@ module Record
 
   def initialize(*args)
     super
-
-    self.create_unique_id
-    self.short_id = self.unique_identifier.last 7
-    self.record_state = "Valid record" if self.record_state.blank?
-  end
-
-  def create_unique_id
-    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
+    self['record_state'] = "Valid record" if self['record_state'].blank?
   end
 
   def valid_record?
@@ -273,6 +268,13 @@ module Record
     end
     self.set_updated_fields_for user_name
     self.attributes = attributes_to_update
+  end
+
+  def create_identification
+    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
+    self.short_id ||= self.unique_identifier.last 7
+    #Method should be defined by the derived classes.
+    self.set_instance_id
   end
 
   protected

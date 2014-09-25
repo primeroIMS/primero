@@ -45,6 +45,7 @@ en:
     warning: "Warning: If you continue, any data associated with this field will be lost.\nIf you're uncertain, disable the field instead.\nClick Cancel to go back. Click OK to Delete the field."
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
+    form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -97,20 +98,30 @@ en:
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
      guiding_questions: "Guiding Questions"
+     filter_label: "Filter:"
+     filter: "Apply Filter"
+     flag_records: "Flag"
 
   cases:
     label: "Cases"
     register_new_case: "New Case"
     export: "Export"
     filter_by:
-      valid: "Valid records"
-      invalid: "Invalid records"
-      label: "Filter by"
-      all: "All"
-      active: "Active"
-      reunited: "Reunited"
-      flag: "Flagged"
-      created: "Created"
+      flag: "Flagged:"
+      social_worker: "Field/Case/Social Worker:"
+      status: "Status:"
+      age_range: "Age Range:"
+      sex: "Sex:"
+      male: "Male"
+      female: "Female"
+      displacement_status: "Displacement Status:"
+      protection_status: "Protection Status:"
+      urgent_protection_concern: "Urgent Protection Concern:"
+      risk_level: "Risk Level:"
+      current_location: "Current Location"
+      registration_date: "Registration Date:"
+      case_open_date: "Case Open Date:"
+      record_state: "Record State:"
     order_by:
       most_recently: "Most recently"
       label: "Order by"
@@ -120,8 +131,7 @@ en:
     filer_by:
       all: "All"
       active: "Active"
-      reunited: "Reunited"
-      flagged: "Flagged"
+
     hidden_text_field_text: "*****"
     hide_name: "Hide Name"
     view_name: "View Name"
@@ -167,6 +177,8 @@ en:
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
     duplicate_header: "Marking %{child_name} as Duplicate"
     flag_error_message: "Please explain why you are flagging this record."
+    flag_records_error_message: "Please explain why you are flagging these records."
+    selected_records_error_message: "Please select one or more records to flag."
     investigation_details: "Investigation Details:"
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
@@ -251,12 +263,17 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     # TODO: Possibly use another method to label the list view columns
+    select: "Select"
     id: "ID#"
     name: "Name"
     age: "Age"
     sex: "Sex"
     registration_date: "Registration Date"
     status: "Status"
+    social_worker: "Social Worker"
+    survivor_code: "Survivor Code"
+    case_opening_date: "Case Open Date"
+    photo: "Photo"
 
     messages:
       update_success: "Case was successfully updated."
@@ -334,6 +351,8 @@ en:
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
     duplicate_header: "Marking %{child_name} as Duplicate"
     flag_error_message: "Please explain why you are flagging this record."
+    flag_records_error_message: "Please explain why you are flagging these records."
+    selected_records_error_message: "Please select one or more records to flag."
     investigation_details: "Investigation Details:"
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
@@ -345,11 +364,16 @@ en:
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
-    id: "Incident Id"
+    select: "Select"
+    id: "ID#"
     survivor_code: "Survivor Code"
     case_worker_code: "Case Worker Code"
     date_of_interview: "Date of Interview"
     date_of_incident: "Date of Incident"
+    violence_type: "Violence Type"
+    incident_location: "Incident Location"
+    violations: "Violations"
+    social_worker: "Social Worker"
     change_log: "Change Log"
 
     actions:
@@ -370,10 +394,12 @@ en:
     last_updated: "Last updated"
     registered_by: "Registered by"
     edit_photo: "Edit photo"
-    flag_record: "Flag"
+    flag_record: "Flags"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
     flag_reason_date: "Date (optional)"
+    flag_records_error_message: "Please explain why you are flagging these records."
+    selected_records_error_message: "Please select one or more records to flag."
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
@@ -392,6 +418,7 @@ en:
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"
+    select: "Select"
     id: "ID#"
     enquirer_name: "Inquirer Name"
     enquirer_date: "Date of Inquiry"
@@ -885,36 +912,39 @@ en:
       child_status_changed: "Child status changed to active by"
       with_details: "with these details:"
 
+  actions:
+    button: 'Actions'
+
   exports:
     no_records: "No Records Available!"
     pdf:
-      all: Export All to PDF
-      one: Export to PDF
-      selected: Export Selected to PDF
+      all:  PDF
+      one:  PDF
+      selected:  Selected to PDF
     photowall:
-      all: Export All to Photo Wall
-      one: Export to Photo Wall
-      selected: Export Selected to Photo Wall
+      all:  Photo Wall
+      one:  Photo Wall
+      selected:  Selected to Photo Wall
     case_pdf:
-      all: Export All to PDF
-      one: Export to PDF
-      selected: Export Selected to PDF
+      all:  PDF
+      one:  PDF
+      selected:  Selected to PDF
     csv:
-      all: Export All to CSV
-      one: Export to CSV
-      selected: Export Selected to CSV
+      all:  CSV
+      one:  CSV
+      selected:  Selected to CSV
     xls:
-      all: Export All to Excel
-      one: Export to Excel
-      selected: Export Selected to Excel
+      all:  Excel
+      one:  Excel
+      selected:  Selected to Excel
     json:
-      all: Export All to JSON
-      one: Export to JSON
-      selected: Export Selected to JSON
+      all:  JSON
+      one:  JSON
+      selected:  Selected to JSON
     unhcr_csv:
-      all: Export All to UNHCR
-      one: Export to UNHCR
-      selected: Export Selected to UNHCR
+      all:  UNHCR
+      one:  UNHCR
+      selected:  Selected to UNHCR
   imports:
     successful: "File was imported successfully"
     error: "Import had the following error: %{error}"

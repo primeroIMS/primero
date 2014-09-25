@@ -10,6 +10,9 @@ Feature: Child Wishes Form
 
   Scenario: I create a case with child's wishes information.
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename            |
+      | A Location Country   |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Tracing" button
@@ -20,7 +23,7 @@ Feature: Child Wishes Form
       | Please Give Details                                     | Some Details                 |
       | If the child does NOT want to stay in the current care arrangement, explain why | Care Arrangement Reason |
       | If type of care arrangement child wishes to have is Other, specify              | Other Arrangement Type  |
-      | Where does the child wish/plan to live?           | Child Live           |
+      | Where does the child wish/plan to live?           | <Choose>A Location Country  |
       | Street where does the child wish/plan to live?    | Live Street Child    |
       | Landmarks where does the child wish/plan to live? | Live Landmarks Child |
     And I select "Yes" for "Does child want to trace family members?" radio button
@@ -35,7 +38,7 @@ Feature: Child Wishes Form
       | What is this person's relationship to the child?         | <Select> Father       |
       | Last Known Address                                       | Third Address         |
       | Landmark                                                 | Third Landmark        |
-      | Last Known Location                                      | Third the Location    |
+      | Last Known Location                                      | <Choose>A Location Country |
       | Telephone                                                | Third the Telephone   |
     #Added Second Child's Preference
     And I fill in the 2st "Child Preferences Section" subform with the follow:
@@ -44,7 +47,7 @@ Feature: Child Wishes Form
       | What is this person's relationship to the child?         | <Select> Mother       |
       | Last Known Address                                       | First Address         |
       | Landmark                                                 | First Landmark        |
-      | Last Known Location                                      | First Location        |
+      | Last Known Location                                      | <Choose>A Location Country |
       | Telephone                                                | First Telephone       |
     #Added Third Child's Preference
     And I fill in the 3st "Child Preferences Section" subform with the follow:
@@ -53,7 +56,7 @@ Feature: Child Wishes Form
       | What is this person's relationship to the child?         | <Select> Mother        |
       | Last Known Address                                       | Second Address         |
       | Landmark                                                 | Second Landmark        |
-      | Last Known Location                                      | Second Location        |
+      | Last Known Location                                      | <Choose>A Location Country |
       | Telephone                                                | Second Telephone       |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
@@ -62,7 +65,7 @@ Feature: Child Wishes Form
     And I should see a value for "Please Give Details" on the show page with the value of "Some Details"
     And I should see a value for "If the child does NOT want to stay in the current care arrangement, explain why" on the show page with the value of "Care Arrangement Reason"
     And I should see a value for "If type of care arrangement child wishes to have is Other, specify" on the show page with the value of "Other Arrangement Type"
-    And I should see a value for "Where does the child wish/plan to live?" on the show page with the value of "Child Live"
+    And I should see a value for "Where does the child wish/plan to live?" on the show page with the value of "A Location Country"
     And I should see a value for "Street where does the child wish/plan to live?" on the show page with the value of "Live Street Child"
     And I should see a value for "Landmarks where does the child wish/plan to live?" on the show page with the value of "Live Landmarks Child"
     And I should see a value for "Does child want to trace family members?" on the show page with the value of "Yes"
@@ -77,7 +80,7 @@ Feature: Child Wishes Form
       | What is this person's relationship to the child?         | Father                |
       | Last Known Address                                       | Third Address         |
       | Landmark                                                 | Third Landmark        |
-      | Last Known Location                                      | Third the Location    |
+      | Last Known Location                                      | A Location Country    |
       | Telephone                                                | Third the Telephone   |
     And I should see in the 2nd "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Mother's Name         |
@@ -85,7 +88,7 @@ Feature: Child Wishes Form
       | What is this person's relationship to the child?         | Mother                |
       | Last Known Address                                       | First Address         |
       | Landmark                                                 | First Landmark        |
-      | Last Known Location                                      | First Location        |
+      | Last Known Location                                      | A Location Country    |
       | Telephone                                                | First Telephone       |
     And I should see in the 3rd "Child Preferences Section" subform with the follow:
       | Person(s) child wishes to locate                         | Grandmother's Name    |
@@ -93,7 +96,7 @@ Feature: Child Wishes Form
       | What is this person's relationship to the child?         | Mother                |
       | Last Known Address                                       | Second Address        |
       | Landmark                                                 | Second Landmark       |
-      | Last Known Location                                      | Second Location       |
+      | Last Known Location                                      | A Location Country    |
       | Telephone                                                | Second Telephone      |
 
   Scenario: I create a case with child's wishes with more that 3 child's preferences.

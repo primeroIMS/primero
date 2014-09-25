@@ -88,7 +88,8 @@ module Exporters
       end
 
       def render_form_section(pdf, _case, form_section)
-        (subforms, normal_fields) = form_section.fields.partition {|f| f.type == Field::SUBFORM }
+        (subforms, normal_fields) = form_section.fields.reject {|f| f.type == 'separator' }
+                                                       .partition {|f| f.type == Field::SUBFORM }
 
         render_fields(pdf, _case, normal_fields)
 
@@ -99,7 +100,7 @@ module Exporters
           if (form_data.try(:length) || 0) > 0
             pdf.text subf.display_name, :style => :bold, :size => 12
             form_data.each do |el|
-              render_fields(pdf, el, subf.subform_section.fields)
+              render_fields(pdf, el, subf.subform_section.fields.reject {|f| f.type == 'separator' })
               pdf.move_down 10
             end
           end

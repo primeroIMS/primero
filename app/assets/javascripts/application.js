@@ -20,6 +20,8 @@
 //= require plugins/dataTables.responsive
 //= require plugins/popovers
 //= require plugins/autogrow
+//= require plugins/hoverintent
+//= require plugins/superfish
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations
@@ -51,6 +53,7 @@
 //= require autosum_fields.js
 //= require tick_box_field.js
 //= require date_range_validation.js
+//= require flag_records.js
 
 
 $(document).ready(function() {

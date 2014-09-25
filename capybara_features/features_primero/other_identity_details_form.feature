@@ -9,6 +9,9 @@ Feature: Interview Details Form
 
   Scenario: As a logged in user, I create a case by entering other identity details information
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename            |
+      | A Location Country   |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Other Identity Details" button
@@ -16,12 +19,12 @@ Feature: Interview Details Form
       | Place of Birth         | Boston                                   |
       | Last Address           | 222 1st Ave, Mooresville NC, 28117       |
       | Last Landmark          | Roller Coaster Hill                      |
-      | Last Location          | Northwest                                |
+      | Last Location          | <Choose>A Location Country               |
       | Last Telephone         | 828-555-1414                             |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Place of Birth" on the show page with the value of "Boston"
     And I should see a value for "Last Address" on the show page with the value of "222 1st Ave, Mooresville NC, 28117"
     And I should see a value for "Last Landmark" on the show page with the value of "Roller Coaster Hill"
-    And I should see a value for "Last Location" on the show page with the value of "Northwest"
+    And I should see a value for "Last Location" on the show page with the value of "A Location Country"
     And I should see a value for "Last Telephone" on the show page with the value of "828-555-1414"

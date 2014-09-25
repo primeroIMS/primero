@@ -104,8 +104,10 @@ tracing_request_inquirer_fields = [
              "display_name_all" => "Current Address"
            }),
   Field.new({"name" => "relation_location_current",
-             "type" => "text_field",
-             "display_name_all" => "Current Location"
+             "type" => "select_box",
+             "display_name_all" => "Current Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
              }),
   Field.new({"name" => "relation_address_is_permanent",
              "type" => "tick_box",
@@ -160,10 +162,11 @@ tracing_request_inquirer_fields = [
              "type" => "text_field",
              "display_name_all" => "Separation Address (Place)"
             }),
-  #TODO location picker
   Field.new({"name" => "location_separation",
-             "type" => "text_field",
-             "display_name_all" => "Separation Location"
+             "type" => "select_box",
+             "display_name_all" => "Separation Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",
@@ -173,10 +176,11 @@ tracing_request_inquirer_fields = [
              "type" => "text_field",
              "display_name_all" => "Last Landmark"
             }),
-  #TODO location picker
   Field.new({"name" => "location_last",
-             "type" =>"text_field" ,
-             "display_name_all" => "Last Location"
+             "type" =>"select_box" ,
+             "display_name_all" => "Last Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "telephone_last",
              "type" => "text_field",

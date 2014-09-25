@@ -33,6 +33,9 @@ Feature: Incidents Form
 
   Scenario: As a logged in user, I create a new incident and I should be able to enter a date or a date range for the date of incident
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    And the following location country exist in the system:
+      | placename            |
+      | Incident location   |
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Incident" button
@@ -40,7 +43,7 @@ Feature: Incidents Form
       | Date of First Report              | 06-Aug-2014                    |
       | Date of Incident                  | <Date Range><Date> 10-Aug-2014 |
       | Is the date estimated?            | <Radio> No                     |
-      | Incident Location                 | Incident location              |
+      | Incident Location                 | <Choose>Incident location      |
       | Notes on Location                 | Notes on location              |
       | Latitude                          | Incident latitude              |
       | Longitude                         | Incident longitude             |

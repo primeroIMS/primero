@@ -1,8 +1,5 @@
-<tr>  
-  <% if fields_to_show.include? 'owned_by_text' %>
-    <% #TODO - Get name or code.  Prob should be in helper%>
-    <td><%= record.owned_by %></td>
-  <% end %>
+<tr>
+  <td><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_child record %>"></td>
   <% if fields_to_show.include? 'short_id' %>
     <td id="child_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
@@ -30,10 +27,14 @@
   <% if fields_to_show.include? 'registration_date' %>
     <td><%= field_format_date(record.registration_date) %></td>
   <% end %>
-  <% if fields_to_show.include? 'case_opening_date' %>
+  <% if fields_to_show.include? 'created_at' %>
     <td><%= field_format_date(record.created_at) %></td>
   <% end %>
   <% if fields_to_show.include? 'photo' %>
     <td class="photo"><%= icon('camera') if record.photo_keys.present? %></td>
+  <% end %>
+  <% if fields_to_show.include? 'owned_by' %>
+    <% #TODO - Get name or code.  Prob should be in helper. Should this be owned_by_text?%>
+    <td><%= record.owned_by %></td>
   <% end %>
 </tr>

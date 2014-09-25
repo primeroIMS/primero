@@ -14,11 +14,7 @@ basic_identity_fields = [
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_text_all" =>
-                          ["Open",
-                           "Closed",
-                           "Transferred",
-                           "Duplicate"].join("\n")
+             "option_strings_source" => "lookup CaseStatus"
             }),
   Field.new({"name" => "name",
              "type" => "text_field",
@@ -117,7 +113,6 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Landmark"
             }),
-  #TODO location picker
   Field.new({"name" => "location_current",
              "type" =>"select_box",
              "display_name_all" => "Current Location",

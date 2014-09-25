@@ -27,6 +27,9 @@ Feature: Basic Identity Form
 
   Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
+    And the following location country exist in the system:
+      | placename           |
+      | A Location Country  |
     When I access "cases page"
     And I press the "New Case" button
 
@@ -52,7 +55,7 @@ Feature: Basic Identity Form
       | Occupation                               | Farmer                             |
       | Current Address                          | 111 Main St, Davidson NC, 28036    |
       | Landmark                                 | Old Oak Tree                       |
-      | Current Location                         | Southern Region                    |
+      | Current Location                         | <Choose>A Location Country         |
       | Is this address permanent?               | <Tickbox>                          |
       | Current Telephone                        | 336-555-1313                       |
     And the value of "Age" should be the calculated age of someone born in "1992"
@@ -81,7 +84,7 @@ Feature: Basic Identity Form
       | Occupation                               | Farmer                             |
       | Current Address                          | 111 Main St, Davidson NC, 28036    |
       | Landmark                                 | Old Oak Tree                       |
-      | Current Location                         | Southern Region                    |
+      | Current Location                         | A Location Country                 |
       | Is this address permanent?               | Yes                                |
       | Current Telephone                        | 336-555-1313                       |
 

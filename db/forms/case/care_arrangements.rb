@@ -70,8 +70,10 @@ care_arrangements_fields = [
              "display_name_all" => "Address where the child is currently living?"
             }),
   Field.new({"name" => "location_caregiver",
-             "type" => "text_field",
-             "display_name_all" => "Caregiver's Location"
+             "type" => "select_box",
+             "display_name_all" => "Caregiver's Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "telephone_caregiver",
              "type" => "text_field",
@@ -91,8 +93,10 @@ care_arrangements_fields = [
              "display_name_all" => "If yes, what is the future address?"
             }),
   Field.new({"name" => "location_caregiver_future",
-             "type" => "text_field",
-             "display_name_all" => "What is the future location?"
+             "type" => "select_box",
+             "display_name_all" => "What is the future location?",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "telephone_caregiver_future",
              "type" => "text_field",

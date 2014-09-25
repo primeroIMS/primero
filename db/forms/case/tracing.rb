@@ -15,16 +15,20 @@ reunification_subform = [
                "display_name_all" => "Address",
               }),
     Field.new({"name" => "location_reunified_adult",
-               "type" => "text_field",
+               "type" => "select_box",
                "display_name_all" => "Location of adult with whom the child was reunified",
+               "searchable_select" => true,
+               "option_strings_source" => "Location"
               }),
     Field.new({"name" => "address_reunification",
                "type" => "text_field",
                "display_name_all" => "Address where the reunification is taking place",
               }),
     Field.new({"name" => "location_reunification",
-               "type" => "text_field",
+               "type" => "select_box",
                "display_name_all" => "Location where the reunifcation is taking place",
+               "searchable_select" => true,
+               "option_strings_source" => "Location"
               }),
     Field.new({"name" => "reunification_type",
                "type" => "select_box",
@@ -114,17 +118,9 @@ tracing_action_subform = [
               }),
     Field.new({"name" => "location_tracing",
                "type" => "select_box",
-               "display_name_all" => "Place of tracing",
-               "option_strings_text_all" => [
-                 "DRC",
-                 "Kenya",
-                 "Liberia",
-                 "Myanmar",
-                 "Nepal",
-                 "Sierra Leone",
-                 "Sri Lanka",
-                 "Uganda"
-               ]
+               "display_name_all" => "Location of Tracing",
+               "searchable_select" => true,
+               "option_strings_source" => "Location"
               }),
     Field.new({"name" => "tracing_action_description",
                "type" => "text_field",
@@ -217,10 +213,11 @@ tracing_fields = [
              "type" => "text_field",
              "display_name_all" => "Separation Address (Place)"
             }),
-  #TODO refactoring? Spreadsheet datatype is "Location" but text_field for now.
   Field.new({"name" => "location_separation",
-             "type" => "text_field",
-             "display_name_all" => "Separation Location"
+             "type" => "select_box",
+             "display_name_all" => "Separation Location",
+             "searchable_select" => true,
+             "option_strings_source" => "Location"
             }),
   Field.new({"name" => "additional_tracing_info",
              "type" => "textarea",

@@ -311,6 +311,10 @@ table.dataTable td {
   box-sizing: content-box;
 }
 
+table.dataTable td li {
+  list-style-type: none;
+}
+
 /*
  * Control feature layout
  */

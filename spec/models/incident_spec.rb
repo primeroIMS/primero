@@ -308,11 +308,13 @@ describe Incident do
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       incident = create_incident_with_created_by('jdoe')
+      incident.save!
       incident['unique_identifier'].should == "12345"
     end
 
     it "should not create a unique id if already exists" do
       incident = create_incident_with_created_by('jdoe', 'unique_identifier' => 'primeroxxx5bcde')
+      incident.save!
       incident['unique_identifier'].should == "primeroxxx5bcde"
     end
 
@@ -357,12 +359,14 @@ describe Incident do
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       incident = Incident.new
+      incident.save!
       incident.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
       UUIDTools::UUID.stub("random_create").and_return(1212127654321)
       incident = Incident.new
+      incident.save!
       incident.short_id.should == "7654321"
     end
 

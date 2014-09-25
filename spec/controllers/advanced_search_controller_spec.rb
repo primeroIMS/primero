@@ -1,3 +1,6 @@
+#TODO: All tests in this file have been disabled. Keeping them around for reference only.
+#      When advanced search is fully re-implemnted, everything here should be rewritten.
+
 require 'spec_helper'
 
 describe AdvancedSearchController do
@@ -34,7 +37,7 @@ describe AdvancedSearchController do
 
   context 'new search' do
 
-    it "should construct empty criteria objects for new search" do
+    xit "should construct empty criteria objects for new search" do
       SearchCriteria.stub(:new).and_return("empty_criteria")
       get :new
       response.should render_template('index')
@@ -50,13 +53,13 @@ describe AdvancedSearchController do
       :criteria_list
     end
 
-    it "should show list of enabled forms" do
+    xit "should show list of enabled forms" do
       FormSection.stub(:by_order).and_return :some_forms
       get :index
       assigns[:forms].should == :some_forms
     end
 
-    it "should perform a search using the parameters passed to it for admin users" do
+    xit "should perform a search using the parameters passed to it for admin users" do
       fake_admin_login
       search = double("search_criteria")
       SearchCriteria.stub(:build_from_params).and_return([search])
@@ -69,7 +72,7 @@ describe AdvancedSearchController do
       assigns[:results].should == fake_results
     end
 
-    it "should append created_by as self for limited users" do
+    xit "should append created_by as self for limited users" do
       search = double("search_criteria")
       SearchCriteria.stub(:build_from_params).and_return([search])
       fake_full_results = [:fake_child, :fake_child, :fake_child, :fake_child]
@@ -83,14 +86,14 @@ describe AdvancedSearchController do
       assigns[:results].should == stub_results
     end
 
-    it "should construct criteria objects for advanced child search for admin" do
+    xit "should construct criteria objects for advanced child search for admin" do
       fake_admin_login
       SearchCriteria.stub(:build_from_params).and_return(["criteria_list"])
       get :index, :criteria_list => {"0" => {"field" => "name_of_child", "value" => "joe joe", "index" => "0"}}, :created_by_value => nil
       assigns[:criteria_list].should == ["criteria_list"]
     end
 
-    it "should construct criteria objects for advanced child search for limited access users" do
+    xit "should construct criteria objects for advanced child search for limited access users" do
       SearchCriteria.stub(:build_from_params).and_return(["criteria_list"])
       created_by_mock = double("Created_by")
       SearchFilter.should_receive(:new).with({:value=>"fakeuser", :join=>"AND", :field=>"created_by", :index=>1, :field2=>"created_by_full_name"}).and_return(created_by_mock)
@@ -101,7 +104,7 @@ describe AdvancedSearchController do
 
     context 'search filters' do
 
-      it "should append search filter 'created_by' to the list of search criteria for admin" do
+      xit "should append search filter 'created_by' to the list of search criteria for admin" do
         fake_admin_login
         SearchCriteria.stub(:build_from_params).and_return([])
         SearchFilter.should_receive(:new).with({:field => "created_by", :field2 => "created_by_full_name", :value => "johnny_user", :join => 'AND', :index => 1}).and_return("created_by_filter")
@@ -109,7 +112,7 @@ describe AdvancedSearchController do
         assigns[:criteria_list].should include("created_by_filter")
       end
 
-      it "should append search filter 'updated_by' to the list of search criteria" do
+      xit "should append search filter 'updated_by' to the list of search criteria" do
         SearchCriteria.stub(:build_from_params).and_return([])
         SearchFilter.should_receive(:new).with({:value=>"fakeuser", :join=>"AND", :field=>"created_by", :index=>1, :field2=>"created_by_full_name"}).and_return("created_by")
         SearchFilter.should_receive(:new).with({:field => "last_updated_by", :field2 => "last_updated_by_full_name", :value => "johnny_user", :join => 'AND', :index => 2}).and_return("updated_by_filter")
@@ -117,21 +120,21 @@ describe AdvancedSearchController do
         assigns[:criteria_list].should include("updated_by_filter")
       end
 
-      it "should append search range 'created_at' to the list of search criteria" do
+      xit "should append search range 'created_at' to the list of search criteria" do
         SearchCriteria.stub(:build_from_params).and_return(["criteria_list"])
         SearchDateFilter.should_receive(:new).with({:field => "created_at", :from_value => "2012-04-23T00:00:00Z", :to_value => "2012-04-25T00:00:00Z", :join => 'AND', :index => 1}).and_return("created_at_range")
         get :index, :criteria_list => {"0" => {"field" => "name_of_child", "value" => "joe joe", "index" => "0"}}, :created_at_after_value => "2012-04-23", :created_at_before_value => "2012-04-25"
         assigns[:criteria_list].should include("created_at_range")
       end
 
-      it "should append search range 'updated_at' to the list of search criteria" do
+      xit "should append search range 'updated_at' to the list of search criteria" do
         SearchCriteria.stub(:build_from_params).and_return(["criteria_list"])
         SearchDateFilter.should_receive(:new).with({:field => "last_updated_at", :from_value => "2012-04-23T00:00:00Z", :to_value => "2012-04-25T00:00:00Z", :join => 'AND', :index => 2}).and_return("updated_at_range")
         get :index, :criteria_list => {"0" => {"field" => "name_of_child", "value" => "joe joe", "index" => "0"}}, :updated_at_after_value => "2012-04-23", :updated_at_before_value => "2012-04-25"
         assigns[:criteria_list].should include("updated_at_range")
       end
 
-      it "should append search filter 'created_by_organisation' to the list of search criteria for admin" do
+      xit "should append search filter 'created_by_organisation' to the list of search criteria for admin" do
         fake_admin_login
         SearchCriteria.stub(:build_from_params).and_return([])
         SearchFilter.should_receive(:new).with({:field => "created_organisation", :value => "STC", :join => 'AND', :index => 1}).and_return("created_by_organisation_filter")
@@ -145,11 +148,11 @@ describe AdvancedSearchController do
   context 'constructor' do
     let(:controller) { AdvancedSearchController.new }
 
-    it "should say child fields have been selected" do
+    xit "should say child fields have been selected" do
       controller.child_fields_selected?({"0" => {"field" => "name_of_child", "value" => "joe joe", "index" => "0"}}).should == true
     end
 
-    it "should say child fields have NOT been selected" do
+    xit "should say child fields have NOT been selected" do
       controller.child_fields_selected?({"0" => {"field" => "", "value" => "", "index" => "0"}}).should == false
     end
   end
@@ -171,12 +174,12 @@ describe AdvancedSearchController do
       post :export_data, { :selections => { '0' => @child1.id, '1' => @child2.id }, :commit => "Export Selected to Photo Wall" }
     end
 
-    it "should handle CSV" do
+    xit "should handle CSV" do
       Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything).and_return('data')
       post :export_data, { :selections => { '0' => @child1.id, '1' => @child2.id }, :commit => "Export Selected to CSV" }
     end
 
-    it "should encrypt result" do
+    xit "should encrypt result" do
       Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything).and_return('data')
       controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', anything).and_return(true)

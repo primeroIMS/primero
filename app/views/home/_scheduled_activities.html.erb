@@ -1,0 +1,33 @@
+<div class="panel">
+ <div class="panel_header">
+  <h4>Scheduled Activities</h4>  
+ </div>
+ <div class="panel_content no-padding">
+ <% if scheduled_activities %>
+  <table cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th>Case #ID</th>
+        <th>Name</th>
+        <th>Activity</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% scheduled_activities.each do |s| %>
+        <tr>
+          <td class="id_column"><%= link_to text_to_identify_child(s.parent_record), case_path(s.parent_record), class: 'id_link' %></td>
+          <td><%= s.parent_record.name %></td>
+          <td><%= s.message %></td>
+          <td>
+            <%= field_format_date(s.date) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% else %>
+    <p>No Scheduled Activities</p>
+  <% end %>
+ </div>
+</div>
