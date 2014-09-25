@@ -263,6 +263,7 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     # TODO: Possibly use another method to label the list view columns
+    select: "Select"
     id: "ID#"
     name: "Name"
     age: "Age"
@@ -363,6 +364,7 @@ en:
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
+    select: "Select"
     id: "ID#"
     survivor_code: "Survivor Code"
     case_worker_code: "Case Worker Code"
@@ -416,6 +418,7 @@ en:
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"
+    select: "Select"
     id: "ID#"
     enquirer_name: "Inquirer Name"
     enquirer_date: "Date of Inquiry"
