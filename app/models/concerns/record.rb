@@ -8,6 +8,7 @@ module Record
   include Extensions::CustomValidator::CustomFieldsValidator
   include RapidFTR::Clock
   include Historical
+  include Syncable
 
   included do
     property :unique_identifier
@@ -256,44 +257,22 @@ module Record
     @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
   end
 
-  def add_updated_fields_attr(props)
-    self['updated_fields'] = determine_changing_fields(props)
-  end
-
   def update_properties(properties, user_name)
     properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
-    add_updated_fields_attr(properties)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
     properties['record_state'] = "Valid record" if properties['record_state'].blank?
-    should_update = self.last_updated_at && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > self.last_updated_at) : true
-    if should_update
-      attributes_to_update = {}
-      properties.each_pair do |name, value|
-        if name == "histories"
-          merge_histories(properties['histories'])
-        else
-          attributes_to_update[name] = value
-        end
-        attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
-      end
-      self.set_updated_fields_for user_name
-      self.attributes = attributes_to_update
-    else
-      merge_histories(properties['histories'])
-    end
-  end
 
-  def merge_conflicts(properties)
-    props_to_update = properties.clone
-    if !self.updated_fields.nil?
-      determine_changing_fields(properties).each do |key,value|
-        if self.updated_fields[key] == props_to_update[key]
-          props_to_update.delete key
-        end
+    attributes_to_update = {}
+    properties.each_pair do |name, value|
+      if name == "histories"
+        merge_histories(properties['histories'])
+      else
+        attributes_to_update[name] = value
       end
+      attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
     end
-
-    props_to_update
+    self.set_updated_fields_for user_name
+    self.attributes = attributes_to_update
   end
 
   protected

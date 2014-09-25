@@ -679,9 +679,9 @@ en:
   replication:
     label: Replication
     index: Manage Replications
-    create: Configure a Server
+    create: Add a Remote Server
     edit: Edit Configuration
-    remote_app_url: RapidFTR URL
+    remote_app_url: Primero URL
     actions: Actions
     status: Status
     description: Description

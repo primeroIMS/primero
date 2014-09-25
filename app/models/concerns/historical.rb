@@ -26,6 +26,7 @@ module Historical
       property 'datetime', DateTime
       property 'user_name', String
       property 'user_organization', String
+      property 'prev_revision', String
       property 'action', Symbol, :init_method => 'to_sym'
       property 'changes', Hash, :default => {}
     end], :default => []
@@ -78,8 +79,12 @@ module Historical
     (self.histories || []).sort { |that, this| DateTime.parse(this["datetime"]) <=> DateTime.parse(that["datetime"]) }
   end
 
+  def latest_update_from_history
+    hist = self.histories.first
+    hist.try(:action) == :update ? hist : nil
+  end
+
   def update_history
-    require 'pry'; binding.pry
     if self.changed?
       history_changes = changes_to_history(self.changes, self.properties_by_name)
       add_update_to_history(history_changes)
@@ -92,6 +97,7 @@ module Historical
       self.histories.unshift({
         :user_name => created_by,
         :user_organisation => organisation_of(created_by),
+        :prev_revision => nil,
         :datetime => created_at,
         :action => :create,
       })
@@ -104,6 +110,7 @@ module Historical
       self.histories.unshift({
         :user_name => last_updated_by,
         :user_organisation => organisation_of(last_updated_by),
+        :prev_revision => self.rev,
         :datetime => last_updated_at,
         :action => :update,
         :changes => changes,
@@ -120,34 +127,35 @@ module Historical
   def changes_to_history(changes, properties_by_name)
     changes.inject({}) do |acc, (prop_name, (prev, current))|
       prop = properties_by_name[prop_name]
-      require 'pry'; binding.pry
-      return acc if prop.nil? 
-
-      change_hash = if prop.array && prop.type.include?(CouchRest::Model::Embeddable)
-        (prev_hash, current_hash) = [prev, current].map do |arr|
-                                      arr.inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
-                                    end
-
-        (prev_hash.keys | current_hash.keys).map do |k|
-          if prev_hash[k] != current_hash[k]
-            {
-              :from => prev_hash[k].try(:to_hash),
-              :to => current_hash[k].try(:to_hash),
-            }
-          end
-        end.compact
-      elsif prop.type.include? CouchRest::Model::Embeddable
-        # TODO: Make more generic
-        prop.type.properties_by_name.inject({}) do |acc2, sub_prop|
-          changes_to_history([prev, current].map {|h| h.__send__(sub_prop.name)}, sub_prop.type.properties_by_name)
-        end
+      if prop.nil? 
+        acc
       else
-        {
-          :from => prev,
-          :to => current,
-        }
+        change_hash = if prop.array && prop.type.try(:include?, CouchRest::Model::Embeddable)
+          (prev_hash, current_hash) = [prev, current].map do |arr|
+                                        arr.inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
+                                      end
+
+          (prev_hash.keys | current_hash.keys).map do |k|
+            if prev_hash[k] != current_hash[k]
+              {
+                'from' => prev_hash[k].try(:to_hash),
+                'to' => current_hash[k].try(:to_hash),
+              }
+            end
+          end.compact
+        elsif prop.type.try(:include?, CouchRest::Model::Embeddable)
+          # TODO: Make more generic
+          prop.type.properties_by_name.inject({}) do |acc2, sub_prop|
+            changes_to_history([prev, current].map {|h| h.__send__(sub_prop.name)}, sub_prop.type.properties_by_name)
+          end
+        else
+          {
+            'from' => prev,
+            'to' => current,
+          }
+        end
+        acc.merge({prop_name => change_hash})
       end
-      acc.merge({prop_name => change_hash})
     end
   end
 
@@ -157,11 +165,11 @@ module Historical
       to_be_merged = []
       (given_histories || []).each do |history|
         matched = current_histories.find do |c_history|
-          c_history.user_name == history.user_name && c_history.datetime == history.datetime && c_history.changes.keys == history.changes.keys
+          c_history.user_name == history['user_name'] && c_history.datetime == history['datetime'] && c_history.changes.keys == history['changes'].keys
         end
         to_be_merged.push(history) unless matched
       end
-      self.histories = current_histories.push(to_be_merged).flatten!
+      self.histories += to_be_merged
     end
   end
 
