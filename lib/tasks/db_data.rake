@@ -12,6 +12,27 @@ namespace :db do
       load(Rails.root.join("db/dev_fixtures", "tracing_requests.rb"))
     end
 
+    desc "Remove records"
+    task :remove_records, [:type] => :environment do |t, args|
+      types = [Child, TracingRequest, Incident]
+      if args[:type].present?
+        types = [eval(args[:type])]
+      end
+      types.each do |type|
+        puts "Deleting all #{type.name} records"
+        type.all.each &:destroy!
+      end
+    end
+
+    desc "Import JSON"
+    task :import_json, [:json_file,:type] => :environment do |t, args|
+      puts "Importing #{args[:type]} records from #{args[:json_file]}"
+      ctrl = eval(args[:type].pluralize.capitalize + "Controller").new
+      file = File.open(args[:json_file])
+      ctrl.handle_import(file, Importers::JSONImporter)
+    end
+
+
     desc "Remove roles and any reference of the role from users."
     task :remove_role, [:role] => :environment do |t, args|
       role = Role.find_by_name(args[:role])
