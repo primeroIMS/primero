@@ -100,6 +100,7 @@ en:
      guiding_questions: "Guiding Questions"
      filter_label: "Filter:"
      filter: "Apply Filter"
+     flag_records: "Flag"
 
   cases:
     label: "Cases"
@@ -177,6 +178,8 @@ en:
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
     duplicate_header: "Marking %{child_name} as Duplicate"
     flag_error_message: "Please explain why you are flagging this record."
+    flag_records_error_message: "Please explain why you are flagging these records."
+    selected_records_error_message: "Please select one or more records to flag."
     investigation_details: "Investigation Details:"
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
@@ -261,6 +264,7 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     # TODO: Possibly use another method to label the list view columns
+    select: "Select"
     id: "ID#"
     name: "Name"
     age: "Age"
@@ -349,6 +353,8 @@ en:
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
     duplicate_header: "Marking %{child_name} as Duplicate"
     flag_error_message: "Please explain why you are flagging this record."
+    flag_records_error_message: "Please explain why you are flagging these records."
+    selected_records_error_message: "Please select one or more records to flag."
     investigation_details: "Investigation Details:"
     reunite_details: "Reunite Details:"
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
@@ -360,6 +366,7 @@ en:
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
+    select: "Select"
     id: "ID#"
     survivor_code: "Survivor Code"
     case_worker_code: "Case Worker Code"
@@ -389,10 +396,12 @@ en:
     last_updated: "Last updated"
     registered_by: "Registered by"
     edit_photo: "Edit photo"
-    flag_record: "Flag"
+    flag_record: "Flags"
     flag_label: "Flag"
     flag_reason: "Flag Reason"
     flag_reason_date: "Date (optional)"
+    flag_records_error_message: "Please explain why you are flagging these records."
+    selected_records_error_message: "Please select one or more records to flag."
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
     unflag_label: "Unflag"
@@ -411,6 +420,7 @@ en:
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"
+    select: "Select"
     id: "ID#"
     enquirer_name: "Inquirer Name"
     enquirer_date: "Date of Inquiry"
