@@ -2,9 +2,7 @@ tracing_request_record_owner_fields = [
   Field.new({"name" => "record_state",
              "type" => "select_box",
              "display_name_all" => "Record state",
-             "option_strings_text_all" =>
-                                    ["Valid record",
-                                     "Invalid record"].join("\n")
+             "option_strings_source" => "lookup RecordState"
             }),
   Field.new({"name" => "current_owner_section",
              "type" => "separator",
