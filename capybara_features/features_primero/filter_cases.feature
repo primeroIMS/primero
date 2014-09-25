@@ -1,4 +1,5 @@
 # JIRA PRIMERO-617
+# JIRA PRIMERO-625
 
 @search @javascript @primero
 Feature: Filter Cases
@@ -73,3 +74,22 @@ Feature: Filter Cases
     And I should not see a filter for "Registration Date:"
     And I should see a filter for "Case Open Date:"
     And I should see a filter for "Record State:"
+
+Scenario: As a CP user, I want to filter cases with photos
+    And I am logged in as a social worker with username "primero_cp" and password "primero"
+    When I press the "CASES" button
+    And I press the "New Case" button
+    And I fill in the following:
+      | Name                                     | Tiki Thomas Taliaferro             |
+    And I press "Save"
+    And I should see "Case record successfully created" on the page
+    And I press the "CASES" button
+    And I should see "andreas" on the page
+    And I should see "Tiki Thomas Taliaferro" on the page
+    And I should see a filter for "Photo:"
+    And I check the "Has Photo?" field
+    And I press the "Apply Filter" link
+    And I wait for 3 seconds
+    And I should see "andreas" on the page
+    And I should not see "Tiki Thomas Taliaferro" on the page
+    And I wait for 10 seconds
