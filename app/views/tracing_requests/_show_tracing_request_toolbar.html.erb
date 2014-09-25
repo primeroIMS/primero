@@ -1,22 +1,4 @@
-<% if can? :update, tracing_request %>
-    <%#
-        TODO: We are taking out the "investigated" and "reunied" buttons.
-        Unlikely that we will put them back in. Delete the code in the future.
-    %>
-    <% if false %>
-    <% if @tracing_request.flagged? %>
-        <li>
-            <div class="dropdown_btn dropdown_form">
-                <%= render 'investigated', tracing_request: @tracing_request %>
-            </div>
-        </li>
-    <% end %>
-    <li>
-        <div class="dropdown_btn dropdown_form">
-            <%= render 'reunited', tracing_request: @tracing_request %>
-        </div>
-    </li>
-    <% end %>
+<% if can? :flag, tracing_request %>
     <li>
         <div class="dropdown_btn dropdown_form">
             <%= render 'record_shared/suspect_flag', record: @tracing_request %>

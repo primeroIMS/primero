@@ -1,27 +1,12 @@
-<% if can? :update, child %>
-    <%#
-        TODO: We are taking out the "investigated" and "reunied" buttons.
-        Unlikely that we will put them back in. Delete the code in the future.
-    %>
-    <% if false %>
-    <% if @child.flagged? %>
-        <li>
-            <div class="dropdown_btn dropdown_form">
-                <%= render 'investigated', child: @child %>
-            </div>
-        </li>
-    <% end %>
-    <li>
-        <div class="dropdown_btn dropdown_form">
-            <%= render 'reunited', child: @child %>
-        </div>
-    </li>
-    <% end %>
+<%# TODO: Refactor this toolbar to be shared by all record types. %>
+<% if can? :flag, child %>
     <li>
         <div class="dropdown_btn dropdown_form">
             <%= render 'record_shared/suspect_flag', record: @child %>
         </div>
     </li>
+<% end %>
+<% if can? :update, child %>
     <%= ctl_create_incident_button(@child) %>
 <% end %>
 <% if controller.action_name != 'edit' %>
