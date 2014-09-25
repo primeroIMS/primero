@@ -47,15 +47,7 @@ gbv_individual_details_fields = [
   Field.new({"name" => "displacement_status",
              "type" => "select_box",
              "display_name_all" => "Displacement Status at time of report",
-             "option_strings_text_all" =>
-                          ["Resident",
-                           "IDP",
-                           "Refugee",
-                           "Stateless Person",
-                           "Returnee",
-                           "Foreign National",
-                           "Asylum Seeker",
-                           "N/A"].join("\n")
+             "option_strings_source" => "lookup DisplacementStatus"
             }),
   Field.new({"name" => "maritial_status",
              "type" => "select_box",

@@ -93,3 +93,51 @@ create_or_update_lookup(
     "Religion10"
   ]
 )
+
+create_or_update_lookup(
+  :name => "case_status",
+  :lookup_values => [
+    "Open",
+    "Closed",
+    "Transferred",
+    "Duplicate"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "displacement_status",
+  :lookup_values => [
+    "Resident",
+    "IDP",
+    "Refugee",
+    "Stateless Person",
+    "Returnee",
+    "Foreign National",
+    "Asylum Seeker"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "protection_status",
+  :lookup_values => [
+    "Unaccompanied",
+    "Separated"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "record_state",
+  :lookup_values => [
+    "Valid record",
+    "Invalid record"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "risk_level",
+  :lookup_values => [
+    "High",
+    "Medium",
+    "Low"
+  ]
+)
