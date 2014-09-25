@@ -28,8 +28,10 @@ $(function() {
   <%= render 'show_child_toolbar', child: @child %>
 <% end %>
 
-<% content_for :record_sub_nav_controls do %>
-  <%= render_controls(@child, 'cases') %>
+<% if can? :edit, @child %>
+  <% content_for :record_sub_nav_controls do %>
+    <%= render_controls(@child, 'cases') %>
+  <% end %>
 <% end %>
 
 <% content_for :breadcrumbs do %>

@@ -46,8 +46,10 @@ $(".profile-tools .investigated a").click( function(){
   <%= render 'show_tracing_request_toolbar', tracing_request: @tracing_request %>
 <% end %>
 
-<% content_for :record_sub_nav_controls do %>
-  <%= render_controls(@tracing_request) %> 
+<% if can? :edit, @tracing_request %>
+  <% content_for :record_sub_nav_controls do %>
+    <%= render_controls(@tracing_request) %>
+  <% end %>
 <% end %>
 
 <% content_for :breadcrumbs do %>
@@ -62,7 +64,7 @@ $(".profile-tools .investigated a").click( function(){
 <% content_for :stylesheet do %>
     <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
 <% end %>
-    
+
 <div class="page-content-new row collapse" data-equalizer>
   <div class="large-4 medium-4 columns close-side-tab side-tab-container">
     <div class="side-tab" data-equalizer-watch>
