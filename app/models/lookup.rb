@@ -51,5 +51,14 @@ class Lookup < CouchRest::Model::Base
     "lookup-#{name}".parameterize.dasherize
   end
 
+  def self.values(name, lookups = nil)
+    if lookups.present?
+      lookup = lookups.select {|lkp| lkp['name'] == name}.first
+    else
+      lookup = self.find_by_name(name)
+    end
+    lookup.present? ? lookup.lookup_values : []
+  end
+
 end
 

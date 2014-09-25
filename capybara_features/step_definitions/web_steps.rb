@@ -422,6 +422,10 @@ When /^I click Cancel in the browser popup$/ do
   page.driver.browser.switch_to.alert.dismiss
 end
 
+Then /^I should see a browser popup with text "(.*)"$/ do |text|
+  page.driver.browser.switch_to.alert.text.should eq(text)
+end
+
 #Chosen with the values to select in the table.
 When /^I choose from "([^\"]*)":$/ do |chosen, table |
   label = find("//label[text()=\"#{chosen}\"]", :visible => true)

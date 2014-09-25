@@ -123,6 +123,11 @@ RapidFTR::Application.routes.draw do
   match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class:'Incident', :via => [:post, :put]
   match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, model_class:'TracingRequest', :via => [:post, :put]
 
+  #Flag multiple records routing
+  match '/cases/flag_records' => 'record_flag#flag_records', :as => :child_flag_records, :model_class => 'Child', :via => [:post, :put]
+  match '/incidents/flag_records' => 'record_flag#flag_records', :as => :incident_flag_records, :model_class => 'Incident', :via => [:post, :put]
+  match '/tracing_requests/flag_records' => 'record_flag#flag_records', :as => :tracing_request_flag_records, :model_class => 'TracingRequest', :via => [:post, :put]
+
   #Unflag routing
   match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]
   match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class:'Incident', :via => [:post, :put]

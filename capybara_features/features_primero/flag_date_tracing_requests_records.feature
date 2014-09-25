@@ -14,7 +14,7 @@ Feature: Flag Date Tracing Requests Records
 
   Scenario: As a logged in user and enter to view page, I want to flag and set date to the tracing request
    And I click the "9bf3aa9" link
-   And I press the "Flag Record" button
+   And I press the "Flags" button
    And I fill in "Flag Reason" with "Future Processing"
    And I fill in "tracing_request_flag_date" with "22-Jan-2014"
    And I press "Flag"
@@ -24,7 +24,7 @@ Feature: Flag Date Tracing Requests Records
   Scenario: As a logged in user and enter to edit page, I want to flag and set date to the tracing request
    And I click the "9bf3aa9" link
    And I press the "Edit" button
-   And I press the "Flag Record" button
+   And I press the "Flags" button
    And I fill in "Flag Reason" with "Future Processing"
    And I fill in "tracing_request_flag_date" with "21-Jan-2014"
    And I press "Flag"
@@ -35,7 +35,7 @@ Feature: Flag Date Tracing Requests Records
   @wip
   Scenario: As a logged in user and enter to view page, I want to remove the flag from tracing request
    And I click the "9af3aa9" link
-   And I press the "Unflag Record" button
+   And I press the "UnFlags" button
    And I fill in "Unflag Reason" with "No Processing"
    And I press "Unflag"
    Then I should not see "Flagged by primero_cp"
@@ -46,7 +46,7 @@ Feature: Flag Date Tracing Requests Records
   Scenario: As a logged in user and enter to edit page, I want to remove the flag from tracing request
    And I click the "9af3aa9" link
    And I press the "Edit" button
-   And I press the "Unflag Record" button
+   And I press the "UnFlags" button
    And I fill in "Unflag Reason" with "No Processing"
    And I press "Unflag"
    Then I should not see "Flagged by primero_cp"
