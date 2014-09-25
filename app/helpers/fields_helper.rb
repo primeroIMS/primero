@@ -96,19 +96,6 @@ module FieldsHelper
     return subform_object
   end
 
-  # TODO: Translate these
-  def scope_values(record)
-    record = record.pluralize
-    [
-      [t("#{record}.filter_by.valid"), "record_state:valid record" ],
-      [t("#{record}.filter_by.invalid"), "record_state:invalid record"],
-      [t("#{record}.filer_by.all"), "record:all" ],
-      # [t("#{record}.filer_by.active"),"active"],
-      # [t("#{record}.filer_by.reunited"),"reunited"],
-      [t("#{record}.filer_by.flagged"),"flag:flag"]
-    ]
-  end
-
   def violation_status(formObject, form_group_name, subform_name, index)
     if formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
       index != 'template'
