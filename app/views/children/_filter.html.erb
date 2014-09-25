@@ -2,7 +2,7 @@
   <form id="index_filter_form">
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("cases.filter_by.flag"), 'flag', [
-        {flag: 'flagged?'}
+        {flag: t("cases.filter_by.flag_label")}
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'Social Worker' %>

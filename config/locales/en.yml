@@ -107,6 +107,7 @@ en:
     export: "Export"
     filter_by:
       flag: "Flagged:"
+      flag_label: "Flagged?"
       social_worker: "Field/Case/Social Worker:"
       status: "Status:"
       age_range: "Age Range:"
@@ -322,12 +323,13 @@ en:
     register_new_incident: "New Incident"
 
     filter_by:
-      valid: "Valid records"
-      invalid: "Invalid records"
-      all: "All"
-      active: "Active"
-      reunited: "Reunited"
-      flagged: "Flagged"
+      flag: "Flagged:"
+      flag_label: "Flagged?"
+      social_worker: "Field/Case/Social Worker:"
+      status: "Status:"
+      age_range: "Age Range:"
+      children: "Children (Boys, Girls, Unknown):"
+      incident_date: "Incident Date:"
 
   incident:
     label: "Incident ID"

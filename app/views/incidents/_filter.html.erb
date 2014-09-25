@@ -1,49 +1,88 @@
 <% #All options need to be translated %>
 <div class="panel">
   <form id="index_filter_form">
-    <%# TODO: Make all this I18n!!! %>
-    <%= build_filter_checkboxes('Violation:', 'violations', [
-      'killing',
-      'maiming',
-      'recruitment',
-      'sexual_violence',
-      'abduction',
-      'attack_on_schools',
-      'attack_on_hospitals',
-      { denial_humanitarian_access: 'Denial of Humanitarian Access' },
-      'other_violation'
-    ], { multi: true }, false) %>
-    <%= build_filter_checkboxes('Status:', 'status', [
-      'open',
-      'closed',
-      'duplicate',
-      'transferred'
-    ]) %>
-    <%= build_filter_checkboxes('Age Range:', 'age', [
-      '0-5',
-      '5-11',
-      '12-17',
-      '18+'
-    ]) %>
-    <%= build_filter_checkboxes('Sex:', 'sex', [
-      'male',
-      'female'
-    ]) %>
-    <%= build_filter_checkboxes('Verification Status:', 'verification_status', [
-      'unaccompanied',
-      'separated'
-    ]) %>
-    <%= build_filter_location('Current Location', 'incident_location') %>
-    <%= build_filter_date('Interview Date', 'interview_date') %>
-    <%= build_filter_date('Incident Date', 'incident_date') %>
-    <%= build_filter_checkboxes('Perpetrator Type:', 'perpetrator_type', [
-      "national_army",
-      "security_forces",
-      "international_forces",
-      "police_forces",
-      "paramilitary_forces",
-      "unknown",
-      "other"
-    ], multi: true) %>
+    <% if filters_to_show.include? 'Flagged' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [
+        {flag: t("incidents.filter_by.flag_label")}
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Violation' %>
+      <%
+        #TODO - handle translations and/or lookups
+      %>
+      <%= build_filter_checkboxes('Violation:', 'violations', [
+        'killing',
+        'maiming',
+        'recruitment',
+        'sexual_violence',
+        'abduction',
+        'attack_on_schools',
+        'attack_on_hospitals',
+        { denial_humanitarian_access: 'Denial of Humanitarian Access' },
+        'other_violation'
+      ], { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'Violence Type' %>
+      <%
+        #TODO
+      %>
+    <% end %>
+    <% if filters_to_show.include? 'Social Worker' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'Status' %>
+      <%
+        #TODO - handle translations and/or lookups
+      %>
+      <%= build_filter_checkboxes('Status:', 'status', [
+        'open',
+        'closed',
+        'duplicate',
+        'transferred'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Age Range' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', [
+        '0-5',
+        '5-11',
+        '12-17',
+        '18+'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Children' %>
+      <%
+        #TODO
+      %>
+    <% end %>
+    <% if filters_to_show.include? 'Verification Status' %>
+      <%
+        #TODO - handle translations and/or lookups
+      %>
+      <%= build_filter_checkboxes('Verification Status:', 'verification_status', [
+        'unaccompanied',
+        'separated'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Incident Location' %>
+      <%= build_filter_location('Current Location', 'incident_location') %>
+    <% end %>
+    <% if filters_to_show.include? 'Incident Date' %>
+      <%= render "record_shared/filter_date", date_field_title: 'incident_date', date_field: 'date_of_incident' %>
+    <% end %>
+    <% if filters_to_show.include? 'Protection Status' %>
+       <%
+        #TODO
+      %>
+    <% end %>
+    <% if filters_to_show.include? 'Armed Force or Group' %>
+       <%
+        #TODO
+      %>
+    <% end %>
+    <% if filters_to_show.include? 'Armed Force or Group Type' %>
+       <%
+        #TODO
+      %>
+    <% end %>
   </form>
 </div>

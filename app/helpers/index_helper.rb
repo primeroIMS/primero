@@ -174,6 +174,20 @@ module IndexHelper
 
   def index_filters_incident
     filters = []
+
+    filters << "Flagged"
+    filters << "Violation" if @is_mrm
+    filters << "Violence Type" if (@is_gbv && !@is_manager)
+    filters << "Social Worker" if @is_manager
+    filters << "Status"
+    filters << "Age Range"
+    filters << "Children" if @is_mrm
+    filters << "Verification Status" if @is_mrm
+    filters << "Incident Location"
+    filters << "Incident Date"
+    filters << "Protection Status" if @is_gbv
+    filters << "Armed Force or Group" if @is_mrm
+    filters << "Armed Force or Group Type" if @is_mrm
   end
 
   def index_filters_tracing_request
