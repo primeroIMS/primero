@@ -7,6 +7,9 @@
      collapsed_fields = subform_section.collapsed_list
   %>
   <div class="subforms">
+    <% if number_of_subforms == 0 %>
+      <%= t('placeholders.subforms', :form => t(subform.name, :default => subform.display_name.singularize)) %>
+    <% end %>
     <% (number_of_subforms).times do |i| %>
       <%
         formObject_i = subform_object[i]

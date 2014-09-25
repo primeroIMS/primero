@@ -108,4 +108,13 @@ module FieldsHelper
       [t("#{record}.filer_by.flagged"),"flag:flag"]
     ]
   end
+
+  def violation_status(formObject, form_group_name, subform_name, index)
+    if formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
+      index != 'template'
+      content_tag :span, class: 'verification_status' do
+        "(#{formObject[form_group_name.downcase][subform_name][index].verified})"
+      end
+    end
+  end
 end
