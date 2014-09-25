@@ -11,6 +11,10 @@ module PhotoUploader
     validate :validate_photos_size
     validate :validate_photos_count
     validate :validate_photos
+    
+    def has_photo
+      self["current_photo_key"].present?
+    end
   end
 
   def compact
