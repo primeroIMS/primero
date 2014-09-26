@@ -1,6 +1,8 @@
 class Incident < CouchRest::Model::Base
   use_database :incident
 
+  MAX_DOCUMENTS = 10
+
   include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
@@ -12,6 +14,10 @@ class Incident < CouchRest::Model::Base
 
   property :incident_id
   property :description
+
+  validate :validate_documents_size
+  validate :validate_documents_count
+  validate :validate_documents_file_type
 
   def initialize *args
     self['histories'] = []
@@ -55,6 +61,24 @@ class Incident < CouchRest::Model::Base
       end
       violation_list
     end
+  end
+
+  def validate_documents_size
+    return true if @documents.blank? || @documents.all? {|document| document.size < 10.megabytes }
+    errors.add(:document, I18n.t("errors.models.incident.document_size"))
+    error_with_section(:upload_document, I18n.t("errors.models.incident.document_size"))
+  end
+
+  def validate_documents_count
+    return true if @documents.blank? || self['document_keys'].size <= MAX_DOCUMENTS
+    errors.add(:document, I18n.t("errors.models.incident.documents_count", :documents_count => MAX_DOCUMENTS))
+    error_with_section(:upload_document, I18n.t("errors.models.incident.documents_count", :documents_count => MAX_DOCUMENTS))
+  end
+
+  def validate_documents_file_type
+    return true if @documents.blank? || @documents.all? { |document| !document.original_filename.ends_with? ".exe" }
+    errors.add(:document, "errors.models.incident.document_format")
+    error_with_section(:upload_document, I18n.t("errors.models.incident.document_format"))
   end
 
   def self.find_by_incident_id(incident_id)
