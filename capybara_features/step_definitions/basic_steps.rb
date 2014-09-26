@@ -6,8 +6,12 @@ Then /^I should not see "([^\"]*)" on the page$/ do |text|
   expect(page).to have_no_content(text)
 end
 
-Then /^I should see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|
-  expect(page).to have_selector(:link_or_button, label)
+Then /^I should see (a|an) "([^\"]*)" (button|span button) on the page$/ do |grammar, label, button_type|
+  if button_type == "span button"
+    expect(page).to have_selector("//span[contains(@class, 'span_button')]", :text => label)
+  else
+    expect(page).to have_selector(:link_or_button, label)
+  end
 end
 
 Then /^I should not see (a|an) "([^\"]*)" button on the page$/ do |grammar, label|

@@ -32,7 +32,7 @@
           <%= field_format_date(child.posted_at) %>
         </p>
       <% end %>
-      <%= link_to t("child.change_log"), child_record_change_log_path(@child), :id => 'show_change_log', "data-reveal-id" => "#{@child.class.name.underscore.downcase}_#{@child.short_id}_change_log" %>
+      <span id="show_change_log" class="span_button" data-change_log_url="<%=child_record_change_log_path(@child)%>" data-reveal-id="<%="#{@child.class.name.underscore.downcase}_#{@child.short_id}_change_log"%>" style="cursor: pointer;color: #575757;"><%= t("child.change_log") %></span>
       <div class="reveal-modal medium" id="<%= "#{@child.class.name.underscore.downcase}_#{@child.short_id}_change_log" %>" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal></div>
     </div>
   </div>

@@ -26,7 +26,7 @@
                 <p><strong><%= t("tracing_request.posted_from_mobile")  %></strong><br>
                 <%= field_format_date(tracing_request.posted_at) %> </p>
             <% end %>
-            <%= link_to t("tracing_request.change_log"), tracing_request_record_change_log_path(@tracing_request), :id => 'show_change_log', "data-reveal-id" => "#{@tracing_request.class.name.underscore.downcase}_#{@tracing_request.short_id}_change_log" %>
+            <span id="show_change_log" class="span_button" data-change_log_url="<%=tracing_request_record_change_log_path(@tracing_request)%>" data-reveal-id="<%="#{@tracing_request.class.name.underscore.downcase}_#{@tracing_request.short_id}_change_log"%>" style="cursor: pointer;color: #575757;"><%= t("tracing_request.change_log") %></span>
             <div class="reveal-modal medium" id="<%= "#{@tracing_request.class.name.underscore.downcase}_#{@tracing_request.short_id}_change_log" %>" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal></div>
         </div>
     </div>
