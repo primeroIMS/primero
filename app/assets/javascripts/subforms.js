@@ -168,16 +168,17 @@ _primero.update_subform_heading = function(subformEl) {
   //Update the static text with the corresponding input value to shows the changes if any.
   $(subformEl).find(".collapse_expand_subform_header div.display_field span").each(function(x, el){
     //view mode doesn't sent this attributes, there is no need to update the header.
-    var data_types_attr = el.getAttribute("data-types");
-    var data_fields_attr = el.getAttribute("data-fields");
+    var data_types_attr = el.getAttribute("data-types"),
+        data_fields_attr = el.getAttribute("data-fields");
+        console.log(data_fields_attr, data_types_attr)
     if (data_types_attr != null && data_fields_attr != null) {
       //retrieves the fields to update the header.
-      var data_types = data_types_attr.split(",");
-      var data_fields = data_fields_attr.split(",");
-      var values = [];
+      var data_types = data_types_attr.split(","),
+          data_fields = data_fields_attr.split(","),
+          values = [];
       for (var i=0; (data_fields.length == data_types.length) && (i < data_fields.length); i++) {
-        var input_id = data_fields[i];
-        var input_type = data_types[i];
+        var input_id = data_fields[i],
+            input_type = data_types[i];
         if (input_type == "chosen_type") {
           //reflect changes of the chosen.
           var input = $(subformEl).find("select[id='" + input_id + "_']");

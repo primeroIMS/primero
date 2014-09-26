@@ -3,6 +3,7 @@ class User < CouchRest::Model::Base
   use_database :user
 
   include PrimeroModel
+  include Importable
 
   include RapidFTR::CouchRestRailsBackward
 
@@ -138,6 +139,10 @@ class User < CouchRest::Model::Base
 
   def self.find_by_user_name(user_name)
     User.by_user_name(:key => user_name.downcase).first if user_name.present?
+  end
+
+  def self.get_unique_instance(attributes)
+    find_by_user_name(attributes['user_name'])
   end
 
   def initialize(args = {}, args1 = {})
@@ -317,4 +322,5 @@ class User < CouchRest::Model::Base
   def generate_id
     self["_id"] ||= User.user_id_from_name self.user_name
   end
+
 end

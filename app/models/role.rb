@@ -3,6 +3,7 @@ class Role < CouchRest::Model::Base
 
   include PrimeroModel
   include Namable
+  include Importable
 
   property :permissions, :type => [String]
   property :permitted_form_ids, :type => [String]
@@ -10,6 +11,10 @@ class Role < CouchRest::Model::Base
   validates_presence_of :permissions, :message => I18n.t("errors.models.role.permission_presence")
 
   before_save :sanitize_permissions
+
+  def self.get_unique_instance(attributes)
+    find_by_name(attributes['name'])
+  end
 
   def has_permission(permission)
     self.permissions.include? permission

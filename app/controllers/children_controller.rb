@@ -51,7 +51,6 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => @child }
-      format.json { render :json => @child.compact.to_json }
 
       respond_to_export format, [ @child ]
     end
@@ -99,9 +98,6 @@ class ChildrenController < ApplicationController
         flash[:notice] = t('child.messages.creation_success')
         format.html { redirect_to(case_path(@child, { follow: true })) }
         format.xml { render :xml => @child, :status => :created, :location => @child }
-        format.json {
-          render :json => @child.compact.to_json
-        }
       else
         format.html {
           @form_sections = get_form_sections
@@ -119,14 +115,6 @@ class ChildrenController < ApplicationController
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
     unless params[:child][:_id]
       respond_to do |format|
-        format.json do
-
-          child = create_or_update_child(params[:id], params[:child].merge(:verified => current_user.verified?))
-
-          if child.save
-            render :json => child.compact.to_json
-          end
-        end
       end
     else
       child = Child.get(params[:child][:_id])
@@ -138,13 +126,6 @@ class ChildrenController < ApplicationController
 
   def update
     respond_to do |format|
-      format.json do
-        params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
-        child = update_child_from(params[:id], params[:child])
-        child.save
-        render :json => child.compact.to_json
-      end
-
       format.html do
         @child = update_child_from(params[:id], params[:child])
         @child['child_status'] = "Open" if @child['child_status'].blank?
@@ -257,7 +238,6 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(children_url) }
       format.xml { head :ok }
-      format.json { render :json => {:response => "ok"}.to_json }
     end
   end
 
@@ -286,7 +266,6 @@ class ChildrenController < ApplicationController
 
     if @child.nil?
       respond_to do |format|
-        format.json { render :json => @child.to_json }
         format.html do
           flash[:error] = "Child with the given id is not found"
           redirect_to :action => :index and return

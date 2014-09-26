@@ -7,6 +7,7 @@ module Record
   include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
   include RapidFTR::Clock
+  include Importable
 
   included do
     before_create :create_identification
@@ -201,6 +202,26 @@ module Record
       by_duplicates_of(:key => id).all
     end
 
+    def create_new_model(attributes={}, current_user=nil)
+      new_with_user_name(current_user, attributes)
+    end
+
+    # Attributes is just a hash
+    def get_unique_instance(attributes)
+      if attributes.include? 'unique_identifier'
+        by_unique_identifier(:key => attributes['unique_identifier']).first
+      else
+        raise TypeError.new("attributes must include unique_identifier for record types")
+      end
+    end
+
+    def update_existing_model(instance, attributes, current_user=nil)
+      if current_user.nil?
+        Rails.logger.warn("Updating record without user tracking!")
+      end
+
+      instance.update_properties(attributes, current_user.try(:name))
+    end
   end
 
   def initialize(*args)
@@ -461,5 +482,4 @@ module Record
       self[target_key] = source[source_key] if source[source_key].present?
     end
   end
-
 end
