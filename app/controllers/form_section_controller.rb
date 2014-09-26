@@ -128,8 +128,4 @@ class FormSectionController < ApplicationController
     no_subforms = FormSection.filter_subforms(permitted_forms)
     @form_sections = FormSection.group_forms(no_subforms)
   end
-
-  def get_unique_instance(attributes)
-    FormSection.get_by_unique_id(attributes['unique_id'])
-  end
 end

@@ -1,6 +1,7 @@
 class FormSection < CouchRest::Model::Base
   include PrimeroModel
   include PropertiesLocalization
+  include Importable
 
 
   #TODO - include Namable - will require a fair amount of refactoring
@@ -80,6 +81,10 @@ class FormSection < CouchRest::Model::Base
 
   class << self
     extend Memoist
+
+    def get_unique_instance(attributes)
+      get_by_unique_id(attributes['unique_id'])
+    end
 
     def enabled_by_order
       by_order.select(&:visible?)
