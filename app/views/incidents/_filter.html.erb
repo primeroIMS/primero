@@ -8,24 +8,13 @@
       <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Violence Type' %>
-      <%
-        #TODO
-      %>
       <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('Gbv Sexual Violence Type', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
-      <%
-        #TODO - handle translations and/or lookups
-      %>
-      <%= build_filter_checkboxes('Status:', 'status', [
-        'open',
-        'closed',
-        'duplicate',
-        'transferred'
-      ]) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('Incident Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Age Range' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', [
@@ -41,13 +30,7 @@
       %>
     <% end %>
     <% if filters_to_show.include? 'Verification Status' %>
-      <%
-        #TODO - handle translations and/or lookups
-      %>
-      <%= build_filter_checkboxes('Verification Status:', 'verification_status', [
-        'unaccompanied',
-        'separated'
-      ]) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('Verification Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Incident Location' %>
       <%= build_filter_location('Current Location', 'incident_location') %>

@@ -337,6 +337,7 @@ en:
       status: "Status:"
       age_range: "Age Range:"
       children: "Children (Boys, Girls, Unknown):"
+      verification_status: "Verification Status:"
       incident_date: "Incident Date:"
 
   incident:
@@ -394,8 +395,8 @@ en:
       recruitment: "Recruitment"
       sexual_violence: "Sexual Violence"
       abduction: "Abduction"
-      attack_on_schools: "Attack On Schools"
-      attack_on_hospitals: "Attack On Hospitals"
+      attack_on_schools: "Attack on Schools"
+      attack_on_hospitals: "Attack on Hospitals"
       denial_humanitarian_access: "Denial of Humanitarian Access"
       other_violation: "Other Violation"
 

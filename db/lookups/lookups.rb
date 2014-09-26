@@ -105,6 +105,15 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :name => "incident_status",
+  :lookup_values => [
+    "Open",
+    "Closed",
+    "Duplicate"
+  ]
+)
+
+create_or_update_lookup(
   :name => "displacement_status",
   :lookup_values => [
     "Resident",
@@ -122,6 +131,17 @@ create_or_update_lookup(
   :lookup_values => [
     "Unaccompanied",
     "Separated"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "verification_status",
+  :lookup_values => [
+    "Verified",
+    "Unverified",
+    "Pending",
+    "Falsely Attributed",
+    "Rejected"
   ]
 )
 

@@ -55,8 +55,6 @@ module IndexHelper
           label = item
         end
 
-        label = label.gsub('_', ' ').split.map(&:capitalize).join(' ')
-
         if format
           item = item.gsub('_', ' ')
         end

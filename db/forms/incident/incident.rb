@@ -61,7 +61,7 @@ incident_fields = [
   Field.new({"name" => "status",
              "type" => "select_box",
              "display_name_all" => "Incident Status",
-             "option_strings_text_all" => ["Open", "Closed", "Duplicate"].join("\n")
+             "option_strings_source" => "lookup IncidentStatus"
             }),
   Field.new({"name" => "incident_description",
              "type" => "textarea",
