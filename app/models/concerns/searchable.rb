@@ -17,6 +17,7 @@ module Searchable
       # TODO: boolean with have to change if we want to index arbitrary index fields
       boolean :duplicate
       boolean :flag
+      boolean :has_photo
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
