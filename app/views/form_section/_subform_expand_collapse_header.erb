@@ -3,8 +3,10 @@
     view_mode ||= false 
 %>
 <div class="row collapse_expand_subform_header">
-  <div class="medium-6 columns">
-    <span><%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %></span>
+  <div class="medium-8 columns">
+    <span>
+      <%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %><%= violation_status(formObject, form_group_name, subform.name, i) %>
+    </span>
     <div class="display_field">
       <% fields_id=[]
          data_types=[]
@@ -44,7 +46,7 @@
       <% end %>      
     </div>
   </div>
-  <div class="medium-6 columns">
+  <div class="medium-4 columns">
     <span class="collapse_expand_subform expanded">-</span>
     <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", 
         data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>

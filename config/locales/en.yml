@@ -102,6 +102,9 @@ en:
      filter: "Apply Filter"
      flag_records: "Flag"
 
+  placeholders:
+    subforms: "Click the edit button to add %{form} details"
+
   cases:
     label: "Cases"
     register_new_case: "New Case"

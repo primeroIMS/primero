@@ -260,6 +260,15 @@ fieldset {
 .collapse_expand_subform_header {
   border-top: 1px solid $stroke_green_color;
   padding: 10px 0 20px 0 !important;
+
+  label {
+    display: inline;
+  }
+
+  span.verification_status {
+    margin: 0 10px;
+    color: $green_color;
+  }
 }
 
 .subforms {
