@@ -89,7 +89,5 @@ Scenario: As a CP user, I want to filter cases with photos
     And I should see a filter for "Photo:"
     And I check the "Has Photo?" field
     And I press the "Apply Filter" link
-    And I wait for 3 seconds
     And I should see "andreas" on the page
     And I should not see "Tiki Thomas Taliaferro" on the page
-    And I wait for 10 seconds
