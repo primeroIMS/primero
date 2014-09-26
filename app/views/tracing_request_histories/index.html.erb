@@ -1,24 +1,6 @@
 <div class="row">
   <div class="large-12">
-    <h1><%= t("tracing_request.actions.change_log") %></h1>
-    <div class="profile-header">
-      <ul class="history-details">
-        <% @tracing_request.ordered_histories.each do |history| %>
-          <% history['changes'].each_pair do |field, change| %>
-            <% history_entry = history_entry_for(history, field, change) %>
-            <% unless history_entry.empty? %>
-              <li>
-                <div>
-                  <%= render :partial => history_entry[:partial], :locals => history_entry[:locals].merge({:display_object => @tracing_request}) %>
-                </div>
-              </li>
-            <% end %>
-          <% end %>
-        <% end %>
-        
-      </ul>
-    </div>
-    
+    <%= render :partial => "record_shared/change_log", :locals => {record: @tracing_request} %>
     <div class="profile-tools">
       <ul>
         <li class="back"><%= link_to t("buttons.back"), tracing_request_path(@tracing_request), class: "green-button" %></li>

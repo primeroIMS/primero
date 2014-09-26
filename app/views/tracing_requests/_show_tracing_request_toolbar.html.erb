@@ -1,7 +1,3 @@
-<li>
-    <%= link_to t("tracing_request.change_log"), tracing_request_history_path(@tracing_request), class: 'green-button' %>
-</li>
-
 <% if can? :update, tracing_request %>
     <%#
         TODO: We are taking out the "investigated" and "reunied" buttons.
