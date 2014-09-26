@@ -56,8 +56,4 @@ class RolesController < ApplicationController
     return redirect_to roles_path if @role.save
     render :new
   end
-
-  def get_unique_instance(attributes)
-    Role.find_by_name(attributes['name'])
-  end
 end
