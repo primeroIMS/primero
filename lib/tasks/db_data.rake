@@ -21,6 +21,7 @@ namespace :db do
       types.each do |type|
         puts "Deleting all #{type.name} records"
         type.all.each &:destroy!
+        Sunspot.remove_all(type)
       end
     end
 
