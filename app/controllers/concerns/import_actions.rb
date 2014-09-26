@@ -1,18 +1,6 @@
 module ImportActions
   extend ActiveSupport::Concern
 
-  def create_new_model(attributes={})
-    self.model_class.create(attributes)
-  end
-
-  def get_unique_instance(attributes)
-    self.model_class.get(attributes['id'])
-  end
-
-  def update_existing_model(instance, attributes)
-    instance.attributes = attributes
-  end
-
   def import_file
     if params[:import_file].is_a? ActionDispatch::Http::UploadedFile
       file = params[:import_file]
@@ -40,17 +28,10 @@ module ImportActions
   end
 
   def handle_import(upload_file, importer)
-    model_data = importer.import(upload_file)
+    model_data = Array(importer.import(upload_file))
 
     model_data.map do |d|
-      (get_unique_instance(d) || create_new_model()).tap do |inst|
-        model_type = d.delete('model_type')
-        if inst.class.name != model_type
-          raise TypeError("Import data model_type field is #{model_type}, expected #{inst.class.name}")
-        end
-
-        self.update_existing_model(inst, d)
-      end
+      self.model_class.import(d, current_user)
     end.each {|m| m.save! }
   end
 

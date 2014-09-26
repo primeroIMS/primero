@@ -2,10 +2,9 @@ module RecordActions
   extend ActiveSupport::Concern
 
   include ImportActions
+  include ExportActions
 
   included do
-    include ExportActions
-
     skip_before_filter :verify_authenticity_token
     skip_before_filter :check_authentication, :only => [:reindex]
 
@@ -87,22 +86,5 @@ module RecordActions
 
   def is_mrm
     @is_mrm ||= @current_user.has_module?(PrimeroModule::MRM)
-  end
-
-  def create_new_model(attributes={})
-    model_class.new_with_user_name(current_user, attributes)
-  end
-
-  # Attributes is just a hash
-  def get_unique_instance(attributes)
-    if attributes.include? 'unique_identifier'
-      model_class.by_unique_identifier(:key => attributes['unique_identifier']).first
-    else
-      raise TypeError("attributes must include unique_identifier for Records")
-    end
-  end
-
-  def update_existing_model(instance, attributes)
-    instance.update_properties(attributes, current_user_name)
   end
 end
