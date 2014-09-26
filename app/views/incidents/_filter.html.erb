@@ -2,30 +2,16 @@
 <div class="panel">
   <form id="index_filter_form">
     <% if filters_to_show.include? 'Flagged' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [
-        {flag: t("incidents.filter_by.flag_label")}
-      ]) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}]) %>
     <% end %>
     <% if filters_to_show.include? 'Violation' %>
-      <%
-        #TODO - handle translations and/or lookups
-      %>
-      <%= build_filter_checkboxes('Violation:', 'violations', [
-        'killing',
-        'maiming',
-        'recruitment',
-        'sexual_violence',
-        'abduction',
-        'attack_on_schools',
-        'attack_on_hospitals',
-        { denial_humanitarian_access: 'Denial of Humanitarian Access' },
-        'other_violation'
-      ], { multi: true }, false) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Violence Type' %>
       <%
         #TODO
       %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('Gbv Sexual Violence Type', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>

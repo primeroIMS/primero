@@ -84,7 +84,7 @@ class Incident < CouchRest::Model::Base
 
   # Each violation type has a field that is used as part of the identification
   # of that violation
-  def violation_id_fields
+  def self.violation_id_fields
     {
       'killing' => 'kill_cause_of_death',
       'maiming' => 'maim_cause_of',
@@ -99,7 +99,7 @@ class Incident < CouchRest::Model::Base
   end
 
   def violation_label(violation_type, violation)
-    id_fields = self.violation_id_fields
+    id_fields = self.class.violation_id_fields
     label_id = violation.send(id_fields[violation_type].to_sym)
     label = label_id.present? ? "#{violation_type.titleize} - #{label_id}" : "#{violation_type.titleize}"
   end

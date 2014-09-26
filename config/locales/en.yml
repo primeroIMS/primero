@@ -325,10 +325,11 @@ en:
   incidents:
     label: "Incidents"
     register_new_incident: "New Incident"
-
     filter_by:
       flag: "Flagged:"
       flag_label: "Flagged?"
+      violation: "Violation:"
+      violence_type: "Violence Type:"
       social_worker: "Field/Case/Social Worker:"
       status: "Status:"
       age_range: "Age Range:"
@@ -384,7 +385,16 @@ en:
     history_of: "History of %{short_id}"
 
     violation:
-        pending: 'Pending'
+      pending: 'Pending'
+      killing: "Killing"
+      maiming: "Maiming"
+      recruitment: "Recruitment"
+      sexual_violence: "Sexual Violence"
+      abduction: "Abduction"
+      attack_on_schools: "Attack On Schools"
+      attack_on_hospitals: "Attack On Hospitals"
+      denial_humanitarian_access: "Denial of Humanitarian Access"
+      other_violation: "Other Violation"
 
   tracing_request:
     label: "Inquirer ID"

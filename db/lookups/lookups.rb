@@ -141,3 +141,16 @@ create_or_update_lookup(
     "Low"
   ]
 )
+
+create_or_update_lookup(
+  :name => "gbv_sexual_violence_type",
+  :lookup_values => [
+    "Rape",
+    "Sexual Assault",
+    "Physical Assault",
+    "Forced Marriage",
+    "Denial of Resources, Opportunities, or Services",
+    "Psychological/Emotional Abuse",
+    "Non-GBV"
+  ]
+)

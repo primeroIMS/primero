@@ -111,7 +111,15 @@ module IndexHelper
       value = params['scope'][filter]
     end
   end
-  
+
+  def violation_type_list
+    violation_types = []
+
+    violation_hash = Incident.violation_id_fields
+    violation_hash.keys.each {|key| violation_types << { key => I18n.t("incident.violation.#{key}") } } if violation_hash.present?
+    return violation_types
+  end
+
   private
 
   def list_view_header_case
@@ -173,6 +181,8 @@ module IndexHelper
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "Record State"
+
+    return filters
   end
 
   def index_filters_incident
@@ -191,10 +201,14 @@ module IndexHelper
     filters << "Protection Status" if @is_gbv
     filters << "Armed Force or Group" if @is_mrm
     filters << "Armed Force or Group Type" if @is_mrm
+
+    return filters
   end
 
   def index_filters_tracing_request
     filters = []
+
+    return filters
   end
 
 end
