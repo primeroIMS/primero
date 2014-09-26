@@ -125,6 +125,7 @@ en:
       registration_date: "Registration Date:"
       case_open_date: "Case Open Date:"
       record_state: "Record State:"
+      photo: "Photo:"
     order_by:
       most_recently: "Most recently"
       label: "Order by"

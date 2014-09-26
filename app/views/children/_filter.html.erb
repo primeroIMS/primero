@@ -1,5 +1,10 @@
 <div class="panel">
   <form id="index_filter_form">
+    <% if filters_to_show.include? 'Photo' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.photo"), 'has_photo', [
+        {photo: 'Has photo?'}
+      ]) %>
+    <% end %>
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("cases.filter_by.flag"), 'flag', [
         {flag: 'flagged?'}
