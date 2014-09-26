@@ -96,13 +96,15 @@ var IndexTable = Backbone.View.extend({
   },
 
   change_sorting: function(event) {
-    event.preventDefault();
     var column = $(event.target),
         order = column.attr('aria-sort'),
         redraw = false,
         prev_params = _primero.clean_page_params(['order', 'column', 'col_idx']),
         column_field = column.attr('aria-field'),
         column_field_idx = column.attr('aria-field-index');
+    if (column.attr("type") != "checkbox") {
+      event.preventDefault();
+    }
 
     order = order == 'ascending' ? 'asc' : 'desc';
     // Disable the sorting for the Violations and Photo columns
