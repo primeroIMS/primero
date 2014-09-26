@@ -33,7 +33,6 @@ Feature: Flag Case Records For Attention
     And I fill in "Flag Reason" with "Some reason"
     And I fill in "Date (optional)" with "today's date"
     And I click on the link with text "Flag"
-    And I wait for 3 seconds
     And the record for "7af3aa9" should display a "bookmark" icon beside it
     And the record for "7af3aa7" should display a "bookmark" icon beside it
     And the record for "7af3aa8" should not display a "bookmark" icon beside it
@@ -68,7 +67,6 @@ Feature: Flag Case Records For Attention
     And I fill in "Flag Reason" with "Some reason"
     And I fill in "Date (optional)" with "today's date"
     And I click on the link with text "Flag"
-    And I wait for 3 seconds
     And the record for "7af3aa9" should display a "bookmark" icon beside it
     And the record for "7af3aa7" should display a "bookmark" icon beside it
     And the record for "7af3aa8" should display a "bookmark" icon beside it
