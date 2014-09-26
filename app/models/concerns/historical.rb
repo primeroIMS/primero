@@ -130,9 +130,10 @@ module Historical
       if prop.nil? 
         acc
       else
+        require 'pry'; binding.pry if prop.name == 'violations'
         change_hash = if prop.array && prop.type.try(:include?, CouchRest::Model::Embeddable)
           (prev_hash, current_hash) = [prev, current].map do |arr|
-                                        arr.inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
+                                        (arr || []).inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
                                       end
 
           (prev_hash.keys | current_hash.keys).map do |k|
@@ -145,8 +146,9 @@ module Historical
           end.compact
         elsif prop.type.try(:include?, CouchRest::Model::Embeddable)
           # TODO: Make more generic
-          prop.type.properties_by_name.inject({}) do |acc2, sub_prop|
-            changes_to_history([prev, current].map {|h| h.__send__(sub_prop.name)}, sub_prop.type.properties_by_name)
+          prop.type.properties_by_name.inject({}) do |acc2, (name, sub_prop)|
+            sub_changes = [prev, current].map {|h| h.present? ? h.__send__(name) : nil}
+            acc2.merge(changes_to_history({ name => sub_changes}, { name => sub_prop }))
           end
         else
           {

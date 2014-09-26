@@ -74,6 +74,7 @@ module Syncable
   end
 
   def remove_stale_properties(properties, revision)
+    require 'pry'; binding.pry
     inter_changes = get_intermediate_changes(revision)
 
     inter_changes.inject(properties.clone) do |props_to_update, changes|
@@ -81,15 +82,20 @@ module Syncable
         new_props = props.clone
         case prop_change
         when Array
-          new_props[key] = prop_change.inject(new_props[key]) do |acc, ch|
-            i = acc.index {|el| el['unique_id'] == ch['to']['unique_id'] }
-            remove_proc.call(acc, [i, ch])
+          if new_props.include?(key)
+            new_props[key] = prop_change.inject(new_props[key]) do |acc, ch|
+              i = acc.index {|el| el['unique_id'] == ch['to']['unique_id'] }
+              remove_proc.call(acc, [i, ch])
+            end
           end
         else
           case new_props[key]
           when Hash
             new_props[key] = new_props[key].keys.inject(new_props[key]) do |acc, k|
-              new_change = { 'from' => prop_change['from'][k], 'to' => prop_change['to'][k] }
+              new_change = { 
+                'from' => prop_change['from'].try(:fetch, k, nil),
+                'to' => prop_change['to'].try(:fetch, k, nil),
+              }
               remove_proc.call(acc, [k, new_change])
             end
           else
@@ -137,32 +143,34 @@ module Syncable
   end
 
   def merge_with_existing_attrs(properties)
-    merger = ->(props, (k,v)) do
+    merger = ->(props, (k,existing_value)) do
+      props = props.clone
       case props[k]
       when Array
-        if props.include?(k)
-          require 'pry'; binding.pry
-          props[k] = v.each_with_index.inject(props[k]) do |acc, (el, i)|
-            merger.call(acc, [i, el])
+        props[k] = props[k].inject([]) do |acc, (el, i)|
+          if el.include?('unique_id')
+            current = existing_value.find {|ev| ev.unique_id == el['unique_id'] }
+            acc << (current.nil? ? el : current.to_hash.merge(el))
+            #merger.call(acc, [i, el])
+          else
+            acc << el
           end
         end
         props
       when Hash
-        if props.include?(k)
-          require 'pry'; binding.pry
-          props[k] = v.inject(props[k]) do |acc, (k,v)|
-            merger.call(acc, [k,v])
+        if existing_value.present?
+          props[k] = existing_value.to_hash.inject(props[k]) do |acc, (k,ev)|
+            require 'pry'; binding.pry
+            acc.merge({ k => merger.call(acc, [k, ev])})
           end
         end
         props
       else
-        props
+        props 
       end
     end
 
-    a = self.attributes.inject(properties, &merger)
-    require 'pry'; binding.pry
-    a
+    self.attributes.inject(properties, &merger)
   end
 end
 
