@@ -73,6 +73,31 @@ class Child < CouchRest::Model::Base
                 emit(doc._id, {_id: doc._id, _rev: doc._rev});
               }
             }"
+
+     view :by_generate_followup_reminders,
+            :map => "function(doc) {
+                       if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                         if (doc['couchrest-type'] == 'Child'
+                             && doc['system_generated_followup'] == true
+                             && doc['risk_level'] != null
+                             && doc['registration_date'] != null) {
+                           emit(doc['risk_level'], null);
+                         }
+                       }
+                     }"
+
+    view :by_followup_reminders_scheduled,
+            :map => "function(doc) {
+                       if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                         if (doc.hasOwnProperty('flags')) {
+                           for(var index = 0; index < doc['flags'].length; index++) {
+                             if (doc['flags'][index]['system_generated_followup'] && !doc['flags'][index]['removed']) {
+                               emit(doc['flags'][index]['date'], null);
+                             }
+                           }
+                         }
+                       }
+                     }"
   end
 
   def self.quicksearch_fields
