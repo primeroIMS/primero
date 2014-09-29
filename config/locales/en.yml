@@ -828,6 +828,11 @@ en:
         document_format: "Executable files are not allowed."
         date_closure: "The Case Closure Date should be greater or equal than Case Opening Date."
 
+      incident:
+        document_size: "Please upload a document smaller than 10mb"
+        documents_count: "You are only allowed %{documents_count} documents per case."
+        document_format: "Executable files are not allowed."
+
       field:
         display_name_presence: "Display name must not be blank"
         display_name_format: "Display name must contain at least one alphabetic characters"

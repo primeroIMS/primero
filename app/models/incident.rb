@@ -8,7 +8,7 @@ class Incident < CouchRest::Model::Base
   include Record
   include Ownable
   include Flaggable
-  include DocumentHelper
+  include DocumentUploader
 
   property :incident_id
   property :description
