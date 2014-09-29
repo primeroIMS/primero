@@ -10,6 +10,7 @@ class Flag
   property :removed, TrueClass
   property :unflag_message, String
   property :created_at, Date
+  property :system_generated_followup, TrueClass, :default => false
 
   def parent_record
     base_doc

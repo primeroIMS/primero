@@ -50,7 +50,6 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => @incident }
-      format.json { render :json => @incident.compact.to_json }
 
       respond_to_export format, [ @incident ]
     end
@@ -100,9 +99,6 @@ class IncidentsController < ApplicationController
         flash[:notice] = t('incident.messages.creation_success')
         format.html { redirect_to(incident_path(@incident, { follow: true })) }
         #format.xml { render :xml => @incident, :status => :created, :location => @child }
-        format.json {
-          render :json => @incident.compact.to_json
-        }
       else
         format.html {
           @form_sections = get_form_sections
@@ -118,13 +114,6 @@ class IncidentsController < ApplicationController
     params['incident']['violations'].compact if params['incident'].present? && params['incident']['violations'].present?
 
     respond_to do |format|
-      format.json do
-        params[:incident] = JSON.parse(params[:incident]) if params[:incident].is_a?(String)
-        incident = update_incident_from params
-        incident.save
-        render :json => incident.compact.to_json
-      end
-
       format.html do
         @incident = update_incident_from params
         if @incident.save
@@ -156,7 +145,6 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(incidents_url) }
       format.xml { head :ok }
-      format.json { render :json => {:response => "ok"}.to_json }
     end
   end
 
@@ -187,7 +175,6 @@ class IncidentsController < ApplicationController
 
     if @incident.nil?
       respond_to do |format|
-        format.json { render :json => @incident.to_json }
         format.html do
           flash[:error] = "Incident with the given id is not found"
           redirect_to :action => :index and return

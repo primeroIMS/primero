@@ -160,6 +160,7 @@ module IndexHelper
   def index_filters_case
     filters = []
 
+    filters << "Photo"
     filters << "Flagged"
     filters << "Social Worker" if @is_manager
     filters << "Status"

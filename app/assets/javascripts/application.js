@@ -54,6 +54,7 @@
 //= require tick_box_field.js
 //= require date_range_validation.js
 //= require flag_records.js
+//= require show_change_log.js
 
 
 $(document).ready(function() {

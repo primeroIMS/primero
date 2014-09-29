@@ -46,6 +46,8 @@ en:
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
+    system_generated_followup_flag: "mandatory follow up visit"
+    system_generated_followup_unflag: "expired"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -102,6 +104,9 @@ en:
      filter: "Apply Filter"
      flag_records: "Flag"
 
+  placeholders:
+    subforms: "Click the edit button to add %{form} details"
+
   cases:
     label: "Cases"
     register_new_case: "New Case"
@@ -122,6 +127,7 @@ en:
       registration_date: "Registration Date:"
       case_open_date: "Case Open Date:"
       record_state: "Record State:"
+      photo: "Photo:"
     order_by:
       most_recently: "Most recently"
       label: "Order by"
@@ -810,6 +816,11 @@ en:
         documents_count: "You are only allowed %{documents_count} documents per case."
         document_format: "Executable files are not allowed."
         date_closure: "The Case Closure Date should be greater or equal than Case Opening Date."
+
+      incident:
+        document_size: "Please upload a document smaller than 10mb"
+        documents_count: "You are only allowed %{documents_count} documents per case."
+        document_format: "Executable files are not allowed."
 
       field:
         display_name_presence: "Display name must not be blank"

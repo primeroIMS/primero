@@ -47,7 +47,6 @@ class TracingRequestsController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => @tracing_request }
-      format.json { render :json => @tracing_request.compact.to_json }
 
       respond_to_export format, [ @tracing_request ]
     end
@@ -90,9 +89,6 @@ class TracingRequestsController < ApplicationController
       if @tracing_request.save
         flash[:notice] = t('tracing_request.messages.creation_success')
         format.html { redirect_to(tracing_request_path(@tracing_request, { follow: true })) }
-        format.json {
-          render :json => @tracing_request.compact.to_json
-        }
       else
         format.html {
           @form_sections = get_form_sections
@@ -107,13 +103,6 @@ class TracingRequestsController < ApplicationController
   #TODO verify if needs some refactoring after Ben's changes get merged in the main branch.
   def update
     respond_to do |format|
-      format.json do
-        params[:tracing_request] = JSON.parse(params[:tracing_request]) if params[:tracing_request].is_a?(String)
-        tracing_request = update_tracing_request_from params
-        tracing_request.save
-        render :json => tracing_request.compact.to_json
-      end
-
       format.html do
         @tracing_request = update_tracing_request_from params
         if @tracing_request.save
@@ -173,7 +162,6 @@ class TracingRequestsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(tracing_requests_url) }
       format.xml { head :ok }
-      format.json { render :json => {:response => "ok"}.to_json }
     end
   end
 
@@ -190,7 +178,6 @@ class TracingRequestsController < ApplicationController
 
     if @tracing_request.nil?
       respond_to do |format|
-        format.json { render :json => @tracing_request.to_json }
         format.html do
           flash[:error] = "Tracing request with the given id is not found"
           redirect_to :action => :index and return

@@ -1,0 +1,15 @@
+class RecordHistoriesController < ApplicationController
+  before_filter :set_class_name
+
+  def record_change_log
+    @user = User.find_by_user_name(current_user_name)
+    record = @model_class.get(params[:id])
+    render :partial => "record_shared/change_log", :locals => {record: record}
+  end
+
+  def set_class_name
+    #Tag the model from the params, the parameter is injected by the routes and don't allow any arbitrary class
+    #just the one defined in the routes.
+    @model_class = params[:model_class].constantize
+  end
+end
