@@ -31,8 +31,8 @@
             <%= field_format_date(incident.posted_at) %>
           </p>
         <% end %>
-        <span id="show_change_log" class="span_button" data-change_log_url="<%=incident_record_change_log_path(@incident)%>" data-reveal-id="<%="#{@incident.class.name.underscore.downcase}_#{@incident.short_id}_change_log"%>" style="cursor: pointer;color: #575757;"><%= t("incident.change_log") %></span>
-        <div class="reveal-modal medium" id="<%= "#{@incident.class.name.underscore.downcase}_#{@incident.short_id}_change_log" %>" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal></div>
+        <span id="show_change_log" class="span_button" data-change_log_url="<%=incident_record_change_log_path(@incident)%>" data-reveal-id="incident_<%=@incident.short_id%>_change_log" style="cursor: pointer;color: #575757;"><%= t("incident.change_log") %></span>
+        <div class="reveal-modal medium" id="incident_<%=@incident.short_id%>_change_log" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal></div>
     </div>
   </div>
 </div>
