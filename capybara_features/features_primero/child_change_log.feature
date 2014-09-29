@@ -1,3 +1,5 @@
+# JIRA PRIMERO-524
+
 @javascript @primero
 Feature: Child change log
   Test weather each child has a proper change log attached to it.
@@ -9,24 +11,23 @@ Feature: Child change log
     And someone has entered a child with the name "automation"
 
   Scenario: Validate child creating and initial setting of field
-    When I press the "Change Log" button
+    When I press the "Change Log" span
     Then I should see change log of creation by user "primero_cp"
-    And I follow "Back"
     And I press the "Edit" button
     And I fill in "Age" with "32"
     And I submit the form
-    And I press the "Change Log" button
+    And I press the "Change Log" span
     And I should see change log for initially setting the field "Age" to value "32" by "primero_cp"
 
   Scenario: Access the Change Log Feature
     And I press the "Edit" button
-    Then I should see a "Change Log" button on the page
+    Then I should see a "Change Log" span button on the page
 
   Scenario Outline: Change log is in the correct order
     And I press the "Edit" button
     And I fill in "Age" with "32"
     And I submit the form
-    And I press the "Change Log" button
+    And I press the "Change Log" span
     Then I see the list is in order with this <item>
     Examples:
     | item                                            |

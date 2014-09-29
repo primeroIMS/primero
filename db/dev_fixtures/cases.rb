@@ -39,6 +39,74 @@ end
     c.sex = 'Female'
   end,
 
+  "df928802-455b-4735-9e5c-4ed9acace004" => ->(c) do
+    c.module_id = 'primeromodule-cp'
+    c.name = 'Child Low Risk Level'
+    c.sex = 'Female'
+    c.registration_date = Date.today - 1.month
+    c.risk_level = "Low"
+    c.system_generated_followup = true
+    c.flags = [
+      {:message => I18n.t("messages.system_generated_followup_flag"),
+       :date => Date.today - 2.weeks,
+       :created_at => Date.today - 2.weeks,
+       :system_generated_followup => true
+      }
+    ]
+  end,
+
+  "df928802-455b-4735-9e5c-4ed9acace005" => ->(c) do
+    c.module_id = 'primeromodule-cp'
+    c.name = 'Child Medium Risk Level'
+    c.sex = 'Female'
+    c.registration_date = Date.today - 1.month
+    c.risk_level = "Medium"
+    c.system_generated_followup = true
+    c.flags = [
+      {:message => I18n.t("messages.system_generated_followup_flag"),
+       :date => Date.today - 2.weeks,
+       :created_at => Date.today - 2.weeks,
+       :system_generated_followup => true
+      },
+      {:message => I18n.t("messages.system_generated_followup_flag"),
+       :date => Date.today - 1.weeks,
+       :created_at => Date.today - 2.weeks,
+       :system_generated_followup => true
+      }
+    ]
+  end,
+
+  "df928802-455b-4735-9e5c-4ed9acace006" => ->(c) do
+    c.module_id = 'primeromodule-cp'
+    c.name = 'Child High Risk Level'
+    c.sex = 'Female'
+    c.registration_date = Date.today - 1.month
+    c.risk_level = "High"
+    c.system_generated_followup = true
+    c.flags = [
+      {:message => I18n.t("messages.system_generated_followup_flag"),
+       :date => Date.today - 2.weeks,
+       :created_at => Date.today - 2.weeks,
+       :system_generated_followup => true
+      },
+      {:message => I18n.t("messages.system_generated_followup_flag"),
+       :date => Date.today - 1.weeks,
+       :created_at => Date.today - 2.weeks,
+       :system_generated_followup => true
+      },
+      {:message => I18n.t("messages.system_generated_followup_flag"),
+       :date => Date.today,
+       :created_at => Date.today - 2.weeks,
+       :system_generated_followup => true
+      },
+      {:message => I18n.t("messages.system_generated_followup_flag"),
+       :date => Date.today + 1.weeks,
+       :created_at => Date.today - 2.weeks,
+       :system_generated_followup => true
+      }
+    ]
+  end
+
 }.merge(filler_cases).each do |k, v|
   default_owner = User.find_by_user_name("primero")
   c = Child.find_by_unique_identifier(k) || Child.new_with_user_name(default_owner, {:unique_identifier => k})
