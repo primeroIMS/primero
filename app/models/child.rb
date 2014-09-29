@@ -1,7 +1,6 @@
 class Child < CouchRest::Model::Base
   use_database :child
 
-  MAX_DOCUMENTS = 10
   CHILD_PREFERENCE_MAX = 3
 
   def self.parent_form
@@ -12,7 +11,7 @@ class Child < CouchRest::Model::Base
   include RapidFTR::CouchRestRailsBackward
 
   include Record
-  include DocumentHelper
+  include DocumentUploader
 
   include Ownable
   include PhotoUploader
@@ -32,9 +31,6 @@ class Child < CouchRest::Model::Base
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
   validate :validate_child_wishes
-  validate :validate_documents_size
-  validate :validate_documents_count
-  validate :validate_documents_file_type
   # validate :validate_date_closure
 
   def initialize *args
@@ -107,24 +103,6 @@ class Child < CouchRest::Model::Base
     else
       true
     end
-  end
-
-  def validate_documents_size
-    return true if @documents.blank? || @documents.all? {|document| document.size < 10.megabytes }
-    errors.add(:document, I18n.t("errors.models.child.document_size"))
-    error_with_section(:upload_document, I18n.t("errors.models.child.document_size"))
-  end
-
-  def validate_documents_count
-    return true if @documents.blank? || self['document_keys'].size <= MAX_DOCUMENTS
-    errors.add(:document, I18n.t("errors.models.child.documents_count", :documents_count => MAX_DOCUMENTS))
-    error_with_section(:upload_document, I18n.t("errors.models.child.documents_count", :documents_count => MAX_DOCUMENTS))
-  end
-
-  def validate_documents_file_type
-    return true if @documents.blank? || @documents.all? { |document| !document.original_filename.ends_with? ".exe" }
-    errors.add(:document, "errors.models.child.document_format")
-    error_with_section(:upload_document, I18n.t("errors.models.child.document_format"))
   end
 
   def validate_child_wishes
