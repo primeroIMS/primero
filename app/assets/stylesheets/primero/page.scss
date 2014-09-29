@@ -134,6 +134,12 @@ hr {
   display: none
 }
 
+table.dataTable {
+  thead tr th.select_record,
+  tbody tr td.select_record {
+    text-align: center;
+  }
+}
 
 ////////////////////////////////////////////////
 // Panel
