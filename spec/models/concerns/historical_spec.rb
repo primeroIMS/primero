@@ -11,6 +11,23 @@ _Child = Class.new(CouchRest::Model::Base) do
     property :name, String
     property :relation, String
   end]
+
+  property :violations, Class.new do
+    include CouchRest::Model::Embeddable
+    property :killing, [Class.new do
+      include CouchRest::Model::Embeddable
+      property :unique_id, String
+      property :date, Date
+      property :notes, String
+    end]
+
+    property :maiming, [Class.new do
+      include CouchRest::Model::Embeddable
+      property :unique_id, String
+      property :date, Date
+      property :notes, String
+    end]
+  end
 end
 
 describe Historical do
@@ -22,6 +39,11 @@ describe Historical do
         { :unique_id => 'abcdef', :name => 'Larry', :relation => 'father' },
         { :unique_id => '123456', :name => 'Mary', :relation => 'mother' },
       ],
+      :violations => {
+        :killing => [
+          { :unique_id => 'k1', :date => nil, :notes => 'kill1'}
+        ],
+      },
     })
     @inst.save
   end
@@ -86,9 +108,9 @@ describe Historical do
       @inst.family_members.delete_at 0
       @inst.save
 
-      @inst.histories[0].changes['family_members'].should == [
-        { 'from' => prior_family_member, 'to' => nil },
-      ]
+      @inst.histories[0].changes['family_members'].should == {
+        prior_family_member.unique_id => nil
+      }
     end
 
     it 'should include changes in nested fields' do
@@ -100,11 +122,33 @@ describe Historical do
       # the previous value in the history correctly due to overly shallow object
       # cloning.
       @inst.family_members[0] = new_family_member
-      @inst.save
+      @inst.save!
 
-      @inst.histories[0].changes['family_members'].should == [
-        { 'from' => prior_family_member.to_hash, 'to' => new_family_member.to_hash }
-      ]
+      @inst.histories[0].changes['family_members'].should == {
+        new_family_member.unique_id => {
+          'relation' => {'from' => prior_family_member.relation, 'to' => new_family_member.relation}
+        }
+      }
+    end
+
+    it 'handles nested arrays in nested hashes (e.g. violations)' do
+      prior_note = @inst.violations.killing[0].notes
+      @inst.violations = @inst.violations.clone.tap do |v|
+        v.killing = v.killing.clone.tap do |ks|
+          ks[0] = ks[0].clone.tap do |k|
+            k.notes = 'kill changed'
+          end
+        end
+      end
+      @inst.save!
+
+      @inst.histories[0].changes['violations'].should == {
+        'killing' => {
+          'k1' => {
+            'notes' => { 'from' => prior_note, 'to' => 'kill changed' }
+          }
+        }
+      }
     end
   end
 end

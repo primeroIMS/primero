@@ -74,36 +74,30 @@ module Syncable
   end
 
   def remove_stale_properties(properties, revision)
-    require 'pry'; binding.pry
     inter_changes = get_intermediate_changes(revision)
 
     inter_changes.inject(properties.clone) do |props_to_update, changes|
       remove_proc = lambda do |props, (key, prop_change)|
         new_props = props.clone
-        case prop_change
-        when Array
-          if new_props.include?(key)
-            new_props[key] = prop_change.inject(new_props[key]) do |acc, ch|
-              i = acc.index {|el| el['unique_id'] == ch['to']['unique_id'] }
-              remove_proc.call(acc, [i, ch])
+        case new_props[key]
+        when Hash
+          new_props[key] = new_props[key].keys.inject(new_props[key]) do |acc, k|
+            if prop_change[k].present?
+              remove_proc.call(acc, [k, prop_change[k]])
+            else
+              acc
             end
           end
+        when Array
+          new_props[key] = prop_change.inject(new_props[key]) do |acc, (unique_id, ch)|
+            i = acc.index {|el| el['unique_id'] == unique_id }
+            remove_proc.call(acc, [i, ch])
+          end
         else
-          case new_props[key]
-          when Hash
-            new_props[key] = new_props[key].keys.inject(new_props[key]) do |acc, k|
-              new_change = { 
-                'from' => prop_change['from'].try(:fetch, k, nil),
-                'to' => prop_change['to'].try(:fetch, k, nil),
-              }
-              remove_proc.call(acc, [k, new_change])
-            end
-          else
-            # We need unique_ids to distinguish between deleting and leaving
-            # unaltered
-            if new_props[key] == prop_change['from'] && key != 'unique_id'
-              new_props.delete key
-            end
+          # We need unique_ids to distinguish between deleting and leaving
+          # unaltered
+          if new_props[key] == prop_change['from'] && key != 'unique_id'
+            new_props.delete key
           end
         end
         new_props
@@ -159,9 +153,8 @@ module Syncable
         props
       when Hash
         if existing_value.present?
-          props[k] = existing_value.to_hash.inject(props[k]) do |acc, (k,ev)|
-            require 'pry'; binding.pry
-            acc.merge({ k => merger.call(acc, [k, ev])})
+          props[k] = existing_value.to_hash.inject(props[k]) do |acc, (sub_k,ev)|
+            acc.merge(merger.call(acc, [sub_k, ev]))
           end
         end
         props

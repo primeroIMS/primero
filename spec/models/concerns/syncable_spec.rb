@@ -161,7 +161,6 @@ describe Syncable do
         end
       end
       @child.save!
-      require 'pry'; binding.pry
 
       @child.attributes = {
         'violations' => {

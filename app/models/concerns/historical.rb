@@ -130,31 +130,41 @@ module Historical
       if prop.nil? 
         acc
       else
-        require 'pry'; binding.pry if prop.name == 'violations'
-        change_hash = if prop.array && prop.type.try(:include?, CouchRest::Model::Embeddable)
+        change_hash = if (prev.is_a?(Array) || current.is_a?(Array)) && prop.type.try(:include?, CouchRest::Model::Embeddable)
           (prev_hash, current_hash) = [prev, current].map do |arr|
                                         (arr || []).inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
                                       end
 
-          (prev_hash.keys | current_hash.keys).map do |k|
+          (prev_hash.keys | current_hash.keys).inject({}) do |acc, k|
             if prev_hash[k] != current_hash[k]
-              {
-                'from' => prev_hash[k].try(:to_hash),
-                'to' => current_hash[k].try(:to_hash),
-              }
+              new_props_by_name = Hash.new.tap do |h|
+                h[k] = properties_by_name[prop.name]
+              end
+              if current_hash[k].nil?
+                acc.merge({k => nil})
+              else
+                acc.merge(changes_to_history({k => [prev_hash[k], current_hash[k]]}, new_props_by_name))
+              end
+            else
+              acc
             end
-          end.compact
+          end
         elsif prop.type.try(:include?, CouchRest::Model::Embeddable)
-          # TODO: Make more generic
           prop.type.properties_by_name.inject({}) do |acc2, (name, sub_prop)|
             sub_changes = [prev, current].map {|h| h.present? ? h.__send__(name) : nil}
-            acc2.merge(changes_to_history({ name => sub_changes}, { name => sub_prop }))
+            if sub_changes[0] != sub_changes[1]
+              acc2.merge(changes_to_history({ name => sub_changes}, { name => sub_prop }))
+            else
+              acc2
+            end
           end
         else
-          {
-            'from' => prev,
-            'to' => current,
-          }
+          if prev != current
+            {
+              'from' => prev,
+              'to' => current,
+            }
+          end
         end
         acc.merge({prop_name => change_hash})
       end
