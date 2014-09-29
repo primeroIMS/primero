@@ -39,9 +39,7 @@
       <%= render "record_shared/filter_date", date_field_title: 'incident_date', date_field: 'date_of_incident' %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
-       <%
-        #TODO
-      %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('Unaccompanied Separated Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Armed Force or Group' %>
        <%
@@ -49,9 +47,7 @@
       %>
     <% end %>
     <% if filters_to_show.include? 'Armed Force or Group Type' %>
-       <%
-        #TODO
-      %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_category', Lookup.values('Armed Force Group Type', @lookups)) %>
     <% end %>
   </form>
 </div>

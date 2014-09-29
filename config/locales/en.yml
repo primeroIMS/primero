@@ -340,6 +340,8 @@ en:
       children: "Children (Boys, Girls, Unknown):"
       verification_status: "Verification Status:"
       incident_date: "Incident Date:"
+      unaccompanied_separated_status: "Protection Status:"
+      armed_force_group_type: "Armed Force or Group Type:"
 
   incident:
     label: "Incident ID"

@@ -127,6 +127,16 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :name => "unaccompanied_separated_status",
+  :lookup_values => [
+    "No",
+    "Unaccompanied Minor",
+    "Separated Child",
+    "Other Vulnerable Child"
+  ]
+)
+
+create_or_update_lookup(
   :name => "protection_status",
   :lookup_values => [
     "Unaccompanied",
@@ -172,5 +182,18 @@ create_or_update_lookup(
     "Denial of Resources, Opportunities, or Services",
     "Psychological/Emotional Abuse",
     "Non-GBV"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "armed_force_group_type",
+  :lookup_values => [
+    "National Army",
+    "Security Forces",
+    "International Forces",
+    "Police Forces",
+    "Para-Military Forces",
+    "Unknown",
+    "Other"
   ]
 )
