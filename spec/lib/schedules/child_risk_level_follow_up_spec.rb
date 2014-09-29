@@ -14,7 +14,7 @@ describe ChildRiskLevelFollowUp do
   def generate_flag(risk_level, date)
     flags = []
     flag_date = date
-    (1..ChildRiskLevelFollowUp.frequency(risk_level)).each do
+    (1..ChildRiskLevelFollowUp.followup_count(risk_level)).each do
       flags << Flag.new(:message => I18n.t("messages.system_generated_followup_flag"),
                         :date => flag_date,
                         :created_at => Date.today,

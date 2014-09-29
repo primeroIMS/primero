@@ -19,7 +19,7 @@ module ChildRiskLevelFollowUp
   EXPIRATION_WINDOW = Date.today - 2.weeks
 
   #How many follow up will be created for risk levels.
-  FREQUENCIES = { HIGH_RISK_LEVEL => 4, MEDIUM_RISK_LEVEL => 2, LOW_RISK_LEVEL => 1 }
+  FOLLOWUP_COUNT = { HIGH_RISK_LEVEL => 4, MEDIUM_RISK_LEVEL => 2, LOW_RISK_LEVEL => 1 }
   #Distance between follow up for risk levels.
   INTERVALS = { HIGH_RISK_LEVEL => 1.week, MEDIUM_RISK_LEVEL => 2.weeks, LOW_RISK_LEVEL => 1.month }
 
@@ -28,8 +28,8 @@ module ChildRiskLevelFollowUp
       EXPIRATION_WINDOW
     end
 
-    def frequency(risk_level)
-      FREQUENCIES[risk_level]
+    def followup_count(risk_level)
+      FOLLOWUP_COUNT[risk_level]
     end
 
     def interval(risk_level)
@@ -58,14 +58,14 @@ module ChildRiskLevelFollowUp
     end
 
     #Create the corresponding follow up for the case_record.
-    #frequency is how many follow up will be created.
+    #number_of_followup is how many follow up will be created.
     #interval is the distance between follow up.
     #start_date is the potential initial date of the follow up.
-    def create_followup_reminders_by_case(case_record, frequency, interval, start_date)
+    def create_followup_reminders_by_case(case_record, number_of_followup, interval, start_date)
       flags = []
       next_date = get_starting_date(start_date, interval)
       created_at = DateTime.now
-      (1..frequency).each do
+      (1..number_of_followup).each do
         flags << Flag.new(:message => I18n.t("messages.system_generated_followup_flag"), :date => next_date, :created_at => created_at, :system_generated_followup => true)
         next_date += interval
       end
@@ -74,29 +74,29 @@ module ChildRiskLevelFollowUp
     end
 
     #Create the next bunch of follow up based on the last follow up or if to much older use the current date.
-    def create_next_followup_reminders_by_case(case_record, frequency, interval)
+    def create_next_followup_reminders_by_case(case_record, number_of_followup, interval)
       #get the valid follow up to find out of there is need to create the next bunch of follow up.
       count = count_followup_reminders(case_record)
-      if count < frequency
+      if count < number_of_followup
         #get the last date of follow up. Will potentially used for the next flags if not older that expiration window.
         last_date_flag = last_date_followup_reminders(case_record)
-        #Call the method for create the next bunch of follow up to keep the frequency of follow up updated.
-        create_followup_reminders_by_case(case_record, frequency - count, interval, last_date_flag)
+        #Call the method for create the next bunch of follow up to keep the number_of_followup of follow up updated.
+        create_followup_reminders_by_case(case_record, number_of_followup - count, interval, last_date_flag)
       end
     end
 
     #Create the follow up reminders. It will create the follow up based on the risk_level,
-    #the frequency, interval and expiration window.
-    def create_followup_reminders(risk_level, frequency, interval)
+    #the number_of_followup, interval and expiration window.
+    def create_followup_reminders(risk_level, number_of_followup, interval)
       #retrieve the cases record by risk level
       case_records = Child.by_generate_followup_reminders(:key => risk_level)
       case_records.all.each do |case_record|
         if never_flagged?(case_record)
           #Create follow up for cases that never have been flagged by reminders.
-          create_followup_reminders_by_case(case_record, frequency, interval, case_record.registration_date)
+          create_followup_reminders_by_case(case_record, number_of_followup, interval, case_record.registration_date)
         else
           #Create the next bunch of reminders if needed.
-          create_next_followup_reminders_by_case(case_record, frequency, interval)
+          create_next_followup_reminders_by_case(case_record, number_of_followup, interval)
         end
       end
     end
@@ -123,7 +123,7 @@ module ChildRiskLevelFollowUp
     def create_all_followup_reminders
       [HIGH_RISK_LEVEL, MEDIUM_RISK_LEVEL, LOW_RISK_LEVEL].each do |risk_level|
         Rails.logger.info "Verifying #{risk_level.downcase} risk level follow up reminders ..."
-        create_followup_reminders(risk_level, frequency(risk_level), interval(risk_level))
+        create_followup_reminders(risk_level, followup_count(risk_level), interval(risk_level))
       end
     end
 
