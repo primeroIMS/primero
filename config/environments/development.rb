@@ -27,4 +27,6 @@ RapidFTR::Application.configure do
   config.eager_load = false
 
   BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
+
+  config.middleware.insert 0, "Rack::RequestProfiler", :printer => ::RubyProf::CallTreePrinter
 end

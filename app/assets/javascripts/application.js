@@ -44,17 +44,19 @@
 //= require photo_audio_fields
 //= require chosen
 //= require age_birth_date
-//= require hidden_text_field.js
-//= require date_range_controls.js
-//= require reload_violations.js
+//= require hidden_text_field
+//= require date_range_controls
+//= require reload_violations
 //= require index_table
 //= require index_filters
-//= require document_upload.js
-//= require autosum_fields.js
-//= require tick_box_field.js
-//= require date_range_validation.js
-//= require flag_records.js
-//= require show_change_log.js
+//= require document_upload
+//= require autosum_fields
+//= require tick_box_field
+//= require date_range_validation
+//= require flag_records
+//= require actions
+//= require show_change_log
+
 
 
 $(document).ready(function() {

@@ -1,6 +1,6 @@
 # JIRA PRIMERO-294
-
-@javascript @primero @search
+# TODO will have to be refactored in Primero-515
+@javascript @primero @search @wip
 Feature: Record Owner
   As a Social worker, I want to enter information related to the record owner
 

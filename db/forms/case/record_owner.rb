@@ -1,10 +1,6 @@
 record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
-  Field.new({"name" => "record_state",
-           "type" => "select_box",
-           "display_name_all" => "Record state",
-           "option_strings_source" => "lookup RecordState"
-          }),
+
   #TODO: Get rid of
   Field.new({"name" => "current_owner_separator",
            "type" => "separator",

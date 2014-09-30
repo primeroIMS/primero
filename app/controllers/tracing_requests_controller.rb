@@ -59,7 +59,7 @@ class TracingRequestsController < ApplicationController
     @tracing_request = TracingRequest.new
     @tracing_request['inquiry_date'] = DateTime.now.strftime("%d-%b-%Y")
     @tracing_request['status'] = ["Active"]
-    @tracing_request['record_state'] = ["Valid record"]
+    @tracing_request['record_state'] = true
     @tracing_request['inquiry_status'] = ["Open"]
     @tracing_request['mrm_verification_status'] = "Pending"
     @tracing_request['module_id'] = params['module_id']
