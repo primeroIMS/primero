@@ -52,7 +52,7 @@
     <% end %>
 
     <% if filters_to_show.include? 'Record State' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state', Lookup.values('Record State', @lookups)) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
     <% end %>
 
   </form>

@@ -46,6 +46,7 @@ en:
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
+    enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
     system_generated_followup_flag: "mandatory follow up visit"
     system_generated_followup_unflag: "expired"
 
@@ -103,6 +104,7 @@ en:
      filter_label: "Filter:"
      filter: "Apply Filter"
      flag_records: "Flag"
+     ok: 'OK'
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -942,7 +944,11 @@ en:
       with_details: "with these details:"
 
   actions:
-    button: 'Actions'
+    button: "Actions"
+    enable_disable: "Enable/Disable"
+    description:
+      valid: "Valid records"
+      invalid: "Invalid records"
 
   exports:
     no_records: "No Records Available!"

@@ -27,6 +27,7 @@ module Record
     property :short_id
     property :flag_at, DateTime
     property :reunited_at, DateTime
+    property :record_sate, TrueClass
 
     class_attribute(:form_properties_by_name)
     self.form_properties_by_name = {}
@@ -226,11 +227,11 @@ module Record
 
   def initialize(*args)
     super
-    self['record_state'] = "Valid record" if self['record_state'].blank?
+    self['record_state'] = true if self['record_state'].blank?
   end
 
   def valid_record?
-    self['record_state'] == "Valid record"
+    self['record_state'] == true
   end
 
   def validate_created_at
@@ -324,17 +325,16 @@ module Record
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
     new_audio = params[:child].delete("audio")
     delete_child_audio = params["delete_child_audio"].present?
-    update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
+    update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child])
   end
 
-  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties, delete_child_document_names = nil)
+  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties)
     update_properties(properties, user_name)
     self.delete_photos(photo_names)
     self.update_photo_keys
     self.photo = new_photo
     self.delete_audio if delete_child_audio
     self.audio = new_audio
-    self.delete_documents delete_child_document_names if delete_child_document_names.present?
   end
 
   def field_definitions
@@ -356,7 +356,7 @@ module Record
     properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     add_updated_fields_attr(properties)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
-    properties['record_state'] = "Valid record" if properties['record_state'].blank?
+    properties['record_state'] = true if properties['record_state'].blank?
     should_update = self.last_updated_at && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > self.last_updated_at) : true
     if should_update
       attributes_to_update = {}

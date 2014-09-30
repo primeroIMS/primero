@@ -143,7 +143,7 @@ describe TracingRequestsController do
           tracing_requests = mock_tracing_request(@stubs)
           scope ||= {}
           tracing_requests.stub(:paginate).and_return(tracing_requests)
-          TracingRequest.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"]).and_return(tracing_requests)
+          TracingRequest.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil).and_return(tracing_requests)
 
           get :index, :scope => scope
           assigns[:tracing_requests].should == tracing_requests
@@ -168,7 +168,7 @@ describe TracingRequestsController do
           order = {:created_at=>:desc}
 
           tracing_requests.stub(:paginate).and_return(tracing_requests)
-          TracingRequest.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(tracing_requests)
+          TracingRequest.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker", nil).and_return(tracing_requests)
           @params.merge!(:scope => @status)
           get :index, @params
           assigns[:tracing_requests].should == tracing_requests
@@ -186,6 +186,24 @@ describe TracingRequestsController do
 
     end
 
+    describe "export all" do
+      before do
+        @session = fake_field_worker_login
+      end
+
+      it "should export all incidents" do
+        collection = [TracingRequest.new, TracingRequest.new]
+        collection.should_receive(:next_page).twice.and_return(nil)
+        search = double(Sunspot::Search::StandardSearch)
+        search.should_receive(:results).and_return(collection)
+        search.should_receive(:total).and_return(100)
+        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
+        params = {"page" => "all"}
+        get :index, params
+        assigns[:tracing_requests].should == collection
+        assigns[:total_records].should == 100
+      end
+    end
 
     describe "permissions to view lists of tracing request records", search: true, skip_session: true do
 

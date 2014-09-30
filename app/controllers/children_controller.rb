@@ -17,9 +17,7 @@ class ChildrenController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
-    search = Child.list_records case_filter(filter), order, pagination, users_filter, params[:query]
-    @children = search.results
-    @total_records = search.total
+    @children, @total_records = retrieve_records_and_total(case_filter(filter))
     @per_page = per_page
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
@@ -64,7 +62,7 @@ class ChildrenController < ApplicationController
     @page_name = t("cases.register_new_case")
     @child = Child.new
     @child.registration_date = Date.today
-    @child['record_state'] = ["Valid record"]
+    @child['record_state'] = true
     @child['child_status'] = ["Open"]
     @child['module_id'] = params['module_id']
 
@@ -293,7 +291,7 @@ class ChildrenController < ApplicationController
     new_audio = params[:child].delete("audio")
     child.last_updated_by_full_name = current_user_full_name
     delete_child_audio = params["delete_child_audio"].present?
-    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
+    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child])
     child
   end
 

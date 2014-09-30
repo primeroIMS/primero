@@ -16,9 +16,7 @@ class TracingRequestsController < ApplicationController
     @aside = 'shared/sidebar_links'
 
     @associated_users = current_user.managed_user_names
-    search = TracingRequest.list_records filter, order, pagination, users_filter, params[:query]
-    @tracing_requests = search.results
-    @total_records = search.total
+    @tracing_requests, @total_records = retrieve_records_and_total(filter)
     @per_page = per_page
 
     respond_to do |format|
@@ -59,7 +57,7 @@ class TracingRequestsController < ApplicationController
     @tracing_request = TracingRequest.new
     @tracing_request['inquiry_date'] = DateTime.now.strftime("%d-%b-%Y")
     @tracing_request['status'] = ["Active"]
-    @tracing_request['record_state'] = ["Valid record"]
+    @tracing_request['record_state'] = true
     @tracing_request['inquiry_status'] = ["Open"]
     @tracing_request['mrm_verification_status'] = "Pending"
     @tracing_request['module_id'] = params['module_id']
@@ -246,7 +244,7 @@ class TracingRequestsController < ApplicationController
     new_audio = params[:tracing_request].delete("audio")
     tracing_request.last_updated_by_full_name = current_user_full_name
     delete_tracing_request_audio = params["delete_tracing_request_audio"].present?
-    tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"], new_audio, delete_tracing_request_audio, params[:tracing_request], params[:delete_tracing_request_document])
+    tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"], new_audio, delete_tracing_request_audio, params[:tracing_request])
     tracing_request
   end
 
