@@ -12,7 +12,7 @@ other_violation_section_fields = [
              "type" => "textarea",
              "display_name_all" => "Other Violation Description"
             }),
-  Field.new({"name" => "other_violation_tally",
+  Field.new({"name" => "violation_tally",
          "type" => "tally_field",
          "display_name_all" => "Number of survivors",
          "autosum_group" => "other_violation_number_of_survivors",

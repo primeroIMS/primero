@@ -4,7 +4,6 @@ class Incident < CouchRest::Model::Base
   include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
-
   include Record
   include Ownable
   include Flaggable
@@ -45,16 +44,17 @@ class Incident < CouchRest::Model::Base
 
   searchable do
     string :violations, multiple: true do
-      violation_list = []
-      if violations.present?
-        violations.keys.each do |v|
-          if violations[v].present?
-            violation_list << v
-          end
-        end
-      end
-      violation_list
+      self.violation_type_list
     end
+
+    string :verification_status, multiple: true do
+      self.violation_verified_list
+    end
+
+    string :child_types, multiple: true do
+      self.child_types
+    end
+
   end
 
   def self.find_by_incident_id(incident_id)
@@ -127,6 +127,33 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
+  def violation_type_list
+    violations_list = []
+    if self.violations.present?
+      self.violations.to_hash.each do |key, value|
+        if value.present?
+          violations_list << key
+        end
+      end
+    end
+
+    return violations_list
+  end
+
+  def violation_verified_list
+    violation_verified_list = []
+    if self.violations.present?
+      self.violations.to_hash.each do |key, value|
+        value.each do |v|
+          violation_verified_list << v.verified if v.verified.present?
+        end
+      end
+    end
+    violation_verified_list.uniq! if violation_verified_list.present?
+
+    return violation_verified_list
+  end
+
   #Copy some fields values from Survivor Information to GBV Individual Details.
   def copy_survivor_information(case_record)
     copy_fields(case_record, {
@@ -163,6 +190,51 @@ class Incident < CouchRest::Model::Base
         end
       end
     end
+  end
+
+  def child_types
+    child_type_list = []
+    ['boys', 'girls', 'unknown'].each do |child_type|
+      child_type_list << child_type if (self.send("incident_total_tally_#{child_type}".to_sym).present? && self.send("incident_total_tally_#{child_type}".to_sym) > 0)
+    end
+    child_type_list += self.violation_child_types
+    child_type_list.uniq! if child_type_list.present?
+
+    return child_type_list
+  end
+
+  #Child types across all violations
+  def violation_child_types
+    child_type_list = []
+    if self.violations.present?
+      self.violations.to_hash.each do |key, value|
+        value.each do |v|
+          child_type_list += self.violation_children_list(key, v)
+        end
+      end
+    end
+    child_type_list.uniq! if child_type_list.present?
+
+    return child_type_list
+  end
+
+  #Child types on a single violation
+  def violation_children_list(violation_type, violation)
+    child_list = []
+    ['boys', 'girls', 'unknown'].each do |child_type|
+      child_count = 0
+      #Special case for "attack on hospitals" and "attack on schools"
+      if(violation_type == 'attack_on_hospitals' || violation_type == 'attack_on_schools')
+        child_count += violation.send("violation_killed_tally_#{child_type}".to_sym) if violation.send("violation_killed_tally_#{child_type}".to_sym).present?
+        child_count += violation.send("violation_injured_tally_#{child_type}".to_sym) if violation.send("violation_injured_tally_#{child_type}".to_sym).present?
+      else
+        child_count += violation.send("violation_tally_#{child_type}".to_sym) if violation.send("violation_tally_#{child_type}".to_sym).present?
+      end
+      if child_count > 0
+        child_list << child_type
+      end
+    end
+    return child_list
   end
 
 end

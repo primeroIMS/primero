@@ -25,9 +25,11 @@
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'Children' %>
-      <%
-        #TODO
-      %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.children"), 'child_types', [
+        {boys: t("incidents.filter_by.boys")},
+        {girls: t("incidents.filter_by.girls")},
+        {unknown: t("incidents.filter_by.unknown")}
+      ]) %>
     <% end %>
     <% if filters_to_show.include? 'Verification Status' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('Verification Status', @lookups)) %>

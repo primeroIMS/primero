@@ -1,5 +1,5 @@
 killing_subform_fields = [
-  Field.new({"name" => "violation_killing_tally",
+  Field.new({"name" => "violation_tally",
            "type" => "tally_field",
            "display_name_all" => "Number of victims",
            "autosum_group" => "killing_number_of_victims",

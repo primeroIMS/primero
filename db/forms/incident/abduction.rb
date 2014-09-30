@@ -1,5 +1,5 @@
 abduction_subform_fields = [
-  Field.new({"name" => "violation_abductions_tally",
+  Field.new({"name" => "violation_tally",
          "type" => "tally_field",
          "display_name_all" => "Number of survivors",
          "autosum_group" => "abduction_number_of_survivors",
