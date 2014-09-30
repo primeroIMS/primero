@@ -17,7 +17,6 @@ Feature: Record Owner Form
       | Previous Agency          | Previous agency name  |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
-    And I should see a value for "Record state" on the show page with the value of "Valid record"
     And I should see a value for "Field/Case/Social Worker" on the show page with the value of "Social worker name"
     And I should see a value for "Caseworker Code" on the show page with the value of "Case Worker3"
     And I should see a value for "Agency" on the show page with the value of "Agency1"
