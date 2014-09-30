@@ -39,8 +39,10 @@ module Syncable
 
     resolved_attrs = all_revs.each_cons(2)
                              .inject({}) do |acc, (older, newer)|
-      merge_with_existing_attrs(acc,
-                                older.remove_stale_properties(newer.attributes_as_hash, base_revision))
+      attrs = merge_with_existing_attrs(older.attributes_as_update_hash,
+                                    older.remove_stale_properties(newer.attributes_as_update_hash, base_revision))
+      newer.directly_set_attributes(attrs)
+      newer.attributes_as_update_hash
     end
 
     Rails.logger.debug {"Resolved attributes are #{resolved_attrs}"}
@@ -79,7 +81,7 @@ module Syncable
         when Array
           new_props[key] = prop_change.inject(new_props[key]) do |acc, (unique_id, ch)|
             i = acc.index {|el| el['unique_id'] == unique_id }
-            remove_proc.call(acc, [i, ch])
+            i.nil? ? acc : remove_proc.call(acc, [i, ch])
           end
         else
           # We need unique_ids to distinguish between deleting and leaving
@@ -104,13 +106,13 @@ module Syncable
       hash
     end
 
-    super(merge_with_existing_attrs(self.attributes, new_hash))
+    super(merge_with_existing_attrs(self.attributes_as_update_hash, new_hash))
   end
   alias :attributes= :update_attributes_without_saving
 
   # Converts self.attributes to a native ruby object, with all embedded objects
   # converted to hashes.
-  def attributes_as_hash()
+  def attributes_as_update_hash()
     convert_embedded_to_hash = ->(v) do
       case v
       when Array
@@ -128,7 +130,9 @@ module Syncable
       end
     end
 
-    convert_embedded_to_hash.call(self.attributes.to_hash)
+    h = self.attributes.to_hash
+    h.delete 'histories'
+    convert_embedded_to_hash.call(h)
   end
 
   protected
@@ -161,11 +165,10 @@ module Syncable
       props = props.clone
       case props[k]
       when Array
-        props[k] = props[k].inject([]) do |acc, (el, i)|
+        props[k] = props[k].inject([]) do |acc, el|
           if el.include?('unique_id')
-            current = existing_value.find {|ev| ev.unique_id == el['unique_id'] }
-            acc << (current.nil? ? el : current.to_hash.merge(el))
-            #merger.call(acc, [i, el])
+            i = existing_value.index {|ev| ev['unique_id'] == el['unique_id'] }
+            acc << (i.nil? ? el : existing_value[i].to_hash.merge(el))
           else
             acc << el
           end

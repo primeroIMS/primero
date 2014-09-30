@@ -130,6 +130,7 @@ describe Syncable do
       @child.family_members[1] = @child.family_members[1].clone.tap do |fm|
         fm.name = 'Martha'
       end
+      @child.family_members << { 'unique_id' => 'cccc', 'name' => 'Larry', 'relation' => 'uncle' }
 
       @child.save!
     end
@@ -156,6 +157,18 @@ describe Syncable do
       }
 
       @child.age.should == 14
+    end
+
+    it "should handle additions to nested arrays" do
+      @child.attributes = {
+        'family_members' => [
+          { 'unique_id' => 'aaaa', 'name' => 'Carl', 'relation' => 'father', },
+          { 'unique_id' => 'bbbb', 'name' => 'Mary', 'relation' => 'mother', },
+          { 'unique_id' => 'dddd', 'name' => 'Loretta', 'relation' => 'aunt', },
+        ],
+      }
+
+      @child.family_members.length.should == 3
     end
 
     it "should handle normal arrays without unique_id" do
@@ -195,7 +208,13 @@ describe Syncable do
 
   describe 'replication conflict resolution' do
     before :each do
-      @child = _Child.new({:name => 'Test123', :created_by => 'me'})
+      @child = _Child.new({
+        :name => 'Test123',
+        :created_by => 'me',
+        :family_members => [
+          {:unique_id => 'f1', :name => 'Arthur', :relation => 'brother'},
+        ]
+      })
       @child.save
 
       now = Time.now
@@ -220,6 +239,7 @@ describe Syncable do
           :last_updated_at => now + 10,
           :last_updated_by => 'me',
           :family_members => [
+            {:unique_id => 'f1', :name => 'Lawrence', :relation => 'brother'},
             {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
           ],
         }
@@ -245,11 +265,19 @@ describe Syncable do
       resolved[:gender].should == @saved_first[:gender]
     end
 
-    it "should merge nested fields" do
+    xit "should merge nested fields" do
       @child.reload.resolve_conflicting_revisions
 
       resolved = _Child.get(@child._id)
       resolved[:family_members].length.should == 2
+    end
+
+    it "should update existing nested fields" do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved[:family_members][0].name.should == 'Lawrence'
+      resolved[:family_members][0].relation.should == 'father'
     end
   end
 end
