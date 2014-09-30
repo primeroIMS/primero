@@ -125,7 +125,7 @@ describe IncidentsController do
           incidents = mock_incident(@stubs)
           scope ||= {}
           incidents.stub(:paginate).and_return(incidents)
-          Incident.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakemrmadmin"]).and_return(incidents)
+          Incident.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakemrmadmin"], nil).and_return(incidents)
 
           get :index, :scope => scope
           assigns[:incidents].should == incidents
@@ -148,7 +148,7 @@ describe IncidentsController do
           per_page = @options.delete(:per_page)
           @status ||= "all"
           incidents.stub(:paginate).and_return(incidents)
-          Incident.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakemrmworker").and_return(incidents)
+          Incident.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakemrmworker", nil).and_return(incidents)
           @params.merge!(:scope => @status)
           get :index, @params
           assigns[:incidents].should == incidents
@@ -165,6 +165,24 @@ describe IncidentsController do
       end
     end
 
+    describe "export all" do
+      before do
+        @session = fake_mrm_worker_login
+      end
+
+      it "should export all incidents" do
+        collection = [Incident.new, Incident.new]
+        collection.should_receive(:next_page).twice.and_return(nil)
+        search = double(Sunspot::Search::StandardSearch)
+        search.should_receive(:results).and_return(collection)
+        search.should_receive(:total).and_return(100)
+        Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakemrmworker"], nil).and_return(search)
+        params = {"page" => "all"}
+        get :index, params
+        assigns[:incidents].should == collection
+        assigns[:total_records].should == 100
+      end
+    end
 
     describe "permissions to view lists of incident records", search: true, skip_session: true do
 

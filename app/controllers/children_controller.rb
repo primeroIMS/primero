@@ -17,9 +17,7 @@ class ChildrenController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
-    search = Child.list_records case_filter(filter), order, pagination, users_filter, params[:query]
-    @children = search.results
-    @total_records = search.total
+    @children, @total_records = retrieve_records_and_total(case_filter(filter))
     @per_page = per_page
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
