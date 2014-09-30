@@ -1,6 +1,7 @@
 #JIRA PRIMERO-413
 #JIRA PRIMERO-445
 #JIRA PRIMERO-607
+#JIRA PRIMERO-635
 
 @javascript @primero
 Feature: Other documents form
@@ -59,3 +60,56 @@ Feature: Other documents form
       |capybara_features/resources/jorge.jpg|Document 9 |
       |capybara_features/resources/jeff.png |Document 10|
     And I should not see "Add another document" on the page
+
+  Scenario Outline: Editing document description and deleting documents
+    Given I am logged in as a social worker with username <user> and password "primero"
+    When I access <page>
+    And I press the <button> button
+    And I click the "Other Documents" link
+    And I attach the following documents for <model>:
+      |capybara_features/resources/jorge.jpg|Document 1 |
+      |capybara_features/resources/jeff.png |Document 2 |
+      |capybara_features/resources/jorge.jpg|Document 3 |
+      |capybara_features/resources/jeff.png |Document 4 |
+      |capybara_features/resources/jorge.jpg|Document 5 |
+      |capybara_features/resources/jeff.png |Document 6 |
+      |capybara_features/resources/jorge.jpg|Document 7 |
+      |capybara_features/resources/jeff.png |Document 8 |
+      |capybara_features/resources/jorge.jpg|Document 9 |
+      |capybara_features/resources/jeff.png |Document 10|
+    Then I press "Save"
+    And I should see <created_message>
+    And I click the "Other Documents" link
+    And I should see documents on the show page:
+      |jorge.jpg|Document 1 |
+      |jeff.png |Document 2 |
+      |jorge.jpg|Document 3 |
+      |jeff.png |Document 4 |
+      |jorge.jpg|Document 5 |
+      |jeff.png |Document 6 |
+      |jorge.jpg|Document 7 |
+      |jeff.png |Document 8 |
+      |jorge.jpg|Document 9 |
+      |jeff.png |Document 10|
+    And I follow "Edit"
+    And I update the document description for the 1st document with "Jorge's document"
+    And I update the document description for the 10th document with "Jeff's document"
+    And I check for delete the 2nd document
+    And I press "Save"
+    And I should see <updated_message> on the page
+    And I should see documents on the show page:
+      |jorge.jpg|Jorge's document|
+      |jorge.jpg|Document 3      |
+      |jeff.png |Document 4      |
+      |jorge.jpg|Document 5      |
+      |jeff.png |Document 6      |
+      |jorge.jpg|Document 7      |
+      |jeff.png |Document 8      |
+      |jorge.jpg|Document 9      |
+      |jeff.png |Jeff's document |
+    
+    Examples:
+      | page           | user          | button         | model      | created_message                        | updated_message                      |
+      | cases page     | "primero_cp"  | "New Case"     | "child"    | "Case record successfully created"     | "Case was successfully updated."     |
+      | cases page     | "primero_gbv" | "New Case"     | "child"    | "Case record successfully created"     | "Case was successfully updated."     |
+      | incidents page | "primero_mrm" | "New Incident" | "incident" | "Incident record successfully created" | "Incident was successfully updated." |
