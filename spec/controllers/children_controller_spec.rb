@@ -198,7 +198,7 @@ describe ChildrenController do
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
         Child.should_receive(:list_records).with({"child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
-        params = {"export_all" => "true"}
+        params = {"page" => "all"}
         get :index, params
         assigns[:children].should == collection
         assigns[:total_records].should == 100

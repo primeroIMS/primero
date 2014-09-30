@@ -177,7 +177,7 @@ describe IncidentsController do
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
         Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakemrmworker"], nil).and_return(search)
-        params = {"export_all" => "true"}
+        params = {"page" => "all"}
         get :index, params
         assigns[:incidents].should == collection
         assigns[:total_records].should == 100

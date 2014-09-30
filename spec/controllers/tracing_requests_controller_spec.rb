@@ -198,7 +198,7 @@ describe TracingRequestsController do
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
         TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
-        params = {"export_all" => "true"}
+        params = {"page" => "all"}
         get :index, params
         assigns[:tracing_requests].should == collection
         assigns[:total_records].should == 100

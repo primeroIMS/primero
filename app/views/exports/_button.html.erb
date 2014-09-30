@@ -5,7 +5,7 @@
     <% Exporters::active_exporters_for_model(controller.model_class).each do |exporter| %>
       <li>
       <%= link_to(t("exports.#{exporter.id}.#{defined?(instance) ? 'one' : 'all'}"),
-                    url_for(:format => exporter.id, :export_all => true, :per_page => :all, :id => (defined?(instance) ? instance.id : nil), :params => params),
+                    url_for(:format => exporter.id, :page => "all", :per_page => :all, :id => (defined?(instance) ? instance.id : nil), :params => params),
                   :class => "password-prompt") %>
       </li>
     <% end %>

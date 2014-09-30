@@ -19,7 +19,7 @@ module RecordActions
   end
 
   def retrieve_records_and_total(filter)
-    if params["export_all"].present?
+    if params["page"] == "all"
       pagination_ops = {:page => 1, :per_page => 100}
       records = []
       begin
