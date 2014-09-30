@@ -325,17 +325,16 @@ module Record
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
     new_audio = params[:child].delete("audio")
     delete_child_audio = params["delete_child_audio"].present?
-    update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child], params[:delete_child_document])
+    update_properties_with_user_name(user.user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child])
   end
 
-  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties, delete_child_document_names = nil)
+  def update_properties_with_user_name(user_name, new_photo, photo_names, new_audio, delete_child_audio, properties)
     update_properties(properties, user_name)
     self.delete_photos(photo_names)
     self.update_photo_keys
     self.photo = new_photo
     self.delete_audio if delete_child_audio
     self.audio = new_audio
-    self.delete_documents delete_child_document_names if delete_child_document_names.present?
   end
 
   def field_definitions

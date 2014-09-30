@@ -458,7 +458,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
       end
@@ -468,7 +468,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child, :delete_child_audio => "1"
     end
@@ -478,7 +478,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child, :redirect_url => '/cases'
       response.should redirect_to '/cases?follow=true'
@@ -490,7 +490,7 @@ describe ChildrenController do
 
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
       response.should redirect_to "/cases/#{child.id}?follow=true"

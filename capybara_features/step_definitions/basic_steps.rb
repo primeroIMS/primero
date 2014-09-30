@@ -102,12 +102,12 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
 end
 
 And /^I should see documents on the show page:$/ do |documents|
-  documents.rows_hash.each_with_index do |documents, index|
-    document, document_description = documents
+  documents.raw.each_with_index do |document, index|
+    document_name, document_description = document
     within(:xpath, "//fieldset//div[@class='uploaded-documents']") do
       within(:xpath, ".//div[@class='row'][#{index+1}]") do
         find(:xpath, ".//label[@class='key document']", :text => "Other Document")
-        find(:xpath, ".//a[@class='document']", :text => document)
+        find(:xpath, ".//a[@class='document']", :text => document_name)
         find(:xpath, ".//label[@class='key document-description']", :text => "Document Description")
         find(:xpath, ".//span[@class='document-description']", :text => document_description)
       end
@@ -756,3 +756,16 @@ def click_unflag_as_suspect_record_link_for(name)
   click_on('Unflag Record')
 end
 
+Then /^I update the document description for the (\d+)(?:st|nd|rd|th) document with "(.*?)"$/ do |number, document_description|
+  within(:xpath, "//fieldset[contains(@id, 'other_documents')]/div[contains(@class, 'update_document')][#{number}]") do
+    document_description_field = find(:css, "input[id$='document_description']")
+    fill_in(document_description_field['id'], :with => document_description)
+  end
+end
+
+Then /^I check for delete the (\d+)(?:st|nd|rd|th) document$/ do |number|
+  within(:xpath, "//fieldset[contains(@id, 'other_documents')]/div[contains(@class, 'update_document')][#{number}]") do
+    delete_document = find(:css, "input[id$='delete_document']")
+    check(delete_document['id'])
+  end
+end
