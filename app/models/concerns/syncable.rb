@@ -21,9 +21,9 @@ module Syncable
   end
 
   def get_all_conflicting_revisions
-    self_with_conflicts = self.database.get self._id, {:conflicts => true}
+    self_with_conflicts = self.database.get(self._id, {:conflicts => true})
 
-    if self_with_conflicts.to_hash.include? '_conflicts'
+    if self_with_conflicts.to_hash.include?('_conflicts')
       self_with_conflicts['_conflicts'].map do |rev|
         self.class.build_from_database(self.database.get(self._id, {:rev => rev}))
       end
@@ -33,48 +33,36 @@ module Syncable
   end
 
   def resolve_conflicting_revisions
-    oldest_to_newest = lambda do |x,y|
-      return 0 if x.last_updated_at.nil? && y.last_updated_at.nil?
-      return 1 if x.last_updated_at.nil?
-      return -1 if y.last_updated_at.nil?
-
-      x.last_updated_at <=> y.last_updated_at
-    end
-
     conflicting_revs = get_all_conflicting_revisions()
-    all_revs = (conflicting_revs + [self]).sort &oldest_to_newest
+    all_revs = (conflicting_revs + [self]).sort_by {|r| r.last_updated_at || DateTime.new }
+    base_revision = find_base_revision(all_revs)
 
-    all_revs.inject({}) do |updates, r|
-      last_update = latest_update_from_history
-
-      if last_update.present?
-        add_proc = ->(updates, (key, change)) do
-          case change
-          when Array
-            change.inject(updates) do |acc, ch|
-              i = acc.index {|el| el['unique_id'] == ch[:to]['unique_id'] }
-              acc[k] = ch[:to]
-            end
-          end
-        end
-        last_update.changes.inject({}) &add_proc
-      end
-      updates
-    end.each do |k,v|
-      self[k] = v
+    resolved_attrs = all_revs.each_cons(2)
+                             .inject({}) do |acc, (older, newer)|
+      merge_with_existing_attrs(acc,
+                                older.remove_stale_properties(newer.attributes_as_hash, base_revision))
     end
 
-    conflicting_revs.each do |r|
+    Rails.logger.debug {"Resolved attributes are #{resolved_attrs}"}
+
+    # Take the oldest and apply all of the new attributes to it
+    (active, discards) = [all_revs[0], all_revs[1..-1]]
+
+    active.directly_set_attributes(resolved_attrs)
+
+    discards.each do |r|
       Rails.logger.debug {"Deleting revision #{r.rev} for #{r.id}"}
       r.destroy
     end
-    Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
 
-    save
+    Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
+    active.save!
   end
 
+  # Remove attributes that have been updated since `revision` to avoid
+  # overwriting newer changes
   def remove_stale_properties(properties, revision)
-    inter_changes = get_intermediate_changes(revision)
+    inter_changes = get_intermediate_histories(revision).map {|h| h.changes}
 
     inter_changes.inject(properties.clone) do |props_to_update, changes|
       remove_proc = lambda do |props, (key, prop_change)|
@@ -95,7 +83,7 @@ module Syncable
           end
         else
           # We need unique_ids to distinguish between deleting and leaving
-          # unaltered
+          # unaltered, so don't delete them
           if new_props[key] == prop_change['from'] && key != 'unique_id'
             new_props.delete key
           end
@@ -112,31 +100,63 @@ module Syncable
 
     new_hash = if revision.present? && revision != self.rev
       remove_stale_properties(hash, revision)
-    else 
+    else
       hash
     end
 
-    super(merge_with_existing_attrs(new_hash))
+    super(merge_with_existing_attrs(self.attributes, new_hash))
   end
   alias :attributes= :update_attributes_without_saving
 
-  private
+  # Converts self.attributes to a native ruby object, with all embedded objects
+  # converted to hashes.
+  def attributes_as_hash()
+    convert_embedded_to_hash = ->(v) do
+      case v
+      when Array
+        v.map(&convert_embedded_to_hash)
+      when CouchRest::Model::Embeddable, Hash
+        v.to_hash.inject({}) do |acc, (k,v)|
+          if v.present?
+            acc.merge({ k => convert_embedded_to_hash.call(v) })
+          else
+            acc
+          end
+        end
+      else
+        v
+      end
+    end
 
-  def get_intermediate_changes revision
-    changes = histories.reverse
+    convert_embedded_to_hash.call(self.attributes.to_hash)
+  end
+
+  protected
+
+  # Get all the change objects since the given `revision`
+  def get_intermediate_histories revision
+    histories = self.histories.reverse
                        .drop_while {|h| h.prev_revision != revision }
                        .reverse
-                       .map {|h| h.changes }
 
     # Throw an exception until a legitimate reason for missing revisions is found
-    if changes.length == 0
+    if histories.length == 0
       raise Errors::RevisionNotFoundError.new("Unknown revision provided #{revision}")
     end
 
-    changes
+    histories
   end
 
-  def merge_with_existing_attrs(properties)
+  # Take a set of properties and stick in all of the missing properties on the
+  # current model (`existing`), including nested arrays and hashes, arbitrarily
+  # deep.  This is necessary because we just do a top-level assignment to the
+  # self.attributes object, so we have to fill in any nested hash or array
+  # elemets so they don't get deleted.  Nested elements are only deleted when
+  # set explicitly to nil.
+  def merge_with_existing_attrs(existing, properties)
+    # Avoid merging histories, we'll handle that separately
+    properties.delete 'histories'
+
     merger = ->(props, (k,existing_value)) do
       props = props.clone
       case props[k]
@@ -159,11 +179,18 @@ module Syncable
         end
         props
       else
-        props 
+        props
       end
     end
 
-    self.attributes.inject(properties, &merger)
+    existing.inject(properties, &merger)
+  end
+
+  def find_base_revision instances
+    prev_revisions = instances.map {|i| i.histories.map {|h| h.prev_revision}.compact }
+    # Ruby appears to maintain array order when doing set intersection,
+    # otherwise this won't work
+    prev_revisions.inject(:&)[0]
   end
 end
 

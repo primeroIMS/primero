@@ -238,7 +238,7 @@ class Replication < CouchRest::Model::Base
   def self.resolve_conflicts
     self.models_to_sync.each do |modelClass|
       Rails.logger.info {"Resolving any conflicts in model #{modelClass}"}
-      model.all_conflicting_records.each do |rec|
+      modelClass.all_conflicting_records.each do |rec|
         Rails.logger.info {"Conflicts found in record #{rec.inspect}"}
         rec.resolve_conflicting_revisions
       end

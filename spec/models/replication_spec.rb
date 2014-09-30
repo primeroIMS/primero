@@ -324,66 +324,6 @@ describe Replication do
   end
 
   describe 'conflict resolution' do
-    before :each do
-      @_Child = Class.new(CouchRest::Model::Base) do
-        def self.to_s
-          'Child'
-        end
-
-        use_database :child
-        include Syncable
-
-        property 'name', String
-        property 'survivor_code', String
-        property 'age', String
-        property 'gender', String
-      end
-      Replication.stub :models_to_sync => [ @_Child ]
-
-      @child = @_Child.new({:name => 'Test123', :created_by => 'me'})
-      @child.save
-
-      now = Time.now
-      require 'pry'; binding.pry
-
-      @saved_first = @timestamp_earliest = @_Child.get(@child._id).tap do |c|
-        c.attributes = {
-          :survivor_code => '200',
-          :gender => 'male',
-          :last_updated_at => now + 5,
-          :last_updated_by => 'me',
-        }
-      end
-
-      @saved_last = @timestamp_latest = @_Child.get(@child._id).tap do |c|
-        c.attributes = {
-          :survivor_code => '123',
-          :name => 'Jorge',
-          :age => '18',
-          :last_updated_at => now + 10,
-          :last_updated_by => 'me',
-        }
-        c.update_history
-      end
-
-      @saved_first.save
-      @_Child.database.bulk_save([@saved_last], true, true)
-    end
-
-    it 'should select the latest update in a conflict on the same field' do
-      Replication.resolve_conflicts
-
-      resolved = @_Child.get(@child._id)
-      resolved[:survivor_code].should == @timestamp_latest[:survivor_code]
-    end
-
-    it 'should merge updates where updates are to a disjoin set of fields' do
-      Replication.resolve_conflicts
-
-      resolved = @_Child.get(@child._id)
-      resolved[:age].should == @saved_last[:age]
-      resolved[:gender].should == @saved_first[:gender]
-    end
   end
 
   def all_docs(db)

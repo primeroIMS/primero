@@ -67,7 +67,7 @@ module Historical
   end
 
   def created_by_user
-    User.find_by_user_name self.created_by unless self.created_by.to_s.empty?
+    User.find_by_user_name self.created_by unless self.created_by.present?
   end
 
   def set_updated_fields_for(user_name)
@@ -127,10 +127,12 @@ module Historical
   def changes_to_history(changes, properties_by_name)
     changes.inject({}) do |acc, (prop_name, (prev, current))|
       prop = properties_by_name[prop_name]
-      if prop.nil? 
+      if prop.nil?
         acc
       else
-        change_hash = if (prev.is_a?(Array) || current.is_a?(Array)) && prop.type.try(:include?, CouchRest::Model::Embeddable)
+        change_hash = if (prev.is_a?(Array) || current.is_a?(Array)) &&
+                         prop.type.try(:include?, CouchRest::Model::Embeddable) &&
+                         prop.name != 'histories' # This is an ugly hack to exempt histories from having to have unique ids
           (prev_hash, current_hash) = [prev, current].map do |arr|
                                         (arr || []).inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
                                       end

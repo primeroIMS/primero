@@ -1,33 +1,41 @@
 require 'spec_helper'
 
 _Child = Class.new(CouchRest::Model::Base) do
+  def self.to_s
+    'Child'
+  end
+
+  use_database :child
   include Syncable
 
-  property 'name', String
-  property 'family_members', [Class.new do
+  property :name, String
+  property :age, Fixnum
+  property :survivor_code, String
+  property :gender, String
+  property :family_members, [Class.new do
     include CouchRest::Model::Embeddable
 
-    property 'unique_id', String
-    property 'name', String
-    property 'relation', String
+    property :unique_id, String
+    property :name, String
+    property :relation, String
   end]
-  property 'languages', [String]
-  property 'birth_day', Date
+  property :languages, [String]
+  property :birth_day, Date
 
-  property 'violations', Class.new do
+  property :violations, Class.new do
     include CouchRest::Model::Embeddable
-    property 'killing', [Class.new do
+    property :killing, [Class.new do
       include CouchRest::Model::Embeddable
-      property 'unique_id', String
-      property 'date', Date
-      property 'notes', String
+      property :unique_id, String
+      property :date, Date
+      property :notes, String
     end]
 
-    property 'maiming', [Class.new do
+    property :maiming, [Class.new do
       include CouchRest::Model::Embeddable
-      property 'unique_id', String
-      property 'date', Date
-      property 'notes', String
+      property :unique_id, String
+      property :date, Date
+      property :notes, String
     end]
   end
 end
@@ -118,6 +126,7 @@ describe Syncable do
 
       @first_revision = @child.rev
 
+      @child.age = 12
       @child.family_members[1] = @child.family_members[1].clone.tap do |fm|
         fm.name = 'Martha'
       end
@@ -138,6 +147,15 @@ describe Syncable do
 
       @child.family_members[0].name.should == 'Martha'
       @child.family_members[1].relation.should == 'uncle'
+    end
+
+    it "should not consider a separate update as stale" do
+      @child.attributes = {
+        'age' => 14,
+        'revision' => @first_revision,
+      }
+
+      @child.age.should == 14
     end
 
     it "should handle normal arrays without unique_id" do
@@ -172,6 +190,66 @@ describe Syncable do
       }
 
       @child.violations.killing[0].notes.should == 'kill changed'
+    end
+  end
+
+  describe 'replication conflict resolution' do
+    before :each do
+      @child = _Child.new({:name => 'Test123', :created_by => 'me'})
+      @child.save
+
+      now = Time.now
+
+      @saved_first = @timestamp_earliest = _Child.get(@child._id).tap do |c|
+        c.attributes = {
+          :survivor_code => '200',
+          :gender => 'male',
+          :last_updated_at => now + 5,
+          :last_updated_by => 'me',
+          :family_members => [
+            {:unique_id => 'f1', :name => 'Arthur', :relation => 'father'},
+          ],
+        }
+      end
+
+      @saved_last = @timestamp_latest = _Child.get(@child._id).tap do |c|
+        c.attributes = {
+          :survivor_code => '123',
+          :name => 'Jorge',
+          :age => 18,
+          :last_updated_at => now + 10,
+          :last_updated_by => 'me',
+          :family_members => [
+            {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
+          ],
+        }
+        c.update_history
+      end
+
+      @saved_first.save
+      _Child.database.bulk_save([@saved_last], true, true)
+    end
+
+    it 'should select the latest update in a conflict on the same field' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved[:survivor_code].should == @timestamp_latest[:survivor_code]
+    end
+
+    it 'should merge updates where updates are to a disjoin set of fields' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved[:age].should == @saved_last[:age]
+      resolved[:gender].should == @saved_first[:gender]
+    end
+
+    it "should merge nested fields" do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved[:family_members].length.should == 2
     end
   end
 end
