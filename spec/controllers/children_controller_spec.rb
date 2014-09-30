@@ -142,7 +142,7 @@ describe ChildrenController do
           children = mock_child(@stubs)
           scope = {"child_status"=>"open"} if not scope.present?
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"]).and_return(children)
+          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil).and_return(children)
 
           get :index, :scope => scope
           assigns[:children].should == children
@@ -168,7 +168,7 @@ describe ChildrenController do
           order = {:created_at=>:desc}
 
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(children)
+          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker", nil).and_return(children)
           @params.merge!(:scope => scope)
           get :index, @params
           assigns[:children].should == children
@@ -186,6 +186,24 @@ describe ChildrenController do
       end
     end
 
+    describe "export all" do
+      before do
+        @session = fake_field_worker_login
+      end
+
+      it "should export all children" do
+        collection = [Child.new, Child.new]
+        collection.should_receive(:next_page).twice.and_return(nil)
+        search = double(Sunspot::Search::StandardSearch)
+        search.should_receive(:results).and_return(collection)
+        search.should_receive(:total).and_return(100)
+        Child.should_receive(:list_records).with({"child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
+        params = {"export_all" => "true"}
+        get :index, params
+        assigns[:children].should == collection
+        assigns[:total_records].should == 100
+      end
+    end
 
     describe "permissions to view lists of case records", search: true, skip_session: true do
 

@@ -18,6 +18,25 @@ module RecordActions
     before_filter :is_mrm, :only => [:index]
   end
 
+  def retrieve_records_and_total(filter)
+    if params["export_all"].present?
+      pagination_ops = {:page => 1, :per_page => 100}
+      records = []
+      begin
+        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query]
+        results = search.results
+        records.concat(results)
+        pagination_ops[:page] = results.next_page
+      end until results.next_page.nil?
+      total_records = search.total
+    else
+      search = model_class.list_records filter, order, pagination, users_filter, params[:query]
+      records = search.results
+      total_records = search.total
+    end
+    [records, total_records]
+  end
+
   def reindex
     model_class.reindex!
     render :nothing => true
