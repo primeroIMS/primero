@@ -1,68 +1,57 @@
 incidents = Incident.all
 incidents.each do |incident|
   record_modified = false
-  
-  # violation_recruit_tally => violation_tally
-  # other_violation_tally => violation_tally
-  # violation_maiming_tally => violation_tally
-  # violation_killing_tally => violation_tally
-  # violation_abductions_tally => violation_tally
-  # violation_killed_attack_hospital_tally => violation_killed_tally
-  # violation_injured_attack_hospital_tally => violation_injured_tally
-  # violation_killed_attack_tally => violation_killed_tally
-  # violation_injured_attack_tally => violation_injured_tally
-  
-  if self.violations.present?
-      self.violations.to_hash.each do |key, value|
-        value.each do |v|
-          if key == 'killing'
-          elsif key == 'maiming'
-          elsif key == 'recruitment'
-          elsif key == 'abduction'
-          elsif key == 'sexual_violence'
-          elsif key == 'other_violation'
-          elsif key == 'attack_on_hospitals'
-          elsif key == 'attack_on_schools'
-          end
-          
-          #Special case for "attack on hospitals" and "attack on schools"
-          if(key == 'attack_on_hospitals' || key == 'attack_on_schools')
-            child_count += v.send("violation_killed_tally_#{child_type}".to_sym) if v.send("violation_killed_tally_#{child_type}".to_sym).present?
-            child_count += v.send("violation_injured_tally_#{child_type}".to_sym) if v.send("violation_injured_tally_#{child_type}".to_sym).present?
-          else
-            child_count += v.send("violation_tally_#{child_type}".to_sym) if v.send("violation_tally_#{child_type}".to_sym).present?
-          end
-          if child_count > 0
-            #Return true and bail... no need to keep going
-            return true
-          end
+
+  if incident.violations.present?
+    incident.violations.to_hash.each do |key, value|
+      value.each do |v|
+        if key == 'killing'
+          v.violation_tally_boys = v[:violation_killing_tally_boys] if v[:violation_killing_tally_boys].present?
+          v.violation_tally_girls = v[:violation_killing_tally_girls] if v[:violation_killing_tally_girls].present?
+          v.violation_tally_unknown = v[:violation_killing_tally_unknown] if v[:violation_killing_tally_unknown].present?
+        elsif key == 'maiming'
+          v.violation_tally_boys = v[:violation_maiming_tally_boys] if v[:violation_maiming_tally_boys].present?
+          v.violation_tally_girls = v[:violation_maiming_tally_girls] if v[:violation_maiming_tally_girls].present?
+          v.violation_tally_unknown = v[:violation_maiming_tally_unknown] if v[:violation_maiming_tally_unknown].present?
+        elsif key == 'recruitment'
+          v.violation_tally_boys = v[:violation_recruit_tally_boys] if v[:violation_recruit_tally_boys].present?
+          v.violation_tally_girls = v[:violation_recruit_tally_girls] if v[:violation_recruit_tally_girls].present?
+          v.violation_tally_unknown = v[:violation_recruit_tally_unknown] if v[:violation_recruit_tally_unknown].present?
+        elsif key == 'abduction'
+          v.violation_tally_boys = v[:violation_abductions_tally_boys] if v[:violation_abductions_tally_boys].present?
+          v.violation_tally_girls = v[:violation_abductions_tally_girls] if v[:violation_abductions_tally_girls].present?
+          v.violation_tally_unknown = v[:violation_abductions_tally_unknown] if v[:violation_abductions_tally_unknown].present?
+        elsif key == 'sexual_violence'
+        elsif key == 'other_violation'
+          v.violation_tally_boys = v[:other_violation_tally_boys] if v[:other_violation_tally_boys].present?
+          v.violation_tally_girls = v[:other_violation_tally_girls] if v[:other_violation_tally_girls].present?
+          v.violation_tally_unknown = v[:other_violation_tally_unknown] if v[:other_violation_tally_unknown].present?
+        elsif key == 'attack_on_hospitals'
+          v.violation_killed_tally_boys = v[:violation_killed_attack_hospital_tally_boys] if v[:violation_killed_attack_hospital_tally_boys].present?
+          v.violation_injured_tally_boys = v[:violation_injured_attack_hospital_tally_boys] if v[:violation_injured_attack_hospital_tally_boys].present?
+          v.violation_killed_tally_girls = v[:violation_killed_attack_hospital_tally_girls] if v[:violation_killed_attack_hospital_tally_girls].present?
+          v.violation_injured_tally_girls = v[:violation_injured_attack_hospital_tally_girls] if v[:violation_injured_attack_hospital_tally_girls].present?
+          v.violation_killed_tally_unknown = v[:violation_killed_attack_hospital_tally_unknown] if v[:violation_killed_attack_hospital_tally_unknown].present?
+          v.violation_injured_tally_unknown = v[:violation_injured_attack_hospital_tally_unknown] if v[:violation_injured_attack_hospital_tally_unknown].present?
+        elsif key == 'attack_on_schools'
+          v.violation_killed_tally_boys = v[:violation_killed_attack_tally_boys] if v[:violation_killed_attack_tally_boys].present?
+          v.violation_injured_tally_boys = v[:violation_injured_attack_tally_boys] if v[:violation_injured_attack_tally_boys].present?
+          v.violation_killed_tally_girls = v[:violation_killed_attack_tally_girls] if v[:violation_killed_attack_tally_girls].present?
+          v.violation_injured_tally_girls = v[:violation_injured_attack_tally_girls] if v[:violation_injured_attack_tally_girls].present?
+          v.violation_killed_tally_unknown = v[:violation_killed_attack_tally_unknown] if v[:violation_killed_attack_tally_unknown].present?
+          v.violation_injured_tally_unknown = v[:violation_injured_attack_tally_unknown] if v[:violation_injured_attack_tally_unknown].present?
         end
+        record_modified = true
       end
     end
-    #We only got here if none were found... so return false
-    return false
-  
-  
-  #Fix 'Stage of displacement at time of incident' values on old records.
-  if child[:displacement_incident] == "Other, please specify"
-    puts "fixing displacement_incident field in case #{child.short_id}..."
-    child.merge! displacement_incident: ''
-    record_modified = true
-  end
-
-  if child[:displacement_at_time_of_incident_other].present?
-    puts "fixing displacement_at_time_of_incident_other field in case #{child.short_id}..."
-    child.merge! displacement_at_time_of_incident_other: ''
-    record_modified = true
   end
 
   if record_modified
-    if child.valid?
-      puts "Saving changes to case record..."
-      child.save!
-      child.reindex!
+    if incident.valid?
+      puts "#{incident.id} - Incident is valid. (saving)"
+      incident.save!
     else
-      puts "Case still not valid... not saving"
+      puts "#{incident.id} - Incident still not valid. (not saved)"
     end
   end
 end
