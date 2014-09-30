@@ -59,7 +59,7 @@ class TracingRequestsController < ApplicationController
     @tracing_request = TracingRequest.new
     @tracing_request['inquiry_date'] = DateTime.now.strftime("%d-%b-%Y")
     @tracing_request['status'] = ["Active"]
-    @tracing_request['record_state'] = ["Valid record"]
+    @tracing_request['record_state'] = true
     @tracing_request['inquiry_status'] = ["Open"]
     @tracing_request['mrm_verification_status'] = "Pending"
     @tracing_request['module_id'] = params['module_id']
@@ -194,10 +194,10 @@ class TracingRequestsController < ApplicationController
   def tracing_requests_by_user_access(filter_option, per_page)
     keys = [filter_option]
     params[:scope] ||= {}
-    options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_#{params[:order_by] || 'enquirer_name'}".to_sym}
+    options = {:view_name => "by_#{params[:scope][:record_state] || true}_view_#{params[:order_by] || 'enquirer_name'}".to_sym}
     unless  can?(:view_all, TracingRequest)
       keys = [filter_option, current_user_name]
-      options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_with_created_by_#{params[:order_by] || 'created_at'}".to_sym}
+      options = {:view_name => "by_#{params[:scope][:record_state] || true}_view_with_created_by_#{params[:order_by] || 'created_at'}".to_sym}
     end
     if ['created_at'].include? params[:order_by]
       options.merge!({:descending => true, :startkey => [keys, {}].flatten, :endkey => keys})

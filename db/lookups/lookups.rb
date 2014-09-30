@@ -128,8 +128,8 @@ create_or_update_lookup(
 create_or_update_lookup(
   :name => "record_state",
   :lookup_values => [
-    "Valid record",
-    "Invalid record"
+    "Valid",
+    "Invalid"
   ]
 )
 

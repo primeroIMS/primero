@@ -61,7 +61,7 @@ class IncidentsController < ApplicationController
     @page_name = t("incidents.register_new_incident")
     @incident = Incident.new
     @incident['status'] = ["Active"]
-    @incident['record_state'] = ["Valid record"]
+    @incident['record_state'] = true
     @incident['mrm_verification_status'] = "Pending"
     @incident['module_id'] = params['module_id']
 

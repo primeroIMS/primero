@@ -1,0 +1,27 @@
+<li>
+  <a data-reveal-id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>">
+    <%= t("buttons.enable_disable") %>
+  </a>
+
+  <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
+  	<%
+  		state = nil
+  	%>
+    <% if instance.record_state == 'true' %>
+    	Are you sure you want to disable this record
+    	<% state = 'disable' %>
+    <% else %>
+    	Are you sure you want to enable this record
+    	<% state = 'enable' %>
+    <% end %>
+    <a class="btn green-button"
+      id="enable_disable_action"
+      data-id="<%= instance.id %>"
+    	data-request_url="<%= request.url %>"
+    	data-form_action="<%= send("#{model.name.underscore.downcase}_record_status_path") %>"
+    	data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
+      data-state="<%= instance.record_state == 'true' ? false : true %>"
+    	><%= t("buttons.#{state}") %>
+    </a>
+  </div>
+</li>

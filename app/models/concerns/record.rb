@@ -27,6 +27,7 @@ module Record
     property :short_id
     property :flag_at, DateTime
     property :reunited_at, DateTime
+    property :record_sate, TrueClass
 
     class_attribute(:form_properties_by_name)
     self.form_properties_by_name = {}
@@ -226,11 +227,11 @@ module Record
 
   def initialize(*args)
     super
-    self['record_state'] = "Valid record" if self['record_state'].blank?
+    self['record_state'] = true if self['record_state'].blank?
   end
 
   def valid_record?
-    self['record_state'] == "Valid record"
+    self['record_state'] == true
   end
 
   def validate_created_at
@@ -356,7 +357,7 @@ module Record
     properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     add_updated_fields_attr(properties)
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
-    properties['record_state'] = "Valid record" if properties['record_state'].blank?
+    properties['record_state'] = true if properties['record_state'].blank?
     should_update = self.last_updated_at && properties["last_updated_at"] ? (DateTime.parse(properties['last_updated_at']) > self.last_updated_at) : true
     if should_update
       attributes_to_update = {}

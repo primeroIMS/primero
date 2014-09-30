@@ -62,6 +62,8 @@ end
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
+  gem 'ruby-prof'
+  gem 'request_profiler', :git => "git://github.com/justinweiss/request_profiler.git"
 end
 
 group :test, :cucumber, :development do

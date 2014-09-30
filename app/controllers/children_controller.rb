@@ -64,7 +64,7 @@ class ChildrenController < ApplicationController
     @page_name = t("cases.register_new_case")
     @child = Child.new
     @child.registration_date = Date.today
-    @child['record_state'] = ["Valid record"]
+    @child['record_state'] = true
     @child['child_status'] = ["Open"]
     @child['module_id'] = params['module_id']
 
