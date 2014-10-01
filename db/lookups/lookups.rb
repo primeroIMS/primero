@@ -126,14 +126,6 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :name => "record_state",
-  :lookup_values => [
-    "Valid record",
-    "Invalid record"
-  ]
-)
-
-create_or_update_lookup(
   :name => "risk_level",
   :lookup_values => [
     "High",

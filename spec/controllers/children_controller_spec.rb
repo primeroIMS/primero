@@ -142,7 +142,7 @@ describe ChildrenController do
           children = mock_child(@stubs)
           scope = {"child_status"=>"open"} if not scope.present?
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"]).and_return(children)
+          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil).and_return(children)
 
           get :index, :scope => scope
           assigns[:children].should == children
@@ -168,7 +168,7 @@ describe ChildrenController do
           order = {:created_at=>:desc}
 
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker").and_return(children)
+          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker", nil).and_return(children)
           @params.merge!(:scope => scope)
           get :index, @params
           assigns[:children].should == children
@@ -186,6 +186,24 @@ describe ChildrenController do
       end
     end
 
+    describe "export all" do
+      before do
+        @session = fake_field_worker_login
+      end
+
+      it "should export all children" do
+        collection = [Child.new, Child.new]
+        collection.should_receive(:next_page).twice.and_return(nil)
+        search = double(Sunspot::Search::StandardSearch)
+        search.should_receive(:results).and_return(collection)
+        search.should_receive(:total).and_return(100)
+        Child.should_receive(:list_records).with({"child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
+        params = {"page" => "all"}
+        get :index, params
+        assigns[:children].should == collection
+        assigns[:total_records].should == 100
+      end
+    end
 
     describe "permissions to view lists of case records", search: true, skip_session: true do
 
@@ -440,7 +458,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
       end
@@ -450,7 +468,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child, :delete_child_audio => "1"
     end
@@ -460,7 +478,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child, :redirect_url => '/cases'
       response.should redirect_to '/cases?follow=true'
@@ -472,7 +490,7 @@ describe ChildrenController do
 
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child, nil)
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
       response.should redirect_to "/cases/#{child.id}?follow=true"

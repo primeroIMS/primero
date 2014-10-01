@@ -28,6 +28,7 @@
     <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
     <ul>
         <%= render partial: 'exports/button', locals: {model: Incident, instance: @incident} %>
+        <%= render partial: 'record_shared/enable_disable_record', locals: {model: Incident, instance: @incident} %>
     </ul>
   </li>
 </ul>

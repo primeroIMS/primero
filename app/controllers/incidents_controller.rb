@@ -16,9 +16,7 @@ class IncidentsController < ApplicationController
     @aside = 'shared/sidebar_links'
 
     @associated_users = current_user.managed_user_names
-    search = Incident.list_records filter, order, pagination, users_filter, params[:query]
-    @incidents = search.results
-    @total_records = search.total
+    @incidents, @total_records = retrieve_records_and_total(filter)
     @per_page = per_page
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
@@ -61,7 +59,7 @@ class IncidentsController < ApplicationController
     @page_name = t("incidents.register_new_incident")
     @incident = Incident.new
     @incident['status'] = ["Active"]
-    @incident['record_state'] = ["Valid record"]
+    @incident['record_state'] = true
     @incident['mrm_verification_status'] = "Pending"
     @incident['module_id'] = params['module_id']
 
@@ -208,7 +206,6 @@ class IncidentsController < ApplicationController
     # new_photo = (params[:child][:photo] || "") if new_photo.nil?
     # new_audio = params[:child].delete("audio")
     # delete_child_audio = params["delete_child_audio"].present?
-    incident.delete_documents params[:delete_incident_document] if params[:delete_incident_document].present?
     incident.update_properties(params[:incident], current_user_name)
     incident
   end

@@ -7,6 +7,11 @@
 Feature: Hide Name
   As a Social Worker I want to hide the survivor's name so that only people with access to the record can view the actual name of the child
 
+  Background:
+    Given the following lookups exist in the system:
+      | name        | lookup_values                        |
+      | case_status | Open, Closed, Transferred, Duplicate |
+
   Scenario: As a logged in user, I create a case and hide the survivor's name
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
@@ -50,7 +55,6 @@ Feature: Hide Name
     And I should see a value for "Other Agency Name" on the show page with the value of "Test Agency"
     And I press the "Edit" button
     And I press the "Hide Name" link
-    And I wait for 2 seconds
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
     And I press "Save"
@@ -76,7 +80,6 @@ Feature: Hide Name
     And I should see a value for "Other Agency Name" on the show page with the value of "Test Agency"
     And I press the "Edit" button
     And I press the "View Name" link
-    And I wait for 2 seconds
     And the "Name" field should contain "Tiki Thomas Taliaferro"
     And I press "Save"
     And I should see "Case was successfully updated" on the page
@@ -109,7 +112,6 @@ Feature: Hide Name
     Then I should see "Case record successfully created" on the page
     And I press the "Edit" button
     And I press the "Hide Name" link
-    And I wait for 2 seconds
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
     And I press "Save"
@@ -129,7 +131,6 @@ Feature: Hide Name
     And I press the "Edit" button
     And I fill in "Name" with "Edited Name"
     And I press the "Hide Name" link
-    And I wait for 2 seconds
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
     And I press "Save"
@@ -137,5 +138,18 @@ Feature: Hide Name
     And I should see a value for "Name" on the show page with the value of "*****"
     And I press the "Edit" button
     And I press the "View Name" link
-    And I wait for 2 seconds
     And the "Name" field should contain "Edited Name"
+
+  Scenario Outline: As a logged in user, I want to hide the survivor's name when creating the record
+    Given I am logged in as an admin with username <user> and password "primero"
+    When I access "cases page"
+    And I press the "New Case" button
+    And I fill in "Name" with "Tiki Thomas Taliaferro"
+    And I check the "Hide Name" field
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I should see a value for "Name" on the show page with the value of "*****"
+    Examples:
+      | user         |
+      | "primero_cp" |
+      | "primero_gbv"|

@@ -1,6 +1,7 @@
 <%
   documents = formObject["other_documents"] || []
   documents = documents.select { |document| document["file_name"].present? && document["attachment_key"].present? }
+  record_class_name = formObject.class.name.underscore.downcase
 %>
 <div class="row">
   <p>
@@ -9,7 +10,7 @@
 </div>
 <% if documents.present? && !formObject.new_record?%>
   <% documents.each do |document| %>
-    <div class="row">
+    <div class="row update_document">
       <div class="medium-4 columns">
         <span class="tool-tip-label">
           <%= label_tag I18n.t(document_upload_box.name, :default => document_upload_box.display_name) %>
@@ -24,12 +25,15 @@
         <label class="key">Document Description</label>
       </div>
       <div class="medium-8 columns">
-        <% value = document["document_description"] || "" %>
-        <span class="value"><%= value %></span>
+        <% attachment_key = document["attachment_key"] %>
+        <% document_description = document["document_description"] || "" %>
+        <% name = "#{record_class_name}[update_document][#{attachment_key}]" %>
+        <% description_field_id = "#{record_class_name}_update_document_#{attachment_key}_document_description"%>
+        <%= text_field_tag "#{name}[document_description]", document_description, :id => description_field_id %>
         <div>
-          <% checkbox_id = "delete_#{formObject.class.name.underscore.downcase}_document_#{document["attachment_key"]}" %>
-          <%= check_box_tag("delete_#{formObject.class.name.underscore.downcase}_document[#{document["attachment_key"]}]", :id => checkbox_id) %>
-          <%= label_tag checkbox_id, t("#{formObject.class.name.underscore.downcase}.actions.delete_document") %>
+          <% checkbox_id = "#{record_class_name}_update_document_#{attachment_key}_delete_document" %>
+          <%= check_box_tag("#{name}[delete_document]", true, false, :id => checkbox_id) %>
+          <%= label_tag checkbox_id, t("#{record_class_name}.actions.delete_document") %>
         </div>
       </div>
     </div>

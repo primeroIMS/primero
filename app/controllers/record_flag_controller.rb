@@ -43,6 +43,7 @@ class RecordFlagController < ApplicationController
         error_message += "\n#{record.short_id}: Not flagged"
       end
     end
+    # TODO: This needs to be translated
     error_message = "There was an error trying to flag records:" + error_message unless success
     render :json => {:success => success, :error_message => error_message, :reload_page => reload_page}
   end
