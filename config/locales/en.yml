@@ -929,9 +929,18 @@ en:
     button: "Actions"
     enable_disable: "Enable/Disable"
     description:
-      valid: "Valid records"
-      invalid: "Invalid records"
+      valid: "Valid record"
+      invalid: "Invalid record"
 
+  record_panel:
+    valid: "Valid record"
+    invalid: "Invalid record"
+    record_state: "Record State"
+    created_by: "Created By"
+    last_update: "Last Update"
+    current_owner: "Current Owner"
+    change_log: "Change Log"
+    
   exports:
     no_records: "No Records Available!"
     pdf:

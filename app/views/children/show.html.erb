@@ -37,7 +37,7 @@ $(function() {
 <% end %>
 
 <% content_for :header_message do %>
-  <%= render 'header_message', child: @child, current_user: @current_user, duplicates: @duplicates %>
+  <%= render 'record_shared/header_message', record: @child, model: 'child' %>
 <% end %>
 
 <div class="clearfix"></div>
