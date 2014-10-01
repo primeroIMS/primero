@@ -3,9 +3,7 @@ var FlagRecord = Backbone.View.extend({
   el: 'body',
 
   events: {
-    'click div.flag_records a.flag' : 'flag_records',
-    'change input#select_all_records' : 'select_unselect_all_records',
-    'change input.select_record' : 'select_unselect_record'
+    'click div.flag_records a.flag' : 'flag_records'
   },
 
   flag_records: function(event) {
@@ -13,7 +11,6 @@ var FlagRecord = Backbone.View.extend({
     var target = $(event.target);
     var selected_records = []
     var form_action = target.data('form_action');
-    var redirect_url = target.data('request_url');
     var flag_error_message = target.data('submit_error_message');
     var selected_records_error_message = target.data('selected_records_error_message');
     var flag_message = target.parents('.flag_records').find('input.flag_message').val();
@@ -23,13 +20,13 @@ var FlagRecord = Backbone.View.extend({
         selected_records.push($(this).val());
       });
       if (selected_records.length > 0) {
-        $.post(form_action,
+        $.post(form_action + "?" + _primero.object_to_params(_primero.filters),
           {
             'selected_records': selected_records,
-            'redirect_url': redirect_url,
             'flag_message': flag_message,
             'flag_date': flag_date,
-          }, 
+            'all_records_selected': $("input#select_all_records").is(':checked')
+          },
           function(response){
             if(response.success) {
               location.reload(true);
@@ -47,25 +44,6 @@ var FlagRecord = Backbone.View.extend({
     } else {
       alert(flag_error_message);
     }
-  },
-
-  select_unselect_all_records: function(event) {
-    var select_all_input = $(event.target);
-    if (select_all_input.is(':checked')) {
-      $('input.select_record').attr('checked', true);
-    } else {
-      $('input.select_record').attr('checked', false);
-    }
-  },
-
-  select_unselect_record: function(event) {
-    var all_records_selected = true;
-    $('input.select_record').each(function() {
-      if (!$(this).is(":checked")) {
-        all_records_selected = false;
-      }
-    });
-    $("input#select_all_records").attr('checked', all_records_selected);
   }
 });
 

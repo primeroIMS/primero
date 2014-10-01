@@ -56,7 +56,7 @@
 //= require flag_records
 //= require actions
 //= require show_change_log
-
+//= require select_multiple_records
 
 
 $(document).ready(function() {
