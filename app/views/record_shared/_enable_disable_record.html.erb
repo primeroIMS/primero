@@ -1,13 +1,11 @@
 <li>
-  <a data-reveal-id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>">
-    <%= t("actions.enable_disable") %>
-  </a>
+  <a data-reveal-id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" href="#"><%= t("actions.enable_disable") %></a>
 
   <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
   	<% state = nil %>
     <div class="row">
       <div class="large-12 columns">
-        <% if instance.record_state == 'true' %>
+        <% if instance.record_state %>
           <%= t('messages.enable_disable_record', action: t('actions.description.invalid')) %>
         	<% state = 'disable' %>
         <% else %>
@@ -25,8 +23,8 @@
         	data-request_url="<%= request.url %>"
         	data-form_action="<%= send("#{model.name.underscore.downcase}_record_status_path") %>"
         	data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
-          data-state="<%= instance.record_state == 'true' ? false : true %>"
-        	><%= t("buttons.ok") %>
+          data-state="<%= instance.record_state ? false : true %>"
+          href=""><%= t("buttons.ok") %>
         </a>
       </div>
     </div>

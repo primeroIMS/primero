@@ -22,7 +22,7 @@ Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
-Then /^I press the "([^\"]*)" (button|link|span)(?: "(.+)" times)?$/ do |label, type, times|
+Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times)?$/ do |label, type, times|
   times = 1 if times.blank?
   page.execute_script("$('body').css('text-transform','none !important')");
   (1..times.to_i).each do
