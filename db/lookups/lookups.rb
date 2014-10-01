@@ -189,3 +189,13 @@ create_or_update_lookup(
     "Other"
   ]
 )
+
+create_or_update_lookup(
+  :name => "armed_force_group_name",
+  :lookup_values => [
+    "Armed Force or Group 1",
+    "Armed Force or Group 2",
+    "Armed Force or Group 3",
+    "Other, please specify"
+  ]
+)

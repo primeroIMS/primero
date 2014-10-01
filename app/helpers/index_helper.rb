@@ -145,7 +145,7 @@ module IndexHelper
     header_list << {title: 'id', sort_title: 'short_id'}
 
     header_list << {title: 'date_of_interview', sort_title: 'date_of_first_report'} if @is_gbv
-    header_list << {title: 'date_of_incident', sort_title: 'date_of_incident'}
+    header_list << {title: 'date_of_incident', sort_title: 'incident_date_derived'}
     header_list << {title: 'violence_type', sort_title: 'gbv_sexual_violence_type'} if @is_gbv
     header_list << {title: 'incident_location', sort_title: 'incident_location'} if @is_mrm
     header_list << {title: 'violations', sort_title: 'violations'} if @is_mrm
@@ -166,7 +166,6 @@ module IndexHelper
   def index_filters_case
     filters = []
 
-    filters << "Photo"
     filters << "Flagged"
     filters << "Social Worker" if @is_manager
     filters << "Status"
@@ -180,6 +179,7 @@ module IndexHelper
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "Record State"
+    filters << "Photo" if @is_cp
 
     return filters
   end
@@ -189,7 +189,7 @@ module IndexHelper
 
     filters << "Flagged"
     filters << "Violation" if @is_mrm
-    filters << "Violence Type" if (@is_gbv && !@is_manager)
+    filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
     filters << "Status"
     filters << "Age Range"

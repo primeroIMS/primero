@@ -349,6 +349,7 @@ en:
       verification_status: "Verification Status:"
       incident_date: "Incident Date:"
       unaccompanied_separated_status: "Protection Status:"
+      armed_force_group_name: "Armed Force or Group:"
       armed_force_group_type: "Armed Force or Group Type:"
 
   incident:

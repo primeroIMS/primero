@@ -55,6 +55,18 @@ class Incident < CouchRest::Model::Base
       self.child_types
     end
 
+    string :armed_force_group_names, multiple: true do
+      self.armed_force_group_names
+    end
+
+    string :perpetrator_sub_categories, multiple: true do
+      self.perpetrator_sub_categories
+    end
+
+    date :incident_date_derived do
+      self.incident_date_derived
+    end
+
   end
 
   def self.find_by_incident_id(incident_id)
@@ -101,7 +113,8 @@ class Incident < CouchRest::Model::Base
   def violation_label(violation_type, violation)
     id_fields = self.class.violation_id_fields
     label_id = violation.send(id_fields[violation_type].to_sym)
-    label = label_id.present? ? "#{violation_type.titleize} - #{label_id}" : "#{violation_type.titleize}"
+    label_id_text = (label_id.is_a?(Array) ? label_id.join(', ') : label_id)
+    label = label_id.present? ? "#{violation_type.titleize} - #{label_id_text}" : "#{violation_type.titleize}"
   end
 
   def violations_list(compact_flag = false)
@@ -111,7 +124,7 @@ class Incident < CouchRest::Model::Base
       self.violations.to_hash.each do |key, value|
         value.each_with_index do |v, i|
           # Add an index if compact_flag is false
-          compact_flag ? violations_list << "#{violation_label(key, v)}" : violations_list << "#{violation_label(key, v)} #{i}"
+          violations_list << (compact_flag ? "#{violation_label(key, v)}" : "#{violation_label(key, v)} #{i}")
         end
       end
     end
@@ -237,4 +250,30 @@ class Incident < CouchRest::Model::Base
     return child_list
   end
 
+  def armed_force_group_names
+    armed_force_groups = []
+    if self.perpetrator_subform_section.present?
+      self.perpetrator_subform_section.each {|p| armed_force_groups << p.armed_force_group_name if p.armed_force_group_name.present?}
+    end
+    armed_force_groups.uniq! if armed_force_groups.present?
+
+    return armed_force_groups
+  end
+
+  def perpetrator_sub_categories
+    categories = []
+    if self.perpetrator_subform_section.present?
+      self.perpetrator_subform_section.each {|p| categories << p.perpetrator_sub_category if p.perpetrator_sub_category.present?}
+    end
+    categories.uniq! if categories.present?
+
+    return categories
+  end
+
+  def incident_date_derived
+    return self.incident_date if self.incident_date.present?
+    return self.date_of_incident_from if self.date_of_incident_from.present?
+    return self.date_of_incident if self.date_of_incident.present?
+    return nil
+  end
 end
