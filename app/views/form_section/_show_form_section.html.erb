@@ -4,7 +4,7 @@
       <div class="clearfix"></div>
       <% if display_help_text_on_view?(formObject, section) %>
       <div class="row">
-        <p><%= t("messages.form_sections_help_text_for_edit", :form_section_name => t(section.unique_id, :default => section.name)) %></p>
+        <div><%= t("messages.form_sections_help_text_for_edit", :form_section_name => t(section.unique_id, :default => section.name)) %></div>
       </div>
       <% end %>
       <% (section.fields.select{|field| field.visible?}).each do |field| %>
