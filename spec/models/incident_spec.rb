@@ -28,9 +28,9 @@ describe Incident do
 
     it "fields build with all fields in form sections" do
       form = FormSection.new(:name => "test_form", :parent_form => 'incident')
-      form.fields << Field.new(:name => "description", :type => Field::TEXT_AREA, :display_name => "description")
+      form.fields << Field.new(:name => "description", :type => Field::TEXT_FIELD, :display_name => "description")
       form.save!
-      Incident.searchable_text_fields.should include("description")
+      Incident.searchable_string_fields.should include("description")
       FormSection.all.each { |form_section| form_section.destroy }
     end
 

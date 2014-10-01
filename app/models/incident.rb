@@ -117,9 +117,9 @@ class Incident < CouchRest::Model::Base
     label = label_id.present? ? "#{violation_type.titleize} - #{label_id_text}" : "#{violation_type.titleize}"
   end
 
+  #TODO - Need rspec test for this
   def violations_list(compact_flag = false)
     violations_list = []
-
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each_with_index do |v, i|
@@ -140,6 +140,7 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
+  #TODO - Need rspec test for this
   def violation_type_list
     violations_list = []
     if self.violations.present?
@@ -153,6 +154,7 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
+  #TODO - Need rspec test for this
   def violation_verified_list
     violation_verified_list = []
     if self.violations.present?
@@ -205,6 +207,7 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  #TODO - Need rspec test for this
   def child_types
     child_type_list = []
     ['boys', 'girls', 'unknown'].each do |child_type|
@@ -250,6 +253,7 @@ class Incident < CouchRest::Model::Base
     return child_list
   end
 
+  #TODO - Need rspec test for this
   def armed_force_group_names
     armed_force_groups = []
     if self.perpetrator_subform_section.present?
@@ -260,6 +264,7 @@ class Incident < CouchRest::Model::Base
     return armed_force_groups
   end
 
+  #TODO - Need rspec test for this
   def perpetrator_sub_categories
     categories = []
     if self.perpetrator_subform_section.present?
@@ -270,6 +275,7 @@ class Incident < CouchRest::Model::Base
     return categories
   end
 
+  #TODO - Need rspec test for this
   def incident_date_derived
     return self.incident_date if self.incident_date.present?
     return self.date_of_incident_from if self.date_of_incident_from.present?
