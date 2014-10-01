@@ -177,6 +177,8 @@ class ChildrenController < ApplicationController
 
   #TODO: We need to define the filter values as Constants
   def case_filter(filter)
+    #The UNHCR report should retrieve only CP cases.
+    filter["module_id"] = "single,#{PrimeroModule::CP}" if params["format"] == "unhcr_csv"
     filter["child_status"] ||= "open"
     filter
   end
