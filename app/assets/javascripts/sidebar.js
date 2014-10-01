@@ -4,7 +4,8 @@ tabNavigation = Backbone.View.extend({
   el: '.side-tab',
 
   events: {
-    'click .tab-handles a': 'tabControl'
+    'click .tab-handles a': 'tabControl',
+    'click #show_change_log' : 'show_change_log'
   },
 
   initialize: function() {
@@ -119,6 +120,18 @@ tabNavigation = Backbone.View.extend({
       }
       
       tab.show();
+    }
+  },
+
+  show_change_log: function(event) {
+    event.preventDefault();
+    var show_history_button = $(event.target),
+        history_url = show_history_button.data('change_log_url'),
+        target_div = $("#" + show_history_button.data('reveal-id'));
+    if (target_div.html() == "") {
+      $.get( history_url, function(response) {
+        target_div.html(response);
+      });
     }
   }
 });

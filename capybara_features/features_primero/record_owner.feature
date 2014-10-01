@@ -1,6 +1,7 @@
 # JIRA PRIMERO-294
-# TODO will have to be refactored in Primero-515
-@javascript @primero @search @wip
+# TODO Write test for filters
+
+@javascript @primero @search
 Feature: Record Owner
   As a Social worker, I want to enter information related to the record owner
 
@@ -21,7 +22,7 @@ And I should see a value for "Location Address" on the show page with the value 
 And I should see a value for "Previous Owner" on the show page with the value of "admin"
 And I should see a value for "Previous Agency" on the show page with the value of "Test Agency"
 And I should see a value for "Record created by" on the show page with the value of "primero_cp"
-And I should see a value for "Record state" on the show page with the value of "Valid record"
+And I should see "Record State: Valid record" on the page
 
 Scenario: As a logged in user, When I am on the case index page only valid recrods should be displayed
 And I fill in the following:
@@ -31,8 +32,7 @@ And I fill in the following:
   | UNHCR ID          | AAA000             |
   | Nickname          | Khaleesi           |
 And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Valid record"
+And I should see "Record State: Valid record" on the page
 And I access "cases page"
 And I press the "New Case" button
 And I fill in the following:
@@ -44,8 +44,7 @@ And I fill in the following:
   | RC ID No.         | 141414      |
   | Nickname          | Lord Snow   |
 And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Valid record"
+And I should see "Record State: Valid record" on the page
 And I access "cases page"
 And I press the "New Case" button
 And I fill in the following:
@@ -56,18 +55,15 @@ And I fill in the following:
   | UNHCR ID          | AAA001         |
   | Nickname          | Lord Stark     |
 And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Valid record"
-And I press the "Edit" button
-And I press the "Record Owner" button
-And I select "Invalid record" from "Record state"
-And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Invalid record"
+And I should see "Record State: Valid record" on the page
+And I press the "Actions" button
+And I press the "Enable/Disable" button
+And I should see "Clicking OK will change the state of this record to 'Invalid record'" on the page
+And I press the "OK" button
+And I should see "Record State: Invalid record" on the page
 And I access "cases page"
 Then I should see "John Snow" on the page
 And I should see "Daenerys Targaryen" on the page
-And I should not see "Eddard Stark" on the page
 
 Scenario: As a Social Worker I want to be able to view a case record that I have marked as Invalid
 And I fill in the following:
@@ -77,8 +73,7 @@ And I fill in the following:
   | UNHCR ID          | AAA000             |
   | Nickname          | Khaleesi           |
 And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Valid record"
+And I should see "Record State: Valid record" on the page
 And I access "cases page"
 And I press the "New Case" button
 And I fill in the following:
@@ -90,8 +85,7 @@ And I fill in the following:
   | RC ID No.         | 141414      |
   | Nickname          | Lord Snow   |
 And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Valid record"
+And I should see "Record State: Valid record" on the page
 And I access "cases page"
 And I press the "New Case" button
 And I fill in the following:
@@ -102,23 +96,12 @@ And I fill in the following:
   | UNHCR ID          | AAA001         |
   | Nickname          | Lord Stark     |
 And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Valid record"
-And I press the "Edit" button
-And I press the "Record Owner" button
-And I select "Invalid record" from "Record state"
-And I press "Save"
-And I press the "Record Owner" button
-And I should see a value for "Record state" on the show page with the value of "Invalid record"
+And I should see "Record State: Valid record" on the page
+And I press the "Actions" button
+And I press the "Enable/Disable" button
+And I should see "Clicking OK will change the state of this record to 'Invalid record'" on the page
+And I press the "OK" button
+And I should see "Record State: Invalid record" on the page
 And I access "cases page"
 Then I should see "John Snow" on the page
 And I should see "Daenerys Targaryen" on the page
-And I should not see "Eddard Stark" on the page
-And I select "Invalid Records" from "cases_record_state_scope"
-And I should not see "John Snow" on the page
-And I should not see "Daenerys Targaryen" on the page
-And I should see "Eddard Stark" on the page
-And I select "Valid Records" from "cases_record_state_scope"
-And I should see "John Snow" on the page
-And I should see "Daenerys Targaryen" on the page
-And I should not see "Eddard Stark" on the page
