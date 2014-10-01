@@ -35,10 +35,10 @@
       <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('Verification Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Incident Location' %>
-      <%= build_filter_location('Current Location', 'incident_location') %>
+      <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
     <% end %>
     <% if filters_to_show.include? 'Incident Date' %>
-      <%= render "record_shared/filter_date", date_field_title: 'incident_date', date_field: 'incident_date_derived' %>
+      <%= render "record_shared/filter_date", record: 'incidents', date_field_title: 'incident_date', date_field: 'incident_date_derived' %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('Unaccompanied Separated Status', @lookups)) %>
