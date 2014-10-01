@@ -131,6 +131,7 @@ en:
       case_open_date: "Case Open Date:"
       record_state: "Record State:"
       photo: "Photo:"
+      photo_label: "Has Photo?"
     order_by:
       most_recently: "Most recently"
       label: "Order by"
