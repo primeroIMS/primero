@@ -38,6 +38,8 @@ module Exporters
     end
 
     @field_map = {
+      'Long ID' => ['case_id'],
+      'Case ID' => ['short_id'],
       'UNHCR Individual ID Number' => ['unhcr_id_no'],
       'Name' => ['name'],
       'Father Name' => ->(c) { c.family_details_section.select{|fd| fd.relation.try(:downcase) == 'father'}[0].try(:relation_name) },
