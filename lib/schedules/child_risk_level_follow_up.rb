@@ -134,7 +134,7 @@ module ChildRiskLevelFollowUp
     end
 
     def schedule(scheduler)
-      scheduler.every("24h") do
+      scheduler.every("4h") do
         process_followup_reminders
       end
     end
