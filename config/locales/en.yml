@@ -49,6 +49,8 @@ en:
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
     system_generated_followup_flag: "mandatory follow up visit"
     system_generated_followup_unflag: "expired"
+    flag_multiple_records_error_message: "There was an error trying to flag records:"
+    record_not_flagged_message: "%{short_id}: Not flagged"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -115,6 +117,7 @@ en:
     export: "Export"
     filter_by:
       flag: "Flagged:"
+      flag_label: "Flagged?"
       social_worker: "Field/Case/Social Worker:"
       status: "Status:"
       age_range: "Age Range:"
@@ -125,11 +128,12 @@ en:
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
       risk_level: "Risk Level:"
-      current_location: "Current Location"
+      current_location: "Current Location:"
       registration_date: "Registration Date:"
       case_open_date: "Case Open Date:"
       record_state: "Record State:"
       photo: "Photo:"
+      photo_label: "Has Photo?"
     order_by:
       most_recently: "Most recently"
       label: "Order by"
@@ -332,14 +336,24 @@ en:
   incidents:
     label: "Incidents"
     register_new_incident: "New Incident"
-
     filter_by:
-      valid: "Valid records"
-      invalid: "Invalid records"
-      all: "All"
-      active: "Active"
-      reunited: "Reunited"
-      flagged: "Flagged"
+      flag: "Flagged:"
+      flag_label: "Flagged?"
+      violation: "Violation:"
+      violence_type: "Violence Type:"
+      social_worker: "Case Worker:"
+      status: "Status:"
+      age_range: "Age Range:"
+      children: "Children:"
+      boys: "Boys"
+      girls: "Girls"
+      unknown: "Unknown"
+      verification_status: "Verification Status:"
+      incident_location: "Incident Location:"
+      incident_date: "Incident Date:"
+      unaccompanied_separated_status: "Protection Status:"
+      armed_force_group_name: "Armed Force or Group:"
+      armed_force_group_type: "Armed Force or Group Type:"
 
   incident:
     label: "Incident ID"
@@ -390,7 +404,16 @@ en:
     history_of: "History of %{short_id}"
 
     violation:
-        pending: 'Pending'
+      pending: 'Pending'
+      killing: "Killing"
+      maiming: "Maiming"
+      recruitment: "Recruitment"
+      sexual_violence: "Sexual Violence"
+      abduction: "Abduction"
+      attack_on_schools: "Attack on Schools"
+      attack_on_hospitals: "Attack on Hospitals"
+      denial_humanitarian_access: "Denial of Humanitarian Access"
+      other_violation: "Other Violation"
 
   tracing_request:
     label: "Inquirer ID"
@@ -531,7 +554,7 @@ en:
   actions: "actions"
   phone: "Phone"
   email: "Email"
-  organisation: "Organisation"
+  organization: "Organisation"
   position: "Position"
   location: "Location"
   false: "false"
@@ -714,9 +737,9 @@ en:
   replication:
     label: Replication
     index: Manage Replications
-    create: Configure a Server
+    create: Add a Remote Server
     edit: Edit Configuration
-    remote_app_url: RapidFTR URL
+    remote_app_url: Primero URL
     actions: Actions
     status: Status
     description: Description
@@ -801,7 +824,7 @@ en:
         password_confirmation: "Please enter password confirmation"
         password_mismatch: "The password fields do not have the same password"
         role_ids: "Please select at least one role"
-        organisation: "Please enter the user's organisation name"
+        organization: "Please enter the user's organization name"
         user_name: "Please enter a valid user name"
         email: "Please enter a valid email address"
         user_name_uniqueness: "User name has already been taken! Please select a new User name"

@@ -540,7 +540,7 @@ Given /^a child record named "([^"]*)" exists with a audio file with the name "(
                "password" => "rapidftr",
                "password_confirmation" => "rapidftr",
                "full_name" => "Bob Creator",
-               "organisation" => "UNICEF",
+               "organization" => "UNICEF",
                "email" => "rapidftr@rapidftr.com",
                "disabled" => "false",
                "role_ids" => ["ADMIN"])

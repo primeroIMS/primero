@@ -15,7 +15,7 @@ describe Api::SessionsController do
     response.should be_success
     JSON.parse(response.body).should include({
       "db_key" => 'TEST_DB_KEY',
-      "organisation" => @user.organisation,
+      "organization" => @user.organization,
       "language" => "zz",
       "verified" => @user.verified?
     })

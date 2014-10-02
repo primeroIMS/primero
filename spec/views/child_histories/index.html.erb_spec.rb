@@ -11,7 +11,7 @@ describe "child_histories/index.html.erb" do
 
     describe "rendering history for a newly created record" do
       it "should render only the creation record" do
-        User.stub(:find_by_user_name).with("me").and_return(user = double(:organisation => "stc", :localize_date => "2010-12-31 09:55:00 SST"))
+        User.stub(:find_by_user_name).with("me").and_return(user = double(:organization => "stc", :localize_date => "2010-12-31 09:55:00 SST"))
         child = Child.create!(:name => "billybob", "created_by" => "me")
         assign(:child,  child)
         assign(:user,  user)

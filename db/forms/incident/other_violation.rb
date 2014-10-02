@@ -12,7 +12,7 @@ other_violation_section_fields = [
              "type" => "textarea",
              "display_name_all" => "Other Violation Description"
             }),
-  Field.new({"name" => "other_violation_tally",
+  Field.new({"name" => "violation_tally",
          "type" => "tally_field",
          "display_name_all" => "Number of survivors",
          "autosum_group" => "other_violation_number_of_survivors",
@@ -35,12 +35,7 @@ other_violation_section_fields = [
   Field.new({"name" => "verified",
              "type" => "select_box",
              "display_name_all" => "Verification Status",
-             "option_strings_text_all" =>
-                                    ["Verified",
-                                     "Unverified",
-                                     "Pending",
-                                     "Falsely Attributed",
-                                     "Rejected"].join("\n")
+             "option_strings_source" => "lookup VerificationStatus"
             }),
   Field.new({"name" => "verification_source_weight",
              "type" => "select_box",

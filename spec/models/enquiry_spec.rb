@@ -44,10 +44,10 @@ describe Enquiry do
     end
 
     describe "new_with_user_name" do
-      it "should create a created_by field with the user name and organisation" do
-        enquiry = create_enquiry_with_created_by('jdoe', {'some_field' => 'some_value'}, "Jdoe-organisation")
+      it "should create a created_by field with the user name and organization" do
+        enquiry = create_enquiry_with_created_by('jdoe', {'some_field' => 'some_value'}, "Jdoe-organization")
         enquiry['created_by'].should == 'jdoe'
-        enquiry['created_organisation'].should == 'Jdoe-organisation'
+        enquiry['created_organization'].should == 'Jdoe-organization'
 
       end
     end
@@ -95,7 +95,7 @@ describe Enquiry do
       # TODO: full text searching not implemented yet. Effects the next 7 test.
 
       # it "should contain potential matches given one matching child" do
-      #   child = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
+      #   child = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organization' => "stc")
       #   enquiry = Enquiry.create!(:criteria => {"name " => "eduardo"}, :enquirer_name => "Kisitu")
 
       #   enquiry.potential_matches.should_not be_empty
@@ -109,9 +109,9 @@ describe Enquiry do
       # end
 
       # it "should contain multiple potential matches given multiple matching children" do
-      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
-      #   child2 = Child.create(:name => "john doe", 'created_by' => "me", :location => "kampala", 'created_organisation' => "stc")
-      #   child3 = Child.create(:name => "foo bar", 'created_by' => "me", :gender => "male", 'created_organisation' => "stc")
+      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organization' => "stc")
+      #   child2 = Child.create(:name => "john doe", 'created_by' => "me", :location => "kampala", 'created_organization' => "stc")
+      #   child3 = Child.create(:name => "foo bar", 'created_by' => "me", :gender => "male", 'created_organization' => "stc")
 
       #   enquiry = Enquiry.create!(:criteria => {:name => "eduardo", :location => "kampala", :gender => "male"}, :enquirer_name => "Kisitu")
 
@@ -120,7 +120,7 @@ describe Enquiry do
       # end
 
       # it "should assure that potential_matches contains no duplicates" do
-      #   child1 = Child.create(:name => "eduardo aquiles", :gender => "male", 'created_by' => "me", 'created_organisation' => "stc")
+      #   child1 = Child.create(:name => "eduardo aquiles", :gender => "male", 'created_by' => "me", 'created_organization' => "stc")
       #   enquiry = Enquiry.create!(:criteria => {"name" => "eduardo"}, :enquirer_name => "Kisitu")
 
       #   enquiry.potential_matches.size.should == 1
@@ -134,9 +134,9 @@ describe Enquiry do
       # end
 
       # it "should update potential matches with new matches whenever an enquiry is edited" do
-      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
-      #   child2 = Child.create(:name => "john doe", 'created_by' => "me", :location => "kampala", 'created_organisation' => "stc")
-      #   child3 = Child.create(:name => "foo bar", 'created_by' => "me", :gender => "male", 'created_organisation' => "stc")
+      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organization' => "stc")
+      #   child2 = Child.create(:name => "john doe", 'created_by' => "me", :location => "kampala", 'created_organization' => "stc")
+      #   child3 = Child.create(:name => "foo bar", 'created_by' => "me", :gender => "male", 'created_organization' => "stc")
 
       #   enquiry = Enquiry.create!(:criteria => {"name" => "eduardo", "location" => "kampala"}, :enquirer_name => "Kisitu")
 
@@ -151,7 +151,7 @@ describe Enquiry do
       # end
 
       # it "should remove id that dont match anymore whenever criteria changes" do
-      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
+      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organization' => "stc")
 
       #   enquiry = Enquiry.create!(:criteria => {"name" => "eduardo"}, :enquirer_name => "Kisitu")
 
@@ -166,8 +166,8 @@ describe Enquiry do
       # end
 
       # it "should keep only matching ids when criteria changes" do
-      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
-      #   child2 = Child.create(:name => "foo bar", :location => "Kampala", 'created_by' => "me", 'created_organisation' => "stc")
+      #   child1 = Child.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organization' => "stc")
+      #   child2 = Child.create(:name => "foo bar", :location => "Kampala", 'created_by' => "me", 'created_organization' => "stc")
 
       #   enquiry = Enquiry.create!(:criteria => {"name" => "eduardo", "location" => "Kampala"}, :enquirer_name => "Kisitu")
 
@@ -182,8 +182,8 @@ describe Enquiry do
       # end
 
       # it "should sort the results based on solr scores" do
-      #   child1 = Child.create(:name => "Eduardo aquiles", :location => "Kampala", 'created_by' => "me", 'created_organisation' => "stc")
-      #   child2 = Child.create(:name => "Batman", :location => "Kampala", 'created_by' => "not me", 'created_organisation' => "stc")
+      #   child1 = Child.create(:name => "Eduardo aquiles", :location => "Kampala", 'created_by' => "me", 'created_organization' => "stc")
+      #   child2 = Child.create(:name => "Batman", :location => "Kampala", 'created_by' => "not me", 'created_organization' => "stc")
 
       #   enquiry = Enquiry.create!(:criteria => {"name" => "Eduardo", "location" => "Kampala"}, :enquirer_name => "Kisitu")
 
@@ -195,8 +195,8 @@ describe Enquiry do
 
         before do
           Clock.stub(:now).and_return(Time.utc(2013, "jan", 01, 00, 00, 0))
-          Child.create(:name => "Eduardo aquiles", :location => "Kyangwali", 'created_by' => "One", 'created_organisation' => "stc")
-          Child.create(:name => "Batman", :location => "Kampala", 'created_by' => "Two", 'created_organisation' => "stc")
+          Child.create(:name => "Eduardo aquiles", :location => "Kyangwali", 'created_by' => "One", 'created_organization' => "stc")
+          Child.create(:name => "Batman", :location => "Kampala", 'created_by' => "Two", 'created_organization' => "stc")
         end
 
         after do
@@ -254,13 +254,13 @@ describe Enquiry do
 
     private
 
-    def create_enquiry_with_created_by(created_by, options = {}, organisation = "UNICEF")
-      user = User.new({:user_name => created_by, :organisation => organisation})
+    def create_enquiry_with_created_by(created_by, options = {}, organization = "UNICEF")
+      user = User.new({:user_name => created_by, :organization => organization})
       Enquiry.new_with_user_name(user, options)
     end
 
-    def save_valid_enquiry(user, options = {}, organisation = "UNICEF")
-      enquiry = create_enquiry_with_created_by(user, options, organisation)
+    def save_valid_enquiry(user, options = {}, organization = "UNICEF")
+      enquiry = create_enquiry_with_created_by(user, options, organization)
       enquiry.save!
     end
   end

@@ -12,11 +12,13 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
   Background:
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     And the following lookups exist in the system:
-      | name           | lookup_values              |
-      | country        | Country1, Country2         |
-      | nationality    | Nationality1, Nationality2 |
-      | ethnicity      | Ethnicity1, Ethnicity2     |
-      | religion       | Religion1, Religion2       |
+      | name                           | lookup_values                                                    |
+      | country                        | Country1, Country2                                               |
+      | nationality                    | Nationality1, Nationality2                                       |
+      | ethnicity                      | Ethnicity1, Ethnicity2                                           |
+      | religion                       | Religion1, Religion2                                             |
+      | unaccompanied_separated_status | No, Unaccompanied Minor, Separated Child, Other Vulnerable Child |
+      | displacement_status            | Resident, IDP, Refugee, Stateless Person, Returnee, Foreign National, Asylum Seeker |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Survivor Information" button

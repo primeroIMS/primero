@@ -1,49 +1,53 @@
 <% #All options need to be translated %>
 <div class="panel">
   <form id="index_filter_form">
-    <%# TODO: Make all this I18n!!! %>
-    <%= build_filter_checkboxes('Violation:', 'violations', [
-      'killing',
-      'maiming',
-      'recruitment',
-      'sexual_violence',
-      'abduction',
-      'attack_on_schools',
-      'attack_on_hospitals',
-      { denial_humanitarian_access: 'Denial of Humanitarian Access' },
-      'other_violation'
-    ], { multi: true }, false) %>
-    <%= build_filter_checkboxes('Status:', 'status', [
-      'open',
-      'closed',
-      'duplicate',
-      'transferred'
-    ]) %>
-    <%= build_filter_checkboxes('Age Range:', 'age', [
-      '0-5',
-      '5-11',
-      '12-17',
-      '18+'
-    ]) %>
-    <%= build_filter_checkboxes('Sex:', 'sex', [
-      'male',
-      'female'
-    ]) %>
-    <%= build_filter_checkboxes('Verification Status:', 'verification_status', [
-      'unaccompanied',
-      'separated'
-    ]) %>
-    <%= build_filter_location('Current Location', 'incident_location') %>
-    <%= build_filter_date('Interview Date', 'interview_date') %>
-    <%= build_filter_date('Incident Date', 'incident_date') %>
-    <%= build_filter_checkboxes('Perpetrator Type:', 'perpetrator_type', [
-      "national_army",
-      "security_forces",
-      "international_forces",
-      "police_forces",
-      "paramilitary_forces",
-      "unknown",
-      "other"
-    ], multi: true) %>
+    <% if filters_to_show.include? 'Flagged' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Violation' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'Violence Type' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('Gbv Sexual Violence Type', @lookups)) %>
+    <% end %>
+    <% if filters_to_show.include? 'Social Worker' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'Status' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('Incident Status', @lookups)) %>
+    <% end %>
+    <% if filters_to_show.include? 'Age Range' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', [
+        '0-5',
+        '5-11',
+        '12-17',
+        '18+'
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Children' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.children"), 'child_types', [
+        {boys: t("incidents.filter_by.boys")},
+        {girls: t("incidents.filter_by.girls")},
+        {unknown: t("incidents.filter_by.unknown")}
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Verification Status' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('Verification Status', @lookups)) %>
+    <% end %>
+    <% if filters_to_show.include? 'Incident Location' %>
+      <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
+    <% end %>
+    <% if filters_to_show.include? 'Incident Date' %>
+      <%= render "record_shared/filter_date", record: 'incidents', date_field_title: 'incident_date', date_field: 'incident_date_derived' %>
+    <% end %>
+    <% if filters_to_show.include? 'Protection Status' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('Unaccompanied Separated Status', @lookups)) %>
+    <% end %>
+    <% if filters_to_show.include? 'Armed Force or Group' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_name"), 'armed_force_group_names', Lookup.values('Armed Force Group Name', @lookups)) %>
+    <% end %>
+    <% if filters_to_show.include? 'Armed Force or Group Type' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('Armed Force Group Type', @lookups)) %>
+    <% end %>
   </form>
 </div>

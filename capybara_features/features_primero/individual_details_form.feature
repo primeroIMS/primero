@@ -22,7 +22,6 @@ Feature: Individual Details Form
       | What is the child's Date of Birth? | 10-Jun-1993 |
     And I select "Female" from "What is the sex of the child?"
     And I select "Yes" for "Is the age estimated?" radio button
-    And I select "Resident" from "Displacement Status at time of report"
     And I select "Both Parents" from "What were the care arrangements for the child at the time of the incident/violation(s)?"
     And I select "Anonymous" from "With whom is the child and/or adult caregiver willing to share their name and other personal details?"
     And I select "No" for "Is the child and/or adult caregiver willing to be contacted again about the violations?" radio button
@@ -30,7 +29,6 @@ Feature: Individual Details Form
     And I select "Yes" for "Should a case be created for this child to receive further services?" radio button
     And I select "Single" from "Current civil/marital status"
     And I select "Physical Disability" from "Disability Type"
-    And I select "No" from "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?"
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see in the 1st "Individual Details Subform Section" subform with the follow:
@@ -38,7 +36,6 @@ Feature: Individual Details Form
       | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |
       | What is the sex of the child?                                                                                                                               | Female              |
       | Is the age estimated?                                                                                                                                       | Yes                 |
-      | Displacement Status at time of report                                                                                                                       | Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
       | With whom is the child and/or adult caregiver willing to share their name and other personal details?                                                       | Anonymous           |
       | Is the child and/or adult caregiver willing to be contacted again about the violations?                                                                     | No                  |
@@ -46,7 +43,6 @@ Feature: Individual Details Form
       | Should a case be created for this child to receive further services?                                                                                        | Yes                 |
       | Current civil/marital status                                                                                                                                | Single              |
       | Disability Type                                                                                                                                             | Physical Disability |
-      | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?                                                                           | No                  |
     And I should see 1 subform on the show page for "Individual Details Subform Section"
     And I press the "Edit" button
     And I expanded the 1st "Individual Details Subform Section" subform
@@ -57,7 +53,6 @@ Feature: Individual Details Form
       | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |
       | What is the sex of the child?                                                                                                                               | Female              |
       | Is the age estimated?                                                                                                                                       | No                  |
-      | Displacement Status at time of report                                                                                                                       | Resident            |
       | What were the care arrangements for the child at the time of the incident/violation(s)?                                                                     | Both Parents        |
       | With whom is the child and/or adult caregiver willing to share their name and other personal details?                                                       | Anonymous           |
       | Is the child and/or adult caregiver willing to be contacted again about the violations?                                                                     | No                  |
@@ -65,7 +60,6 @@ Feature: Individual Details Form
       | Should a case be created for this child to receive further services?                                                                                        | Yes                 |
       | Current civil/marital status                                                                                                                                | Single              |
       | Disability Type                                                                                                                                             | Physical Disability |
-      | Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?                                                                           | No                  |
     And I should see 1 subform on the show page for "Individual Details Subform Section"
 
    Scenario: As a logged in user and create an incident with invalid age range, I should see the error messages invalid age range

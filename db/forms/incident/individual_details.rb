@@ -120,11 +120,7 @@ individual_details_fields = [
   Field.new({"name" => "unaccompanied_separated_status",
              "type" => "select_box",
              "display_name_all" => "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
-             "option_strings_text_all" =>
-                          ["No",
-                           "Unaccompanied Minor",
-                           "Separated Child",
-                           "Other Vulnerable Child"].join("\n")
+             "option_strings_source" => "lookup UnaccompaniedSeparatedStatus"
             })
 ]
 

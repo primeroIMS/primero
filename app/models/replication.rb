@@ -1,5 +1,5 @@
 class Replication < CouchRest::Model::Base
-  MODELS_TO_SYNC = [ Role, Child, User, MobileDbKey, Device ]
+  MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
   STABLE_WAIT_TIME = 2.minutes
 
   include PrimeroModel
@@ -36,6 +36,10 @@ class Replication < CouchRest::Model::Base
   after_save    :start_replication
   before_destroy :stop_replication
 
+  def inspect
+    "<Replication (#{description}): _id: #{_id}, remote_app_url: #{remote_app_url}>"
+  end
+
   def start_replication
     stop_replication
 
@@ -45,7 +49,7 @@ class Replication < CouchRest::Model::Base
 
     unless needs_reindexing?
       self.needs_reindexing = true
-      save_without_callbacks
+      self.database.save_doc(self)
     end
 
     true
@@ -107,12 +111,12 @@ class Replication < CouchRest::Model::Base
 
   def push_config(model)
     target = remote_couch_uri remote_couch_config["databases"][model.to_s]
-    { "source" => model.database.name, "target" => target.to_s, "rapidftr_ref_id" => self["_id"], "rapidftr_env" => Rails.env }
+    { "source" => model.database.name, "target" => target.to_s, "primero_ref_id" => self["_id"], "primero_env" => Rails.env }
   end
 
   def pull_config(model)
     target = remote_couch_uri remote_couch_config["databases"][model.to_s]
-    { "source" => target.to_s, "target" => model.database.name, "rapidftr_ref_id" => self["_id"], "rapidftr_env" => Rails.env }
+    { "source" => target.to_s, "target" => model.database.name, "primero_ref_id" => self["_id"], "primero_env" => Rails.env }
   end
 
   def build_configs
@@ -122,7 +126,7 @@ class Replication < CouchRest::Model::Base
   end
 
   def fetch_configs
-    @fetch_configs ||= replicator_docs.select { |rep| rep["rapidftr_ref_id"] == self.id }
+    @fetch_configs ||= replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
   end
 
   def self.models_to_sync
@@ -156,6 +160,7 @@ class Replication < CouchRest::Model::Base
       begin
         Rails.logger.info "Checking Replication Status..."
         Replication.all.each(&:check_status_and_reindex)
+        Replication.all.each(&:resolve_conflicts)
       rescue => e
         Rails.logger.error "Error checking replication status"
         e.backtrace.each { |line| Rails.logger.error line }
@@ -168,7 +173,7 @@ class Replication < CouchRest::Model::Base
   def trigger_local_reindex
     Child.reindex!
     self.needs_reindexing = false
-    save_without_callbacks
+    self.database.save_doc(self)
   end
 
   def trigger_remote_reindex
@@ -230,4 +235,13 @@ class Replication < CouchRest::Model::Base
     end
   end
 
+  def self.resolve_conflicts
+    self.models_to_sync.each do |modelClass|
+      Rails.logger.info {"Resolving any conflicts in model #{modelClass}"}
+      modelClass.all_conflicting_records.each do |rec|
+        Rails.logger.info {"Conflicts found in record #{rec.inspect}"}
+        rec.resolve_conflicting_revisions
+      end
+    end
+  end
 end

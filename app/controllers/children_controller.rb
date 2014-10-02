@@ -278,13 +278,8 @@ class ChildrenController < ApplicationController
     child = @child || Child.get(id) || Child.new_with_user_name(current_user, child_params)
     authorize! :update, child
 
-    resolved_params = params.clone
-    if params[:child][:revision] != child._rev
-      resolved_params[:child] = child.merge_conflicts(params[:child])
-    end
-
-    reindex_hash resolved_params['child']
-    update_child_with_attachments(child, resolved_params)
+    reindex_hash child_params
+    update_child_with_attachments(child, params)
   end
 
   def update_child_with_attachments(child, params)

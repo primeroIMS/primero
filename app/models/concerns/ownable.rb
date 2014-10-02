@@ -4,6 +4,8 @@ module Ownable
 
   included do
 
+    before_save :update_previously_owned_by
+
     property :owned_by
     property :owned_by_full_name
     property :previously_owned_by
@@ -59,4 +61,7 @@ module Ownable
 
   end
 
+  def update_previously_owned_by
+    self.previously_owned_by = self.changes['owned_by'].try(:fetch, 0) || owned_by
+  end
 end

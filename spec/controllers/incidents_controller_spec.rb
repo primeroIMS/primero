@@ -73,7 +73,7 @@ describe IncidentsController do
 
     describe 'member' do
       before :each do
-        User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+        User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
         @incident = Incident.create('last_known_location' => "London", :short_id => 'short_id', :created_by => "uname")
         @incident_arg = hash_including("_id" => @incident.id)
       end
@@ -332,13 +332,13 @@ describe IncidentsController do
 
   # describe "PUT update" do
     # it "should sanitize the parameters if the params are sent as string(params would be as a string hash when sent from mobile)" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Incident.create('last_known_location' => "London", :created_by => "uname", :created_at => "Jan 16 2010 14:05:32")
       # incident.attributes = {'histories' => [] }
       # incident.save!
 #
       # Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      # histories = "[{\"datetime\":\"2013-02-01 04:49:29UTC\",\"user_name\":\"rapidftr\",\"changes\":{\"photo_keys\":{\"added\":[\"photo-671592136-2013-02-01T101929\"],\"deleted\":null}},\"user_organisation\":\"N\\/A\"}]"
+      # histories = "[{\"datetime\":\"2013-02-01 04:49:29UTC\",\"user_name\":\"rapidftr\",\"changes\":{\"photo_keys\":{\"added\":[\"photo-671592136-2013-02-01T101929\"],\"deleted\":null}},\"user_organization\":\"N\\/A\"}]"
       # put :update, :id => incident.id,
            # :incident => {
                # :last_known_location => "Manchester",
@@ -349,7 +349,7 @@ describe IncidentsController do
     # end
 
     # it "should update incident on a field and photo update" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Incident.create('last_known_location' => "London", :created_by => "uname")
 #
       # Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
@@ -365,7 +365,7 @@ describe IncidentsController do
     # end
 
     # it "should update only non-photo fields when no photo update" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Incident.create('last_known_location' => "London", :created_by => "uname")
 #
       # put :update, :id => incident.id,
@@ -379,7 +379,7 @@ describe IncidentsController do
     # end
 
     # it "should not update history on photo rotation" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
       # Child.get(incident.id)["histories"].size.should be 1
 #
@@ -399,7 +399,7 @@ describe IncidentsController do
     # end
 
     # it "should update flag (cast as boolean) and flag message" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
       # put :update, :id => incident.id,
         # :incident => {
@@ -415,7 +415,7 @@ describe IncidentsController do
       # current_time = Time.parse("20 Jan 2010 17:10:32")
       # Clock.stub(:now).and_return(current_time)
       # current_time.stub(:getutc).and_return current_time_in_utc
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
 #
       # put :update, :id => incident.id, :incident => {:flag => true, :flag_message => "Test"}
@@ -426,7 +426,7 @@ describe IncidentsController do
     # end
 
     # it "should update the last_updated_by_full_name field with the logged in user full name" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'existing incident'})
       # Child.stub(:get).with("123").and_return(incident)
       # subject.should_receive('current_user_full_name').and_return('Bill Clinton')
@@ -437,7 +437,7 @@ describe IncidentsController do
     # end
 #
     # it "should not set photo if photo is not passed" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
       # params_incident = {"name" => 'update'}
       # controller.stub(:current_user_name).and_return("user_name")
@@ -447,7 +447,7 @@ describe IncidentsController do
       # end
 #
     # it "should delete the audio if checked delete_incident_audio checkbox" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
       # params_incident = {"name" => 'update'}
       # controller.stub(:current_user_name).and_return("user_name")
@@ -457,7 +457,7 @@ describe IncidentsController do
     # end
 #
     # it "should redirect to redirect_url if it is present in params" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
       # params_incident = {"name" => 'update'}
       # controller.stub(:current_user_name).and_return("user_name")
@@ -468,7 +468,7 @@ describe IncidentsController do
     # end
 #
     # it "should redirect to case page if redirect_url is not present in params" do
-      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      # User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       # incident = Child.new_with_user_name(user, {:name => 'some name'})
 #
       # params_incident = {"name" => 'update'}
@@ -606,11 +606,11 @@ describe IncidentsController do
      end
 
      xit "should create a log_entry when record is exported" do
-       fake_login User.new(:user_name => 'fakeuser', :organisation => "STC", :role_ids => ["abcd"])
+       fake_login User.new(:user_name => 'fakeuser', :organization => "STC", :role_ids => ["abcd"])
        @controller.stub(:authorize!)
        RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @incident1, @incident2 ]).and_return('data')
 
-       LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organisation => "STC", :incident_ids => [@incident1.id, @incident2.id]
+       LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organization => "STC", :incident_ids => [@incident1.id, @incident2.id]
 
        get :index, :format => :cpims
      end
@@ -718,7 +718,7 @@ describe IncidentsController do
 
   describe "POST create" do
     it "should update the incident record instead of creating if record already exists" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       incident = Incident.new_with_user_name(user, {:name => 'old name'})
       incident.save
       fake_admin_login

@@ -54,6 +54,9 @@ Feature: GBV Case Closure Form
 
   Scenario: The Case Closure Form should have the Case Status field. This should be shared with Survivor Information Form
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
+    And the following lookups exist in the system:
+      | name                           | lookup_values                                                    |
+      | case_status                    | Open, Closed, Transferred, Duplicate                             |
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Case Closure" button

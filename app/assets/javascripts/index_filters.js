@@ -18,8 +18,6 @@ var IndexFilters = Backbone.View.extend({
     _primero.chosen('select.chosen-select:visible');
   },
 
-  filters: {},
-
   set_current_scope: function() {
     var self = this;
 
@@ -50,22 +48,11 @@ var IndexFilters = Backbone.View.extend({
     });
   },
 
-  object_to_params:function() {
-    var url_string = "";
-    for (var key in this.filters) {
-      if (url_string !==  "") {
-        url_string += "&";
-      }
-      url_string += "scope[" + key + "]" + "=" + this.filters[key];
-    }
-    return url_string;
-  },
-
   apply_filters: function(evt) {
     evt.preventDefault();
 
     var prev_params = _primero.clean_page_params(['scope']),
-        url_string = this.object_to_params(),
+        url_string = _primero.object_to_params(_primero.filters),
         add_amp = '&';
 
     if (prev_params && url_string === '' || !prev_params || !prev_params && url_string === '') {
@@ -89,18 +76,18 @@ var IndexFilters = Backbone.View.extend({
   },
 
   set_remove_filter: function(filter, value) {
-    this.filters[filter] = value;
+    _primero.filters[filter] = value;
 
-    if (this.filters[filter].length === 1 || this.filters[filter] === '') {
-      delete this.filters[filter];
+    if (_primero.filters[filter].length === 1 || _primero.filters[filter] === '') {
+      delete _primero.filters[filter];
     }
   },
 
   set_array_filter: function(filter, value, type) {
-    if (_.isArray(this.filters[filter])) {
-      this.filters[filter].push(value);
+    if (_.isArray(_primero.filters[filter])) {
+      _primero.filters[filter].push(value);
     } else {
-      this.filters[filter] = [type, value];
+      _primero.filters[filter] = [type, value];
     }
   },
 
@@ -116,7 +103,7 @@ var IndexFilters = Backbone.View.extend({
       if (target.prop('checked')) {
         this.set_array_filter(filter, selected_val, filter_type);
       } else {
-        this.set_remove_filter(filter, _.without(self.filters[filter], selected_val));
+        this.set_remove_filter(filter, _.without(_primero.filters[filter], selected_val));
       }
     } else if ($(target).is("input") && $(target).hasClass('hasDatepicker')) {
       // Date Ranges

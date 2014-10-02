@@ -48,4 +48,13 @@ module PrimeroModel
       count
     end
   end
+
+  private 
+
+  def without_dirty_tracking
+    dirty, self.disable_dirty = self.disable_dirty, true
+    yield
+    self.disable_dirty = dirty
+  end
+
 end

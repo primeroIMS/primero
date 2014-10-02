@@ -7,6 +7,10 @@ module Exporters
         'xls'
       end
 
+      def excluded_properties
+        ['histories']
+      end
+
       # @returns: a String with the Excel file data
       def export(models, properties, *args)
         io = StringIO.new
@@ -15,7 +19,7 @@ module Exporters
 
         i = 0
         column_widths = []
-        to_2D_array(models, properties) do |row|
+        to_2D_array(models, properties_to_export(properties)) do |row|
           worksheet.write_row(i,0,row)
 
           row.each_with_index do |r, i|

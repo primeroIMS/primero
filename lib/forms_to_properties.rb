@@ -1,3 +1,5 @@
+require "uuidtools"
+
 module FormToPropertiesConverter
   def properties_hash_from_forms(form_sections)
     prop_hash = form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
@@ -7,7 +9,7 @@ module FormToPropertiesConverter
     # Handling stuff like violations.  How to make it clearer and cleaner??
     prop_hash.select {|k,v| v.is_a?(Hash) && !v.include?(:type)}.each do |name, props|
       prop_hash[name] = {
-        :type => create_embeddable_model(props),
+        :type => create_embeddable_model(props, false),
         :read_only => false,
         :array => false,
       }
@@ -33,9 +35,19 @@ module FormToPropertiesConverter
     end
   end
 
-  def create_embeddable_model(properties_hash)
+  def create_embeddable_model(properties_hash, include_unique_id=false)
     Class.new do
       include CouchRest::Model::Embeddable
+
+      if include_unique_id
+        def initialize *args
+          super
+
+          self.unique_id ||= UUIDTools::UUID.random_create.to_s
+        end
+
+        property :unique_id, String
+      end
 
       properties_hash.each do |name,options|
         property name, options
@@ -70,7 +82,7 @@ module FormToPropertiesConverter
       end
 
       { field.name => {
-          :type => create_embeddable_model(process_form(subform)),
+          :type => create_embeddable_model(process_form(subform), true),
           :array => true
         }.update(base_options)
       }

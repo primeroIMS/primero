@@ -12,7 +12,7 @@ module ExportActions
         LogEntry.create!(
           :type => LogEntry::TYPE[exporter.id],
           :user_name => current_user.user_name,
-          :organisation => current_user.organisation,
+          :organization => current_user.organization,
           :model_type => model_class.name.downcase,
           :ids => models.collect(&:id))
 

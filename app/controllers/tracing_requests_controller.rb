@@ -229,13 +229,8 @@ class TracingRequestsController < ApplicationController
     tracing_request = @tracing_request || TracingRequest.get(params[:id]) || TracingRequest.new_with_user_name(current_user, params[:tracing_request])
     authorize! :update, tracing_request
 
-    resolved_params = params.clone
-    if params[:tracing_request][:revision] != tracing_request._rev
-      resolved_params[:tracing_request] = tracing_request.merge_conflicts(params[:tracing_request])
-    end
-
-    reindex_hash resolved_params['tracing_request']
-    update_tracing_request_with_attachments(tracing_request, resolved_params)
+    reindex_hash params['tracing_request']
+    update_tracing_request_with_attachments(tracing_request, params)
   end
 
   def update_tracing_request_with_attachments(tracing_request, params)

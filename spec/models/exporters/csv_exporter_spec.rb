@@ -8,7 +8,7 @@ module Exporters
         .and_yield([ 'Joe', 12, Date.today, 120 ])
         .and_yield([ 'Mo', 14, Date.today, 140 ])
 
-      data = CSVExporter.export(nil, nil)
+      data = CSVExporter.export(nil, [])
 
       parsed = CSV.parse(data)
       parsed[0].should == ['name', 'age', 'birthday', 'height']
