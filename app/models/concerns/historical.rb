@@ -73,8 +73,6 @@ module Historical
   def set_updated_fields_for(user_name)
     self.last_updated_by = user_name
     self.last_updated_at = DateTime.now
-    self.previously_owned_by = original_data['owned_by']
-    self.previously_owned_by_full_name = original_data['owned_by_full_name']
   end
 
   def ordered_histories

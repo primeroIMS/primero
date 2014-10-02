@@ -63,5 +63,6 @@ module Ownable
 
   def update_previously_owned_by
     self.previously_owned_by = self.changes['owned_by'].try(:fetch, 0) || owned_by
+    self.previously_owned_by_full_name = self.changes['owned_by_full_name'] || owned_by_full_name
   end
 end
