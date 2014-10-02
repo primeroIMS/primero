@@ -10,10 +10,13 @@ Feature: Survivor Information Form
   Background:
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
     And the following lookups exist in the system:
-      | name           | lookup_values                                          |
-      | nationality    | Nationality1, Nationality2, Nationality3, Nationality4 |
-      | ethnicity      | Ethnicity1, Ethnicity2, Ethnicity3, Ethnicity4         |
-      | religion       | Religion1, Religion2, Religion3, Religion4             |
+      | name                           | lookup_values                                                    |
+      | nationality                    | Nationality1, Nationality2, Nationality3, Nationality4           |
+      | ethnicity                      | Ethnicity1, Ethnicity2, Ethnicity3, Ethnicity4                   |
+      | religion                       | Religion1, Religion2, Religion3, Religion4                       |
+      | unaccompanied_separated_status | No, Unaccompanied Minor, Separated Child, Other Vulnerable Child |
+      | case_status                    | Open, Closed, Transferred, Duplicate                             |
+      | displacement_status            | Resident, IDP, Refugee, Stateless Person, Returnee, Foreign National, Asylum Seeker |
     When I access "cases page"
     And I press the "New Case" button
 

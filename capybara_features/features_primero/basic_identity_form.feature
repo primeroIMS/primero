@@ -35,7 +35,6 @@ Feature: Basic Identity Form
 
   Scenario: As a logged in user, I create a case by entering something in every field in the basic identity form
     And I fill in the following:
-      | Case Status                              | <Select> Transferred               |
       | Name                                     | Tiki Thomas Taliaferro             |
       | Nickname                                 | Tommy                              |
       | Other Name                               | Bob                                |
@@ -64,7 +63,6 @@ Feature: Basic Identity Form
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Long ID" on the show page
     And I should see values on the page for the following:
-      | Case Status                              | Transferred                        |
       | Name                                     | Tiki Thomas Taliaferro             |
       | Nickname                                 | Tommy                              |
       | Other Name                               | Bob                                |
