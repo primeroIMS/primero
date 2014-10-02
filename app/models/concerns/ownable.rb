@@ -5,7 +5,9 @@ module Ownable
   included do
 
     property :owned_by
+    property :owned_by_full_name
     property :previously_owned_by
+    property :previously_owned_by_full_name
     property :assigned_user_names, :type => [String]
     property :database_operator_user_name
     property :module_id

@@ -105,6 +105,7 @@ module Record
       record.create_class_specific_fields(fields)
       record.set_creation_fields_for user
       record.owned_by = user.user_name if record.owned_by.blank?
+      record.owned_by_full_name = user.full_name if record.owned_by_full_name.blank?
       record
     end
 
@@ -304,6 +305,7 @@ module Record
       changes = changes_for(field_name_changes)
       (add_to_history(changes) unless (!self['histories'].empty? && (self['histories'].last["changes"].to_s.include? changes.to_s)))
       self.previously_owned_by = original_data['owned_by']
+      self.previously_owned_by_full_name = original_data['owned_by_full_name']
     end
   end
 

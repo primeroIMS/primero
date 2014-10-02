@@ -6,7 +6,7 @@
       <li>
       <%= link_to(t("exports.#{exporter.id}.#{defined?(instance) ? 'one' : 'all'}"),
                     url_for(:format => exporter.id, :page => "all", :per_page => :all, :id => (defined?(instance) ? instance.id : nil), :params => params),
-                  :class => "password-prompt") %>
+                  :class => "password-prompt", 'data-reveal-id' => "password-prompt-dialog") %>
       </li>
     <% end %>
   </ul>

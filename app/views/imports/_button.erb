@@ -5,6 +5,7 @@
     </a>
 
     <div id="import-modal" class="reveal-modal tiny" data-reveal>
+      <a class="close-reveal-modal">&#215;</a>
       <%= form_tag(url_for(:action => 'import_file'), {:multipart => true, :method => 'post'}) do %>
         <%= file_field_tag("import_file") %>
         <%= select_tag("import_type", options_for_select(Importers::ACTIVE_IMPORTERS.map {|i| i.id}, 'csv')) %>
