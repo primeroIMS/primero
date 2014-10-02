@@ -21,7 +21,7 @@ module Record
     property :record_state, String
     property :flag_at, DateTime
     property :reunited_at, DateTime
-    property :record_sate, TrueClass
+    property :record_state, TrueClass, default: true
 
     class_attribute(:form_properties_by_name)
     self.form_properties_by_name = {}
@@ -213,7 +213,7 @@ module Record
 
   def initialize(*args)
     super
-    self['record_state'] = true if self['record_state'].blank?
+    self['record_state'] = true if self['record_state'].nil?
   end
 
   def valid_record?

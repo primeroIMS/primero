@@ -23,7 +23,7 @@ module Exporters
           # Supposedly Ruby 1.9+ maintains hash insertion ordering
           rows << self.field_map.keys
 
-          cases.select {|c| c.module.try(:id) == PrimeroModule::CP }.each do |c|
+          cases.each do |c|
             rows << @field_map.map do |_, generator|
               case generator
               when Array
@@ -38,6 +38,8 @@ module Exporters
     end
 
     @field_map = {
+      'Long ID' => ['case_id'],
+      'Case ID' => ['short_id'],
       'UNHCR Individual ID Number' => ['unhcr_id_no'],
       'Name' => ['name'],
       'Father Name' => ->(c) { c.family_details_section.select{|fd| fd.relation.try(:downcase) == 'father'}[0].try(:relation_name) },

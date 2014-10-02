@@ -203,6 +203,19 @@ describe ChildrenController do
         assigns[:children].should == collection
         assigns[:total_records].should == 100
       end
+
+      it "should export only CP children when export UNHCR" do
+        collection = [Child.new(:family_details_section => [], :religion => [], :nationality => [], :ethnicity => [], :protection_concerns => [], :language => [])]
+        collection.should_receive(:next_page).twice.and_return(nil)
+        search = double(Sunspot::Search::StandardSearch)
+        search.should_receive(:results).and_return(collection)
+        search.should_receive(:total).and_return(100)
+        Child.should_receive(:list_records).with({"module_id" => "single,primeromodule-cp", "child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
+        params = {"page" => "all", "format" => "unhcr_csv"}
+        get :index, params
+        assigns[:children].should == collection
+        assigns[:total_records].should == 100
+      end
     end
 
     describe "permissions to view lists of case records", search: true, skip_session: true do
