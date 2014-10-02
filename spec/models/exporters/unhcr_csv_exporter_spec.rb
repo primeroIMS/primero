@@ -17,7 +17,7 @@ module Exporters
         end]
       end
       @test_child = @child_cls.new
-      @test_child.stub(:module => double(:name => PrimeroModule::CP))
+      @test_child.stub(:module => double(:id => PrimeroModule::CP))
     end
 
     it "converts religion to comma separated string" do

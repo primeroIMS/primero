@@ -76,6 +76,7 @@ describe Record do
 
       db_record = model_class.get(record.id)
       db_record['a_date_field'] = date_value
+      db_record.couchrest_attribute_will_change!('a_date_field')
       db_record.save
 
       db_record = model_class.get(record.id)

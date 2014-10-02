@@ -10,7 +10,7 @@ describe User do
                                :password_confirmation => options[:password] || 'password',
                                :email => 'email@ddress.net',
                                :user_type => 'user_type',
-                               :organisation => 'TW',
+                               :organization => 'TW',
                                :disabled => 'false',
                                :verified => true,
                                :role_ids => options[:role_ids] || ['random_role_id'],
@@ -51,10 +51,10 @@ describe User do
       user.errors[:email].should == ["Please enter a valid email address"]
     end
 
-    it "should throw error if organisation detail not entered" do
-      user = build_user :organisation => nil
+    it "should throw error if organization detail not entered" do
+      user = build_user :organization => nil
       user.should_not be_valid
-      user.errors[:organisation].should == ["Please enter the user's organisation name"]
+      user.errors[:organization].should == ["Please enter the user's organization name"]
       end
 
     it "should default disabled to false" do
@@ -238,7 +238,7 @@ describe User do
       admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
       user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
-                          :email => 'em@dd.net', :organisation => 'TW', :user_type => 'user_type', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
+                          :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
 
       User.find_by_user_name(user.user_name).roles.should == [admin_role, field_worker_role]
     end

@@ -123,7 +123,7 @@
             return ($('#created_by_value').val() == '');
         }
         var createdByOrganisationIsEmpty = function () {
-            return ($('#created_by_organisation_value').val() == '');
+            return ($('#created_by_organization_value').val() == '');
         }
 
         var updatedByIsEmpty = function () {

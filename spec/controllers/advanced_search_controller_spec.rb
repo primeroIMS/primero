@@ -134,12 +134,12 @@ describe AdvancedSearchController do
         assigns[:criteria_list].should include("updated_at_range")
       end
 
-      xit "should append search filter 'created_by_organisation' to the list of search criteria for admin" do
+      xit "should append search filter 'created_by_organization' to the list of search criteria for admin" do
         fake_admin_login
         SearchCriteria.stub(:build_from_params).and_return([])
-        SearchFilter.should_receive(:new).with({:field => "created_organisation", :value => "STC", :join => 'AND', :index => 1}).and_return("created_by_organisation_filter")
-        get :index, :criteria_list => {"0" => {"field" => "name_of_child", "value" => "joe joe", "index" => "0"}}, :created_by_organisation_value => "STC"
-        assigns[:criteria_list].should include("created_by_organisation_filter")
+        SearchFilter.should_receive(:new).with({:field => "created_organization", :value => "STC", :join => 'AND', :index => 1}).and_return("created_by_organization_filter")
+        get :index, :criteria_list => {"0" => {"field" => "name_of_child", "value" => "joe joe", "index" => "0"}}, :created_by_organization_value => "STC"
+        assigns[:criteria_list].should include("created_by_organization_filter")
       end
     end
 

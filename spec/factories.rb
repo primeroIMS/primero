@@ -83,7 +83,7 @@ FactoryGirl.define do
     password 'password'
     password_confirmation 'password'
     email 'email@ddress.net'
-    organisation 'TW'
+    organization 'TW'
     disabled false
     verified true
     role_ids ['random_role_id']

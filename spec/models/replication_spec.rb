@@ -6,26 +6,25 @@ describe Replication do
   REPLICATION_DB = COUCHDB_SERVER.database('_replicator')
 
   before :each do
-    all_docs(REPLICATION_DB).each { |rep| REPLICATION_DB.delete_doc rep if rep["rapidftr_env"] == Rails.env rescue nil }
+    all_docs(REPLICATION_DB).each { |rep| REPLICATION_DB.delete_doc rep if rep["primero_env"] == Rails.env rescue nil }
   end
 
   after :each do
-    all_docs(REPLICATION_DB).each { |rep| REPLICATION_DB.delete_doc rep if rep["rapidftr_env"] == Rails.env rescue nil }
+    all_docs(REPLICATION_DB).each { |rep| REPLICATION_DB.delete_doc rep if rep["primero_env"] == Rails.env rescue nil }
   end
 
   before :each do
-    Replication.stub :models_to_sync => [ Role, Child, User ]
     @rep = build :replication, :remote_couch_config => {
       "target" => "http://couch:1234",
       "databases" => {
-        "User"  => "remote_user_db_name",
         "Child" => "remote_child_db_name",
-        "Role"  => "remote_child_role_name"
+        "Incident"  => "remote_incident_db_name",
+        "TracingRequest"  => "remote_child_tracing_request_name"
       }
     }
 
     @rep["_id"] = 'test_replication_id'
-    @default_config = { "rapidftr_ref_id" => @rep.id }
+    @default_config = { "primero_ref_id" => @rep.id }
   end
 
   describe 'validations' do
@@ -75,22 +74,22 @@ describe Replication do
   describe 'getters' do
     it 'should return what models to sync' do
       reset Replication
-      Replication.models_to_sync.should == [ Role, Child, User, MobileDbKey, Device ]
+      Replication.models_to_sync.should == [ Child, Incident, TracingRequest ]
     end
 
-    it 'should sync roles first, otherwise users will sync first and start throwing role errors' do
+    xit 'should sync roles first, otherwise users will sync first and start throwing role errors' do
       reset Replication
       Replication.models_to_sync.first.should == Role
     end
 
     it 'should return the couchdb url without the source username and password' do
-      CouchSettings.instance.stub :ssl_enabled_for_couch? => false, :host => "couchdb", :username => "rapidftr", :password => "rapidftr", :port => 5986
+      CouchSettings.instance.stub :ssl_enabled_for_couch? => false, :host => "couchdb", :username => "primero", :password => "primero", :port => 5986
       target_hash = Replication.couch_config
       target_hash[:target].should == "http://couchdb:5986/"
     end
 
     it 'should return HTTPS url when enabled in Couch' do
-      CouchSettings.instance.stub :ssl_enabled_for_couch? => true, :host => "couchdb", :username => "rapidftr", :password => "rapidftr", :port => 6986
+      CouchSettings.instance.stub :ssl_enabled_for_couch? => true, :host => "couchdb", :username => "primero", :password => "primero", :port => 6986
       target_hash = Replication.couch_config
       target_hash[:target].should == "https://couchdb:6986/"
     end
@@ -128,11 +127,11 @@ describe Replication do
     end
 
     it 'should create push configuration for some database' do
-      @rep.push_config(User).should include "source" => User.database.name, "target" => "http://test_user:test_password@couch:1234/remote_user_db_name", "rapidftr_ref_id" => @rep.id, "rapidftr_env" => Rails.env
+      @rep.push_config(Child).should include "source" => Child.database.name, "target" => "http://test_user:test_password@couch:1234/remote_child_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
     end
 
     it 'should create pull configuration for some database' do
-      @rep.pull_config(User).should include "target" => User.database.name, "source" => "http://test_user:test_password@couch:1234/remote_user_db_name", "rapidftr_ref_id" => @rep.id, "rapidftr_env" => Rails.env
+      @rep.pull_config(Child).should include "target" => Child.database.name, "source" => "http://test_user:test_password@couch:1234/remote_child_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
     end
 
     it 'should return configurations for push/pull of user/children/role' do
@@ -278,7 +277,7 @@ describe Replication do
     it 'should set needs reindexing to true when starting replication' do
       @rep.needs_reindexing = false
       @rep.should_receive(:needs_reindexing=).with(true).and_return(true)
-      @rep.should_receive(:save_without_callbacks).and_return(true)
+      @rep.database.should_receive(:save_doc).with(@rep).and_return(true)
       @rep.start_replication
     end
 
@@ -299,7 +298,7 @@ describe Replication do
     it 'should trigger local reindexing' do
       Child.should_receive(:reindex!).ordered.and_return(nil)
       @rep.should_receive(:needs_reindexing=).with(false).ordered.and_return(nil)
-      @rep.should_receive(:save_without_callbacks).ordered.and_return(nil)
+      @rep.database.should_receive(:save_doc).with(@rep).ordered.and_return(nil)
       @rep.send :trigger_local_reindex
     end
 
@@ -322,6 +321,9 @@ describe Replication do
 
       Replication.schedule scheduler
     end
+  end
+
+  describe 'conflict resolution' do
   end
 
   def all_docs(db)

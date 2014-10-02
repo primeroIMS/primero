@@ -145,7 +145,7 @@ module Searchable
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organisation"] +
+       "created_organization"] +
        Field.all_filterable_field_names(self.parent_form)
     end
 

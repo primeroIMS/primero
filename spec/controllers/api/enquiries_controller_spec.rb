@@ -241,8 +241,8 @@ describe Api::EnquiriesController do
     # TODO: full text searching not implemented yet
     # it "should update existing enquiry with potential matches" do
     #   controller.stub(:authorize!)
-    #   child1 = Child.create('name' => "Clayton aquiles", 'created_by' => 'fakeadmin', 'created_organisation' => "stc")
-    #   child2 = Child.create('name' => "Steven aquiles", 'sex' => 'male', 'created_by' => 'fakeadmin', 'created_organisation' => "stc")
+    #   child1 = Child.create('name' => "Clayton aquiles", 'created_by' => 'fakeadmin', 'created_organization' => "stc")
+    #   child2 = Child.create('name' => "Steven aquiles", 'sex' => 'male', 'created_by' => 'fakeadmin', 'created_organization' => "stc")
 
     #   enquiry_json = "{\"enquirer_name\": \"Godwin\",\"criteria\": {\"sex\": \"male\",\"age\": \"10\",\"location\": \"Kampala\"  }}"
     #   enquiry = Enquiry.new(JSON.parse(enquiry_json))

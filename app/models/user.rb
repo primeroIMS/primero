@@ -15,7 +15,7 @@ class User < CouchRest::Model::Base
 
   property :phone
   property :email
-  property :organisation
+  property :organization
   property :position
   property :location
   property :disabled, TrueClass, :default => false
@@ -26,8 +26,8 @@ class User < CouchRest::Model::Base
   property :module_ids, :type => [String]
   property :user_groups, :type => [String], :default => []
 
-  alias_method :agency, :organisation
-  alias_method :agency=, :organisation=
+  alias_method :agency, :organization
+  alias_method :agency=, :organization=
   alias_method :name, :user_name
 
   attr_accessor :password_confirmation, :password
@@ -105,7 +105,7 @@ class User < CouchRest::Model::Base
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
   validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), :if => :password_required?
   validates_presence_of :role_ids, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new {|user| user.verified}
-  validates_presence_of :organisation, :message => I18n.t("errors.models.user.organisation")
+  validates_presence_of :organization, :message => I18n.t("errors.models.user.organization")
 
   validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => I18n.t("errors.models.user.user_name")
 

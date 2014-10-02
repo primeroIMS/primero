@@ -3,7 +3,7 @@ def create_user(user_name)
                "password" => "rapidftr",
                "password_confirmation" => "rapidftr",
                "full_name" => user_name,
-               "organisation" => "UNICEF",
+               "organization" => "UNICEF",
                "disabled" => "false",
                "email" => "rapidftr@rapidftr.com",
                "role_ids" => ["ADMIN"])
@@ -16,7 +16,7 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
         'photo_path' => 'capybara_features/resources/jorge.jpg',
         'reporter' => 'zubair',
         'created_by' => 'Billy',
-        'created_organisation' => 'UNICEF',
+        'created_organization' => 'UNICEF',
         'age_is' => 'Approximate',
         'flag_message' => 'Reason for flagging',
         'child_status' => 'open',
@@ -32,7 +32,7 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
       child_hash.delete('duplicate')
     end
     User.find_by_user_name(user_name).
-        update_attributes({:organisation => child_hash['created_organisation']}) if child_hash['created_organisation']
+        update_attributes({:organization => child_hash['created_organization']}) if child_hash['created_organization']
 
 
     child_hash['flag_at'] = child_hash['flagged_at'] || DateTime.new(2001, 2, 3, 4, 5, 6)

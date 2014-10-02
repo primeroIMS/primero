@@ -12,7 +12,7 @@ describe "children/edit.html.erb" do
         :form_group_name => "Test Group"
       })
     assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
-    User.stub(:find_by_user_name).with("me").and_return(double(:organisation => "stc"))
+    User.stub(:find_by_user_name).with("me").and_return(double(:organization => "stc"))
     @child = Child.create(:name => "name", :unique_identifier => '12341234123', :created_by => "me")
     assign(:child, @child)
     @user = User.new

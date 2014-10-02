@@ -40,7 +40,7 @@ class Api::SessionsController < Api::ApiController
     user = User.find_by_user_name(session.user_name)
     json = {
       :db_key => mobile_db_key(session.imei),
-      :organisation => user.organisation,
+      :organization => user.organization,
       :language => I18n.default_locale,
       :verified => user.verified?
     }

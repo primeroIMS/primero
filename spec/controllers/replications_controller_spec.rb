@@ -7,7 +7,7 @@ describe ReplicationsController do
     it "should show page name" do
       fake_login_as
       get :new
-      assigns[:page_name].should == "Configure a Server"
+      assigns[:page_name].should == "Add a Remote Server"
     end
 
   end

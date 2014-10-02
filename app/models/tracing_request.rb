@@ -12,6 +12,7 @@ class TracingRequest < CouchRest::Model::Base
 
   property :tracing_request_id
   property :relation_name
+  property :reunited, TrueClass
 
 
   def initialize *args

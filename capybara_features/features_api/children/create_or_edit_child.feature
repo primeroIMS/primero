@@ -22,7 +22,7 @@ Feature: API Children Create or edit child
     Then the JSON at "name" should be "bob"
     And the JSON at "created_at" should be "2011-03-28 13:23:12UTC"
     And the JSON at "posted_from" should be "Mobile"
-    And the JSON at "created_organisation" should be "UNICEF"
+    And the JSON at "created_organization" should be "UNICEF"
     And the JSON at "created_by" should be "tim"
     And the JSON at "created_by_full_name" should be "tim"
     And the JSON at "_id" should be a string
