@@ -198,14 +198,6 @@ describe TracingRequest do
       tracing_request['origin'].should == "Croydon"
     end
 
-    it "should not replace old properties when the existing records last_updated at is latest than the given last_updated_at" do
-      tracing_request = TracingRequest.new("relation_name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      given_properties = {"relation_name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC"}
-      tracing_request.update_properties_with_user_name "some_user", nil, nil, nil, false, given_properties
-      tracing_request["relation_name"].should == "existing name"
-      tracing_request["last_updated_at"].should == "2013-01-01 00:00:01UTC"
-    end
-
     it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
       existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
       given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"relation_name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
@@ -715,7 +707,7 @@ describe TracingRequest do
         tracing_request.photos = photos
         tracing_request.save
         tracing_request.new? == false
-        tracing_request['photo_keys'].size == 10
+        tracing_request.photo_keys.size == 10
 
         #Should fails because it reach the limit
         tracing_request.photos = [stub_photo_properties(11)]
@@ -727,8 +719,8 @@ describe TracingRequest do
         tracing_request.photos = [stub_photo_properties(11)]
         tracing_request.save
         tracing_request.new? == false
-        tracing_request['photo_keys'].size == 10
-        tracing_request['photo_keys'].find_index(photo_key_to_delete).should == nil
+        tracing_request.photo_keys.size == 10
+        tracing_request.photo_keys.find_index(photo_key_to_delete).should == nil
       end
 
       def stub_photo_properties(i)
@@ -895,287 +887,13 @@ describe TracingRequest do
 
   end
 
-  describe "history log" do
-
-    before do
-      fields = [
-          Field.new_text_field("last_known_location"),
-          Field.new_text_field("relation_age"),
-          Field.new_text_field("origin"),
-          Field.new_radio_button("gender", ["male", "female"]),
-          Field.new_photo_upload_box("current_photo_key"),
-          Field.new_audio_upload_box("recorded_audio")]
-      FormSection.stub(:all_visible_form_fields).and_return(fields)
-      mock_user = double({:organisation => 'UNICEF'})
-      User.stub(:find_by_user_name).with(anything).and_return(mock_user)
-    end
-
-    it "should add a history entry when a record is created" do
-      tracing_request = TracingRequest.create('last_known_location' => 'New York', 'created_by' => "me")
-      tracing_request['histories'].size.should be 1
-      tracing_request["histories"][0].should == {"changes"=>{"tracing_request"=>{:created=>nil}}, "datetime"=>nil, "user_name"=>"me", "user_organisation"=>"UNICEF"}
-    end
-
-    it "should update history with 'from' value on last_known_location update" do
-      tracing_request = TracingRequest.create('last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      tracing_request['last_known_location'] = 'Philadelphia'
-      tracing_request.save!
-      changes = tracing_request['histories'].first['changes']
-      changes['last_known_location']['from'].should == 'New York'
-    end
-
-    it "should update history with 'to' value on last_known_location update" do
-      tracing_request = TracingRequest.create('last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      tracing_request['last_known_location'] = 'Philadelphia'
-      tracing_request.save!
-      changes = tracing_request['histories'].first['changes']
-      changes['last_known_location']['to'].should == 'Philadelphia'
-    end
-
-    it "should update history with 'from' value on age update" do
-      tracing_request = TracingRequest.create('relation_age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      tracing_request['relation_age'] = '6'
-      tracing_request.save!
-      changes = tracing_request['histories'].first['changes']
-      changes['relation_age']['from'].should == '8'
-    end
-
-    it "should update history with 'to' value on age update" do
-      tracing_request = TracingRequest.create('relation_age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      tracing_request['relation_age'] = '6'
-      tracing_request.save!
-      changes = tracing_request['histories'].first['changes']
-      changes['relation_age']['to'].should == '6'
-    end
-
-    it "should update history with a combined history record when multiple fields are updated" do
-      tracing_request = TracingRequest.create('relation_age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      tracing_request['relation_age'] = '6'
-      tracing_request['last_known_location'] = 'Philadelphia'
-      tracing_request.save!
-      tracing_request['histories'].size.should == 2
-      changes = tracing_request['histories'].first['changes']
-      changes['relation_age']['from'].should == '8'
-      changes['relation_age']['to'].should == '6'
-      changes['last_known_location']['from'].should == 'New York'
-      changes['last_known_location']['to'].should == 'Philadelphia'
-    end
-
-    it "should not record anything in the history if a save occured with no changes" do
-      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'New York', 'created_by' => "me", 'created_organisation' => "stc")
-      loaded_tracing_request = TracingRequest.get(tracing_request.id)
-      loaded_tracing_request.save!
-      tracing_request['histories'].size.should be 1
-    end
-
-    it "should not record empty string in the history if only change was spaces" do
-      tracing_request = TracingRequest.create('origin' => '', 'photo' => uploadable_photo, 'last_known_location' => 'New York', 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['origin'] = '    '
-      tracing_request.save!
-      tracing_request['histories'].size.should be 1
-    end
-
-    it "should not record history on populated field if only change was spaces" do
-      tracing_request = TracingRequest.create('last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['last_known_location'] = ' New York   '
-      tracing_request.save!
-      tracing_request['histories'].size.should be 1
-    end
-
-    it "should record history for newly populated field that previously was null" do
-      # gender is the only field right now that is allowed to be nil when creating tracing_request document
-      tracing_request = TracingRequest.create('gender' => nil, 'last_known_location' => 'London', 'photo' => uploadable_photo, 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['gender'] = 'Male'
-      tracing_request.save!
-      tracing_request['histories'].first['changes']['gender']['from'].should be_nil
-      tracing_request['histories'].first['changes']['gender']['to'].should == 'Male'
-    end
-
-    it "should apend latest history to the front of histories" do
-      tracing_request = TracingRequest.create('last_known_location' => 'London', 'photo' => uploadable_photo, 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['last_known_location'] = 'New York'
-      tracing_request.save!
-      tracing_request['last_known_location'] = 'Philadelphia'
-      tracing_request.save!
-      tracing_request['histories'].size.should == 3
-      tracing_request['histories'][0]['changes']['last_known_location']['to'].should == 'Philadelphia'
-      tracing_request['histories'][1]['changes']['last_known_location']['to'].should == 'New York'
-    end
-
-    it "should update history with username from last_updated_by" do
-      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['last_known_location'] = 'Philadelphia'
-      tracing_request['last_updated_by'] = 'some_user'
-      tracing_request.save!
-      tracing_request['histories'].first['user_name'].should == 'some_user'
-      tracing_request['histories'].first['user_organisation'].should == 'UNICEF'
-    end
-
-    it "should update history with the datetime from last_updated_at" do
-      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['last_known_location'] = 'Philadelphia'
-      tracing_request.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
-      tracing_request.save!
-      tracing_request['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
-    end
-
-    describe "photo logging" do
-
-      before :each do
-        Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
-        User.stub(:find_by_user_name).and_return(double(:organisation => 'stc'))
-        @tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-        Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:24"))
-      end
-
-      it "should log new photo key on adding a photo" do
-        @tracing_request.photo = uploadable_photo_jeff
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        #TODO: this should be instead tracing_request.photo_history.first.to or something like that
-        changes['photo_keys']['added'].first.should =~ /photo.*?-2010-02-20T120424/
-      end
-
-      it "should log multiple photos being added" do
-        @tracing_request.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        changes['photo_keys']['added'].should have(2).photo_keys
-        changes['photo_keys']['deleted'].should be_nil
-      end
-
-      it "should log a photo being deleted" do
-        @tracing_request.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
-        @tracing_request.save
-        @tracing_request.delete_photos([@tracing_request.photos.first.name])
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        changes['photo_keys']['deleted'].should have(1).photo_key
-        changes['photo_keys']['added'].should be_nil
-      end
-
-      it "should select a new primary photo if the current one is deleted" do
-        @tracing_request.photos = [uploadable_photo_jeff]
-        @tracing_request.save
-        original_primary_photo_key = @tracing_request.photos[0].name
-        jeff_photo_key = @tracing_request.photos[1].name
-        @tracing_request.primary_photo.name.should == original_primary_photo_key
-        @tracing_request.delete_photos([original_primary_photo_key])
-        @tracing_request.save
-        @tracing_request.primary_photo.name.should == jeff_photo_key
-      end
-
-      it "should take the current photo key during tracing_request creation and update it appropriately with the correct format" do
-        @tracing_request = TracingRequest.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'current_photo_key' => uploadable_photo_jeff.original_filename, 'created_by' => "me", 'created_organisation' => "stc")
-        @tracing_request.save
-        @tracing_request.primary_photo.name.should == @tracing_request.photos.first.name
-        @tracing_request.primary_photo.name.should start_with("photo-")
-      end
-
-
-      it "should not log anything if no photo changes have been made" do
-        @tracing_request["last_known_location"] = "Moscow"
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        changes['photo_keys'].should be_nil
-      end
-
-    end
-
-    it "should maintain history when tracing request is flagged and message is added" do
-      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
-      tracing_request.save!
-      flag_history = tracing_request['histories'].first['changes']['flags']
-      flag_history['from'].should == []
-      flag_history['to'].should == [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
-    end
-
-    it "should maintain history when tracing_request is reunited and message is added" do
-      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      tracing_request['reunited'] = 'true'
-      tracing_request['reunited_message'] = 'Finally home!'
-      tracing_request.save!
-      reunited_history = tracing_request['histories'].first['changes']['reunited']
-      reunited_history['from'].should be_nil
-      reunited_history['to'].should == 'true'
-      reunited_message_history = tracing_request['histories'].first['changes']['reunited_message']
-      reunited_message_history['from'].should be_nil
-      reunited_message_history['to'].should == 'Finally home!'
-    end
-
-    describe "photo changes" do
-
-      before :each do
-        Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
-        User.stub(:find_by_user_name).and_return(double(:organisation => 'stc'))
-        @tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-        Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:24"))
-      end
-
-      it "should log new photo key on adding a photo" do
-        @tracing_request.photo = uploadable_photo_jeff
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        #TODO: this should be instead tracing_request.photo_history.first.to or something like that
-        changes['photo_keys']['added'].first.should =~ /photo.*?-2010-02-20T120424/
-      end
-
-      it "should log multiple photos being added" do
-        @tracing_request.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        changes['photo_keys']['added'].should have(2).photo_keys
-        changes['photo_keys']['deleted'].should be_nil
-      end
-
-      it "should log a photo being deleted" do
-        @tracing_request.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
-        @tracing_request.save
-        @tracing_request.delete_photos([@tracing_request.photos.first.name])
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        changes['photo_keys']['deleted'].should have(1).photo_key
-        changes['photo_keys']['added'].should be_nil
-      end
-
-      it "should select a new primary photo if the current one is deleted" do
-        @tracing_request.photos = [uploadable_photo_jeff]
-        @tracing_request.save
-        original_primary_photo_key = @tracing_request.photos[0].name
-        jeff_photo_key = @tracing_request.photos[1].name
-        @tracing_request.primary_photo.name.should == original_primary_photo_key
-        @tracing_request.delete_photos([original_primary_photo_key])
-        @tracing_request.save
-        @tracing_request.primary_photo.name.should == jeff_photo_key
-      end
-
-      it "should not log anything if no photo changes have been made" do
-        @tracing_request["last_known_location"] = "Moscow"
-        @tracing_request.save
-        changes = @tracing_request['histories'].first['changes']
-        changes['photo_keys'].should be_nil
-      end
-
-      it "should delete items like _328 and _160x160 in attachments" do
-        tracing_request = TracingRequest.new
-        tracing_request.photo = uploadable_photo
-        tracing_request.save
-
-        photo_key = tracing_request.photos[0].name
-        uploadable_photo_328 = FileAttachment.new(photo_key+"_328", "image/jpg", "data")
-        uploadable_photo_160x160 = FileAttachment.new(photo_key+"_160x160", "image/jpg", "data")
-        tracing_request.attach(uploadable_photo_328)
-        tracing_request.attach(uploadable_photo_160x160)
-        tracing_request.save
-        tracing_request[:_attachments].keys.size.should == 3
-
-        tracing_request.delete_photos [tracing_request.primary_photo.name]
-        tracing_request.save
-        tracing_request[:_attachments].keys.size.should == 0
-      end
-    end
-
+  it "should maintain history when tracing_request is reunited and message is added" do
+    tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+    tracing_request.reunited = true
+    tracing_request.save!
+    reunited_history = tracing_request.histories.first.changes['reunited']
+    reunited_history['from'].should be_nil
+    reunited_history['to'].should == true
   end
 
   describe "when fetching tracing request" do

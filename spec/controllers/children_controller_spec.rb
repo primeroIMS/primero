@@ -375,23 +375,6 @@ describe ChildrenController do
   end
 
   describe "PUT update" do
-    it "should sanitize the parameters if the params are sent as string(params would be as a string hash when sent from mobile)" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
-      child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname", :created_at => "Jan 16 2010 14:05:32")
-      child.attributes = {'histories' => [] }
-      child.save!
-
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      histories = "[{\"datetime\":\"2013-02-01 04:49:29UTC\",\"user_name\":\"rapidftr\",\"changes\":{\"photo_keys\":{\"added\":[\"photo-671592136-2013-02-01T101929\"],\"deleted\":null}},\"user_organisation\":\"N\\/A\"}]"
-      put :update, :id => child.id,
-           :child => {
-               :last_known_location => "Manchester",
-               :histories => histories
-           }
-
-     assigns[:child]['histories'].should == JSON.parse(histories)
-    end
-
     it "should update child on a field and photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
@@ -425,9 +408,9 @@ describe ChildrenController do
     it "should not update history on photo rotation" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
-      Child.get(child.id)["histories"].size.should be 1
+      Child.get(child.id).histories.size.should be 1
 
-      expect{put(:update_photo, :id => child.id, :child => {:photo_orientation => "-180"})}.to_not change{Child.get(child.id)["histories"].size}
+      expect{put(:update_photo, :id => child.id, :child => {:photo_orientation => "-180"})}.to_not change{Child.get(child.id).histories.size}
     end
 
     it "should allow a records ID to be specified to create a new record with a known id" do
@@ -677,61 +660,6 @@ describe ChildrenController do
     end
   end
 
-  # TODO: Bug - JIRA Ticket: https://quoinjira.atlassian.net/browse/PRIMERO-136
-  #
-  # I switch between the latest and tag 1.0.0.1 to find out what is causing the issue.
-  # In the older tag, the add_to_history method in the records_helper.rb is not being call where in the latest it is.
-  # The latest is not being sent the creator and created_at information. This is not an issue on the
-  # front-end, but only in the rspec test.
-  #
-  # describe "PUT create" do
-  #   it "should add the full user_name of the user who created the Child record" do
-  #     Child.should_receive('new_with_user_name').and_return(child = Child.new)
-  #     controller.should_receive('current_user_full_name').and_return('Bill Clinton')
-  #     put :create, :child => {:name => 'Test Child' }
-  #     child['created_by_full_name'].should=='Bill Clinton'
-  #   end
-  # end
-
-  describe "sync_unverified" do
-    before :each do
-      @user = build :user, :verified => false, :role_ids => []
-      fake_login @user
-    end
-
-    it "should mark all children created as verified/unverifid based on the user" do
-      @user.verified = true
-      Child.should_receive(:new_with_user_name).with(@user, {"name" => "timmy", "verified" => @user.verified?}).and_return(child = Child.new)
-      child.should_receive(:save).and_return true
-
-      post :sync_unverified, {:child => {:name => "timmy"}, :format => :json}
-
-      @user.verified = true
-    end
-
-    xit "should set the created_by name to that of the user matching the params" do
-      Child.should_receive(:new_with_user_name).and_return(child = Child.new)
-      child.should_receive(:save).and_return true
-
-      post :sync_unverified, {:child => {:name => "timmy"}, :format => :json}
-
-      child['created_by_full_name'].should eq @user.full_name
-    end
-
-    xit "should update the child instead of creating new child everytime" do
-      child = Child.new
-      view = double(CouchRest::Model::Designs::View)
-      Child.should_receive(:by_short_id).with(:key => '1234567').and_return(view)
-      view.should_receive(:first).and_return(child)
-      controller.should_receive(:update_child_from).and_return(child)
-      child.should_receive(:save).and_return true
-
-      post :sync_unverified, {:child => {:name => "timmy", :unique_identifier => '12345671234567'}, :format => :json}
-
-      child['created_by_full_name'].should eq @user.full_name
-    end
-  end
-
   describe "POST create" do
     it "should update the child record instead of creating if record already exists" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
@@ -764,7 +692,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
       child.save
 
-      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => original_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :nickname => 'Johnny'}
       post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
 
       updated_child = Child.by_short_id(:key => child.short_id).first

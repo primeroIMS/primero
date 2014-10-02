@@ -1,15 +1,21 @@
 <h1><%= t("case.actions.change_log") %></h1>
 <div class="profile-header">
   <ul class="history-details">
+    <% binding.pry %>
     <% record.ordered_histories.each do |history| %>
-      <% history['changes'].each_pair do |field, change| %>
-        <% history_entry = history_entry_for(history, field, change) %>
-        <% if history_entry.present? %>
-          <li>
-            <div>
-              <%= render :partial => history_entry[:partial], :locals => history_entry[:locals].merge({:display_object => record}) %>
-            </div>
-          </li>
+      <% if history.action == :create %>
+        <%= render :partial => "shared/histories/record_created", 
+          :locals => {:organization => history.user_organization, :user_name => history.user_name, :datetime => @user.localize_date(history.datetime, "%Y-%m-%d %H:%M:%S %Z")} %>
+      <% else %>
+        <% history.changes.each_pair do |field, change| %>
+          <% history_entry = history_entry_for(history, field, change) %>
+          <% if history_entry.present? %>
+            <li>
+              <div>
+                <%= render :partial => history_entry[:partial], :locals => history_entry[:locals].merge({:display_object => record}) %>
+              </div>
+            </li>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

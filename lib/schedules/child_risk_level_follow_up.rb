@@ -111,8 +111,8 @@ module ChildRiskLevelFollowUp
         case_record.flags.each do |flag|
           if flag.system_generated_followup && flag.date <= expiration_window
             #Mark expired flags.
-            flag[:unflag_message] = I18n.t("messages.system_generated_followup_unflag")
-            flag[:removed] = true
+            flag.unflag_message = I18n.t("messages.system_generated_followup_unflag")
+            flag.removed = true
           end
         end
         case_record.save!

@@ -10,11 +10,13 @@ class Child < CouchRest::Model::Base
   include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
+  # This module updates photo_keys with the before_save callback and needs to
+  # run before the before_save callback in Historical to make the history
+  include PhotoUploader
   include Record
   include DocumentUploader
 
   include Ownable
-  include PhotoUploader
   include AudioUploader
   include Flaggable
 
@@ -24,9 +26,9 @@ class Child < CouchRest::Model::Base
   property :hidden_name, TrueClass, :default => false
   property :registration_date, Date
   property :reunited, TrueClass
+  property :reunited_message, String
   property :investigated, TrueClass
   property :verified, TrueClass
-  property :verified
 
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
@@ -35,7 +37,6 @@ class Child < CouchRest::Model::Base
 
   def initialize *args
     self['photo_keys'] ||= []
-    self.hidden_name ||= false
     self['document_keys'] ||= []
     arguments = args.first
 

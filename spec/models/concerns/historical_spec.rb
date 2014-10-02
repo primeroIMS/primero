@@ -4,6 +4,7 @@ _Child = Class.new(CouchRest::Model::Base) do
   include Historical
 
   property :name, String
+  property :bio, String
   property :family_members, [Class.new do
     include CouchRest::Model::Embeddable
 
@@ -85,12 +86,46 @@ describe Historical do
       @inst.histories[0].prev_revision.should == nil
     end
 
+    it "should not record anything in the history if a save occured with no changes" do
+      @inst.save!
+      @inst.histories.size.should be 1
+    end
+
+    it "should not record empty string in the history if only change was spaces" do
+      @inst.bio = '  '
+      @inst.save!
+      @inst.histories.size.should be 1
+    end
+
+    it "should not record history on populated field if only change was spaces" do
+      @inst.name = "#{@inst.name}    "
+      @inst.save!
+      @inst.histories.size.should be 1
+    end
+
     it 'should insert an update history with the previous couchrest revision' do
       prev_revision = @inst.rev
       @inst.name = 'something else'
       @inst.save
 
       @inst.histories[0].prev_revision.should == prev_revision
+    end
+
+    it "should insert an update history with the last_updated_by user" do
+      @inst.last_updated_by = 'me'
+      @inst.name = 'Teddy'
+      @inst.save!
+
+      @inst.histories[0].user_name.should == 'me'
+    end
+
+    it "should insert an update history with the last_updated_at time" do
+      dt = DateTime.new(2014, 10, 1)
+      @inst.last_updated_at = dt
+      @inst.name = 'Teddy'
+      @inst.save!
+
+      @inst.histories[0].datetime.should == dt
     end
 
     it 'should include changes in basic fields' do

@@ -127,11 +127,11 @@ describe Replication do
     end
 
     it 'should create push configuration for some database' do
-      @rep.push_config(User).should include "source" => User.database.name, "target" => "http://test_user:test_password@couch:1234/remote_user_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
+      @rep.push_config(Child).should include "source" => Child.database.name, "target" => "http://test_user:test_password@couch:1234/remote_child_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
     end
 
     it 'should create pull configuration for some database' do
-      @rep.pull_config(User).should include "target" => User.database.name, "source" => "http://test_user:test_password@couch:1234/remote_user_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
+      @rep.pull_config(Child).should include "target" => Child.database.name, "source" => "http://test_user:test_password@couch:1234/remote_child_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
     end
 
     it 'should return configurations for push/pull of user/children/role' do

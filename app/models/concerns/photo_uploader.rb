@@ -8,17 +8,20 @@ module PhotoUploader
   included do
     before_save :update_photo_keys
 
+    property :photo_keys, [String]
+    property :current_photo_key, String
+
     validate :validate_photos_size
     validate :validate_photos_count
     validate :validate_photos
     
     def has_photo
-      self["current_photo_key"].present?
+      self.current_photo_key.present?
     end
   end
 
   def compact
-    self['current_photo_key'] = '' if self['current_photo_key'].nil?
+    self.current_photo_key = '' if self.current_photo_key.nil?
     self
   end
 
@@ -37,7 +40,7 @@ module PhotoUploader
   end
 
   def validate_photos_count
-    return true if @photos.blank? || (@photos.size + self['photo_keys'].size) <= MAX_PHOTOS
+    return true if @photos.blank? || (@photos.size + self.photo_keys.size) <= MAX_PHOTOS
     i18n_message = I18n.t("errors.models.photo.photo_count", :photos_count => MAX_PHOTOS, :model_name => model_name_for_messages)
     errors.add(:photo, i18n_message)
     error_with_section(:current_photo_key, i18n_message)

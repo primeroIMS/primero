@@ -38,14 +38,6 @@ describe Child do
       child['origin'].should == "Croydon"
     end
 
-    it "should not replace old properties when the existing records last_updated at is latest than the given last_updated_at" do
-      child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC"}
-      child.update_properties_with_user_name "some_user", nil, nil, nil, false, given_properties
-      child["name"].should == "existing name"
-      child["last_updated_at"].should == "2013-01-01 00:00:01UTC"
-    end
-
     it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
       existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
       given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
@@ -825,129 +817,6 @@ describe Child do
   end
 
   describe "history log" do
-
-    before do
-      fields = [
-          Field.new_text_field("last_known_location"),
-          Field.new_text_field("age"),
-          Field.new_text_field("origin"),
-          Field.new_radio_button("gender", ["male", "female"]),
-          Field.new_photo_upload_box("current_photo_key"),
-          Field.new_audio_upload_box("recorded_audio")]
-      FormSection.stub(:all_visible_form_fields).and_return(fields)
-      mock_user = double({:organisation => 'UNICEF'})
-      User.stub(:find_by_user_name).with(anything).and_return(mock_user)
-    end
-
-    it "should add a history entry when a record is created" do
-      child = Child.create('last_known_location' => 'New York', 'created_by' => "me")
-      child['histories'].size.should be 1
-      child["histories"][0].should == {"changes"=>{"child"=>{:created=>nil}}, "datetime"=>nil, "user_name"=>"me", "user_organisation"=>"UNICEF"}
-    end
-
-    it "should update history with 'from' value on last_known_location update" do
-      child = Child.create('last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      child['last_known_location'] = 'Philadelphia'
-      child.save!
-      changes = child['histories'].first['changes']
-      changes['last_known_location']['from'].should == 'New York'
-    end
-
-    it "should update history with 'to' value on last_known_location update" do
-      child = Child.create('last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      child['last_known_location'] = 'Philadelphia'
-      child.save!
-      changes = child['histories'].first['changes']
-      changes['last_known_location']['to'].should == 'Philadelphia'
-    end
-
-    it "should update history with 'from' value on age update" do
-      child = Child.create('age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      child['age'] = '6'
-      child.save!
-      changes = child['histories'].first['changes']
-      changes['age']['from'].should == '8'
-    end
-
-    it "should update history with 'to' value on age update" do
-      child = Child.create('age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      child['age'] = '6'
-      child.save!
-      changes = child['histories'].first['changes']
-      changes['age']['to'].should == '6'
-    end
-
-    it "should update history with a combined history record when multiple fields are updated" do
-      child = Child.create('age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      child['age'] = '6'
-      child['last_known_location'] = 'Philadelphia'
-      child.save!
-      child['histories'].size.should == 2
-      changes = child['histories'].first['changes']
-      changes['age']['from'].should == '8'
-      changes['age']['to'].should == '6'
-      changes['last_known_location']['from'].should == 'New York'
-      changes['last_known_location']['to'].should == 'Philadelphia'
-    end
-
-    it "should not record anything in the history if a save occured with no changes" do
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'New York', 'created_by' => "me", 'created_organisation' => "stc")
-      loaded_child = Child.get(child.id)
-      loaded_child.save!
-      child['histories'].size.should be 1
-    end
-
-    it "should not record empty string in the history if only change was spaces" do
-      child = Child.create('origin' => '', 'photo' => uploadable_photo, 'last_known_location' => 'New York', 'created_by' => "me", 'created_organisation' => "stc")
-      child['origin'] = '    '
-      child.save!
-      child['histories'].size.should be 1
-    end
-
-    it "should not record history on populated field if only change was spaces" do
-      child = Child.create('last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me", 'created_organisation' => "stc")
-      child['last_known_location'] = ' New York   '
-      child.save!
-      child['histories'].size.should be 1
-    end
-
-    it "should record history for newly populated field that previously was null" do
-      # gender is the only field right now that is allowed to be nil when creating child document
-      child = Child.create('gender' => nil, 'last_known_location' => 'London', 'photo' => uploadable_photo, 'created_by' => "me", 'created_organisation' => "stc")
-      child['gender'] = 'Male'
-      child.save!
-      child['histories'].first['changes']['gender']['from'].should be_nil
-      child['histories'].first['changes']['gender']['to'].should == 'Male'
-    end
-
-    it "should apend latest history to the front of histories" do
-      child = Child.create('last_known_location' => 'London', 'photo' => uploadable_photo, 'created_by' => "me", 'created_organisation' => "stc")
-      child['last_known_location'] = 'New York'
-      child.save!
-      child['last_known_location'] = 'Philadelphia'
-      child.save!
-      child['histories'].size.should == 3
-      child['histories'][0]['changes']['last_known_location']['to'].should == 'Philadelphia'
-      child['histories'][1]['changes']['last_known_location']['to'].should == 'New York'
-    end
-
-    it "should update history with username from last_updated_by" do
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      child['last_known_location'] = 'Philadelphia'
-      child['last_updated_by'] = 'some_user'
-      child.save!
-      child['histories'].first['user_name'].should == 'some_user'
-      child['histories'].first['user_organisation'].should == 'UNICEF'
-    end
-
-    it "should update history with the datetime from last_updated_at" do
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      child['last_known_location'] = 'Philadelphia'
-      child.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
-      child.save!
-      child['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
-    end
-
     describe "photo logging" do
 
       before :each do
@@ -960,17 +829,16 @@ describe Child do
       it "should log new photo key on adding a photo" do
         @child.photo = uploadable_photo_jeff
         @child.save
-        changes = @child['histories'].first['changes']
-        #TODO: this should be instead child.photo_history.first.to or something like that
-        changes['photo_keys']['added'].first.should =~ /photo.*?-2010-02-20T120424/
+        changes = @child.histories.first.changes
+        changes['photo_keys']['to'].last.should =~ /photo.*?-2010-02-20T120424/
       end
 
       it "should log multiple photos being added" do
         @child.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
         @child.save
-        changes = @child['histories'].first['changes']
-        changes['photo_keys']['added'].should have(2).photo_keys
-        changes['photo_keys']['deleted'].should be_nil
+        ch = @child.histories.first.changes['photo_keys']
+        (ch['to'] - ch['from']).should have(2).photo_keys
+        (ch['from'] - ch['to']).should == []
       end
 
       it "should log a photo being deleted" do
@@ -978,9 +846,9 @@ describe Child do
         @child.save
         @child.delete_photos([@child.photos.first.name])
         @child.save
-        changes = @child['histories'].first['changes']
-        changes['photo_keys']['deleted'].should have(1).photo_key
-        changes['photo_keys']['added'].should be_nil
+        ch = @child.histories.first.changes['photo_keys']
+        (ch['from'] - ch['to']).should have(1).photo_key
+        (ch['to'] - ch['from']).should == []
       end
 
       it "should select a new primary photo if the current one is deleted" do
@@ -1005,7 +873,7 @@ describe Child do
       it "should not log anything if no photo changes have been made" do
         @child["last_known_location"] = "Moscow"
         @child.save
-        changes = @child['histories'].first['changes']
+        changes = @child.histories.first.changes
         changes['photo_keys'].should be_nil
       end
 
@@ -1015,20 +883,20 @@ describe Child do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
       child.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
       child.save!
-      flag_history = child['histories'].first['changes']['flags']
-      flag_history['from'].should == []
-      flag_history['to'].should == [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
+      flag_history = child.histories.first.changes['flags'][child.flags[0].unique_id]
+      flag_history['message']['from'].should == nil 
+      flag_history['message']['to'].should == 'Duplicate record!'
     end
 
     it "should maintain history when child is reunited and message is added" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      child['reunited'] = 'true'
-      child['reunited_message'] = 'Finally home!'
+      child.reunited = true
+      child.reunited_message = 'Finally home!'
       child.save!
-      reunited_history = child['histories'].first['changes']['reunited']
+      reunited_history = child.histories.first.changes['reunited']
       reunited_history['from'].should be_nil
-      reunited_history['to'].should == 'true'
-      reunited_message_history = child['histories'].first['changes']['reunited_message']
+      reunited_history['to'].should == true
+      reunited_message_history = child.histories.first.changes['reunited_message']
       reunited_message_history['from'].should be_nil
       reunited_message_history['to'].should == 'Finally home!'
     end
@@ -1040,50 +908,6 @@ describe Child do
         User.stub(:find_by_user_name).and_return(double(:organisation => 'stc'))
         @child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
         Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:24"))
-      end
-
-      it "should log new photo key on adding a photo" do
-        @child.photo = uploadable_photo_jeff
-        @child.save
-        changes = @child['histories'].first['changes']
-        #TODO: this should be instead child.photo_history.first.to or something like that
-        changes['photo_keys']['added'].first.should =~ /photo.*?-2010-02-20T120424/
-      end
-
-      it "should log multiple photos being added" do
-        @child.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
-        @child.save
-        changes = @child['histories'].first['changes']
-        changes['photo_keys']['added'].should have(2).photo_keys
-        changes['photo_keys']['deleted'].should be_nil
-      end
-
-      it "should log a photo being deleted" do
-        @child.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
-        @child.save
-        @child.delete_photos([@child.photos.first.name])
-        @child.save
-        changes = @child['histories'].first['changes']
-        changes['photo_keys']['deleted'].should have(1).photo_key
-        changes['photo_keys']['added'].should be_nil
-      end
-
-      it "should select a new primary photo if the current one is deleted" do
-        @child.photos = [uploadable_photo_jeff]
-        @child.save
-        original_primary_photo_key = @child.photos[0].name
-        jeff_photo_key = @child.photos[1].name
-        @child.primary_photo.name.should == original_primary_photo_key
-        @child.delete_photos([original_primary_photo_key])
-        @child.save
-        @child.primary_photo.name.should == jeff_photo_key
-      end
-
-      it "should not log anything if no photo changes have been made" do
-        @child["last_known_location"] = "Moscow"
-        @child.save
-        changes = @child['histories'].first['changes']
-        changes['photo_keys'].should be_nil
       end
 
       it "should delete items like _328 and _160x160 in attachments" do
@@ -1292,7 +1116,7 @@ describe Child do
   describe 'organisation' do
     it 'should get created user' do
       child = Child.new
-      child['created_by'] = 'test'
+      child.created_by = 'test'
 
       User.should_receive(:find_by_user_name).with('test').and_return('test1')
       child.created_by_user.should == 'test1'

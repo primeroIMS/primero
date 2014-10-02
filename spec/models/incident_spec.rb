@@ -28,9 +28,9 @@ describe Incident do
 
     it "fields build with all fields in form sections" do
       form = FormSection.new(:name => "test_form", :parent_form => 'incident')
-      form.fields << Field.new(:name => "description", :type => Field::TEXT_AREA, :display_name => "description")
+      form.fields << Field.new(:name => "description", :type => Field::TEXT_FIELD, :display_name => "description")
       form.save!
-      Incident.searchable_text_fields.should include("description")
+      Incident.searchable_string_fields.should include("description")
       FormSection.all.each { |form_section| form_section.destroy }
     end
 
@@ -202,14 +202,6 @@ describe Incident do
       incident['origin'].should == "Croydon"
     end
 
-    it "should not replace old properties when the existing records last_updated at is latest than the given last_updated_at" do
-      incident = Incident.new("description" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      given_properties = {"description" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC"}
-      incident.update_properties_with_user_name "some_user", nil, nil, nil, false, given_properties
-      incident["description"].should == "existing name"
-      incident["last_updated_at"].should == "2013-01-01 00:00:01UTC"
-    end
-
     it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
       existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
       given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
@@ -372,132 +364,6 @@ describe Incident do
 
   end
 
-
-  describe "history log" do
-
-    before do
-      fields = [
-          Field.new_text_field("description"),
-          Field.new_text_field("last_known_location"),
-          Field.new_text_field("age"),
-          Field.new_text_field("origin"),
-          Field.new_radio_button("gender", ["male", "female"])]
-      FormSection.stub(:all_visible_form_fields).and_return(fields)
-      mock_user = double({:organisation => 'UNICEF'})
-      User.stub(:find_by_user_name).with(anything).and_return(mock_user)
-    end
-
-    it "should add a history entry when a record is created" do
-      incident = Incident.create('last_known_location' => 'New York', 'created_by' => "me")
-      incident['histories'].size.should be 1
-      incident["histories"][0].should == {"changes"=>{"incident"=>{:created=>nil}}, "datetime"=>nil, "user_name"=>"me", "user_organisation"=>"UNICEF"}
-    end
-
-    it "should update history with 'from' value on last_known_location update" do
-      incident = Incident.create('last_known_location' => 'New York', 'created_by' => "me")
-      incident['last_known_location'] = 'Philadelphia'
-      incident.save!
-      changes = incident['histories'].first['changes']
-      changes['last_known_location']['from'].should == 'New York'
-    end
-
-    it "should update history with 'to' value on last_known_location update" do
-      incident = Incident.create('last_known_location' => 'New York', 'created_by' => "me")
-      incident['last_known_location'] = 'Philadelphia'
-      incident.save!
-      changes = incident['histories'].first['changes']
-      changes['last_known_location']['to'].should == 'Philadelphia'
-    end
-
-    # it "should update history with 'from' value on age update" do
-      # child = Child.create('age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      # child['age'] = '6'
-      # child.save!
-      # changes = child['histories'].first['changes']
-      # changes['age']['from'].should == '8'
-    # end
-
-    # it "should update history with 'to' value on age update" do
-      # child = Child.create('age' => '8', 'last_known_location' => 'New York', 'photo' => uploadable_photo, 'created_by' => "me")
-      # child['age'] = '6'
-      # child.save!
-      # changes = child['histories'].first['changes']
-      # changes['age']['to'].should == '6'
-    # end
-
-    it "should update history with a combined history record when multiple fields are updated" do
-      incident = Incident.create('age' => '8', 'last_known_location' => 'New York', 'created_by' => "me")
-      incident['age'] = '6'
-      incident['last_known_location'] = 'Philadelphia'
-      incident.save!
-      incident['histories'].size.should == 2
-      changes = incident['histories'].first['changes']
-      changes['age']['from'].should == '8'
-      changes['age']['to'].should == '6'
-      changes['last_known_location']['from'].should == 'New York'
-      changes['last_known_location']['to'].should == 'Philadelphia'
-    end
-
-    it "should not record anything in the history if a save occured with no changes" do
-      incident = Incident.create('last_known_location' => 'New York', 'created_by' => "me", 'created_organisation' => "stc")
-      loaded_incident = Incident.get(incident.id)
-      loaded_incident.save!
-      incident['histories'].size.should be 1
-    end
-
-    it "should not record empty string in the history if only change was spaces" do
-      incident = Incident.create('origin' => '', 'last_known_location' => 'New York', 'created_by' => "me", 'created_organisation' => "stc")
-      incident['origin'] = '    '
-      incident.save!
-      incident['histories'].size.should be 1
-    end
-
-    it "should not record history on populated field if only change was spaces" do
-      incident = Incident.create('last_known_location' => 'New York', 'created_by' => "me", 'created_organisation' => "stc")
-      incident['last_known_location'] = ' New York   '
-      incident.save!
-      incident['histories'].size.should be 1
-    end
-
-    # it "should record history for newly populated field that previously was null" do
-      # # gender is the only field right now that is allowed to be nil when creating child document
-      # child = Child.create('gender' => nil, 'last_known_location' => 'London', 'photo' => uploadable_photo, 'created_by' => "me", 'created_organisation' => "stc")
-      # child['gender'] = 'Male'
-      # child.save!
-      # child['histories'].first['changes']['gender']['from'].should be_nil
-      # child['histories'].first['changes']['gender']['to'].should == 'Male'
-    # end
-
-    it "should apend latest history to the front of histories" do
-      incident = Incident.create('description' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      incident['description'] = 'New York'
-      incident.save!
-      incident['description'] = 'Philadelphia'
-      incident.save!
-      incident['histories'].size.should == 3
-      incident['histories'][0]['changes']['description']['to'].should == 'Philadelphia'
-      incident['histories'][1]['changes']['description']['to'].should == 'New York'
-    end
-
-    it "should update history with username from last_updated_by" do
-      incident = Incident.create('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      incident['last_known_location'] = 'Philadelphia'
-      incident['last_updated_by'] = 'some_user'
-      incident.save!
-      incident['histories'].first['user_name'].should == 'some_user'
-      incident['histories'].first['user_organisation'].should == 'UNICEF'
-    end
-
-    it "should update history with the datetime from last_updated_at" do
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
-      child['last_known_location'] = 'Philadelphia'
-      child.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
-      child.save!
-      child['histories'].first['datetime'].should == DateTime.parse('2010-01-14 14:05:00UTC')
-    end
-
-  end
-
   describe "when fetching incidents" do
 
     before do
@@ -592,7 +458,7 @@ describe Incident do
   describe 'organisation' do
     it 'should get created user' do
       incident = Incident.new
-      incident['created_by'] = 'test'
+      incident.created_by = 'test'
 
       User.should_receive(:find_by_user_name).with('test').and_return('test1')
       incident.created_by_user.should == 'test1'

@@ -1,5 +1,5 @@
 class Replication < CouchRest::Model::Base
-  MODELS_TO_SYNC = [ Child, TracingRequest, Incident ]
+  MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
   STABLE_WAIT_TIME = 2.minutes
 
   include PrimeroModel

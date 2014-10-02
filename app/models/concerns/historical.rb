@@ -23,12 +23,12 @@ module Historical
     property :histories, [Class.new do
       include CouchRest::Model::Embeddable
 
-      property 'datetime', DateTime
-      property 'user_name', String
-      property 'user_organization', String
-      property 'prev_revision', String
-      property 'action', Symbol, :init_method => 'to_sym'
-      property 'changes', Hash, :default => {}
+      property :datetime, DateTime
+      property :user_name, String
+      property :user_organization, String
+      property :prev_revision, String
+      property :action, Symbol, :init_method => 'to_sym'
+      property :changes, Hash, :default => {}
     end], :default => []
 
     design do
@@ -67,7 +67,7 @@ module Historical
   end
 
   def created_by_user
-    User.find_by_user_name self.created_by unless self.created_by.present?
+    User.find_by_user_name self.created_by if self.created_by.present?
   end
 
   def set_updated_fields_for(user_name)
@@ -76,7 +76,7 @@ module Historical
   end
 
   def ordered_histories
-    (self.histories || []).sort { |that, this| DateTime.parse(this["datetime"]) <=> DateTime.parse(that["datetime"]) }
+    (self.histories || []).sort_by {|h| h.datetime || DateTime.new }.reverse
   end
 
   def latest_update_from_history
@@ -85,9 +85,23 @@ module Historical
   end
 
   def update_history
+    # TODO: Figure out some useful way of specifying attachment changes
+    ignored_root_properties = %w{
+      last_updated_at
+      last_updated_by
+      _attachments
+    }
+
     if self.changed?
-      history_changes = changes_to_history(self.changes, self.properties_by_name)
-      add_update_to_history(history_changes)
+      chs = self.changes.except(*ignored_root_properties)
+      if chs.present?
+        history_changes = changes_to_history(chs, self.properties_by_name).inject({}) do |acc, (k, v)|
+          v.nil? ? acc : acc.merge(k => v)
+        end
+        if history_changes.present?
+          add_update_to_history(history_changes)
+        end
+      end
     end
     true
   end
@@ -161,7 +175,20 @@ module Historical
             end
           end
         else
-          if prev != current
+          (norm_prev, norm_current) = [prev, current].map do |v|
+            case v
+            when String
+              s = v.strip
+              if s.blank?
+                nil
+              else
+                s
+              end
+            else
+              v
+            end
+          end
+          if norm_prev != norm_current
             {
               'from' => prev,
               'to' => current,

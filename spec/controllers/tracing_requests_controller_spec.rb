@@ -370,23 +370,6 @@ describe TracingRequestsController do
   end
 
   describe "PUT update" do
-    it "should sanitize the parameters if the params are sent as string(params would be as a string hash when sent from mobile)" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
-      tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname", :created_at => "Jan 16 2010 14:05:32")
-      tracing_request.attributes = {'histories' => [] }
-      tracing_request.save!
-
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      histories = "[{\"datetime\":\"2013-02-01 04:49:29UTC\",\"user_name\":\"rapidftr\",\"changes\":{\"photo_keys\":{\"added\":[\"photo-671592136-2013-02-01T101929\"],\"deleted\":null}},\"user_organisation\":\"N\\/A\"}]"
-      put :update, :id => tracing_request.id,
-           :tracing_request => {
-               :last_known_location => "Manchester",
-               :histories => histories
-           }
-
-     assigns[:tracing_request]['histories'].should == JSON.parse(histories)
-    end
-
     it "should update tracing request on a field and photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
@@ -453,7 +436,7 @@ describe TracingRequestsController do
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request, nil)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, :id => '1', :tracing_request => params_tracing_request
       end
@@ -463,7 +446,7 @@ describe TracingRequestsController do
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_tracing_request, nil)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, :id => '1', :tracing_request => params_tracing_request, :delete_tracing_request_audio => "1"
     end
@@ -473,7 +456,7 @@ describe TracingRequestsController do
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request, nil)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, :id => '1', :tracing_request => params_tracing_request, :redirect_url => '/cases'
       response.should redirect_to '/cases?follow=true'
@@ -485,7 +468,7 @@ describe TracingRequestsController do
 
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request, nil)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, :id => '1', :tracing_request => params_tracing_request
       response.should redirect_to "/tracing_requests/#{tracing_request.id}?follow=true"
@@ -744,46 +727,6 @@ describe TracingRequestsController do
       updated_tracing_request = TracingRequest.by_short_id(:key => tracing_request.short_id)
       updated_tracing_request.all.size.should == 1
       updated_tracing_request.first.relation_name.should == 'new name'
-    end
-
-    it "should not update fields that were only changed in previous conflicting merge" do
-      original_name = 'Juan Herrero'
-      new_name = 'Juan Lopez'
-      tracing_request = TracingRequest.new_with_user_name(@user, {:relation_name => original_name, :relation_age => 16})
-      tracing_request.save
-
-      post :create, :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :revision => tracing_request._rev, :relation_name => new_name}
-      post :create, :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :revision => tracing_request._rev, :relation_name => original_name}
-
-      updated_tracing_request = TracingRequest.by_short_id(:key => tracing_request.short_id).first
-      updated_tracing_request.relation_name.should == new_name
-    end
-
-    it "should update fields that were not changed in previous conflicting merge" do
-      original_name = 'Juan Herrero'
-      new_name = 'Juan Lopez'
-      tracing_request = TracingRequest.new_with_user_name(@user, {:relation_name => original_name, :relation_age => 16})
-      tracing_request.save
-
-      post :create, :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :revision => tracing_request._rev, :relation_name => original_name}
-      post :create, :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :revision => tracing_request._rev, :relation_name => new_name}
-
-      updated_tracing_request = TracingRequest.by_short_id(:key => tracing_request.short_id).first
-      updated_tracing_request.relation_name.should == new_name
-    end
-
-    it "should take the last update if there are two new changes" do
-      original_name = 'Juan Herrero'
-      new_name = 'Juan Lopez'
-      newer_name = 'Juan Rodriguez'
-      tracing_request = TracingRequest.new_with_user_name(@user, {:relation_name => original_name, :relation_age => 16})
-      tracing_request.save
-
-      post :create, :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :revision => tracing_request._rev, :relation_name => new_name}
-      post :create, :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :revision => tracing_request._rev, :relation_name => newer_name}
-
-      updated_tracing_request = TracingRequest.by_short_id(:key => tracing_request.short_id).first
-      updated_tracing_request.relation_name.should == newer_name
     end
   end
 
