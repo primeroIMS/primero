@@ -11,7 +11,7 @@
 <% end %>
 
 <% content_for :header_message do %>
-  <%= render 'header_message', tracing_request: @tracing_request, current_user: @current_user, duplicates: @duplicates %>
+  <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
 <% end %>
 
 <div class="clearfix"></div>
