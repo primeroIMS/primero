@@ -2,7 +2,7 @@
 <div class="profile-header">
   <ul class="history-details">
     <% record.ordered_histories.each do |history| %>
-      <% if history.action == :create %>
+      <% if history.action.to_sym == :create %>
     <li>
       <div>
         <%= render :partial => "shared/histories/record_created", 

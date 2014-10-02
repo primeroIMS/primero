@@ -20,6 +20,14 @@ module Exporters
         id
       end
 
+      def excluded_properties
+        []
+      end
+
+      def properties_to_export(props)
+        props.reject {|p| self.excluded_properties.include?(p.name) }
+      end
+
       # @param properties: array of CouchRest Model Property instances
       def to_2D_array(models, properties)
         emit_columns = lambda do |props, parent_props=[], &column_generator|
