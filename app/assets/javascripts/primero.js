@@ -69,6 +69,19 @@ _primero.create_or_clean_error_messages_container = function(form) {
   }
 };
 
+_primero.object_to_params = function(filters) {
+  var url_string = "";
+  for (var key in filters) {
+    if (url_string !==  "") {
+      url_string += "&";
+    }
+    url_string += "scope[" + key + "]" + "=" + filters[key];
+  }
+  return url_string;
+};
+
+_primero.filters = {};
+
 var Primero = Backbone.View.extend({
   el: 'body',
 

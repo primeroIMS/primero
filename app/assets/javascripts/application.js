@@ -55,6 +55,7 @@
 //= require date_range_validation
 //= require flag_records
 //= require actions
+//= require select_multiple_records
 
 
 $(document).ready(function() {
