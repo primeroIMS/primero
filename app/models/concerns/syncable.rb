@@ -35,11 +35,13 @@ module Syncable
   def resolve_conflicting_revisions
     conflicting_revs = get_all_conflicting_revisions()
     all_revs = (conflicting_revs + [self]).sort_by {|r| r.last_updated_at || DateTime.new }
-    base_revision = find_base_revision(all_revs)
 
     resolved_attrs = all_revs.each_cons(2)
                              .inject({}) do |acc, (older, newer)|
-      attrs = merge_with_existing_attrs(older.attributes_as_update_hash,
+      base_revision = find_base_revision([older, newer])
+      older_changes = older.get_intermediate_changes(base_revision)
+
+      attrs = merge_with_existing_attrs(older.attributes_as_update_hash, older_changes,
                                     older.remove_stale_properties(newer.attributes_as_update_hash, base_revision))
       newer.directly_set_attributes(attrs)
       newer.attributes_as_update_hash
@@ -64,7 +66,7 @@ module Syncable
   # Remove attributes that have been updated since `revision` to avoid
   # overwriting newer changes
   def remove_stale_properties(properties, revision)
-    inter_changes = get_intermediate_histories(revision).map {|h| h.changes}
+    inter_changes = get_intermediate_changes(revision)
 
     inter_changes.inject(properties.clone) do |props_to_update, changes|
       remove_proc = lambda do |props, (key, prop_change)|
@@ -98,15 +100,16 @@ module Syncable
   end
 
   def update_attributes_without_saving(hash)
-    revision = hash.delete 'revision'
+    base_revision = hash.delete 'base_revision'
+    base_changes = base_revision.present? ? get_intermediate_changes(base_revision) : []
 
-    new_hash = if revision.present? && revision != self.rev
-      remove_stale_properties(hash, revision)
+    new_hash = if base_revision.present? && base_revision != self.rev
+      remove_stale_properties(hash, base_revision)
     else
       hash
     end
 
-    super(merge_with_existing_attrs(self.attributes_as_update_hash, new_hash))
+    super(merge_with_existing_attrs(self.attributes_as_update_hash, base_changes, new_hash))
   end
   alias :attributes= :update_attributes_without_saving
 
@@ -144,27 +147,31 @@ module Syncable
                        .reverse
 
     # Throw an exception until a legitimate reason for missing revisions is found
-    if histories.length == 0
+    if histories.length == 0 && self.histories.length > 1
       raise Errors::RevisionNotFoundError.new("Unknown revision provided #{revision}")
     end
 
     histories
   end
 
+  def get_intermediate_changes revision
+    get_intermediate_histories(revision).map {|h| h.changes }
+  end
+
   # Take a set of properties and stick in all of the missing properties on the
   # current model (`existing`), including nested arrays and hashes, arbitrarily
   # deep.  This is necessary because we just do a top-level assignment to the
   # self.attributes object, so we have to fill in any nested hash or array
-  # elemets so they don't get deleted.  Nested elements are only deleted when
-  # set explicitly to nil.
-  def merge_with_existing_attrs(existing, properties)
+  # elemets so they don't get deleted.
+  def merge_with_existing_attrs(existing, existing_changes, properties)
     # Avoid merging histories, we'll handle that separately
     properties.delete 'histories'
 
-    merger = ->(props, (k,existing_value)) do
+    merger = ->(props, (k, existing_value)) do
       props = props.clone
       case props[k]
       when Array
+        # Add all the new or existing elements
         props[k] = props[k].inject([]) do |acc, el|
           if el.include?('unique_id')
             i = existing_value.index {|ev| ev['unique_id'] == el['unique_id'] }
@@ -173,6 +180,20 @@ module Syncable
             acc << el
           end
         end
+
+        # Now determine if we are deleting or keeping existing elements
+        props[k] = existing_value.inject(props[k]) do |acc, el|
+          if el.include?('unique_id')
+            unless acc.index {|new| new['unique_id'] == el['unique_id'] }
+              if nested_element_was_added_in_changes(el['unique_id'], existing_changes, k)
+                acc << el
+              end
+            end
+          end
+
+          acc
+        end
+
         props
       when Hash
         if existing_value.present?
@@ -187,6 +208,22 @@ module Syncable
     end
 
     existing.inject(properties, &merger)
+  end
+
+  def nested_element_was_added_in_changes(unique_id, changes, key)
+    changes.any? do |ch|
+      prop_ch = ch[key]
+      # TODO: How to do this cleanly without all of this nesting?
+      if prop_ch.present?
+        elem_ch = prop_ch[unique_id]
+        if elem_ch.present?
+          unique_ch = elem_ch['unique_id']
+          if unique_ch.present?
+            unique_ch['from'].nil?
+          end
+        end
+      end
+    end
   end
 
   def find_base_revision instances
