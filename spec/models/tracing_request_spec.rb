@@ -256,15 +256,6 @@ describe TracingRequest do
     end
 
 
-    it "should assign histories order by datetime of history" do
-      tracing_request = TracingRequest.new()
-      first_history = double("history", :[] => "2010-01-01 01:01:02UTC")
-      second_history = double("history", :[] => "2010-01-02 01:01:02UTC")
-      third_history = double("history", :[] => "2010-01-02 01:01:03UTC")
-      tracing_request["histories"] = [first_history, second_history, third_history]
-      tracing_request.ordered_histories.should == [third_history, second_history, first_history]
-    end
-
     it "should populate last_updated_at field with the time of the update" do
       DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       tracing_request = TracingRequest.new

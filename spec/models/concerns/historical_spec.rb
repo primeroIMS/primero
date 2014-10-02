@@ -186,4 +186,16 @@ describe Historical do
       }
     end
   end
+
+  describe "ordered_histories" do
+    it "should assign histories order by datetime of history" do
+      child = _Child.new()
+      first_history = {:datetime => "2010-01-01 01:01:02UTC"}
+      second_history = {:datetime => "2010-01-02 01:01:02UTC"}
+      third_history = {:datetime => "2010-01-02 01:01:03UTC"}
+      child.histories = [first_history, second_history, third_history]
+      child.ordered_histories.map {|h| {:datetime => h.datetime}}.should == [third_history, second_history, first_history]
+    end
+
+  end
 end
