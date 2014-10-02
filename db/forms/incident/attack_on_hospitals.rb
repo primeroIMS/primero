@@ -30,14 +30,14 @@ attack_on_hospitals_subform_fields = [
              "type" => "separator",
              "display_name_all" => "Human Impact of Attack"
             }),
-  Field.new({"name" => "violation_killed_attack_hospital_tally",
+  Field.new({"name" => "violation_killed_tally",
        "type" => "tally_field",
        "display_name_all" => "Number of children killed",
        "autosum_group" => "attack_on_hospitals_number_of_children_killed",
        "tally" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
       }),
-  Field.new({"name" => "violation_injured_attack_hospital_tally",
+  Field.new({"name" => "violation_injured_tally",
        "type" => "tally_field",
        "display_name_all" => "Number of children injured",
        "autosum_group" => "attack_on_hospitals_number_of_children_injured",
@@ -119,12 +119,7 @@ attack_on_hospitals_subform_fields = [
   Field.new({"name" => "verified",
              "type" => "select_box",
              "display_name_all" => "Verification Status",
-             "option_strings_text_all" =>
-                                    ["Verified",
-                                     "Unverified",
-                                     "Pending",
-                                     "Falsely Attributed",
-                                     "Rejected"].join("\n")
+             "option_strings_source" => "lookup VerificationStatus"
             }),
   Field.new({"name" => "verification_source_weight",
              "type" => "select_box",

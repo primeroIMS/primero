@@ -86,14 +86,12 @@ Feature: Subforms Collapse Expand
       |Is this person the caregiver?      | <Radio> Yes        |
       |If dead, please provide details    | No Dead Notes      |
       |Age                                | 39                 |
-      |Language                           | <Choose>Language1  |
     And I update in the 2nd "Family Details Section" subform with the follow:
       |Name                               | Mary               |
       |How are they related to the child? | <Select> Aunt      |
       |Is this person the caregiver?      | <Radio> No         |
       |If dead, please provide details    | No Other Dead Notes|
       |Age                                | 41                 |
-      |Language                           | <Choose>Language2  |
     And I press "Save"
     Then I should see "Case was successfully updated" on the page
     And I should see in the 1st "Family Details Section" subform with the follow:
@@ -102,11 +100,9 @@ Feature: Subforms Collapse Expand
       |Is this person the caregiver?      | Yes           |
       |If dead, please provide details    | No Dead Notes |
       |Age                                | 39            |
-      |Language                           | Language1     |
     And I should see in the 2nd "Family Details Section" subform with the follow:
       |Name                               | Mary                |
       |How are they related to the child? | Aunt                |
       |Is this person the caregiver?      | No                  |
       |If dead, please provide details    | No Other Dead Notes |
       |Age                                | 41                  |
-      |Language                           | Language2           |

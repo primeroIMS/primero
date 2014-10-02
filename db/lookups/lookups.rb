@@ -105,6 +105,15 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :name => "incident_status",
+  :lookup_values => [
+    "Open",
+    "Closed",
+    "Duplicate"
+  ]
+)
+
+create_or_update_lookup(
   :name => "displacement_status",
   :lookup_values => [
     "Resident",
@@ -118,10 +127,31 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :name => "unaccompanied_separated_status",
+  :lookup_values => [
+    "No",
+    "Unaccompanied Minor",
+    "Separated Child",
+    "Other Vulnerable Child"
+  ]
+)
+
+create_or_update_lookup(
   :name => "protection_status",
   :lookup_values => [
     "Unaccompanied",
     "Separated"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "verification_status",
+  :lookup_values => [
+    "Verified",
+    "Unverified",
+    "Pending",
+    "Falsely Attributed",
+    "Rejected"
   ]
 )
 
@@ -131,5 +161,41 @@ create_or_update_lookup(
     "High",
     "Medium",
     "Low"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "gbv_sexual_violence_type",
+  :lookup_values => [
+    "Rape",
+    "Sexual Assault",
+    "Physical Assault",
+    "Forced Marriage",
+    "Denial of Resources, Opportunities, or Services",
+    "Psychological/Emotional Abuse",
+    "Non-GBV"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "armed_force_group_type",
+  :lookup_values => [
+    "National Army",
+    "Security Forces",
+    "International Forces",
+    "Police Forces",
+    "Para-Military Forces",
+    "Unknown",
+    "Other"
+  ]
+)
+
+create_or_update_lookup(
+  :name => "armed_force_group_name",
+  :lookup_values => [
+    "Armed Force or Group 1",
+    "Armed Force or Group 2",
+    "Armed Force or Group 3",
+    "Other, please specify"
   ]
 )

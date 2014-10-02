@@ -22,9 +22,10 @@ Feature: Filter Cases
     And I should see a filter for "Protection Status:"
     And I should see a filter for "Urgent Protection Concern:"
     And I should see a filter for "Risk Level:"
-    And I should see a filter for "Current Location"
+    And I should see a filter for "Current Location:"
     And I should see a filter for "Registration Date:"
     And I should see a filter for "Record State:"
+    And I should see a filter for "Photo:"
 
   Scenario: As a GBV user, I want to see filters related to my role
     And I am logged in as a social worker with username "primero_gbv" and password "primero"
@@ -38,10 +39,11 @@ Feature: Filter Cases
     And I should see a filter for "Protection Status:"
     And I should not see a filter for "Urgent Protection Concern:"
     And I should not see a filter for "Risk Level:"
-    And I should not see a filter for "Current Location"
+    And I should not see a filter for "Current Location:"
     And I should not see a filter for "Registration Date:"
     And I should see a filter for "Case Open Date:"
     And I should see a filter for "Record State:"
+    And I should not see a filter for "Photo:"
 
   Scenario: As a CP manager, I want to see filters related to my role
     And I am logged in as a manager with username "primero_mgr_cp" and password "primero"
@@ -54,9 +56,10 @@ Feature: Filter Cases
     And I should see a filter for "Protection Status:"
     And I should see a filter for "Urgent Protection Concern:"
     And I should see a filter for "Risk Level:"
-    And I should see a filter for "Current Location"
+    And I should see a filter for "Current Location:"
     And I should see a filter for "Registration Date:"
     And I should see a filter for "Record State:"
+    And I should see a filter for "Photo:"
 
   Scenario: As a GBV manager, I want to see filters related to my role
     And I am logged in as a social worker with username "primero_mgr_gbv" and password "primero"
@@ -70,10 +73,11 @@ Feature: Filter Cases
     And I should see a filter for "Protection Status:"
     And I should not see a filter for "Urgent Protection Concern:"
     And I should not see a filter for "Risk Level:"
-    And I should not see a filter for "Current Location"
+    And I should not see a filter for "Current Location:"
     And I should not see a filter for "Registration Date:"
     And I should see a filter for "Case Open Date:"
     And I should see a filter for "Record State:"
+    And I should not see a filter for "Photo:"
 
 Scenario: As a CP user, I want to filter cases with photos
     And I am logged in as a social worker with username "primero_cp" and password "primero"

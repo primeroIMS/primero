@@ -53,3 +53,22 @@ Feature: Abduction Form
       | Notes on Verification Decision                                                                                                  | Notes                                                          |
       | Verified by CTFMR                                                                                                               | No                                                             |
       # | Date verified by CTFMR                                                                                                          | today's date                                                   |
+
+  Scenario: As a logged in user, I will create a incident for abduction and select verification status
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    And the following lookups exist in the system:
+      | name                | lookup_values                                               |
+      | verification_status | Verified, Unverified, Pending, Falsely Attributed, Rejected |
+    When I access "incidents page"
+    And I press the "New Incident" button
+    And I press the "Violations" button
+    And I press the "Abduction" button
+    And I fill in the following:
+      | Number of survivors      | <Tally>Boys:1<Tally>Girls:2<Tally>Unknown:3   |
+      | Verification Status      | <Select> Verified                             |
+    And I press "Save"
+    Then I should see "Incident record successfully created" on the page
+    And I should see 1 subform on the show page for "Abduction"
+    And I should see in the 1st "Abduction" subform with the follow:
+      | Number of survivors                     |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |
+      | Verification Status                     | Verified                                                    |

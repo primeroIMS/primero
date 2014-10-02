@@ -6,8 +6,8 @@
     i.violations = {}.tap do |v|
       v[:killing] = [
         {
-          :violation_killing_tally_boys => 3,
-          :violation_killing_tally_girls => 1,
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
           :kill_method => 'Summary',
           :kill_cause_of_death => 'Gas',
           :verifier_id_code => 'abcdef',
@@ -15,8 +15,8 @@
           :verified => 'Verified',
         },
         {
-          :violation_killing_tally_boys => 0,
-          :violation_killing_tally_girls => 1,
+          :violation_tally_boys => 0,
+          :violation_tally_girls => 1,
           :kill_method => 'Summary',
           :kill_cause_of_death => 'Gas',
           :verifier_id_code => 'maiu45',
