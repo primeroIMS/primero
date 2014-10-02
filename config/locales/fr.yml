@@ -219,7 +219,7 @@ fr:
   #   new: "New User"
   # phone: "Phone"
   # email: "Email"
-  # organisation: "Organisation"
+  # organization: "Organisation"
   # position: "Position"
   # location: "Location"
   # false: "false"

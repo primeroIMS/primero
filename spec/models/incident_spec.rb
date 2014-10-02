@@ -19,7 +19,7 @@ describe Incident do
     # TODO: Ask about these test
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organisation"]
+      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization"]
     end
 
     it "should build with date search fields" do
@@ -92,8 +92,8 @@ describe Incident do
     # end
 
     # it "should return incidents that have duplicate as nil" do
-    #   incident_active = Incident.create(:description => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
-    #   incident_duplicate = Incident.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
+    #   incident_active = Incident.create(:description => "eduardo aquiles", 'created_by' => "me", 'created_organization' => "stc")
+    #   incident_duplicate = Incident.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organization' => "stc")
 
     #   search = double("search", :query => "aquiles", :valid? => true)
     #   result = Incident.search(search)
@@ -102,8 +102,8 @@ describe Incident do
     # end
 
     # it "should return incidents that have duplicate as false" do
-    #   incident_active = Incident.create(:description => "eduardo aquiles", :duplicate => false, 'created_by' => "me", 'created_organisation' => "stc")
-    #   incident_duplicate = Incident.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
+    #   incident_active = Incident.create(:description => "eduardo aquiles", :duplicate => false, 'created_by' => "me", 'created_organization' => "stc")
+    #   incident_duplicate = Incident.create(:description => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organization' => "stc")
 
     #   search = double("search", :query => "aquiles", :valid? => true)
     #   result = Incident.search(search)
@@ -113,8 +113,8 @@ describe Incident do
 
     # it "should search by exact match for short id" do
     #   uuid = UUIDTools::UUID.random_create.to_s
-    #   Incident.create("description" => "kev", :unique_identifier => "1234567890", 'created_by' => "me", 'created_organisation' => "stc")
-    #   Incident.create("description" => "kev", :unique_identifier => "0987654321", 'created_by' => "me", 'created_organisation' => "stc")
+    #   Incident.create("description" => "kev", :unique_identifier => "1234567890", 'created_by' => "me", 'created_organization' => "stc")
+    #   Incident.create("description" => "kev", :unique_identifier => "0987654321", 'created_by' => "me", 'created_organization' => "stc")
     #   search = double("search", :query => "7654321", :valid? => true)
     #   results, full_results = Incident.search(search)
     #   results.length.should == 1
@@ -141,8 +141,8 @@ describe Incident do
     # end
 
     # it "should return the incidents registered by the user if the user has limited permission" do
-    #   Incident.create(:description => "suganthi", 'created_by' => "me", 'created_organisation' => "stc")
-    #   Incident.create(:description => "kavitha", 'created_by' => "you", 'created_organisation' => "stc")
+    #   Incident.create(:description => "suganthi", 'created_by' => "me", 'created_organization' => "stc")
+    #   Incident.create(:description => "kavitha", 'created_by' => "you", 'created_organization' => "stc")
     #   search = double("search", :query => "kavitha", :valid? => true, :page => 1)
     #   Incident.search_by_created_user(search, "you", 1).first.map(&:description).should =~ ["kavitha"]
     # end
@@ -322,7 +322,7 @@ describe Incident do
     # end
 
     # it "should assign name property as '' if name is not passed before saving child record" do
-      # child = Child.new_with_user_name(double('user', :user_name => 'user', :organisation => 'org'), {'some_field' => 'some_value'})
+      # child = Child.new_with_user_name(double('user', :user_name => 'user', :organization => 'org'), {'some_field' => 'some_value'})
       # child.save
       # child = Child.get(child.id)
       # child.name.should == ''
@@ -367,18 +367,18 @@ describe Incident do
   describe "when fetching incidents" do
 
     before do
-      User.stub(:find_by_user_name).and_return(double(:organisation => 'UNICEF'))
+      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
       Incident.all.each { |incident| incident.destroy }
     end
 
     #TODO - verify ordering logic for INCIDENTS
     xit "should return list of incidents ordered by description" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      Incident.create('description' => 'Zxy', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Azz', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Abc', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Amm', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Bbb', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
+      Incident.create('description' => 'Zxy', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Azz', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Abc', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Amm', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Bbb', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       incidents = Incident.all.all
       incidents.first['description'].should == 'Abc'
       incidents.last['description'].should == 'Zxy'
@@ -386,12 +386,12 @@ describe Incident do
 
     xit "should order incidents with blank descriptions first" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      Incident.create('description' => 'Zxy', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => '', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Azz', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Abc', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Amm', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      Incident.create('description' => 'Bbb', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
+      Incident.create('description' => 'Zxy', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => '', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Azz', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Abc', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Amm', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      Incident.create('description' => 'Bbb', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       incidents = Incident.all
       incidents.first['description'].should == ''
       incidents.last['description'].should == 'Zxy'
@@ -404,13 +404,13 @@ describe Incident do
     before do
       Incident.all.each { |incident| incident.destroy }
       Incident.duplicates.each { |incident| incident.destroy }
-      User.stub(:find_by_user_name).and_return(double(:organisation => 'UNICEF'))
+      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
     end
 
     describe "mark_as_duplicate" do
       it "should set the duplicate field" do
-        incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organisation' => "stc")
-        incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique', 'short_id'=> 'nique12', 'created_by' => "me", 'created_organisation' => "stc")
+        incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
+        incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique', 'short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         incident_duplicate.mark_as_duplicate incident_active['short_id']
         incident_duplicate.duplicate?.should be_true
         incident_duplicate.duplicate_of.should == incident_active.id
@@ -423,8 +423,8 @@ describe Incident do
       end
 
       it "should set the duplicate field" do
-        incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organisation' => "stc")
-        incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique','short_id'=> 'nique12', 'created_by' => "me", 'created_organisation' => "stc")
+        incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
+        incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique','short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         incident_duplicate.mark_as_duplicate incident_active['short_id']
         incident_duplicate.duplicate?.should be_true
         incident_duplicate.duplicate_of.should == incident_active.id
@@ -432,7 +432,7 @@ describe Incident do
     end
 
       xit "should return all duplicate records" do
-        record_active = Incident.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organisation' => "stc")
+        record_active = Incident.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organization' => "stc")
         record_duplicate = create_duplicate(record_active)
 
         duplicates = Incident.duplicates_of(record_active.id)
@@ -445,7 +445,7 @@ describe Incident do
       end
 
       it "should return duplicate from a record" do
-        record_active = Incident.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organisation' => "stc")
+        record_active = Incident.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organization' => "stc")
         record_duplicate = create_duplicate(record_active)
 
         duplicates = Incident.duplicates_of(record_active.id)
@@ -455,7 +455,7 @@ describe Incident do
 
   end
 
-  describe 'organisation' do
+  describe 'organization' do
     it 'should get created user' do
       incident = Incident.new
       incident.created_by = 'test'
@@ -465,10 +465,10 @@ describe Incident do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(:organisation => 'UNICEF'))
+      User.stub(:find_by_user_name).with('mj').and_return(double(:organization => 'UNICEF'))
       incident = Incident.create 'description' => 'My Test Incident Description', :created_by => "mj"
 
-      incident.created_organisation.should == 'UNICEF'
+      incident.created_organization.should == 'UNICEF'
     end
   end
 
@@ -560,7 +560,7 @@ describe Incident do
   private
 
   def create_incident(description, options={})
-    options.merge!("description" => description, 'created_by' => "me", 'created_organisation' => "stc")
+    options.merge!("description" => description, 'created_by' => "me", 'created_organization' => "stc")
     Incident.create(options)
   end
 
@@ -572,7 +572,7 @@ describe Incident do
   end
 
   def create_incident_with_created_by(created_by,options = {})
-    user = User.new({:user_name => created_by, :organisation=> "UNICEF"})
+    user = User.new({:user_name => created_by, :organization=> "UNICEF"})
     Incident.new_with_user_name user, options
   end
 end

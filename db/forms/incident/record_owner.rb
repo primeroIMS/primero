@@ -36,7 +36,7 @@ record_owner_fields = [
              "display_name_all" => "Record created by",
              "editable" => false
             }),
-  Field.new({"name" => "created_organisation",
+  Field.new({"name" => "created_organization",
              "type" => "text_field",
              "display_name_all" => "Created by agency",
              "editable" => false

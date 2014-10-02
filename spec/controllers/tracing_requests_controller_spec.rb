@@ -74,7 +74,7 @@ describe TracingRequestsController do
 
     describe 'member' do
       before :each do
-        User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+        User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
         @tracing_request = TracingRequest.create('last_known_location' => "London", :short_id => 'short_id', :created_by => "uname")
         @tracing_request_arg = hash_including("_id" => @tracing_request.id)
       end
@@ -269,7 +269,7 @@ describe TracingRequestsController do
 
 
     it 'should not fail if primary_photo_id is not present' do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", :created_by => "uname")
       TracingRequest.stub(:get).with("37").and_return(tracing_request)
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
@@ -279,7 +279,7 @@ describe TracingRequestsController do
     end
 
     it "should set current photo key as blank instead of nil" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", :created_by => "uname")
       TracingRequest.stub(:get).with("37").and_return(tracing_request)
       assigns[tracing_request[:current_photo_key]] == ""
@@ -371,7 +371,7 @@ describe TracingRequestsController do
 
   describe "PUT update" do
     it "should update tracing request on a field and photo update" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
@@ -387,7 +387,7 @@ describe TracingRequestsController do
     end
 
     it "should update only non-photo fields when no photo update" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       put :update, :id => tracing_request.id,
@@ -401,7 +401,7 @@ describe TracingRequestsController do
     end
 
     it "should not update history on photo rotation" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
       TracingRequest.get(tracing_request.id)["histories"].size.should be 1
 
@@ -421,7 +421,7 @@ describe TracingRequestsController do
     end
 
     it "should update the last_updated_by_full_name field with the logged in user full name" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'existing tracing_request'})
       TracingRequest.stub(:get).with("123").and_return(tracing_request)
       subject.should_receive('current_user_full_name').and_return('Bill Clinton')
@@ -432,7 +432,7 @@ describe TracingRequestsController do
     end
 
     it "should not set photo if photo is not passed" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -442,7 +442,7 @@ describe TracingRequestsController do
       end
 
     it "should delete the audio if checked delete_tracing_request_audio checkbox" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -452,7 +452,7 @@ describe TracingRequestsController do
     end
 
     it "should redirect to redirect_url if it is present in params" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -463,7 +463,7 @@ describe TracingRequestsController do
     end
 
     it "should redirect to case page if redirect_url is not present in params" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
 
       params_tracing_request = {"name" => 'update'}
@@ -599,11 +599,11 @@ describe TracingRequestsController do
     end
 
     xit "should create a log_entry when record is exported" do
-      fake_login User.new(:user_name => 'fakeuser', :organisation => "STC", :role_ids => ["abcd"])
+      fake_login User.new(:user_name => 'fakeuser', :organization => "STC", :role_ids => ["abcd"])
       @controller.stub(:authorize!)
       RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
 
-      LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organisation => "STC", :tracing_request_ids => [@tracing_request1.id, @tracing_request2.id]
+      LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organization => "STC", :tracing_request_ids => [@tracing_request1.id, @tracing_request2.id]
 
       get :index, :format => :cpims
     end
@@ -718,7 +718,7 @@ describe TracingRequestsController do
 
   describe "POST create" do
     it "should update the tracing request record instead of creating if record already exists" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'old name'})
       tracing_request.save
       fake_admin_login

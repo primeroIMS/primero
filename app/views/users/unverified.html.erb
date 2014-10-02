@@ -8,7 +8,7 @@
     <tr>
       <th><%= t("user.full_name") %></th>
       <th><%= t("login.username") %></th>
-      <th><%= t("organisation") %></th>
+      <th><%= t("organization") %></th>
       <th></th>
     </tr>
     </thead>
@@ -17,7 +17,7 @@
       <tr>
         <td><%= user.full_name %></td>
         <td><%= user.user_name %></td>
-        <td><%= user.organisation %></td>
+        <td><%= user.organization %></td>
         <td><%= link_to t("user.verify"), edit_user_path(user, {:verify => true}) %></td>
       </tr>
     <% end %>

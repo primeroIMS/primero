@@ -5,10 +5,10 @@ module Historical
 
   included do
     before_save :update_history, :unless => :new?
-    before_save :update_organisation
+    before_save :update_organization
     before_save :add_creation_history, :if => :new?
 
-    property :created_organisation
+    property :created_organization
     property :created_by
     property :created_by_full_name
     property :created_at, DateTime
@@ -57,13 +57,13 @@ module Historical
   def set_creation_fields_for(user)
     self.last_updated_by = self.created_by = user.try(:user_name)
     self.created_by_full_name = user.try(:full_name)
-    self.created_organisation = user.try(:organisation)
+    self.created_organization = user.try(:organization)
     self.last_updated_at ||= self.created_at ||= DateTime.now
     self.posted_at = DateTime.now
   end
 
-  def update_organisation
-    self.created_organisation ||= created_by_user.try(:organisation)
+  def update_organization
+    self.created_organization ||= created_by_user.try(:organization)
   end
 
   def created_by_user
@@ -110,7 +110,7 @@ module Historical
     without_dirty_tracking do
       self.histories.unshift({
         :user_name => created_by,
-        :user_organisation => organisation_of(created_by),
+        :user_organization => organization_of(created_by),
         :prev_revision => nil,
         :datetime => created_at,
         :action => :create,
@@ -123,7 +123,7 @@ module Historical
     without_dirty_tracking do
       self.histories.unshift({
         :user_name => last_updated_by,
-        :user_organisation => organisation_of(last_updated_by),
+        :user_organization => organization_of(last_updated_by),
         :prev_revision => self.rev,
         :datetime => last_updated_at,
         :action => :update,
@@ -132,8 +132,8 @@ module Historical
     end
   end
 
-  def organisation_of(user_name)
-    User.find_by_user_name(user_name).try(:organisation)
+  def organization_of(user_name)
+    User.find_by_user_name(user_name).try(:organization)
   end
 
   private

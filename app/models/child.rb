@@ -197,7 +197,7 @@ class Child < CouchRest::Model::Base
                      "histories",
                      "unique_identifier",
                      "current_photo_key",
-                     "created_organisation",
+                     "created_organization",
                      "photo_keys"]
     existing_fields = system_fields + field_definitions.map { |x| x.name }
     self.reject { |k, v| existing_fields.include? k }

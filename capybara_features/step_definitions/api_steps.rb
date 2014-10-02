@@ -49,7 +49,7 @@ When /^I request the creation of the following unverified user:$/ do |table|
          {:user =>
               {:user_name => hash["user_name"],
                :full_name => hash["full_name"],
-               :organisation => hash["organisation"],
+               :organization => hash["organization"],
                :unauthenticated_password => hash["password"]
               }
          }.to_json)

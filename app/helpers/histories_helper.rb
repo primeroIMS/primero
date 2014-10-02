@@ -8,7 +8,7 @@ module HistoriesHelper
                   :deleted_photos => change['deleted'],
                   :datetime => @user.localize_date(history['datetime'], "%Y-%m-%d %H:%M:%S %Z"),
                   :user_name => history['user_name'],
-                  :organisation => history['user_organisation']}}
+                  :organization => history['user_organization']}}
 
     elsif field == 'recorded_audio'
       return {:partial => "shared/histories/audio_history_change",
@@ -28,7 +28,7 @@ module HistoriesHelper
     elsif field == 'child' || field == 'incident' || field == 'tracing_request'
       require 'pry'; binding.pry
       return {:partial => "shared/histories/record_created", 
-        :locals => {:organisation => history.user_organisation, :user_name => history.user_name, :datetime => @user.localize_date(history.datetime, "%Y-%m-%d %H:%M:%S %Z")}}
+        :locals => {:organization => history.user_organization, :user_name => history.user_name, :datetime => @user.localize_date(history.datetime, "%Y-%m-%d %H:%M:%S %Z")}}
     elsif ['flag_message', 'reunited_message', 'investigated_message', 'duplicate_of'].include? field
       return {}
       # do nothing, because we are already displaying the duplicate_of as a part of duplicate change
@@ -49,7 +49,7 @@ module HistoriesHelper
         :to_value => change['to'],
         :datetime => @user.localize_date(history['datetime'], "%Y-%m-%d %H:%M:%S %Z"),
         :user_name => history['user_name'],
-        :organisation => history['user_organisation']
+        :organization => history['user_organization']
     }
   end
 end

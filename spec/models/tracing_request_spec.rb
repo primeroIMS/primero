@@ -20,7 +20,7 @@ describe TracingRequest do
 
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      TracingRequest.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organisation"]
+      TracingRequest.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization"]
     end
 
     it "should build with date search fields" do
@@ -91,8 +91,8 @@ describe TracingRequest do
     # end
 
     # it "should return tracing request that have duplicate as nil" do
-    #   tracing_request_active = TracingRequest.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organisation' => "stc")
-    #   tracing_request_duplicate = TracingRequest.create(:name => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
+    #   tracing_request_active = TracingRequest.create(:name => "eduardo aquiles", 'created_by' => "me", 'created_organization' => "stc")
+    #   tracing_request_duplicate = TracingRequest.create(:name => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organization' => "stc")
 
     #   search = double("search", :query => "aquiles", :valid? => true)
     #   result = TracingRequest.search(search)
@@ -101,8 +101,8 @@ describe TracingRequest do
     # end
 
     # it "should return tracing request that have duplicate as false" do
-    #   tracing_request_active = TracingRequest.create(:name => "eduardo aquiles", :duplicate => false, 'created_by' => "me", 'created_organisation' => "stc")
-    #   tracing_request_duplicate = TracingRequest.create(:name => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organisation' => "stc")
+    #   tracing_request_active = TracingRequest.create(:name => "eduardo aquiles", :duplicate => false, 'created_by' => "me", 'created_organization' => "stc")
+    #   tracing_request_duplicate = TracingRequest.create(:name => "aquiles", :duplicate => true, 'created_by' => "me", 'created_organization' => "stc")
 
     #   search = double("search", :query => "aquiles", :valid? => true)
     #   result = TracingRequest.search(search)
@@ -112,8 +112,8 @@ describe TracingRequest do
 
     # it "should search by exact match for short id" do
     #   uuid = UUIDTools::UUID.random_create.to_s
-    #   TracingRequest.create("relation_name" => "kev", :unique_identifier => "1234567890", "last_known_location" => "new york", 'created_by' => "me", 'created_organisation' => "stc")
-    #   TracingRequest.create("relation_name" => "kev", :unique_identifier => "0987654321", "last_known_location" => "new york", 'created_by' => "me", 'created_organisation' => "stc")
+    #   TracingRequest.create("relation_name" => "kev", :unique_identifier => "1234567890", "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
+    #   TracingRequest.create("relation_name" => "kev", :unique_identifier => "0987654321", "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
     #   search = double("search", :query => "7654321", :valid? => true)
     #   results, full_results = TracingRequest.search(search)
     #   results.length.should == 1
@@ -140,8 +140,8 @@ describe TracingRequest do
     # end
 
     # it "should return the tracing request registered by the user if the user has limited permission" do
-    #   TracingRequest.create(:name => "suganthi", 'created_by' => "me", 'created_organisation' => "stc")
-    #   TracingRequest.create(:name => "kavitha", 'created_by' => "you", 'created_organisation' => "stc")
+    #   TracingRequest.create(:name => "suganthi", 'created_by' => "me", 'created_organization' => "stc")
+    #   TracingRequest.create(:name => "kavitha", 'created_by' => "you", 'created_organization' => "stc")
     #   search = double("search", :query => "kavitha", :valid? => true, :page => 1)
     #   TracingRequest.search_by_created_user(search, "you", 1).first.map(&:name).should =~ ["kavitha"]
     # end
@@ -213,8 +213,8 @@ describe TracingRequest do
     it "should delete the newly created media history(current_photo_key and recorded_audio) as the media names are changed before save of tracing request record" do
       existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
       given_histories = [existing_histories,
-                         JSON.parse("{\"datetime\":\"2013-02-04 06:55:03\",\"user_name\":\"rapidftr\",\"changes\":{\"current_photo_key\":{\"to\":\"2c097fa8-b9ab-4ae8-aa4d-1b7bda7dcb72\",\"from\":\"photo-364416240-2013-02-04T122424\"}},\"user_organisation\":\"N\\/A\"}"),
-                         JSON.parse("{\"datetime\":\"2013-02-04 06:58:12\",\"user_name\":\"rapidftr\",\"changes\":{\"recorded_audio\":{\"to\":\"9252364d-c011-4af0-8739-0b1e9ed5c0ad1359961089870\",\"from\":\"\"}},\"user_organisation\":\"N\\/A\"}")
+                         JSON.parse("{\"datetime\":\"2013-02-04 06:55:03\",\"user_name\":\"rapidftr\",\"changes\":{\"current_photo_key\":{\"to\":\"2c097fa8-b9ab-4ae8-aa4d-1b7bda7dcb72\",\"from\":\"photo-364416240-2013-02-04T122424\"}},\"user_organization\":\"N\\/A\"}"),
+                         JSON.parse("{\"datetime\":\"2013-02-04 06:58:12\",\"user_name\":\"rapidftr\",\"changes\":{\"recorded_audio\":{\"to\":\"9252364d-c011-4af0-8739-0b1e9ed5c0ad1359961089870\",\"from\":\"\"}},\"user_organization\":\"N\\/A\"}")
                         ]
       tracing_request = TracingRequest.new("relation_name" => "existing name", "last_updated_at" => "2013-12-12 00:00:01UTC", "histories" =>  [existing_histories])
       given_properties = {"relation_name" => "given name", "last_updated_at" => "2013-01-01 00:00:00UTC", "histories" => given_histories}
@@ -435,14 +435,14 @@ describe TracingRequest do
     end
 
     it "should save file based on content type" do
-      tracing_request = TracingRequest.new('created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.new('created_by' => "me", 'created_organization' => "stc")
       photo = uploadable_jpg_photo_without_file_extension
       tracing_request[:photo] = photo
       tracing_request.save.present?.should == true
     end
 
     it "should not save with file formats that are not supported audio formats" do
-      tracing_request = TracingRequest.new('created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.new('created_by' => "me", 'created_organization' => "stc")
       tracing_request.audio = uploadable_photo_gif
       tracing_request.save.should == false
       tracing_request.audio = uploadable_audio_amr
@@ -457,7 +457,7 @@ describe TracingRequest do
 
     it "should not save with image file formats that are not png or jpg" do
       photo = uploadable_photo
-      tracing_request = TracingRequest.new('created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.new('created_by' => "me", 'created_organization' => "stc")
       tracing_request.photo = photo
       tracing_request.save.present?.should == true
       loaded_tracing_request = TracingRequest.get(tracing_request.id)
@@ -468,13 +468,13 @@ describe TracingRequest do
 
     it "should not save with a photo larger than 10 megabytes" do
       photo = uploadable_large_photo
-      tracing_request = TracingRequest.new('created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.new('created_by' => "me", 'created_organization' => "stc")
       tracing_request.photo = photo
       tracing_request.save.should == false
     end
 
     it "should not save with an audio file larger than 10 megabytes" do
-      tracing_request = TracingRequest.new('created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.new('created_by' => "me", 'created_organization' => "stc")
       tracing_request.audio = uploadable_large_audio
       tracing_request.save.should == false
     end
@@ -566,8 +566,8 @@ describe TracingRequest do
 
     context "with a single new photo" do
       before :each do
-        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
-        @tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
+        @tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
       end
 
       it "should only have one photo on creation" do
@@ -582,7 +582,7 @@ describe TracingRequest do
 
     context "with multiple new photos" do
       before :each do
-        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
         @tracing_request = TracingRequest.create('photo' => {'0' => uploadable_photo_jeff, '1' => uploadable_photo_jorge}, 'last_known_location' => 'London', 'created_by' => "me")
       end
 
@@ -603,8 +603,8 @@ describe TracingRequest do
 
     context "when rotating an existing photo" do
       before :each do
-        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
-        @tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
+        @tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       end
 
@@ -629,7 +629,7 @@ describe TracingRequest do
 
     context "validate photo size" do
       before :each do
-        User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
         Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       end
 
@@ -638,7 +638,7 @@ describe TracingRequest do
         (1..11).each do |i|
           photos << stub_photo_properties(i)
         end
-        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         tracing_request.photos = photos
         tracing_request.save.should == false
         tracing_request.errors[:photo].should == ["You are only allowed 10 photos per tracing request."]
@@ -649,7 +649,7 @@ describe TracingRequest do
         (1..5).each do |i|
           photos << stub_photo_properties(i)
         end
-        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         tracing_request.photos = photos
         tracing_request.save
         tracing_request.new? == false
@@ -670,7 +670,7 @@ describe TracingRequest do
         (1..5).each do |i|
           photos << stub_photo_properties(i)
         end
-        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         tracing_request.photos = photos
         tracing_request.save
         tracing_request.new? == false
@@ -691,7 +691,7 @@ describe TracingRequest do
         (1..10).each do |i|
           photos << stub_photo_properties(i)
         end
-        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         tracing_request.photos = photos
         tracing_request.save
         tracing_request.new? == false
@@ -703,7 +703,7 @@ describe TracingRequest do
         (1..10).each do |i|
           photos << stub_photo_properties(i)
         end
-        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         tracing_request.photos = photos
         tracing_request.save
         tracing_request.new? == false
@@ -819,7 +819,7 @@ describe TracingRequest do
   describe ".audio" do
 
     before :each do
-      User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+      User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
     end
 
     it "should return nil if no audio file has been set" do
@@ -828,21 +828,21 @@ describe TracingRequest do
     end
 
     it "should check if 'original' audio attachment is present" do
-      tracing_request = TracingRequest.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       tracing_request['audio_attachments']['original'] = "ThisIsNotAnAttachmentName"
       tracing_request.should_receive(:has_attachment?).with('ThisIsNotAnAttachmentName').and_return(false)
       tracing_request.audio
     end
 
     it "should return nil if the recorded audio key is not an attachment" do
-      tracing_request = TracingRequest.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       tracing_request['audio_attachments']['original'] = "ThisIsNotAnAttachmentName"
       tracing_request.audio.should be_nil
     end
 
     it "should retrieve attachment data for attachment key" do
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
-      tracing_request = TracingRequest.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       tracing_request.should_receive(:read_attachment).with('audio-2010-02-20T120432').and_return("Some audio")
       tracing_request.audio
     end
@@ -850,7 +850,7 @@ describe TracingRequest do
     it 'should create a FileAttachment with the read attachment and the attachments content type' do
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       uploaded_amr = uploadable_audio_amr
-      tracing_request = TracingRequest.create('audio' => uploaded_amr, 'created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.create('audio' => uploaded_amr, 'created_by' => "me", 'created_organization' => "stc")
       expected_data = 'LA! LA! LA! Audio Data'
       tracing_request.stub(:read_attachment).and_return(expected_data)
       FileAttachment.should_receive(:new).with('audio-2010-02-20T120432', uploaded_amr.content_type, expected_data)
@@ -859,7 +859,7 @@ describe TracingRequest do
     end
 
     it 'should return nil if tracing request has not been saved' do
-      tracing_request = TracingRequest.new('audio' => uploadable_audio, 'created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.new('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       tracing_request.audio.should be_nil
     end
 
@@ -868,18 +868,18 @@ describe TracingRequest do
 
   describe "audio attachment" do
     before :each do
-      User.stub(:find_by_user_name).and_return(double(:organisation => "stc"))
+      User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
     end
 
     it "should create a field with recorded_audio on creation" do
       Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
-      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
 
       tracing_request['audio_attachments']['original'].should == 'audio-2010-01-20T171032'
     end
 
     it "should change audio file if a new audio file is set" do
-      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organisation' => "stc")
+      tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       tracing_request.update_attributes :audio => uploadable_audio
       tracing_request['audio_attachments']['original'].should == 'audio-2010-02-20T120432'
@@ -888,7 +888,7 @@ describe TracingRequest do
   end
 
   it "should maintain history when tracing_request is reunited and message is added" do
-    tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+    tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
     tracing_request.reunited = true
     tracing_request.save!
     reunited_history = tracing_request.histories.first.changes['reunited']
@@ -899,22 +899,22 @@ describe TracingRequest do
   describe "when fetching tracing request" do
 
     before do
-      User.stub(:find_by_user_name).and_return(double(:organisation => 'UNICEF'))
+      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
       TracingRequest.all.each { |tracing_request| tracing_request.destroy }
     end
 
     it "should return list of tracing request ordered by name" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
+      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       tracing_requests = TracingRequest.all
       tracing_requests.first['relation_name'].should == 'Abu'
     end
 
     it "should order tracing_request with blank names first" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organisation' => "stc")
+      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       TracingRequest.create('photo' => uploadable_photo, 'relation_name' => '', 'last_known_location' => 'POA')
       tracing_requests = TracingRequest.all
       tracing_requests.first['relation_name'].should == ''
@@ -948,7 +948,7 @@ describe TracingRequest do
     before :each do
       @photo1 = uploadable_photo("capybara_features/resources/jorge.jpg")
       @photo2 = uploadable_photo("capybara_features/resources/jeff.png")
-      User.stub(:find_by_user_name).and_return(double(:organisation => 'UNICEF'))
+      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
       @tracing_request = TracingRequest.new("relation_name" => "Tom", 'created_by' => "me")
       @tracing_request.photo= {0 => @photo1, 1 => @photo2}
       @tracing_request.save
@@ -974,7 +974,7 @@ describe TracingRequest do
 
   end
 
-  describe 'organisation' do
+  describe 'organization' do
     it 'should get created user' do
       tracing_request = TracingRequest.new
       tracing_request['created_by'] = 'test'
@@ -984,10 +984,10 @@ describe TracingRequest do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(:organisation => 'UNICEF'))
+      User.stub(:find_by_user_name).with('mj').and_return(double(:organization => 'UNICEF'))
       tracing_request = TracingRequest.create 'relation_name' => 'Jaco', :created_by => "mj"
 
-      tracing_request.created_organisation.should == 'UNICEF'
+      tracing_request.created_organization.should == 'UNICEF'
     end
   end
 
@@ -1091,12 +1091,12 @@ describe TracingRequest do
   private
 
   def create_tracing_request(name, options={})
-    options.merge!("relation_name" => name, "last_known_location" => "new york", 'created_by' => "me", 'created_organisation' => "stc")
+    options.merge!("relation_name" => name, "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
     TracingRequest.create(options)
   end
 
   def create_tracing_request_with_created_by(created_by,options = {})
-    user = User.new({:user_name => created_by, :organisation=> "UNICEF"})
+    user = User.new({:user_name => created_by, :organization=> "UNICEF"})
     TracingRequest.new_with_user_name user, options
   end
 end

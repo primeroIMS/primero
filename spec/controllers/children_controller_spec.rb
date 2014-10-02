@@ -73,7 +73,7 @@ describe ChildrenController do
 
     describe 'member' do
       before :each do
-        User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+        User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
         @child = Child.create('last_known_location' => "London", :short_id => 'short_id', :created_by => "uname")
         @child_arg = hash_including("_id" => @child.id)
       end
@@ -273,7 +273,7 @@ describe ChildrenController do
     end
 
     it 'should not fail if primary_photo_id is not present' do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('last_known_location' => "London", :created_by => "uname")
       Child.stub(:get).with("37").and_return(child)
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
@@ -283,7 +283,7 @@ describe ChildrenController do
     end
 
     it "should set current photo key as blank instead of nil" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('last_known_location' => "London", :created_by => "uname")
       Child.stub(:get).with("37").and_return(child)
       assigns[child[:current_photo_key]] == ""
@@ -376,7 +376,7 @@ describe ChildrenController do
 
   describe "PUT update" do
     it "should update child on a field and photo update" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
@@ -392,7 +392,7 @@ describe ChildrenController do
     end
 
     it "should update only non-photo fields when no photo update" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       put :update, :id => child.id,
@@ -406,7 +406,7 @@ describe ChildrenController do
     end
 
     it "should not update history on photo rotation" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
       Child.get(child.id).histories.size.should be 1
 
@@ -426,7 +426,7 @@ describe ChildrenController do
     end
 
     it "should update the last_updated_by_full_name field with the logged in user full name" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.new_with_user_name(user, {:name => 'existing child'})
       Child.stub(:get).with("123").and_return(child)
       subject.should_receive('current_user_full_name').and_return('Bill Clinton')
@@ -437,7 +437,7 @@ describe ChildrenController do
     end
 
     it "should not set photo if photo is not passed" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -447,7 +447,7 @@ describe ChildrenController do
       end
 
     it "should delete the audio if checked delete_child_audio checkbox" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -457,7 +457,7 @@ describe ChildrenController do
     end
 
     it "should redirect to redirect_url if it is present in params" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.new_with_user_name(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -468,7 +468,7 @@ describe ChildrenController do
     end
 
     it "should redirect to case page if redirect_url is not present in params" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.new_with_user_name(user, {:name => 'some name'})
 
       params_child = {"name" => 'update'}
@@ -605,11 +605,11 @@ describe ChildrenController do
     end
 
     xit "should create a log_entry when record is exported" do
-      fake_login User.new(:user_name => 'fakeuser', :organisation => "STC", :role_ids => ["abcd"])
+      fake_login User.new(:user_name => 'fakeuser', :organization => "STC", :role_ids => ["abcd"])
       @controller.stub(:authorize!)
       RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
 
-      LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organisation => "STC", :child_ids => [@child1.id, @child2.id]
+      LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organization => "STC", :child_ids => [@child1.id, @child2.id]
 
       get :index, :format => :cpims
     end
@@ -662,7 +662,7 @@ describe ChildrenController do
 
   describe "POST create" do
     it "should update the child record instead of creating if record already exists" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organisation => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.new_with_user_name(user, {:name => 'old name'})
       child.save
       fake_admin_login

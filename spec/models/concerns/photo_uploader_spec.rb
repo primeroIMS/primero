@@ -13,8 +13,8 @@ COUCHDB_SERVER.database('test_record').recreate! rescue nil
 describe PhotoUploader do
   before :each do
     Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
-    User.stub(:find_by_user_name).and_return(double(:organisation => 'stc'))
-    @rec = TestRecord.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+    User.stub(:find_by_user_name).and_return(double(:organization => 'stc'))
+    @rec = TestRecord.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
     Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:24"))
   end
 
@@ -55,7 +55,7 @@ describe PhotoUploader do
   end
 
   it "should take the current photo key during rec creation and update it appropriately with the correct format" do
-    @rec = TestRecord.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'created_by' => "me", 'created_organisation' => "stc")
+    @rec = TestRecord.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
     @rec.save
     @rec.primary_photo.name.should == @rec.photos.first.name
     @rec.primary_photo.name.should start_with("photo-")

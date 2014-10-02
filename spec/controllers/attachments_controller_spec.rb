@@ -4,7 +4,7 @@ describe AttachmentsController do
 
   before do
     fake_login
-    mock_user = double({:organisation => 'UNICEF'})
+    mock_user = double({:organization => 'UNICEF'})
     User.stub(:find_by_user_name).with(anything).and_return(mock_user)
     controller.stub(:set_locale)
   end

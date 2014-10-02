@@ -3,7 +3,7 @@ def create_user(user_name)
                "password" => "rapidftr",
                "password_confirmation" => "rapidftr",
                "full_name" => user_name,
-               "organisation" => "UNICEF",
+               "organization" => "UNICEF",
                "disabled" => "false",
                "email" => "rapidftr@rapidftr.com",
                "role_ids" => ["ADMIN"])
@@ -25,7 +25,7 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
     end
 
     User.find_by_user_name(user_name).
-        update_attributes({:organisation => incident_hash['created_organisation']}) if incident_hash['created_organisation']
+        update_attributes({:organization => incident_hash['created_organization']}) if incident_hash['created_organization']
 
     incident_hash['flag_at'] = incident_hash['flagged_at'] || DateTime.new(2001, 2, 3, 4, 5, 6)
     flag, flag_message = incident_hash.delete('flag') == 'true', incident_hash.delete('flag_message')
@@ -74,7 +74,7 @@ Given /^the following incidents with violations exist in the system:$/ do |incid
     end
 
     User.find_by_user_name(user_name).
-        update_attributes({:organisation => incident_hash['created_organisation']}) if incident_hash['created_organisation']
+        update_attributes({:organization => incident_hash['created_organization']}) if incident_hash['created_organization']
 
     incident = Incident.new_with_user_name(User.find_by_user_name(user_name), incident_hash)
 

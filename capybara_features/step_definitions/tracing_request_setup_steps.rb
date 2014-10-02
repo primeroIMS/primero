@@ -3,7 +3,7 @@ def create_user(user_name)
                "password" => "rapidftr",
                "password_confirmation" => "rapidftr",
                "full_name" => user_name,
-               "organisation" => "UNICEF",
+               "organization" => "UNICEF",
                "disabled" => "false",
                "email" => "rapidftr@rapidftr.com",
                "role_ids" => ["ADMIN"])
@@ -19,7 +19,7 @@ Given /^the following tracing request exist in the system:$/ do |tracing_request
     end
 
     User.find_by_user_name(user_name).
-        update_attributes({:organisation => tracing_request_hash['created_organisation']}) if tracing_request_hash['created_organisation']
+        update_attributes({:organization => tracing_request_hash['created_organization']}) if tracing_request_hash['created_organization']
 
     tracing_request_hash['flag_at'] = tracing_request_hash['flagged_at'] || DateTime.new(2001, 2, 3, 4, 5, 6)
     flag, flag_message = tracing_request_hash.delete('flag') == 'true', tracing_request_hash.delete('flag_message')

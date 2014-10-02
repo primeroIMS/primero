@@ -62,7 +62,7 @@ shared_examples "Searchable" do
     it "should build with free text search fields" do
       pending "Write this test!"
       # Field.stub(:all_searchable_field_names).and_return []
-      # Child.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organisation"]
+      # Child.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization"]
     end
 
     it "should build with date search fields" do
