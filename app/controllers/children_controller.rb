@@ -175,6 +175,14 @@ class ChildrenController < ApplicationController
     redirect_to(@child)
   end
 
+  #TODO: We need to define the filter values as Constants
+  def case_filter(filter)
+    #The UNHCR report should retrieve only CP cases.
+    filter["module_id"] = "single,#{PrimeroModule::CP}" if params["format"] == "unhcr_csv"
+    filter["child_status"] ||= "open"
+    filter
+  end
+
 # POST
   def select_primary_photo
     @child = Child.get(params[:child_id])

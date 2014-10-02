@@ -35,36 +35,36 @@ class RecordFlagController < ApplicationController
     success = true
     reload_page = false
     error_message = ""
-    child_filters = case_filter filter if @model_class == Child
+    child_filters = nil
+    records_to_flag = []
+
+    if @model_class == Child
+      child_filters = filter
+      child_filters["child_status"] ||= "open"
+    end
 
     if params[:all_records_selected] == "true"
       pagination_ops = {:page => 1, :per_page => 100}
       begin
         search = @model_class.list_records(child_filters||filter, order, pagination_ops, users_filter, params[:query])
         results = search.results
-        results.each do |record|
-          record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
-          if record.save
-            reload_page = true
-          else
-            success = false
-            error_message += "\n#{I18n.t("messages.record_not_flagged_message", short_id: record.short_id)}"
-          end
-        end
+        records_to_flag.concat(results)
         pagination_ops[:page] = results.next_page
       end until results.next_page.nil?
     else
-      params[:selected_records].each do |id|
-        record = @model_class.get(id)
-        record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
-        if record.save
-          reload_page = true
-        else
-          success = false
-          error_message += "\n#{I18n.t("messages.record_not_flagged_message", short_id: record.short_id)}"
-        end
+      params[:selected_records].each { |id| records_to_flag << @model_class.get(id) }
+    end
+
+    records_to_flag.each do |record|
+      record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
+      if record.save
+        reload_page = true
+      else
+        success = false
+        error_message += "\n#{I18n.t("messages.record_not_flagged_message", short_id: record.short_id)}"
       end
     end
+
     error_message = I18n.t("messages.flag_multiple_records_error_message") + error_message unless success
     render :json => {:success => success, :error_message => error_message, :reload_page => reload_page}
   end
