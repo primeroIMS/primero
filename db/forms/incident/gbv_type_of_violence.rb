@@ -42,14 +42,7 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "gbv_sexual_violence_type",
              "type" => "select_box",
              "display_name_all" => "Type of Incident Violence",
-             "option_strings_text_all" =>
-                                    ["Rape",
-                                     "Sexual Assault",
-                                     "Physical Assault",
-                                     "Forced Marriage",
-                                     "Denial of Resources, Opportunities, or Services",
-                                     "Psychological/Emotional Abuse",
-                                     "Non-GBV"].join("\n")
+             "option_strings_source" => "lookup GbvSexualViolenceType"
             }),
   Field.new({"name" => "non_gbv_type_notes",
              "type" => "textarea",

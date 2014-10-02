@@ -33,18 +33,16 @@ perpetrator_subform_fields = [
   Field.new({"name" => "perpetrator_sub_category",
              "type" => "select_box",
              "display_name_all" => "To which type of armed force or group did the alleged perpetrator(s) belong?",
-             "option_strings_text_all" =>
-                          ["National Army",
-                           "Security Forces",
-                           "International Forces",
-                           "Police Forces",
-                           "Para-Military Forces",
-                           "Unknown",
-                           "Other"].join("\n")
+             "option_strings_source" => "lookup ArmedForceGroupType"
             }),
   Field.new({"name" => "armed_force_group_name",
-             "type" => "text_field",
+             "type" => "select_box",
              "display_name_all" => "Name of the armed force or group?",
+             "option_strings_source" => "lookup ArmedForceGroupName"
+            }),
+  Field.new({"name" => "armed_force_group_name_other",
+             "type" => "text_field",
+             "display_name_all" => "Please specify the armed force or group if Other, please specify was selected above",
             }),
   Field.new({"name" => "perpetrator_sex",
              "type" => "select_box",

@@ -1,5 +1,5 @@
 recruitment_subform_fields = [
-  Field.new({"name" => "violation_recruit_tally",
+  Field.new({"name" => "violation_tally",
        "type" => "tally_field",
        "display_name_all" => "Number of survivors",
        "autosum_group" => "recruitment_number_of_survivors",
@@ -155,12 +155,7 @@ recruitment_subform_fields = [
   Field.new({"name" => "verified",
              "type" => "select_box",
              "display_name_all" => "Verification Status",
-             "option_strings_text_all" =>
-                                    ["Verified",
-                                     "Unverified",
-                                     "Pending",
-                                     "Falsely Attributed",
-                                     "Rejected"].join("\n")
+             "option_strings_source" => "lookup VerificationStatus"
             }),
   Field.new({"name" => "verification_source_weight",
              "type" => "select_box",

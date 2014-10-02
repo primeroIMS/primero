@@ -7,6 +7,9 @@ Feature: Subforms Collapses Fields Incidents Viewing
 
   Background:
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    And the following lookups exist in the system:
+      | name                     | lookup_values                                                                                             |
+      | armed_force_group_type   | National Army, Security Forces, International Forces, Police Forces, Para-Military Forces, Unknown, Other |
     When I access "incidents page"
     And I press the "New Incident" button
 

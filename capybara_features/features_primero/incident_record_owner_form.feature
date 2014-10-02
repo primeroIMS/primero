@@ -20,8 +20,7 @@ Feature: Record Owner Form
     And I should see a value for "Field/Case/Social Worker" on the show page with the value of "Social worker name"
     And I should see a value for "Caseworker Code" on the show page with the value of "Case Worker3"
     And I should see a value for "Agency" on the show page with the value of "Agency1"
-    And I should see a value for "Record created by" on the show page with the value of "primero"
-    And I should see a value for "Created by agency" on the show page with the value of "UNICEF"
+    And I should see a value for "Record created by" on the show page with the value of "primero_mrm"
     And I should see a value for "Previous Owner" on the show page with the value of "Previous owner name"
     And I should see a value for "Previous Agency" on the show page with the value of "Previous agency name"
 
