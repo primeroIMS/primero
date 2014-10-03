@@ -18,8 +18,7 @@ Feature: Flag Date Tracing Requests Records
    And I fill in "Flag Reason" with "Future Processing"
    And I fill in "tracing_request_flag_date" with "22-Jan-2014"
    And I press "Flag"
-   Then I should see "Flagged by primero_cp"
-   And I should see "Future Processing"
+   And the tracing request record history should log "Flags changed by primero_cp"
 
   Scenario: As a logged in user and enter to edit page, I want to flag and set date to the tracing request
    And I click the "9bf3aa9" link
@@ -28,8 +27,7 @@ Feature: Flag Date Tracing Requests Records
    And I fill in "Flag Reason" with "Future Processing"
    And I fill in "tracing_request_flag_date" with "21-Jan-2014"
    And I press "Flag"
-   Then I should see "Flagged by primero_cp"
-   And I should see "Future Processing"
+   And the tracing request record history should log "Flags changed by primero_cp"
 
   #Remove flag in the GUI will be refactoring because it allow multiple flags now
   @wip
@@ -38,8 +36,7 @@ Feature: Flag Date Tracing Requests Records
    And I press the "UnFlags" button
    And I fill in "Unflag Reason" with "No Processing"
    And I press "Unflag"
-   Then I should not see "Flagged by primero_cp"
-   And I should not see "Future Processing"
+   And the tracing request record history should log "Flags changed by primero_cp"
 
   #Remove flag in the GUI will be refactoring because it allow multiple flags now
   @wip
@@ -49,6 +46,5 @@ Feature: Flag Date Tracing Requests Records
    And I press the "UnFlags" button
    And I fill in "Unflag Reason" with "No Processing"
    And I press "Unflag"
-   Then I should not see "Flagged by primero_cp"
-   And I should not see "Future Processing"
+   And the tracing request record history should log "Flags changed by primero_cp"
    

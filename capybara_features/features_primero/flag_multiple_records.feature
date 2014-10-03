@@ -76,3 +76,95 @@ Feature: Flag Case Records For Attention
       | cases page            | "primero_cp"  |
       | incidents page        | "primero_mrm" |
       | tracing requests page | "primero_cp"  |
+
+  Scenario Outline: Select All option should apply to all records from all pages
+    Given I am logged in as an admin with username <user> and password "primero"
+    And 50 <model> sample records exists created by <user>
+    When I access <page>
+    And I check the "select_all_records" field
+    And all the records on the page should be selected
+    And I visit cases page "2"
+    And all the records on the page should be selected
+    And I visit cases page "3"
+    And all the records on the page should be selected
+    And I visit cases page "1"
+    And I sort the records by "ID#"
+    And I uncheck "select_all_records"
+    And I select all the records on the page
+    And I press the "Flag" span
+    And I fill in "Flag Reason" with "Testing"
+    And I fill in "Date (optional)" with "today's date"
+    And I click on the link with text "Flag"
+    And all the records on the page should be flagged
+    And I visit cases page "2"
+    And I select all the records on the page
+    And I press the "Flag" span
+    And I fill in "Flag Reason" with "Testing"
+    And I fill in "Date (optional)" with "today's date"
+    And I click on the link with text "Flag"
+    And all the records on the page should be flagged
+    And I check the "Flagged?" field
+    And I press the "Apply Filter" link
+    And I check the "select_all_records" field
+    And I press the "Flag" span
+    And I fill in "Flag Reason" with "Testing"
+    And I fill in "Date (optional)" with "today's date"
+    And I click on the link with text "Flag"
+    And all the records on the page should be flagged "2" times
+    And I access <page>
+    And I sort the records by "ID#"
+    And all the records on the page should be flagged "2" times
+    And I visit cases page "2"
+    And all the records on the page should be flagged "2" times
+    And I visit cases page "3"
+    And the record for "0000041" should not display a "bookmark" icon beside it
+    And the record for "0000042" should not display a "bookmark" icon beside it
+    And the record for "0000043" should not display a "bookmark" icon beside it
+    And the record for "0000044" should not display a "bookmark" icon beside it
+    And the record for "0000045" should not display a "bookmark" icon beside it
+    And the record for "0000046" should not display a "bookmark" icon beside it
+    And the record for "0000047" should not display a "bookmark" icon beside it
+    And the record for "0000048" should not display a "bookmark" icon beside it
+    And the record for "0000049" should not display a "bookmark" icon beside it
+    And the record for "0000050" should not display a "bookmark" icon beside it
+
+    Examples:
+      | model            | user          | page                  |
+      | cases            | "primero_cp"  | cases page            |
+      | incidents        | "primero_mrm" | incidents page        |
+
+  Scenario Outline: Select All option should apply to all records from all pages in tracing requests
+    Given I am logged in as an admin with username <user> and password "primero"
+    And 50 <model> sample records exists created by <user>
+    When I access <page>
+    And I sort the records by "ID#"
+    And I check the "select_all_records" field
+    And all the records on the page should be selected
+    And I visit cases page "2"
+    And all the records on the page should be selected
+    And I visit cases page "3"
+    And all the records on the page should be selected
+    And I press the "Flag" span
+    And I fill in "Flag Reason" with "Testing"
+    And I fill in "Date (optional)" with "today's date"
+    And I click on the link with text "Flag"
+    And all the records on the page should be flagged "1" times
+    And I visit cases page "2"
+    And all the records on the page should be flagged "1" times
+    And I visit cases page "1"
+    And all the records on the page should be flagged "1" times
+    And I uncheck "select_all_records"
+    And I select all the records on the page
+    And I press the "Flag" span
+    And I fill in "Flag Reason" with "Testing"
+    And I fill in "Date (optional)" with "today's date"
+    And I click on the link with text "Flag"
+    And all the records on the page should be flagged "2" times
+    And I visit cases page "2"
+    And all the records on the page should be flagged "1" times
+    And I visit cases page "3"
+    And all the records on the page should be flagged "1" times
+
+    Examples:
+      | model            | user          | page                  |
+      | tracing requests | "primero_cp"  | tracing requests page |
