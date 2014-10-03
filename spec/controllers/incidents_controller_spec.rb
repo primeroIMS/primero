@@ -718,7 +718,7 @@ describe IncidentsController do
 
   describe "POST create" do
     it "should update the incident record instead of creating if record already exists" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       incident = Incident.new_with_user_name(user, {:name => 'old name'})
       incident.save
       fake_admin_login
