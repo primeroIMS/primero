@@ -22,6 +22,6 @@
       <%= check_box_tag "#{formObject.class.name.underscore.downcase}[hidden_name]", true, false %>
       <%= label_tag "#{formObject.class.name.underscore.downcase}[hidden_name]", hide_text_link_text %>
     <% end %>
-    <p class="help"><%= text_field.help_text %></p>
+    <% if text_field.help_text %><p class="help"><%= text_field.help_text %></p><% end %>
   </div>
 </div>
