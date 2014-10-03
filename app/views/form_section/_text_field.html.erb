@@ -22,6 +22,6 @@
       <%= check_box_tag "#{formObject.class.name.underscore.downcase}[hidden_name]", true, false %>
       <%= label_tag "#{formObject.class.name.underscore.downcase}[hidden_name]", hide_text_link_text %>
     <% end %>
-    <%= image_tag "new/icon_help.png", title: text_field.help_text, class: 'tool-tip-icon vtip' if text_field.help_text.present? %>
+    <p class="help"><%= text_field.help_text %></p>
   </div>
 </div>

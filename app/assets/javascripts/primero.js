@@ -121,7 +121,7 @@ var Primero = Backbone.View.extend({
     guided_questions.prev('input, textarea').addClass('has_help');
     guided_questions.popover({
       content: function() {
-        return $(this).next('.popover_content').html().replace(/\n/g, "<br/>");
+        return $(this).next('.popover_content').html();
       }, 
       placement: 'bottom',
       trigger: 'manual'

@@ -2,8 +2,7 @@ survivor_assessment_fields = [
   Field.new({"name" => "assessment_emotional_state_start",
              "type" => "textarea",
              "display_name_all" => "Survivor Context",
-             "guiding_questions" => "
-                Her family situation:  Does she have a husband (if the husband is not the perpetrator, does he know about what happened to her)? Does she have children? Does the survivor have other relatives that are present in her life?
+             "guiding_questions" => "Her family situation:  Does she have a husband (if the husband is not the perpetrator, does he know about what happened to her)? Does she have children? Does the survivor have other relatives that are present in her life?
 
                 Her current living situation.  Does the survivor have a place to live? Where? Who lives in the house with her? 
 
@@ -13,8 +12,7 @@ survivor_assessment_fields = [
   Field.new({"name" => "assessment_emotional_state_end",
              "type" => "textarea",
              "display_name_all" => "Assessement of Presenting Problem",
-             "guiding_questions" => "
-                What has happened to her?  It is crucial to find out if physical force and weapons were used, whether there is any severe pain (especially head injuries) or bleeding, and whether there was vaginal/anal penetration. Immediate medical care and treatment is highly indicated in these circumstances.
+             "guiding_questions" => "What has happened to her?  It is crucial to find out if physical force and weapons were used, whether there is any severe pain (especially head injuries) or bleeding, and whether there was vaginal/anal penetration. Immediate medical care and treatment is highly indicated in these circumstances.
 
                 Who the perpetrator is and whether he can access the survivor?
 
@@ -27,8 +25,7 @@ survivor_assessment_fields = [
   Field.new({"name" => "assessment_survivor_safety",
              "type" => "textarea",
              "display_name_all" => "Assessement of Immediate Need",
-             "guiding_questions" => "
-                What happened to the survivor and what does she want help with?
+             "guiding_questions" => "What happened to the survivor and what does she want help with?
 
                 What are the survivor’s major concerns right now?
              "

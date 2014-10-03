@@ -18,7 +18,6 @@ module Record
     property :duplicate, TrueClass
     property :duplicate_of, String
     property :short_id
-    property :record_state, String
     property :flag_at, DateTime
     property :reunited_at, DateTime
     property :record_state, TrueClass, default: true
@@ -214,7 +213,7 @@ module Record
 
   def initialize(*args)
     super
-    self['record_state'] = true if self['record_state'].nil?
+    self.record_state = true if self['record_state'].nil?
   end
 
   def valid_record?
@@ -278,7 +277,7 @@ module Record
   def update_properties(properties, user_name)
     properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     properties['histories'] = remove_newly_created_media_history(properties['histories'])
-    properties['record_state'] = true if properties['record_state'].blank?
+    properties['record_state'] = true if properties['record_state'].nil?
 
     attributes_to_update = {}
     properties.each_pair do |name, value|
