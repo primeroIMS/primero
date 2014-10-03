@@ -8,7 +8,7 @@
   %>
   <div class="subforms">
     <% if number_of_subforms == 0 %>
-      <%= t('placeholders.subforms', :form => t(subform.name, :default => subform.display_name.singularize)) %>
+      <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(subform.name, :default => subform.display_name.singularize)) %></div>
     <% end %>
     <% (number_of_subforms).times do |i| %>
       <%

@@ -83,7 +83,7 @@ en:
      children: "CHILDREN"
      forms: "FORMS"
      users: "USERS"
-     devices: "DEVICES"
+     replications: "SYNC"
      reports: "REPORTS"
      advanced_search: "Advanced Search"
      go: "Go"
@@ -575,6 +575,7 @@ en:
   enabled: "Enabled"
   status: "Status"
   devices: "Devices"
+  replications: "Replications"
   provide_translation: "Provide translation for"
 
   role:
@@ -950,7 +951,8 @@ en:
 
   actions:
     button: "Actions"
-    enable_disable: "Enable/Disable"
+    enable: "Enable"
+    disable: "Disable"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

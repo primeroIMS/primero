@@ -2,7 +2,7 @@ Feature: Black listing devices
   As a device manager
   I should be able to blacklist or un blacklist a device
 
-  @javascript
+  @javascript @wip
   Scenario: Should able to blacklist a device
 
     Given I am logged in as a user with "BlackList Devices" permission

@@ -9,7 +9,7 @@ _Child = Class.new(CouchRest::Model::Base) do
   include Syncable
 
   property :name, String
-  property :age, Fixnum
+  property :age, Integer
   property :survivor_code, String
   property :gender, String
   property :family_members, [Class.new do
@@ -110,6 +110,7 @@ describe Syncable do
       @child.save!
       @child.attributes = {
         'name' => 'Fred',
+        'birth_day' => DateTime.new(2000, 10, 1),
         'family_members' => [
           { 'unique_id' => 'aaaa', 'name' => 'Carl', 'relation' => 'father', },
           { 'unique_id' => 'bbbb', 'name' => 'Mary', 'relation' => 'mother', },
@@ -142,7 +143,7 @@ describe Syncable do
           { 'unique_id' => 'bbbb', 'name' => 'Mary', 'relation' => 'mother' },
           { 'unique_id' => 'aaaa', 'name' => 'Carl', 'relation' => 'uncle' },
         ],
-        'revision' => @first_revision
+        'base_revision' => @first_revision
       }
       @child.attributes = proposed_props
 
@@ -153,7 +154,7 @@ describe Syncable do
     it "should not consider a separate update as stale" do
       @child.attributes = {
         'age' => 14,
-        'revision' => @first_revision,
+        'base_revision' => @first_revision,
       }
 
       @child.age.should == 14
@@ -174,7 +175,7 @@ describe Syncable do
     it "should handle normal arrays without unique_id" do
       proposed_props = {
         'languages' => ['English', 'Chinese'],
-        'revision' => @first_revision,
+        'base_revision' => @first_revision,
       }
       @child.attributes = proposed_props
 
@@ -199,10 +200,48 @@ describe Syncable do
             original_kill.to_hash,
           ],
         },
-        'revision' => @first_revision,
+        'base_revision' => @first_revision,
       }
 
       @child.violations.killing[0].notes.should == 'kill changed'
+    end
+
+    it "should handle integer field conflicts" do
+      base_rev = @child.rev
+      original_age = @child.age
+      new_age = original_age + 2
+      @child.age = new_age
+      @child.save!
+
+      @child = @child.reload
+      @child.attributes = {
+        'name' => 'George',
+        # Cast it to a string since that is how the front end will always submit it
+        'age' => original_age.to_s,
+        'base_revision' => base_rev,
+      }
+
+      @child.age.should == new_age
+    end
+
+    it "should handle date field conflicts" do
+      base_rev = @child.rev
+      original_bday = @child.birth_day
+      new_bday = original_bday + 2.days
+      @child.birth_day = new_bday
+      @child.save!
+
+      # Reload to get the histories converted to strings as they will be
+      # after a fresh fetch.
+      @child = @child.reload
+      @child.attributes = {
+        # That format is how the front-end submits it
+        'birth_day' => original_bday.strftime('%d-%b-%Y'),
+        'name' => 'Jorge',
+        'base_revision' => base_rev,
+      }
+
+      @child.birth_day.should == new_bday
     end
   end
 
@@ -227,6 +266,7 @@ describe Syncable do
           :last_updated_by => 'me',
           :family_members => [
             {:unique_id => 'f1', :name => 'Arthur', :relation => 'father'},
+            {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
           ],
         }
       end
@@ -240,7 +280,7 @@ describe Syncable do
           :last_updated_by => 'me',
           :family_members => [
             {:unique_id => 'f1', :name => 'Lawrence', :relation => 'brother'},
-            {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
+            {:unique_id => 'f3', :name => 'Lara', :relation => 'aunt'},
           ],
         }
         c.update_history
@@ -265,11 +305,11 @@ describe Syncable do
       resolved[:gender].should == @saved_first[:gender]
     end
 
-    xit "should merge nested fields" do
+    it "should merge nested fields" do
       @child.reload.resolve_conflicting_revisions
 
       resolved = _Child.get(@child._id)
-      resolved[:family_members].length.should == 2
+      resolved[:family_members].length.should == 3
     end
 
     it "should update existing nested fields" do

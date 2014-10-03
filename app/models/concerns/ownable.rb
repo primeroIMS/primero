@@ -7,7 +7,9 @@ module Ownable
     before_save :update_previously_owned_by
 
     property :owned_by
+    property :owned_by_full_name
     property :previously_owned_by
+    property :previously_owned_by_full_name
     property :assigned_user_names, :type => [String]
     property :database_operator_user_name
     property :module_id
@@ -61,5 +63,6 @@ module Ownable
 
   def update_previously_owned_by
     self.previously_owned_by = self.changes['owned_by'].try(:fetch, 0) || owned_by
+    self.previously_owned_by_full_name = self.changes['owned_by_full_name'] || owned_by_full_name
   end
 end

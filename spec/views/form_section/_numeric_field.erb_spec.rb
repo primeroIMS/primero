@@ -14,7 +14,7 @@ describe "form_section/_numeric_field.html.erb" do
 
     numeric_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/numeric_field', :locals => { :numeric_field => numeric_field, :formObject => @child }, :formats => [:html], :handlers => [:erb]
-    rendered.should have_tag("img.vtip")
+    rendered.should have_tag("p.help")
   end
 
   it "should not include image for tooltip when help text not exists" do
@@ -24,7 +24,7 @@ describe "form_section/_numeric_field.html.erb" do
 
     numeric_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/numeric_field', :locals => { :numeric_field => numeric_field, :formObject => @child }, :formats => [:html], :handlers => [:erb]
-    rendered.should_not have_tag("img.vtip")
+    rendered.should_not have_tag("p.help")
   end
 
 end

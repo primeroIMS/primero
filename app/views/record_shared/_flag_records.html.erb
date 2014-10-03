@@ -1,8 +1,9 @@
-<div class="btn green-button" data-reveal-id="<%= "#{model.name.underscore.downcase}_flag_records" %>">
+<a class="btn green-button left" data-reveal-id="<%= "#{model.name.underscore.downcase}_flag_records" %>">
   <span><%= t("buttons.flag_records") %></span>
-</div>
+</a>
 
-<div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_flag_records" %>" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal>
+<div class="reveal-modal medium" id="<%= "#{model.name.underscore.downcase}_flag_records" %>" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
   <div class="row flag_records">
     <div class="medium-5 columns">
       <label for="<%=model.name.underscore.downcase%>_flag_message"><%=t("#{model.name.underscore.downcase}.flag_reason")%>:</label>
