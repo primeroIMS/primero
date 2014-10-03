@@ -589,8 +589,10 @@ And (/^I select all the records on the page$/) do
 end
 
 And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/) do |times_flagged, arg1|
-  page.should have_selector(:css, "table.dataTable tbody tr td div.flag_icon i.fa-bookmark")
-  page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon')]/span[text()='#{times_flagged}']") if times_flagged
+  using_wait_time 60 do
+    page.should have_selector(:css, "table.dataTable tbody tr td div.flag_icon i.fa-bookmark")
+    page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon')]/span[text()='#{times_flagged}']") if times_flagged
+  end
   page.all(:css, "table.dataTable tbody tr").each do |row|
       row.find(:css, "td div.flag_icon i.fa-bookmark")
       if times_flagged
