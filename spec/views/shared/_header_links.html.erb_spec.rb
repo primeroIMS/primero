@@ -28,7 +28,7 @@ describe 'shared/_header_links.html.erb' do
     it { should_not have_link('CHILDREN', :href => children_path)}
     it { should_not have_link('FORMS', :href => form_sections_path)}
     it { should_not have_link('USERS', :href => users_path)}
-    it { should_not have_link('DEVICES', :href => devices_path)}
+    it { should_not have_link('SYNC', :href => replications_path)}
   end
 
   describe 'with all permission' do

@@ -37,7 +37,7 @@
                 <li><%= link_to t("navigation.incidents"), incidents_path, class: current_page(incidents_path) %></li>
               <% end  %>
               <% if current_user_name==nil or can? :manage, FormSection %>
-                <li><%= link_to t("navigation.forms"), form_sections_path %></li>
+                <li><%= link_to t("navigation.forms"), form_sections_path, class: current_page(form_sections_path) %></li>
               <% end %>
               <% if false %>
                 <% if can? :read, User or can? :show, Role %>
@@ -45,7 +45,7 @@
                 <% end %>
               <% end %>
               <% if can?(:read, Device) or can?(:read, Replication) %>
-                <li><%= link_to t("navigation.devices"), devices_path %></li>
+                <li><%= link_to t("navigation.replications"), replications_path, class: current_page(replications_path) %></li>
               <% end %>
               <% if can? :read, Report%>
                 <li><%= link_to t("navigation.reports"), reports_path, class: current_page(reports_path) %></li>

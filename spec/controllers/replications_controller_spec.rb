@@ -27,7 +27,7 @@ describe ReplicationsController do
     Replication.should_receive(:new).and_return(mock_replication)
     mock_replication.should_receive(:save).and_return(true)
     post :create
-    response.should redirect_to(devices_path)
+    response.should redirect_to(replications_path)
   end
 
 end
