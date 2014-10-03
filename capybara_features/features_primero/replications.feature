@@ -51,6 +51,7 @@ Feature: Replications
     And I should not see "http://localhost:88888/"
     And I clear the Replication Configuration expectations
 
+  #TODO -Implement this when more is known about what we are planning to do with blacklist
   @wip
   Scenario: Should able to blacklist a device
     When I have the following devices:
