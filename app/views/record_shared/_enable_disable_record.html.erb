@@ -2,6 +2,7 @@
   <a data-reveal-id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" href="#"><%= t("actions.enable_disable") %></a>
 
   <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
+    <a class="close-reveal-modal">&#215;</a>
   	<% state = nil %>
     <div class="row">
       <div class="large-12 columns">
