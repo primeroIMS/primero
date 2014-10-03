@@ -43,7 +43,7 @@ module Historical
                       v
                     end
                   else
-                    nil
+                    v
                   end
           acc.merge({k => new_v})
         end
@@ -82,7 +82,7 @@ module Historical
 
       hist.changes = hist.changes.inject({}) do |acc, (k, v)|
         p = properties_by_name[k]
-        new_change = if p.type.present?
+        new_change = if p.present? && p.type.present?
                        cast_change.call(p.name, p.type, p.array, v)
                      else
                        v
@@ -252,6 +252,7 @@ module Historical
               v
             end
           end
+
           if norm_prev != norm_current
             {
               'from' => prev,
@@ -259,7 +260,11 @@ module Historical
             }
           end
         end
-        acc.merge({prop_name => change_hash})
+        if change_hash.present?
+          acc.merge({prop_name => change_hash})
+        else
+          acc
+        end
       end
     end
   end
