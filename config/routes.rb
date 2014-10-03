@@ -27,9 +27,6 @@ RapidFTR::Application.routes.draw do
 
   resources :contact_information
 
-  resources :devices
-  match 'devices/update_blacklist' => 'devices#update_blacklist', :via => :post
-
   resources :roles do
     collection do
       post :import_file
@@ -289,10 +286,10 @@ RapidFTR::Application.routes.draw do
 #######################
 # REPLICATION URLS
 #######################
-
-  resources :replications, :path => "/devices/replications" do
+  resources :replications do
     collection do
       post :configuration
+      post :update_blacklist
     end
 
     member do
