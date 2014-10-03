@@ -88,7 +88,7 @@ module Syncable
         else
           # We need unique_ids to distinguish between deleting and leaving
           # unaltered, so don't delete them
-          if new_props[key] == prop_change['from'] && key != 'unique_id'
+          if key != 'unique_id' && proposed_equals_history_value(new_props[key], prop_change['from'])
             new_props.delete key
           end
         end
@@ -142,16 +142,20 @@ module Syncable
 
   # Get all the change objects since the given `revision`
   def get_intermediate_histories revision
-    histories = self.histories.reverse
-                       .drop_while {|h| h.prev_revision != revision }
-                       .reverse
+    if self.histories.length > 1
+      histories = self.histories.reverse
+                         .drop_while {|h| h.prev_revision != revision }
+                         .reverse
 
-    # Throw an exception until a legitimate reason for missing revisions is found
-    if histories.length == 0 && self.histories.length > 1
-      raise Errors::RevisionNotFoundError.new("Unknown revision provided #{revision}")
+      # Throw an exception until a legitimate reason for missing revisions is found
+      if histories.length == 0
+        raise Errors::RevisionNotFoundError.new("Unknown revision provided #{revision}")
+      end
+
+      histories
+    else
+      []
     end
-
-    histories
   end
 
   def get_intermediate_changes revision
@@ -231,6 +235,23 @@ module Syncable
     # Ruby appears to maintain array order when doing set intersection,
     # otherwise this won't work
     prev_revisions.inject(:&)[0]
+  end
+
+  def proposed_equals_history_value(proposed_value, history_value)
+    casted_proposed = if proposed_value.present?
+                        case history_value
+                        when Date, DateTime, Time
+                          history_value.class.parse(proposed_value)
+                        when Integer, Fixnum
+                          Integer(proposed_value)
+                        else
+                          proposed_value
+                        end
+                      else
+                        proposed_value
+                      end
+
+    casted_proposed == history_value
   end
 end
 
