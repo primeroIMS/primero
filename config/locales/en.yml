@@ -951,7 +951,8 @@ en:
 
   actions:
     button: "Actions"
-    enable_disable: "Enable/Disable"
+    enable: "Enable"
+    disable: "Disable"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

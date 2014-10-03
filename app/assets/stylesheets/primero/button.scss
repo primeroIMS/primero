@@ -107,12 +107,19 @@
   }
 }
 
-a.close-reveal-modal {
+a.close-reveal-modal:not(.green-button) {
   font-size: 1.5rem !important;
 
   &:hover {
     text-decoration: none;
   }
+}
+
+a.close-reveal-modal.green-button {
+  top: inherit;
+  position: inherit;
+  line-height: normal;
+  font-weight: inherit;
 }
 
 ////////////////////////////////////////////////
