@@ -2,7 +2,7 @@
 // Buttons
 ////////////////////////////////////////////////
 
-.green-button {
+.green-button, .ui-button {
   color: $green_color !important;
   border: 1px solid $stroke_green_color !important;
   font-family: 'Roboto-Medium', sans-serif !important;
@@ -41,6 +41,10 @@
 .import_button {
   width: 200px; 
   float: right;
+}
+
+.ui-button-text-only .ui-button-text {
+  padding: none;
 }
 
 ////////////////////////////////////////////////
@@ -103,13 +107,21 @@
   }
 }
 
+a.close-reveal-modal {
+  font-size: 1.5rem !important;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 ////////////////////////////////////////////////
 // Nested Button Menu
 ////////////////////////////////////////////////
 
-.sf-menu {
+ul.sf-menu {
   float: left;
-  margin-bottom: 1em;
+  margin: 0 8px 1em;
 }
 
 .sf-menu ul {

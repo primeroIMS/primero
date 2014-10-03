@@ -421,7 +421,7 @@ describe TracingRequestsController do
     end
 
     it "should update the last_updated_by_full_name field with the logged in user full name" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'existing tracing_request'})
       TracingRequest.stub(:get).with("123").and_return(tracing_request)
       subject.should_receive('current_user_full_name').and_return('Bill Clinton')
@@ -432,7 +432,7 @@ describe TracingRequestsController do
     end
 
     it "should not set photo if photo is not passed" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -442,7 +442,7 @@ describe TracingRequestsController do
       end
 
     it "should delete the audio if checked delete_tracing_request_audio checkbox" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -452,7 +452,7 @@ describe TracingRequestsController do
     end
 
     it "should redirect to redirect_url if it is present in params" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
       params_tracing_request = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
@@ -463,7 +463,7 @@ describe TracingRequestsController do
     end
 
     it "should redirect to case page if redirect_url is not present in params" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
 
       params_tracing_request = {"name" => 'update'}
@@ -718,7 +718,7 @@ describe TracingRequestsController do
 
   describe "POST create" do
     it "should update the tracing request record instead of creating if record already exists" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'old name'})
       tracing_request.save
       fake_admin_login

@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider :virtualbox do |vb, override|
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--memory", ENV['PRIMERO_RAM'] || "2048"]
     vb.customize ["modifyvm", :id, "--cpus", "2"]
   end
 end
