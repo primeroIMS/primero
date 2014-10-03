@@ -393,7 +393,7 @@ describe Child do
     end
 
     it "should assign name property as nil if name is not passed before saving child record" do
-      child = Child.new_with_user_name(double('user', :user_name => 'user', :organization => 'org'), {'some_field' => 'some_value'})
+      child = Child.new_with_user_name(double('user', :user_name => 'user', :organization => 'org', :full_name => 'UserN'), {'some_field' => 'some_value'})
       child.save
       child = Child.get(child.id)
       child.name.should == nil

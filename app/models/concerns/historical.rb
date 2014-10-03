@@ -29,7 +29,70 @@ module Historical
       property :prev_revision, String
       property :action, Symbol, :init_method => 'to_sym'
       property :changes, Hash, :default => {}
-    end], :default => []
+    end], {:default => [], :init_method => ->(*args) { cast_histories(*args) }}
+
+    def self.cast_histories(*args)
+      hist = self.properties_by_name['histories'].type.new(*args)
+
+      rebuild_values = ->(from_to, &block) do
+        from_to.inject({}) do |acc, (k, v)|
+          new_v = if v.present?
+                    begin
+                      block.call(v)
+                    rescue
+                      v
+                    end
+                  else
+                    v
+                  end
+          acc.merge({k => new_v})
+        end
+      end
+
+      cast_change = ->(prop_name, prop_type, prop_array, change) do
+        if prop_type.include?(CouchRest::Model::Embeddable)
+          if prop_array
+            change.inject({}) do |acc, (unique_id, ch)|
+              # Change could be nil if element was deleted
+              casted = if ch.present?
+                         cast_change.call(prop_name, prop_type, false, ch)
+                       else
+                         ch
+                       end
+              acc.merge({unique_id => casted})
+            end
+          else
+            change.inject({}) do |acc, (k, ch)|
+              sub_prop = prop_type.properties_by_name[k]
+              # Account for changes that had their property name changed later
+              casted_change = if sub_prop.present? && sub_prop.type.present?
+                                cast_change.call(sub_prop.name, sub_prop.type, sub_prop.array, ch)
+                              else
+                                ch
+                              end
+              acc.merge({k => casted_change})
+            end
+          end
+        elsif [Date, DateTime, Time].include?(prop_type)
+          rebuild_values.call(change) {|v| prop_type.parse(v)}
+        else
+          change
+        end
+      end
+
+      hist.changes = hist.changes.inject({}) do |acc, (k, v)|
+        p = properties_by_name[k]
+        new_change = if p.present? && p.type.present?
+                       cast_change.call(p.name, p.type, p.array, v)
+                     else
+                       v
+                     end
+
+        acc.merge({k => new_change}) 
+      end
+
+      hist
+    end
 
     design do
       view :by_created_by
@@ -90,6 +153,7 @@ module Historical
       last_updated_at
       last_updated_by
       _attachments
+      histories
     }
 
     if self.changed?
@@ -188,6 +252,7 @@ module Historical
               v
             end
           end
+
           if norm_prev != norm_current
             {
               'from' => prev,
@@ -195,7 +260,11 @@ module Historical
             }
           end
         end
-        acc.merge({prop_name => change_hash})
+        if change_hash.present?
+          acc.merge({prop_name => change_hash})
+        else
+          acc
+        end
       end
     end
   end

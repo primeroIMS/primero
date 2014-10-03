@@ -37,8 +37,7 @@ action_plan_fields = [
   Field.new({"name" => "action_plan_safety_text",
              "type" => "textarea",
              "display_name_all" => "Explain",
-             "guiding_questions" => "
-                What are the safety options available to the survivor?
+             "guiding_questions" => "What are the safety options available to the survivor?
 
                 Referral to a safe house?
                 

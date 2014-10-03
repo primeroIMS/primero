@@ -85,7 +85,7 @@ describe Api::ChildrenController do
 
   describe "POST create" do
     it "should update the child record instead of creating if record already exists" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       child = Child.new_with_user_name(user, {:name => 'old name'})
       child.save!
       controller.stub(:authorize!)
