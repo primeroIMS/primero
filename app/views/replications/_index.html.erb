@@ -2,7 +2,7 @@
   <thead>
   <tr>
     <th><%= t "replication.description" %></th>
-    <th ><%= t "replication.remote_app_url" %></th>
+    <th ><%= t "replication.remote_app_uri" %></th>
     <th colspan="2"><%= t "login.username" %></th>
     <th><%= t "replication.status" %></th>
     <th><%= t "replication.timestamp" %></th>
@@ -15,7 +15,7 @@
           <tr>
             <td><%= rep.description %></td>
             <td>
-              <%= link_to rep.remote_app_url, rep.remote_app_url, :target => '_blank' %>
+              <%= link_to rep.remote_app_uri, rep.remote_app_uri, :target => '_blank' %>
             </td>
             <td>
               <span><%= rep.username %></span>

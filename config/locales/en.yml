@@ -739,7 +739,7 @@ en:
     index: Manage Replications
     create: Add a Remote Server
     edit: Edit Configuration
-    remote_app_url: Primero URL
+    remote_app_uri: Primero URL
     actions: Actions
     status: Status
     description: Description
@@ -900,7 +900,7 @@ en:
         username_unique: "User name has already been taken! Please select a new User name"
 
       replication:
-        remote_app_url: "Please enter a proper URL, e.g. http://<server>:<port>"
+        remote_app_uri: "Please enter a proper URL, e.g. http://<server>:<port>"
         save_remote_couch_config: "The URL/Username/Password that you entered is incorrect"
 
       password_recovery_request:

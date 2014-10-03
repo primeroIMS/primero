@@ -6,8 +6,11 @@ class Replication < CouchRest::Model::Base
 
   use_database :replication_config
 
-  property :remote_app_url
-  property :remote_couch_config, Hash, :default => {}
+  property :remote_app_uri, URI, {:init_method => 'parse', :allow_blank => false}
+  property :couch_target_uri, URI, {:init_method => 'parse', :allow_blank => false}
+  property :push, TrueClass, :default => true
+  property :pull, TrueClass, :default => true
+  property :remote_databases, Hash, default => {}
 
   property :description
   property :username
@@ -23,21 +26,21 @@ class Replication < CouchRest::Model::Base
             }"
   end
 
-  validates_presence_of :remote_app_url
+  before_validation :fetch_remove_couch_config
+
+  validates_presence_of :remote_app_uri
   validates_presence_of :description
   validates_presence_of :username
   validates_presence_of :password
-  validate :validate_remote_app_url
-  validate :save_remote_couch_config
+  validate :validate_remote_app_uri
 
-  before_save   :normalize_remote_app_url
   before_save   :mark_for_reindexing
 
   after_save    :start_replication
   before_destroy :stop_replication
 
   def inspect
-    "<Replication (#{description}): _id: #{_id}, remote_app_url: #{remote_app_url}>"
+    "<Replication (#{description}): _id: #{_id}, remote_app_uri: #{remote_app_uri}>"
   end
 
   def start_replication
@@ -59,7 +62,6 @@ class Replication < CouchRest::Model::Base
     fetch_configs.each do |config|
       replicator.delete_doc config
     end
-    invalidate_fetch_configs
   end
 
   def check_status_and_reindex
@@ -94,39 +96,28 @@ class Replication < CouchRest::Model::Base
     active? ? "triggered" : success? ? "completed" : "error"
   end
 
-  def remote_app_uri
-    uri = URI.parse self.class.normalize_url remote_app_url
-    uri.path = "/"
-    uri
-  end
-
   def remote_couch_uri(path = "")
-    uri = URI.parse remote_couch_config["target"]
-    uri.host = remote_app_uri.host if uri.host == 'localhost'
+    uri = self.couch_target_uri
     uri.path = "/#{path}"
     uri.user = username if username
     uri.password = password if password
     uri
   end
 
-  def push_config(model)
-    target = remote_couch_uri remote_couch_config["databases"][model.to_s]
-    { "source" => model.database.name, "target" => target.to_s, "primero_ref_id" => self["_id"], "primero_env" => Rails.env }
-  end
-
-  def pull_config(model)
-    target = remote_couch_uri remote_couch_config["databases"][model.to_s]
-    { "source" => target.to_s, "target" => model.database.name, "primero_ref_id" => self["_id"], "primero_env" => Rails.env }
-  end
-
   def build_configs
     self.class.models_to_sync.map do |model|
-      [ push_config(model), pull_config(model) ]
-    end.flatten
+      [:push, :pull].map |direction| do
+        if __send__(direction)
+          __send__("#{direction}_config")
+        else
+          nil
+        end
+      end
+    end.flatten.compact
   end
 
   def fetch_configs
-    @fetch_configs ||= replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
+    replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
   end
 
   def self.models_to_sync
@@ -149,10 +140,10 @@ class Replication < CouchRest::Model::Base
     }
   end
 
-  def self.normalize_url(url)
-    url = "http://#{url}" unless url.include? '://'
-    url = "#{url}/"       unless url.ends_with? '/'
-    url
+  def self.normalize_uri(uri)
+    uri = "http://#{uri}" unless uri.include? '://'
+    uri = "#{uri}/"       unless uri.ends_with? '/'
+    uri
   end
 
   def self.schedule(scheduler)
@@ -168,7 +159,7 @@ class Replication < CouchRest::Model::Base
     end
   end
 
-  private
+  protected
 
   def trigger_local_reindex
     Child.reindex!
@@ -178,39 +169,35 @@ class Replication < CouchRest::Model::Base
 
   def trigger_remote_reindex
     uri = remote_app_uri
-    uri.path = Rails.application.routes.url_helpers.reindex_children_path
+    uri.path = Rails.application.routes.uri_helpers.reindex_children_path
     post_uri uri
   end
 
-  def invalidate_fetch_configs
-    @fetch_configs = nil
-    true
-  end
-
-  def validate_remote_app_url
+  def validate_remote_app_uri
     begin
       raise unless remote_app_uri.is_a?(URI::HTTP) or remote_app_uri.is_a?(URI::HTTPS)
       true
     rescue
-      errors.add(:remote_app_url, I18n.t("errors.models.replication.remote_app_url"))
+      errors.add(:remote_app_uri, I18n.t("errors.models.replication.remote_app_uri"))
     end
   end
 
-  def normalize_remote_app_url
-    self.remote_app_url = remote_app_uri.to_s
-  end
-
-  def save_remote_couch_config
+  def fetch_remote_couch_config
     begin
       uri = remote_app_uri
-      uri.path = Rails.application.routes.url_helpers.configuration_replications_path
+      uri.path = Rails.application.routes.uri_helpers.configuration_replications_path
       post_params = {:user_name => self.username, :password => self.password}
 
       response = post_uri uri, post_params
-      self.remote_couch_config = JSON.parse response.body
+      config = JSON.parse response.body
+
+      self.target = config['target']
+      self.databases = config['databases']
+
       true
     rescue => e
-      errors.add(:save_remote_couch_config, I18n.t("errors.models.replication.save_remote_couch_config"))
+      errors.add(:fetch_remote_couch_config, I18n.t("errors.models.replication.save_remote_couch_config"))
+      false
     end
   end
 
@@ -244,4 +231,19 @@ class Replication < CouchRest::Model::Base
       end
     end
   end
+
+  def push_config(model)
+    target = remote_couch_uri(self.databases[model.to_s])
+    make_config(model.database.name, target.to_s)
+  end
+
+  def pull_config(model)
+    target = remote_couch_uri(self.databases[model.to_s])
+    make_config(target.to_s, model.database.name)
+  end
+
+  def make_config(source, target)
+    { :source => source, :target => target, :primero_ref_id => self["_id"], :primero_env => Rails.env }
+  end
+
 end
