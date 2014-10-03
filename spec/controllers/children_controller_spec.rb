@@ -692,8 +692,8 @@ describe ChildrenController do
       child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
       child.save
 
-      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
-      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => original_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => new_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => original_name}
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == new_name
@@ -705,8 +705,8 @@ describe ChildrenController do
       child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
       child.save
 
-      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :nickname => 'Johnny'}
-      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :nickname => 'Johnny'}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => new_name}
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == new_name
@@ -719,8 +719,8 @@ describe ChildrenController do
       child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
       child.save
 
-      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => new_name}
-      post :create, :child => {:unique_identifier => child.unique_identifier, :revision => child._rev, :name => newer_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => new_name}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => newer_name}
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == newer_name
