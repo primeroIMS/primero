@@ -3401,7 +3401,7 @@
 	        params_arr = query.split("&");
 	        for (var i = params_arr.length - 1; i >= 0; i -= 1) {
 	            param = params_arr[i].split("=")[0];
-	            if (param === "page") {
+	            if (param === "page" || param === "select_all") {
 	                params_arr.splice(i, 1);
 	            }
 	        }
@@ -3426,8 +3426,13 @@
 		var
 			start     = settings.aPrimeroPaginationStart,
 			len       = settings._iDisplayLength,
-			records   = settings.fnRecordsDisplay();
-	
+			records   = settings.fnRecordsDisplay(),
+			select_all= "";
+
+		if ($('input#select_all_records').is(':checked')) {
+			select_all = "&select_all=true";
+		}
+
 		if ( records === 0 || len === -1 )
 		{
 			start = 0;
@@ -3437,7 +3442,7 @@
 			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
 			redraw = false;
 			var prev_params = clean_page_params();
-			window.location.search = prev_params + '&page=' + (action + 1);
+			window.location.search = prev_params + select_all + '&page=' + (action + 1);
 		}
 		else if ( action == "first" )
 		{
@@ -3450,7 +3455,7 @@
 					prev_params = clean_page_params(),
 					redraw = false;
 			if(start > 0) {
-				window.location.search = prev_params + '&page=' + page;
+				window.location.search = prev_params + select_all + '&page=' + page;
 			}
 		}
 		else if ( action == "next" )
@@ -3460,7 +3465,7 @@
 					prev_params = clean_page_params(),
 					redraw = false;
 			if ((parseInt(start) + parseInt(len)) < records) {
-				window.location.search = prev_params + '&page=' + page;
+				window.location.search = prev_params + select_all + '&page=' + page;
 			}
 		}
 		else if ( action == "last" )

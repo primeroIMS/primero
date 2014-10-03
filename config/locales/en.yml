@@ -49,6 +49,8 @@ en:
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
     system_generated_followup_flag: "mandatory follow up visit"
     system_generated_followup_unflag: "expired"
+    flag_multiple_records_error_message: "There was an error trying to flag records:"
+    record_not_flagged_message: "%{short_id}: Not flagged"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
