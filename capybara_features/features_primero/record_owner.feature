@@ -57,7 +57,7 @@ And I fill in the following:
 And I press "Save"
 And I should see "Record State: Valid record" on the page
 And I press the "Actions" button
-And I press the "Enable/Disable" button
+And I press the "Disable" button
 And I should see "Clicking OK will change the state of this record to 'Invalid record'" on the page
 And I press the "OK" button
 And I should see "Record State: Invalid record" on the page
@@ -98,7 +98,7 @@ And I fill in the following:
 And I press "Save"
 And I should see "Record State: Valid record" on the page
 And I press the "Actions" button
-And I press the "Enable/Disable" button
+And I press the "Disable" button
 And I should see "Clicking OK will change the state of this record to 'Invalid record'" on the page
 And I press the "OK" button
 And I should see "Record State: Invalid record" on the page
