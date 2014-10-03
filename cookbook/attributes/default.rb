@@ -31,6 +31,9 @@ default[:couchdb].tap do |db|
     conf[:httpd].tap do |httpd|
       httpd[:bind_address] = '127.0.0.1'
     end
+    conf[:compactions].tap do |compactions|
+      compactions[:_default] = '[{db_fragmentation, "70%"}, {view_fragmentation, "60%"}, {from, "23:00"}, {to, "04:00"}]'
+    end
   end
 end
 

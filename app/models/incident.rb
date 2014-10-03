@@ -25,7 +25,7 @@ class Incident < CouchRest::Model::Base
                 if (doc['couchrest-type'] == 'Incident')
                {
                   if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                    emit(doc['description'], doc);
+                    emit(doc['description'], null);
                   }
                }
             }"

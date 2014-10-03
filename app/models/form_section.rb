@@ -42,7 +42,7 @@ class FormSection < CouchRest::Model::Base
                     for(var i = 0; i<doc['fields'].length; i++){
                       var field = doc['fields'][i];
                       if (field['subform_section_id'] != null){
-                        emit(field['subform_section_id'], doc._id);
+                        emit(field['subform_section_id'], null);
                       }
                     }
                   }
