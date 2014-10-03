@@ -10,7 +10,6 @@ class ReplicationsController < ApplicationController
     render :json => Replication.couch_config
   end
 
-  #TODO - PRIMERO-382 - this was pulled over from the devices controller
   def index
     @page_name = t("replications")
     if can? :read, Replication
@@ -75,7 +74,6 @@ class ReplicationsController < ApplicationController
     authorize! :show, @replication
   end
 
-  #TODO - PRIMERO-382 - pulled over from devices_controller
   def update_blacklist
     authorize! :update, Device
     status = :ok
