@@ -25,7 +25,9 @@ var SelectMultipleRecords = Backbone.View.extend({
         all_records_selected = false;
       }
     });
-    $("input#select_all_records").attr('checked', all_records_selected);
+    if(!all_records_selected) {
+      $("input#select_all_records").attr('checked', false);
+    }
   }
 });
 

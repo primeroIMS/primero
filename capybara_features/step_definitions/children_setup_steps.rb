@@ -43,8 +43,8 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
     child = Child.new_with_user_name(User.find_by_user_name(user_name), child_hash)
     child.photo = photo
     child['histories'] ||= []
-    child['histories'] << {'datetime' => child_hash['flag_at'], 'changes' => {'flag' => 'anything'}}
-    child['histories'] << {'datetime' => child_hash['reunited_at'], 'changes' => {'reunited' => {'from' => nil, 'to' => "true"}, 'reunited_message' => {'from' => nil, 'to' => 'some message'}}}
+    child['histories'] << {'datetime' => child_hash['flag_at'], 'changes' => {'flag' => 'anything'}, 'action' => 'create'}
+    child['histories'] << {'datetime' => child_hash['reunited_at'], 'changes' => {'reunited' => {'from' => nil, 'to' => "true"}, 'reunited_message' => {'from' => nil, 'to' => 'some message'}}, 'action' => 'update'}
     child['investigated'] = child_hash['investigated'] == 'true'
     child['child_status'] = "Open" if child_hash['child_status'].blank?
 

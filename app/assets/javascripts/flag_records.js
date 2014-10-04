@@ -15,6 +15,7 @@ var FlagRecord = Backbone.View.extend({
     var selected_records_error_message = target.data('selected_records_error_message');
     var flag_message = target.parents('.flag_records').find('input.flag_message').val();
     var flag_date = target.parents('.flag_records').find('input.flag_date').val();
+    var search_params = this.clean_select_all_page_params();
     if (flag_message.length > 0) {
       $('input.select_record:checked').each(function(){
         selected_records.push($(this).val());
@@ -28,12 +29,14 @@ var FlagRecord = Backbone.View.extend({
             'all_records_selected': $("input#select_all_records").is(':checked')
           },
           function(response){
-            if(response.success) {
-              location.reload(true);
-            } else {
+            if (!response.success) {
               alert(response.error_message);
-              if(response.reload_page) {
+            }
+            if ((response.success) || (response.reload_page)) {
+              if ($('input#select_all_records').is(':checked')) {
                 location.reload(true);
+              } else {
+                window.location.search = search_params;
               }
             }
           }
@@ -44,6 +47,26 @@ var FlagRecord = Backbone.View.extend({
     } else {
       alert(flag_error_message);
     }
+  },
+  clean_select_all_page_params: function() {
+      var source = location.href,
+          rtn = source.split("?")[0],
+          param,
+          params_arr = [],
+          query = (source.indexOf("?") !== -1) ? source.split("?")[1] : "";
+      if (query !== "") {
+          params_arr = query.split("&");
+          for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+              param = params_arr[i].split("=")[0];
+              if (param === "select_all") {
+                  params_arr.splice(i, 1);
+              }
+          }
+          rtn = params_arr.join("&");
+      } else {
+        rtn = "";
+      }
+      return rtn;
   }
 });
 

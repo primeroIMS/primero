@@ -537,3 +537,66 @@ end
 Then /^I should not see a stacktrace$/ do 
   step 'I should not see "Toggle session dump"'
 end
+
+Given (/^(\d+) (cases|incidents|tracing requests) sample records exists created by "(.*)"$/) do |number_of_records, model, user_name|
+  if model == "cases"
+    model_class = Child
+  else
+    model_class = model.dehumanize.singularize.camelize.constantize
+  end
+
+  if User.find_by_user_name(user_name).nil?
+    User.create!("user_name" => user_name,
+       "password" => "rapidftr",
+       "password_confirmation" => "rapidftr",
+       "full_name" => user_name,
+       "organization" => "UNICEF",
+       "disabled" => "false",
+       "email" => "rapidftr@rapidftr.com",
+       "role_ids" => ["ADMIN"])
+  end
+
+  number_of_records.to_i.times do |i|
+    attributes = {
+      'name' => "sample_record_#{i+1}",
+      'birthplace' => 'Cairo',
+      'reporter' => 'zubair',
+      'created_by' => 'primero_cp',
+      'created_organization' => 'UNICEF',
+      'age_is' => 'Approximate',
+      'child_status' => 'open',
+      'module_id' => PrimeroModule.find_by_name('CP').id,
+      'short_id' => (i + 1).to_s.rjust(7, '0')
+    }
+
+    record = model_class.new_with_user_name(User.find_by_user_name(user_name), attributes)
+    record['histories'] ||= []
+    record['histories'] << {'datetime' => attributes['reunited_at'], 'changes' => {'reunited' => {'from' => nil, 'to' => "true"}, 'reunited_message' => {'from' => nil, 'to' => 'some message'}}, 'action' => 'update'}
+    record.create!
+  end
+end
+
+And (/^all the records on the page should be selected$/) do
+  page.all(:css, "input.select_record").each do |checkbox|
+    step %Q{the "#{checkbox["id"]}" checkbox should be checked}
+  end
+end
+
+And (/^I select all the records on the page$/) do
+  page.all(:css, "input.select_record").each do |checkbox|
+    checkbox.set(true)
+  end
+end
+
+And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/) do |times_flagged, arg1|
+  using_wait_time 60 do
+    page.should have_selector(:css, "table.dataTable tbody tr td div.flag_icon i.fa-bookmark")
+    page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon')]/span[text()='#{times_flagged}']") if times_flagged
+  end
+  page.all(:css, "table.dataTable tbody tr").each do |row|
+      row.find(:css, "td div.flag_icon i.fa-bookmark")
+      if times_flagged
+        row.find(:css, "td div.flag_icon span").text.should eq(times_flagged)
+      end
+  end
+end

@@ -176,7 +176,38 @@ describe RecordFlagController do
     end
   end
 
-  describe "Child" do
+  shared_examples_for "Flagging multiple records" do
+    it "should flag multiple records" do
+      # Flag the first 30 records.
+      records = children.take 30
+      post :flag_records, :model_class => model.name, :selected_records => records, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :all_records_selected => false
+      JSON.parse(response.body).should eq({"success" => true, "error_message" => "", "reload_page" => true})
+      records.each do |id|
+        record = model.get id
+        record.flags.count.should eq(1)
+        record.flag.should eq(true)
+      end
+      (children - records).each do |id|
+        record = model.get id
+        record.flag.should eq(false)
+      end
+
+      # Apply a filter and flag all the records
+      post :flag_records, :model_class => model.name, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :all_records_selected => "true", "scope"=>{"flag"=>"single,flag"}
+      JSON.parse(response.body).should eq({"success" => true, "error_message" => "", "reload_page" => true})
+      records.each do |id|
+        record = model.get id
+        record.flags.count.should eq(2)
+        record.flag.should eq(true)
+      end
+      (children - records).each do |id|
+        record = model.get id
+        record.flag.should eq(false)
+      end
+    end
+  end
+
+  describe "Child", search: true do
     before :each do
       @child = create_record(Child, @user)
     end
@@ -196,6 +227,15 @@ describe RecordFlagController do
       let(:model) { Child }
       let(:expected_path) { "/cases/#{@child.id}/unflag" }
       let(:record) { @child }
+    end
+
+    it_behaves_like "Flagging multiple records" do
+      let(:model) { Child }
+      let(:children) do
+        children = []
+        50.times {children << create_record(Child, @user)}
+        children.map {|child| child.id}
+      end
     end
   end
 

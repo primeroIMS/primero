@@ -336,6 +336,12 @@ And /^I check the "(.*)" field$/ do |checkbox|
   page.check(checkbox)
 end
 
+And (/^I check the following fields:$/) do |fields|
+  fields.raw.each do |field|
+    step %Q{I check the "#{field}" field}
+  end
+end
+
 And /^I add a "(.*)" subform$/ do |form|
   form = form.downcase.gsub(" ", "_")
   find("//a[@id='subform_#{form}_add_button']",:visible => true).click
@@ -420,8 +426,12 @@ And /^the record for "(.*)" should not display a "(.*)" icon beside it$/ do |rec
   end
 end
 
-And /^I visit cases page "([^\"]*)"$/ do|page_number|
+And /^I visit (cases|incidents|tracing requests) page "([^\"]*)"$/ do|model, page_number|
     page.find("//a[contains(@class, 'paginate_button')][contains(text(), '#{page_number}')]").click
+end
+
+And (/^I sort the records by "(.*)"$/) do |sort_column|
+  page.find("//table[contains(@class, 'dataTable')]//th[contains(@class, 'sorting')][contains(text(), '#{sort_column}')]").click
 end
 
 #////////////////////////////////////////////////////////////////
@@ -646,8 +656,10 @@ Then /^the child listing page filtered by flagged should show the following chil
   end
 end
 
-When /^the record history should log "([^\"]*)"$/ do |field|
-  visit(cases_path+"/#{Child.all[0].id}/history")
+When /^the (child|incident|tracing request) record history should log "([^\"]*)"$/ do |model, field|
+  path = "#{model.dehumanize.pluralize}_path"
+  path = "cases_path" if model == "child"
+  visit(send(path)+"/#{model.dehumanize.camelize.constantize.all.all[0].id}/history")
   page.should have_content(field)
 end
 
