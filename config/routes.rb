@@ -153,7 +153,7 @@ RapidFTR::Application.routes.draw do
 #######################
 # RECORD HISTORIES URLS
 #######################
-  match '/cases/:id/change_log' => 'record_histories#record_change_log', :as => :child_record_change_log, model_class: 'Child', :via => [:get]
+  match '/children/:id/change_log' => 'record_histories#record_change_log', :as => :child_record_change_log, model_class: 'Child', :via => [:get]
   match '/incidents/:id/change_log' => 'record_histories#record_change_log', :as => :incident_record_change_log, model_class: 'Incident', :via => [:get]
   match '/tracing_requests/:id/change_log' => 'record_histories#record_change_log', :as => :tracing_request_record_change_log, model_class: 'TracingRequest', :via => [:get]
 
