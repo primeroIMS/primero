@@ -69,7 +69,11 @@ table.list_view, table.record_list_view {
       }
     }
     td {
-      font-size: 0.875rem;
+      ul li {
+        font-size: 0.875rem !important;
+      }
+      
+      font-size: 0.875rem !important;
       &.id_column{
         min-width: 105px;
         text-transform: uppercase;
