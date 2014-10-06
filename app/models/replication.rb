@@ -10,6 +10,7 @@ class Replication < CouchRest::Model::Base
   property :couch_target_uri, URI::Generic, {:init_method => ->(val) { URI.parse(val) }, :allow_blank => false}
   property :push, TrueClass, :default => true
   property :pull, TrueClass, :default => true
+  property :is_continuous, TrueClass, :default => false
   property :remote_databases, Hash, :default => {}
 
   property :description

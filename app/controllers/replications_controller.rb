@@ -74,18 +74,6 @@ class ReplicationsController < ApplicationController
     authorize! :show, @replication
   end
 
-  def update_blacklist
-    authorize! :update, Device
-    status = :ok
-    @devices = Device.find_by_device_imei(params[:imei])
-    @devices.each do |device|
-      unless device.update_attributes({:blacklisted => params[:blacklisted] == "true"})
-        status = :error
-      end
-    end
-    render :json => {:status => status}
-  end
-
   private
 
   def load_replication

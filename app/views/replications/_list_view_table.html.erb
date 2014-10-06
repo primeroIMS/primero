@@ -4,6 +4,7 @@
     <th><%= t "replication.description" %></th>
     <th ><%= t "replication.remote_app_uri" %></th>
     <th colspan="2"><%= t "login.username" %></th>
+    <th><%= t "replication.is_continuous" %></th>
     <th><%= t "replication.status" %></th>
     <th><%= t "replication.timestamp" %></th>
     <th colspan="2"><%= t "replication.actions" %></th>
@@ -22,6 +23,9 @@
             </td>
             <td class="status">
               <span class="icon <%= rep.status %>"></span>
+            </td>
+            <td>
+              <span><%= rep.is_continuous.to_s %></span>
             </td>
             <td>
               <span><%= t "replication.#{rep.status}" %></span>

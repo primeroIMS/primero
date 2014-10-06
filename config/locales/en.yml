@@ -903,6 +903,7 @@ en:
       replication:
         remote_app_uri: "Please enter a proper URL, e.g. http://<server>:<port>"
         save_remote_couch_config: "The URL/Username/Password that you entered is incorrect"
+        is_continuous: 'Continuous Replication?'
 
       password_recovery_request:
         user_name_mandatory: "Please enter a valid user name"
