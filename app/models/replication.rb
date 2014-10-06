@@ -243,7 +243,7 @@ class Replication < CouchRest::Model::Base
           Rails.logger.info {"Conflicts found in record #{rec.inspect}"}
           begin
             rec.resolve_conflicting_revisions
-          rescue e
+          rescue => e
             Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n" + e.backtrace.to_s)
           end
         end
