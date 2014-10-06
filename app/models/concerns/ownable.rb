@@ -6,12 +6,12 @@ module Ownable
 
     before_save :update_previously_owned_by
 
-    property :owned_by
-    property :owned_by_full_name
-    property :previously_owned_by
-    property :previously_owned_by_full_name
+    property :owned_by, String
+    property :owned_by_full_name, String
+    property :previously_owned_by, String
+    property :previously_owned_by_full_name, String
     property :assigned_user_names, :type => [String]
-    property :database_operator_user_name
+    property :database_operator_user_name, String
     property :module_id
 
     #TODO: Does it make sense to have these validations? We cannot guarantee that module and owner will be set all the time, can we?
