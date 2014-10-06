@@ -1,30 +1,38 @@
-<%= form_for @replication, :html => { :class => 'default-form' } do |f| %>
+<div class="btn_panel">
+  <div class="row">
+    <%= form_for @replication, :html => { :class => 'default-form' } do |f| %>
 
-  <%= f.error_messages :header_tag => :h3 %>
-  <div class="clearfix"></div>
+      <%= f.error_messages :header_tag => :h3 %>
+      <div class="clearfix"></div>
 
-  <fieldset>
-    <p>
-      <%= f.label :description, t("replication.description"), :class => "key" %>
-      <%= f.text_field :description %>
-    </p>
+      <div class="btn_panel">
+        <div class="row">
+          <div class="medium-12 columns">
+            <%= cancel_button replications_path %>
+            <%= submit_button t("buttons.save") %>
+          </div>
+        </div>
+      </div>
 
-    <p>
-      <%= f.label :remote_app_uri, t("replication.remote_app_uri"), :class => "key" %>
-      <%= f.text_field :remote_app_uri %>*
-    </p>
-    <p>
-      <%= f.label :username, t("login.username"), :class => "key" %>
-      <%= f.text_field :username %>*
-    </p>
-    <p>
-      <%= f.label :password, t("login.password.label"), :class=>'key'  %>
-      <%= f.password_field :password, :autocomplete => "off" %>*
-    </p>
-  </fieldset>
+      <fieldset>
+        <p>
+          <%= f.label :description, t("replication.description"), :class => "key" %>
+          <%= f.text_field :description %>
+        </p>
 
-  <div class="btn_panel">
-    <%= cancel_button devices_path %>
-    <%= submit_button t("buttons.save") %>
+        <p>
+          <%= f.label :remote_app_url, t("replication.remote_app_uri"), :class => "key" %>
+          <%= f.text_field :remote_app_url %>*
+        </p>
+        <p>
+          <%= f.label :username, t("login.username"), :class => "key" %>
+          <%= f.text_field :username %>*
+        </p>
+        <p>
+          <%= f.label :password, t("login.password.label"), :class=>'key'  %>
+          <%= f.password_field :password, :autocomplete => "off" %>*
+        </p>
+      </fieldset>
+    <% end %>
   </div>
-<% end %>
+</div>
