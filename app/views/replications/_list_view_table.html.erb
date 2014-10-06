@@ -17,17 +17,13 @@
             <td>
               <%= link_to rep.remote_app_url, rep.remote_app_url, :target => '_blank' %>
             </td>
-            <td>
-              <span><%= rep.username %></span>
-            </td>
+            <td><%= rep.username %></td>
             <td class="status">
               <span class="icon <%= rep.status %>"></span>
-            </td>
-            <td>
               <span><%= t "replication.#{rep.status}" %></span>
             </td>
             <td>
-              <span><%= l rep.timestamp, :format => :long if rep.timestamp %></span>
+              <%= l rep.timestamp, :format => :long if rep.timestamp %>
             </td>
             <td>
               <%= link_to t("replication.stop"), stop_replication_path(rep), :method => :post if rep.active? %>
@@ -36,7 +32,6 @@
               <%= link_to t("buttons.edit"), edit_replication_path(rep) %>
               &nbsp;
               <%= link_to t("buttons.delete"), replication_path(rep), data: {confirm: t("replication.confirm_delete")}, method: :delete %>
-            </td>
             </td>
           </tr>
       <% end %>
