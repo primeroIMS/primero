@@ -8,7 +8,7 @@ class RecordStatusController < ApplicationController
     error_message = ""
 
     record = @model_class.get(params[:id])
-    record.record_state = params[:record_state] == true ? true : false
+    record.record_state = params[:record_state] == 'true' ? true : false
 
     if record.save
       reload_page = true
