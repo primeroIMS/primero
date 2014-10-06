@@ -14,14 +14,12 @@ describe Replication do
   end
 
   before :each do
-    @rep = build :replication, :remote_couch_config => {
-      "target" => "http://couch:1234",
-      "databases" => {
+    @rep = build :replication, :couch_target_uri => "https://couch:5984",
+      :remote_databases => {
         "Child" => "remote_child_db_name",
         "Incident"  => "remote_incident_db_name",
         "TracingRequest"  => "remote_child_tracing_request_name"
-      }
-    }
+      }, :push => true, :pull => true
 
     @rep["_id"] = 'test_replication_id'
     @default_config = { "primero_ref_id" => @rep.id }
@@ -39,10 +37,10 @@ describe Replication do
       r.errors[:description].should_not be_empty
     end
 
-    it 'should have remote url' do
-      r = build :replication, :remote_app_url => nil
+    it 'should have remote uri' do
+      r = build :replication, :remote_app_uri => nil
       r.should_not be_valid
-      r.errors[:remote_app_url].should_not be_empty
+      r.errors[:remote_app_uri].should_not be_empty
     end
 
     it 'should have user name' do
@@ -58,16 +56,16 @@ describe Replication do
     end
 
     it 'should allow only http or https' do
-      r = build :replication, :remote_app_url => 'abcd://app:3000'
+      r = build :replication, :remote_app_uri => 'abcd://app:3000'
       r.should_not be_valid
-      r.errors[:remote_app_url].should_not be_empty
+      r.errors[:remote_app_uri].should_not be_empty
     end
 
     it 'should validate remote couch config' do
-      r = build :replication, :remote_app_url => 'http://app:3000'
-      expect(r).to receive(:save_remote_couch_config).and_return(false).and_call_original
+      r = build :replication, :remote_app_uri => 'abcd://app:3000'
+      expect(r).to receive(:fetch_remote_couch_config).and_return(false).and_call_original
       expect(r).not_to be_valid
-      r.errors[:save_remote_couch_config].should_not be_empty
+      r.errors[:fetch_remote_couch_config].should_not be_empty
     end
   end
 
@@ -82,13 +80,13 @@ describe Replication do
       Replication.models_to_sync.first.should == Role
     end
 
-    it 'should return the couchdb url without the source username and password' do
+    it 'should return the couchdb uri without the source username and password' do
       CouchSettings.instance.stub :ssl_enabled_for_couch? => false, :host => "couchdb", :username => "primero", :password => "primero", :port => 5986
       target_hash = Replication.couch_config
       target_hash[:target].should == "http://couchdb:5986/"
     end
 
-    it 'should return HTTPS url when enabled in Couch' do
+    it 'should return HTTPS uri when enabled in Couch' do
       CouchSettings.instance.stub :ssl_enabled_for_couch? => true, :host => "couchdb", :username => "primero", :password => "primero", :port => 6986
       target_hash = Replication.couch_config
       target_hash[:target].should == "https://couchdb:6986/"
@@ -100,38 +98,33 @@ describe Replication do
     end
 
     it 'should generate app uri' do
-      @rep.remote_app_uri.to_s.should == 'http://app:1234/'
+      @rep.remote_app_uri.to_s.should == 'https://example.com:1234'
     end
 
     it 'should generate couch uri' do
       @rep.username = @rep.password = nil
-      @rep.remote_couch_uri.to_s.should == 'http://couch:1234/'
+      @rep.full_couch_target_uri.to_s.should == 'https://couch:5984/'
     end
 
     it 'should generate couch uri with username and password' do
       @rep.username = 'test_user'
       @rep.password = 'test_password'
-      @rep.remote_couch_uri.to_s.should == 'http://test_user:test_password@couch:1234/'
+      @rep.full_couch_target_uri.to_s.should == 'https://test_user:test_password@couch:5984/'
     end
 
-    it 'should replace localhost in Couch URL with the actual host name from App URL' do
-      @rep.remote_app_url = "https://app:3000"
+    it 'should replace localhost in Couch uri with the actual host name from App uri' do
+      @rep.remote_app_uri = "https://app:3000"
       @rep.username = @rep.password = nil
-      @rep.stub :remote_couch_config => { "target" => "http://localhost:1234" }
-      @rep.remote_couch_uri.to_s.should == 'http://app:1234/'
-    end
-
-    it 'should normalize remote_app_url upon saving' do
-      @rep.save
-      @rep.remote_app_url.should == @rep.remote_app_uri.to_s
+      @rep.stub :couch_target_uri => URI.parse("http://localhost:1234")
+      @rep.full_couch_target_uri.to_s.should == 'http://app:1234/'
     end
 
     it 'should create push configuration for some database' do
-      @rep.push_config(Child).should include "source" => Child.database.name, "target" => "http://test_user:test_password@couch:1234/remote_child_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
+      @rep.build_configs.should include :source => Child.database.name, :target => "https://test_user:test_password@couch:5984/remote_child_db_name", :primero_ref_id => @rep.id, :primero_env => Rails.env
     end
 
     it 'should create pull configuration for some database' do
-      @rep.pull_config(Child).should include "target" => Child.database.name, "source" => "http://test_user:test_password@couch:1234/remote_child_db_name", "primero_ref_id" => @rep.id, "primero_env" => Rails.env
+      @rep.build_configs.should include :target => Child.database.name, :source => "https://test_user:test_password@couch:5984/remote_child_db_name", :primero_ref_id => @rep.id, :primero_env => Rails.env
     end
 
     it 'should return configurations for push/pull of user/children/role' do
@@ -156,13 +149,13 @@ describe Replication do
     it 'should invalidate replication document cache' do
       @rep.stub :replicator_docs =>  [ { "test" => "1" }, @default_config, { "test" => "2" }, @default_config ]
       @rep.fetch_configs.should == [ @default_config, @default_config ]
-      @rep.send :invalidate_fetch_configs
-      @rep.stub :replicator_docs => [ { "test" => "1" }, @default_config, @default_config, @default_config ]
-      @rep.fetch_configs.should == [ @default_config, @default_config, @default_config ]
+      @rep.send :invalidate_cached_configs
+      @rep.should_receive(:replicator_docs).exactly(1).times
+      @rep.fetch_configs
     end
 
     it 'should invalidate replication document cache upon saving' do
-      @rep.should_receive(:invalidate_fetch_configs).and_return(true)
+      @rep.should_receive(:invalidate_cached_configs).and_return(true)
       @rep["_id"] = nil
       @rep.save!
     end
@@ -182,7 +175,7 @@ describe Replication do
       @rep.stub :save_without_callbacks => nil
 
       @rep.send(:replicator).should_receive(:delete_doc).exactly(3).times.with(configuration).and_return(nil)
-      @rep.should_receive(:invalidate_fetch_configs).and_return(nil)
+      @rep.should_receive(:invalidate_cached_configs).and_return(nil)
       @rep.stop_replication
     end
 
@@ -304,6 +297,7 @@ describe Replication do
 
     it 'should trigger remote reindexing' do
       uri = @rep.remote_app_uri
+      uri.scheme = 'http'
       @rep.stub :remote_app_uri => uri
 
       Net::HTTP.should_receive(:post_form).with(uri, {}).and_return(nil)

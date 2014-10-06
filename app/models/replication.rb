@@ -6,11 +6,11 @@ class Replication < CouchRest::Model::Base
 
   use_database :replication_config
 
-  property :remote_app_uri, URI, {:init_method => 'parse', :allow_blank => false}
-  property :couch_target_uri, URI, {:init_method => 'parse', :allow_blank => false}
+  property :remote_app_uri, URI::Generic, {:init_method => ->(val) { URI.parse(val) }, :allow_blank => false}
+  property :couch_target_uri, URI::Generic, {:init_method => ->(val) { URI.parse(val) }, :allow_blank => false}
   property :push, TrueClass, :default => true
   property :pull, TrueClass, :default => true
-  property :remote_databases, Hash, default => {}
+  property :remote_databases, Hash, :default => {}
 
   property :description
   property :username
@@ -26,7 +26,7 @@ class Replication < CouchRest::Model::Base
             }"
   end
 
-  before_validation :fetch_remove_couch_config
+  after_validation :fetch_remote_couch_config
 
   validates_presence_of :remote_app_uri
   validates_presence_of :description
@@ -51,7 +51,7 @@ class Replication < CouchRest::Model::Base
     end
 
     unless needs_reindexing?
-      self.needs_reindexing = true
+      mark_for_reindexing
       self.database.save_doc(self)
     end
 
@@ -62,6 +62,8 @@ class Replication < CouchRest::Model::Base
     fetch_configs.each do |config|
       replicator.delete_doc config
     end
+    invalidate_cached_configs
+    true
   end
 
   def check_status_and_reindex
@@ -96,8 +98,9 @@ class Replication < CouchRest::Model::Base
     active? ? "triggered" : success? ? "completed" : "error"
   end
 
-  def remote_couch_uri(path = "")
+  def full_couch_target_uri(path = "")
     uri = self.couch_target_uri
+    uri.host = remote_app_uri.host if uri.host == 'localhost'
     uri.path = "/#{path}"
     uri.user = username if username
     uri.password = password if password
@@ -106,9 +109,9 @@ class Replication < CouchRest::Model::Base
 
   def build_configs
     self.class.models_to_sync.map do |model|
-      [:push, :pull].map |direction| do
+      [:push, :pull].map do |direction|
         if __send__(direction)
-          __send__("#{direction}_config")
+          __send__("#{direction}_config", model)
         else
           nil
         end
@@ -117,7 +120,11 @@ class Replication < CouchRest::Model::Base
   end
 
   def fetch_configs
-    replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
+    @_cached_configs ||= replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
+  end
+
+  def invalidate_cached_configs
+    @_cached_configs = nil
   end
 
   def self.models_to_sync
@@ -161,6 +168,8 @@ class Replication < CouchRest::Model::Base
 
   protected
 
+  attr_accessor :_cached_configs
+
   def trigger_local_reindex
     Child.reindex!
     self.needs_reindexing = false
@@ -169,7 +178,7 @@ class Replication < CouchRest::Model::Base
 
   def trigger_remote_reindex
     uri = remote_app_uri
-    uri.path = Rails.application.routes.uri_helpers.reindex_children_path
+    uri.path = Rails.application.routes.url_helpers.reindex_children_path
     post_uri uri
   end
 
@@ -185,14 +194,14 @@ class Replication < CouchRest::Model::Base
   def fetch_remote_couch_config
     begin
       uri = remote_app_uri
-      uri.path = Rails.application.routes.uri_helpers.configuration_replications_path
+      uri.path = Rails.application.routes.url_helpers.configuration_replications_path
       post_params = {:user_name => self.username, :password => self.password}
 
       response = post_uri uri, post_params
       config = JSON.parse response.body
 
-      self.target = config['target']
-      self.databases = config['databases']
+      self.couch_target_uri = config['target']
+      self.remote_databases = config['databases']
 
       true
     rescue => e
@@ -233,12 +242,12 @@ class Replication < CouchRest::Model::Base
   end
 
   def push_config(model)
-    target = remote_couch_uri(self.databases[model.to_s])
+    target = full_couch_target_uri(self.remote_databases[model.to_s])
     make_config(model.database.name, target.to_s)
   end
 
   def pull_config(model)
-    target = remote_couch_uri(self.databases[model.to_s])
+    target = full_couch_target_uri(self.remote_databases[model.to_s])
     make_config(target.to_s, model.database.name)
   end
 

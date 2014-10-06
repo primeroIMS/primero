@@ -53,13 +53,13 @@ FactoryGirl.define do
 
   factory :replication, :traits => [ :model ] do
     description 'Sample Replication'
-    remote_app_url 'app:1234'
+    remote_app_uri 'https://example.com:1234'
     username 'test_user'
     password 'test_password'
-    remote_couch_config "target" => "http://couch:1234/replication_test"
+    couch_target_uri "https://couch.example.com:5984/replication_test"
 
     after_build do |replication|
-      replication.stub :save_remote_couch_config => true
+      replication.stub :fetch_remote_couch_config => true
     end
   end
 
