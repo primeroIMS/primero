@@ -1,13 +1,13 @@
-<table class="list_table">
+<table id="list_table" class="list_table">
   <thead>
   <tr>
     <th><%= t "replication.description" %></th>
-    <th ><%= t "replication.remote_app_uri" %></th>
-    <th colspan="2"><%= t "login.username" %></th>
+    <th><%= t "replication.remote_app_uri" %></th>
+    <th><%= t "login.username" %></th>
     <th><%= t "replication.is_continuous" %></th>
     <th><%= t "replication.status" %></th>
     <th><%= t "replication.timestamp" %></th>
-    <th colspan="2"><%= t "replication.actions" %></th>
+    <th ><%= t "replication.actions" %></th>
   </tr>
   </thead>
 
@@ -15,24 +15,13 @@
       <% replications.each do |rep| %>
           <tr>
             <td><%= rep.description %></td>
-            <td>
-              <%= link_to rep.remote_app_uri, rep.remote_app_uri, :target => '_blank' %>
-            </td>
-            <td>
-              <span><%= rep.username %></span>
-            </td>
+            <td> <%= link_to rep.remote_app_uri, rep.remote_app_uri, :target => '_blank' %> </td>
+            <td><%= rep.username %></td>
+            <td><%= rep.is_continuous.to_s %></td>
             <td class="status">
-              <span class="icon <%= rep.status %>"></span>
+              <%= t "replication.#{rep.status}" %>
             </td>
-            <td>
-              <span><%= rep.is_continuous.to_s %></span>
-            </td>
-            <td>
-              <span><%= t "replication.#{rep.status}" %></span>
-            </td>
-            <td>
-              <span><%= l rep.timestamp, :format => :long if rep.timestamp %></span>
-            </td>
+            <td><%= l rep.timestamp, :format => :long if rep.timestamp %></td>
             <td>
               <%= link_to t("replication.stop"), stop_replication_path(rep), :method => :post if rep.active? %>
               <%= link_to t("replication.start"), start_replication_path(rep), :method => :post unless rep.active? %>
@@ -40,7 +29,6 @@
               <%= link_to t("buttons.edit"), edit_replication_path(rep) %>
               &nbsp;
               <%= link_to t("buttons.delete"), replication_path(rep), data: {confirm: t("replication.confirm_delete")}, method: :delete %>
-            </td>
             </td>
           </tr>
       <% end %>
