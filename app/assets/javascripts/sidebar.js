@@ -4,7 +4,7 @@ tabNavigation = Backbone.View.extend({
   el: '.side-tab',
 
   events: {
-    'click .tab-handles a': 'tabControl',
+    'click .tab-handles a:not(div.record_status a)': 'tabControl',
     'click #show_change_log' : 'show_change_log'
   },
 
