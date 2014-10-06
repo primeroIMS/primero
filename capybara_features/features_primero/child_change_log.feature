@@ -12,7 +12,7 @@ Feature: Child change log
     And someone has entered a child with the name "automation"
 
   Scenario: Validate child creating and initial setting of field
-    When I press the "show_change_log" link
+    When I press the "Change Log" link
     Then I should see change log of creation by user "primero_cp"
     And I press the "Edit" button
     And I fill in "Age" with "32"
