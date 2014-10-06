@@ -55,6 +55,7 @@ var IndexTable = Backbone.View.extend({
     $('.list_view, .list_table').DataTable({
       searching: false,
       lengthChange: false,
+      "ordering": false,
       "language": {
         "info": self.pagination.info
       }
