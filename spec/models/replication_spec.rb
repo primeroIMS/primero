@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'timeout'
+require 'addressable/uri'
 
 describe Replication do
 
@@ -14,7 +15,7 @@ describe Replication do
   end
 
   before :each do
-    @rep = build :replication, :couch_target_uri => "https://couch:5984",
+    @rep = build :replication, :couch_target_uri => PrimeroURI.parse("https://couch:5984"),
       :remote_databases => {
         "Child" => "remote_child_db_name",
         "Incident"  => "remote_incident_db_name",
@@ -115,7 +116,7 @@ describe Replication do
     it 'should replace localhost in Couch uri with the actual host name from App uri' do
       @rep.remote_app_uri = "https://app:3000"
       @rep.username = @rep.password = nil
-      @rep.stub :couch_target_uri => URI.parse("http://localhost:1234")
+      @rep.stub :couch_target_uri => PrimeroURI.parse("http://localhost:1234")
       @rep.full_couch_target_uri.to_s.should == 'http://app:1234/'
     end
 

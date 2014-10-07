@@ -15,7 +15,7 @@
       <% replications.each do |rep| %>
           <tr>
             <td><%= rep.description %></td>
-            <td> <%= link_to rep.remote_app_uri, rep.remote_app_uri, :target => '_blank' %> </td>
+            <td> <%= link_to rep.remote_app_uri.to_s, rep.remote_app_uri.to_s, :target => '_blank' %> </td>
             <td><%= rep.username %></td>
             <td><%= rep.is_continuous.to_s %></td>
             <td class="status">

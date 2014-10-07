@@ -1,3 +1,4 @@
+
 class Replication < CouchRest::Model::Base
   MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
   STABLE_WAIT_TIME = 2.minutes
@@ -6,8 +7,8 @@ class Replication < CouchRest::Model::Base
 
   use_database :replication_config
 
-  property :remote_app_uri, URI::Generic, {:init_method => ->(val) { URI.parse(val) }, :allow_blank => false}
-  property :couch_target_uri, URI::Generic, {:init_method => ->(val) { URI.parse(val) }, :allow_blank => false}
+  property :remote_app_uri, PrimeroURI, {:init_method => :parse, :allow_blank => false}
+  property :couch_target_uri, PrimeroURI, {:init_method => :parse , :allow_blank => false}
   property :push, TrueClass, :default => true
   property :pull, TrueClass, :default => true
   property :is_continuous, TrueClass, :default => false
@@ -27,12 +28,12 @@ class Replication < CouchRest::Model::Base
             }"
   end
 
-  after_validation :fetch_remote_couch_config
 
   validates_presence_of :remote_app_uri
   validates_presence_of :description
   validates_presence_of :username
   validates_presence_of :password
+  validate :fetch_remote_couch_config
   validate :validate_remote_app_uri
 
   before_save   :mark_for_reindexing
@@ -50,6 +51,7 @@ class Replication < CouchRest::Model::Base
     build_configs.each do |config|
       replicator.save_doc config
     end
+    invalidate_cached_configs
 
     unless needs_reindexing?
       mark_for_reindexing
@@ -185,7 +187,7 @@ class Replication < CouchRest::Model::Base
 
   def validate_remote_app_uri
     begin
-      raise unless remote_app_uri.is_a?(URI::HTTP) or remote_app_uri.is_a?(URI::HTTPS)
+      raise unless ['http', 'https'].include?(remote_app_uri.scheme)
       true
     rescue
       errors.add(:remote_app_uri, I18n.t("errors.models.replication.remote_app_uri"))
@@ -194,19 +196,25 @@ class Replication < CouchRest::Model::Base
 
   def fetch_remote_couch_config
     begin
-      uri = remote_app_uri
+      uri = remote_app_uri.clone
       uri.path = Rails.application.routes.url_helpers.configuration_replications_path
       post_params = {:user_name => self.username, :password => self.password}
 
       response = post_uri uri, post_params
-      config = JSON.parse response.body
 
-      self.couch_target_uri = config['target']
-      self.remote_databases = config['databases']
+      if response.code_type == Net::HTTPUnauthorized
+        errors.add(:credentials, I18n.t("errors.models.replication.remote_unauthorized"))
+        false
+      else
+        config = JSON.parse response.body
 
-      true
+        self.couch_target_uri = config['target']
+        self.remote_databases = config['databases']
+
+        true
+      end
     rescue => e
-      errors.add(:fetch_remote_couch_config, I18n.t("errors.models.replication.save_remote_couch_config"))
+      errors.add(:fetch_remote_couch_config, I18n.t("errors.models.replication.remote_error"))
       false
     end
   end

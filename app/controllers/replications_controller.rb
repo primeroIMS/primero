@@ -6,8 +6,13 @@ class ReplicationsController < ApplicationController
   skip_before_filter :check_authentication, :only => :configuration
 
   def configuration
-    CouchSettings.instance.authenticate params[:user_name], params[:password]
-    render :json => Replication.couch_config
+    begin
+      CouchSettings.instance.authenticate params[:user_name], params[:password]
+    rescue RestClient::Unauthorized
+      render :json => {'error' => 'invalid user name or password'}, :status => 401
+    else
+      render :json => Replication.couch_config
+    end
   end
 
   def index
