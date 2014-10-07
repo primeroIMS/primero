@@ -52,7 +52,10 @@ module Syncable
     # Take the oldest and apply all of the new attributes to it
     (active, discards) = [all_revs[0], all_revs[1..-1]]
 
-    active.directly_set_attributes(resolved_attrs)
+    without_dirty_tracking do
+      active.directly_set_attributes(resolved_attrs)
+      active.histories = self.class.merge_all_histories(all_revs.map {|r| r.histories })
+    end
 
     discards.each do |r|
       Rails.logger.debug {"Deleting revision #{r.rev} for #{r.id}"}
@@ -60,7 +63,7 @@ module Syncable
     end
 
     Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
-    active.save!
+    active.database.save_doc(active)
   end
 
   # Remove attributes that have been updated since `revision` to avoid
@@ -138,8 +141,6 @@ module Syncable
     convert_embedded_to_hash.call(h)
   end
 
-  protected
-
   # Get all the change objects since the given `revision`
   def get_intermediate_histories revision
     if self.histories.length > 1
@@ -161,6 +162,8 @@ module Syncable
   def get_intermediate_changes revision
     get_intermediate_histories(revision).map {|h| h.changes }
   end
+
+  protected
 
   # Take a set of properties and stick in all of the missing properties on the
   # current model (`existing`), including nested arrays and hashes, arbitrarily

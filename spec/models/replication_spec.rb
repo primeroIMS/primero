@@ -32,6 +32,13 @@ describe Replication do
       r.should be_valid
     end
 
+    it 'should save and reload seamlessly' do
+      original_target = @rep.couch_target_uri
+      @rep.save!
+      r = @rep.reload
+      r.couch_target_uri.should == original_target
+    end
+
     it 'should have description' do
       r = build :replication, :description => nil
       r.should_not be_valid
@@ -121,11 +128,11 @@ describe Replication do
     end
 
     it 'should create push configuration for some database' do
-      @rep.build_configs.should include :source => Child.database.name, :target => "https://test_user:test_password@couch:5984/remote_child_db_name", :primero_ref_id => @rep.id, :primero_env => Rails.env
+      @rep.build_configs.should include :source => Child.database.name, :target => "https://test_user:test_password@couch:5984/remote_child_db_name", :primero_ref_id => @rep.id, :primero_env => Rails.env, :continuous => @rep.is_continuous
     end
 
     it 'should create pull configuration for some database' do
-      @rep.build_configs.should include :target => Child.database.name, :source => "https://test_user:test_password@couch:5984/remote_child_db_name", :primero_ref_id => @rep.id, :primero_env => Rails.env
+      @rep.build_configs.should include :target => Child.database.name, :source => "https://test_user:test_password@couch:5984/remote_child_db_name", :primero_ref_id => @rep.id, :primero_env => Rails.env, :continuous => @rep.is_continuous
     end
 
     it 'should return configurations for push/pull of user/children/role' do
@@ -136,27 +143,27 @@ describe Replication do
     end
 
     it 'should return all replication documents' do
-      @rep.stub :replicator_docs =>  [ { "test" => "1" }, @default_config, { "test" => "2" }, @default_config ]
-      @rep.fetch_configs.should == [ @default_config, @default_config ]
+      Replication.stub :all_replicator_docs =>  [ { "test" => "1" }, @default_config, { "test" => "2" }, @default_config ]
+      @rep.replicator_docs.should == [ @default_config, @default_config ]
     end
 
     it 'should cache all replication documents' do
-      @rep.stub :replicator_docs =>  [ { "test" => "1" }, @default_config, { "test" => "2" }, @default_config ]
-      @rep.fetch_configs.should == [ @default_config, @default_config ]
-      @rep.stub :replicator_docs =>  [ { "test" => "1" }, @default_config, @default_config, @default_config ]
-      @rep.fetch_configs.should == [ @default_config, @default_config ]
+      Replication.stub :all_replicator_docs =>  [ { "test" => "1" }, @default_config, { "test" => "2" }, @default_config ]
+      @rep.replicator_docs.should == [ @default_config, @default_config ]
+      Replication.stub :all_replicator_docs =>  [ { "test" => "1" }, @default_config, @default_config, @default_config ]
+      @rep.replicator_docs.should == [ @default_config, @default_config ]
     end
 
     it 'should invalidate replication document cache' do
-      @rep.stub :replicator_docs =>  [ { "test" => "1" }, @default_config, { "test" => "2" }, @default_config ]
-      @rep.fetch_configs.should == [ @default_config, @default_config ]
+      Replication.stub :all_replicator_docs =>  [ { "test" => "1" }, @default_config, { "test" => "2" }, @default_config ]
+      @rep.replicator_docs.should == [ @default_config, @default_config ]
       @rep.send :invalidate_cached_configs
-      @rep.should_receive(:replicator_docs).exactly(1).times
-      @rep.fetch_configs
+      Replication.should_receive(:all_replicator_docs).exactly(1).times
+      @rep.replicator_docs
     end
 
     it 'should invalidate replication document cache upon saving' do
-      @rep.should_receive(:invalidate_cached_configs).and_return(true)
+      @rep.should_receive(:invalidate_cached_configs).and_call_original
       @rep["_id"] = nil
       @rep.save!
     end
@@ -166,16 +173,16 @@ describe Replication do
       @rep.stub :build_configs => [ configuration, configuration, configuration ]
       @rep.stub :save_without_callbacks => nil
 
-      @rep.send(:replicator).should_receive(:save_doc).exactly(3).times.with(configuration).and_return(nil)
+      Replication.send(:replicator).should_receive(:save_doc).exactly(3).times.with(configuration).and_return(nil)
       @rep.start_replication
     end
 
     it 'should stop replication and invalidate fetch config' do
       configuration = double()
-      @rep.stub :fetch_configs => [ configuration, configuration, configuration ]
+      @rep.stub :replicator_docs => [ configuration, configuration, configuration ]
       @rep.stub :save_without_callbacks => nil
 
-      @rep.send(:replicator).should_receive(:delete_doc).exactly(3).times.with(configuration).and_return(nil)
+      Replication.send(:replicator).should_receive(:delete_doc).exactly(3).times.with(configuration).and_return(nil)
       @rep.should_receive(:invalidate_cached_configs).and_return(nil)
       @rep.stop_replication
     end
@@ -188,13 +195,13 @@ describe Replication do
 
   describe 'timestamp' do
     it 'timestamp should be nil' do
-      @rep.stub :fetch_configs => []
+      @rep.stub :replicator_docs => []
       @rep.timestamp.should be_nil
     end
 
     it 'timestamp should be latest timestamp' do
       latest = 5.minutes.ago
-      @rep.stub :fetch_configs => [
+      @rep.stub :replicator_docs => [
         @default_config.merge("_replication_state_time" => 1.day.ago.to_s),
         @default_config.merge("_replication_state_time" => latest.to_s),
         @default_config.merge("_replication_state_time" => 2.days.ago.to_s)
@@ -210,7 +217,7 @@ describe Replication do
     end
 
     it 'statuses should return array of statuses' do
-      @rep.stub :fetch_configs => [
+      @rep.stub :replicator_docs => [
         @default_config.merge("_replication_state" => 'a'), @default_config.merge("_replication_state" => 'b'),
         @default_config.merge("_replication_state" => 'c'), @default_config.merge("_replication_state" => 'd')
       ]
@@ -218,7 +225,7 @@ describe Replication do
     end
 
     it 'statuses should substitute triggered if status is empty' do
-      @rep.stub :fetch_configs => [
+      @rep.stub :replicator_docs => [
         @default_config.merge("_replication_state" => nil), @default_config.merge("_replication_state" => 'd')
       ]
       @rep.statuses.should == [ 'triggered', 'd' ]
@@ -319,6 +326,17 @@ describe Replication do
   end
 
   describe 'conflict resolution' do
+    before :each do
+      @conflicting_children = [Child.new, Child.new]
+      Replication.stub(:models_to_sync => [Child, Incident, TracingRequest])
+      Child.stub(:all_conflicting_records => @conflicting_children)
+    end
+
+    it 'should call resolve_conflicts on all conflicting records for each model' do
+      @conflicting_children.each {|c| c.should_receive(:resolve_conflicting_revisions).and_return(nil) }
+
+      Replication.resolve_conflicts
+    end
   end
 
   def all_docs(db)

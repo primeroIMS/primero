@@ -45,13 +45,26 @@ class Replication < CouchRest::Model::Base
     "<Replication (#{description}): _id: #{_id}, remote_app_uri: #{remote_app_uri}>"
   end
 
+  def self.replicator
+    @replicator ||= COUCHDB_SERVER.database('_replicator')
+  end
+
+  def self.all_replicator_docs
+    self.replicator.documents["rows"]
+              .map { |doc| replicator.get doc["id"] unless doc["id"].include? "_design" }
+              .compact
+  end
+
+  def replicator_docs
+    @_cached_configs ||= self.class.all_replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
+  end
+
   def start_replication
     stop_replication
 
     build_configs.each do |config|
-      replicator.save_doc config
+      self.class.replicator.save_doc config
     end
-    invalidate_cached_configs
 
     unless needs_reindexing?
       mark_for_reindexing
@@ -62,8 +75,8 @@ class Replication < CouchRest::Model::Base
   end
 
   def stop_replication
-    fetch_configs.each do |config|
-      replicator.delete_doc config
+    replicator_docs.each do |config|
+      self.class.replicator.delete_doc config
     end
     invalidate_cached_configs
     true
@@ -82,11 +95,11 @@ class Replication < CouchRest::Model::Base
   end
 
   def timestamp
-    fetch_configs.collect { |config| Time.zone.parse config["_replication_state_time"] rescue nil }.compact.max
+    replicator_docs.collect { |config| Time.zone.parse config["_replication_state_time"] rescue nil }.compact.max
   end
 
   def statuses
-    fetch_configs.collect { |config| config["_replication_state"] || 'triggered' }
+    replicator_docs.collect { |config| config["_replication_state"] || 'triggered' }
   end
 
   def active?
@@ -102,7 +115,7 @@ class Replication < CouchRest::Model::Base
   end
 
   def full_couch_target_uri(path = "")
-    uri = self.couch_target_uri
+    uri = self.couch_target_uri.clone
     uri.host = remote_app_uri.host if uri.host == 'localhost'
     uri.path = "/#{path}"
     uri.user = username if username
@@ -120,14 +133,6 @@ class Replication < CouchRest::Model::Base
         end
       end
     end.flatten.compact
-  end
-
-  def fetch_configs
-    @_cached_configs ||= replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
-  end
-
-  def invalidate_cached_configs
-    @_cached_configs = nil
   end
 
   def self.models_to_sync
@@ -158,13 +163,46 @@ class Replication < CouchRest::Model::Base
 
   def self.schedule(scheduler)
     scheduler.every("5m") do
+      reenable_continuous_replications
+
       begin
         Rails.logger.info "Checking Replication Status..."
         Replication.all.each(&:check_status_and_reindex)
-        Replication.all.each(&:resolve_conflicts)
+        Replication.resolve_conflicts
       rescue => e
         Rails.logger.error "Error checking replication status"
         e.backtrace.each { |line| Rails.logger.error line }
+      end
+    end
+  end
+
+  def self.resolve_conflicts
+    if !self.any_replications_active?
+      self.models_to_sync.each do |modelClass|
+        Rails.logger.info {"Resolving any conflicts in model #{modelClass}"}
+        modelClass.all_conflicting_records.each do |rec|
+          Rails.logger.info {"Conflicts found in record #{rec.id}"}
+          begin
+            rec.resolve_conflicting_revisions
+          rescue => e
+            Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n" + e.backtrace.to_s)
+          end
+        end
+      end
+    end
+  end
+
+  def self.any_replications_active?
+    Replication.all.reject {|r| r.is_continuous }.any? {|r| r.active? }
+  end
+
+  # According to http://guide.couchdb.org/editions/1/en/replication.html,
+  # continuous replications are not persisted across database restarts
+  def self.reenable_continuous_replications
+    Replication.all.select {|r| r.is_continuous}.each do |rep|
+      unless rep.replicator_docs.any? {|d| d['continuous'] }
+        Rails.logger.info("No continuous replications found for replication #{rep.inspect}; reenabling")
+        rep.start_replication
       end
     end
   end
@@ -219,12 +257,8 @@ class Replication < CouchRest::Model::Base
     end
   end
 
-  def replicator
-    @replicator ||= COUCHDB_SERVER.database('_replicator')
-  end
-
-  def replicator_docs
-    replicator.documents["rows"].map { |doc| replicator.get doc["id"] unless doc["id"].include? "_design" }.compact
+  def invalidate_cached_configs
+    @_cached_configs = nil
   end
 
   def post_uri(uri, post_params = {})
@@ -240,22 +274,6 @@ class Replication < CouchRest::Model::Base
     end
   end
 
-  def resolve_conflicts
-    if !active?
-      self.models_to_sync.each do |modelClass|
-        Rails.logger.info {"Resolving any conflicts in model #{modelClass}"}
-        modelClass.all_conflicting_records.each do |rec|
-          Rails.logger.info {"Conflicts found in record #{rec.inspect}"}
-          begin
-            rec.resolve_conflicting_revisions
-          rescue => e
-            Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n" + e.backtrace.to_s)
-          end
-        end
-      end
-    end
-  end
-
   def push_config(model)
     target = full_couch_target_uri(self.remote_databases[model.to_s])
     make_config(model.database.name, target.to_s)
@@ -267,7 +285,7 @@ class Replication < CouchRest::Model::Base
   end
 
   def make_config(source, target)
-    { :source => source, :target => target, :primero_ref_id => self["_id"], :primero_env => Rails.env }
+    { :source => source, :target => target, :primero_ref_id => self["_id"], :primero_env => Rails.env, :continuous => self.is_continuous }
   end
 
 end

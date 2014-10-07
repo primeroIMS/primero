@@ -196,6 +196,32 @@ describe Historical do
       child.histories = [first_history, second_history, third_history]
       child.ordered_histories.map {|h| {:datetime => h.datetime}}.should == [third_history, second_history, first_history]
     end
+  end
 
+  describe "merge_all_histories" do
+    before :each do
+      now = DateTime.now
+      @rev1 = _Child.create
+      @rev1.histories = [
+        {:datetime => now, :action => :update, :prev_revision => 'r5'},
+        {:datetime => now - 5.minutes, :action => :update, :prev_revision => 'r1', :changes => {'age' => 15}},
+        {:datetime => now - 10.minutes, :action => :create},
+      ]
+      @rev1.save!
+
+      @rev2 = @rev1.clone
+      @rev2.histories = [
+        {:datetime => now - 1.minutes, :action => :update, :prev_revision => 'r7'},
+        {:datetime => now - 8.minutes, :action => :update, :prev_revision => 'r1', :changes => {'name' => 'Larry'}},
+        {:datetime => now - 10.minutes, :action => :create},
+      ]
+      @rev2.save!
+    end
+
+    it "should merge histories and sort by date" do
+      hs = _Child.merge_all_histories([@rev1.histories, @rev2.histories])
+      hs.length.should == 5
+      hs.each_cons(2) {|h1, h2| h1.datetime.should be > h2.datetime }
+    end
   end
 end
