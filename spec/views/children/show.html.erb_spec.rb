@@ -7,7 +7,7 @@ describe "children/show.html.erb" do
 
   describe "displaying a child's details"  do
     before :each do
-      @user = double('user', :has_permission? => true, :user_name => 'name', :id => 'test-user-id')
+      @user = double('user', :has_permission? => true, :user_name => 'name', :id => 'test-user-id', :full_name => 'Jose Smith')
       @user.stub(:localize_date)
       controller.stub(:current_user).and_return(@user)
       controller.stub(:model_class).and_return(Child)
@@ -25,12 +25,13 @@ describe "children/show.html.erb" do
       mod = PrimeroModule.create({_id: 'primeromodule-cp'})
       @child = Child.create(:name => "fakechild", :age => "27", :gender => "male", 
                             :date_of_separation => "1-2 weeks ago", :unique_identifier => "georgelon12345", 
-                            :created_by => 'jsmith', owned_by_full_name: 'Jose Smith', 
+                            :created_by => 'jsmith', :owned_by => @user.user_name, :owned_by_full_name => 'Jose Smith',
                             :created_at => "July 19 2010 13:05:32UTC", :photo => uploadable_photo_jeff, 
                             :module_id => mod.id)
 
       @child.stub(:has_one_interviewer?).and_return(true)
       @child.stub(:short_id).and_return('2341234')
+      @child.stub(:owner).and_return(@user)
 
       controller.stub(:child, @child)
       assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
@@ -94,6 +95,7 @@ describe "children/show.html.erb" do
                              :last_updated_by => "jdoe", :last_updated_at => "July 20 2010 14:15:59UTC",
                              :owned_by_full_name => 'Jose Smith')
         child.stub(:has_one_interviewer?).and_return(false)
+        child.stub(:owner).and_return(@user)
 
         assign(:child,child)
 

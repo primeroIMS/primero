@@ -1,4 +1,4 @@
-<div class="panel">
+<div class="panel record_status">
   <div class="header_message">
     <div id="interviewer_details">
       <!-- record state -->
@@ -23,8 +23,8 @@
         <%= record.owner.full_name %>
       </p>
       <!-- change log -->
-      <a id="show_change_log" class="span_button" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>" 
-         data-reveal-id="child_<%= record.short_id%>_change_log">
+      <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>" 
+         data-reveal-id="<%= model %>_<%= record.short_id%>_change_log" href="#">
         <%= t("record_panel.change_log") %>
       </a>
       <div class="reveal-modal medium" id="<%= model %>_<%=record.short_id%>_change_log" data-reveal></div>

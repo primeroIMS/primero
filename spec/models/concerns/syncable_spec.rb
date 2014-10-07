@@ -151,6 +151,15 @@ describe Syncable do
       @child.family_members[1].relation.should == 'uncle'
     end
 
+    it "should handle if the base revision is the current revision" do
+      @child.attributes = {
+        'age' => 14,
+        'base_revision' => @child.rev
+      }
+
+      @child.age.should == 14
+    end
+
     it "should not consider a separate update as stale" do
       @child.attributes = {
         'age' => 14,

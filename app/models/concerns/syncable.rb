@@ -143,7 +143,7 @@ module Syncable
 
   # Get all the change objects since the given `revision`
   def get_intermediate_histories revision
-    if self.histories.length > 1
+    if self.histories.length > 1 && revision != self.rev
       histories = self.histories.reverse
                          .drop_while {|h| h.prev_revision != revision }
                          .reverse

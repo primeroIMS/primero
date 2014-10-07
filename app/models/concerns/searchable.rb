@@ -18,6 +18,7 @@ module Searchable
       boolean :duplicate
       boolean :flag
       boolean :has_photo
+      boolean :record_state
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
@@ -79,6 +80,9 @@ module Searchable
                       with(filter, v.first)
                     end
                   else
+                    if properties_by_name[filter].try(:type) == TrueClass
+                      v = v == 'true' ? true : false
+                    end
                     with(filter, v) unless v == 'all'
                   end
                 end
