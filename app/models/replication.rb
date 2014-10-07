@@ -162,7 +162,7 @@ class Replication < CouchRest::Model::Base
   end
 
   def self.schedule(scheduler)
-    scheduler.every("5m") do
+    scheduler.every("3m") do
       reenable_continuous_replications
 
       begin

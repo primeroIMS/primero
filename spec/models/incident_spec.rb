@@ -202,43 +202,6 @@ describe Incident do
       incident['origin'].should == "Croydon"
     end
 
-    it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
-      existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
-      given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
-      incident = Incident.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" =>  [existing_histories])
-      given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => given_histories}
-      incident.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      histories = incident["histories"]
-      histories.size.should == 2
-      histories.first["changes"]["sex"]["from"].should == "female"
-      histories.last["changes"]["name"]["to"].should == "new"
-    end
-
-    it "should assign the history of the given properties as it is if the current record has no history" do
-      incident = Incident.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      incident.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      histories = incident["histories"]
-      histories.last["changes"]["name"]["to"].should == "new"
-    end
-
-    # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?
-    # xit "should not add changes to history if its already added to the history" do
-      # FormSection.stub(:all_visible_form_fields =>
-                            # [Field.new(:type => Field::TEXT_FIELD, :name => "name", :display_name => "Name"),
-                             # Field.new(:type => Field::CHECK_BOXES, :name => "not_name")])
-      # child = Child.new("name" => "old", "last_updated_at" => "2012-12-12 00:00:00UTC")
-      # child.save!
-      # sleep 1
-      # changed_properties = {"name" => "new", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      # child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      # child.save!
-      # sleep 1
-      # child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      # child.save!
-      # child["histories"].size.should == 1
-    # end
-
     it "should populate last_updated_by field with the user_name who is updating" do
       incident = Incident.new
       incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}

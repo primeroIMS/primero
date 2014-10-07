@@ -313,9 +313,9 @@ describe Replication do
       uri.path.should == '/children/reindex'
     end
 
-    it 'should schedule reindexing every 5m' do
+    it 'should schedule reindexing every 3m' do
       scheduler = double()
-      scheduler.should_receive(:every).with('5m').and_yield
+      scheduler.should_receive(:every).with('3m').and_yield
 
       replication = build :replication
       replication.should_receive(:check_status_and_reindex).and_return(nil)

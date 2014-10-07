@@ -198,18 +198,6 @@ describe TracingRequest do
       tracing_request['origin'].should == "Croydon"
     end
 
-    it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
-      existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
-      given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"relation_name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
-      tracing_request = TracingRequest.new("relation_name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" =>  [existing_histories])
-      given_properties = {"relation_name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => given_histories}
-      tracing_request.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      histories = tracing_request["histories"]
-      histories.size.should == 2
-      histories.first["changes"]["sex"]["from"].should == "female"
-      histories.last["changes"]["relation_name"]["to"].should == "new"
-    end
-
     it "should delete the newly created media history(current_photo_key and recorded_audio) as the media names are changed before save of tracing request record" do
       existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
       given_histories = [existing_histories,
@@ -224,37 +212,11 @@ describe TracingRequest do
       histories.first["changes"]["current_photo_key"].should be_nil
     end
 
-    it "should assign the history of the given properties as it is if the current record has no history" do
-      tracing_request = TracingRequest.new("relation_name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      given_properties = {"relation_name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"relation_name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      tracing_request.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      histories = tracing_request["histories"]
-      histories.last["changes"]["relation_name"]["to"].should == "new"
-    end
-
-    # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?
-    xit "should not add changes to history if its already added to the history" do
-      FormSection.stub(:all_visible_form_fields =>
-                            [Field.new(:type => Field::TEXT_FIELD, :name => "relation_name", :display_name => "Name"),
-                             Field.new(:type => Field::CHECK_BOXES, :name => "not_name")])
-      tracing_request = TracingRequest.new("relation_name" => "old", "created_at" => "2012-12-12 00:00:00UTC")
-      tracing_request.save!
-      sleep 1
-      changed_properties = {"relation_name" => "new", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"relation_name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      tracing_request.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      tracing_request.save!
-      sleep 1
-      tracing_request.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      tracing_request.save!
-      tracing_request["histories"].size.should == 1
-    end
-
     it "should populate last_updated_by field with the user_name who is updating" do
       tracing_request = TracingRequest.new
       tracing_request.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
       tracing_request.last_updated_by.should == 'jdoe'
     end
-
 
     it "should populate last_updated_at field with the time of the update" do
       DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
