@@ -55,33 +55,4 @@ describe ReplicationsController do
       get :index
     end
   end
-  describe "POST update_blacklist" do
-    it "should update the blacklist flag" do
-      fake_login_as(Permission::SYSTEM)
-      device = double()
-      Device.should_receive(:find_by_device_imei).with("123").and_call_original
-      Device.should_receive(:by_imei).with(:key => "123").and_return([device])
-      device.should_receive(:update_attributes).with({:blacklisted => true}).and_return(true)
-      post :update_blacklist, {:imei => "123", :blacklisted => "true"}
-      response.body.should == "{\"status\":\"ok\"}"
-    end
-
-    it "should return failure if blacklist fails" do
-      fake_login_as(Permission::SYSTEM)
-      device = double()
-      Device.should_receive(:find_by_device_imei).with("123").and_call_original
-      Device.should_receive(:by_imei).with(:key => "123").and_return([device])
-      device.should_receive(:update_attributes).with({:blacklisted => true}).and_return(false)
-      post :update_blacklist, {:imei => "123", :blacklisted => "true"}
-      response.body.should == "{\"status\":\"error\"}"
-    end
-
-    it "should not update the device by user without blacklist permission" do
-      fake_login_as([Permission::USER, Permission::ALL])
-      Device.should_not_receive(:view).with("by_imei")
-      post :update_blacklist, {:imei => "123", :blacklisted => "true"}
-      response.status.should == 403
-    end
-  end
-
 end

@@ -26,6 +26,7 @@ gem 'os',             '~> 0.9.6'
 gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
 gem 'request_exception_handler'
 gem 'multi_json',     '~> 1.8.2'
+gem 'addressable',    '~> 2.3.6'
 gem "zipruby-compat", :require => 'zipruby', :git => "https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git", :tag => "v0.3.7"
 
 gem 'sunspot_rails',  '2.1.1'

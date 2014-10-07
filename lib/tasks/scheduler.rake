@@ -16,7 +16,7 @@ namespace :scheduler do
       :ARGV => [ argv ].flatten
     }
 
-    Daemons.run_proc('rapidftr-scheduler', daemon_options) do
+    Daemons.run_proc('primero-scheduler', daemon_options) do
       load File.join(Rails.root, 'Rakefile')
       Rake::Task["scheduler:run"].invoke
     end

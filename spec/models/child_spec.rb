@@ -38,18 +38,6 @@ describe Child do
       child['origin'].should == "Croydon"
     end
 
-    it "should merge the histories of the given record with the current record if the last updated at of current record is greater than given record's" do
-      existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
-      given_histories = [existing_histories, JSON.parse("{\"user_name\":\"rapidftr\",\"datetime\":\"2012-01-01 00:00:02UTC\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]
-      child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" =>  [existing_histories])
-      given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => given_histories}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      histories = child["histories"]
-      histories.size.should == 2
-      histories.first["changes"]["sex"]["from"].should == "female"
-      histories.last["changes"]["name"]["to"].should == "new"
-    end
-
     it "should delete the newly created media history(current_photo_key and recorded_audio) as the media names are changed before save of child record" do
       existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
       given_histories = [existing_histories,
@@ -62,14 +50,6 @@ describe Child do
       histories = child["histories"]
       histories.size.should == 1
       histories.first["changes"]["current_photo_key"].should be_nil
-    end
-
-    it "should assign the history of the given properties as it is if the current record has no history" do
-      child = Child.new("name" => "existing name", "last_updated_at" => "2013-01-01 00:00:01UTC")
-      given_properties = {"name" => "given name", "last_updated_at" => "2012-12-12 00:00:00UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      histories = child["histories"]
-      histories.last["changes"]["name"]["to"].should == "new"
     end
 
     # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?

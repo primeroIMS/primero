@@ -328,5 +328,29 @@ describe Syncable do
       resolved[:family_members][0].name.should == 'Lawrence'
       resolved[:family_members][0].relation.should == 'father'
     end
+
+    it "should merge histories properly" do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved.histories.length.should == 3
+    end
+  end
+
+  describe 'get_intermediate_histories' do
+    it 'should return histories even with duplicate prev_revisions' do
+      now = DateTime.now
+      c = _Child.create
+      c.histories = [
+        {:datetime => now, :action => :update, :prev_revision => 'r5'},
+        {:datetime => now - 1.minutes, :action => :update, :prev_revision => 'r7'},
+        {:datetime => now - 5.minutes, :action => :update, :prev_revision => 'r1', :changes => {'age' => 15}},
+        {:datetime => now - 8.minutes, :action => :update, :prev_revision => 'r1', :changes => {'name' => 'Larry'}},
+        {:datetime => now - 10.minutes, :action => :create},
+      ]
+      c.save!
+
+      c.get_intermediate_histories('r1').should == c.histories[0..-2]
+    end
   end
 end

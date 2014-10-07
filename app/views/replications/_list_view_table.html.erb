@@ -2,8 +2,9 @@
   <thead>
   <tr>
     <th><%= t "replication.description" %></th>
-    <th ><%= t "replication.remote_app_url" %></th>
-    <th ><%= t "login.username" %></th>
+    <th><%= t "replication.remote_app_uri" %></th>
+    <th><%= t "login.username" %></th>
+    <th><%= t "replication.is_continuous" %></th>
     <th><%= t "replication.status" %></th>
     <th><%= t "replication.timestamp" %></th>
     <th ><%= t "replication.actions" %></th>
@@ -14,8 +15,9 @@
       <% replications.each do |rep| %>
           <tr>
             <td><%= rep.description %></td>
-            <td> <%= link_to rep.remote_app_url, rep.remote_app_url, :target => '_blank' %> </td>
+            <td> <%= link_to rep.remote_app_uri.to_s, rep.remote_app_uri.to_s, :target => '_blank' %> </td>
             <td><%= rep.username %></td>
+            <td><%= rep.is_continuous.to_s %></td>
             <td class="status">
               <%= t "replication.#{rep.status}" %>
             </td>

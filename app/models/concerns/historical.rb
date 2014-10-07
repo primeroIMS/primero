@@ -103,6 +103,13 @@ module Historical
     def all_by_creator(created_by)
       self.by_created_by :key => created_by
     end
+
+    def merge_all_histories(hs)
+      hs.inject([], :|)
+        .uniq {|el| el.to_hash }
+        .sort_by {|el| el.datetime || DateTime.new }
+        .reverse
+    end
   end
 
   def validate_created_at
@@ -266,20 +273,6 @@ module Historical
           acc
         end
       end
-    end
-  end
-
-  def merge_histories(given_histories)
-    without_dirty_tracking do
-      current_histories = self.histories
-      to_be_merged = []
-      (given_histories || []).each do |history|
-        matched = current_histories.find do |c_history|
-          c_history.user_name == history['user_name'] && c_history.datetime == history['datetime'] && c_history.changes.keys == history['changes'].keys
-        end
-        to_be_merged.push(history) unless matched
-      end
-      self.histories += to_be_merged
     end
   end
 

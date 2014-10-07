@@ -8,8 +8,8 @@
     <table class="list_table">
       <thead>
       <tr>
-        <th width="10%">Source</th>
-        <th width="10%">Target</th>
+        <th width="10%">Source DB</th>
+        <th width="10%">Target DB</th>
         <th width="30%">Timestamp</th>
         <th width="10%">Status</th>
         <th width="40%">Statistics</th>
@@ -19,8 +19,8 @@
       <tbody>
         <% @replication.fetch_configs.each do |config| %>
           <tr>
-            <td><%= config["source"].gsub(/(.+)(:)(.+)(@)/, '').gsub('/', '/ ') %></td>
-            <td><%= config["target"].gsub(/(.+)(:)(.+)(@)/, '').gsub('/', '/ ') %></td>
+            <td><%= config.source_db.gsub(/(.+)(:)(.+)(@)/, '').gsub('/', '/ ') %></td>
+            <td><%= config.target_db.gsub(/(.+)(:)(.+)(@)/, '').gsub('/', '/ ') %></td>
             <td><%= l config["_replication_state_time"].to_datetime if config["_replication_state_time"] %></td>
             <td><%= t config["_replication_state"], :scope => "replication" if config["_replication_state"] %></td>
             <td>

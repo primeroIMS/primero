@@ -1,3 +1,4 @@
+
 class Replication < CouchRest::Model::Base
   MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
   STABLE_WAIT_TIME = 2.minutes
@@ -6,8 +7,12 @@ class Replication < CouchRest::Model::Base
 
   use_database :replication_config
 
-  property :remote_app_url
-  property :remote_couch_config, Hash, :default => {}
+  property :remote_app_uri, PrimeroURI, {:init_method => :parse, :allow_blank => false}
+  property :couch_target_uri, PrimeroURI, {:init_method => :parse , :allow_blank => false}
+  property :push, TrueClass, :default => true
+  property :pull, TrueClass, :default => true
+  property :is_continuous, TrueClass, :default => false
+  property :remote_databases, Hash, :default => {}
 
   property :description
   property :username
@@ -23,32 +28,46 @@ class Replication < CouchRest::Model::Base
             }"
   end
 
-  validates_presence_of :remote_app_url
+
+  validates_presence_of :remote_app_uri
   validates_presence_of :description
   validates_presence_of :username
   validates_presence_of :password
-  validate :validate_remote_app_url
-  validate :save_remote_couch_config
+  validate :fetch_remote_couch_config
+  validate :validate_remote_app_uri
 
-  before_save   :normalize_remote_app_url
   before_save   :mark_for_reindexing
 
   after_save    :start_replication
   before_destroy :stop_replication
 
   def inspect
-    "<Replication (#{description}): _id: #{_id}, remote_app_url: #{remote_app_url}>"
+    "<Replication (#{description}): _id: #{_id}, remote_app_uri: #{remote_app_uri}>"
+  end
+
+  def self.replicator
+    @replicator ||= COUCHDB_SERVER.database('_replicator')
+  end
+
+  def self.all_replicator_docs
+    self.replicator.documents["rows"]
+              .map { |doc| replicator.get doc["id"] unless doc["id"].include? "_design" }
+              .compact
+  end
+
+  def replicator_docs
+    @_cached_configs ||= self.class.all_replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
   end
 
   def start_replication
     stop_replication
 
     build_configs.each do |config|
-      replicator.save_doc config
+      self.class.replicator.save_doc config
     end
 
     unless needs_reindexing?
-      self.needs_reindexing = true
+      mark_for_reindexing
       self.database.save_doc(self)
     end
 
@@ -56,10 +75,11 @@ class Replication < CouchRest::Model::Base
   end
 
   def stop_replication
-    fetch_configs.each do |config|
-      replicator.delete_doc config
+    replicator_docs.each do |config|
+      self.class.replicator.delete_doc config
     end
-    invalidate_fetch_configs
+    invalidate_cached_configs
+    true
   end
 
   def check_status_and_reindex
@@ -75,11 +95,11 @@ class Replication < CouchRest::Model::Base
   end
 
   def timestamp
-    fetch_configs.collect { |config| Time.zone.parse config["_replication_state_time"] rescue nil }.compact.max
+    replicator_docs.collect { |config| Time.zone.parse config["_replication_state_time"] rescue nil }.compact.max
   end
 
   def statuses
-    fetch_configs.collect { |config| config["_replication_state"] || 'triggered' }
+    replicator_docs.collect { |config| config["_replication_state"] || 'triggered' }
   end
 
   def active?
@@ -94,14 +114,8 @@ class Replication < CouchRest::Model::Base
     active? ? "triggered" : success? ? "completed" : "error"
   end
 
-  def remote_app_uri
-    uri = URI.parse self.class.normalize_url remote_app_url
-    uri.path = "/"
-    uri
-  end
-
-  def remote_couch_uri(path = "")
-    uri = URI.parse remote_couch_config["target"]
+  def full_couch_target_uri(path = "")
+    uri = self.couch_target_uri.clone
     uri.host = remote_app_uri.host if uri.host == 'localhost'
     uri.path = "/#{path}"
     uri.user = username if username
@@ -109,24 +123,16 @@ class Replication < CouchRest::Model::Base
     uri
   end
 
-  def push_config(model)
-    target = remote_couch_uri remote_couch_config["databases"][model.to_s]
-    { "source" => model.database.name, "target" => target.to_s, "primero_ref_id" => self["_id"], "primero_env" => Rails.env }
-  end
-
-  def pull_config(model)
-    target = remote_couch_uri remote_couch_config["databases"][model.to_s]
-    { "source" => target.to_s, "target" => model.database.name, "primero_ref_id" => self["_id"], "primero_env" => Rails.env }
-  end
-
   def build_configs
     self.class.models_to_sync.map do |model|
-      [ push_config(model), pull_config(model) ]
-    end.flatten
-  end
-
-  def fetch_configs
-    @fetch_configs ||= replicator_docs.select { |rep| rep["primero_ref_id"] == self.id }
+      [:push, :pull].map do |direction|
+        if __send__(direction)
+          __send__("#{direction}_config", model)
+        else
+          nil
+        end
+      end
+    end.flatten.compact
   end
 
   def self.models_to_sync
@@ -149,18 +155,20 @@ class Replication < CouchRest::Model::Base
     }
   end
 
-  def self.normalize_url(url)
-    url = "http://#{url}" unless url.include? '://'
-    url = "#{url}/"       unless url.ends_with? '/'
-    url
+  def self.normalize_uri(uri)
+    uri = "http://#{uri}" unless uri.include? '://'
+    uri = "#{uri}/"       unless uri.ends_with? '/'
+    uri
   end
 
   def self.schedule(scheduler)
-    scheduler.every("5m") do
+    scheduler.every("3m") do
+      reenable_continuous_replications
+
       begin
         Rails.logger.info "Checking Replication Status..."
         Replication.all.each(&:check_status_and_reindex)
-        Replication.all.each(&:resolve_conflicts)
+        Replication.resolve_conflicts
       rescue => e
         Rails.logger.error "Error checking replication status"
         e.backtrace.each { |line| Rails.logger.error line }
@@ -168,7 +176,40 @@ class Replication < CouchRest::Model::Base
     end
   end
 
-  private
+  def self.resolve_conflicts
+    if !self.any_replications_active?
+      self.models_to_sync.each do |modelClass|
+        Rails.logger.info {"Resolving any conflicts in model #{modelClass}"}
+        modelClass.all_conflicting_records.each do |rec|
+          Rails.logger.info {"Conflicts found in record #{rec.id}"}
+          begin
+            rec.resolve_conflicting_revisions
+          rescue => e
+            Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n" + e.backtrace.to_s)
+          end
+        end
+      end
+    end
+  end
+
+  def self.any_replications_active?
+    Replication.all.reject {|r| r.is_continuous }.any? {|r| r.active? }
+  end
+
+  # According to http://guide.couchdb.org/editions/1/en/replication.html,
+  # continuous replications are not persisted across database restarts
+  def self.reenable_continuous_replications
+    Replication.all.select {|r| r.is_continuous}.each do |rep|
+      unless rep.replicator_docs.any? {|d| d['continuous'] }
+        Rails.logger.info("No continuous replications found for replication #{rep.inspect}; reenabling")
+        rep.start_replication
+      end
+    end
+  end
+
+  protected
+
+  attr_accessor :_cached_configs
 
   def trigger_local_reindex
     Child.reindex!
@@ -182,44 +223,42 @@ class Replication < CouchRest::Model::Base
     post_uri uri
   end
 
-  def invalidate_fetch_configs
-    @fetch_configs = nil
-    true
-  end
-
-  def validate_remote_app_url
+  def validate_remote_app_uri
     begin
-      raise unless remote_app_uri.is_a?(URI::HTTP) or remote_app_uri.is_a?(URI::HTTPS)
+      raise unless ['http', 'https'].include?(remote_app_uri.scheme)
       true
     rescue
-      errors.add(:remote_app_url, I18n.t("errors.models.replication.remote_app_url"))
+      errors.add(:remote_app_uri, I18n.t("errors.models.replication.remote_app_uri"))
     end
   end
 
-  def normalize_remote_app_url
-    self.remote_app_url = remote_app_uri.to_s
-  end
-
-  def save_remote_couch_config
+  def fetch_remote_couch_config
     begin
-      uri = remote_app_uri
+      uri = remote_app_uri.clone
       uri.path = Rails.application.routes.url_helpers.configuration_replications_path
       post_params = {:user_name => self.username, :password => self.password}
 
       response = post_uri uri, post_params
-      self.remote_couch_config = JSON.parse response.body
-      true
+
+      if response.code_type == Net::HTTPUnauthorized
+        errors.add(:credentials, I18n.t("errors.models.replication.remote_unauthorized"))
+        false
+      else
+        config = JSON.parse response.body
+
+        self.couch_target_uri = config['target']
+        self.remote_databases = config['databases']
+
+        true
+      end
     rescue => e
-      errors.add(:save_remote_couch_config, I18n.t("errors.models.replication.save_remote_couch_config"))
+      errors.add(:fetch_remote_couch_config, I18n.t("errors.models.replication.remote_error"))
+      false
     end
   end
 
-  def replicator
-    @replicator ||= COUCHDB_SERVER.database('_replicator')
-  end
-
-  def replicator_docs
-    replicator.documents["rows"].map { |doc| replicator.get doc["id"] unless doc["id"].include? "_design" }.compact
+  def invalidate_cached_configs
+    @_cached_configs = nil
   end
 
   def post_uri(uri, post_params = {})
@@ -235,19 +274,18 @@ class Replication < CouchRest::Model::Base
     end
   end
 
-  def resolve_conflicts
-    if !active?
-      self.models_to_sync.each do |modelClass|
-        Rails.logger.info {"Resolving any conflicts in model #{modelClass}"}
-        modelClass.all_conflicting_records.each do |rec|
-          Rails.logger.info {"Conflicts found in record #{rec.inspect}"}
-          begin
-            rec.resolve_conflicting_revisions
-          rescue => e
-            Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n" + e.backtrace.to_s)
-          end
-        end
-      end
-    end
+  def push_config(model)
+    target = full_couch_target_uri(self.remote_databases[model.to_s])
+    make_config(model.database.name, target.to_s)
   end
+
+  def pull_config(model)
+    target = full_couch_target_uri(self.remote_databases[model.to_s])
+    make_config(target.to_s, model.database.name)
+  end
+
+  def make_config(source, target)
+    { :source => source, :target => target, :primero_ref_id => self["_id"], :primero_env => Rails.env, :continuous => self.is_continuous }
+  end
+
 end
