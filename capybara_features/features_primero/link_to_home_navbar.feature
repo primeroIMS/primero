@@ -8,7 +8,7 @@ Feature: Primero Home Link in Nav Bar
     When I access <page>
     Then I should see a "HOME" button on the page
     And I press the "HOME" button
-    And I should see "Dashboard"
+    And I should see "Scheduled Activities"
     Examples:
       | page |
       | new child page |
