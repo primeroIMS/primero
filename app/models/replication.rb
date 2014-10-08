@@ -167,8 +167,8 @@ class Replication < CouchRest::Model::Base
 
       begin
         Rails.logger.info "Checking Replication Status..."
-        Replication.all.each(&:check_status_and_reindex)
         Replication.resolve_conflicts
+        Replication.all.each(&:check_status_and_reindex)
       rescue => e
         Rails.logger.error "Error checking replication status"
         e.backtrace.each { |line| Rails.logger.error line }
@@ -185,7 +185,7 @@ class Replication < CouchRest::Model::Base
           begin
             rec.resolve_conflicting_revisions
           rescue => e
-            Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n" + e.backtrace.to_s)
+            Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n#{e}\n#{e.backtrace}")
           end
         end
       end
