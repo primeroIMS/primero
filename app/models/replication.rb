@@ -265,7 +265,7 @@ class Replication < CouchRest::Model::Base
     if uri.scheme == "http"
       Net::HTTP.post_form uri, post_params
     else
-      http = Net::HTTP.new(uri.host, uri.port)
+      http = Net::HTTP.new(uri.host, (uri.port || 443))
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       request = Net::HTTP::Post.new(uri.request_uri)
