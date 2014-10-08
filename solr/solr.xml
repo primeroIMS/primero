@@ -5,5 +5,6 @@
     <core name="development" instanceDir="." dataDir="data/development" />
     <core name="test"        instanceDir="." dataDir="data/test" />
     <core name="cucumber"    instanceDir="." dataDir="data/cucumber" />
+    <core name="dev2"        instanceDir="." dataDir="data/dev2" />
   </cores>
 </solr>
