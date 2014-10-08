@@ -6,7 +6,7 @@ class FormSectionController < ApplicationController
 
   before_filter :current_modules, :only => [:index, :new, :edit, :create]
   before_filter :parent_form, :only => [:new, :edit]
-  before_filter :get_form_sections, :only => [:index]
+  before_filter :get_form_sections, :only => [:index, :edit]
   #before_filter :get_lookups, :only => [:index]
 
 
@@ -57,6 +57,8 @@ class FormSectionController < ApplicationController
     authorize! :update, FormSection
     @page_name = t("form_section.edit")
     @form_section = FormSection.get_by_unique_id(params[:id])
+
+    forms_for_move
   end
 
   def update
@@ -78,7 +80,6 @@ class FormSectionController < ApplicationController
     form.save!
     render :text => "OK"
   end
-
 
   def save_order
     authorize! :update, FormSection
@@ -127,5 +128,13 @@ class FormSectionController < ApplicationController
     #filter out the subforms
     no_subforms = FormSection.filter_subforms(permitted_forms)
     @form_sections = FormSection.group_forms(no_subforms)
+  end
+
+  def forms_for_move
+    form_list = []
+    @form_sections.values.each do |form_group|
+      form_list += form_group
+    end
+    @forms_for_move = form_list.sort_by{ |form| form.name || "" }.map{ |form| [form.name, form.unique_id] }
   end
 end

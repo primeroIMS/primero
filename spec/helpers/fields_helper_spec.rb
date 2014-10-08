@@ -38,13 +38,14 @@ describe FieldsHelper do
     @fields_helper = Object.new.extend FieldsHelper
   end
 
-   it "should give back tuples of form unique id and display name" do
+   #TODO - Primero-587 moved this call out of the view/helper and to the form_section_controller
+   xit "should give back tuples of form unique id and display name" do
      first_form = FormSection.new(:name => nil, :unique_id => "first_form", :parent_form => "case")
      second_form = FormSection.new(:name => "Third Form", :unique_id => "third_form", :parent_form => "case")
      third_form = FormSection.new(:name => "Middle Form", :unique_id => "middle_form", :parent_form => "case")
      FormSection.stub(:all).and_return [first_form, second_form, third_form]
 
-     @fields_helper.forms_for_display.should == [[nil, "first_form"], ["Middle Form", "middle_form"], ["Third Form", "third_form"]]
+     #@fields_helper.forms_for_display.should == [[nil, "first_form"], ["Middle Form", "middle_form"], ["Third Form", "third_form"]]
    end
 
   describe "option_fields" do

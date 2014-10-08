@@ -3,10 +3,6 @@ module FormSectionHelper
     FormSection.sorted_highlighted_fields
   end
 
-  def forms_for_display
-    FormSection.all.sort_by{ |form| form.name || "" }.map{ |form| [form.name, form.unique_id] }
-  end
-
   def url_for_form_section_field(form_section_id, field)
     field.new? ? form_section_fields_path(form_section_id) : form_section_field_path(form_section_id, field.name)
   end
@@ -51,21 +47,21 @@ module FormSectionHelper
   end
 
   #PRIMERO-439  WIP
-  def build_form_custom_list(group, forms)
+  def build_form_custom_list(group, forms, primero_module, parent_form)
     form = forms.first
     if forms.count > 1
       content_tag :li, class: 'group' do
         concat(
-          link_to(edit_form_section_path(form.section_name), class: 'group') do
+          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id, parent_form: parent_form), class: 'group') do
             concat(t(group, :default => group))
           end
         )
-        concat(build_group_custom_list(forms))
+        concat(build_group_custom_list(forms, primero_module, parent_form))
       end
     else
       content_tag :li, class: "#{form.visible? ? '' : 'hidden_form'}" do
         concat(
-          link_to(edit_form_section_path(form.section_name), class: 'non-group') do
+          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id, parent_form: parent_form), class: 'non-group') do
             concat(t(form.unique_id, :default => form.name))
           end
         )
@@ -73,12 +69,12 @@ module FormSectionHelper
     end
   end
 
-  def build_group_custom_list(forms)
+  def build_group_custom_list(forms, primero_module, parent_form)
     group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
      for form in forms
       concat(content_tag(:li,
-        link_to(edit_form_section_path(form.section_name)) do
+        link_to(edit_form_section_path(form.section_name, module_id: primero_module.id, parent_form: parent_form)) do
           concat(t(form.unique_id, :default => form.name))
         end, class: "#{form.visible? ? '' : 'hidden_form'}"
       ))
