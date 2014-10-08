@@ -8,7 +8,8 @@
       <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Violence Type' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('Gbv Sexual Violence Type', @lookups)) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('Gbv Sexual Violence Type', @lookups),
+        { multi: true }) %>
     <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
@@ -47,7 +48,9 @@
       <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_name"), 'armed_force_group_names', Lookup.values('Armed Force Group Name', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Armed Force or Group Type' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('Armed Force Group Type', @lookups)) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('Armed Force Group Type', @lookups),
+        { multi: true }) %>
     <% end %>
   </form>
+  <div class="clearfix"></div>
 </div>

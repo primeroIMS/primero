@@ -40,9 +40,41 @@ div.scope_bar {
   padding: 0;
   width: 225px;
 
+  label {
+    display: block;
+    float: left;
+    padding-right: 10px;
+    white-space: nowrap;
+    padding-left: 22px;
+    text-indent: -22px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  input {
+    vertical-align: middle; 
+  }
+  
+  label span {
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
   .filter {
+    margin-bottom: 8px;
+    
+    .chosen-container-single {
+      padding: 2px;
+    }
+
     .filter-controls {
       padding: 10px 3px 20px 5px;
+      clear: both;
+    }
+
+    .date_range {
+      width: 80%;
     }
 
     input[type="checkbox"] {
@@ -52,7 +84,7 @@ div.scope_bar {
 
   h3 {
     font-size: $thirteen_px;
-    padding: 20px 10px 0 10px;
+    padding: 10px 10px 0 10px;
     margin: 0;
     font-family: 'Roboto-Medium', sans-serif;
     border-top: 1px solid $stroke_green_color;
@@ -79,7 +111,6 @@ div.scope_bar {
 
   label {
     font-size: 0.8rem;
-    margin-left: 0.3rem !important;
 
     &:not(.has_date) {
       margin-right: 0 !important;

@@ -1,21 +1,23 @@
 <div class="filter">
   <h3><%= t("#{record}.filter_by.#{date_field_title}") %></h3>
   <div class="filter-controls">
-    <div class="row">
-      <div class="medium-2 columns">
-        <label class="has_date"><%= t("fields.date_range.from") %></label>
+    <div class="date_range">
+      <div class="row collapse">
+        <div class="medium-3 columns">
+          <label class="has_date"><%= t("fields.date_range.from") %></label>
+        </div>
+        <div class="medium-9 columns">
+          <%= text_field_tag "#{date_field}", "", class: "form_date_field", id: "#{date_field}_from", filter_type: "date_range" %>
+        </div>
       </div>
-      <div class="medium-10 columns">
-        <%= text_field_tag "#{date_field}", "", class: "form_date_field", id: "#{date_field}_from", filter_type: "date_range" %>
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="medium-2 columns">
-        <label class="has_date"><%= t("fields.date_range.to") %></label>
-      </div>
-      <div class="medium-10 columns">
-        <%= text_field_tag "#{date_field}", "", class: "form_date_field", id: "#{date_field}_to", filter_type: "date_range" %>
+      <br>
+      <div class="row collapse">
+        <div class="medium-3 columns">
+          <label class="has_date"><%= t("fields.date_range.to") %></label>
+        </div>
+        <div class="medium-9 columns">
+          <%= text_field_tag "#{date_field}", "", class: "form_date_field", id: "#{date_field}_to", filter_type: "date_range" %>
+        </div>
       </div>
     </div>
   </div>
