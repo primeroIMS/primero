@@ -21,8 +21,8 @@
         </p>
 
         <p>
-          <%= f.label :remote_app_url, t("replication.remote_app_url"), :class => "key" %>
-          <%= f.text_field :remote_app_url %>*
+          <%= f.label :remote_app_uri, t("replication.remote_app_uri"), :class => "key" %>
+          <%= f.text_field :remote_app_uri %>*
         </p>
         <p>
           <%= f.label :username, t("login.username"), :class => "key" %>
@@ -31,6 +31,10 @@
         <p>
           <%= f.label :password, t("login.password.label"), :class=>'key'  %>
           <%= f.password_field :password, :autocomplete => "off" %>*
+        </p>
+        <p>
+          <%= f.label :is_continuous, t("replication.is_continuous"), :class=>'key'  %>
+          <%= f.check_box :is_continuous, :autocomplete => 'off' %>
         </p>
       </fieldset>
     <% end %>

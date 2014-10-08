@@ -6,7 +6,7 @@ require 'readline'
 
 def databases_for_env
     COUCHDB_SERVER.databases
-                  .select { |db| db =~ /_#{Rails.env}$/ }
+                  .select { |db| db =~ /_#{CouchSettings.instance.db_suffix}$/ }
                   .map { |name| COUCHDB_SERVER.database(name) }
 end
 

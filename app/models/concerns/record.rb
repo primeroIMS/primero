@@ -281,11 +281,7 @@ module Record
 
     attributes_to_update = {}
     properties.each_pair do |name, value|
-      if name == "histories"
-        merge_histories(properties['histories'])
-      else
-        attributes_to_update[name] = value
-      end
+      attributes_to_update[name] = value
       attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
     end
     self.set_updated_fields_for user_name
