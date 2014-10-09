@@ -44,8 +44,7 @@
           <td><%= field.display_name %></td>
           <td><%= field.help_text %></td>
           <td>
-              <% #TODO - HANDLE LOOKUPS%>
-              <%= field.option_strings unless field.option_strings.empty? %>
+            <%= field_value_for_display(field.options_list(@lookups)) %>
           </td>
           <td><%= field.type.try(:humanize) %></td>
           <td align="center">
@@ -77,6 +76,7 @@
 </table>
 
 <div id="add_field_modal" class="reveal-modal" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
   <ul class="field_types clearfix">
     <li><%= link_to t("fields.text_field"), "javascript:void(0)", :id => "text_field", :class => "field_links sel" %> </li>
     <li><%= link_to t("fields.text_area"), "javascript:void(0)", :id => "textarea", :class => "field_links" %></li>
@@ -85,6 +85,7 @@
     <li><%= link_to t("fields.radio_button"), "javascript:void(0)", :id => "radio_button", :class => "field_links" %></li>
     <li><%= link_to t("fields.numeric_field"), "javascript:void(0)", :id => "numeric_field", :class => "field_links" %></li>
     <li><%= link_to t("fields.date_field"), "javascript:void(0)", :id => "date_field", :class => "field_links" %></li>
+    <li><%= link_to t("fields.date_range_field"), "javascript:void(0)", :id => "date_range", :class => "field_links" %></li>
   </ul>
 
   <% @field ||= Field.new(:type => 'text_field') %>
@@ -93,7 +94,5 @@
                           :header_message => t("form_section.messages.cannot_create"),
                           :message => t('form_section.messages.correct_errors') %>
   <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:help_text => :text_area}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>
-
-  <a class="close-reveal-modal">&#215;</a>
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>  
 </div>

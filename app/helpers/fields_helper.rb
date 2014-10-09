@@ -7,10 +7,6 @@ module FieldsHelper
     end
   end
 
-	def display_options field
-		field.option_strings.collect { |f| '"'+f+'"' }.join(", ")
-	end
-
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
       "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"

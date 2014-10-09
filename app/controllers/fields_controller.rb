@@ -2,6 +2,7 @@ class FieldsController < ApplicationController
 
   before_filter { authorize! :manage, Field }
   before_filter :read_form_section
+  before_filter :get_lookups, :only => [:edit, :update]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
 
@@ -85,5 +86,9 @@ class FieldsController < ApplicationController
   private
   def fetch_field field_name
     @form_section.fields.detect { |field| field.name == field_name }
+  end
+
+  def get_lookups
+    @lookups = Lookup.all
   end
 end

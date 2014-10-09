@@ -198,6 +198,21 @@ class Field
     self.option_strings_text.gsub(/\r\n?/, "\n").split("\n")
   end
 
+  def options_list(lookups = nil)
+    options_list = []
+    if self.option_strings_source.present?
+      source_options = self.option_strings_source.split
+      if source_options.first == 'lookup'
+        options_list += Lookup.values(source_options.last.titleize, lookups)
+      else
+        options_list << self.option_strings_source
+      end
+    else
+      options_list += self.option_strings
+    end
+    return options_list
+  end
+
   def default_value
     raise I18n.t("errors.models.field.default_value") + type unless DEFAULT_VALUES.has_key? type
     return DEFAULT_VALUES[type]

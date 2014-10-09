@@ -7,7 +7,7 @@
   <% RapidFTR::Application::LOCALES.each do |given_locale| %>
       <% if I18n.default_locale.to_s != given_locale %>
         <div class="<%= "translation_forms #{given_locale}"%> hide">
-          <%= render :partial => 'shared/fields', :locals => {:fields => fields, :f => f, :given_locale => given_locale}%>
+          <%= render :partial => 'form_section/fields', :locals => {:fields => fields, :f => f, :given_locale => given_locale}%>
         </div>
       <% end %>
   <% end %>

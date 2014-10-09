@@ -7,7 +7,7 @@ class FormSectionController < ApplicationController
   before_filter :current_modules, :only => [:index, :new, :edit, :create]
   before_filter :parent_form, :only => [:new, :edit]
   before_filter :get_form_sections, :only => [:index, :edit]
-  #before_filter :get_lookups, :only => [:index]
+  before_filter :get_lookups, :only => [:edit]
 
 
   def index
@@ -136,5 +136,9 @@ class FormSectionController < ApplicationController
       form_list += form_group
     end
     @forms_for_move = form_list.sort_by{ |form| form.name || "" }.map{ |form| [form.name, form.unique_id] }
+  end
+
+  def get_lookups
+    @lookups = Lookup.all
   end
 end
