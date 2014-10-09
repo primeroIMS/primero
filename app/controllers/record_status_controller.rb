@@ -6,9 +6,13 @@ class RecordStatusController < ApplicationController
     success = true
     reload_page = false
     error_message = ""
+    update_fields = {}
 
     record = @model_class.get(params[:id])
-    record.record_state = params[:record_state] == 'true' ? true : false
+    
+    update_fields['record_state'] = params[:record_state] == 'true' ? true : false
+
+    record.update_properties(update_fields, current_user_name)
 
     if record.save
       reload_page = true
