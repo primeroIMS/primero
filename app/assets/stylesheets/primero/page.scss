@@ -164,3 +164,16 @@ table.dataTable {
   background: #f5f5f5;
   border: 1px solid #ccc;
 }
+
+////////////////////////////////////////////////
+// Jquery UI Popups
+////////////////////////////////////////////////
+
+.ui-dialog .ui-dialog-content {
+  overflow: visible;
+  margin-bottom: 20px;
+}
+
+.ui-corner-all {
+  border-radius: 0px;
+}
