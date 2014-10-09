@@ -100,7 +100,7 @@ module ApplicationHelper
   end
 
   def ctl_button_wrapper(&block)
-    content_tag :li, class: "#{'rec_ctl' unless current_actions(action: ['new', 'show'])}" do
+    content_tag :li, class: "#{'rec_ctl' if current_actions(action: ['edit', 'update'])}" do
       block.call
     end
   end
