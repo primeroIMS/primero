@@ -18,12 +18,14 @@
     }
 
     a.arrow:after {
-      content: '\25BA';
+      content: "";
+      background: url(image_path("edit_carot.png")) no-repeat;
+      height: 37px; 
+      width: 8px;
       float: right;
-      padding: 0 0 0 15px;
+      margin: -9px 0 0 17px;
       position: absolute;
       z-index: 10;
-      color: $stroke_green_color;
     }
 
     li.rec_ctl a.grey-button {
