@@ -163,6 +163,7 @@ describe Syncable do
       @child.family_members << { 'unique_id' => 'cccc', 'name' => 'Larry', 'relation' => 'uncle' }
 
       @child.save!
+      @second_revision = @child.rev
     end
 
     it "should ignore only nested properties that were updated before" do
@@ -238,7 +239,7 @@ describe Syncable do
             original_kill.to_hash,
           ],
         },
-        'base_revision' => @first_revision,
+        'base_revision' => @second_revision,
       }
 
       @child.violations.killing[0].notes.should == 'kill changed'
@@ -290,7 +291,12 @@ describe Syncable do
         :created_by => 'me',
         :family_members => [
           {:unique_id => 'f1', :name => 'Arthur', :relation => 'brother'},
-        ]
+        ],
+        :violations => {
+          :killing => [
+            { 'unique_id' => 'k1', 'date' => nil, 'notes' => 'kill1' },
+          ]
+        }
       })
       @child.save
 
@@ -306,6 +312,9 @@ describe Syncable do
             {:unique_id => 'f1', :name => 'Arthur', :relation => 'father'},
             {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
           ],
+          :violations => {
+            :killing => c.violations.killing.clone + [{:unique_id => 'k3', :notes => 'kill3'}]
+          }
         }
       end
 
@@ -320,6 +329,9 @@ describe Syncable do
             {:unique_id => 'f1', :name => 'Lawrence', :relation => 'brother'},
             {:unique_id => 'f3', :name => 'Lara', :relation => 'aunt'},
           ],
+          :violations => {
+            :killing => c.violations.killing.clone + [{:unique_id => 'k5', :notes => 'kill5'}]
+          }
         }
         c.update_history
       end
@@ -363,6 +375,13 @@ describe Syncable do
 
       resolved = _Child.get(@child._id)
       resolved.histories.length.should == 3
+    end
+
+    it 'merges nested hashes correctly' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved.violations.killing.length.should == 3
     end
   end
 
