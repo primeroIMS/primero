@@ -24,7 +24,7 @@ var IndexFilters = Backbone.View.extend({
     $(this.form).find('input').each(function() {
       var name = $(this).attr('name'),
           current_scope = _primero.get_param('scope[' + name + ']'),
-          current_scope = current_scope ? current_scope.split(',') : false,
+          current_scope = current_scope ? current_scope.split('||') : false,
           type = $(this).attr('filter_type') || 'single';
 
       if ($(this).is(':checkbox') && _.contains(current_scope, encodeURI($(this).val()))) {
