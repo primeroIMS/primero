@@ -209,13 +209,6 @@ describe Incident do
     end
 
 
-    it "should populate last_updated_at field with the time of the update" do
-      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      incident = Incident.new
-      incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      incident.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
-    end
-
     # it "should set flagged_at if the record has been flagged" do
       # Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       # child = create_child("timothy cochran")

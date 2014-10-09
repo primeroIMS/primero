@@ -3,6 +3,22 @@ module Syncable
 
   include Historical
 
+  module PrimeroEmbeddedModel
+    extend ActiveSupport::Concern
+
+    include CouchRest::Model::Embeddable
+
+    included do
+      property :unique_id
+    end
+
+    def initialize *args
+      super
+
+      self.unique_id ||= UUIDTools::UUID.random_create.to_s
+    end
+  end
+
   included do
     design do
       view :conflicting_records,
@@ -54,7 +70,7 @@ module Syncable
 
     without_dirty_tracking do
       active.directly_set_attributes(resolved_attrs)
-      active.histories = self.class.merge_all_histories(all_revs.map {|r| r.histories })
+      active.histories = active.histories.sort_by {|el| el.datetime || DateTime.new }.reverse
     end
 
     discards.each do |r|
@@ -112,7 +128,10 @@ module Syncable
       hash
     end
 
-    super(merge_with_existing_attrs(self.attributes_as_update_hash, base_changes, new_hash))
+    set_dirty_tracking(new_hash['histories'].blank?) do
+      self.changed_attributes['_force_save'] = true
+      super(merge_with_existing_attrs(self.attributes_as_update_hash, base_changes, new_hash))
+    end
   end
   alias :attributes= :update_attributes_without_saving
 
@@ -137,7 +156,6 @@ module Syncable
     end
 
     h = self.attributes.to_hash
-    h.delete 'histories'
     convert_embedded_to_hash.call(h)
   end
 
@@ -165,14 +183,22 @@ module Syncable
 
   protected
 
+  def merge_histories(hs)
+    hs.flatten
+      .uniq {|h| h['unique_id'] }
+      .sort_by {|h| h['datetime'] || DateTime.new }
+      .reverse
+  end
+
   # Take a set of properties and stick in all of the missing properties on the
   # current model (`existing`), including nested arrays and hashes, arbitrarily
   # deep.  This is necessary because we just do a top-level assignment to the
   # self.attributes object, so we have to fill in any nested hash or array
   # elemets so they don't get deleted.
   def merge_with_existing_attrs(existing, existing_changes, properties)
-    # Avoid merging histories, we'll handle that separately
-    properties.delete 'histories'
+    if properties['histories'].present? && existing['histories'].present?
+      properties['histories'] = merge_histories([properties, existing].map {|p| p.delete 'histories' })
+    end
 
     merger = ->(props, (k, existing_value)) do
       props = props.clone

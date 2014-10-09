@@ -5,7 +5,7 @@ class TracingRequestsController < ApplicationController
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update]
-  #TODO: Dp we need to filter_params_array_duplicates?
+  #TODO: Do we need to filter_params_array_duplicates?
 
   include RecordActions
 

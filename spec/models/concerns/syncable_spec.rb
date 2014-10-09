@@ -102,6 +102,35 @@ describe Syncable do
 
       @child.violations.killing[0].notes.should == 'test'
     end
+
+    it "should track changes if no history provided" do
+      @child.attributes = {
+        'name' => @child.name + ', Jr.'
+      }
+
+      @child.changes.keys.should include 'name'
+    end
+
+    it "should track changes if nil histories provided" do
+      @child.attributes = {
+        'name' => @child.name + ', Jr.',
+        'histories' => nil,
+      }
+
+      @child.changes.keys.should include 'name'
+    end
+
+    it "should not track changes if history provided" do
+      new_name = @child.name + ', Jr.'
+      @child.attributes = {
+        'name' => new_name,
+        'histories' => @child.histories.clone.tap do |h|
+          h << {:datetime => DateTime.now, :changes => {'name' => { 'from' => @child.name, 'to' => new_name }}}
+        end
+      }
+
+      @child.changes.keys.should_not include 'name'
+    end
   end
 
   describe "set attribute with conflicts" do

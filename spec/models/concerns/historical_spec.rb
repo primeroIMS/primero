@@ -120,12 +120,10 @@ describe Historical do
     end
 
     it "should insert an update history with the last_updated_at time" do
-      dt = DateTime.new(2014, 10, 1)
-      @inst.last_updated_at = dt
       @inst.name = 'Teddy'
       @inst.save!
 
-      @inst.histories[0].datetime.should == dt
+      @inst.histories[0].datetime.should == @inst.last_updated_at
     end
 
     it 'should include changes in basic fields' do
@@ -198,30 +196,13 @@ describe Historical do
     end
   end
 
-  describe "merge_all_histories" do
-    before :each do
-      now = DateTime.now
-      @rev1 = _Child.create
-      @rev1.histories = [
-        {:datetime => now, :action => :update, :prev_revision => 'r5'},
-        {:datetime => now - 5.minutes, :action => :update, :prev_revision => 'r1', :changes => {'age' => 15}},
-        {:datetime => now - 10.minutes, :action => :create},
-      ]
-      @rev1.save!
-
-      @rev2 = @rev1.clone
-      @rev2.histories = [
-        {:datetime => now - 1.minutes, :action => :update, :prev_revision => 'r7'},
-        {:datetime => now - 8.minutes, :action => :update, :prev_revision => 'r1', :changes => {'name' => 'Larry'}},
-        {:datetime => now - 10.minutes, :action => :create},
-      ]
-      @rev2.save!
-    end
-
-    it "should merge histories and sort by date" do
-      hs = _Child.merge_all_histories([@rev1.histories, @rev2.histories])
-      hs.length.should == 5
-      hs.each_cons(2) {|h1, h2| h1.datetime.should be > h2.datetime }
+  describe 'last_updated_at' do
+    it "updates last_updated_at before saving" do
+      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
+      child = Child.new
+      child.attributes = {'name' => 'Bob'}
+      child.save!
+      child.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
   end
 end

@@ -80,8 +80,8 @@ module Exporters
         end
 
         arr.length.should == 2
-        arr[0][1..-1].should == ['organizations[1]', 'organizations[2]', 'organizations[3]']
-        arr[1][1..-1].should == [@instance.organizations[0], @instance.organizations[1], @instance.organizations[2]]
+        arr[0][2..-1].should == ['organizations[1]', 'organizations[2]', 'organizations[3]']
+        arr[1][2..-1].should == [@instance.organizations[0], @instance.organizations[1], @instance.organizations[2]]
       end
     end
 
@@ -93,14 +93,15 @@ module Exporters
           {'name' => 'John', 'relationship' => 'father'},
           {'name' => 'Mary', 'relationship' => 'mother'},
         ],
-        'model_type' => @model_class.name}
+        'model_type' => @model_class.name,
+        '_id' => @instance.id}
       end
 
       it "should exclude unlisted properties" do
         hash = BaseExporter.convert_model_to_hash(@instance,
                                                [@model_class.properties_by_name['survivor_code']])
 
-        hash.keys.should == ['survivor_code', 'model_type']
+        hash.keys.should == ['survivor_code', 'model_type', '_id']
       end
     end
   end
