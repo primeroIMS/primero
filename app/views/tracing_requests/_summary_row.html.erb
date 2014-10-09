@@ -4,8 +4,7 @@
     <%= link_to text_to_identify_tracing_request(record), tracing_request_path(record), class: 'id_link' %>
     <% if record.flagged? && record.flag_count > 0 %>
       <div class="flag_icon">
-        <%= icon('bookmark fa-rotate-270') %>
-        <span><%= record.flag_count %></span>
+        <%= record.flag_count %>
       </div>
     <% end %>
   </td>

@@ -267,7 +267,7 @@ module Syncable
   end
 
   def proposed_equals_history_value(proposed_value, history_value)
-    casted_proposed = if proposed_value.present?
+    casted_proposed = if proposed_value.present? && !proposed_value.is_a?(history_value.class)
                         case history_value
                         when Date, DateTime, Time
                           history_value.class.parse(proposed_value)
