@@ -44,7 +44,19 @@
 }
 
 .ui-button-text-only .ui-button-text {
-  padding: none;
+  padding: 0;
+}
+
+a.ui-dialog-titlebar-close.ui-corner-all {
+  line-height: 1;
+  color: #aaaaaa;
+  font-size: 1.5rem !important;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover, &:focus {
+    color: $green-color !important;
+  }
 }
 
 ////////////////////////////////////////////////

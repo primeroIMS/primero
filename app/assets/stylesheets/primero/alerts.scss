@@ -27,27 +27,12 @@
 }
 
 .flag_icon {
-  width: 30px;
-  padding: 3px 5px;
-  font-size: 2rem;
-  color: $green_color;
+  background: url(image_path("flag.png")) no-repeat;
+  width: 40px;
+  height: 23px;
   position: relative;
-  margin: -10px 0 0 10px;
   float: right;
-  
-
-  span {
-    float: left;
-    font-size: $thirteen_px;
-    color: #fff;
-    z-index: 99;
-    position: absolute;
-    margin-top: 6px;
-  }
-
-  i {
-    float: left;
-    position: absolute;
-    z-index: 5;
-  }
+  font-size: 0.75rem;
+  color: #fff;
+  padding: 3px 0 0 3px;
 }
