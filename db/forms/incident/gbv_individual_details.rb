@@ -4,7 +4,7 @@ gbv_individual_details_fields = [
              "display_name_all" => "Survivor Code",
             }),
   Field.new({"name" => "sex",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "What is the sex of the survivor?",
              "option_strings_text_all" =>
                           ["Female",
@@ -59,7 +59,7 @@ gbv_individual_details_fields = [
                            "Widowed"].join("\n")
             }),
   Field.new({"name" => "disability_type",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Disability Type",
              "option_strings_text_all" =>
                           ["Mental Disability",
