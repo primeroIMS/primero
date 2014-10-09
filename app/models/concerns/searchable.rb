@@ -58,7 +58,7 @@ module Searchable
             if searchable_location_fields.include? filter
               fulltext("\"#{value}\"", fields: filter)
             else
-              values = value.split(",")
+              values = value.split("||")
               type = values.shift
               any_of do
                 values.each do |v|
