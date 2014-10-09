@@ -116,10 +116,11 @@ p.help {
 
 .popover-content {
   padding: 2px 14px;
-  height: 180px;
   overflow: hidden;
   overflow-y: scroll;
   white-space: pre-line;
+  max-height: 180px;
+  min-height: 70px;
 }
 
 .summary_group {
