@@ -3,6 +3,7 @@ class FieldsController < ApplicationController
   before_filter { authorize! :manage, Field }
   before_filter :read_form_section
   before_filter :get_lookups, :only => [:edit, :update]
+  after_filter :refresh_properties, :only => [:create, :update]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
 
@@ -90,5 +91,15 @@ class FieldsController < ApplicationController
 
   def get_lookups
     @lookups = Lookup.all
+  end
+
+  def refresh_properties
+    if @form_section.parent_form == 'case'
+      Child.refresh_form_properties
+    elsif @form_section.parent_form == 'incident'
+      Incident.refresh_form_properties
+    elsif @form_section.parent_form == 'tracing_request'
+      TracingRequest.refresh_form_properties
+    end
   end
 end
