@@ -134,7 +134,7 @@ describe FieldsController do
 
     it "should display errors if field could not be saved" do
       field_with_error = double("field", :name => "field", :attributes= => [], :errors => ["error"])
-      FormSection.stub(:get_by_unique_id).and_return(double("form_section", :fields => [field_with_error], :save => false))
+      FormSection.stub(:get_by_unique_id).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
 
       put :update, :id => "field", :form_section_id => "unique_id",
           :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text"}
