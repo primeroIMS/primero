@@ -2,6 +2,7 @@ require 'chef/mixin/shell_out'
 extend Chef::Mixin::ShellOut
 
 include_recipe 'apt'
+include_recipe 'primero::common'
 package 'build-essential'
 
 node.default[:couch_db][:src_version] = '1.5.0'

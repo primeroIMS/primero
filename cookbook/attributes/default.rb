@@ -29,7 +29,16 @@ end
 default[:couchdb].tap do |db|
   db[:config].tap do |conf|
     conf[:httpd].tap do |httpd|
-      httpd[:bind_address] = '127.0.0.1'
+      httpd[:bind_address] = '0.0.0.0'
+    end
+    conf[:daemons].tap do |daemons|
+      daemons[:httpsd] = "{couch_httpd, start_link, [https]}"
+    end
+    conf[:ssl].tap do |ssl|
+      ssl['cert_file'] = lazy { node[:primero][:couchdb][:cert_path] }
+      ssl['cacert_file'] = lazy { node[:primero][:couchdb][:cert_path] }
+      ssl['key_file'] = lazy { node[:primero][:couchdb][:key_path] }
+      ssl['verify_ssl_certificates'] = true
     end
   end
 end
