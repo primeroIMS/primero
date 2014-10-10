@@ -117,11 +117,17 @@ class FormSection < CouchRest::Model::Base
     #If the form section does exist will attempt
     #to create fields if the fields does not exists.
     def create_or_update_form_section(properties = {})
-      return nil unless properties[:unique_id]
-      form_section = self.get_by_unique_id(properties[:unique_id])
-      return self.create!(properties) unless form_section
-      form_section.attributes = properties
-      form_section.save
+      unique_id = properties[:unique_id]
+      return nil if unique_id.blank?
+      form_section = self.get_by_unique_id(unique_id)
+      if form_section.present?
+        Rails.logger.info {"Updating form section #{unique_id}"}
+        form_section.attributes = properties
+        form_section.save
+      else
+        Rails.logger.info {"Creating form section #{unique_id}"}
+        return self.create!(properties)
+      end
       form_section
     end
 

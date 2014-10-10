@@ -20,17 +20,6 @@ def isTableEmpty? model
   return empty
 end
 
-# PRIMERO-272
-def clean_db_table(table)
-  #TODO - This is a temporary brute force solution
-  # Sue has added a story to the backlog to make this more elegant
-  # So as to not wipe away any custom fields a user might have created
-  puts "Cleaning out existing #{table} before the re-seed"
-  dbName = "#{COUCHDB_CONFIG[:db_prefix]}_#{table}_#{COUCHDB_CONFIG[:db_suffix]}"
-  myDb = COUCHDB_SERVER.database(dbName)
-  myDb.delete! rescue nil
-end
-
 #Reseed the lookups
 puts "Seeding Lookups"
 require File.dirname(__FILE__) + "/lookups/lookups.rb"
@@ -38,7 +27,6 @@ puts "Seeding Locations"
 require File.dirname(__FILE__) + "/lookups/locations.rb"
 
 #Create the forms
-clean_db_table('form_section')
 puts "[Re-]Seeding the forms"
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
 
