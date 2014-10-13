@@ -308,9 +308,12 @@ describe Replication do
       uri.scheme = 'http'
       @rep.stub :remote_app_uri => uri
 
-      Net::HTTP.should_receive(:post_form).with(uri, {}).and_return(nil)
+      ['children', 'incidents', 'tracing_requests'].each do |path|
+        Net::HTTP.should_receive(:post_form) do |uri, params|
+          uri.path.include?(path)
+        end.and_return(nil)
+      end
       @rep.send :trigger_remote_reindex
-      uri.path.should == '/children/reindex'
     end
 
     it 'should schedule reindexing every 3m' do
