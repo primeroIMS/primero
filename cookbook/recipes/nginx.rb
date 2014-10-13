@@ -54,6 +54,8 @@ template site_conf_file do
     :https_port => node[:primero][:https_port],
     :server_name => node[:primero][:server_hostname],
     :current_path => node[:primero][:app_dir],
+    :rails_log_path => "#{node[:primero][:log_dir]}/rails",
+    :log_path => "#{node[:primero][:log_dir]}/nginx",
     :rails_env => node[:primero][:rails_env],
     :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/wrappers/ruby"),
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),

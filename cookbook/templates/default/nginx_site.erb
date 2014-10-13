@@ -16,10 +16,12 @@ server {
 
   rails_env <%= @rails_env %>;
 
+  passenger_set_cgi_param RAILS_LOG_PATH "<%= @rails_log_path %>";
+
   gzip_disable "MSIE [1-6]\.";
   root <%= @current_path %>/public;
-  access_log <%= @current_path %>/log/server.log;
-  error_log <%= @current_path %>/log/error.log error;
+  access_log <%= @log_path %>/server.log;
+  error_log <%= @log_path %>/error.log error;
   client_max_body_size 50M;
 
   #Need to change this accordingly once we move to rails3.1

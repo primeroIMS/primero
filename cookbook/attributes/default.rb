@@ -5,6 +5,7 @@ default[:primero].tap do |p|
   p[:rails_env] = 'production'
   p[:home_dir] = '/srv/primero'
   p[:app_dir] = File.join(node[:primero][:home_dir], 'application')
+  p[:log_dir] = File.join(node[:primero][:app_dir], 'log')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
 
