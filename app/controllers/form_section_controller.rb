@@ -38,6 +38,7 @@ class FormSectionController < ApplicationController
     #TODO - need more elegant way to set the form's order
     form_section.order = 999
     form_section.order_form_group = 999
+    form_section.order_subform = 0
 
     if (form_section.valid?)
       form_section.create

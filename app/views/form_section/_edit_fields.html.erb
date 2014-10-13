@@ -41,7 +41,13 @@
     <% @form_section.fields.each do |field| %>
       <% unless field.new? %>
         <tr data="<%= field.name %>" class="<%= field.visible? ? "rowEnabled" : "rowDisabled" %>">
-          <td><%= field.display_name %></td>
+          <td>
+            <% if field.type == 'subform' %>
+              <%= link_to field.display_name, edit_form_section_path(field.subform_section_id, module_id: @primero_module, parent_form: @parent_form) %>
+            <% else %>
+              <%= field.display_name %>
+            <% end %>
+          </td>
           <td><%= field.help_text %></td>
           <td>
             <%= field_value_for_display(field.options_list(@lookups)) %>
@@ -89,6 +95,9 @@
     <li><%= link_to t("fields.date_field"), "javascript:void(0)", :id => "date_field", :class => "field_links" %></li>
     <li><%= link_to t("fields.date_range_field"), "javascript:void(0)", :id => "date_range", :class => "field_links" %></li>
     <li><%= link_to t("fields.separator"), "javascript:void(0)", :id => "separator", :class => "field_links" %></li>
+    <% unless @form_section.is_nested %>
+      <li><%= link_to t("fields.subform"), "javascript:void(0)", :id => "subform", :class => "field_links" %></li>
+    <% end %>
     <%
       #TODO - Add new fields
       # subform

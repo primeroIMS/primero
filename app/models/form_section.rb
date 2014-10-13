@@ -291,7 +291,11 @@ class FormSection < CouchRest::Model::Base
 
   def self.add_field_to_formsection formsection, field
     raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
-    field.merge!({'base_language' => formsection['base_language']})
+    field.merge!({'base_language' => formsection['base_language']})  
+    if field.type == 'subform'
+      field.subform_section_id = "#{formsection.unique_id}-subform-#{field.name}".parameterize.dasherize
+      create_subform(formsection, field)
+    end
     formsection.fields.push(field)
     formsection.save
   end
@@ -435,5 +439,22 @@ class FormSection < CouchRest::Model::Base
 
   def create_unique_id
     self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
+  end
+
+  def self.create_subform(formsection, field)
+    self.create_or_update_form_section({
+              :visible=>false,
+              :is_nested=>true,
+              :core_form=>false,
+              :editable=>true,
+              :base_language=>formsection.base_language,
+              :order_form_group => formsection.order_form_group,
+              :order => formsection.order,
+              :order_subform => 1,
+              :unique_id=>field.subform_section_id,
+              :parent_form=>formsection.parent_form,
+              :name_all=>field.display_name,
+              :description_all=>field.display_name
+    })
   end
 end
