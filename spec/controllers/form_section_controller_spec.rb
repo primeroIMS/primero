@@ -26,6 +26,10 @@ class MockFormSection
     @order_form_group = order_form_group
   end
 
+  def order_subform= order_subform
+    @order_subform = order_subform
+  end
+
   def valid?
     @is_valid
   end
