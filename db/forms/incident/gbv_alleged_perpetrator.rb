@@ -1,11 +1,11 @@
 alleged_perpetrator_subform_fields = [
   Field.new({"name" => "primary_perpetrator",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Is this the primary perpetrator?",
              "option_strings_text_all" => "Primary\nSecondary"
             }),
   Field.new({"name" => "perpetrator_sex",
-             "type" => "select_box",
+             "type" => "radio_button",
              "display_name_all" => "Sex of Alleged Perpetrator(s)",
              "option_strings_text_all" =>
                           ["Female",

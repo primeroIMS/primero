@@ -212,15 +212,20 @@ class Replication < CouchRest::Model::Base
   attr_accessor :_cached_configs
 
   def trigger_local_reindex
-    Child.reindex!
+    self.class.models_to_sync.each {|m| m.reindex! }
     self.needs_reindexing = false
     self.database.save_doc(self)
   end
 
   def trigger_remote_reindex
     uri = remote_app_uri
-    uri.path = Rails.application.routes.url_helpers.reindex_children_path
-    post_uri uri
+    # TODO: This is not the best way to do this.  We need a separate process
+    # listening for changes in the database to handle reindexing instead of
+    # this hack
+    ['children', 'incidents', 'tracing_requests'].each do |path_name|
+      uri.path = Rails.application.routes.url_helpers.__send__("reindex_#{path_name}_path")
+      post_uri uri
+    end
   end
 
   def validate_remote_app_uri

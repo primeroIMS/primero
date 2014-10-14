@@ -6,7 +6,7 @@
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'users', @associated_users, { multi: true }, false) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
       <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', Lookup.values('Case Status', @lookups)) %>
