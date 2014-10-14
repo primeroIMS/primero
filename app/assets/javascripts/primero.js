@@ -82,6 +82,20 @@ _primero.object_to_params = function(filters) {
 
 _primero.filters = {};
 
+_primero.update_autosum_field = function(input) {
+  var autosum_total = 0;
+  var autosum_group = input.attr('autosum_group');
+  var fieldset = input.parents('.summary_group');
+  var autosum_total_input = fieldset.find('input.autosum_total[type="text"][autosum_group="' + autosum_group + '"]');
+  fieldset.find('input.autosum[type="text"][autosum_group="' + autosum_group + '"]').each(function(){
+    var value = $(this).val();
+    if(!isNaN(value) && value != ""){
+      autosum_total += parseFloat(value);
+    }
+  });
+  autosum_total_input.val(autosum_total);
+}
+
 var Primero = Backbone.View.extend({
   el: 'body',
 

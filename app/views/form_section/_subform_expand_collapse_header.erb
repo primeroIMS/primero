@@ -1,10 +1,12 @@
 <% #This template is to generate the header of every subform to make the expand/collapse functionality  %>
 <%
-    view_mode ||= false 
+    view_mode ||= false
+    disable_action_buttons = ""
+    disable_action_buttons = "display:none;" if subform.subform_section.is_summary_section
 %>
 <div class="row collapse_expand_subform_header">
   <div class="medium-8 columns">
-    <span>
+    <span class="subform_header">
       <%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %><%= violation_status(formObject, form_group_name, subform.name, i) %>
     </span>
     <div class="display_field">
@@ -47,8 +49,10 @@
     </div>
   </div>
   <div class="medium-4 columns">
-    <span class="collapse_expand_subform expanded">-</span>
-    <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", 
+    <% unless subform.subform_section.is_summary_section %>
+      <span class="collapse_expand_subform expanded">-</span>
+    <% end %>
+    <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
         data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
   </div>
 </div>

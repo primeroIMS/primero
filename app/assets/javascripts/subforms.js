@@ -52,8 +52,25 @@ var SubformView = Backbone.View.extend({
   add: function(event) {
     event.preventDefault();
     var target = event.target || event.srcElement,
-      //grab the correct template
-      template = $(target).parent().prev(),
+      self = this;
+    self.add_subform($(target));
+
+    //Replicate the event on shared subforms
+    var target_subform = $(target).parent().parent().find('div.subforms');
+    if (target_subform.data('is_shared_subform')) {
+      var add_button = $('div#' + target_subform.data('shared_subform')).parent().find('a.subform_add');
+      self.add_subform(add_button);
+    } else {
+      $('div[data-shared_subform="' + target_subform.attr('id') + '"]').each(function() {
+        var add_button = $(this).parent().find('a.subform_add');
+        self.add_subform(add_button);
+      });
+    }
+  },
+
+  add_subform: function(target) {
+    //grab the correct template
+    var template = target.parent().prev(),
       //figure out the subforms
       subforms = template.prev(),
       //figure out the next i
@@ -105,7 +122,8 @@ var SubformView = Backbone.View.extend({
       el.setAttribute("for", id);
     });
 
-    var newSubformClass = newSubform.attr("class").replace("template", "");
+    var newSubformClass = newSubform.attr("class").replace("template", "subform");
+    newSubform.attr('data-subform_index', i);
     newSubform.attr("class", newSubformClass);
     newSubform.fadeIn(600);
     newSubform.find("input, select, textarea").removeAttr("disabled");
@@ -131,16 +149,31 @@ var SubformView = Backbone.View.extend({
         self = this;
 
     if (confirm_remove == true) {
-      var subform = $(target).parents('fieldset.subform');
-      subform.fadeOut(600, function() {
-        var subform_group = $(target).parents('.subforms');
-        $(this).remove();
-        _primero.set_content_sidebar_equality();
-        self.count_subforms(subform_group);
-        $('body').trigger('violation-removed');
-      });
-      _primero.set_content_sidebar_equality();
+      self.remove_subform($(target), self);
+      var target_subform = $(target).parents('div.subforms');
+      var subform_index = $(target).parents('div.subform').data('subform_index');
+      if (target_subform.data('is_shared_subform')) {
+        var remove_button = $('div#' + target_subform.data('shared_subform') + ' div[data-subform_index="' + subform_index + '"] a.subform_remove');
+        self.remove_subform(remove_button, self);
+      } else {
+        $('div[data-shared_subform="' + target_subform.attr('id') + '"]').each(function() {
+          var remove_button = $(this).find('div[data-subform_index="' + subform_index + '"] a.subform_remove');
+          self.remove_subform(remove_button, self);
+        });
+      }
     }
+  },
+
+  remove_subform: function(target, self) {
+    var subform = target.parents('fieldset.subform');
+    subform.fadeOut(600, function() {
+      var subform_group = target.parents('.subforms');
+      $(this).remove();
+      _primero.set_content_sidebar_equality();
+      self.count_subforms(subform_group);
+      $('body').trigger('violation-removed');
+    });
+    _primero.set_content_sidebar_equality();
   },
 
   count_subforms: function(target) {
@@ -165,12 +198,20 @@ var SubformView = Backbone.View.extend({
 });
 
 _primero.update_subform_heading = function(subformEl) {
+  // get subform header for shared summary page
+  var subform = $(subformEl).parent();
+  var subform_index = $(subformEl).data('subform_index');
+  var summary_subform = $('div[data-shared_subform="' + subform.attr('id') + '"] div[data-subform_index="' + subform_index + '"]');
+  var display_field = [];
+  if (summary_subform.length > 0) {
+    display_field = summary_subform.find(".collapse_expand_subform_header div.display_field span");
+  }
+
   //Update the static text with the corresponding input value to shows the changes if any.
   $(subformEl).find(".collapse_expand_subform_header div.display_field span").each(function(x, el){
     //view mode doesn't sent this attributes, there is no need to update the header.
     var data_types_attr = el.getAttribute("data-types"),
         data_fields_attr = el.getAttribute("data-fields");
-        console.log(data_fields_attr, data_types_attr)
     if (data_types_attr != null && data_fields_attr != null) {
       //retrieves the fields to update the header.
       var data_types = data_types_attr.split(","),
@@ -209,6 +250,9 @@ _primero.update_subform_heading = function(subformEl) {
         }
       }
       $(el).text(values.join(" - "));
+      if (display_field.length > 0) {
+        display_field.text(values.join(" - "));
+      }
     }
   });
 }
