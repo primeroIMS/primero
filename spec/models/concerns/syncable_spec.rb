@@ -36,6 +36,7 @@ _Child = Class.new(CouchRest::Model::Base) do
       property :unique_id, String
       property :date, Date
       property :notes, String
+      property :eyewitness, TrueClass, :default => false
     end]
   end
 end
@@ -295,7 +296,8 @@ describe Syncable do
         :violations => {
           :killing => [
             { 'unique_id' => 'k1', 'date' => nil, 'notes' => 'kill1' },
-          ]
+          ],
+          :maiming => [ {:unique_id => 'm1' } ]
         }
       })
       @child.save
@@ -313,7 +315,8 @@ describe Syncable do
             {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
           ],
           :violations => {
-            :killing => c.violations.killing.clone + [{:unique_id => 'k3', :notes => 'kill3'}]
+            :killing => c.violations.killing.clone + [{:unique_id => 'k3', :notes => 'kill3'}],
+            :maiming => [ {:unique_id => 'm1', :eyewitness => true } ]
           }
         }
       end
@@ -330,7 +333,8 @@ describe Syncable do
             {:unique_id => 'f3', :name => 'Lara', :relation => 'aunt'},
           ],
           :violations => {
-            :killing => c.violations.killing.clone + [{:unique_id => 'k5', :notes => 'kill5'}]
+            :killing => c.violations.killing.clone + [{:unique_id => 'k5', :notes => 'kill5'}],
+            :maiming => [ {:unique_id => 'm1', :notes => 'maim 1'} ]
           }
         }
         c.update_history
@@ -377,11 +381,20 @@ describe Syncable do
       resolved.histories.length.should == 3
     end
 
-    it 'merges nested hashes correctly' do
+    it 'keeps two independently added elements in a nested array in nested hash' do
       @child.reload.resolve_conflicting_revisions
 
       resolved = _Child.get(@child._id)
       resolved.violations.killing.length.should == 3
+    end
+
+    it 'merges data from the same nested array element in a nested hash' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      m = resolved.violations.maiming[0]
+      m.notes.should == 'maim 1'
+      m.eyewitness.should be_true
     end
   end
 

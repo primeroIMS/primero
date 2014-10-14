@@ -246,16 +246,6 @@ describe Replication do
       @rep.should be_active
     end
 
-    it 'active should be true if the replications completed less than 2 mins ago' do
-      @rep.stub :statuses => [ "completed", "error" ], :timestamp => 1.minute.ago
-      @rep.should be_active
-    end
-
-    it 'active should be false if the replications completed more than 2 mins ago' do
-      @rep.stub :statuses => [ "completed", "error" ], :timestamp => 3.minutes.ago
-      @rep.should_not be_active
-    end
-
     it 'success should be true if all operations have status as "completed"' do
       @rep.stub :statuses => [ "completed", "completed" ]
       @rep.should be_success

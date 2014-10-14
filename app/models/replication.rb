@@ -1,7 +1,6 @@
 
 class Replication < CouchRest::Model::Base
   MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
-  STABLE_WAIT_TIME = 2.minutes
 
   include PrimeroModel
 
@@ -85,6 +84,7 @@ class Replication < CouchRest::Model::Base
   def check_status_and_reindex
     if needs_reindexing? and !active?
       Rails.logger.info "Replication complete, triggering reindex"
+      pending_reindex = false
       trigger_local_reindex
       trigger_remote_reindex
     end
@@ -103,7 +103,7 @@ class Replication < CouchRest::Model::Base
   end
 
   def active?
-    statuses.include?("triggered") || (timestamp && timestamp > STABLE_WAIT_TIME.ago)
+    statuses.include?("triggered")
   end
 
   def success?
