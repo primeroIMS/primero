@@ -10,7 +10,7 @@ Feature: Services Form
   As a Social Worker / Data Entry Person, I want capture information about referrals for services so that I can record the status about these services in relation to the survivor
 
   Scenario: As a logged in user, I will create a incident for services
-    Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    Given I am logged in as an admin with username "primero_gbv" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
     And I press the "Service Referrals" button

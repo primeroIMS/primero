@@ -327,7 +327,6 @@ And /^pause$/ do
 end
 
 And /^I should stay on the "(.+)" tab on the case "(.+)" page$/ do |tab, page_action|
-  page.should have_xpath("//h1[text()=\"#{tab}\"]", :visible => true)
   path = Rails.application.routes.recognize_path(current_url)
   page_action.should eql(path[:action])
 end
@@ -416,7 +415,11 @@ end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
   within(:xpath, "//tr[contains(.,'#{record}')]") do
-    find(:xpath, "//td/div[@class='flag_icon']/i[contains(@class, 'fa-#{icon}')]")
+    if icon == 'flag'
+      find(:xpath, "//td/div[@class='flag_icon']")
+    else
+      find(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
+    end
   end
 end
 

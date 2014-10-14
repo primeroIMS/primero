@@ -67,7 +67,7 @@ Feature: Flag Case Record For Attention
     And I press "Flag"
     And I should see "Just Because"
     Then I access "cases page"
-    And the record for "Shaggy" should display a "bookmark" icon beside it
+    And the record for "Shaggy" should display a "flag" icon beside it
 
     Examples:
       | page |

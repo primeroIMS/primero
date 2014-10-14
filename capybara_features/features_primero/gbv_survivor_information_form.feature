@@ -28,7 +28,7 @@ Feature: Survivor Information Form
       | Case Status                                                                                 | <Select> Transferred            |
       | Name                                                                                        | Tiki Thomas Taliaferro          |
       | Survivor Code                                                                               | BBB111                          |
-      | Sex                                                                                         | <Select> Female                 |
+      | Sex                                                                                         | <Radio> Female                  |
       | Clan or Ethnicity                                                                           | <Select> Ethnicity1             |
       | Nationality (if different than country of origin)                                           | <Select> Nationality1           |
       | Religion                                                                                    | <Select> Religion1              |
