@@ -35,6 +35,8 @@ end
   end
 end
 
+# TODO: We might have to rework this config file if we ever do Couch-only
+# deployments
 template "#{node[:nginx_dir]}/nginx.conf" do
   source "nginx.conf.erb"
   owner "root"

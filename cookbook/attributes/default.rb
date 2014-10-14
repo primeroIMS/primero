@@ -33,12 +33,7 @@ default[:couch_db].tap do |db|
     conf[:httpd].tap do |httpd|
       httpd[:bind_address] = '0.0.0.0'
     end
-    conf[:daemons].tap do |daemons|
-      daemons[:httpsd] = "{couch_httpd, start_link, [https]}"
-    end
     conf[:ssl].tap do |ssl|
-      ssl['cert_file'] = node[:primero][:couchdb][:cert_path]
-      ssl['key_file'] = node[:primero][:couchdb][:key_path]
       ssl['verify_ssl_certificates'] = true
     end
   end
