@@ -98,10 +98,6 @@
     <% unless @form_section.is_nested %>
       <li><%= link_to t("fields.subform"), "javascript:void(0)", :id => "subform", :class => "field_links" %></li>
     <% end %>
-    <%
-      #TODO - Add new fields
-      # subform
-    %>
   </ul>
 
   <% @field ||= Field.new(:type => 'text_field') %>
@@ -110,12 +106,13 @@
                           :header_message => t("form_section.messages.cannot_create"),
                           :message => t('form_section.messages.correct_errors') %>
   <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:help_text => :text_area}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>  
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options_lookup", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:help_text => :text_area}] } %> 
   <%
     #TODO
     # select field - handle lookups and multi-select (as tick_box)
     # tally field
-    # subform - Do I want this here?  Or link to subforms on main index page?
     # handle hidden text fields
   %>
 </div>
