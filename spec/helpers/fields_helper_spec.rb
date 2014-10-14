@@ -5,7 +5,7 @@ describe FieldsHelper do
   before(:all) do
     @child = Child.create(:name => "Simon", created_by: "bob")
     @child["nested_form_section"] = [
-      {"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
+      {"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep", "nested_tally_boys" => 3, "nested_tally_girls" => 2, "nested_tally_total" => 5},
       {"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}
     ]
     @child.save!
@@ -23,6 +23,7 @@ describe FieldsHelper do
         Field.new({"name" => "nested_1", "type" => "text_field"}),
         Field.new({"name" => "nested_2", "type" => "text_field"}),
         Field.new({"name" => "nested_3", "type" => "text_field"}),
+        Field.new({"name" => "nested_tally", "type" => "tally_field", "autosum_total" => true, "tally" => ['boys', 'girls']}),
       ],
       :initial_subforms => 1,
       "name_all" => "Nested Form Section",
@@ -81,6 +82,11 @@ describe FieldsHelper do
     it "should return a value of a nested form for an existing child" do
       value = @fields_helper.field_value(@child, @nested_form.fields[0], ["nested_form_section", 0, "nested_1"])
       expect(value).to eq("Keep")
+    end
+
+    it 'appends total to end of tally field value' do
+      value = @fields_helper.field_value(@child, @nested_form.fields[3], ["nested_form_section", 0, "nested_tally"])
+      expect(value).to eq([3, 2, 5])
     end
   end
 
