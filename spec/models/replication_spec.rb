@@ -315,7 +315,7 @@ describe Replication do
 
     it 'should schedule reindexing every 3m' do
       scheduler = double()
-      scheduler.should_receive(:every).with('3m').and_yield
+      scheduler.should_receive(:every).with('1m').and_yield
 
       replication = build :replication
       replication.should_receive(:check_status_and_reindex).and_return(nil)

@@ -10,3 +10,5 @@ execute 'update-ca-certificates' do
   user 'root'
   group 'root'
 end
+
+node.force_default['couch_db']['config']['ssl']['cacert_file'] = '/etc/ssl/certs/couch_ca.pem'

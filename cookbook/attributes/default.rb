@@ -16,6 +16,8 @@ default[:primero].tap do |p|
   p[:couchdb].tap do |c|
     c[:host] = 'localhost'
     c[:username] = 'primero'
+    c[:cert_path] = '/etc/ssl/couch.crt'
+    c[:key_path] = '/etc/ssl/private/couch.key'
   end
 
   p[:solr_hostname] = 'localhost'
@@ -26,7 +28,7 @@ default[:primero].tap do |p|
 end
 
 
-default[:couchdb].tap do |db|
+default[:couch_db].tap do |db|
   db[:config].tap do |conf|
     conf[:httpd].tap do |httpd|
       httpd[:bind_address] = '0.0.0.0'
@@ -35,9 +37,8 @@ default[:couchdb].tap do |db|
       daemons[:httpsd] = "{couch_httpd, start_link, [https]}"
     end
     conf[:ssl].tap do |ssl|
-      ssl['cert_file'] = lazy { node[:primero][:couchdb][:cert_path] }
-      ssl['cacert_file'] = lazy { node[:primero][:couchdb][:cert_path] }
-      ssl['key_file'] = lazy { node[:primero][:couchdb][:key_path] }
+      ssl['cert_file'] = node[:primero][:couchdb][:cert_path]
+      ssl['key_file'] = node[:primero][:couchdb][:key_path]
       ssl['verify_ssl_certificates'] = true
     end
   end
