@@ -1,38 +1,24 @@
 <div id="<%= div_id %>" class="field_details" style="display:none;">
-  <%= form_for @field, :url => url_for_form_section_field(@form_section.unique_id, @field)  do |f| %>
+  <%= form_for @field, :url => url_for_form_section_field(@form_section.unique_id, @field)  do |fld| %>
     <div class="default_lang_panel">
       <div class="lang_title">
         <%= t("forms.initial_language") %> : <%= t("home.#{I18n.default_locale}") %>
       </div>
-      <%= render :partial => 'form_section/fields', :locals => {:f => f, :fields => fields, :given_locale => I18n.default_locale} %>
+      <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookups => @lookups} %>
     </div>
-    <div class="clearfix"></div>
-    <% if f.object_name == 'field' and @field.type == 'select_box' %>
-      <p class="chkbox_multiselect">
-        <%= f.label :multi_select, t("fields.multi_select"), :class => "key" %>
-        <%= f.check_box :multi_select?, {}, "true", "false" %>
-      </p>
-    <% end %>
-    <% binding.pry %>
-    <% if @field and @field.new? %>
-      <p class="placeholder_multi_select chkbox_multiselect">
-        <%= f.label :multi_select, t("fields.multi_select"), :class => "key" %>
-        <%= f.check_box :multi_select?, {}, "true", "false" %>
-      </p>
-    <% end %>
     <div class="translation_lang_panel">
       <div class="lang_title <%= 'hide' if @show_add_field.present? %>" >
         <%= t(:provide_translation) %>
         <span class="translation_lang_selected"></span>
       </div>
-      <%= render :partial => "form_section/add_translations", :locals => {:fields => fields, :f => f, :show_drop_down => @show_add_field.present? }%>
+      <%= render :partial => "form_section/add_translations", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present? }%>
     </div>
 
     <div class="clearfix"></div>
     <p class="chkbox_visible">
-      <%= f.label :visible, t("visible"), :class => 'key' %>
-      <%= f.check_box :visible?, {}, "true", "false" %>
-      <%= f.hidden_field :type, :class => "field_type"%>
+      <%= fld.label :visible, t("visible"), :class => 'key' %>
+      <%= fld.check_box :visible?, {}, "true", "false" %>
+      <%= fld.hidden_field :type, :class => "field_type"%>
     </p>
     <div class="clearfix"></div>
     <div class="btn_panel">

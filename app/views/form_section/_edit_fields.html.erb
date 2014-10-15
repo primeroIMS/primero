@@ -106,13 +106,13 @@
                           :header_message => t("form_section.messages.cannot_create"),
                           :message => t('form_section.messages.correct_errors') %>
   <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:help_text => :text_area}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options_lookup", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:option_strings_text => :text_area}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:help_text => :text_area}] } %> 
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area},
+                                                                                                               {:option_strings_text => :text_area}] } %>
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [{:display_name => :text_field}, {:help_text => :text_area},
+                                                                                                                  {:option_strings_text => :text_area}, {:option_strings_source => :select_box}] } %>
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %> 
   <%
     #TODO
-    # select field - handle lookups and multi-select (as tick_box)
-    # tally field
     # handle hidden text fields
   %>
 </div>
