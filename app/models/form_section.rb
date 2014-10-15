@@ -116,12 +116,16 @@ class FormSection < CouchRest::Model::Base
     #Create the form section if does not exists.
     #If the form section does exist will attempt
     #to create fields if the fields does not exists.
-    def create_or_update_form_section(properties = {})
+    def create_or_update_form_section(properties = {}, validate_new = false)
       return nil unless properties[:unique_id]
       form_section = self.get_by_unique_id(properties[:unique_id])
-      return self.create!(properties) unless form_section
-      form_section.attributes = properties
-      form_section.save
+      unless form_section.present?
+        form_section = self.new(properties)
+        form_section.create!({:validate => validate_new})
+      else
+        form_section.attributes = properties
+        form_section.save
+      end
       form_section
     end
 
