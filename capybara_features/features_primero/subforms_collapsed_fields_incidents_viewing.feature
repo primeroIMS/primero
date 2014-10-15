@@ -121,10 +121,10 @@ Feature: Subforms Collapses Fields Incidents Viewing
   Scenario: As a logged in user, I want to verify collapsed fields for individual details in viewing
     And I press the "Individual Details" button
     And I update in the 1st "Individual Details Subform Section" subform with the follow:
-      | What is the sex of the child? | <Select> Male |
+      | What is the sex of the child? | <Radio> Male |
       | What is the child's age?      | 10            |
     And I fill in the 2nd "Individual Details Subform Section" subform with the follow:
-      | What is the sex of the child? | <Select> Female |
+      | What is the sex of the child? | <Radio> Female |
       | What is the child's age?      | 15              |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page

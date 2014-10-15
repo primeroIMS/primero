@@ -33,9 +33,9 @@ Feature: Flag Case Records For Attention
     And I fill in "Flag Reason" with "Some reason"
     And I fill in "Date (optional)" with "today's date"
     And I click on the link with text "Flag"
-    And the record for "7af3aa9" should display a "bookmark" icon beside it
-    And the record for "7af3aa7" should display a "bookmark" icon beside it
-    And the record for "7af3aa8" should not display a "bookmark" icon beside it
+    And the record for "7af3aa9" should display a "flag" icon beside it
+    And the record for "7af3aa7" should display a "flag" icon beside it
+    And the record for "7af3aa8" should not display a "flag" icon beside it
 
     Examples:
       | page                  | user          |
@@ -67,9 +67,9 @@ Feature: Flag Case Records For Attention
     And I fill in "Flag Reason" with "Some reason"
     And I fill in "Date (optional)" with "today's date"
     And I click on the link with text "Flag"
-    And the record for "7af3aa9" should display a "bookmark" icon beside it
-    And the record for "7af3aa7" should display a "bookmark" icon beside it
-    And the record for "7af3aa8" should display a "bookmark" icon beside it
+    And the record for "7af3aa9" should display a "flag" icon beside it
+    And the record for "7af3aa7" should display a "flag" icon beside it
+    And the record for "7af3aa8" should display a "flag" icon beside it
 
     Examples:
       | page                  | user          |
@@ -117,16 +117,16 @@ Feature: Flag Case Records For Attention
     And I visit cases page "2"
     And all the records on the page should be flagged "2" times
     And I visit cases page "3"
-    And the record for "0000041" should not display a "bookmark" icon beside it
-    And the record for "0000042" should not display a "bookmark" icon beside it
-    And the record for "0000043" should not display a "bookmark" icon beside it
-    And the record for "0000044" should not display a "bookmark" icon beside it
-    And the record for "0000045" should not display a "bookmark" icon beside it
-    And the record for "0000046" should not display a "bookmark" icon beside it
-    And the record for "0000047" should not display a "bookmark" icon beside it
-    And the record for "0000048" should not display a "bookmark" icon beside it
-    And the record for "0000049" should not display a "bookmark" icon beside it
-    And the record for "0000050" should not display a "bookmark" icon beside it
+    And the record for "0000041" should not display a "flag" icon beside it
+    And the record for "0000042" should not display a "flag" icon beside it
+    And the record for "0000043" should not display a "flag" icon beside it
+    And the record for "0000044" should not display a "flag" icon beside it
+    And the record for "0000045" should not display a "flag" icon beside it
+    And the record for "0000046" should not display a "flag" icon beside it
+    And the record for "0000047" should not display a "flag" icon beside it
+    And the record for "0000048" should not display a "flag" icon beside it
+    And the record for "0000049" should not display a "flag" icon beside it
+    And the record for "0000050" should not display a "flag" icon beside it
 
     Examples:
       | model            | user          | page                  |

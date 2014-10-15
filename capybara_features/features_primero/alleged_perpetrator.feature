@@ -10,10 +10,10 @@ Feature: Alleged Perpetrator
     And I press the "New Incident" button
     And I press the "Alleged Perpetrator" button
     And I fill in the 1st "Alleged Perpetrator" subform with the follow:
-      | Is this the primary perpetrator? | <Select> Primary |
-      | Sex of Alleged Perpetrator(s)    | <Select> Male   |
+      | Is this the primary perpetrator? | <Radio> Primary |
+      | Sex of Alleged Perpetrator(s)    | <Radio> Male   |
     And I fill in the 2nd "Alleged Perpetrator" subform with the follow:
-      | Is this the primary perpetrator?  | <Select> Secondary |
+      | Is this the primary perpetrator?  | <Radio> Secondary |
       | Past GBV by alledged perpetrator? | <Radio>  No       |
     And I press "Save"
     And I should see "Incident record successfully created." on the page
