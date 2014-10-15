@@ -38,7 +38,7 @@ module FieldsHelper
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
       when Field::TALLY_FIELD
-        (['total'] + field.tally).map {|t| parent_obj["#{field.name}_#{t}"] }
+        (field.tally + ['total']).map {|t| parent_obj["#{field.name}_#{t}"] }
       when Field::DATE_RANGE
         [parent_obj["#{field.name}_from"], parent_obj["#{field.name}_to"]]
       when Field::DATE_FIELD
