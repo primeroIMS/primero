@@ -96,6 +96,7 @@ class Field
   validate :validate_has_a_option
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
+  validate :valid_tally_field
 
   #TODO: Any subform validations?
 
@@ -348,6 +349,14 @@ class Field
     return true unless form
     #return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.new? && field.display_name == display_name})
     return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.equal?(self) && field.display_name == display_name})
+    true
+  end
+
+  def valid_tally_field
+    if self.type == TALLY_FIELD
+      self.autosum_group = "#{self.name}_number_of" unless self.autosum_group.present?
+      self.autosum_total ||= true
+    end
     true
   end
 
