@@ -26,6 +26,10 @@ class MockFormSection
     @order_form_group = order_form_group
   end
 
+  def order_subform= order_subform
+    @order_subform = order_subform
+  end
+
   def valid?
     @is_valid
   end
@@ -49,24 +53,23 @@ describe FormSectionController do
     PrimeroModule.all.each &:destroy
     Role.all.each &:destroy
 
-    @form_section_a = FormSection.create!(unique_id: "A", name: "A")
-    @form_section_b = FormSection.create!(unique_id: "B", name: "B")
-    @form_section_c = FormSection.create!(unique_id: "C", name: "C")
-    primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
-    user = User.new(:user_name => 'manager_of_forms', module_ids: [primero_module.id])
+    @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: "case")
+    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: "case")
+    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: "case")
+    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
+    user = User.new(:user_name => 'manager_of_forms', module_ids: [@primero_module.id])
     user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
     fake_login user
   end
 
   describe "get index" do
-    xit "populate the view with all the form sections in order ignoring enabled or disabled" do
-      row1 = FormSection.new(:visible => false, :order => 1)
-      row2 = FormSection.new(:visible => true, :order => 2)
-      FormSection.stub(:all).and_return([row1, row2])
+    it "populate the view with all the form sections in order ignoring enabled or disabled" do
+      forms = [@form_section_a, @form_section_b]
+      grouped_forms = forms.group_by{|e| e.form_group_name}
 
-      get :index
+      get :index, :module_id => @primero_module.id, :parent_form => 'case'
 
-      assigns[:form_sections].should == [row1, row2]
+      assigns[:form_sections].should == grouped_forms
     end
   end
   describe "post create" do
