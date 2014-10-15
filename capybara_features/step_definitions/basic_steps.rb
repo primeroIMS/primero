@@ -189,7 +189,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
         content = content.gsub("<Tally>", "").strip
         tally_search = true
       end
-      within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
+      within(:xpath, ".//div[@class='row']//label[@class='key' and text()=#{xpath_text_string(name)}]") do
         #Up to the parent of the label to find the value.
         within(:xpath, '../..') do
           if tally_search == true
