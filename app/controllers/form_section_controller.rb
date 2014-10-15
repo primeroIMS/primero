@@ -4,6 +4,7 @@ class FormSectionController < ApplicationController
   include ExportActions
   include ImportActions
 
+  before_filter :parent_form, :only => [:new, :published]
   before_filter :current_modules, :only => [:index, :new, :edit, :create]
   before_filter :get_form_section, :only => [:edit]
   before_filter :get_related_form_sections, :only => [:index, :edit]
@@ -24,7 +25,6 @@ class FormSectionController < ApplicationController
     authorize! :create, FormSection
     @page_name = t("form_section.create")
     @form_section = FormSection.new(params[:form_section])
-    @parent_form = params[:parent_form] || 'case'
   end
 
   def create
@@ -93,7 +93,7 @@ class FormSectionController < ApplicationController
   end
 
   def published
-    json_content = FormSection.find_all_visible_by_parent_form(parent_form).map(&:formatted_hash).to_json
+    json_content = FormSection.find_all_visible_by_parent_form(@parent_form).map(&:formatted_hash).to_json
     respond_to do |format|
       format.html {render :inline => json_content }
       format.json { render :json => json_content }
@@ -102,6 +102,10 @@ class FormSectionController < ApplicationController
 
 
   private
+
+  def parent_form
+    @parent_form = params[:parent_form] || 'case'
+  end
 
   def current_modules
     @current_modules ||= current_user.modules

@@ -23,8 +23,8 @@ describe FieldsController do
 
     it "should redirect back to the fields page" do
       FormSection.stub(:add_field_to_formsection)
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
-      response.should redirect_to(edit_form_section_path(@form_section.unique_id))
+      post :create, :form_section_id => @form_section.unique_id, :module_id => "test_module", :field => JSON.parse(@field.to_json)
+      response.should redirect_to(edit_form_section_path(@form_section.unique_id, :module_id => "test_module"))
     end
 
     it "should render edit form section page if field has errors" do
@@ -122,14 +122,14 @@ describe FieldsController do
         :help_text => "old help text")
       some_form = FormSection.create!(:name => "Some Form", :unique_id => "some_form", :fields => [field_to_change])
 
-      put :update, :id => "country_of_origin", :form_section_id => some_form.unique_id,
+      put :update, :id => "country_of_origin", :form_section_id => some_form.unique_id, :module_id => "test_module",
         :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text"}
 
       updated_field = FormSection.get(some_form.id).fields.first
       updated_field.display_name.should == "What Country Are You From"
       updated_field.visible.should == false
       updated_field.help_text.should == "new help text"
-      response.should render_template("form_section/edit")
+      response.should redirect_to(edit_form_section_path(some_form.unique_id, :module_id => "test_module"))
     end
 
     it "should display errors if field could not be saved" do
