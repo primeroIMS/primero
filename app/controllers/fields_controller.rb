@@ -2,6 +2,7 @@ class FieldsController < ApplicationController
 
   before_filter { authorize! :manage, Field }
   before_filter :read_form_section
+  before_filter :module_id, :only => [:create, :update, :destroy]
   before_filter :get_lookups, :only => [:edit, :update]
   after_filter :refresh_properties, :only => [:create, :update]
 
@@ -19,7 +20,7 @@ class FieldsController < ApplicationController
     if (@field.errors.length == 0)
       SuggestedField.mark_as_used(params[:from_suggested_field]) if params.has_key? :from_suggested_field
       flash[:notice] = t("fields.successfully_added")
-      redirect_to(edit_form_section_path(params[:form_section_id]))
+      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
     else
       @show_add_field = {:show_add_field => true}
       render :template => "form_section/edit", :locals => @show_add_field
@@ -30,6 +31,7 @@ class FieldsController < ApplicationController
     @body_class = 'forms-page'
     @field = @form_section.fields.detect { |field| field.name == params[:id] }
     @show_add_field = {:show_add_field => true}
+    @module_id = params[:module_id]
     render :template => "form_section/edit", :locals => @show_add_field
   end
 
@@ -53,7 +55,7 @@ class FieldsController < ApplicationController
       if (request.xhr?)
         render :json => message
       else
-        render :template => "form_section/edit"
+        redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
       end
     else
       @show_add_field = {:show_add_field => true}
@@ -74,7 +76,7 @@ class FieldsController < ApplicationController
     field = @form_section.fields.find { |field| field.name == params[:field_name] }
     @form_section.delete_field(field.name)
     flash[:notice] = t("fields.deleted", :display_name => field.display_name)
-    redirect_to(edit_form_section_path(params[:form_section_id]))
+    redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
   end
 
   def toggle_fields
@@ -91,6 +93,10 @@ class FieldsController < ApplicationController
 
   def get_lookups
     @lookups = Lookup.all
+  end
+
+  def module_id
+    @module_id = params[:module_id] || ""
   end
 
   def refresh_properties

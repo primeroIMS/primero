@@ -52,7 +52,7 @@ module FormSectionHelper
     if forms.count > 1
       content_tag :li, class: 'group' do
         concat(
-          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id, parent_form: parent_form), class: 'group') do
+          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id), class: 'group') do
             concat(t(group, :default => group))
           end
         )
@@ -61,7 +61,7 @@ module FormSectionHelper
     else
       content_tag :li, class: "#{form.visible? ? '' : 'hidden_form'}" do
         concat(
-          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id, parent_form: parent_form), class: 'non-group') do
+          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id), class: 'non-group') do
             concat(t(form.unique_id, :default => form.name))
           end
         )
@@ -74,7 +74,7 @@ module FormSectionHelper
     content_tag :ul , class: 'sub', id: group_id do
      for form in forms
       concat(content_tag(:li,
-        link_to(edit_form_section_path(form.section_name, module_id: primero_module.id, parent_form: parent_form)) do
+        link_to(edit_form_section_path(form.section_name, module_id: primero_module.id)) do
           concat(t(form.unique_id, :default => form.name))
         end, class: "#{form.visible? ? '' : 'hidden_form'}"
       ))

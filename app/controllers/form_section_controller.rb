@@ -5,8 +5,8 @@ class FormSectionController < ApplicationController
   include ImportActions
 
   before_filter :current_modules, :only => [:index, :new, :edit, :create]
-  before_filter :parent_form, :only => [:new, :edit]
-  before_filter :get_form_sections, :only => [:index, :edit]
+  before_filter :get_form_section, :only => [:edit]
+  before_filter :get_related_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
 
 
@@ -24,6 +24,7 @@ class FormSectionController < ApplicationController
     authorize! :create, FormSection
     @page_name = t("form_section.create")
     @form_section = FormSection.new(params[:form_section])
+    @parent_form = params[:parent_form] || 'case'
   end
 
   def create
@@ -57,7 +58,6 @@ class FormSectionController < ApplicationController
   def edit
     authorize! :update, FormSection
     @page_name = t("form_section.edit")
-    @form_section = FormSection.get_by_unique_id(params[:id])
 
     forms_for_move
   end
@@ -109,19 +109,22 @@ class FormSectionController < ApplicationController
     @primero_module = @current_modules.select{|m| m.id == @module_id}.first
   end
 
-  def parent_form
-    @parent_form = params[:parent_form] || 'case'
+  def get_form_section
+    @form_section = FormSection.get_by_unique_id(params[:id])
+    @parent_form = @form_section.parent_form
   end
 
-  def get_form_sections
+  def get_related_form_sections
     @record_types = @primero_module.associated_record_types
 
-    #only use the passed in parent_form if it is in the allowed form types for this module
-    #otherwise, default to the first allowed form type
-    if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
-      @parent_form = params[:parent_form]
-    else
-      @parent_form = @record_types.first
+    if @parent_form.blank?
+      #only use the passed in parent_form if it is in the allowed form types for this module
+      #otherwise, default to the first allowed form type
+      if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
+        @parent_form = params[:parent_form]
+      else
+        @parent_form = @record_types.first
+      end
     end
 
     permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
