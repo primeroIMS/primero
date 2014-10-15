@@ -93,7 +93,8 @@ template '/home/vagrant/primero/config/sunspot.yml' do
                     'uat' => 'INFO',
                     'standalone' => 'INFO',
                     'android' => 'INFO',
-                    'production' => node[:primero][:solr_log_level]}
+                    'production' => node[:primero][:solr_log_level]},
+    :log_files => {'production' => "#{node[:primero][:log_dir]}/solr/sunspot-solr-production.log"}
   })
   owner 'vagrant'
   group 'vagrant'
