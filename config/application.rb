@@ -41,6 +41,10 @@ module RapidFTR
     LOCALES = ['en','fr','ar','zh','es','ru']
     LOCALES_WITH_DESCRIPTION = [['-', nil],['العربية','ar'],['中文','zh'],['English', 'en'],['Français', 'fr'],['Русский', 'ru'],['Español', 'es']]
 
+    if ENV['RAILS_LOG_PATH'].present?
+      config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
+    end
+      
     def locales
       LOCALES
     end

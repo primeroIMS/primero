@@ -3,7 +3,7 @@ When /^I log in as user "([^\"]*)" using password "([^\"]*)"$/ do |username, pas
 end
 
 Then /^I am redirected to the dashboard$/ do
-  expect(page).to have_content('Scheduled Activities')
+  expect(page).to have_content('Home')
 end
 
 Then /^there is a visual cue in the header showing me "([^\"]*)"$/ do |message|

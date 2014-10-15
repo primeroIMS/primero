@@ -25,13 +25,15 @@ class Incident < CouchRest::Model::Base
                 if (doc['couchrest-type'] == 'Incident')
                {
                   if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                    emit(doc['description'], doc);
+                    emit(doc['description'], null);
                   }
                }
             }"
   end
 
   before_save :set_violation_verification_default
+
+  before_update :clean_incident_date
 
   def self.quicksearch_fields
     [
@@ -273,6 +275,15 @@ class Incident < CouchRest::Model::Base
     categories.uniq! if categories.present?
 
     return categories
+  end
+
+  def clean_incident_date
+    if date_of_incident_date_or_date_range == 'date'
+      self.date_of_incident_from = nil
+      self.date_of_incident_to = nil
+    else
+      self.date_of_incident = nil
+    end
   end
 
   #TODO - Need rspec test for this
