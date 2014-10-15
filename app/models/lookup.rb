@@ -12,7 +12,7 @@ class Lookup < CouchRest::Model::Base
     view :by_name,
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'Lookup') && doc['name']) {
-                  emit(doc['name'], doc);
+                  emit(doc['name'], null);
                 }
             }"
   end

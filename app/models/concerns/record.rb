@@ -40,7 +40,7 @@ module Record
               :map => "function(doc) {
                     if (doc.hasOwnProperty('unique_identifier'))
                    {
-                      emit(doc['unique_identifier'],doc);
+                      emit(doc['unique_identifier'], null);
                    }
                 }"
 
@@ -48,7 +48,7 @@ module Record
               :map => "function(doc) {
                     if (doc.hasOwnProperty('short_id'))
                    {
-                      emit(doc['short_id'],doc);
+                      emit(doc['short_id'], null);
                    }
                 }"
 
@@ -56,7 +56,7 @@ module Record
               :map => "function(doc) {
                     if (doc.hasOwnProperty('short_id'))
                    {
-                      emit(doc['_id'],doc);
+                      emit(doc['_id'], null);
                    }
                 }"
 
@@ -64,7 +64,7 @@ module Record
               :map => "function(doc) {
                     if (doc.hasOwnProperty('histories')){
                       for(var index=0; index<doc['histories'].length; index++){
-                          emit(doc['histories'][index]['user_name'], doc)
+                          emit(doc['histories'][index]['user_name'], null)
                       }
                    }
                 }"
@@ -72,14 +72,14 @@ module Record
       view :by_duplicate,
               :map => "function(doc) {
                 if (doc.hasOwnProperty('duplicate')) {
-                  emit(doc['duplicate'], doc);
+                  emit(doc['duplicate'], null);
                 }
               }"
 
       view :by_duplicates_of,
               :map => "function(doc) {
                 if (doc.hasOwnProperty('duplicate_of')) {
-                  emit(doc['duplicate_of'], doc);
+                  emit(doc['duplicate_of'], null);
                 }
               }"
 
