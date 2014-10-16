@@ -50,6 +50,7 @@ Given /^the following incidents with violations exist in the system:$/ do |incid
       'incident_total_boys' => '3',
       'incident_total_girls' => '5',
       'incident_total_unknown' => '2',
+      'module_id' => PrimeroModule.find_by_name('MRM').id,
     )
 
     #Create violations hash

@@ -30,6 +30,7 @@ puts Rails.env
 
 # Now that the filters use ||, we need this.  See
 # http://stackoverflow.com/questions/3748838/how-to-prevent-pipe-character-from-causing-a-bad-uri-error-in-rails-3-ruby-1-9-2
+URI.send(:remove_const, :DEFAULT_PARSER)
 URI::DEFAULT_PARSER =
   URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
 
