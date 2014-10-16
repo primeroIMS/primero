@@ -184,6 +184,12 @@ class Replication < CouchRest::Model::Base
           Rails.logger.info {"Conflicts found in record #{rec.id}"}
           begin
             rec.resolve_conflicting_revisions
+            # TODO: this won't be necessary once we get something watching the
+            # changes api
+            if modelClass.include?(Searchable)
+              Rails.logger.info {"Reindexing record #{rec.id}"}
+              rec.reindex
+            end
           rescue => e
             Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n#{e}\n#{e.backtrace}")
           end

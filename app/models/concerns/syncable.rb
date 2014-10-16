@@ -54,6 +54,7 @@ module Syncable
 
     resolved_attrs = all_revs.each_cons(2)
                              .inject({}) do |acc, (older, newer)|
+
       base_revision = find_base_revision([older, newer])
       older_changes = older.get_intermediate_changes(base_revision)
 
@@ -80,8 +81,7 @@ module Syncable
     end
 
     Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
-
-    active.save!
+    active.database.save_doc(active)
   end
 
   # Remove attributes that have been updated since `revision` to avoid
@@ -242,7 +242,7 @@ module Syncable
         end
         props
       else
-        props
+        props.reverse_merge({ k => existing_value })
       end
     end
 

@@ -290,6 +290,7 @@ describe Syncable do
       @child = _Child.new({
         :name => 'Test123',
         :created_by => 'me',
+        :birth_day => Date.new(2000, 1, 1),
         :family_members => [
           {:unique_id => 'f1', :name => 'Arthur', :relation => 'brother'},
         ],
@@ -308,7 +309,8 @@ describe Syncable do
         c.attributes = {
           :survivor_code => '200',
           :gender => 'male',
-          :last_updated_at => now + 5,
+          :birth_day => Date.new(2000, 2, 1),
+          :last_updated_at => now + 5.minutes,
           :last_updated_by => 'me',
           :family_members => [
             {:unique_id => 'f1', :name => 'Arthur', :relation => 'father'},
@@ -325,8 +327,9 @@ describe Syncable do
         c.attributes = {
           :survivor_code => '123',
           :name => 'Jorge',
+          :birth_day => Date.new(2000, 1, 1),
           :age => 18,
-          :last_updated_at => now + 10,
+          :last_updated_at => now + 10.minutes,
           :last_updated_by => 'me',
           :family_members => [
             {:unique_id => 'f1', :name => 'Lawrence', :relation => 'brother'},
@@ -349,6 +352,7 @@ describe Syncable do
 
       resolved = _Child.get(@child._id)
       resolved[:survivor_code].should == @timestamp_latest[:survivor_code]
+      resolved[:birth_day].should == @timestamp_earliest[:birth_day]
     end
 
     it 'should merge updates where updates are to a disjoin set of fields' do
