@@ -654,14 +654,13 @@ describe FormSection do
         :perm_visible => true,
         "editable"=>true,
         "name_all" => "Tracing Name",
-        "description_all" => "Tracing Description"
+        "description_all" => "Tracing Description",
       }
       new_form_section = FormSection.new
       new_form_section.should_not_receive(:save)
       new_form_section.should_not_receive(:attributes)
       FormSection.should_receive(:get_by_unique_id).with("tracing").and_return(nil)
-      FormSection.should_receive(:new).with(properties).and_return(new_form_section)
-      new_form_section.should_receive(:create!).with({:validate => false}).and_return(nil)
+      FormSection.should_receive(:create!).with(properties).and_return(new_form_section)
 
       form_section = FormSection.create_or_update_form_section(properties)
       form_section.should == new_form_section
