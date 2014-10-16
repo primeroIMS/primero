@@ -2,22 +2,27 @@
   <%
      #TODO: This will break for nested nested subforms if we decide to have those.
      subform_section = subform.subform_section
+     data_shared_subform = ""
+     subform_name = subform.name
+     if subform_section.shared_subform.present?
+       data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
+       form_group_name = subform_section.shared_subform_group
+       subform_name = subform_section.shared_subform
+     end
      number_of_subforms = subforms_count formObject, subform, form_group_name
      collapsed_fields = subform_section.collapsed_list
-     shared_subform = ""
      disable_action_buttons = ""
      summary_section_class = ""
-     shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}" if subform_section.shared_subform.present?
      if subform.subform_section.is_summary_section
        disable_action_buttons = "style=display:none;"
        summary_section_class = "summary_section"
      end
    %>
-  <div class="subforms <%=summary_section_class%>" id="<%= subform.name %>" <%=shared_subform%>>
+  <div class="subforms <%=summary_section_class%>" id="<%= subform.name %>" <%=data_shared_subform%>>
     <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-      <% fk_unique_id = field_keys(subform.name, i, 'unique_id', form_group_name) %>
+      <% fk_unique_id = field_keys(subform_name, i, 'unique_id', form_group_name) %>
       <%= hidden_field_tag(field_tag_name(formObject, nil, fk_unique_id),
                            field_value(formObject, nil, fk_unique_id)) %>
       <%= render partial: "form_section/subform_expand_collapse_header",
@@ -30,7 +35,7 @@
                          }
       %>
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <% fk = field_keys(subform.name, i, field.name, form_group_name) %>
+        <% fk = field_keys(subform_name, i, field.name, form_group_name) %>
         <%= render partial: "form_section/#{field.type}",
                    object: field,
                    locals: {
@@ -58,7 +63,7 @@
     %>
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-      <% fk = field_keys(subform.name, 'template', field.name, form_group_name) %>
+      <% fk = field_keys(subform_name, 'template', field.name, form_group_name) %>
       <%= render partial: "form_section/#{field.type}",
                  object: field,
                  locals: {

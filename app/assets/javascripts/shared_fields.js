@@ -3,7 +3,8 @@ var SharedFields = Backbone.View.extend({
 
 	events: {
 		'change input': 'find_shared_fields',
-		'change select': 'find_shared_fields'
+		'change select': 'find_shared_fields',
+		'change textarea': 'find_shared_fields'
 	},
 
 	find_shared_fields: function(event) {

@@ -82,10 +82,17 @@ module FieldsHelper
 
   def subforms_count(object, field, form_group_name = "")
     subforms_count = 0
+    # This is for shared subforms
+    shared_subform = field.subform_section.shared_subform.downcase if field.subform_section.shared_subform.present?
+    shared_subform_group = field.subform_section.shared_subform_group.downcase if field.subform_section.shared_subform_group.present?
     if object[field.name].present?
       subforms_count = object[field.name].count
+    elsif object[shared_subform].present?
+      object[shared_subform].count
     elsif object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
       subforms_count = object[form_group_name.downcase][field.name].count
+    elsif object[shared_subform_group].present? && object[shared_subform_group][shared_subform].present?
+      subforms_count = object[shared_subform_group][shared_subform].count
     end
     return subforms_count
   end
