@@ -13,27 +13,27 @@ Feature: Replications
     When I follow "Configure a Server"
     Then I should see "Add a Remote Server"
     And I fill in "Description" with "Test Replication"
-    And I fill in "Primero URL" with "localhost:99999"
+    And I fill in "Primero URL" with "http://localhost:99999"
     And I fill in "User Name" with "primero"
     And I fill in "Password" with "primero"
     And I make sure that the Replication Configuration request fails
     And I click the "Save" button
 
-    Then I should see "The URL/Username/Password that you entered is incorrect"
+    Then I should see "Could not connect to the remote instance - is it running?"
     And I make sure that the Replication Configuration request succeeds
     And I fill in "Password" with "primero"
     And I click the "Save" button
 
     Then I should see "Configure a Server"
     And I should see "Test Replication"
-    And I should see "http://localhost:99999/"
+    And I should see "http://localhost:99999"
     And I should see "primero"
     And I should see "In Progress"
 
     Then I follow "Edit"
     Then I should see "Edit Configuration"
     And I fill in "Description" with "New Replication"
-    And I fill in "Primero URL" with "localhost:88888"
+    And I fill in "Primero URL" with "http://localhost:88888"
     And I fill in "User Name" with "primero"
     And I fill in "Password" with "primero"
     And I make sure that the Replication Configuration request succeeds
@@ -41,14 +41,14 @@ Feature: Replications
 
     Then I should see "Configure a Server"
     And I should see "New Replication"
-    And I should see "http://localhost:88888/"
+    And I should see "http://localhost:88888"
     And I should not see "Test Replication"
-    And I should not see "http://localhost:99999/"
+    And I should not see "http://localhost:99999"
 
     And I follow "Delete"
     And I click OK in the browser popup
     Then I should not see "New Replication"
-    And I should not see "http://localhost:88888/"
+    And I should not see "http://localhost:88888"
     And I clear the Replication Configuration expectations
 
   #TODO -Implement this when more is known about what we are planning to do with blacklist
