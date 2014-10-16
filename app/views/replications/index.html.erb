@@ -1,13 +1,10 @@
 <div class="row">
-  <div class="large-8 medium-4 columns">    
+  <div class="large-8 medium-4 columns">
   </div>
   <div class="large-4 medium-4 columns">
       <% if can? :create, Replication %>
         <%= link_to content_tag(:span, t("replication.configure_a_server"), class: 'create_user'), new_replication_path,  class: 'btn green-button right' %>
       <% end %>
-      <%= render 'exports/button', locals: {model: FormSection} %>
-      <%# TODO: Hiding imports so that QA doesn't get into trouble %>
-      <%#= render 'imports/button' %>
   </div>
 </div>
 <div class="row">

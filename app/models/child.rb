@@ -59,7 +59,7 @@ class Child < CouchRest::Model::Base
                   if (doc['couchrest-type'] == 'Child')
                  {
                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                      emit(doc['name'], doc);
+                      emit(doc['name'], null);
                     }
                  }
               }"

@@ -235,8 +235,8 @@ And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, su
   page.should_not have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num.to_i + 1}']")
 end
 
-And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
-  step %Q{I add a "#{subform}" subform}
+And /^I fill in the (\d+)(?:st|nd|rd|th)(?:(.*)) "(.*)" subform with the follow:$/ do |num, is_initial, subform, fields|
+  step %Q{I add a "#{subform}" subform} if !is_initial
   update_subforms_field(num, subform, fields)
 end
 

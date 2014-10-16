@@ -590,6 +590,7 @@ end
 
 And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/) do |times_flagged, arg1|
   using_wait_time 60 do
+    binding.pry
     page.should have_selector(:css, "table.dataTable tbody tr td div.flag_icon")
     page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon') and contains(@text, #{times_flagged})]") if times_flagged
   end
