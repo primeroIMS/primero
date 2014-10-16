@@ -67,6 +67,8 @@ $(document).ready(function() {
     }
 
     function resetAddField(){
+        $('#field_details_tally').hide();
+        $('#field_details_select_box').hide();
         $('#field_details_options').hide();
         $('#field_details').hide();
         $("ul.field_types a").removeClass("sel");
@@ -79,7 +81,7 @@ $(document).ready(function() {
         $("#err_msg_panel").hide();
 
 
-        $("#field_details_options, #field_details").hide();
+        $("#field_details_options, #field_details_select_box, #field_details_tally, #field_details").hide();
 
         $(".field_details_panel input[type='text'], .field_details_panel textarea").val("");
         var _this = this;
@@ -99,8 +101,14 @@ $(document).ready(function() {
     }
 
     function getFieldDetails(field_type){
-        var fields_with_options = ["check_boxes","radio_button","select_box"];
-        return $.inArray(field_type, fields_with_options) > -1 ? "#field_details_options" : "#field_details";
+        if(field_type == "tally_field"){
+            return "#field_details_tally";
+        } else if(field_type == "select_box") {
+            return "#field_details_select_box";
+        } else {
+            var fields_with_options = ["check_boxes","radio_button"];
+            return $.inArray(field_type, fields_with_options) > -1 ? "#field_details_options" : "#field_details";
+        }
     }
 
     function deleteItem() {

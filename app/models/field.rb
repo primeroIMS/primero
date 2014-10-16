@@ -8,7 +8,7 @@ class Field
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally]
+  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :option_strings_source, :multi_select]
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
@@ -96,6 +96,7 @@ class Field
   validate :validate_has_a_option
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
+  validate :valid_tally_field
 
   #TODO: Any subform validations?
 
@@ -196,6 +197,21 @@ class Field
     return [] unless self.option_strings_text
     return self.option_strings_text if self.option_strings_text.is_a?(Array)
     self.option_strings_text.gsub(/\r\n?/, "\n").split("\n")
+  end
+
+  def options_list(lookups = nil)
+    options_list = []
+    if self.option_strings_source.present?
+      source_options = self.option_strings_source.split
+      if source_options.first == 'lookup'
+        options_list += Lookup.values(source_options.last.titleize, lookups)
+      else
+        options_list << self.option_strings_source
+      end
+    else
+      options_list += self.option_strings
+    end
+    return options_list
   end
 
   def default_value
@@ -333,6 +349,14 @@ class Field
     return true unless form
     #return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.new? && field.display_name == display_name})
     return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.equal?(self) && field.display_name == display_name})
+    true
+  end
+
+  def valid_tally_field
+    if self.type == TALLY_FIELD
+      self.autosum_group = "#{self.name}_number_of" unless self.autosum_group.present?
+      self.autosum_total ||= true
+    end
     true
   end
 

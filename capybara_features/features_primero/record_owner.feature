@@ -19,7 +19,6 @@ And I fill in the following:
 And I press "Save"
 Then I should see "Case record successfully created" on the page
 And I should see a value for "Location Address" on the show page with the value of "Kenya"
-And I should see a value for "Previous Owner" on the show page with the value of "admin"
 And I should see a value for "Previous Agency" on the show page with the value of "Test Agency"
 And I should see a value for "Record created by" on the show page with the value of "primero_cp"
 And I should see "Record State: Valid record" on the page

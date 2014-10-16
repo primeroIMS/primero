@@ -25,7 +25,7 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     And I fill in the following:
       | Survivor Code       | SRV1001                              |
       | Date of Birth       | 23-Sep-2007                          |
-      | Sex                 | <Select> Female                      |
+      | Sex                 | <Radio> Female                       |
       | Clan or Ethnicity   | <Select> Ethnicity1                  |
       | Country of Origin   | <Select> Country1                    |
       | Nationality (if different than country of origin) | <Select> Nationality1  |

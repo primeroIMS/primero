@@ -12,8 +12,8 @@ Feature: Tracing Section Headers
     And I press the "New Case" button
     And I press the "Tracing" button
     And I should see "Separation History" on the page
-    And I should see "Tracing Actions" on the page
-    And I should see "Reunification Details" on the page
+    And I should see "Tracing Action" on the page
+    And I should see "Reunification Detail" on the page
 
   Scenario:  As a logged in user, I should be able see section headers in the show Tracing Form
     Given I am logged in as an admin with username "primero" and password "primero"
@@ -25,5 +25,5 @@ Feature: Tracing Section Headers
     And I press the "7af3aa9" link
     And I press the "Tracing" button
     And I should see "Separation History" on the page
-    And I should see "Tracing Actions" on the page
-    And I should see "Reunification Details" on the page
+    And I should see "Tracing Action" on the page
+    And I should see "Reunification Detail" on the page

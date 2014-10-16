@@ -33,7 +33,7 @@ Feature: Perpetrator Form
       | To which type of armed force or group did the alleged perpetrator(s) belong? | <Select> Other |
       | Name of the armed force or group? | <Select> Armed Force or Group 2 |
       | Is this a known or unknown Perpetrator? | <Select> Known |
-      | Sex of Alleged Perpetrator(s) | <Select> Male |
+      | Sex of Alleged Perpetrator(s) | <Radio> Male |
       | Past GBV by alledged perpetrator? | <Radio>  No |
       | Age group of alleged perpetrator | <Select> 18-25 |
       | Alleged perpetrator relationship with survivor | <Select> No relation |
@@ -44,7 +44,7 @@ Feature: Perpetrator Form
       | To which type of armed force or group did the alleged perpetrator(s) belong? | <Select> Other |
       | Name of the armed force or group? | <Select> Armed Force or Group 3 |
       | Is this a known or unknown Perpetrator? | <Select> Known |
-      | Sex of Alleged Perpetrator(s) | <Select> Male |
+      | Sex of Alleged Perpetrator(s) | <Radio> Male |
       | Past GBV by alledged perpetrator? | <Radio>  No |
       | Age group of alleged perpetrator | <Select> 18-25 |
       | Alleged perpetrator relationship with survivor | <Select> Other |
