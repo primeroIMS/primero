@@ -86,6 +86,13 @@ describe Historical do
       @inst.histories[0].prev_revision.should == nil
     end
 
+    it 'should not create a creation history if it already exists' do
+      @inst.histories = [{:action => :create, :unique_id => 'hist1'}]
+      @inst.add_creation_history
+
+      @inst.histories.length.should == 1
+    end
+
     it "should not record anything in the history if a save occured with no changes" do
       @inst.save!
       @inst.histories.size.should be 1

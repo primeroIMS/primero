@@ -178,14 +178,16 @@ module Historical
   end
 
   def add_creation_history
-    without_dirty_tracking do
-      self.histories.unshift({
-        :user_name => created_by,
-        :user_organization => organization_of(created_by),
-        :prev_revision => nil,
-        :datetime => created_at,
-        :action => :create,
-      })
+    unless self.histories.find {|h| h.action == :create }
+      without_dirty_tracking do
+        self.histories.unshift({
+          :user_name => created_by,
+          :user_organization => organization_of(created_by),
+          :prev_revision => nil,
+          :datetime => created_at,
+          :action => :create,
+        })
+      end
     end
     true
   end
