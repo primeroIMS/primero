@@ -276,7 +276,9 @@ module Record
 
   def update_properties(properties, user_name)
     properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
-    properties['histories'] = remove_newly_created_media_history(properties['histories'])
+    if properties['histories'].present?
+      properties['histories'] = remove_newly_created_media_history(properties['histories'])
+    end
     properties['record_state'] = true if properties['record_state'].nil?
 
     attributes_to_update = {}
@@ -284,7 +286,7 @@ module Record
       attributes_to_update[name] = value
       attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
     end
-    self.set_updated_fields_for user_name
+    self.last_updated_by = user_name
     self.attributes = attributes_to_update
   end
 

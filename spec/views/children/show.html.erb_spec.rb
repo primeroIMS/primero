@@ -106,7 +106,7 @@ describe "children/show.html.erb" do
         rendered.should be_include('Jose Smith')
         rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Last Update:')
-        rendered.should be_include('20-Jul-2010')
+        rendered.should be_include(child.last_updated_at.strftime('%d-%b-%Y'))
       end
 
       # Functionality removed

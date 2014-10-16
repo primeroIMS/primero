@@ -36,6 +36,7 @@ _Child = Class.new(CouchRest::Model::Base) do
       property :unique_id, String
       property :date, Date
       property :notes, String
+      property :eyewitness, TrueClass, :default => false
     end]
   end
 end
@@ -102,6 +103,35 @@ describe Syncable do
 
       @child.violations.killing[0].notes.should == 'test'
     end
+
+    it "should track changes if no history provided" do
+      @child.attributes = {
+        'name' => @child.name + ', Jr.'
+      }
+
+      @child.changes.keys.should include 'name'
+    end
+
+    it "should track changes if nil histories provided" do
+      @child.attributes = {
+        'name' => @child.name + ', Jr.',
+        'histories' => nil,
+      }
+
+      @child.changes.keys.should include 'name'
+    end
+
+    it "should not track changes if history provided" do
+      new_name = @child.name + ', Jr.'
+      @child.attributes = {
+        'name' => new_name,
+        'histories' => @child.histories.clone.tap do |h|
+          h << {:datetime => DateTime.now, :changes => {'name' => { 'from' => @child.name, 'to' => new_name }}}
+        end
+      }
+
+      @child.changes.keys.should_not include 'name'
+    end
   end
 
   describe "set attribute with conflicts" do
@@ -134,6 +164,7 @@ describe Syncable do
       @child.family_members << { 'unique_id' => 'cccc', 'name' => 'Larry', 'relation' => 'uncle' }
 
       @child.save!
+      @second_revision = @child.rev
     end
 
     it "should ignore only nested properties that were updated before" do
@@ -209,7 +240,7 @@ describe Syncable do
             original_kill.to_hash,
           ],
         },
-        'base_revision' => @first_revision,
+        'base_revision' => @second_revision,
       }
 
       @child.violations.killing[0].notes.should == 'kill changed'
@@ -261,7 +292,13 @@ describe Syncable do
         :created_by => 'me',
         :family_members => [
           {:unique_id => 'f1', :name => 'Arthur', :relation => 'brother'},
-        ]
+        ],
+        :violations => {
+          :killing => [
+            { 'unique_id' => 'k1', 'date' => nil, 'notes' => 'kill1' },
+          ],
+          :maiming => [ {:unique_id => 'm1' } ]
+        }
       })
       @child.save
 
@@ -277,6 +314,10 @@ describe Syncable do
             {:unique_id => 'f1', :name => 'Arthur', :relation => 'father'},
             {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
           ],
+          :violations => {
+            :killing => c.violations.killing.clone + [{:unique_id => 'k3', :notes => 'kill3'}],
+            :maiming => [ {:unique_id => 'm1', :eyewitness => true } ]
+          }
         }
       end
 
@@ -291,6 +332,10 @@ describe Syncable do
             {:unique_id => 'f1', :name => 'Lawrence', :relation => 'brother'},
             {:unique_id => 'f3', :name => 'Lara', :relation => 'aunt'},
           ],
+          :violations => {
+            :killing => c.violations.killing.clone + [{:unique_id => 'k5', :notes => 'kill5'}],
+            :maiming => [ {:unique_id => 'm1', :notes => 'maim 1'} ]
+          }
         }
         c.update_history
       end
@@ -334,6 +379,22 @@ describe Syncable do
 
       resolved = _Child.get(@child._id)
       resolved.histories.length.should == 3
+    end
+
+    it 'keeps two independently added elements in a nested array in nested hash' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved.violations.killing.length.should == 3
+    end
+
+    it 'merges data from the same nested array element in a nested hash' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      m = resolved.violations.maiming[0]
+      m.notes.should == 'maim 1'
+      m.eyewitness.should be_true
     end
   end
 

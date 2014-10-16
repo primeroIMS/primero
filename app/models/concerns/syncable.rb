@@ -3,6 +3,22 @@ module Syncable
 
   include Historical
 
+  module PrimeroEmbeddedModel
+    extend ActiveSupport::Concern
+
+    include CouchRest::Model::Embeddable
+
+    included do
+      property :unique_id
+    end
+
+    def initialize *args
+      super
+
+      self.unique_id ||= UUIDTools::UUID.random_create.to_s
+    end
+  end
+
   included do
     design do
       view :conflicting_records,
@@ -54,12 +70,12 @@ module Syncable
 
     without_dirty_tracking do
       active.directly_set_attributes(resolved_attrs)
-      active.histories = self.class.merge_all_histories(all_revs.map {|r| r.histories })
+      active.histories = active.histories.sort_by {|el| el.datetime || DateTime.new }.reverse
     end
 
     discards.each do |r|
       Rails.logger.debug {"Deleting revision #{r.rev} for #{r.id}"}
-      r.destroy
+      r.database.delete_doc(r)
     end
 
     Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
@@ -112,7 +128,10 @@ module Syncable
       hash
     end
 
-    super(merge_with_existing_attrs(self.attributes_as_update_hash, base_changes, new_hash))
+    set_dirty_tracking(new_hash['histories'].blank?) do
+      self.changed_attributes['_force_save'] = true
+      super(merge_with_existing_attrs(self.attributes_as_update_hash, base_changes, new_hash))
+    end
   end
   alias :attributes= :update_attributes_without_saving
 
@@ -137,7 +156,6 @@ module Syncable
     end
 
     h = self.attributes.to_hash
-    h.delete 'histories'
     convert_embedded_to_hash.call(h)
   end
 
@@ -165,16 +183,28 @@ module Syncable
 
   protected
 
+  def merge_histories(hs)
+    hs.flatten
+      .uniq {|h| h['unique_id'] }
+      .sort_by {|h| h['datetime'] || DateTime.new }
+      .reverse
+  end
+
   # Take a set of properties and stick in all of the missing properties on the
   # current model (`existing`), including nested arrays and hashes, arbitrarily
   # deep.  This is necessary because we just do a top-level assignment to the
   # self.attributes object, so we have to fill in any nested hash or array
   # elemets so they don't get deleted.
   def merge_with_existing_attrs(existing, existing_changes, properties)
-    # Avoid merging histories, we'll handle that separately
-    properties.delete 'histories'
+    if properties['histories'].present? && existing['histories'].present?
+      properties['histories'] = merge_histories([properties, existing].map {|p| p.delete 'histories' })
+    end
 
-    merger = ->(props, (k, existing_value)) do
+    changes_for_key = ->(changes_list, key) do
+      changes_list.map {|ch| ch[key]}.reject {|ch| ch.nil? }
+    end
+
+    merger = ->(props, (k, existing_value, existing_changes_for_value)) do
       props = props.clone
       case props[k]
       when Array
@@ -192,7 +222,7 @@ module Syncable
         props[k] = existing_value.inject(props[k]) do |acc, el|
           if el.include?('unique_id')
             unless acc.index {|new| new['unique_id'] == el['unique_id'] }
-              if nested_element_was_added_in_changes(el['unique_id'], existing_changes, k)
+              if nested_element_was_added_in_changes(el['unique_id'], existing_changes_for_value)
                 acc << el
               end
             end
@@ -205,7 +235,7 @@ module Syncable
       when Hash
         if existing_value.present?
           props[k] = existing_value.to_hash.inject(props[k]) do |acc, (sub_k,ev)|
-            acc.merge(merger.call(acc, [sub_k, ev]))
+            acc.merge(merger.call(acc, [sub_k, ev, changes_for_key.call(existing_changes_for_value, sub_k)]))
           end
         end
         props
@@ -214,15 +244,14 @@ module Syncable
       end
     end
 
-    existing.inject(properties, &merger)
+    existing.map {|k,v| [k, v, changes_for_key.call(existing_changes, k)]}.inject(properties, &merger)
   end
 
-  def nested_element_was_added_in_changes(unique_id, changes, key)
+  def nested_element_was_added_in_changes(unique_id, changes)
     changes.any? do |ch|
-      prop_ch = ch[key]
       # TODO: How to do this cleanly without all of this nesting?
-      if prop_ch.present?
-        elem_ch = prop_ch[unique_id]
+      if ch.present?
+        elem_ch = ch[unique_id]
         if elem_ch.present?
           unique_ch = elem_ch['unique_id']
           if unique_ch.present?
