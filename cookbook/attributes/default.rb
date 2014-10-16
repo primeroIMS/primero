@@ -36,6 +36,9 @@ default[:couch_db].tap do |db|
     conf[:ssl].tap do |ssl|
       ssl['verify_ssl_certificates'] = true
     end
+    conf[:replicator].tap do |rep|
+      rep['verify_ssl_certificates'] = true
+    end
   end
 end
 
