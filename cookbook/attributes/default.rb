@@ -40,6 +40,9 @@ default[:couch_db].tap do |db|
     conf[:compactions].tap do |compactions|
       compactions[:_default] = '[{db_fragmentation, "70%"}, {view_fragmentation, "60%"}, {from, "23:00"}, {to, "04:00"}]'
     end
+    conf[:replicator].tap do |rep|
+      rep['verify_ssl_certificates'] = true
+    end
   end
 end
 
