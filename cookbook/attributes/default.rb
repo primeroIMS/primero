@@ -5,6 +5,7 @@ default[:primero].tap do |p|
   p[:rails_env] = 'production'
   p[:home_dir] = '/srv/primero'
   p[:app_dir] = File.join(node[:primero][:home_dir], 'application')
+  p[:log_dir] = File.join(node[:primero][:app_dir], 'log')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
 
@@ -30,6 +31,9 @@ default[:couchdb].tap do |db|
   db[:config].tap do |conf|
     conf[:httpd].tap do |httpd|
       httpd[:bind_address] = '127.0.0.1'
+    end
+    conf[:compactions].tap do |compactions|
+      compactions[:_default] = '[{db_fragmentation, "70%"}, {view_fragmentation, "60%"}, {from, "23:00"}, {to, "04:00"}]'
     end
   end
 end

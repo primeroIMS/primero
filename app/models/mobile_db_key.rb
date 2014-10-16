@@ -11,7 +11,7 @@ class MobileDbKey < CouchRest::Model::Base
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'MobileDbKey') && doc['imei'])
                {
-                  emit(doc['imei'],doc);
+                  emit(doc['imei'], null);
                }
             }"
   end
