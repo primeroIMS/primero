@@ -46,11 +46,12 @@ Feature: GBV Case Closure Form
       | Case Closure Date | 03-Sep-2001 |
     And I press "Save"
     Then I should see "The Case Closure Date should be greater or equal than Case Opening Date." on the page
+    And I press the "Case Closure" button
     And I fill in the following:
-      | Case Closure Date | 03-Sep-2014 |
+      | Case Closure Date | 03-Sep-2044 |
     And I press "Save"
     Then I should see "Case record successfully created" on the page
-    And I should see a value for "Case Closure Date" on the show page with the value of "03-Sep-2014"
+    And I should see a value for "Case Closure Date" on the show page with the value of "03-Sep-2044"
 
   Scenario: The Case Closure Form should have the Case Status field. This should be shared with Survivor Information Form
     Given I am logged in as an admin with username "primero_gbv" and password "primero"
