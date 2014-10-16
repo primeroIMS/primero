@@ -14,9 +14,9 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
     incident_hash.reverse_merge!(
       'estimated_indicator' => 'Yes',
       'UN_eyewitness' => 'Yes',
-      'incident_total_boys' => '3',
-      'incident_total_girls' => '5',
-      'incident_total_unknown' => '2',
+      'incident_total_tally_boys' => '3',
+      'incident_total_tally_girls' => '5',
+      'incident_total_tally_unknown' => '2',
       'module_id' => PrimeroModule.find_by_name('MRM').id,
     )
     user_name = incident_hash['created_by']
@@ -47,9 +47,9 @@ Given /^the following incidents with violations exist in the system:$/ do |incid
     incident_hash.reverse_merge!(
       'estimated_indicator' => 'Yes',
       'UN_eyewitness' => 'Yes',
-      'incident_total_boys' => '3',
-      'incident_total_girls' => '5',
-      'incident_total_unknown' => '2',
+      'incident_total_tally_boys' => '3',
+      'incident_total_tally_girls' => '5',
+      'incident_total_tally_unknown' => '2',
       'module_id' => PrimeroModule.find_by_name('MRM').id,
     )
 
