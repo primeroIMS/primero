@@ -69,6 +69,7 @@ module Syncable
     (active, discards) = [all_revs[0], all_revs[1..-1]]
 
     without_dirty_tracking do
+      self.changed_attributes['_force_save'] = true
       active.directly_set_attributes(resolved_attrs)
       active.histories = active.histories.sort_by {|el| el.datetime || DateTime.new }.reverse
     end
@@ -79,6 +80,7 @@ module Syncable
     end
 
     Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
+
     active.save!
   end
 
