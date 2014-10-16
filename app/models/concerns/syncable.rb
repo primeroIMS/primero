@@ -79,7 +79,7 @@ module Syncable
     end
 
     Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
-    active.database.save_doc(active)
+    active.save!
   end
 
   # Remove attributes that have been updated since `revision` to avoid
