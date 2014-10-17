@@ -762,6 +762,7 @@ en:
     start: Start Synchronization
     stop: Stop Synchronization
     configure_a_server: Configure a Server
+    reindex_pending: Reindex Pending
 
   lookup:
     create: "New Lookup"

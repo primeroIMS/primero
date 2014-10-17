@@ -38,20 +38,6 @@ describe Child do
       child['origin'].should == "Croydon"
     end
 
-    it "should delete the newly created media history(current_photo_key and recorded_audio) as the media names are changed before save of child record" do
-      existing_histories = JSON.parse "{\"user_name\":\"rapidftr\", \"datetime\":\"2013-01-01 00:00:01UTC\",\"changes\":{\"sex\":{\"to\":\"male\",\"from\":\"female\"}}}"
-      given_histories = [existing_histories,
-                         JSON.parse("{\"datetime\":\"2013-02-04 06:55:03\",\"user_name\":\"rapidftr\",\"changes\":{\"current_photo_key\":{\"to\":\"2c097fa8-b9ab-4ae8-aa4d-1b7bda7dcb72\",\"from\":\"photo-364416240-2013-02-04T122424\"}},\"user_organization\":\"N\\/A\"}"),
-                         JSON.parse("{\"datetime\":\"2013-02-04 06:58:12\",\"user_name\":\"rapidftr\",\"changes\":{\"recorded_audio\":{\"to\":\"9252364d-c011-4af0-8739-0b1e9ed5c0ad1359961089870\",\"from\":\"\"}},\"user_organization\":\"N\\/A\"}")
-                        ]
-      child = Child.new("name" => "existing name", "last_updated_at" => "2013-12-12 00:00:01UTC", "histories" =>  [existing_histories])
-      given_properties = {"name" => "given name", "last_updated_at" => "2013-01-01 00:00:00UTC", "histories" => given_histories}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, given_properties
-      histories = child["histories"]
-      histories.size.should == 1
-      histories.first["changes"]["current_photo_key"].should be_nil
-    end
-
     # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?
     xit "should not add changes to history if its already added to the history" do
       FormSection.stub(:all_visible_form_fields =>
@@ -73,13 +59,6 @@ describe Child do
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
       child.last_updated_by.should == 'jdoe'
-    end
-
-    it "should populate last_updated_at field with the time of the update" do
-      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      child = Child.new
-      child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      child.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
     end
 
     it "should not update attachments when the photo value is nil" do

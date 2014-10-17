@@ -41,7 +41,7 @@ record_owner_fields = [
              "display_name_all" => "Created by agency",
              "editable" => false
             }),
-  Field.new({"name" => "previous_owner",
+  Field.new({"name" => "previously_owned_by",
              "type" => "text_field",
              "display_name_all" => "Previous Owner"
             }),

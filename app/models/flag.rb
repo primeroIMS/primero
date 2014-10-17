@@ -1,11 +1,10 @@
 class Flag
-  include CouchRest::Model::Embeddable
+  include Syncable::PrimeroEmbeddedModel
   include PrimeroModel
 
   validate :validate_record
 
   property :date, Date
-  property :unique_id, String
   property :message, String
   property :flagged_by, String
   property :removed, TrueClass
@@ -15,12 +14,6 @@ class Flag
 
   def parent_record
     base_doc
-  end
-
-  def initialize *args
-    super
-
-    self.unique_id ||= UUIDTools::UUID.random_create.to_s
   end
 
   private

@@ -14,9 +14,6 @@
         <% if @replications.present? %>
           <%= render :partial => "replications/list_view_table", :locals => {:replications => @replications} %>
         <% end %>
-        <% if @devices.present? %>
-            <%= render :partial => "replications/devices", :locals => {:devices => @devices} %>
-        <% end %>
         <div id="modal-dialog" class="hide"></div>
       </div>
     </div>

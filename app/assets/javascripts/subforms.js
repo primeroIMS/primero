@@ -13,7 +13,7 @@ var SubformView = Backbone.View.extend({
     //By default existing subforms are collapsed to input.
     this.$el.find(".subform_container, .subform_container:hidden").each(function(x, el){
       //Hide Regular inputs by default.
-      $(el).find(".subform div.row:gt(0)").hide();
+      $(el).children(".subform div.row:gt(0)").hide();
       $(el).find(".subform div[class='row collapse_expand_subform_header'] span.collapse_expand_subform").each(function(x, el){
         $(el).text("+");
         $(el).addClass("collapsed");
@@ -34,7 +34,7 @@ var SubformView = Backbone.View.extend({
     } else if ($(target).hasClass("collapsed")) {
       //Update the state of the subform.
       $(target).text("-");
-      //Initialize the chosen in the subform. 
+      //Initialize the chosen in the subform.
       //This is because chosen is lazy load until is visible but with the collapse
       //functionality sometimes will be hidden. workaround the subform should initialize.
       $(target).parents(".subform").find(".row select.chosen-select").each(function(x, el) {
@@ -45,7 +45,7 @@ var SubformView = Backbone.View.extend({
     $(target).toggleClass("expanded");
     $(target).toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
-    $(target).parents(".subform").find("div.row:gt(0)").toggle();
+    $(target).parents(".subform").children("div.row:gt(0)").toggle();
     _primero.set_content_sidebar_equality();
   },
 
@@ -113,7 +113,7 @@ var SubformView = Backbone.View.extend({
 
     // set sidebar height
     _primero.set_content_sidebar_equality();
-    
+
     //Initialize the chosen in the subform
     _primero.chosen('#' + subformId + ' select.chosen-select:visible');
 
@@ -170,7 +170,6 @@ _primero.update_subform_heading = function(subformEl) {
     //view mode doesn't sent this attributes, there is no need to update the header.
     var data_types_attr = el.getAttribute("data-types"),
         data_fields_attr = el.getAttribute("data-fields");
-        console.log(data_fields_attr, data_types_attr)
     if (data_types_attr != null && data_fields_attr != null) {
       //retrieves the fields to update the header.
       var data_types = data_types_attr.split(","),

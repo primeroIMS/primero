@@ -4,6 +4,7 @@ module Historical
   include PrimeroModel
 
   included do
+    before_save :update_last_updated_at
     before_save :update_history, :unless => :new?
     before_save :update_organization
     before_save :add_creation_history, :if => :new?
@@ -20,8 +21,8 @@ module Historical
     validate :validate_created_at
     validate :validate_last_updated_at
 
-    property :histories, [Class.new do
-      include CouchRest::Model::Embeddable
+    property :histories, [Class.new() do
+      include Syncable::PrimeroEmbeddedModel
 
       property :datetime, DateTime
       property :user_name, String
@@ -103,13 +104,6 @@ module Historical
     def all_by_creator(created_by)
       self.by_created_by :key => created_by
     end
-
-    def merge_all_histories(hs)
-      hs.inject([], :|)
-        .uniq {|el| el.to_hash }
-        .sort_by {|el| el.datetime || DateTime.new }
-        .reverse
-    end
   end
 
   def validate_created_at
@@ -122,6 +116,10 @@ module Historical
     unless self.last_updated_at.nil? || self.last_updated_at.is_a?(DateTime)
       errors.add(:last_updated_at, '')
     end
+  end
+
+  def _force_save
+    false
   end
 
   def set_creation_fields_for(user)
@@ -140,8 +138,7 @@ module Historical
     User.find_by_user_name self.created_by if self.created_by.present?
   end
 
-  def set_updated_fields_for(user_name)
-    self.last_updated_by = user_name
+  def update_last_updated_at()
     self.last_updated_at = DateTime.now
   end
 
@@ -156,7 +153,10 @@ module Historical
 
   def update_history
     # TODO: Figure out some useful way of specifying attachment changes
+    # _force_save is a hack to make CouchRest Model save a model while
+    # dirty tracking is disabled.
     ignored_root_properties = %w{
+      _force_save
       last_updated_at
       last_updated_by
       _attachments
@@ -178,14 +178,16 @@ module Historical
   end
 
   def add_creation_history
-    without_dirty_tracking do
-      self.histories.unshift({
-        :user_name => created_by,
-        :user_organization => organization_of(created_by),
-        :prev_revision => nil,
-        :datetime => created_at,
-        :action => :create,
-      })
+    unless self.histories.find {|h| h.action == :create }
+      without_dirty_tracking do
+        self.histories.unshift({
+          :user_name => created_by,
+          :user_organization => organization_of(created_by),
+          :prev_revision => nil,
+          :datetime => created_at,
+          :action => :create,
+        })
+      end
     end
     true
   end
@@ -216,8 +218,7 @@ module Historical
         acc
       else
         change_hash = if (prev.is_a?(Array) || current.is_a?(Array)) &&
-                         prop.type.try(:include?, CouchRest::Model::Embeddable) &&
-                         prop.name != 'histories' # This is an ugly hack to exempt histories from having to have unique ids
+                         prop.type.try(:include?, CouchRest::Model::Embeddable)
           (prev_hash, current_hash) = [prev, current].map do |arr|
                                         (arr || []).inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
                                       end
