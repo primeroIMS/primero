@@ -86,6 +86,40 @@
         </div>
         <div class="medium-1 columns"> </div>
       </div>
+
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <label class="key"><%= t("modules.label") %></label>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <% @modules.each do |primero_module| %>
+            <div>
+                <%= f.check_box :module_ids, {id: "user_#{primero_module.name}", name: "user[module_ids][]"}, primero_module.id, "" %>
+                <%= f.label primero_module.name %>
+            </div>
+          <% end %>
+        </div>
+        <div class="medium-1 columns"> </div>
+      </div>
+
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <label class="key"><%= t("user_groups.label") %></label>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <% @user_groups.each do |user_group| %>
+            <div>
+                <%= f.check_box :user_group_ids, {id: "user_#{user_group.name}", name: "user[user_group_ids][]"}, user_group.id, "" %>
+                <%= f.label user_group.name %>
+            </div>
+          <% end %>
+        </div>
+        <div class="medium-1 columns"> </div>
+      </div>
     <% end %>
 
     <div class="row">
@@ -105,7 +139,7 @@
         <span class="tool-tip-label">
           <%= f.label :email, t("email"), :class=>'key inline'  %>
         </span>
-      </div>  
+      </div>
       <div class="medium-8 columns">
         <%= f.text_field :email %>
       </div>
@@ -118,6 +152,7 @@
           <%= f.label :organization, t("organization"), :class=>'key inline'  %>
         </span>
       </div>
+      <%# TODO: Change this into a single select of a list of agencies when the agency configuration is developed %>
       <div class="medium-8 columns">
         <%= f.text_field :organization %>
       </div>
@@ -170,6 +205,6 @@
 
     <% content_for :record_sub_nav do %>
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
-      <%= render_controls(@user) %> 
+      <%= render_controls(@user) %>
     <% end %>
 <% end %>

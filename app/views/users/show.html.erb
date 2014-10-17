@@ -46,10 +46,28 @@
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("permissions.label") %>:</label>
+            <label class="key"><%= t("roles.label") %>:</label>
           </div>
           <div class="medium-8 columns">
             <%= @user.roles.map(&:name).join(", ") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%= t("modules.label") %>:</label>
+          </div>
+          <div class="medium-8 columns">
+            <%= @user.modules.map(&:name).join(", ") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%= t("user_groups.label") %>:</label>
+          </div>
+          <div class="medium-8 columns">
+            <%= @user.user_groups.map(&:name).join(", ") %>
           </div>
         </div>
 

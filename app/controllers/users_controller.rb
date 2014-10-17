@@ -50,13 +50,13 @@ class UsersController < ApplicationController
     authorize! :create, User
     @page_name = t("user.new")
     @user = User.new
-    @roles = Role.all
+    load_lookups
   end
 
   def edit
     authorize! :update, @user
     @page_name = t("account")+": #{@user.full_name}"
-    @roles = Role.all
+    load_lookups
   end
 
   def create
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
       flash[:notice] = t("user.messages.created")
       redirect_to(@user)
     else
-      @roles = Role.all
+      load_lookups
       render :action => "new"
     end
   end
@@ -86,7 +86,7 @@ class UsersController < ApplicationController
         redirect_to(@user)
       end
     else
-      @roles = Role.all
+      load_lookups
       render :action => "edit"
     end
   end
@@ -170,6 +170,12 @@ class UsersController < ApplicationController
           :token => form_authenticity_token
       }
     end
+  end
+
+  def load_lookups
+    @roles = Role.all
+    @modules = PrimeroModule.all
+    @user_groups = UserGroup.all
   end
 
 end

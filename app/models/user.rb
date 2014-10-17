@@ -175,6 +175,9 @@ class User < CouchRest::Model::Base
     @modules ||= PrimeroModule.all(keys: self.module_ids).all
   end
 
+  def user_groups
+    @user_groups ||= UserGroup.all(keys: self.user_group_ids)
+  end
 
 
   def has_module?(module_id)

@@ -525,6 +525,12 @@ en:
       create: "Create"
     view: "View Role"
 
+  modules:
+    label: "Modules"
+
+  user_groups:
+    label: "User Groups"
+
   user:
     label: "user"
     full_name: "Full Name"
@@ -1015,7 +1021,7 @@ en:
     last_update: "Last Update"
     current_owner: "Current Owner"
     change_log: "Change Log"
-    
+
   exports:
     no_records: "No Records Available!"
     pdf:
