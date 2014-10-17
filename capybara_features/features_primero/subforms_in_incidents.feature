@@ -97,6 +97,7 @@ Feature: Subforms In Incidents
     And I should see "There were problems with the following fields" on the page
     And I should see "Killing: Number of victims: boys must be a valid number" on the page
     And I should see 1 subform on the form page for "Killing"
+    And I expanded the 1st "Killing" subform
     And I fill in the following:
        | Number of victims        | <Tally>Boys:3  |
     And I press the "Group Details" button
