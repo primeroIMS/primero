@@ -4,7 +4,7 @@ module Ownable
 
   included do
 
-    before_save :update_previously_owned_by
+    before_save :update_ownership
 
     property :owned_by, String
     property :owned_by_full_name, String
@@ -59,9 +59,18 @@ module Ownable
       end
     end
 
+    def refresh_users_by_association
+      @users_by_association = nil
+    end
   end
 
-  def update_previously_owned_by
+  def update_ownership
+    refresh_users_by_association
+
+    unless self.owner.present?
+      self.owned_by = nil
+    end
+
     self.previously_owned_by = self.changes['owned_by'].try(:fetch, 0) || owned_by
     self.previously_owned_by_full_name = self.changes['owned_by_full_name'].try(:fetch, 0) || owned_by_full_name
   end

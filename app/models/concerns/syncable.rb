@@ -132,7 +132,7 @@ module Syncable
 
     set_dirty_tracking(new_hash['histories'].blank?) do
       self.changed_attributes['_force_save'] = true
-      super(merge_with_existing_attrs(self.attributes_as_update_hash, base_changes, new_hash))
+      super(merge_with_existing_attrs(self.attributes_as_update_hash, base_changes, new_hash.with_indifferent_access))
     end
   end
   alias :attributes= :update_attributes_without_saving
@@ -157,7 +157,7 @@ module Syncable
       end
     end
 
-    h = self.attributes.to_hash
+    h = self.attributes.to_hash.with_indifferent_access
     convert_embedded_to_hash.call(h)
   end
 
@@ -214,7 +214,10 @@ module Syncable
         props[k] = props[k].inject([]) do |acc, el|
           if el.include?('unique_id')
             i = existing_value.index {|ev| ev['unique_id'] == el['unique_id'] }
-            acc << (i.nil? ? el : existing_value[i].to_hash.merge(el))
+            # deeper_merge seems to have a bug in it where it doesn't override
+            # values properly.  deeper_merge! with the bang seems to work right
+            # though.
+            acc << (i.nil? ? el : existing_value[i].to_hash.clone.deeper_merge!(el))
           else
             acc << el
           end

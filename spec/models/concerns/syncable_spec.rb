@@ -18,6 +18,7 @@ _Child = Class.new(CouchRest::Model::Base) do
     property :unique_id, String
     property :name, String
     property :relation, String
+    property :languages, [String]
   end]
   property :languages, [String]
   property :birth_day, Date
@@ -314,11 +315,11 @@ describe Syncable do
         :created_by => 'me',
         :birth_day => Date.new(2000, 1, 1),
         :family_members => [
-          {:unique_id => 'f1', :name => 'Arthur', :relation => 'brother'},
+          {:unique_id => 'f1', :name => 'Arthur', :relation => 'brother', 'languages' => ['English', 'Spanish'] },
         ],
         :violations => {
           :killing => [
-            { 'unique_id' => 'k1', 'date' => nil, 'notes' => 'kill1' },
+            { 'unique_id' => 'k1', 'date' => nil, 'notes' => 'kill1'},
           ],
           :maiming => [ {:unique_id => 'm1' } ]
         }
@@ -335,11 +336,11 @@ describe Syncable do
           :last_updated_at => now + 5.minutes,
           :last_updated_by => 'me',
           :family_members => [
-            {:unique_id => 'f1', :name => 'Arthur', :relation => 'father'},
+            {:unique_id => 'f1', :name => 'Arthur', :relation => 'father', :languages => ['English', 'Spanish', 'Russian']},
             {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
           ],
           :violations => {
-            :killing => c.violations.killing.clone + [{:unique_id => 'k3', :notes => 'kill3'}],
+            :killing => [c.violations.killing[0].to_hash] + [{:unique_id => 'k3', :notes => 'kill3'}],
             :maiming => [ {:unique_id => 'm1', :eyewitness => true } ]
           }
         }
@@ -354,11 +355,11 @@ describe Syncable do
           :last_updated_at => now + 10.minutes,
           :last_updated_by => 'me',
           :family_members => [
-            {:unique_id => 'f1', :name => 'Lawrence', :relation => 'brother'},
+            {:unique_id => 'f1', :name => 'Lawrence', :relation => 'brother', :languages => ['English', 'Spanish', 'Dutch']},
             {:unique_id => 'f3', :name => 'Lara', :relation => 'aunt'},
           ],
           :violations => {
-            :killing => c.violations.killing.clone + [{:unique_id => 'k5', :notes => 'kill5'}],
+            :killing => [c.violations.killing[0].to_hash] + [{:unique_id => 'k5', :notes => 'kill5'}],
             :maiming => [ {:unique_id => 'm1', :notes => 'maim 1'} ]
           }
         }
@@ -421,6 +422,13 @@ describe Syncable do
       m = resolved.violations.maiming[0]
       m.notes.should == 'maim 1'
       m.eyewitness.should be_true
+    end
+
+    it 'merges data from a nested array with in a nested array' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      m = resolved.family_members[0].languages.sort.should == ['English', 'Spanish', 'Dutch', 'Russian'].sort
     end
   end
 
