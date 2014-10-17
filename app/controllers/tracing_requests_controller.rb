@@ -5,7 +5,7 @@ class TracingRequestsController < ApplicationController
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
   before_filter :sanitize_params, :only => [:update]
-  #TODO: Dp we need to filter_params_array_duplicates?
+  #TODO: Do we need to filter_params_array_duplicates?
 
   include RecordActions
 
@@ -135,7 +135,7 @@ class TracingRequestsController < ApplicationController
     orientation = params[:tracing_request].delete(:photo_orientation).to_i
     if orientation != 0
       @tracing_request.rotate_photo(orientation)
-      @tracing_request.set_updated_fields_for current_user_name
+      @tracing_request.last_updated_by = current_user_name
       @tracing_request.save
     end
     redirect_to(@tracing_request)

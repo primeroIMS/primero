@@ -6,6 +6,7 @@
     <th><%= t "login.username" %></th>
     <th><%= t "replication.is_continuous" %></th>
     <th><%= t "replication.status" %></th>
+    <th><%= t "replication.reindex_pending" %></th>
     <th><%= t "replication.timestamp" %></th>
     <th ><%= t "replication.actions" %></th>
   </tr>
@@ -21,6 +22,7 @@
             <td class="status">
               <%= t "replication.#{rep.status}" %>
             </td>
+            <td><%= rep.needs_reindexing %></td>
             <td><%= l rep.timestamp, :format => :long if rep.timestamp %></td>
             <td>
               <%= link_to t("replication.stop"), stop_replication_path(rep), :method => :post if rep.active? %>

@@ -1,7 +1,6 @@
 
 class Replication < CouchRest::Model::Base
   MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
-  STABLE_WAIT_TIME = 2.minutes
 
   include PrimeroModel
 
@@ -85,6 +84,7 @@ class Replication < CouchRest::Model::Base
   def check_status_and_reindex
     if needs_reindexing? and !active?
       Rails.logger.info "Replication complete, triggering reindex"
+      pending_reindex = false
       trigger_local_reindex
       trigger_remote_reindex
     end
@@ -103,7 +103,7 @@ class Replication < CouchRest::Model::Base
   end
 
   def active?
-    statuses.include?("triggered") || (timestamp && timestamp > STABLE_WAIT_TIME.ago)
+    statuses.include?("triggered")
   end
 
   def success?
@@ -162,7 +162,7 @@ class Replication < CouchRest::Model::Base
   end
 
   def self.schedule(scheduler)
-    scheduler.every("3m") do
+    scheduler.every("1m") do
       reenable_continuous_replications
 
       begin
@@ -184,6 +184,12 @@ class Replication < CouchRest::Model::Base
           Rails.logger.info {"Conflicts found in record #{rec.id}"}
           begin
             rec.resolve_conflicting_revisions
+            # TODO: this won't be necessary once we get something watching the
+            # changes api
+            if modelClass.include?(Searchable)
+              Rails.logger.info {"Reindexing record #{rec.id}"}
+              rec.reindex
+            end
           rescue => e
             Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n#{e}\n#{e.backtrace}")
           end
