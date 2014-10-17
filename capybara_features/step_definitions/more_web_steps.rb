@@ -211,7 +211,7 @@ end
 When /^I select "(.*)" for "(.*)" radio button(?: within "([^\"]*)")?$/ do |value, radiobutton_name, scope|
   scope ||= ""
   scope = "//fieldset[@id='#{scope.gsub("<Form>", "").strip.dehumanize}']" if scope.include?("<Form>")
-  label = find "#{scope}//label[text()=\"#{radiobutton_name}\"]", :visible => true
+  label = find "#{scope}//label[text()=#{xpath_text_string(radiobutton_name)}]", :visible => true
   radiobutton_id = label["for"]
   choose("#{radiobutton_id}_#{value.dehumanize}", :visible => true)
 end

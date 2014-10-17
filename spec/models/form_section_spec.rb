@@ -654,7 +654,7 @@ describe FormSection do
         :perm_visible => true,
         "editable"=>true,
         "name_all" => "Tracing Name",
-        "description_all" => "Tracing Description"
+        "description_all" => "Tracing Description",
       }
       new_form_section = FormSection.new
       new_form_section.should_not_receive(:save)

@@ -89,7 +89,7 @@ module Record
 
   module ClassMethods
     include FormToPropertiesConverter
- 
+
     def new_with_user_name(user, fields = {})
       record = new(blank_to_nil(convert_arrays(fields)))
       record.create_class_specific_fields(fields)

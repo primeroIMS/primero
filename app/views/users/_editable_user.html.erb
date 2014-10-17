@@ -1,28 +1,3 @@
-<script type="text/javascript" charset="utf-8">
-
-    function confirmBlacklisted() {
-        $(".devices :checkbox").each(function () {
-            if (this.checked && !this.defaultChecked)
-                return confirm(I18n.t("devices.message.disable"));
-        });
-        return true;
-    }
-
-    function confirmDisable() {
-        var checkbox = $("#user_disabled")[0];
-        if (checkbox.checked && !checkbox.defaultChecked) {
-            return confirm(I18n.t("users.messages.disable"));
-        }
-        return true;
-    }
-
-    $(document).ready(function () {
-        $("form").submit(function () {
-            return (confirmDisable() && confirmBlacklisted());
-        });
-    });
-</script>
-
 <% if flash[:verify] %>
 <div class='flash'>
   <p class='notice'><%= flash[:verify] %></p>
