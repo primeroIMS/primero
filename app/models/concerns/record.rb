@@ -34,6 +34,7 @@ module Record
     validates_with FieldValidator, :type => Field::TEXT_AREA
     validates_with FieldValidator, :type => Field::TEXT_FIELD
     validates_with FieldValidator, :type => Field::DATE_RANGE
+    validates_with FieldValidator, :type => Field::TALLY_FIELD
 
     design do
       view :by_unique_identifier,
@@ -88,7 +89,7 @@ module Record
 
   module ClassMethods
     include FormToPropertiesConverter
- 
+
     def new_with_user_name(user, fields = {})
       record = new(blank_to_nil(convert_arrays(fields)))
       record.create_class_specific_fields(fields)
