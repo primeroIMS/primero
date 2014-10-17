@@ -228,7 +228,7 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}' and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
 end
 
-And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
+And /^I should see (\d+) subform(?:s)? on the (show|form) page for "(.*)"$/ do |num, action, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   page.should have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num}']")
