@@ -41,6 +41,7 @@
 //= require session_timeout
 //= require flag_children
 //= require subforms
+//= require lookup_values
 //= require photo_audio_fields
 //= require chosen
 //= require age_birth_date

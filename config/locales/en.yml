@@ -769,6 +769,8 @@ en:
     index: "Manage Lookups"
     name: "Name"
     values: "Options"
+    add_value: "Add Option"
+    remove: "Remove"
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
