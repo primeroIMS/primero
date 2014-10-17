@@ -52,6 +52,9 @@ describe Syncable do
           { 'unique_id' => 'aaaa', 'name' => 'Carl', 'relation' => 'father', },
           { 'unique_id' => 'bbbb', 'name' => 'Martha', 'relation' => 'mother', },
         ],
+        'violations' => {
+          'killing' => [{:unique_id => 'k1', :notes => 'kill 1'}]
+        },
         'languages' => ['Chinese'],
       }
       @child.save!
@@ -67,6 +70,25 @@ describe Syncable do
       @child.attributes = proposed_props
 
       @child.family_members.length.should == 1
+    end
+
+    it 'should delete all nested elements if nil' do
+      proposed_props = {
+        'family_members' => nil,
+      }
+      @child.attributes = proposed_props
+
+      @child.family_members.length.should == 0
+    end
+
+    it 'should delete all nested elements within nested hash if nil' do
+      @child.attributes = {
+        'violations' => {
+          'killing' => nil
+        }
+      }
+
+      @child.violations.killing.length.should == 0
     end
 
     it "should ignore missing nested elements if unique id is present" do
