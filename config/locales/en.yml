@@ -27,6 +27,7 @@ en:
     move_item: "You are about to move this field to another form section ({{selection_key}}). Is this OK?"
     enter_valid_date: "Please enter the date in a valid format (dd-mmm-yyyy)"
     enter_valid_field_value: "Please enter a valid field value."
+    enter_valid_number_in_tally: "%{field}: %{tally} must be a valid number"
     valid_search_criteria: "Please enter at least one search criteria"
     show_hide_forms: "Please select form(s) you want to show/hide."
     show_forms: "Are you sure you want to make these form(s) visible?"

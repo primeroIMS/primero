@@ -34,6 +34,7 @@ module Record
     validates_with FieldValidator, :type => Field::TEXT_AREA
     validates_with FieldValidator, :type => Field::TEXT_FIELD
     validates_with FieldValidator, :type => Field::DATE_RANGE
+    validates_with FieldValidator, :type => Field::TALLY_FIELD
 
     design do
       view :by_unique_identifier,
