@@ -1,0 +1,53 @@
+<div class="btn_panel">
+  <div class="row">
+    <%= form_for @lookup, :html => { :class => 'default-form' } do |f| %>
+
+      <%= f.error_messages :header_tag => :h3 %>
+      <div class="clearfix"></div>
+
+      <div class="btn_panel">
+        <div class="row">
+          <div class="medium-12 columns">
+            <%= cancel_button lookups_path %>
+            <%= submit_button t("buttons.save") %>
+          </div>
+        </div>
+      </div>
+
+      <fieldset>
+        <div class="row">
+          <div class="medium-3 columns">
+            <%= f.label :name, t("lookup.name"), :class => "key" %>
+          </div>
+          <div class="medium-9 columns">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-3 columns">
+            <%= f.label :lookup_values, t("lookup.values"), :class => "key" %>
+          </div>
+        </div>
+        <div class="medium-9 columns"></div>
+        <div class="row">
+          <div class="medium-3 columns"></div>
+          <div class="medium-9 columns">
+            <%= text_field_tag 'lookup[lookup_values][], @lookup.lookup_values[0]' %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-3 columns"></div>
+          <div class="medium-9 columns">
+            <%= text_field_tag 'lookup[lookup_values][], @lookup.lookup_values[1]' %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-3 columns"></div>
+          <div class="medium-9 columns">
+            <%= text_field_tag 'lookup[lookup_values][], @lookup.lookup_values[2]' %>
+          </div>
+        </div>        
+      </fieldset>
+    <% end %>
+  </div>
+</div>

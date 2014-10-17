@@ -1,0 +1,24 @@
+<table id="list_table_2" class="list_table_2">
+  <thead>
+  <tr>
+    <th><%= t "lookup.name" %></th>
+    <th><%= t "lookup.values" %></th>
+    <th ><%= t "lookup.actions" %></th>
+  </tr>
+  </thead>
+
+  <tbody>
+      <% lookups.each do |lkp| %>
+          <tr>
+            <td><%= lkp.name %></td>
+            <td><%= lkp.lookup_values.join(", ") %></td>
+            <td>
+              <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
+              &nbsp;
+              <%# link_to t("buttons.delete"), lookup_path(lkp), data: {confirm: t("lookup.confirm_delete")}, method: :delete %>
+            </td>
+          </tr>
+      <% end %>
+  </tbody>
+</table>
+

@@ -82,6 +82,7 @@ en:
      incidents: "INCIDENTS"
      children: "CHILDREN"
      forms: "FORMS"
+     lookups: "LOOKUPS"
      users: "USERS"
      replications: "SYNC"
      reports: "REPORTS"
@@ -638,7 +639,6 @@ en:
       hide_confirmation: "Are you sure you want to hide fields?"
       show_confirmation: "Are you sure you want to show fields?"
       drag_drop_help_text: You can click on the fields to drag &amp; drop on the required order.
-
       updated: "Form section successfully added"
     hide: "Hide"
     show: "Show"
@@ -761,6 +761,17 @@ en:
     start: Start Synchronization
     stop: Stop Synchronization
     configure_a_server: Configure a Server
+
+  lookup:
+    create: "New Lookup"
+    label: "Lookup"
+    index: "Manage Lookups"
+    name: "Name"
+    values: "Options"
+    messages:
+      cannot_create: "Lookup could not be created"
+      correct_errors: "Please correct the following errors and resubmit:"
+      updated: "Lookup successfully added"
 
   session:
     about_to_expire: "Your session is about to expire!"
