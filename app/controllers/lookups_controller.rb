@@ -1,18 +1,11 @@
 class LookupsController < ApplicationController
-  @model_class = Lookup
 
-  # include ExportActions
-  # include ImportActions
+  before_filter :load_lookup, :only => [:edit, :update, :destroy]
 
   def index
     authorize! :index, Lookup
     @page_name = t("lookup.index")
     @lookups = Lookup.all
-
-    # respond_to do |format|
-      # format.html
-      # respond_to_export(format, @form_sections.values.flatten)
-    # end
   end
 
   def new
@@ -38,12 +31,10 @@ class LookupsController < ApplicationController
   def edit
     authorize! :update, Lookup
     @page_name = t("lookup.edit")
-    @lookup = Lookup.get(params[:id])
   end
 
   def update
     authorize! :update, Lookup
-    @lookup = Lookup.get(params[:id])
     @lookup.update_attributes params[:lookup]
 
     if @lookup.save
@@ -52,4 +43,18 @@ class LookupsController < ApplicationController
       render :edit
     end
   end
+
+  def destroy
+    authorize! :destroy, Lookup
+    @lookup.destroy
+    redirect_to lookups_path
+  end
+
+
+  private
+
+  def load_lookup
+    @lookup = Lookup.get params[:id] if params[:id]
+  end
+
 end

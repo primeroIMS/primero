@@ -15,7 +15,7 @@
             <td>
               <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
               &nbsp;
-              <%# link_to t("buttons.delete"), lookup_path(lkp), data: {confirm: t("lookup.confirm_delete")}, method: :delete %>
+              <%= link_to t("buttons.delete"), lookup_path(lkp), data: {confirm: t("lookup.confirm_delete")}, method: :delete %>
             </td>
           </tr>
       <% end %>

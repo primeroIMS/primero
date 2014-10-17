@@ -772,6 +772,7 @@ en:
     values: "Options"
     add_value: "Add Option"
     remove: "Remove"
+    confirm_delete: Are you sure you want to delete this lookup?
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
