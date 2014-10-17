@@ -51,10 +51,16 @@ module PrimeroModel
 
   private 
 
-  def without_dirty_tracking
-    dirty, self.disable_dirty = self.disable_dirty, true
-    yield
-    self.disable_dirty = dirty
+  def set_dirty_tracking(enabled)
+    dirty, self.disable_dirty = self.disable_dirty, !enabled
+    begin
+      yield
+    ensure
+      self.disable_dirty = dirty
+    end
   end
 
+  def without_dirty_tracking(&block)
+    set_dirty_tracking(false, &block)
+  end
 end

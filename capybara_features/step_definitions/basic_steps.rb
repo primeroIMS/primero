@@ -189,7 +189,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
         content = content.gsub("<Tally>", "").strip
         tally_search = true
       end
-      within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
+      within(:xpath, ".//div[@class='row']//label[@class='key' and text()=#{xpath_text_string(name)}]") do
         #Up to the parent of the label to find the value.
         within(:xpath, '../..') do
           if tally_search == true
@@ -228,15 +228,15 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}' and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
 end
 
-And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
+And /^I should see (\d+) subform(?:s)? on the (show|form) page for "(.*)"$/ do |num, action, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   page.should have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num}']")
   page.should_not have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num.to_i + 1}']")
 end
 
-And /^I fill in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/ do |num, subform, fields|
-  step %Q{I add a "#{subform}" subform}
+And /^I fill in the (\d+)(?:st|nd|rd|th)(\sinitial|) "(.*)" subform with the follow:$/ do |num, initial, subform, fields|
+  step %Q{I add a "#{subform}" subform} if initial.blank?
   update_subforms_field(num, subform, fields)
 end
 
@@ -327,7 +327,6 @@ And /^pause$/ do
 end
 
 And /^I should stay on the "(.+)" tab on the case "(.+)" page$/ do |tab, page_action|
-  page.should have_xpath("//h1[text()=\"#{tab}\"]", :visible => true)
   path = Rails.application.routes.recognize_path(current_url)
   page_action.should eql(path[:action])
 end
@@ -416,7 +415,11 @@ end
 
 And /^the record for "(.*)" should display a "(.*)" icon beside it$/ do |record, icon|
   within(:xpath, "//tr[contains(.,'#{record}')]") do
-    find(:xpath, "//td/div[@class='flag_icon']/i[contains(@class, 'fa-#{icon}')]")
+    if icon == 'flag'
+      find(:xpath, "//td/div[@class='flag_icon']")
+    else
+      find(:xpath, "//td/i[contains(@class, 'fa-#{icon}')]")
+    end
   end
 end
 

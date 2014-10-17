@@ -7,14 +7,6 @@ module FieldsHelper
     end
   end
 
-	def display_options field
-		field.option_strings.collect { |f| '"'+f+'"' }.join(", ")
-	end
-
-	def forms_for_display
-	  FormSection.all.sort_by{ |form| form.name || "" }.map{ |form| [form.name, form.unique_id] }
-	end
-
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
       "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"
@@ -38,7 +30,7 @@ module FieldsHelper
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
       when Field::TALLY_FIELD
-        (['total'] + field.tally).map {|t| parent_obj["#{field.name}_#{t}"] }
+        (field.tally + ['total']).map {|t| parent_obj["#{field.name}_#{t}"] }
       when Field::DATE_RANGE
         [parent_obj["#{field.name}_from"], parent_obj["#{field.name}_to"]]
       when Field::DATE_FIELD

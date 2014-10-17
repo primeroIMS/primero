@@ -189,7 +189,7 @@ describe Incident do
       incident = Incident.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
       new_properties = {"name" => "Dave", "age" => "35"}
       incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      incident['age'].should == "35"
+      incident['age'].should == 35
       incident['name'].should == "Dave"
       incident['last_known_location'].should == "London"
     end
@@ -208,13 +208,6 @@ describe Incident do
       incident.last_updated_by.should == 'jdoe'
     end
 
-
-    it "should populate last_updated_at field with the time of the update" do
-      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      incident = Incident.new
-      incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      incident.last_updated_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
-    end
 
     # it "should set flagged_at if the record has been flagged" do
       # Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
@@ -248,7 +241,7 @@ describe Incident do
     it "should create regular incident fields" do
       incident = create_incident_with_created_by('jdoe', 'description' => 'London', 'age' => '6')
       incident['description'].should == 'London'
-      incident['age'].should == '6'
+      incident['age'].should == 6
     end
 
     it "should create a unique id" do

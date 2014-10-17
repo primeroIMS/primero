@@ -11,7 +11,8 @@ module Exporters
         {
           'name' => 'Test',
           'reunited' => false,
-          'model_type' => 'Child'
+          'model_type' => 'Child',
+          '_id' => models[0].id,
         }
       ]
     end

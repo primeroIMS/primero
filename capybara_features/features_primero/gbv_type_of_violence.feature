@@ -24,10 +24,10 @@ Feature: Type of Violence
       | Type of abduction at time of the incident                                           | <Select> Forced Conscription                             |
       | Has the client reported this incident anywhere else?                                | <Radio> Yes                                              |
       | Has the client had any previous incidents of GBV perpetrated against them?          | <Radio> No                                               |
-      And I fill in the 1st "GBV Reported Elsewhere Subform" subform with the follow:
-        | Type of service provider where the survivor reported the incident                   | <Select> Legal Assistance Services                     |
-        | Name of the service provider                                                        | Organization 1                                         |
-        | Is this a GBV reporting organization?                                               | <Radio> Yes                                            |
+    And I fill in the 1st initial "GBV Reported Elsewhere Subform" subform with the follow:
+      | Type of service provider where the survivor reported the incident                   | <Select> Legal Assistance Services                     |
+      | Name of the service provider                                                        | Organization 1                                         |
+      | Is this a GBV reporting organization?                                               | <Radio> Yes                                            |
     And I press "Save"
     Then I should see "Incident record successfully created" on the page
     And I should see values on the page for the following:

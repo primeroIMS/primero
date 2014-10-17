@@ -20,7 +20,7 @@
       <!-- current owner -->
       <p>
         <%= t("record_panel.current_owner") %>: 
-        <%= record.owner.full_name %>
+        <%= record.owner ? record.owner.full_name : 'None' %>
       </p>
       <!-- change log -->
       <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>" 

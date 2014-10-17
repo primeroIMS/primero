@@ -11,7 +11,7 @@ module Namable
       view :by_name,
               :map => "function(doc) {
                   if ((doc['couchrest-type'] == '#{self.model.name}') && doc['name']) {
-                    emit(doc['name'], doc);
+                    emit(doc['name'], null);
                   }
               }"
     end

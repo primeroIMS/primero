@@ -1,0 +1,24 @@
+<%
+  #TODO - We need to think about adding translations for tally field values
+  if @field.present? && @field.tally.present?
+    tally1 = @field.tally.first || ""
+    tally2 = @field.tally.second || ""
+    tally3 = @field.tally.third || ""
+  else
+    tally1 = tally2 = tally3 = ""
+  end
+%>
+<div class="row">
+  <div class="large-3 medium-3 columns">
+    <%= label_tag :tally_label, t("fields.tally_field")%>
+  </div>
+  <div class="large-3 medium-3 columns">
+    <%= text_field_tag 'field[tally][]', tally1 %>
+  </div>
+  <div class="large-3 medium-3 columns">
+    <%= text_field_tag 'field[tally][]', tally2 %>
+  </div>
+  <div class="large-3 medium-3 columns">
+    <%= text_field_tag 'field[tally][]', tally3 %>
+  </div>
+</div>

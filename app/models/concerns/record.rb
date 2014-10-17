@@ -34,13 +34,14 @@ module Record
     validates_with FieldValidator, :type => Field::TEXT_AREA
     validates_with FieldValidator, :type => Field::TEXT_FIELD
     validates_with FieldValidator, :type => Field::DATE_RANGE
+    validates_with FieldValidator, :type => Field::TALLY_FIELD
 
     design do
       view :by_unique_identifier,
               :map => "function(doc) {
                     if (doc.hasOwnProperty('unique_identifier'))
                    {
-                      emit(doc['unique_identifier'],doc);
+                      emit(doc['unique_identifier'], null);
                    }
                 }"
 
@@ -48,7 +49,7 @@ module Record
               :map => "function(doc) {
                     if (doc.hasOwnProperty('short_id'))
                    {
-                      emit(doc['short_id'],doc);
+                      emit(doc['short_id'], null);
                    }
                 }"
 
@@ -56,7 +57,7 @@ module Record
               :map => "function(doc) {
                     if (doc.hasOwnProperty('short_id'))
                    {
-                      emit(doc['_id'],doc);
+                      emit(doc['_id'], null);
                    }
                 }"
 
@@ -64,7 +65,7 @@ module Record
               :map => "function(doc) {
                     if (doc.hasOwnProperty('histories')){
                       for(var index=0; index<doc['histories'].length; index++){
-                          emit(doc['histories'][index]['user_name'], doc)
+                          emit(doc['histories'][index]['user_name'], null)
                       }
                    }
                 }"
@@ -72,14 +73,14 @@ module Record
       view :by_duplicate,
               :map => "function(doc) {
                 if (doc.hasOwnProperty('duplicate')) {
-                  emit(doc['duplicate'], doc);
+                  emit(doc['duplicate'], null);
                 }
               }"
 
       view :by_duplicates_of,
               :map => "function(doc) {
                 if (doc.hasOwnProperty('duplicate_of')) {
-                  emit(doc['duplicate_of'], doc);
+                  emit(doc['duplicate_of'], null);
                 }
               }"
 
@@ -88,7 +89,7 @@ module Record
 
   module ClassMethods
     include FormToPropertiesConverter
- 
+
     def new_with_user_name(user, fields = {})
       record = new(blank_to_nil(convert_arrays(fields)))
       record.create_class_specific_fields(fields)
@@ -276,7 +277,9 @@ module Record
 
   def update_properties(properties, user_name)
     properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
-    properties['histories'] = remove_newly_created_media_history(properties['histories'])
+    if properties['histories'].present?
+      properties['histories'] = remove_newly_created_media_history(properties['histories'])
+    end
     properties['record_state'] = true if properties['record_state'].nil?
 
     attributes_to_update = {}
@@ -284,7 +287,7 @@ module Record
       attributes_to_update[name] = value
       attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
     end
-    self.set_updated_fields_for user_name
+    self.last_updated_by = user_name
     self.attributes = attributes_to_update
   end
 

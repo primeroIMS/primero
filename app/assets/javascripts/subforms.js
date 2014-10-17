@@ -12,10 +12,12 @@ var SubformView = Backbone.View.extend({
 
     //By default existing subforms are collapsed to input.
     this.$el.find(".subform_container, .subform_container:hidden").each(function(x, el){
+
       //Hide Regular inputs by default unless it is a summary section.
       if (!$(el).find('span.collapse_expand_subform').hasClass('summary_section')) {
-        $(el).find(".subform div.row:gt(0)").hide();
+       $(el).find(".subform").children(".row").not(":first").hide();
       }
+
       $(el).find(".subform div[class='row collapse_expand_subform_header'] span.collapse_expand_subform").each(function(x, el){
         $(el).text("+");
         $(el).addClass("collapsed");
@@ -36,18 +38,18 @@ var SubformView = Backbone.View.extend({
     } else if ($(target).hasClass("collapsed")) {
       //Update the state of the subform.
       $(target).text("-");
-      //Initialize the chosen in the subform. 
+      //Initialize the chosen in the subform.
       //This is because chosen is lazy load until is visible but with the collapse
       //functionality sometimes will be hidden. workaround the subform should initialize.
       $(target).parents(".subform").find(".row select.chosen-select").each(function(x, el) {
         _primero.chosen('#' + el.getAttribute("id"));
       });
     }
-    //Update the state of the subform.
+    // Update the state of the subform.
     $(target).toggleClass("expanded");
     $(target).toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
-    $(target).parents(".subform").find("div.row:gt(0)").toggle();
+    $(target).parents(".subform").children("div.row:gt(0)").toggle();
     _primero.set_content_sidebar_equality();
   },
 
@@ -133,7 +135,7 @@ var SubformView = Backbone.View.extend({
 
     // set sidebar height
     _primero.set_content_sidebar_equality();
-    
+
     //Initialize the chosen in the subform
     _primero.chosen('#' + subformId + ' select.chosen-select:visible');
 

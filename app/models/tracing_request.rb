@@ -35,7 +35,7 @@ class TracingRequest < CouchRest::Model::Base
                 if (doc['couchrest-type'] == 'TracingRequest')
                {
                   if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                    emit(doc['relation_name'], doc);
+                    emit(doc['relation_name'], null);
                   }
                }
             }"

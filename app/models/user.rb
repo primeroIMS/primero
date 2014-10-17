@@ -41,7 +41,7 @@ class User < CouchRest::Model::Base
             :map => "function(doc) {
                   if ((doc['couchrest-type'] == 'User') && doc['user_name'])
                   {
-                       emit(doc['user_name'],doc);
+                       emit(doc['user_name'], null);
                   }
             }"
 
@@ -49,7 +49,7 @@ class User < CouchRest::Model::Base
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['full_name'])
                 {
-                  emit(doc['full_name'],doc);
+                  emit(doc['full_name'], null);
                 }
             }"
 
@@ -57,18 +57,18 @@ class User < CouchRest::Model::Base
             :map => "function(doc) {
                   if ((doc['couchrest-type'] == 'User') && doc['user_name'])
                   {
-                      emit(['all',doc['user_name']],doc);
+                      emit(['all',doc['user_name']], null);
                       if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                        emit(['active',doc['user_name']],doc);
+                        emit(['active',doc['user_name']], null);
                   }
             }"
     view :by_full_name_filter_view,
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['full_name'])
                 {
-                  emit(['all',doc['full_name']],doc);
+                  emit(['all',doc['full_name']], null);
                   if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                    emit(['active',doc['full_name']],doc);
+                    emit(['active',doc['full_name']], null);
 
                 }
             }"

@@ -169,7 +169,7 @@ class ChildrenController < ApplicationController
     orientation = params[:child].delete(:photo_orientation).to_i
     if orientation != 0
       @child.rotate_photo(orientation)
-      @child.set_updated_fields_for current_user_name
+      @child.last_updated_by = current_user_name
       @child.save
     end
     redirect_to(@child)
