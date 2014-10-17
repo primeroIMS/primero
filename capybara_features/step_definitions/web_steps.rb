@@ -534,7 +534,7 @@ Then(/^I shouldn't be able to access the following grouped forms:$/) do |table|
   end
 end
 
-Then /^I should not see a stacktrace$/ do 
+Then /^I should not see a stacktrace$/ do
   step 'I should not see "Toggle session dump"'
 end
 
@@ -591,7 +591,7 @@ end
 And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/) do |times_flagged, arg1|
   using_wait_time 60 do
     page.should have_selector(:css, "table.dataTable tbody tr td div.flag_icon")
-    page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon') and contains(@text, #{times_flagged})]") if times_flagged
+    page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon')]") if times_flagged
   end
   page.all(:css, "table.dataTable tbody tr").each do |row|
       row.find(:css, "td div.flag_icon")

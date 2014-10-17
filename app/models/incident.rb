@@ -8,6 +8,7 @@ class Incident < CouchRest::Model::Base
   include Ownable
   include Flaggable
   include DocumentUploader
+  include GBVDerivedFields
 
   property :incident_id
   property :description

@@ -189,7 +189,7 @@ describe Incident do
       incident = Incident.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
       new_properties = {"name" => "Dave", "age" => "35"}
       incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      incident['age'].should == "35"
+      incident['age'].should == 35
       incident['name'].should == "Dave"
       incident['last_known_location'].should == "London"
     end
@@ -241,7 +241,7 @@ describe Incident do
     it "should create regular incident fields" do
       incident = create_incident_with_created_by('jdoe', 'description' => 'London', 'age' => '6')
       incident['description'].should == 'London'
-      incident['age'].should == '6'
+      incident['age'].should == 6
     end
 
     it "should create a unique id" do

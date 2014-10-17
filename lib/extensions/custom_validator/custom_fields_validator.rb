@@ -37,17 +37,27 @@ class CustomFieldsValidator
           fields_instance = target["violations"][field.form.unique_id]
         end
         fields_instance.each do |t|
-          validate_field(field, target, t)
+          has_field_sub_fields(field, target, t)
         end if fields_instance.respond_to?(:each)
       elsif field[:type] == Field::DATE_RANGE
         validate_field(field, target, nil, "_from") && validate_field(field, target, nil, "_to")
       else
-        validate_field(field, target, nil)
+        has_field_sub_fields(field, target, nil)
       end
     end
   end
 
-  def validate_field(field, target, subfield, suffix = nil)
+  def has_field_sub_fields(field, target, field_instance)
+    if field[:type] == Field::TALLY_FIELD
+      field.tally.each do |tally|
+        validate_field(field, target, field_instance, "_#{tally}", tally)
+      end
+    else
+      validate_field(field, target, field_instance)
+    end
+  end
+
+  def validate_field(field, target, subfield, suffix = nil, field_sub_field = nil)
     valid = true
 
     field_name = field[:name]
@@ -64,9 +74,9 @@ class CustomFieldsValidator
       end
 
     if value.present? and is_not_valid(value)
-      target.errors.add(:"#{field[:name]}", validation_message_for(field))
+      target.errors.add(:"#{field[:name]}", validation_message_for(field, field_sub_field))
 
-      lookup = 
+      lookup =
         if subfield
           FormSection.get_form_containing_field(field.form.unique_id)
         else
@@ -77,7 +87,7 @@ class CustomFieldsValidator
         error_info = {
             internal_section: "#tab_#{lookup.unique_id}",
             translated_section: lookup["name_#{I18n.locale}"],
-            message: validation_message_for(field),
+            message: validation_message_for(field, field_sub_field),
             order: lookup.order }
         target.errors.add(:section_errors, error_info)
       end
@@ -94,7 +104,7 @@ class CustomNumericFieldsValidator < CustomFieldsValidator
     !value.is_a? Numeric
   end
 
-  def validation_message_for field
+  def validation_message_for field, field_sub_field
     "#{field.display_name} must be a valid number"
   end
 end
@@ -104,7 +114,7 @@ class CustomTextFieldsValidator < CustomFieldsValidator
     value.length > 200
   end
 
-  def validation_message_for field
+  def validation_message_for field, field_sub_field
     "#{field.display_name} cannot be more than 200 characters long"
   end
 end
@@ -114,7 +124,7 @@ class CustomTextAreasValidator < CustomFieldsValidator
   def is_not_valid value
     value.length > MAX_LENGTH
   end
-  def validation_message_for field
+  def validation_message_for field, field_sub_field
     "#{field.display_name} cannot be more than #{MAX_LENGTH} characters long"
   end
 end
@@ -130,7 +140,7 @@ class DateFieldsValidator < CustomFieldsValidator
       true
     end
   end
-  def validation_message_for field
+  def validation_message_for field, field_sub_field
     I18n.t("messages.enter_valid_date")
   end
 end
@@ -139,8 +149,18 @@ class NumericRangeValidator < CustomFieldsValidator
   def is_not_valid value
     return !(value.to_f >= @options[:min] && value.to_f <= @options[:max])
   end
-  def validation_message_for field
+  def validation_message_for field, field_sub_field
     I18n.t("errors.models.child.value_range", :field_name => field.display_name, :min => @options[:min], :max => @options[:max])
+  end
+end
+
+class TallyFieldValidator < CustomFieldsValidator
+  def is_not_valid value
+   !value.is_a? Numeric
+  end
+
+  def validation_message_for field, field_sub_field
+    I18n.t("messages.enter_valid_number_in_tally", field: field.display_name, tally: field_sub_field)
   end
 end
 
@@ -162,6 +182,8 @@ module Extensions
               validator = CustomTextAreasValidator
             when Field::DATE_FIELD, Field::DATE_RANGE
               validator = DateFieldsValidator
+            when Field::TALLY_FIELD
+              validator = TallyFieldValidator
             else
               raise "Unrecognised field type " + field_type.to_s + " for validation"
           end
