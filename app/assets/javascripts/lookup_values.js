@@ -25,9 +25,15 @@ var LookupValueView = Backbone.View.extend({
 
   remove: function(event) {
     event.preventDefault();
-    var target = event.target || event.srcElement,
+    var valueList = $(this.el).find('#lookup_values'),
+        listCnt = valueList.children().length;
+        target = event.target || event.srcElement,
         targetValue = $(target).parents('div.lookup_value');
-    targetValue.remove();
+
+    //Do not allow removal of last two inputs
+    if(listCnt > 2){
+      targetValue.remove();
+    }
   },
 
 });

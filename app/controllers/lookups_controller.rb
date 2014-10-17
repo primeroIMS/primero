@@ -44,12 +44,12 @@ class LookupsController < ApplicationController
   def update
     authorize! :update, Lookup
     @lookup = Lookup.get(params[:id])
-    @lookup.properties = params[:lookup]
-    if (@lookup.valid?)
-      @lookup.save!
-      redirect_to edit_lookup_path(@lookup.id)
+    @lookup.update_attributes params[:lookup]
+
+    if @lookup.save
+      redirect_to lookups_path
     else
-      render :action => :edit
+      render :edit
     end
   end
 end
