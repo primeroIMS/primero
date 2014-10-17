@@ -69,7 +69,6 @@ Feature: Killing Form
       | Verified by CTFMR                                                                                                               | No                                                             |
       # | Date verified by CTFMR                                                                                                          | today's date                                                   |
 
-   @wip
    Scenario: As a logged in user and create an incident with invalid numeric values, I should see the error messages invalid number
      And I fill in the following:
        | Number of victims        | <Tally>Boys:bad_number  |
