@@ -523,7 +523,10 @@ en:
       edit: "Edit"
       update: "Update"
       create: "Create"
+      delete: "Delete"
     view: "View Role"
+    messages:
+      confirmation: "Are you sure you want to delete this role? Deletion can not be undone. Click OK To Delete Role."
 
   modules:
     label: "Modules"
@@ -627,6 +630,10 @@ en:
       use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
     initial_language: "Initial Language"
     cannot_be_edited: "Fields on this form cannot be edited."
+    record_types:
+      case: "Case"
+      incident: "Incident"
+      tracing_request: "Tracing Request"
 
   form_section:
     create: "New Form"

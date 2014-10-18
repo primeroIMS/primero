@@ -19,6 +19,7 @@ class RolesController < ApplicationController
 
   def show
     @role = Role.get(params[:id])
+    @forms_by_record_type = FormSection.all_forms_grouped_by_parent
     authorize! :view, @role
 
     respond_to do |format|
@@ -29,6 +30,7 @@ class RolesController < ApplicationController
 
   def edit
     @role = Role.get(params[:id])
+    @forms_by_record_type = FormSection.all_forms_grouped_by_parent
     authorize! :update, @role
   end
 
@@ -41,6 +43,7 @@ class RolesController < ApplicationController
       redirect_to(roles_path)
     else
       flash[:error] = t("role.error_in_updating")
+      @forms_by_record_type = FormSection.all_forms_grouped_by_parent
       render :action => "edit"
     end
   end
@@ -48,6 +51,7 @@ class RolesController < ApplicationController
   def new
     authorize! :create, Role
     @role = Role.new
+    @forms_by_record_type = FormSection.all_forms_grouped_by_parent
   end
 
   def create
@@ -56,4 +60,12 @@ class RolesController < ApplicationController
     return redirect_to roles_path if @role.save
     render :new
   end
+
+  def destroy
+    @role = Role.get(params[:id])
+    authorize! :destroy, @role
+    @role.destroy
+    redirect_to(roles_url)
+  end
+
 end

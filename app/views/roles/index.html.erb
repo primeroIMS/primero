@@ -6,7 +6,7 @@
   <% if can?(:create, Role) %>
     <%= link_to content_tag(:span, t("role.create"), :class => 'create_user'), new_role_path, :class => 'btn green-button' %>
   <% end %>
-  <%= render 'exports/button' %>
+  <%#= render 'exports/button' %>
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>
   <%#= render 'imports/button' %>
 <% end %>
@@ -37,10 +37,13 @@
               <tr>
                   <th><%= t("role.name") %></th>
                   <th><%= t("description") %></th>
+                <% if can?(:view, Role) %>
+                    <th></th>
+                <% end %>
                 <% if can?(:edit, Role) %>
                   <th></th>
                 <% end %>
-                <% if can?(:view, Role) %>
+                <% if can?(:destroy, Role) %>
                     <th></th>
                 <% end %>
               </tr>
@@ -52,9 +55,14 @@
                     <td><%= truncate(role.description, :length => 40) %></td>
                     <% if can?(:view, Role) %>
                         <td><%= link_to(t("roles.actions.show"), role_path(role))%></td>
-                  <% end %>
+                    <% end %>
                     <% if can?(:edit, Role) %>
                         <td><%= link_to(t("roles.actions.edit"), edit_role_path(role))%></td>
+                    <% end %>
+                    <% if can?(:destroy, Role) %>
+                        <td>
+                          <%= link_to t("roles.actions.delete"), role, data: {confirm: t("roles.messages.confirmation")}, method: :delete %>
+                        </td>
                     <% end %>
                   </tr>
               <% end %>
