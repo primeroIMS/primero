@@ -7,31 +7,8 @@
     <div class="clearfix"></div>
     <fieldset class="no-border">
 
-      <div class="row">
-        <div class="medium-3 columns">
-          <span class="tool-tip-label">
-            <%= f.label :name, t("name"), :class => 'key' %>
-          </span>
-        </div>
-        <div class="medium-8 columns">
-          <%= f.text_field :name %>
-        </div>
-        <div class="medium-1 columns">
-          <span class="required">*</span>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="medium-3 columns">
-          <span class="tool-tip-label">
-            <%= f.label :description, t("description"), :class => 'key' %>
-          </span>
-        </div>
-        <div class="medium-8 columns">
-          <%= f.text_area :description %>
-        </div>
-        <div class="medium-1 columns"> </div>
-      </div>
+      <%= resource_edit_field(@role, 'name', 'name', 'text_field', true) %>
+      <%= resource_edit_field(@role, 'description', 'description', 'text_area') %>
 
       <div class="row">
         <div class="medium-3 columns">
