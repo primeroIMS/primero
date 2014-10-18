@@ -57,10 +57,33 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <%= f.label :permitted_form_ids, t("forms.label"), :class => 'key' %>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <span class="value value_form">
+            <% @forms_by_record_type.each do |record_type, forms_list| %>
+              <span class="section">
+                <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
+                <% forms_list.each do |form| %>
+                    <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}", :name => "role[permitted_form_ids][]"}, form.unique_id, "" %>
+                    <%= form.name %></label>
+                <% end %>
+              </span>
+            <% end %>
+          </span>
+        </div>
+        <div class="medium-1 columns">
+        </div>
+      </div>
+
     </fieldset>
 <% end %>
 
 <% content_for :record_sub_nav do %>
   <!--TODO: After we got the user object in the session replace the DB query with User object-->
-  <%= render_controls(@role) %> 
+  <%= render_controls(@role) %>
 <% end %>
