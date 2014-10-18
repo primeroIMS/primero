@@ -1,18 +1,25 @@
 <% #This template is to generate the header of every subform to make the expand/collapse functionality  %>
 <%
-    view_mode ||= false 
+    view_mode ||= false
+    disable_action_buttons = subform.subform_section.is_summary_section ? "display:none;" : ""
+    summary_section_class = subform.subform_section.is_summary_section ? "summary_section" : ""
+    subform_name = subform.name
+    if subform.subform_section.shared_subform.present?
+      subform_name = subform.subform_section.shared_subform
+      form_group_name = subform.subform_section.shared_subform_group
+    end
 %>
 <div class="row collapse_expand_subform_header">
   <div class="medium-8 columns">
-    <span>
-      <%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %><%= violation_status(formObject, form_group_name, subform.name, i) %>
+    <span class="subform_header">
+      <%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %><%= violation_status(formObject, form_group_name, subform_name, i) %>
     </span>
     <div class="display_field">
       <% fields_id=[]
          data_types=[]
          value_fields=[]
          collapsed_fields.each do |field|
-           fk = field_keys(subform.name, i, field.name, form_group_name)
+           fk = field_keys(subform_name, i, field.name, form_group_name)
 
            #view mode does not need the fields to update the header.
            unless view_mode
@@ -47,8 +54,8 @@
     </div>
   </div>
   <div class="medium-4 columns">
-    <span class="collapse_expand_subform expanded">-</span>
-    <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", 
+    <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
+    <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
         data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
   </div>
 </div>
