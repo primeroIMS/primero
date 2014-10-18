@@ -8,7 +8,7 @@
       <%=	link_to "(" + I18n.t("buttons.change_password") +")", change_password_users_path %>
   <% end %>
   <% end %>
-  <%= render partial: 'exports/button', locals: {model: User, instance: @user} %>
+  <%#= render partial: 'exports/button', locals: {model: User, instance: @user} %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
@@ -17,12 +17,9 @@
   </div>
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
-      <%# TODO: We removed user history. We will need to put that back in %>
-      <% if false %>
       <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
           <%= icon('clock-o') %>
           <span class="log"><%= t("user.user_action_history") %></span>
-      <% end %>
       <% end %>
       <div class="clearfix"></div>
       <fieldset class="no-border">
