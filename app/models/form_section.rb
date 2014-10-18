@@ -100,6 +100,28 @@ class FormSection < CouchRest::Model::Base
       end.flatten
     end
 
+    #Given a list of forms, return their subforms
+    def get_subforms(forms)
+      subform_ids, result = [], []
+      forms.map{|f| f.fields}.flatten.each do |field|
+        if field.type == 'subform' && field.subform_section_id
+          subform_ids.push field.subform_section_id
+        end
+      end
+      if subform_ids.present?
+        result = FormSection.by_unique_id(keys: subform_ids).all
+      end
+      return result
+    end
+
+    def all_forms_grouped_by_parent(include_subforms=false)
+      forms = all.all
+      unless include_subforms
+        forms = forms.select{|f| !f.is_nested}
+      end
+      forms.group_by{|f| f.parent_form}
+    end
+
     def all_child_fields
       all.map do |form_section|
         form_section.fields
@@ -291,7 +313,7 @@ class FormSection < CouchRest::Model::Base
 
   def self.add_field_to_formsection formsection, field
     raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
-    field.merge!({'base_language' => formsection['base_language']})  
+    field.merge!({'base_language' => formsection['base_language']})
     if field.type == 'subform'
       field.subform_section_id = "#{formsection.unique_id}-subform-#{field.name}".parameterize.dasherize
       create_subform(formsection, field)
