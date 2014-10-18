@@ -12,62 +12,15 @@
     <div class="mandate_panel"><span>*</span> <%= t("mandatory_field") %> </div>
     <div class="clearfix"></div>
     <fieldset class="no-border">
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :full_name, t("user.full_name"), :class=>'key inline' %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.text_field :full_name, :autocomplete => "off"%>
-      </div>
-      <div class="medium-1 columns">
-        <span class="required">*</span>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label  :user_name, t("login.username"), :class=>'key inline'  %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.text_field :user_name, :disabled => !editable_user.new_record?, :autocomplete => "off" %>
-        <span class="footnote"><%= t("user.no_blank") %></span>
-      </div>
-      <div class="medium-1 columns">
-        <span class="required">*</span>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :password, t('login.password.label'), :class=>'key inline'  %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.password_field :password, :autocomplete => "off" %>
-      </div>
-      <div class="medium-1 columns">
-        <span class="required">*</span>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :password_confirmation,t("login.password.re_enter"), :class=>'key inline'  %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.password_field :password_confirmation, :autocomplete => "off" %>
-      </div>
-      <div class="medium-1 columns">
-        <span class="required">*</span>
-      </div>
-    </div>
+    <%= resource_edit_field @user, 'full_name', 'user.full_name', 'text_field', true %>
+    <%= resource_edit_field @user, 'user_name', 'login.username', 'text_field', true, !editable_user.new_record? %>
+    <%#
+      TODO: Lost a little tip panel for the user name: <span class="footnote"><%= t("user.no_blank") ></span> .
+      Surely there is a prettier way to add that info back in using Foundation.
+    %>
+    <%= resource_edit_field @user, 'password', 'login.password.label', 'password_field', true %>
+    <%= resource_edit_field @user, 'password_confirmation', 'login.password.re_enter', 'password_field', true %>
 
     <% if !trying_to_edit_ourself %>
       <div class="row">
@@ -122,68 +75,12 @@
       </div>
     <% end %>
 
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :phone, t("phone"), :class=>'key inline'  %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.text_field :phone %>
-      </div>
-      <div class="medium-1 columns"> </div>
-    </div>
-
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :email, t("email"), :class=>'key inline'  %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.text_field :email %>
-      </div>
-      <div class="medium-1 columns"> </div>
-    </div>
-
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :organization, t("organization"), :class=>'key inline'  %>
-        </span>
-      </div>
-      <%# TODO: Change this into a single select of a list of agencies when the agency configuration is developed %>
-      <div class="medium-8 columns">
-        <%= f.text_field :organization %>
-      </div>
-      <div class="medium-1 columns">
-        <span class="required">*</span>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :position, t("position"), :class=>'key inline'  %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.text_field :position %>
-      </div>
-      <div class="medium-1 columns"> </div>
-    </div>
-
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :location, t("location"), :class=>'key inline'  %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.text_field :location %>
-      </div>
-      <div class="medium-1 columns"> </div>
-    </div>
+    <%= resource_edit_field @user, 'phone', 'phone', 'text_field' %>
+    <%= resource_edit_field @user, 'email', 'email', 'text_field' %>
+    <%# TODO: Change organization into a single select of a list of agencies when the agency configuration is developed %>
+    <%= resource_edit_field @user, 'organization', 'organization', 'text_field', true %>
+    <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
+    <%= resource_edit_field @user, 'location', 'location', 'text_field' %>
 
     <% if !trying_to_edit_ourself && can?(:disable, @user) %>
         <div class="row">

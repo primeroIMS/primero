@@ -1,6 +1,6 @@
 module ConfigurationResourceHelper
 
-  def resource_edit_field(object, field, label_key, type, required=false)
+  def resource_edit_field(object, field, label_key, type, required=false, disabled=false)
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
@@ -13,8 +13,9 @@ module ConfigurationResourceHelper
           }
         })
         concat(content_tag(:div, class: 'medium-8 columns'){
-          self.send("#{type}_tag", name, value, id: field_id)
+          self.send("#{type}_tag", name, value, id: field_id, autocomplete: 'off', disabled: disabled)
         })
+        #TODO: This should be replaced with Foundation required field components
         concat(content_tag(:div, class: 'medium-1 columns'){
           content_tag(:span, '*', class: 'required') if required
         })
