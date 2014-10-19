@@ -13,7 +13,7 @@ module ConfigurationResourceHelper
           }
         })
         concat(content_tag(:div, class: 'medium-8 columns'){
-          self.send("#{type}_tag", name, value, id: field_id, autocomplete: 'off', disabled: disabled)
+          self.send("#{type}_tag", name, h(value), id: field_id, autocomplete: 'off', disabled: disabled)
         })
         #TODO: This should be replaced with Foundation required field components
         concat(content_tag(:div, class: 'medium-1 columns'){
@@ -22,7 +22,18 @@ module ConfigurationResourceHelper
     end
   end
 
-  def resource_show_field(object, field, label)
+  def resource_show_field(object, field, label_key)
+    label_text = I18n.t(label_key)
+    value = object.send(field)
+
+    content_tag :div, class: 'row' do
+      concat(content_tag(:div, class: 'medium-4 columns'){
+        label_tag(field, label_text, class: 'key')
+      })
+      concat(content_tag(:div, class: 'medium-8 columns'){
+        content_tag(:span, h(value), class: 'value')
+      })
+    end
   end
 
 end
