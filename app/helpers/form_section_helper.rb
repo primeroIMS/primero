@@ -46,42 +46,6 @@ module FormSectionHelper
     end
   end
 
-  #PRIMERO-439  WIP
-  def build_form_custom_list(group, forms, primero_module, parent_form)
-    form = forms.first
-    if forms.count > 1
-      content_tag :li, class: 'group' do
-        concat(
-          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id), class: 'group') do
-            concat(t(group, :default => group))
-          end
-        )
-        concat(build_group_custom_list(forms, primero_module, parent_form))
-      end
-    else
-      content_tag :li, class: "#{form.visible? ? '' : 'hidden_form'}" do
-        concat(
-          link_to(edit_form_section_path(form.section_name, module_id: primero_module.id), class: 'non-group') do
-            concat(t(form.unique_id, :default => form.name))
-          end
-        )
-      end
-    end
-  end
-
-  def build_group_custom_list(forms, primero_module, parent_form)
-    group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
-    content_tag :ul , class: 'sub', id: group_id do
-     for form in forms
-      concat(content_tag(:li,
-        link_to(edit_form_section_path(form.section_name, module_id: primero_module.id)) do
-          concat(t(form.unique_id, :default => form.name))
-        end, class: "#{form.visible? ? '' : 'hidden_form'}"
-      ))
-     end
-    end
-  end
-
   def display_help_text_on_view?(formObject, form_section)
     return false unless form_section.display_help_text_view
     field = form_section.fields.first

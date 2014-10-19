@@ -18,7 +18,11 @@
           <label class="key"><%= t(field_name.to_sym, :locale => given_locale.to_sym) %></label>
         </div>
         <div class="large-9 medium-9 columns">
-          <%= fld.send "#{field_type}", "#{field_name}_#{given_locale}".to_sym %>
+          <% if field_name == :name %>
+            <%= fld.send "#{field_type}", "#{field_name}".to_sym %>
+          <% else %>
+            <%= fld.send "#{field_type}", "#{field_name}_#{given_locale}".to_sym %>
+          <% end %>
         </div>
       </div>
     <% end %>

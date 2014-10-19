@@ -6,7 +6,7 @@ class FormSectionController < ApplicationController
 
   before_filter :parent_form, :only => [:new, :published]
   before_filter :current_modules, :only => [:index, :new, :edit, :create]
-  before_filter :get_form_section, :only => [:edit]
+  before_filter :get_form_section, :only => [:edit, :destroy]
   before_filter :get_related_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
 
@@ -72,6 +72,12 @@ class FormSectionController < ApplicationController
     else
       render :action => :edit
     end
+  end
+
+  def destroy
+    authorize! :destroy, Lookup
+    @form_section.destroy
+    redirect_to form_sections_path
   end
 
   def toggle
