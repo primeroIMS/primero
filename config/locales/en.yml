@@ -531,8 +531,32 @@ en:
   modules:
     label: "Modules"
 
+  module:
+    create: "Create Module"
+    edit: "Edit Module"
+    name: "Name"
+    successfully_updated: "Module details are successfully updated."
+    error_in_updating: "Error in updating the Module details."
+
+  primero_programs:
+    label: "Program"
+
+  primero_program:
+    create: "Create Program"
+    edit: "Edit Program"
+    name: "Name"
+    successfully_updated: "Program details are successfully updated."
+    error_in_updating: "Error in updating the Program details."
+
   user_groups:
     label: "User Groups"
+
+  user_group:
+    create: "Create User Group"
+    edit: "Edit User Group"
+    name: "Name"
+    successfully_updated: "User Group details are successfully updated."
+    error_in_updating: "Error in updating the User Group details."
 
   user:
     label: "user"
