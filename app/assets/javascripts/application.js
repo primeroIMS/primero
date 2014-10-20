@@ -58,7 +58,3 @@
 //= require select_multiple_records
 //= require summary_page
 
-
-$(document).ready(function() {
-	$(document).foundation();
-});
