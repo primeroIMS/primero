@@ -648,6 +648,7 @@ en:
     buttons:
       add: "Add"
     options: "Options"
+    confirm_delete: Are you sure you want to delete this form?
 
 
   advanced_search:
@@ -708,6 +709,9 @@ en:
     label: "Fields"
     field_name: "Field Name"
     display_name: "Display Name"
+    db_name: "DB Name"
+    help_text: "Help Text"
+    actions: "Actions"
     option_strings_text: "Options"
     option_strings_source: "Lookups"
     form_name: "Form Name"
