@@ -180,7 +180,7 @@ describe RecordFlagController do
     it "should flag multiple records" do
       # Flag the first 30 records.
       records = children.take 30
-      post :flag_records, :model_class => model.name, :selected_records => records, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :all_records_selected => false
+      post :flag_records, :model_class => model.name, :selected_records => records, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :apply_to_all => false
       JSON.parse(response.body).should eq({"success" => true, "error_message" => "", "reload_page" => true})
       records.each do |id|
         record = model.get id
@@ -193,7 +193,7 @@ describe RecordFlagController do
       end
 
       # Apply a filter and flag all the records
-      post :flag_records, :model_class => model.name, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :all_records_selected => "true", "scope"=>{"flag"=>"single||flag"}
+      post :flag_records, :model_class => model.name, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :apply_to_all => "true", "scope"=>{"flag"=>"single||flag"}
       JSON.parse(response.body).should eq({"success" => true, "error_message" => "", "reload_page" => true})
       records.each do |id|
         record = model.get id
