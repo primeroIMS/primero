@@ -57,7 +57,3 @@
 //= require actions
 //= require select_multiple_records
 
-
-$(document).ready(function() {
-	$(document).foundation();
-});
