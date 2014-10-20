@@ -153,6 +153,8 @@ class FormSectionController < ApplicationController
   end
 
   def get_lookups
-    @lookups = Lookup.all
+    lookups = Lookup.all
+    @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
+    @lookup_options.unshift("", "Location")
   end
 end
