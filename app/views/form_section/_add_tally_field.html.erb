@@ -1,24 +1,23 @@
 <%
-  #TODO - We need to think about adding translations for tally field values
-  if @field.present? && @field.tally.present?
-    tally1 = @field.tally.first || ""
-    tally2 = @field.tally.second || ""
-    tally3 = @field.tally.third || ""
+  if @field.present? && @field["tally_#{given_locale}".to_sym].present?
+    tally1 = @field["tally_#{given_locale}".to_sym].first || ""
+    tally2 = @field["tally_#{given_locale}".to_sym].second || ""
+    tally3 = @field["tally_#{given_locale}".to_sym].third || ""
   else
     tally1 = tally2 = tally3 = ""
   end
 %>
 <div class="row">
   <div class="large-3 medium-3 columns">
-    <%= label_tag :tally_label, t("fields.tally_field")%>
+    <%= label_tag :tally_label, t("fields.tally_field", :locale => given_locale.to_sym)%>
   </div>
   <div class="large-3 medium-3 columns">
-    <%= text_field_tag 'field[tally][]', tally1 %>
+    <%= text_field_tag "field[tally_#{given_locale}][]", tally1 %>
   </div>
   <div class="large-3 medium-3 columns">
-    <%= text_field_tag 'field[tally][]', tally2 %>
+    <%= text_field_tag "field[tally_#{given_locale}][]", tally2 %>
   </div>
   <div class="large-3 medium-3 columns">
-    <%= text_field_tag 'field[tally][]', tally3 %>
+    <%= text_field_tag "field[tally_#{given_locale}][]", tally3 %>
   </div>
 </div>
