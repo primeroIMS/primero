@@ -31,13 +31,13 @@
     <table id="list_table_2" class="list_table_2">
       <thead>
         <tr>
-          <th><%= t("name") %></th>
-          <th><%= t("form_section.db_name") %></th>
-          <th><%= t("help_text") %></th>
+          <th><%= t("fields.display_name") %></th>
+          <th><%= t("fields.db_name") %></th>
+          <th><%= t("fields.help_text") %></th>
           <th><%= t("form_section.options") %></th>
           <th><%= t("fields.type") %></th>
           <th align="center"><%= t("form_section.hide") %></th>
-          <th align="center"><%= t("form_sectoin.actions") %></th>
+          <th align="center"><%= t("fields.actions") %></th>
         </tr>
       </thead>
       <tbody>
@@ -118,12 +118,12 @@
                           :header_tag => :h3,
                           :header_message => t("form_section.messages.cannot_create"),
                           :message => t('form_section.messages.correct_errors') %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:help_text => :text_area}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:help_text => :text_area},
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}] } %>
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
                                                                                                                {:option_strings_text => :text_area}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [{:display_name => :text_field}, {:help_text => :text_area},
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
                                                                                                                   {:option_strings_text => :text_area}, {:option_strings_source => :select_box}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %> 
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %> 
   <%
     #TODO
     # handle hidden text fields
