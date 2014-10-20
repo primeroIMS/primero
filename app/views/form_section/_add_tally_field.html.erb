@@ -1,4 +1,6 @@
 <%
+  # Currently defaulting to 3 tally fields
+  # The application can support more if we want to allow more
   if @field.present? && @field["tally_#{given_locale}".to_sym].present?
     tally1 = @field["tally_#{given_locale}".to_sym].first || ""
     tally2 = @field["tally_#{given_locale}".to_sym].second || ""
