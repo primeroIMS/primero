@@ -10,5 +10,7 @@
       	<%= link_to t("roles.label"), roles_path if can?(:index, Role) %></li>
       <li class=<%= (highlight_page == 'user_groups' ? 'current' : '') %>>
         <%= link_to t("user_groups.label"), user_groups_path if can?(:index, UserGroup) %></li>
+      <li class=<%= (highlight_page == 'primero_programs' ? 'current' : '') %>>
+        <%= link_to t("primero_programs.label"), primero_programs_path if can?(:index, PrimeroProgram) %></li>
     </ul>
  </div>
