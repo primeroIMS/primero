@@ -48,10 +48,12 @@ class Ability
     end
 
     if user.has_permission? Permission::METADATA
-      [FormSection, Field, Location, Lookup, PrimeroModule, PrimeroProgram].each do |resource|
+      [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
         #configure_resource resource, actions
         can :manage, resource
       end
+      #TODO: Think about what users can do with modules
+      #[:read, :update, :destroy].each{|a| can a, PrimeroModule} #Cannot create
     end
 
     if user.has_permission? Permission::SYSTEM

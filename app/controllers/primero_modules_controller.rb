@@ -4,7 +4,7 @@ class PrimeroModulesController < ApplicationController
 
   def index
     authorize! :index, PrimeroModule
-    @page_name = t("modules.label")
+    @page_name = t("primero_modules.label")
     sort_option = params[:sort_by_descending_order] || false
     params[:show] ||= "All"
     @primero_modules = params[:show] == "All" ? PrimeroModule.by_name(:descending => sort_option) : PrimeroModule.by_name(:descending => sort_option).find_all{|primero_module| primero_module.has_permission(params[:show])}
@@ -35,10 +35,10 @@ class PrimeroModulesController < ApplicationController
     authorize! :update, @primero_module
 
     if @primero_module.update_attributes(params[:primero_module])
-      flash[:notice] = t("module.successfully_updated")
+      flash[:notice] = t("primero_module.successfully_updated")
       redirect_to(primero_modules_path)
     else
-      flash[:error] = t("module.error_in_updating")
+      flash[:error] = t("primero_module.error_in_updating")
       render :action => "edit"
     end
   end

@@ -535,10 +535,10 @@ en:
     successfully_updated: "Role details are successfully updated."
     error_in_updating: "Error in updating the Role details."
 
-  modules:
+  primero_modules:
     label: "Modules"
 
-  module:
+  primero_module:
     create: "Create Module"
     edit: "Edit Module"
     name: "Name"
