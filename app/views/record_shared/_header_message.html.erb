@@ -3,27 +3,28 @@
     <div id="interviewer_details">
       <!-- record state -->
       <p>
-        <%= t("record_panel.record_state") %>: 
+        <%= t("record_panel.record_state") %>:
         <%= record.record_state ? t("record_panel.valid") : t("record_panel.invalid") %>
       </p>
       <!-- creator -->
       <p>
-        <%= t("record_panel.created_by") %>: 
+        <%= t("record_panel.created_by") %>:
         <%= record.created_by_full_name %><br>
         <%= field_format_date(record.created_at) %>
       </p>
       <!-- last updated -->
       <p>
-        <%= t("record_panel.last_update") %>: 
-        <%= field_format_date(record.last_updated_at) %> 
+        <%= t("record_panel.last_update") %>:
+        <%= field_format_date(record.last_updated_at) %>
       </p>
       <!-- current owner -->
       <p>
-        <%= t("record_panel.current_owner") %>: 
+        <%= t("record_panel.current_owner") %>:
         <%= record.owner ? record.owner.full_name : 'None' %>
       </p>
+      <hr>
       <!-- change log -->
-      <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>" 
+      <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>"
          data-reveal-id="<%= model %>_<%= record.short_id%>_change_log" href="#">
         <%= t("record_panel.change_log") %>
       </a>
