@@ -24,20 +24,9 @@ server {
   error_log <%= @log_path %>/error.log error;
   client_max_body_size 50M;
 
-  #Need to change this accordingly once we move to rails3.1
   location ~* ^/(assets|images|javascripts|stylesheets)/ {
-    # Per RFC2616 - 1 year maximum expiry
-    # http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
-    expires 1y;
     gzip_static on;
-    add_header Cache-Control public;
-
-    # Some browsers still send conditional-GET requests if there's a
-    # Last-Modified header or an ETag header even if they haven't
-    # reached the expiry date sent in the Expires header.
-    add_header Last-Modified "";
-    add_header ETag "";
-    break;
+    add_header Cache-Control max-age=31536000;
   }
 }
 
