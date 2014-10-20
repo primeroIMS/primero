@@ -228,15 +228,15 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}' and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
 end
 
-And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
+And /^I should see (\d+) subform(?:s)? on the (show|form) page for "(.*)"$/ do |num, action, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   page.should have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num}']")
   page.should_not have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num.to_i + 1}']")
 end
 
-And /^I fill in the (\d+)(?:st|nd|rd|th)(?:(.*)) "(.*)" subform with the follow:$/ do |num, is_initial, subform, fields|
-  step %Q{I add a "#{subform}" subform} if !is_initial
+And /^I fill in the (\d+)(?:st|nd|rd|th)(\sinitial|) "(.*)" subform with the follow:$/ do |num, initial, subform, fields|
+  step %Q{I add a "#{subform}" subform} if initial.blank?
   update_subforms_field(num, subform, fields)
 end
 

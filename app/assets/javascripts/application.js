@@ -56,4 +56,5 @@
 //= require flag_records
 //= require actions
 //= require select_multiple_records
+//= require summary_page
 

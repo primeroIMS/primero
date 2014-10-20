@@ -1,4 +1,5 @@
 include_recipe 'apt'
+include_recipe 'primero::common'
 
 %w(git
    libxml2-dev

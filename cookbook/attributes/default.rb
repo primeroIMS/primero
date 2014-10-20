@@ -17,6 +17,8 @@ default[:primero].tap do |p|
   p[:couchdb].tap do |c|
     c[:host] = 'localhost'
     c[:username] = 'primero'
+    c[:cert_path] = '/etc/ssl/couch.crt'
+    c[:key_path] = '/etc/ssl/private/couch.key'
   end
 
   p[:solr_hostname] = 'localhost'
@@ -27,13 +29,19 @@ default[:primero].tap do |p|
 end
 
 
-default[:couchdb].tap do |db|
+default[:couch_db].tap do |db|
   db[:config].tap do |conf|
     conf[:httpd].tap do |httpd|
-      httpd[:bind_address] = '127.0.0.1'
+      httpd[:bind_address] = '0.0.0.0'
+    end
+    conf[:ssl].tap do |ssl|
+      ssl['verify_ssl_certificates'] = true
     end
     conf[:compactions].tap do |compactions|
       compactions[:_default] = '[{db_fragmentation, "70%"}, {view_fragmentation, "60%"}, {from, "23:00"}, {to, "04:00"}]'
+    end
+    conf[:replicator].tap do |rep|
+      rep['verify_ssl_certificates'] = true
     end
   end
 end

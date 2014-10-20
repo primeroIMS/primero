@@ -762,6 +762,7 @@ en:
     start: Start Synchronization
     stop: Stop Synchronization
     configure_a_server: Configure a Server
+    reindex_pending: Reindex Pending
 
   session:
     about_to_expire: "Your session is about to expire!"

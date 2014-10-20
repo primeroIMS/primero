@@ -40,13 +40,7 @@ module FormToPropertiesConverter
       include CouchRest::Model::Embeddable
 
       if include_unique_id
-        def initialize *args
-          super
-
-          self.unique_id ||= UUIDTools::UUID.random_create.to_s
-        end
-
-        property :unique_id, String
+        include Syncable::PrimeroEmbeddedModel
       end
 
       properties_hash.each do |name,options|
