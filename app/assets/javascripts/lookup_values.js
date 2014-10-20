@@ -11,7 +11,6 @@ var LookupValueView = Backbone.View.extend({
 
   add: function(event) {
     event.preventDefault();
-    //var target = event.target || event.srcElement;
     var valueList = $(this.el).find('#lookup_values'), 
         lastValue = valueList.children(":last"),
         newValue = lastValue.clone();
@@ -39,8 +38,5 @@ var LookupValueView = Backbone.View.extend({
 });
 
 $(document).ready(function() {
-  //Disable all template inputs
-  $('div.template').find('input, select, textarea').attr("disabled","disabled");
-
   var lookupValues = new LookupValueView();
 });
