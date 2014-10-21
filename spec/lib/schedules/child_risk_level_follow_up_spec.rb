@@ -5,17 +5,21 @@ describe ChildRiskLevelFollowUp do
     Child.all.each { |form| form.destroy }
   end
 
-  def create_sample_child(registration_date, risk_level, flags = [])
+  def create_sample_child(registration_date, risk_level, flags = [], 
+                          child_status = I18n.t("followup_reminders.child_status_open"),
+                          record_state = true)
     Child.create!(:registration_date => registration_date,
                           :risk_level => risk_level,
-                          :system_generated_followup => true, :flags => flags)
+                          :system_generated_followup => true, :flags => flags,
+                          :child_status => child_status,
+                          :record_state => record_state)
   end
 
   def generate_flag(risk_level, date)
     flags = []
     flag_date = date
     (1..ChildRiskLevelFollowUp.followup_count(risk_level)).each do
-      flags << Flag.new(:message => I18n.t("messages.system_generated_followup_flag"),
+      flags << Flag.new(:message => ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE,
                         :date => flag_date,
                         :created_at => Date.today,
                         :system_generated_followup => true)
@@ -38,7 +42,7 @@ describe ChildRiskLevelFollowUp do
           child_db = Child.get(child.id)
           child_db.flags.length.should eq(1)
           flag = child_db.flags.first
-          flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+          flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
           #Flag will start in the current date.
           flag.date.should eq(today + ChildRiskLevelFollowUp.interval(risk_level))
         end
@@ -57,7 +61,7 @@ describe ChildRiskLevelFollowUp do
           flag_date = today
           child_db.flags.each do |flag|
             flag_date += ChildRiskLevelFollowUp.interval(risk_level)
-            flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+            flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
             flag.date.should eq(flag_date)
           end
         end
@@ -76,7 +80,7 @@ describe ChildRiskLevelFollowUp do
           flag_date = today
           child_db.flags.each do |flag|
             flag_date += ChildRiskLevelFollowUp.interval(risk_level)
-            flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+            flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
             flag.date.should eq(flag_date)
           end
         end
@@ -94,7 +98,7 @@ describe ChildRiskLevelFollowUp do
           child_db = Child.get(child.id)
           child_db.flags.length.should eq(1)
           flag = child_db.flags.first
-          flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+          flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
           #Flag will start in the current date.
           flag_day = Date.today + ChildRiskLevelFollowUp.interval(risk_level)
           flag.date.should eq(flag_day)
@@ -114,7 +118,7 @@ describe ChildRiskLevelFollowUp do
           flag_date = Date.today
           child_db.flags.each do |flag|
             flag_date += ChildRiskLevelFollowUp.interval(risk_level)
-            flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+            flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
             flag.date.should eq(flag_date)
           end
         end
@@ -133,7 +137,7 @@ describe ChildRiskLevelFollowUp do
           flag_date = Date.today
           child_db.flags.each do |flag|
             flag_date += ChildRiskLevelFollowUp.interval(risk_level)
-            flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+            flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
             flag.date.should eq(flag_date)
           end
         end
@@ -153,7 +157,7 @@ describe ChildRiskLevelFollowUp do
           child_db = Child.get(child.id)
           child_db.flags.length.should eq(1)
           flag = child_db.flags.first
-          flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+          flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
           #Flag will start in the registration date.
           flag_date = registration_date + ChildRiskLevelFollowUp.interval(risk_level)
           flag.date.should eq(flag_date)
@@ -173,7 +177,7 @@ describe ChildRiskLevelFollowUp do
           flag_date = registration_date
           child_db.flags.each do |flag|
             flag_date += ChildRiskLevelFollowUp.interval(risk_level)
-            flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+            flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
             flag.date.should eq(flag_date)
           end
         end
@@ -192,7 +196,7 @@ describe ChildRiskLevelFollowUp do
           flag_date = registration_date
           child_db.flags.each do |flag|
             flag_date += ChildRiskLevelFollowUp.interval(risk_level)
-            flag.message.should eq(I18n.t("messages.system_generated_followup_flag"))
+            flag.message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
             flag.date.should eq(flag_date)
           end
         end
@@ -215,9 +219,9 @@ describe ChildRiskLevelFollowUp do
       db_child_low.flags.length.should eq(4)
       #Check the existing flags was the expired.
       db_child_low.flags[1].removed.should eq(true)
-      db_child_low.flags[1].unflag_message.should eq(I18n.t("messages.system_generated_followup_unflag"))
+      db_child_low.flags[1].unflag_message.should eq(ChildRiskLevelFollowUp::EXPIRED_MESSAGE)
       #Check the last one was the created flag
-      db_child_low.flags[3].message.should eq(I18n.t("messages.system_generated_followup_flag"))
+      db_child_low.flags[3].message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
       db_child_low.flags[3].system_generated_followup.should eq(true)
       db_child_low.flags[3].removed.should eq(nil)
       db_child_low.flags[3].unflag_message.should eq(nil)
@@ -239,9 +243,9 @@ describe ChildRiskLevelFollowUp do
       db_child_medium.flags.length.should eq(5)
       #Check the existing flags was the expired.
       db_child_medium.flags[1].removed.should eq(true)
-      db_child_medium.flags[1].unflag_message.should eq(I18n.t("messages.system_generated_followup_unflag"))
+      db_child_medium.flags[1].unflag_message.should eq(ChildRiskLevelFollowUp::EXPIRED_MESSAGE)
       #Check the last one was the created flag
-      db_child_medium.flags[4].message.should eq(I18n.t("messages.system_generated_followup_flag"))
+      db_child_medium.flags[4].message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
       db_child_medium.flags[4].system_generated_followup.should eq(true)
       db_child_medium.flags[4].removed.should eq(nil)
       db_child_medium.flags[4].unflag_message.should eq(nil)
@@ -263,15 +267,84 @@ describe ChildRiskLevelFollowUp do
       db_child_high.flags.length.should eq(7)
       #Check the existing flags was the expired.
       db_child_high.flags[1].removed.should eq(true)
-      db_child_high.flags[1].unflag_message.should eq(I18n.t("messages.system_generated_followup_unflag"))
+      db_child_high.flags[1].unflag_message.should eq(ChildRiskLevelFollowUp::EXPIRED_MESSAGE)
       #Check the last one was the created flag
-      db_child_high.flags[6].message.should eq(I18n.t("messages.system_generated_followup_flag"))
+      db_child_high.flags[6].message.should eq(ChildRiskLevelFollowUp::FOLLOWUP_MESSAGE)
       db_child_high.flags[6].system_generated_followup.should eq(true)
       db_child_high.flags[6].removed.should eq(nil)
       db_child_high.flags[6].unflag_message.should eq(nil)
       #The new flag is one week from the last flag.
       db_child_high.flags[6].date.should eq(db_child_high.flags[4].date + 1.week)
     end
+  end
+
+  shared_examples_for "Cancel by case status" do |case_status|
+    [ChildRiskLevelFollowUp::HIGH_RISK_LEVEL, 
+     ChildRiskLevelFollowUp::MEDIUM_RISK_LEVEL,
+     ChildRiskLevelFollowUp::LOW_RISK_LEVEL].each do |risk_level|
+      it "should cancel #{risk_level.downcase} follow up for #{case_status.downcase} cases" do
+        flags = [Flag.new(:message => "Flagged for some reason - 1")]
+        flags.concat(generate_flag(risk_level, Date.today - 2.weeks))
+        flags << Flag.new(:message => "Flagged for some reason - 2")
+        child = create_sample_child(Date.today - 1.month, risk_level, flags, case_status)
+  
+        #Invoke method to generate or cancel follow up.
+        ChildRiskLevelFollowUp.process_followup_reminders
+  
+        db_child = Child.get(child.id)
+        db_child.flags.length.should eq(2 + ChildRiskLevelFollowUp::followup_count(risk_level))
+        i = 1
+        ending = 2 + ChildRiskLevelFollowUp::followup_count(risk_level)
+        db_child.flags.each do |flag|
+          if (i >= 2 and i <= (ending - 1))
+            flag.unflag_message.should eq(ChildRiskLevelFollowUp::CANCELLED_MESSAGE)
+            flag.system_generated_followup.should eq(true)
+            flag.removed.should eq(true)
+          end
+          i = i + 1
+        end
+      end
+    end
+  end
+
+  shared_examples_for "Cancel for invalid records" do |case_status|
+    [ChildRiskLevelFollowUp::HIGH_RISK_LEVEL, 
+     ChildRiskLevelFollowUp::MEDIUM_RISK_LEVEL,
+     ChildRiskLevelFollowUp::LOW_RISK_LEVEL].each do |risk_level|
+      it "should cancel #{risk_level.downcase} follow up for #{case_status.downcase} cases" do
+        flags = [Flag.new(:message => "Flagged for some reason - 1")]
+        flags.concat(generate_flag(risk_level, Date.today - 2.weeks))
+        flags << Flag.new(:message => "Flagged for some reason - 2")
+        child = create_sample_child(Date.today - 1.month, risk_level, flags, case_status, false)
+  
+        #Invoke method to generate or cancel follow up.
+        ChildRiskLevelFollowUp.process_followup_reminders
+  
+        db_child = Child.get(child.id)
+        db_child.flags.length.should eq(2 + ChildRiskLevelFollowUp::followup_count(risk_level))
+        i = 1
+        ending = 2 + ChildRiskLevelFollowUp::followup_count(risk_level)
+        db_child.flags.each do |flag|
+          if (i >= 2 and i <= (ending - 1))
+            flag.unflag_message.should eq(ChildRiskLevelFollowUp::CANCELLED_MESSAGE)
+            flag.system_generated_followup.should eq(true)
+            flag.removed.should eq(true)
+          end
+          i = i + 1
+        end
+      end
+    end
+  end
+
+  describe "Cancel followup reminders" do
+    it_behaves_like "Cancel by case status", ChildRiskLevelFollowUp::CHILD_STATUS_CLOSED
+    it_behaves_like "Cancel by case status", ChildRiskLevelFollowUp::CHILD_STATUS_TRANSFERRED
+    it_behaves_like "Cancel by case status", ChildRiskLevelFollowUp::CHILD_STATUS_DUPLICATE
+
+    it_behaves_like "Cancel for invalid records", ChildRiskLevelFollowUp::CHILD_STATUS_OPEN
+    it_behaves_like "Cancel for invalid records", ChildRiskLevelFollowUp::CHILD_STATUS_CLOSED
+    it_behaves_like "Cancel for invalid records", ChildRiskLevelFollowUp::CHILD_STATUS_TRANSFERRED
+    it_behaves_like "Cancel for invalid records", ChildRiskLevelFollowUp::CHILD_STATUS_DUPLICATE
   end
 
 end
