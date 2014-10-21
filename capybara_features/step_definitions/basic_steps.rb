@@ -225,7 +225,7 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   end
   #Check static text placeholder.
   scope = scope + "//div[@class='row collapse_expand_subform_header']"
-  find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}' and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
+  find(:xpath, "#{scope}//span[contains(@class, '#{state}') and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
 end
 
 And /^I should see (\d+) subform(?:s)? on the (show|form) page for "(.*)"$/ do |num, action, subform|
@@ -309,7 +309,7 @@ And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state
   expected_state = state == "expanded" ? "collapsed" : "expanded"
   xpath = "//div[@id='subform_container_#{subform}_#{num}']" +
           "//div[@class='row collapse_expand_subform_header']" +
-          "//span[@class='collapse_expand_subform #{expected_state}']"
+          "//span[contains(@class, '#{expected_state}')]"
   find(xpath).click
 end
 
