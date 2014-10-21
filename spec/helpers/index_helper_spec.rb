@@ -19,7 +19,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('case').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: "name", sort_title: "sortable_name"},
                                                     {title: "age", sort_title: "age"},
@@ -44,7 +44,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('case').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: "age", sort_title: "age"},
                                                     {title: "sex", sort_title: "sex"},
@@ -77,7 +77,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('case').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: "survivor_code", sort_title: "survivor_code_no"},
                                                     {title: "case_opening_date", sort_title: "created_at"}
@@ -98,7 +98,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('case').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: "case_opening_date", sort_title: "created_at"},
                                                     {title: "social_worker", sort_title: "owned_by"}
@@ -128,7 +128,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('incident').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: 'date_of_incident', sort_title: 'incident_date_derived'},
                                                     {title: 'incident_location', sort_title: 'incident_location'},
@@ -150,7 +150,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('incident').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: 'date_of_incident', sort_title: 'incident_date_derived'},
                                                     {title: 'incident_location', sort_title: 'incident_location'},
@@ -180,7 +180,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('incident').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: 'date_of_interview', sort_title: 'date_of_first_report'},
                                                     {title: 'date_of_incident', sort_title: 'incident_date_derived'},
@@ -202,7 +202,7 @@ describe IndexHelper do
         end
         it "should return a header list" do
           @view.list_view_header('incident').should == [
-                                                    {title: 'select', sort_title: 'select'},
+                                                    {title: '', sort_title: 'select'},
                                                     {title: "id", sort_title: "short_id"},
                                                     {title: 'date_of_interview', sort_title: 'date_of_first_report'},
                                                     {title: 'date_of_incident', sort_title: 'incident_date_derived'},

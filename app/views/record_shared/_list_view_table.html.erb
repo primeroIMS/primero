@@ -26,15 +26,9 @@
       <thead>
         <tr>
           <% header_list.each_with_index do |field, i| %>
-              <% if field[:title] == "select" %>
-                <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>" class="select_record">
-                  <input type="checkbox" id="select_all_records" aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>"/>
-                </th>
-              <% else %>
-                <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>">
-                  <%= field[:title] ? t("#{record}.#{field[:title]}") : "" %>
-                </th>
-              <% end %>
+            <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>">
+              <%= field[:title].present? ? t("#{record}.#{field[:title]}") : "" %>
+            </th>
           <% end %>
         </tr>
       </thead>

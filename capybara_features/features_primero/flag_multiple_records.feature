@@ -1,4 +1,5 @@
 #JIRA PRIMERO-606
+#JIRA PRIMERO-711
 
 @javascript @primero @search
 Feature: Flag Case Records For Attention
@@ -43,128 +44,21 @@ Feature: Flag Case Records For Attention
       | incidents page        | "primero_mrm" |
       | tracing requests page | "primero_cp"  |
 
-  Scenario Outline: I must select at least one record to flag
-    Given I am logged in as an admin with username <user> and password "primero"
-    When I access <page>
-    And I press the "Flag" span
-    And I fill in "Flag Reason" with "Some reason"
-    And I fill in "Date (optional)" with "today's date"
-    And I click on the link with text "Flag"
-    And I should see a browser popup with text "Please select one or more records to flag."
-    And I click OK in the browser popup
-
-    Examples:
-      | page                  | user          |
-      | cases page            | "primero_cp"  |
-      | incidents page        | "primero_mrm" |
-      | tracing requests page | "primero_cp"  |
-
-  Scenario Outline: I can select all records
-    Given I am logged in as an admin with username <user> and password "primero"
-    When I access <page>
-    And I check the "select_all_records" field
-    And I press the "Flag" span
-    And I fill in "Flag Reason" with "Some reason"
-    And I fill in "Date (optional)" with "today's date"
-    And I click on the link with text "Flag"
-    And the record for "7af3aa9" should display a "flag" icon beside it
-    And the record for "7af3aa7" should display a "flag" icon beside it
-    And the record for "7af3aa8" should display a "flag" icon beside it
-
-    Examples:
-      | page                  | user          |
-      | cases page            | "primero_cp"  |
-      | incidents page        | "primero_mrm" |
-      | tracing requests page | "primero_cp"  |
-
-  Scenario Outline: Select All option should apply to all records from all pages
+  Scenario Outline: If no record is selected, the flag option should apply to all records from all pages
     Given I am logged in as an admin with username <user> and password "primero"
     And 50 <model> sample records exists created by <user>
     When I access <page>
-    And I check the "select_all_records" field
-    And all the records on the page should be selected
-    And I visit cases page "2"
-    And all the records on the page should be selected
-    And I visit cases page "3"
-    And all the records on the page should be selected
-    And I visit cases page "1"
     And I sort the records by "ID#"
-    And I uncheck "select_all_records"
-    And I select all the records on the page
     And I press the "Flag" span
     And I fill in "Flag Reason" with "Testing"
     And I fill in "Date (optional)" with "today's date"
     And I click on the link with text "Flag"
     And all the records on the page should be flagged
     And I visit cases page "2"
-    And I select all the records on the page
-    And I press the "Flag" span
-    And I fill in "Flag Reason" with "Testing"
-    And I fill in "Date (optional)" with "today's date"
-    And I click on the link with text "Flag"
     And all the records on the page should be flagged
-    And I check the "Flagged?" field
-    And I press the "Apply Filter" link
-    And I check the "select_all_records" field
-    And I press the "Flag" span
-    And I fill in "Flag Reason" with "Testing"
-    And I fill in "Date (optional)" with "today's date"
-    And I click on the link with text "Flag"
-    And all the records on the page should be flagged "2" times
-    And I access <page>
-    And I sort the records by "ID#"
-    And all the records on the page should be flagged "2" times
-    And I visit cases page "2"
-    And all the records on the page should be flagged "2" times
-    And I visit cases page "3"
-    And the record for "0000041" should not display a "flag" icon beside it
-    And the record for "0000042" should not display a "flag" icon beside it
-    And the record for "0000043" should not display a "flag" icon beside it
-    And the record for "0000044" should not display a "flag" icon beside it
-    And the record for "0000045" should not display a "flag" icon beside it
-    And the record for "0000046" should not display a "flag" icon beside it
-    And the record for "0000047" should not display a "flag" icon beside it
-    And the record for "0000048" should not display a "flag" icon beside it
-    And the record for "0000049" should not display a "flag" icon beside it
-    And the record for "0000050" should not display a "flag" icon beside it
 
     Examples:
       | model            | user          | page                  |
       | cases            | "primero_cp"  | cases page            |
       | incidents        | "primero_mrm" | incidents page        |
-
-  Scenario Outline: Select All option should apply to all records from all pages in tracing requests
-    Given I am logged in as an admin with username <user> and password "primero"
-    And 50 <model> sample records exists created by <user>
-    When I access <page>
-    And I sort the records by "ID#"
-    And I check the "select_all_records" field
-    And all the records on the page should be selected
-    And I visit cases page "2"
-    And all the records on the page should be selected
-    And I visit cases page "3"
-    And all the records on the page should be selected
-    And I press the "Flag" span
-    And I fill in "Flag Reason" with "Testing"
-    And I fill in "Date (optional)" with "today's date"
-    And I click on the link with text "Flag"
-    And all the records on the page should be flagged "1" times
-    And I visit cases page "2"
-    And all the records on the page should be flagged "1" times
-    And I visit cases page "1"
-    And all the records on the page should be flagged "1" times
-    And I uncheck "select_all_records"
-    And I select all the records on the page
-    And I press the "Flag" span
-    And I fill in "Flag Reason" with "Testing"
-    And I fill in "Date (optional)" with "today's date"
-    And I click on the link with text "Flag"
-    And all the records on the page should be flagged "2" times
-    And I visit cases page "2"
-    And all the records on the page should be flagged "1" times
-    And I visit cases page "3"
-    And all the records on the page should be flagged "1" times
-
-    Examples:
-      | model            | user          | page                  |
       | tracing requests | "primero_cp"  | tracing requests page |
