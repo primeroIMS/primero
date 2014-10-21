@@ -469,6 +469,13 @@ mrm_summary_page_fields = [
              "editable" => true,
              "subform_section_id" => other_violation_subform_section.unique_id,
              "display_name_all" => "Other Violations"
+            }),
+  Field.new({"name" => "incident_total_tally",
+             "type" => "tally_field",
+             "display_name_all" => "Incident Total Victims/Survivors",
+             "autosum_group" => "incident_number_of_victims_survivors",
+             "tally" => ['boys', 'girls', 'unknown'],
+             "autosum_total" => true,
             })
 ]
 
