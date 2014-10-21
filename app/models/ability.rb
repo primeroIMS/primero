@@ -36,7 +36,7 @@ class Ability
         if user.has_permission? Permission::ALL
           true
         elsif user.has_permission? Permission::GROUP
-          (user.user_groups & uzer.user_groups).size > 0
+          (user.user_group_ids & uzer.user_group_ids).size > 0
         else
           uzer.user_name == user.user_name
         end
@@ -48,10 +48,12 @@ class Ability
     end
 
     if user.has_permission? Permission::METADATA
-      [FormSection, Field, Location, Lookup, PrimeroModule, PrimeroProgram].each do |resource|
+      [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
         #configure_resource resource, actions
         can :manage, resource
       end
+      #TODO: Think about what users can do with modules
+      #[:read, :update, :destroy].each{|a| can a, PrimeroModule} #Cannot create
     end
 
     if user.has_permission? Permission::SYSTEM
@@ -74,8 +76,8 @@ class Ability
         if user.has_permission? Permission::ALL
           true
         elsif user.has_permission? Permission::GROUP
-          allowed_groups = instance.associated_users.map{|u|u.user_groups}.flatten.compact
-          (user.user_groups & allowed_groups).size > 0
+          allowed_groups = instance.associated_users.map{|u|u.user_group_ids}.flatten.compact
+          (user.user_group_ids & allowed_groups).size > 0
         else
           instance.associated_user_names.include? user.user_name
         end

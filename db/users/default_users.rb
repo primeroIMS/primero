@@ -12,7 +12,7 @@ def create_or_update_user(user_hash)
        "full_name" => user_hash["full_name"],
        "role_ids" => user_hash["role_ids"],
        "module_ids" => user_hash["module_ids"],
-       "user_groups" => user_hash["user_groups"],
+       "user_group_ids" => user_hash["user_group_ids"],
        "reporting_hierarchy" => user_hash["reporting_hierarchy"],
     }
     user.update_attributes user_attributes
@@ -33,7 +33,7 @@ create_or_update_user(
     Role.by_name(key: "Superuser").first.id
   ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
-  "user_groups" => UserGroup.by_name.all.map{|g| g.id},
+  "user_group_ids" => UserGroup.by_name.all.map{|g| g.id},
   "is_manager" => "true"
 )
 
@@ -49,7 +49,7 @@ create_or_update_user(
     Role.by_name(key: "CP Case Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_groups" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
   "reporting_hierarchy" => ["primero"]
 )
 
@@ -65,7 +65,7 @@ create_or_update_user(
     Role.by_name(key: "CP Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_groups" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
   "reporting_hierarchy" => ["primero"],
   "is_manager" => "true"
 )
@@ -82,7 +82,7 @@ create_or_update_user(
     Role.by_name(key: "GBV Social Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_groups" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
   "reporting_hierarchy" => ["primero"]
 )
 
@@ -98,7 +98,7 @@ create_or_update_user(
     Role.by_name(key: "GBV Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_groups" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
   "reporting_hierarchy" => ["primero"],
   "is_manager" => "true"
 )
@@ -115,7 +115,7 @@ create_or_update_user(
     Role.by_name(key: "MRM Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
-  "user_groups" => [UserGroup.by_name(key: "Primero MRM").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id],
   "reporting_hierarchy" => ["primero"]
 )
 
@@ -131,7 +131,7 @@ create_or_update_user(
     Role.by_name(key: "MRM Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
-  "user_groups" => [UserGroup.by_name(key: "Primero MRM").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id],
   "reporting_hierarchy" => ["primero"],
   "is_manager" => "true"
 )

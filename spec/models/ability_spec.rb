@@ -112,9 +112,9 @@ describe Ability do
     it "allows a record owned by a fellow group member to be managed by a user with 'group' scope" do
       role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::CASE, Permission::GROUP]
       @user1.role_ids = [role.id]
-      @user1.user_groups = ['test_group']
+      @user1.user_group_ids = ['test_group']
       @user1.save
-      @user2.user_groups = ['test_group']
+      @user2.user_group_ids = ['test_group']
       @user2.save
       case1 = create :child, owned_by: @user2.user_name
 
@@ -127,9 +127,9 @@ describe Ability do
     it "allows a record owned by someone else to be read by a user with full 'all' scope" do
       role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::CASE, Permission::ALL]
       @user1.role_ids = [role.id]
-      @user1.user_groups = ['test_group']
+      @user1.user_group_ids = ['test_group']
       @user1.save
-      @user2.user_groups = ['other_test_group']
+      @user2.user_group_ids = ['other_test_group']
       @user2.save
       case1 = create :child, owned_by: @user2.user_name
 
@@ -189,11 +189,11 @@ describe Ability do
     it "allows a user with group scope to only edit another user in that group" do
       role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
       @user1.role_ids = [role.id]
-      @user1.user_groups = ['test_group']
+      @user1.user_group_ids = ['test_group']
       @user1.save
-      @user2.user_groups = ['test_group']
+      @user2.user_group_ids = ['test_group']
       @user2.save
-      user3 = create :user, user_groups: ['other_test_group']
+      user3 = create :user, user_group_ids: ['other_test_group']
 
       ability = Ability.new @user1
 

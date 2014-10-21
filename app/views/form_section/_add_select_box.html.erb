@@ -1,5 +1,5 @@
 <%
-  lookups ||= []
+  lookup_options ||= []
   lookup_selection = ((@field.present? && @field.option_strings_source.present?) ? @field.option_strings_source : "")
 %>
 <div class="row">
@@ -7,7 +7,7 @@
     <%= label_tag :option_strings_source_label, t("fields.option_strings_source")%>
   </div>
   <div class="large-9 medium-9 columns">
-    <%= select_tag 'field[option_strings_source]', options_for_select(lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}.insert(0, ""), lookup_selection )%>
+    <%= select_tag 'field[option_strings_source]', options_for_select(lookup_options, lookup_selection )%>
   </div>
 </div>
 <div class="row">

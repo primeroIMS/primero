@@ -35,6 +35,10 @@ RapidFTR::Application.routes.draw do
   match 'admin' => 'admin#index', :as => :admin, :via => [:post, :get, :put, :delete]
   match 'admin/update' => 'admin#update', :as => :admin_update, :via => [:post, :get, :put, :delete]
 
+  resources :user_groups
+  resources :primero_modules
+  resources :primero_programs
+
 
 #######################
 # CHILD URLS
@@ -65,10 +69,10 @@ RapidFTR::Application.routes.draw do
     resources :attachments, :only => :show
     resource :duplicate, :only => [:new, :create]
   end
-  
+
   #######################
   # TRACING REQUESTS URLS
-  #######################  
+  #######################
   resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
     collection do
       # post :sync_unverified
@@ -159,7 +163,7 @@ RapidFTR::Application.routes.draw do
 
 #######################
 # INCIDENT URLS
-#######################  
+#######################
   resources :incidents do
     collection do
       # post :sync_unverified
@@ -304,6 +308,11 @@ RapidFTR::Application.routes.draw do
 # REPORTING URLS
 #######################
   resources :reports, :only => [:index, :show]
+
+#######################
+# LOOKUPS URLS
+#######################
+  resources :lookups
 
 #######################
 # TESTING URLS

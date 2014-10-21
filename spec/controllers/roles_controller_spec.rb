@@ -48,7 +48,7 @@ describe RolesController do
 
   end
 
-    describe "GET show" do
+  describe "GET show" do
 
     it "should allow user to view roles " do
       fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
@@ -151,6 +151,17 @@ describe RolesController do
       response.should_not be_forbidden
     end
 
+  end
+
+  describe "DELETE" do
+    it "should allow a valid user to delete a role" do
+      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE, Permission::ALL])
+      role_mock = double()
+      role_mock.should_receive(:destroy).and_return(true)
+      Role.should_receive(:get).with("test-role").and_return(role_mock)
+      delete :destroy, id: "test-role"
+      response.status.should_not == 403
+    end
   end
 
 end

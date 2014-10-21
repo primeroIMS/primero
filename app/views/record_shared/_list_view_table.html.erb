@@ -21,20 +21,14 @@
 <div class="row collapse">
   <div class="large-9 columns">
     <div class="clearfix"></div>
-    <table width="100%" class="record_list_view" cellpadding="0" cellspacing="0">
+    <table style="width: 100%;" class="record_list_view dataTable no-footer collapsed dtr-inline" cellpadding="0" cellspacing="0">
       <% header_list = list_view_header(record)%>
       <thead>
         <tr>
           <% header_list.each_with_index do |field, i| %>
-              <% if field[:title] == "select" %>
-                <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>" class="select_record">
-                  <input type="checkbox" id="select_all_records" aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>"/>
-                </th>
-              <% else %>
-                <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>">
-                  <%= field[:title] ? t("#{record}.#{field[:title]}") : "" %>
-                </th>
-              <% end %>
+            <th aria-field="<%= field[:sort_title] %>" aria-field-index="<%= i %>">
+              <%= field[:title].present? ? t("#{record}.#{field[:title]}") : "" %>
+            </th>
           <% end %>
         </tr>
       </thead>

@@ -1,4 +1,5 @@
 include_recipe 'apt'
+include_recipe 'supervisor'
 include_recipe 'primero::common'
 
 %w(git
@@ -171,8 +172,15 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   group node[:primero][:app_group]
 end
 
-execute_bundle 'restart-solr' do
-  command "rake sunspot:solr:restart"
+supervisor_service 'solr' do
+  command "#{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec rake sunspot:solr:run"
+  environment({'RAILS_ENV' => 'production'})
+  autostart true
+  autorestart true
+  user node[:primero][:app_user]
+  directory node[:primero][:app_dir]
+  numprocs 1
+  action [:enable, :restart]
 end
 
 execute_bundle 'setup-db-seed' do

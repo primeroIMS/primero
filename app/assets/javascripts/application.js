@@ -41,6 +41,7 @@
 //= require session_timeout
 //= require flag_children
 //= require subforms
+//= require lookup_values
 //= require photo_audio_fields
 //= require chosen
 //= require age_birth_date
@@ -55,10 +56,5 @@
 //= require date_range_validation
 //= require flag_records
 //= require actions
-//= require select_multiple_records
 //= require summary_page
 
-
-$(document).ready(function() {
-	$(document).foundation();
-});
