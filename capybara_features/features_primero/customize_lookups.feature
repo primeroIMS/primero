@@ -17,22 +17,18 @@ Feature: Customize Lookups
     And I click the "Save" button
 
     Then I should see "Please select at least one lookup value"
-    #And I fill in "Options" with "ONE"
-    #And I fill in "Options" with "TWO"
-    #And I click the "Save" button
+    And I update the 1st lookup value with "ONE"
+    And I update the 2nd lookup value with "TWO"
+    And I click the "Save" button
 
-    #Then I should see "Lookup Successfully Added"
+    Then I should see "Lookup successfully added"
 
-    #Then I follow "Edit"
-    #Then I should see "???"
-    #And I fill in "???" with "???"
-    #And I click on "Add Option"
-    #And I fill in "????"
-    #And I click the "Save" button
+    Then I follow "Edit"
+    #And I click the "Add Option" button
+    #And I update the 3rd lookup value with "THREE"
+    And I click the "Save" button
 
-    #Then I should see "???"
-
-    #And I follow "Delete"
-    #And I click OK in the browser popup
-    #Then I should not see "Test Lookup"
+    And I follow "Delete"
+    And I click OK in the browser popup
+    Then I should not see "Test Lookup"
     #And I should not see "????"

@@ -321,6 +321,13 @@ And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
   end
 end
 
+## Lookup values
+Then(/^I update the (\d+)(?:st|nd|rd|th) lookup value with "(.*?)"$/) do |num, value|
+  index = num.to_i - 1
+  lookup_values = page.all(:css, '.lookup_value')
+  lookup_values[index].find(:css, "input[id$='lookup_lookup_values_']").set(value)
+end
+
 ## Added for debugging purposes
 And /^pause$/ do
   binding.pry
