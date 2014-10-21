@@ -57,3 +57,8 @@ default[:rvm].tap do |rvm|
 end
 
 default[:nginx_dir] = '/etc/nginx'
+
+default[:python][:install_method] = 'package'
+default[:python][:setuptools_version] = '3.4.4'
+default[:python][:virtualenv_version] = '1.11.4'
+default[:supervisor][:version] = '3.1.2'
