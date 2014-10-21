@@ -9,12 +9,6 @@
   </div>
   <div class="medium-8 large-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
-      <% if false %>
-      <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
-          <%= icon('clock-o') %>
-          <span class="log"><%= t("user.user_action_history") %></span>
-      <% end %>
-      <% end %>
       <div class="row">
         <div class="large-12 columns">
           <%= render :partial => "editable_user", :object => @user %>

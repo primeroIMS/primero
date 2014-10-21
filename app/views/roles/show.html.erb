@@ -8,7 +8,7 @@
       <span class="edit"><%= t("buttons.edit") %></span>
     </a>
   <% end %>
-  <%= render partial: 'exports/button', locals: {model: Role, instance: @role} %>
+  <%#= render partial: 'exports/button', locals: {model: Role, instance: @role} %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
@@ -51,6 +51,25 @@
                               <label><%= f.check_box :permissions, {:id => permission.dehumanize, :name => "role[permissions][]", :disabled => "disabled"}, permission, "" %>
                                 <%= t("permissions.permission.#{permission}") %></label>
                               <% end %>
+                          </span>
+                      <% end %>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="medium-4 columns">
+                    <%= f.label :permitted_form_ids, t("forms.label"), :class=>'key'  %>
+                  </div>
+                  <div class="medium-8 columns">
+                    <span class="value value_form">
+                      <%  @forms_by_record_type.each do |record_type, forms_list| %>
+                          <span class="section section-show">
+                            <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
+                            <% forms_list.each do |form| %>
+                              <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}", :name => "role[permitted_form_ids][]", disabled: "disabled"}, form.unique_id, "" %>
+                              <%= form.name %></label>
+                            <% end %>
                           </span>
                       <% end %>
                     </span>

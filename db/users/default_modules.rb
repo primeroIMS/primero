@@ -4,6 +4,7 @@ def create_or_update_module(module_hash)
 
 
   #Include associated subforms
+  #TODO: Refactor to use FormSection.get_subforms
   if module_hash[:associated_form_ids].present?
     #Preserve existing associated form ids
     module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | primero_module.associated_form_ids if primero_module.present?
