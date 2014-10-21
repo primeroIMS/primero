@@ -5,7 +5,7 @@ class LookupsController < ApplicationController
   def index
     authorize! :index, Lookup
     @page_name = t("lookup.index")
-    @lookups = Lookup.all
+    @lookups = Lookup.all.all
   end
 
   def new
@@ -16,7 +16,7 @@ class LookupsController < ApplicationController
 
   def create
     authorize! :create, Lookup
-    lookup = Lookup.new(params[:lookup])    
+    lookup = Lookup.new(params[:lookup])
 
     if (lookup.valid?)
       lookup.create

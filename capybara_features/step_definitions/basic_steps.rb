@@ -321,6 +321,28 @@ And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
   end
 end
 
+## Lookup values
+Then /^I should see (\d+) lookup value(?:s)? on the page$/ do |num|
+  lookup_values = page.all(:css, '.lookup_value')
+  lookup_values.size.should == num.to_i
+end
+
+Then(/^I update the (\d+)(?:st|nd|rd|th) lookup value with "(.*?)"$/) do |num, value|
+  index = num.to_i - 1
+  lookup_values = page.all(:css, '.lookup_value')
+  lookup_values[index].find(:css, "input[id$='lookup_lookup_values_']").set(value)
+end
+
+Then /^I add a lookup value/ do
+  find("//a[@id='lookup_values_add_button']",:visible => true).click
+end
+
+Then /^I remove the (\d+)(?:st|nd|rd|th) lookup value$/ do |num|
+  index = num.to_i - 1
+  lookup_values = page.all(:css, '.lookup_value')
+  lookup_values[index].click_on("Remove")
+end
+
 ## Added for debugging purposes
 And /^pause$/ do
   binding.pry
