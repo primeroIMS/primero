@@ -48,8 +48,6 @@ en:
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
-    system_generated_followup_flag: "mandatory follow up visit"
-    system_generated_followup_unflag: "expired"
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
 
@@ -906,6 +904,18 @@ en:
     quarter_3: "Quarter 3"
     quarter_2: "Quarter 2"
     quarter_1: "Quarter 1"
+
+  followup_reminders:
+    system_generated_followup_flag: "mandatory follow up visit"
+    system_generated_followup_unflag: "expired"
+    system_generated_followup_unflag_cancelled: "cancelled"
+    high_risk_level: "High"
+    medium_risk_level: "Medium"
+    low_risk_level: "Low"
+    child_status_open: "Open"
+    child_status_closed: "Closed"
+    child_status_transferred: "Transferred"
+    child_status_duplicate: "Duplicate"
 
   errors:
 

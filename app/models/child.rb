@@ -75,10 +75,12 @@ class Child < CouchRest::Model::Base
             :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['couchrest-type'] == 'Child'
+                             && doc['record_state'] == true
                              && doc['system_generated_followup'] == true
                              && doc['risk_level'] != null
+                             && doc['child_status'] != null
                              && doc['registration_date'] != null) {
-                           emit(doc['risk_level'], null);
+                           emit([doc['child_status'], doc['risk_level']], null);
                          }
                        }
                      }"
@@ -86,10 +88,23 @@ class Child < CouchRest::Model::Base
     view :by_followup_reminders_scheduled,
             :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                         if (doc.hasOwnProperty('flags')) {
+                         if (doc['record_state'] == true && doc.hasOwnProperty('flags')) {
                            for(var index = 0; index < doc['flags'].length; index++) {
                              if (doc['flags'][index]['system_generated_followup'] && !doc['flags'][index]['removed']) {
-                               emit(doc['flags'][index]['date'], null);
+                               emit([doc['child_status'], doc['flags'][index]['date']], null);
+                             }
+                           }
+                         }
+                       }
+                     }"
+
+    view :by_followup_reminders_scheduled_invalid_record,
+            :map => "function(doc) {
+                       if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                         if (doc['record_state'] == false && doc.hasOwnProperty('flags')) {
+                           for(var index = 0; index < doc['flags'].length; index++) {
+                             if (doc['flags'][index]['system_generated_followup'] && !doc['flags'][index]['removed']) {
+                               emit(doc['record_state'], null);
                              }
                            }
                          }
