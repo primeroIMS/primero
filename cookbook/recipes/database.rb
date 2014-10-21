@@ -5,6 +5,14 @@ include_recipe 'apt'
 include_recipe 'primero::common'
 package 'build-essential'
 
+node.force_default[:primero][:couchdb][:config][:log][:file] = "#{node[:primero][:log_dir]}/couchdb/couch.log"
+node.force_default[:primero][:couchdb][:config][:log][:level] = "info"
+node.force_default[:primero][:couchdb][:config][:admins] = {
+  node[:primero][:couchdb][:username] => node[:primero][:couchdb][:password],
+}
+
+package 'couchdb'
+
 file node[:primero][:couchdb][:cert_path] do
   content node[:primero][:couchdb][:ssl][:cert]
   owner 'root'
@@ -19,17 +27,18 @@ file node[:primero][:couchdb][:key_path] do
   mode '400'
 end
 
-node.default[:couch_db][:src_version] = '1.5.0'
-node.default[:couch_db][:src_checksum] = 'abbdb2a6433124a4a4b902856f6a8a070d53bf7a55faa7aa8b6feb7127638fef'
-node.force_default[:couch_db][:config][:log][:file] = "#{node[:primero][:log_dir]}/couchdb/couch.log"
-node.force_default[:couch_db][:config][:admins] = {
-  node[:primero][:couchdb][:username] => node[:primero][:couchdb][:password],
-}
-
-include_recipe 'couchdb::source'
+template '/etc/couchdb/local.ini' do
+  owner 'couchdb'
+  group 'couchdb'
+  source 'couchdb/local.ini.erb'
+  variables( :config => node[:primero][:couchdb][:config] )
+  mode '0644'
+  notifies :restart, 'service[couchdb]'
+end
 
 service 'couchdb' do
-  action :nothing
+  action [:enable, :start]
+  provider Chef::Provider::Service::Upstart
 end
 
 include_recipe 'primero::nginx_couch'
