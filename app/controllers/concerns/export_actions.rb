@@ -6,6 +6,11 @@ module ExportActions
   end
 
   def respond_to_export(format, models)
+    if params[:selected_records].present?
+      selected_records = params[:selected_records].split(",")
+      models = models.select {|m| selected_records.include? m.id } if selected_records.any?
+    end
+    
     Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
         authorize! :export, model_class
