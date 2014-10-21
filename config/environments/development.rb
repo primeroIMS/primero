@@ -24,9 +24,7 @@ RapidFTR::Application.configure do
   config.assets.compress = false
   config.assets.debug = ENV['DEBUG_ASSETS'] == 'no' ? false : true
 
-  config.eager_load = false
+  config.eager_load = ENV['PROFILE'] == 'true' ? true : false
 
   BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
-
-  config.middleware.insert 0, "Rack::RequestProfiler", :printer => ::RubyProf::CallTreePrinter
 end
