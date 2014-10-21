@@ -8,7 +8,7 @@ module ExportActions
   def respond_to_export(format, models)
     if params[:selected_records].present?
       selected_records = params[:selected_records].split(",")
-      models = models.select {|m| selected_records.include? m.id } if selected_records.any?
+      models = models.select {|m| selected_records.include? m.id } if selected_records.present?
     end
     
     Exporters::active_exporters_for_model(model_class).each do |exporter|
