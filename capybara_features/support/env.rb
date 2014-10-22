@@ -56,6 +56,7 @@ end
 
 Capybara.app_host = SELENIUM_CFG['app_host'] if ENV["SELENIUM"] == 'remote'
 Capybara.run_server = true #Whether start server when testing
+Capybara.server_port = ENV["CAPYBARA_SERVER_PORT"] || nil
 Capybara.default_selector = :xpath #default selector , you can change to :css
 Capybara.default_wait_time = 25 #When we testing AJAX, we can set a default wait time
 Capybara.ignore_hidden_elements = false #Ignore hidden elements when testing, make helpful when you hide or show elements using javascript
