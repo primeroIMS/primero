@@ -844,9 +844,10 @@ en:
       weekly_report: "Weekly Report"
 
   encrypt:
-    password_title: "Password"
-    password_label: "Enter password to encrypt file"
+    password_title: "Create Password"
+    password_label: "Please enter a password that will encrypt your file."
     password_mandatory: "Enter a valid password"
+    password_extra_info: "This password will be associated with the exported file and will need to be entered by anyone opening this file in the future."
 
   administration: "Administration"
   new: "New"
