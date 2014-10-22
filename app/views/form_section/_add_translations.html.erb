@@ -2,16 +2,28 @@
   is_field_edit ||= false
 %>
 <div class="translation">
-  <% if show_drop_down %>
-    <div class="lang_title"><%= t(:provide_translation) %>
-      <%= select_tag("locale", options_for_select(RapidFTR::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
-    </div>
-  <% end %>
-  <% RapidFTR::Application::LOCALES.each do |given_locale| %>
-      <% if I18n.default_locale.to_s != given_locale %>
-        <div class="<%= "translation_forms #{given_locale}"%> hide">
-          <%= render :partial => 'form_section/fields', :locals => {:fields => fields, :fld => fld, :given_locale => given_locale, :is_translation => true, :is_field_edit => is_field_edit}%>
+  <fieldset data-equalizer-watch>
+    <% if show_drop_down %>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key inline"><%= t(:provide_translation) %></label>
+          </div>
+          <div class="medium-8 columns">
+            <div class="lang_title">
+              <%= select_tag("locale", options_for_select(RapidFTR::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
+            </div>
+          </div>
         </div>
+    <% end %>
+    <div class="form-section-content">
+      <% RapidFTR::Application::LOCALES.each do |given_locale| %>
+          <% if I18n.default_locale.to_s != given_locale %>
+            <div class="<%= "translation_forms #{given_locale}"%> hide">
+              <%= render :partial => 'form_section/fields', :locals => {:fields => fields, :fld => fld, :given_locale => given_locale, :is_translation => true, :is_field_edit => is_field_edit}%>
+            </div>
+          <% end %>
       <% end %>
-  <% end %>
+    </div>
+  </fieldset>
 </div>
+

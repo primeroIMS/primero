@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////
 
 .record_controls {
-  padding-top: 20px;
+  padding-top: 7px;
 
   ul.inline-list {
     overflow: visible;
@@ -20,7 +20,7 @@
     a.arrow:after {
       content: "";
       background: url(image_path("edit_carot.png")) no-repeat;
-      height: 37px; 
+      height: 37px;
       width: 8px;
       float: right;
       margin: -9px 0 0 17px;
@@ -56,7 +56,7 @@
 
 .record_controls_container {
   width: 100%;
-  height: 80px;
+  height: 51px;
   z-index: 9999;
   background: $white_color;
 }

@@ -1,10 +1,15 @@
-<div class="row">
+<% content_for :breadcrumbs do %>
+<!-- TODO: Translate this -->
+ Edit Form
+<% end %>
+
+
+<div class="row collapse">
   <div class="large-12 medium-12 columns">
     <div class="page-content-new form_page">
-      <div class="side-tab-content full_width">
-        <%= render :partial => "form_section/new_or_edit_form_section" %>
-        <%= render :partial => "form_section/edit_fields"%>
-      </div>
+      <%= render :partial => "form_section/new_or_edit_form_section" %>
+      <hr>
+      <%= render :partial => "form_section/edit_fields"%>
     </div>
   </div>
 </div>

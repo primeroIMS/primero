@@ -450,3 +450,33 @@ fieldset {
     background: none repeat scroll 0 0 #fff;
   }
 }
+
+.form-section-content {
+  margin-top: 20px;
+
+  fieldset {
+    .row {
+      padding:5px 0;
+    }
+
+    &.panel {
+      padding: 20px !important;
+      background: #f7f7f7;
+      border: 1px solid #ddd !important;
+      margin: 0;
+    }
+  }
+
+  hr {
+    background: none;
+    border-bottom: 1px solid #ebebeb
+  }
+}
+
+.translation {
+  margin-top: 62px;
+
+  .row {
+    padding: 0;
+  }
+}

@@ -12,7 +12,7 @@
     <div class="large-12 medium-12 columns">
       <h3><i><%= t("forms.cannot_be_edited") %></i></h3>
     </div>
-  <% end %> 
+  <% end %>
 </div>
 
 <div class="row">
@@ -28,7 +28,7 @@
     <input type="hidden" id="move_url" value="<%= change_form_form_section_fields_path(@form_section) %>">
     <input type="hidden" id="save_order_url" value="<%= save_order_form_section_fields_path(@form_section) %>">
 
-    <table id="list_table_2" class="list_table_2">
+    <table id="list_table_2" class="list_table_2 dataTable">
       <thead>
         <tr>
           <th><%= t("fields.display_name") %></th>
@@ -123,7 +123,7 @@
                                                                                                                {:option_strings_text => :text_area}] } %>
   <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
                                                                                                                   {:option_strings_text => :text_area}, {:option_strings_source => :select_box}] } %>
-  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %> 
+  <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %>
   <%
     #TODO
     # handle hidden text fields

@@ -1,30 +1,29 @@
-<table id="list_table_2" class="list_table_2">
+<table id="list_table_2" class="list_table_2 dataTable" width="100%">
   <thead>
-  <tr>
-    <th><%= t "form_sectoin.name" %></th>
-    <th><%= t "form_sectoin.group" %></th>
-    <th><%= t "form_sectoin.description" %></th>
-    <th ><%= t "form_sectoin.actions" %></th>
-  </tr>
+    <tr>
+      <th><%= t "form_sectoin.name" %></th>
+      <th><%= t "form_sectoin.group" %></th>
+      <th><%= t "form_sectoin.description" %></th>
+      <th ><%= t "form_sectoin.actions" %></th>
+    </tr>
   </thead>
-
   <tbody>
-      <% @form_sections.each do |form_group, forms| %>
-        <% forms.each do |form| %>
-            <tr class="#{form.visible? ? '' : 'hidden_form'}">
-              <td><%= form.name %></td>
-              <td><%= form_group %></td>
-              <td><%= form.description %></td>
-              <td>
-                <%= link_to t("buttons.edit"), edit_form_section_path(form.section_name, module_id: primero_module.id) %>
-                &nbsp;
-                <% unless form.core_form %>
-                  <%= link_to t("buttons.delete"), form_section_path(form), data: {confirm: t("form_section.confirm_delete")}, method: :delete %>
-                <% end %>
-              </td>
-            </tr>
-        <% end %>
+    <% @form_sections.each do |form_group, forms| %>
+      <% forms.each do |form| %>
+          <tr class="#{form.visible? ? '' : 'hidden_form'}">
+            <td><%= form.name %></td>
+            <td><%= form_group %></td>
+            <td><%= form.description %></td>
+            <td>
+              <%= link_to t("buttons.edit"), edit_form_section_path(form.section_name, module_id: primero_module.id) %>
+              &nbsp;
+              <% unless form.core_form %>
+                <%= link_to t("buttons.delete"), form_section_path(form), data: {confirm: t("form_section.confirm_delete")}, method: :delete %>
+              <% end %>
+            </td>
+          </tr>
       <% end %>
+    <% end %>
   </tbody>
 </table>
 

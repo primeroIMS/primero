@@ -1,7 +1,12 @@
-<h1 class="no_border">Forms</h1>
-<div class="page-content-new form_page">
-  <div class="side-tab-content full_width">
-    <div class="row"><div class="medium-12 columns"><%= t("forms.messages.use_existing") %></div></div>
-    <%= render :partial => 'form_section/new_or_edit_form_section' %>
+<% content_for :breadcrumbs do %>
+<!-- TODO: Translate this -->
+ New Form
+<% end %>
+
+<div class="row collapse">
+  <div class="medium-12 columns panel text-center">
+    <%= t("forms.messages.use_existing") %>
   </div>
 </div>
+
+<%= render :partial => 'form_section/new_or_edit_form_section' %>

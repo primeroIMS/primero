@@ -1,4 +1,9 @@
-<div class="row">
+<% content_for :record_sub_nav do %>
+  <li><%= discard_button(form_sections_path) %></li>
+  <li><%= submit_button t("forms.save_details") %></li>
+<% end %>
+
+<div class="row collapse">
   <div class="medium-12 columns">
     <%= error_messages_for  :form_section,
                             :header_tag => :h3,
@@ -7,30 +12,22 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="medium-12 columns">
+<div class="row collapse" data-equalizer>
+  <div class="medium-6 columns form-section-content">
     <%= form_for @form_section, :url => url_for_form_section(@form_section), :html => {:class => ""} do |f| %>
       <div class="form_details_panel">
-        <div class="btn_panel">
-          <div class="row">
-            <div class="medium-12 columns">
-              <%= cancel_button(form_sections_path) %>
-              <%= submit_button t("forms.save_details") %>
-            </div>
-          </div>
-        </div>
         <div class="default_lang_panel">
           <div class="lang_title">
-            <%= t("forms.initial_language") %> : <span><%= t("home.#{I18n.default_locale}") %></span>
+            <%= t("forms.initial_language") %>: <span><%= t("home.#{I18n.default_locale}") %></span>
           </div>
-          <fieldset>
+          <fieldset data-equalizer-watch>
             <%= hidden_field_tag "module_id", @module_id, :id => "form_section_module_id" %>
             <%= hidden_field_tag "form_section[parent_form]", @parent_form, :id => "form_section_parent_form" %>
 
             <% unless @form_section.perm_enabled? %>
               <div class="row">
                 <div class="medium-3 columns">
-                  <%= f.label :visible, t("visible", :locale => I18n.default_locale), :class => 'key' %>
+                  <%= f.label :visible, t("visible", :locale => I18n.default_locale), :class => 'key inline' %>
                 </div>
                 <div class="medium-9 columns">
                   <%= f.check_box :visible?, {}, "true", "false" %>
@@ -39,7 +36,7 @@
             <% end %>
             <div class="row">
               <div class="medium-3 columns">
-                <%= f.label :name, t("name", :locale => I18n.default_locale), :class => 'key' %>
+                <%= f.label :name, t("name", :locale => I18n.default_locale), :class => 'key inline' %>
               </div>
               <div class="medium-9 columns">
                 <%= f.text_field "name_#{I18n.default_locale}", :id => "form_section_name" %>
@@ -47,15 +44,15 @@
             </div>
             <div class="row">
               <div class="medium-3 columns">
-                <%= f.label :description, t("description", :locale => I18n.default_locale), :class => 'key' %>
+                <%= f.label :description, t("description", :locale => I18n.default_locale), :class => 'key inline' %>
               </div>
               <div class="medium-9 columns">
-                <%= f.text_field "description_#{I18n.default_locale}", :id => "form_section_description" %>
+                <%= f.text_area "description_#{I18n.default_locale}", :id => "form_section_description" %>
               </div>
             </div>
             <div class="row">
               <div class="medium-3 columns">
-                <%= f.label :help_text, t("help_text", :locale => I18n.default_locale), :class => 'key' %>
+                <%= f.label :help_text, t("help_text", :locale => I18n.default_locale), :class => 'key inline' %>
               </div>
               <div class="medium-9 columns">
                 <%= f.text_field "help_text_#{I18n.default_locale}", :id => "form_section_help_text" %>
@@ -63,7 +60,7 @@
             </div>
             <div class="row">
               <div class="medium-3 columns">
-                <%= f.label :form_group_name, t("form_group_name", :locale => I18n.default_locale), :class => 'key' %>
+                <%= f.label :form_group_name, t("form_group_name", :locale => I18n.default_locale), :class => 'key inline' %>
               </div>
               <div class="medium-9 columns">
                 <%= f.text_field "form_group_name", :id => "form_section_form_group_name" %>
@@ -71,15 +68,14 @@
             </div>
           </fieldset>
         </div>
-        <div class="translation_lang_panel">
-          <div class="row">
-            <div class="medium-12 columns">
-              <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:help_text => :text_field}], :fld => f, :show_drop_down => true} %>
-            </div>
-          </div>
-        </div>
-        <div class="clearfix"></div>
       </div>
-    <% end %>
   </div>
+  <div class="translation_lang_panel">
+    <div class="medium-6 columns">
+      <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:help_text => :text_field}], :fld => f, :show_drop_down => true} %>
+    </div>
+  </div>
+  <% end %>
 </div>
+
+

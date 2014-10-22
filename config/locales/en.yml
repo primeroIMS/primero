@@ -657,7 +657,7 @@ en:
   forms:
     label: "Forms"
     save: "Save Form"
-    save_details: "Save Details"
+    save_details: "Save"
     messages:
       use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
     initial_language: "Initial Language"
