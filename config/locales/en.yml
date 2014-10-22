@@ -544,6 +544,8 @@ en:
     name: "Name"
     successfully_updated: "Module details are successfully updated."
     error_in_updating: "Error in updating the Module details."
+    record_type: "Record Types for this module"
+    forms: "Forms assigned to this module"
 
   primero_programs:
     label: "Program"
