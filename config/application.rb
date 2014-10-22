@@ -15,6 +15,7 @@ module RapidFTR
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(
       #{config.root}/lib
+      #{config.root}/lib/couch_changes
       #{config.root}/lib/schedules
       #{config.root}/lib/rapid_ftr
       #{config.root}/lib/extensions
