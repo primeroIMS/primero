@@ -106,6 +106,8 @@ en:
      filter_label: "Filter:"
      filter: "Apply Filter"
      flag_records: "Flag"
+     flag_model: "Flag %{model}"
+     unflag_model: "Unflag %{model}"
      ok: 'OK'
 
   placeholders:
@@ -664,6 +666,7 @@ en:
     cannot_be_edited: "Fields on this form cannot be edited."
     record_types:
       case: "Case"
+      child: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
 
