@@ -1,14 +1,18 @@
 <% content_for :breadcrumbs do %>
   <%= link_to(I18n.t("users.label"), users_path) + ": " if can?(:read, User)%>  <%= @user.user_name %>
-  <%# TODO: Removing the edit link temporarily %>
-  <% if false %>
+<% end %>
+
+<% content_for :record_sub_nav do %>
   <% if can? :edit, User %>
-      <%= link_to '('+I18n.t("buttons.edit")+')', edit_user_path(@user), :class => 'edit_crumb'%>
+      <%= link_to I18n.t("buttons.edit"), edit_user_path(@user), class: 'btn green-button'%>
   <% else %>
-      <%=	link_to "(" + I18n.t("buttons.change_password") +")", change_password_users_path %>
+      <%= link_to I18n.t("buttons.change_password"), change_password_users_path, class: 'btn green-button' %>
   <% end %>
+  <%#= render partial: 'exports/button', locals: {model: User, instance: @user} %>
+  <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
+    <%= icon('clock-o') %>
+    <span class="log"><%= t("user.user_action_history") %></span>
   <% end %>
-  <%= render partial: 'exports/button', locals: {model: User, instance: @user} %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
@@ -17,36 +21,14 @@
   </div>
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
-      <%# TODO: We removed user history. We will need to put that back in %>
-      <% if false %>
-      <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
-          <%= icon('clock-o') %>
-          <span class="log"><%= t("user.user_action_history") %></span>
-      <% end %>
-      <% end %>
       <div class="clearfix"></div>
       <fieldset class="no-border">
-        <div class="row">
-          <div class="medium-4 columns">
-            <label class="key"><%= t("name") %>:</label>
-          </div>
-          <div class="medium-8 columns">
-            <%= h @user.full_name %>
-          </div>
-        </div>
+        <%= resource_show_field @user, 'full_name', 'name' %>
+        <%= resource_show_field @user, 'user_name', 'login.username' %>
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("login.username")%>:</label>
-          </div>
-          <div class="medium-8 columns">
-            <%= h @user.user_name %>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="medium-4 columns">
-            <label class="key"><%= t("permissions.label") %>:</label>
+            <label class="key"><%= t("roles.label") %>:</label>
           </div>
           <div class="medium-8 columns">
             <%= @user.roles.map(&:name).join(", ") %>
@@ -55,48 +37,27 @@
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("contact.field.phone") %>:</label>
+            <label class="key"><%= t("modules.label") %>:</label>
           </div>
           <div class="medium-8 columns">
-            <%= h @user.phone %>
+            <%= @user.modules.map(&:name).join(", ") %>
           </div>
         </div>
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("email") %>:</label>
+            <label class="key"><%= t("user_groups.label") %>:</label>
           </div>
           <div class="medium-8 columns">
-            <%= h @user.email %>
+            <%= @user.user_groups.map(&:name).join(", ") %>
           </div>
         </div>
 
-        <div class="row">
-          <div class="medium-4 columns">
-            <label class="key"><%= t("organization") %>:</label>
-          </div>
-          <div class="medium-8 columns">
-            <%= h @user.organization %>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="medium-4 columns">
-            <label class="key"><%= t("position") %>:</label>
-          </div>
-          <div class="medium-8 columns">
-            <%= h @user.position %>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="medium-4 columns">
-            <label class="key"><%= t("location") %>:</label>
-          </div>
-          <div class="medium-8 columns">
-            <%= h @user.location %>
-          </div>
-        </div>
+        <%= resource_show_field @user, 'phone', 'contact.field.phone' %>
+        <%= resource_show_field @user, 'email', 'email' %>
+        <%= resource_show_field @user, 'organization', 'organization' %>
+        <%= resource_show_field @user, 'position', 'position' %>
+        <%= resource_show_field @user, 'location', 'location' %>
 
         <div class="row">
           <div class="medium-4 columns">

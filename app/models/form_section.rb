@@ -30,6 +30,9 @@ class FormSection < CouchRest::Model::Base
   property :collapsed_fields, [String], :default => []
   #Will display a help text on show page if the section is empty.
   property :display_help_text_view, TrueClass, :default => false
+  property :shared_subform
+  property :shared_subform_group
+  property :is_summary_section, TrueClass, :default => false
 
   design do
     view :by_unique_id
@@ -42,7 +45,7 @@ class FormSection < CouchRest::Model::Base
                     for(var i = 0; i<doc['fields'].length; i++){
                       var field = doc['fields'][i];
                       if (field['subform_section_id'] != null){
-                        emit(field['subform_section_id'], doc._id);
+                        emit(field['subform_section_id'], null);
                       }
                     }
                   }
@@ -73,6 +76,9 @@ class FormSection < CouchRest::Model::Base
 
   def initialize(properties={}, options={})
     self["fields"] = []
+    self["shared_subform"] ||= ""
+    self["shared_subform_group"] ||= ""
+    self["is_summary_section"] ||= false
     super properties, options
     create_unique_id
   end
@@ -100,6 +106,28 @@ class FormSection < CouchRest::Model::Base
       end.flatten
     end
 
+    #Given a list of forms, return their subforms
+    def get_subforms(forms)
+      subform_ids, result = [], []
+      forms.map{|f| f.fields}.flatten.each do |field|
+        if field.type == 'subform' && field.subform_section_id
+          subform_ids.push field.subform_section_id
+        end
+      end
+      if subform_ids.present?
+        result = FormSection.by_unique_id(keys: subform_ids).all
+      end
+      return result
+    end
+
+    def all_forms_grouped_by_parent(include_subforms=false)
+      forms = all.all
+      unless include_subforms
+        forms = forms.select{|f| !f.is_nested}
+      end
+      forms.group_by{|f| f.parent_form}
+    end
+
     def all_child_fields
       all.map do |form_section|
         form_section.fields
@@ -117,11 +145,17 @@ class FormSection < CouchRest::Model::Base
     #If the form section does exist will attempt
     #to create fields if the fields does not exists.
     def create_or_update_form_section(properties = {})
-      return nil unless properties[:unique_id]
-      form_section = self.get_by_unique_id(properties[:unique_id])
-      return self.create!(properties) unless form_section
-      form_section.attributes = properties
-      form_section.save
+      unique_id = properties[:unique_id]
+      return nil if unique_id.blank?
+      form_section = self.get_by_unique_id(unique_id)
+      if form_section.present?
+        Rails.logger.info {"Updating form section #{unique_id}"}
+        form_section.attributes = properties
+        form_section.save
+      else
+        Rails.logger.info {"Creating form section #{unique_id}"}
+        return self.create!(properties)
+      end
       form_section
     end
 
@@ -134,8 +168,6 @@ class FormSection < CouchRest::Model::Base
       #TODO: the sortby can be moved to a couchdb view
       by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
     end
-    memoize :find_by_parent_form if Rails.env == 'development'
-
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -288,6 +320,10 @@ class FormSection < CouchRest::Model::Base
   def self.add_field_to_formsection formsection, field
     raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
     field.merge!({'base_language' => formsection['base_language']})
+    if field.type == 'subform'
+      field.subform_section_id = "#{formsection.unique_id}-subform-#{field.name}".parameterize.dasherize
+      create_subform(formsection, field)
+    end
     formsection.fields.push(field)
     formsection.save
   end
@@ -431,5 +467,22 @@ class FormSection < CouchRest::Model::Base
 
   def create_unique_id
     self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
+  end
+
+  def self.create_subform(formsection, field)
+    self.create_or_update_form_section({
+              :visible=>false,
+              :is_nested=>true,
+              :core_form=>false,
+              :editable=>true,
+              :base_language=>formsection.base_language,
+              :order_form_group => formsection.order_form_group,
+              :order => formsection.order,
+              :order_subform => 1,
+              :unique_id=>field.subform_section_id,
+              :parent_form=>formsection.parent_form,
+              :name_all=>field.display_name,
+              :description_all=>field.display_name
+    })
   end
 end

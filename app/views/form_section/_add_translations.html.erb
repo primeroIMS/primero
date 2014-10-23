@@ -1,3 +1,6 @@
+<%
+  is_field_edit ||= false
+%>
 <div class="translation">
   <% if show_drop_down %>
     <div class="lang_title"><%= t(:provide_translation) %>
@@ -7,7 +10,7 @@
   <% RapidFTR::Application::LOCALES.each do |given_locale| %>
       <% if I18n.default_locale.to_s != given_locale %>
         <div class="<%= "translation_forms #{given_locale}"%> hide">
-          <%= render :partial => 'shared/fields', :locals => {:fields => fields, :f => f, :given_locale => given_locale}%>
+          <%= render :partial => 'form_section/fields', :locals => {:fields => fields, :fld => fld, :given_locale => given_locale, :is_translation => true, :is_field_edit => is_field_edit}%>
         </div>
       <% end %>
   <% end %>

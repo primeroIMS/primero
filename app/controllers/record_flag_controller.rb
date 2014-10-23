@@ -43,7 +43,7 @@ class RecordFlagController < ApplicationController
       child_filters["child_status"] ||= "open"
     end
 
-    if params[:all_records_selected] == "true"
+    if params[:apply_to_all] == "true"
       pagination_ops = {:page => 1, :per_page => 100}
       begin
         search = @model_class.list_records(child_filters||filter, order, pagination_ops, users_filter, params[:query])

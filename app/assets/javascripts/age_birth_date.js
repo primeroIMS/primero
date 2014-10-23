@@ -2,7 +2,7 @@
 //For example if there a field named child_age and there is the corresponding child_date_of_birth,
 //they will update each other. Field that end on _age and _date_of_birth will be hook up the events.
 var AutoCalculateAgeDOB = Backbone.View.extend({
-  el: '.page_content form',
+  el: '.page_content form:not(.incident-form)',
 
   events: {
     'change input[id$="_date_of_birth"]': 'update_age',

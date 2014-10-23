@@ -3,7 +3,7 @@ module Importable
 
   module ClassMethods
     def get_unique_instance(attributes)
-      self.get(attributes['id'])
+      nil
     end
 
     def create_new_model(attributes={}, current_user=nil)
@@ -15,12 +15,10 @@ module Importable
     end
 
     def import(attributes, current_user)
-      # TODO: The better thing to do here is to rework that controller code
-      # that checks for last_updated_at and blocks the update.  This will be
-      # done in the conflict resolution branch
-      attributes.delete 'last_updated_at'
+      given_id = attributes.delete '_id'
+      existing_by_id = given_id.present? ? self.get(given_id) : nil
 
-      (get_unique_instance(attributes) || create_new_model({}, current_user)).tap do |inst|
+      (get_unique_instance(attributes) || existing_by_id || create_new_model({'_id' => given_id}, current_user)).tap do |inst|
         model_type = attributes.delete('model_type')
 
         if inst.class.name != model_type
@@ -28,6 +26,15 @@ module Importable
         end
 
         self.update_existing_model(inst, attributes, current_user)
+
+        if given_id.present? && given_id != inst.id
+          old_id, inst.id = inst.id, given_id
+          inst.changed_attributes['id'] = old_id
+
+          self.get(old_id).destroy
+        end
+
+        inst
       end
     end
   end

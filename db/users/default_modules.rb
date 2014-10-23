@@ -4,7 +4,11 @@ def create_or_update_module(module_hash)
 
 
   #Include associated subforms
+  #TODO: Refactor to use FormSection.get_subforms
   if module_hash[:associated_form_ids].present?
+    #Preserve existing associated form ids
+    module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | primero_module.associated_form_ids if primero_module.present?
+
     associated_forms = FormSection.by_unique_id(keys: module_hash[:associated_form_ids]).all
     if associated_forms.present?
       subform_ids = []
@@ -70,7 +74,8 @@ create_or_update_module(
     "killing_violation_wrapper", "maiming_violation_wrapper", "recruitment_violation_wrapper",
     "sexual_violence_violation_wrapper", "attack_on_schools_violation_wrapper", "attack_on_hospitals_violation_wrapper",
     "denial_humanitarian_access_violation_wrapper", "abduction_violation_wrapper", "other_violation_wrapper",
-    "individual_details", "group_details", "source", "perpetrators_form", "intervention_form", "incident_other_documents"
+    "individual_details", "group_details", "source", "perpetrators_form", "intervention_form", "incident_other_documents",
+    "mrm_summary_page"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )

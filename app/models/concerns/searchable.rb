@@ -114,7 +114,6 @@ module Searchable
     # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
     #      Currently nothing calls this?
     def reindex!
-      self.refresh_in_sunspot
       Sunspot.remove_all(self)
       self.all.each { |record| Sunspot.index!(record) }
     end

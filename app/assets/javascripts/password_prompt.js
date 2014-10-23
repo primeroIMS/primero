@@ -58,8 +58,12 @@ Primero.PasswordPrompt = (function() {
             passwordDialog.dialog("close");
 
             if (targetType == "a") {
-                var href = targetEl.data("original-href");
-                href += (href.indexOf("?") == -1 ? "?" : "") + "&password=" + password;
+                var href = targetEl.data("original-href"),
+                    selected_records = "";
+                $('input.select_record:checked').each(function(){
+                    selected_records += $(this).val() + ",";
+                });
+                href += (href.indexOf("?") == -1 ? "?" : "") + "&password=" + password + "&selected_records=" + selected_records;
                 window.location = href;
             } else if (targetType == "input") {
                 targetEl.closest("form").find("#hidden-password-field").val(password);

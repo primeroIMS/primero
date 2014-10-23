@@ -27,6 +27,7 @@ en:
     move_item: "You are about to move this field to another form section ({{selection_key}}). Is this OK?"
     enter_valid_date: "Please enter the date in a valid format (dd-mmm-yyyy)"
     enter_valid_field_value: "Please enter a valid field value."
+    enter_valid_number_in_tally: "%{field}: %{tally} must be a valid number"
     valid_search_criteria: "Please enter at least one search criteria"
     show_hide_forms: "Please select form(s) you want to show/hide."
     show_forms: "Are you sure you want to make these form(s) visible?"
@@ -47,8 +48,6 @@ en:
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
-    system_generated_followup_flag: "mandatory follow up visit"
-    system_generated_followup_unflag: "expired"
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
 
@@ -82,6 +81,7 @@ en:
      incidents: "INCIDENTS"
      children: "CHILDREN"
      forms: "FORMS"
+     lookups: "LOOKUPS"
      users: "USERS"
      replications: "SYNC"
      reports: "REPORTS"
@@ -522,7 +522,54 @@ en:
       edit: "Edit"
       update: "Update"
       create: "Create"
+      delete: "Delete"
     view: "View Role"
+    messages:
+      confirmation: "Are you sure you want to delete this role? Deletion can not be undone. Click OK To Delete Role."
+
+  role:
+    create: "Create Role"
+    edit: "Edit Role"
+    name: "Name"
+    successfully_updated: "Role details are successfully updated."
+    error_in_updating: "Error in updating the Role details."
+
+  primero_modules:
+    label: "Modules"
+
+  primero_module:
+    create: "Create Module"
+    edit: "Edit Module"
+    name: "Name"
+    successfully_updated: "Module details are successfully updated."
+    error_in_updating: "Error in updating the Module details."
+
+  primero_programs:
+    label: "Program"
+    actions:
+      show_all: "Showing all"
+      show: "Show"
+      edit: "Edit"
+      update: "Update"
+      create: "Create"
+      delete: "Delete"
+
+  primero_program:
+    create: "Create Program"
+    edit: "Edit Program"
+    name: "Name"
+    successfully_updated: "Program details are successfully updated."
+    error_in_updating: "Error in updating the Program details."
+
+  user_groups:
+    label: "User Groups"
+
+  user_group:
+    create: "Create User Group"
+    edit: "Edit User Group"
+    name: "Name"
+    successfully_updated: "User Group details are successfully updated."
+    error_in_updating: "Error in updating the User Group details."
 
   user:
     label: "user"
@@ -568,6 +615,8 @@ en:
   visible: "Visible"
   hidden: "Hidden"
   help_text: "Help text"
+  multi_select: "Multi Select"
+  option_strings_source: "Option Strings Source"
   cancel: "Cancel"
   discard: "Discard"
   form: "Form"
@@ -578,12 +627,7 @@ en:
   replications: "Replications"
   provide_translation: "Provide translation for"
 
-  role:
-    create: "Create Role"
-    edit: "Edit Role"
-    name: "Name"
-    successfully_updated: "Role details are successfully updated."
-    error_in_updating: "Error in updating the Role details."
+
   record: "record"
   description: "Description"
   name: "Name"
@@ -618,6 +662,10 @@ en:
       use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
     initial_language: "Initial Language"
     cannot_be_edited: "Fields on this form cannot be edited."
+    record_types:
+      case: "Case"
+      incident: "Incident"
+      tracing_request: "Tracing Request"
 
   form_section:
     create: "New Form"
@@ -636,7 +684,6 @@ en:
       hide_confirmation: "Are you sure you want to hide fields?"
       show_confirmation: "Are you sure you want to show fields?"
       drag_drop_help_text: You can click on the fields to drag &amp; drop on the required order.
-
       updated: "Form section successfully added"
     hide: "Hide"
     show: "Show"
@@ -645,6 +692,7 @@ en:
     buttons:
       add: "Add"
     options: "Options"
+    confirm_delete: Are you sure you want to delete this form?
 
 
   advanced_search:
@@ -705,18 +753,27 @@ en:
     label: "Fields"
     field_name: "Field Name"
     display_name: "Display Name"
+    db_name: "DB Name"
+    help_text: "Help Text"
+    actions: "Actions"
     option_strings_text: "Options"
+    option_strings_source: "Lookups"
     form_name: "Form Name"
     action: "Action"
     remove: "Remove"
     subform_remove_message: "Are you sure you want to remove this subform?"
     text_field: "Text Field"
-    check_box: "Check boxes"
-    select_box: "Select drop down"
-    radio_button: "Radio button"
+    check_box: "Check Boxes"
+    select_box: "Select Drop Down"
+    radio_button: "Radio Button"
     text_area: "Text Area"
     numeric_field: "Numeric Field"
     date_field: "Date Field"
+    date_range_field: "Date Range"
+    subform: "Subform"
+    tick_box: "Tick Box"
+    tally_field: "Tally Field"
+    separator: "Separator"
     successfully_added: "Field successfully added"
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
@@ -753,6 +810,21 @@ en:
     start: Start Synchronization
     stop: Stop Synchronization
     configure_a_server: Configure a Server
+    reindex_pending: Reindex Pending
+
+  lookup:
+    create: "New Lookup"
+    label: "Lookup"
+    index: "Manage Lookups"
+    name: "Name"
+    values: "Options"
+    add_value: "Add Option"
+    remove: "Remove"
+    confirm_delete: Are you sure you want to delete this lookup?
+    messages:
+      cannot_create: "Lookup could not be created"
+      correct_errors: "Please correct the following errors and resubmit:"
+      updated: "Lookup successfully added"
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -772,9 +844,10 @@ en:
       weekly_report: "Weekly Report"
 
   encrypt:
-    password_title: "Password"
-    password_label: "Enter password to encrypt file"
+    password_title: "Create Password"
+    password_label: "Please enter a password that will encrypt your file."
     password_mandatory: "Enter a valid password"
+    password_extra_info: "This password will be associated with the exported file and will need to be entered by anyone opening this file in the future."
 
   administration: "Administration"
   new: "New"
@@ -793,6 +866,57 @@ en:
 
     validations:
       blank: "%s must not be blank"
+
+  gbv_report:
+    18_and_over_age: "Age 18 and over"
+    12_17_age: "12-17"
+    0_11_age: "0-11"
+    unknown: "Unknown"
+    adult: "Adult"
+    child: "Child"
+    "yes": "Yes"
+    "no": "No"
+    none: "None"
+    uam_sc_ovc: "UAM/SC/OVC"
+    unaccompanied_minor: "Unaccompanied Minor"
+    separated_child: "Separated Child"
+    other_vulnerable_child: "Other Vulnerable Child"
+    rape: "Rape"
+    sexual_assault: "Sexual Assault"
+    non_gbv: "Non-GBV"
+    disability: "Disability"
+    sexual_violence: "Sexual Violence"
+    intimate_partner_former_partner: "Intimate Partner/Former Partner"
+    intimate_partner_violence: "Intimate Partner Violence"
+    child_sexual_abuse: "Child Sexual Abuse"
+    forced_marriage: "Forced Marriage"
+    early_marriage: "Early Marriage"
+    harmful_traditional_practice: "Harmful Traditional Practice"
+    possible_sexual_exploitation: "Possible Sexual Exploitation"
+    possible_sexual_slavery: "Possible Sexual Slavery"
+    over_1_month: "Over 1 month"
+    2_weeks_1_month: "2 weeks - 1 month"
+    6_14_days: "6-14 Days"
+    4_5_days: "4-5 Days"
+    0_3_days: "0-3 Days"
+    exclude: "Exclude"
+    include: "Include"
+    quarter_4: "Quarter 4"
+    quarter_3: "Quarter 3"
+    quarter_2: "Quarter 2"
+    quarter_1: "Quarter 1"
+
+  followup_reminders:
+    system_generated_followup_flag: "mandatory follow up visit"
+    system_generated_followup_unflag: "expired"
+    system_generated_followup_unflag_cancelled: "cancelled"
+    high_risk_level: "High"
+    medium_risk_level: "Medium"
+    low_risk_level: "Low"
+    child_status_open: "Open"
+    child_status_closed: "Closed"
+    child_status_transferred: "Transferred"
+    child_status_duplicate: "Duplicate"
 
   errors:
 
@@ -967,7 +1091,7 @@ en:
     last_update: "Last Update"
     current_owner: "Current Owner"
     change_log: "Change Log"
-    
+
   exports:
     no_records: "No Records Available!"
     pdf:

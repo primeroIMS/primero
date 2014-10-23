@@ -15,7 +15,7 @@ class LogEntry < CouchRest::Model::Base
           :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'LogEntry') && doc['created_at'])
                 {
-                     emit(doc['created_at'],doc);
+                     emit(doc['created_at'], null);
                 }
           }"
   end

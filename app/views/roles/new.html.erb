@@ -10,68 +10,9 @@
     <div class="side-tab-content" data-equalizer-watch>
       <div class="row">
         <div class="large-12 columns">
-          <div class="mandate_panel"><span>*</span> <%= t("mandatory_field") %></div>
-          <div class="clearfix"></div>
-          <%= form_for @role, :html => {:class => 'default-form'} do |f| %>
-              <div class="clearfix"></div>
-              <%= error_messages_for :role %>
-              <fieldset class="no-border">
-                <div class="row">
-                  <div class="medium-3 columns">
-                    <span class="tool-tip-label">
-                      <%= f.label :name, t("name"), :class=>'key inline'  %>
-                    </span>
-                  </div>
-                  <div class="medium-8 columns">
-                    <%= f.text_field :name %>
-                  </div>
-                  <div class="medium-1 columns">
-                    <span class="required">*</span>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="medium-3 columns">
-                    <span class="tool-tip-label">
-                      <%= f.label :description,t("description"), :class=>'key inline'  %>
-                    </span>
-                  </div>
-                  <div class="medium-8 columns">
-                    <%= f.text_area :description %>
-                  </div>
-                  <div class="medium-1 columns"> </div>
-                </div>
-                <div class="row">
-                  <div class="medium-3 columns">
-                    <span class="tool-tip-label">
-                      <%= f.label :permissions, t("permissions.label"), :class=>'key inline'  %>
-                    </span>
-                  </div>
-                  <div class="medium-8 columns">
-                    <span class="value value_form">
-                      <% translated_permissions.each do |group_name, permissions| %>
-                          <span class="section">
-                          <span class="title"><%= t("permissions.#{group_name}") %></span>
-                          <% Hash[*permissions.flatten].values.each do |permission| %>
-                              <label><%= f.check_box :permissions, {:id => permission.dehumanize, :name => "role[permissions][]"}, permission, "" %>
-                              <%= t("permissions.permission.#{permission}") %></label>
-                          <% end %>
-                          </span>
-                      <% end %>
-                    </span>
-                  </div>
-                  <div class="medium-1 columns">
-                    <span class="required">*</span>
-                  </div>
-                </div>
-              </fieldset>
-          <% end %>
+          <%= render :partial => "editable_role", :object => @role %>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<% content_for :record_sub_nav do %>
-  <!--TODO: After we got the user object in the session replace the DB query with User object-->
-  <%= render_controls(@role) %> 
-<% end %>

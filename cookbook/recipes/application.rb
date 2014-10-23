@@ -1,4 +1,6 @@
 include_recipe 'apt'
+include_recipe 'supervisor'
+include_recipe 'primero::common'
 
 %w(git
    libxml2-dev
@@ -82,6 +84,13 @@ execute_with_ruby 'prod-ruby' do
   EOH
 end
 
+#why this wasn't before?
+directory node[:primero][:app_dir] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 # Run a `git reset` before this step??
 git node[:primero][:app_dir] do
   repository node[:primero][:git][:repo]
@@ -91,6 +100,23 @@ git node[:primero][:app_dir] do
   group node[:primero][:app_group]
   ssh_wrapper git_wrapper_path
 end
+
+[node[:primero][:log_dir],
+ File.join(node[:primero][:log_dir], 'nginx'),
+ File.join(node[:primero][:log_dir], 'solr'),
+ File.join(node[:primero][:log_dir], 'rails')].each do |log_dir|
+  directory log_dir do
+    action :create
+    owner node[:primero][:app_user]
+    group node[:primero][:app_group]
+  end
+end
+
+directory File.join(node[:primero][:log_dir], 'couchdb') do
+  action :create
+  owner 'couchdb'
+  group 'couchdb'
+end 
 
 unless node[:primero][:couchdb][:password]
   Chef::Application.fatal!("You must specify the couchdb password in your node JSON file (node[:primero][:couchdb][:password])!")
@@ -106,7 +132,8 @@ template File.join(node[:primero][:app_dir], 'config', 'sunspot.yml') do
     :environments => [ node[:primero][:rails_env] ],
     :hostnames => {node[:primero][:rails_env].to_s => node[:primero][:solr_hostname]},
     :ports => {node[:primero][:rails_env].to_s => node[:primero][:solr_port]},
-    :log_levels => {node[:primero][:rails_env].to_s => node[:primero][:solr_log_level]}
+    :log_levels => {node[:primero][:rails_env].to_s => node[:primero][:solr_log_level]},
+    :log_files => {node[:primero][:rails_env].to_s => File.join(node[:primero][:log_dir], "solr/sunspot-solr-#{node[:primero][:rails_env]}.log")}
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -145,8 +172,15 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   group node[:primero][:app_group]
 end
 
-execute_bundle 'restart-solr' do
-  command "rake sunspot:solr:restart"
+supervisor_service 'solr' do
+  command "#{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec rake sunspot:solr:run"
+  environment({'RAILS_ENV' => 'production'})
+  autostart true
+  autorestart true
+  user node[:primero][:app_user]
+  directory node[:primero][:app_dir]
+  numprocs 1
+  action [:enable, :restart]
 end
 
 execute_bundle 'setup-db-seed' do

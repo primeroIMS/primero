@@ -1,0 +1,47 @@
+<div class="btn_panel">
+  <div class="row">
+    <%= form_for @lookup, :html => { :class => 'default-form' } do |f| %>
+
+      <%= f.error_messages :header_tag => :h3 %>
+      <div class="clearfix"></div>
+
+      <div class="btn_panel">
+        <div class="row">
+          <div class="medium-12 columns">
+            <%= cancel_button lookups_path %>
+            <%= submit_button t("buttons.save") %>
+          </div>
+        </div>
+      </div>
+
+      <fieldset>
+        <div class="row">
+          <div class="medium-3 columns">
+            <%= f.label :name, t("lookup.name"), :class => "key" %>
+          </div>
+          <div class="medium-9 columns">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-3 columns">
+            <%= f.label :lookup_values, t("lookup.values"), :class => "key" %>
+          </div>
+          <div class="medium-9 columns"></div>
+        </div>
+        <div id="lookup_values">
+          <% if @lookup.lookup_values.present? %>
+            <%= render :partial => 'lookups/lookup_value', :collection => @lookup.lookup_values%>
+          <% else %>
+            <%= render 'lookups/lookup_value', lookup_value: "" %>
+            <%= render 'lookups/lookup_value', lookup_value: "" %>
+          <% end %>
+        </div>
+        <%# Add button %>
+        <div>
+          <a id="lookup_values_add_button" class="green-button lookup_value_add right"><%= t('lookup.add_value') %></a>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

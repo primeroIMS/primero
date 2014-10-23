@@ -24,7 +24,7 @@ class User < CouchRest::Model::Base
   property :time_zone, :default => "UTC"
   property :locale
   property :module_ids, :type => [String]
-  property :user_groups, :type => [String], :default => []
+  property :user_group_ids, :type => [String], :default => []
 
   alias_method :agency, :organization
   alias_method :agency=, :organization=
@@ -41,7 +41,7 @@ class User < CouchRest::Model::Base
             :map => "function(doc) {
                   if ((doc['couchrest-type'] == 'User') && doc['user_name'])
                   {
-                       emit(doc['user_name'],doc);
+                       emit(doc['user_name'], null);
                   }
             }"
 
@@ -49,7 +49,7 @@ class User < CouchRest::Model::Base
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['full_name'])
                 {
-                  emit(doc['full_name'],doc);
+                  emit(doc['full_name'], null);
                 }
             }"
 
@@ -57,18 +57,18 @@ class User < CouchRest::Model::Base
             :map => "function(doc) {
                   if ((doc['couchrest-type'] == 'User') && doc['user_name'])
                   {
-                      emit(['all',doc['user_name']],doc);
+                      emit(['all',doc['user_name']], null);
                       if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                        emit(['active',doc['user_name']],doc);
+                        emit(['active',doc['user_name']], null);
                   }
             }"
     view :by_full_name_filter_view,
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['full_name'])
                 {
-                  emit(['all',doc['full_name']],doc);
+                  emit(['all',doc['full_name']], null);
                   if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                    emit(['active',doc['full_name']],doc);
+                    emit(['active',doc['full_name']], null);
 
                 }
             }"
@@ -83,10 +83,10 @@ class User < CouchRest::Model::Base
 
     view :by_user_group,
             :map => "function(doc) {
-                if (doc['couchrest-type'] == 'User' && doc['user_groups'])
+                if (doc['couchrest-type'] == 'User' && doc['user_group_ids'])
                 {
-                  for (var i in doc['user_groups']){
-                    emit(doc['user_groups'][i], null);
+                  for (var i in doc['user_group_ids']){
+                    emit(doc['user_group_ids'][i], null);
                   }
                 }
             }"
@@ -175,6 +175,11 @@ class User < CouchRest::Model::Base
     @modules ||= PrimeroModule.all(keys: self.module_ids).all
   end
 
+  def user_groups
+    @user_groups ||= UserGroup.all(keys: self.user_group_ids)
+  end
+
+
   def has_module?(module_id)
     self.module_ids.include?(module_id)
   end
@@ -223,8 +228,8 @@ class User < CouchRest::Model::Base
     if self.has_permission? Permission::ALL
       @managed_users ||= User.all.all
       @record_scope = [Searchable::ALL_FILTER]
-    elsif self.has_permission?(Permission::GROUP) && self.user_groups.present?
-      @managed_users ||= User.by_user_group(keys: self.user_groups).all.uniq{|u| u.user_name}
+    elsif self.has_permission?(Permission::GROUP) && self.user_group_ids.present?
+      @managed_users ||= User.by_user_group(keys: self.user_group_ids).all.uniq{|u| u.user_name}
     else
       @managed_users ||= [self]
     end

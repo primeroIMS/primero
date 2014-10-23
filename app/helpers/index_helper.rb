@@ -125,7 +125,7 @@ module IndexHelper
   def list_view_header_case
     header_list = []
 
-    header_list << {title: 'select', sort_title: 'select'}
+    header_list << {title: '', sort_title: 'select'}
     header_list << {title: 'id', sort_title: 'short_id'}
     header_list << {title: 'name', sort_title: 'sortable_name'} if (@is_cp && !@is_manager)
     header_list << {title: 'survivor_code', sort_title: 'survivor_code_no'} if (@is_gbv && !@is_manager)
@@ -142,7 +142,7 @@ module IndexHelper
   def list_view_header_incident
     header_list = []
 
-    header_list << {title: 'select', sort_title: 'select'}
+    header_list << {title: '', sort_title: 'select'}
     #TODO - do I need to handle Incident Code???
     header_list << {title: 'id', sort_title: 'short_id'}
 
@@ -158,7 +158,7 @@ module IndexHelper
 
   def list_view_header_tracing_request
     return [
-        {title: 'select', sort_title: 'select'},
+        {title: '', sort_title: 'select'},
         {title: 'id', sort_title: 'short_id'},
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'}

@@ -33,7 +33,7 @@ class Child < CouchRest::Model::Base
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
   validate :validate_child_wishes
-  # validate :validate_date_closure
+  validate :validate_date_closure
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -59,7 +59,7 @@ class Child < CouchRest::Model::Base
                   if (doc['couchrest-type'] == 'Child')
                  {
                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                      emit(doc['name'], doc);
+                      emit(doc['name'], null);
                     }
                  }
               }"
@@ -75,10 +75,12 @@ class Child < CouchRest::Model::Base
             :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['couchrest-type'] == 'Child'
+                             && doc['record_state'] == true
                              && doc['system_generated_followup'] == true
                              && doc['risk_level'] != null
+                             && doc['child_status'] != null
                              && doc['registration_date'] != null) {
-                           emit(doc['risk_level'], null);
+                           emit([doc['child_status'], doc['risk_level']], null);
                          }
                        }
                      }"
@@ -86,10 +88,23 @@ class Child < CouchRest::Model::Base
     view :by_followup_reminders_scheduled,
             :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                         if (doc.hasOwnProperty('flags')) {
+                         if (doc['record_state'] == true && doc.hasOwnProperty('flags')) {
                            for(var index = 0; index < doc['flags'].length; index++) {
                              if (doc['flags'][index]['system_generated_followup'] && !doc['flags'][index]['removed']) {
-                               emit(doc['flags'][index]['date'], null);
+                               emit([doc['child_status'], doc['flags'][index]['date']], null);
+                             }
+                           }
+                         }
+                       }
+                     }"
+
+    view :by_followup_reminders_scheduled_invalid_record,
+            :map => "function(doc) {
+                       if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                         if (doc['record_state'] == false && doc.hasOwnProperty('flags')) {
+                           for(var index = 0; index < doc['flags'].length; index++) {
+                             if (doc['flags'][index]['system_generated_followup'] && !doc['flags'][index]['removed']) {
+                               emit(doc['record_state'], null);
                              }
                            }
                          }
@@ -137,11 +152,11 @@ class Child < CouchRest::Model::Base
     error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
 
-  # def validate_date_closure
-  #   return true if self["date_closure"].nil? || Date.parse(self["date_closure"]) >= Date.parse(self["registration_date"])
-  #   errors.add(:date_closure, I18n.t("errors.models.child.date_closure"))
-  #   error_with_section(:date_closure, I18n.t("errors.models.child.date_closure"))
-  # end
+  def validate_date_closure
+    return true if self["date_closure"].nil? || self["date_closure"] >= self["registration_date"]
+    errors.add(:date_closure, I18n.t("errors.models.child.date_closure"))
+    error_with_section(:date_closure, I18n.t("errors.models.child.date_closure"))
+  end
 
   def to_s
     if self['name'].present?

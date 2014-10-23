@@ -143,7 +143,9 @@ _primero.set_content_sidebar_equality = function() {
 $(document).ready(function() {
   new tabNavigation();
 
-  $("ul.side-nav").sticky({ 
+  _primero.set_content_sidebar_equality();
+
+  $("ul.side-nav").sticky({
     topSpacing: 130,
     bottomSpacing: 90 
   });

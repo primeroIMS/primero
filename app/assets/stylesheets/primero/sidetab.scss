@@ -143,5 +143,11 @@ ul.side-nav {
         background: none !important;
       }
     }
+
+    hr {
+      margin: 10px 0;
+      background: none;
+      border-bottom: 1px dashed #ddd;
+    }
   }
 }

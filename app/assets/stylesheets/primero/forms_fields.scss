@@ -382,6 +382,25 @@ span.postfix_val {
   border-left: none !important;
 }
 
+#password-prompt-dialog {
+  small {
+    font-size: 65%;
+    line-height: 10px;
+    color: #777;
+  }
+
+  label {
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: .78rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  input#password-prompt-field {
+    margin-top: 15px;
+  }
+}
+
 ////////////////////////////////////////////////
 // Chosen Field
 ////////////////////////////////////////////////
@@ -449,11 +468,4 @@ fieldset {
   .row:nth-child(2n+1) .section {
     background: none repeat scroll 0 0 #fff;
   }
-}
-
-////////////////////////////////////////////////
-// Form Customization
-////////////////////////////////////////////////
-li.hidden_form a {
-  color: $red_color;
 }

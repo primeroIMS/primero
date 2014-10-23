@@ -4,10 +4,11 @@ class FormSectionController < ApplicationController
   include ExportActions
   include ImportActions
 
+  before_filter :parent_form, :only => [:new, :published]
   before_filter :current_modules, :only => [:index, :new, :edit, :create]
-  before_filter :parent_form, :only => [:new, :edit]
-  before_filter :get_form_sections, :only => [:index]
-  #before_filter :get_lookups, :only => [:index]
+  before_filter :get_form_section, :only => [:edit, :destroy]
+  before_filter :get_related_form_sections, :only => [:index, :edit]
+  before_filter :get_lookups, :only => [:edit]
 
 
   def index
@@ -38,6 +39,7 @@ class FormSectionController < ApplicationController
     #TODO - need more elegant way to set the form's order
     form_section.order = 999
     form_section.order_form_group = 999
+    form_section.order_subform = 0
 
     if (form_section.valid?)
       form_section.create
@@ -56,7 +58,8 @@ class FormSectionController < ApplicationController
   def edit
     authorize! :update, FormSection
     @page_name = t("form_section.edit")
-    @form_section = FormSection.get_by_unique_id(params[:id])
+
+    forms_for_move
   end
 
   def update
@@ -71,6 +74,12 @@ class FormSectionController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :destroy, Lookup
+    @form_section.destroy
+    redirect_to form_sections_path
+  end
+
   def toggle
     authorize! :update, FormSection
     form = FormSection.get_by_unique_id(params[:id])
@@ -78,7 +87,6 @@ class FormSectionController < ApplicationController
     form.save!
     render :text => "OK"
   end
-
 
   def save_order
     authorize! :update, FormSection
@@ -91,7 +99,7 @@ class FormSectionController < ApplicationController
   end
 
   def published
-    json_content = FormSection.find_all_visible_by_parent_form(parent_form).map(&:formatted_hash).to_json
+    json_content = FormSection.find_all_visible_by_parent_form(@parent_form).map(&:formatted_hash).to_json
     respond_to do |format|
       format.html {render :inline => json_content }
       format.json { render :json => json_content }
@@ -101,25 +109,32 @@ class FormSectionController < ApplicationController
 
   private
 
+  def parent_form
+    @parent_form = params[:parent_form] || 'case'
+  end
+
   def current_modules
     @current_modules ||= current_user.modules
     @module_id = params[:module_id] || @current_modules.first.id
     @primero_module = @current_modules.select{|m| m.id == @module_id}.first
   end
 
-  def parent_form
-    @parent_form = params[:parent_form] || 'case'
+  def get_form_section
+    @form_section = FormSection.get_by_unique_id(params[:id])
+    @parent_form = @form_section.parent_form
   end
 
-  def get_form_sections
+  def get_related_form_sections
     @record_types = @primero_module.associated_record_types
 
-    #only use the passed in parent_form if it is in the allowed form types for this module
-    #otherwise, default to the first allowed form type
-    if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
-      @parent_form = params[:parent_form]
-    else
-      @parent_form = @record_types.first
+    if @parent_form.blank?
+      #only use the passed in parent_form if it is in the allowed form types for this module
+      #otherwise, default to the first allowed form type
+      if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
+        @parent_form = params[:parent_form]
+      else
+        @parent_form = @record_types.first
+      end
     end
 
     permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
@@ -127,5 +142,19 @@ class FormSectionController < ApplicationController
     #filter out the subforms
     no_subforms = FormSection.filter_subforms(permitted_forms)
     @form_sections = FormSection.group_forms(no_subforms)
+  end
+
+  def forms_for_move
+    form_list = []
+    @form_sections.values.each do |form_group|
+      form_list += form_group
+    end
+    @forms_for_move = form_list.sort_by{ |form| form.name || "" }.map{ |form| [form.name, form.unique_id] }
+  end
+
+  def get_lookups
+    lookups = Lookup.all
+    @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
+    @lookup_options.unshift("", "Location")
   end
 end

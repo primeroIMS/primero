@@ -1,0 +1,40 @@
+<%
+  action ||= 'edit'
+  object_name = object.class.name.underscore
+  object_name_plural = object_name.pluralize
+%>
+<% content_for :breadcrumbs do %>
+  <% if action == 'edit' %>
+    <%= t("#{object_name}.#{action}")  %> <%= "(#{object.name})" %>
+  <% else %>
+    <%= t("#{object_name_plural}.label") %>
+  <% end %>
+<% end %>
+<% content_for :record_sub_nav do %>
+  <!--TODO: After we got the user object in the session replace the DB query with User object-->
+  <%= render_controls(object) %>
+<% end %>
+
+<div class="page-content-new row collapse" data-equalizer>
+  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
+  <%= render partial: 'shared/side_tab', locals: {highlight_page: object_name_plural} %>
+  </div>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <div class="row">
+          <div class="large-12 columns">
+              <%= form_for object, html: {class: 'default-form'} do |f| %>
+                <div class="clearfix"></div>
+                <%= f.error_messages :header_tag => :h3 %>
+                <div class="clearfix"></div>
+                <div class="mandate_panel"><span>*</span> <%= t("mandatory_field")%></div>
+                <div class="clearfix"></div>
+                <fieldset class="no-border">
+                  <%= render partial: "#{object_name_plural}/editable", locals: {object: object} %>
+                </fieldset>
+              <% end %>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

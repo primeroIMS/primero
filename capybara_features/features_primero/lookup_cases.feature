@@ -75,19 +75,3 @@ Feature: Lookup Cases
       |Sub Ethnicity 1                                       | Ethnicity2                   |
       |Sub Ethnicity 2                                       | Ethnicity1                   |
       |Nationality                                           | Nationality2                 |
-
-  Scenario: As a logged in user, I will select lookup values from GBV Survivor Information
-    And I press the "Identification / Registration" button
-    And I press the "Survivor Information" button
-    And I fill in the following:
-      | Clan or Ethnicity                                     | <Choose>Ethnicity1    |
-      | Country of Origin                                     | <Select> Country1     |
-      | Nationality (if different than country of origin)     | <Choose>Nationality1  |
-      | Religion                                              | <Choose>Religion1     |
-    And I press "Save"
-    Then I should see "Case record successfully created" on the page
-    And I should see values on the page for the following:
-      |Clan or Ethnicity                                      | Ethnicity1            |
-      |Country of Origin                                      | Country1              |
-      |Nationality (if different than country of origin)      | Nationality1          |
-      |Religion                                               | Religion1             |

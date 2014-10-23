@@ -1,15 +1,9 @@
 <div class="row">
-  <div class="large-4 medium-4 columns">
-    <%
-       #TODO i18n and STYLE
-    %>
-    <h4><%= t("forms.label") + " > #{@primero_module.name} > #{@parent_form.titleize}"%></h4>
+  <div class="large-4 medium-4 columns">    
   </div>
   <div class="large-4 medium-4 columns">
+      <%# render partial: 'record_shared/actions', locals: {model: FormSection} %>
       <%= link_to content_tag(:span, t("form_section.create"), class: 'create_user'), new_form_section_path({module_id: @module_id, parent_form: @parent_form}),  class: 'btn green-button' %>
-      <%= render 'exports/button', locals: {model: FormSection} %>
-      <%# TODO: Hiding imports so that QA doesn't get into trouble %>
-      <%#= render 'imports/button' %>
   </div>
   <div class="large-2 medium-2 columns">
       <%= select_tag :module_id,
@@ -24,10 +18,13 @@
 </div>
 <div class="row">
   <div class="large-12 medium-12 columns">
-    <ul>
-      <% @form_sections.each do |form_group, forms| %>
-        <%= build_form_custom_list(form_group, forms) %>
-      <% end %>
-    </ul>
+    <div class="page-content-new">
+      <div class="side-tab-content full_width">
+        <% if @form_sections.present? %>
+          <%= render :partial => "form_section/list_view_table", :locals => {:form_sections => @form_sections, :primero_module => @primero_module} %>
+        <% end %>
+        <div id="modal-dialog" class="hide"></div>
+      </div>
+    </div>
   </div>
 </div>
