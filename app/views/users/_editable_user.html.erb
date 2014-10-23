@@ -32,7 +32,7 @@
         <div class="medium-8 columns">
       <% @roles.each do |role| %>
           <div>
-            <%= f.check_box :role_ids, {:id => "user_#{role.name}", :name => "user[role_ids][]"}, role.id, "" %>
+            <%= f.check_box :role_ids, {:id => "user_#{role.name}", :name => "user[role_ids][]"}, role.id, nil %>
             <%= f.label role.name %>
           </div>
       <% end %>
@@ -49,7 +49,7 @@
         <div class="medium-8 columns">
           <% @modules.each do |primero_module| %>
             <div>
-                <%= f.check_box :module_ids, {id: "user_#{primero_module.name}", name: "user[module_ids][]"}, primero_module.id, "" %>
+                <%= f.check_box :module_ids, {id: "user_#{primero_module.name}", name: "user[module_ids][]"}, primero_module.id, nil %>
                 <%= f.label primero_module.name %>
             </div>
           <% end %>
@@ -66,7 +66,7 @@
         <div class="medium-8 columns">
           <% @user_groups.each do |user_group| %>
             <div>
-                <%= f.check_box :user_group_ids, {id: "user_#{user_group.name}", name: "user[user_group_ids][]"}, user_group.id, "" %>
+                <%= f.check_box :user_group_ids, {id: "user_#{user_group.name}", name: "user[user_group_ids][]"}, user_group.id, nil %>
                 <%= f.label user_group.name %>
             </div>
           <% end %>

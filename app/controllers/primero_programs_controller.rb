@@ -51,8 +51,11 @@ class PrimeroProgramsController < ApplicationController
   def create
     authorize! :create, PrimeroProgram
     @primero_program = PrimeroProgram.new(params[:primero_program])
-    return redirect_to primero_programs_path if @primero_program.save
-    render :new
+    if @primero_program.save
+      return redirect_to primero_programs_path
+    else
+      render :new
+    end
   end
 
   def destroy

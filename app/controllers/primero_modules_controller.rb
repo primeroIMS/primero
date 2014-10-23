@@ -55,8 +55,12 @@ class PrimeroModulesController < ApplicationController
   def create
     authorize! :create, PrimeroModule
     @primero_module = PrimeroModule.new(params[:primero_module])
-    return redirect_to primero_modules_path if @primero_module.save
-    render :new
+    if @primero_module.save
+      return redirect_to primero_modules_path
+    else
+      load_lookups
+      render :new
+    end
   end
 
   def destroy

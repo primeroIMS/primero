@@ -1,5 +1,5 @@
 <%= resource_edit_field(object, 'name', 'name', 'text_field', true) %>
-<%= resource_edit_field(object, 'description', 'description', 'text_area') %>
+<%= resource_edit_field(object, 'description', 'description', 'text_area', true) %>
 
 <div class="row">
   <div class="medium-3 columns">
@@ -25,10 +25,9 @@
       <span class="section">
         <% FormSection::RECORD_TYPES.each do |record_type| %>
           <label>
-            <%= form_builder.check_box :associated_record_types, {id: "prmero_module_#{record_type}", name: "primero_module[associated_record_types][]"}, record_type, "" %>
+            <%= form_builder.check_box :associated_record_types, {id: "prmero_module_#{record_type}", name: "primero_module[associated_record_types][]"}, record_type, nil  %>
             <%= t("forms.record_types.#{record_type}") %>
           </label>
-
         <% end %>
       </span>
     </span>
@@ -48,7 +47,7 @@
           <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
           <% forms_list.each do |form| %>
               <label>
-                <%= form_builder.check_box :associated_form_ids, {id: "primero_module_#{form.unique_id}", name: "primero_module[associated_form_ids][]"}, form.unique_id, "" %>
+                <%= form_builder.check_box :associated_form_ids, {id: "primero_module_#{form.unique_id}", name: "primero_module[associated_form_ids][]"}, form.unique_id, nil %>
                 <%= form.name %>
               </label>
           <% end %>

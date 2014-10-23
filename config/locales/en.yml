@@ -537,6 +537,15 @@ en:
 
   primero_modules:
     label: "Modules"
+    actions:
+      show_all: "Showing all"
+      show: "Show"
+      edit: "Edit"
+      update: "Update"
+      create: "Create"
+      delete: "Delete"
+    messages:
+      confirmation: "Are you sure you want to delete this module? Deletion can not be undone. Click OK to delete the module."
 
   primero_module:
     create: "Create Module"
@@ -556,6 +565,8 @@ en:
       update: "Update"
       create: "Create"
       delete: "Delete"
+    messages:
+      confirmation: "Are you sure you want to delete program module? Deletion can not be undone. Click OK to delete the program."
 
   primero_program:
     create: "Create Program"
@@ -566,6 +577,15 @@ en:
 
   user_groups:
     label: "User Groups"
+    actions:
+      show_all: "Showing all"
+      show: "Show"
+      edit: "Edit"
+      update: "Update"
+      create: "Create"
+      delete: "Delete"
+    messages:
+      confirmation: "Are you sure you want to delete this user group? Deletion can not be undone. Click OK to delete the user group."
 
   user_group:
     create: "Create User Group"

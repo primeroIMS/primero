@@ -47,7 +47,7 @@ class PrimeroModule < CouchRest::Model::Base
     if self.associated_form_ids.present?
       subforms = FormSection.get_subforms(associated_forms)
       all_associated_form_ids = associated_form_ids | subforms.map(&:unique_id)
-      if all_permitted_form_ids.present?
+      if all_associated_form_ids.present?
         self.associated_form_ids = all_associated_form_ids
       end
     end
