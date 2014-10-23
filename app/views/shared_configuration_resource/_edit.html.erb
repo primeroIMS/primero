@@ -30,7 +30,7 @@
                 <div class="mandate_panel"><span>*</span> <%= t("mandatory_field")%></div>
                 <div class="clearfix"></div>
                 <fieldset class="no-border">
-                  <%= render partial: "#{object_name_plural}/editable", locals: {object: object} %>
+                  <%= render partial: "#{object_name_plural}/editable", locals: {object: object, form_builder: f} %>
                 </fieldset>
               <% end %>
             </div>

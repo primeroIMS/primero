@@ -12,6 +12,8 @@ class PrimeroModule < CouchRest::Model::Base
   property :associated_record_types, :type => [String]
   property :associated_form_ids, :type => [String]
 
+  before_save :add_associated_subforms
+
   validates_presence_of :program_id, :message => I18n.t("errors.models.primero_module.program")
   validates_presence_of :associated_form_ids, :message => I18n.t("errors.models.primero_module.associated_form_ids")
   validates_presence_of :associated_record_types, :message => I18n.t("errors.models.primero_module.associated_record_types")
@@ -37,6 +39,18 @@ class PrimeroModule < CouchRest::Model::Base
     forms = associated_forms(include_subforms)
     result = forms.group_by(&:parent_form) if forms.present?
     return result
+  end
+
+  private
+
+  def add_associated_subforms
+    if self.associated_form_ids.present?
+      subforms = FormSection.get_subforms(associated_forms)
+      all_associated_form_ids = associated_form_ids | subforms.map(&:unique_id)
+      if all_permitted_form_ids.present?
+        self.associated_form_ids = all_associated_form_ids
+      end
+    end
   end
 
 end
