@@ -1,5 +1,6 @@
 
 module CouchChanges
+  # Handles the lower-level work of receiving and parsing the data from Couch
   class RequestHandler
     def initialize(model)
       @model = model
@@ -20,10 +21,10 @@ module CouchChanges
 
           yield change
         rescue JSON::ParserError => e
-          logger.error("Error parsing CouchDB change notification: #{e}\nData received: #{lines[0]}")
+          CouchChanges.logger.error("Error parsing CouchDB change notification: #{e}\nData received: #{lines[0]}")
         end
 
-        @received = lines[1..-1].join("")
+        @received = lines[1..-1].join("\n")
       end
     end
 
@@ -40,7 +41,7 @@ module CouchChanges
 
     # This must be called inside of the EventMachine.run block
     def create_http_request
-      EventMachine::HttpRequest.new(change_uri.to_s, :inactivity_timeout => 5).get
+      EventMachine::HttpRequest.new(change_uri.to_s, :inactivity_timeout => 60*60).get
     end
   end
 end
