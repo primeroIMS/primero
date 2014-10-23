@@ -22,7 +22,7 @@ Feature: Edit and View Incident Record
     Then I should see "Incident was successfully updated" on the page
     And I should see a value for "Date of First Report" on the show page with the value of "14-Jul-2014"
     And I should see a value for "Time of day that the Incident took place" on the show page with the value of "Afternoon (noon to sunset)"
-    And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls:2 Unknown: Total incident total victims/survivors:5"
+    And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls:2 Unknown:2 Total incident total victims/survivors:7"
 
   Scenario: I view a incident record
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
@@ -33,5 +33,5 @@ Feature: Edit and View Incident Record
     And I press the "7af3aa9" link
     And I should see a value for "Date of First Report" on the show page with the value of "03-Feb-2004"
     And I should see a value for "Time of day that the Incident took place" on the show page with the value of "Afternoon (noon to sunset)"
-    And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls: Unknown: Total incident total victims/survivors:3"
+    And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls:5 Unknown:2 Total incident total victims/survivors:"
 
