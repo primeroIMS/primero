@@ -75,7 +75,11 @@ _primero.object_to_params = function(filters) {
     if (url_string !==  "") {
       url_string += "&";
     }
-    url_string += "scope[" + key + "]" + "=" + filters[key].join("||");
+    var filter = filters[key]
+    if (_.isArray(filter)) {
+      filter = filter.join("||")
+    }
+    url_string += "scope[" + key + "]" + "=" + filter;
   }
   return url_string;
 };
