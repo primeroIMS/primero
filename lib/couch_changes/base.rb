@@ -16,7 +16,7 @@ def run
     CouchChanges::Watcher.new(models_to_watch).watch_for_changes do |model, change, done|
       CouchChanges.logger.debug "Handling change to #{model.name}: #{change}"
 
-      done.call
+      CouchChanges::Processors.process_change(model, change, &done)
     end
   end
 end
