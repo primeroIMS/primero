@@ -3,6 +3,7 @@ class FormSection < CouchRest::Model::Base
   include PropertiesLocalization
   include Importable
 
+  RECORD_TYPES = ['case', 'incident', 'tracing_request']
 
   #TODO - include Namable - will require a fair amount of refactoring
 
