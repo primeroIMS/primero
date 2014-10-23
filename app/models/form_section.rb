@@ -31,6 +31,9 @@ class FormSection < CouchRest::Model::Base
   property :collapsed_fields, [String], :default => []
   #Will display a help text on show page if the section is empty.
   property :display_help_text_view, TrueClass, :default => false
+  property :shared_subform
+  property :shared_subform_group
+  property :is_summary_section, TrueClass, :default => false
 
   design do
     view :by_unique_id
@@ -74,6 +77,9 @@ class FormSection < CouchRest::Model::Base
 
   def initialize(properties={}, options={})
     self["fields"] = []
+    self["shared_subform"] ||= ""
+    self["shared_subform_group"] ||= ""
+    self["is_summary_section"] ||= false
     super properties, options
     create_unique_id
   end

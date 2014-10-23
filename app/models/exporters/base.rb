@@ -53,7 +53,7 @@ module Exporters
           end.flatten
         end
 
-        header_columns = ['model_type'] + emit_columns.call(properties) do |prop_tree|
+        header_columns = ['_id', 'model_type'] + emit_columns.call(properties) do |prop_tree|
           pt = prop_tree.clone
           init = pt.shift.name
           pt.inject(init) do |acc, prop|
@@ -68,7 +68,7 @@ module Exporters
         yield header_columns
 
         models.each do |m|
-          row = [m.class.name] + emit_columns.call(properties) do |prop_tree|
+          row = [m.id, m.class.name] + emit_columns.call(properties) do |prop_tree|
             get_value_from_prop_tree(m, prop_tree)
           end
 
@@ -104,6 +104,7 @@ module Exporters
           prop_names.include? k
         end.tap do |h|
           h['model_type'] = model.class.name
+          h['_id'] = model.id
           h
         end
       end

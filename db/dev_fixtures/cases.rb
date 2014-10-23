@@ -47,7 +47,7 @@ end
     c.risk_level = "Low"
     c.system_generated_followup = true
     c.flags = [
-      {:message => I18n.t("messages.system_generated_followup_flag"),
+      {:message => I18n.t("followup_reminders.system_generated_followup_flag"),
        :date => Date.today - 2.weeks,
        :created_at => Date.today - 2.weeks,
        :system_generated_followup => true
@@ -63,12 +63,12 @@ end
     c.risk_level = "Medium"
     c.system_generated_followup = true
     c.flags = [
-      {:message => I18n.t("messages.system_generated_followup_flag"),
+      {:message => I18n.t("followup_reminders.system_generated_followup_flag"),
        :date => Date.today - 2.weeks,
        :created_at => Date.today - 2.weeks,
        :system_generated_followup => true
       },
-      {:message => I18n.t("messages.system_generated_followup_flag"),
+      {:message => I18n.t("followup_reminders.system_generated_followup_flag"),
        :date => Date.today - 1.weeks,
        :created_at => Date.today - 2.weeks,
        :system_generated_followup => true
@@ -84,22 +84,22 @@ end
     c.risk_level = "High"
     c.system_generated_followup = true
     c.flags = [
-      {:message => I18n.t("messages.system_generated_followup_flag"),
+      {:message => I18n.t("followup_reminders.system_generated_followup_flag"),
        :date => Date.today - 2.weeks,
        :created_at => Date.today - 2.weeks,
        :system_generated_followup => true
       },
-      {:message => I18n.t("messages.system_generated_followup_flag"),
+      {:message => I18n.t("followup_reminders.system_generated_followup_flag"),
        :date => Date.today - 1.weeks,
        :created_at => Date.today - 2.weeks,
        :system_generated_followup => true
       },
-      {:message => I18n.t("messages.system_generated_followup_flag"),
+      {:message => I18n.t("followup_reminders.system_generated_followup_flag"),
        :date => Date.today,
        :created_at => Date.today - 2.weeks,
        :system_generated_followup => true
       },
-      {:message => I18n.t("messages.system_generated_followup_flag"),
+      {:message => I18n.t("followup_reminders.system_generated_followup_flag"),
        :date => Date.today + 1.weeks,
        :created_at => Date.today - 2.weeks,
        :system_generated_followup => true

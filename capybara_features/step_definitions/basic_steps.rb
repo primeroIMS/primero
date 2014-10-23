@@ -225,18 +225,18 @@ And /^I should see (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$
   end
   #Check static text placeholder.
   scope = scope + "//div[@class='row collapse_expand_subform_header']"
-  find(:xpath, "#{scope}//span[@class='collapse_expand_subform #{state}' and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
+  find(:xpath, "#{scope}//span[contains(@class, '#{state}') and text()=\"#{(state == 'collapsed' ? "+" : "-")}\"]")
 end
 
-And /^I should see (\d+) subform(?:s)? on the show page for "(.*)"$/ do |num, subform|
+And /^I should see (\d+) subform(?:s)? on the (show|form) page for "(.*)"$/ do |num, action, subform|
   num = num.to_i - 1
   subform = subform.downcase.gsub(" ", "_")
   page.should have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num}']")
   page.should_not have_selector(:xpath, "//div[@id='subform_container_#{subform}_#{num.to_i + 1}']")
 end
 
-And /^I fill in the (\d+)(?:st|nd|rd|th)(?:(.*)) "(.*)" subform with the follow:$/ do |num, is_initial, subform, fields|
-  step %Q{I add a "#{subform}" subform} if !is_initial
+And /^I fill in the (\d+)(?:st|nd|rd|th)(\sinitial|) "(.*)" subform with the follow:$/ do |num, initial, subform, fields|
+  step %Q{I add a "#{subform}" subform} if initial.blank?
   update_subforms_field(num, subform, fields)
 end
 
@@ -309,7 +309,7 @@ And /^I (collapsed|expanded) the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |state
   expected_state = state == "expanded" ? "collapsed" : "expanded"
   xpath = "//div[@id='subform_container_#{subform}_#{num}']" +
           "//div[@class='row collapse_expand_subform_header']" +
-          "//span[@class='collapse_expand_subform #{expected_state}']"
+          "//span[contains(@class, '#{expected_state}')]"
   find(xpath).click
 end
 
@@ -319,6 +319,28 @@ And /^I remove the (\d+)(?:st|nd|rd|th) "(.*)" subform$/ do |num, subform|
   within(:xpath, "//div[@id='subform_container_#{subform}_#{num}']") do
     step %Q{I press the "Remove" button}
   end
+end
+
+## Lookup values
+Then /^I should see (\d+) lookup value(?:s)? on the page$/ do |num|
+  lookup_values = page.all(:css, '.lookup_value')
+  lookup_values.size.should == num.to_i
+end
+
+Then(/^I update the (\d+)(?:st|nd|rd|th) lookup value with "(.*?)"$/) do |num, value|
+  index = num.to_i - 1
+  lookup_values = page.all(:css, '.lookup_value')
+  lookup_values[index].find(:css, "input[id$='lookup_lookup_values_']").set(value)
+end
+
+Then /^I add a lookup value/ do
+  find("//a[@id='lookup_values_add_button']",:visible => true).click
+end
+
+Then /^I remove the (\d+)(?:st|nd|rd|th) lookup value$/ do |num|
+  index = num.to_i - 1
+  lookup_values = page.all(:css, '.lookup_value')
+  lookup_values[index].click_on("Remove")
 end
 
 ## Added for debugging purposes
