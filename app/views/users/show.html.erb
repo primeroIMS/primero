@@ -9,9 +9,11 @@
       <%= link_to I18n.t("buttons.change_password"), change_password_users_path, class: 'btn green-button' %>
   <% end %>
   <%#= render partial: 'exports/button', locals: {model: User, instance: @user} %>
+  <% if false %>
   <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
     <%= icon('clock-o') %>
     <span class="log"><%= t("user.user_action_history") %></span>
+  <% end %>
   <% end %>
 <% end %>
 
