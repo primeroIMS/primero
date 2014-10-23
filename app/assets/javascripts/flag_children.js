@@ -42,7 +42,7 @@ var FlagChild = Backbone.View.extend({
 		dropdown.find('.add_flag_form').html(HandlebarsTemplates.flag_record_form(this.data));
 	},
 
-	collapse_expand_flag: function(event) {
+  collapse_expand_flag: function(event) {
     var target = $(event.target),
       self = this;
     $('span.expanded_flag').not(target).toggleClass("expanded_flag").toggleClass("collapsed_flag");
@@ -56,7 +56,7 @@ var FlagChild = Backbone.View.extend({
     }
     $('span.collapsed_flag').text('+');
     $('span.expanded_flag').text('-');
-	}
+  }
 });
 
 $(document).ready(function() {
