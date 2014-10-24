@@ -29,7 +29,15 @@
               <td class=<%= property %>><%= h object.send(property) %>
             <% end %>
             <% permissions.each do |permission| %>
-              <td><%= link_to t("#{object_name_plural}.actions.#{permission.to_s}"), controller: object_name_plural, action: permission.to_s, id: object %></td>
+              <% if permission != :destroy %>
+                <td>
+                  <%= link_to t("#{object_name_plural}.actions.#{permission.to_s}"), controller: object_name_plural, action: permission.to_s, id: object %>
+                </td>
+              <% else %>
+                <td>
+                  <%= link_to t("#{object_name_plural}.actions.delete"), object, data: {confirm: t("#{object_name_plural}.messages.confirmation")}, method: :delete %>
+                </td>
+              <% end %>
             <% end %>
           </tr>
         <% end %>

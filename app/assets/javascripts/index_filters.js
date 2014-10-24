@@ -21,7 +21,7 @@ var IndexFilters = Backbone.View.extend({
   set_current_scope: function() {
     var self = this;
 
-    $(this.form).find('input').each(function() {
+    $(this.form).find('input, select').each(function() {
       var name = $(this).attr('name'),
           current_scope = _primero.get_param('scope[' + name + ']'),
           current_scope = current_scope ? current_scope.split('||') : false,
@@ -43,7 +43,9 @@ var IndexFilters = Backbone.View.extend({
         }
       }
       else if (type === 'location') {
-        self.set_array_filter(name, $(this).val(), type);
+        if (current_scope !== false) {
+          self.set_remove_filter(name, current_scope[0]);
+        }
       }
     });
   },
@@ -109,8 +111,8 @@ var IndexFilters = Backbone.View.extend({
       // Date Ranges
       var date_inputs = $(target).parents('.filter-controls').find('input');
       this.set_date_range(date_inputs, filter, filter_type);
-    } else if ($(target).is("input") && filter_type === 'location'){
-      this.set_array_filter(filter, selected_val, filter_type);
+    } else if ($(target).is("select") && filter_type === 'location'){
+      this.set_remove_filter(filter, selected_val);
     } else {
       // Everything else
       this.set_remove_filter(filter, $(target).val(), filter_type);

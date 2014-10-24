@@ -1,6 +1,34 @@
 <% content_for :resource_show_fields do %>
   <%= resource_show_field @primero_module, 'name', 'name' %>
   <%= resource_show_field @primero_module, 'description', 'description' %>
+  <%= resource_show_field @primero_module, 'program_name', 'program' %>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%= t("primero_module.record_type") %></label>
+    </div>
+    <div class="medium-8 columns">
+      <%# TODO: translate! %>
+      <%= @primero_module.associated_record_types.map{|rt| t("forms.record_types.#{rt}")}.join(", ") %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%= t("primero_module.forms") %></label>
+    </div>
+    <div class="medium-8 columns">
+      <span class="value">
+        <% @primero_module.associated_forms_grouped_by_record_type.each do |record_type, forms| %>
+          <span class="section section-show">
+            <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
+            <% forms.each do |form| %>
+              <span class="row"><%= form.name %></span>
+            <% end %>
+          </span>
+        <% end %>
+      </span>
+
+    </div>
+  </div>
 <% end %>
 
 <%= render partial: 'shared_configuration_resource/show', locals: {object: @primero_module} %>
