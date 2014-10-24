@@ -155,7 +155,7 @@ var SubformView = Backbone.View.extend({
     if (confirm_remove == true) {
       self.remove_subform($(target), self);
       var target_subform = $(target).parents('div.subforms');
-      var subform_index = $(target).parents('div.subform').data('subform_index');
+      var subform_index = $(target).parents('div.subform, div.subform_container').data('subform_index');
       if (target_subform.data('is_shared_subform')) {
         var remove_button = $('div#' + target_subform.data('shared_subform') + ' div[data-subform_index="' + subform_index + '"] a.subform_remove');
         self.remove_subform(remove_button, self);
@@ -194,7 +194,12 @@ var SubformView = Backbone.View.extend({
       //If we don't send this input server will not know that this action needs to be perform.
       //The id is to straightforward lookup the input.
       var id = _primero.model_object + "_" + focus + "_empty_subform";
-      var name = _primero.model_object + "[" + focus + "]";
+      var form_group_name = $(target).data('form_group_name');
+      var name = _primero.model_object;
+      if (form_group_name.length > 0 && form_group_name == "violations") {
+        name += "[" + form_group_name + "]";
+      }
+      name += "[" + focus + "]";
       //don't add the input as a child of the subforms container, this will break the generation of id's.
       $(target).parent().append("<input id=\"" + id + "\" type=\"hidden\" name=\"" + name + "\" value=\"\" />");
     }

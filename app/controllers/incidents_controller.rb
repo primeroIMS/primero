@@ -109,7 +109,13 @@ class IncidentsController < ApplicationController
   end
 
   def update
-    params['incident']['violations'].compact if params['incident'].present? && params['incident']['violations'].present?
+    if params['incident'].present? && params['incident']['violations'].present?
+      violations_subforms_control_keys = []
+      # Save the keys for control inputs created when removing the last violation subform.
+      params['incident']['violations'].each_key { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
+      params['incident']['violations'].compact
+      violations_subforms_control_keys.each {|key| params['incident']['violations'][key] = ""}
+    end
 
     respond_to do |format|
       format.html do

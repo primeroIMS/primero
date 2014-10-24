@@ -1,6 +1,7 @@
 #JIRA PRIMERO-335
 #JIRA PRIMERO-365
 #JIRA PRIMERO-713
+#JIRA PRIMERO-714
 
 @javascript @primero
 Feature: Subforms In Incidents
@@ -111,3 +112,26 @@ Feature: Subforms In Incidents
     And I press the "Violations" button
     And I press the "Killing" button
     And I should see 1 subform on the show page for "Killing"
+
+  Scenario: As a logged in user I should be able to remove all violations subforms
+    And I press the "Violations" button
+    And I press the "Killing" button
+    And I fill in the following:
+      | Number of victims                                                                  | <Tally>Boys:1<Tally>Girls:2<Tally>Unknown:3  |
+      | Method                                                                             | <Select> Summary                             |
+      | Cause                                                                              | <Select> IED                                 |
+    And I press "Save"
+    Then I should see "Incident record successfully created" on the page
+    And I should see 1 subform on the show page for "Killing"
+    And I should see in the 1st "Killing" subform with the follow:
+      | Number of victims                                                                  |<Tally> Boys:1 Girls:2 Unknown:3 Total number of victims:6 |
+      | Method                                                                             | Summary                       |
+      | Cause                                                                              | IED                           |
+    Then I should not see "Incident was successfully updated" on the page
+    And I press the "Edit" button
+    And I remove the 1st "Killing" subform
+    And I click OK in the browser popup
+    And I wait for 1 seconds
+    And I press "Save"
+    And I should see "Click the edit button to add Killing details" on the page
+    Then I should see "Incident was successfully updated" on the page
