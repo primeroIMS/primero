@@ -1,3 +1,7 @@
+<%
+    model_class_name = record.class.name.underscore.downcase
+    model_name = I18n.t("forms.record_types.#{model_class_name}")
+%>
 <% if can? :flag, record %>
     <span id="<%= mark_as_property %>" class="<%= style %>">
       <%= link_to "#", class: button_style do %>
@@ -8,10 +12,10 @@
       <% end %>
     </span>
     <div class="dropdown hide"
-         data-model="<%= "#{record.class.name.underscore.downcase}" %>"
-         data-form_action="<%= send("#{record.class.name.underscore.downcase}_flag_path", record) %>"
-         data-form_unflag_action="<%= send("#{record.class.name.underscore.downcase}_unflag_path", record) %>"
-         data-form_id="<%= "#{record.class.name.underscore.downcase}_#{record.id}" %>"
+         data-model="<%= model_class_name %>"
+         data-form_action="<%= send("#{model_class_name}_flag_path", record) %>"
+         data-form_unflag_action="<%= send("#{model_class_name}_unflag_path", record) %>"
+         data-form_id="<%= "#{model_class_name}_#{record.id}" %>"
          data-message_id="<%= mark_as_message_id %>"
          data-message="<%= mark_as_message %>"
          data-message_unflag="<%= mark_as_message_unflag %>"
@@ -23,18 +27,22 @@
          data-submit_unflag_label="<%= unmark_as_submit_label %>"
          data-submit_error_message="<%= error_message %>"
          data-authenticity_token="<%= form_authenticity_token %>" >
+        <div class="flag_unflag_header"><span><%=I18n.t("buttons.flag_model", model: model_name)%></span></div>
         <div class="add_flag_form"></div>
         <div class="clear"></div>
-        <ul>
-        <% record.flags.each_with_index do |f, i| %>
-          <% unless f.removed %>
-          <li>
-            <i class="right fa fa-times-circle remove_flag" data-message="<%= f.message %>" data-message_index="<%= i %>"></i>
-            <%= f.message %><br>
-            <span><%= f.flagged_by %> <% if f.date %>|<% end %> <%= f.date %></span>
-          </li>
-          <% end %>
+        <% if record.flags.present? && record.flags.select{|f| !f.removed}.present?%>
+          <div class="flag_unflag_header"><span><%=I18n.t("buttons.unflag_model", model: model_name)%></span></div>
+            <ul>
+            <% record.flags.each_with_index do |f, i| %>
+              <% unless f.removed %>
+              <li>
+                <span class="right collapse_expand_flag collapsed_flag" data-message="<%= f.message %>" data-message_index="<%= i %>">+</span>
+                <%= f.message %><br>
+                <span><%= f.flagged_by %> <% if f.date %>|<% end %> <%= f.date %></span>
+              </li>
+              <% end %>
+            <% end %>
+            </ul>
         <% end %>
-        </ul>
     </div>
 <%end%>

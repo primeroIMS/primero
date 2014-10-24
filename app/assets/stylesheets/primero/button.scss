@@ -84,6 +84,7 @@ a.ui-dialog-titlebar-close.ui-corner-all {
         border-bottom: 1px dashed #ccc !important;
         padding: 2px;
         font-size: $thirteen_px;
+        margin-bottom: 5px;
 
         span {
           font-size: .7rem;
@@ -97,15 +98,28 @@ a.ui-dialog-titlebar-close.ui-corner-all {
       font-size: $thirteen_px;
     }
 
-    .add_flag_form {
-      height: 80px;
+    .flag_unflag_header {
       border-bottom: 1px solid #ddd;
       margin-bottom: 5px;
+
+      span {
+        font-family: "Roboto",sans-serif;
+        color: #86a05d;
+      }
     }
 
-    i.remove_flag {
-      font-size: 1rem;
-      color: $grey_color;
+    span.collapse_expand_flag {
+      float: right;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border: 1px solid $stroke_green_color;
+      background: $desat_green_color;
+      display: block;
+      height: 20px;
+      width: 20px;
+      text-align: center;
+      line-height: 1rem;
+      color: $green_color;
     }
 
     input.flag_submit {
