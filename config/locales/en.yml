@@ -844,6 +844,7 @@ en:
     reindex_pending: Reindex Pending
 
   lookup:
+    edit: "Edit Lookup"
     create: "New Lookup"
     label: "Lookup"
     index: "Manage Lookups"
