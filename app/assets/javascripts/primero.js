@@ -136,11 +136,11 @@ var Primero = Backbone.View.extend({
     guided_questions.popover({
       content: function() {
         return $(this).next('.popover_content').html();
-      }, 
+      },
       placement: 'bottom',
       trigger: 'manual'
     });
-            
+
     field.on('focus', function(evt) {
       guided_questions.popover('hide');
 
@@ -166,9 +166,9 @@ var Primero = Backbone.View.extend({
 
   init_sticky: function() {
     var control = $(".record_controls_container, .index_controls_container"),
-    stickem = control.sticky({ 
+    stickem = control.sticky({
       topSpacing: control.data('top'),
-      bottomSpacing: control.data('bottom') 
+      bottomSpacing: control.data('bottom')
     });
   },
 
@@ -204,6 +204,7 @@ var Primero = Backbone.View.extend({
 
       form.submit();
     }
+    _primero.set_content_sidebar_equality();
   },
 
   disable_default_events: function(evt) {

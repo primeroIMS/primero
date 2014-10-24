@@ -107,6 +107,7 @@ en:
      filter: "Apply Filter"
      flag_records: "Flag"
      ok: 'OK'
+     edit_subform: 'Edit Subform'
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -685,15 +686,18 @@ en:
       show_confirmation: "Are you sure you want to show fields?"
       drag_drop_help_text: You can click on the fields to drag &amp; drop on the required order.
       updated: "Form section successfully added"
-    hide: "Hide"
+    hide: "Hidden?"
     show: "Show"
     manage: "Manage Form Sections"
     edit: "Edit Form Sections"
     buttons:
       add: "Add"
     options: "Options"
-    confirm_delete: Are you sure you want to delete this form?
-
+    confirm_delete: "Are you sure you want to delete this form?"
+    required_field: "%{field} is required"
+    form_group_name: "Form Group Name"
+    modal_sidebar_help: "Select type of field"
+    modal_sidebar_help_selected: "Type of field"
 
   advanced_search:
     instruction: "Separate words by OR to search for more than one option eg. Tim OR Rahul"

@@ -3,12 +3,11 @@
  Edit Form
 <% end %>
 
-
-<div class="row collapse">
-  <div class="large-12 medium-12 columns">
-    <div class="page-content-new form_page">
+<div class="page-content-new row collapse" data-equalizer>
+  <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'forms'} %>
+  <div class="large-8 medium-8 columns side-tab-content-container form_page">
+    <div class="side-tab-content" data-equalizer-watch>
       <%= render :partial => "form_section/new_or_edit_form_section" %>
-      <hr>
       <%= render :partial => "form_section/edit_fields"%>
     </div>
   </div>

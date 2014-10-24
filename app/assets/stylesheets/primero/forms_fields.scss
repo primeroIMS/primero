@@ -242,7 +242,6 @@ fieldset {
 
 .btn_panel {
   width: 100%;
-  border-top: 1px solid #ddd;
   padding: 2rem 0 0 2rem;
 
   a.link_cancel {
@@ -471,7 +470,6 @@ fieldset {
 }
 
 .form-section-content {
-  margin-top: 20px;
 
   fieldset {
     .row {
@@ -492,10 +490,8 @@ fieldset {
   }
 }
 
-.translation {
-  margin-top: 62px;
-
-  .row {
-    padding: 0;
-  }
+.index_filters select {
+  width: 200px;
+  float: right;
+  margin-left: 10px;
 }

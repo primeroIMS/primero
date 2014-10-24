@@ -47,7 +47,7 @@ tabNavigation = Backbone.View.extend({
     if(tab.hasClass('non-group')) {
       $('ul.tab-handles ul:visible').slideUp('normal');
     }
-    
+
     $(".tab").hide();
 
     var activeTab = tab.attr("href");
@@ -101,7 +101,7 @@ tabNavigation = Backbone.View.extend({
       } else {
         this.determine_current_tab('first')
       }
-  }, 
+  },
 
   determine_current_tab: function(action) {
     var active_tab = localStorage.getItem(action + '_tab'),
@@ -118,7 +118,7 @@ tabNavigation = Backbone.View.extend({
       if (subgroup) {
         subgroup.slideDown('normal');
       }
-      
+
       tab.show();
     }
   },
@@ -145,8 +145,8 @@ $(document).ready(function() {
 
   _primero.set_content_sidebar_equality();
 
-  $("ul.side-nav").sticky({
+  $("ul.side-nav:not(.modal-side-nav)").sticky({
     topSpacing: 130,
-    bottomSpacing: 90 
+    bottomSpacing: 90
   });
 });

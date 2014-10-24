@@ -3,10 +3,17 @@
  New Form
 <% end %>
 
-<div class="row collapse">
-  <div class="medium-12 columns panel text-center">
-    <%= t("forms.messages.use_existing") %>
+<div class="page-content-new row collapse" data-equalizer>
+  <%= render :partial => 'sidebar', :locals => {:highlight_page => 'forms'} %>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <div class="row">
+        <div class="medium-12 columns form_info">
+          <div class="space"></div>
+          <%= t("forms.messages.use_existing") %>
+        </div>
+      </div>
+      <%= render :partial => 'form_section/new_or_edit_form_section' %>
+    </div>
   </div>
 </div>
-
-<%= render :partial => 'form_section/new_or_edit_form_section' %>
