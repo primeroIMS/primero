@@ -242,7 +242,6 @@ fieldset {
 
 .btn_panel {
   width: 100%;
-  border-top: 1px solid #ddd;
   padding: 2rem 0 0 2rem;
 
   a.link_cancel {
@@ -468,4 +467,31 @@ fieldset {
   .row:nth-child(2n+1) .section {
     background: none repeat scroll 0 0 #fff;
   }
+}
+
+.form-section-content {
+
+  fieldset {
+    .row {
+      padding:5px 0;
+    }
+
+    &.panel {
+      padding: 20px !important;
+      background: #f7f7f7;
+      border: 1px solid #ddd !important;
+      margin: 0;
+    }
+  }
+
+  hr {
+    background: none;
+    border-bottom: 1px solid #ebebeb
+  }
+}
+
+.index_filters select {
+  width: 200px;
+  float: right;
+  margin-left: 10px;
 }

@@ -1,6 +1,6 @@
 var FlagChild = Backbone.View.extend({
 
-	el: 'body',
+  el: 'body',
 
 	events: {
 		'click .dropdown_btn': 'show_hide_dropdown',
@@ -8,21 +8,21 @@ var FlagChild = Backbone.View.extend({
 		'click span.collapse_expand_flag': 'collapse_expand_flag'
 	},
 
-	stop_propagation: function(event) {
-		event.stopPropagation();
-	},
+  stop_propagation: function(event) {
+    event.stopPropagation();
+  },
 
-	show_hide_dropdown: function(event) {
-		var dropdown = $(event.target).parents('.dropdown_btn').find('.dropdown');
+  show_hide_dropdown: function(event) {
+    var dropdown = $(event.target).parents('.dropdown_btn').find('.dropdown');
 
     dropdown.toggleClass('hide').show();
     this.generate_form(dropdown);
 
     event.stopPropagation();
-	},
+  },
 
-	generate_form: function(dropdown) {
-		this.data = {
+  generate_form: function(dropdown) {
+    this.data = {
       model: dropdown.data('model'),
       form_action: dropdown.data('form_action'),
       form_unflag_action: dropdown.data('form_unflag_action'),
@@ -38,9 +38,9 @@ var FlagChild = Backbone.View.extend({
       submit_label: dropdown.data('submit_label'),
       unflag_submit_label: dropdown.data('submit_unflag_label'),
       submit_error_message: dropdown.data('submit_error_message')
-		}
-		dropdown.find('.add_flag_form').html(HandlebarsTemplates.flag_record_form(this.data));
-	},
+    }
+    dropdown.find('.add_flag_form').html(HandlebarsTemplates.flag_record_form(this.data));
+  },
 
   collapse_expand_flag: function(event) {
     var target = $(event.target),
@@ -60,5 +60,5 @@ var FlagChild = Backbone.View.extend({
 });
 
 $(document).ready(function() {
-	new FlagChild();
+  new FlagChild();
 });

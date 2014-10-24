@@ -1,7 +1,19 @@
-<h1 class="no_border">Forms</h1>
-<div class="page-content-new form_page">
-  <div class="side-tab-content full_width">
-    <div class="row"><div class="medium-12 columns"><%= t("forms.messages.use_existing") %></div></div>
-    <%= render :partial => 'form_section/new_or_edit_form_section' %>
+<% content_for :breadcrumbs do %>
+<!-- TODO: Translate this -->
+ New Form
+<% end %>
+
+<div class="page-content-new row collapse" data-equalizer>
+  <%= render :partial => 'sidebar', :locals => {:highlight_page => 'forms'} %>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <div class="row">
+        <div class="medium-12 columns form_info">
+          <div class="space"></div>
+          <%= t("forms.messages.use_existing") %>
+        </div>
+      </div>
+      <%= render :partial => 'form_section/new_or_edit_form_section' %>
+    </div>
   </div>
 </div>
