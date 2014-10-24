@@ -23,10 +23,10 @@ module CouchChanges
         @_server_instance ||= ServerInstance.list.tap do |instances|
           if instances.length == 0
             CouchChanges.logger.error "No Passenger servers found!"
-            raise
+            raise PassengerNotRunningError
           elsif instances.length > 1
             CouchChanges.logger.error "More than one Passenger server found!"
-            raise
+            raise MultiplePassengersError
           end
         end.first
       end
@@ -42,4 +42,7 @@ module CouchChanges
       end
     end
   end
+
+  class PassengerNotRunningError < Exception; end
+  class MultiplePassengersError < Exception; end
 end

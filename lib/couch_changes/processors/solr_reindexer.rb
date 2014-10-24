@@ -7,6 +7,8 @@ module CouchChanges
         end
 
         def process(model, change, &done)
+          CouchChanges.logger.info "Reindexing Solr for #{model.name}"
+          require 'pry'; binding.pry
         end
       end
     end

@@ -1,5 +1,3 @@
-require_relative 'processors'
-
 module CouchChanges
   module Processors
     def self.process_change(modelCls, change, &done)
@@ -10,15 +8,19 @@ module CouchChanges
       else 
         processors_done = 0
 
-        callback = ->() do
-          processors_done += 1 
-          if processors_done == processors.length
-            done.call
+        callback = ->(success=true) do
+          if success
+            processors_done += 1 
+            if processors_done == processors.length
+              done.call
+            end
+          else
+            done.call false
           end
         end
 
         processors.each do |processorCls|
-          processorCls.process(&callback)
+          processorCls.process(modelCls, change, &callback)
         end
       end
     end
@@ -31,3 +33,7 @@ module CouchChanges
     end
   end
 end
+
+require_relative 'processors/notifier'
+require_relative 'processors/solr_reindexer'
+

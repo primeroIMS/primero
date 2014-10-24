@@ -2,61 +2,64 @@ module CouchChanges
   # Handles the sequence numbers in the history so we don't process changes
   # twice
   class Sequencer
-    HISTORY_FILE = File.join(Rails.application.config.root, 'log/couch_watcher_history.json')
+    DEFAULT_HISTORY_PATH = File.join(Rails.application.config.root, 'log/couch_watcher_history.json')
 
-    class << self
-      @sequencers = {}
+    def initialize(history_path=DEFAULT_HISTORY_PATH)
+      @history_path = history_path
+    end
 
-      def load_sequencers
-        sequence_hash = load_sequence_numbers
-        CouchChanges.logger.debug "Loading previous sequence numbers: #{sequence_hash}"
+    def for_model(model)
+      @sequences ||= load_sequencers
+      @sequences[model.database.name] ||= ModelSequence.new(model.database.name, 0, self)
+    end
 
-        sequence_hash.inject({}) do |acc, (name, last_seq)|
-          acc.merge(name => self.new(name, last_seq))
-        end
+    protected
+
+    class ModelSequence
+      attr_reader :db_name, :last_seq
+
+      def initialize(db_name, last_seq, sequencer)
+        @db_name = db_name
+        @last_seq = last_seq
+        @sequencer = sequencer
       end
 
-      # Returns a hash mapping the Couch database name to the last sequence
-      # number processed
-      def load_sequence_numbers
-        if File.exist?(HISTORY_FILE)
-          File.open(HISTORY_FILE, 'r') do |hist_fh|
-            JSON.load(hist_fh)
-          end
-        else
-          {}
-        end
-      end
-
-      def save_sequence_numbers
-        data = @_sequencers.inject({}) do |acc, (name, seq)|
-          acc.merge(name => seq.last_seq)
-        end
-        CouchChanges.logger.debug "Saving sequence numbers to #{HISTORY_FILE}: #{data}"
-
-        File.open(HISTORY_FILE, 'w') do |hist_fh|
-          hist_fh.write(JSON.pretty_generate(data))
-        end
-      end
-
-      def for_model(model)
-        @_sequencers ||= load_sequencers
-        @_sequencers[model.database.name] ||= self.new(model.database.name, 0)
+      def last_seq=(val)
+        @last_seq = val
+        @sequencer.instance_exec(self) { save_sequence_numbers }
       end
     end
 
-    attr_reader :db_name, :last_seq
+    def load_sequencers
+      sequence_hash = load_sequence_numbers
+      CouchChanges.logger.debug "Loading previous sequence numbers: #{sequence_hash}"
 
-    def last_seq=(val)
-      @last_seq = val
-      self.class.save_sequence_numbers
+      sequence_hash.inject({}) do |acc, (name, last_seq)|
+        acc.merge(name => ModelSequence.new(name, last_seq, self))
+      end
     end
 
-    private
+    # Returns a hash mapping the Couch database name to the last sequence
+    # number processed
+    def load_sequence_numbers
+      if File.exist?(@history_path)
+        File.open(@history_path, 'r') do |hist_fh|
+          JSON.load(hist_fh)
+        end
+      else
+        {}
+      end
+    end
 
-    def initialize(db_name, last_seq)
-      @db_name = db_name
-      @last_seq = last_seq
+    def save_sequence_numbers
+      data = @sequences.inject({}) do |acc, (name, seq)|
+        acc.merge(name => seq.last_seq)
+      end
+      CouchChanges.logger.debug "Saving sequence numbers to #{@history_path}: #{data}"
+
+      File.open(@history_path, 'w') do |hist_fh|
+        hist_fh.write(JSON.pretty_generate(data))
+      end
     end
   end
 end

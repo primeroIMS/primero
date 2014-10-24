@@ -4,9 +4,11 @@ module CouchChanges
   class RequestHandler
     # How long (in seconds) without any activity before it times out and
     # reconnects
-    INACTIVITY_TIMEOUT_SECONDS = 60*60
-    def initialize(model)
+    INACTIVITY_TIMEOUT_SECONDS = 60
+
+    def initialize(model, starting_seq)
       @model = model
+      @starting_seq = starting_seq || 0
       @received = ""
     end
 
@@ -16,7 +18,7 @@ module CouchChanges
     end
 
     def handle_chunk chunk
-      CouchChanges.logger.debug "Chunk received on _changes API for model #{@model.name}: #{chunk.strip}"
+      CouchChanges.logger.debug "Chunk received on _changes API for model #{@model.name}: #{chunk.dump}"
       @received += chunk
       while @received.include?("\n")
         lines = @received.split("\n")
@@ -27,7 +29,7 @@ module CouchChanges
 
             yield change
           rescue JSON::ParserError => e
-            CouchChanges.logger.error("Error parsing CouchDB change notification: #{e}\nData received: #{lines[0]}")
+            CouchChanges.logger.error("Error parsing CouchDB change notification: #{e}\nData received: #{lines[0].dump}")
           end
 
         end
@@ -38,17 +40,20 @@ module CouchChanges
     def change_uri
       conf = CouchSettings.instance
 
-      conf.uri.tap do |uri|
+      @_change_uri ||= conf.uri.tap do |uri|
         uri.path = "/#{@model.database.name}/_changes"
         uri.query = {
           :feed => 'continuous',
           :heartbeat => INACTIVITY_TIMEOUT_SECONDS * 1000 / 2,
+          :timeout => 10000,
+          :since => @starting_seq || 0,
         }.to_query
       end
     end
 
     # This must be called inside of the EventMachine.run block
     def create_http_request
+      CouchChanges.logger.debug "Creating http request to #{change_uri}"
       EventMachine::HttpRequest.new(change_uri.to_s, :inactivity_timeout => INACTIVITY_TIMEOUT_SECONDS).get
     end
   end
