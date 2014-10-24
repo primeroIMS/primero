@@ -6,35 +6,15 @@ module CouchChanges
       @sequencer ||= Sequencer.new
     end
 
-    def watch_for_changes &block
+    def watch_for_changes
       create_request_handlers.each do |model, handler|
         listen_for_changes(model, handler) do |change|
-          handle_change(model, change, &block)
+          handle_change(model, change)
         end
       end
     end
 
     private
-
-    def handle_change(model, change, retry_period=5, &block)
-      if change_is_fresh(model, change)
-        callback = lambda do |success=true|
-          if success
-            update_sequence(model, change)
-          else
-            EventMachine.add_timer(retry_period) do
-              CouchChanges.logger.warn "Change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period*2} seconds"
-              handle_change(model, change, retry_period*2, &block)
-            end
-          end
-        end
-        # The block to process the change calls the callback when it has
-        # completed
-        block.call(model, change, callback)
-      else
-        CouchChanges.logger.debug "Ignoring stale change to #{model.name}: #{change}"
-      end
-    end
 
     def listen_for_changes(model, handler, &block)
       CouchChanges.logger.info "Listening for changes to #{model.name}..."
@@ -48,6 +28,28 @@ module CouchChanges
       req.errback do
         CouchChanges.logger.warn "Disconnected from Couch change API for model #{model.name}, reconnecting..."
         listen_for_changes(model, handler.reset_received, &block)
+      end
+    end
+
+    def handle_change(model, change, retry_period=5)
+      dfd = EventMachine::DefaultDeferrable.new
+      if change_is_fresh(model, change)
+          dfd.callback do
+            update_sequence(model, change)
+          end
+
+          dfd.errback do
+            EventMachine.add_timer(retry_period) do
+              CouchChanges.logger.warn "Change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period*2} seconds"
+              handle_change(model, change, retry_period*2)
+            end
+          end
+        end
+        # The block to process the change calls the callback when it has
+        # completed
+        block.call(model, change, callback)
+      else
+        CouchChanges.logger.debug "Ignoring stale change to #{model.name}: #{change}"
       end
     end
 

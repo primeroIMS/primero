@@ -11,11 +11,15 @@ module CouchChanges
       models_to_watch = [Child, Incident, TracingRequest, Lookup, Location, FormSection]
 
       EventMachine.run do
-        CouchChanges::Watcher.new(models_to_watch).watch_for_changes do |model, change, done|
+        dfd = CouchChanges::Watcher.new(models_to_watch).watch_for_changes
+        
+        dfd.callback do |model, change|
           logger.debug "Handling change to #{model.name}: #{change}"
 
           CouchChanges::Processors.process_change(model, change, &done)
         end
+
+        dfd.errback do |model, 
       end
     end
 
