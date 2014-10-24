@@ -573,6 +573,8 @@ en:
     create: "Create Program"
     edit: "Edit Program"
     name: "Name"
+    start_date: "Program start date"
+    end_date: "Program end date"
     successfully_updated: "Program details are successfully updated."
     error_in_updating: "Error in updating the Program details."
 
