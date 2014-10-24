@@ -2,11 +2,11 @@ var FlagChild = Backbone.View.extend({
 
   el: 'body',
 
-	events: {
-		'click .dropdown_btn': 'show_hide_dropdown',
-		'click .dropdown': 'stop_propagation',
-		'click span.collapse_expand_flag': 'collapse_expand_flag'
-	},
+  events: {
+    'click .dropdown_btn': 'show_hide_dropdown',
+    'click .dropdown': 'stop_propagation',
+    'click span.collapse_expand_flag': 'collapse_expand_flag'
+  },
 
   stop_propagation: function(event) {
     event.stopPropagation();
