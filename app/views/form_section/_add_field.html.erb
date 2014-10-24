@@ -5,6 +5,7 @@
       <div class="lang_title">
         <%= t("forms.initial_language") %>: <span><%= t("home.#{I18n.default_locale}") %></span>
       </div>
+      <div class="space"></div>
       <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false} %>
     </div>
     <p class="chkbox_visible">

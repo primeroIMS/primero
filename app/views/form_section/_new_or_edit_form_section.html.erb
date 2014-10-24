@@ -64,7 +64,10 @@
                 <%= f.label :form_group_name, t("form_section.form_group_name", :locale => I18n.default_locale), :class => 'key inline' %>
               </div>
               <div class="medium-9 columns">
-                <%= f.text_field "form_group_name", :id => "form_section_form_group_name", required: '' %>
+                <%= f.select "form_group_name", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {},
+                    required: "", 'data-placeholder' => t("fields.chosen_placeholder"),
+                    class: "chosen-select-or-new", id: "form_section_form_group_name" %>
+                <%# f.select "form_group_name", :id => "form_section_form_group_name", required: '' %>
                 <small class="error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => I18n.default_locale)) %></small>
               </div>
             </div>

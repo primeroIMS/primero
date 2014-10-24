@@ -112,6 +112,24 @@ var Primero = Backbone.View.extend({
     this.init_popovers();
     this.init_autogrow();
     this.init_action_menu();
+    this.init_chosen_or_new();
+  },
+
+  init_chosen_or_new: function() {
+    var chosen = $('.chosen-select-or-new').chosen({
+      display_selected_options:false,
+      width:'100%',
+      search_contains: true,
+      no_results_text: "Click to add"
+    });
+    $('body').on('click', 'li.no-results', function(e) {
+      var add = $(this).text().match(/Click to add "(.*)"/)[1],
+          option = '<option value="' + add + '">'+ add +'</option>',
+          select = $(this).parents('.chosen-container').siblings('select');
+      select.append(option);
+      select.val(add);
+      $(chosen).trigger("chosen:updated");
+    });
   },
 
   init_action_menu: function() {

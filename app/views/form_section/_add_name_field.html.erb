@@ -9,7 +9,7 @@
       <div class="large-3 medium-3 columns">
         <label class="key inline"><%= t("fields.db_name") %></label>
       </div>
-      <div class="large-9 medium-9 columns">
+      <div class="large-9 medium-9 columns hello">
         <%= fld.send "#{field_type}", "#{field_name}".to_sym %>
       </div>
     </div>
@@ -19,7 +19,7 @@
     <div class="large-3 medium-3 columns">
       <label class="key inline"><%= t(field_name.to_sym, :locale => given_locale.to_sym) %></label>
     </div>
-    <div class="large-9 medium-9 columns">
+    <div class="large-9 medium-9 columns goodbye">
       <%= fld.send "#{field_type}", "#{field_name}_#{given_locale}".to_sym %>
     </div>
   </div>
