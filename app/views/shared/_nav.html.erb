@@ -39,7 +39,9 @@
               <% if current_user_name==nil or can? :manage, FormSection %>
                 <li><%= link_to t("navigation.forms"), form_sections_path, class: current_page(form_sections_path) %></li>
               <% end %>
-              <% if can? :read, User or can? :show, Role %>
+              <%# if can? :read, User or can? :show, Role %>
+              <%# TODO: This auth check will need to be tightened up. %>
+              <% if can? :edit, Role%>
                 <li><%= link_to t("navigation.users"), users_path %></li>
               <% end %>
               <% if can?(:read, Device) or can?(:read, Replication) %>
