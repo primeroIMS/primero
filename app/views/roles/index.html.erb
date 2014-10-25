@@ -53,13 +53,13 @@
                   <tr>
                     <td class='role_name'><%= role.name %></td>
                     <td><%= truncate(role.description, :length => 40) %></td>
-                    <% if can?(:view, Role) %>
+                    <% if can?(:view, role) %>
                         <td><%= link_to(t("roles.actions.show"), role_path(role))%></td>
                     <% end %>
-                    <% if can?(:edit, Role) %>
+                    <% if can?(:edit, role) %>
                         <td><%= link_to(t("roles.actions.edit"), edit_role_path(role))%></td>
                     <% end %>
-                    <% if can?(:destroy, Role) %>
+                    <% if can?(:destroy, role) %>
                         <td>
                           <%= link_to t("roles.actions.delete"), role, data: {confirm: t("roles.messages.confirmation")}, method: :delete %>
                         </td>
