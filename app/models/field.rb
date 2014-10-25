@@ -176,7 +176,6 @@ class Field
     self.autosum_group ||= ""
     self.create_property ||= true
     self.attributes = properties
-    create_unique_id
   end
 
   def attributes= properties

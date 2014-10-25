@@ -116,6 +116,24 @@ var Primero = Backbone.View.extend({
     this.init_popovers();
     this.init_autogrow();
     this.init_action_menu();
+    this.init_chosen_or_new();
+  },
+
+  init_chosen_or_new: function() {
+    var chosen = $('.chosen-select-or-new').chosen({
+      display_selected_options:false,
+      width:'100%',
+      search_contains: true,
+      no_results_text: "Click to add"
+    });
+    $('body').on('click', 'li.no-results', function(e) {
+      var add = $(this).text().match(/Click to add "(.*)"/)[1],
+          option = '<option value="' + add + '">'+ add +'</option>',
+          select = $(this).parents('.chosen-container').siblings('select');
+      select.append(option);
+      select.val(add);
+      $(chosen).trigger("chosen:updated");
+    });
   },
 
   init_action_menu: function() {
@@ -140,11 +158,11 @@ var Primero = Backbone.View.extend({
     guided_questions.popover({
       content: function() {
         return $(this).next('.popover_content').html();
-      }, 
+      },
       placement: 'bottom',
       trigger: 'manual'
     });
-            
+
     field.on('focus', function(evt) {
       guided_questions.popover('hide');
 
@@ -170,9 +188,9 @@ var Primero = Backbone.View.extend({
 
   init_sticky: function() {
     var control = $(".record_controls_container, .index_controls_container"),
-    stickem = control.sticky({ 
+    stickem = control.sticky({
       topSpacing: control.data('top'),
-      bottomSpacing: control.data('bottom') 
+      bottomSpacing: control.data('bottom')
     });
   },
 
@@ -208,6 +226,7 @@ var Primero = Backbone.View.extend({
 
       form.submit();
     }
+    _primero.set_content_sidebar_equality();
   },
 
   disable_default_events: function(evt) {

@@ -24,6 +24,7 @@ class FormSectionController < ApplicationController
   def new
     authorize! :create, FormSection
     @page_name = t("form_section.create")
+    @list_form_group_names = FormSection.list_form_group_names
     @form_section = FormSection.new(params[:form_section])
   end
 
@@ -58,7 +59,7 @@ class FormSectionController < ApplicationController
   def edit
     authorize! :update, FormSection
     @page_name = t("form_section.edit")
-
+    @list_form_group_names = FormSection.list_form_group_names
     forms_for_move
   end
 

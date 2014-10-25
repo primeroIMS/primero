@@ -419,6 +419,10 @@ class FormSection < CouchRest::Model::Base
     self.save
   end
 
+  def self.list_form_group_names
+    self.all.all.collect(&:form_group_name).compact.uniq
+  end
+
   protected
 
   def validate_name_format
