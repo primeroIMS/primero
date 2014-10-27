@@ -64,10 +64,11 @@ end
 
 # Hack to get around https://github.com/fnichol/chef-rvm/issues/227
 sudo "#{node[:primero][:app_user]}-rvm" do
-  user      node[:primero][:app_user]
-  runas     'root'
+  user node[:primero][:app_user]
+  runas 'root'
   nopasswd true
-  commands  ['/usr/bin/apt-get', '/usr/bin/env']
+  env_keep_add ["RAILS_ENV"]
+  commands  ['/usr/bin/apt-get', '/usr/bin/env', ::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')]
 end
 
 include_recipe 'rvm::user_install'
@@ -184,7 +185,11 @@ supervisor_service 'solr' do
 end
 
 supervisor_service 'couch-watcher' do
-  command "#{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}"
+  command <<-EOH
+    #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
+    #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
+    rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}
+  EOH
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true

@@ -84,6 +84,10 @@ RSpec.configure do |config|
     end
   end
 
+  config.before(:example, :type => :couch_changes) do
+    ensure_couch_changes_setup
+  end
+
   #Delete db if needed.
   config.after(:suite) do
     current_databases.each do |db|
@@ -104,6 +108,8 @@ RSpec.configure do |config|
       ::Sunspot.session = ::Sunspot.session.original_session
     end
   end
+
+  config.filter_run_excluding :type => :couch_changes
 end
 
 def stub_env(new_env, &block)
