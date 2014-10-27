@@ -1,21 +1,21 @@
-<div class="row">
-  <div class="large-8 medium-4 columns">
-  </div>
-  <div class="large-4 medium-4 columns">
-      <% if can? :create, Lookup %>
+<% content_for :breadcrumbs do %>
+  <%= t('lookup.index') %>
+<% end %>
+<% content_for :record_sub_nav do %>
+  <li>
+      <% if can? :create, Replication %>
         <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'btn green-button right' %>
+      <% end %>  </li>
+  <li>
+<% end %>
+<div class="clearfix"></div>
+<div class="page-content-new row collapse" data-equalizer>
+  <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'lookups'} %>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <% if @lookups.present? %>
+        <%= render :partial => "lookups/list_view_table", :locals => {:lookups => @lookups} %>
       <% end %>
-  </div>
-</div>
-<div class="row">
-  <div class="large-12 medium-12 columns">
-    <div class="page-content-new">
-      <div class="side-tab-content full_width">
-        <% if @lookups.present? %>
-          <%= render :partial => "lookups/list_view_table", :locals => {:lookups => @lookups} %>
-        <% end %>
-        <div id="modal-dialog" class="hide"></div>
-      </div>
-    </div>
+      <div id="modal-dialog" class="hide"></div>
   </div>
 </div>
