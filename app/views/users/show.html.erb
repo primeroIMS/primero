@@ -33,7 +33,7 @@
             <label class="key"><%= t("roles.label") %>:</label>
           </div>
           <div class="medium-8 columns">
-            <%= @user.roles.map(&:name).join(", ") %>
+            <span class="value"><%= @user.roles.map(&:name).join(", ") %></span>
           </div>
         </div>
 
@@ -42,7 +42,7 @@
             <label class="key"><%= t("primero_modules.label") %>:</label>
           </div>
           <div class="medium-8 columns">
-            <%= @user.modules.map(&:name).join(", ") %>
+            <span class="value"><%= @user.modules.map(&:name).join(", ") %></span>
           </div>
         </div>
 
@@ -51,7 +51,7 @@
             <label class="key"><%= t("user_groups.label") %>:</label>
           </div>
           <div class="medium-8 columns">
-            <%= @user.user_groups.map(&:name).join(", ") %>
+            <span class="value"><%= @user.user_groups.map(&:name).join(", ") %></span>
           </div>
         </div>
 
@@ -66,10 +66,10 @@
             <label class="key"><%= t("status") %>:</label>
           </div>
           <div class="medium-8 columns">
-            <%= h @user.disabled ? t("user.disabled") : t("enabled") %>
+            <span class="value"><%= h @user.disabled ? t("user.disabled") : t("enabled") %></span>
           </div>
         </div>
-
+        <% if false %>
         <div class="row">
           <div class="medium-4 columns">
             <label><%= t("devices") %>:</label>
@@ -84,6 +84,7 @@
           <% end %>
           </div>
         </div>
+        <% end %>
 
       </fieldset>
       <%= render :partial => "mobile_login_history", :object => @user if false %>

@@ -6,26 +6,27 @@
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>
   <%#= render 'imports/button' %>
 <% end %>
-<div class="row">
-  <div class="large-12 columns">
-    <form class="filter_bar">
-      <div class="row">
-        <div class="medium-6 columns">
-            <div class="float_left"> <%= t("users.actions.show") %>: <%= select_tag :filter, options_for_select([[t("children.filer_by.active"),"active"],[ t("children.filer_by.all"), "all" ]], params[:filter]), { :onchange => "this.form.submit();"} %> </div>
+<form class="filter_bar">
+  <div class="row">
+    <div class="medium-6 columns">
+        <div class="float_left">
+          <small class="scope_label"><%= t("users.actions.show") %></small>
+          <%= select_tag :filter, options_for_select([[t("children.filer_by.active"),"active"],[ t("children.filer_by.all"), "all" ]], params[:filter]), { :onchange => "this.form.submit();"} %>
         </div>
-        <div class="medium-6 columns">
-          <div class="float_left"> <%= t("users.sort_by.label") %>:  <%= select_tag :sort, options_for_select([[t("users.sort_by.full_name"),"full_name"],[ t("login.username"), "user_name"]], params[:sort]), { :onchange => "this.form.submit();"} %> </div>
-        </div>
+    </div>
+    <div class="medium-6 columns">
+      <div class="float_left">
+        <small class="scope_label"><%= t("users.sort_by.label") %></small>
+        <%= select_tag :sort, options_for_select([[t("users.sort_by.full_name"),"full_name"],[ t("login.username"), "user_name"]], params[:sort]), { :onchange => "this.form.submit();"} %>
       </div>
-    </form>
-    <div class="show_count"> <%= t("users.actions.show_all") %> <%= pluralize(@users.length, t("user.label")) %></div>
-    <table id="list_table" class="list_table">
-      <thead>
-        <%= render :partial => 'users_header' %>
-      </thead>
-      <tbody>
-        <%= render :partial => 'user', :collection => @users %>
-      </tbody>
-    </table>
+    </div>
   </div>
-</div>
+</form>
+<table id="list_table" class="list_table_2 dataTable in_content_area">
+  <thead>
+    <%= render :partial => 'users_header' %>
+  </thead>
+  <tbody>
+    <%= render :partial => 'user', :collection => @users %>
+  </tbody>
+</table>

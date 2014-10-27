@@ -4,13 +4,5 @@
   <% if can?(:disable, User) %>
     <th><%= t("user.disabled") %></th>
   <% end %>
-  <% if can? :show, User %>
-    <th></th>
-  <% end %>
-  <% if can? :edit, User %>
-      <th></th>
-  <% end %>
-  <% if can? :destroy, User %>
-      <th></th>
-  <% end %>
+  <th></th>
 </tr>

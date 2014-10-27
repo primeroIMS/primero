@@ -269,6 +269,11 @@ class Field
     self.highlight_information = HighlightInformation.new
   end
 
+  def searchable_select
+    if self.option_strings_source == 'Location' && !multi_select
+      true
+    end
+  end
 
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])
