@@ -696,7 +696,7 @@ en:
       tracing_request: "Tracing Request"
 
   form_section:
-    create: "New Form"
+    create: "New Form Section"
     visibility: "Visibility"
     ordering: "Ordering"
     details: "Form details"
@@ -715,7 +715,7 @@ en:
       updated: "Form section successfully added"
     hide: "Hidden?"
     show: "Show"
-    manage: "Manage Form Sections"
+    manage: "Manage Form Section"
     edit: "Edit Form Sections"
     buttons:
       add: "Add"
@@ -844,6 +844,7 @@ en:
     reindex_pending: Reindex Pending
 
   lookup:
+    edit: "Edit Lookup"
     create: "New Lookup"
     label: "Lookup"
     index: "Manage Lookups"
