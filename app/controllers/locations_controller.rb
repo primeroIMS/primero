@@ -43,6 +43,9 @@ class LocationsController < ApplicationController
     if @location.save
       redirect_to locations_path
     else
+      load_location
+      load_all_locations
+      load_types
       render :edit
     end
   end
