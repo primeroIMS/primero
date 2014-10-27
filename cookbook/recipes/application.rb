@@ -223,3 +223,4 @@ supervisor_service 'couch-watcher' do
   action :start
 end
 
+include_recipe 'primero::nginx_app'

@@ -1,4 +1,4 @@
-node.default['nginx']['default_site_enabled'] = false
+include_recipe 'primero::nginx_common'
 
 apt_repository 'phusion-passenger' do
   uri          'https://oss-binaries.phusionpassenger.com/apt/passenger'
@@ -8,9 +8,7 @@ apt_repository 'phusion-passenger' do
   key          '561F9B9CAC40B2F7'
 end
 
-%w(nginx-extras passenger).each do |pkg|
-  package pkg
-end
+package 'passenger'
 
 ssl_dir = ::File.join('/etc/nginx', 'ssl')
 directory ssl_dir do
@@ -35,14 +33,12 @@ end
   end
 end
 
-# TODO: We might have to rework this config file if we ever do Couch-only
-# deployments
-template "#{node[:nginx_dir]}/nginx.conf" do
-  source "nginx.conf.erb"
-  owner "root"
-  group "root"
-  mode '0644'
-  notifies :restart, 'service[nginx]'
+file "#{node[:nginx_dir]}/conf.d/passenger.conf" do
+  content <<-EOH
+    passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
+  EOH
+  user 'root'
+  group 'root'
 end
 
 site_conf_file = "#{node[:nginx_dir]}/sites-available/primero"
