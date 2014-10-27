@@ -31,7 +31,7 @@ _primero.get_param = function(param) {
       return key_val[1];
     }
     if(key_val[0].indexOf(param) === 0) {
-      return key_val[0] + ':' + key_val[1]
+      return key_val[0] + ':' + key_val[1];
     }
   }
   return false;
@@ -53,7 +53,7 @@ _primero.find_error_messages_container = function(form) {
 
 //create or clean the container errors messages: div#errorExplanation.
 _primero.create_or_clean_error_messages_container = function(form) {
-  if ($(form).find("div#errorExplanation").length == 0) {
+  if ($(form).find("div#errorExplanation").length === 0) {
     $(form).find(".tab div.clearfix").each(function(x, el) {
       //TODO make i18n able.
       $(el).after("<div id='errorExplanation' class='errorExplanation'>"
@@ -75,9 +75,9 @@ _primero.object_to_params = function(filters) {
     if (url_string !==  "") {
       url_string += "&";
     }
-    var filter = filters[key]
+    var filter = filters[key];
     if (_.isArray(filter)) {
-      filter = filter.join("||")
+      filter = filter.join("||");
     }
     url_string += "scope[" + key + "]" + "=" + filter;
   }
@@ -93,12 +93,12 @@ _primero.update_autosum_field = function(input) {
   var autosum_total_input = fieldset.find('input.autosum_total[type="text"][autosum_group="' + autosum_group + '"]');
   fieldset.find('input.autosum[type="text"][autosum_group="' + autosum_group + '"]').each(function(){
     var value = $(this).val();
-    if(!isNaN(value) && value != ""){
+    if(!isNaN(value) && value !== ""){
       autosum_total += parseFloat(value);
     }
   });
   autosum_total_input.val(autosum_total);
-}
+};
 
 var Primero = Backbone.View.extend({
   el: 'body',
@@ -108,7 +108,8 @@ var Primero = Backbone.View.extend({
     'click .gq_popovers': 'engage_popover',
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
-    'click .action_btn': 'disable_default_events'
+    'click .action_btn': 'disable_default_events',
+    'change .record_types input': 'record_type_changed'
   },
 
   initialize: function() {
@@ -117,6 +118,7 @@ var Primero = Backbone.View.extend({
     this.init_autogrow();
     this.init_action_menu();
     this.init_chosen_or_new();
+    this.show_hide_record_type();
   },
 
   init_chosen_or_new: function() {
@@ -195,11 +197,27 @@ var Primero = Backbone.View.extend({
   },
 
   start_sticky: function(evt) {
-    $(evt.target).addClass('sticking')
+    $(evt.target).addClass('sticking');
   },
 
   end_sticky: function(evt) {
-    $(evt.target).removeClass('sticking')
+    $(evt.target).removeClass('sticking');
+  },
+
+  record_type_changed: function(evt) {
+    this.show_hide_record_type($(evt.target));
+  },
+
+  show_hide_record_type: function(input) {
+    var inputs = input ? input : $('.record_types input');
+
+    inputs.each(function(k, v) {
+      var selected_input = $(v),
+          section_finder_str = '.section' + '.' + selected_input.val(),
+          id_section = $('.associated_form_ids').find(section_finder_str);
+
+      selected_input.is(":checked") ? id_section.fadeIn(800) : id_section.fadeOut(800);
+    });
   },
 
   submit_form: function(evt) {
@@ -218,8 +236,8 @@ var Primero = Backbone.View.extend({
       var form = $('form.default-form'),
           commit = form.find("input[class='submit-outside-form']");
 
-      if (commit.length == 0) {
-        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + button.val() + "'/>")
+      if (commit.length === 0) {
+        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + button.val() + "'/>");
       } else {
         $(commit).val(button.val());
       }

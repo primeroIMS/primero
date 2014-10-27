@@ -8,7 +8,9 @@
     </div>
     <div class="medium-8 columns">
       <%# TODO: translate! %>
-      <%= @primero_module.associated_record_types.map{|rt| t("forms.record_types.#{rt}")}.join(", ") %>
+      <span class="value">
+        <%= @primero_module.associated_record_types.map{|rt| t("forms.record_types.#{rt}")}.join(", ") %>
+      </span>
     </div>
   </div>
   <div class="row">
@@ -16,17 +18,18 @@
       <label class="key"><%= t("primero_module.forms") %></label>
     </div>
     <div class="medium-8 columns">
-      <span class="value">
-        <% @primero_module.associated_forms_grouped_by_record_type.each do |record_type, forms| %>
+      <% @primero_module.associated_forms_grouped_by_record_type.each do |record_type, forms| %>
+        <span class="value value-nobg">
           <span class="section section-show">
             <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
-            <% forms.each do |form| %>
-              <span class="row"><%= form.name %></span>
-            <% end %>
+            <ul class="no-bullet">
+              <% forms.sort_by{ |f| f.order }.each do |form| %>
+                <li><%= form.name %></li>
+              <% end %>
+            </ul>
           </span>
-        <% end %>
-      </span>
-
+        </span>
+      <% end %>
     </div>
   </div>
 <% end %>

@@ -240,6 +240,16 @@ fieldset {
   }
 }
 
+.mandate_panel {
+  font-size: .8rem;
+  text-align: center;
+  margin: 10px;
+
+  span {
+    color: #8d0000 !important;
+  }
+}
+
 .btn_panel {
   width: 100%;
   padding: 2rem 0 0 2rem;
@@ -461,11 +471,20 @@ fieldset {
           font-weight: normal;
         }
       }
+
+      &.value-nobg {
+        background: none;
+      }
+
+      ul li {
+        margin-left: 20px;
+        font-size: .8rem;
+      }
     }
   }
 
-  .row:nth-child(2n+1) .section {
-    background: none repeat scroll 0 0 #fff;
+  .row span.section {
+    background: none repeat scroll 0 0 #f9faf6;
   }
 }
 

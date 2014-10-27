@@ -13,7 +13,13 @@
     <% @form_sections.each do |form_group, forms| %>
       <% forms.each do |form| %>
           <tr class="#{form.visible? ? '' : 'hidden_form'}">
-            <td><%= form.name %></td>
+            <td>
+              <%= form.name %>
+              <% unless form.visible %>
+                <br>
+                <span>(<%= form.visible ? '' : 'hidden' %>)</span>
+              <% end %>
+            </td>
             <td><%= form_group %></td>
             <td><%= form.description %></td>
             <td>
