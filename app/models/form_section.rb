@@ -3,6 +3,7 @@ class FormSection < CouchRest::Model::Base
   include PropertiesLocalization
   include Importable
 
+  RECORD_TYPES = ['case', 'incident', 'tracing_request']
 
   #TODO - include Namable - will require a fair amount of refactoring
 
@@ -416,6 +417,10 @@ class FormSection < CouchRest::Model::Base
     new_field_names.each { |name| new_fields << fields.find { |field| field.name == name } }
     self.fields = new_fields
     self.save
+  end
+
+  def self.list_form_group_names
+    self.all.all.collect(&:form_group_name).compact.uniq
   end
 
   protected

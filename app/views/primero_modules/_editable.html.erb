@@ -1,2 +1,65 @@
 <%= resource_edit_field(object, 'name', 'name', 'text_field', true) %>
 <%= resource_edit_field(object, 'description', 'description', 'text_area') %>
+
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :program_id, t("primero_module.program"), class: 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <span class="value value_form">
+      <%= form_builder.select :program_id, options_for_select(@programs.map{|p|[p.name, p.id]}) %>
+    </span>
+  </div>
+  <div class="medium-1 columns">
+    <span class="required">*</div>
+  </div>
+</div>
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :associated_record_types, t("primero_module.associated_record_types"), class: 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <span class="value value_form">
+      <span class="section">
+        <% FormSection::RECORD_TYPES.each do |record_type| %>
+          <label>
+            <%= form_builder.check_box :associated_record_types, {id: "prmero_module_#{record_type}", name: "primero_module[associated_record_types][]"}, record_type, nil  %>
+            <%= t("forms.record_types.#{record_type}") %>
+          </label>
+        <% end %>
+      </span>
+    </span>
+  </div>
+  <div class="medium-1 columns">
+    <span class="required">*</div>
+  </div>
+</div>
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :associated_form_ids, t("primero_module.associated_form_ids"), :class => 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <span class="value value_form">
+      <% @forms_by_record_type.each do |record_type, forms_list| %>
+        <span class="section">
+          <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
+          <% forms_list.each do |form| %>
+              <label>
+                <%= form_builder.check_box :associated_form_ids, {id: "primero_module_#{form.unique_id}", name: "primero_module[associated_form_ids][]"}, form.unique_id, nil %>
+                <%= form.name %>
+              </label>
+          <% end %>
+        </span>
+      <% end %>
+    </span>
+  </div>
+  <div class="medium-1 columns">
+    <span class="required">*</div>
+  </div>
+</div>

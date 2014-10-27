@@ -17,7 +17,8 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
       'incident_total_tally_boys' => '3',
       'incident_total_tally_girls' => '5',
       'incident_total_tally_unknown' => '2',
-      'module_id' => PrimeroModule.find_by_name('MRM').id,
+      'incident_total_tally_total' => '10',
+      'module_id' => PrimeroModule.find_by_name('MRM').id
     )
     user_name = incident_hash['created_by']
     if User.find_by_user_name(user_name).nil?
@@ -32,6 +33,11 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
     incident = Incident.new_with_user_name(User.find_by_user_name(user_name), incident_hash)
     incident['histories'] ||= []
     incident['histories'] << {'datetime' => incident['flag_at'], 'changes' => {'flag' => 'anything'}}
+
+    #Create violations hash
+    #MRM needs at least the violations subforms empty.
+    violation_hash = create_violations_subforms(incident_hash)
+    incident.violations = violation_hash unless violation_hash.nil?
 
     incident.create!
     # Need this because of how children_helper grabs flag_message from child history - cg
@@ -50,24 +56,14 @@ Given /^the following incidents with violations exist in the system:$/ do |incid
       'incident_total_tally_boys' => '3',
       'incident_total_tally_girls' => '5',
       'incident_total_tally_unknown' => '2',
-      'module_id' => PrimeroModule.find_by_name('MRM').id,
+      'incident_total_tally_total' => '10',
+      'module_id' => PrimeroModule.find_by_name('MRM').id
     )
 
     #Create violations hash
-    #NOTE: for now, this will add at most 1 of each type of violation
-    violation_list = incident_hash["violations"].split(', ')
-    if violation_list.present?
-      violation_hash = {}
-      violation_list.each do |violation|
-        field_hash = {}
-        field_hash["voilation_#{violation}_boys"] = "1"
-        index_hash = {}
-        index_hash["0"] = field_hash
-        violation_hash["#{violation}"] = index_hash
-      end
-
-      incident_hash.merge!('violations' => violation_hash) if violation_hash.present?
-    end
+    #MRM needs at least the violations subforms empty.
+    violation_hash = create_violations_subforms(incident_hash)
+    incident_hash.merge!('violations' => violation_hash) unless violation_hash.nil?
 
     user_name = incident_hash['created_by']
     if User.find_by_user_name(user_name).nil?
@@ -80,5 +76,25 @@ Given /^the following incidents with violations exist in the system:$/ do |incid
     incident = Incident.new_with_user_name(User.find_by_user_name(user_name), incident_hash)
 
     incident.create!
+  end
+end
+
+
+def create_violations_subforms(incident_hash)
+  if incident_hash['module_id'] == PrimeroModule.find_by_name('MRM').id
+    violation_hash = {}
+    #Add a new violations subform here.
+    violations_subforms = ["killing", "maiming", "recruitment", "sexual_violence", "abduction", "attack_on_schools", 
+                           "attack_on_hospitals", "denial_humanitarian_access", "other_violation"]
+    #The user provide a list of violations to at least has one record.
+    violation_list = incident_hash["violations"].present? ? incident_hash["violations"].split(', ') : []
+    violations_subforms.each do |subform_violation|
+      index_hash = {}
+      if violation_list.include?(subform_violation)
+        index_hash["0"] = {"violation_tally_boys" => "1"}
+      end
+      violation_hash["#{subform_violation}"] = index_hash
+    end
+    return violation_hash
   end
 end

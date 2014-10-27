@@ -10,7 +10,7 @@
   width: 750px;
 }
 
-.side-tab {
+.side-tab, .modal-side-tab {
   position: relative;
   border-top: none;
   min-height: 38rem;
@@ -42,6 +42,7 @@
     text-align: right;
     font-family: 'Roboto-Medium', sans-serif;
     font-size: $thirteen_px;
+    font-weight: bold;
   }
 
   .row {
@@ -108,7 +109,7 @@ li.current {
   }
 }
 
-ul.side-nav {
+ul.side-nav, ul.modal-side-nav {
   width: 250px;
 
   li ul {
