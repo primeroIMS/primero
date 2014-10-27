@@ -11,6 +11,7 @@ class Location < CouchRest::Model::Base
   property :type
   property :hierarchy, type: [String]
   property :hierarchical_name, read_only: true
+  attr_accessor :parent_id
 
   design do
     view :by_parent,
@@ -25,14 +26,13 @@ class Location < CouchRest::Model::Base
     view :by_placename
   end
 
-  before_save do
-    self.name = self.hierarchical_name
-  end
+  # "before_validation" is necessary here to ensure these are executed before the validations and the "before_save" in the Namable concern
+  before_validation :generate_hierarchy
+  before_validation :generate_name
 
   def name
     self.hierarchical_name
   end
-
 
   def self.find_by_location(placename)
     #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
@@ -54,31 +54,29 @@ class Location < CouchRest::Model::Base
     end.join('::')
   end
 
-
-
   def descendants
     response = Location.by_parent(key: self.placename)
     response = response.present? ? response.all : []
     return response
   end
 
-  def set_parent(parent)
+  def set_hierarchy_from_parent(parent)
     #Figure out the new hierarchy
     hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])
-    new_hierarchy = hierarchy_of_parent
+    self.hierarchy = hierarchy_of_parent
     if parent
-      new_hierarchy << parent.placename
+      self.hierarchy << parent.placename
     end
 
     #Update the hierarchies of all descendants
-    subtree = descendants + [self]
-    subtree.each do |node|
-      old_hierarchy = node.hierarchy
-      index_of_self = old_hierarchy.find_index(self.placename) || old_hierarchy.length
-      node.hierarchy = new_hierarchy +
-        old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
-      node.save
-    end
+    #subtree = descendants + [self]
+    #subtree.each do |node|
+    #  old_hierarchy = node.hierarchy
+    #  index_of_self = old_hierarchy.find_index(self.placename) || old_hierarchy.length
+    #  node.hierarchy = new_hierarchy +
+    #    old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
+    #  node.save
+    #end
   end
 
   def parent
@@ -90,8 +88,19 @@ class Location < CouchRest::Model::Base
   end
 
   def remove_parent
-    self.set_parent nil
+    self.set_hierarchy_from_parent nil
   end
 
+  private
 
+  def generate_hierarchy
+    if self.parent_id.present?
+      a_parent = Location.get(self.parent_id)
+      set_hierarchy_from_parent(a_parent) if a_parent.present?
+    end
+  end
+
+  def generate_name
+    self.name = self.hierarchical_name
+  end
 end

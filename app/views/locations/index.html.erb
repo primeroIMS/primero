@@ -2,8 +2,8 @@
   <div class="large-8 medium-4 columns">
   </div>
   <div class="large-4 medium-4 columns">
-      <% if can? :create, Lookup %>
-        <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'btn green-button right' %>
+      <% if can? :create, Location %>
+        <%= link_to content_tag(:span, t("location.create"), class: 'create_user'), new_location_path,  class: 'btn green-button right' %>
       <% end %>
   </div>
 </div>
@@ -11,8 +11,8 @@
   <div class="large-12 medium-12 columns">
     <div class="page-content-new">
       <div class="side-tab-content full_width">
-        <% if @lookups.present? %>
-          <%= render :partial => "lookups/list_view_table", :locals => {:lookups => @lookups} %>
+        <% if @locations.present? %>
+          <%= render :partial => "locations/list_view_table", :locals => {:locations => @locations} %>
         <% end %>
         <div id="modal-dialog" class="hide"></div>
       </div>

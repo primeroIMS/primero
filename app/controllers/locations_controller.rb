@@ -1,0 +1,71 @@
+class LocationsController < ApplicationController
+
+  before_filter :load_location, :only => [:edit, :update, :destroy]
+  before_filter :load_all_locations, :only => [:index, :new, :edit]
+  before_filter :load_types, :only => [:new, :edit]
+
+  def index
+    authorize! :index, Location
+    @page_name = t("location.index")
+  end
+
+  def new
+    authorize! :create, Location
+    @page_name = t("location.create")
+    @location = Location.new(params[:location])
+  end
+
+  def create
+    authorize! :create, Location
+    location = Location.new(params[:location])
+
+    if (location.valid?)
+      location.create
+      flash[:notice] = t("location.messages.updated")
+      redirect_to locations_path
+    else
+      @location = location
+      load_all_locations
+      load_types
+      render :new
+    end
+  end
+
+  def edit
+    authorize! :update, Location
+    @page_name = t("location.edit")
+  end
+
+  def update
+    authorize! :update, Location
+    @location.update_attributes params[:location]
+
+    if @location.save
+      redirect_to locations_path
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    authorize! :destroy, Location
+    @location.destroy
+    redirect_to locations_path
+  end
+
+
+  private
+
+  def load_location
+    @location = Location.get params[:id] if params[:id]
+  end
+  
+  def load_all_locations
+    @locations = Location.all.all
+  end
+
+  def load_types
+    @location_types = Location::BASE_TYPES
+  end
+
+end
