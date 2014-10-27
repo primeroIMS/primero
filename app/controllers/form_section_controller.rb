@@ -9,6 +9,7 @@ class FormSectionController < ApplicationController
   before_filter :get_form_section, :only => [:edit, :destroy]
   before_filter :get_related_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
+  before_filter :get_form_group_names, :only => [:new, :edit]
 
 
   def index
@@ -24,7 +25,6 @@ class FormSectionController < ApplicationController
   def new
     authorize! :create, FormSection
     @page_name = t("form_section.create")
-    @list_form_group_names = FormSection.list_form_group_names
     @form_section = FormSection.new(params[:form_section])
   end
 
@@ -51,6 +51,7 @@ class FormSectionController < ApplicationController
       flash[:notice] = t("form_section.messages.updated")
       redirect_to edit_form_section_path(form_section.unique_id)
     else
+      get_form_group_names
       @form_section = form_section
       render :new
     end
@@ -59,7 +60,6 @@ class FormSectionController < ApplicationController
   def edit
     authorize! :update, FormSection
     @page_name = t("form_section.edit")
-    @list_form_group_names = FormSection.list_form_group_names
     forms_for_move
   end
 
@@ -71,6 +71,7 @@ class FormSectionController < ApplicationController
       @form_section.save!
       redirect_to edit_form_section_path(@form_section.unique_id)
     else
+      get_form_group_names
       render :action => :edit
     end
   end
@@ -157,5 +158,9 @@ class FormSectionController < ApplicationController
     lookups = Lookup.all
     @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
     @lookup_options.unshift("", "Location")
+  end
+
+  def get_form_group_names
+    @list_form_group_names = FormSection.list_form_group_names
   end
 end
