@@ -116,7 +116,7 @@ directory File.join(node[:primero][:log_dir], 'couchdb') do
   action :create
   owner 'couchdb'
   group 'couchdb'
-end 
+end
 
 unless node[:primero][:couchdb][:password]
   Chef::Application.fatal!("You must specify the couchdb password in your node JSON file (node[:primero][:couchdb][:password])!")
@@ -183,6 +183,17 @@ supervisor_service 'solr' do
   action [:enable, :restart]
 end
 
+supervisor_service 'couch-watcher' do
+  command "#{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}"
+  environment({'RAILS_ENV' => 'production'})
+  autostart true
+  autorestart true
+  user node[:primero][:app_user]
+  directory node[:primero][:app_dir]
+  numprocs 1
+  action [:enable, :stop]
+end
+
 execute_bundle 'setup-db-seed' do
   command "rake db:seed"
 end
@@ -203,3 +214,12 @@ end
 execute_bundle 'restart-scheduler' do
   command "rake scheduler:restart"
 end
+
+execute_bundle 'prime-couch-watcher-sequence-numbers' do
+  command "rake couch_changes:prime_sequence_numbers"
+end
+
+supervisor_service 'couch-watcher' do
+  action :start
+end
+

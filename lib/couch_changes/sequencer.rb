@@ -13,6 +13,18 @@ module CouchChanges
       @sequences[model.database.name] ||= ModelSequence.new(model.database.name, 0, self)
     end
 
+    # @param sequence_data: a Hash mapping the database name to the latest
+    # sequence number
+    def self.prime_sequence_numbers(sequence_data, history_path=DEFAULT_HISTORY_PATH)
+      seq = self.new(history_path)
+      seq.instance_exec(self) do
+        @sequences = sequence_data.inject({}) do |acc, (db_name, last_seq)|
+          acc.merge(db_name => ModelSequence.new(db_name, last_seq, seq)) 
+        end
+        save_sequence_numbers
+      end
+    end
+
     protected
 
     class ModelSequence

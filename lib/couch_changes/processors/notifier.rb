@@ -7,7 +7,9 @@ module CouchChanges
           [Lookup, Location, FormSection]
         end
 
-        def process(modelCls, change, &done)
+        def process(modelCls, change)
+          dfd = EventMachine::DefaultDeferrable.new
+
           CouchChanges.logger.info "Notifying Passenger instances about change \##{change['seq']} to #{modelCls.name}"
           multi = EventMachine::MultiRequest.new
 
@@ -15,10 +17,10 @@ module CouchChanges
             procs = CouchChanges::Passenger.http_process_info
           rescue PassengerNotRunningError => e
             CouchChanges.logger.warn "Marking notifier as done since Passenger isn't running"
-            done.call
+            dfd.succeed
           rescue MultiplePassengersError
             CouchChanges.logger.error "Cannot handle multiple Passenger servers!"
-            done.call false
+            dfd.fail "Multiple Passenger Servers"
           else
             procs.each do |process|
               uri = Addressable::URI.parse(Rails.application.routes.url_for(:controller => 'couch_changes', :action => 'notify', :host => process.address))
@@ -38,17 +40,22 @@ module CouchChanges
             end
 
             multi.callback do
+              # For now, just mark the notification as successful if the
+              # request didn't catastrophically fail, regardless of the status
+              # code returned by rails.
               if multi.responses[:errback].length == 0
                 CouchChanges.logger.debug "App successfully notified of change \##{change['seq']} on model #{modelCls.name}"
-                done.call
+                dfd.succeed
               else
                 multi.responses[:errback].each do |k, v|
                   CouchChanges.logger.error "Error notifying app instance #{k} of change \##{change['seq']} on model #{modelCls.name}: #{v.try(:error)}"
                 end
-                done.call false
+                dfd.fail
               end
             end
           end
+
+          dfd
         end
       end
     end
