@@ -4,8 +4,8 @@ module CouchChanges
   class Sequencer
     DEFAULT_HISTORY_PATH = File.join(Rails.application.config.root, 'log/couch_watcher_history.json')
 
-    def initialize(history_path=DEFAULT_HISTORY_PATH)
-      @history_path = history_path
+    def initialize(history_path=nil)
+      @history_path = history_path || DEFAULT_HISTORY_PATH
     end
 
     def for_model(model)
@@ -15,7 +15,7 @@ module CouchChanges
 
     # @param sequence_data: a Hash mapping the database name to the latest
     # sequence number
-    def self.prime_sequence_numbers(sequence_data, history_path=DEFAULT_HISTORY_PATH)
+    def self.prime_sequence_numbers(sequence_data, history_path=nil)
       seq = self.new(history_path)
       seq.instance_exec(self) do
         @sequences = sequence_data.inject({}) do |acc, (db_name, last_seq)|

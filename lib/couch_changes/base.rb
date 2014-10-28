@@ -11,11 +11,7 @@ module CouchChanges
 
     def run
       EventMachine.run do
-        CouchChanges::Watcher.new(MODELS_TO_WATCH).watch_for_changes do |model, change|
-          logger.debug "Handling change to #{model.name}: #{change}"
-
-          CouchChanges::Processors.process_change(model, change)
-        end
+        CouchChanges::Watcher.new(MODELS_TO_WATCH).watch_for_changes
       end
     end
 

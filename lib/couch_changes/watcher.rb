@@ -1,15 +1,15 @@
 module CouchChanges
   # Uses EventMachine to watch for fresh changes
   class Watcher
-    def initialize(models_to_watch, sequencer=nil)
+    def initialize(models_to_watch, sequencer=nil, history_path=nil)
       @models = models_to_watch
-      @sequencer ||= Sequencer.new
+      @sequencer ||= Sequencer.new(history_path)
     end
 
-    def watch_for_changes &handler_block
+    def watch_for_changes
       create_request_handlers.each do |model, handler|
         listen_for_changes(model, handler) do |change|
-          handle_change(model, change, &handler_block)
+          handle_change(model, change)
         end
       end
     end
@@ -31,14 +31,16 @@ module CouchChanges
       end
     end
 
-    def handle_change(model, change, retry_period=5, &handler_block)
+    def handle_change(model, change, retry_period=5)
       if change_is_fresh(model, change)
-        handler_block.call(model, change).callback do
+        CouchChanges.logger.debug "Handling change to #{model.name}: #{change}"
+
+        CouchChanges::Processors.process_change(model, change).callback do
           update_sequence(model, change)
         end.errback do
           eventmachine.add_timer(retry_period) do
             couchchanges.logger.warn "change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period*2} seconds"
-            handle_change(model, change, retry_period*2, &handler_block)
+            handle_change(model, change, retry_period*2)
           end
         end
       else
