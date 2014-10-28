@@ -1,10 +1,19 @@
-<div id="dashboard" class="row">
+<div id="dashboard">
+  <div class="index_controls_container" data-top="50" data-bottom="40">
+    <div class="row collapse">
+      <% if @display_incidents_dashboard %>
+      <div class="large-12 columns">
+        <%= link_to content_tag(:span, t("incidents.register_new_incident"), class: 'create_user'), new_incident_path({module_id: PrimeroModule::MRM}),  class: 'btn green-button right' %>
+      </div>
+    </div>
+  </div>
+  <% end %>
   <% if @display_cases_dashboard %>
-  <div class="row">
-    <div id="content" class="large-8 columns">
+  <div class="row collapse">
+    <div id="content" class="large-9 columns">
       <%= render 'scheduled_activities', scheduled_activities: @scheduled_activities, model:Child %>
     </div>
-    <div id="sidebar" class="large-4 columns">
+    <div id="sidebar" class="large-3 columns">
       <%= render 'new_assigned', records: @cases, model:Child %>
       <%= render 'recently_flagged', recently_flagged: @recently_flagged, recently_flagged_count: @recently_flagged_count, model:Child %>
     </div>
@@ -12,14 +21,11 @@
   <% end %>
 
   <% if @display_incidents_dashboard %>
-  <div class="row">
-    <div id="content" class="large-12 columns">
-      <%= link_to content_tag(:span, t("incidents.register_new_incident"), class: 'create_user'), new_incident_path({module_id: PrimeroModule::MRM}),  class: 'btn green-button right' %>
-    </div>
-    <div id="content" class="large-8 columns">
+  <div class="row collapse">
+    <div id="content" class="large-9 columns">
       <%= render 'open_incidents', open_incidents: @open_incidents %>
     </div>
-    <div id="sidebar" class="large-4 columns">
+    <div id="sidebar" class="large-3 columns">
       <%= render 'new_assigned', records: @incidents, model:Incident %>
       <%= render 'recently_flagged', recently_flagged: @incidents_recently_flagged, recently_flagged_count: @incidents_recently_flagged_count, model:Incident %>
     </div>
