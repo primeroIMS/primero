@@ -97,6 +97,34 @@ class Incident < CouchRest::Model::Base
     (self.unique_identifier || "").last 7
   end
 
+  def violation_number_of_victims
+    self.try(:incident_total_tally_total) || 0
+  end
+
+  def violation_number_of_violations
+    if self.violations.present?
+      number_of_violations = 0
+      self.violations.to_hash.each do |key, value|
+        number_of_violations += value.size if value.present?
+      end
+      number_of_violations
+    end
+  end
+
+  def violation_number_of_violations_verified
+    if self.violations.present?
+      number_of_violations_verified = 0
+      self.violations.to_hash.each do |key, value|
+        if value.present?
+          value.each do |subform|
+            number_of_violations_verified += 1 if subform.try(:verified) == I18n.t("incident.violation_status_verified")
+          end
+        end
+      end
+      number_of_violations_verified
+    end
+  end
+
   # Each violation type has a field that is used as part of the identification
   # of that violation
   def self.violation_id_fields

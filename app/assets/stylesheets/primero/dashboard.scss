@@ -121,6 +121,10 @@
       font-family: 'Roboto-Medium', san-serif;
     }
 
+    a.uppercase {
+      text-transform: uppercase;
+    }
+
     .panel_header {
       h4 {
         font-size: $thirteen_px;
