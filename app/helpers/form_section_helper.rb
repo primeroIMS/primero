@@ -11,7 +11,7 @@ module FormSectionHelper
     form_section.new? ? form_sections_path : form_section_path(form_section.unique_id)
   end
 
-  def build_form_tabs(group, forms)
+  def build_form_tabs(group, forms, show_summary = false)
     form = forms.first
     if forms.count > 1
       content_tag :li, class: 'group' do
@@ -23,7 +23,7 @@ module FormSectionHelper
         concat(build_group_tabs(forms))
       end
     else
-      content_tag :li, class: "#{form.is_first_tab ? 'current': ''}" do
+      content_tag :li, class: "#{is_init_tab(form, show_summary)}" do
         concat(
           link_to("#tab_#{form.section_name}", class: 'non-group') do
             concat(t(form.unique_id, :default => form.name))
@@ -43,6 +43,14 @@ module FormSectionHelper
           end, class: "#{form.is_first_tab ? 'current': ''}"
         ))
       end
+    end
+  end
+
+  def is_init_tab(form, show_summary)
+    if show_summary && form.section_name == 'mrm_summary_page' || form.is_first_tab
+      "current"
+    else
+      ""
     end
   end
 
