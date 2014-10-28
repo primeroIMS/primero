@@ -1,6 +1,6 @@
 <ul class="tab-handles side-nav">
   <% tabs.each do |form_group, forms| %>
-    <%= build_form_tabs(form_group, forms) %>
+    <%= build_form_tabs(form_group, forms, show_summary ||= false) %>
   <% end %>
   <li>
 		<%= yield :header_message %>
