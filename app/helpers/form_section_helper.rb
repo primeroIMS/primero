@@ -23,7 +23,7 @@ module FormSectionHelper
         concat(build_group_tabs(forms))
       end
     else
-      content_tag :li, class: "#{is_init_tab(form, show_summary)}" do
+      content_tag :li, class: "#{init_tab(form, show_summary)}" do
         concat(
           link_to("#tab_#{form.section_name}", class: 'non-group') do
             concat(t(form.unique_id, :default => form.name))
@@ -46,7 +46,7 @@ module FormSectionHelper
     end
   end
 
-  def is_init_tab(form, show_summary)
+  def init_tab(form, show_summary)
     if show_summary && form.section_name == 'mrm_summary_page' || form.is_first_tab
       "current"
     else
