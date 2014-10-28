@@ -101,28 +101,23 @@ class Incident < CouchRest::Model::Base
     self.try(:incident_total_tally_total) || 0
   end
 
+  def violations_subforms
+    subforms = []
+    subforms = self.violations.to_hash.map{|key, value| value}.flatten if self.violations.present?
+    subforms
+  end
+
   def violation_number_of_violations
-    if self.violations.present?
-      number_of_violations = 0
-      self.violations.to_hash.each do |key, value|
-        number_of_violations += value.size if value.present?
-      end
-      number_of_violations
-    end
+    self.violations_subforms.size
   end
 
   def violation_number_of_violations_verified
-    if self.violations.present?
-      number_of_violations_verified = 0
-      self.violations.to_hash.each do |key, value|
-        if value.present?
-          value.each do |subform|
-            number_of_violations_verified += 1 if subform.try(:verified) == I18n.t("incident.violation_status_verified")
-          end
-        end
-      end
-      number_of_violations_verified
+    number_of_violations_verified = 0
+    self.violations_subforms.each do |subform|
+      #TODO Should use the value "Verified" instead the I18n thing?
+      number_of_violations_verified += 1 if subform.try(:verified) == I18n.t("incident.violation_status_verified")
     end
+    number_of_violations_verified
   end
 
   # Each violation type has a field that is used as part of the identification
