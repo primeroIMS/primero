@@ -33,7 +33,7 @@ template '/etc/couchdb/local.ini' do
   source 'couchdb/local.ini.erb'
   variables( :config => node[:primero][:couchdb][:config] )
   mode '0644'
-  notifies :restart, 'service[couchdb]'
+  notifies :restart, 'service[couchdb]', :immediately
 end
 
 service 'couchdb' do
