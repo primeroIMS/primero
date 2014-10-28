@@ -35,7 +35,7 @@ class FormSectionController < ApplicationController
     form_section.core_form = false   #Indicates this is a user-added form
 
     #TODO - have unique id generated as part of Namable
-    form_section.unique_id = "#{@primero_module.name}-#{form_section.name}".parameterize.dasherize
+    form_section.unique_id = "#{@primero_module.name}-#{form_section.name}".parameterize.underscore
 
     #TODO - need more elegant way to set the form's order
     form_section.order = 999

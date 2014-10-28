@@ -322,7 +322,9 @@ class FormSection < CouchRest::Model::Base
     raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
     field.merge!({'base_language' => formsection['base_language']})
     if field.type == 'subform'
-      field.subform_section_id = "#{formsection.unique_id}-subform-#{field.name}".parameterize.dasherize
+      field.subform_section_id = "#{formsection.unique_id}_subform_#{field.name}".parameterize.underscore
+      #Now make field name match subform section id
+      field.name = field.subform_section_id
       create_subform(formsection, field)
     end
     formsection.fields.push(field)
