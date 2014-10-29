@@ -32,7 +32,7 @@ module FieldsHelper
       when Field::TALLY_FIELD
         (field.tally + ['total']).map {|t| parent_obj["#{field.name}_#{t}"] }
       when Field::DATE_RANGE
-        [parent_obj["#{field.name}_from"], parent_obj["#{field.name}_to"]]
+        [field_format_date(parent_obj["#{field.name}_from"]), field_format_date(parent_obj["#{field.name}_to"])]
       when Field::DATE_FIELD
         field_format_date(parent_obj[field.name])
       else
@@ -40,7 +40,7 @@ module FieldsHelper
       end
     end
   end
-  
+
   def field_value_for_display field_value
     case
     when field_value.nil?
@@ -55,21 +55,21 @@ module FieldsHelper
       field_value.to_s
     end
   end
-  
+
   def field_keys(subform_name, subform_index, field_name, form_group_name)
     field_key = []
-  
+
     if form_group_name.present? and form_group_name == "Violations"
       field_key << form_group_name.downcase
     end
-    
+
     if subform_name.present?
       field_key << subform_name << subform_index
     end
-    
+
     field_key << field_name
-    
-    return field_key 
+
+    return field_key
   end
 
   def subforms_count(object, field, form_group_name = "")
@@ -88,7 +88,7 @@ module FieldsHelper
     end
     return subforms_count
   end
-  
+
   def get_subform_object(object, subform_section, form_group_name)
     subform_object = {}
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?

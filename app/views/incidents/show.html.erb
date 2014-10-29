@@ -50,7 +50,7 @@ $(function() {
 <div class="page-content-new row collapse" data-equalizer>
   <div class="large-4 medium-4 columns close-side-tab side-tab-container">
     <div class="side-tab" data-equalizer-watch>
-      <%= render :partial => 'form_section/tabs', :object => @form_sections %>
+      <%= render :partial => 'form_section/tabs', :object => @form_sections, locals: { show_summary: true } %>
     </div>
   </div>
   <div class="large-8 medium-8 columns side-tab-content-container">

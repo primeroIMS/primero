@@ -3,7 +3,7 @@
    name = field_tag_name formObject, date_range, field_keys
    field_id = "#{date_range.form.name.dehumanize}_#{sanitize_to_id name}"
    value_from, value_to = field_value formObject, date_range, field_keys
-   value_date_field = formObject[date_range[:name]] || ""
+   value_date_field = field_format_date(formObject[date_range[:name]]) || ""
    date_or_date_range = formObject["#{date_range[:name]}_date_or_date_range"] || "date_range"
    value_from, value_to = ["", ""] if date_or_date_range == "date"
    value_date_field = "" if date_or_date_range == "date_range"
