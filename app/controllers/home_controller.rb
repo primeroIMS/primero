@@ -44,14 +44,7 @@ class HomeController < ApplicationController
     @incidents_recently_flagged = get_recent_flags(get_recent_record_flagged(Incident, modules))
     @incidents_recently_flagged_count = get_recent_record_flagged_count(Incident, modules)
     @incidents = get_new_records_assigned(Incident)
-    @open_incidents = get_open_incidents
-  end
-
-  def get_open_incidents
-    filters = {"record_state" => "single||true",
-              "module_id" => "single||#{PrimeroModule::MRM}",
-              "status" => "single||#{t('dashboard.incident_status_open')}"}
-    Incident.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }).results
+    @open_incidents = Incident.open_incidents
   end
 
   def get_flags_by_date(model)

@@ -120,6 +120,16 @@ class Incident < CouchRest::Model::Base
     number_of_violations_verified
   end
 
+  #Returns the 20 latest open incidents.
+  #TODO refactoring pagination?
+  def self.open_incidents
+    #TODO do we need I18n for "Open" string?
+    filters = {"record_state" => "single||true",
+              "module_id" => "single||#{PrimeroModule::MRM}",
+              "status" => "single||Open"}
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }).results
+  end
+
   # Each violation type has a field that is used as part of the identification
   # of that violation
   def self.violation_id_fields
