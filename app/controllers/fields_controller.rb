@@ -4,6 +4,7 @@ class FieldsController < ApplicationController
   before_filter :read_form_section
   before_filter :module_id, :only => [:create, :update, :destroy]
   before_filter :get_lookups, :only => [:edit, :update]
+  before_filter :get_form_group_names, :only => [:edit]
   after_filter :refresh_properties, :only => [:create, :update]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
@@ -22,6 +23,7 @@ class FieldsController < ApplicationController
       flash[:notice] = t("fields.successfully_added")
       redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
     else
+      get_form_group_names
       @show_add_field = {:show_add_field => true}
       render :template => "form_section/edit", :locals => @show_add_field
     end
@@ -58,6 +60,7 @@ class FieldsController < ApplicationController
         redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
       end
     else
+      get_form_group_names
       @show_add_field = {:show_add_field => true}
       render :template => "form_section/edit",  :locals => @show_add_field
     end
@@ -93,6 +96,10 @@ class FieldsController < ApplicationController
 
   def get_lookups
     @lookups = Lookup.all
+  end
+
+  def get_form_group_names
+    @list_form_group_names = FormSection.list_form_group_names
   end
 
   def module_id

@@ -44,7 +44,7 @@
           <span class="value value_form">
             <% @forms_by_record_type.each do |record_type, forms_list| %>
               <span class="section">
-                <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
+                <span class="title"><%= I18n.t("forms.record_types.#{record_type}") %></span>
                 <% forms_list.each do |form| %>
                     <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}", :name => "role[permitted_form_ids][]"}, form.unique_id, nil %>
                     <%= form.name %></label>

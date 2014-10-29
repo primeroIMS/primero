@@ -35,17 +35,23 @@
   color: #b50904 !important;
 }
 
-small.error {
-  background: none !important;
-  color: #b50904 !important;
-  font-style: normal !important;
+small {
+  .error {
+    background: none !important;
+    color: #b50904 !important;
+    font-style: normal !important;
 
-  &:before {
-    content: "\26A0";
-    font-size: 1.2rem;
-    color: #333;
-    position: absolute;
-    margin: 0 0 0 -25px
+    &:before {
+      content: "\26A0";
+      font-size: 1.2rem;
+      color: #333;
+      position: absolute;
+      margin: 0 0 0 -25px
+    }
+  }
+
+  &.scope_label {
+    text-transform: uppercase;
   }
 }
 
@@ -62,8 +68,8 @@ table {
   background: none;
 }
 
-table.list_view, table.list_table_2, table.record_list_view {
-  border:none;
+table.list_view, table.list_table, table.list_table_2, table.record_list_view {
+  border:none !important;
   margin-bottom: 20px;
   a.id_link{
     float: left;

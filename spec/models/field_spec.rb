@@ -10,11 +10,6 @@ describe "Child record field view model" do
   end
 
   describe '#name' do
-    it "should be generated when not provided" do
-      field = Field.new
-      field.name.should_not be_empty
-    end
-
     it "should not be generated when provided" do
       field = Field.new :name => 'test_name'
       field.name.should == 'test_name'
@@ -315,7 +310,7 @@ describe "Child record field view model" do
   end
 
   # Test no longer valid. Now allowing sharing of fields
-  
+
   # it "should fails save second form section because duplicate name in other form section" do
   #   field = Field.new(:name => "test_field1", :display_name_en => "test_field1", :type=>Field::TEXT_FIELD)
   #   form = FormSection.create :name => 'test_form1', :unique_id => 'test_form', :fields => [field]

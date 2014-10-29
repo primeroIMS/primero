@@ -240,6 +240,16 @@ fieldset {
   }
 }
 
+.mandate_panel {
+  font-size: .8rem;
+  text-align: center;
+  margin: 10px;
+
+  span {
+    color: #8d0000 !important;
+  }
+}
+
 .btn_panel {
   width: 100%;
   padding: 2rem 0 0 2rem;
@@ -461,11 +471,20 @@ fieldset {
           font-weight: normal;
         }
       }
+
+      &.value-nobg {
+        background: none;
+      }
+
+      ul li {
+        margin-left: 20px;
+        font-size: .8rem;
+      }
     }
   }
 
-  .row:nth-child(2n+1) .section {
-    background: none repeat scroll 0 0 #fff;
+  .row span.section {
+    background: none repeat scroll 0 0 #f9faf6;
   }
 }
 
@@ -494,4 +513,56 @@ fieldset {
   width: 200px;
   float: right;
   margin-left: 10px;
+}
+
+
+////////////////////////////////////////////////
+// Date Picker
+////////////////////////////////////////////////
+
+.ui-datepicker {
+  background: $desat_green_color !important;
+  -webkit-box-shadow: 0 0 4px 1px rgba(0,0,0,.2);
+  box-shadow: 0 0 4px 1px rgba(0,0,0,.2);
+  border: 1px solid $stroke_green_color !important;
+}
+
+select.ui-datepicker-month {
+  margin-right: 1px !important;
+  border: 1px solid $stroke_green_color;
+}
+
+select.ui-datepicker-year {
+  margin-left: 1px !important;
+  border: 1px solid $stroke_green_color;
+}
+
+.ui-datepicker .ui-datepicker-prev , .ui-datepicker .ui-datepicker-next  {
+  border: none !important;
+}
+
+.ui-datepicker-calendar {
+  border: none;
+
+  thead th {
+    background: $desat_green_color;
+    color: $green_color;
+  }
+
+  a {
+    &.ui-state-default {
+      border: 1px solid $stroke_green_color;
+      color: $green_color;
+      background: $light_green_color;
+
+      &:hover {
+        background: $desat_green_color;
+      }
+    }
+
+    &.ui-state-active  {
+      background: $desat_green_color;
+      border: 1px solid $desat_green_color;
+    }
+  }
 }
