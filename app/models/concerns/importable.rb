@@ -28,8 +28,6 @@ module Importable
 
           self.get(old_id).destroy
         end
-
-        inst
       end
     end
 

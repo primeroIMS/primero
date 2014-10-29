@@ -26,11 +26,17 @@ namespace :db do
     end
 
     desc "Import JSON"
-    task :import_json, [:json_file,:type] => :environment do |t, args|
-      puts "Importing #{args[:type]} records from #{args[:json_file]}"
-      ctrl = eval(args[:type].pluralize.capitalize + "Controller").new
-      file = File.open(args[:json_file])
-      ctrl.handle_import(file, Importers::JSONImporter)
+    task :import_json, [:json_file] => :environment do |t, args|
+      puts "Importing from #{args[:json_file]}"
+
+      File.open(args[:json_file]) do |f|
+        JSON.parse(f.read).each do |obj|
+          user = User.find_by_user_name(obj['owned_by']) || User.find_by_user_name('primero')
+          inst = Kernel.const_get(obj['model_type']).import(obj.clone, user)
+          inst.save!
+          puts "Successfully imported #{obj['model_type']} object with id #{inst.id}"
+        end
+      end
     end
 
 
