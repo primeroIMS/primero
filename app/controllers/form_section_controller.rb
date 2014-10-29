@@ -30,17 +30,7 @@ class FormSectionController < ApplicationController
 
   def create
     authorize! :create, FormSection
-    form_section = FormSection.new_with_order params[:form_section]
-    form_section.base_language = I18n.default_locale
-    form_section.core_form = false   #Indicates this is a user-added form
-
-    #TODO - have unique id generated as part of Namable
-    form_section.unique_id = "#{@primero_module.name}-#{form_section.name}".parameterize.underscore
-
-    #TODO - need more elegant way to set the form's order
-    form_section.order = 999
-    form_section.order_form_group = 999
-    form_section.order_subform = 0
+    form_section = FormSection.new_custom params[:form_section], @primero_module.name
 
     if (form_section.valid?)
       form_section.create
