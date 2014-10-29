@@ -26,7 +26,7 @@ class HomeController < ApplicationController
   end
 
   def display_incidents_dashboard?
-    @display_incidents_dashboard ||= @record_types.include?("incident") and @modules.include?(PrimeroModule::MRM)
+    @display_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::MRM)
   end
 
   def load_cases_information
