@@ -14,7 +14,7 @@ class FieldsController < ApplicationController
   end
 
   def create
-    @field = Field.new params[:field]
+    @field = Field.new clean_field(params[:field])
     @field.name = @field.display_name.parameterize.underscore
     FormSection.add_field_to_formsection @form_section, @field
     @field.base_language = I18n.default_locale
@@ -114,5 +114,15 @@ class FieldsController < ApplicationController
     elsif @form_section.parent_form == 'tracing_request'
       TracingRequest.refresh_form_properties
     end
+  end
+
+  def clean_field(field = {})
+    # Remove empty / blank values from any field array elements
+    field.each do |key, value|
+      if value.is_a?(Array)
+        value.reject!(&:blank?)
+      end
+    end
+    return field
   end
 end
