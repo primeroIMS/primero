@@ -114,8 +114,8 @@ class Incident < CouchRest::Model::Base
   def violation_number_of_violations_verified
     number_of_violations_verified = 0
     self.violations_subforms.each do |subform|
-      #TODO Should use the value "Verified" instead the I18n thing?
-      number_of_violations_verified += 1 if subform.try(:verified) == I18n.t("incident.violation_status_verified")
+      #TODO Do we need I18n for "Verified" string?
+      number_of_violations_verified += 1 if subform.try(:verified) == "Verified"
     end
     number_of_violations_verified
   end
