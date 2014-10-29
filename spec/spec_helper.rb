@@ -40,6 +40,14 @@ def current_databases
   end
 end
 
+def reset_databases
+  current_databases.each do |db|
+    COUCHDB_SERVER.database(db).recreate! rescue nil
+    # Reset the Design Cache
+    Thread.current[:couchrest_design_cache] = {}
+  end
+end
+
 RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
@@ -47,7 +55,6 @@ RSpec.configure do |config|
   config.include ChildFinder
   config.include FakeLogin, :type => :controller
   config.include VerifyAndResetHelpers
-  config.include CouchChangesHelper, :type => :eventmachine
 
   # ## Mock Framework
   #
@@ -78,11 +85,7 @@ RSpec.configure do |config|
 
   #Recreate db if needed.
   config.before(:suite) do
-    current_databases.each do |db|
-      COUCHDB_SERVER.database(db).recreate! rescue nil
-      # Reset the Design Cache
-      Thread.current[:couchrest_design_cache] = {}
-    end
+    reset_databases
   end
 
   #Delete db if needed.
@@ -106,7 +109,12 @@ RSpec.configure do |config|
     end
   end
 
-  config.filter_run_excluding :type => :eventmachine
+  #########################
+  # Couch Changes Config ##
+  # #######################
+
+  #config.filter_run_excluding :type => :couch_changes
+  config.include CouchChangesHelper, :type => :couch_changes
 end
 
 def stub_env(new_env, &block)

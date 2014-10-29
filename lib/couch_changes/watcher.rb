@@ -1,9 +1,9 @@
 module CouchChanges
   # Uses EventMachine to watch for fresh changes
   class Watcher
-    def initialize(models_to_watch, sequencer=nil, history_path=nil)
+    def initialize(models_to_watch, history_path=nil)
       @models = models_to_watch
-      @sequencer ||= Sequencer.new(history_path)
+      @sequencer = Sequencer.new(history_path)
     end
 
     def watch_for_changes
@@ -38,13 +38,13 @@ module CouchChanges
         CouchChanges::Processors.process_change(model, change).callback do
           update_sequence(model, change)
         end.errback do
-          eventmachine.add_timer(retry_period) do
+          EM.add_timer(retry_period) do
             couchchanges.logger.warn "change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period*2} seconds"
             handle_change(model, change, retry_period*2)
           end
         end
       else
-        CouchChanges.logger.debug "Ignoring stale change to #{model.name}: #{change}"
+        CouchChanges.logger.debug "Ignoring stale or irrelevant change to #{model.name}: #{change}"
       end
     end
 
@@ -61,7 +61,7 @@ module CouchChanges
         CouchChanges.logger.error "Change doesn't have a sequence number: #{change}"
         false
       else
-        seq > @sequencer.for_model(model).last_seq
+        seq > @sequencer.for_model(model).last_seq && !change['id'].start_with?('_design')
       end
     end
 

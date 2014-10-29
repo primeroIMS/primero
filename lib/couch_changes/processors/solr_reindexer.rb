@@ -6,17 +6,18 @@ module CouchChanges
           [Child, Incident, TracingRequest]
         end
 
-        def process(model, change)
+        def process(modelCls, change)
           dfd = EventMachine::DefaultDeferrable.new
 
-          CouchChanges.logger.info "Reindexing Solr for #{model.name} id #{change['id']}"
+          CouchChanges.logger.info "Reindexing Solr for #{modelCls.name} id #{change['id']}"
 
-          instance = model.get(change['id'])
+          instance = modelCls.get(change['id'])
           if instance.present?
+            p Sunspot.object_id
             Sunspot.index! instance
             dfd.succeed
           else
-            CouchChanges.logger.error "Could not find #{model.name} with id #{change['id']}"
+            CouchChanges.logger.error "Could not find #{modelCls.name} with id #{change['id']}"
             dfd.fail
           end
 

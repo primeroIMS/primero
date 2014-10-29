@@ -17,6 +17,8 @@ module CouchChanges
       self
     end
 
+    # TODO: surely there is an existing lib that will handle the stream
+    # processing
     def handle_chunk chunk
       CouchChanges.logger.debug "Chunk received on _changes API for model #{@model.name}: #{chunk.dump}"
       @received += chunk
