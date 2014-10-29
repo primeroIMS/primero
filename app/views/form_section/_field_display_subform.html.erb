@@ -4,7 +4,9 @@
    shared_subform_section = FormSection.get_by_unique_id subform_section.shared_subform
    shared_subform_section_group = subform_section.shared_subform_group
    number_of_subforms = subforms_count formObject, subform, form_group_name
-   subform_object = get_subform_object(formObject, subform_section, form_group_name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group)
+   if number_of_subforms > 0
+     subform_object = get_subform_object(formObject, subform_section, form_group_name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group)
+   end
    collapsed_fields = subform_section.collapsed_list
 %>
 <% if number_of_subforms == 0 %>
