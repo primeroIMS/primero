@@ -46,7 +46,6 @@ module ImportActions
         end
       end
       archive.num_files.times do |i|
-        entry_name = archive.get_name(i)
         archive.fopen(i) do |file|
           name = file.name
           type = name.split('.').pop
