@@ -17,8 +17,9 @@ class Location < CouchRest::Model::Base
     view :by_parent,
             :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
-                var index = doc['hierarchy'].length - 1
-                emit(doc['hierarchy'][index], null);
+                for(var i in doc['hierarchy']){
+                  emit(doc['hierarchy'][i], null);
+                }
               }
             }"
     view :by_type
@@ -26,8 +27,12 @@ class Location < CouchRest::Model::Base
   end
 
   # "before_validation" is necessary here to ensure these are executed before the validations and the "before_save" in the Namable concern
-  before_validation :generate_hierarchy, :generate_name
-  after_save :update_hierarchy_of_descendants, on: :update
+  #before_validation :generate_hierarchy, :generate_name
+  #after_save :update_hierarchy_of_descendants, on: :update
+
+  before_save do
+    self.name = self.hierarchical_name
+  end
 
   def name
     self.hierarchical_name
@@ -57,6 +62,25 @@ class Location < CouchRest::Model::Base
     response = Location.by_parent(key: self.placename)
     response = response.present? ? response.all : []
     return response
+  end
+
+  def set_parent(parent)
+    #Figure out the new hierarchy
+    hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])
+    new_hierarchy = hierarchy_of_parent
+    if parent
+      new_hierarchy << parent.placename
+    end
+
+    #Update the hierarchies of all descendants
+    subtree = descendants + [self]
+    subtree.each do |node|
+      old_hierarchy = node.hierarchy
+      index_of_self = old_hierarchy.find_index(self.placename) || old_hierarchy.length
+      node.hierarchy = new_hierarchy +
+        old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
+      node.save
+    end
   end
 
   def set_hierarchy_from_parent(parent)

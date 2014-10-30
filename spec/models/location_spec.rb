@@ -34,7 +34,7 @@ describe Location do
 
 
   #TODO - Primero-443 Need to fix
-  xit "returns all descendants" do
+  it "returns all descendants" do
     expect(@province1.descendants).to match_array [@town1, @town2]
     expect(@province2.descendants).to match_array [@town3]
     expect(@country.descendants).to match_array [@province1, @province2, @province3, @town1, @town2, @town3]
@@ -48,7 +48,7 @@ describe Location do
   end
 
   #TODO - Primero-443 Need to fix
-  xit "adds location as a parent" do
+  it "adds location as a parent" do
     location1 = create :location
     location2 = create :location
 
