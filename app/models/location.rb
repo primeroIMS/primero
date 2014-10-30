@@ -103,7 +103,7 @@ class Location < CouchRest::Model::Base
   end
 
   def remove_parent
-    self.set_hierarchy_from_parent nil
+    self.set_parent nil
   end
 
   def generate_hierarchy
