@@ -26,7 +26,6 @@ describe CouchChanges, :type => :couch_changes, :search => true do
   end
 
   it 'reindexes solr upon change to records' do
-    p Sunspot.object_id
     Sunspot.stub(:index!) do |instance|
       require 'pry'; binding.pry
     end

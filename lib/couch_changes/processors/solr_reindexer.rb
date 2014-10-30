@@ -13,7 +13,6 @@ module CouchChanges
 
           instance = modelCls.get(change['id'])
           if instance.present?
-            p Sunspot.object_id
             Sunspot.index! instance
             dfd.succeed
           else

@@ -32,14 +32,14 @@ module CouchChanges
     end
 
     def handle_change(model, change, retry_period=5)
-      if change_is_fresh(model, change)
+      if change_is_valid?(model, change)
         CouchChanges.logger.debug "Handling change to #{model.name}: #{change}"
 
         CouchChanges::Processors.process_change(model, change).callback do
           update_sequence(model, change)
         end.errback do
           EM.add_timer(retry_period) do
-            couchchanges.logger.warn "change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period*2} seconds"
+            CouchChanges.logger.warn "change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period*2} seconds"
             handle_change(model, change, retry_period*2)
           end
         end
@@ -54,7 +54,7 @@ module CouchChanges
       end
     end
 
-    def change_is_fresh(model, change)
+    def change_is_valid?(model, change)
       seq = change['seq']
 
       if seq.nil?

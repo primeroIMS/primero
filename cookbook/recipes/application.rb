@@ -196,6 +196,10 @@ supervisor_service 'couch-watcher' do
   user node[:primero][:app_user]
   directory node[:primero][:app_dir]
   numprocs 1
+  # We want to stop the watcher before doing seeds/migrations so that it
+  # doesn't go crazy with all the updates.  Make sure that everything that it
+  # does is also done in this recipe (e.g. reindex solr, reset memoization,
+  # etc..)
   action [:enable, :stop]
 end
 
@@ -220,6 +224,8 @@ execute_bundle 'restart-scheduler' do
   command "rake scheduler:restart"
 end
 
+# This will set the latest sequence numbers in the couch history log so that it
+# doesn't try to reprocess things from the seed/migration
 execute_bundle 'prime-couch-watcher-sequence-numbers' do
   command "rake couch_changes:prime_sequence_numbers"
 end

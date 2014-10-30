@@ -8,7 +8,6 @@ module CouchChanges
         end
 
         def process(modelCls, change)
-          require 'pry'; binding.pry
           dfd = EventMachine::DefaultDeferrable.new
 
           CouchChanges.logger.info "Notifying Passenger instances about change \##{change['seq']} to #{modelCls.name}"
