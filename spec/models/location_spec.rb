@@ -32,8 +32,6 @@ describe Location do
     expect(@town1.name).to eq(@town1.hierarchical_name)
   end
 
-
-  #TODO - Primero-443 Need to fix
   it "returns all descendants" do
     expect(@province1.descendants).to match_array [@town1, @town2]
     expect(@province2.descendants).to match_array [@town3]
@@ -47,7 +45,6 @@ describe Location do
     @country.descendants
   end
 
-  #TODO - Primero-443 Need to fix
   it "adds location as a parent" do
     location1 = create :location
     location2 = create :location
@@ -56,9 +53,4 @@ describe Location do
 
     expect(location2.descendants).to match_array [location1]
   end
-
-
 end
-
-
-
