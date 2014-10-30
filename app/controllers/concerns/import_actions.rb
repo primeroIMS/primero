@@ -5,26 +5,72 @@ module ImportActions
     if params[:import_file].is_a? ActionDispatch::Http::UploadedFile
       file = params[:import_file]
       type = params[:import_type] || file.original_filename.split('.')[-1]
-
-      importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == type}.first
-      if importer.nil?
-        flash[:error] = t('imports.unknown_type')
-        redirect_to :action => :index and return
-      end
+      file_extension = file.original_filename.split('.').pop
+      password = params[:password]
 
       begin
-        handle_import(file.tempfile, importer)
+        # If the uploaded file is a zip file try to open it and process the content file(s)
+        if file_extension.downcase == "zip"
+          success, message = import_zip_file file.tempfile.path, password
+          if !success
+            flash[:error] = message
+            redirect_to :action => :index and return
+          end
+        else
+          if !import_single_file(file, type)
+            flash[:error] = t('imports.unknown_type')
+            redirect_to :action => :index and return
+          end
+        end
       rescue TypeError => e
         flash[:error] = t("imports.error", error: e)
         redirect_to :action => :index and return
+      rescue Exception => ex
+        flash[:error] = I18n.t("imports.error", error: ex.message)
+        redirect_to :action => :index and return
       end
-
       flash[:notice] = t('imports.successful')
       redirect_to :action => :index
     else
       flash[:error] = t('imports.file_missing')
       redirect_to :action => :index
     end
+  end
+
+  def import_zip_file zip_file, password
+    ZipRuby::Archive.open(zip_file) do |archive|
+      # Try to decrypt the file if the user gives a password to decrypt it
+      if password.present?
+        if !archive.decrypt(password)
+          return [false, I18n.t("imports.decrypt_error")]
+        end
+      end
+      archive.num_files.times do |i|
+        entry_name = archive.get_name(i)
+        archive.fopen(i) do |file|
+          name = file.name
+          type = name.split('.').pop
+          temp_file = StringIO.new file.read
+          def temp_file.open(*mode, &block)
+            self.rewind
+            block.call(self) if block
+            return self
+          end 
+          if !import_single_file(temp_file, type)
+            return [false, t('imports.zip_file.unknown_type')]
+          end
+        end
+      end
+    end
+    [true, ""]
+  end
+
+  def import_single_file file, type
+    importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == type}.first
+    return false if importer.nil?
+
+    handle_import(file, importer)
+    true
   end
 
   def handle_import(upload_file, importer)
