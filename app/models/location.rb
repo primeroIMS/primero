@@ -26,16 +26,18 @@ class Location < CouchRest::Model::Base
     view :by_placename
   end
 
-  # "before_validation" is necessary here to ensure these are executed before the validations and the "before_save" in the Namable concern
-  #before_validation :generate_hierarchy, :generate_name
-  #after_save :update_hierarchy_of_descendants, on: :update
-
   before_save do
     self.name = self.hierarchical_name
   end
 
   def name
     self.hierarchical_name
+  end
+
+  def self.get_by_location(placename)
+    #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
+    location = Location.by_placename(key: placename).all[0..0]
+    return location.first
   end
 
   def self.find_by_location(placename)
@@ -104,8 +106,6 @@ class Location < CouchRest::Model::Base
     self.set_hierarchy_from_parent nil
   end
 
-  private
-
   def generate_hierarchy
     if self.parent_id.present?
       a_parent = Location.get(self.parent_id)
@@ -113,15 +113,10 @@ class Location < CouchRest::Model::Base
     end
   end
 
-  def generate_name
-    self.name = self.hierarchical_name
-  end
-
-  def update_hierarchy_of_descendants
-    subtree = descendants
-    subtree.each do |descendant|
-      descendant.set_hierarchy_from_parent(self)
-      descendant.save
+  def update_hierarchy
+    if self.parent_id.present?
+      a_parent = Location.get(self.parent_id)
+      set_parent(a_parent) if a_parent.present?
     end
   end
 end
