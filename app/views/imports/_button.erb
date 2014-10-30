@@ -18,12 +18,19 @@
           <%= submit_tag(t("buttons.import"), class: 'green-button right') %>
         </div>
         <%= javascript_tag defer: 'defer' do %>
+          if ($("#import_type option[value='guess']").length == 0) {
+            $('#import_type').append(new Option('<%=I18n.t('imports.guess_file_type_option')%>', 'guess'));
+          }
           $('#import_file').on('change', function(e) {
-            var file_ext = e.target.value.split('.').pop()
-            $('#import_type')
-              .children('option')
-              .filter(function(i, el) { return el.value == file_ext })
-              .prop('selected', true);
+            var ext_stack = e.target.value.split('.');
+            var selected_option = [];
+            do {
+              var file_ext = ext_stack.pop();
+              selected_option = $('#import_type')
+                .children('option')
+                .filter(function(i, el) { return el.value == file_ext })
+                .prop('selected', true);
+            } while (selected_option.length == 0 && ext_stack.length > 0);
           });
         <% end %>
       <% end %>

@@ -1162,6 +1162,7 @@ en:
     file_missing: "You must select a file to import"
     unknown_type: "Import filetype unknown or invalid"
     decrypt_error: "Could not decrypt the file with the given password"
+    guess_file_type_option: "Autodetect based on file extension"
     zip_file:
       unknown_type: "The archive contains one or more files with unknown type"
 
