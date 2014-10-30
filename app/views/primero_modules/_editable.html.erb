@@ -48,7 +48,7 @@
       <% @forms_by_record_type.each do |record_type, forms_list| %>
         <span class="section <%= record_type %>">
           <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
-          <% forms_list.sort_by{ |f| f.order }.each do |form| %>
+          <% forms_list.sort_by{ |f| f.name }.each do |form| %>
               <label>
                 <%= form_builder.check_box :associated_form_ids, {id: "primero_module_#{form.unique_id}", name: "primero_module[associated_form_ids][]"}, form.unique_id, nil %>
                 <%= form.name %>
