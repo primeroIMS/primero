@@ -2,6 +2,7 @@
 # JIRA PRIMERO-248
 # JIRA PRIMERO-463
 # JIRA PRIMERO-562
+# JIRA PRIMERO-724
 
 @javascript @primero @search
 Feature: Hide Name
@@ -105,3 +106,32 @@ Feature: Hide Name
       | user         |
       | "primero_cp" |
       | "primero_gbv"|
+
+  Scenario Outline: When a GBV Case is created and saved, the name should be saved as Hidden on the Survivor Information form
+    Given I am logged in as an admin with username <user> and password "primero"
+    When I access "cases page"
+    And I press the "New Case" button
+    And I fill in "Name" with "Tiki Thomas Taliaferro"
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I should see a value for "Name" on the show page with the value of <name>
+    Examples:
+      | user         | name                     |
+      | "primero_cp" | "Tiki Thomas Taliaferro" |
+      | "primero_gbv"| "*****"                  |
+
+  Scenario: As a GBV user I should be able to show the survivor's name
+    Given I am logged in as an admin with username "primero_gbv" and password "primero"
+    When I access "cases page"
+    And I press the "New Case" button
+    And I fill in "Name" with "Tiki Thomas Taliaferro"
+    And I press "Save"
+    Then I should see "Case record successfully created" on the page
+    And I should see a value for "Name" on the show page with the value of "*****"
+    And I press the "Edit" button
+    And I press the "View Name" link
+    And I should see "Hide Name" on the page
+    And the "Name" field should contain "Tiki Thomas Taliaferro"
+    And I press "Save"
+    And I should see "Case was successfully updated" on the page
+    And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"

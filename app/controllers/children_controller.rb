@@ -90,7 +90,7 @@ class ChildrenController < ApplicationController
     create_or_update_child(params[:id], params[:child])
     params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
     @child['child_status'] = "Open" if @child['child_status'].blank?
-
+    @child['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
     respond_to do |format|
       if @child.save
         flash[:notice] = t('child.messages.creation_success')
