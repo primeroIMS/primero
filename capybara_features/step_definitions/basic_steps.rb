@@ -34,6 +34,15 @@ Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times
   end
 end
 
+And /^I hover the "([^\"]*)" (button|link|span)$/ do |label, type|
+  page.execute_script("$('body').css('text-transform','none !important')");
+  if type == "span"
+    find("//span[text()=\"#{label}\"]", :visible => true).hover
+  else
+    find(:link_or_button, label).hover
+  end
+end
+
 Then /^I click on the link with text "(.*)"$/ do |text|
   page.execute_script("$('body').css('text-transform','none !important')");
   find("//a[text()=\"#{text}\"]", :visible => true).click
