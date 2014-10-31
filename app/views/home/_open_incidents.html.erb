@@ -1,0 +1,31 @@
+<div class="panel">
+ <div class="panel_header">
+  <h4><%= t("dashboard.open_incidents") %></h4>
+ </div>
+ <div class="panel_content no-padding">
+ <% if open_incidents %>
+  <table cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th><%= t("dashboard.incident_id") %></th>
+        <th><%= t("dashboard.number_of_victims") %></th>
+        <th><%= t("dashboard.number_of_violations") %></th>
+        <th><%= t("dashboard.number_of_violations_verified") %></th>
+     </tr>
+    </thead>
+    <tbody>
+      <% open_incidents.each do |incident| %>
+        <tr>
+          <td class="id_column"><%= link_to text_to_identify_incident(incident), incident_path(incident), class: 'id_link' %></td>
+          <td><%= incident.violation_number_of_victims %></td>
+          <td><%= incident.violation_number_of_violations %></td>
+          <td><%= incident.violation_number_of_violations_verified %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% else %>
+    <p><%= t("dashboard.no_open_incidents") %></p>
+  <% end %>
+ </div>
+</div>

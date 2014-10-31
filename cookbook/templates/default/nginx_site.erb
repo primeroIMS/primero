@@ -11,7 +11,7 @@ server {
   ssl_certificate_key <%= @ssl_key_path %>;
 
   passenger_enabled on;
-  passenger_min_instances 1;
+  passenger_min_instances <%= @passenger_conf['min_instances'] || 1 %>;
   passenger_ruby <%= @rvm_ruby_path %>;
 
   rails_env <%= @rails_env %>;

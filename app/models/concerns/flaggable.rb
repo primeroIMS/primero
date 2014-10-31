@@ -14,6 +14,43 @@ module Flaggable
                    }
                  }
               }"
+
+      view :by_flag_with_date,
+             :map => "function(doc) {
+               if (doc['record_state'] == true
+                   && (!doc.hasOwnProperty('duplicate') || !doc['duplicate'])
+                   && doc.hasOwnProperty('flags')) {
+                 for(var index = 0; index < doc['flags'].length; index++) {
+                   if (!doc['flags'][index]['removed'] && doc['flags'][index]['date'] != null) {
+                     emit(doc['flags'][index]['date'], null);
+                   }
+                 }
+               }
+             }"
+
+      view :by_flag_created_at_latest,
+             :map => "function(doc) {
+               if (doc['record_state'] == true
+                   && (!doc.hasOwnProperty('duplicate') || !doc['duplicate'])
+                   && doc.hasOwnProperty('flags')) {
+                 var latest_created_at = null;
+                 for(var index = 0; index < doc['flags'].length; index++) {
+                   if (!doc['flags'][index]['removed'] && doc['flags'][index]['created_at'] != null) {
+                     if (latest_created_at == null) {
+                      latest_created_at = doc['flags'][index]['created_at'];
+                     } else {
+                       if (latest_created_at < doc['flags'][index]['created_at']) {
+                         latest_created_at = doc['flags'][index]['created_at'];
+                       }
+                     }
+                   }
+                 }
+                 if (latest_created_at != null) {
+                   emit([doc['module_id'], latest_created_at], null);
+                 }
+               }
+             }",
+             :reduce => "_count"
     end
 
     def flag_message_flagged_by

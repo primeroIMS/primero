@@ -30,14 +30,15 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
 
     incident_hash['flag_at'] = incident_hash['flagged_at'] || DateTime.new(2001, 2, 3, 4, 5, 6)
     flag, flag_message = incident_hash.delete('flag') == 'true', incident_hash.delete('flag_message')
-    incident = Incident.new_with_user_name(User.find_by_user_name(user_name), incident_hash)
-    incident['histories'] ||= []
-    incident['histories'] << {'datetime' => incident['flag_at'], 'changes' => {'flag' => 'anything'}}
 
     #Create violations hash
     #MRM needs at least the violations subforms empty.
     violation_hash = create_violations_subforms(incident_hash)
-    incident.violations = violation_hash unless violation_hash.nil?
+    incident_hash.merge!('violations' => violation_hash) unless violation_hash.nil?
+
+    incident = Incident.new_with_user_name(User.find_by_user_name(user_name), incident_hash)
+    incident['histories'] ||= []
+    incident['histories'] << {'datetime' => incident['flag_at'], 'changes' => {'flag' => 'anything'}}
 
     incident.create!
     # Need this because of how children_helper grabs flag_message from child history - cg
@@ -79,6 +80,33 @@ Given /^the following incidents with violations exist in the system:$/ do |incid
   end
 end
 
+Given /^the following incidents were flagged:$/ do |table|
+  created_at_day = 6
+  flag_date_day = 6
+  table.raw.flatten.each do |value|
+    incident = Incident.by_unique_identifier(:key => value).all.first
+    flags = []
+    #Adding a valid flag
+    flags << Flag.new(:created_at => eval("#{created_at_day}.days.ago"),
+                      :date => eval("#{flag_date_day}.days.ago"),
+                      :message => "Flagged #{incident.short_id}")
+    #Adding invalid flag
+    flags << Flag.new(:created_at => eval("#{created_at_day}.days.ago"),
+                      :date => eval("#{flag_date_day}.days.ago"),
+                      :message => "Flagged #{incident.short_id}",
+                      :unflag_message => "Unflagged #{incident.short_id}",
+                      :removed => true)
+    #Adding a valid flag but older
+    flags << Flag.new(:created_at => 3.weeks.ago,
+                      :date => 3.weeks.ago,
+                      :message => "Older Flagged #{incident.short_id}")
+    incident.flags = flags
+    incident.save!
+    #The next incident will has a newer flag dates.
+    created_at_day -= 1
+    flag_date_day -= 1
+  end
+end
 
 def create_violations_subforms(incident_hash)
   if incident_hash['module_id'] == PrimeroModule.find_by_name('MRM').id
@@ -92,6 +120,8 @@ def create_violations_subforms(incident_hash)
       index_hash = {}
       if violation_list.include?(subform_violation)
         index_hash["0"] = {"violation_tally_boys" => "1"}
+      elsif violation_list.include?("#{subform_violation}:Verified")
+        index_hash["0"] = {"violation_tally_boys" => "1", "verified" => "Verified"}
       end
       violation_hash["#{subform_violation}"] = index_hash
     end
