@@ -93,3 +93,7 @@ group :test, :cucumber do
   gem 'ci_reporter',        '~> 1.9.1'
   gem "pdf-inspector",      '~> 1.1.0', :require => 'pdf/inspector'
 end
+
+group :couch_watcher do
+  gem 'em-http-request',    '~> 1.1.2'
+end
