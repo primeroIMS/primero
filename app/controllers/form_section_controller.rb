@@ -9,6 +9,7 @@ class FormSectionController < ApplicationController
   before_filter :get_form_section, :only => [:edit, :destroy]
   before_filter :get_related_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
+  before_filter :get_form_group_names, :only => [:new, :edit]
 
 
   def index
@@ -29,17 +30,7 @@ class FormSectionController < ApplicationController
 
   def create
     authorize! :create, FormSection
-    form_section = FormSection.new_with_order params[:form_section]
-    form_section.base_language = I18n.default_locale
-    form_section.core_form = false   #Indicates this is a user-added form
-
-    #TODO - have unique id generated as part of Namable
-    form_section.unique_id = "#{@primero_module.name}-#{form_section.name}".parameterize.dasherize
-
-    #TODO - need more elegant way to set the form's order
-    form_section.order = 999
-    form_section.order_form_group = 999
-    form_section.order_subform = 0
+    form_section = FormSection.new_custom params[:form_section], @primero_module.name
 
     if (form_section.valid?)
       form_section.create
@@ -50,6 +41,7 @@ class FormSectionController < ApplicationController
       flash[:notice] = t("form_section.messages.updated")
       redirect_to edit_form_section_path(form_section.unique_id)
     else
+      get_form_group_names
       @form_section = form_section
       render :new
     end
@@ -58,7 +50,6 @@ class FormSectionController < ApplicationController
   def edit
     authorize! :update, FormSection
     @page_name = t("form_section.edit")
-
     forms_for_move
   end
 
@@ -70,6 +61,7 @@ class FormSectionController < ApplicationController
       @form_section.save!
       redirect_to edit_form_section_path(@form_section.unique_id)
     else
+      get_form_group_names
       render :action => :edit
     end
   end
@@ -156,5 +148,9 @@ class FormSectionController < ApplicationController
     lookups = Lookup.all
     @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
     @lookup_options.unshift("", "Location")
+  end
+
+  def get_form_group_names
+    @list_form_group_names = FormSection.list_form_group_names
   end
 end

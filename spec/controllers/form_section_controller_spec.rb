@@ -81,7 +81,7 @@ describe FormSectionController do
     end
 
     it "sets flash notice if form section is valid and redirect_to edit page with a flash message" do
-      FormSection.stub(:new_with_order).and_return(MockFormSection.new)
+      FormSection.stub(:new_custom).and_return(MockFormSection.new)
       form_section = {:name=>"name", :description=>"desc", :visible=>"true"}
       post :create, :form_section =>form_section
       request.flash[:notice].should == "Form section successfully added"
@@ -89,7 +89,7 @@ describe FormSectionController do
     end
 
     it "does not set flash notice if form section is valid and render new" do
-      FormSection.stub(:new_with_order).and_return(MockFormSection.new(false))
+      FormSection.stub(:new_custom).and_return(MockFormSection.new(false))
       form_section = {:name=>"name", :description=>"desc", :visible=>"true"}
       post :create, :form_section =>form_section
       request.flash[:notice].should be_nil
@@ -98,7 +98,7 @@ describe FormSectionController do
 
     it "should assign view data if form section was not valid" do
       expected_form_section = MockFormSection.new(false)
-      FormSection.stub(:new_with_order).and_return expected_form_section
+      FormSection.stub(:new_custom).and_return expected_form_section
       form_section = {:name=>"name", :description=>"desc", :visible=>"true"}
       post :create, :form_section =>form_section
       assigns[:form_section].should == expected_form_section

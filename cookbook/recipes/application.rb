@@ -78,18 +78,18 @@ railsexpress_patch_setup 'prod' do
   group node[:primero][:app_group]
 end
 
-execute_with_ruby 'prod-ruby' do
-  command <<-EOH
-    rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
-    rvm --default use #{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
-  EOH
-end
-
 #why this wasn't before?
 directory node[:primero][:app_dir] do
   action :create
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
+end
+
+execute_with_ruby 'prod-ruby' do
+  command <<-EOH
+    rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+    rvm --default use #{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
+  EOH
 end
 
 # Run a `git reset` before this step??

@@ -31,6 +31,30 @@
   }
 }
 
+.error label, .error label.error {
+  color: #b50904 !important;
+}
+
+small {
+  .error {
+    background: none !important;
+    color: #b50904 !important;
+    font-style: normal !important;
+
+    &:before {
+      content: "\26A0";
+      font-size: 1.2rem;
+      color: #333;
+      position: absolute;
+      margin: 0 0 0 -25px
+    }
+  }
+
+  &.scope_label {
+    text-transform: uppercase;
+  }
+}
+
 fieldset.no-border {
   border: none !important;
   padding: 0 !important;
@@ -44,8 +68,8 @@ table {
   background: none;
 }
 
-table.list_view, table.record_list_view {
-  border:none;
+table.list_view, table.list_table, table.list_table_2, table.record_list_view {
+  border:none !important;
   margin-bottom: 20px;
   a.id_link{
     float: left;
@@ -72,7 +96,7 @@ table.list_view, table.record_list_view {
       ul li {
         font-size: 0.875rem !important;
       }
-      
+
       font-size: 0.875rem !important;
       &.id_column{
         min-width: 105px;
@@ -180,4 +204,63 @@ table.dataTable {
 
 .ui-corner-all {
   border-radius: 0px;
+}
+
+////////////////////////////////////////////////
+// Form Section Customization
+////////////////////////////////////////////////
+
+.lang_title  {
+  font-weight: bold;
+  span {
+    color: #777;
+    font-weight: normal;
+  }
+}
+
+.translation {
+  border-top: 1px solid $stroke_green_color;
+  padding-top: 20px;
+
+  .translation_forms {
+    border-top: 1px dashed $stroke_green_color;
+    padding-top: 20px;
+  }
+}
+
+.form_info {
+  font-size: .95rem;
+  font-weight: lighter;
+  line-height: 26px;
+}
+
+.side-tab-content hr {
+  background: none;
+  border-bottom: 1px solid $stroke_green_color;
+}
+
+table.in_content_area tbody tr td:first-child, table.in_content_area thead th:first-child {
+  border-left: none !important;
+}
+
+table.in_content_area tbody tr td:last-child, table.in_content_area thead th:last-child {
+  border-right: none !important;
+}
+
+tr td span {
+  font-size: .75rem;
+  color: #777;
+}
+
+.sidebar_help {
+  text-transform: uppercase;
+  font-size: .8rem;
+  color: #777;
+  width: 230px;
+  margin: 0 0 0 45px;
+}
+
+.section_seperator {
+  border-top: 1px dashed $stroke_green_color;
+  padding-top: 20px;
 }

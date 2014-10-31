@@ -7,33 +7,32 @@
   object_name_plural = object_name.pluralize
   permissions = [:show, :edit, :destroy].select{|p| can?(p, object_class)}
 %>
-<div class="row">
-  <div class="large-12 columns">
-    <div class="show_count">
-      <%= t("#{object_name_plural}.actions.show_all") %> <%= objects.length %> <%= t("#{object_name_plural}.label") %></div>
-    <table id="list_table" class="list_table">
-      <thead>
-        <tr>
-          <% heading_keys.each do |heading_key| %>
-            <th><%= t(heading_key) %></th>
-          <% end %>
+<table id="list_table" class="list_table_2 dataTable in_content_area">
+  <thead>
+    <tr>
+      <% heading_keys.each do |heading_key| %>
+        <th><%= t(heading_key) %></th>
+      <% end %>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% objects.each do |object| %>
+      <tr id="user-row-<%= "#{object_name}-row-#{object.name}" %>">
+        <% properties.each do |property| %>
+          <td class=<%= property %>><%= h object.send(property) %></td>
+        <% end %>
+        <td>
           <% permissions.each do |permission| %>
-            <th></th>
+            <% if permission != :destroy %>
+                <%= link_to t("#{object_name_plural}.actions.#{permission.to_s}"), controller: object_name_plural, action: permission.to_s, id: object %>
+            <% else %>
+                <%= link_to t("#{object_name_plural}.actions.delete"), object, data: {confirm: t("#{object_name_plural}.messages.confirmation")}, method: :delete %>
+            <% end %>
+            <br>
           <% end %>
         </tr>
-      </thead>
-      <tbody>
-        <% objects.each do |object| %>
-          <tr id="user-row-<%= "#{object_name}-row-#{object.name}" %>">
-            <% properties.each do |property| %>
-              <td class=<%= property %>><%= h object.send(property) %>
-            <% end %>
-            <% permissions.each do |permission| %>
-              <td><%= link_to t("#{object_name_plural}.actions.#{permission.to_s}"), controller: object_name_plural, action: permission.to_s, id: object %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,13 +1,5 @@
 include_recipe 'primero::nginx_common'
 
-apt_repository 'phusion-passenger' do
-  uri          'https://oss-binaries.phusionpassenger.com/apt/passenger'
-  distribution 'trusty'
-  components   ['main']
-  keyserver    'keyserver.ubuntu.com'
-  key          '561F9B9CAC40B2F7'
-end
-
 package 'passenger'
 
 ssl_dir = ::File.join('/etc/nginx', 'ssl')
@@ -33,12 +25,13 @@ end
   end
 end
 
-file "#{node[:nginx_dir]}/conf.d/passenger.conf" do
-  content <<-EOH
-    passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
-  EOH
+template "#{node[:nginx_dir]}/conf.d/passenger.conf" do
+  source 'passenger.conf.erb'
   user 'root'
   group 'root'
+  variables({
+    :conf => node[:primero][:passenger_conf],
+  })
 end
 
 site_conf_file = "#{node[:nginx_dir]}/sites-available/primero"
@@ -58,6 +51,7 @@ template site_conf_file do
     :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/wrappers/ruby"),
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
     :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
+    :passenger_conf => node[:primero][:passenger_conf],
   })
   notifies :restart, 'service[nginx]'
 end

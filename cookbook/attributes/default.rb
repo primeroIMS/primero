@@ -41,6 +41,11 @@ default[:primero].tap do |p|
   p[:solr_log_level] = 'INFO'
   p[:ruby_version] = '2.1.2'
   p[:ruby_patch] = 'railsexpress'
+
+  p[:passenger_conf].tap do |pc|
+    pc[:min_instances] = 1
+    pc[:max_pool_size] = 6
+  end
 end
 
 default[:rvm].tap do |rvm|

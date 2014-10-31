@@ -30,12 +30,16 @@
           </span>
         </div>
         <div class="medium-8 columns">
-      <% @roles.each do |role| %>
-          <div>
-            <%= f.check_box :role_ids, {:id => "user_#{role.name}", :name => "user[role_ids][]"}, role.id, "" %>
-            <%= f.label role.name %>
-          </div>
-      <% end %>
+          <span class="value value_form">
+            <span class="section">
+              <% @roles.each do |role| %>
+                  <label>
+                    <%= f.check_box :role_ids, {:id => "user_#{role.name}", :name => "user[role_ids][]"}, role.id, nil %>
+                    <%= role.name %>
+                  </label>
+              <% end %>
+            </span>
+          </span>
         </div>
         <div class="medium-1 columns"> </div>
       </div>
@@ -43,16 +47,20 @@
       <div class="row">
         <div class="medium-3 columns">
           <span class="tool-tip-label">
-            <label class="key"><%= t("modules.label") %></label>
+            <label class="key"><%= t("primero_modules.label") %></label>
           </span>
         </div>
         <div class="medium-8 columns">
-          <% @modules.each do |primero_module| %>
-            <div>
-                <%= f.check_box :module_ids, {id: "user_#{primero_module.name}", name: "user[module_ids][]"}, primero_module.id, "" %>
-                <%= f.label primero_module.name %>
-            </div>
-          <% end %>
+          <span class="value value_form">
+            <span class="section">
+              <% @modules.each do |primero_module| %>
+                <label>
+                    <%= f.check_box :module_ids, {id: "user_#{primero_module.name}", name: "user[module_ids][]"}, primero_module.id, nil %>
+                    <%= primero_module.name %>
+                </label>
+              <% end %>
+            </span>
+          </span>
         </div>
         <div class="medium-1 columns"> </div>
       </div>
@@ -64,12 +72,16 @@
           </span>
         </div>
         <div class="medium-8 columns">
-          <% @user_groups.each do |user_group| %>
-            <div>
-                <%= f.check_box :user_group_ids, {id: "user_#{user_group.name}", name: "user[user_group_ids][]"}, user_group.id, "" %>
-                <%= f.label user_group.name %>
-            </div>
-          <% end %>
+          <span class="value value_form">
+            <span class="section">
+              <% @user_groups.each do |user_group| %>
+                <label>
+                    <%= f.check_box :user_group_ids, {id: "user_#{user_group.name}", name: "user[user_group_ids][]"}, user_group.id, nil %>
+                    <%= user_group.name %>
+                </label>
+              <% end %>
+            </span>
+          </span>
         </div>
         <div class="medium-1 columns"> </div>
       </div>
@@ -103,9 +115,11 @@
     <% content_for :record_sub_nav do %>
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
       <%= render_controls(@user) %>
+      <% if false %>
       <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
           <%= icon('clock-o') %>
           <span class="log"><%= t("user.user_action_history") %></span>
+      <% end %>
       <% end %>
     <% end %>
 <% end %>

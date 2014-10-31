@@ -1,31 +1,36 @@
-<table id="form_sections" class="list_table_2">
+<table id="form_sections" class="list_table_2 dataTable in_content_area" width="100%">
   <thead>
-  <tr>
-    <th><%= t "form_sectoin.name" %></th>
-    <th><%= t "form_sectoin.group" %></th>
-    <th><%= t "form_sectoin.description" %></th>
-    <th ><%= t "form_sectoin.actions" %></th>
-  </tr>
+    <tr>
+      <th><%= t "form_sectoin.name" %></th>
+      <th><%= t "form_sectoin.group" %></th>
+      <th><%= t "form_sectoin.description" %></th>
+      <th ><%= t "form_sectoin.actions" %></th>
+    </tr>
   </thead>
 <input type='hidden' id="save_order_url" value="<%= save_order_form_sections_path %>">
 <input type='hidden' id="toggle_url" value="<%= toggle_form_sections_path %>">
   <tbody>
-      <% @form_sections.each do |form_group, forms| %>
-        <% forms.each do |form| %>
-            <tr class="#{form.visible? ? '' : 'hidden_form'}">
-              <td><%= form.name %></td>
-              <td><%= form_group %></td>
-              <td><%= form.description %></td>
-              <td>
-                <%= link_to t("buttons.edit"), edit_form_section_path(form.section_name, module_id: primero_module.id) %>
-                &nbsp;
-                <% unless form.core_form %>
-                  <%= link_to t("buttons.delete"), form_section_path(form), data: {confirm: t("form_section.confirm_delete")}, method: :delete %>
-                <% end %>
-              </td>
-            </tr>
-        <% end %>
+    <% @form_sections.each do |form_group, forms| %>
+      <% forms.each do |form| %>
+          <tr class="#{form.visible? ? '' : 'hidden_form'}">
+            <td>
+              <%= form.name %>
+              <% unless form.visible %>
+                <br>
+                <span>(<%= form.visible ? '' : 'hidden' %>)</span>
+              <% end %>
+            </td>
+            <td><%= form_group %></td>
+            <td><%= form.description %></td>
+            <td>
+              <%= link_to t("buttons.edit"), edit_form_section_path(form.section_name, module_id: primero_module.id) %>
+              <br>
+              <% unless form.core_form %>
+                <%= link_to t("buttons.delete"), form_section_path(form), data: {confirm: t("form_section.confirm_delete")}, method: :delete %>
+              <% end %>
+            </td>
+          </tr>
       <% end %>
+    <% end %>
   </tbody>
 </table>
-

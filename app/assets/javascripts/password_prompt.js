@@ -7,6 +7,7 @@ Primero.PasswordPrompt = (function() {
             passwordDialog = $("#password-prompt-dialog").dialog({
                 autoOpen: false,
                 modal: true,
+                resizable: false,
                 buttons: {
                     "OK" : function() {
                         var password = passwordEl.val();

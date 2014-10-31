@@ -1,22 +1,4 @@
-<% if can? :update, incident %>
-    <%#
-        TODO: We are taking out the "investigated" and "reunied" buttons.
-        Unlikely that we will put them back in. Delete the code in the future.
-    %>
-    <% if false %>
-    <% if @incident.flagged? %>
-        <li>
-            <div class="dropdown_btn dropdown_form">
-                <%= render 'investigated', incident: @incident %>
-            </div>
-        </li>
-    <% end %>
-    <li>
-        <div class="dropdown_btn dropdown_form">
-            <%= render 'reunited', incident: @incident %>
-        </div>
-    </li>
-    <% end %>
+<% if can? :flag, incident %>
     <li>
         <div class="dropdown_btn dropdown_form">
             <%= render 'record_shared/suspect_flag', record: @incident %>
@@ -28,7 +10,9 @@
     <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
     <ul>
         <%= render partial: 'exports/button', locals: {model: Incident, instance: @incident} %>
-        <%= render partial: 'record_shared/enable_disable_record', locals: {model: Incident, instance: @incident} %>
+        <% if can? :edit, @incident %>
+            <%= render partial: 'record_shared/enable_disable_record', locals: {model: Incident, instance: @incident} %>
+        <% end %>
     </ul>
   </li>
 </ul>

@@ -85,4 +85,30 @@ Then /^the form section "([^"]*)" should be (present|hidden)$/ do |form_section,
   end
 end
 
-
+Given /^the following cases were flagged:$/ do |table|
+  created_at_day = 6
+  flag_date_day = 6
+  table.raw.flatten.each do |value|
+    child = Child.by_unique_identifier(:key => value).all.first
+    flags = []
+    #Adding a valid flag
+    flags << Flag.new(:created_at => eval("#{created_at_day}.days.ago"),
+                      :date => eval("#{flag_date_day}.days.ago"),
+                      :message => "Flagged #{child.short_id}")
+    #Adding invalid flag
+    flags << Flag.new(:created_at => eval("#{created_at_day}.days.ago"),
+                      :date => eval("#{flag_date_day}.days.ago"),
+                      :message => "Flagged #{child.short_id}",
+                      :unflag_message => "Unflagged #{child.short_id}",
+                      :removed => true)
+    #Adding a valid flag but older
+    flags << Flag.new(:created_at => 3.weeks.ago,
+                      :date => 3.weeks.ago,
+                      :message => "Older Flagged #{child.short_id}")
+    child.flags = flags
+    child.save!
+    #The next cases will has a newer flag dates.
+    created_at_day -= 1
+    flag_date_day -= 1
+  end
+end

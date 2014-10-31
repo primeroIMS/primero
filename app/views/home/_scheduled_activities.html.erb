@@ -1,17 +1,17 @@
 <div class="panel">
  <div class="panel_header">
-  <h4>Scheduled Activities</h4>  
+  <h4><%= t("dashboard.scheduled_activities") %></h4>
  </div>
  <div class="panel_content no-padding">
  <% if scheduled_activities %>
   <table cellspacing="0" cellpadding="0">
     <thead>
       <tr>
-        <th>Case #ID</th>
-        <th>Name</th>
-        <th>Activity</th>
-        <th>Date</th>
-      </tr>
+        <th><%= t("dashboard.case_id") %></th>
+        <th><%= t("dashboard.name") %></th>
+        <th><%= t("dashboard.activity") %></th>
+        <th><%= t("dashboard.date") %></th>
+     </tr>
     </thead>
     <tbody>
       <% scheduled_activities.each do |s| %>
@@ -27,7 +27,7 @@
     </tbody>
   </table>
   <% else %>
-    <p>No Scheduled Activities</p>
+    <p><%= t("dashboard.no_scheduled_activities") %></p>
   <% end %>
  </div>
 </div>

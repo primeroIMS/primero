@@ -7,17 +7,19 @@
         <%= render :partial => 'user_disabled_checkbox', :locals => {:user => user} %>
       </td>
   <% end %>
-  <% if can? :show, User %>
-      <td><%= link_to t("users.actions.show"), user %></td>
-  <% end %>
-  <% if can? :edit, User %>
-      <td><%= link_to t("buttons.edit"), edit_user_path(user) %></td>
-  <% end %>
-  <% if can? :destroy, User %>
-      <td>
-        <% if current_user_name != user.user_name %>
-            <%= link_to t("user.actions.delete"), user, data: {confirm: t("user.messages.confirmation")}, method: :delete %></td>
-        <% end %>
-      </td>
-  <% end %>
+  <td>
+    <% if can? :show, user %>
+        <%= link_to t("users.actions.show"), user %>
+        <br>
+    <% end %>
+    <% if can? :edit, user %>
+        <%= link_to t("buttons.edit"), edit_user_path(user) %>
+        <br>
+    <% end %>
+    <% if can? :destroy, user %>
+          <% if current_user_name != user.user_name %>
+              <%= link_to t("user.actions.delete"), user, data: {confirm: t("user.messages.confirmation")}, method: :delete %>
+          <% end %>
+    <% end %>
+  </td>
 </tr>

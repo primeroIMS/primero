@@ -4,6 +4,7 @@ class FieldsController < ApplicationController
   before_filter :read_form_section
   before_filter :module_id, :only => [:create, :update, :destroy]
   before_filter :get_lookups, :only => [:edit, :update]
+  before_filter :get_form_group_names, :only => [:edit]
   after_filter :refresh_properties, :only => [:create, :update]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
@@ -13,7 +14,7 @@ class FieldsController < ApplicationController
   end
 
   def create
-    @field = Field.new params[:field]
+    @field = Field.new clean_field(params[:field])
     @field.name = @field.display_name.parameterize.underscore
     FormSection.add_field_to_formsection @form_section, @field
     @field.base_language = I18n.default_locale
@@ -22,6 +23,7 @@ class FieldsController < ApplicationController
       flash[:notice] = t("fields.successfully_added")
       redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
     else
+      get_form_group_names
       @show_add_field = {:show_add_field => true}
       render :template => "form_section/edit", :locals => @show_add_field
     end
@@ -58,6 +60,7 @@ class FieldsController < ApplicationController
         redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
       end
     else
+      get_form_group_names
       @show_add_field = {:show_add_field => true}
       render :template => "form_section/edit",  :locals => @show_add_field
     end
@@ -95,6 +98,10 @@ class FieldsController < ApplicationController
     @lookups = Lookup.all
   end
 
+  def get_form_group_names
+    @list_form_group_names = FormSection.list_form_group_names
+  end
+
   def module_id
     @module_id = params[:module_id] || ""
   end
@@ -107,5 +114,15 @@ class FieldsController < ApplicationController
     elsif @form_section.parent_form == 'tracing_request'
       TracingRequest.refresh_form_properties
     end
+  end
+
+  def clean_field(field = {})
+    # Remove empty / blank values from any field array elements
+    field.each do |key, value|
+      if value.is_a?(Array)
+        value.reject!(&:blank?)
+      end
+    end
+    return field
   end
 end

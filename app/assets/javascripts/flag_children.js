@@ -1,28 +1,28 @@
 var FlagChild = Backbone.View.extend({
 
-	el: 'body',
+  el: 'body',
 
-	events: {
-		'click .dropdown_btn': 'show_hide_dropdown',
-		'click .dropdown': 'stop_propagation',
-		'click i.remove_flag': 'remove_flag'
-	},
+  events: {
+    'click .dropdown_btn': 'show_hide_dropdown',
+    'click .dropdown': 'stop_propagation',
+    'click span.collapse_expand_flag': 'collapse_expand_flag'
+  },
 
-	stop_propagation: function(event) {
-		event.stopPropagation();
-	},
+  stop_propagation: function(event) {
+    event.stopPropagation();
+  },
 
-	show_hide_dropdown: function(event) {
-		var dropdown = $(event.target).parents('.dropdown_btn').find('.dropdown');
+  show_hide_dropdown: function(event) {
+    var dropdown = $(event.target).parents('.dropdown_btn').find('.dropdown');
 
     dropdown.toggleClass('hide').show();
     this.generate_form(dropdown);
 
     event.stopPropagation();
-	},
+  },
 
-	generate_form: function(dropdown) {
-		this.data = {
+  generate_form: function(dropdown) {
+    this.data = {
       model: dropdown.data('model'),
       form_action: dropdown.data('form_action'),
       form_unflag_action: dropdown.data('form_unflag_action'),
@@ -38,20 +38,27 @@ var FlagChild = Backbone.View.extend({
       submit_label: dropdown.data('submit_label'),
       unflag_submit_label: dropdown.data('submit_unflag_label'),
       submit_error_message: dropdown.data('submit_error_message')
-		}
-		dropdown.find('.add_flag_form').html(HandlebarsTemplates.flag_record_form(this.data));
-	},
+    }
+    dropdown.find('.add_flag_form').html(HandlebarsTemplates.flag_record_form(this.data));
+  },
 
-	remove_flag: function(event) {
-		$('.remove_flag_record_container').slideToggle().remove();
-
-		this.data.flag_message = $(event.target).data('message');
-		this.data.flag_index = $(event.target).data('message_index');
-
-		$(event.target).parent('li').append(HandlebarsTemplates.remove_flag_record_form(this.data));
-	}
+  collapse_expand_flag: function(event) {
+    var target = $(event.target),
+      self = this;
+    $('span.expanded_flag').not(target).toggleClass("expanded_flag").toggleClass("collapsed_flag");
+    target.toggleClass("expanded_flag");
+    target.toggleClass("collapsed_flag");
+    $('.remove_flag_record_container').slideToggle().remove();
+    if (target.hasClass('expanded_flag')) {
+      self.data.flag_message = target.data('message');
+      self.data.flag_index = target.data('message_index');
+      target.parent('li').append(HandlebarsTemplates.remove_flag_record_form(self.data));
+    }
+    $('span.collapsed_flag').text('+');
+    $('span.expanded_flag').text('-');
+  }
 });
 
 $(document).ready(function() {
-	new FlagChild();
+  new FlagChild();
 });

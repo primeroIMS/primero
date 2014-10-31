@@ -18,6 +18,7 @@ class PrimeroModulesController < ApplicationController
   def show
     @primero_module = PrimeroModule.get(params[:id])
     authorize! :view, @primero_module
+    load_lookups
 
     respond_to do |format|
       format.html
@@ -28,6 +29,7 @@ class PrimeroModulesController < ApplicationController
   def edit
     @primero_module = PrimeroModule.get(params[:id])
     authorize! :update, @primero_module
+    load_lookups
   end
 
   def update
@@ -38,6 +40,7 @@ class PrimeroModulesController < ApplicationController
       flash[:notice] = t("primero_module.successfully_updated")
       redirect_to(primero_modules_path)
     else
+      load_lookups
       flash[:error] = t("primero_module.error_in_updating")
       render :action => "edit"
     end
@@ -46,13 +49,18 @@ class PrimeroModulesController < ApplicationController
   def new
     authorize! :create, PrimeroModule
     @primero_module = PrimeroModule.new
+    load_lookups
   end
 
   def create
     authorize! :create, PrimeroModule
     @primero_module = PrimeroModule.new(params[:primero_module])
-    return redirect_to primero_modules_path if @primero_module.save
-    render :new
+    if @primero_module.save
+      return redirect_to primero_modules_path
+    else
+      load_lookups
+      render :new
+    end
   end
 
   def destroy
@@ -60,6 +68,14 @@ class PrimeroModulesController < ApplicationController
     authorize! :destroy, @primero_module
     @primero_module.destroy
     redirect_to(primero_modules_url)
+  end
+
+  private
+
+  def load_lookups
+    @programs = PrimeroProgram.all
+    @record_types = FormSection::RECORD_TYPES
+    @forms_by_record_type = FormSection.all_forms_grouped_by_parent
   end
 
 

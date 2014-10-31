@@ -18,8 +18,12 @@ tabNavigation = Backbone.View.extend({
   },
 
   first_tab: function() {
-    var tab = $('.tab-handles li.current').children('a').attr('href')
-    localStorage.setItem('first_tab', tab)
+    var tab = $('.tab-handles li.current').children('a').attr('href');
+    localStorage.setItem('first_tab', tab);
+
+    if (localStorage.getItem('current_tab') === null) {
+      this.ls_set_tab(tab);
+    }
   },
 
   tabControl: function(event) {
@@ -35,7 +39,7 @@ tabNavigation = Backbone.View.extend({
 
     if((check_sub.is('ul')) && (check_sub.is(':visible'))) {
       tab.parent().removeClass('current');
-      check_sub.slideUp('normal')
+      check_sub.slideUp('normal');
     }
 
     if((check_sub.is('ul')) && (!check_sub.is(':visible'))) {
@@ -47,7 +51,7 @@ tabNavigation = Backbone.View.extend({
     if(tab.hasClass('non-group')) {
       $('ul.tab-handles ul:visible').slideUp('normal');
     }
-    
+
     $(".tab").hide();
 
     var activeTab = tab.attr("href");
@@ -64,9 +68,9 @@ tabNavigation = Backbone.View.extend({
 
   listen_for_reset: function() {
     if (this.getUrlParams('follow') || this.is_error) {
-        return true
+      return true;
     } else {
-        this.ls_clear_tab();
+      // this.ls_clear_tab();
     }
   },
 
@@ -82,26 +86,26 @@ tabNavigation = Backbone.View.extend({
   },
 
   ls_set_tab: function (tab) {
-    localStorage.setItem('current_tab', tab)
+    localStorage.setItem('current_tab', tab);
   },
 
   ls_clear_tab: function() {
-    localStorage.removeItem('current_tab')
+    localStorage.removeItem('current_tab');
   },
 
   tabRedirection: function() {
-      if($('.error-item').size()) {
-        tab = $('.error-item:first').data('error-item');
-        this.ls_set_tab(tab);
-        this.is_error = true;
-      }
+    if($('.error-item').size()) {
+      tab = $('.error-item:first').data('error-item');
+      this.ls_set_tab(tab);
+      this.is_error = true;
+    }
 
-      if(this.listen_for_reset()) {
-        this.determine_current_tab('current')
-      } else {
-        this.determine_current_tab('first')
-      }
-  }, 
+    if(this.listen_for_reset()) {
+      this.determine_current_tab('current');
+    } else {
+      this.determine_current_tab('first');
+    }
+  },
 
   determine_current_tab: function(action) {
     var active_tab = localStorage.getItem(action + '_tab'),
@@ -118,7 +122,7 @@ tabNavigation = Backbone.View.extend({
       if (subgroup) {
         subgroup.slideDown('normal');
       }
-      
+
       tab.show();
     }
   },
@@ -128,7 +132,7 @@ tabNavigation = Backbone.View.extend({
     var show_history_button = $(event.target),
         history_url = show_history_button.data('change_log_url'),
         target_div = $("#" + show_history_button.data('reveal-id'));
-    if (target_div.html() == "") {
+    if (target_div.html() === "") {
       $.get( history_url, function(response) {
         target_div.html(response);
       });
@@ -145,8 +149,8 @@ $(document).ready(function() {
 
   _primero.set_content_sidebar_equality();
 
-  $("ul.side-nav").sticky({
+  $("ul.side-nav:not(.modal-side-nav)").sticky({
     topSpacing: 130,
-    bottomSpacing: 90 
+    bottomSpacing: 90
   });
 });
