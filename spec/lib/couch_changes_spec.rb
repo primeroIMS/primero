@@ -14,7 +14,8 @@ describe CouchChanges, [:event_machine, :search] do
       File.delete(@history_path)
     end
 
-    CouchChanges::Passenger.stub(:http_process_info) { [double(:address => 'http://example.com', :password => 'pass')] }
+    @fake_passenger_proc = double(:address => 'http://example.com', :password => 'pass')
+    CouchChanges::Passenger.stub(:http_process_info) { [@fake_passenger_proc] }
   end
 
   # We can't do this in an around(:each) block because RSpec verifies the mocks
@@ -48,11 +49,10 @@ describe CouchChanges, [:event_machine, :search] do
 
   it 'notifies the passenger server of changes' do
     run_with_watcher do
-      FormSection.
+      CouchChanges::Processors::Notifier.should_receive(:start_request_to_process).with(any_args)
+      @form.name = "new name"
+      @form.database.save_doc(@form)
     end
-  end
-
-  it 'handles partial chunks on _changes api' do
   end
 
   it 'handles disconnects on _changes api' do

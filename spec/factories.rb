@@ -98,7 +98,7 @@ FactoryGirl.define do
     permissions { Permission.all }
   end
 
-  factory :form_section, :trails => [:model] do
+  factory :form_section, :traits => [:model] do
     unique_id { "form_section_#{counter}" }
     name { "Form Section #{counter}" }
     fields []
