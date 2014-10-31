@@ -11,6 +11,6 @@ execute 'update-ca-certificates' do
   group 'root'
 end
 
-node.force_default[:couch_db][:config][:ssl][:cacert_file] =
-  node.force_default[:couch_db][:config][:replicator][:ssl_trusted_certificates_file] =
+node.force_default[:primero][:couchdb][:config][:ssl][:cacert_file] =
+  node.force_default[:primero][:couchdb][:config][:replicator][:ssl_trusted_certificates_file] =
     '/etc/ssl/certs/couch_ca.pem'

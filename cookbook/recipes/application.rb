@@ -203,3 +203,5 @@ end
 execute_bundle 'restart-scheduler' do
   command "rake scheduler:restart"
 end
+
+include_recipe 'primero::nginx_app'
