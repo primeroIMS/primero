@@ -12,8 +12,11 @@ Tools* section) on your host machine so that your SSH cert keys don't make
 vagrant bomb out.  Once you have Vagrant installed, run the following to
 install the right plugins:
 
-    $ vagrant plugin install vagrant-berkshelf --plugin-source https://k6h8SqKvWpbe1yLKuyrx@gem.fury.io/keitwb/ --plugin-version 2.0.1.pre.quoin
+    $ vagrant plugin install vagrant-berkshelf --plugin-version 3.0.1
     $ vagrant plugin install vagrant-omnibus --plugin-version 1.4.1
+
+You will also need to download and install the [Chef DK for your
+platform](https://downloads.getchef.com/chef-dk/).
 
 Now you are ready to start the VM.  Make sure you don't have anything running
 on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from
