@@ -24,7 +24,7 @@ Feature: Maiming Form
       | Cause                     | <Select> Landmines                           |
       | Details                   | Maiming Details                              |
       | Circumstances             | <Select> Indiscriminate Attack               |
-      | Consequences              | <Select> Serious Injury                      |
+      | Consequences              | <Choose>Serious Injury                       |
       | Context                   | <Select> Weapon Used Against The Child       |
       | Mine Incident             | <Radio> Yes                                  |
       | Was the survivor directly participating in hostilities at the time of the violation? | <Radio> No      |
