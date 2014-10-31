@@ -1,8 +1,13 @@
 require 'delegate'
+require 'observer'
 
 module PrimeroModel
   extend ActiveModel::Naming
   extend ActiveSupport::Concern
+
+  module ClassMethods
+    include Observable
+  end
 
   # @param attr_keys: An array whose elements are properties and array indeces
   # Ex: `child.value_for_attr_keys(['family_details_section', 0, 'relation_name'])`

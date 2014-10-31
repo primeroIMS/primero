@@ -1,6 +1,7 @@
 RapidFTR::Application.routes.draw do
 
   match '/' => 'home#index', :as => :root, :via => :get
+  match '/_notify_change' => 'couch_changes#notify', :via => :get
 
 #######################
 # USER URLS
