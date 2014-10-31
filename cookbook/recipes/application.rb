@@ -184,6 +184,12 @@ supervisor_service 'solr' do
   action [:enable, :restart]
 end
 
+file ::File.join(node[:primero][:app_dir], 'log/couch_watcher_history.json') do
+  content ''
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 supervisor_service 'couch-watcher' do
   command <<-EOH
     #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
