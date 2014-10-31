@@ -11,13 +11,18 @@ module CouchChanges
 
           CouchChanges.logger.info "Reindexing Solr for #{modelCls.name} id #{change['id']}"
 
-          instance = modelCls.get(change['id'])
-          if instance.present?
-            Sunspot.index! instance
+          if change['deleted']
+            Sunspot.remove_by_id(modelCls, change['id'])
             dfd.succeed
           else
-            CouchChanges.logger.error "Could not find #{modelCls.name} with id #{change['id']}"
-            dfd.fail
+            instance = modelCls.get(change['id'])
+            if instance.present?
+              Sunspot.index! instance
+              dfd.succeed
+            else
+              CouchChanges.logger.error "Could not find #{modelCls.name} with id #{change['id']}"
+              dfd.fail
+            end
           end
 
           dfd
