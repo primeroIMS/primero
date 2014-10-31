@@ -49,6 +49,7 @@ def reset_databases
 end
 
 RSpec.configure do |config|
+  config.treat_symbols_as_metadata_keys_with_true_values = true
 
   config.include FactoryGirl::Syntax::Methods
   config.include UploadableFiles
@@ -112,9 +113,9 @@ RSpec.configure do |config|
   #########################
   # Couch Changes Config ##
   # #######################
-
-  #config.filter_run_excluding :type => :couch_changes
-  config.include CouchChangesHelper, :type => :couch_changes
+  config.filter_run_excluding :event_machine
+  config.include EventMachineHelper, [:event_machine]
+  config.extend EventMachineHelper, [:event_machine]
 end
 
 def stub_env(new_env, &block)

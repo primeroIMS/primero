@@ -168,6 +168,12 @@ class FormSection < CouchRest::Model::Base
       #TODO: the sortby can be moved to a couchdb view
       by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
     end
+
+    def handle_async_change(id, deleted)
+      CouchRest::Model::Base.descendants.select {|m| m.include? Record }.each do |recCls|
+        recCls.refresh_form_properties
+      end
+    end
   end
 
   #Returns the list of field to show in collapsed subforms.

@@ -27,6 +27,8 @@ module Record
 
     create_form_properties
 
+    FormSection.add_observer(self, :handle_form_changes)
+
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD
@@ -136,6 +138,10 @@ module Record
       else
         field
       end
+    end
+
+    def handle_form_changes(id, deleted)
+      refresh_form_properties
     end
 
     def refresh_form_properties

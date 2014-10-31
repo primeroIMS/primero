@@ -57,6 +57,7 @@ module CouchChanges
           }
           uri.query_values = {
             :id => change['id'],
+            :deleted => change['deleted'],
             :model_name => modelCls.name,
           }
 

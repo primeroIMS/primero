@@ -1,18 +1,9 @@
+require 'fiber'
 require 'spec_helper'
 
 # TODO: Abstract all of the EventMachine and async stuff so that these tests
 # are cleaner
-describe CouchChanges, :type => :couch_changes, :search => true do
-  around :each do |example|
-    EM.run do
-      example.run
-      EM.add_timer(5) do
-        fail "Test timed out!"
-        EM.stop
-      end
-    end
-  end
-
+describe CouchChanges, [:event_machine, :search] do
   before :each do
     reset_databases
     @child = create :child
@@ -21,27 +12,25 @@ describe CouchChanges, :type => :couch_changes, :search => true do
     if File.exists?(@history_path)
       File.delete(@history_path)
     end
-
-    CouchChanges::Watcher.new([Child, FormSection], @history_path).watch_for_changes
   end
 
   it 'reindexes solr upon change to records' do
-    Sunspot.stub(:index!) do |instance|
-      require 'pry'; binding.pry
+    CouchChanges::Watcher.new([Child, FormSection], @history_path).watch_for_changes
+
+    Sunspot.stub(:indexadfing!).with do |instance|
+      instance.id.should == @child.id
     end
 
     @child.name = 'Bob'
     @child.database.save_doc(@child)
 
-    EM.add_periodic_timer(0.1) do
-      results = Child.search do
-                  fulltext("Bob", fields: [:name])
-                end.results
+    #wait_for do
+      #results = Child.search do
+                  #fulltext("Bob", fields: [:name])
+                #end.results
 
-      if results.length == 1
-        EM.stop
-      end
-    end
+      #results.length == 1
+    #end
   end
 
   it 'does not try to reindex solr upon record deletion' do
