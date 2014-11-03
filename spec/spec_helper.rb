@@ -56,6 +56,7 @@ RSpec.configure do |config|
   config.include ChildFinder
   config.include FakeLogin, :type => :controller
   config.include VerifyAndResetHelpers
+  config.include Conflicts
 
   # ## Mock Framework
   #
@@ -113,9 +114,9 @@ RSpec.configure do |config|
   #########################
   # Couch Changes Config ##
   # #######################
-  config.filter_run_excluding :event_machine
-  config.include EventMachineHelper, [:event_machine]
-  config.extend EventMachineHelper, [:event_machine]
+  config.filter_run_excluding :event_machine => true unless ENV['ALL_TESTS']
+  config.include EventMachineHelper, :event_machine
+  config.extend EventMachineHelper, :event_machine
 end
 
 def stub_env(new_env, &block)

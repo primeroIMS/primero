@@ -63,7 +63,6 @@ module CouchChanges
 
           # Use GET here instead of POST since the requests hang on normal POST requests.  See
           # https://groups.google.com/forum/#!topic/phusion-passenger/-XYYtqTQpLk
-          require 'pry'; binding.pry
           multi.add(uri.port.to_s, EventMachine::HttpRequest.new(uri.to_s).get(:head => headers))
         end
       end

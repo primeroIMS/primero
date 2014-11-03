@@ -35,4 +35,5 @@ end
 
 require_relative 'processors/notifier'
 require_relative 'processors/solr_reindexer'
+require_relative 'processors/conflict_resolver'
 

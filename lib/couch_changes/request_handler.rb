@@ -47,6 +47,8 @@ module CouchChanges
         uri.query = {
           :feed => 'continuous',
           :heartbeat => INACTIVITY_TIMEOUT_SECONDS * 1000 / 2,
+          :include_docs => true,
+          :conflicts => true,
           :timeout => 10000,
           :since => @starting_seq || 0,
         }.to_query

@@ -49,7 +49,6 @@ namespace :scheduler do
 
     scheduler = Rufus::Scheduler.start_new
 
-    Replication.schedule scheduler
     WeeklyReport.schedule scheduler
     CleansingTmpDir.schedule scheduler
     ChildRiskLevelFollowUp.schedule scheduler

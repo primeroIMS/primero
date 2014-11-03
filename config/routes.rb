@@ -48,7 +48,6 @@ RapidFTR::Application.routes.draw do
   resources :children do
     collection do
       post :sync_unverified
-      post :reindex
       post :import_file
       get :advanced_search
       get :search
@@ -61,7 +60,6 @@ RapidFTR::Application.routes.draw do
   resources :children, as: :cases, path: :cases do
     collection do
       post :sync_unverified
-      post :reindex
       post :import_file
       get :advanced_search
       get :search
@@ -77,7 +75,6 @@ RapidFTR::Application.routes.draw do
   resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
     collection do
       # post :sync_unverified
-      post :reindex
       post :import_file
       # get :advanced_search
       get :search
@@ -168,7 +165,6 @@ RapidFTR::Application.routes.draw do
   resources :incidents do
     collection do
       # post :sync_unverified
-      post :reindex
       post :import_file
       # get :advanced_search
       get :search

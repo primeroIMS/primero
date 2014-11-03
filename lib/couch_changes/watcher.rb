@@ -19,9 +19,13 @@ module CouchChanges
     def listen_for_changes(model, handler, &block)
       CouchChanges.logger.info "Listening for changes to #{model.name}..."
 
-      handler.create_http_request.stream do |chunk|
+      req = handler.create_http_request
+
+      req.stream do |chunk|
         handler.handle_chunk(chunk, &block)
-      end.errback do
+      end
+
+      req.errback do
         CouchChanges.logger.warn "Disconnected from Couch change API for model #{model.name}, reconnecting..."
         listen_for_changes(model, handler.reset_received, &block)
       end

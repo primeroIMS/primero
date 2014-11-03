@@ -16,7 +16,6 @@ class Replication < CouchRest::Model::Base
   property :description
   property :username
   property :password
-  property :needs_reindexing, TrueClass, :default => true
 
   design do
     view :all,
@@ -34,8 +33,6 @@ class Replication < CouchRest::Model::Base
   validates_presence_of :password
   validate :fetch_remote_couch_config
   validate :validate_remote_app_uri
-
-  before_save   :mark_for_reindexing
 
   after_save    :start_replication
   before_destroy :stop_replication
@@ -65,11 +62,6 @@ class Replication < CouchRest::Model::Base
       self.class.replicator.save_doc config
     end
 
-    unless needs_reindexing?
-      mark_for_reindexing
-      self.database.save_doc(self)
-    end
-
     true
   end
 
@@ -79,19 +71,6 @@ class Replication < CouchRest::Model::Base
     end
     invalidate_cached_configs
     true
-  end
-
-  def check_status_and_reindex
-    if needs_reindexing? and !active?
-      Rails.logger.info "Replication complete, triggering reindex"
-      pending_reindex = false
-      trigger_local_reindex
-      trigger_remote_reindex
-    end
-  end
-
-  def mark_for_reindexing
-    self.needs_reindexing = true
   end
 
   def timestamp
@@ -161,43 +140,6 @@ class Replication < CouchRest::Model::Base
     uri
   end
 
-  def self.schedule(scheduler)
-    scheduler.every("1m") do
-      reenable_continuous_replications
-
-      begin
-        Rails.logger.info "Checking Replication Status..."
-        Replication.resolve_conflicts
-        Replication.all.each(&:check_status_and_reindex)
-      rescue => e
-        Rails.logger.error "Error checking replication status"
-        e.backtrace.each { |line| Rails.logger.error line }
-      end
-    end
-  end
-
-  def self.resolve_conflicts
-    if !self.any_replications_active?
-      self.models_to_sync.each do |modelClass|
-        Rails.logger.info {"Resolving any conflicts in model #{modelClass}"}
-        modelClass.all_conflicting_records.each do |rec|
-          Rails.logger.info {"Conflicts found in record #{rec.id}"}
-          begin
-            rec.resolve_conflicting_revisions
-            # TODO: this won't be necessary once we get something watching the
-            # changes api
-            if modelClass.include?(Searchable)
-              Rails.logger.info {"Reindexing record #{rec.id}"}
-              rec.reindex
-            end
-          rescue => e
-            Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n#{e}\n#{e.backtrace}")
-          end
-        end
-      end
-    end
-  end
-
   def self.any_replications_active?
     Replication.all.reject {|r| r.is_continuous }.any? {|r| r.active? }
   end
@@ -216,23 +158,6 @@ class Replication < CouchRest::Model::Base
   protected
 
   attr_accessor :_cached_configs
-
-  def trigger_local_reindex
-    self.class.models_to_sync.each {|m| m.reindex! }
-    self.needs_reindexing = false
-    self.database.save_doc(self)
-  end
-
-  def trigger_remote_reindex
-    uri = remote_app_uri
-    # TODO: This is not the best way to do this.  We need a separate process
-    # listening for changes in the database to handle reindexing instead of
-    # this hack
-    ['children', 'incidents', 'tracing_requests'].each do |path_name|
-      uri.path = Rails.application.routes.url_helpers.__send__("reindex_#{path_name}_path")
-      post_uri uri
-    end
-  end
 
   def validate_remote_app_uri
     begin
