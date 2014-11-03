@@ -133,6 +133,9 @@ module NavigationHelpers
       when /lookups page/
         lookups_path(options)
 
+      when /locations page/
+        locations_path(options)
+
       when /choose field type page/
         arbitrary_form_section = FormSection.new
         new_form_section_field_path(arbitrary_form_section, options)
