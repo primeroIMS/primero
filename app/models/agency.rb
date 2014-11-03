@@ -3,15 +3,20 @@ class Agency < CouchRest::Model::Base
 
   include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
-
+  include LogoUploader
   include Namable
 
 
   property :telephone
+  property :logo
+  property :order, Integer
   #TODO: What are some other agency fields?
 
-  #TODO: Add functionality for storing and fetching the agency logo from the database
-  property :logo_key
+  design do
+    view :by_order
+  end
 
-
+  def self.retrieve_logo_ids
+    self.by_order.collect{ |a| {id: a.id, filename: a['logo_key']} }.flatten.compact
+  end
 end

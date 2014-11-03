@@ -1,5 +1,7 @@
 module ConfigurationResourceHelper
 
+  include AttachmentHelper
+
   def resource_edit_field(object, field, label_key, type, required=false, disabled=false)
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"
@@ -14,7 +16,12 @@ module ConfigurationResourceHelper
         }
       })
       concat(content_tag(:div, class: 'medium-8 columns'){
-        self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off', class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled)
+        if type == 'file_field' && field == 'logo'
+          show_logo_upload(object, field_id, type, tag_helper)
+        else
+          self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off',
+            class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled)
+        end
       })
       #TODO: This should be replaced with Foundation required field components
       concat(content_tag(:div, class: 'medium-1 columns'){
@@ -32,9 +39,23 @@ module ConfigurationResourceHelper
         label_tag(field, label_text, class: 'key')
       })
       concat(content_tag(:div, class: 'medium-8 columns'){
-        content_tag(:span, h(value), class: 'value')
+        if field == 'logo'
+          img = send("#{object.class.name.underscore.downcase}_logo_url", object, object['logo_key'])
+          concat(content_tag(:span, image_tag(img), class: value))
+        else
+          content_tag(:span, h(value), class: 'value')
+        end
       })
     end
   end
 
+  def show_logo_upload(object, field_id, type, tag_helper)
+    concat(self.send(tag_helper, "agency[upload_logo]logo", id: "#{field_id}", autocomplete: 'off',
+          class: ((type == 'date') ? 'form_date_field' : '')))
+
+    if !object.new_record? && object['logo_key']
+      img = send("#{object.class.name.underscore.downcase}_logo_url", object.id, object['logo_key'])
+      concat(content_tag(:span, image_tag(img)))
+    end
+  end
 end
