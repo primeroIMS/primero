@@ -97,7 +97,7 @@ class Location < CouchRest::Model::Base
   def parent
     result = nil
     if self.hierarchy.present?
-      result = Location.by_placename(self.hierarchy.last)
+      result = Location.get_by_location(self.hierarchy.last)
     end
     return result
   end

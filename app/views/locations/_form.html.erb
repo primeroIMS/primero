@@ -1,7 +1,8 @@
 <%
   type_selection = ((@location.present? && @location.type.present?) ? @location.type : "")
   parent_options = (@locations.present? ? @locations.map{|lct| [lct.name, lct.id]}.insert(0, "") : [])
-  parent_selection ||= ""   #TODO
+  parent = @location.parent
+  parent_selection ||= (parent.present? ? parent.id : "")
 %>
 <div class="btn_panel">
   <div class="row">
