@@ -26,7 +26,7 @@ Feature: Killing Form
       | Cause                                                                              | <Select> IED                                 |
       | Details                                                                            | Some details                                 |
       | Circumstances                                                                      | <Select> Direct Attack                       |
-      | Consequences                                                                       | <Select> Killing                             |
+      | Consequences                                                                       | <Choose>Killing                              |
       | Context                                                                            | <Select> Weapon Used Against The Child       |
       | Mine Incident                                                                      | <Radio> No                                   |
       | Was the victim directly participating in hostilities at the time of the violation? | <Select> Yes                                 |
