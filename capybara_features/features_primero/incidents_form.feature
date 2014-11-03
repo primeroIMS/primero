@@ -5,6 +5,7 @@
 # JIRA PRIMERO-283
 # JIRA PRIMERO-444
 # JIRA PRIMERO-523
+# JIRA PRIMERO-731
 
 @javascript @primero
 Feature: Incidents Form
@@ -64,3 +65,39 @@ Feature: Incidents Form
     And I should see "Incident was successfully updated" on the page
     And I should see a value for "Date of Incident" on the show page with the value of "<Date Range> From: 10-Aug-2014 To: 22-Aug-2014"
     And I should see a value for "Is the date estimated?" on the show page with the value of "Yes"
+
+  Scenario: The Cancel button should return to the List view (New record)
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    When I access "incidents page"
+    And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+      |  Abduction    |
+      |  Other        |
+    And I fill in "Date of First Report" with "14-Jul-2014"
+    And I select "Afternoon (noon to sunset)" from "Time of day that the Incident took place"
+    And I fill in the following:
+      | Incident Total Victims/Survivors    | <Tally>Boys:3<Tally>Girls:2<Tally>Unknown:5        |
+      | Date of Incident                    | <Date Range>from: '15-Jan-2013', to: '22-Feb-2013' |
+    And I press the "Cancel" button
+    And I click OK in the browser popup
+    And I should be on the incidents page
+
+  Scenario: The Cancel button should return to the List view (Edit record)
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    When I access "incidents page"
+    And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+      |  Abduction    |
+      |  Other        |
+    And I fill in "Date of First Report" with "14-Jul-2014"
+    And I select "Afternoon (noon to sunset)" from "Time of day that the Incident took place"
+    And I fill in the following:
+      | Incident Total Victims/Survivors    | <Tally>Boys:3<Tally>Girls:2<Tally>Unknown:5        |
+      | Date of Incident                    | <Date Range>from: '15-Jan-2013', to: '22-Feb-2013' |
+    And I press "Save"
+    And I press the "Edit" button
+    And I press the "Cancel" button
+    And I click OK in the browser popup
+    And I should be on the incidents page
