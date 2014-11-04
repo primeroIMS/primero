@@ -5,7 +5,7 @@ class AgenciesController < ApplicationController
   include MediaActions
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
-  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
+  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
 
   def index
     authorize! :index, Agency
@@ -29,25 +29,25 @@ class AgenciesController < ApplicationController
   def create
     authorize! :create, Agency
     @agency = Agency.new(params[:agency])
+
     if @agency.save
-      flash[:notice] = t("agencies.successfully_created")
-      return redirect_to agencies_path
+      redirect_to agencies_path, notice: t("agencies.successfully_created")
     else
       render :new
     end
   end
 
   def edit
-    authorize! :update, @agency
+    authorize! :update, Agency
   end
 
   def update
-    @agency = Agency.get(params[:id])
-    authorize! :update, @agency
+    authorize! :update, Agency
 
-    if @agency.update_attributes(params[:agency])
-      flash[:notice] = t("agencies.successfully_updated")
-      redirect_to(agencies_path)
+    @agency.update_attributes(params[:agency])
+
+    if @agency.save
+      redirect_to agencies_path, notice: t("agencies.successfully_updated")
     else
       flash[:error] = t("agencies.error_in_updating")
       render :action => "edit"
@@ -55,9 +55,9 @@ class AgenciesController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @agency
+    authorize! :destroy, Agency
     @agency.destroy
-    redirect_to(agencies_path)
+    redirect_to agencies_path
   end
 
   def update_order
@@ -74,15 +74,6 @@ class AgenciesController < ApplicationController
   private
 
   def load_record_or_redirect
-    @agency = Agency.get(params[:id])
-
-    if @agency.nil?
-      respond_to do |format|
-        format.html do
-          flash[:error] = "Agency with the given id is not found"
-          redirect_to :action => :index and return
-        end
-      end
-    end
+    @agency = Agency.get(params[:id]) if params[:id]
   end
 end

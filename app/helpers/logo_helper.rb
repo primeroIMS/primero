@@ -11,9 +11,10 @@ module LogoHelper
   end
 
   def delete_logo_attachment_file
-    return if self.id.nil? || self['logo_attachments'].nil?
-    logo_key = self['logo_attachments']['original']
-    delete_attachment(logo_key)
+    return if self.id.nil? || self['_attachments'].nil?
+    self['_attachments'].keys.each do |k|
+      delete_attachment(k)
+    end
   end
 
   def display_agency_logos

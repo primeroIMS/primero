@@ -1093,6 +1093,7 @@ en:
 
       agency:
         unique_name: "An Agency with that name already exists, please enter a different name"
+        name_present: "Name or Code must not be blank"
 
 
 

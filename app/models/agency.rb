@@ -21,6 +21,6 @@ class Agency < CouchRest::Model::Base
   end
 
   def self.retrieve_logo_ids
-    self.by_order.collect{ |a| {id: a.id, filename: a['logo_key']} }.flatten.compact
+    self.by_order.collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
   end
 end
