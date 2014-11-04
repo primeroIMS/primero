@@ -30,6 +30,7 @@ class AgenciesController < ApplicationController
     authorize! :create, Agency
     @agency = Agency.new(params[:agency])
     if @agency.save
+      flash[:notice] = t("agencies.successfully_created")
       return redirect_to agencies_path
     else
       render :new

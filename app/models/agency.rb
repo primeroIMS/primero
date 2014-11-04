@@ -9,11 +9,15 @@ class Agency < CouchRest::Model::Base
 
   property :telephone
   property :logo
-  property :order, Integer
+  property :order, Integer, default: 0
   #TODO: What are some other agency fields?
 
   design do
     view :by_order
+  end
+
+  def self.available_agency_names
+    self.all.all.collect{ |a| [ a.name, a.id ] }
   end
 
   def self.retrieve_logo_ids

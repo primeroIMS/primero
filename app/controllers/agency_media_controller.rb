@@ -1,5 +1,4 @@
-class AgencyMediaController < ApplicationController
-  @model_class = Agency
+class AgencyMediaController < ActionController::Base
 
   include AgencyLogos
 

@@ -11,7 +11,6 @@ module AgencyLogos
     send_photo_data(resized.data.read, :type => @attachment.content_type, :disposition => 'inline')
   end
 
-
   private
 
   def all_agency_logos
@@ -19,7 +18,7 @@ module AgencyLogos
   end
 
   def find_logo
-    object = instance_variable_get("@#{self.model_class.name.underscore.downcase}") || Agency.get(params[:agency_id])
+    object = instance_variable_get("@agency") || Agency.get(params[:agency_id])
 
     begin
       @attachment = object.media_for_key(params[:logo_id])

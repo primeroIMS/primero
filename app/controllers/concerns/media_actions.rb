@@ -4,7 +4,6 @@ module MediaActions
   included do
     before_filter :find_object
     before_filter :find_photo_attachment, :only => [:show_photo, :show_resized_photo, :show_thumbnail]
-    before_filter :find_logo, :only => [:show_logo]
   end
 
   def index
@@ -13,12 +12,6 @@ module MediaActions
 
   def show_photo
     send_photo_data(@attachment.data.read, :type => @attachment.content_type, :disposition => 'inline')
-  end
-
-  def show_logo
-    binding.pry
-    resized = @attachment.resize "x29"
-    send_photo_data(resized.data.read, :type => @attachment.content_type, :disposition => 'inline')
   end
 
   def show_resized_photo
@@ -78,18 +71,6 @@ module MediaActions
     object = instance_variable_get("@#{self.model_class.name.underscore.downcase}")
     begin
       @attachment = params[:id] ? object.media_for_key(params[:id]) : object.audio
-    rescue => e
-      p e.inspect
-    end
-  end
-
-  def find_logo
-    object = instance_variable_get("@#{self.model_class.name.underscore.downcase}")
-    # object = Agency.get(params[:id])
-
-    begin
-      # binding.pry
-      @attachment = object.media_for_key(params[:logo_id])
     rescue => e
       p e.inspect
     end
