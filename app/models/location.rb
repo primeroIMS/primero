@@ -4,6 +4,7 @@ class Location < CouchRest::Model::Base
 
   include PrimeroModel
   include Namable
+  include Memoizable
 
   BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
 
@@ -34,14 +35,13 @@ class Location < CouchRest::Model::Base
     self.hierarchical_name
   end
 
-  def self.get_by_location(placename)
-    #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
-    location = Location.by_placename(key: placename).all[0..0]
-    return location.first
-  end
-
   class << self
-    extend Memoist
+    alias :old_all :all
+
+    def all
+      old_all
+    end
+    memoize :all
 
     def find_by_location(placename)
       #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
@@ -56,6 +56,13 @@ class Location < CouchRest::Model::Base
       return result
     end
     memoize :placename_from_name
+
+    def get_by_location(placename)
+      #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
+      location = Location.by_placename(key: placename).all[0..0]
+      return location.first
+    end
+    memoize :get_by_location
   end
 
   def hierarchical_name

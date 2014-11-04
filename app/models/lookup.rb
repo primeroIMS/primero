@@ -3,6 +3,7 @@ class Lookup < CouchRest::Model::Base
   use_database :lookup
 
   include PrimeroModel
+  include Memoizable
 
   property :name
   property :description
@@ -24,7 +25,12 @@ class Lookup < CouchRest::Model::Base
   before_save :generate_id
 
   class << self
-    extend Memoist
+    alias :old_all :all
+
+    def all
+      old_all
+    end
+    memoize :all
 
     def find_by_name(name)
       Lookup.by_name(:key => name).first

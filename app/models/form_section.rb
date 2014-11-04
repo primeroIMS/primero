@@ -2,6 +2,8 @@ class FormSection < CouchRest::Model::Base
   include PrimeroModel
   include PropertiesLocalization
   include Importable
+  include Memoizable
+
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
 
@@ -87,7 +89,12 @@ class FormSection < CouchRest::Model::Base
   alias to_param unique_id
 
   class << self
-    include Memoizable
+    # Memoize by_unique_id because some things call this directly
+    alias :old_by_unique_id :by_unique_id
+    def by_unique_id *args
+      old_by_unique_id *args
+    end
+    memoize :by_unique_id
 
     def get_unique_instance(attributes)
       get_by_unique_id(attributes['unique_id'])
