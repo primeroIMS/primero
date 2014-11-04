@@ -1,5 +1,6 @@
 class CustomFieldsValidator
   attr_accessor :options
+  require 'extensions/date'
 
   def initialize(target, options)
     @options = options
