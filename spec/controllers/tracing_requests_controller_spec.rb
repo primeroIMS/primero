@@ -205,6 +205,43 @@ describe TracingRequestsController do
       end
     end
 
+    describe "export list view" do
+      before do
+        @session = fake_field_worker_login
+      end
+
+      it "should export columns in the current list view" do
+        collection = [TracingRequest.new(:id => "1"), TracingRequest.new(:id => "2")]
+        collection.should_receive(:next_page).twice.and_return(nil)
+        search = double(Sunspot::Search::StandardSearch)
+        search.should_receive(:results).and_return(collection)
+        search.should_receive(:total).and_return(2)
+        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
+
+        ##### Main part of the test ####
+        controller.should_receive(:list_view_header).with("tracing_request").and_call_original
+        #Prepare the expected list of fields.
+        expected_properties = { 
+          :type => "tracing_request",
+          :fields => {
+            "Id" => "short_id",
+            "Name Of Inquirer" => "relation_name",
+            "Date Of Inquiry" => "inquiry_date"
+          }
+        }
+        #Test if the exporter receive the list of field expected.
+        Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user).and_return('data')
+        ##### Main part of the test ####
+
+        controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
+        controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', nil).and_return(true)
+        controller.stub :render
+        #Prepare parameters to call the corresponding exporter.
+        params = {"page" => "all", "export_list_view" => "true", "format" => "list_view_csv"}
+        get :index, params
+      end
+    end
+
     describe "permissions to view lists of tracing request records", search: true, skip_session: true do
 
       before do

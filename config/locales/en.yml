@@ -1173,6 +1173,9 @@ en:
       all:  PDF
       one:  PDF
       selected:  Selected to PDF
+    list_view_csv:
+      all:  Export List
+      selected:  Selected to CSV
     csv:
       all:  CSV
       one:  CSV
