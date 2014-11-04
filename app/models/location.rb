@@ -34,16 +34,22 @@ class Location < CouchRest::Model::Base
   end
 
 
-  def self.find_by_location(placename)
-    #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
-    location = Location.by_placename(key: placename).all[0..0]
-    return location + location.first.descendants
-  end
+  class << self
+    extend Memoist
 
-  def self.placename_from_name(name)
-    result = ""
-    result = name.split('::').last if name.present?
-    return result
+    def find_by_location(placename)
+      #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
+      location = Location.by_placename(key: placename).all[0..0]
+      return location + location.first.descendants
+    end
+    memoize :find_by_location
+
+    def placename_from_name(name)
+      result = ""
+      result = name.split('::').last if name.present?
+      return result
+    end
+    memoize :placename_from_name
   end
 
   def hierarchical_name
@@ -92,6 +98,4 @@ class Location < CouchRest::Model::Base
   def remove_parent
     self.set_parent nil
   end
-
-
 end
