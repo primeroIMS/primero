@@ -12,7 +12,7 @@
           <%= password_field_tag "password" %>
         </label>
         <label><%=I18n.t("imports.format_label")%>
-          <%= select_tag("import_type", options_for_select(Importers::ACTIVE_IMPORTERS.map {|i| i.id}, 'csv')) %>
+          <%= select_tag("import_type", options_for_select(Importers::ACTIVE_IMPORTERS.map {|i| [i.display_name, i.id]}, 'csv')) %>
         </label>
         <div class="import_button">
           <%= submit_tag(t("buttons.import"), class: 'green-button right') %>
