@@ -312,6 +312,11 @@ RapidFTR::Application.routes.draw do
   resources :lookups
 
 #######################
+# LOCATION URLS
+#######################
+  resources :locations
+
+#######################
 # TESTING URLS
 #######################
   match 'database/delete_children' => 'database#delete_children', :via => :delete

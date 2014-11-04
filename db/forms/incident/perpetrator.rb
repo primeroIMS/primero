@@ -54,6 +54,7 @@ perpetrator_subform_fields = [
             }),
   Field.new({"name" => "age_group",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Age group of alleged perpetrator",
              "option_strings_text_all" =>
                           ["0-11",

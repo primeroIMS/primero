@@ -1,5 +1,6 @@
 # JIRA PRIMERO-320
 # JIRA PRIMERO-365
+# JIRA PRIMERO-727
 
 Feature: Source Form
   As a User, I want to add details about the source of the information so that we can verify the details of the incident
@@ -27,7 +28,6 @@ Feature: Source Form
       | Reliability of Source                                      | <Select> Medium             |
       | Details of Source Reliabilty Ranking                       | Some details                |
       | Source ID                                                  | S0011592US                  |
-      | Source Address                                             | Source address              |
       | Permission for Follow Up or to Contact again?              | <Radio> Yes                 |
       | Consent for Data Sharing/Reporting?                        | <Radio> Don't Know          |
       | If the source is a child, does the child require services? | <Radio> Yes                 |
@@ -47,7 +47,6 @@ Feature: Source Form
       | Reliability of Source                                      | Medium                      |
       | Details of Source Reliabilty Ranking                       | Some details                |
       | Source ID                                                  | S0011592US                  |
-      | Source Address                                             | Source address              |
       | Permission for Follow Up or to Contact again?              | Yes                         |
       | Consent for Data Sharing/Reporting?                        | Don't Know                  |
       | If the source is a child, does the child require services? | Yes                         |

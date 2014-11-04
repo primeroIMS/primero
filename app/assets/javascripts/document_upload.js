@@ -30,7 +30,7 @@ var DocumentUploadField = Backbone.View.extend({
 
   validate_document: function(event) {
     var document_input = $(event.target);
-    if (document_input.val().match(/.exe$/) != null) {
+    if (document_input.val().toLowerCase().match(/.exe$/) != null) {
       document_input.val('');
       $('div#document_upload_box_file_extension_popup_message').dialog({ resizable: false });
     } else if ((document_input[0].files[0].size/1024) > 10240) {

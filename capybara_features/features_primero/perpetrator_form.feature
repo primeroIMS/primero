@@ -2,6 +2,7 @@
 # JIRA PRIMERO-403
 # JIRA PRIMERO-365
 # JIRA PRIMERO-564
+# JIRA PRIMERO-726
 
 @javascript @primero
 Feature: Perpetrator Form
@@ -35,7 +36,7 @@ Feature: Perpetrator Form
       | Is this a known or unknown Perpetrator? | <Select> Known |
       | Sex of Alleged Perpetrator(s) | <Radio> Male |
       | Past GBV by alledged perpetrator? | <Radio>  No |
-      | Age group of alleged perpetrator | <Select> 18-25 |
+      | Age group of alleged perpetrator | <Choose>18-25 |
       | Alleged perpetrator relationship with survivor | <Select> No relation |
       | Main occupation of alleged perpetrator (if known) | <Select> Unemployed |
     And I fill in the 2nd "Perpetrator Subform Section" subform with the follow:
@@ -46,7 +47,7 @@ Feature: Perpetrator Form
       | Is this a known or unknown Perpetrator? | <Select> Known |
       | Sex of Alleged Perpetrator(s) | <Radio> Male |
       | Past GBV by alledged perpetrator? | <Radio>  No |
-      | Age group of alleged perpetrator | <Select> 18-25 |
+      | Age group of alleged perpetrator | <Choose>18-25 |
       | Alleged perpetrator relationship with survivor | <Select> Other |
       | Main occupation of alleged perpetrator (if known) | <Select> Unemployed |
     And I press "Save"
