@@ -218,6 +218,86 @@ describe ChildrenController do
       end
     end
 
+    shared_examples_for "Export List" do |user_type|
+      before do
+        @session = fake_login_as
+      end
+    
+      it "should export columns in the current list view for #{user_type} user" do
+        collection = [Child.new(:id => "1"), Child.new(:id => "2")]
+        collection.should_receive(:next_page).twice.and_return(nil)
+        search = double(Sunspot::Search::StandardSearch)
+        search.should_receive(:results).and_return(collection)
+        search.should_receive(:total).and_return(2)
+        Child.should_receive(:list_records).with({"child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil).and_return(search)
+    
+        #User
+        @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)
+        @session.user.should_receive(:has_module?).with(PrimeroModule::GBV).and_return(gbv_result)
+        @session.user.should_receive(:has_module?).with(PrimeroModule::MRM).and_return(mrm_result)
+        @session.user.should_receive(:is_manager?).and_return(manager_result)
+    
+        ##### Main part of the test ####
+        controller.should_receive(:list_view_header).with("case").and_call_original
+        #Test if the exporter receive the list of field expected.
+        Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user).and_return('data')
+        ##### Main part of the test ####
+    
+        controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
+        controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', nil).and_return(true)
+        controller.stub :render
+        #Prepare parameters to call the corresponding exporter.
+        params = {"page" => "all", "export_list_view" => "true", "format" => "list_view_csv"}
+        get :index, params
+      end
+    end
+
+    it_behaves_like "Export List", "admin" do
+      let(:cp_result) { true }
+      let(:gbv_result) { true }
+      let(:mrm_result) { true }
+      let(:manager_result) { true }
+      let(:expected_properties) { {
+        :type => "case",
+        :fields => {
+          "Id" => "short_id",
+          "Age" => "age",
+          "Sex" => "sex",
+          "Registration Date" => "registration_date",
+          "Case Opening Date" => "created_at",
+          "Photo" => "photo",
+          "Social Worker" => "owned_by"} } }
+    end
+
+    it_behaves_like "Export List", "cp" do
+      let(:cp_result) { true }
+      let(:gbv_result) { false }
+      let(:mrm_result) { false }
+      let(:manager_result) { false }
+      let(:expected_properties) { {
+        :type => "case",
+        :fields => {
+          "Id" => "short_id",
+          "Name" => "sortable_name",
+          "Age" => "age",
+          "Sex" => "sex",
+          "Registration Date" => "registration_date",
+          "Photo" => "photo"} } }
+    end
+
+    it_behaves_like "Export List", "gbv" do
+      let(:cp_result) { false }
+      let(:gbv_result) { true }
+      let(:mrm_result) { false }
+      let(:manager_result) { false }
+      let(:expected_properties) { {
+        :type => "case",
+        :fields => {
+          "Id" => "short_id",
+          "Survivor Code" => "survivor_code_no",
+          "Case Opening Date" => "created_at"} } }
+    end
+
     describe "permissions to view lists of case records", search: true, skip_session: true do
 
       before do
