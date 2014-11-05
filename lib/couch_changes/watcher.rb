@@ -16,7 +16,7 @@ module CouchChanges
 
     private
 
-    def listen_for_changes(model, handler, &block)
+    def listen_for_changes(model, handler, retry_period=2, &block)
       CouchChanges.logger.info "Listening for changes to #{model.name}..."
 
       req = handler.create_http_request
@@ -26,8 +26,10 @@ module CouchChanges
       end
 
       req.errback do
-        CouchChanges.logger.warn "Disconnected from Couch change API for model #{model.name}, reconnecting..."
-        listen_for_changes(model, handler.reset_received, &block)
+        CouchChanges.logger.warn "Disconnected from Couch change API for model #{model.name}, reconnecting in #{retry_period} seconds..."
+        EM.add_timer(retry_period) do
+          listen_for_changes(model, handler.reset_received, retry_period*2, &block)
+        end
       end
     end
 
