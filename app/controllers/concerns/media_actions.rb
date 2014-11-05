@@ -54,7 +54,7 @@ module MediaActions
 
   def find_object
     obj_name = self.model_class.name.underscore.downcase
-    id = params["#{obj_name}_id"]
+    id = params["#{obj_name}_id"] || params['id']
     instance_variable_set("@#{obj_name}", self.model_class.get(id))
   end
 

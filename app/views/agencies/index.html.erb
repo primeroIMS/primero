@@ -1,0 +1,25 @@
+<% content_for :breadcrumbs do %>
+  <%= t("agencies.label") %>
+<% end %>
+
+<% content_for :record_sub_nav_controls do %>
+  <% if can?(:create, Agency) %>
+    <%= link_to content_tag(:span, t("agencies.create"), :class => 'create_agencies'), new_agency_path, :class => 'btn green-button' %>
+  <% end %>
+<% end %>
+
+<div class="page-content-new row collapse" data-equalizer>
+  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
+    <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'agencies'} %>
+  </div>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <div class="mandate_panel"><%= t('agencies.drag_n_drop') %></div>
+      <%= render partial: 'shared_configuration_resource/table',
+                 locals: {objects: @agencies,
+                          object_class: Agency,
+                          heading_keys: ['agencies.name', 'agencies.description'],
+                          properties: ['name', 'description']} %>
+    </div>
+  </div>
+</div>
