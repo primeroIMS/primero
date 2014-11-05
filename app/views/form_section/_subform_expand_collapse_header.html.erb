@@ -8,6 +8,7 @@
       subform_name = subform.subform_section.shared_subform
       form_group_name = subform.subform_section.shared_subform_group
     end
+    collapsed_fields = subform_section.collapsed_list
 %>
 <div class="row collapse_expand_subform_header">
   <div class="medium-8 columns">
@@ -43,15 +44,20 @@
          end
       %>
       <% if view_mode %>
-      <span>
-        <%= value_fields.reject(&:empty?).join(' - ') %>
-      </span>
+        <span>
+          <%= value_fields.reject(&:empty?).join(' - ') %>
+        </span>
       <% else %>
       <span data-fields="<%= fields_id.join(',') %>" data-types="<%= data_types.join(',') %>">
         <%= value_fields.reject(&:empty?).join(' - ') %>
       </span>
       <% end %>      
     </div>
+    <% if view_mode && (subform_section.subform_header_links.include? "tracing") %>
+      <div class="subform_tracing_link">
+        <%= link_to t('tracing_request.find_match'), cases_path(tracing_request: "#{@tracing_request.id}::#{i}") %>
+      </div>
+    <% end %>
   </div>
   <div class="medium-4 columns">
     <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>

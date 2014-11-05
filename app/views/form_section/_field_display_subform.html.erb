@@ -7,7 +7,6 @@
    if number_of_subforms > 0
      subform_object = get_subform_object(formObject, subform_section, form_group_name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group)
    end
-   collapsed_fields = subform_section.collapsed_list
 %>
 <% if number_of_subforms == 0 %>
   <% unless subform.subform_section.is_summary_section %>
@@ -27,7 +26,7 @@
                      object: formObject,
                      locals: { formObject: formObject,
                                subform: subform,
-                               collapsed_fields: collapsed_fields,
+                               subform_section: subform_section,
                                i: i,
                                form_group_name: form_group_name,
                                view_mode: true

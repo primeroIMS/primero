@@ -441,6 +441,7 @@ en:
     unflag_error_message: "Please explain why you are unflagging this record."
     flag_error_message: "Please explain why you are flagging this record."
     flagged_as_suspected: "Flagged by"
+    find_match: "Find Match"
 
     actions:
       change_log: "Change Log"
