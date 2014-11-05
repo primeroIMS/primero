@@ -37,11 +37,6 @@ module RecordActions
     [records, total_records]
   end
 
-  def reindex
-    model_class.reindex!
-    render :nothing => true
-  end
-
   def get_form_sections
     get_record
     permitted_forms = FormSection.get_permitted_form_sections(@record.module, @record.class.parent_form, current_user)

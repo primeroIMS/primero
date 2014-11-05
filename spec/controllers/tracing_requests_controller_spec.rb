@@ -34,14 +34,6 @@ describe TracingRequestsController do
     end
   end
 
-  it 'GET reindex' do
-    TracingRequest.should_receive(:reindex!).and_return(nil)
-    get :reindex
-    response.should be_success
-  end
-
-
-
   describe '#authorizations' do
     describe 'collection' do
       it "GET index" do

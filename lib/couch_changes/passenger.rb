@@ -1,25 +1,30 @@
 
-ENV["PASSENGER_LOCATION_CONFIGURATION_FILE"] = "/usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini"
-require '/usr/lib/ruby/vendor_ruby/phusion_passenger'
-
-PhusionPassenger.locate_directories
-PhusionPassenger.require_passenger_lib 'platform_info'
-PhusionPassenger.require_passenger_lib 'admin_tools/server_instance'
-PhusionPassenger.require_passenger_lib 'utils/ansi_colors'
-
 module CouchChanges
   class Passenger
-    DEFAULT_OPTIONS = { :show => 'pool' }.freeze
-
     class << self
-      include PhusionPassenger::AdminTools
-      include PhusionPassenger::Utils::AnsiColors
+      def initialize_passenger
+        if !@_passenger_loaded
+          ENV["PASSENGER_LOCATION_CONFIGURATION_FILE"] = "/usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini"
+          require '/usr/lib/ruby/vendor_ruby/phusion_passenger'
+
+          PhusionPassenger.locate_directories
+          PhusionPassenger.require_passenger_lib 'platform_info'
+          PhusionPassenger.require_passenger_lib 'admin_tools/server_instance'
+
+          class << self
+            include PhusionPassenger::AdminTools
+          end
+
+          @_passenger_loaded = true
+        end
+      end
 
       def client
         @_client ||= server_instance.connect(:role => :passenger_status)
       end
 
       def server_instance
+        initialize_passenger
         @_server_instance ||= ServerInstance.list.tap do |instances|
           if instances.length == 0
             CouchChanges.logger.error "No Passenger servers found!"

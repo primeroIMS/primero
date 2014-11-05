@@ -98,6 +98,12 @@ FactoryGirl.define do
     permissions { Permission.all }
   end
 
+  factory :form_section, :traits => [:model] do
+    unique_id { "form_section_#{counter}" }
+    name { "Form Section #{counter}" }
+    fields []
+  end
+
   factory :primero_program, :traits => [:model] do
     name { "test_program_#{counter}"}
     description "test description"
