@@ -16,7 +16,7 @@ module CouchChanges
 
   class << self
     def logger
-      @_logger ||= Logger.new(STDOUT)
+      @_logger ||= Logger.new(STDOUT).tap {|l| l.level = Rails.configuration.couch_watcher_log_level }
     end
 
     def run(history_file=nil)

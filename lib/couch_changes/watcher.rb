@@ -33,7 +33,7 @@ module CouchChanges
 
     def handle_change(model, change, retry_period=5)
       if change_is_valid?(model, change)
-        CouchChanges.logger.debug "Handling change to #{model.name}: #{change}"
+        CouchChanges.logger.info "Handling change to #{model.name}: #{change.to_s[0..100]}..."
 
         CouchChanges::Processors.process_change(model, change).callback do
           update_sequence(model, change)

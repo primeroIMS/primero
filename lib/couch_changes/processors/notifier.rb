@@ -37,7 +37,7 @@ module CouchChanges
             # request didn't catastrophically fail, regardless of the status
             # code returned by rails.
             if multi.responses[:errback].length == 0
-              CouchChanges.logger.debug "App successfully notified of change \##{change['seq']} on model #{modelCls.name}"
+              CouchChanges.logger.info "App successfully notified of change \##{change['seq']} on model #{modelCls.name}"
               dfd.succeed
             else
               multi.responses[:errback].each do |k, v|
