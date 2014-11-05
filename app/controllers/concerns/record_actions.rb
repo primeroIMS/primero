@@ -23,14 +23,14 @@ module RecordActions
       pagination_ops = {:page => 1, :per_page => 100}
       records = []
       begin
-        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query]
+        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], params[:match]
         results = search.results
         records.concat(results)
         pagination_ops[:page] = results.next_page
       end until results.next_page.nil?
       total_records = search.total
     else
-      search = model_class.list_records filter, order, pagination, users_filter, params[:query]
+      search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
       records = search.results
       total_records = search.total
     end
