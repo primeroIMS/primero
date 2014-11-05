@@ -67,8 +67,14 @@ module ApplicationHelper
   def ctl_edit_button(record, path=nil)
     path = path.singularize if path.instance_of? String
     ctl_button_wrapper do
-      link_to t("buttons.edit"), edit_polymorphic_path(path || record, { follow: true, id: record.id }),
+      if path.present?
+        # This is necessary to make the translation between children and cases
+        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
           class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+      else
+        link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
+          class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+      end
     end
   end
 
@@ -130,4 +136,21 @@ module ApplicationHelper
     end
     return result
   end
+
+  def exporter_params_page(exporter_id, params)
+    if exporter_id == "list_view_csv"
+      params.merge({"export_list_view" => "true"})
+    else
+      params
+    end
+  end
+
+  def exporter_visible_page?(exporter_id)
+    if exporter_id == "list_view_csv"
+      current_actions(action: ['index'])
+    else
+      true
+    end
+  end
+
 end

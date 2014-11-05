@@ -97,6 +97,39 @@ class Incident < CouchRest::Model::Base
     (self.unique_identifier || "").last 7
   end
 
+  def violation_number_of_victims
+    self.try(:incident_total_tally_total) || 0
+  end
+
+  def violations_subforms
+    subforms = []
+    subforms = self.violations.to_hash.map{|key, value| value}.flatten if self.violations.present?
+    subforms
+  end
+
+  def violation_number_of_violations
+    self.violations_subforms.size
+  end
+
+  def violation_number_of_violations_verified
+    number_of_violations_verified = 0
+    self.violations_subforms.each do |subform|
+      #TODO Do we need I18n for "Verified" string?
+      number_of_violations_verified += 1 if subform.try(:verified) == "Verified"
+    end
+    number_of_violations_verified
+  end
+
+  #Returns the 20 latest open incidents.
+  #TODO refactoring pagination?
+  def self.open_incidents
+    #TODO do we need I18n for "Open" string?
+    filters = {"record_state" => "single||true",
+              "module_id" => "single||#{PrimeroModule::MRM}",
+              "status" => "single||Open"}
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }).results
+  end
+
   # Each violation type has a field that is used as part of the identification
   # of that violation
   def self.violation_id_fields
@@ -293,5 +326,16 @@ class Incident < CouchRest::Model::Base
     return self.date_of_incident_from if self.date_of_incident_from.present?
     return self.date_of_incident if self.date_of_incident.present?
     return nil
+  end
+
+  #To format the value in the export of the view list.
+  def incident_date_to_export
+    if self.date_of_incident_from.present? && self.date_of_incident_to.present?
+      "#{self.date_of_incident_from.strftime('%d-%b-%Y')} - #{self.date_of_incident_to.strftime('%d-%b-%Y')}"
+    elsif self.date_of_incident.present?
+      self.date_of_incident.strftime("%d-%b-%Y")
+    elsif self.incident_date.present?
+      self.incident_date.strftime("%d-%b-%Y")
+    end
   end
 end

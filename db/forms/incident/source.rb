@@ -90,10 +90,6 @@ source_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "Source ID"
             }),
-  Field.new({"name" => "source_address",
-             "type" => "text_field",
-             "display_name_all" => "Source Address"
-            }),
   Field.new({"name" => "source_consent_follow_up",
              "type" => "radio_button",
              "display_name_all" => "Permission for Follow Up or to Contact again?",

@@ -169,6 +169,12 @@ class FormSection < CouchRest::Model::Base
       #TODO: the sortby can be moved to a couchdb view
       by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
     end
+
+    def handle_async_change(id, deleted)
+      CouchRest::Model::Base.descendants.select {|m| m.include? Record }.each do |recCls|
+        recCls.refresh_form_properties
+      end
+    end
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -322,7 +328,9 @@ class FormSection < CouchRest::Model::Base
     raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
     field.merge!({'base_language' => formsection['base_language']})
     if field.type == 'subform'
-      field.subform_section_id = "#{formsection.unique_id}-subform-#{field.name}".parameterize.dasherize
+      field.subform_section_id = "#{formsection.unique_id}_subform_#{field.name}".parameterize.underscore
+      #Now make field name match subform section id
+      field.name = field.subform_section_id
       create_subform(formsection, field)
     end
     formsection.fields.push(field)
@@ -333,10 +341,19 @@ class FormSection < CouchRest::Model::Base
     all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
   end
 
-  #TODO -RSE- see how this is affected by order_form_group
-  def self.new_with_order form_section
-    form_section[:order] = by_order.last ? (by_order.last.order + 1) : 1
-    FormSection.new(form_section)
+  def self.new_custom form_section, module_name = "CP"
+    form_section[:core_form] = false   #Indicates this is a user-added form
+
+    #TODO - need more elegant way to set the form's order
+    #form_section[:order] = by_order.last ? (by_order.last.order + 1) : 1
+    form_section[:order] = 999
+    form_section[:order_form_group] = 999
+    form_section[:order_subform] = 0
+
+    fs = FormSection.new(form_section)
+    fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
+    fs.base_language = I18n.default_locale
+    return fs
   end
 
   def self.change_form_section_state formsection, to_state

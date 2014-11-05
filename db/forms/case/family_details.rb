@@ -111,7 +111,7 @@ family_details_fields_subform = [
              "display_name_all" => "Occupation"
            }),
   Field.new({"name" => "relation_address_current",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Current Address"
            }),
   Field.new({"name" => "relation_address_is_permanent",
@@ -125,7 +125,7 @@ family_details_fields_subform = [
              "option_strings_source" => "Location"
            }),
   Field.new({"name" => "relation_address_last",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Last Known Address"
            }),
   Field.new({"name" => "relation_location_last",

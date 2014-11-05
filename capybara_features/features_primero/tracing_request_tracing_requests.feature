@@ -1,4 +1,5 @@
 #JIRA PRIMERO-423
+#JIRA PRIMERO-731
 
 @javascript @primero @search
 Feature: Tracing Request Tracing Requests
@@ -119,3 +120,15 @@ Feature: Tracing Request Tracing Requests
       | Last Location              | Update Last Location Value              |
       | Last Telephone             | Update Last Telephone Value             |
       | Additional info that could help in tracing? | Update Some Info Here  |
+
+  Scenario: The Cancel button should return to the List view (New record)
+    And I press the "Cancel" button
+    And I click OK in the browser popup
+    And I should be on the tracing requests page
+
+  Scenario: The Cancel button should return to the List view (Edit record)
+    And I press "Save"
+    And I press the "Edit" button
+    And I press the "Cancel" button
+    And I click OK in the browser popup
+    And I should be on the tracing requests page

@@ -2,6 +2,7 @@
 #JIRA PRIMERO-445
 #JIRA PRIMERO-607
 #JIRA PRIMERO-635
+#JIRA PRIMERO-775
 
 @javascript @primero
 Feature: Other documents form
@@ -13,6 +14,8 @@ Feature: Other documents form
     And I press the "New Case" button
     And I press the "Other Documents" button
     Then I attach a document "capybara_features/resources/exe_file.exe" for "child"
+    And I should see "Executable files are not allowed." on the page
+    Then I attach a document "capybara_features/resources/EXE_FILE_2.EXE" for "child"
     And I should see "Executable files are not allowed." on the page
 
   Scenario: I upload a document file with the incorrect size

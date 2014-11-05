@@ -48,6 +48,7 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "consequences_of_maiming",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Consequences",
              "option_strings_text_all" =>
                                     ["Killing",

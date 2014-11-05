@@ -1,0 +1,26 @@
+<table id="list_table_2" class="list_table_2">
+  <thead>
+  <tr>
+    <th><%= t "location.name" %></th>
+    <th><%= t "locatoin.type" %></th>
+    <th><%= t "locatoin.hierarchy" %></th>
+    <th ><%= t "location.actions" %></th>
+  </tr>
+  </thead>
+
+  <tbody>
+      <% locations.each do |lct| %>
+          <tr>
+            <td><%= lct.placename %></td>
+            <td><%= lct.type %></td>
+            <td><%= lct.hierarchy.join(", ") %></td>
+            <td>
+              <%= link_to t("buttons.edit"), edit_location_path(lct) %>
+              &nbsp;
+              <%= link_to t("buttons.delete"), location_path(lct), data: {confirm: t("location.confirm_delete")}, method: :delete %>
+            </td>
+          </tr>
+      <% end %>
+  </tbody>
+</table>
+

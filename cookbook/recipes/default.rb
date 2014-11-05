@@ -9,7 +9,6 @@
 
 include_recipe 'primero::database'
 include_recipe 'primero::application'
-include_recipe 'primero::nginx'
 
 #TODO: Do we need this in light of the last few lines in the nginx recipe?
 service 'nginx' do

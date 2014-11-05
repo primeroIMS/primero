@@ -3,6 +3,8 @@ server {
   ssl_certificate <%= @ssl_cert_path %>;
   ssl_certificate_key <%= @ssl_key_path %>;
 
+  proxy_buffering off;
+
   location / {
     proxy_pass http://localhost:5984;
   }

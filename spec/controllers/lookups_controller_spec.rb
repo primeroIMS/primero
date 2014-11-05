@@ -10,8 +10,6 @@ describe LookupsController do
     user = User.new(:user_name => 'manager_of_lookups')
     user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
     fake_login user
-    
-    fake_login_as
   end
 
   describe "get index" do
@@ -20,13 +18,13 @@ describe LookupsController do
       get :index
       expect(assigns(:lookups)).to eq(lookups)
     end
-    
+
     it "renders the index template" do
       get :index
       expect(response).to render_template("index")
     end
   end
-  
+
   describe "post create" do
     it "should new form_section with order" do
       existing_count = Lookup.count

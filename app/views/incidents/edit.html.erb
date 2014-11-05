@@ -1,5 +1,5 @@
 <% content_for :record_sub_nav_controls do %>
-  <%= render_controls(@incident) %> 
+  <%= render_controls(@incident, "incidents") %> 
 <% end %>
 
 <% content_for :record_sub_nav do %>
@@ -16,7 +16,7 @@
 
 <div class="clearfix"></div>
 
-<%= form_tag incident_path(@incident), :method => :put, :multipart => true, :class => "edit-profile default-form data-form incident-form" do %>
+<%= form_tag incident_path(@incident), :method => :put, :multipart => true, :class => "edit-profile default-form data-form incident-form", :autocomplete => "off" do %>
   <div class="page-content-new row collapse" data-equalizer>
     <div class="large-4 medium-4 columns close-side-tab side-tab-container">
       <div class="side-tab" data-equalizer-watch>

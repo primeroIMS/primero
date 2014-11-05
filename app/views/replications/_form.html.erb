@@ -1,6 +1,6 @@
 <div class="btn_panel">
   <div class="row">
-    <%= form_for @replication, :html => { :class => 'default-form' } do |f| %>
+    <%= form_for @replication, :html => { :class => 'default-form', :autocomplete => "off" } do |f| %>
 
       <%= f.error_messages :header_tag => :h3 %>
       <div class="clearfix"></div>
@@ -32,12 +32,10 @@
           <%= f.label :password, t("login.password.label"), :class=>'key'  %>
           <%= f.password_field :password, :autocomplete => "off" %>*
         </p>
-        <% if false %>
         <p>
           <%= f.label :is_continuous, t("replication.is_continuous"), :class=>'key'  %>
           <%= f.check_box :is_continuous, :autocomplete => 'off' %>
         </p>
-        <% end %>
       </fieldset>
     <% end %>
   </div>

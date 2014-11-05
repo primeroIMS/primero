@@ -38,6 +38,15 @@ Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times
   end
 end
 
+And /^I hover the "([^\"]*)" (button|link|span)$/ do |label, type|
+  page.execute_script("$('body').css('text-transform','none !important')");
+  if type == "span"
+    find("//span[text()=\"#{label}\"]", :visible => true).hover
+  else
+    find(:link_or_button, label).hover
+  end
+end
+
 Then /^I click on the link with text "(.*)"$/ do |text|
   page.execute_script("$('body').css('text-transform','none !important')");
   find("//a[text()=\"#{text}\"]", :visible => true).click
@@ -815,5 +824,54 @@ Then /^I check for delete the (\d+)(?:st|nd|rd|th) document$/ do |number|
   within(:xpath, "//fieldset[contains(@id, 'other_documents')]/div[contains(@class, 'update_document')][#{number}]") do
     delete_document = find(:css, "input[id$='delete_document']")
     check(delete_document['id'])
+  end
+end
+
+Then /^I should see the dashboard open incidents:$/ do |table|
+  table.hashes.each do |row_hash|
+    incident_id = row_hash["Incident ID"]
+    number_of_victims = row_hash["Number of victims"]
+    number_of_violations = row_hash["Number of violations"]
+    violations_verified = row_hash["Violations Verified"]
+    within(:xpath, "//table//tbody//tr//td//a[text()='#{incident_id}']") do
+      within(:xpath, '../..') do
+        find(:xpath, "./td[2]").text.should eq(number_of_victims)
+        find(:xpath, "./td[3]").text.should eq(number_of_violations)
+        find(:xpath, "./td[4]").text.should eq(violations_verified)
+      end
+    end
+  end
+end
+
+Then /^I should see the dashboard schedules activities:$/ do |table|
+  table.hashes.each do |row_hash|
+    case_id = row_hash["Case ID"]
+    name = row_hash["Name"]
+    activity = row_hash["Activity"]
+    within(:xpath, "//table//tbody//tr//td//a[text()='#{case_id}']") do
+      within(:xpath, '../..') do
+        find(:xpath, "./td[2]").text.should eq(name)
+        find(:xpath, "./td[3]").text.should eq(activity)
+        find(:xpath, "./td[4]").text.should_not eq("")
+      end
+    end
+  end
+end
+
+Then /^I should see the dashboard assigned (cases|incidents):$/ do |type, table|
+  table.raw.flatten.each do |value|
+    find(:xpath, "//ul//li//a[text()='#{value}']")
+  end
+end
+
+Then /^I should see the dashboard flagged (cases|incidents):$/ do |type, table|
+  table.hashes.each do |row_hash|
+    link_text = row_hash["link text"]
+    message = row_hash["message"]
+    within(:xpath, "//ul//li//a[text()='#{link_text}']") do
+      within(:xpath, '..') do
+        find(:xpath, "./p").text.should eq(message)
+      end
+    end
   end
 end

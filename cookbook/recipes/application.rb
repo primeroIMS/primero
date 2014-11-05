@@ -64,10 +64,11 @@ end
 
 # Hack to get around https://github.com/fnichol/chef-rvm/issues/227
 sudo "#{node[:primero][:app_user]}-rvm" do
-  user      node[:primero][:app_user]
-  runas     'root'
+  user node[:primero][:app_user]
+  runas 'root'
   nopasswd true
-  commands  ['/usr/bin/apt-get', '/usr/bin/env']
+  env_keep_add ["RAILS_ENV"]
+  commands  ['/usr/bin/apt-get', '/usr/bin/env', ::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')]
 end
 
 include_recipe 'rvm::user_install'
@@ -77,18 +78,18 @@ railsexpress_patch_setup 'prod' do
   group node[:primero][:app_group]
 end
 
-execute_with_ruby 'prod-ruby' do
-  command <<-EOH
-    rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
-    rvm --default use #{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
-  EOH
-end
-
 #why this wasn't before?
 directory node[:primero][:app_dir] do
   action :create
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
+end
+
+execute_with_ruby 'prod-ruby' do
+  command <<-EOH
+    rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+    rvm --default use #{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
+  EOH
 end
 
 # Run a `git reset` before this step??
@@ -116,7 +117,7 @@ directory File.join(node[:primero][:log_dir], 'couchdb') do
   action :create
   owner 'couchdb'
   group 'couchdb'
-end 
+end
 
 unless node[:primero][:couchdb][:password]
   Chef::Application.fatal!("You must specify the couchdb password in your node JSON file (node[:primero][:couchdb][:password])!")
@@ -183,6 +184,31 @@ supervisor_service 'solr' do
   action [:enable, :restart]
 end
 
+file ::File.join(node[:primero][:app_dir], 'log/couch_watcher_history.json') do
+  content ''
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
+supervisor_service 'couch-watcher' do
+  command <<-EOH
+    #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
+    #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
+    rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}
+  EOH
+  environment({'RAILS_ENV' => 'production'})
+  autostart true
+  autorestart true
+  user node[:primero][:app_user]
+  directory node[:primero][:app_dir]
+  numprocs 1
+  # We want to stop the watcher before doing seeds/migrations so that it
+  # doesn't go crazy with all the updates.  Make sure that everything that it
+  # does is also done in this recipe (e.g. reindex solr, reset memoization,
+  # etc..)
+  action [:enable, :stop]
+end
+
 execute_bundle 'setup-db-seed' do
   command "rake db:seed"
 end
@@ -203,3 +229,15 @@ end
 execute_bundle 'restart-scheduler' do
   command "rake scheduler:restart"
 end
+
+# This will set the latest sequence numbers in the couch history log so that it
+# doesn't try to reprocess things from the seed/migration
+execute_bundle 'prime-couch-watcher-sequence-numbers' do
+  command "rake couch_changes:prime_sequence_numbers"
+end
+
+supervisor_service 'couch-watcher' do
+  action :start
+end
+
+include_recipe 'primero::nginx_app'

@@ -1,6 +1,7 @@
 RapidFTR::Application.routes.draw do
 
   match '/' => 'home#index', :as => :root, :via => :get
+  match '/_notify_change' => 'couch_changes#notify', :via => :get
 
 #######################
 # USER URLS
@@ -51,7 +52,6 @@ RapidFTR::Application.routes.draw do
   resources :children do
     collection do
       post :sync_unverified
-      post :reindex
       post :import_file
       get :advanced_search
       get :search
@@ -64,7 +64,6 @@ RapidFTR::Application.routes.draw do
   resources :children, as: :cases, path: :cases do
     collection do
       post :sync_unverified
-      post :reindex
       post :import_file
       get :advanced_search
       get :search
@@ -80,7 +79,6 @@ RapidFTR::Application.routes.draw do
   resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
     collection do
       # post :sync_unverified
-      post :reindex
       post :import_file
       # get :advanced_search
       get :search
@@ -173,7 +171,6 @@ RapidFTR::Application.routes.draw do
   resources :incidents do
     collection do
       # post :sync_unverified
-      post :reindex
       post :import_file
       # get :advanced_search
       get :search
@@ -319,6 +316,11 @@ RapidFTR::Application.routes.draw do
 # LOOKUPS URLS
 #######################
   resources :lookups
+
+#######################
+# LOCATION URLS
+#######################
+  resources :locations
 
 #######################
 # TESTING URLS

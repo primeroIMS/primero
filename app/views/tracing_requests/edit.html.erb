@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <%= render_controls(@tracing_request) %> 
+  <%= render_controls(@tracing_request, "tracing_requests") %> 
 <% end %>
 
 <% content_for :breadcrumbs do %>
@@ -16,7 +16,7 @@
 
 <div class="clearfix"></div>
 
-<%= form_tag tracing_request_path(@tracing_request), :method => :put, :multipart => true, :class => "edit-profile default-form data-form" do %>
+<%= form_tag tracing_request_path(@tracing_request), :method => :put, :multipart => true, :class => "edit-profile default-form data-form", :autocomplete => "off" do %>
   <div class="page-content-new row collapse" data-equalizer>
     <div class="large-4 medium-4 columns close-side-tab side-tab-container">
       <div class="side-tab" data-equalizer-watch>

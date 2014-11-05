@@ -19,6 +19,21 @@ default[:primero].tap do |p|
     c[:username] = 'primero'
     c[:cert_path] = '/etc/ssl/couch.crt'
     c[:key_path] = '/etc/ssl/private/couch.key'
+    c[:config].tap do |conf|
+      conf[:httpd].tap do |httpd|
+        httpd[:bind_address] = '0.0.0.0'
+        httpd[:port] = '5984'
+      end
+      conf[:ssl].tap do |ssl|
+        ssl['verify_ssl_certificates'] = true
+      end
+      conf[:compactions].tap do |compactions|
+        compactions[:_default] = '[{db_fragmentation, "70%"}, {view_fragmentation, "60%"}, {from, "23:00"}, {to, "04:00"}]'
+      end
+      conf[:replicator].tap do |rep|
+        rep['verify_ssl_certificates'] = true
+      end
+    end
   end
 
   p[:solr_hostname] = 'localhost'
@@ -26,23 +41,10 @@ default[:primero].tap do |p|
   p[:solr_log_level] = 'INFO'
   p[:ruby_version] = '2.1.2'
   p[:ruby_patch] = 'railsexpress'
-end
 
-
-default[:couch_db].tap do |db|
-  db[:config].tap do |conf|
-    conf[:httpd].tap do |httpd|
-      httpd[:bind_address] = '0.0.0.0'
-    end
-    conf[:ssl].tap do |ssl|
-      ssl['verify_ssl_certificates'] = true
-    end
-    conf[:compactions].tap do |compactions|
-      compactions[:_default] = '[{db_fragmentation, "70%"}, {view_fragmentation, "60%"}, {from, "23:00"}, {to, "04:00"}]'
-    end
-    conf[:replicator].tap do |rep|
-      rep['verify_ssl_certificates'] = true
-    end
+  p[:passenger_conf].tap do |pc|
+    pc[:min_instances] = 1
+    pc[:max_pool_size] = 6
   end
 end
 

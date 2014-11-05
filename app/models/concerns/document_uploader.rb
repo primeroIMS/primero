@@ -24,7 +24,7 @@ module DocumentUploader
   end
 
   def validate_documents_file_type
-    return true if @documents.blank? || @documents.all? { |document| !document.original_filename.ends_with? ".exe" }
+    return true if @documents.blank? || @documents.all? { |document| !document.original_filename.downcase.ends_with? ".exe" }
     errors.add(:document, "errors.models.#{self.class.name.underscore.downcase}.document_format")
     error_with_section(:upload_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_format"))
   end
