@@ -2,7 +2,7 @@
 
 <div class="page-content-new">
   <div class="side-tab-content full_width">
-    <%= form_for @contact_information, :url => contact_information_path(@contact_information.id), :html => {:class=> 'default-form'} do |f| %>
+    <%= form_for @contact_information, :url => contact_information_path(@contact_information.id), :html => {:class=> 'default-form', :autocomplete => "off"} do |f| %>
       <fieldset>
 
         <p>

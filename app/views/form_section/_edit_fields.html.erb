@@ -85,7 +85,7 @@
             </ul>
             <% if @forms_for_move.present? %>
               <div class="move_to_panel hide">
-                <%= form_tag change_form_form_section_fields_path(@form_section), :html => {:method => :post} do -%>
+                <%= form_tag change_form_form_section_fields_path(@form_section), :html => {:method => :post, :autocomplete => "off"} do -%>
                   <input type='hidden' name='id' value='<%= field.name %>' style="display:none;"/>
                   <input type='hidden' class="destination_form_id" name='destination_form_id' style="display:none;"/>
                 <% end %>
