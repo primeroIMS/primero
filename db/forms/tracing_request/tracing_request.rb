@@ -157,7 +157,8 @@ tracing_request_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Tracing Request Subform",
   "description_all" => "Nested Tracing Request Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["name", "relation_to_inquirer"]
+  "collapsed_fields" => ["name", "relation_to_inquirer"],
+  :subform_header_links => ["tracing"]
 })
 
 tracing_request_tracing_request_fields = [
