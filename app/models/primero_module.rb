@@ -21,11 +21,16 @@ class PrimeroModule < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
-
     def all
       old_all
     end
     memoize :all
+
+    alias :old_get :get
+    def get(*args)
+      old_get(*args)
+    end
+    memoize :get
   end
 
   def program

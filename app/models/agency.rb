@@ -4,6 +4,7 @@ class Agency < CouchRest::Model::Base
   include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
   include LogoUploader
+  include Memoizable
   include Namable
 
 
@@ -16,11 +17,22 @@ class Agency < CouchRest::Model::Base
     view :by_order
   end
 
-  def self.available_agency_names
-    self.all.all.collect{ |a| [ a.name, a.id ] }
-  end
+  class << self
+    alias :old_all :all
 
-  def self.retrieve_logo_ids
-    self.by_order.collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
+    def all
+      old_all
+    end
+    memoize :all
+
+    def available_agency_names
+      self.all.all.collect{ |a| [ a.name, a.id ] }
+    end
+    memoize :available_agency_names
+
+    def retrieve_logo_ids
+      self.by_order.collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
+    end
+    memoize :retrieve_logo_ids
   end
 end
