@@ -46,9 +46,12 @@ module NavigationHelpers
 
       when /incidents page/
         incidents_path(options)
-        
+
       when /tracing requests page/
         tracing_requests_path(options)
+
+      when /agencies page/
+        agencies_path
 
       when /children display page/
 
@@ -60,7 +63,7 @@ module NavigationHelpers
         child = Child.by_name(:key => child_name)
         raise "no child named '#{child_name}'" if child.nil? || child.empty?
         child_path(child.first, options)
-        
+
       when /saved case record page for child with name "(.+)"/
         child_name = $1
         child = Child.by_name(:key => child_name)
@@ -174,7 +177,7 @@ module NavigationHelpers
 
       when /the child listing filtered by (.+)/
         child_filter_path(:filter => $1)
-        
+
       when /the cases filtered by (.+)/
         case_filter_path(:filter => $1)
 
@@ -199,7 +202,7 @@ module NavigationHelpers
 
       when /reports page/
         reports_path
-        
+
       when /cases page/
         cases_path
 

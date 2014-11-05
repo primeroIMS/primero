@@ -22,6 +22,10 @@ Then /^I should see a "([^\"]*)" link on the page$/ do |label|
   expect(page).to have_selector(:link_or_button, label)
 end
 
+Then /^I should see "(.*)" logo|logos in the header$/ do |count|
+  page.should have_css("ul.agency_logos li img", :count => count)
+end
+
 Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times)?$/ do |label, type, times|
   times = 1 if times.blank?
   page.execute_script("$('body').css('text-transform','none !important')");
@@ -508,6 +512,13 @@ When /^I attach the following photos(?: for model "(.*)")?:$/ do |model, table|
   table.raw.each_with_index do |photo, i|
     step %Q{I attach the file "#{photo.first}" to "#{model}[photo]#{i}"}
     step %Q{I click on the "Add another photo" link}
+  end
+end
+
+When /^I attach the following logo(?: for model "(.*)")?:$/ do |model, table|
+  model ||= "agency"
+  table.raw.each_with_index do |logo, i|
+    step %Q{I attach the file "#{logo.first}" to "#{model}[upload_logo]logo"}
   end
 end
 

@@ -136,4 +136,21 @@ module ApplicationHelper
     end
     return result
   end
+
+  def exporter_params_page(exporter_id, params)
+    if exporter_id == "list_view_csv"
+      params.merge({"export_list_view" => "true"})
+    else
+      params
+    end
+  end
+
+  def exporter_visible_page?(exporter_id)
+    if exporter_id == "list_view_csv"
+      current_actions(action: ['index'])
+    else
+      true
+    end
+  end
+
 end

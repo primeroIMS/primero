@@ -108,6 +108,17 @@ module Exporters
           h
         end
       end
+
+      #Date field in the index page are displayed with some format
+      #and they should be exported using the same format.
+      def to_exported_value(value)
+        if value.is_a?(Date)
+          value.strftime("%d-%b-%Y")
+        else
+          #Returns original value.
+          value
+        end
+      end
     end
   end
 end

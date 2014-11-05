@@ -7,7 +7,7 @@
   object_name_plural = object_name.pluralize
   permissions = [:show, :edit, :destroy].select{|p| can?(p, object_class)}
 %>
-<table id="list_table" class="list_table_2 dataTable in_content_area">
+<table id="list_table" class="list_table_2 dataTable in_content_area <%= object_name %>">
   <thead>
     <tr>
       <% heading_keys.each do |heading_key| %>
