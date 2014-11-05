@@ -135,7 +135,7 @@ class DateFieldsValidator < CustomFieldsValidator
   def is_not_valid value
     return false if value.is_a?(Date)
     begin
-      Date.parse(value)
+      PrimeroDate.parse(value)
       false
     rescue
       true

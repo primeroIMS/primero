@@ -59,7 +59,7 @@ module FormToPropertiesConverter
     }
 
     date_options = {
-      :type => Date,
+      :type => PrimeroDate,
       :init_method => :parse,
     }
 

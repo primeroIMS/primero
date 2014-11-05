@@ -1,5 +1,6 @@
-class Date
+class PrimeroDate < Date
   def self.parse(value)
+    return value if value.is_a?(Date) || (value.is_a? PrimeroDate)
     # Separator can be "-" or "/". Valid formats:
     #   "%d-%b-%Y" # 05-Sep-2014 | 05-September-2014 | 5-Sep-2014 | 5-September-2014
     #   "%d-%b-%y" # 05-Sep-14   | 05-September-14   | 5-Sep-14   | 05-September-14
