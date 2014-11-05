@@ -202,6 +202,10 @@ supervisor_service 'couch-watcher' do
   user node[:primero][:app_user]
   directory node[:primero][:app_dir]
   numprocs 1
+  killasgroup true
+  stopasgroup true
+  redirect_stderr true
+  stdout_logfile ::File.join(node[:primero][:log_dir], 'couch-watcher.log')
   # We want to stop the watcher before doing seeds/migrations so that it
   # doesn't go crazy with all the updates.  Make sure that everything that it
   # does is also done in this recipe (e.g. reindex solr, reset memoization,
