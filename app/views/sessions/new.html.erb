@@ -1,5 +1,5 @@
 <div class="login_page">
-  <%= form_tag sessions_path, :class => 'default-form' do %>
+  <%= form_tag sessions_path, :class => 'default-form', :autocomplete => "off" do %>
       <%= error_messages_for :session %>
       <div class="login_panel">
         <h1><%= t("login.details") %></h1>

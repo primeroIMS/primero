@@ -9,7 +9,7 @@
               <ul class="quicksearch right">
                 <% if can? :read, model %>
                   <li class="has-form">
-                    <%= form_tag path_for_model(model), :method => :get, :id => "search_form" do %>
+                    <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>
                       <div class="row collapse">
                         <div class="large-9 small-10 columns">
                           <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH' %>

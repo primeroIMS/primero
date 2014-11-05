@@ -34,11 +34,16 @@ a.logo {
   font-size: $thirteen_px;
 }
 
-img.agency_logos {
+ul.agency_logos {
   float: right;
   position: absolute;
   right: 0;
   margin-top: -10px;
+
+  li {
+    display: inline;
+    margin-left: 10px;
+  }
 }
 
 ul.links {

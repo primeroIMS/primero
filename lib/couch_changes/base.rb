@@ -9,9 +9,9 @@ module CouchChanges
       @_logger ||= Logger.new(STDOUT)
     end
 
-    def run
+    def run(history_file=nil)
       EventMachine.run do
-        CouchChanges::Watcher.new(MODELS_TO_WATCH).watch_for_changes
+        CouchChanges::Watcher.new(MODELS_TO_WATCH, history_file).watch_for_changes
       end
     end
 
@@ -19,5 +19,5 @@ module CouchChanges
 end
 
 
-CouchChanges.run if __FILE__ == $0
+CouchChanges.run ARGV[0] if __FILE__ == $0
 

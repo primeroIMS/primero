@@ -18,7 +18,6 @@ require 'sunspot_test/rspec'
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 
 # This clears couchdb between tests.
 FactoryGirl.find_definitions
@@ -56,6 +55,7 @@ RSpec.configure do |config|
   config.include ChildFinder
   config.include FakeLogin, :type => :controller
   config.include VerifyAndResetHelpers
+  config.include Conflicts
 
   # ## Mock Framework
   #
@@ -113,9 +113,9 @@ RSpec.configure do |config|
   #########################
   # Couch Changes Config ##
   # #######################
-  config.filter_run_excluding :event_machine
-  config.include EventMachineHelper, [:event_machine]
-  config.extend EventMachineHelper, [:event_machine]
+  config.filter_run_excluding :event_machine => true unless ENV['ALL_TESTS']
+  config.include EventMachineHelper, :event_machine
+  config.extend EventMachineHelper, :event_machine
 end
 
 def stub_env(new_env, &block)

@@ -1,19 +1,34 @@
 
 module EventMachineHelper
-  def self.extended(mod)
-    def it(*args, &block)
-      block.instance_eval do
-        alias :old_call :call
-        def call(*args)
-          require 'pry'; binding.pry
-          EM.run do
-            old_call
-          end
-        end
+  def run_EM_for_test &block
+    err = nil
+    EM.run do
+      EM.add_timer(5) do
+        EM.stop
       end
 
-      super *args, &block
+      begin
+        block.call
+      rescue Exception => e
+        EM.stop
+        err = e
+      end
     end
+
+    raise err if err
   end
 
+  def check_mocks
+    EM.add_periodic_timer(0.1) do
+      begin
+        RSpec::Mocks.space.proxies.each_value do |obj|
+          obj.instance_eval { method_doubles.each {|d| d.verify} }
+        end
+      rescue RSpec::Mocks::MockExpectationError
+        nil
+      else
+        EM.stop
+      end
+    end
+  end
 end

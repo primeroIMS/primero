@@ -19,6 +19,7 @@
 # JIRA PRIMERO-453
 # JIRA PRIMERO-450
 # JIRA PRIMERO-493
+# JIRA PRIMERO-783
 
 @javascript @primero @search
 Feature: Basic Identity Form
@@ -222,3 +223,69 @@ Feature: Basic Identity Form
     And I press "Save"
     And I should see "There were problems with the following fields:" on the page
     And I should see "Basic Identity: Age must be between 0 and 130" on the page
+
+  Scenario Outline: Date format validations (valid dates)
+    And I fill in the following:
+      | Date of Birth | <valid_date> |
+    And I press "Save"
+    And I should see "Case record successfully created" on the page
+    And I should see a value for "Date of Birth" on the show page with the value of "05-Sep-2014"
+
+    Examples:
+      | valid_date        |
+      | 05-Sep-2014       |
+      | 05-September-2014 |
+      | 5-Sep-2014        |
+      | 5-September-2014  |
+      | 05-Sep-14         |
+      | 05-September-14   |
+      | 5-Sep-14          |
+      | 05-September-14   |
+      | 05-09-2014        |
+      | 05-9-2014         |
+      | 5-09-2014         |
+      | 5-9-2014          |
+      | 05-09-14          |
+      | 05-9-14           |
+      | 5-09-14           |
+      | 5-9-14            |
+      | 05/Sep/2014       |
+      | 05/September/2014 |
+      | 5/Sep/2014        |
+      | 5/September/2014  |
+      | 05/Sep/14         |
+      | 05/September/14   |
+      | 5/Sep/14          |
+      | 05/September/14   |
+      | 05/09/2014        |
+      | 05/9/2014         |
+      | 5/09/2014         |
+      | 5/9/2014          |
+      | 05/09/14          |
+      | 05/9/14           |
+      | 5/09/14           |
+      | 5/9/14            |
+
+  Scenario Outline: Date format validations (non-valid dates)
+    And I fill in the following:
+      | Date of Birth | <non_valid_date> |
+    And I press "Save"
+    And I should see "Errors prohibited this record from being saved" on the page
+    And I should see "Basic Identity: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+
+    Examples:
+      | non_valid_date    |
+      | 05-jly-2014       |
+      | September-05-2014 |
+      | 5-Sip-2014        |
+      | 5-Sept-2014       |
+      | 09-15-2014        |
+      | 09-15-14          |
+      | 10 -jly-2014      |
+      | 05/jly/2014       |
+      | September/05/2014 |
+      | 5/Sip/2014        |
+      | 5/Sept/2014       |
+      | 09/15/2014        |
+      | 09/15/14          |
+      | 10 /jly/2014      |

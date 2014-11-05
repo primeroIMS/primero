@@ -6,13 +6,13 @@
 
     <div id="import-modal" class="reveal-modal tiny" data-reveal>
       <a class="close-reveal-modal">&#215;</a>
-      <%= form_tag(url_for(:action => 'import_file'), {:multipart => true, :method => 'post'}) do %>
+      <%= form_tag(url_for(:action => 'import_file'), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
         <%= file_field_tag("import_file") %>
         <label><%=I18n.t("imports.password_label")%>
           <%= password_field_tag "password" %>
         </label>
         <label><%=I18n.t("imports.format_label")%>
-          <%= select_tag("import_type", options_for_select(Importers::ACTIVE_IMPORTERS.map {|i| i.id}, 'csv')) %>
+          <%= select_tag("import_type", options_for_select(Importers::ACTIVE_IMPORTERS.map {|i| [i.display_name, i.id]}, 'csv')) %>
         </label>
         <div class="import_button">
           <%= submit_tag(t("buttons.import"), class: 'green-button right') %>

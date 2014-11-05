@@ -34,6 +34,17 @@ module Syncable
     def all_conflicting_records
       self.conflicting_records.all
     end
+
+    def resolve_all_conflicting_records
+      all_conflicting_records.each do |rec|
+        Rails.logger.info {"Conflicts found in record #{rec.id}"}
+        begin
+          rec.resolve_conflicting_revisions
+        rescue => e
+          Rails.logger.error("Error resolving conflicts for #{modelClass} with id #{rec.id}\n#{e}\n#{e.backtrace}")
+        end
+      end
+    end
   end
 
   def get_all_conflicting_revisions

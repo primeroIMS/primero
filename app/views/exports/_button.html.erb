@@ -3,11 +3,13 @@
   <%= link_to t("buttons.export"), '#', class: 'has_sub' %>
   <ul style="display:none;">
     <% Exporters::active_exporters_for_model(controller.model_class).each do |exporter| %>
+      <% if exporter_visible_page?(exporter.id) %>
       <li>
       <%= link_to(t("exports.#{exporter.id}.#{defined?(instance) ? 'one' : 'all'}"),
-                    url_for(:format => exporter.id, :page => "all", :per_page => :all, :id => (defined?(instance) ? instance.id : nil), :params => params),
+                    url_for(:format => exporter.id, :page => "all", :per_page => :all, :id => (defined?(instance) ? instance.id : nil), :params => exporter_params_page(exporter.id, params)),
                   :class => "password-prompt", 'data-reveal-id' => "password-prompt-dialog") %>
       </li>
+      <% end %>
     <% end %>
   </ul>
 </li>

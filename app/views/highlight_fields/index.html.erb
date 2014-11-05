@@ -16,12 +16,12 @@
     </tbody>
   </table>
 
-<%= form_tag highlight_fields_path, :method => :post, :id => "add-form" do %>
+<%= form_tag highlight_fields_path, :method => :post, :id => "add-form", :autocomplete => "off" do %>
   <div id="add-field">
   </div>
 <% end %>
 
-<%= form_tag remove_highlight_fields_path, :method => :post, :id => "remove-form" do %>
+<%= form_tag remove_highlight_fields_path, :method => :post, :id => "remove-form", :autocomplete => "off" do %>
   <div id="remove-field">
   </div>
 <% end %>

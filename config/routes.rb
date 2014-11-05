@@ -39,7 +39,11 @@ RapidFTR::Application.routes.draw do
   resources :user_groups
   resources :primero_modules
   resources :primero_programs
-
+  resources :agencies do
+    collection do
+      post :update_order
+    end
+  end
 
 #######################
 # CHILD URLS
@@ -48,7 +52,6 @@ RapidFTR::Application.routes.draw do
   resources :children do
     collection do
       post :sync_unverified
-      post :reindex
       post :import_file
       get :advanced_search
       get :search
@@ -61,7 +64,6 @@ RapidFTR::Application.routes.draw do
   resources :children, as: :cases, path: :cases do
     collection do
       post :sync_unverified
-      post :reindex
       post :import_file
       get :advanced_search
       get :search
@@ -77,7 +79,6 @@ RapidFTR::Application.routes.draw do
   resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
     collection do
       # post :sync_unverified
-      post :reindex
       post :import_file
       # get :advanced_search
       get :search
@@ -101,6 +102,8 @@ RapidFTR::Application.routes.draw do
   match '/children/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :child_resized_photo, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :child_thumbnail, :via => [:post, :get, :put, :delete]
   match '/children' => 'children#index', :as => :child_filter, :via => [:post, :get, :put, :delete]
+
+  match '/agency/:agency_id/logo/:logo_id' => 'agency_media#show_logo', :as => :agency_logo, :via => [:get]
 
   match '/case-ids' => 'child_ids#all', :as => :case_ids, :via => [:post, :get, :put, :delete]
   match '/cases/:id/photo/edit' => 'children#edit_photo', :as => :edit_case_photo, :via => :get
@@ -168,7 +171,6 @@ RapidFTR::Application.routes.draw do
   resources :incidents do
     collection do
       # post :sync_unverified
-      post :reindex
       post :import_file
       # get :advanced_search
       get :search
