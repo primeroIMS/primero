@@ -4,7 +4,11 @@ module Importers
     def self.id
       'xls'
     end
-    
+
+    def self.display_name
+      'Excel'
+    end
+
     def self.import(file_obj)
       book = Spreadsheet.open(file_obj)
       rows = book.worksheets[0].to_a

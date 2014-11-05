@@ -5,6 +5,10 @@ module Importers
       'csv'
     end
 
+    def self.display_name
+      'CSV'
+    end
+
     def self.import(file_obj)
       rows = CSV.parse(file_obj)
 
