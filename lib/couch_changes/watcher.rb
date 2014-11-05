@@ -44,7 +44,7 @@ module CouchChanges
           end
         end
       else
-        CouchChanges.logger.debug "Ignoring stale or irrelevant change to #{model.name}: #{change}"
+        CouchChanges.logger.info "Ignoring stale or irrelevant change to #{model.name}: #{change.to_s[0..100]}..."
       end
     end
 
