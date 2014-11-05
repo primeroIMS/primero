@@ -44,15 +44,20 @@ describe AgenciesController do
   describe "post update" do
     it "should save update if valid" do
       @agency_a.name = "unicef"
-      post :update, id: 'agency-a', agency: { name: @agency_a.name }
+      Agency.stub(:get).with('agency-a').and_return(@agency_a)
+      post :update, id: 'agency-a'
       expect(response).to redirect_to(agencies_path)
+      agency = Agency.all.all.first
+      agency[:name].should eq(@agency_a[:name])
     end
 
     it "should show errors if invalid" do
       @agency_a.name = ""
-      post :update, id: "agency-a", agency: { name: @agency_a.name }
+      Agency.stub(:get).with('agency-a').and_return(@agency_a)
+      post :update, id: "agency-a"
       expect(response).to_not redirect_to(agencies_path)
       expect(response).to render_template("edit")
+      @agency_a.errors[:name][0].should eq('Name or Code must not be blank')
     end
   end
 
