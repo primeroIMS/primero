@@ -21,7 +21,7 @@ describe Memoizable do
     @block_to_call.should_receive(:call).twice
 
     TestModel.find_all @block_to_call
-    TestModel.find_all @block_to_call  # This call shouldn't call the block
+    TestModel.find_all @block_to_call  # This shouldn't call the block
 
     TestModel.changed
     TestModel.notify_observers()

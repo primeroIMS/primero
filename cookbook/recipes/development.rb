@@ -110,14 +110,6 @@ template '/home/vagrant/primero/config/selenium.yml' do
   group node[:primero][:app_group]
 end
 
-execute_bundle 'setup-db-dev' do
-  command "rake db:seed db:migrate"
-  cwd '/home/vagrant/primero'
-  rails_env 'development'
-  user 'vagrant'
-  group 'vagrant'
-end
-
 cookbook_file '/etc/profile.d/xvfb_display.sh' do
   source 'xvfb/set_display.sh'
   owner 'root'

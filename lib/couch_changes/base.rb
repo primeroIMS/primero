@@ -2,7 +2,7 @@
 Bundler.require(:couch_watcher)
 
 module CouchChanges
-  MODELS_TO_WATCH = [Child, Incident, TracingRequest, Lookup, Location, FormSection]
+  MODELS_TO_WATCH = [Child, Incident, TracingRequest, Lookup, Location, FormSection, PrimeroModule]
 
   class << self
     def logger

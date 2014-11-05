@@ -140,7 +140,7 @@ module Record
       end
     end
 
-    def handle_form_changes(id, deleted)
+    def handle_form_changes(*args)
       refresh_form_properties
     end
 
