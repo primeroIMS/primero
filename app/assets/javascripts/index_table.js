@@ -16,6 +16,16 @@ var IndexTable = Backbone.View.extend({
     this.init_other_tables();
     this.set_current_scope();
     this.set_current_sort();
+    this.agency_sortable();
+  },
+
+  agency_sortable: function() {
+    var rows = $("table#list_table.agency tbody");
+    rows.sortable({
+      update: function(){
+        $.post('/agencies/update_order', $(this).sortable('serialize'));
+      }
+    });
   },
 
   disable_table_alerts: function() {

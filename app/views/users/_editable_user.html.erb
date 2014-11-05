@@ -89,8 +89,18 @@
 
     <%= resource_edit_field @user, 'phone', 'phone', 'text_field' %>
     <%= resource_edit_field @user, 'email', 'email', 'text_field' %>
-    <%# TODO: Change organization into a single select of a list of agencies when the agency configuration is developed %>
-    <%= resource_edit_field @user, 'organization', 'organization', 'text_field', true %>
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <label class="key"><%= t("user.organization") %></label>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <%= f.select :organization, Agency.available_agency_names, { include_blank: t('agencies.select_prompt') } %>
+      </div>
+      <div class="medium-1 columns"> </div>
+    </div>
+
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
     <%= resource_edit_field @user, 'location', 'location', 'text_field' %>
 
