@@ -32,6 +32,7 @@ template "#{node[:nginx_dir]}/conf.d/passenger.conf" do
   variables({
     :conf => node[:primero][:passenger_conf],
   })
+  notifies :reload, 'service[nginx]'
 end
 
 site_conf_file = "#{node[:nginx_dir]}/sites-available/primero"

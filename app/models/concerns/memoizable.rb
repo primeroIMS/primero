@@ -1,3 +1,7 @@
+# This module will make class methods memoizable by specifying `memoize :<method_name>`
+# after the method definition.  It will also make the class observable and
+# create a default observer on itself that flushes the memoization cache for
+# all memoized methods on any changes.
 module Memoizable
   extend ActiveSupport::Concern
 
@@ -6,8 +10,7 @@ module Memoizable
       extend Memoist
     end
 
-    def self.handle_changes(id, deleted)
-      require 'pry'; binding.pry
+    def self.handle_changes(*args)
       Rails.logger.debug("Flushing memoization cache due to change on #{self.name}")
       flush_cache
     end
