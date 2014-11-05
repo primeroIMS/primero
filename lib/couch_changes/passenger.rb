@@ -41,6 +41,7 @@ module CouchChanges
         procs.map do |p|
           OpenStruct.new({
             :address => "http://#{p.server_sockets[:http].address.gsub('tcp://', '')}",
+            :pid => p.pid,
             :password => p.connect_password,
           })
         end

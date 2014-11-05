@@ -38,8 +38,8 @@ module CouchChanges
         CouchChanges::Processors.process_change(model, change).callback do
           update_sequence(model, change)
         end.errback do
+          CouchChanges.logger.warn "change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period} seconds"
           EM.add_timer(retry_period) do
-            CouchChanges.logger.warn "change \##{change['seq']} for model #{model.name} could not be handled, retrying in #{retry_period*2} seconds"
             handle_change(model, change, retry_period*2)
           end
         end
