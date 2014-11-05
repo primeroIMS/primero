@@ -6,7 +6,7 @@
   <%= render_controls(@child, 'cases') %>
 <% end %>
 
-<%= form_tag children_path, :multipart => true, :class => "default-form data-form" do %>
+<%= form_tag children_path, :multipart => true, :class => "default-form data-form", :autocomplete => "off" do %>
     <div class="page-content-new row collapse" data-equalizer>
   	<%= hidden_field_tag "child[posted_from]", "Browser" %>
       <div class="large-4 medium-4 columns close-side-tab side-tab-container">

@@ -17,7 +17,7 @@
   </div>
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
-      <form class="filter_bar">
+      <form class="filter_bar" autocomplete="off">
         <% permissions_for_filter = translated_permissions %>
         <% permissions_for_filter << [I18n.t("All", :scope => 'permissions.permission'), ["All"]] %>
         <div class="row">
