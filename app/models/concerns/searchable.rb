@@ -90,7 +90,7 @@ module Searchable
             end
           end
         end
-        if associated_user_names.present? && associated_user_names.first != ALL_FILTER
+        if !match.present? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
           any_of do
             associated_user_names.each do |user_name|
               with(:associated_user_names, user_name)
@@ -100,6 +100,20 @@ module Searchable
         if query.present?
           fulltext(query.strip) do
             fields(*self.quicksearch_fields)
+          end
+        end
+        if match.present?
+          # Expect match input to be in format <tracing request id>::<subform index>
+          tracing_request_id = match.split("::").first
+          index = match.split("::").last
+          tracing_request = TracingRequest.get(tracing_request_id) if tracing_request_id.present?
+          if tracing_request.present? && index.present? && index.is_number?
+            # TODO If I decide to use subform unique id instead
+            # tracing_request.tracing_request_subform_section.select{|tr| tr.unique_id == "15116c7f-f8a4-41d8-b663-089e3ef9575c"}.first
+            tracing_form = tracing_request.tracing_request_subform_section[index.to_i]
+            if tracing_form.present?
+              fulltext(tracing_form.name)
+            end
           end
         end
         sort.each{|sort,order| order_by(sort, order)}
