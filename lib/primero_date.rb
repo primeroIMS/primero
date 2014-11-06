@@ -1,5 +1,14 @@
 class PrimeroDate < Date
-  def self.parse(value)
+
+  def self.couchrest_typecast(parent, property, value)
+    begin
+      self.parse_with_format(value)
+    rescue ArgumentError
+      value
+    end
+  end
+
+  def self.parse_with_format(value)
     return value if value.is_a?(Date) || (value.is_a? PrimeroDate)
     # Separator can be "-" or "/". Valid formats:
     #   "%d-%b-%Y" # 05-Sep-2014 | 05-September-2014 | 5-Sep-2014 | 5-September-2014
