@@ -2,7 +2,13 @@ class PrimeroDate < Date
 
   def self.couchrest_typecast(parent, property, value)
     begin
-      self.parse_with_format(value)
+      # The value comes from the database as a string with the format 'yyyy/mm/dd'
+      if value.to_s =~ /(\d{4})[\-|\/](\d{2})[\-|\/](\d{2})/
+        # Faster than parsing the date
+        Date.new($1.to_i, $2.to_i, $3.to_i)
+      else
+        self.parse_with_format(value)
+      end
     rescue ArgumentError
       value
     end
