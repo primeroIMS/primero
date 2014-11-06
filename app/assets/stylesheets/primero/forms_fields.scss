@@ -405,7 +405,11 @@ span.postfix_val {
     margin-bottom: 10px;
   }
 
-  input#password-prompt-field {
+  input {
+    margin: 0px;
+  }
+
+  label#export-file-name-label {
     margin-top: 15px;
   }
 }
