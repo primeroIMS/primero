@@ -290,6 +290,59 @@ describe ChildrenController do
           "Case Opening Date" => "created_at"} } }
     end
 
+    describe "export_filename" do
+      before :each do
+        @password = 's3cr3t'
+        @session = fake_field_worker_login
+        @child1 = Child.new(:id => "1", :unique_identifier=> "unique_identifier-1")
+        @child2 = Child.new(:id => "2", :unique_identifier=> "unique_identifier-2")
+      end
+    
+      it "should use the file name provided by the user" do
+        Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
+        #This is the file name provided by the user and should be sent as parameter.
+        custom_export_file_name = "user file name"
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+        ##### Main part of the test ####
+        #Call the original method to check the file name calculated
+        controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
+        #Test that the file name is the expected.
+        controller.should_receive(:encrypt_data_to_zip).with('data', "#{custom_export_file_name}.csv", @password).and_return(true)
+        ##### Main part of the test ####
+        controller.stub :render
+        params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
+        get :index, params
+      end
+    
+      it "should use the user_name and model_name to get the file name" do
+        Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+        ##### Main part of the test ####
+        #Call the original method to check the file name calculated
+        controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
+        #Test that the file name is the expected.
+        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@session.user.user_name}-child.csv", @password).and_return(true)
+        ##### Main part of the test ####
+        controller.stub :render
+        params = {:format => :csv, :password => @password}
+        get :index, params
+      end
+    
+      it "should use the unique_identifier to get the file name" do
+        Child.stub :list_records => double(:results => [ @child1 ], :total => 1)
+        Exporters::CSVExporter.should_receive(:export).with([ @child1 ], anything, anything).and_return('data')
+        ##### Main part of the test ####
+        #Call the original method to check the file name calculated
+        controller.should_receive(:export_filename).with([ @child1 ], Exporters::CSVExporter).and_call_original
+        #Test that the file name is the expected.
+        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@child1.unique_identifier}.csv", @password).and_return(true)
+        ##### Main part of the test ####
+        controller.stub :render
+        params = {:format => :csv, :password => @password}
+        get :index, params
+      end
+    end
+
     describe "permissions to view lists of case records", search: true, skip_session: true do
 
       before do

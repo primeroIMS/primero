@@ -1,6 +1,6 @@
 
 Primero.PasswordPrompt = (function() {
-    var passwordDialog = null, targetEl = null, passwordEl = null;
+    var passwordDialog = null, targetEl = null, passwordEl = null, fileNameEl = null;
 
     return {
         initialize: function() {
@@ -28,6 +28,7 @@ Primero.PasswordPrompt = (function() {
 
             });
             passwordEl = $("#password-prompt-field");
+            fileNameEl = $("#export-file-name-field");
             $(".password-prompt").each(Primero.PasswordPrompt.initializeTarget);
         },
 
@@ -45,6 +46,7 @@ Primero.PasswordPrompt = (function() {
                 } else {
                     targetEl = $(this);
                     passwordEl.val("");
+                    fileNameEl.val("");
                     passwordDialog.dialog("open");
                     return false;
                 }
@@ -52,6 +54,7 @@ Primero.PasswordPrompt = (function() {
         },
 
         updateTarget: function() {
+            var fileName = fileNameEl.val();
             var password = passwordEl.val();
             var targetType = targetEl.prop("tagName").toLowerCase();
 
@@ -65,6 +68,10 @@ Primero.PasswordPrompt = (function() {
                     selected_records += $(this).val() + ",";
                 });
                 href += (href.indexOf("?") == -1 ? "?" : "") + "&password=" + password + "&selected_records=" + selected_records;
+                //Add the file name for the exported file if the user provided one.
+                if (fileName != "") {
+                  href += "&custom_export_file_name=" + fileName;
+                }
                 window.location = href;
             } else if (targetType == "input") {
                 targetEl.closest("form").find("#hidden-password-field").val(password);

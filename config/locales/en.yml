@@ -913,6 +913,7 @@ en:
     password_label: "Please enter a password that will encrypt your file."
     password_mandatory: "Enter a valid password"
     password_extra_info: "This password will be associated with the exported file and will need to be entered by anyone opening this file in the future."
+    file_name: "Create your own file name (Optional)"
 
   administration: "Administration"
   new: "New"
