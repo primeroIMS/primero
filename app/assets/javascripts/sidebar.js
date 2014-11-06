@@ -18,10 +18,13 @@ tabNavigation = Backbone.View.extend({
   },
 
   first_tab: function() {
-    var tab = $('.tab-handles li.current').children('a').attr('href');
+    var tab = $('.tab-handles li.current').children('a').attr('href'),
+        current_tab = localStorage.getItem('current_tab'),
+        first_tab = localStorage.getItem('first_tab');
+
     localStorage.setItem('first_tab', tab);
 
-    if (localStorage.getItem('current_tab') === null) {
+    if (current_tab === null) {
       this.ls_set_tab(tab);
     }
   },
@@ -70,7 +73,7 @@ tabNavigation = Backbone.View.extend({
     if (this.getUrlParams('follow') || this.is_error) {
       return true;
     } else {
-      // this.ls_clear_tab();
+      this.ls_clear_tab();
     }
   },
 
