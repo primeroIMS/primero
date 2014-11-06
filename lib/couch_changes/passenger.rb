@@ -37,13 +37,25 @@ module CouchChanges
       end
 
       def http_process_info
-        procs = server_instance.processes(client)
+        procs = reset_client_if_necessary { server_instance.processes(client) }
         procs.map do |p|
           OpenStruct.new({
             :address => "http://#{p.server_sockets[:http].address.gsub('tcp://', '')}",
             :pid => p.pid,
             :password => p.connect_password,
           })
+        end
+      end
+
+      private
+
+      # Resets the client if there is a broken pipe exception
+      def reset_client_if_necessary &block
+        begin
+          block.call
+        rescue Errno::EPIPE
+          @_client = nil
+          block.call
         end
       end
     end
