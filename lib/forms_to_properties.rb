@@ -1,5 +1,4 @@
 require "uuidtools"
-require 'extensions/date'
 
 module FormToPropertiesConverter
   def properties_hash_from_forms(form_sections)
