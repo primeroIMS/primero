@@ -44,7 +44,9 @@ module RapidFTR
     if ENV['RAILS_LOG_PATH'].present?
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
     end
-      
+
+    config.couch_watcher_log_level = Logger::INFO
+
     def locales
       LOCALES
     end

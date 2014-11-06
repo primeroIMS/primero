@@ -4,6 +4,7 @@ class User < CouchRest::Model::Base
 
   include PrimeroModel
   include Importable
+  include Memoizable
 
   include RapidFTR::CouchRestRailsBackward
 
@@ -133,16 +134,38 @@ class User < CouchRest::Model::Base
     @password
   end
 
-  def self.all_unverified
-    User.by_unverified
-  end
+  class << self
+    alias :old_all :all
+    def all(*args)
+      old_all(*args)
+    end
+    memoize_in_prod :all
 
-  def self.find_by_user_name(user_name)
-    User.by_user_name(:key => user_name.downcase).first if user_name.present?
-  end
+    def all_unverified
+      User.by_unverified
+    end
+    memoize_in_prod :all_unverified
 
-  def self.get_unique_instance(attributes)
-    find_by_user_name(attributes['user_name'])
+    alias :old_by_user_name :by_user_name
+    def by_user_name(*args)
+      old_by_user_name(*args)
+    end
+    memoize_in_prod :by_user_name
+
+    def find_by_user_name(user_name)
+      User.by_user_name(:key => user_name.downcase).first if user_name.present?
+    end
+    memoize_in_prod :find_by_user_name
+
+    def get_unique_instance(attributes)
+      find_by_user_name(attributes['user_name'])
+    end
+    memoize_in_prod :get_unique_instance
+
+    def user_id_from_name(name)
+      "user-#{name}".parameterize.dasherize
+    end
+    memoize_in_prod :user_id_from_name
   end
 
   def initialize(args = {}, args1 = {})
@@ -290,10 +313,6 @@ class User < CouchRest::Model::Base
     ADMIN_ASSIGNABLE_ATTRIBUTES.any? { |e| attributes.keys.include? e }
   end
 
-
-  def self.user_id_from_name(name)
-    "user-#{name}".parameterize.dasherize
-  end
 
   private
 
