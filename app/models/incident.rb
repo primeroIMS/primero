@@ -211,7 +211,7 @@ class Incident < CouchRest::Model::Base
         "survivor_code_no" => "survivor_code",
         "age" => "age",
         "date_of_birth" => "date_of_birth",
-        "gbv_sex" => "sex",
+        "sex" => "sex",
         "gbv_ethnicity" => "ethnicity",
         "country_of_origin" => "country_of_origin",
         "gbv_nationality" => "nationality",

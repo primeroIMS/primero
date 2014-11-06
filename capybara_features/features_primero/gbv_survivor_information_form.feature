@@ -46,7 +46,8 @@ Feature: Survivor Information Form
     And I press "Save"
     Then I should see "Case record successfully created" on the page
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
-    And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
+    #By default in GBV new cases the name is hide.
+    And I should see a value for "Name" on the show page with the value of "*****"
     And I should see a value for "Survivor Code" on the show page with the value of "BBB111"
     And I should see a value for "Sex" on the show page with the value of "Female"
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Single"
