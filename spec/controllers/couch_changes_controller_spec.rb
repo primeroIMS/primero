@@ -7,7 +7,7 @@ describe CouchChangesController do
       Child.changed?.should be_true
     end
 
-    get :notify, :id => id, :deleted => 'false', :model_name => 'Child' 
+    get :notify, :id => id, :deleted => 'false', :model_name => 'Child'
   end
 
   it 'notifies of deleted when present as string "true"' do

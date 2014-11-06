@@ -3,6 +3,7 @@ class Lookup < CouchRest::Model::Base
   use_database :lookup
 
   include PrimeroModel
+  include Memoizable
 
   property :name
   property :description
@@ -23,8 +24,33 @@ class Lookup < CouchRest::Model::Base
 
   before_save :generate_id
 
-  def self.find_by_name(name)
-    Lookup.by_name(:key => name).first
+  class << self
+    alias :old_all :all
+
+    def all(*args)
+      old_all(*args)
+    end
+    memoize_in_prod :all
+
+    def find_by_name(name)
+      Lookup.by_name(:key => name).first
+    end
+    memoize_in_prod :find_by_name
+
+    def lookup_id_from_name(name)
+      "lookup-#{name}".parameterize.dasherize
+    end
+    memoize_in_prod :lookup_id_from_name
+
+    def values(name, lookups = nil)
+      if lookups.present?
+        lookup = lookups.select {|lkp| lkp['name'] == name}.first
+      else
+        lookup = self.find_by_name(name)
+      end
+      lookup.present? ? lookup.lookup_values : []
+    end
+    memoize_in_prod :values
   end
 
   def sanitize_lookup_values
@@ -45,19 +71,6 @@ class Lookup < CouchRest::Model::Base
 
   def generate_id
     self["_id"] ||= Lookup.lookup_id_from_name self.name
-  end
-
-  def self.lookup_id_from_name(name)
-    "lookup-#{name}".parameterize.dasherize
-  end
-
-  def self.values(name, lookups = nil)
-    if lookups.present?
-      lookup = lookups.select {|lkp| lkp['name'] == name}.first
-    else
-      lookup = self.find_by_name(name)
-    end
-    lookup.present? ? lookup.lookup_values : []
   end
 
 end

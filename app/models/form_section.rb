@@ -2,6 +2,7 @@ class FormSection < CouchRest::Model::Base
   include PrimeroModel
   include PropertiesLocalization
   include Importable
+  include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
 
@@ -88,25 +89,34 @@ class FormSection < CouchRest::Model::Base
   alias to_param unique_id
 
   class << self
-    extend Memoist
+    # memoize by_unique_id because some things call this directly
+    alias :old_by_unique_id :by_unique_id
+    def by_unique_id *args
+      old_by_unique_id *args
+    end
+    memoize_in_prod :by_unique_id
 
     def get_unique_instance(attributes)
       get_by_unique_id(attributes['unique_id'])
     end
+    memoize_in_prod :get_unique_instance
 
     def enabled_by_order
       by_order.select(&:visible?)
     end
+    memoize_in_prod :enabled_by_order
 
     def all_child_field_names
       all_child_fields.map { |field| field["name"] }
     end
+    memoize_in_prod :all_child_field_names
 
     def all_visible_form_fields(parent_form = 'case')
       find_all_visible_by_parent_form(parent_form).map do |form_section|
         form_section.fields.find_all(&:visible)
       end.flatten
     end
+    memoize_in_prod :all_visible_form_fields
 
     #Given a list of forms, return their subforms
     def get_subforms(forms)
@@ -121,6 +131,7 @@ class FormSection < CouchRest::Model::Base
       end
       return result
     end
+    memoize_in_prod :get_subforms
 
     def all_forms_grouped_by_parent(include_subforms=false)
       forms = all.all
@@ -129,12 +140,14 @@ class FormSection < CouchRest::Model::Base
       end
       forms.group_by{|f| f.parent_form}
     end
+    memoize_in_prod :all_forms_grouped_by_parent
 
     def all_child_fields
       all.map do |form_section|
         form_section.fields
       end.flatten
     end
+    memoize_in_prod :all_child_fields
 
     def enabled_by_order_without_hidden_fields
       enabled_by_order.each do |form_section|
@@ -142,6 +155,7 @@ class FormSection < CouchRest::Model::Base
         form_section['fields'].compact!
       end
     end
+    memoize_in_prod :enabled_by_order_without_hidden_fields
 
     #Create the form section if does not exists.
     #If the form section does exist will attempt
@@ -165,17 +179,187 @@ class FormSection < CouchRest::Model::Base
       #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
       find_by_parent_form(parent_form).select(&:visible?)
     end
+    memoize_in_prod :find_all_visible_by_parent_form
 
     def find_by_parent_form parent_form
       #TODO: the sortby can be moved to a couchdb view
       by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
     end
+    memoize_in_prod :find_by_parent_form
 
-    def handle_async_change(id, deleted)
-      CouchRest::Model::Base.descendants.select {|m| m.include? Record }.each do |recCls|
-        recCls.refresh_form_properties
-      end
+    def get_by_unique_id unique_id
+      by_unique_id(:key => unique_id).first
     end
+    memoize_in_prod :get_by_unique_id
+
+    def highlighted_fields
+      all.map do |form|
+        form.fields.select { |field| field.is_highlighted? }
+      end.flatten
+    end
+    memoize_in_prod :highlighted_fields
+
+    def sorted_highlighted_fields
+      highlighted_fields.sort { |field1, field2| field1.highlight_information.order.to_i <=> field2.highlight_information.order.to_i }
+    end
+    memoize_in_prod :sorted_highlighted_fields
+
+    #TODO - can this be done more efficiently?
+    def find_form_groups_by_parent_form parent_form
+      all_forms = self.find_by_parent_form(parent_form)
+
+      form_sections = []
+      subforms_hash = {}
+
+      all_forms.each do |form|
+        if form.visible?
+          form_sections.push form
+        else
+          subforms_hash[form.unique_id] = form
+        end
+      end
+
+      #TODO: The map{}.flatten still takes 13 ms to run
+      form_sections.map{|f| f.fields}.flatten.each do |field|
+        if field.type == 'subform' && field.subform_section_id
+          field.subform ||= subforms_hash[field.subform_section_id]
+        end
+      end
+
+      form_groups = form_sections.group_by{|e| e.form_group_name}
+    end
+    memoize_in_prod :find_form_groups_by_parent_form
+
+
+    #Given an arbitrary list of forms go through and link up the forms to subforms.
+    #Functionally this isn't important, but this will improve performance if the list
+    #contains both the top forms and the subforms by avoiding extra queries.
+    #TODO: Potentially this method is expensive
+    def link_subforms(forms)
+      subforms_hash = forms.reduce({}) do |hash, form|
+        hash[form.unique_id] = form unless form.visible?
+        hash
+      end
+
+      forms.map{|f| f.fields}.flatten.each do |field|
+        if field.type == Field::SUBFORM && field.subform_section_id
+          field.subform ||= subforms_hash[field.subform_section_id]
+        end
+      end
+
+      return forms
+    end
+    memoize_in_prod :link_subforms
+
+    #Return a hash of subforms, where the keys are the form groupings
+    def group_forms(forms)
+      grouped_forms = {}
+
+      #Order these forms by group and form
+      sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
+
+      if sorted_forms.present?
+        grouped_forms = sorted_forms.group_by{|f| f.form_group_name}
+      end
+      return grouped_forms
+    end
+    memoize_in_prod :group_forms
+
+    def get_visible_form_sections(form_sections)
+      visible_forms = []
+      visible_forms = form_sections.select{|f| f.visible?} if form_sections.present?
+
+      return visible_forms
+    end
+    memoize_in_prod :get_visible_form_sections
+
+    def filter_subforms(form_sections)
+      forms = []
+      forms = form_sections.select{|f| (f.is_nested.blank? || f.is_nested != true)} if form_sections.present?
+
+      return forms
+    end
+    memoize_in_prod :filter_subforms
+
+    #Return only those forms that can be accessed by the user given their role permissions and the module
+    def get_permitted_form_sections(primero_module, parent_form, user)
+      #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
+      user_form_ids = user.permitted_form_ids
+      module_form_ids = primero_module.present? ? primero_module.associated_form_ids : []
+      allowed_form_ids = user_form_ids & module_form_ids
+
+      form_sections = []
+      if allowed_form_ids.present?
+        form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all
+      end
+
+      #Now exclude the forms that do not belong to this record type
+      #TODO: This is too chatty. Better to ask for exactly what you need from DB
+      form_sections = form_sections.select{|f| f.parent_form == parent_form}
+
+      return form_sections
+    end
+    memoize_in_prod :get_permitted_form_sections
+
+    def add_field_to_formsection formsection, field
+      raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
+      field.merge!({'base_language' => formsection['base_language']})
+      if field.type == 'subform'
+        field.subform_section_id = "#{formsection.unique_id}_subform_#{field.name}".parameterize.underscore
+        #Now make field name match subform section id
+        field.name = field.subform_section_id
+        create_subform(formsection, field)
+      end
+      formsection.fields.push(field)
+      formsection.save
+    end
+
+    def create_subform(formsection, field)
+      self.create_or_update_form_section({
+                :visible=>false,
+                :is_nested=>true,
+                :core_form=>false,
+                :editable=>true,
+                :base_language=>formsection.base_language,
+                :order_form_group => formsection.order_form_group,
+                :order => formsection.order,
+                :order_subform => 1,
+                :unique_id=>field.subform_section_id,
+                :parent_form=>formsection.parent_form,
+                :name_all=>field.display_name,
+                :description_all=>field.display_name
+      })
+    end
+
+    def get_form_containing_field field_name
+      all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
+    end
+    memoize_in_prod :get_form_containing_field
+
+    def new_custom form_section, module_name = "CP"
+      form_section[:core_form] = false   #Indicates this is a user-added form
+
+      #TODO - need more elegant way to set the form's order
+      #form_section[:order] = by_order.last ? (by_order.last.order + 1) : 1
+      form_section[:order] = 999
+      form_section[:order_form_group] = 999
+      form_section[:order_subform] = 0
+
+      fs = FormSection.new(form_section)
+      fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
+      fs.base_language = I18n.default_locale
+      return fs
+    end
+
+    def change_form_section_state formsection, to_state
+      formsection.enabled = to_state
+      formsection.save
+    end
+
+    def list_form_group_names
+      self.all.all.collect(&:form_group_name).compact.uniq
+    end
+    memoize_in_prod :list_form_group_names
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -225,143 +409,6 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
-  def self.get_by_unique_id unique_id
-    by_unique_id(:key => unique_id).first
-  end
-
-
-  #TODO - can this be done more efficiently?
-  def self.find_form_groups_by_parent_form parent_form
-    all_forms = self.find_by_parent_form(parent_form)
-
-    form_sections = []
-    subforms_hash = {}
-
-    all_forms.each do |form|
-      if form.visible?
-        form_sections.push form
-      else
-        subforms_hash[form.unique_id] = form
-      end
-    end
-
-    #TODO: The map{}.flatten still takes 13 ms to run
-    form_sections.map{|f| f.fields}.flatten.each do |field|
-      if field.type == 'subform' && field.subform_section_id
-        field.subform ||= subforms_hash[field.subform_section_id]
-      end
-    end
-
-    form_groups = form_sections.group_by{|e| e.form_group_name}
-  end
-
-
-  #Given an arbitrary list of forms go through and link up the forms to subforms.
-  #Functionally this isn't important, but this will improve performance if the list
-  #contains both the top forms and the subforms by avoiding extra queries.
-  #TODO: Potentially this method is expensive
-  def self.link_subforms(forms)
-    subforms_hash = forms.reduce({}) do |hash, form|
-      hash[form.unique_id] = form unless form.visible?
-      hash
-    end
-
-    forms.map{|f| f.fields}.flatten.each do |field|
-      if field.type == Field::SUBFORM && field.subform_section_id
-        field.subform ||= subforms_hash[field.subform_section_id]
-      end
-    end
-
-    return forms
-  end
-
-
-  #Return a hash of subforms, where the keys are the form groupings
-  def self.group_forms(forms)
-    grouped_forms = {}
-
-    #Order these forms by group and form
-    sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
-
-    if sorted_forms.present?
-      grouped_forms = sorted_forms.group_by{|f| f.form_group_name}
-    end
-    return grouped_forms
-  end
-
-  def self.get_visible_form_sections(form_sections)
-    visible_forms = []
-    visible_forms = form_sections.select{|f| f.visible?} if form_sections.present?
-
-    return visible_forms
-  end
-
-  def self.filter_subforms(form_sections)
-    forms = []
-    forms = form_sections.select{|f| (f.is_nested.blank? || f.is_nested != true)} if form_sections.present?
-
-    return forms
-  end
-
-
-  #Return only those forms that can be accessed by the user given their role permissions and the module
-  def self.get_permitted_form_sections(primero_module, parent_form, user)
-    #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
-    user_form_ids = user.permitted_form_ids
-    module_form_ids = primero_module.present? ? primero_module.associated_form_ids : []
-    allowed_form_ids = user_form_ids & module_form_ids
-
-    form_sections = []
-    if allowed_form_ids.present?
-      form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all
-    end
-
-    #Now exclude the forms that do not belong to this record type
-    #TODO: This is too chatty. Better to ask for exactly what you need from DB
-    form_sections = form_sections.select{|f| f.parent_form == parent_form}
-
-    return form_sections
-  end
-
-
-
-  def self.add_field_to_formsection formsection, field
-    raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
-    field.merge!({'base_language' => formsection['base_language']})
-    if field.type == 'subform'
-      field.subform_section_id = "#{formsection.unique_id}_subform_#{field.name}".parameterize.underscore
-      #Now make field name match subform section id
-      field.name = field.subform_section_id
-      create_subform(formsection, field)
-    end
-    formsection.fields.push(field)
-    formsection.save
-  end
-
-  def self.get_form_containing_field field_name
-    all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
-  end
-
-  def self.new_custom form_section, module_name = "CP"
-    form_section[:core_form] = false   #Indicates this is a user-added form
-
-    #TODO - need more elegant way to set the form's order
-    #form_section[:order] = by_order.last ? (by_order.last.order + 1) : 1
-    form_section[:order] = 999
-    form_section[:order_form_group] = 999
-    form_section[:order_subform] = 0
-
-    fs = FormSection.new(form_section)
-    fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
-    fs.base_language = I18n.default_locale
-    return fs
-  end
-
-  def self.change_form_section_state formsection, to_state
-    formsection.enabled = to_state
-    formsection.save
-  end
-
   def properties= properties
     properties.each_pair do |name, value|
       self.send("#{name}=", value) unless value == nil
@@ -391,16 +438,6 @@ class FormSection < CouchRest::Model::Base
     field = fields.find { |field| field.name == field_name }
     field.unhighlight
     save
-  end
-
-  def self.highlighted_fields
-    all.map do |form|
-      form.fields.select { |field| field.is_highlighted? }
-    end.flatten
-  end
-
-  def self.sorted_highlighted_fields
-    highlighted_fields.sort { |field1, field2| field1.highlight_information.order.to_i <=> field2.highlight_information.order.to_i }
   end
 
   def section_name
@@ -435,10 +472,6 @@ class FormSection < CouchRest::Model::Base
     new_field_names.each { |name| new_fields << fields.find { |field| field.name == name } }
     self.fields = new_fields
     self.save
-  end
-
-  def self.list_form_group_names
-    self.all.all.collect(&:form_group_name).compact.uniq
   end
 
   protected
@@ -492,20 +525,4 @@ class FormSection < CouchRest::Model::Base
     self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
   end
 
-  def self.create_subform(formsection, field)
-    self.create_or_update_form_section({
-              :visible=>false,
-              :is_nested=>true,
-              :core_form=>false,
-              :editable=>true,
-              :base_language=>formsection.base_language,
-              :order_form_group => formsection.order_form_group,
-              :order => formsection.order,
-              :order_subform => 1,
-              :unique_id=>field.subform_section_id,
-              :parent_form=>formsection.parent_form,
-              :name_all=>field.display_name,
-              :description_all=>field.display_name
-    })
-  end
 end

@@ -3,6 +3,8 @@
 #
 
 class ApplicationController < ActionController::Base
+  before_filter :authorize_profiler
+
   helper :all
   helper_method :current_user_name, :current_user, :current_user_full_name, :current_session, :logged_in?
 
@@ -26,6 +28,10 @@ class ApplicationController < ActionController::Base
 
   def extend_session_lifetime
     request.env[Rack::Session::Abstract::ENV_SESSION_OPTIONS_KEY][:expire_after] = 1.week if request.format.json?
+  end
+
+  def authorize_profiler
+    Rack::MiniProfiler.authorize_request if ENV['PROFILE']
   end
 
   def handle_authentication_failure(auth_failure)
