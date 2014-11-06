@@ -16,6 +16,11 @@ gbv_incident_fields = [
              "editable" => false,
              "display_name_all" => "Incident Code"
             }),
+  Field.new({"name" => "status",
+             "type" => "select_box",
+             "display_name_all" => "Incident Status",
+             "option_strings_source" => "lookup IncidentStatus"
+            }),
   Field.new({"name" => "consent_reporting",
              "type" => "radio_button",
              "display_name_all" => "Consent is given to share non-identifiable information for reporting",
