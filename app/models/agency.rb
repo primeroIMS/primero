@@ -23,16 +23,16 @@ class Agency < CouchRest::Model::Base
     def all
       old_all
     end
-    memoize :all
+    memoize_in_prod :all
 
     def available_agency_names
       self.all.all.collect{ |a| [ a.name, a.id ] }
     end
-    memoize :available_agency_names
+    memoize_in_prod :available_agency_names
 
     def retrieve_logo_ids
       self.by_order.collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
     end
-    memoize :retrieve_logo_ids
+    memoize_in_prod :retrieve_logo_ids
   end
 end

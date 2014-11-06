@@ -3,6 +3,7 @@ require 'forms_to_properties'
 module Record
   extend ActiveSupport::Concern
 
+
   require "uuidtools"
   include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
@@ -91,6 +92,7 @@ module Record
 
   module ClassMethods
     include FormToPropertiesConverter
+    include Observable
 
     def new_with_user_name(user, fields = {})
       record = new(blank_to_nil(convert_arrays(fields)))

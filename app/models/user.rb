@@ -136,36 +136,36 @@ class User < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
-    def all
-      old_all
+    def all(*args)
+      old_all(*args)
     end
-    memoize :all
+    memoize_in_prod :all
 
     def all_unverified
       User.by_unverified
     end
-    memoize :all_unverified
+    memoize_in_prod :all_unverified
 
     alias :old_by_user_name :by_user_name
     def by_user_name(*args)
       old_by_user_name(*args)
     end
-    memoize :by_user_name
+    memoize_in_prod :by_user_name
 
     def find_by_user_name(user_name)
       User.by_user_name(:key => user_name.downcase).first if user_name.present?
     end
-    memoize :find_by_user_name
+    memoize_in_prod :find_by_user_name
 
     def get_unique_instance(attributes)
       find_by_user_name(attributes['user_name'])
     end
-    memoize :get_unique_instance
+    memoize_in_prod :get_unique_instance
 
     def user_id_from_name(name)
       "user-#{name}".parameterize.dasherize
     end
-    memoize :user_id_from_name
+    memoize_in_prod :user_id_from_name
   end
 
   def initialize(args = {}, args1 = {})

@@ -4,7 +4,6 @@ class FormSection < CouchRest::Model::Base
   include Importable
   include Memoizable
 
-
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
 
   #TODO - include Namable - will require a fair amount of refactoring
@@ -89,34 +88,34 @@ class FormSection < CouchRest::Model::Base
   alias to_param unique_id
 
   class << self
-    # Memoize by_unique_id because some things call this directly
+    # memoize by_unique_id because some things call this directly
     alias :old_by_unique_id :by_unique_id
     def by_unique_id *args
       old_by_unique_id *args
     end
-    memoize :by_unique_id
+    memoize_in_prod :by_unique_id
 
     def get_unique_instance(attributes)
       get_by_unique_id(attributes['unique_id'])
     end
-    memoize :get_unique_instance
+    memoize_in_prod :get_unique_instance
 
     def enabled_by_order
       by_order.select(&:visible?)
     end
-    memoize :enabled_by_order
+    memoize_in_prod :enabled_by_order
 
     def all_child_field_names
       all_child_fields.map { |field| field["name"] }
     end
-    memoize :all_child_field_names
+    memoize_in_prod :all_child_field_names
 
     def all_visible_form_fields(parent_form = 'case')
       find_all_visible_by_parent_form(parent_form).map do |form_section|
         form_section.fields.find_all(&:visible)
       end.flatten
     end
-    memoize :all_visible_form_fields
+    memoize_in_prod :all_visible_form_fields
 
     #Given a list of forms, return their subforms
     def get_subforms(forms)
@@ -131,7 +130,7 @@ class FormSection < CouchRest::Model::Base
       end
       return result
     end
-    memoize :get_subforms
+    memoize_in_prod :get_subforms
 
     def all_forms_grouped_by_parent(include_subforms=false)
       forms = all.all
@@ -140,14 +139,14 @@ class FormSection < CouchRest::Model::Base
       end
       forms.group_by{|f| f.parent_form}
     end
-    memoize :all_forms_grouped_by_parent
+    memoize_in_prod :all_forms_grouped_by_parent
 
     def all_child_fields
       all.map do |form_section|
         form_section.fields
       end.flatten
     end
-    memoize :all_child_fields
+    memoize_in_prod :all_child_fields
 
     def enabled_by_order_without_hidden_fields
       enabled_by_order.each do |form_section|
@@ -155,7 +154,7 @@ class FormSection < CouchRest::Model::Base
         form_section['fields'].compact!
       end
     end
-    memoize :enabled_by_order_without_hidden_fields
+    memoize_in_prod :enabled_by_order_without_hidden_fields
 
     #Create the form section if does not exists.
     #If the form section does exist will attempt
@@ -179,30 +178,30 @@ class FormSection < CouchRest::Model::Base
       #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
       find_by_parent_form(parent_form).select(&:visible?)
     end
-    memoize :find_all_visible_by_parent_form
+    memoize_in_prod :find_all_visible_by_parent_form
 
     def find_by_parent_form parent_form
       #TODO: the sortby can be moved to a couchdb view
       by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
     end
-    memoize :find_by_parent_form
+    memoize_in_prod :find_by_parent_form
 
     def get_by_unique_id unique_id
       by_unique_id(:key => unique_id).first
     end
-    memoize :get_by_unique_id
+    memoize_in_prod :get_by_unique_id
 
     def highlighted_fields
       all.map do |form|
         form.fields.select { |field| field.is_highlighted? }
       end.flatten
     end
-    memoize :highlighted_fields
+    memoize_in_prod :highlighted_fields
 
     def sorted_highlighted_fields
       highlighted_fields.sort { |field1, field2| field1.highlight_information.order.to_i <=> field2.highlight_information.order.to_i }
     end
-    memoize :sorted_highlighted_fields
+    memoize_in_prod :sorted_highlighted_fields
 
     #TODO - can this be done more efficiently?
     def find_form_groups_by_parent_form parent_form
@@ -228,7 +227,7 @@ class FormSection < CouchRest::Model::Base
 
       form_groups = form_sections.group_by{|e| e.form_group_name}
     end
-    memoize :find_form_groups_by_parent_form
+    memoize_in_prod :find_form_groups_by_parent_form
 
 
     #Given an arbitrary list of forms go through and link up the forms to subforms.
@@ -249,7 +248,7 @@ class FormSection < CouchRest::Model::Base
 
       return forms
     end
-    memoize :link_subforms
+    memoize_in_prod :link_subforms
 
     #Return a hash of subforms, where the keys are the form groupings
     def group_forms(forms)
@@ -263,7 +262,7 @@ class FormSection < CouchRest::Model::Base
       end
       return grouped_forms
     end
-    memoize :group_forms
+    memoize_in_prod :group_forms
 
     def get_visible_form_sections(form_sections)
       visible_forms = []
@@ -271,7 +270,7 @@ class FormSection < CouchRest::Model::Base
 
       return visible_forms
     end
-    memoize :get_visible_form_sections
+    memoize_in_prod :get_visible_form_sections
 
     def filter_subforms(form_sections)
       forms = []
@@ -279,7 +278,7 @@ class FormSection < CouchRest::Model::Base
 
       return forms
     end
-    memoize :filter_subforms
+    memoize_in_prod :filter_subforms
 
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
@@ -299,7 +298,7 @@ class FormSection < CouchRest::Model::Base
 
       return form_sections
     end
-    memoize :get_permitted_form_sections
+    memoize_in_prod :get_permitted_form_sections
 
     def add_field_to_formsection formsection, field
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
@@ -334,7 +333,7 @@ class FormSection < CouchRest::Model::Base
     def get_form_containing_field field_name
       all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
     end
-    memoize :get_form_containing_field
+    memoize_in_prod :get_form_containing_field
 
     def new_custom form_section, module_name = "CP"
       form_section[:core_form] = false   #Indicates this is a user-added form
@@ -359,7 +358,7 @@ class FormSection < CouchRest::Model::Base
     def list_form_group_names
       self.all.all.collect(&:form_group_name).compact.uniq
     end
-    memoize :list_form_group_names
+    memoize_in_prod :list_form_group_names
   end
 
   #Returns the list of field to show in collapsed subforms.

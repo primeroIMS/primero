@@ -38,31 +38,31 @@ class Location < CouchRest::Model::Base
   class << self
     alias :old_all :all
 
-    def all
-      old_all
+    def all(*args)
+      old_all(*args)
     end
-    memoize :all
+    memoize_in_prod :all
 
     def find_by_location(placename)
       #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
       location = Location.by_placename(key: placename).all[0..0]
       return location + location.first.descendants
     end
-    memoize :find_by_location
+    memoize_in_prod :find_by_location
 
     def placename_from_name(name)
       result = ""
       result = name.split('::').last if name.present?
       return result
     end
-    memoize :placename_from_name
+    memoize_in_prod :placename_from_name
 
     def get_by_location(placename)
       #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
       location = Location.by_placename(key: placename).all[0..0]
       return location.first
     end
-    memoize :get_by_location
+    memoize_in_prod :get_by_location
   end
 
   def hierarchical_name

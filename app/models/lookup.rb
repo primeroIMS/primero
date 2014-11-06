@@ -27,20 +27,20 @@ class Lookup < CouchRest::Model::Base
   class << self
     alias :old_all :all
 
-    def all
-      old_all
+    def all(*args)
+      old_all(*args)
     end
-    memoize :all
+    memoize_in_prod :all
 
     def find_by_name(name)
       Lookup.by_name(:key => name).first
     end
-    memoize :find_by_name
+    memoize_in_prod :find_by_name
 
     def lookup_id_from_name(name)
       "lookup-#{name}".parameterize.dasherize
     end
-    memoize :lookup_id_from_name
+    memoize_in_prod :lookup_id_from_name
 
     def values(name, lookups = nil)
       if lookups.present?
@@ -50,7 +50,7 @@ class Lookup < CouchRest::Model::Base
       end
       lookup.present? ? lookup.lookup_values : []
     end
-    memoize :values
+    memoize_in_prod :values
   end
 
   def sanitize_lookup_values
