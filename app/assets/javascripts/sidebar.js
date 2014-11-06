@@ -24,9 +24,7 @@ tabNavigation = Backbone.View.extend({
 
     localStorage.setItem('first_tab', tab);
 
-    if (first_tab === '#tab_mrm_summary_page') {
-      this.ls_set_tab(first_tab);
-    } else if (current_tab === null) {
+    if (current_tab === null) {
       this.ls_set_tab(tab);
     }
   },
@@ -75,7 +73,7 @@ tabNavigation = Backbone.View.extend({
     if (this.getUrlParams('follow') || this.is_error) {
       return true;
     } else {
-      // this.ls_clear_tab();
+      this.ls_clear_tab();
     }
   },
 
