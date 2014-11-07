@@ -17,17 +17,20 @@ Feature: Primero user account
     And I should see "Re-enter password"
     And I should see "Phone"
     And I should see "Email"
-    And I should see "Organisation"
+    And I should see "Organization"
     And I should see "Position"
     And I should see "Location"
 
   Scenario: I am a logged in user and I want to edit some information on the account page
     Given I am logged in as an admin with username "primero" and password "primero"
+    And the following agencies exist in the system:
+      | German Technical Cooperation |
     When I access edit user page for "primero"
     And I fill in the following:
       | Full Name         | George Harrison     |
       | Email             | abcd@unicef.com     |
       | Location          | Charleston          |
+      | Organization      | <Select> German Technical Cooperation |
     And I press "Save"
     Then I should see "User was successfully updated"
     And I should see "George Harrison"

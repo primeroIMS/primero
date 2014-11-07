@@ -92,7 +92,7 @@
     <div class="row">
       <div class="medium-3 columns">
         <span class="tool-tip-label">
-          <label class="key"><%= t("user.organization") %></label>
+          <label class="key" for="user_organization" ><%= t("user.organization") %></label>
         </span>
       </div>
       <div class="medium-8 columns">
@@ -102,7 +102,7 @@
     </div>
 
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
-    <%= resource_edit_field @user, 'location', 'location', 'text_field' %>
+    <%= resource_edit_field @user, 'location', 'user.location', 'text_field' %>
 
     <% if !trying_to_edit_ourself && can?(:disable, @user) %>
         <div class="row">
