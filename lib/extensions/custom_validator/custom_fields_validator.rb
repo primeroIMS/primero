@@ -1,6 +1,5 @@
 class CustomFieldsValidator
   attr_accessor :options
-  require 'extensions/date'
 
   def initialize(target, options)
     @options = options
@@ -135,7 +134,7 @@ class DateFieldsValidator < CustomFieldsValidator
   def is_not_valid value
     return false if value.is_a?(Date)
     begin
-      Date.parse(value)
+      PrimeroDate.parse_with_format(value)
       false
     rescue
       true
