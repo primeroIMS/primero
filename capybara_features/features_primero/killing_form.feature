@@ -71,8 +71,8 @@ Feature: Killing Form
 
    Scenario: As a logged in user and create an incident with invalid numeric values, I should see the error messages invalid number
      And I fill in the following:
-       | Number of victims        | <Tally>Boys:bad_number  |
+      | Number of victims | <Tally> Boys:1 Girls:2 Unknown:BadNumber Total number of victims:6   |
      And I press "Save"
-     And I should see "Errors prohibited this record from being saved" on the page
-     And I should see "There were problems with the following fields" on the page
-     And I should see "Killing: Number of victims: boys must be a valid number" on the page
+     And I should see 1 subform on the show page for "Killing"
+     And I should see in the 1st "Killing" subform with the follow:
+      | Number of victims |<Tally> Boys:1 Girls:2 Unknown:0 Total number of victims:3 |
