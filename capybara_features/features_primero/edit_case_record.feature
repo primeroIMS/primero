@@ -1,5 +1,6 @@
 # JIRA PRIMERO-96
 # JIRA PRIMERO-148
+# JIRA PRIMERO-736
 @javascript @primero @search
 Feature: Edit Case Record
   As a admin user, I want to be able to edit a case record
@@ -19,7 +20,7 @@ Feature: Edit Case Record
      | Name              | Tiki Thomas Taliaferro               |
     And I select "Male" from "Sex"
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see "Tiki Thomas Taliaferro" on the page
     And I should see "Male" on the page
 

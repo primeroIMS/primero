@@ -1,4 +1,5 @@
 #JIRA PRIMERO-479
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: GBV Individual Details Form
@@ -13,6 +14,6 @@ Feature: GBV Individual Details Form
       | Survivor Code                      | SRV1001     |
       | What is the survivor's Date of Birth? | 10-Jun-1993 |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
     And I should see a value for "What is the survivor's Date of Birth?" on the show page with the value of "10-Jun-1993"

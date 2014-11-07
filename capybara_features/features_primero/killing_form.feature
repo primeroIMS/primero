@@ -7,6 +7,7 @@
 #JIRA PRIMERO-244
 #JIRA PRIMERO-283
 #JIRA PRIMERO-526
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Killing Form
@@ -44,7 +45,7 @@ Feature: Killing Form
     #TODO - fix
     #And the value of "Number of total victims" in the 1st "Killing" subform should be "6"
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see 1 subform on the show page for "Killing"
     And I should see in the 1st "Killing" subform with the follow:
       | Number of victims                                                                  |<Tally> Boys:1 Girls:2 Unknown:3 Total number of victims:6 |
@@ -71,7 +72,7 @@ Feature: Killing Form
 
    Scenario: As a logged in user and create an incident with invalid numeric values, I should see the error messages invalid number
      And I fill in the following:
-      | Number of victims | <Tally> Boys:1 Girls:2 Unknown:BadNumber Total number of victims:6   |
+      | Number of victims | <Tally>Boys:1 Girls:2 Unknown:BadNumber Total number of victims:6   |
      And I press "Save"
      And I should see 1 subform on the show page for "Killing"
      And I should see in the 1st "Killing" subform with the follow:

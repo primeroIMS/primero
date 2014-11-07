@@ -1,4 +1,5 @@
 # JIRA PRIMERO-503
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: GBV Data Confidentiality
@@ -28,7 +29,7 @@ Feature: GBV Data Confidentiality
       | Consent to Release Information to Other Services                                 | <Radio> Yes                        |
       | If other services, please specify service, name and agency                       | Test Other Facility                |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see values on the page for the following:
       | Consent to Release Information to Security Services                              | Yes                                |
       | Specify Security Name, Facility or Agency/Organization as applicable             | Test Security Facility             |

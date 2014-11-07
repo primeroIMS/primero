@@ -1,5 +1,6 @@
 # JIRA PRIMERO-484
 # JIRA PRIMERO-551
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Services
@@ -25,7 +26,7 @@ Feature: Services
       | Service Location                           | Kenya                 |
       | Notes                                      | No notes at this time |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "Ongoing Services Section" subform with the follow:
       | Type of Service                            | Safehouse             |
       | Did you refer the client for this service? | Referred              |

@@ -1,4 +1,5 @@
 #JIRA PRIMERO-325
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Intervention Form
@@ -19,7 +20,7 @@ Feature: Intervention Form
       | Due Date                                    | 23-Jul-2014                   |
       | Intervention follow up notes                | Follow up notes               |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see a value for "Action Taken by Survivors/Families" on the show page with the value of "Action taken"
     And I should see a value for "Action Date" on the show page with the value of "23-Jul-2014"
     And I should see a value for "Type of Action" on the show page with the value of "Medical Intervention"
@@ -39,7 +40,7 @@ Feature: Intervention Form
       | Due Date                                    | 25-Jul-2014                    |
       | Intervention follow up notes                | Some follow up notes           |
     And I press "Save"
-    Then I should see "Incident was successfully updated." on the page
+    Then I should see a success message for updated Incident
     And I should see a value for "Action Taken by Survivors/Families" on the show page with the value of "Some other action taken"
     And I should see a value for "Action Date" on the show page with the value of "25-Jul-2014"
     And I should see a value for "Type of Action" on the show page with the value of "Report to Police"

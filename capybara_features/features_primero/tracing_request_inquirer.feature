@@ -1,4 +1,5 @@
 #JIRA PRIMERO-422
+#JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Tracing Request Inquirer
@@ -44,7 +45,7 @@ Feature: Tracing Request Inquirer
   Scenario: As a logged in user, I create a tracing request by fill up inquirer form
     And the value of "Age" should be the calculated age of someone born in "1990"
     And I press "Save"
-    Then I should see "Tracing Request record successfully created" on the page
+    Then I should see a success message for new Tracing Request
     And I should see a value for "Inquiry Status" on the show page with the value of "Open"
     And I should see a value for "Name of inquirer" on the show page with the value of "Tim"
     And I should see a value for "How are they related to the child?" on the show page with the value of "Father"
@@ -96,7 +97,7 @@ Feature: Tracing Request Inquirer
       | Additional info that could help in tracing? |  somewhere       |
     And the value of "Age" should be the calculated age of someone born in "1991"
     And I press "Save"
-    Then I should see "Tracing Request was successfully updated" on the page
+    Then I should see a success message for updated Tracing Request
     And I should see a value for "Inquiry Status" on the show page with the value of "Closed"
     And I should see a value for "Name of inquirer" on the show page with the value of "Timmy"
     And I should see a value for "How are they related to the child?" on the show page with the value of "Uncle"

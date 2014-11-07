@@ -1,5 +1,6 @@
 #JIRA PRIMERO-119
 # JIRA PRIMERO-607
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Tracing Request Case Audio Form
@@ -48,7 +49,7 @@ Feature: Tracing Request Case Audio Form
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/jorge.jpg" for model "tracing_request"
     And I press "Save"
-    Then I should see "Tracing Request record successfully created" on the page
+    Then I should see a success message for new Tracing Request
     And I should not see "Click the EDIT button to add Photos and Audio details"
 
   Scenario: I upload a audio file with the correct size and format
@@ -58,7 +59,7 @@ Feature: Tracing Request Case Audio Form
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/sample.mp3" for model "tracing_request"
     And I press "Save"
-    Then I should see "Tracing Request record successfully created" on the page
+    Then I should see a success message for new Tracing Request
     And I should not see "Click the EDIT button to add Photos and Audio details"
 
   Scenario: Uploading multiple images
@@ -70,7 +71,7 @@ Feature: Tracing Request Case Audio Form
       |capybara_features/resources/jorge.jpg|
       |capybara_features/resources/jeff.png |
     And I press "Save"
-    Then I should see "Tracing Request record successfully created"
+    Then I should see a success message for new Tracing Request
     When I click the "Photos and Audio" link
     Then I should see "2" thumbnails
     When I follow "Edit"
@@ -88,7 +89,7 @@ Feature: Tracing Request Case Audio Form
     And I press the "Photos and Audio" button
     And I check the "Delete audio?" field
     And I press "Save"
-    Then I should see "Tracing Request was successfully updated"
+    Then I should see a success message for updated Tracing Request
     And I should not see "Delete audio?"
     And I should not see "Recorded Audio"
     And I should not see "Download"

@@ -2,6 +2,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Child Under 5
@@ -26,7 +27,7 @@ Feature: Child Under 5
       | Please describe in detail how the child was found or taken in the family/children's center | Details about how the child was found in the family center. |
     And I select "Yes" for "Are there any clothes and belongings the child was found with?" radio button
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Child Under 5" button
     And I should see a value for "Date child was found" on the show page with the value of "15-Sep-2014"
     And I should see a value for "Location where child was found" on the show page with the value of "A Location Country"

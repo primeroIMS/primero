@@ -1,4 +1,5 @@
 #JIRA PRIMERO-365
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Subforms Collapses Fields Incidents Viewing
@@ -21,7 +22,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Killing" subform with the follow:
       | Cause | <Select> Shooting |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Killing" subform
     And I should see collapsed the 1st "Killing" subform
     And I should see expanded the 2nd "Killing" subform
@@ -36,7 +37,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Maiming" subform with the follow:
       | Cause | <Select> Landmines        |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Maiming" subform
     And I should see collapsed the 1st "Maiming" subform
     And I should see expanded the 2nd "Maiming" subform
@@ -51,7 +52,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Recruitment" subform with the follow:
       | What factors contributed towards the recruitment of the child by the armed group? | <Choose>Abduction<Choose>Financial Reasons<Choose>Intimidation     |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Recruitment" subform
     And I should see collapsed the 1st "Recruitment" subform
     And I should see expanded the 2nd "Recruitment" subform
@@ -66,7 +67,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Attack on Schools" subform with the follow:
       | Type of Attack On Site | <Select> Shelling |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Attack on Schools" subform
     And I should see collapsed the 1st "Attack on Schools" subform
     And I should see expanded the 2nd "Attack on Schools" subform
@@ -81,7 +82,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Attack on Hospitals" subform with the follow:
       | Type of Attack On Site | <Select> Physical Destruction |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Attack on Hospitals" subform
     And I should see collapsed the 1st "Attack on Hospitals" subform
     And I should see expanded the 2nd "Attack on Hospitals" subform
@@ -96,7 +97,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Abduction" subform with the follow:
       | Category | <Select> Sexual Violence |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Abduction" subform
     And I should see collapsed the 1st "Abduction" subform
     And I should see expanded the 2nd "Abduction" subform
@@ -111,7 +112,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Other Violation" subform with the follow:
       | Other Violation Type | <Select> Denial of Civil Rights |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Other Violation" subform
     And I should see collapsed the 1st "Other Violation" subform
     And I should see expanded the 2nd "Other Violation" subform
@@ -127,7 +128,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
       | What is the sex of the child? | <Radio> Female |
       | What is the child's age?      | 15              |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Individual Details Subform Section" subform
     And I should see collapsed the 1st "Individual Details Subform Section" subform
     And I should see expanded the 2nd "Individual Details Subform Section" subform
@@ -143,7 +144,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
       | What was the sex of the group of children involved? | <Select> Unknown      |
       | Into which age band did the children fall?          | <Select> ≥15<18 years |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Group Details Section" subform
     And I should see collapsed the 1st "Group Details Section" subform
     And I should see expanded the 2nd "Group Details Section" subform
@@ -157,7 +158,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Source Subform Section" subform with the follow:
       | Type of Source | <Select> Supporting-Testimony |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Source Subform Section" subform
     And I should see collapsed the 1st "Source Subform Section" subform
     And I should see expanded the 2nd "Source Subform Section" subform
@@ -171,7 +172,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Perpetrator Subform Section" subform with the follow:
       | To which type of armed force or group did the alleged perpetrator(s) belong? | <Select> Security Forces |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Perpetrator Subform Section" subform
     And I should see collapsed the 1st "Perpetrator Subform Section" subform
     And I should see expanded the 2nd "Perpetrator Subform Section" subform
@@ -186,7 +187,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Sexual Violence" subform with the follow:
       | Type of Violence | <Choose>Mutilation<Choose>Sexual Assault            |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Sexual Violence" subform
     And I should see collapsed the 1st "Sexual Violence" subform
     And I should see expanded the 2nd "Sexual Violence" subform
@@ -201,7 +202,7 @@ Feature: Subforms Collapses Fields Incidents Viewing
     And I fill in the 2nd "Denial Humanitarian Access" subform with the follow:
       | What method(s) were used to deny humanitarian access? | <Select> Travel Restrictions in Country |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I expanded the 2nd "Denial Humanitarian Access" subform
     And I should see collapsed the 1st "Denial Humanitarian Access" subform
     And I should see expanded the 2nd "Denial Humanitarian Access" subform

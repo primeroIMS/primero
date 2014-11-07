@@ -1,4 +1,5 @@
 #JIRA PRIMERO-119
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Tracing Request Limits Photo Upload
@@ -53,4 +54,4 @@ Feature: Tracing Request Limits Photo Upload
       |capybara_features/resources/jeff.png|
       |capybara_features/resources/jeff.png|
     And I press "Save"
-    Then I should see "Tracing Request was successfully updated"
+    Then I should see a success message for updated Tracing Request

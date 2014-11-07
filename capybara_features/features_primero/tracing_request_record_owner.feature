@@ -1,4 +1,5 @@
 #JIRA PRIMERO-421
+#JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Tracing Request Record Owner
@@ -18,7 +19,7 @@ Feature: Tracing Request Record Owner
 
   Scenario: As a logged in user, I create a tracing request by fill up record owner form
     And I press "Save"
-    Then I should see "Tracing Request record successfully created" on the page
+    Then I should see a success message for new Tracing Request
     And I should see a value for "Field/Case/Social Worker" on the show page with the value of "Tom"
     And I should see a value for "Caseworker Code" on the show page with the value of "Case Worker1"
     And I should see a value for "Agency" on the show page with the value of "Agency1"
@@ -35,7 +36,7 @@ Feature: Tracing Request Record Owner
       | Previous Owner           | Owner 2               |
       | Previous Agency          | Other Agency 2        |
     And I press "Save"
-    Then I should see "Tracing Request was successfully updated" on the page
+    Then I should see a success message for updated Tracing Request
     And I should see a value for "Field/Case/Social Worker" on the show page with the value of "James"
     And I should see a value for "Caseworker Code" on the show page with the value of "Case Worker2"
     And I should see a value for "Agency" on the show page with the value of "Agency2"

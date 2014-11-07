@@ -4,6 +4,7 @@
 # JIRA PRIMERO-402
 # JIRA PRIMERO-365
 # JIRA PRIMERO-476
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Services Form
@@ -67,7 +68,7 @@ Feature: Services Form
       | Service Location                                       | Chid Protection location                              |
       | Notes                                                  | Chid Protection Notes                                 |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     # And I should see 1 subform on the show page for "Killing"
     And I should see in the 1st "Health Medical Referral Subform Section" subform with the follow:
       | Did you refer the client to Health/Medical Services? | No referral, Service provided by your agency |

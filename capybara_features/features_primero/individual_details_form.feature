@@ -5,6 +5,7 @@
 #JIRA PRIMERO-373
 #JIRA PRIMERO-365
 #JIRA PRIMERO-244
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Individual Details Form
@@ -30,7 +31,7 @@ Feature: Individual Details Form
     And I select "Single" from "Current civil/marital status"
     And I select "Physical Disability" for "Disability Type" radio button
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Individual Details Subform Section" subform with the follow:
       | Survivor Code                                                                                                                                               | SRV1001             |
       | What is the child's Date of Birth?                                                                                                                          | 10-Jun-1993         |

@@ -10,6 +10,7 @@
 #JIRA PRIMERO-414
 #JIRA PRIMERO-415
 #JIRA PRIMERO-416
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Followup
@@ -53,7 +54,7 @@ Feature: Followup
       | Is there a need for further follow up visits?               | <Radio> No                                                      |
       | If not, do you recommend that the case be closed?           | <Radio> Yes                                                     |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "Followup Subform Section" subform with the follow:
       | Follow up needed by                                         | 12-Jun-2014                      |
       | Follow up date                                              | 12-Jun-2014                      |

@@ -4,6 +4,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-244
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Care Arrangement
@@ -30,7 +31,7 @@ Feature: Care Arrangement
       | Caregiver's Age                                                         | 40                                        |
       | Other information from the caregiver about the child and his/her family | Some other information from the caregiver |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Care Arrangement" button
     And I should see a value for "Is this a same caregiver as was previously entered for the child?" on the show page with the value of "Yes"
     And I should see a value for "If this is a new caregiver, give the reason for the change" on the show page with the value of "Education"
