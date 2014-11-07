@@ -1,5 +1,4 @@
 require "uuidtools"
-require 'extensions/date'
 
 module FormToPropertiesConverter
   def properties_hash_from_forms(form_sections)
@@ -59,7 +58,7 @@ module FormToPropertiesConverter
     }
 
     date_options = {
-      :type => Date,
+      :type => PrimeroDate,
       :init_method => :parse,
     }
 
