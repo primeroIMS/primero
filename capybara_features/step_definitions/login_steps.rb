@@ -51,8 +51,8 @@ Given /there is a User/ do
   ensure_a_user_exists
 end
 
-Given /^"([^\"]*)" logs in with "([^\"]*)" permissions?$/ do |username, permissions|
-  data_populator.create_user(username, '123', permissions)
+Given /^"([^\"]*)" logs in with "([^\"]*)" permissions(?: and modules "(.+)")?$/ do |username, permissions, modules|
+  data_populator.create_user(username, '123', permissions, modules)
   login_page.login_as(username, '123')
 end
 

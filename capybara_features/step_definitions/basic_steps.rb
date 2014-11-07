@@ -606,7 +606,9 @@ end
 
 Given /^I am editing an existing child record$/ do
   child = Child.new
-  child[:created_by] = "mary"
+  child[:module_id] = "primeromodule-cp"
+  child[:created_by] = "bob"
+  child[:owned_by] = "bob"
   child["birthplace"] = "haiti"
   child.photo = uploadable_photo
   child["unique_identifier"] = "UNIQUE_IDENTIFIER"
