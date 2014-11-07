@@ -206,6 +206,9 @@ en:
     sex: "Sex"
     registration_date: "Registration Date"
     status: "Status"
+    match_record: "Match"
+    match_record_success: "Records Matched"
+    match_record_failed: "Match Not Found"
 
     messages:
       update_success: "Child was successfully updated."

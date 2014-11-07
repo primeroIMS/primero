@@ -1,4 +1,9 @@
 <%# TODO: Refactor this toolbar to be shared by all record types. %>
+<% if params[:match].present? %>
+  <li>
+    <%= link_to t("child.match_record"), match_record_case_path(@child, match: params[:match]), class: 'btn green-button', method: :put %>
+  </li>
+<% end %>
 <% if can? :flag, child %>
     <li>
         <div class="dropdown_btn dropdown_form">
