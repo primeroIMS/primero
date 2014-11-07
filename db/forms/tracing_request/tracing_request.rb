@@ -1,5 +1,10 @@
 tracing_request_subform_fields = [
-  #TODO add GUID field.
+  #TODO make this a link on the show page somehow
+  Field.new({"name" => "matched_case_id",
+             "type" => "text_field",
+             "editable" => false,
+             "display_name_all" => "Matched Case ID"
+           }),
   Field.new({"name" => "tracing_request_status",
              "type" =>"select_box" ,
              "display_name_all" => "Tracing status",
@@ -10,9 +15,6 @@ tracing_request_subform_fields = [
                                   "Reunified",
                                   "Closed"].join("\n")
             }),
-  #TODO add tracing_request_match (Tracing request match):
-  #     Short ID of Case that matches?
-  #     autopopulate on match? (match is link?)
   Field.new({"name" => "individual_details_section",
              "type" => "separator",
              "display_name_all" => "Individual Details"
