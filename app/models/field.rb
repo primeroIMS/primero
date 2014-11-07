@@ -20,6 +20,7 @@ class Field
   property :selected_value, :default => ""
   property :create_property, TrueClass, :default => true
   property :searchable_select, TrueClass, :default => false
+  property :link_value, :default => ""  #Used to handle a text field as a link on the show pages
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"

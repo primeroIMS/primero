@@ -157,6 +157,7 @@ tracing_fields = [
   Field.new({"name" => "matched_tracing_request_id",
              "type" => "text_field",
              "editable" => false,
+             "link_value" => "matched_tracing_request",
              "display_name_all" => "Matched Tracing Request ID"
            }),
   Field.new({"name" => "separation_separator",
