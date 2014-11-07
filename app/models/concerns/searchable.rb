@@ -90,7 +90,7 @@ module Searchable
             end
           end
         end
-        if !match.present? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
+        if match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
           any_of do
             associated_user_names.each do |user_name|
               with(:associated_user_names, user_name)
@@ -112,6 +112,7 @@ module Searchable
             # tracing_request.tracing_request_subform_section.select{|tr| tr.unique_id == "15116c7f-f8a4-41d8-b663-089e3ef9575c"}.first
             tracing_form = tracing_request.tracing_request_subform_section[index.to_i]
             if tracing_form.present?
+              #TODO - add more match criteria
               fulltext(tracing_form.name)
             end
           end
