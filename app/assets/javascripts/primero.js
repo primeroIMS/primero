@@ -109,7 +109,7 @@ var Primero = Backbone.View.extend({
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
-    'change .record_types input': 'record_type_changed'
+    'change .record_types input:not([type="hidden"])': 'record_type_changed'
   },
 
   initialize: function() {
@@ -209,7 +209,7 @@ var Primero = Backbone.View.extend({
   },
 
   show_hide_record_type: function(input) {
-    var inputs = input ? input : $('.record_types input');
+    var inputs = input ? input : $('.record_types input:not([type="hidden"]');
 
     inputs.each(function(k, v) {
       var selected_input = $(v),
