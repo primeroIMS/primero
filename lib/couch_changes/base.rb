@@ -2,11 +2,22 @@
 Bundler.require(:couch_watcher)
 
 module CouchChanges
-  MODELS_TO_WATCH = [Child, Incident, TracingRequest, Lookup, Location, FormSection]
+  MODELS_TO_WATCH = [
+    Child,
+    Incident,
+    TracingRequest,
+    Lookup,
+    Location,
+    FormSection,
+    PrimeroModule,
+    Agency,
+    User
+  ]
 
   class << self
     def logger
-      @_logger ||= Logger.new(STDOUT)
+      $stdout.sync = true
+      @_logger ||= Logger.new($stdout).tap {|l| l.level = Rails.configuration.couch_watcher_log_level }
     end
 
     def run(history_file=nil)

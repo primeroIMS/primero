@@ -4,7 +4,7 @@ module CouchChanges
     class Notifier < BaseProcessor
       class << self
         def supported_models
-          [Lookup, Location, FormSection]
+          [Lookup, Location, FormSection, User, Agency, PrimeroModule]
         end
 
         def process(modelCls, change)
@@ -37,7 +37,7 @@ module CouchChanges
             # request didn't catastrophically fail, regardless of the status
             # code returned by rails.
             if multi.responses[:errback].length == 0
-              CouchChanges.logger.debug "App successfully notified of change \##{change['seq']} on model #{modelCls.name}"
+              CouchChanges.logger.info "App successfully notified of change \##{change['seq']} on model #{modelCls.name}"
               dfd.succeed
             else
               multi.responses[:errback].each do |k, v|
@@ -63,7 +63,7 @@ module CouchChanges
 
           # Use GET here instead of POST since the requests hang on normal POST requests.  See
           # https://groups.google.com/forum/#!topic/phusion-passenger/-XYYtqTQpLk
-          multi.add(uri.port.to_s, EventMachine::HttpRequest.new(uri.to_s).get(:head => headers))
+          multi.add(process.pid, EventMachine::HttpRequest.new(uri.to_s).get(:head => headers))
         end
       end
     end

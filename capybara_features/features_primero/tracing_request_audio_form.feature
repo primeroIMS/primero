@@ -73,10 +73,9 @@ Feature: Tracing Request Case Audio Form
     Then I should see "Tracing Request record successfully created"
     When I click the "Photos and Audio" link
     Then I should see "2" thumbnails
-    #TODO refactoring way to check thumbnails on edit page, the html structure has changed.
-    #When I follow "Edit"
-    #And I click the "Photos and Audio" link
-    #Then I should see "2" thumbnails
+    When I follow "Edit"
+    And I click the "Photos and Audio" link
+    Then I should see "2" thumbnails on edit
 
   Scenario: I delete the audio file
     Given I am logged in as a social worker with username "primero_cp" and password "primero"

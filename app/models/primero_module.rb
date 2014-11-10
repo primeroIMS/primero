@@ -6,6 +6,7 @@ class PrimeroModule < CouchRest::Model::Base
   use_database :primero_module
 
   include PrimeroModel
+  include Memoizable
   include Namable #delivers "name" and "description" fields
 
   property :program_id
@@ -17,6 +18,20 @@ class PrimeroModule < CouchRest::Model::Base
   validates_presence_of :program_id, :message => I18n.t("errors.models.primero_module.program")
   validates_presence_of :associated_form_ids, :message => I18n.t("errors.models.primero_module.associated_form_ids")
   validates_presence_of :associated_record_types, :message => I18n.t("errors.models.primero_module.associated_record_types")
+
+  class << self
+    alias :old_all :all
+    def all(*args)
+      old_all(*args)
+    end
+    memoize_in_prod :all
+
+    alias :old_get :get
+    def get(*args)
+      old_get(*args)
+    end
+    memoize_in_prod :get
+  end
 
   def program
     PrimeroProgram.get self.program_id

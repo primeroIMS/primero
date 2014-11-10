@@ -4,6 +4,10 @@
    shared_subform_section = FormSection.get_by_unique_id subform_section.shared_subform
    shared_subform_section_group = subform_section.shared_subform_group
    number_of_subforms = subforms_count formObject, subform, form_group_name
+   data_shared_subform = ""
+   if shared_subform_section.present?
+     data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
+   end
    if number_of_subforms > 0
      subform_object = get_subform_object(formObject, subform_section, form_group_name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group)
    end
@@ -15,7 +19,7 @@
   <% end %>
 <% else %>
   <div class="row">
-    <div class="subforms">
+    <div id="<%= subform.name %>" class="subforms" <%=data_shared_subform%> data-form_group_name="<%= shared_subform_section_group.dehumanize unless shared_subform_section_group.nil? %>">
       <% (number_of_subforms).times do |i| %>
         <%
           formObject_i = subform_object[i]

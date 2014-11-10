@@ -13,6 +13,7 @@ server {
   passenger_enabled on;
   passenger_min_instances <%= @passenger_conf['min_instances'] || 1 %>;
   passenger_ruby <%= @rvm_ruby_path %>;
+  passenger_sticky_sessions on;
 
   rails_env <%= @rails_env %>;
 

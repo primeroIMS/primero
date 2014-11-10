@@ -16,8 +16,13 @@ Then /^I should see the thumbnail of "([^\"]*)" with timestamp "([^"]*)"$/ do |n
 end
 
 Then /^I should see "([^\"]*)" thumbnails$/ do |number|
-  thumbnails = all(:css, '.thumbnail img')
-  thumbnails.collect{|element| element['src']}.uniq.size.should eql number.to_i
+  thumbnails = all("//fieldset[contains(@id, '_photos_and_audio')]//div[@class='thumbnails photos']//div[@class='thumbnail']//a//img")
+  thumbnails.size.should eq(number.to_i)
+end
+
+Then /^I should see "([^\"]*)" thumbnails on edit$/ do |number|
+  thumbnails = all("//fieldset[contains(@id, '_photos_and_audio')]//img")
+  thumbnails.size.should eq(number.to_i)
 end
 
 def check_link(response, child_name)

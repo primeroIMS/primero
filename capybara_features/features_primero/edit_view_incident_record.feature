@@ -14,6 +14,7 @@ Feature: Edit and View Incident Record
     When I press the "INCIDENTS" button
     And I press the "7af3aa9" link
     And I press the "Edit" button
+    And I press the "Incident" button
     And I fill in "Date of First Report" with "14-Jul-2014"
     And I select "Afternoon (noon to sunset)" from "Time of day that the Incident took place"
     And I fill in the following:
@@ -31,6 +32,7 @@ Feature: Edit and View Incident Record
       | primero_mrm | 03-Feb-2004             | active   | 21c4cba8-b410-4af6-b349-68c557af3aa9 | 3                         | Afternoon (noon to sunset) |
     When I press the "INCIDENTS" button
     And I press the "7af3aa9" link
+    And I press the "Incident" button
     And I should see a value for "Date of First Report" on the show page with the value of "03-Feb-2004"
     And I should see a value for "Time of day that the Incident took place" on the show page with the value of "Afternoon (noon to sunset)"
     And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls:5 Unknown:2 Total incident total victims/survivors:10"

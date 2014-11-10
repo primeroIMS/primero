@@ -5,8 +5,8 @@
 
 <div class="row">
   <%= form_for @lookup, :html => { :class => 'default-form', :autocomplete => "off" } do |f| %>
-    <%= f.error_messages :header_tag => :h3 %>
     <fieldset class="no-border">
+      <%= f.error_messages :header_tag => :h2 %>
       <div class="row">
         <div class="medium-3 columns">
           <%= f.label :name, t("lookup.name"), :class => "key inline" %>

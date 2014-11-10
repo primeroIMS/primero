@@ -58,11 +58,10 @@ class IncidentsController < ApplicationController
 
     @page_name = t("incidents.register_new_incident")
     @incident = Incident.new
-    @incident['status'] = ["Active"]
     @incident['record_state'] = true
     @incident['mrm_verification_status'] = "Pending"
     @incident['module_id'] = params['module_id']
-    @incident['status'] = "Open" if @incident['module_id'] == PrimeroModule::MRM
+    @incident['status'] = "Open"
 
     if params['case_id'].present?
       case_record = Child.get(params['case_id'])
@@ -92,7 +91,7 @@ class IncidentsController < ApplicationController
     reindex_hash params['incident']
 
     create_or_update_incident(params[:incident])
-    @incident['status'] = "Open" if @incident['status'].blank? and @incident['module_id'] == PrimeroModule::MRM
+    @incident['status'] = "Open" if @incident['status'].blank?
 
     respond_to do |format|
       if @incident.save
@@ -122,7 +121,7 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       format.html do
         @incident = update_incident_from params
-        @incident['status'] = "Open" if @incident['status'].blank? and @incident['module_id'] == PrimeroModule::MRM
+        @incident['status'] = "Open" if @incident['status'].blank?
         if @incident.save
           flash[:notice] = I18n.t("incident.messages.update_success")
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]

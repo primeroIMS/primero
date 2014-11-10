@@ -4,9 +4,9 @@ class DataPopulator
     create_user('default_username', 'default_password', permission)
   end
 
-  def create_user(username, password, permission)
+  def create_user(username, password, permission, primero_modules=nil)
     user_type = 'user'
-    create_account(user_type, username, password, permission)
+    create_account(user_type, username, password, permission, primero_modules)
   end
 
   def create_admin(username, password, permission)
@@ -39,6 +39,8 @@ private
     role_name = permissions.join("-")
     role = Role.find_by_name(role_name) || Role.create(:name => role_name, :permissions => permissions)
 
+    modules_id = primero_modules.split(",") if primero_modules.present?
+
     @user = User.find_by_user_name(username)
 
     if @user.nil?
@@ -50,7 +52,8 @@ private
           :organization=>"UNICEF",
           :disabled => "false",
           :email=>"#{username}@test.com",
-          :role_ids => [role.id]
+          :role_ids => [role.id],
+          :module_ids => modules_id || []
       )
       @user.save!
     end
