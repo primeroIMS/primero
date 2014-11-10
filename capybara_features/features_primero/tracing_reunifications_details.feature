@@ -3,6 +3,7 @@
 # JIRA PRIMERO-261
 # JIRA PRIMERO-365
 # JIRA PRIMERO-429
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Tracing Reunification Details
@@ -45,7 +46,7 @@ Feature: Tracing Reunification Details
       | Is there a need for follow up?                       | <Radio> No                |
       | If not, do you recommend that the case be closed?    | <Radio> Yes               |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "Reunification Details Section" subform with the follow:
       | Name of adult child was reunified with               | Verma Webol               |
       | Relationship of adult to child                       | Father                    |
@@ -97,7 +98,7 @@ Feature: Tracing Reunification Details
       | If not, what was the reason for the change?          | <Select> Change of Mind   |
       | Is there a need for follow up?                       | <Radio> Yes               |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Edit" button
     And I remove the 1st "Reunification Details Section" subform
     And I click OK in the browser popup

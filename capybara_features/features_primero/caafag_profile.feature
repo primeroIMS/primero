@@ -4,6 +4,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-496
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: CAAFAG Profile
@@ -28,7 +29,7 @@ Feature: CAAFAG Profile
       | When did the child join the Armed Force or Armed Group? | <Date Range>from: '01-Jan-2014', to: '01-Feb-2014' |
       | If Other, please specify                                | This is how child left                             |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "CAAFAG Profile" button
     And I should see a value for "UN DDR Number" on the show page with the value of "50"
     And I should see a value for "Other reason for enrollment" on the show page with the value of "Some reason"
@@ -45,6 +46,6 @@ Feature: CAAFAG Profile
       | When did the child join the Armed Force or Armed Group?  | <Date Range>from: '15-Jan-2013', to: '22-Feb-2013' |
       | When did the child leave the Armed Force or Armed Group? | <Date Range>from: '01-Jan-2014', to: '01-Feb-2014' |
     And I press "Save"
-    Then I should see "Case was successfully updated." on the page
+    Then I should see a success message for updated Case
     And I should see a value for "When did the child join the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 15-Jan-2013 To: 22-Feb-2013"
     And I should see a value for "When did the child leave the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 01-Jan-2014 To: 01-Feb-2014"

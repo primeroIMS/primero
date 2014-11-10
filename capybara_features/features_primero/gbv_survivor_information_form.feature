@@ -2,6 +2,7 @@
 # JIRA PRIMERO-520
 # JIRA PRIMERO-518
 # JIRA PRIMERO-539
+# JIRA PRIMERO-736
 
 @search @javascript @primero
 Feature: Survivor Information Form
@@ -44,7 +45,7 @@ Feature: Survivor Information Form
       | What is the caretaker's current marital status?                                             | <Select> Single                 |
       | What is the caretaker's primary occupation?                                                 | Caretaker occupation            |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case Status" on the show page with the value of "Transferred"
     #By default in GBV new cases the name is hide.
     And I should see a value for "Name" on the show page with the value of "*****"

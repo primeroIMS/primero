@@ -1,4 +1,5 @@
 #JIRA PRIMERO-607
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Display Help Text View Empty Section
@@ -9,7 +10,7 @@ Feature: Display Help Text View Empty Section
     When I access "cases page"
     And I press the "New Case" button
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Photos and Audio" button
     And I should see "Click the EDIT button to add Photos and Audio details" on the page
     And I press the "Other Documents" button
@@ -20,7 +21,7 @@ Feature: Display Help Text View Empty Section
     When I access "tracing requests page"
     And I press the "New Tracing Request" button
     And I press "Save"
-    Then I should see "Tracing Request record successfully created" on the page
+    Then I should see a success message for new Tracing Request
     And I press the "Photos and Audio" button
     And I should see "Click the EDIT button to add Photos and Audio details" on the page
 
@@ -29,6 +30,6 @@ Feature: Display Help Text View Empty Section
     When I access "incidents page"
     And I press the "New Incident" button
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I press the "Other Documents" button
     And I should see "Click the EDIT button to add Other Documents" on the page

@@ -3,6 +3,7 @@
 # JIRA PRIMERO-365
 # JIRA PRIMERO-564
 # JIRA PRIMERO-726
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Perpetrator Form
@@ -51,7 +52,7 @@ Feature: Perpetrator Form
       | Alleged perpetrator relationship with survivor | <Select> Other |
       | Main occupation of alleged perpetrator (if known) | <Select> Unemployed |
     And I press "Save"
-    And I should see "Incident record successfully created." on the page
+    And I should see a success message for new Incident
     Then I should see in the 1st "Perpetrator Subform Section" subform with the follow:
       | Is this the primary perpetrator? | Yes |
       | Was the alleged perpetrator(s) a State or Non-State Actor? | State Actor |

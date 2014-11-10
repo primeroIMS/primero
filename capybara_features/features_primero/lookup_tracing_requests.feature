@@ -1,4 +1,5 @@
 #JIRA PRIMERO-243
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Lookup Tracing Requests
@@ -26,7 +27,7 @@ Feature: Lookup Tracing Requests
       | Sub Ethnicity 2                         | <Select> Ethnicity2   |
       | Nationality                             | <Choose>Nationality1  |
     And I press "Save"
-    Then I should see "Tracing Request record successfully created" on the page
+    Then I should see a success message for new Tracing Request
     And I should see values on the page for the following:
       |Language                | Language1    |
       |Religion                | Religion1    |

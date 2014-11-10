@@ -1,4 +1,5 @@
 #JIRA PRIMERO-138
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Limits Photo Upload
@@ -53,4 +54,4 @@ Feature: Limits Photo Upload
       |capybara_features/resources/jeff.png|
       |capybara_features/resources/jeff.png|
     And I press "Save"
-    Then I should see "Case was successfully updated"
+    Then I should see a success message for updated Case

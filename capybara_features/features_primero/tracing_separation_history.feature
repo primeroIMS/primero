@@ -1,4 +1,5 @@
 # JIRA PRIMERO-133
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Tracing Separation History
@@ -16,7 +17,7 @@ Feature: Tracing Separation History
       | Additional info that could help in tracing?    | Some Additional Information |
       | Details about what the child faced / witnessed | Some Additional Details     |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     When I press the "Tracing" button
     And I click on "Tracing" in form group "Tracing"
     Then I should see a value for "Tracing Status" on the show page with the value of "Open"

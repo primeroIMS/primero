@@ -1,5 +1,6 @@
 # JIRA PRIMERO-487
 # JIRA PRIMERO-565
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: GBV Survivor Assessment Form
@@ -21,7 +22,7 @@ Feature: GBV Survivor Assessment Form
       | Describe the survivor’s emotional state                        | <Select> Other, please specify           |
       | If other was selected for the survivor's emotional state, please provide detail | Emotional state details |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Survivor Context" on the show page with the value of "Some text"
     And I should see a value for "Assessement of Presenting Problem" on the show page with the value of "Assessement of presenting problem"
     And I should see a value for "Assessement of Immediate Need" on the show page with the value of "Assessement of immediate need"

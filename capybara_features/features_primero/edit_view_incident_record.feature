@@ -1,5 +1,6 @@
 # JIRA PRIMERO-289
 # JIRA PRIMERO-523
+# JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Edit and View Incident Record
@@ -20,7 +21,7 @@ Feature: Edit and View Incident Record
     And I fill in the following:
       | Incident Total Victims/Survivors    | <Tally>Boys:3<Tally>Girls:2     |
     And I press "Save"
-    Then I should see "Incident was successfully updated" on the page
+    Then I should see a success message for updated Incident
     And I should see a value for "Date of First Report" on the show page with the value of "14-Jul-2014"
     And I should see a value for "Time of day that the Incident took place" on the show page with the value of "Afternoon (noon to sunset)"
     And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls:2 Unknown:2 Total incident total victims/survivors:7"

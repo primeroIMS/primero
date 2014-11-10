@@ -6,6 +6,7 @@
 #JIRA PRIMERO-365
 #JIRA PRIMERO-283
 #JIRA PRIMERO-526
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Attack on Hospitals Form
@@ -48,7 +49,7 @@ Feature: Attack on Hospitals Form
       | Verified by CTFMR                                                                                                               | <Radio> No                                                              |
       | Date verified by CTFMR                                                                                                          | today's date                                                            |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see 1 subform on the show page for "Attack on Hospitals"
     And I should see in the 1st "Attack on Hospitals" subform with the follow:
       | Number of Sites Attacked                          | 3                  |

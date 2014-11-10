@@ -2,6 +2,7 @@
 # JIRA PRIMERO-212
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Care Assessment
@@ -26,7 +27,7 @@ Feature: Care Assessment
       | Medical Intervention Notes  | Medical Notes  |
       | Other Intervention Notes    | Other Notes    |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Care Assessment" button
     And I should see a value for "Personal intervention needed?" on the show page with the value of "No Further Action Needed"
     And I should see a value for "Personal Intervention Notes" on the show page with the value of "Personal Notes"
