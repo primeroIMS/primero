@@ -30,6 +30,7 @@ module Historical
       property :prev_revision, String
       property :action, Symbol, :init_method => 'to_sym'
       property :changes, Hash, :default => {}
+      property :attachment_changes, Hash, :default => {}
     end], {:default => [], :init_method => ->(*args) { cast_histories(*args) }}
 
     def self.cast_histories(*args)
@@ -89,7 +90,7 @@ module Historical
                        v
                      end
 
-        acc.merge({k => new_change}) 
+        acc.merge({k => new_change})
       end
 
       hist
@@ -159,19 +160,21 @@ module Historical
       _force_save
       last_updated_at
       last_updated_by
-      _attachments
       histories
     }
 
     if self.changed?
       chs = self.changes.except(*ignored_root_properties)
-      if chs.present?
-        history_changes = changes_to_history(chs, self.properties_by_name).inject({}) do |acc, (k, v)|
+      history_changes = changes_to_history(chs, self.properties_by_name).inject({}) do |acc, (k, v)|
+        if ['from', 'to'].include?(k)
+          acc.merge(k => v)
+        else
           v.nil? ? acc : acc.merge(k => v)
         end
-        if history_changes.present?
-          add_update_to_history(history_changes)
-        end
+      end
+
+      if history_changes.present?
+        add_update_to_history(history_changes, attachment_changes)
       end
     end
     true
@@ -192,7 +195,7 @@ module Historical
     true
   end
 
-  def add_update_to_history(changes)
+  def add_update_to_history(changes, attachment_changes)
     without_dirty_tracking do
       self.histories.unshift({
         :user_name => last_updated_by,
@@ -201,6 +204,7 @@ module Historical
         :datetime => last_updated_at,
         :action => :update,
         :changes => changes,
+        :attachment_changes => attachment_changes,
       })
     end
   end
@@ -212,69 +216,86 @@ module Historical
   private
 
   def changes_to_history(changes, properties_by_name)
-    changes.inject({}) do |acc, (prop_name, (prev, current))|
+    (changes || {}).inject({}) do |acc, (prop_name, (prev, current))|
       prop = properties_by_name[prop_name]
-      if prop.nil?
-        acc
+      change_hash = if (prev.is_a?(Array) || current.is_a?(Array)) &&
+                       prop.try(:type).try(:include?, CouchRest::Model::Embeddable)
+        (prev_hash, current_hash) = [prev, current].map do |arr|
+                                      (arr || []).inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
+                                    end
+
+        (prev_hash.keys | current_hash.keys).inject({}) do |acc, k|
+          if prev_hash[k] != current_hash[k]
+            new_props_by_name = Hash.new.tap do |h|
+              h[k] = properties_by_name[prop.name]
+            end
+            if current_hash[k].nil?
+              acc.merge({k => nil})
+            else
+              acc.merge(changes_to_history({k => [prev_hash[k], current_hash[k]]}, new_props_by_name))
+            end
+          else
+            acc
+          end
+        end
+      elsif prop.try(:type).try(:include?, CouchRest::Model::Embeddable)
+        prop.type.properties_by_name.inject({}) do |acc2, (name, sub_prop)|
+          sub_changes = [prev, current].map {|h| h.present? ? h.__send__(name) : nil}
+          if sub_changes[0] != sub_changes[1]
+            acc2.merge(changes_to_history({ name => sub_changes}, { name => sub_prop }))
+          else
+            acc2
+          end
+        end
       else
-        change_hash = if (prev.is_a?(Array) || current.is_a?(Array)) &&
-                         prop.type.try(:include?, CouchRest::Model::Embeddable)
-          (prev_hash, current_hash) = [prev, current].map do |arr|
-                                        (arr || []).inject({}) {|acc2, emb| acc2.merge({emb.unique_id => emb}) }
-                                      end
+        (norm_prev, norm_current) = [prev, current].map {|v| normalize_history_value(prop_name, v) }
 
-          (prev_hash.keys | current_hash.keys).inject({}) do |acc, k|
-            if prev_hash[k] != current_hash[k]
-              new_props_by_name = Hash.new.tap do |h|
-                h[k] = properties_by_name[prop.name]
-              end
-              if current_hash[k].nil?
-                acc.merge({k => nil})
-              else
-                acc.merge(changes_to_history({k => [prev_hash[k], current_hash[k]]}, new_props_by_name))
-              end
-            else
-              acc
-            end
-          end
-        elsif prop.type.try(:include?, CouchRest::Model::Embeddable)
-          prop.type.properties_by_name.inject({}) do |acc2, (name, sub_prop)|
-            sub_changes = [prev, current].map {|h| h.present? ? h.__send__(name) : nil}
-            if sub_changes[0] != sub_changes[1]
-              acc2.merge(changes_to_history({ name => sub_changes}, { name => sub_prop }))
-            else
-              acc2
-            end
-          end
-        else
-          (norm_prev, norm_current) = [prev, current].map do |v|
-            case v
-            when String
-              s = v.strip
-              if s.blank?
-                nil
-              else
-                s
-              end
-            else
-              v
-            end
-          end
-
-          if norm_prev != norm_current
-            {
-              'from' => prev,
-              'to' => current,
-            }
-          end
+        if norm_prev != norm_current
+          {
+            'from' => norm_prev,
+            'to' => norm_current,
+          }
         end
-        if change_hash.present?
-          acc.merge({prop_name => change_hash})
-        else
-          acc
-        end
+      end
+      if change_hash.present?
+        acc.merge({prop_name => change_hash})
+      else
+        acc
       end
     end
   end
 
+  def normalize_history_value(prop_name, v)
+    case v
+    when String
+      s = v.strip
+      if s.blank?
+        nil
+      else
+        s
+      end
+    when Hash
+      if prop_name == '_attachments'
+        v.inject({}) do |acc, (k, att)|
+          if att.include?('content_type') && att.include?('data')
+            # Try to recreate how CouchDB will represent this attachment upon the
+            # next fetch
+            acc.merge(k => {
+              'content_type' => att['content_type'],
+              'stub' => true,
+              'revpos' => rev[0..1].to_i + 1,
+              'digest' => "md5-#{Digest::MD5.base64digest(att['data'])}",
+              'length' => att['data'].length,
+            })
+          else
+            acc
+          end
+        end
+      else
+        v
+      end
+    else
+      v
+    end
+  end
 end

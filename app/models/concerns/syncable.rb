@@ -65,7 +65,6 @@ module Syncable
 
     resolved_attrs = all_revs.each_cons(2)
                              .inject({}) do |acc, (older, newer)|
-
       base_revision = find_base_revision([older, newer])
       older_changes = older.get_intermediate_changes(base_revision)
 
@@ -286,20 +285,22 @@ module Syncable
   end
 
   def proposed_equals_history_value(proposed_value, history_value)
-    casted_proposed = if proposed_value.present? && !proposed_value.is_a?(history_value.class)
-                        case history_value
+    normed_history_value = normalize_history_value(history_value)
+    normed_proposed_value = normalize_history_value(proposed_value)
+    casted_proposed = if normed_proposed_value.present? && !normed_proposed_value.is_a?(normed_history_value.class)
+                        case normed_history_value
                         when Date, DateTime, Time
-                          history_value.class.parse(proposed_value)
+                          normed_history_value.class.parse(normed_proposed_value)
                         when Integer, Fixnum
-                          Integer(proposed_value)
+                          Integer(normed_proposed_value)
                         else
-                          proposed_value
+                          normed_proposed_value
                         end
                       else
-                        proposed_value
+                        normed_proposed_value
                       end
 
-    casted_proposed == history_value
+    casted_proposed == normed_history_value
   end
 end
 
