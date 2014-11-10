@@ -50,6 +50,9 @@ module NavigationHelpers
       when /tracing requests page/
         tracing_requests_path(options)
 
+      when /new tracing request page/
+        new_tracing_request_path(options)
+
       when /agencies page/
         agencies_path
 
