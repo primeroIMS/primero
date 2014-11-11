@@ -5,18 +5,21 @@
 # JIRA PRIMERO-363
 # JIRA PRIMERO-496
 # JIRA PRIMERO-736
+# JIRA PRIMERO-798
 
 @javascript @primero
 Feature: CAAFAG Profile
   As a Social Worker, I want to fill in form information for children (individuals) in particular circumstances
   so that we can track and report on areas of particular concern.
 
-  Scenario: As a logged in user, I create a case with CAAFAG profile information
+  Background:
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
     And I press the "Assessment" button
     And I press the "CAAFAG Profile" button
+
+  Scenario: As a logged in user, I create a case with CAAFAG profile information
     And I select "Other Paramilitary group" from "With which Armed Force or Armed Group was the child associated?"
     And I select "Financial reasons" from "If not forced, what was the main reason why the child became involved in the Armed Force or Armed Group? (type of recruitment)"
     And I select "Combat support" from "What was the main role of the child?"
@@ -49,3 +52,18 @@ Feature: CAAFAG Profile
     Then I should see a success message for updated Case
     And I should see a value for "When did the child join the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 15-Jan-2013 To: 22-Feb-2013"
     And I should see a value for "When did the child leave the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 01-Jan-2014 To: 01-Feb-2014"
+
+  Scenario: As a logged in user, I create a case should be able to fix invalid dates when switch date range field
+    And I fill in the following:
+      | When did the child join the Armed Force or Armed Group? | <Date Range><Date>addfdsfafsadf|
+      | When did the child leave the Armed Force or Armed Group? | <Date Range><Range> from: '21-21-1990', to: '21-21-1990'|
+    And I press "Save"
+    And I should see "There were problems with the following fields:" on the page
+    And I should see "CAAFAG Profile: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+    And I fill in the following:
+      | When did the child join the Armed Force or Armed Group? | <Date Range><Range> from: '01-Jan-2014', to: '01-Feb-2014'|
+      | When did the child leave the Armed Force or Armed Group? | <Date Range><Date>03-Jul-2014|
+    And I press "Save"
+    Then I should see a success message for new Case
+    And I should see a value for "When did the child join the Armed Force or Armed Group?" on the show page with the value of "<Date Range> From: 01-Jan-2014 To: 01-Feb-2014"
+    And I should see a value for "When did the child leave the Armed Force or Armed Group?" on the show page with the value of "03-Jul-2014"
