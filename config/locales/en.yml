@@ -88,6 +88,7 @@ en:
      advanced_search: "Advanced Search"
      go: "Go"
      search: "Search"
+     locations: "LOCATIONS"
 
   buttons:
      delete: "Delete"
