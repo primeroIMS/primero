@@ -40,7 +40,12 @@ class CustomFieldsValidator
           has_field_sub_fields(field, target, t)
         end if fields_instance.respond_to?(:each)
       elsif field[:type] == Field::DATE_RANGE
-        validate_field(field, target, nil, "_from") && validate_field(field, target, nil, "_to")
+        sub_type_range = target["#{field[:name]}_date_or_date_range"]
+        if sub_type_range == "date_range"
+          validate_field(field, target, nil, "_from") && validate_field(field, target, nil, "_to")
+        elsif sub_type_range == "date"
+          validate_field(field, target, nil, nil)
+        end
       else
         has_field_sub_fields(field, target, nil)
       end
