@@ -1,21 +1,14 @@
-<div class="row">
-  <div class="large-8 medium-4 columns">
-  </div>
-  <div class="large-4 medium-4 columns">
-      <% if can? :create, Replication %>
-        <%= link_to content_tag(:span, t("replication.configure_a_server"), class: 'create_user'), new_replication_path,  class: 'btn green-button right' %>
-      <% end %>
-  </div>
-</div>
-<div class="row">
+<% content_for :record_sub_nav do %>
+    <% if can? :create, Replication %>
+      <%= link_to content_tag(:span, t("replication.configure_a_server"), class: 'create_user'), new_replication_path,  class: 'btn green-button right' %>
+    <% end %>
+<% end %>
+<div class="page-content-new row collapse">
   <div class="large-12 medium-12 columns">
-    <div class="page-content-new">
-      <div class="side-tab-content full_width">
-        <% if @replications.present? %>
-          <%= render :partial => "replications/list_view_table", :locals => {:replications => @replications} %>
-        <% end %>
-        <div id="modal-dialog" class="hide"></div>
-      </div>
-    </div>
+      <% if @replications.present? %>
+        <%= render :partial => "replications/list_view_table", :locals => {:replications => @replications} %>
+      <% end %>
+      <div id="modal-dialog" class="hide"></div>
   </div>
 </div>
+
