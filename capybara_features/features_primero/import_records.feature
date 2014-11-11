@@ -1,4 +1,5 @@
 # JIRA PRIMERO-687
+# JIRA PRIMERO-801
 
 @javascript @primero @search
 Feature: Abduction Form
@@ -39,3 +40,19 @@ Feature: Abduction Form
     And I should see "File was imported successfully" on the page
     And I should see "d654485" on the page
     And I should see "b5175e8" on the page
+
+  Scenario Outline: Import single file
+    Given I am logged in as an admin with username "primero_cp" and password "primero"
+    When I access cases page
+    And I hover the "Actions" link
+    And I press the "Import" button
+    And I attach the file "<import_file>" to "import_file"
+    And I press "Import"
+    And I should see "File was imported successfully" on the page
+    And I should see "de93f60" on the page
+    And I should see "ca2c756" on the page
+    Examples:
+      | import_file                                       |
+      | capybara_features/resources/primero_cp-child.csv  |
+      | capybara_features/resources/primero_cp-child.xls  |
+      | capybara_features/resources/primero_cp-child.json |
