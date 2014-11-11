@@ -17,7 +17,7 @@ module ImportActions
             redirect_to :action => :index and return
           end
         else
-          if !import_single_file(file, type)
+          if !import_single_file(file.tempfile.open, type)
             flash[:error] = t('imports.unknown_type')
             redirect_to :action => :index and return
           end
