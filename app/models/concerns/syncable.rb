@@ -82,7 +82,6 @@ module Syncable
 
     # Take the oldest and apply all of the new attributes to it
     (active, discards) = [all_revs[-1], all_revs[0..-2]]
-    active['_rev'] = rev
 
     without_dirty_tracking do
       self.changed_attributes['_force_save'] = true
