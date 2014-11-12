@@ -54,37 +54,30 @@ module Searchable
       self.search do
         if filters.present?
           #TODO: pop off the locations filter and perform a fulltext search
-          filters.each do |filter,value|
+          filters.each do |filter,filter_value|
             if searchable_location_fields.include? filter
-              fulltext("\"#{value}\"", fields: filter)
+              fulltext("\"#{filter_value[:value]}\"", fields: filter)
             else
-              values = value.split("||")
-              type = values.shift
+              values = filter_value[:value]
+              type = filter_value[:type]
               any_of do
-                values.each do |v|
-                  if type == 'range'
-                    v = v.split("-")
-                    if v.count == 1
-                      # Range +
-                      with(filter).greater_than_or_equal_to(v.first.to_i)
-                    else
-                      range_start, range_stop = v.first.to_i, v.last.to_i
-                      with(filter, range_start...range_stop)
-                    end
-                  elsif type == 'date_range'
-                    v = v.split('.').each { |d| convert_date(d) }
-                    if v.count > 1
-                      to, from = v.first, v.last
-                      with(filter).between(to..from)
-                    else
-                      with(filter, v.first)
-                    end
+                if type == 'range'
+                  if values.count == 1
+                    # Range +
+                    with(filter).greater_than_or_equal_to(values.first.to_i)
                   else
-                    if properties_by_name[filter].try(:type) == TrueClass
-                      v = v == 'true' ? true : false
-                    end
-                    with(filter, v) unless v == 'all'
+                    range_start, range_stop = values.first.to_i, values.last.to_i
+                    with(filter, range_start...range_stop)
                   end
+                elsif type == 'date_range'
+                  if values.count > 1
+                    to, from = values.first, values.last
+                    with(filter).between(to..from)
+                  else
+                    with(filter, values.first)
+                  end
+                else
+                  with(filter, values) unless values == 'all'
                 end
               end
             end
@@ -105,10 +98,6 @@ module Searchable
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
       end
-    end
-
-    def convert_date(date)
-      Date.parse(date)
     end
 
     # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.

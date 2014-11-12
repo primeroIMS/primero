@@ -27,11 +27,29 @@ module RecordFilteringPagination
   end
 
   def filter
-    filter = if params[:scope].present?
+    filter_scope = {}
+    if params[:scope].present?
+      @invalid_date_filter_value = false
+      model_class = params[:controller].singularize.capitalize.constantize
       params[:scope].reject{|k,v| k == 'users'}
-    else
-      {}
+      params[:scope].each_key do |key|
+        filter_type, filter_values = params[:scope][key].split "||"
+        case filter_type
+        when "range"
+          filter_values = filter_values.split "-"
+        when "date_range"
+          filter_values = sanitize_date_range_filter(filter_values.split ".")
+        else
+          if model_class.properties_by_name[key].try(:type) == TrueClass
+            filter_values = (filter_values == 'true')
+          end
+        end
+        filter_scope[key] = {:type => filter_type, :value => filter_values} unless filter_values.blank?
+      end
+      flash.now[:error] = I18n.t("messages.invalid_date_filter_value") if @invalid_date_filter_value
     end
+
+    filter_scope
   end
 
   def associated_users
@@ -49,6 +67,15 @@ module RecordFilteringPagination
 
   end
 
-
-
+  def sanitize_date_range_filter (date_range)
+    date_range.each_with_index do |value, i|
+      begin
+        date_range[i] = PrimeroDate.parse_with_format value
+      rescue ArgumentError => arg_error
+        @invalid_date_filter_value = true
+        return []
+      end
+    end
+    date_range
+  end
 end
