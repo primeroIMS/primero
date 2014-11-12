@@ -1,11 +1,12 @@
-<div class="row">
-  <div class="large-12 medium-12 columns">
-    <h1 class="no_border"><%= t "location.create" %></h1>
+<% content_for :breadcrumbs do %>
+  <%= t "location.create" %>
+<% end %>
 
-    <div class="page-content-new location-page">
-      <div class="side-tab-content full_width">
-        <%= render 'locations/form' %>
-      </div>
+<div class="page-content-new row collapse" data-equalizer>
+  <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'locations'} %>
+  <div class="large-8 medium-8 columns side-tab-content-container">
+    <div class="side-tab-content" data-equalizer-watch>
+      <%= render 'locations/form' %>
     </div>
   </div>
 </div>

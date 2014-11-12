@@ -1,6 +1,7 @@
 # JIRA PRIMERO-354
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Interview Details Form
@@ -22,7 +23,7 @@ Feature: Interview Details Form
       | Last Location          | <Choose>A Location Country               |
       | Last Telephone         | 828-555-1414                             |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Place of Birth" on the show page with the value of "Boston"
     And I should see a value for "Last Address" on the show page with the value of "222 1st Ave, Mooresville NC, 28117"
     And I should see a value for "Last Landmark" on the show page with the value of "Roller Coaster Hill"

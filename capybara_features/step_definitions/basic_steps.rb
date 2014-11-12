@@ -1,3 +1,13 @@
+Then /^I should see a success message for (new|updated) (Case|Incident|Tracing Request)$/ do |action, model|
+  page.should have_selector(:css, "p.notice")
+  message_text = page.find(:css, "p.notice").text
+  if action == "new"
+    message_text.match(/^#{model} record (.*) successfully created.$/).nil?.should eq(false)
+  elsif "updated"
+    message_text.match(/^#{model} (.*) was successfully updated.$/).nil?.should eq(false)
+  end
+end
+
 Then /^I should see "([^\"]*)" on the page$/ do |text|
   page.has_content?(text).should == true
 end

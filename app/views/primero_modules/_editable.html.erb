@@ -26,10 +26,11 @@
       <span class="section">
         <% FormSection::RECORD_TYPES.each do |record_type| %>
           <label>
-            <%= form_builder.check_box :associated_record_types, {id: "prmero_module_#{record_type}", name: "primero_module[associated_record_types][]"}, record_type, nil  %>
+            <%= form_builder.check_box :associated_record_types, {id: "prmero_module_#{record_type}", name: "primero_module[associated_record_types][]", class: 'tick_box'}, record_type, nil  %>
             <%= t("forms.record_types.#{record_type}") %>
           </label>
         <% end %>
+        <%= form_builder.hidden_field :associated_record_types, name: 'primero_module[associated_record_types][]', value: nil %>
       </span>
     </span>
   </div>
@@ -50,10 +51,11 @@
           <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
           <% forms_list.sort_by{ |f| f.name }.each do |form| %>
               <label>
-                <%= form_builder.check_box :associated_form_ids, {id: "primero_module_#{form.unique_id}", name: "primero_module[associated_form_ids][]"}, form.unique_id, nil %>
+                <%= form_builder.check_box :associated_form_ids, {id: "primero_module_#{form.unique_id}", name: "primero_module[associated_form_ids][]", class: 'tick_box'}, form.unique_id, nil %>
                 <%= form.name %>
               </label>
           <% end %>
+          <%= form_builder.hidden_field :associated_record_types, name: 'primero_module[associated_record_types][]', value: nil %>
         </span>
       <% end %>
     </span>

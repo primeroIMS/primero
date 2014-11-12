@@ -1,4 +1,5 @@
 # JIRA PRIMERO-294
+# JIRA PRIMERO-736
 # TODO Write test for filters
 
 @javascript @primero @search
@@ -17,7 +18,7 @@ And I fill in the following:
   | Previous Owner    | admin              |
   | Previous Agency   | Test Agency        |
 And I press "Save"
-Then I should see "Case record successfully created" on the page
+Then I should see a success message for new Case
 And I should see a value for "Location Address" on the show page with the value of "Kenya"
 And I should see a value for "Previous Agency" on the show page with the value of "Test Agency"
 And I should see a value for "Record created by" on the show page with the value of "primero_cp"

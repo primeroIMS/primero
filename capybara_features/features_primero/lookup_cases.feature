@@ -1,5 +1,6 @@
 #JIRA PRIMERO-243
 # JIRA PRIMERO-449
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Lookup Cases
@@ -29,7 +30,7 @@ Feature: Lookup Cases
       | Language               | <Choose>Language1<Choose>Language2       |
       | Religion               | <Choose>Religion1<Choose>Religion2       |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see values on the page for the following:
       |Nationality             | Nationality1, Nationality3 |
       |Birth Country           | Country1                   |
@@ -59,7 +60,7 @@ Feature: Lookup Cases
       |Sub Ethnicity 2                                       | <Select> Ethnicity1                        |
       |Nationality                                           | <Choose>Nationality2                       |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "Family Details Section" subform with the follow:
       |Language                                              | Language1, Language2         |
       |Religion                                              | Religion1, Religion2         |

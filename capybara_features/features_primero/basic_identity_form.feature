@@ -20,6 +20,7 @@
 # JIRA PRIMERO-450
 # JIRA PRIMERO-493
 # JIRA PRIMERO-783
+# JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Basic Identity Form
@@ -60,7 +61,7 @@ Feature: Basic Identity Form
       | Current Telephone                        | 336-555-1313                       |
     And the value of "Age" should be the calculated age of someone born in "1992"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Long ID" on the show page
     And I should see values on the page for the following:
@@ -89,7 +90,7 @@ Feature: Basic Identity Form
 
   Scenario: As a logged in user, I create a case without entering anything in any field in the basic identity form
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Long ID" on the show page
     And I should see a value for "Case Status" on the show page with the value of "Open"
@@ -143,7 +144,7 @@ Feature: Basic Identity Form
 
   Scenario: As a logged in user, I create a case with no values in the basic identity form
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Long ID" on the show page
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "today's date"
@@ -152,13 +153,13 @@ Feature: Basic Identity Form
     And I fill in the following:
       | Date of Registration or Interview | 08-Jun-2014 |
     And I press "Save"
-    And I should see "Case record successfully created" on the page
+    And I should see a success message for new Case
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "08-Jun-2014"
     And I press the "Edit" button
     And I fill in the following:
       | Date of Registration or Interview | 19-Jul-2014 |
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see a value for "Date of Registration or Interview" on the show page with the value of "19-Jul-2014"
 
   Scenario: As a logged in user, When I fill in the Age field the Date of Birth should be calculated
@@ -228,7 +229,7 @@ Feature: Basic Identity Form
     And I fill in the following:
       | Date of Birth | <valid_date> |
     And I press "Save"
-    And I should see "Case record successfully created" on the page
+    And I should see a success message for new Case
     And I should see a value for "Date of Birth" on the show page with the value of "05-Sep-2014"
 
     Examples:

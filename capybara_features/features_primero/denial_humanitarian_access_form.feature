@@ -7,6 +7,7 @@
 #JIRA PRIMERO-283
 #JIRA PRIMERO-446
 #JIRA PRIMERO-526
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Denial of Humanitarian Access Form
@@ -56,7 +57,7 @@ Feature: Denial of Humanitarian Access Form
     #And the value of "Number of total survivors" in the 1st "Denial Humanitarian Access" subform should be "60"
     #And the value of "Number of total survivors" in the 2nd "Denial Humanitarian Access" subform should be "90"
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Denial Humanitarian Access" subform with the follow:
      | What method(s) were used to deny humanitarian access? | Import Restrictions for Goods          |
      | What organizations were affected?                     | International, United Nations Agencies |

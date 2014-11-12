@@ -2,6 +2,7 @@
 #JIRA PRIMERO-365
 #JIRA PRIMERO-713
 #JIRA PRIMERO-714
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Subforms In Incidents
@@ -24,7 +25,7 @@ Feature: Subforms In Incidents
 
   Scenario: As a logged in user and create incident, I should be able to remove all subforms and add new subforms
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Group Details Section" subform with the follow:
       |Description of the Group of Children | Jane Doe |
 
@@ -38,7 +39,7 @@ Feature: Subforms In Incidents
     And I fill in the following:
       | Description of the Group of Children | Timmy |
     And I press "Save"
-    Then I should see "Incident was successfully updated" on the page
+    Then I should see a success message for updated Incident
     And I should see in the 1st "Group Details Section" subform with the follow:
       |Description of the Group of Children | Timmy |
 
@@ -55,7 +56,7 @@ Feature: Subforms In Incidents
     And I fill in the 3rd "Group Details Section" subform with the follow:
       | Description of the Group of Children | Timmy |
     And I press "Save"
-    Then I should see "Incident was successfully updated" on the page
+    Then I should see a success message for updated Incident
     And I should see in the 1st "Group Details Section" subform with the follow:
       |Description of the Group of Children | Jane Doe |
     And I should see in the 2nd "Group Details Section" subform with the follow:
@@ -66,7 +67,7 @@ Feature: Subforms In Incidents
     And I click OK in the browser popup
     And I wait for 1 seconds
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should not see "John Doe" on the page
     And I should not see "Timmy" on the page
     And I should not see "Jane Doe" on the page
@@ -83,7 +84,7 @@ Feature: Subforms In Incidents
     And I click OK in the browser popup
     And I wait for 1 seconds
     And I press "Save"
-    Then I should see "Incident was successfully updated" on the page
+    Then I should see a success message for updated Incident
     And I should not see "John Doe" on the page
     And I should not see "Timmy" on the page
     And I should not see "Jane Doe" on the page
@@ -107,7 +108,7 @@ Feature: Subforms In Incidents
     And I fill in the following:
       | Description of the Group of Children | Jane Doe |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see 2 subform on the show page for "Group Details Section"
     And I press the "Violations" button
     And I press the "Killing" button
@@ -121,7 +122,7 @@ Feature: Subforms In Incidents
       | Method                                                                             | <Select> Summary                             |
       | Cause                                                                              | <Select> IED                                 |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see 1 subform on the show page for "Killing"
     And I should see in the 1st "Killing" subform with the follow:
       | Number of victims                                                                  |<Tally> Boys:1 Girls:2 Unknown:3 Total number of victims:6 |
@@ -134,4 +135,4 @@ Feature: Subforms In Incidents
     And I wait for 1 seconds
     And I press "Save"
     And I should see "Click the edit button to add Killing details" on the page
-    Then I should see "Incident was successfully updated" on the page
+    Then I should see a success message for updated Incident

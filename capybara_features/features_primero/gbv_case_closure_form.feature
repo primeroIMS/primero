@@ -1,5 +1,6 @@
 # JIRA PRIMERO-486
 # JIRA PRIMERO-596
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: GBV Case Closure Form
@@ -24,7 +25,7 @@ Feature: GBV Case Closure Form
       | Survivor has been informed that she can resume services at any time                                                                        | <Radio> Yes                  |
       | Case supervisor has reviewed case closure/exit plan                                                                                        | <Radio> Yes                  |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case Closure Date" on the show page with the value of "today's date"
     And I should see a value for "Closure Assessement" on the show page with the value of "Closure assessement"
     And I should see a value for "Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days)" on the show page with the value of "Yes"
@@ -50,7 +51,7 @@ Feature: GBV Case Closure Form
     And I fill in the following:
       | Case Closure Date | 03-Sep-2044 |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case Closure Date" on the show page with the value of "03-Sep-2044"
 
   Scenario: The Case Closure Form should have the Case Status field. This should be shared with Survivor Information Form
@@ -78,7 +79,7 @@ Feature: GBV Case Closure Form
       | Survivor has been informed that she can resume services at any time                                                                        | <Radio> Yes                  |
       | Case supervisor has reviewed case closure/exit plan                                                                                        | <Radio> Yes                  |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case Status" on the show page with the value of "Open"
     And I should see a value for "Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days)" on the show page with the value of "Yes"
     And I should see a value for "Survivor’s safety plan has been reviewed and is in place" on the show page with the value of "No"

@@ -10,6 +10,7 @@
 # JIRA PRIMERO-427
 # JIRA PRIMERO-458
 # JIRA PRIMERO-461
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Protection Concern Form Details
@@ -36,7 +37,7 @@ Feature: Protection Concern Form Details
     And I press "Save"
 
   Scenario: As a logged in user, I create a case by entering something in every field in the protection concern details form
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Other"
     And I should see in the 1st "Protection Concern Detail Subform Section" subform with the follow:
       | Type of Protection Concern | Migrant             |
@@ -53,5 +54,5 @@ Feature: Protection Concern Form Details
     And I fill in the following:
       | Protection Concerns | <Choose>Statelessness |
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Statelessness, Other"

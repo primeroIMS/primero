@@ -3,6 +3,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-455
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Shared Fields
@@ -20,7 +21,7 @@ Feature: Shared Fields
     And I press the "Basic Identity" button
     And the value of "Current Civil/Marital Status" should be "Single"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Current Civil/Marital Status" on the show page with the value of "Single"
     And I press the "Family / Partner Details" button
     And I click on "Partner/Spouse Details" in form group "Family / Partner Details"

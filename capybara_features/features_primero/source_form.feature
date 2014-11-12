@@ -1,6 +1,7 @@
 # JIRA PRIMERO-320
 # JIRA PRIMERO-365
 # JIRA PRIMERO-727
+# JIRA PRIMERO-736
 
 Feature: Source Form
   As a User, I want to add details about the source of the information so that we can verify the details of the incident
@@ -32,7 +33,7 @@ Feature: Source Form
       | Consent for Data Sharing/Reporting?                        | <Radio> Don't Know          |
       | If the source is a child, does the child require services? | <Radio> Yes                 |
     Then I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Source Subform Section" subform with the follow:
       | Date of Interview                                          | 19-Jul-1979                 |
       | Monitor ID                                                 | Option1                     |

@@ -1,5 +1,6 @@
 # JIRA PRIMERO-617
 # JIRA PRIMERO-625
+# JIRA PRIMERO-736
 
 @search @javascript @primero
 Feature: Filter Cases
@@ -86,7 +87,7 @@ Scenario: As a CP user, I want to filter cases with photos
     And I fill in the following:
       | Name                                     | Tiki Thomas Taliaferro             |
     And I press "Save"
-    And I should see "Case record successfully created" on the page
+    And I should see a success message for new Case
     And I press the "CASES" button
     And I should see "andreas" on the page
     And I should see "Tiki Thomas Taliaferro" on the page

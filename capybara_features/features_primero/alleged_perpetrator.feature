@@ -1,4 +1,5 @@
 # JIRA PRIMERO-481
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Alleged Perpetrator
@@ -16,7 +17,7 @@ Feature: Alleged Perpetrator
       | Is this the primary perpetrator?  | <Radio> Secondary |
       | Past GBV by alledged perpetrator? | <Radio>  No       |
     And I press "Save"
-    And I should see "Incident record successfully created." on the page
+    Then I should see a success message for new Incident
     Then I should see in the 1st "Alleged Perpetrator" subform with the follow:
       | Is this the primary perpetrator? | Primary  |
       | Sex of Alleged Perpetrator(s)    | Male     |

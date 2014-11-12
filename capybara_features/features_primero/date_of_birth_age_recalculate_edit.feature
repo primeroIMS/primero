@@ -1,4 +1,5 @@
 #JIRA PRIMERO-291
+#JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Date Of Birth Age Recalculate Edit
@@ -18,7 +19,7 @@ Feature: Date Of Birth Age Recalculate Edit
    And I click the "bcdef12" link
    And I press the "Edit" button
    And I press "Save"
-   Then I should see "Case was successfully updated" on the page
+   Then I should see a success message for updated Case
    And I should see a value for "Date of Birth" on the show page with the value of "30-May-1990"
    And I should see the calculated Age of a child born in "1990"
    And I press the "Family / Partner Details" button

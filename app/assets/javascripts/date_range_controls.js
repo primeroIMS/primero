@@ -26,10 +26,12 @@ var DateRangeControl = Backbone.View.extend({
       if (radio.val() == "date") {
         radio.parent().parent().find('div.date').removeAttr('style');
         radio.parent().parent().find('div.date_range').attr('style', 'display:none;');
+        radio.parent().parent().find('div.date_range input.form_date_field').val("");
       }
       else if (radio.val() == "date_range") {
         radio.parent().parent().find('div.date').attr('style', 'display:none;');
         radio.parent().parent().find('div.date_range').removeAttr('style');
+        radio.parent().parent().find('div.date input.form_date_field').val("");
       }
     }
   }
