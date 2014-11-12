@@ -21,16 +21,16 @@ incident_fields = [
              "display_name_all" => "Violation Category",
              "multi_select" => true,
              "option_strings_text_all" => [
-                "Killing of Children",
-                "Maiming of Children",
-                "Abduction",
-                "Recruitment or Use of Child Soldiers",
-                "Rape or Other Grave Sexual Violence",
-                "Attacks on Schools",
-                "Attacks on Hospitals",
-                "Denial of Humanitarian Access",
-                "Other"
-              ].join("\n")
+                 { id: 'killing', display_text: "Killing of Children" },
+                 { id: 'maiming', display_text: "Maiming of Children" },
+                 { id: 'abduction', display_text: "Abduction" },
+                 { id: 'recuitment', display_text: "Recruitment or Use of Child Soldiers" },
+                 { id: 'sexual_violence', display_text: "Rape or Other Grave Sexual Violence" },
+                 { id: 'attack_on_schools', display_text: "Attacks on Schools" },
+                 { id: 'attack_on_hospitals', display_text: "Attacks on Hospitals" },
+                 { id: 'denial_of_humanitarian_access', display_text: "Denial of Humanitarian Access" },
+                 { id: 'other', display_text: "Other" }
+              ]
             }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",

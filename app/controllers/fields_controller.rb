@@ -49,7 +49,8 @@ class FieldsController < ApplicationController
 
   def update
     @field = fetch_field params[:id]
-    @field.attributes = params[:field] unless params[:field].nil?
+    @field.attributes = convert_multi_selects(params[:field]) unless params[:field].nil?
+
     @form_section.save
     if (@field.errors.length == 0)
       flash[:notice] = t("fields.updated")
@@ -121,6 +122,18 @@ class FieldsController < ApplicationController
     field.each do |key, value|
       if value.is_a?(Array)
         value.reject!(&:blank?)
+      end
+    end
+    convert_multi_selects(field)
+  end
+
+  def convert_multi_selects(field = {})
+    if field[:multi_select] == 'true' && (field[:option_strings_source].nil? || field[:option_strings_source].empty?)
+      RapidFTR::Application::locales.each do |locale|
+        if !field[:"option_strings_text_#{locale}"].empty?
+          field[:"option_strings_text_#{locale}"] = field[:"option_strings_text_#{locale}"].split(/[\r\n]+/)
+                         .map{ |option| { id: option.downcase.lstrip.gsub(/[^\w ]/, '').gsub(' ', '_'), display_text: option }}
+        end
       end
     end
     return field

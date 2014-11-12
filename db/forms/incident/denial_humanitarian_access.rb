@@ -18,14 +18,15 @@ denial_humanitarian_access_section_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "What organizations were affected?",
-             "option_strings_text_all" =>
-                                    ["National",
-                                     "International",
-                                     "N/A",
-                                     "NGO",
-                                     "United Nations Agencies",
-                                     "Red Cross / Crescent",
-                                     "Other"].join("\n")
+             "option_strings_text_all" => [
+                { id: 'national', display_text: "National" },
+                { id: 'international', display_text: "International" },
+                { id: 'n_a', display_text: "N/A" },
+                { id: 'ngo', display_text: "NGO" },
+                { id: 'united_nations_agencies', display_text: "United Nations Agencies" },
+                { id: 'red_cross_cresent', display_text: "Red Cross / Crescent" },
+                { id: 'other', display_text: "Other" }
+              ]
             }),
   Field.new({"name" => "impact_on_humanitarian_personnel_property_section",
              "type" => "separator",
