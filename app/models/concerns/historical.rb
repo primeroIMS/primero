@@ -30,7 +30,6 @@ module Historical
       property :prev_revision, String
       property :action, Symbol, :init_method => 'to_sym'
       property :changes, Hash, :default => {}
-      property :attachment_changes, Hash, :default => {}
     end], {:default => [], :init_method => ->(*args) { cast_histories(*args) }}
 
     def self.cast_histories(*args)
@@ -174,7 +173,7 @@ module Historical
       end
 
       if history_changes.present?
-        add_update_to_history(history_changes, attachment_changes)
+        add_update_to_history(history_changes)
       end
     end
     true
@@ -195,7 +194,7 @@ module Historical
     true
   end
 
-  def add_update_to_history(changes, attachment_changes)
+  def add_update_to_history(changes)
     without_dirty_tracking do
       self.histories.unshift({
         :user_name => last_updated_by,
@@ -204,7 +203,6 @@ module Historical
         :datetime => last_updated_at,
         :action => :update,
         :changes => changes,
-        :attachment_changes => attachment_changes,
       })
     end
   end
@@ -248,7 +246,7 @@ module Historical
           end
         end
       else
-        (norm_prev, norm_current) = [prev, current].map {|v| normalize_history_value(prop_name, v) }
+        (norm_prev, norm_current) = [prev, current].map {|v| normalize_history_value(v, prop_name) }
 
         if norm_prev != norm_current
           {
@@ -265,7 +263,7 @@ module Historical
     end
   end
 
-  def normalize_history_value(prop_name, v)
+  def normalize_history_value(v, prop_name=nil)
     case v
     when String
       s = v.strip
@@ -279,7 +277,7 @@ module Historical
         v.inject({}) do |acc, (k, att)|
           if att.include?('content_type') && att.include?('data')
             # Try to recreate how CouchDB will represent this attachment upon the
-            # next fetch
+            # next fetch. Hopefully this does not prove to be fragile.
             acc.merge(k => {
               'content_type' => att['content_type'],
               'stub' => true,
