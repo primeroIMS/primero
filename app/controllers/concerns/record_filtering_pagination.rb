@@ -30,7 +30,8 @@ module RecordFilteringPagination
     filter_scope = {}
     if params[:scope].present?
       @invalid_date_filter_value = false
-      model_class = params[:controller].singularize.capitalize.constantize
+      model_class = params[:model_class].constantize if params[:model_class].present?
+      model_class ||= params[:controller].camelize.singularize.constantize
       params[:scope].reject{|k,v| k == 'users'}
       params[:scope].each_key do |key|
         filter_type, filter_values = params[:scope][key].split "||"
