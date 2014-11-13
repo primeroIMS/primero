@@ -482,14 +482,6 @@ describe TracingRequestsController do
       assigns[:tracing_request]['_attachments'].size.should == 1
     end
 
-    it "should not update history on photo rotation" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
-      TracingRequest.get(tracing_request.id)["histories"].size.should be 1
-
-      expect{put(:update_photo, :id => tracing_request.id, :tracing_request => {:photo_orientation => "-180"})}.to_not change{TracingRequest.get(tracing_request.id)["histories"].size}
-    end
-
     it "should allow a records ID to be specified to create a new record with a known id" do
       new_uuid = UUIDTools::UUID.random_create()
       put :update, :id => new_uuid.to_s,

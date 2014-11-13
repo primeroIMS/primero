@@ -1,9 +1,9 @@
 module LogoUploader
   extend ActiveSupport::Concern
+  include Attachable
+  include LogoHelper
 
   MAX_LOGOS = 2
-
-  include LogoHelper
 
   included do
     property :photo_key, String
@@ -21,5 +21,21 @@ module LogoUploader
     return true if @logo.blank? || @logo.size < 10.megabytes
     i18n_message = I18n.t("errors.agencies.logo_size")
     errors.add(:logo, i18n_message)
+  end
+
+  def upload_logo=(logo)
+    delete_logo_attachment_file
+    @logo = logo['logo']
+    @logo_file_name = @logo.original_filename
+    attachment = FileAttachment.from_uploadable_file(@logo, "logo")
+    self['logo_key'] = attachment.name
+    attach(attachment)
+  end
+
+  def delete_logo_attachment_file
+    return if self.id.nil? || self['_attachments'].nil?
+    self['_attachments'].keys.each do |k|
+      delete_attachment(k)
+    end
   end
 end

@@ -65,20 +65,23 @@ module Syncable
 
     resolved_attrs = all_revs.each_cons(2)
                              .inject({}) do |acc, (older, newer)|
-
       base_revision = find_base_revision([older, newer])
       older_changes = older.get_intermediate_changes(base_revision)
 
       attrs = merge_with_existing_attrs(older.attributes_as_update_hash, older_changes,
                                     older.remove_stale_properties(newer.attributes_as_update_hash, base_revision))
+      attachments = attrs.delete('_attachments')
       newer.directly_set_attributes(attrs)
+      if attachments.present?
+        newer.recreate_missing_attachments(older, attachments)
+      end
       newer.attributes_as_update_hash
     end
 
     Rails.logger.debug {"Resolved attributes are #{resolved_attrs}"}
 
     # Take the oldest and apply all of the new attributes to it
-    (active, discards) = [all_revs[0], all_revs[1..-1]]
+    (active, discards) = [all_revs[-1], all_revs[0..-2]]
 
     without_dirty_tracking do
       self.changed_attributes['_force_save'] = true
@@ -86,13 +89,27 @@ module Syncable
       active.histories = active.histories.sort_by {|el| el.datetime || DateTime.new }.reverse
     end
 
+    Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
+    active.database.save_doc(active)
+
     discards.each do |r|
       Rails.logger.debug {"Deleting revision #{r.rev} for #{r.id}"}
       r.database.delete_doc(r)
     end
+  end
 
-    Rails.logger.debug {"Saving Active Revision: #{rev} for #{id}"}
-    active.database.save_doc(active)
+  # Unfortunately for some reason CouchDB doesn't like it if you just merge the
+  # attachment hash for different revisions.  It will claim that the attachment
+  # is missing for older revisions and throw a 412 error.  This will explicitly
+  # recreate the attachment on the newer revision.
+  # @param other_revision: the other revision that has any missing attachments
+  # @param attachments: the set of attachments for this instance
+  def recreate_missing_attachments(other_revision, attachments)
+      new_attachments = attachments.reject {|k, _| self._attachments.include?(k) }
+      new_attachments.inject(self._attachments) do |acc, (name, _)|
+        att = other_revision.attachment(name)
+        self.attach(att)
+      end
   end
 
   # Remove attributes that have been updated since `revision` to avoid
@@ -169,6 +186,7 @@ module Syncable
     end
 
     h = self.attributes.to_hash.with_indifferent_access
+    h['_attachments'] = self['_attachments']
     convert_embedded_to_hash.call(h)
   end
 
@@ -242,6 +260,10 @@ module Syncable
                 acc << el
               end
             end
+          else
+            if array_value_was_added_in_changes(el, existing_changes_for_value)
+              acc << el
+            end
           end
 
           acc
@@ -278,6 +300,12 @@ module Syncable
     end
   end
 
+  def array_value_was_added_in_changes(value, changes)
+    changes.any? do |ch|
+      !(ch['from'] || []).include?(value) && (ch['to'] || []).include?(value)
+    end
+  end
+
   def find_base_revision instances
     prev_revisions = instances.map {|i| i.histories.map {|h| h.prev_revision}.compact }
     # Ruby appears to maintain array order when doing set intersection,
@@ -286,20 +314,22 @@ module Syncable
   end
 
   def proposed_equals_history_value(proposed_value, history_value)
-    casted_proposed = if proposed_value.present? && !proposed_value.is_a?(history_value.class)
-                        case history_value
+    normed_history_value = normalize_history_value(history_value)
+    normed_proposed_value = normalize_history_value(proposed_value)
+    casted_proposed = if normed_proposed_value.present? && !normed_proposed_value.is_a?(normed_history_value.class)
+                        case normed_history_value
                         when Date, DateTime, Time
-                          history_value.class.parse(proposed_value)
+                          normed_history_value.class.parse(normed_proposed_value)
                         when Integer, Fixnum
-                          Integer(proposed_value)
+                          Integer(normed_proposed_value)
                         else
-                          proposed_value
+                          normed_proposed_value
                         end
                       else
-                        proposed_value
+                        normed_proposed_value
                       end
 
-    casted_proposed == history_value
+    casted_proposed == normed_history_value
   end
 end
 

@@ -1,4 +1,9 @@
-module AttachmentHelper
+module Attachable
+  extend ActiveSupport::Concern
+
+  included do
+    property :_attachments, Hash
+  end
 
   def attach(attachment)
     create_attachment :name => attachment.name,
