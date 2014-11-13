@@ -2,6 +2,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 #JIRA PRIMERO-365
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Subforms In Cases
@@ -25,7 +26,7 @@ Feature: Subforms In Cases
 
   Scenario: As a logged in user and create case, I should be able to remove all subforms and add new subforms
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "Family Details Section" subform with the follow:
       |Name | Jane Doe |
 
@@ -39,7 +40,7 @@ Feature: Subforms In Cases
     And I fill in the following:
       | Name | Timmy |
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see in the 1st "Family Details Section" subform with the follow:
       |Name | Timmy |
 
@@ -56,7 +57,7 @@ Feature: Subforms In Cases
     And I fill in the 3rd "Family Details Section" subform with the follow:
       | Name | Timmy |
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see in the 1st "Family Details Section" subform with the follow:
       |Name | Jane Doe |
     And I should see in the 2nd "Family Details Section" subform with the follow:
@@ -67,7 +68,7 @@ Feature: Subforms In Cases
     And I click OK in the browser popup
     And I wait for 1 seconds
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should not see "John Doe" on the page
     And I should not see "Timmy" on the page
     And I should not see "Jane Doe" on the page
@@ -84,7 +85,7 @@ Feature: Subforms In Cases
     And I click OK in the browser popup
     And I wait for 1 seconds
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should not see "John Doe" on the page
     And I should not see "Timmy" on the page
     And I should not see "Jane Doe" on the page

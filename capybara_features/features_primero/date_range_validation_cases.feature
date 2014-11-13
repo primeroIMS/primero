@@ -1,4 +1,5 @@
 # JIRA PRIMERO-475
+# JIRA PRIMERO-798
 
 @javascript @primero
 Feature: Date Range Validation Cases
@@ -45,3 +46,23 @@ Feature: Date Range Validation Cases
     And I press "Save"
     Then I should see "There were problems with the following fields:" on the page
     And I should see "When did the child join the Armed Force or Armed Group?: Please enter a valid date range 'From:' should be earlier than 'To:'" on the page
+
+  Scenario: As a logged in user and create an Incident with date range single value invalid, I want to see the error message
+    And I fill in the following:
+      | When did the child join the Armed Force or Armed Group? | <Date Range><Date>addfdsfafsadf|
+    And I press "Save"
+    Then I should see "There were problems with the following fields:" on the page
+    And I should see "CAAFAG Profile: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+
+  Scenario: As a logged in user and create an Incident and enter dates with invalid values, I want to see the error message
+    And I fill in the following:
+      | When did the child join the Armed Force or Armed Group? | <Date Range><Date>addfdsfafsadf|
+    And I press "Save"
+    And I should see "There were problems with the following fields:" on the page
+    And I should see "CAAFAG Profile: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+    And I fill in the following:
+      | When did the child join the Armed Force or Armed Group? | <Date Range><Range> from: 'afdsafdsfa', to: 'dsafsafdsafsd'|
+    And I press "Save"
+    Then I should see "There were problems with the following fields:" on the page
+    And I should see "CAAFAG Profile: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+    

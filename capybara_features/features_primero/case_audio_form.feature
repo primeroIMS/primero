@@ -3,6 +3,7 @@
 # JIRA PRIMERO-363
 # JIRA PRIMERO-535
 # JIRA PRIMERO-607
+# JIRA PRIMERO-736
 
 @search @javascript @primero
 Feature: Case Audio Form
@@ -52,7 +53,7 @@ Feature: Case Audio Form
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/jorge.jpg"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should not see "Click the EDIT button to add Photos and Audio details"
     And I access the "cases page"
     And the record for "Shaggy" should display a "camera" icon beside it
@@ -65,7 +66,7 @@ Feature: Case Audio Form
     And I press the "Photos and Audio" button
     And I attach an audio file "capybara_features/resources/sample.mp3"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should not see "Click the EDIT button to add Photos and Audio details"
     And I access the "cases page"
     And the record for "Shaggy" should not display a "camera" icon beside it
@@ -80,7 +81,7 @@ Feature: Case Audio Form
       |capybara_features/resources/jorge.jpg|
       |capybara_features/resources/jeff.png |
     And I press "Save"
-    Then I should see "Case record successfully created"
+    Then I should see a success message for new Case
     When I click the "Photos and Audio" link
     Then I should see "2" thumbnails
     #TODO refactoring way to check thumbnails on edit page, the html structure has changed.
@@ -99,7 +100,7 @@ Feature: Case Audio Form
     And I press the "Photos and Audio" button
     And I check the "Delete audio?" field
     And I press "Save"
-    Then I should see "Case was successfully updated"
+    Then I should see a success message for updated Case
     And I should not see "Delete audio?"
     And I should not see "Recorded Audio"
     And I should not see "Download"

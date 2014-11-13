@@ -7,6 +7,7 @@ _Child = Class.new(CouchRest::Model::Base) do
 
   use_database :child
   include Syncable
+  include Attachable
 
   property :name, String
   property :age, Integer
@@ -314,6 +315,7 @@ describe Syncable do
         :name => 'Test123',
         :created_by => 'me',
         :birth_day => Date.new(2000, 1, 1),
+        :languages => ['English'],
         :family_members => [
           {:unique_id => 'f1', :name => 'Arthur', :relation => 'brother', 'languages' => ['English', 'Spanish'] },
         ],
@@ -335,6 +337,7 @@ describe Syncable do
           :birth_day => Date.new(2000, 2, 1),
           :last_updated_at => now + 5.minutes,
           :last_updated_by => 'me',
+          :languages => ['English', 'Spanish'],
           :family_members => [
             {:unique_id => 'f1', :name => 'Arthur', :relation => 'father', :languages => ['English', 'Spanish', 'Russian']},
             {:unique_id => 'f2', :name => 'Anna', :relation => 'mother'},
@@ -342,8 +345,10 @@ describe Syncable do
           :violations => {
             :killing => [c.violations.killing[0].to_hash] + [{:unique_id => 'k3', :notes => 'kill3'}],
             :maiming => [ {:unique_id => 'm1', :eyewitness => true } ]
-          }
+          },
         }
+
+        c.attach FileAttachment.new('att1', 'text/ascii', '123456')
       end
 
       @saved_last = @timestamp_latest = _Child.get(@child._id).tap do |c|
@@ -352,6 +357,7 @@ describe Syncable do
           :name => 'Jorge',
           :birth_day => Date.new(2000, 1, 1),
           :age => 18,
+          :languages => ['English', 'German'],
           :last_updated_at => now + 10.minutes,
           :last_updated_by => 'me',
           :family_members => [
@@ -363,6 +369,10 @@ describe Syncable do
             :maiming => [ {:unique_id => 'm1', :notes => 'maim 1'} ]
           }
         }
+        # For some reason, when you do the bulk save you have to manually
+        # base64 encode attachments
+        c.attach FileAttachment.new('att2', 'text/ascii', Base64.encode64('123456'))
+
         c.update_history
       end
 
@@ -408,7 +418,14 @@ describe Syncable do
       resolved.histories.length.should == 3
     end
 
-    it 'keeps two independently added elements in a nested array in nested hash' do
+    it 'keeps two independently added values in a normal array' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved.languages.sort.should == ['English', 'German', 'Spanish']
+    end
+
+    it 'keeps two independently added values in a nested array in nested hash' do
       @child.reload.resolve_conflicting_revisions
 
       resolved = _Child.get(@child._id)
@@ -428,7 +445,14 @@ describe Syncable do
       @child.reload.resolve_conflicting_revisions
 
       resolved = _Child.get(@child._id)
-      m = resolved.family_members[0].languages.sort.should == ['English', 'Spanish', 'Dutch', 'Russian'].sort
+      resolved.family_members[0].languages.sort.should == ['English', 'Spanish', 'Dutch', 'Russian'].sort
+    end
+
+    it 'merges attachments' do
+      @child.reload.resolve_conflicting_revisions
+
+      resolved = _Child.get(@child._id)
+      resolved.attachments.length.should == 2
     end
   end
 

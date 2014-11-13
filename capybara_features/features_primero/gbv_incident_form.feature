@@ -1,6 +1,7 @@
 # JIRA PRIMERO-500
 # JIRA PRIMERO-552
 # JIRA PRIMERO-790
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Incidents Form
@@ -27,7 +28,7 @@ Feature: Incidents Form
       | Time of day that the Incident took place                             | <Select> Morning (sunrise to noon) |
       | Type of place where the incident took place                          | <Select> Road                      |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see a value for "Status" on the show page with the value of "Open"
     And I should see a value for "Consent is given to share non-identifiable information for reporting" on the show page with the value of "Yes"
     And I should see a value for "Date of Interview" on the show page with the value of "10-Aug-2014"

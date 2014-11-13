@@ -1,4 +1,5 @@
 #JIRA PRIMERO-337
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Record Owner Form
@@ -16,7 +17,7 @@ Feature: Record Owner Form
       | Previous Owner           | Previous owner name   |
       | Previous Agency          | Previous agency name  |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see a value for "Field/Case/Social Worker" on the show page with the value of "Social worker name"
     And I should see a value for "Caseworker Code" on the show page with the value of "Case Worker3"
     And I should see a value for "Agency" on the show page with the value of "Agency1"

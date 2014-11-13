@@ -93,7 +93,7 @@ class ChildrenController < ApplicationController
     @child['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
     respond_to do |format|
       if @child.save
-        flash[:notice] = t('child.messages.creation_success')
+        flash[:notice] = t('child.messages.creation_success', record_id: @child.short_id)
         format.html { redirect_to(case_path(@child, { follow: true })) }
         format.xml { render :xml => @child, :status => :created, :location => @child }
       else
@@ -129,7 +129,7 @@ class ChildrenController < ApplicationController
         @child['child_status'] = "Open" if @child['child_status'].blank?
 
         if @child.save
-          flash[:notice] = I18n.t("case.messages.update_success")
+          flash[:notice] = I18n.t("case.messages.update_success", record_id: @child.short_id)
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           case_module = @child.module
           if params[:commit] == t("buttons.create_incident") and case_module.id == PrimeroModule::GBV

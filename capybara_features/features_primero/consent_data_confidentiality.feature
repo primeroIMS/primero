@@ -2,6 +2,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-239
 # JIRA PRIMERO-350
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Consent Data Confidentiality
@@ -28,7 +29,7 @@ Feature: Consent Data Confidentiality
       |  Other reason, please specify            |
     And I fill in "If other reason for withholding information, please specify" with "Other reason"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     When I press the "Data Confidentiality" button
     Then I should see a value for "Consent Obtained From" on the show page with the value of "Other (please specify)"
     And I should see a value for "If Other, please specify" on the show page with the value of "Other"

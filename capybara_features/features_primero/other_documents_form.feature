@@ -3,6 +3,7 @@
 #JIRA PRIMERO-607
 #JIRA PRIMERO-635
 #JIRA PRIMERO-775
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Other documents form
@@ -35,7 +36,7 @@ Feature: Other documents form
       |capybara_features/resources/jorge.jpg|Document 1 (jorge.jpg)|
       |capybara_features/resources/jeff.png |Document 2 (jeff.png) |
     Then I press "Save"
-    And I should see "Case record successfully created"
+    And I should see a success message for new Case
     And I click the "Other Documents" link
     And I should not see "Click the EDIT button to add Other Documents"
     And I should see documents on the show page:
@@ -81,7 +82,7 @@ Feature: Other documents form
       |capybara_features/resources/jorge.jpg|Document 9 |
       |capybara_features/resources/jeff.png |Document 10|
     Then I press "Save"
-    And I should see <created_message>
+    And I should see a success message for <created_message>
     And I click the "Other Documents" link
     And I should see documents on the show page:
       |jorge.jpg|Document 1 |
@@ -99,7 +100,7 @@ Feature: Other documents form
     And I update the document description for the 10th document with "Jeff's document"
     And I check for delete the 2nd document
     And I press "Save"
-    And I should see <updated_message> on the page
+    And I should see a success message for <updated_message>
     And I should see documents on the show page:
       |jorge.jpg|Jorge's document|
       |jorge.jpg|Document 3      |
@@ -112,7 +113,7 @@ Feature: Other documents form
       |jeff.png |Jeff's document |
     
     Examples:
-      | page           | user          | button         | model      | created_message                        | updated_message                      |
-      | cases page     | "primero_cp"  | "New Case"     | "child"    | "Case record successfully created"     | "Case was successfully updated."     |
-      | cases page     | "primero_gbv" | "New Case"     | "child"    | "Case record successfully created"     | "Case was successfully updated."     |
-      | incidents page | "primero_mrm" | "New Incident" | "incident" | "Incident record successfully created" | "Incident was successfully updated." |
+      | page           | user          | button         | model      | created_message | updated_message  |
+      | cases page     | "primero_cp"  | "New Case"     | "child"    | new Case        | updated Case     |
+      | cases page     | "primero_gbv" | "New Case"     | "child"    | new Case        | updated Case     |
+      | incidents page | "primero_mrm" | "New Incident" | "incident" | new Incident    | updated Incident |

@@ -1,42 +1,68 @@
-<div class="btn_panel">
-  <div class="row">
-    <%= form_for @replication, :html => { :class => 'default-form', :autocomplete => "off" } do |f| %>
+<% content_for :record_sub_nav do %>
+  <li><%= discard_button(replications_path) %></li>
+  <li><%= submit_button t("buttons.save") %></li>
+<% end %>
 
-      <%= f.error_messages :header_tag => :h3 %>
-      <div class="clearfix"></div>
 
-      <div class="btn_panel">
-        <div class="row">
-          <div class="medium-12 columns">
-            <%= cancel_button replications_path %>
-            <%= submit_button t("buttons.save") %>
-          </div>
+<div class="row">
+  <%= form_for @replication, :html => { :class => 'default-form', :autocomplete => "off" } do |f| %>
+    <fieldset class="no-border">
+    <%= f.error_messages :header_tag => :h2 %>
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= f.label :description, t("replication.description"), :class => "key inline" %>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.text_field :description %>
+        </div>
+        <div class="medium-1 columns">
+        *
         </div>
       </div>
-
-      <fieldset>
-        <p>
-          <%= f.label :description, t("replication.description"), :class => "key" %>
-          <%= f.text_field :description %>
-        </p>
-
-        <p>
-          <%= f.label :remote_app_uri, t("replication.remote_app_uri"), :class => "key" %>
-          <%= f.text_field :remote_app_uri %>*
-        </p>
-        <p>
-          <%= f.label :username, t("login.username"), :class => "key" %>
-          <%= f.text_field :username %>*
-        </p>
-        <p>
-          <%= f.label :password, t("login.password.label"), :class=>'key'  %>
-          <%= f.password_field :password, :autocomplete => "off" %>*
-        </p>
-        <p>
-          <%= f.label :is_continuous, t("replication.is_continuous"), :class=>'key'  %>
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= f.label :remote_app_uri, t("replication.remote_app_uri"), :class => "key inline" %>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.text_field :remote_app_uri %>
+        </div>
+        <div class="medium-1 columns">
+        *
+        </div>
+      </div>
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= f.label :username, t("login.username"), :class => "key inline" %>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.text_field :username %>
+        </div>
+        <div class="medium-1 columns">
+        *
+        </div>
+      </div>
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= f.label :password, t("login.password.label"), :class=>'key inline'  %>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.password_field :password, :autocomplete => "off" %>
+        </div>
+        <div class="medium-1 columns">
+        *
+        </div>
+      </div>
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= f.label :is_continuous, t("replication.is_continuous"), :class=>'key inline'  %>
+        </div>
+        <div class="medium-8 columns">
           <%= f.check_box :is_continuous, :autocomplete => 'off' %>
-        </p>
-      </fieldset>
-    <% end %>
-  </div>
+        </div>
+        <div class="medium-1 columns">
+        </div>
+      </div>
+    </fieldset>
+  <% end %>
 </div>
+

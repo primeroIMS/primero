@@ -11,6 +11,7 @@
 # JIRA PRIMERO-458
 # JIRA PRIMERO-461
 # JIRA PRIMERO-632
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Protection Concern Form
@@ -38,7 +39,7 @@ Feature: Protection Concern Form
     And I press "Save"
 
   Scenario: As a logged in user, I create a case by entering something in every field in the protection concern form
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Protection Status" on the show page with the value of "Separated"
     And I should see a value for "Urgent Protection Concern?" on the show page with the value of "Yes"
     And I should see a value for "Risk Level" on the show page with the value of "High"
@@ -52,13 +53,13 @@ Feature: Protection Concern Form
     And I fill in the following:
       | Protection Concerns | <Choose>Statelessness |
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Statelessness, Other"
 
   Scenario: As a logged in user, I want to check that values keep unchanged if user did not explicitly changed
     And I press the "Edit" button
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see a value for "Protection Status" on the show page with the value of "Separated"
     And I should see a value for "Urgent Protection Concern?" on the show page with the value of "Yes"
     And I should see a value for "Risk Level" on the show page with the value of "High"

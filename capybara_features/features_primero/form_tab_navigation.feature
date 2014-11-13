@@ -1,4 +1,5 @@
 # JIRA PRIMERO-139
+# JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Form Tab Navigation
@@ -12,7 +13,7 @@ Feature: Form Tab Navigation
     And I press the "Photos and Audio" button
     And I attach a photo "capybara_features/resources/jorge.jpg"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should stay on the "Photos and Audio" tab on the case "show" page
 
   Scenario: As a logged in user, I view the photos and audio tab and click edit

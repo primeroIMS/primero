@@ -6,6 +6,7 @@
 # JIRA PRIMERO-444
 # JIRA PRIMERO-523
 # JIRA PRIMERO-731
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Incidents Form
@@ -28,7 +29,7 @@ Feature: Incidents Form
     #TODO - fix
     #And the value of "Incident Total Victims/Survivors:Total" should be "10"
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see a value for "Incident Total Victims/Survivors" on the show page with the value of "<Tally> Boys:3 Girls:2 Unknown:5 Total incident total victims/survivors:10"
     And I should see a value for "Date of Incident" on the show page with the value of "<Date Range> From: 15-Jan-2013 To: 22-Feb-2013"
 
@@ -49,7 +50,7 @@ Feature: Incidents Form
       | Latitude                          | Incident latitude              |
       | Longitude                         | Incident longitude             |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see a value for "Date of First Report" on the show page with the value of "06-Aug-2014"
     And I should see a value for "Date of Incident" on the show page with the value of "10-Aug-2014"
     And I should see a value for "Is the date estimated?" on the show page with the value of "No"
@@ -62,7 +63,7 @@ Feature: Incidents Form
       | Date of Incident              | <Date Range><Range> from: '10-Aug-2014', to: '22-Aug-2014'|
       | Is the date estimated?        | <Radio> Yes                                               |
     And I press "Save"
-    And I should see "Incident was successfully updated" on the page
+    And I should see a success message for updated Incident
     And I should see a value for "Date of Incident" on the show page with the value of "<Date Range> From: 10-Aug-2014 To: 22-Aug-2014"
     And I should see a value for "Is the date estimated?" on the show page with the value of "Yes"
 

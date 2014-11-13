@@ -3,6 +3,7 @@
 # JIRA PRIMERO-474
 # JIRA PRIMERO-547
 # JIRA PRIMERO-548
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Copy GBV Case Survivor to GBV Incident Individuals.
@@ -40,7 +41,7 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     And I press the "Edit" button
     And I press "Create Incident"
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I press the "GBV Individual Details" button
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
     And I should see a value for "What is the survivor's Date of Birth?" on the show page with the value of "23-Sep-2007"
@@ -57,7 +58,7 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
   Scenario: As a logged in user, I create an GBV Incident from a GBV Cases with Survivor Information when viewing.
     And I press the "Create Incident" button
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I press the "GBV Individual Details" button
     And I should see a value for "Survivor Code" on the show page with the value of "SRV1001"
     And I should see a value for "What is the survivor's Date of Birth?" on the show page with the value of "23-Sep-2007"

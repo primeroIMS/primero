@@ -1,5 +1,6 @@
 # JIRA PRIMERO-114
 # JIRA PRIMERO-195
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Tracing Subforms
@@ -33,7 +34,7 @@ Feature: Tracing Subforms
       | Location of Tracing                                  | <Choose>Nepal             |
       | Type of action taken                                 | <Select> Mass Tracing     |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Tracing" button
     And I should see "Kenya" on the page
     And I should see "Nepal" on the page
@@ -54,7 +55,7 @@ Feature: Tracing Subforms
       | Location of Tracing                                  | <Choose>Nepal             |
       | Type of action taken                                 | <Select> Mass Tracing     |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Edit" button
     And I remove the 1st "Tracing Actions Section" subform
     And I click OK in the browser popup
@@ -79,7 +80,7 @@ Feature: Tracing Subforms
       | Location of Tracing                                  | <Choose>Kenya             |
       | Type of action taken                                 | <Select> Photo Tracing    |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Edit" button
     And I remove the 1st "Tracing Actions Section" subform
     And I click OK in the browser popup

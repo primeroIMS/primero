@@ -1,5 +1,6 @@
 #JIRA PRIMERO-423
 #JIRA PRIMERO-731
+#JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Tracing Request Tracing Requests
@@ -42,7 +43,7 @@ Feature: Tracing Request Tracing Requests
 
   Scenario: As a logged in user, I create a tracing request by fill up tracing request form
     And I press "Save"
-    Then I should see "Tracing Request record successfully created" on the page
+    Then I should see a success message for new Tracing Request
     And I should see header in the 1st "Tracing Request Subform Section" subform within "Timmy - Brother"
     And I should see in the 1st "Tracing Request Subform Section" subform with the follow:
       | Tracing status | Open  |
@@ -95,7 +96,7 @@ Feature: Tracing Request Tracing Requests
       | Last Telephone             | Update Last Telephone Value             |
       | Additional info that could help in tracing? | Update Some Info Here  |
     And I press "Save"
-    Then I should see "Tracing Request was successfully updated" on the page
+    Then I should see a success message for updated Tracing Request
     And I should see header in the 1st "Tracing Request Subform Section" subform within "James - Son"
     And I should see in the 1st "Tracing Request Subform Section" subform with the follow:
       | Tracing status  | Tracing in Progress |

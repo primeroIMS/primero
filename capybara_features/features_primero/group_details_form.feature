@@ -1,5 +1,6 @@
 #JIRA PRIMERO-318
 #JIRA PRIMERO-365
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Group Details Form
@@ -24,7 +25,7 @@ Feature: Group Details Form
       | Into which age band did the children fall?                                  | <Select> ≥15<18 years     |
       | What was the status of the children involved at the time of the violation ? | <Select> Community Member |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Group Details Section" subform with the follow:
       | Description of the Group of Children                                        | Some Children Group |
       | How many children were involved?                                            | 100                 |

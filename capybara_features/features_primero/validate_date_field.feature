@@ -4,6 +4,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-365
+# JIRA PRIMERO-736
 
 
 @javascript @primero
@@ -37,7 +38,7 @@ Feature: Validate Date Field
     And the value of "Date of submission" should be "12-Feb-2014"
     And the value of "Date of Implementation" should be "12-Feb-2014"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Identification / Registration" button
     And I press the "Basic Identity" button
     And I should see a value for "Date of Birth" on the show page with the value of "12-Feb-2014"
@@ -75,6 +76,6 @@ Feature: Validate Date Field
       | Notes                                      | No notes at this time |
     And I press "Save"
     Then I should not see "Please enter the date in a valid format (dd-mmm-yyyy)" on the page
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1nd "Services Section" subform with the follow:
       | Appointment Date | 30-May-2014 |

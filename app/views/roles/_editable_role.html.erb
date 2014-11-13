@@ -22,7 +22,8 @@
               <span class="section">
                 <span class="title"><%= t("permissions.#{group_name}") %></span>
                 <% Hash[*permissions.flatten].values.each do |permission| %>
-                    <label><%= f.check_box :permissions, {:id => permission.dehumanize, :name => "role[permissions][]"}, permission, nil %>
+                    <label><%= f.check_box :permissions, {:id => permission.dehumanize,
+                            :name => "role[permissions][]"}, permission, nil %>
                     <%= t("permissions.permission.#{permission}") %></label>
                 <% end %>
               </span>
@@ -46,11 +47,13 @@
               <span class="section">
                 <span class="title"><%= I18n.t("forms.record_types.#{record_type}") %></span>
                 <% forms_list.sort_by{ |f| f.name }.each do |form| %>
-                    <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}", :name => "role[permitted_form_ids][]"}, form.unique_id, nil %>
+                    <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}",
+                              :name => "role[permitted_form_ids][]", class: 'tick_box'}, form.unique_id, nil %>
                     <%= form.name %></label>
                 <% end %>
               </span>
             <% end %>
+            <%= f.hidden_field :permitted_form_ids, name: 'role[permitted_form_ids][]', value: nil %>
           </span>
         </div>
         <div class="medium-1 columns">

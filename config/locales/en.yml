@@ -88,6 +88,7 @@ en:
      advanced_search: "Advanced Search"
      go: "Go"
      search: "Search"
+     locations: "LOCATIONS"
 
   buttons:
      delete: "Delete"
@@ -110,6 +111,7 @@ en:
      unflag_model: "Unflag %{model}"
      ok: 'OK'
      edit_subform: 'Edit Subform'
+     create_new_record: "Create New %{model}"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -208,14 +210,14 @@ en:
     status: "Status"
 
     messages:
-      update_success: "Child was successfully updated."
+      update_success: "Child %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
       undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "Undo Investigation Details:"
       reunite_error_message: "Please confirm this child has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm child should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
-      creation_success: "Case record successfully created."
+      creation_success: "Case record %{record_id} successfully created."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
 
@@ -291,7 +293,7 @@ en:
     photo: "Photo"
 
     messages:
-      update_success: "Case was successfully updated."
+      update_success: "Case %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
       undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "Undo Investigation Details:"
@@ -385,8 +387,8 @@ en:
     violation_status_verified: "Verified"
 
     messages:
-      update_success: "Incident was successfully updated."
-      creation_success: "Incident record successfully created."
+      update_success: "Incident %{record_id} was successfully updated."
+      creation_success: "Incident record %{record_id} successfully created."
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
@@ -448,8 +450,8 @@ en:
       delete_audio: "Delete audio?"
 
     messages:
-      update_success: "Tracing Request was successfully updated."
-      creation_success: "Tracing Request record successfully created."
+      update_success: "Tracing Request %{record_id} was successfully updated."
+      creation_success: "Tracing Request record %{record_id} successfully created."
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"

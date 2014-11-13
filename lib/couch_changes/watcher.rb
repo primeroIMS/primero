@@ -22,6 +22,9 @@ module CouchChanges
       req = handler.create_http_request
 
       req.stream do |chunk|
+        # Reset retry period after first successful chunk
+        retry_period = 2
+
         handler.handle_chunk(chunk, &block)
       end
 

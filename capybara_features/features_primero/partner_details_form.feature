@@ -2,6 +2,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-417
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Partner Details Form
@@ -26,7 +27,7 @@ Feature: Partner Details Form
     And I select "Married" from "Marital Status During Separation"
     And I select "Single" from "Marital Status Prior to Separation"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Partner/Spouse Details" on the show page with the value of "Some details"
     And I should see a value for "Length of Marriage/Relationship" on the show page with the value of "6 weeks"
     And I should see a value for "Number of Children" on the show page with the value of "2"

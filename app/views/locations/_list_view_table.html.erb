@@ -1,10 +1,10 @@
-<table id="list_table_2" class="list_table_2">
+<table id="list_table_2" class="list_table_2 dataTable in_content_area">
   <thead>
   <tr>
     <th><%= t "location.name" %></th>
     <th><%= t "locatoin.type" %></th>
     <th><%= t "locatoin.hierarchy" %></th>
-    <th ><%= t "location.actions" %></th>
+    <th ></th>
   </tr>
   </thead>
 
@@ -16,7 +16,7 @@
             <td><%= lct.hierarchy.join(", ") %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>
-              &nbsp;
+              <br>
               <%= link_to t("buttons.delete"), location_path(lct), data: {confirm: t("location.confirm_delete")}, method: :delete %>
             </td>
           </tr>

@@ -1,4 +1,5 @@
 #JIRA PRIMERO-365
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Subforms Collapses Fields Cases Viewing
@@ -26,7 +27,7 @@ Feature: Subforms Collapses Fields Cases Viewing
       | Name of adult child was reunified with               | Vivian Nelson |
       | Relationship of adult to child                       | Mother        |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I expanded the 2nd "Tracing Actions Section" subform
     And I expanded the 2nd "Reunification Details Section" subform
     And I should see collapsed the 1st "Tracing Actions Section" subform
@@ -50,7 +51,7 @@ Feature: Subforms Collapses Fields Cases Viewing
       | Type of service                                             | <Select> Family Reunification Service     |
       | Type of assessment                                          | <Select> Personal Intervention Assessment |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I expanded the 2nd "Followup Subform Section" subform
     And I should see collapsed the 1st "Followup Subform Section" subform
     And I should see expanded the 2nd "Followup Subform Section" subform
@@ -67,7 +68,7 @@ Feature: Subforms Collapses Fields Cases Viewing
       |Name                               | Pedro           |
       |How are they related to the child? | <Select> Father |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I expanded the 2nd "Family Details Section" subform
     And I should see collapsed the 1st "Family Details Section" subform
     And I should see expanded the 2nd "Family Details Section" subform
@@ -84,7 +85,7 @@ Feature: Subforms Collapses Fields Cases Viewing
       | Type of Service  | <Select> Health/Medical |
       | Appointment Date | 30-Jun-2014             |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I expanded the 2nd "Services Section" subform
     And I should see collapsed the 1st "Services Section" subform
     And I should see expanded the 2nd "Services Section" subform
@@ -101,7 +102,7 @@ Feature: Subforms Collapses Fields Cases Viewing
       | Person(s) child wishes to locate                         | María                 |
       | Preference of the child to be relocated with this person | <Select> First choice |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I expanded the 2nd "Child Preferences Section" subform
     And I should see collapsed the 1st "Child Preferences Section" subform
     And I should see expanded the 2nd "Child Preferences Section" subform
@@ -118,7 +119,7 @@ Feature: Subforms Collapses Fields Cases Viewing
       | Inquirer's Name | John Snow        |
       | Relationship    | <Select> Brother |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I expanded the 2nd "Verification Subform Section" subform
     And I should see collapsed the 1st "Verification Subform Section" subform
     And I should see expanded the 2nd "Verification Subform Section" subform
@@ -133,7 +134,7 @@ Feature: Subforms Collapses Fields Cases Viewing
     And I fill in the 2nd "Protection Concern Detail Subform Section" subform with the follow:
       | Type of Protection Concern | <Select> Arrested/Detained |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I expanded the 2nd "Protection Concern Detail Subform Section" subform
     And I should see collapsed the 1st "Protection Concern Detail Subform Section" subform
     And I should see expanded the 2nd "Protection Concern Detail Subform Section" subform

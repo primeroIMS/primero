@@ -6,6 +6,7 @@
 #JIRA PRIMERO-365
 #JIRA PRIMERO-283
 #JIRA PRIMERO-526
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Other Violation Form
@@ -40,7 +41,7 @@ Feature: Other Violation Form
     #And the value of "Number of total survivors" in the 1st "Other Violation" subform should be "6"
     #And the value of "Number of total survivors" in the 2nd "Other Violation" subform should be "9"
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Other Violation" subform with the follow:
       | Other Violation Type        | Denial of Civil Rights     |
       | Other Violation Description | Some Violation Description |

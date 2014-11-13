@@ -3,6 +3,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-365
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Child Wishes Form
@@ -59,7 +60,7 @@ Feature: Child Wishes Form
       | Last Known Location                                      | <Choose>A Location Country |
       | Telephone                                                | Second Telephone       |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "If the child does NOT want family tracing , explain why" on the show page with the value of "Family Tracing Explain"
     And I should see a value for "If 'No', 'Not sure', or 'Yes, but later', explain why" on the show page with the value of "Family Reunification Explain"
     And I should see a value for "Please Give Details" on the show page with the value of "Some Details"
