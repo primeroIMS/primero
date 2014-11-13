@@ -119,6 +119,12 @@ var Primero = Backbone.View.extend({
     this.init_action_menu();
     this.init_chosen_or_new();
     this.show_hide_record_type();
+
+    // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
+    var textarea = $('textarea[name*="field[option_strings_text"]');
+    if (textarea.attr('disabled') == 'disabled') {
+      $('textarea[name*="field[option_strings_text"]').parents('form').find('input[name="field[multi_select]"]').attr('disabled', true)
+    }
   },
 
   init_chosen_or_new: function() {

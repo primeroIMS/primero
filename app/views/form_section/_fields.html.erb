@@ -21,13 +21,15 @@
       </div>
       <div class="large-9 medium-9 columns">
         <%
-          if field_type == :text_area && fld.object[:multi_select] && field_name == :option_strings_text && fld.object[:"option_strings_text_#{given_locale}"].present?
+          disabled = false
+          if field_type == :text_area && fld.object[:multi_select] && field_name == :option_strings_text && fld.object[:"option_strings_text_#{given_locale}"].is_a?(Array)
             value = fld.object[:"option_strings_text_#{given_locale}"].map{|option| "#{option['display_text']}\r\n"}.join('')
+            disabled = true
           else
             value = fld.object[:"#{field_name.to_s}_#{given_locale}"]
           end
         %>
-        <%= fld.send "#{field_type}", "#{field_name}_#{given_locale}".to_sym, value: value %>
+        <%= fld.send "#{field_type}", "#{field_name}_#{given_locale}".to_sym, value: value, disabled: disabled %>
       </div>
     </div>
   <% end %>
