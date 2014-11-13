@@ -1,0 +1,10 @@
+<div class="small-3 columns">
+  <div class="file_upload_wrapper">
+    <span class="green-button">Select File</span>
+    <%= file_field_tag name, :id => id, :class => "file_upload_input" %>
+  </div>
+</div>
+<div class="small-9 columns">
+  <label class="inline" id="<%=id%>_file_path" for="<%=id%>" data-default_text="No se seleccionó ningún archivo.">No se seleccionó ningún archivo.</label>
+</div>
+<%= image_tag "new/icon_help.png", title: help_text, class: 'tool-tip-icon vtip' if help_text.present? %>

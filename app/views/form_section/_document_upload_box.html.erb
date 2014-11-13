@@ -48,9 +48,8 @@
             <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", "Add Document", :class=>'key inline' %>
           </span>
         </div>
-        <div class="medium-8 columns">
-          <%= file_field_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", :id => "#{formObject.class.name.underscore.downcase}_upload_document_0_document" %>
-          <%= image_tag "new/icon_help.png", title: document_upload_box.help_text, class: 'tool-tip-icon vtip' if document_upload_box.help_text.present? %>
+        <div class="medium-8 columns file_upload">
+          <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", id: "#{formObject.class.name.underscore.downcase}_upload_document_0_document", help_text: document_upload_box.help_text || ""%>
         </div>
       </div>
       <div class="row">

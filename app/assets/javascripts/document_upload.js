@@ -1,8 +1,15 @@
 var DocumentUploadField = Backbone.View.extend({
   el: '.page_content form',
   events: {
+    'change input.file_upload_input' : 'update_file_path_label',
     'click a#add-document' : 'add_document_upload_field',
     'change div#file-group input[type="file"]' : 'validate_document'
+  },
+
+  update_file_path_label: function(event) {
+    var target = event.target;
+    var id = $(target).attr('id');
+    $('#' + id + '_file_path').text(target.value);
   },
 
   add_document_upload_field: function(event) {
@@ -14,12 +21,20 @@ var DocumentUploadField = Backbone.View.extend({
     var new_document_input = new_document_upload_box.find('input[type="file"]').val(''); //.attr('id', 'child_upload_document_' + upload_inputs_count + 'document');
     var new_document_description = new_document_upload_box.find('input[type="text"]').val('');//.attr('id', 'child_upload_document_' + upload_inputs_count + '');
     $([new_document_input, new_document_description]).each(function(){
-      var label = new_document_upload_box.find('label[for="' + $(this).attr('id') + '"]');
+      var labels = new_document_upload_box.find('label[for="' + $(this).attr('id') + '"]');
       var id = $(this).attr('id').replace(/_[0-9]_/, "_" + upload_inputs_count + "_");
       var name = $(this).attr('name').replace(/\[[0-9]\]/, "[" + upload_inputs_count + "]");
       $(this).attr('id', id);
       $(this).attr('name', name);
-      label.attr('for', id);
+      labels.each(function(){
+        var label = $(this);
+        var label_id = label.attr('id');
+        if (label_id != undefined) {
+          label.attr('id', label_id.replace(/_[0-9]_/, "_" + upload_inputs_count + "_"));
+          label.text(label.data('default_text'));
+        }
+        $(this).attr('for', id);
+      });
     });
     file_group.append(new_document_upload_box);
     if (file_group.find('div.file').length >= 10) {
