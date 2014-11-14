@@ -5,7 +5,7 @@
 %>
 <div class="row">
   <p>
-    <%= I18n.t("fields.document_upload_box.file_restrictions_message") %>
+    <%= I18n.t("fields.file_upload_box.document_file_restrictions_message") %>
   </p>
 </div>
 <% if documents.present? && !formObject.new_record?%>
@@ -40,12 +40,12 @@
   <% end %>
 <% end %>
 <div id="file_container">
-  <div id="file-group">
+  <div id="file-group" class="document">
     <div class="file">
       <div class="row">
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", "Add Document", :class=>'key inline' %>
+            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", I18n.t("fields.file_upload_box.add_document_label"), :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns file_upload">
@@ -55,7 +55,7 @@
       <div class="row">
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document_description]", "Document Description", :class=>'key inline' %>
+            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document_description]", I18n.t("fields.file_upload_box.document_description"), :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns">
@@ -78,7 +78,7 @@
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <%= link_to 'Add another document', '', id: 'add-document', class: 'green-button right' %>
+      <%= link_to I18n.t('fields.file_upload_box.add_new_document_button_text'), '', id: 'add-file-upload-field', class: 'green-button right' %>
     </div>
   </div>
 </div>
