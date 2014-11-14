@@ -28,6 +28,7 @@
     i.perpetrator_subform_section = [
       {:perpetrator_violations => ['Killing 0']}
     ]
+    i.violation_category = ["Killing of Children", "Other", "Attacks on Schools"]
   end,
 }.each do |k, v|
   default_owner = User.find_by_user_name("primero")
