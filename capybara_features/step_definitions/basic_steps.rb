@@ -3,7 +3,7 @@ Then /^I should see a success message for (new|updated) (Case|Incident|Tracing R
   message_text = page.find(:css, "p.notice").text
   if action == "new"
     message_text.match(/^#{model} record (.*) successfully created.$/).nil?.should eq(false)
-  elsif "updated"
+  elsif action == "updated"
     message_text.match(/^#{model} (.*) was successfully updated.$/).nil?.should eq(false)
   end
 end

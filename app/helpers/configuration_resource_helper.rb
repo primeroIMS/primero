@@ -1,7 +1,4 @@
 module ConfigurationResourceHelper
-
-  include AttachmentHelper
-
   def resource_edit_field(object, field, label_key, type, required=false, disabled=false)
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"

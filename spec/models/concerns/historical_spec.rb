@@ -2,6 +2,7 @@ require 'spec_helper'
 
 _Child = Class.new(CouchRest::Model::Base) do
   include Historical
+  include Attachable
 
   property :name, String
   property :bio, String
@@ -189,6 +190,15 @@ describe Historical do
           }
         }
       }
+    end
+
+    it 'handles new attachments' do
+      file = StringIO.new('abcdefg')
+      file.instance_eval { def path; 'file.jpg'; end }
+      @inst.create_attachment(:file => file, :name => 'file.jpg')
+
+      @inst.save!
+      @inst.histories[0].changes['_attachments']['to']['file.jpg']['stub'].should be_true
     end
   end
 

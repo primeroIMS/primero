@@ -2,6 +2,27 @@ require 'spec_helper'
 
 describe RecordFlagController do
   before :each do
+    FormSection.all.all.each { |form| form.destroy }
+    form = FormSection.new(
+      :unique_id => "form_section_test",
+      :parent_form=>"case",
+      "visible" => true,
+      :order_form_group => 50,
+      :order => 15,
+      :order_subform => 0,
+      :form_group_name => "Form Section Test",
+      "editable" => true,
+      "name_all" => "Form Section Test",
+      "description_all" => "Form Section Test",
+      :fields => [
+        Field.new({"name" => "child_status",
+                   "type" => "text_field",
+                   "display_name_all" => "Child Status"
+                  })]
+        )
+    form.save!
+    Child.refresh_form_properties
+
     unless example.metadata[:skip_session]
       @user = User.new(:user_name => 'fakeadmin')
       @session = fake_admin_login @user
@@ -233,13 +254,13 @@ describe RecordFlagController do
       let(:model) { Child }
       let(:children) do
         children = []
-        50.times {children << create_record(Child, @user)}
+        50.times {children << create_record(Child, @user, {"child_status" => "open"})}
         children.map {|child| child.id}
       end
     end
   end
 
-  describe "Incident" do
+  describe "Incident", search: true do
     before :each do
       @incident = create_record(Incident, @user)
     end
@@ -262,7 +283,7 @@ describe RecordFlagController do
     end
   end
 
-  describe "TracingRequest" do
+  describe "TracingRequest", search: true do
     before :each do
       @tracing_request = create_record(TracingRequest, @user)
     end

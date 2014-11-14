@@ -19,7 +19,7 @@ Feature: Primero View List of Case Records
       | meredith | primero_cp | 13  | female | 03-Feb-2004             | closed       | 51c4cba8-b410-4af6-b349-68c557af3aa6 |
       | jane     | primero_cp | 14  | male   | 03-Feb-2004             | open         | 61c4cba8-b410-4af6-b349-68c557af3aa5 |
     When I press the "CASES" button
-    And I should see "Displaying all 5 cases"
+    And I should see "Displaying all 3 cases"
     And I should see an id "7af3aa9" link on the page
     And I press the "7af3aa9" link
     And I should see "Case ID #7af3aa9"
@@ -45,31 +45,31 @@ Feature: Primero View List of Case Records
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     And the following cases exist in the system:
       | name     | created_by | age | sex    | registration_date       | child_status |
-      | andreas  | primero_cp    | 10  | male   | 03-Feb-2004             | open   |
-      | zak      | primero_cp    | 11  | female | 03-Feb-2004             | closed |
-      | jaco     | primero_cp    | 12  | male   | 03-Feb-2004             | open   |
-      | meredith | primero_cp    | 13  | female | 03-Feb-2004             | closed |
-      | josh     | primero_cp    | 14  | male   | 03-Feb-2004             | open   |
-      | kim      | primero_cp    | 10  | male   | 03-Feb-2004             | open   |
-      | cody     | primero_cp    | 11  | female | 03-Feb-2004             | closed |
-      | paco     | primero_cp    | 12  | male   | 03-Feb-2004             | open   |
-      | jeremy   | primero_cp    | 13  | female | 03-Feb-2004             | closed |
-      | ben      | primero_cp    | 14  | male   | 03-Feb-2004             | open   |
-      | ron      | primero_cp    | 10  | male   | 03-Feb-2004             | open   |
-      | eli      | primero_cp    | 11  | female | 03-Feb-2004             | closed |
-      | ian      | primero_cp    | 12  | male   | 03-Feb-2004             | open   |
-      | brandon  | primero_cp    | 13  | female | 03-Feb-2004             | closed |
-      | eugene   | primero_cp    | 14  | male   | 03-Feb-2004             | open   |
-      | kevin    | primero_cp    | 10  | male   | 03-Feb-2004             | open   |
-      | vivian   | primero_cp    | 11  | female | 03-Feb-2004             | closed |
-      | neb      | primero_cp    | 12  | male   | 03-Feb-2004             | open   |
-      | homer    | primero_cp    | 13  | female | 03-Feb-2004             | closed |
-      | peter    | primero_cp    | 14  | male   | 03-Feb-2004             | open   |
-      | lois     | primero_cp    | 10  | male   | 03-Feb-2004             | open   |
-      | robert   | primero_cp    | 11  | female | 03-Feb-2004             | closed |
-      | deniese  | primero_cp    | 12  | male   | 03-Feb-2004             | open   |
-      | stan     | primero_cp    | 13  | female | 03-Feb-2004             | closed |
-      | marilyn  | primero_cp    | 14  | male   | 03-Feb-2004             | open   |
+      | andreas  | primero_cp    | 10  | male   | 03-Feb-2004             | open |
+      | zak      | primero_cp    | 11  | female | 03-Feb-2004             | open |
+      | jaco     | primero_cp    | 12  | male   | 03-Feb-2004             | open |
+      | meredith | primero_cp    | 13  | female | 03-Feb-2004             | open |
+      | josh     | primero_cp    | 14  | male   | 03-Feb-2004             | open |
+      | kim      | primero_cp    | 10  | male   | 03-Feb-2004             | open |
+      | cody     | primero_cp    | 11  | female | 03-Feb-2004             | open |
+      | paco     | primero_cp    | 12  | male   | 03-Feb-2004             | open |
+      | jeremy   | primero_cp    | 13  | female | 03-Feb-2004             | open |
+      | ben      | primero_cp    | 14  | male   | 03-Feb-2004             | open |
+      | ron      | primero_cp    | 10  | male   | 03-Feb-2004             | open |
+      | eli      | primero_cp    | 11  | female | 03-Feb-2004             | open |
+      | ian      | primero_cp    | 12  | male   | 03-Feb-2004             | open |
+      | brandon  | primero_cp    | 13  | female | 03-Feb-2004             | open |
+      | eugene   | primero_cp    | 14  | male   | 03-Feb-2004             | open |
+      | kevin    | primero_cp    | 10  | male   | 03-Feb-2004             | open |
+      | vivian   | primero_cp    | 11  | female | 03-Feb-2004             | open |
+      | neb      | primero_cp    | 12  | male   | 03-Feb-2004             | open |
+      | homer    | primero_cp    | 13  | female | 03-Feb-2004             | open |
+      | peter    | primero_cp    | 14  | male   | 03-Feb-2004             | open |
+      | lois     | primero_cp    | 10  | male   | 03-Feb-2004             | open |
+      | robert   | primero_cp    | 11  | female | 03-Feb-2004             | open |
+      | deniese  | primero_cp    | 12  | male   | 03-Feb-2004             | open |
+      | stan     | primero_cp    | 13  | female | 03-Feb-2004             | open |
+      | marilyn  | primero_cp    | 14  | male   | 03-Feb-2004             | open |
     When I press the "CASES" button
     And I should see "Displaying cases 1 - 20 of 25 in total"
     And I visit cases page "2"

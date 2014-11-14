@@ -2,6 +2,7 @@ server {
   listen 6984 ssl;
   ssl_certificate <%= @ssl_cert_path %>;
   ssl_certificate_key <%= @ssl_key_path %>;
+  client_max_body_size 50M;
 
   proxy_buffering off;
 
