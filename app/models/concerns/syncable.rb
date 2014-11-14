@@ -244,9 +244,6 @@ module Syncable
           if el.include?('unique_id')
             nested_changes = changes_for_key.call(existing_changes_for_value, el['unique_id'])
             i = existing_value.index {|ev| ev['unique_id'] == el['unique_id'] }
-            # deeper_merge seems to have a bug in it where it doesn't override
-            # values properly.  deeper_merge! with the bang seems to work right
-            # though.
             acc << if i.nil?
                      el
                    else
