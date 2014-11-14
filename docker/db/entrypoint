@@ -1,0 +1,9 @@
+#!/bin/bash
+
+chown -R couchdb.couchdb /var/log/couchdb
+chown -R couchdb.couchdb /var/lib/couchdb
+chown couchdb.couchdb /etc/couchdb/local.ini
+mkdir -p /var/run/couchdb
+chown -R couchdb.couchdb /var/run/couchdb
+
+exec $@
