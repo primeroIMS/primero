@@ -18,29 +18,41 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 561F9B9CAC40B2F7 && \
 
 WORKDIR /app
 
-RUN apt-get install -y wget unzip curl && \
-    curl -sSL https://get.rvm.io | bash && \
+COPY docker/app/rvm-patchset.zip /tmp/rvm-patchset.zip
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y unzip curl && \
     cd /tmp && \
-    wget https://github.com/skaes/rvm-patchsets/archive/44dd746311133f8e666cb7658090c240fc7e336d.zip && \
-    unzip *.zip && \
-    apt-get purge wget unzip && \
+    unzip rvm-patchset.zip && \
+    curl -sSL https://get.rvm.io | bash && \
+    cd /tmp/rvm-patchsets-* && \
+    /usr/local/rvm/bin/rvm-shell -c 'bash ./install.sh' && \
+    /usr/local/rvm/bin/rvm-shell -c 'rvm install 2.1.2 -n railsexpress --patch railsexpress' && \
+    /usr/local/rvm/bin/rvm-shell -c 'rvm --default use 2.1.2-railsexpress' && \
+    cd / && rm -rf /tmp/rvm-patchsets-* && \
+    # Remove all of the extra packages that the rvm installation pulls in \
+    apt-get purge -y unzip curl patch gawk g++ gcc make libc6-dev patch libreadline6-dev zlib1g-dev \
+        libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev \
+        libncurses5-dev automake libtool bison pkg-config libffi-dev && \
+    apt-get autoremove -y && \
     apt-get clean
 
-USER primero
-
-RUN cd /tmp/44dd* && \
-    source /app/.rvm/scripts/rvm && \
-    bash ./install.sh && \
-    rvm install 2.1.2 -n railsexpress --patch railsexpress && \
-    rvm --default use 2.1.2-railsexpress && \
-    cd / && rm -rf /tmp/44dd*
-
 ADD Gemfile* /app/
-RUN bundle install --without test development cucumber
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git libssl-dev build-essential && \
+    /usr/local/rvm/gems/ruby-2.1.2-railsexpress/wrappers/bundle install --without test development cucumber && \
+    apt-get purge -y git libssl-dev build-essential && \
+    apt-get autoremove -y && \
+    apt-get clean
 
 COPY docker/app/supervisord.conf /etc/primero-supervisord.conf
 COPY docker/app/nginx-app /etc/nginx/sites-enabled/primero
 
 ADD . /app
-RUN /app/.rvm/wrappers/default/bundle exec rake app:assets_precompile
+
+RUN chown -R primero.primero /app
+
+RUN apt-get install -y default-jre && \
+    /usr/local/rvm/gems/ruby-2.1.2-railsexpress/wrappers/bundle exec rake app:assets_precompile && \
+    apt-get purge -y default-jre && \
+    apt-get autoremove -y && \
+    apt-get clean
 
