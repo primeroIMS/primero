@@ -3,10 +3,14 @@
     <label class="key"><%= t(field.name, :default => field.display_name) %></label>
   </div>
   <div class="medium-8 columns">
-    <% value = field_value_for_display formObject[field.name] %>
-    <% value = I18n.t("cases.hidden_text_field_text") if formObject[:hidden_name] && field.hidden_text_field%>
-    <span class="value"><%= value %></span>
+    <% if field.link_to_path.present? %>
+      <%= field_link_for_display field, formObject[field.name]%>
+    <% else %>
+      <%
+        value = field_value_for_display formObject[field.name]
+        value = I18n.t("cases.hidden_text_field_text") if formObject[:hidden_name] && field.hidden_text_field
+      %>
+      <span class="value"><%= value %></span>
+    <% end %>
   </div>
 </div>
-
-

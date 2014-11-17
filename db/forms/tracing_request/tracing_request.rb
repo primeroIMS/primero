@@ -1,9 +1,8 @@
 tracing_request_subform_fields = [
-  #TODO make this a link on the show page somehow
   Field.new({"name" => "matched_case_id",
              "type" => "text_field",
              "editable" => false,
-             "link_value" => "matched_case",
+             "link_to_path" => "case",
              "display_name_all" => "Matched Case ID"
            }),
   Field.new({"name" => "tracing_request_status",

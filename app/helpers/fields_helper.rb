@@ -56,6 +56,10 @@ module FieldsHelper
     end
   end
 
+  def field_link_for_display field, field_value
+    link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
+  end
+
   def field_keys(subform_name, subform_index, field_name, form_group_name)
     field_key = []
 
