@@ -1,6 +1,5 @@
 <h4 class="text-center">&lt;Placeholder for <%= I18n.t("navigation.reports") %>&gt;</h4>
 
-<% if false %>
 <h1 class="no_border float_left"><%= @page_name %></h1>
 
 <div class="page-content-new">
@@ -8,8 +7,8 @@
     <table id="reports" class="list_table">
       <thead>
         <tr>
-          <th><%= t "report.type" %></th>
-          <th><%= t "report.as_of_date" %></th>
+          <th><%= t "report.name" %></th>
+          <th><%= t "report.description" %></th>
           <th><%= t "report.download" %></th>
         </tr>
       </thead>
@@ -24,7 +23,5 @@
       </tbody>
     </table>
 
-    <%= render :partial => 'shared/pagination', :locals => { :results => @reports } %>
   </div>
 </div>
-<% end %>
