@@ -130,7 +130,7 @@ var SubformView = Backbone.View.extend({
     newSubform.attr('data-subform_index', i);
     newSubform.attr("class", newSubformClass);
     newSubform.fadeIn(600);
-    newSubform.find("input, select, textarea").removeAttr("disabled");
+    newSubform.find("input[editable='true'], select, textarea").removeAttr("disabled");
     newSubform.appendTo(subforms);
 
     // set sidebar height
