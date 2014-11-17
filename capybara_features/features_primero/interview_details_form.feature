@@ -1,6 +1,7 @@
 # JIRA PRIMERO-354
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Interview Details Form
@@ -28,7 +29,7 @@ Feature: Interview Details Form
       | Has the child been interviewed by another organization? | <Radio> Yes                       |
       | Reference No. given to child by other organization      | CCC222                            |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Arrival Date" on the show page with the value of "13-Apr-2014"
     And I should see a value for "Interviewer Name" on the show page with the value of "Fred Jones"
     And I should see a value for "Interviewer Position" on the show page with the value of "Field Worker"

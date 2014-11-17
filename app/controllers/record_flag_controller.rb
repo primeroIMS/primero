@@ -40,7 +40,7 @@ class RecordFlagController < ApplicationController
 
     if @model_class == Child
       child_filters = filter
-      child_filters["child_status"] ||= "open"
+      child_filters["child_status"] ||= {:type => "single", :value => "open"}
     end
 
     if params[:apply_to_all] == "true"

@@ -6,6 +6,7 @@
 #JIRA PRIMERO-365
 #JIRA PRIMERO-283
 #JIRA PRIMERO-526
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Abduction Form
@@ -34,7 +35,7 @@ Feature: Abduction Form
       | Verified by CTFMR                                                                                                               | <Radio> No                                                              |
       | Date verified by CTFMR                                                                                                          | today's date                                                            |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see 1 subform on the show page for "Abduction"
     And I should see in the 1st "Abduction" subform with the follow:
       | Number of survivors                     |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |
@@ -67,7 +68,7 @@ Feature: Abduction Form
       | Number of survivors      | <Tally>Boys:1<Tally>Girls:2<Tally>Unknown:3   |
       | Verification Status      | <Select> Verified                             |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see 1 subform on the show page for "Abduction"
     And I should see in the 1st "Abduction" subform with the follow:
       | Number of survivors                     |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |

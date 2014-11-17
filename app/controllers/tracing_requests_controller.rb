@@ -85,7 +85,7 @@ class TracingRequestsController < ApplicationController
 
     respond_to do |format|
       if @tracing_request.save
-        flash[:notice] = t('tracing_request.messages.creation_success')
+        flash[:notice] = t('tracing_request.messages.creation_success', record_id: @tracing_request.short_id)
         format.html { redirect_to(tracing_request_path(@tracing_request, { follow: true })) }
       else
         format.html {
@@ -104,7 +104,7 @@ class TracingRequestsController < ApplicationController
       format.html do
         @tracing_request = update_tracing_request_from params
         if @tracing_request.save
-          flash[:notice] = I18n.t("tracing_request.messages.update_success")
+          flash[:notice] = I18n.t("tracing_request.messages.update_success", record_id: @tracing_request.short_id)
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           redirect_to tracing_request_path(@tracing_request, { follow: true })
         else

@@ -4,6 +4,7 @@
 # JIRA PRIMERO-363
 #JIRA PRIMERO-365
 #JIRA PRIMERO-243
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Subforms Collapse Expand
@@ -93,7 +94,7 @@ Feature: Subforms Collapse Expand
       |If dead, please provide details    | No Other Dead Notes|
       |Age                                | 41                 |
     And I press "Save"
-    Then I should see "Case was successfully updated" on the page
+    Then I should see a success message for updated Case
     And I should see in the 1st "Family Details Section" subform with the follow:
       |Name                               | Tom           |
       |How are they related to the child? | Uncle         |

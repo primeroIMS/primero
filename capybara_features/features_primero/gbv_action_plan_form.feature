@@ -1,4 +1,5 @@
 # JIRA PRIMERO-489
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: GBV Action Plan Form
@@ -21,7 +22,7 @@ Feature: GBV Action Plan Form
       | Service                                   | Some service                     |
       | Describe the Action Plan for this Service | Service action plan description. |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Describe the safety action plan" on the show page with the value of "Safe at Home"
     And I should see a value for "Explain" on the show page with the value of "Some explanation text"
     And I should see a value for "Describe the health action plan." on the show page with the value of "Some text describing the health action plan"

@@ -3,6 +3,7 @@
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
 # JIRA PRIMERO-244
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Verification
@@ -56,7 +57,7 @@ Feature: Verification
       | Additional comments                                         | Some additional comments |
       | Date of Verification                                        | 22-Jun-2014              |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see "Mr. Smith" on the page
     And I should see "Father" on the page
     And I should see "58" on the page

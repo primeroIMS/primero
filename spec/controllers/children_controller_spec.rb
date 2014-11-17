@@ -132,9 +132,11 @@ describe ChildrenController do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           children = mock_child(@stubs)
-          scope = {"child_status"=>"open"} if not scope.present?
+          scope = {"child_status"=>"single||open"} if not scope.present?
           children.stub(:paginate).and_return(children)
           Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(children)
+          #TODO resolve this!!!
+          #Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => "open"}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil).and_return(children)
 
           get :index, :scope => scope
           assigns[:children].should == children
@@ -190,6 +192,8 @@ describe ChildrenController do
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
         Child.should_receive(:list_records).with({"child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        # TODO resolve this
+        #Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => "open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:children].should == collection
@@ -203,6 +207,8 @@ describe ChildrenController do
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
         Child.should_receive(:list_records).with({"module_id" => "single,primeromodule-cp", "child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        #TODO resolve this
+        #Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}, "child_status"=>{:type => "single", :value => "open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
         params = {"page" => "all", "format" => "unhcr_csv"}
         get :index, params
         assigns[:children].should == collection
@@ -222,6 +228,8 @@ describe ChildrenController do
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
         Child.should_receive(:list_records).with({"child_status"=>"open"}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil, nil).and_return(search)
+        #TODO resolve this
+        #Child.should_receive(:list_records).with({"child_status"=>{:type => "single", :value => "open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil).and_return(search)
     
         #User
         @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)
@@ -541,14 +549,6 @@ describe ChildrenController do
       assigns[:child]['last_known_location'].should == "Manchester"
       assigns[:child]['age'].should == "7"
       assigns[:child]['_attachments'].size.should == 1
-    end
-
-    it "should not update history on photo rotation" do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo_jeff, :created_by => "uname")
-      Child.get(child.id).histories.size.should be 1
-
-      expect{put(:update_photo, :id => child.id, :child => {:photo_orientation => "-180"})}.to_not change{Child.get(child.id).histories.size}
     end
 
     it "should allow a records ID to be specified to create a new record with a known id" do

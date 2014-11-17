@@ -1,3 +1,4 @@
+# JIRA PRIMERO-736
 @javascript @primero
 Feature: UNHCR CSV Export
 
@@ -22,7 +23,7 @@ Feature: UNHCR CSV Export
       | Language               | <Choose>Language1<Choose>Language2       |
       | Religion               | <Choose>Religion1<Choose>Religion2       |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     When I press the "Actions" button
     And I press the "Export" button
     And I press the "UNHCR" button

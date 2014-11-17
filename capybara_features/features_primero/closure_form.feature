@@ -1,5 +1,6 @@
 #JIRA PRIMERO-429
 #JIRA PRIMERO-486
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Closure Form
@@ -27,7 +28,7 @@ Feature: Closure Form
       | Caregiver Address                                | 1900 B. Ave             |
       | Caregiver Location                               | <Choose>Kenya           |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "What is the reason for closing the child's file?" on the show page with the value of "Death of Child"
     And I should see a value for "Date of Closure" on the show page with the value of "today's date"
     And I should see a value for "Caregiver Name" on the show page with the value of "Shabazz Nurendu"

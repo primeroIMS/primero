@@ -1,6 +1,7 @@
 #JIRA PRIMERO-501
 #JIRA PRIMERO-534
 #JIRA PRIMERO-553
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Type of Violence
@@ -29,7 +30,7 @@ Feature: Type of Violence
       | Name of the service provider                                                        | Organization 1                                         |
       | Is this a GBV reporting organization?                                               | <Radio> Yes                                            |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see values on the page for the following:
       | Type of Incident Violence                                                           | Physical Assault                                |
       | If Non-GBV, describe                                                                | describe: It is not a GBV                       |

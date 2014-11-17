@@ -1,6 +1,7 @@
 #JIRA PRIMERO-485
 #JIRA PRIMERO-550
 #JIRA PRIMERO-611
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: GBV Follow Up
@@ -46,7 +47,7 @@ Feature: GBV Follow Up
       | If not, do you recommend that the case be closed? | <Radio> No                      |
       | Comments                                          | Some Comments                   |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "GBV Follow Up Subform Section" subform with the follow:
       | Type of service                                   | Health/Medical Service          |
       | Follow up date                                    | 19-Jul-2014                     |

@@ -1,4 +1,5 @@
 #JIRA PRIMERO-243
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Lookup Incidents
@@ -27,7 +28,7 @@ Feature: Lookup Incidents
       | What was the nationality of the children involved?                          | <Select> Nationality1  |
       | What was the religious affiliation of the children involved?                | <Select> Religion2     |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Group Details Section" subform with the follow:
       | What were the ethnic affiliations of the children involved?                 | Ethnicity1       |
       | What was the nationality of the children involved?                          | Nationality2     |
@@ -45,7 +46,7 @@ Feature: Lookup Incidents
       | What is the religious affiliation of the individual? | <Select> Religion1      |
       | Country of Origin                                    | <Select> Country1       |
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see in the 1st "Individual Details Subform Section" subform with the follow:
       | What is the ethnic affiliation of the individual?         | Ethnicity1          |
       | What is the national affiliation of the individual?       | Nationality1        |
@@ -61,7 +62,7 @@ Feature: Lookup Incidents
     And I fill in the 2nd "Perpetrator Subform Section" subform with the follow:
       | Nationality of alleged perpetrator | <Select> Nationality2 |
     And I press "Save"
-    And I should see "Incident record successfully created." on the page
+    And I should see a success message for new Incident
     Then I should see in the 1st "Perpetrator Subform Section" subform with the follow:
       | Nationality of alleged perpetrator | Nationality1 |
       | Clan or Ethnicity of alleged perpetrator | Ethnicity3 |

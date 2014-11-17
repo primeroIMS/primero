@@ -8,6 +8,7 @@
 #JIRA PRIMERO-283
 #JIRA PRIMERO-505
 #JIRA PRIMERO-526
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Sexual Violence Form
@@ -38,7 +39,7 @@ Feature: Sexual Violence Form
     #TODO - fix
     #And the value of "Number of total survivors" in the 1st "Sexual Violence" subform should be "6"
     And I press "Save"
-    Then I should see "Incident record successfully created" on the page
+    Then I should see a success message for new Incident
     And I should see 1 subform on the show page for "Sexual Violence"
     And I should see in the 1st "Sexual Violence" subform with the follow:
       | Number of survivors                                                                 |<Tally> Boys:1 Girls:2 Unknown:3 Total number of survivors:6 |

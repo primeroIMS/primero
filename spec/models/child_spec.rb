@@ -1142,6 +1142,10 @@ describe Child do
                 Field.new({"name" => "a_range_field",
                            "type" => "date_range",
                            "display_name_all" => "A Range Field"
+                          }),
+                Field.new({"name" => "b_range_field",
+                           "type" => "date_range",
+                           "display_name_all" => "B Range Field"
                           })]
       FormSection.create_or_update_form_section({
         :unique_id=> "form_section_with_dates_fields",
@@ -1158,30 +1162,55 @@ describe Child do
 
     it "should validate single date field" do
       #date field invalid.
-      child = create_child "Bob McBobberson", :a_date_field => "asdlfkj"
+      child = create_child "Bob McBobberson", :a_date_field => "asdlfkj", 
+                           :a_range_field_date_or_date_range => "date_range",
+                           :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #date valid.
-      child = create_child "Bob McBobberson", :a_date_field => "30-May-2014"
+      child = create_child "Bob McBobberson", :a_date_field => "30-May-2014",
+                           :a_range_field_date_or_date_range => "date_range",
+                           :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_date_field].should eq([])
     end
 
     it "should validate range fields" do
       #_from is wrong.
-      child = create_child "Bob McBobberson", :a_range_field_from => "aslkdjflkj", :a_range_field_to => "31-May-2014"
+      child = create_child "Bob McBobberson", :a_range_field_from => "aslkdjflkj", :a_range_field_to => "31-May-2014",
+                           :a_range_field_date_or_date_range => "date_range",
+                           :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #_to is wrong.
-      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "alkdfjlj"
+      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "alkdfjlj",
+                           :a_range_field_date_or_date_range => "date_range",
+                           :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #_from and _to are wrong.
-      child = create_child "Bob McBobberson", :a_range_field_from => "aslkjlkj3", :a_range_field_to => "alkdfjlkj"
+      child = create_child "Bob McBobberson", :a_range_field_from => "aslkjlkj3", :a_range_field_to => "alkdfjlkj",
+                           :a_range_field_date_or_date_range => "date_range",
+                           :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #range valid dates.
-      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31-May-2014"
+      child = create_child "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31-May-2014",
+                           :a_range_field_date_or_date_range => "date_range",
+                           :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_range_field].should eq([])
+    end
+
+    it "should validate range fields with single date selected" do
+      #Single date selected wrong in the date range field.
+      child = create_child "Bob McBobberson", :b_range_field => "aslkdjflkj", 
+                           :b_range_field_date_or_date_range => "date",
+                           :a_range_field_date_or_date_range => "date_range"
+      child.errors[:b_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
+
+      #valid date
+      child = create_child "Bob McBobberson", :b_range_field => "31-May-2014", :b_range_field_date_or_date_range => "date",
+                           :a_range_field_date_or_date_range => "date_range"
+      child.errors[:b_range_field].should eq([])
     end
   end
 

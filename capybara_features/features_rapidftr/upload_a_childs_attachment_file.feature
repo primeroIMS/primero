@@ -16,7 +16,7 @@ Feature: Upload a childs attachment file
     And I attach an audio file "capybara_features/resources/sample.mp3"
     And I attach a photo "capybara_features/resources/jorge.jpg"
     And I press "Save"
-    Then I should see "Case record successfully created"
+    Then I should see a success message for new Case
 
     When I click the "Photos and Audio" link
     Then I should see an audio element that can play the audio file named "sample.mp3"
@@ -41,7 +41,7 @@ Feature: Upload a childs attachment file
       |capybara_features/resources/jorge.jpg|
       |capybara_features/resources/jeff.png |
     And I press "Save"
-    Then I should see "Case record successfully created"
+    Then I should see a success message for new Case
     #Photo temp removed for demo deploy
     #And I should see the photo of "John"
 

@@ -1,4 +1,4 @@
-<table id="list_table" class="list_table_2">
+<table id="list_table" class="list_table_2 dataTable" width="100%">
   <thead>
   <tr>
     <th><%= t "replication.description" %></th>
@@ -7,7 +7,7 @@
     <th><%= t "replication.is_continuous" %></th>
     <th><%= t "replication.status" %></th>
     <th><%= t "replication.timestamp" %></th>
-    <th ><%= t "replication.actions" %></th>
+    <th ></th>
   </tr>
   </thead>
 
@@ -24,10 +24,11 @@
             <td><%= l rep.timestamp, :format => :long if rep.timestamp %></td>
             <td>
               <%= link_to t("replication.stop"), stop_replication_path(rep), :method => :post if rep.active? %>
+              <br>
               <%= link_to t("replication.start"), start_replication_path(rep), :method => :post unless rep.active? %>
-              &nbsp;
+              <br>
               <%= link_to t("buttons.edit"), edit_replication_path(rep) %>
-              &nbsp;
+              <br>
               <%= link_to t("buttons.delete"), replication_path(rep), data: {confirm: t("replication.confirm_delete")}, method: :delete %>
             </td>
           </tr>

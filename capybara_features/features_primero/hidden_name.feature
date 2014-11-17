@@ -3,6 +3,7 @@
 # JIRA PRIMERO-463
 # JIRA PRIMERO-562
 # JIRA PRIMERO-724
+# JIRA PRIMERO-736
 
 @javascript @primero @search
 Feature: Hide Name
@@ -19,7 +20,7 @@ Feature: Hide Name
       | Name(s) given to child after separation? | <Radio> No                         |
       | Sex                                      | <Select> Male                      |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Long ID" on the show page
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
@@ -33,7 +34,7 @@ Feature: Hide Name
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
     And I press "Save"
-    And I should see "Case was successfully updated" on the page
+    And I should see a success message for updated Case
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Long ID" on the show page
     And I should see a value for "Name" on the show page with the value of "*****"
@@ -46,7 +47,7 @@ Feature: Hide Name
     And I press the "View Name" link
     And the "Name" field should contain "Tiki Thomas Taliaferro"
     And I press "Save"
-    And I should see "Case was successfully updated" on the page
+    And I should see a success message for updated Case
     And I should see a value for "Case ID" on the show page
     And I should see a value for "Long ID" on the show page
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"
@@ -62,13 +63,13 @@ Feature: Hide Name
     And I fill in the following:
       | Name                                     | Tiki Thomas Taliaferro             |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Edit" button
     And I press the "Hide Name" link
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
     And I press "Save"
-    And I should see "Case was successfully updated" on the page
+    And I should see a success message for updated Case
     And I should see a value for "Name" on the show page with the value of "*****"
     When I access "cases page"
     And I should see "Tiki Thomas Taliaferro" on the page
@@ -80,14 +81,14 @@ Feature: Hide Name
     And I press the "New Case" button
     And I fill in "Name" with "Tiki Thomas Taliaferro"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Edit" button
     And I fill in "Name" with "Edited Name"
     And I press the "Hide Name" link
     And the "Name" field should be disabled
     And the disabled "Name" field should have the value of "*****"
     And I press "Save"
-    And I should see "Case was successfully updated" on the page
+    And I should see a success message for updated Case
     And I should see a value for "Name" on the show page with the value of "*****"
     And I press the "Edit" button
     And I press the "View Name" link
@@ -100,7 +101,7 @@ Feature: Hide Name
     And I fill in "Name" with "Tiki Thomas Taliaferro"
     And I check the "Hide Name" field
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Name" on the show page with the value of "*****"
     Examples:
       | user         |
@@ -113,7 +114,7 @@ Feature: Hide Name
     And I press the "New Case" button
     And I fill in "Name" with "Tiki Thomas Taliaferro"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Name" on the show page with the value of <name>
     Examples:
       | user         | name                     |
@@ -126,12 +127,12 @@ Feature: Hide Name
     And I press the "New Case" button
     And I fill in "Name" with "Tiki Thomas Taliaferro"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Name" on the show page with the value of "*****"
     And I press the "Edit" button
     And I press the "View Name" link
     And I should see "Hide Name" on the page
     And the "Name" field should contain "Tiki Thomas Taliaferro"
     And I press "Save"
-    And I should see "Case was successfully updated" on the page
+    And I should see a success message for updated Case
     And I should see a value for "Name" on the show page with the value of "Tiki Thomas Taliaferro"

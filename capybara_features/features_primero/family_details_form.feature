@@ -8,6 +8,7 @@
 #JIRA PRIMERO-363
 #JIRA PRIMERO-365
 #JIRA PRIMERO-244
+#JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Family Details Form
@@ -69,7 +70,7 @@ Feature: Family Details Form
       |Telephone                                             | Pepe's Telephone                           |
       |Other persons well known to the child                 | Juan                                       |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see a value for "Size of Family" on the show page with the value of "3"
     And I should see a value for "Notes about Family" on the show page with the value of "Some Family Notes"
     And I should see a value for "What is the child’s intended address?" on the show page with the value of "Some Child Address"
@@ -125,7 +126,7 @@ Feature: Family Details Form
     And the value of "Date of Birth" in the 1st "Family Details Section" subform should be January 1, "39" years ago
     And the value of "Date of Birth" in the 2nd "Family Details Section" subform should be January 1, "25" years ago
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "Family Details Section" subform with the follow:
       | Age           | 39                            |
       | Date of Birth | Calculated date 39 years ago  |
@@ -143,7 +144,7 @@ Feature: Family Details Form
     And the value of "Age" in the 1st "Family Details Section" subform should be the calculated age of someone born in "1975"
     And the value of "Age" in the 2nd "Family Details Section" subform should be the calculated age of someone born in "1989"
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I should see in the 1st "Family Details Section" subform with the follow:
       | Age           | Calculated age from 1975  |
       | Date of Birth | 01-Jan-1975               |

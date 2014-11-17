@@ -2,6 +2,7 @@
 # JIRA PRIMERO-232
 # JIRA PRIMERO-353
 # JIRA PRIMERO-363
+# JIRA PRIMERO-736
 
 @javascript @primero
 Feature: Activities Form
@@ -33,7 +34,7 @@ Feature: Activities Form
     And I fill in the following:
       | Other details about additional activities          | Some Other Details Activities  |
     And I press "Save"
-    Then I should see "Case record successfully created" on the page
+    Then I should see a success message for new Case
     And I press the "Activities" button
     And I should see a value for "Is the Child in school or training?" on the show page with the value of "Yes"
     And I should see a value for "Name of School" on the show page with the value of "Child School Name"

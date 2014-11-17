@@ -95,7 +95,7 @@ class IncidentsController < ApplicationController
 
     respond_to do |format|
       if @incident.save
-        flash[:notice] = t('incident.messages.creation_success')
+        flash[:notice] = t('incident.messages.creation_success', record_id: @incident.short_id)
         format.html { redirect_to(incident_path(@incident, { follow: true })) }
         #format.xml { render :xml => @incident, :status => :created, :location => @child }
       else
@@ -123,7 +123,7 @@ class IncidentsController < ApplicationController
         @incident = update_incident_from params
         @incident['status'] = "Open" if @incident['status'].blank?
         if @incident.save
-          flash[:notice] = I18n.t("incident.messages.update_success")
+          flash[:notice] = I18n.t("incident.messages.update_success", record_id: @incident.short_id)
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           redirect_to incident_path(@incident, { follow: true })
         else
