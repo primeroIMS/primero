@@ -10,7 +10,7 @@ ENV RAILS_ENV production
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 561F9B9CAC40B2F7 && \
     apt-get update -yq && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https libxml2-dev libxslt1-dev imagemagick && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https libxml2-dev libxslt1-dev imagemagick supervisor default-jre && \
     echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main' > /etc/apt/sources.list.d/passenger.list && \
     apt-get update -yq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nginx-extras passenger && \
@@ -27,32 +27,29 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y unzip curl && \
     cd /tmp/rvm-patchsets-* && \
     /usr/local/rvm/bin/rvm-shell -c 'bash ./install.sh' && \
     /usr/local/rvm/bin/rvm-shell -c 'rvm install 2.1.2 -n railsexpress --patch railsexpress' && \
-    /usr/local/rvm/bin/rvm-shell -c 'rvm --default use 2.1.2-railsexpress' && \
     cd / && rm -rf /tmp/rvm-patchsets-* && \
     # Remove all of the extra packages that the rvm installation pulls in \
     apt-get purge -y unzip curl patch gawk g++ gcc make libc6-dev patch libreadline6-dev zlib1g-dev \
         libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev \
         libncurses5-dev automake libtool bison pkg-config libffi-dev && \
     apt-get autoremove -y && \
-    apt-get clean
+    apt-get clean && \
+    usermod -a -G rvm primero && \
+    su -l primero -c 'rvm --default ruby-2.1.2-railsexpress'
 
 ADD Gemfile* /app/
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git libssl-dev build-essential && \
-    /usr/local/rvm/gems/ruby-2.1.2-railsexpress/wrappers/bundle install --without test development cucumber && \
+    su -l primero -c 'bundle install --without test development cucumber' && \
     apt-get purge -y git libssl-dev build-essential && \
     apt-get autoremove -y && \
     apt-get clean
 
+VOLUME /log /etc/ssl/primero
 COPY docker/app/supervisord.conf /etc/primero-supervisord.conf
-COPY docker/app/nginx-app /etc/nginx/sites-enabled/primero
+COPY docker/app/nginx-app /etc/nginx/primero-template
+COPY docker/app/nginx.conf /etc/nginx/nginx.conf
 
 ADD . /app
 
 RUN chown -R primero.primero /app
-
-RUN apt-get install -y default-jre && \
-    /usr/local/rvm/gems/ruby-2.1.2-railsexpress/wrappers/bundle exec rake app:assets_precompile && \
-    apt-get purge -y default-jre && \
-    apt-get autoremove -y && \
-    apt-get clean
-
+RUN su -l primero -c 'RAILS_ENV=production bundle exec rake assets:clean app:assets_precompile'

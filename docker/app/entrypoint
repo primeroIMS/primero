@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -l
 
 cat <<EOH > /app/config/couchdb.yml
 production:
@@ -6,7 +6,7 @@ production:
   port: $COUCHDB_PORT_5984_TCP_PORT
   https_port: $COUCHDB_PORT_6984_TCP_PORT
   prefix: primero
-  suffix:
+  suffix: ''
   username: primero
   password: $COUCHDB_PASSWORD
 EOH
@@ -21,12 +21,18 @@ production:
     path: /solr/production
 EOH
 
-if [ ! -f /app/.is_setup ]
+sed -e "s/<SERVER_NAME>/${PRIMERO_VIRTUAL_HOST}/" /etc/nginx/primero-template > /etc/nginx/sites-enabled/primero
+
+if [ ! -e /app/.is_setup ]
 then
+  set -e
   bundle exec rake db:seed
   bundle exec rake db:migrate
-  bundle exec rake sunspot:reindex
   bundle exec rake couch_changes:prime_sequence_numbers
+
+  bundle exec rake sunspot:solr:start
+  bundle exec rake sunspot:reindex
+  bundle exec rake sunspot:solr:stop
   touch /app/.is_setup
 fi
 

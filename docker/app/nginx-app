@@ -12,7 +12,7 @@ server {
 
   passenger_enabled on;
   passenger_min_instances 2;
-  passenger_ruby /app/.rvm/wrappers/default/ruby;
+  passenger_ruby /usr/local/rvm/wrappers/default/ruby;
   passenger_sticky_sessions on;
 
   rails_env production;
