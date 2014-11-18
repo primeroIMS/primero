@@ -5,6 +5,7 @@
 Feature: Abduction Form
   As a Primero user, I want to import zipped and password protected files sent to me by another Primero user so that I do not have to do anything to the files before importing them into my Primero instance
 
+  @wip
   Scenario Outline: Import zipped and password protected files
     Given I am logged in as an admin with username <user> and password "primero"
     When I access <page>

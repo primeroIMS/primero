@@ -56,6 +56,18 @@ module FieldsHelper
     end
   end
 
+  def field_value_for_multi_select field_value, field
+    if field_value.nil? || field_value.empty?
+      ""
+    else
+      options = []
+      field_value.each{|option| selected = field["option_strings_text_#{I18n.locale.to_s}"].is_a?(Array) ?
+        field["option_strings_text_#{I18n.locale.to_s}"]
+        .select{|o| o['id'] == option} : option; options << selected }
+      return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
+    end
+  end
+
   def field_keys(subform_name, subform_index, field_name, form_group_name)
     field_key = []
 

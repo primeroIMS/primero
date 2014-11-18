@@ -496,7 +496,7 @@ end
 
 When /^I attach a photo "([^"]*)"(?: for model "(.*)")?$/ do |photo_path, model|
     model ||= "child"
-    step %Q{I attach the file "#{photo_path}" to "#{model}_photo0"}
+    step %Q{I attach the file "#{photo_path}" to "#{model}_photo_0"}
 end
 
 When /^I attach an audio file "([^"]*)"(?: for model "(.*)")?$/ do |audio_path, model|

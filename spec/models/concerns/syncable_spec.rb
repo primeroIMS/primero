@@ -51,13 +51,13 @@ describe Syncable do
       @child.attributes = {
         'name' => 'Fred',
         'family_members' => [
-          { 'unique_id' => 'aaaa', 'name' => 'Carl', 'relation' => 'father', },
+          { 'unique_id' => 'aaaa', 'name' => 'Carl', 'relation' => 'father', 'languages' => ['English', 'French'] },
           { 'unique_id' => 'bbbb', 'name' => 'Martha', 'relation' => 'mother', },
         ],
         'violations' => {
           'killing' => [{:unique_id => 'k1', :notes => 'kill 1'}]
         },
-        'languages' => ['Chinese'],
+        'languages' => ['Chinese', 'English'],
       }
       @child.save!
     end
@@ -72,6 +72,25 @@ describe Syncable do
       @child.attributes = proposed_props
 
       @child.family_members.length.should == 1
+    end
+
+    it 'removes values from array' do
+      @child.attributes = {
+        'languages' => ['English'],
+      }
+
+      @child.languages.should == ['English']
+    end
+
+    it 'removes values from normal array in nested subform' do
+      @child.attributes = {
+        'family_members' => [
+          { 'unique_id' => 'aaaa', 'name' => 'Carl', 'relation' => 'father', 'languages' => ['English'] },
+          { 'unique_id' => 'bbbb', 'name' => 'Martha', 'relation' => 'mother', },
+        ]
+      }
+
+      @child.family_members[0].languages.should == ['English']
     end
 
     it 'should delete all nested elements if nil' do

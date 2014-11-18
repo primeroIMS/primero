@@ -50,11 +50,12 @@ maiming_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Consequences",
-             "option_strings_text_all" =>
-                                    ["Killing",
-                                     "Permanent Disability",
-                                     "Serious Injury",
-                                     "Other"].join("\n")
+             "option_strings_text_all" => [
+                { id: 'killing', display_text: "Killing" },
+                { id: 'permanent_disability', display_text: "Permanent Disability" },
+                { id: 'serious_injury', display_text: "Serious Injury" },
+                { id: 'other', display_text: "Other" }
+              ]
             }),
   Field.new({"name" => "context_of_maiming",
              "type" => "select_box",
