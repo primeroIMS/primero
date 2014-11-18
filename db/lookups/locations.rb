@@ -1,5 +1,5 @@
 #Destroy all exiting locations
-Location.all.all.each &:destroy
+Location.all.all.each{ |l| l.destroy }
 
 
 #TODO: Temporarily load all the other locations code in this directory
