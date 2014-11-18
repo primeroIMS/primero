@@ -56,14 +56,15 @@ perpetrator_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Age group of alleged perpetrator",
-             "option_strings_text_all" =>
-                          ["0-11",
-                           "12-17",
-                           "18-25",
-                           "26-40",
-                           "41-60",
-                           "61+",
-                           "Unknown"].join("\n")
+             "option_strings_text_all" => [
+                { id: '0-11', display_text: "0-11" },
+                { id: '12-17', display_text: "12-17" },
+                { id: '18-25', display_text: "18-25" },
+                { id: '26-40', display_text: "26-40" },
+                { id: '41-60', display_text: "41-60" },
+                { id: '61', display_text: "61+" },
+                { id: 'unknown', display_text: "Unknown" }
+              ]
             }),
   Field.new({"name" => "perpetrator_nationality",
              "type" => "select_box",
