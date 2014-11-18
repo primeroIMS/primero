@@ -1,5 +1,3 @@
-include FieldsHelper
-
 def convert_multi_string(record, field, keys)
   property = record.value_for_attr_keys(keys)
 
