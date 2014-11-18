@@ -16,6 +16,11 @@ end
     c.family_details_section = [
       {:relation_name => 'Jacob', :relation => 'Father'},
       {:relation_name => 'Martha', :relation => 'Mother'},
+    ],
+    c.followup_subform_section = [
+      {:reason_child_not_seen => ['At School']},
+      {:reason_child_not_seen => ['At School', 'Abducted', 'Child in Detention']},
+      {:reason_child_not_seen => ['At School', 'Other, please specify']},
     ]
     c.date_of_birth = Date.new(2005, 01, 01)
     c.sex = 'Male'

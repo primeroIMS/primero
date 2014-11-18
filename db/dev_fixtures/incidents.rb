@@ -23,6 +23,33 @@
           :verification_decision_date => Date.new(2014, 05, 03),
           :verified => 'Unverified',
         },
+      ],
+      v[:recruitment] = [
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Other', 'Unknown']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Access to Security', 'Unknown', 'Idealism']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Lack of Basic Services']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Idealism']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Unknown']
+        },
       ]
     end
     i.perpetrator_subform_section = [
