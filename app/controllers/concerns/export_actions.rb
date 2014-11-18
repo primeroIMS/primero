@@ -26,13 +26,13 @@ module ExportActions
           raise "You must specify the properties to export as a controller method called 'exported_properties'"
         end
 
-        export_data = exporter.export(models, filter_properties, current_user)
+        export_data = exporter.export(models, filter_properties(exporter.id), current_user)
         encrypt_data_to_zip export_data, export_filename(models, exporter), params[:password]
       end
     end
   end
 
-  def filter_properties
+  def filter_properties(exporter_id)
     if params[:export_list_view].present? && params[:export_list_view] == "true"
       #list_view_header returns the columns that are showed in the index page.
       model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
@@ -43,9 +43,34 @@ module ExportActions
         end
       end
       list_view_fields
+    elsif exporter_id == "xls"
+      expand_violations(self.model_class.properties_by_form)
+        .merge({"__record__" => other_properties})
+        .reject{|key| ["Photos and Audio", "Other Documents", "Summary Page"].include?(key)}
     else
       exported_properties
     end
+  end
+
+  #Create a section for this properties that don't belong to any form section, but some
+  #seems to be important.
+  def other_properties
+    ["created_organization", "created_by_full_name", "last_updated_at",
+      "last_updated_by", "last_updated_by_full_name", "posted_at",
+      "unique_identifier", "record_state", "hidden_name",
+      "owned_by_full_name", "previously_owned_by_full_name",
+      "duplicate", "duplicate_of"].map do |name|
+      [name, self.model_class.properties.select{|p| p.name == name}.flatten.first]
+    end.to_h.compact
+  end
+
+  #Violations subforms is a special case for Incidents
+  def expand_violations(properties_by_form)
+    if properties_by_form["Violations"].present? && properties_by_form["Violations"]["violations"].present?
+      violations = properties_by_form["Violations"].delete("violations")
+      properties_by_form["Violations"] = violations.type.properties.map{|property| [property.name, property]}.to_h
+    end
+    properties_by_form
   end
 
   def export_filename(models, exporter)

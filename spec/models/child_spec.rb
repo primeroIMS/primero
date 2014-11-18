@@ -11,8 +11,7 @@ describe Child do
                  Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
                  Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
                ]
-      FormSection.stub(:all_visible_form_fields => fields,
-                       :find_by_parent_form => [FormSection.new(:fields => fields, :unique_id => 'case')])
+      FormSection.stub(:all_visible_form_fields => fields)
       Child.refresh_form_properties
       Child.new
     }

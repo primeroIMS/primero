@@ -24,7 +24,9 @@ module Record
     property :record_state, TrueClass, default: true
 
     class_attribute(:form_properties_by_name)
+    class_attribute(:properties_by_form)
     self.form_properties_by_name = {}
+    self.properties_by_form = {}
 
     create_form_properties
 
@@ -153,6 +155,10 @@ module Record
 
     def remove_form_properties
       form_properties_by_name.each do |name, prop|
+        properties_by_form.each do |form_name, props|
+          props.delete(name)
+        end
+        properties_by_form.reject!{|k, v| v.blank?}
         properties_by_name.delete(name)
         properties.delete(prop)
 
@@ -178,9 +184,13 @@ module Record
         Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
-      properties_hash_from_forms(form_sections).each do |name,options|
-        property name.to_sym, options
-        form_properties_by_name[name] = properties_by_name[name]
+      properties_hash_from_forms(form_sections).each do |form_name, props|
+        properties_by_form[form_name] ||= {}
+
+        props.each do |name, options|
+          property name.to_sym, options
+          properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
+        end
       end
     end
 
