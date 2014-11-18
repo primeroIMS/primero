@@ -847,8 +847,16 @@ en:
       to: "To"
       date: "Date"
       date_range: "Date Range"
-    document_upload_box:
-      file_restrictions_message: "Files should be no larger than 10mb (executable (.exe) files cannot be uploaded)."
+    file_upload_box:
+      select_file_button_text: "Select File"
+      no_file_selected: "No file selected."
+      document_file_restrictions_message: "Files should be no larger than 10mb (executable (.exe) files cannot be uploaded)."
+      photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
+      add_document_label: "Add Document"
+      add_photo_label: "Add Photo"
+      add_new_document_button_text: "Add another document"
+      add_new_photo_button_text: "Add another photo"
+      document_description: "Document Description"
 
   replication:
     label: Replication

@@ -415,6 +415,44 @@ span.postfix_val {
 }
 
 ////////////////////////////////////////////////
+// File Upload Input
+////////////////////////////////////////////////
+
+.file_upload {
+  padding: 0;
+  .row {
+    padding: 2px 0 !important;
+  }
+  div {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .file_upload_wrapper {
+    span {
+      padding: 0.5rem 0.751rem 0.5625rem;
+      margin-bottom: 0;
+    }
+  }
+  div label {
+    text-align: left;
+    font-weight: normal;
+  }
+  .file_upload_input {
+    cursor: pointer;
+    height: 100%;
+    position: absolute; 
+    right: 0px; 
+    top: 0px; 
+    opacity: 0;
+    margin-bottom: 0;
+    filter: alpha(opacity=0); 
+    -ms-filter: "alpha(opacity=0)"; 
+    -khtml-opacity: 0; 
+    -moz-opacity: 0;
+  }
+}
+
+////////////////////////////////////////////////
 // Chosen Field
 ////////////////////////////////////////////////
 

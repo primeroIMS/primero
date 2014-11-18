@@ -242,11 +242,15 @@ module Syncable
         # Add all the new or existing elements
         props[k] = props[k].inject([]) do |acc, el|
           if el.include?('unique_id')
+            nested_changes = changes_for_key.call(existing_changes_for_value, el['unique_id'])
             i = existing_value.index {|ev| ev['unique_id'] == el['unique_id'] }
-            # deeper_merge seems to have a bug in it where it doesn't override
-            # values properly.  deeper_merge! with the bang seems to work right
-            # though.
-            acc << (i.nil? ? el : existing_value[i].to_hash.clone.deeper_merge!(el))
+            acc << if i.nil?
+                     el
+                   else
+                     existing_value[i].inject({}) do |acc, (k, v)|
+                       acc.merge(merger.call(el, [k, existing_value[i][k], changes_for_key.call(nested_changes, k)]))
+                     end
+                   end
           else
             acc << el
           end
