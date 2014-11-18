@@ -228,6 +228,20 @@ module Record
 
       instance.update_properties(attributes, current_user.try(:name))
     end
+
+    #Generate a hash with properties that seems to no belong to any FormSection.
+    def record_other_properties_form_section
+     {"__record__" =>
+        ["created_organization", "created_by_full_name", "last_updated_at",
+          "last_updated_by", "last_updated_by_full_name", "posted_at",
+          "unique_identifier", "record_state", "hidden_name",
+          "owned_by_full_name", "previously_owned_by_full_name",
+          "duplicate", "duplicate_of"].map do |name|
+          [name, self.properties.find{|p| p.name == name}]
+        end.to_h.compact
+     }
+    end
+
   end
 
   def initialize(*args)
