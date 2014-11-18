@@ -177,7 +177,7 @@ class IncidentsController < ApplicationController
     elsif params[:format].present? && params[:format] == "xls"
       properties_by_form = model_class.properties_by_form.reject{|key| ["Summary Page", "Other Documents"].include?(key)}
       if properties_by_form["Violations"].present?
-        violations = properties_by_form["Violations"].delete("violations")
+        violations = properties_by_form["Violations"]["violations"].clone
         if violations.present?
           properties_by_form["Violations"] = violations.type.properties.map{|property| [property.name, property]}.to_h
         end
