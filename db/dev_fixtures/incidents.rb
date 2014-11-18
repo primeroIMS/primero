@@ -23,11 +23,39 @@
           :verification_decision_date => Date.new(2014, 05, 03),
           :verified => 'Unverified',
         },
+      ],
+      v[:recruitment] = [
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Other', 'Unknown']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Access to Security', 'Unknown', 'Idealism']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Lack of Basic Services']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Idealism']
+        },
+        {
+          :violation_tally_boys => 3,
+          :violation_tally_girls => 1,
+          :factors_of_recruitment => ['Unknown']
+        },
       ]
     end
     i.perpetrator_subform_section = [
       {:perpetrator_violations => ['Killing 0']}
     ]
+    i.violation_category = ["Killing of Children", "Other", "Attacks on Schools"]
   end,
 }.each do |k, v|
   default_owner = User.find_by_user_name("primero")

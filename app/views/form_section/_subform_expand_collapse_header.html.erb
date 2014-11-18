@@ -30,7 +30,7 @@
              fields_id << "#{subform.subform.name.dehumanize}_#{sanitize_to_id(name)}"
 
              #field_type will be used to identify how to retrieve the changes in the subform fields
-             #to update the static text placeholder if the field was changed by the user and the user 
+             #to update the static text placeholder if the field was changed by the user and the user
              #collapsed the subform.
              field_type = field.type
              field_type = "chosen" if field.type == "select_box" and field.multi_select == true
@@ -39,7 +39,11 @@
 
            #retrieve the value of the fields.
            value = i.to_s == "template" ? "" : field_value(formObject, field, fk)
-           value_to_display = field_value_for_display value
+           if field['option_strings_text_en'].present? && field['option_strings_text_en'].is_a?(Array)
+            value_to_display = field_value_for_multi_select value, field
+           else
+            value_to_display = field_value_for_display value
+           end
            value_fields << value_to_display
          end
       %>
@@ -51,7 +55,7 @@
       <span data-fields="<%= fields_id.join(',') %>" data-types="<%= data_types.join(',') %>">
         <%= value_fields.reject(&:empty?).join(' - ') %>
       </span>
-      <% end %>      
+      <% end %>
     </div>
     <% if view_mode && (subform_section.subform_header_links.include? "tracing") %>
       <div class="subform_tracing_link">

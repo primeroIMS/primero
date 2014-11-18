@@ -16,11 +16,17 @@ end
     c.family_details_section = [
       {:relation_name => 'Jacob', :relation => 'Father'},
       {:relation_name => 'Martha', :relation => 'Mother'},
+    ],
+    c.followup_subform_section = [
+      {:reason_child_not_seen => ['At School']},
+      {:reason_child_not_seen => ['At School', 'Abducted', 'Child in Detention']},
+      {:reason_child_not_seen => ['At School', 'Other, please specify']},
     ]
     c.date_of_birth = Date.new(2005, 01, 01)
     c.sex = 'Male'
     c.address_is_permanent = true
     c.address_current = '1 Arid Way'
+    c.protection_concerns = ["Migrant", "Disabled"]
   end,
 
   "ef928802-455b-4735-9e5c-4ed9acace002" => ->(c) do
@@ -31,6 +37,7 @@ end
     c.ethnicity = ['Kenyan']
     c.address_is_permanent = true
     c.address_current = '123 Main St'
+    c.protection_concerns = ["Migrant", "Disabled", "Refugee"]
   end,
 
   "df928802-455b-4735-9e5c-4ed9acace003" => ->(c) do
@@ -74,6 +81,7 @@ end
        :system_generated_followup => true
       }
     ]
+    c.consent_info_sharing = ["Family", "UNHCR"]
   end,
 
   "df928802-455b-4735-9e5c-4ed9acace006" => ->(c) do

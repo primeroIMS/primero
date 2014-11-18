@@ -20,6 +20,15 @@ module PrimeroModel
     end
   end
 
+  def set_value_for_attr_keys(attr_keys, value)
+    parent = value_for_attr_keys(attr_keys[0..-2])
+    if attr_keys[-1].is_a?(Numeric)
+      parent[attr_keys[-1]] = value
+    else
+      parent.send("#{attr_keys[-1]}=", value)
+    end
+  end
+
   def persisted?
     !new_record?
   end
@@ -50,7 +59,7 @@ module PrimeroModel
     end
   end
 
-  private 
+  private
 
   def set_dirty_tracking(enabled)
     dirty, self.disable_dirty = self.disable_dirty, !enabled

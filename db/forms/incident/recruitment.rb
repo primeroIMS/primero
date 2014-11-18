@@ -20,19 +20,20 @@ recruitment_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "What factors contributed towards the recruitment of the child by the armed group?",
-             "option_strings_text_all" =>
-                                    ["Abduction",
-                                     "Conscription",
-                                     "Intimidation",
-                                     "Lack of Basic Services",
-                                     "Access to Security",
-                                     "Financial Reasons",
-                                     "Family Problems / Abuse",
-                                     "To Join / Follow Friends",
-                                     "Idealism",
-                                     "To Seek Revenge",
-                                     "Other",
-                                     "Unknown"].join("\n")
+             "option_strings_text_all" => [
+                { id: 'abduction', display_text: "Abduction" },
+                { id: 'conscription', display_text: "Conscription" },
+                { id: 'intimidation', display_text: "Intimidation" },
+                { id: 'lack_of_basic_services', display_text: "Lack of Basic Services" },
+                { id: 'access_to_security', display_text: "Access to Security" },
+                { id: 'financial_reasons', display_text: "Financial Reasons" },
+                { id: 'family_problems_abuse', display_text: "Family Problems / Abuse" },
+                { id: 'to_join_follow_friends', display_text: "To Join / Follow Friends" },
+                { id: 'idealism', display_text: "Idealism" },
+                { id: 'to_see_revenge', display_text: "To Seek Revenge" },
+                { id: 'other', display_text: "Other" },
+                { id: 'unknown', display_text: "Unknown" }
+              ]
              }),
   Field.new({"name" => "re_recruitment",
              "type" => "radio_button",
@@ -47,12 +48,13 @@ recruitment_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "What role did the child play in the armed group?",
-             "option_strings_text_all" =>
-                                    ["Combatant",
-                                     "Non-Combatant",
-                                     "Sexual Purposes",
-                                     "Unknown",
-                                     "Other"].join("\n")
+             "option_strings_text_all" => [
+                { id: 'combatant', display_text: "Combatant" },
+                { id: 'non-combatant', display_text:  "Non-Combatant" },
+                { id: 'sexual_purposes', display_text:  "Sexual Purposes" },
+                { id: 'unknown', display_text:  "Unknown" },
+                { id: 'other', display_text:  "Other" }
+              ]
              }),
   Field.new({"name" => "type_of_recruitment_association",
              "type" => "select_box",
