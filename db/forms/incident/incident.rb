@@ -24,11 +24,11 @@ incident_fields = [
                  { id: 'killing', display_text: "Killing of Children" },
                  { id: 'maiming', display_text: "Maiming of Children" },
                  { id: 'abduction', display_text: "Abduction" },
-                 { id: 'recuitment', display_text: "Recruitment or Use of Child Soldiers" },
+                 { id: 'recruitment', display_text: "Recruitment or Use of Child Soldiers" },
                  { id: 'sexual_violence', display_text: "Rape or Other Grave Sexual Violence" },
                  { id: 'attack_on_schools', display_text: "Attacks on Schools" },
                  { id: 'attack_on_hospitals', display_text: "Attacks on Hospitals" },
-                 { id: 'denial_of_humanitarian_access', display_text: "Denial of Humanitarian Access" },
+                 { id: 'denial_humanitarian_access', display_text: "Denial of Humanitarian Access" },
                  { id: 'other', display_text: "Other" }
               ]
             }),
