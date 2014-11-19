@@ -49,7 +49,8 @@ class FieldsController < ApplicationController
 
   def update
     @field = fetch_field params[:id]
-    @field.attributes = params[:field] unless params[:field].nil?
+    @field.attributes = convert_multi_selects(params[:field]) unless params[:field].nil?
+
     @form_section.save
     if (@field.errors.length == 0)
       flash[:notice] = t("fields.updated")
@@ -123,6 +124,22 @@ class FieldsController < ApplicationController
         value.reject!(&:blank?)
       end
     end
+    convert_multi_selects(field)
+  end
+
+  def convert_multi_selects(field = {})
+    # TODO: Will have to be commented back in when we come up with a better scheme to give options a unique id and a
+    # way to create/edit them. As a temp solution. I (JT) am making multi-select options not editable. The code in the init
+    # function of primero.js will also need to be removed. There is a note there too
+    #
+    # if field[:multi_select] == 'true' && (field[:option_strings_source].nil? || field[:option_strings_source].empty?)
+    #   RapidFTR::Application::locales.each do |locale|
+    #     if !field[:"option_strings_text_#{locale}"].empty?
+    #       field[:"option_strings_text_#{locale}"] = field[:"option_strings_text_#{locale}"].split(/[\r\n]+/)
+    #                      .map{ |option| { id: option.downcase.lstrip.gsub(/[^\w ]/, '').gsub(' ', '_'), display_text: option }}
+    #     end
+    #   end
+    # end
     return field
   end
 end

@@ -2,7 +2,7 @@ consent_fields = [
   Field.new({"name" => "interview_subject",
              "type" => "select_box",
              "display_name_all" => "Consent Obtained From",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Individual",
                            "Caregiver",
                            "Other (please specify)"].join("\n")
@@ -34,12 +34,13 @@ consent_fields = [
              "type" => "select_box",
              "display_name_all" => "Consent has been given to share the information collected with",
              "multi_select" => true,
-             "option_strings_text_all" => 
-                          ["Family",
-                           "Authorities",
-                           "UNHCR",
-                           "Other Organizations",
-                           "Others, please specify"].join("\n")
+             "option_strings_text_all" => [
+                { id: 'family', display_text: "Family" },
+                { id: 'authorities', display_text: "Authorities" },
+                { id: 'unhcr', display_text: "UNHCR" },
+                { id: 'other_organizations', display_text: "Other Organizations" },
+                { id: 'others', display_text: "Others, please specify" }
+              ]
             }),
   Field.new({"name" => "consent_info_sharing_others",
              "type" => "text_field",
@@ -53,10 +54,11 @@ consent_fields = [
              "type" => "select_box",
              "display_name_all" => "Reason for withholding information",
              "multi_select" => true,
-             "option_strings_text_all" => 
-                          ["Fear of harm to themselves or others",
-                           "Want to communicate information themselves",
-                           "Other reason, please specify"].join("\n")
+             "option_strings_text_all" => [
+                { id: 'fear', display_text: "Fear of harm to themselves or others" },
+                { id: 'communicate_information', display_text: "Want to communicate information themselves" },
+                { id: 'others', display_text: "Other reason, please specify" }
+              ]
             }),
   Field.new({"name" => "withholding_info_other_reason",
            "type" => "text_field",

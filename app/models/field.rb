@@ -250,7 +250,8 @@ class Field
         select_options += clazz.all.map{|r| r.name}
       end
     else
-      select_options += @options.collect { |option| [option.option_name, option.option_name] }
+      select_options += @options.collect{ |option| option.option_name.is_a?(Hash) ? [option.option_name['display_text'],
+                                          option.option_name['id']] : [option.option_name, option.option_name]}
     end
 
     return select_options
