@@ -5,7 +5,7 @@
         </div>
     </li>
 <% end %>
-
+<%if controller.action_name != 'edit' %>
 <ul id="menu" class="sf-menu">
   <li class="init_btn">
     <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
@@ -17,3 +17,4 @@
     </ul>
   </li>
 </ul>
+<% end %>
