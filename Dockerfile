@@ -10,10 +10,11 @@ ENV RAILS_ENV production
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 561F9B9CAC40B2F7 && \
     apt-get update -yq && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https libxml2-dev libxslt1-dev imagemagick supervisor default-jre && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https libxml2-dev libxslt1-dev imagemagick supervisor openjdk-7-jre-headless && \
     echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main' > /etc/apt/sources.list.d/passenger.list && \
     apt-get update -yq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nginx-extras passenger && \
+    rm -rf /usr/share/man/* /usr/share/doc/* && \
     apt-get clean
 
 WORKDIR /app
@@ -27,6 +28,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y unzip curl && \
     cd /tmp/rvm-patchsets-* && \
     /usr/local/rvm/bin/rvm-shell -c 'bash ./install.sh' && \
     /usr/local/rvm/bin/rvm-shell -c 'rvm install 2.1.2 -n railsexpress --patch railsexpress' && \
+    /usr/local/rvm/bin/rvm-shell -c 'rvm cleanup all' && \
     cd / && rm -rf /tmp/rvm-patchsets-* && \
     # Remove all of the extra packages that the rvm installation pulls in \
     apt-get purge -y unzip curl patch gawk g++ gcc make libc6-dev patch libreadline6-dev zlib1g-dev \
@@ -34,6 +36,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y unzip curl && \
         libncurses5-dev automake libtool bison pkg-config libffi-dev && \
     apt-get autoremove -y && \
     apt-get clean && \
+    rm -rf /usr/share/man/* /usr/share/doc/* && \
     usermod -a -G rvm primero && \
     su -l primero -c 'rvm --default ruby-2.1.2-railsexpress'
 
@@ -42,6 +45,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git libssl-dev build-essen
     su -l primero -c 'bundle install --without test development cucumber' && \
     apt-get purge -y git libssl-dev build-essential && \
     apt-get autoremove -y && \
+    rm -rf /usr/share/man/* /usr/share/doc/* && \
     apt-get clean
 
 VOLUME /log /etc/ssl/primero
