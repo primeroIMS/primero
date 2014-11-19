@@ -56,6 +56,10 @@ module FieldsHelper
     end
   end
 
+  def field_link_for_display field, field_value
+    link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
+  end
+
   def field_value_for_multi_select field_value, field
     if field_value.nil? || field_value.empty?
       ""

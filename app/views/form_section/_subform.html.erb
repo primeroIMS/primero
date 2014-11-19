@@ -10,7 +10,6 @@
        subform_name = subform_section.shared_subform
      end
      number_of_subforms = subforms_count formObject, subform, form_group_name
-     collapsed_fields = subform_section.collapsed_list
      disable_action_buttons = ""
      summary_section_class = ""
      if subform.subform_section.is_summary_section
@@ -29,7 +28,7 @@
                  object: formObject,
                  locals: { formObject: formObject,
                            subform: subform,
-                           collapsed_fields: collapsed_fields,
+                           subform_section: subform_section,
                            i: i,
                            form_group_name: form_group_name
                          }
@@ -56,7 +55,7 @@
                object: formObject,
                locals: { formObject: formObject,
                          subform: subform,
-                         collapsed_fields: collapsed_fields,
+                         subform_section: subform_section,
                          i: 'template',
                          form_group_name: form_group_name
                        }

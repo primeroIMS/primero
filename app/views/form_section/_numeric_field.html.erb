@@ -17,7 +17,7 @@
   </div>
   <div class="medium-8 columns">
     <% # NOTE: The field is readonly instead of disabled in order to send the calculated value to the server so we don't have to look for the list of autosum fields in the formsection and calculate again because it is an expensive task. %>
-    <%= text_field_tag name, value, :class => field_class.strip, :autosum_group => autosum_group.strip, :disabled => numeric_field.editable == false ? true : false, :readonly => numeric_field['autosum_total'], :id => field_id %>
+    <%= text_field_tag name, value, :class => field_class.strip, :autosum_group => autosum_group.strip, :disabled => numeric_field.editable == false ? true : false, :readonly => numeric_field['autosum_total'], :id => field_id, :editable => numeric_field.editable %>
     <% if numeric_field.help_text %><p class="help"><%= numeric_field.help_text %></p><% end %>
   </div>
 </div>
