@@ -51,9 +51,9 @@ reformat) them out of the relevant attributes in the `dev-node.json` file in thi
 ```
 $ docker build -t primero_couch docker/db
 $ docker build -t primero_app .
-$ docker run -d --name primero_couch_data ubuntu:14.04
+$ docker run -d -v /etc/ssl/primero -v /var/lib/couchdb -v /var/log/couchdb -v /etc/couchdb/local.d --name primero_couch_data ubuntu:14.04
 
-[copy couch cert/key to the volume /etc/ssl/primero and name them couch.key/crt]
+[copy couch cert/key to the volume /etc/ssl/primero in the couch data container and name them couch.key/crt]
 
 $ docker run --name primero_couch_1 -d -P --volumes-from primero_couch_data -e COUCHDB_PASSWORD=primero primero_couch
 
