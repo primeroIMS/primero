@@ -1,10 +1,10 @@
 def convert_multi_string(record, field, keys)
   property = record.value_for_attr_keys(keys)
 
-  if !property.nil? && property.is_a?(Array) && !property.empty?
+  if property.present? && property.is_a?(Array)
     selected_options = []
     property.each{|c| selected_options << field['option_strings_text_en'].select{ |o| o['display_text'] == c }}
-    record.set_value_for_attr_keys(keys, selected_options.flatten.collect{ |option| option['id']}) unless selected_options.empty?
+    record.set_value_for_attr_keys(keys, selected_options.flatten.collect{ |option| option['id']}) if selected_options.present?
   end
 end
 
@@ -29,7 +29,7 @@ models.each do |model, parent_form|
         fields = get_multi_select_fields(fs.fields.first.subform_section)
         fields.each do |field|
           violations = record.value_for_attr_keys [fs.form_group_name.downcase, fs.fields.first.name]
-          unless violations.empty?
+          if violations.present?
             violations.each_with_index do |v, i|
               keys = [fs.form_group_name.downcase, fs.fields.first.name, i, field.name]
               convert_multi_string(record, field, keys)
@@ -39,10 +39,10 @@ models.each do |model, parent_form|
         end
       elsif fs.is_nested?
         fields = get_multi_select_fields(fs)
-        unless fields.empty?
+        if fields.present?
           fields.each do |field|
             subform_items = record.value_for_attr_keys [fs.section_name] unless fs.section_name.nil?
-            unless subform_items.nil? || subform_items.empty?
+            if subform_items.present?
               subform_items.each_with_index do |s, i|
                 keys = [fs.section_name, i, field.name]
                 convert_multi_string(record, field, keys)
@@ -53,7 +53,7 @@ models.each do |model, parent_form|
         end
       else
         fields = get_multi_select_fields(fs)
-        unless fields.empty?
+        if fields.present?
           fields.each do |field|
             keys = [field.name]
             convert_multi_string(record, field, keys)
@@ -64,8 +64,8 @@ models.each do |model, parent_form|
     end
 
     if record_modified
+      puts "Updating #{parent_form.capitalize} #{record.id}..."
       record.save!
-      puts "#{parent_form.capitalize} #{record.id}: saved"
     end
   end
 end
