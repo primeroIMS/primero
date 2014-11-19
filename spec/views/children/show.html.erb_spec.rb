@@ -23,6 +23,7 @@ describe "children/show.html.erb" do
         :form_group_name => "Test Group"
       })
       mod = PrimeroModule.create({_id: 'primeromodule-cp'})
+      Child.any_instance.stub(:field_definitions).and_return([])
       @child = Child.create(:name => "fakechild", :age => "27", :gender => "male", 
                             :date_of_separation => "1-2 weeks ago", :unique_identifier => "georgelon12345", 
                             :created_by => 'jsmith', :owned_by => @user.user_name, :owned_by_full_name => 'Jose Smith',

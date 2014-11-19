@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'sunspot'
 
 describe Child do
+  before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
+  end
   it_behaves_like "a valid record" do
     let(:record) {
       fields = [
@@ -14,6 +17,7 @@ describe Child do
       FormSection.stub(:all_visible_form_fields => fields,
                        :find_by_parent_form => [FormSection.new(:fields => fields, :unique_id => 'case')])
       Child.refresh_form_properties
+      Child.any_instance.stub(:field_definitions).and_return(fields)
       Child.new
     }
   end
@@ -1158,6 +1162,7 @@ describe Child do
         "name_all" => "Form Section With Dates Fields",
         "description_all" => "Form Section With Dates Fields",
       })
+      Child.any_instance.stub(:field_definitions).and_return(fields)
     end
 
     it "should validate single date field" do

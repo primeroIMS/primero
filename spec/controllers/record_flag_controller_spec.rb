@@ -2,7 +2,14 @@ require 'spec_helper'
 
 describe RecordFlagController do
   before :each do
+    Incident.any_instance.stub(:field_definitions).and_return([])
+    TracingRequest.any_instance.stub(:field_definitions).and_return([])
     FormSection.all.all.each { |form| form.destroy }
+    fields = [
+        Field.new({"name" => "child_status",
+                   "type" => "text_field",
+                   "display_name_all" => "Child Status"
+                  })]
     form = FormSection.new(
       :unique_id => "form_section_test",
       :parent_form=>"case",
@@ -14,13 +21,10 @@ describe RecordFlagController do
       "editable" => true,
       "name_all" => "Form Section Test",
       "description_all" => "Form Section Test",
-      :fields => [
-        Field.new({"name" => "child_status",
-                   "type" => "text_field",
-                   "display_name_all" => "Child Status"
-                  })]
+      :fields => fields
         )
     form.save!
+    Child.any_instance.stub(:field_definitions).and_return(fields)
     Child.refresh_form_properties
 
     unless example.metadata[:skip_session]
@@ -230,7 +234,7 @@ describe RecordFlagController do
 
   describe "Child", search: true do
     before :each do
-      @child = create_record(Child, @user)
+      @child = create_record(Child, @user, {"child_status" => "open"})
     end
 
     it_behaves_like "Flagging" do

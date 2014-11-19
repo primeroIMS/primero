@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ChildRiskLevelFollowUp do
   before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
     Child.all.each { |form| form.destroy }
   end
 

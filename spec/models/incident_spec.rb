@@ -1,16 +1,23 @@
 require 'spec_helper'
 
 describe Incident do
+  before :each do
+    FormSection.all.all.each { |form| form.destroy }
+    Incident.any_instance.stub(:field_definitions).and_return([])
+    # Incident.refresh_form_properties
+  end
+
   it_behaves_like "a valid record" do
     let(:record) {
-      FormSection.stub(:all_visible_form_fields =>
-                      [
-                        Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
-                        Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
-                        Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
-                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
-                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
-                      ])
+      fields = [
+        Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
+        Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
+        Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
+        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
+        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
+      ]
+      Incident.any_instance.stub(:field_definitions).and_return(fields)
+      FormSection.stub(:all_visible_form_fields => fields)
       Incident.new
     }
   end
@@ -189,7 +196,7 @@ describe Incident do
       incident = Incident.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
       new_properties = {"name" => "Dave", "age" => "35"}
       incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      incident['age'].should == 35
+      incident['age'].to_s.should == "35"
       incident['name'].should == "Dave"
       incident['last_known_location'].should == "London"
     end
@@ -241,7 +248,7 @@ describe Incident do
     it "should create regular incident fields" do
       incident = create_incident_with_created_by('jdoe', 'description' => 'London', 'age' => '6')
       incident['description'].should == 'London'
-      incident['age'].should == 6
+      incident['age'].to_s.should == "6"
     end
 
     it "should create a unique id" do

@@ -18,6 +18,7 @@ module Exporters
     end
 
     it "excludes histories from export" do
+      Child.any_instance.stub(:field_definitions).and_return([])
       c = Child.create({:name => 'Juan'})
       data = ExcelExporter.export([c], c.properties)
       book = Spreadsheet.open(StringIO.new(data))

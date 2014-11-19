@@ -45,6 +45,7 @@ Feature: Hide Name
     And I should see a value for "Sex" on the show page with the value of "Male"
     And I press the "Edit" button
     And I press the "View Name" link
+    And I should see "Hide Name" on the page
     And the "Name" field should contain "Tiki Thomas Taliaferro"
     And I press "Save"
     And I should see a success message for updated Case
@@ -92,6 +93,7 @@ Feature: Hide Name
     And I should see a value for "Name" on the show page with the value of "*****"
     And I press the "Edit" button
     And I press the "View Name" link
+    And I should see "Hide Name" on the page
     And the "Name" field should contain "Edited Name"
 
   Scenario Outline: As a logged in user, I want to hide the survivor's name when creating the record

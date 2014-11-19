@@ -11,6 +11,10 @@ describe Ability do
 
   describe "Records" do
 
+    before :each do
+      Child.any_instance.stub(:field_definitions).and_return([])
+    end
+
     it "allows an owned record to be read given a read permission" do
       role = create :role, permissions: [Permission::READ, Permission::CASE]
       @user1.role_ids = [role.id]

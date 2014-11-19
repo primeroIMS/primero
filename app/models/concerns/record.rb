@@ -178,6 +178,7 @@ module Record
         Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
+      form_properties_by_name = {}
       properties_hash_from_forms(form_sections).each do |name,options|
         property name.to_sym, options
         form_properties_by_name[name] = properties_by_name[name]
@@ -279,8 +280,11 @@ module Record
   end
 
   def field_definitions
+    return @field_definitions if @field_definitions.present?
+    # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
+    # this will not work.
     parent_form = self.class.parent_form
-    @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
+    @field_definitions = self.module.associated_forms_grouped_by_record_type[parent_form].map{|form| form.fields }.flatten
   end
 
   def update_properties(properties, user_name)

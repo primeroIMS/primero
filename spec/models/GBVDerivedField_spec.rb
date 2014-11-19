@@ -150,6 +150,7 @@ describe GBVDerivedFields do
   after :all do
     Incident.all.all.each { |incident| incident.destroy }
     FormSection.all.all.each { |form| form.destroy }
+    Incident.refresh_form_properties
   end
 
   shared_examples_for "GBV Calculated/Derived fields" do |fields_name|
@@ -166,6 +167,10 @@ describe GBVDerivedFields do
   end
 
   describe "GBV Incident Report" do
+    before :each do
+      Incident.any_instance.stub(:field_definitions).and_return([])
+    end
+
     it_behaves_like "GBV Calculated/Derived fields", "gbv_uam_sc_ovc" do
       let(:expected_values) { {"gbv_uam_sc_ovc" => "UAM/SC/OVC"} }
       let(:incident_gbv) { Incident.new(:module_id => "primeromodule-gbv", :unaccompanied_separated_status => "Separated Child") }
