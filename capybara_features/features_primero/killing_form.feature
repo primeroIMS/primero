@@ -63,7 +63,7 @@ Feature: Killing Form
       | Did the violation occur during or as a direct result of abduction?                 | Yes                           |
       | Verifier                                                                                                                        | primero_mrm                                                    |
       # | Verification Decision Date                                                                                                      | today's date                                                   |
-      | Verification Status                                                                                                             | Pending                                                        |
+      | Verification Status                                                                                                             | Pending Verification                                                        |
       | Has the information been received from a primary and reliable source?                                                           | Yes, from a credible Primary Source who witnessed the incident |
       | Was the incident witnessed by UN staff or other MRM-trained affiliates?                                                         | Yes                                                            |
       | Is the information consistent across various independent sources?                                                               | Yes                                                            |
