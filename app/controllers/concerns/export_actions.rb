@@ -1,5 +1,4 @@
 module ExportActions
-  include IndexHelper
   extend ActiveSupport::Concern
 
   def exported_properties
@@ -26,25 +25,9 @@ module ExportActions
           raise "You must specify the properties to export as a controller method called 'exported_properties'"
         end
 
-        export_data = exporter.export(models, filter_properties, current_user)
+        export_data = exporter.export(models, exported_properties, current_user)
         encrypt_data_to_zip export_data, export_filename(models, exporter), params[:password]
       end
-    end
-  end
-
-  def filter_properties
-    if params[:export_list_view].present? && params[:export_list_view] == "true"
-      #list_view_header returns the columns that are showed in the index page.
-      model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
-      list_view_fields = { :type => model, :fields => {} }
-      list_view_header(model).each do |header|
-        if header[:title].present? && header[:sort_title].present?
-          list_view_fields[:fields].merge!({ header[:title].titleize => header[:sort_title] })
-        end
-      end
-      list_view_fields
-    else
-      exported_properties
     end
   end
 

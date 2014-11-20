@@ -1,6 +1,7 @@
 class ChildrenController < ApplicationController
   @model_class = Child
 
+  include IndexHelper
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo, :match_record ]
@@ -239,6 +240,17 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(children_url) }
       format.xml { head :ok }
+    end
+  end
+
+  def exported_properties
+    if params[:export_list_view].present? && params[:export_list_view] == "true"
+      build_list_field_by_model(model_class)
+    elsif params[:format].present? && params[:format] == "xls"
+      properties_by_form = model_class.properties_by_form.reject{|key| ["Photos and Audio", "Other Documents"].include?(key)}
+      properties_by_form.merge(model_class.record_other_properties_form_section)
+    else
+      model_class.properties
     end
   end
 

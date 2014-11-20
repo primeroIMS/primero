@@ -24,7 +24,9 @@ module Record
     property :record_state, TrueClass, default: true
 
     class_attribute(:form_properties_by_name)
+    class_attribute(:properties_by_form)
     self.form_properties_by_name = {}
+    self.properties_by_form = {}
 
     create_form_properties
 
@@ -153,6 +155,10 @@ module Record
 
     def remove_form_properties
       form_properties_by_name.each do |name, prop|
+        properties_by_form.each do |form_name, props|
+          props.delete(name)
+        end
+        properties_by_form.reject!{|k, v| v.blank?}
         properties_by_name.delete(name)
         properties.delete(prop)
 
@@ -178,9 +184,13 @@ module Record
         Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
-      properties_hash_from_forms(form_sections).each do |name,options|
-        property name.to_sym, options
-        form_properties_by_name[name] = properties_by_name[name]
+      properties_hash_from_forms(form_sections).each do |form_name, props|
+        properties_by_form[form_name] ||= {}
+
+        props.each do |name, options|
+          property name.to_sym, options
+          properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
+        end
       end
     end
 
@@ -218,6 +228,20 @@ module Record
 
       instance.update_properties(attributes, current_user.try(:name))
     end
+
+    #Generate a hash with properties that seems to no belong to any FormSection.
+    def record_other_properties_form_section
+     {"__record__" =>
+        ["created_organization", "created_by_full_name", "last_updated_at",
+          "last_updated_by", "last_updated_by_full_name", "posted_at",
+          "unique_identifier", "record_state", "hidden_name",
+          "owned_by_full_name", "previously_owned_by_full_name",
+          "duplicate", "duplicate_of"].map do |name|
+          [name, self.properties.find{|p| p.name == name}]
+        end.to_h.compact
+     }
+    end
+
   end
 
   def initialize(*args)

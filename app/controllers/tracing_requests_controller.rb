@@ -1,6 +1,7 @@
 class TracingRequestsController < ApplicationController
   @model_class = TracingRequest
 
+  include IndexHelper
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
@@ -163,6 +164,16 @@ class TracingRequestsController < ApplicationController
     end
   end
 
+  def exported_properties
+    if params[:export_list_view].present? && params[:export_list_view] == "true"
+      build_list_field_by_model(model_class)
+    elsif params[:format].present? && params[:format] == "xls"
+      properties_by_form = model_class.properties_by_form.reject{|key| ["Photos and Audio"].include?(key)}
+      properties_by_form.merge(model_class.record_other_properties_form_section)
+    else
+      model_class.properties
+    end
+  end
 
   private
 
