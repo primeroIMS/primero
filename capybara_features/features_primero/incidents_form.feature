@@ -7,6 +7,7 @@
 # JIRA PRIMERO-523
 # JIRA PRIMERO-731
 # JIRA PRIMERO-736
+# JIRA PRIMERO-774
 
 @javascript @primero
 Feature: Incidents Form
@@ -102,3 +103,18 @@ Feature: Incidents Form
     And I press the "Cancel" button
     And I click OK in the browser popup
     And I should be on the incidents page
+
+  Scenario: Actions button should not display in edit mode
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    When I access "incidents page"
+    And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+      |  Abduction    |
+      |  Other        |
+    And I fill in "Date of First Report" with "14-Jul-2014"
+    And I select "Afternoon (noon to sunset)" from "Time of day that the Incident took place"
+    And I press "Save"
+    And I should see a success message for new Incident
+    And I press the "Edit" button
+    And I should not see "Actions" on the page
