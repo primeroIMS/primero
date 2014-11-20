@@ -149,7 +149,7 @@ create_or_update_lookup(
   :lookup_values => [
     "Verified",
     "Unverified",
-    "Pending",
+    "Pending Verification",
     "Falsely Attributed",
     "Rejected"
   ]
