@@ -16,7 +16,7 @@
     </span>
   </div>
   <div class="medium-8 columns">
-    <%= text_field_tag name, value, :disabled => disabled_field, :id => field_id %>
+    <%= text_field_tag name, value, :disabled => disabled_field, :id => field_id, :editable => text_field.editable %>
     <%= link_to(hide_text_link_text, hide_text_link_text.dehumanize, :class => "hidden_text_field", :action => hide_text_link_action) if show_hide_text_link %>
     <% if text_field.hidden_text_field && formObject.new_record? %>
       <%= check_box_tag "#{formObject.class.name.underscore.downcase}[hidden_name]", true, false %>

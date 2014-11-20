@@ -208,6 +208,9 @@ en:
     sex: "Sex"
     registration_date: "Registration Date"
     status: "Status"
+    match_record: "Match"
+    match_record_success: "Records Matched"
+    match_record_failed: "Match Not Found"
 
     messages:
       update_success: "Child %{record_id} was successfully updated."
@@ -443,6 +446,7 @@ en:
     unflag_error_message: "Please explain why you are unflagging this record."
     flag_error_message: "Please explain why you are flagging this record."
     flagged_as_suspected: "Flagged by"
+    find_match: "Find Match"
 
     actions:
       change_log: "Change Log"

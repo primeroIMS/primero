@@ -1,5 +1,10 @@
 tracing_request_subform_fields = [
-  #TODO add GUID field.
+  Field.new({"name" => "matched_case_id",
+             "type" => "text_field",
+             "editable" => false,
+             "link_to_path" => "case",
+             "display_name_all" => "Matched Case ID"
+           }),
   Field.new({"name" => "tracing_request_status",
              "type" =>"select_box" ,
              "display_name_all" => "Tracing status",
@@ -10,9 +15,6 @@ tracing_request_subform_fields = [
                                   "Reunified",
                                   "Closed"].join("\n")
             }),
-  #TODO add tracing_request_match (Tracing request match):
-  #     Short ID of Case that matches?
-  #     autopopulate on match? (match is link?)
   Field.new({"name" => "individual_details_section",
              "type" => "separator",
              "display_name_all" => "Individual Details"
@@ -157,7 +159,8 @@ tracing_request_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Tracing Request Subform",
   "description_all" => "Nested Tracing Request Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["name", "relation_to_inquirer"]
+  "collapsed_fields" => ["name", "relation_to_inquirer"],
+  :subform_header_links => ["tracing"]
 })
 
 tracing_request_tracing_request_fields = [
