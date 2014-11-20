@@ -36,11 +36,18 @@ Feature: Lookup Violations New
 
 
   Scenario: As a logged in user, if I add a violation, the violations select should contain the violation
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Maiming of Children |
+     | Killing of Children |
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
       | Number of survivors          | <Tally>Boys:1        |
       | Cause                        | <Select> Landmines   |
+    And I press the "Killing" button
+    And I fill in the following:
+      | Number of victims          | <Tally>Boys:1        |
     And I press the "Individual Details" button
     Then the "Violations" select box should have the following options:
       | label                     | selected? |
@@ -71,6 +78,12 @@ Feature: Lookup Violations New
       | Maiming Landmines 0       | no        |
 
   Scenario: As a logged in user, if I add multiple violations, the violations select should contain those violations
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Killing of Children |
+     | Maiming of Children |
+     | Recruitment or Use of Child Soldiers |
+     | Abduction |
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
@@ -124,6 +137,12 @@ Feature: Lookup Violations New
       | Abduction Child Use 0                                           | no        |
 
   Scenario: As a logged in user, if I remove a violation, that violation should not be part of the violation select
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Killing of Children |
+     | Maiming of Children |
+     | Recruitment or Use of Child Soldiers |
+     | Abduction |
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
