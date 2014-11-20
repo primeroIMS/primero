@@ -17,6 +17,9 @@ Feature: Attack on Schools Form
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Attacks on Schools |
     And I press the "Violations" button
     And I press the "Attack on Schools" button
     And I fill in the following:

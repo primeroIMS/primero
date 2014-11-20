@@ -12,6 +12,9 @@ Feature: MRM Summary Page
     And I fill in the following:
       | Account of Incident                | Test Account                                  |
       | Incident Total Victims/Survivors   | <Tally>Boys:3<Tally>Girls:22<Tally>Unknown:35 |
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Killing of Children |
     And I press the "Violations" button
     And I press the "Killing" button
     And I fill in the following:
