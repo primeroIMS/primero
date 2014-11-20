@@ -25,8 +25,13 @@ module Security
 
       def create
         secret_value = {"token" => generate, "key_base" => generate}
-        database.save_doc "_id" => "session_secret", "value" => secret_value
-        secret_value
+        begin
+          database.save_doc("_id" => "session_secret", "value" => secret_value)
+        rescue Errno::ECONNREFUSED
+          nil
+        else
+          secret_value
+        end
       end
 
       def database
