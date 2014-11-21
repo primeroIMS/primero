@@ -27,6 +27,12 @@ var IndexFilters = Backbone.View.extend({
           current_scope = current_scope ? current_scope.split('||') : false,
           type = $(this).attr('filter_type') || 'single';
 
+      if(_primero.getInternetExplorerVersion() != -1 &&  current_scope) {
+        $(current_scope).each(function(i, ce){
+          current_scope[i] = encodeURI(ce);
+        });
+      }
+
       if ($(this).is(':checkbox') && _.contains(current_scope, encodeURI($(this).val()))) {
         $(this).attr('checked', true);
         self.set_array_filter(name, $(this).val(), type);

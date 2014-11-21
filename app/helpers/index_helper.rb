@@ -60,7 +60,7 @@ module IndexHelper
         end
 
         if filter_value(filter)
-          checked = true if filter_value(filter).split(',').include? item.gsub('_', '')
+          checked = true if filter_value(filter).split('||').include? item.gsub('_', '')
         end
 
         concat(label_tag("#{filter}_#{item}",
