@@ -848,11 +848,9 @@ describe IncidentsController do
       incident.save
       fake_admin_login
       controller.stub(:authorize!)
-      #binding.pry
       post :create, :incident => {:unique_identifier => incident.unique_identifier, :name => 'new name'}
       updated_incident = Incident.by_short_id(:key => incident.short_id)
       updated_incident.all.size.should == 1
-      #binding.pry
       updated_incident.first.name.should == 'new name'
     end
   end

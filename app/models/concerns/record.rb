@@ -184,7 +184,6 @@ module Record
         Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
-      form_properties_by_name = {}
       properties_hash_from_forms(form_sections).each do |form_name, props|
         properties_by_form[form_name] ||= {}
 

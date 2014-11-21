@@ -33,6 +33,10 @@ describe RecordFlagController do
     end
   end
 
+  after :each do
+    Child.remove_form_properties
+  end
+
   def create_record(clazz, user, params = {})
     instance = clazz.new_with_user_name(@user, params)
     instance.save

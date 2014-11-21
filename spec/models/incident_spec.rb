@@ -1,11 +1,6 @@
 require 'spec_helper'
 
 describe Incident do
-  before :each do
-    FormSection.all.all.each { |form| form.destroy }
-    Incident.any_instance.stub(:field_definitions).and_return([])
-    # Incident.refresh_form_properties
-  end
 
   it_behaves_like "a valid record" do
     let(:record) {
@@ -236,6 +231,7 @@ describe Incident do
   describe 'save' do
 
     it "should save with generated incident_id" do
+      Incident.any_instance.stub(:field_definitions).and_return([])
       incident = create_incident_with_created_by('jdoe', 'description' => 'London')
       incident.save!
       incident[:incident_id].should_not be_nil
@@ -244,6 +240,10 @@ describe Incident do
   end
 
   describe "new_with_user_name" do
+
+    before :each do
+      Incident.any_instance.stub(:field_definitions).and_return([])
+    end
 
     it "should create regular incident fields" do
       incident = create_incident_with_created_by('jdoe', 'description' => 'London', 'age' => '6')
@@ -302,6 +302,10 @@ describe Incident do
   end
 
   describe "unique id" do
+    before :each do
+      Incident.any_instance.stub(:field_definitions).and_return([])
+    end
+
     it "should create a unique id" do
       UUIDTools::UUID.stub("random_create").and_return(12345)
       incident = Incident.new
@@ -356,6 +360,7 @@ describe Incident do
 
   context "duplicate" do
     before do
+      Incident.any_instance.stub(:field_definitions).and_return([])
       Incident.all.each { |incident| incident.destroy }
       Incident.duplicates.each { |incident| incident.destroy }
       User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
@@ -410,6 +415,10 @@ describe Incident do
   end
 
   describe 'organization' do
+    before :each do
+      Incident.any_instance.stub(:field_definitions).and_return([])
+    end
+
     it 'should get created user' do
       incident = Incident.new
       incident.created_by = 'test'
@@ -427,6 +436,10 @@ describe Incident do
   end
 
   describe "validation" do
+    before :each do
+      Incident.any_instance.stub(:field_definitions).and_return([])
+    end
+
     it "should disallow uploading executable files for documents" do
       incident = Incident.new
       incident.upload_document = [{'document' => uploadable_executable_file}]
@@ -450,6 +463,11 @@ describe Incident do
 
   describe "views" do
     describe "user action log" do
+      before :each do
+        Incident.any_instance.stub(:field_definitions).and_return([])
+      end
+
+
       it "should return all incidents updated by a user" do
         incident = Incident.create!("created_by" => "some_other_user", "last_updated_by" => "a_third_user", "description" => "abc", "histories" => [{"user_name" => "brucewayne", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
 

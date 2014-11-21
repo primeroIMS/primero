@@ -148,9 +148,13 @@ describe GBVDerivedFields do
   end
 
   after :all do
-    Incident.all.all.each { |incident| incident.destroy }
-    FormSection.all.all.each { |form| form.destroy }
-    Incident.refresh_form_properties
+    # TODO: Change this for a better approach. This is a work arround.
+    # Custom validators are registered for the subforms when saved, they keep registered in the execution of the rspecs and some test breaks up because the subforms are no longer available (which is ok, they shouldn't be).
+    # Should the validators be registered on Incident when a incident subform is saved?
+    FormSection.all.all.select{|f| f.is_nested?}.map{|f| f.unique_id.to_sym}.each do |key|
+      # Remove the validator for the subforms used only on this test.
+      Incident._validators.delete key if Incident._validators[key]
+    end
   end
 
   shared_examples_for "GBV Calculated/Derived fields" do |fields_name|
