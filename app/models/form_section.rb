@@ -356,8 +356,9 @@ class FormSection < CouchRest::Model::Base
       formsection.save
     end
 
-    def list_form_group_names
-      self.all.all.collect(&:form_group_name).compact.uniq
+    def list_form_group_names selected_module, parent_form, user
+      self.get_permitted_form_sections(selected_module, parent_form, user)
+          .collect(&:form_group_name).compact.uniq.sort
     end
     memoize_in_prod :list_form_group_names
   end
