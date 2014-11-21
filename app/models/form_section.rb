@@ -356,7 +356,7 @@ class FormSection < CouchRest::Model::Base
       formsection.save
     end
 
-    def list_form_group_names selected_module, parent_form, user
+    def list_form_group_names(selected_module, parent_form, user)
       self.get_permitted_form_sections(selected_module, parent_form, user)
           .collect(&:form_group_name).compact.uniq.sort
     end
