@@ -50,7 +50,7 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil)
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match={})
       self.search do
         if filters.present?
           #TODO: pop off the locations filter and perform a fulltext search
@@ -97,7 +97,20 @@ module Searchable
         end
         if match.present?
           #TODO - add more match criteria
-          fulltext(match.name)
+          # Do we want to include search on nickname?
+          fulltext match[:name], :minimum_match => 1 if match[:name].present?
+          fulltext match[:name_nickname], :minimum_match => 1 if match[:name_nickname].present?
+
+          any_of do
+            with(:sex, match[:sex]) if match[:sex].present?
+
+            #TODO - verify this range and parameterize it
+            if match[:date_of_birth].present? and match[:date_of_birth].is_a?(Date)
+              to = match[:date_of_birth] + 2.years
+              from = match[:date_of_birth] - 2.years
+              with(:date_of_birth, from..to)
+            end
+          end
         end
         sort.each{|sort,order| order_by(sort, order)}
         paginate pagination
