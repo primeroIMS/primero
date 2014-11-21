@@ -3,16 +3,18 @@ require "uuidtools"
 module FormToPropertiesConverter
   def properties_hash_from_forms(form_sections)
     prop_hash = form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
-      acc.deep_merge(process_form(fs))
+      acc.deep_merge((fs.form_group_keyed ? fs.form_group_name : fs.name) => process_form(fs))
     end
 
     # Handling stuff like violations.  How to make it clearer and cleaner??
-    prop_hash.select {|k,v| v.is_a?(Hash) && !v.include?(:type)}.each do |name, props|
-      prop_hash[name] = {
-        :type => create_embeddable_model(props, false),
-        :read_only => false,
-        :array => false,
-      }
+    prop_hash.each do |form, props|
+      props.select {|k,v| v.is_a?(Hash) && !v.include?(:type)}.each do |name, subprops|
+        props[name] = {
+          :type => create_embeddable_model(subprops, false),
+          :read_only => false,
+          :array => false,
+        }
+      end
     end
     prop_hash
   end

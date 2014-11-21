@@ -14,6 +14,9 @@ Feature: Subforms Collapses Fields Incidents
     And I press the "New Incident" button
 
   Scenario: As a logged in user, I want to verify collapsed fields for killing
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Killing of Children |
     And I press the "Violations" button
     And I press the "Killing" button
     And I update in the 1st "Killing" subform with the follow:
@@ -26,6 +29,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Killing" subform within "Shooting"
 
   Scenario: As a logged in user, I want to verify collapsed fields for maiming
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Maiming of Children |
     And I press the "Violations" button
     And I press the "Maiming" button
     And I update in the 1st "Maiming" subform with the follow:
@@ -38,6 +44,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Maiming" subform within "Landmines"
 
   Scenario: As a logged in user, I want to verify collapsed fields for recruitment
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Recruitment or Use of Child Soldiers |
     And I press the "Violations" button
     And I press the "Recruitment" button
     And I update in the 1st "Recruitment" subform with the follow:
@@ -50,6 +59,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Recruitment" subform within "Abduction, Intimidation, Financial Reason"
 
   Scenario: As a logged in user, I want to verify collapsed fields for attack on schools
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Attacks on Schools |
     And I press the "Violations" button
     And I press the "Attack on Schools" button
     And I update in the 1st "Attack on Schools" subform with the follow:
@@ -62,6 +74,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Attack on Schools" subform within "Shelling"
 
   Scenario: As a logged in user, I want to verify collapsed fields for attack on hospitals
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Attacks on Hospitals |
     And I press the "Violations" button
     And I press the "Attack on Hospitals" button
     And I update in the 1st "Attack on Hospitals" subform with the follow:
@@ -74,6 +89,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Attack on Hospitals" subform within "Physical Destruction"
 
   Scenario: As a logged in user, I want to verify collapsed fields for abduction
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Abduction |
     And I press the "Violations" button
     And I press the "Abduction" button
     And I update in the 1st "Abduction" subform with the follow:
@@ -86,6 +104,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Abduction" subform within "Sexual Violence"
 
   Scenario: As a logged in user, I want to verify collapsed fields for other violation
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Other |
     And I press the "Violations" button
     And I press the "Other Violation" button
     And I update in the 1st "Other Violation" subform with the follow:
@@ -146,6 +167,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Perpetrator Subform Section" subform within "Security Forces"
 
   Scenario: As a logged in user, I want to verify collapsed fields for sexual violence
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Rape or Other Grave Sexual Violence |
     And I press the "Violations" button
     And I press the "Sexual Violence" button
     And I fill in the 1st "Sexual Violence" subform with the follow:
@@ -158,6 +182,9 @@ Feature: Subforms Collapses Fields Incidents
     And I should see header in the 2nd "Sexual Violence" subform within "Sexual Assault, Mutilation"
 
   Scenario: As a logged in user, I want to verify collapsed fields for denial of humanitarian access
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Denial of Humanitarian Access |
     And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
     And I fill in the 1st "Denial Humanitarian Access" subform with the follow:

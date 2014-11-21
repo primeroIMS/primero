@@ -31,7 +31,9 @@ class HomeController < ApplicationController
 
   def load_cases_information
     #TODO should filter by module as for Incidents? Keep current behavior for the moment.
-    @scheduled_activities = get_scheduled_activities(get_flags_by_date(Child))
+    #Commented out for rework "by_flag_with_date" view.
+    #@scheduled_activities = get_scheduled_activities(get_flags_by_date(Child))
+    @scheduled_activities = []
     #TODO should filter by module as for Incidents? Keep current behavior for the moment.
     @recently_flagged = get_recent_flags(get_recent_record_flagged(Child, @modules))
     @recently_flagged_count = get_recent_record_flagged_count(Child, @modules)

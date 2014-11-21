@@ -30,7 +30,7 @@ Feature: Activities Form
       | Other details about school or training | Some Other Details School/Training |
     And I choose from "What other activities is the child involved in?":
       | Recreational Activities |
-      | Livelihood activities   |
+      | Livelihood Activities   |
     And I fill in the following:
       | Other details about additional activities          | Some Other Details Activities  |
     And I press "Save"
@@ -44,5 +44,5 @@ Feature: Activities Form
     And I should see a value for "Start Date of Training" on the show page with the value of "04-May-1992"
     And I should see a value for "Duration of Training" on the show page with the value of "3 weeks"
     And I should see a value for "Other details about school or training" on the show page with the value of "Some Other Details School/Training"
-    And I should see a value for "What other activities is the child involved in?" on the show page with the value of "Livelihood activities, Recreational Activities"
+    And I should see a value for "What other activities is the child involved in?" on the show page with the value of "Livelihood Activities, Recreational Activities"
     And I should see a value for "Other details about additional activities" on the show page with the value of "Some Other Details Activities"
