@@ -1,6 +1,7 @@
 class IncidentsController < ApplicationController
   @model_class = Incident
 
+  include IndexHelper
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
@@ -170,9 +171,22 @@ class IncidentsController < ApplicationController
     end
   end
 
-  #def exported_properties
-    #model_class.properties.reject {|p| p.name == 'violations' }
-  #end
+  def exported_properties
+    if params[:export_list_view].present? && params[:export_list_view] == "true"
+      build_list_field_by_model(model_class)
+    elsif params[:format].present? && params[:format] == "xls"
+      properties_by_form = model_class.properties_by_form.reject{|key| ["Summary Page", "Other Documents"].include?(key)}
+      if properties_by_form["Violations"].present?
+        violations = properties_by_form["Violations"]["violations"].clone
+        if violations.present?
+          properties_by_form["Violations"] = violations.type.properties.map{|property| [property.name, property]}.to_h
+        end
+      end
+      properties_by_form.merge(model_class.record_other_properties_form_section)
+    else
+      model_class.properties
+    end
+  end
 
   private
 

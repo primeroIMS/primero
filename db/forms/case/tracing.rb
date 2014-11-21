@@ -153,6 +153,12 @@ tracing_actions_section = FormSection.create_or_update_form_section({
 # Tracing form
 
 tracing_fields = [
+  Field.new({"name" => "matched_tracing_request_id",
+             "type" => "text_field",
+             "editable" => false,
+             "link_to_path" => "tracing_request",
+             "display_name_all" => "Matched Tracing Request ID"
+           }),
   Field.new({"name" => "separation_separator",
              "type" => "separator",
              "display_name_all" => "Separation History",
