@@ -101,7 +101,7 @@
       <analyzer type="query">
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
-        <filter class="solr.PhoneticFilterFactory" encoder="DoubleMetaphone" inject="True">
+        <filter class="solr.PhoneticFilterFactory" encoder="DoubleMetaphone" inject="True"/>
       </analyzer>
     </fieldType>
     <!--  This is used for location searching -->
@@ -160,7 +160,7 @@
     <!-- *** This field is used by Sunspot! *** -->
     <dynamicField name="*_sci" stored="false" type="string_ci" multiValued="false" indexed="true"/>
     <!-- *** This field is used by Sunspot! *** -->
-    <dynamicField name="*_an" stored="false" type="aname_ci" multiValued="false" indexed="true">
+    <dynamicField name="*_an" stored="false" type="aname_ci" multiValued="false" indexed="true"/>
     <!-- *** This dynamicField is used by Sunspot! *** -->
     <dynamicField name="*_lngram" stored="false" type="text_lngram" multiValued="false" indexed="true"/>
     <!-- *** This dynamicField is used by Sunspot! *** -->
