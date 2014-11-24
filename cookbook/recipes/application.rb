@@ -178,6 +178,8 @@ supervisor_service 'solr' do
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
+  killasgroup true
+  stopasgroup true
   user node[:primero][:app_user]
   directory node[:primero][:app_dir]
   numprocs 1
