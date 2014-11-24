@@ -255,16 +255,18 @@ class ChildrenController < ApplicationController
   end
 
   def match_record
-    #TODO WIP - should this go in tracing_actions?
     load_tracing_request
     if @tracing_request.present? && @match_request.present?
       @match_request.matched_case_id = @child.id
       @child.matched_tracing_request_id = "#{@tracing_request.id}::#{@match_request.unique_id}"
 
-      #TODO - add some error checking
-      @tracing_request.save
-      @child.save
-      flash[:notice] = t("child.match_record_success")
+      begin
+        @tracing_request.save
+        @child.save
+        flash[:notice] = t("child.match_record_success")
+      rescue
+        flash[:notice] = t("child.match_record_failed")
+      end
     else
       flash[:notice] = t("child.match_record_failed")
     end
