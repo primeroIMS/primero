@@ -50,6 +50,7 @@ en:
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
+    invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
 
   data_base:
     delete_all_documents: "Deleted all child documents"

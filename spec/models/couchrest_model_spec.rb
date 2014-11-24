@@ -3,6 +3,9 @@ require 'spec_helper'
 describe "couchrest_model" do
 
   describe "non-nested dynamic assignment monkeypatch" do
+    before :each do
+      Child.any_instance.stub(:field_definitions).and_return([])
+    end
 
     it "marks attributes set via set_attributes as changed" do
       child = Child.create('foo_attribute' => 'Value A', 'created_by' => 'me')

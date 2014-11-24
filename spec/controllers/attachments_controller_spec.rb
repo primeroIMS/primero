@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe AttachmentsController do
 
+  before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
+  end
+
   before do
     fake_login
     mock_user = double({:organization => 'UNICEF'})

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe WeeklyReport do
   describe '#data' do
     before :each do
+      Child.any_instance.stub(:field_definitions).and_return([])
       basic_identity_fields = [
         Field.new("name" => "protection_status", "display_name" => "Protection Status", "type" => "select_box", "option_strings_text" => "Unaccompanied\nSeparated"),
         Field.new("name" => "ftr_status", "display_name" => "FTR Status", "type" => "select_box", "option_strings_text" => "Identified\nVerified\nTracing On-Going\nFamily Located-Cross-Border FR Pending\nFamily Located- Inter-Camp FR Pending\nReunited\nExported to CPIMS\nRecord Invalid"),

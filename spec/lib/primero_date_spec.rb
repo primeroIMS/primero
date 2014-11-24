@@ -1,6 +1,13 @@
 require 'spec_helper'
 describe PrimeroDate do
   before :each do
+    fields = [
+      Field.new({"name" => "incident_date_test",
+                 "type" => "date_field",
+                 "display_name_all" => "Date of Incident"
+                })
+    ]
+    Incident.any_instance.stub(:field_definitions).and_return(fields)
     Incident.all.all.each { |incident| incident.destroy }
     FormSection.all.all.each { |form| form.destroy }
     form = FormSection.new(
@@ -14,13 +21,9 @@ describe PrimeroDate do
       "editable" => true,
       "name_all" => "GBV Derived Fields",
       "description_all" => "GBV Derived Fields",
-      :fields => [
-        #### gbv_incident_form form section.
-        Field.new({"name" => "incident_date_test",
-                   "type" => "date_field",
-                   "display_name_all" => "Date of Incident"
-                  })
-      ])
+      #### gbv_incident_form form section.
+      :fields => fields
+      )
     form.save!
     Incident.refresh_form_properties
   end
