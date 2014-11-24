@@ -19,6 +19,8 @@ module TracingActions
     end
   end
 
+  private
+
   def match_criteria(tracing_request, match_request)
     match_criteria = {}
 
@@ -27,8 +29,14 @@ module TracingActions
     match_criteria[:sex] = match_request.sex
     match_criteria[:date_of_birth] = match_request.date_of_birth
 
-    match_criteria[:language] = tracing_request.language
-    match_criteria[:religion] = tracing_request.religion
+    match_criteria[:language] = tracing_request.relation_language
+    match_criteria[:religion] = tracing_request.relation_religion
+    match_criteria[:nationality] = tracing_request.relation_nationality
+
+    match_criteria[:ethnicity] = []
+    match_criteria[:ethnicity].push(tracing_request.relation_ethnicity, tracing_request.relation_sub_ethnicity1, tracing_request.relation_sub_ethnicity2)
+    match_criteria[:ethnicity].uniq!
+    match_criteria[:ethnicity].compact!
 
     return match_criteria
   end
