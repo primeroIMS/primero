@@ -220,6 +220,15 @@ module IndexHelper
 
   def index_filters_tracing_request
     filters = []
+    filters << "Flagged"
+    filters << "Field/Case/Social Worker" if @is_manager
+    filters << "Date of Inquiry"
+    filters << "Inquiry Status"
+    filters << "Separation Location"
+    filters << "Separation Cause"
+    #filters << "Sex"
+    #filters << "Age"
+    #filters << "Record State"
 
     return filters
   end

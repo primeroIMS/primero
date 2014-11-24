@@ -1,3 +1,41 @@
-<%
-  #TODO - Tracing Request Filter will be done in future story
-%>
+<div class="panel">
+  <form id="index_filter_form" autocomplete="off">
+    <% if filters_to_show.include? 'Flagged' %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.flag"), 'flag', [
+        {flag: t("tracing_requests.filter_by.flag_label")}
+      ]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Field/Case/Social Worker' %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'Date of Inquiry' %>
+      <%= render "record_shared/filter_date", record: 'tracing_requests', date_field_title: 'inquiry_date', date_field: 'inquiry_date' %>
+    <% end %>
+    <% if filters_to_show.include? 'Inquiry Status' %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.inquiry_status"), 'inquiry_status', ["Open", "Closed"]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Separation Location' %>
+      <%= build_filter_location(t("tracing_requests.filter_by.location_separation"), 'location_separation') %>
+    <% end %>
+    <% if filters_to_show.include? 'Separation Cause' %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.separation_cause"), 'separation_cause', Lookup.values('Separation Cause', @lookups)) %>
+    <% end %>
+    <%# if filters_to_show.include? 'Sex' %>
+      <%#= build_filter_checkboxes(t("tracing_requests.filter_by.sex"), 'sex', [t("cases.filter_by.male"), t("cases.filter_by.female")]) %>
+    <%# end %>
+
+
+    <%# if filters_to_show.include? 'Age Range' %>
+      <%#= build_filter_checkboxes(t("tracing_requests.filter_by.age_range"), 'relation_age', [
+        '0-5',
+        '6-11',
+        '12-17',
+        '18+'
+      ], nil, nil, 'range') %>
+    <%# end %>
+    <%# if filters_to_show.include? 'Record State' %>
+      <%#= build_filter_checkboxes(t("tracing_requests.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
+    <%# end %>
+  </form>
+  <div class="clearfix"></div>
+</div>

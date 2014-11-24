@@ -126,6 +126,11 @@ class TracingRequestsController < ApplicationController
     end
   end
 
+  def tracing_request_filter(filter)
+    filter["record_state"] ||= {:type => "single", :value => "true"}
+    filter
+  end
+
   def edit_photo
     authorize! :update, @tracing_request
     @page_name = t("tracing_request.edit_photo")

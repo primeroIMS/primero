@@ -199,3 +199,25 @@ create_or_update_lookup(
     "Other, please specify"
   ]
 )
+
+create_or_update_lookup(
+  :name => "separation_cause",
+  :lookup_values => [
+    "Conflict",
+    "Death",
+    "Family abuse/violence/exploitation",
+    "Lack of access to services/support",
+    "CAAFAG",
+    "Sickness of family member",
+    "Entrusted into the care of an individual",
+    "Arrest and detention",
+    "Abandonment",
+    "Repatriation",
+    "Population movement",
+    "Migration",
+    "Poverty",
+    "Natural disaster",
+    "Divorce/remarriage",
+    "Other (please specify)"
+  ]
+)
