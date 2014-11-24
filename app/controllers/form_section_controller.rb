@@ -151,6 +151,6 @@ class FormSectionController < ApplicationController
   end
 
   def get_form_group_names
-    @list_form_group_names = FormSection.list_form_group_names
+    @list_form_group_names = FormSection.list_form_group_names(@primero_module, @parent_form, current_user)
   end
 end
