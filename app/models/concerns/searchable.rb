@@ -70,7 +70,7 @@ module Searchable
         if match.present?
           build_match(self, match)
         end
-        sort.each{|sort,order| order_by(sort, order)}
+        sort.each{|sort_field,order| order_by(sort_field, order)}
         paginate pagination
       end
     end
