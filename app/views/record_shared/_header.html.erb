@@ -1,3 +1,5 @@
-<%= render partial: 'record_shared/flag_records', locals: {model: model} %>
+<% if model.respond_to? :by_flag %>
+    <%= render partial: 'record_shared/flag_records', locals: {model: model} %>
+<% end %>
 <%= render partial: 'record_shared/actions', locals: {model: model} %>
 <%= render partial: 'record_shared/create_button', locals: {model: model, record: record, modules: modules} %>

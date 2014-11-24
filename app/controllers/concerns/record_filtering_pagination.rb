@@ -79,4 +79,11 @@ module RecordFilteringPagination
     end
     date_range
   end
+
+  #Use this method if we are not relying on Sunspot to paginate for us.
+  def paginated_collection(collection, total_rows)
+    WillPaginate::Collection.create(page, per_page, total_rows) do |pager|
+      pager.replace(collection)
+    end
+  end
 end

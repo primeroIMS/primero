@@ -903,6 +903,9 @@ en:
     no_token_provided: "no session token provided"
     no_token_in_header: "no session token in headers or cookies"
 
+  reports:
+    register_new_report: "Create Report"
+
   report:
     heading: "RapidFTR Reports"
     type: "Type"

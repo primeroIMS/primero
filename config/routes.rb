@@ -310,7 +310,7 @@ RapidFTR::Application.routes.draw do
 #######################
 # REPORTING URLS
 #######################
-  resources :reports, :only => [:index, :show]
+  resources :reports
 
 #######################
 # LOOKUPS URLS
