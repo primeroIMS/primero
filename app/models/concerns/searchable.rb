@@ -145,6 +145,10 @@ module Searchable
        Field.all_filterable_field_names(self.parent_form)
     end
 
+    def searchable_arabic_names_fields
+        ["name", "nickname"]
+    end
+
     def searchable_multi_fields
       Field.all_filterable_multi_field_names(self.parent_form)
     end
