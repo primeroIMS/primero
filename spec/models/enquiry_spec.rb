@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Enquiry do
 
   before :each do
+    Enquiry.any_instance.stub(:field_definitions).and_return([])
     Enquiry.all.each { |e| e.destroy }
   end
 

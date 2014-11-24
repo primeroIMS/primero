@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Api::ChildrenController do
 
   before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
     fake_admin_login
   end
 

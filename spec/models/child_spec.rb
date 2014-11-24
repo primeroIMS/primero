@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'sunspot'
 
 describe Child do
+  before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
+  end
   it_behaves_like "a valid record" do
     let(:record) {
       fields = [
@@ -13,6 +16,7 @@ describe Child do
                ]
       FormSection.stub(:all_visible_form_fields => fields)
       Child.refresh_form_properties
+      Child.any_instance.stub(:field_definitions).and_return(fields)
       Child.new
     }
   end
@@ -241,6 +245,47 @@ describe Child do
 
 
   describe 'save' do
+
+    before :each do
+      FormSection.all.all.each { |form| form.destroy }
+      fields = [
+          Field.new({"name" => "risk_level",
+                     "type" => "select_box",
+                     "display_name_all" => "Risk Level",
+                     "option_strings_text_all" => ["option1", "option2"]
+                    }),
+          Field.new({"name" => "system_generated_followup",
+                     "type" => "tick_box",
+                     "display_name_all" => "system generated followup"
+                    }),
+          Field.new({"name" => "child_status",
+                     "type" => "select_box",
+                     "option_strings_text_all" => ["option1", "option2"],
+                     "display_name_all" => "Child Status"
+                    }),
+          Field.new({"name" => "registration_date",
+                     "type" => "date_field",
+                     "display_name_all" => "Registration Date"
+                    })
+        ]
+      form = FormSection.new(
+        :unique_id => "form_section_test_for_risk_level_follow_up",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 50,
+        :order => 15,
+        :order_subform => 0,
+        :form_group_name => "Form Section Test",
+        "editable" => true,
+        "name_all" => "Form Section Test",
+        "description_all" => "Form Section Test",
+        :fields => fields
+          )
+      form.save!
+      Child.any_instance.stub(:field_definitions).and_return(fields)
+      Child.refresh_form_properties
+      Child.all.each { |form| form.destroy }
+    end
 
     it "should save with generated case_id and registration_date" do
       child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
@@ -1157,6 +1202,7 @@ describe Child do
         "name_all" => "Form Section With Dates Fields",
         "description_all" => "Form Section With Dates Fields",
       })
+      Child.any_instance.stub(:field_definitions).and_return(fields)
     end
 
     it "should validate single date field" do

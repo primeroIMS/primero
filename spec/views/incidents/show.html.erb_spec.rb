@@ -23,6 +23,7 @@ describe "incidents/show.html.erb" do
         :form_group_name => "Test Group"
       })
       mod = PrimeroModule.create({_id: 'primeromodule-mrm'})
+      Incident.any_instance.stub(:field_definitions).and_return([])
       @incident = Incident.create(:unique_identifier => "georgelon12345", 
                             :created_by => 'jsmith', :owned_by => @user.user_name, :owned_by_full_name => 'Jose Smith',
                             :created_at => "July 19 2010 13:05:32UTC", :module_id => mod.id)
