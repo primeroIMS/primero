@@ -3,6 +3,7 @@ require "spec_helper"
 describe Api::EnquiriesController do
 
   before :each do
+    Enquiry.any_instance.stub(:field_definitions).and_return([])
     Enquiry.all.each{|enquiry| enquiry.destroy}
     fake_admin_login
   end

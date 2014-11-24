@@ -556,6 +556,12 @@ Given (/^(\d+) (cases|incidents|tracing requests) sample records exists created 
        "role_ids" => ["ADMIN"])
   end
 
+  if model_class == Incident
+    module_id = PrimeroModule.find_by_name('MRM').id
+  else
+    module_id = PrimeroModule.find_by_name('CP').id
+  end
+
   number_of_records.to_i.times do |i|
     attributes = {
       'name' => "sample_record_#{i+1}",
@@ -565,7 +571,7 @@ Given (/^(\d+) (cases|incidents|tracing requests) sample records exists created 
       'created_organization' => 'UNICEF',
       'age_is' => 'Approximate',
       'child_status' => 'open',
-      'module_id' => PrimeroModule.find_by_name('CP').id,
+      'module_id' => module_id,
       'short_id' => (i + 1).to_s.rjust(7, '0')
     }
 
@@ -589,7 +595,7 @@ And (/^I select all the records on the page$/) do
 end
 
 And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/) do |times_flagged, arg1|
-  using_wait_time 60 do
+  using_wait_time 200 do
     page.should have_selector(:css, "table.dataTable tbody tr td div.flag_icon")
     page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon')]") if times_flagged
   end

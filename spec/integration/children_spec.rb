@@ -2,6 +2,10 @@ require 'spec_helper'
 require 'support/couchdb_client_helper'
 
 describe Child do
+  before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
+  end
+
   include CouchdbClientHelper
   it "should save a child in the database" do
     photo = uploadable_photo

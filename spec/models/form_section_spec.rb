@@ -79,6 +79,38 @@ describe FormSection do
       end
     end
 
+    describe "list_form_group_names" do
+      before do
+        FormSection.all.each &:destroy
+        PrimeroModule.all.each &:destroy
+        Role.all.each &:destroy
+        @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_name: "M")
+        @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_name: "X")
+        @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_name: "Y")
+        @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
+        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+        @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+      end
+
+      it "return form group name that correspond to the current module" do
+        form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
+        expect(form_group_names).to match_array(["X"])
+      end
+
+      it "add new form group and ensure group order" do
+        @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'case', form_group_name: "G")
+        @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: 'case', form_group_name: "K")
+        @primero_module.associated_form_ids << "E"
+        @primero_module.associated_form_ids << "D"
+        @primero_module.save!
+        @role.permitted_form_ids << "D"
+        @role.permitted_form_ids << "E"
+        @role.save!
+        form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
+        expect(form_group_names).to match_array(["G", "K", "X"])
+      end
+    end
+
     describe "group_forms" do
       it "groups forms by the group name" do
         form_section_a = FormSection.new(unique_id: "A", name: "A", form_group_name: "X")
