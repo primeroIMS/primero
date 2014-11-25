@@ -3,7 +3,7 @@
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("tracing_requests.filter_by.flag"), 'flag', [
         {flag: t("tracing_requests.filter_by.flag_label")}
-      ]) %>
+      ], nil, nil, 'single') %>
     <% end %>
     <% if filters_to_show.include? 'Field/Case/Social Worker' %>
       <%= build_filter_checkboxes(t("tracing_requests.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
@@ -33,9 +33,9 @@
         '18+'
       ], nil, nil, 'range') %>
     <%# end %>
-    <%# if filters_to_show.include? 'Record State' %>
-      <%#= build_filter_checkboxes(t("tracing_requests.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
-    <%# end %>
+    <% if filters_to_show.include? 'Record State' %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}], nil, nil, 'single') %>
+    <% end %>
   </form>
   <div class="clearfix"></div>
 </div>

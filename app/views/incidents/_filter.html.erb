@@ -2,7 +2,7 @@
 <div class="panel">
   <form id="index_filter_form" autocomplete="off">
     <% if filters_to_show.include? 'Flagged' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}]) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}], nil, nil, 'single') %>
     <% end %>
     <% if filters_to_show.include? 'Violation' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
