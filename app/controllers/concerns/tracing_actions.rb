@@ -32,6 +32,8 @@ module TracingActions
     match_criteria[:language] = tracing_request.relation_language
     match_criteria[:religion] = tracing_request.relation_religion
     match_criteria[:nationality] = tracing_request.relation_nationality
+    match_criteria[:fathers_name] = tracing_request.fathers_name
+    match_criteria[:mothers_name] = tracing_request.mothers_name
 
     match_criteria[:ethnicity] = []
     match_criteria[:ethnicity].push(tracing_request.relation_ethnicity, tracing_request.relation_sub_ethnicity1, tracing_request.relation_sub_ethnicity2)

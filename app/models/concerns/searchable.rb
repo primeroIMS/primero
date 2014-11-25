@@ -120,6 +120,8 @@ module Searchable
           with(:language, match[:language]) if match[:language].present?
           with(:religion, match[:religion]) if match[:religion].present?
           with(:nationality, match[:nationality]) if match[:nationality].present?
+          with(:fathers_name, match[:fathers_name]) if match[:fathers_name].present?
+          with(:mothers_name, match[:mothers_name]) if match[:mothers_name].present?
 
           with(:ethnicity, match[:ethnicity]) if match[:ethnicity].present?
           with(:sub_ethnicity_1, match[:ethnicity]) if match[:ethnicity].present?

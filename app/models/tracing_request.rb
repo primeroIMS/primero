@@ -78,6 +78,14 @@ class TracingRequest < CouchRest::Model::Base
     return names
   end
 
+  def fathers_name
+    self.relation_name if self.relation_name.present? && self.relation.downcase == 'father'
+  end
+
+  def mothers_name
+    self.relation_name if self.relation_name.present? && self.relation.downcase == 'mother'
+  end
+
   def set_instance_id
     self.tracing_request_id ||= self.unique_identifier
   end
