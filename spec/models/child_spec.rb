@@ -1301,10 +1301,11 @@ describe Child do
       @child1 = Child.new(:family_details_section => [{"relation_name" => "Jill", "relation" => "Mother"}, {"relation_name" => "Jack", "relation" => "Father"}])
       @child2 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "Mother"}])
       @child3 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Brad", :relation => "Father"}])
-      @child4 = Child.new(:name => "Daphne")
+      @child4 = create_child("Daphne")
     end
 
-    xit "should return the fathers name" do
+    it "should return the fathers name" do
+      binding.pry
       expect(@child1.fathers_name).to eq("Jack")
     end
 
