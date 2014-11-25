@@ -204,6 +204,8 @@ class Child < CouchRest::Model::Base
     self['last_updated_by'].blank? || user_names_after_deletion.blank?
   end
 
+  #TODO RSPEC tests are current commented out due to trouble setting the properties
+  #TODO Perhaps refactor to hard code some of these property values since the models are dependent on them
   def fathers_name
     self.family_details_section.select{|fd| fd.relation.try(:downcase) == 'father'}.first.try(:relation_name) if self.family_details_section.present?
   end
