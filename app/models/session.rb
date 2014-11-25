@@ -21,11 +21,6 @@ class Session < CouchRest::Model::Base
     @user ||= User.find_by_user_name(user_name)
   end
 
-  def self.get_from_cookies(cookies)
-    session_id = cookies[COOKIE_KEY]
-    self.get(session_id)
-  end
-
   def self.delete_for(user)
     by_user_name(:key => user.user_name).each {|s| s.destroy }
   end

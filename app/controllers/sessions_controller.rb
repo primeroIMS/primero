@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
   def new
     I18n.locale = I18n.default_locale
     unless (@session = current_session).nil?
-      return redirect_to(:action => "show", :id => @session)
+      return redirect_to(root_path)
     end
 
     @session = Session.new(params[:login])
