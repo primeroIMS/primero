@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <%= render_controls(@tracing_request, "tracing_requests") %> 
+  <%= render_controls(@tracing_request, "tracing_requests") %>
 <% end %>
 
 <% content_for :breadcrumbs do %>
@@ -17,14 +17,14 @@
 <div class="clearfix"></div>
 
 <%= form_tag tracing_request_path(@tracing_request), :method => :put, :multipart => true, :class => "edit-profile default-form data-form", :autocomplete => "off" do %>
-  <div class="page-content-new row collapse" data-equalizer>
+  <div class="page-content-new row collapse">
     <div class="large-4 medium-4 columns close-side-tab side-tab-container">
-      <div class="side-tab" data-equalizer-watch>
+      <div class="side-tab">
         <%= render :partial => 'form_section/tabs', :object => @form_sections %>
       </div>
     </div>
     <div class="large-8 medium-8 columns side-tab-content-container">
-      <div class="side-tab-content" data-equalizer-watch>
+      <div class="side-tab-content">
         <%= hidden_field_tag('tracing_request[base_revision]', @tracing_request._rev) %>
         <% @form_sections.each do |form_group_name, form_list| %>
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>

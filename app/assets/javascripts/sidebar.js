@@ -66,6 +66,8 @@ tabNavigation = Backbone.View.extend({
 
     //When make visible a tab, initialize the chosen in the tab.
     _primero.chosen(activeTab + ' select.chosen-select:visible');
+
+    _primero.scrollTop();
     return false;
   },
 
@@ -147,6 +149,10 @@ _primero.set_content_sidebar_equality = function() {
   Foundation.libs.equalizer.reflow();
 };
 
+_primero.scrollTop = function() {
+  window.scrollTo(0,0);
+};
+
 $(document).ready(function() {
   new tabNavigation();
 
@@ -156,4 +162,8 @@ $(document).ready(function() {
     topSpacing: 130,
     bottomSpacing: 90
   });
+
+  if ($('.errorExplanation').length || $('p.notice').length) {
+    _primero.scrollTop();
+  }
 });

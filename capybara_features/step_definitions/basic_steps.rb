@@ -43,7 +43,7 @@ Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times
     if type == "span"
       find("//span[text()=\"#{label}\"]", :visible => true).click
     else
-      click_on(label, :visible => true)
+      find("//a[contains(@text, '#{label}')]", :visible => false).click
     end
   end
 end
