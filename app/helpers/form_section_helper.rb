@@ -16,7 +16,7 @@ module FormSectionHelper
     if forms.count > 1
       content_tag :li, class: 'group' do
         concat(
-          link_to("#tab_#{form.section_name}", class: 'group', id: "tab_#{form.section_name}",
+          link_to("#tab_#{form.section_name}", class: 'group',
             data: { violation: form.form_group_name == 'Violations' ? true : false }) do
             concat(t(group, :default => group))
           end

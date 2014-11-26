@@ -149,3 +149,18 @@ ul.side-nav, ul.modal-side-nav {
     }
   }
 }
+
+.scrolling_indicator {
+  border-top: 1px solid #ebebeb;
+  text-align: center;
+  font-size: .7rem;
+  text-transform: uppercase;
+  height: 20px;
+  visibility: hidden;
+  color: #999;
+
+  &.up {
+    border-top: none;
+    border-bottom: 1px solid #ebebeb;
+  }
+}

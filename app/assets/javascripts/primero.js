@@ -152,7 +152,23 @@ var Primero = Backbone.View.extend({
     $(".side-nav").mCustomScrollbar(
       _.extend(options, {
         setHeight: 350,
-        theme: 'minimal-dark'
+        theme: 'minimal-dark',
+        callbacks:{
+            onInit: function() {
+              $('.scrolling_indicator.down').css('visibility', 'visible');
+            },
+            onScroll: function() {
+              $('.scrolling_indicator.down').css('visibility', 'visible');
+              $('.scrolling_indicator.up').css('visibility', 'visible');
+            },
+            onTotalScroll: function(){
+              $('.scrolling_indicator.down').css('visibility', 'hidden');
+              $('.scrolling_indicator.up').css('visibility', 'visible');
+            },
+            onTotalScrollBack: function() {
+              $('.scrolling_indicator.up').css('visibility', 'hidden');
+            }
+        }
       })
     );
 

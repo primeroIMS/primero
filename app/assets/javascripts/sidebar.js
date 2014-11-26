@@ -158,7 +158,7 @@ $(document).ready(function() {
 
   _primero.set_content_sidebar_equality();
 
-  $("ul.side-nav:not(.modal-side-nav)").sticky({
+  $(".side-nav-container").sticky({
     topSpacing: 130,
     bottomSpacing: 90
   });
