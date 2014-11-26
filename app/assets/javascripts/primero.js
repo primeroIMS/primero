@@ -100,6 +100,20 @@ _primero.update_autosum_field = function(input) {
   autosum_total_input.val(autosum_total);
 };
 
+// Returns the version of Internet Explorer or a -1
+// (indicating the use of another browser).
+_primero.getInternetExplorerVersion = function() {
+  var rv = -1; // Return value assumes failure.
+  if (navigator.appName == 'Microsoft Internet Explorer')
+  {
+    var ua = navigator.userAgent;
+    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+    if (re.exec(ua) != null)
+      rv = parseFloat( RegExp.$1 );
+  }
+  return rv;
+}
+
 var Primero = Backbone.View.extend({
   el: 'body',
 

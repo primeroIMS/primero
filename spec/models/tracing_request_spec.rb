@@ -2,16 +2,22 @@ require 'spec_helper'
 require 'sunspot'
 
 describe TracingRequest do
+
+  before :each do
+    TracingRequest.any_instance.stub(:field_definitions).and_return([])
+  end
+
   it_behaves_like "a valid record" do
+    fields = [
+      Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
+      Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
+      Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
+      Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
+      Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
+    ]
     let(:record) {
-      FormSection.stub(:all_visible_form_fields =>
-                      [
-                        Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
-                        Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
-                        Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
-                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
-                        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
-                      ])
+      FormSection.stub(:all_visible_form_fields => fields )
+      TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
       TracingRequest.new
     }
   end
@@ -978,6 +984,7 @@ describe TracingRequest do
                            "type" => "date_range",
                            "display_name_all" => "A Range Field"
                           })]
+      TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
       FormSection.create_or_update_form_section({
         :unique_id=> "form_section_with_dates_fields",
         "visible" => true,

@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe ChildrenHelper do
 
+  before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
+  end
+
   context "View module" do
     it "should have PER_PAGE constant" do
       ChildrenHelper::View::PER_PAGE.should == 20

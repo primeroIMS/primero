@@ -40,6 +40,7 @@ describe "Solar" do
   end
 
   before :each do
+    Child.any_instance.stub(:field_definitions).and_return([])
     Sunspot.remove_all(Child)
     @child1 = Child.create('last_known_location' => "New York", "name" => "Mohammed Smith")
     @child2 = Child.create('last_known_location' => "New York", "name" => "Muhammed Jones")
