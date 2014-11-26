@@ -21,19 +21,24 @@ production:
     path: /solr/production
 EOH
 
+chmod 0777 /log
+
 sed -e "s/<SERVER_NAME>/${PRIMERO_VIRTUAL_HOST}/" /etc/nginx/primero-template > /etc/nginx/sites-enabled/primero
 
 if [ ! -e /app/.is_setup ]
 then
   set -e
-  bundle exec rake db:seed
-  bundle exec rake db:migrate
-  bundle exec rake couch_changes:prime_sequence_numbers
+  su -l primero <<EOH
+    export RAILS_ENV=production
+    bundle exec rake db:seed
+    bundle exec rake db:migrate
+    bundle exec rake couch_changes:prime_sequence_numbers
 
-  bundle exec rake sunspot:solr:start
-  bundle exec rake sunspot:reindex
-  bundle exec rake sunspot:solr:stop
-  touch /app/.is_setup
+    bundle exec rake sunspot:solr:start
+    bundle exec rake sunspot:reindex
+    bundle exec rake sunspot:solr:stop
+    touch /app/.is_setup
+EOH
 fi
 
 exec "$@"
