@@ -17,7 +17,7 @@ class TracingRequestsController < ApplicationController
     @aside = 'shared/sidebar_links'
 
     @associated_users = current_user.managed_user_names
-    @tracing_requests, @total_records = retrieve_records_and_total(filter)
+    @tracing_requests, @total_records = retrieve_records_and_total(tracing_request_filter(filter))
     @per_page = per_page
 
     respond_to do |format|
@@ -127,7 +127,7 @@ class TracingRequestsController < ApplicationController
   end
 
   def tracing_request_filter(filter)
-    filter["record_state"] ||= {:type => "single", :value => "true"}
+    filter["record_state"] ||= {:type => "single", :value => true}
     filter
   end
 

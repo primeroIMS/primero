@@ -49,12 +49,10 @@ module RecordFilteringPagination
         when "date_range"
           filter_values = sanitize_date_range_filter(filter_values.first.split ".")
         else
-          if model_class.properties_by_name[key].try(:type) == TrueClass
-            filter_values.each{|value| value = (value == 'true') }
-          end
+          filter_values = filter_values.map{|value| value == 'true' } if model_class.properties_by_name[key].try(:type) == TrueClass
           filter_values = filter_values.first if filter_type == "single"
         end
-        filter_scope[key] = {:type => filter_type, :value => filter_values} unless filter_values.blank?
+        filter_scope[key] = {:type => filter_type, :value => filter_values} if filter_values.present? || filter_values == false
       end
       flash.now[:error] = I18n.t("messages.invalid_date_filter_value") if @invalid_date_filter_value
     end
