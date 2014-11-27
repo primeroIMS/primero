@@ -32,7 +32,7 @@
         <div class="clear"></div>
         <% if record.flags.present? && record.flags.select{|f| !f.removed}.present?%>
           <div class="flag_unflag_header"><span><%=I18n.t("buttons.unflag_model", model: model_name)%></span></div>
-            <ul>
+            <ul class="current_flags">
             <% record.flags.each_with_index do |f, i| %>
               <% unless f.removed %>
               <li>

@@ -53,9 +53,9 @@ div.scope_bar {
   }
 
   input {
-    vertical-align: middle; 
+    vertical-align: middle;
   }
-  
+
   label span {
     vertical-align: middle;
     margin-left: 4px;
@@ -63,13 +63,13 @@ div.scope_bar {
 
   .filter {
     margin-bottom: 8px;
-    
+
     .chosen-container-single {
       padding: 2px;
     }
 
     .filter-controls {
-      padding: 10px 3px 20px 5px;
+      padding: 10px 3px 2px 5px;
       clear: both;
     }
 
@@ -107,9 +107,6 @@ div.scope_bar {
   }
 
   .field-controls-multi {
-    overflow: hidden;
-    overflow-y: scroll;
-    height: 100px;
     margin: 5px 0 10px;
   }
 

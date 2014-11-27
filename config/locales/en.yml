@@ -51,6 +51,8 @@ en:
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
     invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
+    scroll_up: "Scroll up to view more"
+    scroll_down: "Scroll down to view more"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
