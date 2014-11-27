@@ -44,7 +44,7 @@ create_or_update_module(
     "photos_and_audio", "protection_concern_details", "protection_concern",
     "record_owner", "services", "tracing", "verification",
     "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
-    "tracing_request_photos_and_audio", "followup"
+    "tracing_request_photos_and_audio", "followup", "reunification_details"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
