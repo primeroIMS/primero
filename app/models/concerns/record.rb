@@ -242,6 +242,18 @@ module Record
      }
     end
 
+    #Returns the hash with the properties based on the form sections.
+    def get_properties_by_module(form_sections_by_module)
+      properties_by_module = {}
+      form_sections_by_module.each do |module_id, form_sections|
+        properties_by_module[module_id] = {}
+        form_sections.each do |fs|
+          properties_by_module[module_id][fs.name] = self.properties_by_form[fs.name]
+        end
+      end
+      properties_by_module
+    end
+
   end
 
   def initialize(*args)
