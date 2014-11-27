@@ -77,7 +77,7 @@ tracing_request_subform_fields = [
             }),
   Field.new({"name" => "separation_details_section",
              "type" => "separator",
-             "display_name_all" => "Separation Details (if different)"
+             "display_name_all" => "Separation Details (if different from Inquirer form)"
             }),
   Field.new({"name" => "date_of_separation",
              "type" => "date_field",
