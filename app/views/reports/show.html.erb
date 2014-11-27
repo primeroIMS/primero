@@ -1,0 +1,21 @@
+<div class="page-content-new row collapse" data-equalizer>
+  <div class="medium-12 columns side-tab-content-container" data-equalizer-watch>
+    <table>
+      <%# Header %>
+      <tr>
+        <th></th>
+        <% if @report.disaggregate_by.present? %>
+          <% @report.disaggregate_values.each do |disaggregate| %>
+            <th><%= disaggregate %></th>
+          <% end %>
+        <% end %>
+        <th><%= t 'report.total' %></th>
+      </tr>
+      <% @report.aggregate_values.each do |aggregate| %>
+        <tr>
+          <td><%= aggregate %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

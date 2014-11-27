@@ -13,6 +13,7 @@ class ReportsController < ApplicationController
   def show
     @report = Report.get(params[:id])
     authorize! :show, @report
+    @report.build_report
   end
 
   #TODO: deal with new, create, edit, update later.

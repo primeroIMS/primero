@@ -36,14 +36,43 @@ class Report < CouchRest::Model::Base
         }
       )
       #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
+
+      pivots_data = response['facet_counts']['facet_pivot'][pivots]
+
+      aggregate_value_range = {}
+      disaggregate_value_range = {}
+      pivots_drilldown = pivots_data
+
+      aggregate_by.each do |aggregate|
+        aggregate_value_range[aggregate] = pivots_drilldown.map{|d| d['value']}.sort
+        pivots_drilldown = pivots_drilldown.first['pivot']
+      end
+
+      if disaggregate_by.present?
+        disaggregate_by.each do |disaggregate|
+          disaggregate_value_range[disaggregate] = pivots_drilldown.map{|d| d['value']}.sort
+          pivots_drilldown = pivots_drilldown.first['pivot']
+        end
+      end
+
       self.data = {
         total: response['response']['numFound'],
-        pivots: response['facet_counts']['facet_pivot'][pivots]
+        pivots: pivots_data,
+        aggregate_value_range: aggregate_value_range,
+        disaggregate_value_range: disaggregate_value_range
       }
     end
-
-
   end
+
+
+  def disaggregate_values
+    expand_values(self.disaggregate_by, self.data[:disaggregate_value_range])
+  end
+
+  def aggregate_values
+    expand_values(self.aggregate_by, self.data[:aggregate_value_range])
+  end
+
 
   #TODO: Any connection tests?
   def rsolr
@@ -61,6 +90,65 @@ class Report < CouchRest::Model::Base
     field = sunspot_setup.field(name)
     field.indexed_name
   end
+
+  #private
+
+  def expand_values(keys, value_range_hash)
+    if keys.size == 1
+      return value_range_hash[keys.first]
+    else
+      nest = expand_values(keys[1..-1], value_range_hash)
+      return value_range_hash[keys.first].map{|v| [v] + nest}.flatten
+    end
+  end
+
+  def key_vector(keys, value_range_hash)
+    value_ranges = keys.reverse.map{|k| value_range_hash[k] + [nil]}
+    value_ranges.reduce{|r,v| v.product(r)}.map(&:flatten)
+  end
+
+  def key_matrix_2d
+    aggregate_vector = key_vector(self.aggregate_by, self.data[:aggregate_value_range])
+    disaggregate_vector = key_vector(self.disaggregate_by, self.data[:disaggregate_value_range])
+
+    matrix = []
+    aggregate_vector.each do |agg|
+      row = []
+      disaggregate_vector.each do |dis|
+        row << agg + dis
+      end
+      matrix << row
+    end
+
+    return matrix
+  end
+
+  def value_vector(parent_key, pivots)
+    current_key = parent_key + [pivots['value']]
+    current_key = [] if current_key == [nil]
+    if !pivots.key? 'pivot'
+      return [{current_key => pivots['count']}]
+    else
+      vectors = []
+      pivots['pivot'].each do |child|
+        vectors += value_vector(current_key, child)
+      end
+      max_key_length = vectors.first.keys.first.size
+      this_key = current_key + ([nil] * (max_key_length - current_key.length))
+      vectors + [{this_key => pivots['count']}]
+      return vectors
+    end
+  end
+
+  def value_matrix
+    matrix = {}
+    self.value_vector([],{'pivot' => self.data[:pivots]}).each do |v|
+      matrix = matrix.merge(v)
+    end
+    return matrix
+  end
+
+
 
 
 end
