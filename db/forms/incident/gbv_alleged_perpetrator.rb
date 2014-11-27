@@ -6,11 +6,10 @@ alleged_perpetrator_subform_fields = [
             }),
   Field.new({"name" => "perpetrator_sex",
              "type" => "radio_button",
-             "display_name_all" => "Sex of Alleged Perpetrator(s)",
+             "display_name_all" => "Sex of Alleged Perpetrator",
              "option_strings_text_all" =>
                           ["Female",
-                           "Male",
-                           "Both female and male perpetrators"].join("\n")
+                           "Male"].join("\n")
             }),
   Field.new({"name" => "former_perpetrator",
              "type" => "radio_button",
