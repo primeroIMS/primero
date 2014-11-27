@@ -151,7 +151,9 @@ describe GBVDerivedFields do
     # TODO: Change this for a better approach. This is a work arround.
     # Custom validators are registered for the subforms when saved, they keep registered in the execution of the rspecs and some test breaks up because the subforms are no longer available (which is ok, they shouldn't be).
     # Should the validators be registered on Incident when a incident subform is saved?
-    FormSection.all.all.select{|f| f.is_nested?}.map{|f| f.unique_id.to_sym}.each do |key|
+    FormSection.all.all.map{|f| f.fields}
+      .flatten.select{|f| f.type == Field::SUBFORM}
+      .map{|f| f.name.to_sym}.each do |key|
       # Remove the validator for the subforms used only on this test.
       Incident._validators.delete key if Incident._validators[key]
     end

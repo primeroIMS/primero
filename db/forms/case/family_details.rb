@@ -54,7 +54,7 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_is_alive",
              "type" => "select_box",
-             "display_name_all" => "Are they alive?",
+             "display_name_all" => "Is this family member alive?",
              "option_strings_text_all" => "Unknown\nAlive\nDead"
             }),
   Field.new({"name" => "relation_death_details",

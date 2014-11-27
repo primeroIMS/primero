@@ -24,6 +24,7 @@ Primero.PasswordPrompt = (function() {
                 },
                close: function(){
                    $("div#password-prompt-dialog .flash .error").text("");
+                   $("div#password-prompt-dialog .flash").hide();
                }
 
             });

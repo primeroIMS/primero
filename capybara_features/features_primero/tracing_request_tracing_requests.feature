@@ -2,6 +2,7 @@
 #JIRA PRIMERO-731
 #JIRA PRIMERO-736
 #JIRA PRIMERO-774
+#JIRA PRIMERO-836
 
 @javascript @primero @search
 Feature: Tracing Request Tracing Requests
@@ -18,6 +19,7 @@ Feature: Tracing Request Tracing Requests
     When I access "tracing requests page"
     And I press the "New Tracing Request" button
     And I press the "Tracing Request" button
+    And I should see "Separation Details (if different from Inquirer form)" on the page
     And I update in the 1st "Tracing Request Subform Section" subform with the follow:
       | Tracing status  | <Select> Open |
       | Name            | Timmy         |
