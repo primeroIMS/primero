@@ -19,6 +19,8 @@ module Exporters
             field_map.merge!({ key => ->(c) { c.violations_list(true).join(", ") } })
           elsif properties[:type] == "incident" && value == "incident_date_derived"
             field_map.merge!({ key => ->(c) { c.incident_date_to_export } })
+          elsif properties[:type] == "tracing_request" && value == "tracing_names"
+            field_map.merge!({ key => ->(c) { c.tracing_names.join(", ") } })
           else
             field_map.merge!({ key => value })
           end
