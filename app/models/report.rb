@@ -6,12 +6,16 @@ class Report < CouchRest::Model::Base
   property :description
   property :module_id
   property :record_type #case, incident, etc.
-  property :aggregate_by, [String] #Y-axis
-  property :disaggregate_by, [String] #X-axis
-  property :is_graph, TrueClass
+  property :aggregate_by, [String], default: [] #Y-axis
+  property :disaggregate_by, [String], default: [] #X-axis
+  property :is_graph, TrueClass, default: false
   #property :data
 
   attr_accessor :data
+
+  validates_presence_of :name
+  validates_presence_of :record_type
+  validates_presence_of :aggregate_by
 
   design do
     view :by_name
@@ -21,11 +25,12 @@ class Report < CouchRest::Model::Base
     @record_class ||= eval record_type.camelize if record_type.present?
   end
 
+  # Run the Solr query that calculates the pivots and format the output.
   def build_report
     pivots = (aggregate_by + disaggregate_by)
     if pivots.present?
-      pivots = pivots.map{|p| self.indexed_field_name(p)}.join(',')
-      response = rsolr.get(
+      pivots = pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
+      response = SolrUtils.sunspot_rsolr.get(
         'select',
         :params => {
           :q => '*:*',
@@ -39,116 +44,49 @@ class Report < CouchRest::Model::Base
 
       pivots_data = response['facet_counts']['facet_pivot'][pivots]
 
-      aggregate_value_range = {}
-      disaggregate_value_range = {}
-      pivots_drilldown = pivots_data
-
-      aggregate_by.each do |aggregate|
-        aggregate_value_range[aggregate] = pivots_drilldown.map{|d| d['value']}.sort
-        pivots_drilldown = pivots_drilldown.first['pivot']
-      end
-
-      if disaggregate_by.present?
-        disaggregate_by.each do |disaggregate|
-          disaggregate_value_range[disaggregate] = pivots_drilldown.map{|d| d['value']}.sort
-          pivots_drilldown = pivots_drilldown.first['pivot']
-        end
-      end
+      values = self.value_vector([],{'pivot' => pivots_data}).to_h
+      aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
+      disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
 
       self.data = {
         total: response['response']['numFound'],
-        pivots: pivots_data,
         aggregate_value_range: aggregate_value_range,
-        disaggregate_value_range: disaggregate_value_range
+        disaggregate_value_range: disaggregate_value_range,
+        values: values
       }
+      ""
     end
   end
 
-
-  def disaggregate_values
-    expand_values(self.disaggregate_by, self.data[:disaggregate_value_range])
-  end
-
-  def aggregate_values
-    expand_values(self.aggregate_by, self.data[:aggregate_value_range])
-  end
-
-
-  #TODO: Any connection tests?
-  def rsolr
-    @rsolr ||= Sunspot.session.session.rsolr_connection
-  end
-
-  #TODO: This doesn't really belong here and should be accessible by other things
-  def sunspot_setup
-    type = self.record_type == 'case' ? 'Child' : self.record_type.camel_case
-    @setup ||= Sunspot::Setup.for(eval(type))
-  end
-
-  #TODO: Neither does this.
-  def indexed_field_name(name)
-    field = sunspot_setup.field(name)
-    field.indexed_name
-  end
-
-  #private
-
-  def expand_values(keys, value_range_hash)
-    if keys.size == 1
-      return value_range_hash[keys.first]
-    else
-      nest = expand_values(keys[1..-1], value_range_hash)
-      return value_range_hash[keys.first].map{|v| [v] + nest}.flatten
-    end
-  end
-
-  def key_vector(keys, value_range_hash)
-    value_ranges = keys.reverse.map{|k| value_range_hash[k] + [nil]}
-    value_ranges.reduce{|r,v| v.product(r)}.map(&:flatten)
-  end
-
-  def key_matrix_2d
-    aggregate_vector = key_vector(self.aggregate_by, self.data[:aggregate_value_range])
-    disaggregate_vector = key_vector(self.disaggregate_by, self.data[:disaggregate_value_range])
-
-    matrix = []
-    aggregate_vector.each do |agg|
-      row = []
-      disaggregate_vector.each do |dis|
-        row << agg + dis
-      end
-      matrix << row
-    end
-
-    return matrix
-  end
-
+  # Recursively read through the Solr pivot output and construct a vector of results.
+  # The output is an array of arrays (easily convertible into a hash) of the following format:
+  # [
+  #   [[x0, y0, z0, ...], pivot_count0],
+  #   [[x1, y1, z1, ...], pivot_count1],
+  #   ...
+  # ]
+  # where each key is an array of the pivot nest tree, and the value is the aggregate pivot count.
+  # So if the Solr pivot query is location, pivoted by protection concern, by age, and by sex,
+  # the key array will be:
+  #   [[a location, a protection concern, an age, a sex], count of records matching this criteria]
+  # Solr returns partial pivot counts. In those cases, the unknown pivot key will be an empty string.
+  #   [["Somalia", "CAAFAG", "", ""], count]
+  # returns the count of all ages and sexes that are CAFAAG in Somalia
   def value_vector(parent_key, pivots)
     current_key = parent_key + [pivots['value']]
     current_key = [] if current_key == [nil]
     if !pivots.key? 'pivot'
-      return [{current_key => pivots['count']}]
+      return [[current_key, pivots['count']]]
     else
       vectors = []
       pivots['pivot'].each do |child|
         vectors += value_vector(current_key, child)
       end
-      max_key_length = vectors.first.keys.first.size
-      this_key = current_key + ([nil] * (max_key_length - current_key.length))
-      vectors + [{this_key => pivots['count']}]
+      max_key_length = vectors.first.first.size
+      this_key = current_key + ([""] * (max_key_length - current_key.length))
+      vectors = vectors + [[this_key, pivots['count']]]
       return vectors
     end
   end
-
-  def value_matrix
-    matrix = {}
-    self.value_vector([],{'pivot' => self.data[:pivots]}).each do |v|
-      matrix = matrix.merge(v)
-    end
-    return matrix
-  end
-
-
-
 
 end
