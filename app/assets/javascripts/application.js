@@ -18,6 +18,7 @@
 //= require plugins/outside_events.min
 //= require primero.dataTables.js
 //= require plugins/dataTables.responsive
+//= require plugins/dataTables.fixedColumns
 //= require plugins/popovers
 //= require plugins/autogrow
 //= require plugins/hoverintent
@@ -57,4 +58,4 @@
 //= require flag_records
 //= require actions
 //= require summary_page
-
+//= require report_table

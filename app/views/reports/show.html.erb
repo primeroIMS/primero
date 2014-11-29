@@ -1,21 +1,29 @@
 <div class="page-content-new row collapse" data-equalizer>
   <div class="medium-12 columns side-tab-content-container" data-equalizer-watch>
-    <table>
+    <table class="report_table">
       <%# Header %>
-      <tr>
-        <th></th>
-        <% if @report.disaggregate_by.present? %>
-          <% @report.disaggregate_values.each do |disaggregate| %>
-            <th><%= disaggregate %></th>
-          <% end %>
+      <thead>
+        <% report_header_rows(@report.data[:disaggregate_value_range]).each do |header_row| %>
+          <tr>
+            <th></th>
+            <% header_row.each do |headers| %>
+              <th colspan=<%= headers[1] %>><%= headers[0] %></th>
+            <% end %>
+            <th></th>
+          </tr>
         <% end %>
-        <th><%= t 'report.total' %></th>
-      </tr>
-      <% @report.aggregate_values.each do |aggregate| %>
-        <tr>
-          <td><%= aggregate %></td>
-        </tr>
-      <% end %>
+      </thead>
+      <tbody>
+        <% @report.data[:aggregate_value_range][1..-1].each do |aggregate| %>
+          <tr>
+            <td><%= aggregate.to_s %></td>
+            <% @report.data[:disaggregate_value_range][1..-1].each do |disaggregate| %>
+              <td><%= @report.data[:values][aggregate + disaggregate] %></td>
+            <% end %>
+            <td></td>
+          </tr>
+        <% end %>
+      </tbody>
     </table>
   </div>
 </div>
