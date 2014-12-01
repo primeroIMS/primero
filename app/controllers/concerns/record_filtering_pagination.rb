@@ -50,7 +50,7 @@ module RecordFilteringPagination
           filter_values = sanitize_date_range_filter(filter_values.first.split ".")
         else
           filter_values = filter_values.map{|value| value == 'true' } if model_class.properties_by_name[key].try(:type) == TrueClass
-          filter_values = filter_values.first if filter_type == "single"
+          filter_values = filter_values.first if ["single", "location"].include? filter_type
         end
         filter_scope[key] = {:type => filter_type, :value => filter_values} if filter_values.present? || filter_values == false
       end

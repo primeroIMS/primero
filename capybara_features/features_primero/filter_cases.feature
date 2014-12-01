@@ -2,6 +2,7 @@
 # JIRA PRIMERO-625
 # JIRA PRIMERO-736
 # JIRA PRIMERO-891
+# JIRA PRIMERO-864
 
 @search @javascript @primero
 Feature: Filter Cases
@@ -176,3 +177,42 @@ Scenario: As a CP user, I want to filter cases with photos
     And I should not see "Arya" on the page
     And I should not see "Bran" on the page
     And I should not see "Rickon" on the page
+
+  Scenario: Location Filters
+    # And the following lookups exist in the system:
+    #   | name                           | lookup_values                                                    |
+    #   | location                        | Country1, Country2                                               |
+    And the following location country exist in the system:
+      | placename  |
+      | Kenya      |
+      | Nepal      |
+      | Uganda     |
+
+    Given the following cases exist in the system:
+      | name     | created_by   | age | sex    | registration_date | unique_identifier                    | location_current |
+      | Rob      | primero_cp   | 14  | male   | 03-Jan-2014       | 21c4cba8-b410-4af6-b349-68c557af4aa9 | Kenya            |
+      | John     | primero_cp   | 14  | male   | 03-Feb-2014       | 21c4cba8-b410-4af6-b349-68c557af5aa9 | Kenya            |
+      | Theon    | primero_cp   | 14  | male   | 03-Mar-2014       | 21c4cba8-b410-4af6-b349-68c557af6aa9 | Nepal            |
+      | Sansa    | primero_cp   | 10  | female | 03-Apr-2014       | 21c4cba8-b410-4af6-b349-68c557af7aa9 | Nepal            |
+      | Arya     | primero_cp   | 8   | female | 03-May-2014       | 21c4cba8-b410-4af6-b349-68c557af8aa9 | Uganda           |
+      | Bran     | primero_cp   | 5   | female | 03-Jun-2014       | 21c4cba8-b410-4af6-b349-68c557af9aa9 | Uganda           |
+      | Rickon   | primero_cp   | 3   | male   | 03-Jul-2014       | 21c4cba8-b410-4af6-b349-68c557af10a9 | Uganda           |
+    And I am logged in as a social worker with username "primero_cp" and password "primero"
+    When I press the "CASES" button
+    And I should see "Displaying all 8 cases" on the page
+    And I select "Kenya" from location filter
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 2 cases" on the page
+    And I should see "Rob" on the page
+    And I should see "John" on the page
+    And I select "Nepal" from location filter
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 2 cases" on the page
+    And I should see "Theon" on the page
+    And I should see "Sansa" on the page
+    And I select "Uganda" from location filter
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 3 cases" on the page
+    And I should see "Arya" on the page
+    And I should see "Bran" on the page
+    And I should see "Rickon" on the page
