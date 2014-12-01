@@ -58,4 +58,5 @@
 //= require flag_records
 //= require actions
 //= require summary_page
-//= require report_table
+//= require reports
+//= require plugins/Chart

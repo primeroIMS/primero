@@ -85,18 +85,24 @@ class Report < CouchRest::Model::Base
 
   def graph_data
     labels = []
-    datasets = {}
+    datasets_hash = {}
     number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
     #TODO: This will not work yet because the keys are 2-dimensional but the report may be up to 6 dimensional
     self.data[:graph_value_range].each do |key|
       data_key = key + [""] * number_of_blanks
       labels << key[0] if key[0] != labels.last
-      if datasets.key? key[1]
-        datasets[key[1]] << self.values[data_key]
+      if datasets_hash.key? key[1]
+        datasets_hash[key[1]] << self.values[data_key]
       else
-        datasets[key[1]] = [self.values[data_key]]
+        datasets_hash[key[1]] = [self.values[data_key]]
       end
     end
+
+    datasets = []
+    datasets_hash.keys.each do |key|
+      datasets << {label: key, data: datasets_hash[key]}
+    end
+
     return {labels: labels, datasets: datasets}
   end
 

@@ -1,29 +1,40 @@
-<div class="page-content-new row collapse" data-equalizer>
+<div class="reports page-content-new row collapse" data-equalizer>
   <div class="medium-12 columns side-tab-content-container" data-equalizer-watch>
-    <table class="report_table">
-      <%# Header %>
-      <thead>
-        <% report_header_rows(@report.data[:disaggregate_value_range]).each do |header_row| %>
-          <tr>
-            <th></th>
-            <% header_row.each do |headers| %>
-              <th colspan=<%= headers[1] %>><%= headers[0] %></th>
-            <% end %>
-            <th></th>
-          </tr>
-        <% end %>
-      </thead>
-      <tbody>
-        <% @report.data[:aggregate_value_range][1..-1].each do |aggregate| %>
-          <tr>
-            <td><%= aggregate.to_s %></td>
-            <% @report.data[:disaggregate_value_range][1..-1].each do |disaggregate| %>
-              <td><%= @report.data[:values][aggregate + disaggregate] %></td>
-            <% end %>
-            <td></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <div class="report_header_content">
+      <h4 class="report_name"><%= @report.name %></h4>
+      <div class="report_description"><%= @report.description %></div>
+    </div>
+    <% if @report.is_graph %>
+      <div class="report_chart_content">
+        <canvas id="report_graph" width="600" height="400"></canvas>
+      </div>
+    <% end %>
+    <div class="report_table_content">
+      <table class="report_table">
+        <%# Header %>
+        <thead>
+          <% report_header_rows(@report.data[:disaggregate_value_range]).each do |header_row| %>
+            <tr>
+              <th></th>
+              <% header_row.each do |headers| %>
+                <th colspan=<%= headers[1] %>><%= headers[0] %></th>
+              <% end %>
+              <th></th>
+            </tr>
+          <% end %>
+        </thead>
+        <tbody>
+          <% @report.data[:aggregate_value_range][1..-1].each do |aggregate| %>
+            <tr>
+              <td><%= aggregate.to_s %></td>
+              <% @report.data[:disaggregate_value_range][1..-1].each do |disaggregate| %>
+                <td><%= @report.data[:values][aggregate + disaggregate] %></td>
+              <% end %>
+              <td></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
