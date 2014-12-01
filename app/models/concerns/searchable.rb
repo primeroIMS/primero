@@ -13,9 +13,7 @@ module Searchable
       searchable_multi_fields.each {|f| string f, multiple: true}
       
       #if instance is a child do phonetic search on names
-      if self.instance_of?(Child)
-        searchable_arabic_names_fields.each {|f| string f, as: "#{f}_an".to_sym}
-      end
+      searchable_phonetic_fields.each {|f| string f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each {|f| date f}
       searchable_numeric_fields.each {|f| integer f}
@@ -150,8 +148,8 @@ module Searchable
        Field.all_filterable_field_names(self.parent_form)
     end
 
-    def searchable_arabic_names_fields
-        ["name", "nickname"]
+    def searchable_phonetic_fields
+        ["name", "namenickname"]
     end
 
     def searchable_multi_fields

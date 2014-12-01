@@ -97,7 +97,7 @@
       </analyzer>
     </fieldType>
     <!-- This field is used for arabic names searching -->
-    <fieldType name="aname_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+    <fieldType name="text_phonetic" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer type="query">
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
@@ -160,7 +160,7 @@
     <!-- *** This field is used by Sunspot! *** -->
     <dynamicField name="*_sci" stored="false" type="string_ci" multiValued="false" indexed="true"/>
     <!-- *** This field is used by Sunspot! *** -->
-    <dynamicField name="*_an" stored="false" type="aname_ci" multiValued="false" indexed="true"/>
+    <dynamicField name="*_ph" stored="false" type="text_phonetic" multiValued="false" indexed="true"/>
     <!-- *** This dynamicField is used by Sunspot! *** -->
     <dynamicField name="*_lngram" stored="false" type="text_lngram" multiValued="false" indexed="true"/>
     <!-- *** This dynamicField is used by Sunspot! *** -->
