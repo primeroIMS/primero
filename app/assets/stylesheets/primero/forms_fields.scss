@@ -352,21 +352,14 @@ fieldset {
       float: right;
       font-size: 1.5rem;
       cursor: pointer;
+      border: 1px solid $stroke_green_color;
+      background: $desat_green_color;
       display: block;
       height: 37px;
       width: 37px;
       text-align: center;
       line-height: 2rem;
       color: $green_color;
-      text-indent: 9999px;
-
-      &.collapsed {
-        background: url(image_path('expand.png')) no-repeat;
-      }
-
-      &.expanded {
-        background: url(image_path('collapse.png')) no-repeat;
-      }
     }
   }
 }
@@ -470,14 +463,14 @@ span.postfix_val {
   .file_upload_input {
     cursor: pointer;
     height: 100%;
-    position: absolute;
-    right: 0px;
-    top: 0px;
+    position: absolute; 
+    right: 0px; 
+    top: 0px; 
     opacity: 0;
     margin-bottom: 0;
-    filter: alpha(opacity=0);
-    -ms-filter: "alpha(opacity=0)";
-    -khtml-opacity: 0;
+    filter: alpha(opacity=0); 
+    -ms-filter: "alpha(opacity=0)"; 
+    -khtml-opacity: 0; 
     -moz-opacity: 0;
   }
 }
