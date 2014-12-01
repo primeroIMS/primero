@@ -19,7 +19,7 @@ tracing_action_subform = [
                ]
               }),
     Field.new({"name" => "address_tracing",
-               "type" => "text_field",
+               "type" => "textarea",
                "display_name_all" => "Address/Village where the tracing action took place",
               }),
     Field.new({"name" => "location_tracing",
@@ -122,7 +122,7 @@ tracing_fields = [
              "display_name_all" => "Details about what the child faced / witnessed"
             }),
   Field.new({"name" => "address_separation",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Separation Address (Place)"
             }),
   Field.new({"name" => "location_separation",
