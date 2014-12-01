@@ -47,16 +47,59 @@ class Report < CouchRest::Model::Base
       values = self.value_vector([],{'pivot' => pivots_data}).to_h
       aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
+      if is_graph
+        graph_value_range = values.keys.map{|k| k[0..1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
+      end
 
       self.data = {
         total: response['response']['numFound'],
         aggregate_value_range: aggregate_value_range,
         disaggregate_value_range: disaggregate_value_range,
+        graph_value_range: graph_value_range,
         values: values
       }
+      self.data[:graph_value_range] = graph_value_range if is_graph
       ""
     end
   end
+
+  def total
+    self.data[:total]
+  end
+
+  def aggregate_value_range
+    self.data[:aggregate_value_range]
+  end
+
+  def disaggregate_value_range
+    self.data[:disaggregate_value_range]
+  end
+
+  def values
+    self.data[:values]
+  end
+
+  def dimensionality
+    (self.aggregate_by + self.disaggregate_by).size
+  end
+
+  def graph_data
+    labels = []
+    datasets = {}
+    number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
+    #TODO: This will not work yet because the keys are 2-dimensional but the report may be up to 6 dimensional
+    self.data[:graph_value_range].each do |key|
+      data_key = key + [""] * number_of_blanks
+      labels << key[0] if key[0] != labels.last
+      if datasets.key? key[1]
+        datasets[key[1]] << self.values[data_key]
+      else
+        datasets[key[1]] = [self.values[data_key]]
+      end
+    end
+    return {labels: labels, datasets: datasets}
+  end
+
 
   # Recursively read through the Solr pivot output and construct a vector of results.
   # The output is an array of arrays (easily convertible into a hash) of the following format:

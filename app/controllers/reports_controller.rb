@@ -12,8 +12,26 @@ class ReportsController < ApplicationController
 
   def show
     @report = Report.get(params[:id])
-    authorize! :show, @report
+    #authorize! :show, @report
     @report.build_report
+  end
+
+  # Method for AJAX GET of graph data.
+  # This is returned in a format readable by Chart.js
+  def graph_data
+    @report = Report.get(params[:id])
+    #authorize! :show, @report
+    @report.build_report #TODO: Get rid of this once the rebuild works
+    render json: @report.graph_data
+  end
+
+  #Method to trigger a report rebuild
+  def rebuild
+    @report = Report.get(params[:id])
+    #authorize! :show, @report
+    @report.build_report
+    @report.save
+    render status: :accepted
   end
 
   #TODO: deal with new, create, edit, update later.
