@@ -12,6 +12,7 @@
 # JIRA PRIMERO-461
 # JIRA PRIMERO-632
 # JIRA PRIMERO-736
+# JIRA PRIMERO-841
 
 @javascript @primero
 Feature: Protection Concern Form
@@ -35,6 +36,7 @@ Feature: Protection Concern Form
       | Displacement Status                                                               | <Select> Foreign National         |
       | Generate follow up reminders?                                                     | <Tickbox>                         |
       | Protection Concerns     | <Choose>Sexually Exploited<Choose>GBV survivor<Choose>Trafficked/smuggled<Choose>Other      |
+      | If Other, please specify                                                          | Other protection concerns         |
       | Disability Type         | <Select> Physical Disability                                                                |
     And I press "Save"
 
@@ -46,6 +48,7 @@ Feature: Protection Concern Form
     And I should see a value for "Generate follow up reminders?" on the show page with the value of "Yes"
     And I should see a value for "Displacement Status" on the show page with the value of "Foreign National"
     And I should see a value for "Protection Concerns" on the show page with the value of "Sexually Exploited, GBV survivor, Trafficked/smuggled, Other"
+    And I should see a value for "If Other, please specify" on the show page with the value of "Other protection concerns"
     And I should see a value for "Disability Type" on the show page with the value of "Physical Disability"
 
   Scenario: As a logged in user, I want to correctly initialize the chosen in groups
