@@ -33,7 +33,7 @@ var FileUploadField = Backbone.View.extend({
           var label_id = label.attr('id');
           if (label_id != undefined) {
             label.attr('id', label_id.replace(/[0-9]/, upload_inputs_count));
-            label.text(label.data('default_text'));
+            label.text(label.data('default-text'));
           }
           $(this).attr('for', id);
         });

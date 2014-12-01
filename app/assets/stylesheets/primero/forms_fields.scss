@@ -172,6 +172,29 @@ fieldset {
     }
   }
 
+  #file_container {
+    label.file-name {
+      word-wrap: break-word;
+    }
+  }
+
+  .update_document {
+    span.document {
+      word-wrap: break-word;
+    }
+  }
+
+  .uploaded-documents {
+    .row {
+      a.document {
+        word-wrap: break-word;
+      }
+      span.document-description {
+        word-wrap: break-word;
+      }
+    }
+  }
+
   label {
     font-weight: bold;
   }
