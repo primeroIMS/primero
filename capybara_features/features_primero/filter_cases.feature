@@ -179,9 +179,6 @@ Scenario: As a CP user, I want to filter cases with photos
     And I should not see "Rickon" on the page
 
   Scenario: Location Filters
-    # And the following lookups exist in the system:
-    #   | name                           | lookup_values                                                    |
-    #   | location                        | Country1, Country2                                               |
     And the following location country exist in the system:
       | placename  |
       | Kenya      |
