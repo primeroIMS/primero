@@ -52,6 +52,10 @@ protection_concern_fields = [
                 { id: 'other', display_text: "Other" }
               ]
             }),
+  Field.new({"name" => "protection_concerns_other",
+    "type" => "text_field",
+    "display_name_all" => "If Other, please specify"
+  }),
   Field.new({"name" => "disability_type",
              "type" =>"select_box" ,
              "display_name_all" => "Disability Type",

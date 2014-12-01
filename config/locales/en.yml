@@ -433,6 +433,7 @@ en:
     change_log: "Change Log"
     name_of_inquirer: "Name of Inquirer"
     date_of_inquiry: "Date of Inquiry"
+    tracing_requests: "Tracing Requests"
     change_log: "Change Log"
     last_updated: "Last updated"
     registered_by: "Registered by"

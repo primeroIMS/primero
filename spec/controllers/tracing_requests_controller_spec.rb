@@ -219,7 +219,8 @@ describe TracingRequestsController do
           :fields => {
             "Id" => "short_id",
             "Name Of Inquirer" => "relation_name",
-            "Date Of Inquiry" => "inquiry_date"
+            "Date Of Inquiry" => "inquiry_date",
+            "Tracing Requests" => "tracing_names"
           }
         }
         #Test if the exporter receive the list of field expected.
