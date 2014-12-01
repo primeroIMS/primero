@@ -62,7 +62,7 @@ module IndexHelper
         end
 
         if filter_value(filter)
-          checked = true if filter_value(filter).split(',').include? item.gsub('_', '')
+          checked = true if filter_value(filter).split('||').include? item.gsub('_', '')
         end
 
         concat(label_tag("#{filter}_#{item}",
@@ -122,6 +122,18 @@ module IndexHelper
     return violation_types
   end
 
+  def build_list_field_by_model(model_class)
+    #list_view_header returns the columns that are showed in the index page.
+    model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
+    list_view_fields = { :type => model, :fields => {} }
+    list_view_header(model).each do |header|
+      if header[:title].present? && header[:sort_title].present?
+        list_view_fields[:fields].merge!({ header[:title].titleize => header[:sort_title] })
+      end
+    end
+    list_view_fields
+  end
+
   private
 
   def list_view_header_case
@@ -161,9 +173,11 @@ module IndexHelper
   def list_view_header_tracing_request
     return [
         {title: '', sort_title: 'select'},
+        {title: '', sort_title: 'flag'},
         {title: 'id', sort_title: 'short_id'},
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
-        {title: 'date_of_inquiry', sort_title: 'inquiry_date'}
+        {title: 'date_of_inquiry', sort_title: 'inquiry_date'},
+        {title: 'tracing_requests', sort_title: 'tracing_names'}
     ]
   end
 

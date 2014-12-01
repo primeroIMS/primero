@@ -1,15 +1,55 @@
 var ViolationListReload = Backbone.View.extend({
-  el: '.side-tab-content',
+  el: '.page_content',
 
   events: {
-    "change fieldset[id$='_violation_wrapper']": 'reload'
+    "change fieldset[id$='_violation_wrapper']": 'reload',
+    "change select#incident_incident_violation_category_": 'show_hide_violations'
   },
 
   initialize: function() {
     $('body').on('violation-removed', $.proxy(function() {
       this.reload();
     }, this));
+
+    this.show_hide_violations();
   },
+
+  show_hide_violations: function(e) {
+    var violation_group = $('a[data-violation="true"]'),
+        tabs = $('a[data-violation="true"]').parent().find('ul.sub li');
+
+    if (!$('select#incident_incident_violation_category_').length) {
+      selected = [];
+
+      _.each($("fieldset[id$='_violation_wrapper'] fieldset[id^='subform_']"), function(v) {
+        var violation = $(v).attr('id').replace(/^subform_|_\d{1,}$/g, '');
+
+        if (!_.contains(selected, violation)) {
+          selected.push(violation);
+        }
+      });
+    } else {
+      selected = $('select#incident_incident_violation_category_').val();
+    }
+
+    $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
+    tabs.hide();
+    $('a[data-violation="true"]').parent('li').find('ul.sub li a').removeAttr('active-violation');
+
+    _.each(selected, function(v) {
+      $('div[id="' + v + '"]').show();
+      $('div[id="' + v + '_violation"]').show();
+      $('a[href="#tab_' + v + '_violation_wrapper"]').parent('li').show();
+      $('a[href="#tab_' + v + '_violation_wrapper"]').attr("active-violation", 'true');
+    });
+
+    var first_violation_href = violation_group.parent('li')
+                                              .find('ul.sub li a[active-violation="true"]:first')
+                                              .attr('href');
+
+    $('a[data-violation="true"]').attr('href', first_violation_href);
+  },
+
 
   //Refresh the options in the violations select
   reload: function(event) {

@@ -18,6 +18,7 @@ end
 describe TracingRequestsController do
 
   before :each do
+    TracingRequest.any_instance.stub(:field_definitions).and_return([])
     unless example.metadata[:skip_session]
       @user = User.new(:user_name => 'fakeadmin')
       @session = fake_admin_login @user
@@ -135,7 +136,7 @@ describe TracingRequestsController do
           tracing_requests = mock_tracing_request(@stubs)
           scope ||= {}
           tracing_requests.stub(:paginate).and_return(tracing_requests)
-          TracingRequest.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil).and_return(tracing_requests)
+          TracingRequest.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(tracing_requests)
 
           get :index, :scope => scope
           assigns[:tracing_requests].should == tracing_requests
@@ -160,7 +161,7 @@ describe TracingRequestsController do
           order = {:created_at=>:desc}
 
           tracing_requests.stub(:paginate).and_return(tracing_requests)
-          TracingRequest.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker", nil).and_return(tracing_requests)
+          TracingRequest.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker", nil, nil).and_return(tracing_requests)
           @params.merge!(:scope => @status)
           get :index, @params
           assigns[:tracing_requests].should == tracing_requests
@@ -189,7 +190,7 @@ describe TracingRequestsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
+        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:tracing_requests].should == collection
@@ -208,7 +209,7 @@ describe TracingRequestsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
-        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil).and_return(search)
+        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
 
         ##### Main part of the test ####
         controller.should_receive(:list_view_header).with("tracing_request").and_call_original
@@ -218,7 +219,8 @@ describe TracingRequestsController do
           :fields => {
             "Id" => "short_id",
             "Name Of Inquirer" => "relation_name",
-            "Date Of Inquiry" => "inquiry_date"
+            "Date Of Inquiry" => "inquiry_date",
+            "Tracing Requests" => "tracing_names"
           }
         }
         #Test if the exporter receive the list of field expected.

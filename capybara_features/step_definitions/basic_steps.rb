@@ -43,7 +43,8 @@ Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times
     if type == "span"
       find("//span[text()=\"#{label}\"]", :visible => true).click
     else
-      click_on(label, :visible => true)
+      page.execute_script("$('.side-nav').mCustomScrollbar('scrollTo', $(\"a:contains('#{label}')\"))")
+      click_on(label)
     end
   end
 end
@@ -496,7 +497,7 @@ end
 
 When /^I attach a photo "([^"]*)"(?: for model "(.*)")?$/ do |photo_path, model|
     model ||= "child"
-    step %Q{I attach the file "#{photo_path}" to "#{model}_photo0"}
+    step %Q{I attach the file "#{photo_path}" to "#{model}_photo_0"}
 end
 
 When /^I attach an audio file "([^"]*)"(?: for model "(.*)")?$/ do |audio_path, model|

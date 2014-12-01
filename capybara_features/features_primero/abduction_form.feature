@@ -16,6 +16,9 @@ Feature: Abduction Form
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Abduction |
     And I press the "Violations" button
     And I press the "Abduction" button
     And I fill in the following:
@@ -45,7 +48,7 @@ Feature: Abduction Form
       | Location where they were held           | Some other location                                         |
       | Verifier                                                                                                                        | Verifier name                                                  |
       # | Verification Decision Date                                                                                                      | today's date                                                   |
-      | Verification Status                                                                                                             | Pending                                                        |
+      | Verification Status                                                                                                             | Pending Verification                                                        |
       | Has the information been received from a primary and reliable source?                                                           | Yes, from a credible Primary Source who witnessed the incident |
       | Was the incident witnessed by UN staff or other MRM-trained affiliates?                                                         | Yes                                                            |
       | Is the information consistent across various independent sources?                                                               | Yes                                                            |
@@ -59,9 +62,12 @@ Feature: Abduction Form
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     And the following lookups exist in the system:
       | name                | lookup_values                                               |
-      | verification_status | Verified, Unverified, Pending, Falsely Attributed, Rejected |
+      | verification_status | Verified, Unverified, Pending Verification, Falsely Attributed, Rejected |
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Abduction |
     And I press the "Violations" button
     And I press the "Abduction" button
     And I fill in the following:

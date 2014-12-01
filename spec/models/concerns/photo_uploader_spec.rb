@@ -12,6 +12,7 @@ COUCHDB_SERVER.database('test_record').recreate! rescue nil
 # Child that could be moved here
 describe PhotoUploader do
   before :each do
+    TestRecord.any_instance.stub(:field_definitions).and_return([])
     Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
     User.stub(:find_by_user_name).and_return(double(:organization => 'stc'))
     @rec = TestRecord.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")

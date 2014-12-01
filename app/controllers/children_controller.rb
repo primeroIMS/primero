@@ -1,9 +1,11 @@
 class ChildrenController < ApplicationController
   @model_class = Child
 
+  include IndexHelper
   include RecordFilteringPagination
 
-  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo ]
+  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo, :match_record ]
+  before_filter :load_tracing_request, :only => [:index, :match_record]
   before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
@@ -241,6 +243,40 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def exported_properties
+    if params[:export_list_view].present? && params[:export_list_view] == "true"
+      build_list_field_by_model(model_class)
+    elsif params[:format].present? && params[:format] == "xls"
+      #get form sections the user is allow to see.
+      form_sections = FormSection.get_form_sections_by_module(@current_modules, model_class.parent_form, current_user)
+      #get the model properties based on the form sections.
+      properties_by_module = model_class.get_properties_by_module(form_sections)
+      #Clean up the forms.
+      properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents"].include?(key)}}
+      # Add other useful information for the report.
+      properties_by_module.each{|pm, fs| properties_by_module[pm].merge!(model_class.record_other_properties_form_section)}
+      properties_by_module
+    else
+      model_class.properties
+    end
+  end
+
+  def match_record
+    #TODO WIP
+    if @tracing_request.present? && @match_request.present?
+      @match_request.matched_case_id = @child.id
+      @child.matched_tracing_request_id = "#{@tracing_request.id}::#{@match_request.unique_id}"
+
+      #TODO - add some error checking
+      @tracing_request.save
+      @child.save
+      flash[:notice] = t("child.match_record_success")
+    else
+      flash[:notice] = t("child.match_record_failed")
+    end
+    redirect_to case_path(@child)
+  end
+
   private
 
   def child_short_id child_params
@@ -270,6 +306,18 @@ class ChildrenController < ApplicationController
           flash[:error] = "Child with the given id is not found"
           redirect_to :action => :index and return
         end
+      end
+    end
+  end
+
+  def load_tracing_request
+    if params[:match].present?
+      # Expect match input to be in format <tracing request id>::<tracing request subform unique id>
+      tracing_request_id = params[:match].split("::").first
+      subform_id = params[:match].split("::").last
+      @tracing_request = TracingRequest.get(tracing_request_id) if tracing_request_id.present?
+      if @tracing_request.present? && subform_id.present?
+        @match_request = @tracing_request.tracing_request_subform_section.select{|tr| tr.unique_id == subform_id}.first
       end
     end
   end

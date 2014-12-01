@@ -8,7 +8,7 @@ var SubformView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.heading_removed = false
+    this.heading_removed = false;
 
     //By default existing subforms are collapsed to input.
     this.$el.find(".subform_container, .subform_container:hidden").each(function(x, el){
@@ -107,14 +107,14 @@ var SubformView = Backbone.View.extend({
     });
 
     newSubform.find("input, select, textarea").each(function(x, el){
-      var currentId = el.getAttribute("id")
-      if (currentId != null) {
+      var currentId = el.getAttribute("id");
+      if (currentId !== null) {
         var id = currentId.replace("template",i);
         el.setAttribute("id", id);
       }
 
       var currentName = el.getAttribute("name");
-      if (currentName != null) {
+      if (currentName !== null) {
         var name = currentName.replace("template",i);
         el.setAttribute("name", name);
       }
@@ -130,7 +130,7 @@ var SubformView = Backbone.View.extend({
     newSubform.attr('data-subform_index', i);
     newSubform.attr("class", newSubformClass);
     newSubform.fadeIn(600);
-    newSubform.find("input, select, textarea").removeAttr("disabled");
+    newSubform.find("input[editable!='false'], select, textarea").removeAttr("disabled");
     newSubform.appendTo(subforms);
 
     // set sidebar height
@@ -152,7 +152,7 @@ var SubformView = Backbone.View.extend({
         target = event.target || event.srcElement,
         self = this;
 
-    if (confirm_remove == true) {
+    if (confirm_remove === true) {
       self.remove_subform($(target), self);
       var target_subform = $(target).parents('div.subforms');
       var subform_index = $(target).parents('div.subform, div.subform_container').data('subform_index');
@@ -189,7 +189,7 @@ var SubformView = Backbone.View.extend({
         count++;
       }
     });
-    if (count == 0) {
+    if (count === 0) {
       //All subforms were removed. Add some input to remove all subforms on the server side.
       //If we don't send this input server will not know that this action needs to be perform.
       //The id is to straightforward lookup the input.
@@ -221,7 +221,7 @@ _primero.update_subform_heading = function(subformEl) {
     //view mode doesn't sent this attributes, there is no need to update the header.
     var data_types_attr = el.getAttribute("data-types"),
         data_fields_attr = el.getAttribute("data-fields");
-    if (data_types_attr != null && data_fields_attr != null) {
+    if (data_types_attr !== null && data_fields_attr != null) {
       //retrieves the fields to update the header.
       var data_types = data_types_attr.split(","),
           data_fields = data_fields_attr.split(","),
@@ -231,9 +231,12 @@ _primero.update_subform_heading = function(subformEl) {
             input_type = data_types[i];
         if (input_type == "chosen_type") {
           //reflect changes of the chosen.
-          var input = $(subformEl).find("select[id='" + input_id + "_']");
-          if (input.val() != null) {
-            values.push(input.val().join(", "));
+          var input = $(subformEl).find("select[id='" + input_id + "_'] option:selected");
+          if (input.val() !== null) {
+            var selected = input.map(function() {
+              return $(this).text();
+            }).get().join(', ');
+            values.push(selected);
           }
         } else if (input_type == "radio_button_type") {
           //reflect changes of the for radio buttons.
@@ -253,7 +256,7 @@ _primero.update_subform_heading = function(subformEl) {
         } else {
           //Probably there is other widget that should be manage differently.
           var input = $(subformEl).find("#" + input_id);
-          if (input.val() != "") {
+          if (input.val() !== "") {
             values.push(input.val());
           }
         }
@@ -264,7 +267,7 @@ _primero.update_subform_heading = function(subformEl) {
       }
     }
   });
-}
+};
 
 
 $(document).ready(function() {

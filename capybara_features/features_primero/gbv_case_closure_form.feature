@@ -2,7 +2,7 @@
 # JIRA PRIMERO-596
 # JIRA PRIMERO-736
 
-@javascript @primero
+@javascript @primero @wip
 Feature: GBV Case Closure Form
   As a Social GBV Worker / Data Entry Person, I want to create an case record in Primero
   so that I can enter details about a GBV case closure.

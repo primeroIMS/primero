@@ -9,6 +9,7 @@
 #JIRA PRIMERO-365
 #JIRA PRIMERO-244
 #JIRA PRIMERO-736
+#JIRA PRIMERO-838
 
 @javascript @primero
 Feature: Family Details Form
@@ -39,7 +40,7 @@ Feature: Family Details Form
       |Is the child separated from this person?              | <Radio> Yes                                |
       |List any agency identifiers as a comma separated list | Agency1 ,Agency 2                          |
       |Nickname                                              | Coco                                       |
-      |Are they alive?                                       | <Select> Alive                             |
+      |Is this family member alive?                          | <Select> Alive                             |
       |If dead, please provide details                       | No Dead Notes                              |
       |Comments                                              | Some Comments About Coco                   |
       |Occupation                                            | Some Ocupation About Coco                  |
@@ -59,7 +60,7 @@ Feature: Family Details Form
       |Is the child separated from this person?              | <Radio> No                                 |
       |List any agency identifiers as a comma separated list | Agency3 ,Agency 4                          |
       |Nickname                                              | Pepe                                       |
-      |Are they alive?                                       | <Select> Unknown                           |
+      |Is this family member alive?                          | <Select> Unknown                           |
       |If dead, please provide details                       | Unknown Information                        |
       |Comments                                              | Some Comments About Pepe                   |
       |Occupation                                            | Some Ocupation About Pepe                  |
@@ -84,7 +85,7 @@ Feature: Family Details Form
       |Is the child separated from this person?              | Yes                          |
       |List any agency identifiers as a comma separated list | Agency1 ,Agency 2            |
       |Nickname                                              | Coco                         |
-      |Are they alive?                                       | Alive                        |
+      |Is this family member alive?                          | Alive                        |
       |If dead, please provide details                       | No Dead Notes                |
       |Comments                                              | Some Comments About Coco     |
       |Occupation                                            | Some Ocupation About Coco    |
@@ -104,7 +105,7 @@ Feature: Family Details Form
       |Is the child separated from this person?              | No                           |
       |List any agency identifiers as a comma separated list | Agency3 ,Agency 4            |
       |Nickname                                              | Pepe                         |
-      |Are they alive?                                       | Unknown                      |
+      |Is this family member alive?                          | Unknown                      |
       |If dead, please provide details                       | Unknown Information          |
       |Comments                                              | Some Comments About Pepe     |
       |Occupation                                            | Some Ocupation About Pepe    |

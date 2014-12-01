@@ -1,20 +1,22 @@
  <div class="side-tab" data-equalizer-watch>
-  <ul class="side-nav">
-    <%# TODO: We are hiding the user options for the time being. %>
-    <li class=<%= (highlight_page == 'users' ? 'current' : '') %>><%= link_to I18n.t("users.label"), users_path if can?(:index, User) && can?(:index, Role)%></li>
-    <% if false %>
-    <li class=<%= (highlight_page == 'unverified' ? 'current' : '') %>>
-    	<%= link_to I18n.t("users.unverified"), unverified_users_path if can?(:show, User)  %></li>
-    <% end %>
-    <li class=<%= (highlight_page == 'agencies' ? 'current' : '') %>>
-      <%= link_to I18n.t("agencies.label"), agencies_path if can?(:index, Agency)  %></li>
-    <li class=<%= (highlight_page == 'roles' ? 'current' : '') %>>
-    	<%= link_to t("roles.label"), roles_path if can?(:index, Role) %></li>
-    <li class=<%= (highlight_page == 'user_groups' ? 'current' : '') %>>
-      <%= link_to t("user_groups.label"), user_groups_path if can?(:index, UserGroup) %></li>
-    <li class=<%= (highlight_page == 'primero_programs' ? 'current' : '') %>>
-      <%= link_to t("primero_programs.label"), primero_programs_path if can?(:index, PrimeroProgram) %></li>
-    <li class=<%= (highlight_page == 'primero_modules' ? 'current' : '') %>>
-      <%= link_to t("primero_modules.label"), primero_modules_path if can?(:index, PrimeroModule) %></li>
-  </ul>
+  <div class="side-nav-container">
+    <ul class="side-nav">
+      <%# TODO: We are hiding the user options for the time being. %>
+      <li class=<%= (highlight_page == 'users' ? 'current' : '') %>><%= link_to I18n.t("users.label"), users_path if can?(:index, User) && can?(:index, Role)%></li>
+      <% if false %>
+      <li class=<%= (highlight_page == 'unverified' ? 'current' : '') %>>
+      	<%= link_to I18n.t("users.unverified"), unverified_users_path if can?(:show, User)  %></li>
+      <% end %>
+      <li class=<%= (highlight_page == 'agencies' ? 'current' : '') %>>
+        <%= link_to I18n.t("agencies.label"), agencies_path if can?(:index, Agency)  %></li>
+      <li class=<%= (highlight_page == 'roles' ? 'current' : '') %>>
+      	<%= link_to t("roles.label"), roles_path if can?(:index, Role) %></li>
+      <li class=<%= (highlight_page == 'user_groups' ? 'current' : '') %>>
+        <%= link_to t("user_groups.label"), user_groups_path if can?(:index, UserGroup) %></li>
+      <li class=<%= (highlight_page == 'primero_programs' ? 'current' : '') %>>
+        <%= link_to t("primero_programs.label"), primero_programs_path if can?(:index, PrimeroProgram) %></li>
+      <li class=<%= (highlight_page == 'primero_modules' ? 'current' : '') %>>
+        <%= link_to t("primero_modules.label"), primero_modules_path if can?(:index, PrimeroModule) %></li>
+    </ul>
+  </div>
  </div>

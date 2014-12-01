@@ -89,32 +89,10 @@ Feature: Subforms In Incidents
     And I should not see "Timmy" on the page
     And I should not see "Jane Doe" on the page
 
-  Scenario: As a logged in user and create an incident, I should only have the same amount of subform created on error
-    And I press the "Violations" button
-    And I press the "Killing" button
-    And I fill in the following:
-       | Number of victims        | <Tally>Boys:bad_number  |
-    And I press "Save"
-    And I should see "Errors prohibited this record from being saved" on the page
-    And I should see "There were problems with the following fields" on the page
-    And I should see "Killing: Number of victims: boys must be a valid number" on the page
-    And I should see 1 subform on the form page for "Killing"
-    And I expanded the 1st "Killing" subform
-    And I fill in the following:
-       | Number of victims        | <Tally>Boys:3  |
-    And I press the "Group Details" button
-    And I should see 1 subform on the form page for "Group Details Section"
-    And I add a "Group Details Section" subform
-    And I fill in the following:
-      | Description of the Group of Children | Jane Doe |
-    And I press "Save"
-    Then I should see a success message for new Incident
-    And I should see 2 subform on the show page for "Group Details Section"
-    And I press the "Violations" button
-    And I press the "Killing" button
-    And I should see 1 subform on the show page for "Killing"
-
   Scenario: As a logged in user I should be able to remove all violations subforms
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Killing of Children |
     And I press the "Violations" button
     And I press the "Killing" button
     And I fill in the following:

@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe FieldsHelper do
 
-  before(:all) do
+  before(:each) do
+    Child.any_instance.stub(:field_definitions).and_return([])
     @child = Child.create(:name => "Simon", created_by: "bob")
     @child["nested_form_section"] = [
       {"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep", "nested_tally_boys" => 3, "nested_tally_girls" => 2, "nested_tally_total" => 5},
@@ -33,9 +34,6 @@ describe FieldsHelper do
                "type" => "subform", "editable" => true,
                "subform_section_id" => @nested_form.id,
                "display_name_all" => "Top 2 Subform"})
-  end
-
-  before :each do
     @fields_helper = Object.new.extend FieldsHelper
   end
 

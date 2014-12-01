@@ -1,6 +1,7 @@
 class IncidentsController < ApplicationController
   @model_class = Incident
 
+  include IndexHelper
   include RecordFilteringPagination
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy ]
@@ -170,9 +171,13 @@ class IncidentsController < ApplicationController
     end
   end
 
-  #def exported_properties
-    #model_class.properties.reject {|p| p.name == 'violations' }
-  #end
+  def exported_properties
+    if params[:export_list_view].present? && params[:export_list_view] == "true"
+      build_list_field_by_model(model_class)
+    else
+      model_class.properties
+    end
+  end
 
   private
 

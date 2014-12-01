@@ -8,6 +8,9 @@ Feature: Subforms Collapse Expand separators
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Attacks on Schools |
     And I press the "Violations" button
     And I press the "Attack on Schools" button
     And I collapsed the 1st "Attack on Schools" subform
@@ -17,6 +20,9 @@ Feature: Subforms Collapse Expand separators
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Attacks on Hospitals |
     And I press the "Violations" button
     And I press the "Attack on Hospitals" button
     And I collapsed the 1st "Attack on Hospitals" subform
@@ -26,6 +32,9 @@ Feature: Subforms Collapse Expand separators
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Denial of Humanitarian Access |
     And I press the "Violations" button
     And I press the "Denial of Humanitarian Access" button
     And I add a "Denial Humanitarian Access" subform

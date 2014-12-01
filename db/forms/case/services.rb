@@ -6,7 +6,7 @@ services_subform = [
     "option_strings_text_all" => [
       "Safehouse",
       "Health/Medical",
-      "Psycosocial/Counseling",
+      "Psychosocial/Counseling",
       "Legal Assistance",
       "Police or Other Type of Security",
       "Livelihoods",

@@ -24,7 +24,9 @@ module Record
     property :record_state, TrueClass, default: true
 
     class_attribute(:form_properties_by_name)
+    class_attribute(:properties_by_form)
     self.form_properties_by_name = {}
+    self.properties_by_form = {}
 
     create_form_properties
 
@@ -153,6 +155,10 @@ module Record
 
     def remove_form_properties
       form_properties_by_name.each do |name, prop|
+        properties_by_form.each do |form_name, props|
+          props.delete(name)
+        end
+        properties_by_form.reject!{|k, v| v.blank?}
         properties_by_name.delete(name)
         properties.delete(prop)
 
@@ -178,9 +184,13 @@ module Record
         Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
-      properties_hash_from_forms(form_sections).each do |name,options|
-        property name.to_sym, options
-        form_properties_by_name[name] = properties_by_name[name]
+      properties_hash_from_forms(form_sections).each do |form_name, props|
+        properties_by_form[form_name] ||= {}
+
+        props.each do |name, options|
+          property name.to_sym, options
+          properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
+        end
       end
     end
 
@@ -218,6 +228,32 @@ module Record
 
       instance.update_properties(attributes, current_user.try(:name))
     end
+
+    #Generate a hash with properties that seems to no belong to any FormSection.
+    def record_other_properties_form_section
+     {"__record__" =>
+        ["created_organization", "created_by_full_name", "last_updated_at",
+          "last_updated_by", "last_updated_by_full_name", "posted_at",
+          "unique_identifier", "record_state", "hidden_name",
+          "owned_by_full_name", "previously_owned_by_full_name",
+          "duplicate", "duplicate_of"].map do |name|
+          [name, self.properties.find{|p| p.name == name}]
+        end.to_h.compact
+     }
+    end
+
+    #Returns the hash with the properties based on the form sections.
+    def get_properties_by_module(form_sections_by_module)
+      properties_by_module = {}
+      form_sections_by_module.each do |module_id, form_sections|
+        properties_by_module[module_id] = {}
+        form_sections.each do |fs|
+          properties_by_module[module_id][fs.name] = self.properties_by_form[fs.name]
+        end
+      end
+      properties_by_module
+    end
+
   end
 
   def initialize(*args)
@@ -279,8 +315,10 @@ module Record
   end
 
   def field_definitions
+    # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
+    # this will not work.
     parent_form = self.class.parent_form
-    @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
+    @field_definitions ||= self.module.associated_forms_grouped_by_record_type[parent_form].map{|form| form.fields }.flatten
   end
 
   def update_properties(properties, user_name)

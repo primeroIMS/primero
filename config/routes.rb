@@ -69,6 +69,10 @@ RapidFTR::Application.routes.draw do
       get :search
     end
 
+    member do
+      put :match_record
+    end
+
     resources :attachments, :only => :show
     resource :duplicate, :only => [:new, :create]
   end

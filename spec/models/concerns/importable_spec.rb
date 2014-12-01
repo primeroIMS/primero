@@ -16,6 +16,9 @@ _Child = Class.new(CouchRest::Model::Base) do
 end
 
 describe Importable do
+  before :each do
+    _Child.any_instance.stub(:field_definitions).and_return([])
+  end
   before :all do
     # Since we don't delete the database after each test...
     @ids = (1..1/0.0).lazy.map {|n| "import_child#{n}"}

@@ -20,6 +20,7 @@ class Field
   property :selected_value, :default => ""
   property :create_property, TrueClass, :default => true
   property :searchable_select, TrueClass, :default => false
+  property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"
@@ -250,7 +251,8 @@ class Field
         select_options += clazz.all.map{|r| r.name}
       end
     else
-      select_options += @options.collect { |option| [option.option_name, option.option_name] }
+      select_options += @options.collect{ |option| option.option_name.is_a?(Hash) ? [option.option_name['display_text'],
+                                          option.option_name['id']] : [option.option_name, option.option_name]}
     end
 
     return select_options

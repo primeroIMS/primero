@@ -17,6 +17,9 @@ Feature: Maiming Form
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Maiming of Children |
     And I press the "Violations" button
     And I press the "Maiming" button
     And I fill in the following:
@@ -58,7 +61,7 @@ Feature: Maiming Form
       | Did the violation occur during or as a direct result of abduction?                          | Unknown                        |
       | Verifier                                                                                                                        | Verifier name                                                  |
       # | Verification Decision Date                                                                                                      | today's date                                                   |
-      | Verification Status                                                                                                             | Pending                                                        |
+      | Verification Status                                                                                                             | Pending Verification                                                        |
       | Has the information been received from a primary and reliable source?                                                           | Yes, from a credible Primary Source who witnessed the incident |
       | Was the incident witnessed by UN staff or other MRM-trained affiliates?                                                         | Yes                                                            |
       | Is the information consistent across various independent sources?                                                               | Yes                                                            |

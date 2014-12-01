@@ -10,13 +10,14 @@ sexual_violence_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Type of Violence",
-             "option_strings_text_all" =>
-                                    ["Rape",
-                                     "Sexual Assault",
-                                     "Forced Marriage",
-                                     "Mutilation",
-                                     "Forced Sterilization",
-                                     "Other"].join("\n")
+             "option_strings_text_all" => [
+                { id: 'rape', display_text: "Rape" },
+                { id: 'sexual_assault', display_text: "Sexual Assault" },
+                { id: 'forced_marriage', display_text:"Forced Marriage" },
+                { id: 'mutilation', display_text:"Mutilation" },
+                { id: 'force_sterilization', display_text:"Forced Sterilization" },
+                { id: 'other', display_text:"Other" }
+              ]
             }),
   Field.new({"name" => "displacement_at_time_of_incident",
              "type" => "select_box",

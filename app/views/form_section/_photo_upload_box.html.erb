@@ -1,27 +1,29 @@
 <div class="row">
   <p>
-    Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better.
+    <%= I18n.t("fields.file_upload_box.photo_file_restrictions_message") %>
   </p>
 </div>
-<div id="photo-group">
-  <div class="row">
-      <div class="medium-4 columns">
-        <span class="tool-tip-label">
-          <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", "Add Photo", :class=>'key inline' %>
-        </span>
+<div id="file_container">
+  <div id="file-group">
+    <div class="file">
+      <div class="row">
+          <div class="medium-4 columns">
+            <span class="tool-tip-label">
+              <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", I18n.t("fields.file_upload_box.add_photo_label"), :class=>'key inline' %>
+            </span>
+          </div>
+          <div class="medium-8 columns file_upload">
+            <div>
+              <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[photo]0", id: "#{formObject.class.name.underscore.downcase}_photo_0", help_text: photo_upload_box.help_text || ""%>
+            </div>
+          </div>
       </div>
-      <div class="medium-8 columns">
-        <div>
-          <%= file_field_tag "#{formObject.class.name.underscore.downcase}[photo]0" %>
-
-          <%= image_tag "new/icon_help.png", title: photo_upload_box.help_text, class: 'tool-tip-icon vtip' if photo_upload_box.help_text.present? %>
-        </div>
-      </div>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="large-12 columns">
-    <%= link_to 'Add another photo', '', id: 'add-photo', class: 'green-button right', "data-model" => "#{formObject.class.name.underscore.downcase}" %>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= link_to I18n.t('fields.file_upload_box.add_new_photo_button_text'), '', id: 'add-file-upload-field', class: 'green-button right', "data-model" => "#{formObject.class.name.underscore.downcase}" %>
+    </div>
   </div>
 </div>
 <% formObject.photos.each do |photo| %>

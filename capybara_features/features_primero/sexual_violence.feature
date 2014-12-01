@@ -19,6 +19,9 @@ Feature: Sexual Violence Form
     Given I am logged in as an admin with username "primero_mrm" and password "primero"
     When I access "incidents page"
     And I press the "New Incident" button
+    And I press the "Incident" button
+    And I choose from "Violation Category":
+     | Rape or Other Grave Sexual Violence |
     And I press the "Violations" button
     And I press the "Sexual Violence" button
     And I fill in the following:
@@ -48,7 +51,7 @@ Feature: Sexual Violence Form
       | Type of abduction at time of the incident                                           | Forced Conscription                             |
       | Verifier                                                                                                                        | Verifier name                                                  |
       # | Verification Decision Date                                                                                                      | today's date                                                   |
-      | Verification Status                                                                                                             | Pending                                                        |
+      | Verification Status                                                                                                             | Pending Verification                                                        |
       | Has the information been received from a primary and reliable source?                                                           | Yes, from a credible Primary Source who witnessed the incident |
       | Was the incident witnessed by UN staff or other MRM-trained affiliates?                                                         | Yes                                                            |
       | Is the information consistent across various independent sources?                                                               | Yes                                                            |

@@ -36,7 +36,7 @@ module ConfigurationResourceHelper
         label_tag(field, label_text, class: 'key')
       })
       concat(content_tag(:div, class: 'medium-8 columns'){
-        if field == 'logo'
+        if field == 'logo' && object['logo_key']
           img = send("#{object.class.name.underscore.downcase}_logo_url", object, object['logo_key'])
           concat(content_tag(:span, image_tag(img), class: value))
         else
