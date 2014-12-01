@@ -1,9 +1,11 @@
 # Primero setup from scratch
 
-Assuming you are staring in the home directory: ~/
+These instructions were followed using Ubuntu 14.04. It is assumed Ubuntu we are starting with Linux Ubuntu 14.04
+
+Assuming you are starting in the home directory: ~/
 
 
-Install git if it iss not installed yet:
+Install git if it is not installed yet:
 ```
 sudo apt-get install git
 ```
@@ -38,7 +40,7 @@ source ~/.rvm/scripts./rvm
 
 Clone the repository (On primero directory).
 ```
-git clone https://infantes@bitbucket.org/quoin/primero.git
+git clone https://<your_bb_user>@bitbucket.org/quoin/primero.git
 cd ~/primero
 ```
 
