@@ -54,7 +54,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "estimated",
              "type" => "tick_box",
-             "tick_box_label" => "Yes",
+             "tick_box_label_all" => "Yes",
              "display_name_all" => "Is the age estimated?",
             }),
   Field.new({"name" => "physical_characteristics",

@@ -8,7 +8,7 @@ class Field
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :option_strings_source, :multi_select]
+  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :option_strings_source, :multi_select, :tick_box_label]
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
@@ -21,7 +21,6 @@ class Field
   property :create_property, TrueClass, :default => true
   property :searchable_select, TrueClass, :default => false
   property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
-  property :tick_box_label, :default => ""
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"
