@@ -213,3 +213,28 @@ Scenario: As a CP user, I want to filter cases with photos
     And I should see "Arya" on the page
     And I should see "Bran" on the page
     And I should see "Rickon" on the page
+
+  Scenario: Photo Filters
+    Given the following cases exist in the system:
+      | name     | created_by   | age | sex    | registration_date | unique_identifier                    |
+      | Rob      | primero_cp   | 14  | male   | 03-Jan-2014       | 21c4cba8-b410-4af6-b349-68c557af4aa9 |
+      | John     | primero_cp   | 14  | male   | 03-Feb-2014       | 21c4cba8-b410-4af6-b349-68c557af5aa9 |
+      | Theon    | primero_cp   | 14  | male   | 03-Mar-2014       | 21c4cba8-b410-4af6-b349-68c557af6aa9 |
+    And I am logged in as a social worker with username "primero_cp" and password "primero"
+    When I press the "CASES" button
+    And I should see "Displaying all 4 cases" on the page
+    Then I press the "New Case" button
+    And I fill in "Name" with "Shaggy"
+    And I press "Save"
+    Then I should see a success message for new Case
+    When I press the "CASES" button
+    And I should see "Displaying all 5 cases" on the page
+    Then I press the "New Case" button
+    And I fill in "Name" with "Shaggy"
+    And I press "Save"
+    Then I should see a success message for new Case
+    When I press the "CASES" button
+    And I should see "Displaying all 6 cases" on the page
+    And I check the "has_photo_photo" field
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 4 cases" on the page
