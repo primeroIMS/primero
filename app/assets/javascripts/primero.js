@@ -193,7 +193,7 @@ var Primero = Backbone.View.extend({
       })
     );
 
-    $(".reveal-modal .row:first").mCustomScrollbar(
+    $(".reveal-modal .side-tab-content").mCustomScrollbar(
       _.extend(options, {
         setHeight: 400,
         theme: 'dark'
