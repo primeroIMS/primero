@@ -5,6 +5,6 @@
   </div>
 </div>
 <div class="small-9 columns">
-  <%= label_tag id, I18n.t("fields.file_upload_box.no_file_selected"), id: "#{id}_file_path", class: "inline", data: {default_text: I18n.t("fields.file_upload_box.no_file_selected")} %>
+  <%= label_tag id, I18n.t("fields.file_upload_box.no_file_selected"), id: "#{id}_file_path", class: "inline file-name", data: {default_text: I18n.t("fields.file_upload_box.no_file_selected")} %>
 </div>
 <%= image_tag "new/icon_help.png", title: help_text, class: 'tool-tip-icon vtip' if help_text.present? %>

@@ -145,9 +145,11 @@ module ApplicationHelper
     end
   end
 
-  def exporter_visible_page?(exporter_id)
+  def exporter_visible_page?(exporter_id, modules_id)
     if exporter_id == "list_view_csv"
       current_actions(action: ['index'])
+    elsif exporter_id == "unhcr_csv"
+      return modules_id.include?(PrimeroModule::CP)
     else
       true
     end

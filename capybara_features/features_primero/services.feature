@@ -6,6 +6,7 @@
 # JIRA PRIMERO-365
 # JIRA PRIMERO-478
 # JIRA PRIMERO-736
+# JIRA PRIMERO-855
 
 @javascript @primero
 Feature: Services
@@ -19,7 +20,7 @@ Feature: Services
     And I press the "Services / Follow Up" button
     And I click on "Services" in form group "Services / Follow Up"
     And I fill in the 1st "Services Section" subform with the follow:
-      | Type of Service                            | <Select> Safehouse    |
+      | Type of Service                            | <Select> Psychosocial/Counseling |
       | Did you refer the client for this service? | <Select> Referred     |
       | Appointment Date                           | 30-May-2014           |
       | Appointment Time                           | 8                     |
@@ -29,7 +30,7 @@ Feature: Services
     And I press "Save"
     Then I should see a success message for new Case
     And I should see in the 1st "Services Section" subform with the follow:
-      | Type of Service                            | Safehouse             |
+      | Type of Service                            | Psychosocial/Counseling |
       | Did you refer the client for this service? | Referred              |
       | Appointment Date                           | 30-May-2014           |
       | Appointment Time                           | 8                     |

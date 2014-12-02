@@ -1,5 +1,6 @@
 # JIRA PRIMERO-481
 # JIRA PRIMERO-736
+# JIRA PRIMERO-843
 
 @javascript @primero
 Feature: Alleged Perpetrator
@@ -12,7 +13,7 @@ Feature: Alleged Perpetrator
     And I press the "Alleged Perpetrator" button
     And I fill in the 1st "Alleged Perpetrator" subform with the follow:
       | Is this the primary perpetrator? | <Radio> Primary |
-      | Sex of Alleged Perpetrator(s)    | <Radio> Male   |
+      | Sex of Alleged Perpetrator       | <Radio> Male    |
     And I fill in the 2nd "Alleged Perpetrator" subform with the follow:
       | Is this the primary perpetrator?  | <Radio> Secondary |
       | Past GBV by alledged perpetrator? | <Radio>  No       |
@@ -20,7 +21,7 @@ Feature: Alleged Perpetrator
     Then I should see a success message for new Incident
     Then I should see in the 1st "Alleged Perpetrator" subform with the follow:
       | Is this the primary perpetrator? | Primary  |
-      | Sex of Alleged Perpetrator(s)    | Male     |
+      | Sex of Alleged Perpetrator       | Male     |
     Then I should see in the 2nd "Alleged Perpetrator" subform with the follow:
       | Is this the primary perpetrator?  | Secondary |
       | Past GBV by alledged perpetrator? | No        |

@@ -606,3 +606,9 @@ And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/)
       end
   end
 end
+
+And /^I select "(.*)" from location filter$/ do |location|
+  chosen = find(:xpath, "//div[@id='location_current_chosen']")
+  chosen.click
+  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()=\"#{location}\"]", :visible => true).click
+end

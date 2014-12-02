@@ -22,6 +22,7 @@
 //= require plugins/autogrow
 //= require plugins/hoverintent
 //= require plugins/superfish
+//= require plugins/jquery.mCustomScrollbar.min
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations

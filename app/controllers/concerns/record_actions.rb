@@ -11,7 +11,7 @@ module RecordActions
     before_filter :current_user, :except => [:reindex]
     before_filter :get_form_sections, :only => [:show, :edit]
     before_filter :get_lookups, :only => [:new, :edit, :index]
-    before_filter :current_modules, :only => [:index]
+    before_filter :current_modules, :only => [:show, :index]
     before_filter :is_manager, :only => [:index]
     before_filter :is_cp, :only => [:index]
     before_filter :is_gbv, :only => [:index]
@@ -26,7 +26,9 @@ module RecordActions
         search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], @match_criteria
         results = search.results
         records.concat(results)
+        #Set again the values of the pagination variable because the method modified the variable.
         pagination_ops[:page] = results.next_page
+        pagination_ops[:per_page] = 100
       end until results.next_page.nil?
       total_records = search.total
     else

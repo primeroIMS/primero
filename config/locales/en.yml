@@ -51,6 +51,8 @@ en:
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
     invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
+    scroll_up: "Scroll up to view more"
+    scroll_down: "Scroll down to view more"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -431,6 +433,7 @@ en:
     change_log: "Change Log"
     name_of_inquirer: "Name of Inquirer"
     date_of_inquiry: "Date of Inquiry"
+    tracing_requests: "Tracing Requests"
     change_log: "Change Log"
     last_updated: "Last updated"
     registered_by: "Registered by"
@@ -470,6 +473,15 @@ en:
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
     export: "Exports"
+    filter_by:
+      flag: "Flagged:"
+      flag_label: "Flagged?"
+      social_worker: "Field/Case/Social Worker:"
+      inquiry_date: "Date of Inquiry:"
+      inquiry_status: "Inquiry Status:"
+      location_separation: "Separation Location:"
+      separation_cause: "Separation Cause:"
+      record_state: "Record State:"
 
   preposition:
     on_label: "on"

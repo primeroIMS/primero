@@ -1,4 +1,5 @@
 #JIRA PRIMERO-364
+#JIRA PRIMERO-839
 
 @javascript @primero
 Feature: Subforms Collapses Fields Cases
@@ -19,20 +20,10 @@ Feature: Subforms Collapses Fields Cases
     And I fill in the 2nd "Tracing Actions Section" subform with the follow:
       | Date of tracing                                      | 30-Jun-2014                 |
       | Type of action taken                                 | <Select> Individual Tracing |
-    And I fill in the 1st "Reunification Details Section" subform with the follow:
-      | Name of adult child was reunified with               | Verma Webol |
-      | Relationship of adult to child                       | Father      |
-    And I fill in the 2nd "Reunification Details Section" subform with the follow:
-      | Name of adult child was reunified with               | Vivian Nelson |
-      | Relationship of adult to child                       | Mother        |
     And I collapsed the 1st "Tracing Actions Section" subform
     And I collapsed the 2nd "Tracing Actions Section" subform
-    And I collapsed the 1st "Reunification Details Section" subform
-    And I collapsed the 2nd "Reunification Details Section" subform
     Then I should see header in the 1st "Tracing Actions Section" subform within "Photo Tracing - 30-May-2014"
     And I should see header in the 2nd "Tracing Actions Section" subform within "Individual Tracing - 30-Jun-2014"
-    And I should see header in the 1st "Reunification Details Section" subform within "Father - Verma Webol"
-    And I should see header in the 2nd "Reunification Details Section" subform within "Mother - Vivian Nelson"
 
   Scenario: As a logged in user, I want to verify collapsed fields for followup
     And I press the "Services / Follow Up" button

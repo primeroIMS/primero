@@ -43,7 +43,8 @@ Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times
     if type == "span"
       find("//span[text()=\"#{label}\"]", :visible => true).click
     else
-      click_on(label, :visible => true)
+      page.execute_script("$('.side-nav').mCustomScrollbar('scrollTo', $(\"a:contains('#{label}')\"))")
+      click_on(label)
     end
   end
 end

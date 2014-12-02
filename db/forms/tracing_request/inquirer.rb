@@ -1,6 +1,6 @@
 tracing_request_inquirer_fields = [
   Field.new({"name" => "tracing_request_id",
-             "type" => "text_field", 
+             "type" => "text_field",
              "editable" => false,
              "display_name_all" => "Long ID",
              "create_property" => false
@@ -12,7 +12,7 @@ tracing_request_inquirer_fields = [
              "create_property" => false
             }),
   Field.new({"name" => "inquiry_date",
-             "type" => "date_field", 
+             "type" => "date_field",
              "display_name_all" => "Date of Inquiry"
             }),
   Field.new({"name" => "inquiry_status",
@@ -32,15 +32,15 @@ tracing_request_inquirer_fields = [
              "type" => "select_box",
              "display_name_all" => "How are they related to the child?",
              "option_strings_text_all" =>
-                                    ["Mother", 
+                                    ["Mother",
                                      "Father",
-                                     "Aunt", 
+                                     "Aunt",
                                      "Uncle",
                                      "Grandmother",
                                      "Grandfather",
-                                     "Brother", 
+                                     "Brother",
                                      "Sister",
-                                     "Husband", 
+                                     "Husband",
                                      "Wife",
                                      "Partner",
                                      "Other Family",
@@ -100,7 +100,7 @@ tracing_request_inquirer_fields = [
              "display_name_all" => "Contact Information"
             }),
   Field.new({"name" => "relation_address_current",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Current Address"
            }),
   Field.new({"name" => "relation_location_current",
@@ -159,7 +159,7 @@ tracing_request_inquirer_fields = [
              "display_name_all" => "Circumstances of Separation (please provide details)"
             }),
   Field.new({"name" => "address_separation",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Separation Address (Place)"
             }),
   Field.new({"name" => "location_separation",

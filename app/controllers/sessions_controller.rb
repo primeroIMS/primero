@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
   def new
     I18n.locale = I18n.default_locale
     unless (@session = current_session).nil?
-      return redirect_to(:action => "show", :id => @session)
+      return redirect_to(root_path)
     end
 
     @session = Session.new(params[:login])
@@ -59,9 +59,7 @@ class SessionsController < ApplicationController
       if @session.save
         reset_session
         session[:rftr_session_id] = @session.id
-        if false
-        flash[:notice] = t("hello") + " " + @session.user_name
-        end
+
         format.html { redirect_to(root_path) }
         format.xml  { render :action => "show", :status => :created, :location => @session }
         format.json { render_session_as_json(@session,:status => :created, :location => @session) }

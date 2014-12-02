@@ -13,9 +13,8 @@
 .side-tab, .modal-side-tab {
   position: relative;
   border-top: none;
-  min-height: 38rem;
   margin-bottom: 3rem;
-  border-right: 1px solid $stroke_green_color;
+  z-index: 997;
 
   a {
     color: $grey_color !important;
@@ -34,9 +33,7 @@
 .side-tab-content {
   padding-left: 0;
   background: $light_green_color;
-  border-right: 1px solid $stroke_green_color;
-  border-top: 1px solid $stroke_green_color;
-  border-bottom: 1px solid $stroke_green_color;
+  border: 1px solid $stroke_green_color;
 
   label {
     text-align: right;
@@ -110,12 +107,12 @@ li.current {
 }
 
 ul.side-nav, ul.modal-side-nav {
-  width: 250px;
+  width: 251px;
 
   li ul {
     display: none;
     list-style: none;
-    width: 230px;
+    width: 231px;
   }
 
   li .panel {
@@ -150,5 +147,20 @@ ul.side-nav, ul.modal-side-nav {
       background: none;
       border-bottom: 1px dashed #ddd;
     }
+  }
+}
+
+.scrolling_indicator {
+  border-top: 1px solid #ebebeb;
+  text-align: center;
+  font-size: .7rem;
+  text-transform: uppercase;
+  height: 20px;
+  visibility: hidden;
+  color: #999;
+
+  &.up {
+    border-top: none;
+    border-bottom: 1px solid #ebebeb;
   }
 }
