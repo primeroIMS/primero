@@ -69,12 +69,14 @@ module Searchable
         end
         if match.present?
           build_match(self, match)
+          sort={:score => :desc}
         end
         sort.each{|sort_field,order| order_by(sort_field, order)}
         paginate pagination
       end
     end
 
+    #This method controls filtering logic
     def build_filters(sunspot, filters={})
       sunspot.instance_eval do
         #TODO: pop off the locations filter and perform a fulltext search
@@ -112,6 +114,7 @@ module Searchable
       end
     end
 
+    #This method controls trace matching logic
     def build_match(sunspot, match={})
       sunspot.instance_eval do
         #TODO - add more match criteria
