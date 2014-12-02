@@ -10,7 +10,7 @@ child_under_5_fields = [
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_child_found",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Found in Village/Area/Physical Address"
             }),
   Field.new({"name" => "found_child_details",
@@ -22,7 +22,7 @@ child_under_5_fields = [
              "display_name_all" => "Where are the people who were part of the group that was displaced at the same time?"
             }),
   Field.new({"name" => "address_found_child_people_was_with",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Village/Area/Physical Address"
             }),
   Field.new({"name" => "child_finder",
@@ -40,7 +40,7 @@ child_under_5_fields = [
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_child_finder",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Address of person who found the child"
             }),
   Field.new({"name" => "child_finder_notes",

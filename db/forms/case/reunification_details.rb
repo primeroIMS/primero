@@ -11,7 +11,7 @@ reunification_subform = [
                "display_name_all" => "Relationship of adult to child",
               }),
     Field.new({"name" => "address_reunified_adult",
-               "type" => "text_field",
+               "type" => "textarea",
                "display_name_all" => "Address",
               }),
     Field.new({"name" => "location_reunified_adult",
@@ -21,7 +21,7 @@ reunification_subform = [
                "option_strings_source" => "Location"
               }),
     Field.new({"name" => "address_reunification",
-               "type" => "text_field",
+               "type" => "textarea",
                "display_name_all" => "Address where the reunification is taking place",
               }),
     Field.new({"name" => "location_reunification",

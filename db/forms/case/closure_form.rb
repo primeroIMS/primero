@@ -24,7 +24,7 @@ closure_fields = [
              "display_name_all" => "Caregiver Relationship",
             }),
   Field.new({"name" => "address_caregiver_closing",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Caregiver Address",
             }),
   Field.new({"name" => "location_caregiver_closing",

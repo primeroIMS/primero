@@ -45,7 +45,7 @@ caafag_profile_fields = [
              "display_name_all" => "Commander's Name"
             }),
   Field.new({"name" => "address_cafaag_militaryunit",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Area of Military Unit"
             }),
   Field.new({"name" => "location_cafaag_militaryunit",
@@ -83,11 +83,11 @@ caafag_profile_fields = [
              "display_name_all" => "When did the child join the Armed Force or Armed Group?"
             }),
   Field.new({"name" => "address_cafaag_registration",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Place of registration (Village/Address/Area) - Address"
             }),
   Field.new({"name" => "address_cafaag_mobilization",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Area of Mobilization"
             }),
   Field.new({"name" => "location_cafaag_mobilization",
@@ -124,7 +124,7 @@ caafag_profile_fields = [
              "display_name_all" => "If Other, please specify"
             }),
   Field.new({"name" => "address_cafaag_demobilization",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Address of Demobilization"
             }),
   Field.new({"name" => "location_cafaag_demobilization",
