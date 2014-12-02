@@ -53,7 +53,7 @@ protection_concern_detail_subform_fields = [
     ].join("\n")
   }),
   Field.new({"name" => "concern_details",
-    "type" => "text_field",
+    "type" => "textarea",
     "display_name_all" => "Details of the concern"
   }),
   Field.new({"name" => "concern_intervention_needed",
