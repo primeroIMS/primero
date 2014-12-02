@@ -210,16 +210,13 @@ class IncidentsController < ApplicationController
   def update_incident_from params
     incident = @incident || Incident.get(params[:id]) || Incident.new_with_user_name(current_user, params[:incident])
     authorize! :update, incident
-    reindex_hash params['incident']
-    update_incident_with_attachments(incident, params)
+    reindex_hash params[:incident]
+    update_incident_with_attachments(incident)
   end
 
-  def update_incident_with_attachments(incident, params)
-    # new_photo = params[:child].delete("photo")
-    # new_photo = (params[:child][:photo] || "") if new_photo.nil?
-    # new_audio = params[:child].delete("audio")
-    # delete_child_audio = params["delete_child_audio"].present?
-    incident.update_properties(params[:incident], current_user_name)
+  def update_incident_with_attachments(incident)
+    incident_params = filter_params(params[:incident])
+    incident.update_properties(incident_params, current_user_name)
     incident
   end
 

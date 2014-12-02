@@ -154,11 +154,8 @@ module Record
     end
 
     def remove_form_properties
+      properties_by_form.clear
       form_properties_by_name.each do |name, prop|
-        properties_by_form.each do |form_name, props|
-          props.delete(name)
-        end
-        properties_by_form.reject!{|k, v| v.blank?}
         properties_by_name.delete(name)
         properties.delete(prop)
 

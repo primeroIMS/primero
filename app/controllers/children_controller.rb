@@ -6,7 +6,6 @@ class ChildrenController < ApplicationController
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo, :match_record ]
   before_filter :load_tracing_request, :only => [:index, :match_record]
-  before_filter :sanitize_params, :only => [:update, :sync_unverified]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
@@ -127,7 +126,7 @@ class ChildrenController < ApplicationController
   def update
     respond_to do |format|
       format.html do
-        @child = update_child_from(params[:id], params[:child])
+        @child = update_child_from(params[:id])
         @child['child_status'] = "Open" if @child['child_status'].blank?
 
         if @child.save
@@ -149,7 +148,7 @@ class ChildrenController < ApplicationController
       end
 
       format.xml do
-        @child = update_child_from(params[:id], params[:child])
+        @child = update_child_from(params[:id])
         if @child.save
           head :ok
         else
@@ -288,13 +287,8 @@ class ChildrenController < ApplicationController
     if @child.nil?
       @child = Child.new_with_user_name(current_user, child_params)
     else
-      @child = update_child_from(id, child_params)
+      @child = update_child_from(id)
     end
-  end
-
-  def sanitize_params
-    child_params = params['child']
-    child_params['histories'] = JSON.parse(child_params['histories']) if child_params and child_params['histories'].is_a?(String) #histories might come as string from the mobile client.
   end
 
   def load_record_or_redirect
@@ -322,21 +316,22 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def update_child_from(id, child_params)
-    child = @child || Child.get(id) || Child.new_with_user_name(current_user, child_params)
+  def update_child_from(id)
+    child = @child || Child.get(id) || Child.new_with_user_name(current_user, params[:child])
     authorize! :update, child
 
-    reindex_hash child_params
-    update_child_with_attachments(child, params)
+    reindex_hash params[:child]
+    update_child_with_attachments(child)
   end
 
-  def update_child_with_attachments(child, params)
-    new_photo = params[:child].delete("photo")
-    new_photo = (params[:child][:photo] || "") if new_photo.nil?
-    new_audio = params[:child].delete("audio")
+  def update_child_with_attachments(child)
+    child_params = filter_params(params[:child])
+    new_photo = child_params.delete("photo")
+    new_photo = (child_params[:photo] || "") if new_photo.nil?
+    new_audio = child_params.delete("audio")
     child.last_updated_by_full_name = current_user_full_name
     delete_child_audio = params["delete_child_audio"].present?
-    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, params[:child])
+    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, child_params)
     child
   end
 

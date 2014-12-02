@@ -101,4 +101,21 @@ module RecordActions
   def is_mrm
     @is_mrm ||= @current_user.has_module?(PrimeroModule::MRM)
   end
+
+  def filter_params(record_params)
+    if get_record.present?
+      fss = get_form_sections
+      if fss.present?
+        permitted_forms = fss.values.flatten.map {|fs| fs.name }
+        permitted_keys = self.model_class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.keys
+        # Do the reject directly instead of using permit because of all the
+        # heavily nested subforms
+        record_params.reject {|k,v| !permitted_keys.include?(k) }
+      else
+        record_params
+      end
+    else
+      record_params
+    end
+  end
 end

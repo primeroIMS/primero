@@ -247,17 +247,18 @@ class TracingRequestsController < ApplicationController
     tracing_request = @tracing_request || TracingRequest.get(params[:id]) || TracingRequest.new_with_user_name(current_user, params[:tracing_request])
     authorize! :update, tracing_request
 
-    reindex_hash params['tracing_request']
-    update_tracing_request_with_attachments(tracing_request, params)
+    reindex_hash params[:tracing_request]
+    update_tracing_request_with_attachments(tracing_request)
   end
 
-  def update_tracing_request_with_attachments(tracing_request, params)
-    new_photo = params[:tracing_request].delete("photo")
-    new_photo = (params[:tracing_request][:photo] || "") if new_photo.nil?
-    new_audio = params[:tracing_request].delete("audio")
+  def update_tracing_request_with_attachments(tracing_request)
+    tracing_request_params = filter_params(params[:tracing_request])
+    new_photo = tracing_request_params.delete("photo")
+    new_photo = (tracing_request_params[:photo] || "") if new_photo.nil?
+    new_audio = tracing_request_params.delete("audio")
     tracing_request.last_updated_by_full_name = current_user_full_name
     delete_tracing_request_audio = params["delete_tracing_request_audio"].present?
-    tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"], new_audio, delete_tracing_request_audio, params[:tracing_request])
+    tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"], new_audio, delete_tracing_request_audio, tracing_request_params)
     tracing_request
   end
 
