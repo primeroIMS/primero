@@ -300,6 +300,11 @@ fieldset {
     margin: 0 10px;
     color: $green_color;
   }
+
+  .grey-button {
+    height: 30px;
+    padding-top: 5px;
+  }
 }
 
 .subforms {
@@ -353,19 +358,26 @@ fieldset {
       font-size: 1.5rem;
       cursor: pointer;
       display: block;
-      height: 37px;
-      width: 37px;
       text-align: center;
       line-height: 2rem;
       color: $green_color;
-      text-indent: 9999px;
+      font-family: 'FontAwesome';
+      border: 0.08em solid $stroke_green_color;
+      padding: 0 .25em .15em;
+      height: 30px;
+      width: 30px;
+      line-height: 1.2em;
+      background: $desat_green_color;
+      overflow: hidden;
 
-      &.collapsed {
-        background: url(image_path('expand.png')) no-repeat;
+      &.collapsed:before {
+        content: "\f106";
+        margin-right: 100px;
       }
 
-      &.expanded {
-        background: url(image_path('collapse.png')) no-repeat;
+      &.expanded:before {
+        content: "\f107";
+        margin-right: 100px;
       }
     }
   }
