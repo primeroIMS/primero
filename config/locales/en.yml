@@ -473,6 +473,15 @@ en:
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
     export: "Exports"
+    filter_by:
+      flag: "Flagged:"
+      flag_label: "Flagged?"
+      social_worker: "Field/Case/Social Worker:"
+      inquiry_date: "Date of Inquiry:"
+      inquiry_status: "Inquiry Status:"
+      location_separation: "Separation Location:"
+      separation_cause: "Separation Cause:"
+      record_state: "Record State:"
 
   preposition:
     on_label: "on"

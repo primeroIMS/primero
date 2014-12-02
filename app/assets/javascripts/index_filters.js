@@ -118,7 +118,13 @@ var IndexFilters = Backbone.View.extend({
       var date_inputs = $(target).parents('.filter-controls').find('input');
       this.set_date_range(date_inputs, filter, filter_type);
     } else if ($(target).is("select") && filter_type === 'location'){
-      this.set_remove_filter(filter, selected_val);
+      if (selected_val === "") {
+        filter_values = ""
+      }
+      else {
+        filter_values = [filter_type, selected_val]
+      }
+      this.set_remove_filter(filter, filter_values);
     } else {
       // Everything else
       this.set_remove_filter(filter, $(target).val(), filter_type);

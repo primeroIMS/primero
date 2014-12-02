@@ -61,7 +61,8 @@ module Searchable
               values = filter_value[:value]
               type = filter_value[:type]
               any_of do
-                if type == 'range'
+                case type
+                when 'range'
                   if values.count == 1
                     # Range +
                     with(filter).greater_than_or_equal_to(values.first.to_i)
@@ -69,13 +70,15 @@ module Searchable
                     range_start, range_stop = values.first.to_i, values.last.to_i
                     with(filter, range_start...range_stop)
                   end
-                elsif type == 'date_range'
+                when 'date_range'
                   if values.count > 1
                     to, from = values.first, values.last
                     with(filter).between(to..from)
                   else
                     with(filter, values.first)
                   end
+                when 'list'
+                  with(filter).any_of(values)
                 else
                   with(filter, values) unless values == 'all'
                 end
