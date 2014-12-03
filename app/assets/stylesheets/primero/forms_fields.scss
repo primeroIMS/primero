@@ -262,6 +262,13 @@ fieldset {
     }
   }
 
+  ul.incident_links {
+    list-style:none;
+    margin-left:0px;
+    margin-bottom:0px;
+    font-size:0.8125rem;
+  }
+
   input.tick_box {
     margin: 0.5rem 0 1rem;
   }

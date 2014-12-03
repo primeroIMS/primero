@@ -123,4 +123,16 @@ module FieldsHelper
       end
     end
   end
+
+  #Return the corresponding template to render the field.
+  #Edit mode and show mode might have different ways to render fields.
+  #Returns custom_template if defined.
+  def field_template_path(field, is_show=false)
+    return field.custom_template if field.custom_template.present?
+    if is_show
+      "form_section/field_display_#{field.display_type}"
+    else
+      "form_section/#{field.type}"
+    end
+  end
 end
