@@ -1144,9 +1144,9 @@ en:
         username_unique: "User name has already been taken! Please select a new User name"
 
       replication:
-        remote_app_uri: "Please enter a proper URL, e.g. http://<server>:<port>"
+        remote_app_uri: "Please enter a valid Primero URL"
         remote_unauthorized: "The username or password that you entered is incorrect"
-        remote_error: "Could not connect to the remote instance - is it running?"
+        remote_error: "Could not connect to the remote server"
         is_continuous: 'Continuous Replication?'
 
       password_recovery_request:
