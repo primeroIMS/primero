@@ -134,9 +134,9 @@ describe TracingRequestsController do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           tracing_requests = mock_tracing_request(@stubs)
-          scope ||= {}
+          scope ||= {"record_state"=>"single||true"}
           tracing_requests.stub(:paginate).and_return(tracing_requests)
-          TracingRequest.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(tracing_requests)
+          TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(tracing_requests)
 
           get :index, :scope => scope
           assigns[:tracing_requests].should == tracing_requests
@@ -190,7 +190,7 @@ describe TracingRequestsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:tracing_requests].should == collection
@@ -209,7 +209,7 @@ describe TracingRequestsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
-        TracingRequest.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
 
         ##### Main part of the test ####
         controller.should_receive(:list_view_header).with("tracing_request").and_call_original
@@ -219,7 +219,8 @@ describe TracingRequestsController do
           :fields => {
             "Id" => "short_id",
             "Name Of Inquirer" => "relation_name",
-            "Date Of Inquiry" => "inquiry_date"
+            "Date Of Inquiry" => "inquiry_date",
+            "Tracing Requests" => "tracing_names"
           }
         }
         #Test if the exporter receive the list of field expected.

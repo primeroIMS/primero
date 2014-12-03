@@ -3,7 +3,7 @@
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("cases.filter_by.flag"), 'flag', [
         {flag: t("cases.filter_by.flag_label")}
-      ]) %>
+      ], nil, nil, 'single') %>
     <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
@@ -49,7 +49,7 @@
     <% if filters_to_show.include? 'Photo' %>
       <%= build_filter_checkboxes(t("cases.filter_by.photo"), 'has_photo', [
         {photo: t("cases.filter_by.photo_label")}
-      ]) %>
+      ], nil, nil, 'single') %>
     <% end %>
   </form>
   <div class="clearfix"></div>

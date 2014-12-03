@@ -18,7 +18,7 @@ var ViolationListReload = Backbone.View.extend({
     var violation_group = $('a[data-violation="true"]'),
         tabs = $('a[data-violation="true"]').parent().find('ul.sub li');
 
-    if (!$('select#incident_incident_violation_category_')) {
+    if (!$('select#incident_incident_violation_category_').length) {
       selected = [];
 
       _.each($("fieldset[id$='_violation_wrapper'] fieldset[id^='subform_']"), function(v) {

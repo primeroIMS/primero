@@ -18,7 +18,7 @@ describe FieldsController do
 
     it "should add the new field to the formsection" do
       FormSection.should_receive(:add_field_to_formsection).with(@form_section, @field)
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :module_id => 'test_module', :field => JSON.parse(@field.to_json)
     end
 
     it "should redirect back to the fields page" do
@@ -32,7 +32,7 @@ describe FieldsController do
       FormSection.stub(:list_form_group_names)
       Field.should_receive(:new).and_return(@field)
       @field.should_receive(:errors).and_return(["errors"])
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
       assigns[:show_add_field].should == {:show_add_field => true}
       response.should be_success
       response.should render_template("form_section/edit")
@@ -40,7 +40,7 @@ describe FieldsController do
 
     it "should show a flash message" do
       FormSection.stub(:add_field_to_formsection)
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
       request.flash[:notice].should == "Field successfully added"
     end
 
@@ -48,18 +48,19 @@ describe FieldsController do
       FormSection.stub(:add_field_to_formsection)
       suggested_field = "this_is_my_field"
       SuggestedField.should_receive(:mark_as_used).with(suggested_field)
-      post :create, :form_section_id => @form_section.unique_id, :from_suggested_field => suggested_field, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :from_suggested_field => suggested_field, :field => JSON.parse(@field.to_json),
+                    :module_id => "test_module"
     end
 
     it "should not mark suggested field as used if there is not one supplied" do
       FormSection.stub(:add_field_to_formsection)
       SuggestedField.should_not_receive(:mark_as_used)
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
     end
 
     it "should use the display name to form the field name if no field name is supplied" do
       FormSection.should_receive(:add_field_to_formsection).with(anything(), hash_including("display_name_#{I18n.locale}" => "My brilliant new field"))
-      post :create, :form_section_id => @form_section.unique_id, :field => {:display_name => "My brilliant new field"}
+      post :create, :form_section_id => @form_section.unique_id, :field => {:display_name => "My brilliant new field"}, :module_id => "test_module"
     end
 
   end
@@ -71,7 +72,7 @@ describe FieldsController do
       @form_section.stub(:fields).and_return([field])
       FormSection.stub(:get_by_unique_id).with('unique_id').and_return(@form_section)
       FormSection.stub(:list_form_group_names)
-      get :edit, :form_section_id => "unique_id", :id => 'field1'
+      get :edit, :form_section_id => "unique_id", :id => 'field1', :module_id => "test_module"
       assigns[:body_class].should == "forms-page"
       assigns[:field].should == field
       assigns[:show_add_field].should == {:show_add_field => true}

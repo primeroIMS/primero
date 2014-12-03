@@ -26,7 +26,9 @@ module RecordActions
         search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], @match_request
         results = search.results
         records.concat(results)
+        #Set again the values of the pagination variable because the method modified the variable.
         pagination_ops[:page] = results.next_page
+        pagination_ops[:per_page] = 100
       end until results.next_page.nil?
       total_records = search.total
     else
