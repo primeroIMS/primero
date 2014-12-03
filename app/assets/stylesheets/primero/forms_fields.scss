@@ -261,6 +261,15 @@ fieldset {
       color: $red_color;
     }
   }
+
+  input.tick_box {
+    margin: 0.5rem 0 1rem;
+  }
+
+  div.required_field {
+    margin-top: 0.5rem;
+    padding: 0;
+  }
 }
 
 .mandate_panel {

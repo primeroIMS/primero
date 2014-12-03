@@ -19,7 +19,7 @@ Feature: Replications
     And I make sure that the Replication Configuration request fails
     And I click the "Save" button
 
-    Then I should see "Could not connect to the remote instance - is it running?"
+    Then I should see "Could not connect to the remote server"
     And I make sure that the Replication Configuration request succeeds
     And I fill in "Password" with "primero"
     And I click the "Save" button
@@ -50,6 +50,28 @@ Feature: Replications
     Then I should not see "New Replication"
     And I should not see "http://localhost:88888"
     And I clear the Replication Configuration expectations
+
+  Scenario: Validation messages
+    When I follow "Configure a Server"
+    Then I should see "Add a Remote Server"
+    And I fill in "Description" with ""
+    And I fill in "Primero URL" with ""
+    And I fill in "User Name" with ""
+    And I fill in "Password" with ""
+    And I click the "Save" button
+    And I should see "Remote app uri can't be blank" on the page
+    And I should see "Remote app uri Please enter a valid Primero URL" on the page
+    And I should see "Description can't be blank" on the page
+    And I should see "Username can't be blank" on the page
+    And I should see "Password can't be blank" on the page
+    And I should see "Fetch remote config Could not connect to the remote server" on the page
+    And I fill in "Description" with "Some description"
+    And I fill in "Primero URL" with "Invalid URL"
+    And I fill in "User Name" with "username"
+    And I fill in "Password" with "password"
+    And I click the "Save" button
+    And I should see "Remote app uri Please enter a valid Primero URL" on the page
+    And I should see "Fetch remote config Could not connect to the remote server" on the page
 
   #TODO -Implement this when more is known about what we are planning to do with blacklist
   @wip
