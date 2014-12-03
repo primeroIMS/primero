@@ -50,41 +50,10 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil)
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match={})
       self.search do
         if filters.present?
-          #TODO: pop off the locations filter and perform a fulltext search
-          filters.each do |filter,filter_value|
-            if searchable_location_fields.include? filter
-              fulltext("\"#{filter_value[:value]}\"", fields: filter)
-            else
-              values = filter_value[:value]
-              type = filter_value[:type]
-              any_of do
-                case type
-                when 'range'
-                  if values.count == 1
-                    # Range +
-                    with(filter).greater_than_or_equal_to(values.first.to_i)
-                  else
-                    range_start, range_stop = values.first.to_i, values.last.to_i
-                    with(filter, range_start...range_stop)
-                  end
-                when 'date_range'
-                  if values.count > 1
-                    to, from = values.first, values.last
-                    with(filter).between(to..from)
-                  else
-                    with(filter, values.first)
-                  end
-                when 'list'
-                  with(filter).any_of(values)
-                else
-                  with(filter, values) unless values == 'all'
-                end
-              end
-            end
-          end
+          build_filters(self, filters)
         end
         if match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
           any_of do
@@ -99,11 +68,78 @@ module Searchable
           end
         end
         if match.present?
-          #TODO - add more match criteria
-          fulltext(match.name)
+          build_match(self, match)
+          sort={:score => :desc}
         end
-        sort.each{|sort,order| order_by(sort, order)}
+        sort.each{|sort_field,order| order_by(sort_field, order)}
         paginate pagination
+      end
+    end
+
+    #This method controls filtering logic
+    def build_filters(sunspot, filters={})
+      sunspot.instance_eval do
+        #TODO: pop off the locations filter and perform a fulltext search
+        filters.each do |filter,filter_value|
+          if searchable_location_fields.include? filter
+            fulltext("\"#{filter_value[:value]}\"", fields: filter)
+          else
+            values = filter_value[:value]
+            type = filter_value[:type]
+            any_of do
+              case type
+              when 'range'
+                if values.count == 1
+                  # Range +
+                  with(filter).greater_than_or_equal_to(values.first.to_i)
+                else
+                  range_start, range_stop = values.first.to_i, values.last.to_i
+                  with(filter, range_start...range_stop)
+                end
+              when 'date_range'
+                if values.count > 1
+                  to, from = values.first, values.last
+                  with(filter).between(to..from)
+                else
+                  with(filter, values.first)
+                end
+              when 'list'
+                with(filter).any_of(values)
+              else
+                with(filter, values) unless values == 'all'
+              end
+            end
+          end
+        end
+      end
+    end
+
+    #This method controls trace matching logic
+    def build_match(sunspot, match={})
+      sunspot.instance_eval do
+        #TODO - add more match criteria
+        fulltext match[:name], :minimum_match => 1 if match[:name].present?
+        fulltext match[:name_nickname], :minimum_match => 1 if match[:name_nickname].present?
+
+        any_of do
+          with(:sex, match[:sex]) if match[:sex].present?
+          with(:language, match[:language]) if match[:language].present?
+          with(:religion, match[:religion]) if match[:religion].present?
+          with(:nationality, match[:nationality]) if match[:nationality].present?
+          with(:fathers_name, match[:fathers_name]) if match[:fathers_name].present?
+          with(:mothers_name, match[:mothers_name]) if match[:mothers_name].present?
+
+          with(:ethnicity, match[:ethnicity]) if match[:ethnicity].present?
+          with(:sub_ethnicity_1, match[:ethnicity]) if match[:ethnicity].present?
+          with(:sub_ethnicity_2, match[:ethnicity]) if match[:ethnicity].present?
+
+          #TODO - verify this range and parameterize it
+          if match[:date_of_birth].present? and match[:date_of_birth].is_a?(Date)
+            to = match[:date_of_birth] + 2.years
+            from = match[:date_of_birth] - 2.years
+            with(:date_of_birth, from..to)
+          end
+        end
       end
     end
 
