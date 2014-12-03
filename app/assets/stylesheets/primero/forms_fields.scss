@@ -261,6 +261,13 @@ fieldset {
       color: $red_color;
     }
   }
+
+  ul.incident_links {
+    list-style:none;
+    margin-left:0px;
+    margin-bottom:0px;
+    font-size:0.8125rem;
+  }
 }
 
 .mandate_panel {

@@ -30,6 +30,9 @@ class Child < CouchRest::Model::Base
   property :investigated, TrueClass
   property :verified, TrueClass
 
+  #To hold the list of GBV Incidents created from a GBV Case.
+  property :incident_links, [String], :default => []
+
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
   validate :validate_child_wishes

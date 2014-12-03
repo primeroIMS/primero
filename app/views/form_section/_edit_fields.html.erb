@@ -74,10 +74,12 @@
                 <% if field.type == 'subform' %>
                   <li><%= link_to t("buttons.edit_subform"), edit_form_section_path(field.subform_section_id, module_id: @primero_module) %></li>
                 <% end %>
+                <% if field.type != 'custom' %>
                 <li>
                   <%= render :partial => "form_section/delete_button", :locals => {:field => field, :url => delete_form_section_fields_path(@form_section.unique_id),
                                                                        :warning => I18n.t("messages.warning")} %> <%= hidden_field_tag "field_name" "#{field.name}" %>
                 </li>
+                <% end %>
                 <li>
                   <% if false %><a class="link_moveto"><%= t("fields.move_to") %></a><% end %>
                 </li>
