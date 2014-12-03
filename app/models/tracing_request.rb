@@ -95,24 +95,31 @@ class TracingRequest < CouchRest::Model::Base
     self['inquiry_status'] ||= "Open"
   end
 
-  def match_criteria(match_request)
+  def match_request(subform_id)
+    self.tracing_request_subform_section.select{|tr| tr.unique_id == subform_id}.first
+  end
+
+  def match_criteria(subform_id)
+    match_request = self.match_request(subform_id)
     match_criteria = {}
 
-    match_criteria[:name] = match_request.name
-    match_criteria[:name_nickname] = match_request.name_nickname
-    match_criteria[:sex] = match_request.sex
-    match_criteria[:date_of_birth] = match_request.date_of_birth
+    if match_request.present?
+      match_criteria[:name] = match_request.name
+      match_criteria[:name_nickname] = match_request.name_nickname
+      match_criteria[:sex] = match_request.sex
+      match_criteria[:date_of_birth] = match_request.date_of_birth
 
-    match_criteria[:language] = self.relation_language
-    match_criteria[:religion] = self.relation_religion
-    match_criteria[:nationality] = self.relation_nationality
-    match_criteria[:fathers_name] = self.fathers_name
-    match_criteria[:mothers_name] = self.mothers_name
+      match_criteria[:language] = self.relation_language
+      match_criteria[:religion] = self.relation_religion
+      match_criteria[:nationality] = self.relation_nationality
+      match_criteria[:fathers_name] = self.fathers_name
+      match_criteria[:mothers_name] = self.mothers_name
 
-    match_criteria[:ethnicity] = []
-    match_criteria[:ethnicity].push(self.relation_ethnicity, self.relation_sub_ethnicity1, self.relation_sub_ethnicity2)
-    match_criteria[:ethnicity].uniq!
-    match_criteria[:ethnicity].compact!
+      match_criteria[:ethnicity] = []
+      match_criteria[:ethnicity].push(self.relation_ethnicity, self.relation_sub_ethnicity1, self.relation_sub_ethnicity2)
+      match_criteria[:ethnicity].uniq!
+      match_criteria[:ethnicity].compact!
+    end
 
     return match_criteria
   end
