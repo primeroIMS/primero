@@ -1,0 +1,19 @@
+td.report_sidebar_value{
+  padding: 10px 18px;
+  /*background: #ebf0e4 !important;*/
+  text-transform: uppercase;
+}
+
+#report_table tbody tr.report_row_aggregate td{
+  /*background: #ccc;*/
+  background: #ebf0e4;
+}
+
+table:not(.record_list_view) tr.report_row_aggregate td.report_sidebar_value {
+  /*background: #ccc !important;*/
+  background: #ebf0e4 !important;
+  color: $green_color;
+  font-size: $thirteen_px !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+}
+

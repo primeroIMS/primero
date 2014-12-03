@@ -27,8 +27,34 @@ module ReportsHelper
       disaggregate_fields.first.length.times.each do |i|
         header_rows << pattern_histogram(disaggregate_fields[1..-1].map{|v|v[i]})
       end
+      header_rows = header_rows.map do |row|
+        row.map do |header|
+          header.map do |value|
+            value.present? ? value : "all" #TODO add i18n
+          end
+        end
+      end
     end
     return header_rows
+  end
+
+  def report_sidebar_value(aggregate_value)
+    value = ""
+    aggregate_value.reverse_each do |v|
+      if v.present?
+        value = v
+        break
+      end
+    end
+    return value
+  end
+
+  def report_row_type(aggregate_value)
+    if aggregate_value.last.present?
+      'report_row_values'
+    else
+      'report_row_aggregate'
+    end
   end
 
 end

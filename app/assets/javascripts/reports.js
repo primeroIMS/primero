@@ -9,12 +9,13 @@ var ReportTable = Backbone.View.extend({
 
   init_report_table: function(){
     self = this;
-    this.report_table = $('table.report_table').DataTable({
+    this.report_table = $('#report_table').DataTable({
       "searching": false,
       "paging":   false,
       "ordering": false,
       "info":     false,
-      "scrollX": true,
+      "scrollX": '100%',
+      "scrollY": '600px',
     });
     new $.fn.dataTable.FixedColumns(this.report_table);
   },
@@ -61,3 +62,9 @@ var ReportTable = Backbone.View.extend({
 $(document).ready(function() {
   new ReportTable();
 });
+
+$(window).load( function () {
+  //This is a hack to get DataTables and Foundation cooperating in aligning table header to table columns.
+  //TODO: This is a bad place to put this code.
+  $('#report_table').dataTable().fnAdjustColumnSizing( false );
+} );
