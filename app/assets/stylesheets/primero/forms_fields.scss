@@ -300,6 +300,11 @@ fieldset {
     margin: 0 10px;
     color: $green_color;
   }
+
+  .grey-button {
+    height: 30px;
+    padding-top: 5px;
+  }
 }
 
 .subforms {
@@ -352,14 +357,28 @@ fieldset {
       float: right;
       font-size: 1.5rem;
       cursor: pointer;
-      border: 1px solid $stroke_green_color;
-      background: $desat_green_color;
       display: block;
-      height: 37px;
-      width: 37px;
       text-align: center;
       line-height: 2rem;
       color: $green_color;
+      font-family: 'FontAwesome';
+      border: 0.08em solid $stroke_green_color;
+      padding: 0 .25em .15em;
+      height: 30px;
+      width: 30px;
+      line-height: 1.2em;
+      background: $desat_green_color;
+      overflow: hidden;
+
+      &.collapsed:before {
+        content: "\f106";
+        margin-right: 100px;
+      }
+
+      &.expanded:before {
+        content: "\f107";
+        margin-right: 100px;
+      }
     }
   }
 }
@@ -463,14 +482,14 @@ span.postfix_val {
   .file_upload_input {
     cursor: pointer;
     height: 100%;
-    position: absolute; 
-    right: 0px; 
-    top: 0px; 
+    position: absolute;
+    right: 0px;
+    top: 0px;
     opacity: 0;
     margin-bottom: 0;
-    filter: alpha(opacity=0); 
-    -ms-filter: "alpha(opacity=0)"; 
-    -khtml-opacity: 0; 
+    filter: alpha(opacity=0);
+    -ms-filter: "alpha(opacity=0)";
+    -khtml-opacity: 0;
     -moz-opacity: 0;
   }
 }
