@@ -3,9 +3,9 @@ class ChildrenController < ApplicationController
 
   include IndexHelper
   include RecordFilteringPagination
+  include TracingActions
 
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo, :match_record ]
-  before_filter :load_tracing_request, :only => [:index, :match_record]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
@@ -261,15 +261,18 @@ class ChildrenController < ApplicationController
   end
 
   def match_record
-    #TODO WIP
+    load_tracing_request
     if @tracing_request.present? && @match_request.present?
       @match_request.matched_case_id = @child.id
       @child.matched_tracing_request_id = "#{@tracing_request.id}::#{@match_request.unique_id}"
 
-      #TODO - add some error checking
-      @tracing_request.save
-      @child.save
-      flash[:notice] = t("child.match_record_success")
+      begin
+        @tracing_request.save
+        @child.save
+        flash[:notice] = t("child.match_record_success")
+      rescue
+        flash[:notice] = t("child.match_record_failed")
+      end
     else
       flash[:notice] = t("child.match_record_failed")
     end
@@ -300,18 +303,6 @@ class ChildrenController < ApplicationController
           flash[:error] = "Child with the given id is not found"
           redirect_to :action => :index and return
         end
-      end
-    end
-  end
-
-  def load_tracing_request
-    if params[:match].present?
-      # Expect match input to be in format <tracing request id>::<tracing request subform unique id>
-      tracing_request_id = params[:match].split("::").first
-      subform_id = params[:match].split("::").last
-      @tracing_request = TracingRequest.get(tracing_request_id) if tracing_request_id.present?
-      if @tracing_request.present? && subform_id.present?
-        @match_request = @tracing_request.tracing_request_subform_section.select{|tr| tr.unique_id == subform_id}.first
       end
     end
   end

@@ -60,6 +60,7 @@ $(".remove_field").live("click", function(){
 });
 
 <% if @highlighted_fields %>
+  <%# TODO: Whoever next messes with highlighted fields make sure to check this for JS injection vulnerabilities %>
   $(".add-field-section").before($("#highlight-field-template").tmpl(<%=raw @highlighted_fields.to_json %>));
 <% end %>
 

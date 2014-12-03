@@ -39,6 +39,13 @@ Given /^the following (children|cases) exist in the system:$/ do |type, children
     child_hash['reunited_at'] = child_hash['reunited_at'] || DateTime.new(2012, 2, 3, 4, 5, 6)
     flag, flag_message = child_hash.delete('flag') == 'true', child_hash.delete('flag_message')
 
+    ['language', 'religion', 'nationality', 'ethnicity', 'sub_ethnicity_1'].each do |lookup_value|
+      if child_hash[lookup_value].present?
+        value_list = child_hash[lookup_value].split(', ')
+        child_hash.merge!(lookup_value => value_list)
+      end
+    end
+
     photo = uploadable_photo(child_hash.delete('photo_path')) if child_hash['photo_path'] != ''
     child = Child.new_with_user_name(User.find_by_user_name(user_name), child_hash)
     child.photo = photo

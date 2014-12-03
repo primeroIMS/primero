@@ -188,7 +188,7 @@ class Replication < CouchRest::Model::Base
         true
       end
     rescue => e
-      errors.add(:fetch_remote_couch_config, I18n.t("errors.models.replication.remote_error"))
+      errors.add(:fetch_remote_config, I18n.t("errors.models.replication.remote_error"))
       false
     end
   end

@@ -90,11 +90,6 @@ class ApplicationController < ActionController::Base
     send_file enc_filename, :filename => "#{data_filename}.zip", :disposition => "inline", :type => 'application/zip'
   end
 
-  #Override action_view in order to avoid the wrap of inputs when some validation was triggered.
-  ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-    html_tag.html_safe
-  end
-
   def filter_params_array_duplicates
     controller = params["controller"].singularize
     if params[controller]
