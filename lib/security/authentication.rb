@@ -3,7 +3,11 @@ module Security
   module Authentication
 
     def current_session
-      @current_session ||= Session.get current_token rescue nil
+      @current_session ||= if current_token.nil?
+                             nil
+                           else
+                             Session.get current_token rescue nil
+                           end
     end
 
     def current_user

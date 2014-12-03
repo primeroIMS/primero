@@ -100,6 +100,20 @@ _primero.update_autosum_field = function(input) {
   autosum_total_input.val(autosum_total);
 };
 
+// Returns the version of Internet Explorer or a -1
+// (indicating the use of another browser).
+_primero.getInternetExplorerVersion = function() {
+  var rv = -1; // Return value assumes failure.
+  if (navigator.appName == 'Microsoft Internet Explorer')
+  {
+    var ua = navigator.userAgent;
+    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+    if (re.exec(ua) != null)
+      rv = parseFloat( RegExp.$1 );
+  }
+  return rv;
+}
+
 var Primero = Backbone.View.extend({
   el: 'body',
 
@@ -119,12 +133,72 @@ var Primero = Backbone.View.extend({
     this.init_action_menu();
     this.init_chosen_or_new();
     this.show_hide_record_type();
+    this.init_scrollbar();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var textarea = $('textarea[name*="field[option_strings_text"]');
     if (textarea.attr('disabled') == 'disabled') {
-      $('textarea[name*="field[option_strings_text"]').parents('form').find('input[name="field[multi_select]"]').attr('disabled', true)
+      $('textarea[name*="field[option_strings_text"]').parents('form').find('input[name="field[multi_select]"]').attr('disabled', true);
     }
+  },
+
+  init_scrollbar: function() {
+    options = {
+      axis:"y",
+      scrollInertia: 20,
+      scrollButtons:{ enable: true }
+    };
+
+    $(".side-nav").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 350,
+        theme: 'minimal-dark',
+        callbacks:{
+            onInit: function() {
+              $('.scrolling_indicator.down').css('visibility', 'visible');
+            },
+            onScroll: function() {
+              $('.scrolling_indicator.down').css('visibility', 'visible');
+              $('.scrolling_indicator.up').css('visibility', 'visible');
+            },
+            onTotalScroll: function(){
+              $('.scrolling_indicator.down').css('visibility', 'hidden');
+              $('.scrolling_indicator.up').css('visibility', 'visible');
+            },
+            onTotalScrollBack: function() {
+              $('.scrolling_indicator.up').css('visibility', 'hidden');
+            }
+        }
+      })
+    );
+
+    $("ul.current_flags").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 250,
+        theme: 'dark'
+      })
+    );
+
+    $(".field-controls-multi").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 150,
+        theme: 'dark'
+      })
+    );
+
+    $(".panel_content ul").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 250,
+        theme: 'dark'
+      })
+    );
+
+    $(".reveal-modal .side-tab-content").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 400,
+        theme: 'dark'
+      })
+    );
   },
 
   init_chosen_or_new: function() {
@@ -260,4 +334,12 @@ var Primero = Backbone.View.extend({
 
 $(document).ready(function() {
   new Primero();
+
+  $(document).on('open.fndtn.reveal', '[data-reveal]', function () {
+    $('body').css('overflow','hidden');
+  });
+
+  $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+    $('body').css('overflow','visible');
+  });
 });

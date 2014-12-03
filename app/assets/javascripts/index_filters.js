@@ -27,6 +27,12 @@ var IndexFilters = Backbone.View.extend({
           current_scope = current_scope ? current_scope.split('||') : false,
           type = $(this).attr('filter_type') || 'single';
 
+      if(_primero.getInternetExplorerVersion() != -1 &&  current_scope) {
+        $(current_scope).each(function(i, ce){
+          current_scope[i] = encodeURI(ce);
+        });
+      }
+
       if ($(this).is(':checkbox') && _.contains(current_scope, encodeURI($(this).val()))) {
         $(this).attr('checked', true);
         self.set_array_filter(name, $(this).val(), type);
@@ -112,7 +118,13 @@ var IndexFilters = Backbone.View.extend({
       var date_inputs = $(target).parents('.filter-controls').find('input');
       this.set_date_range(date_inputs, filter, filter_type);
     } else if ($(target).is("select") && filter_type === 'location'){
-      this.set_remove_filter(filter, selected_val);
+      if (selected_val === "") {
+        filter_values = ""
+      }
+      else {
+        filter_values = [filter_type, selected_val]
+      }
+      this.set_remove_filter(filter, filter_values);
     } else {
       // Everything else
       this.set_remove_filter(filter, $(target).val(), filter_type);

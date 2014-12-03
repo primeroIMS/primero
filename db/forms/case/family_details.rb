@@ -54,7 +54,7 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_is_alive",
              "type" => "select_box",
-             "display_name_all" => "Are they alive?",
+             "display_name_all" => "Is this family member alive?",
              "option_strings_text_all" => "Unknown\nAlive\nDead"
             }),
   Field.new({"name" => "relation_death_details",
@@ -170,7 +170,7 @@ family_details_fields = [
              "display_name_all" => "Notes about Family"
            }),
   Field.new({"name" => "childs_intended_address",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "What is the child’s intended address?"
            }),
   ##Subform##

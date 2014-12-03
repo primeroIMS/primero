@@ -301,6 +301,16 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_permitted_form_sections
 
+    def get_form_sections_by_module(primero_modules, parent_form, current_user)
+      primero_modules.map do |primero_module|
+        permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, current_user)
+        visible_forms = FormSection.get_visible_form_sections(permitted_forms)
+        sorted_forms = visible_forms.sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+        [primero_module.id, sorted_forms]
+      end.to_h
+    end
+    memoize_in_prod :get_form_sections_by_module
+
     def add_field_to_formsection formsection, field
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
       field.merge!({'base_language' => formsection['base_language']})
@@ -356,8 +366,9 @@ class FormSection < CouchRest::Model::Base
       formsection.save
     end
 
-    def list_form_group_names
-      self.all.all.collect(&:form_group_name).compact.uniq
+    def list_form_group_names(selected_module, parent_form, user)
+      self.get_permitted_form_sections(selected_module, parent_form, user)
+          .collect(&:form_group_name).compact.uniq.sort
     end
     memoize_in_prod :list_form_group_names
   end

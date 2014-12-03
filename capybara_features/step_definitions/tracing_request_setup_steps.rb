@@ -23,7 +23,15 @@ Given /^the following tracing request exist in the system:$/ do |tracing_request
 
     tracing_request_hash['flag_at'] = tracing_request_hash['flagged_at'] || DateTime.new(2001, 2, 3, 4, 5, 6)
     flag, flag_message = tracing_request_hash.delete('flag') == 'true', tracing_request_hash.delete('flag_message')
+    tracing_request_names = tracing_request_hash.delete('tracing_request')
     tracing_request = TracingRequest.new_with_user_name(User.find_by_user_name(user_name), tracing_request_hash)
+    if tracing_request_names.present?
+      tracing_request_subform_section = []
+      tracing_request_names.split(",").each do |name|
+        tracing_request_subform_section.push << { :name => name }
+      end
+      tracing_request.tracing_request_subform_section = tracing_request_subform_section
+    end
     tracing_request['histories'] ||= []
     tracing_request['histories'] << {'datetime' => tracing_request['flag_at'], 'changes' => {'flag' => 'anything'}}
     tracing_request['inquiry_status'] = "Open" if tracing_request_hash['inquiry_status'].blank?

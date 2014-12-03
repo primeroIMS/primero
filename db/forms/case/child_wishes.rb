@@ -27,7 +27,7 @@ child_preferences_fields_subform = [
                                    "Other Nonfamily"].join("\n")
             }),
   Field.new({"name" => "wishes_address",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Last Known Address"
             }),
   Field.new({"name" => "wishes_landmark",
@@ -129,7 +129,7 @@ child_wishes_fields = [
              "option_strings_source" => "Location"
            }),
   Field.new({"name" => "wishes_address_plan_live",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Street where does the child wish/plan to live?"
            }),
   Field.new({"name" => "wishes_landmarks_plan_live",

@@ -86,7 +86,7 @@ verification_subform_fields = [
                "display_name_all" => "Address of that person (alternative caregiver)"
               }),
     Field.new({"name" => "verification_location_alternate_caregiver",
-               "type" => "text_field",
+               "type" => "textarea",
                "display_name_all" => "Alternate Caregiver's Village/Area/Physical Address"
               }),
     Field.new({"name" => "verification_comments",

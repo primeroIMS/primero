@@ -4,7 +4,6 @@ class Login
   attr_accessor :user_name
   attr_accessor :password
 
-
   def initialize(params)
     @user_name = params[:user_name]
     @password = params[:password]
@@ -14,6 +13,8 @@ class Login
 
   def authenticate_user
     user = User.find_by_user_name(@user_name)
+    session = nil
+
     if (user and user.authenticate(@password))
       mobile_login_history = user.mobile_login_history.first
       imei = mobile_login_history.nil? ? "" : mobile_login_history['imei']

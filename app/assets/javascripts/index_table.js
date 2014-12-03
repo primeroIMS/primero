@@ -119,7 +119,7 @@ var IndexTable = Backbone.View.extend({
 
     order = order == 'ascending' ? 'asc' : 'desc';
     // Disable the sorting for the Violations and Photo columns
-    if (column_field != 'violations' && column_field != 'photo' && column_field != 'select'){
+    if (column_field != 'violations' && column_field != 'photo' && column_field != 'select' && column_field != 'tracing_names'){
       window.location.search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
     }
   }

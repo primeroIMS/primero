@@ -3,14 +3,11 @@ class FormSectionController < ApplicationController
 
   include ExportActions
   include ImportActions
+  include FormCustomization
 
-  before_filter :parent_form, :only => [:new, :published]
-  before_filter :current_modules, :only => [:index, :new, :edit, :create]
   before_filter :get_form_section, :only => [:edit, :destroy]
   before_filter :get_related_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
-  before_filter :get_form_group_names, :only => [:new, :edit]
-
 
   def index
     authorize! :index, FormSection
@@ -101,16 +98,6 @@ class FormSectionController < ApplicationController
 
   private
 
-  def parent_form
-    @parent_form = params[:parent_form] || 'case'
-  end
-
-  def current_modules
-    @current_modules ||= current_user.modules
-    @module_id = params[:module_id] || @current_modules.first.id
-    @primero_module = @current_modules.select{|m| m.id == @module_id}.first
-  end
-
   def get_form_section
     @form_section = FormSection.get_by_unique_id(params[:id])
     @parent_form = @form_section.parent_form
@@ -148,9 +135,5 @@ class FormSectionController < ApplicationController
     lookups = Lookup.all
     @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
     @lookup_options.unshift("", "Location")
-  end
-
-  def get_form_group_names
-    @list_form_group_names = FormSection.list_form_group_names
   end
 end

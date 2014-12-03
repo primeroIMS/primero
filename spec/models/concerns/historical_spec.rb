@@ -215,6 +215,7 @@ describe Historical do
 
   describe 'last_updated_at' do
     it "updates last_updated_at before saving" do
+      Child.any_instance.stub(:field_definitions).and_return([])
       DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
       child = Child.new
       child.attributes = {'name' => 'Bob'}

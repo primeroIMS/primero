@@ -556,6 +556,12 @@ Given (/^(\d+) (cases|incidents|tracing requests) sample records exists created 
        "role_ids" => ["ADMIN"])
   end
 
+  if model_class == Incident
+    module_id = PrimeroModule.find_by_name('MRM').id
+  else
+    module_id = PrimeroModule.find_by_name('CP').id
+  end
+
   number_of_records.to_i.times do |i|
     attributes = {
       'name' => "sample_record_#{i+1}",
@@ -565,7 +571,7 @@ Given (/^(\d+) (cases|incidents|tracing requests) sample records exists created 
       'created_organization' => 'UNICEF',
       'age_is' => 'Approximate',
       'child_status' => 'open',
-      'module_id' => PrimeroModule.find_by_name('CP').id,
+      'module_id' => module_id,
       'short_id' => (i + 1).to_s.rjust(7, '0')
     }
 
@@ -589,7 +595,7 @@ And (/^I select all the records on the page$/) do
 end
 
 And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/) do |times_flagged, arg1|
-  using_wait_time 60 do
+  using_wait_time 200 do
     page.should have_selector(:css, "table.dataTable tbody tr td div.flag_icon")
     page.should have_selector(:xpath, "//table[contains(@class, 'dataTable')]/tbody//tr/td/div[contains(@class, 'flag_icon')]") if times_flagged
   end
@@ -599,4 +605,20 @@ And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/)
         row.find(:css, "td div.flag_icon").text.should eq(times_flagged)
       end
   end
+end
+
+And /^I select "(.*)" from location filter$/ do |location|
+  chosen = find(:xpath, "//div[@id='location_current_chosen']")
+  chosen.click
+  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()=\"#{location}\"]", :visible => true).click
+end
+
+And /^the "(.*)" tick box should have a "(.*)" label$/ do |tick_box, label|
+  field_label = page.find(:xpath, "//label[text()='#{tick_box}']", :visible => true)
+  page.should have_selector(:xpath, "//label[@for='#{field_label["for"]}'][text()='#{label}']")
+end
+
+And /^the "(.*)" tick box should not have a label$/ do |tick_box|
+  field_label = page.find(:xpath, "//label[text()='#{tick_box}']", :visible => true)
+  page.should_not have_selector(:xpath, "//label[@for='#{field_label["for"]}' and contains(@class, 'tick_box_label')]")
 end

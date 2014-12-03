@@ -3,8 +3,13 @@ require 'writeexcel'
 module Exporters
   class ExcelExporter < BaseExporter
     class << self
+
       def id
         'xls'
+      end
+      
+      def supported_models
+        [Child, TracingRequest]
       end
 
       def excluded_properties
@@ -12,19 +17,24 @@ module Exporters
       end
 
       # @returns: a String with the Excel file data
-      def export(models, properties_by_form, *args)
-        @sheets = {}
+      def export(models, properties_by_module, *args)
+        build_sheets_definition(properties_by_module)
 
         io = StringIO.new
         workbook = WriteExcel.new(io)
         models.each do |model|
-          properties_by_form.each do |form_name, properties|
-            sheet = build_sheet(form_name, {"_id" => "_id", "model_type" => "model_type"}.merge(properties), workbook)
-            data = build_data(model, {"_id" => "_id", "model_type" => "model_type"}.merge(properties))
-            sheet["work_sheet"].write(sheet["row"], 0, data)
-            sheet["column_widths"] = column_widths(sheet["column_widths"], data)
-            sheet["row"] += 1
-            sheet["column_widths"].each_with_index {|w, i| sheet["work_sheet"].set_column(i, i, w)}
+          sheets_def = get_sheets_by_module(model.module_id)
+          sheets_def.each do |form_name, sheet_def|
+            build_sheet(sheet_def, form_name, workbook)
+            data = build_data(model, sheet_def["properties"])
+            #Could it be more than one row because the subforms.
+            rows = build_rows(model, data)
+            rows.each do |row|
+              sheet_def["work_sheet"].write(sheet_def["row"], 0, row)
+              sheet_def["column_widths"] = column_widths(sheet_def["column_widths"], row)
+              sheet_def["row"] += 1
+            end
+            sheet_def["column_widths"].each_with_index {|w, i| sheet_def["work_sheet"].set_column(i, i, w)}
           end
         end
         workbook.close
@@ -33,22 +43,24 @@ module Exporters
 
       private
 
+      def get_sheets_by_module(module_id)
+        @sheets.select{|form_name, sheet_def| sheet_def["modules"].include?(module_id) }
+      end
+
       def get_value(model, property)
-        if property.is_a?(String)
-          if property == "model_type"
-            model.class.name
-          elsif property == "_id"
-            model.id
+        if property.array
+          if property.type.include?(CouchRest::Model::Embeddable)
+            #Returns every row of the subform.
+            (model.send(property.name) || []).map do |row|
+              property.type.properties.map do |p|
+                get_value(row, p)
+              end
+            end
           else
-            model.send(property)
-          end
-        else
-          if property.array == false
-            model.send(property.name)
-          elsif property.array == true && !property.type.include?(CouchRest::Model::Embeddable)
             (model.send(property.name) || []).join(" ||| ")
           end
-          #TODO processing of CouchRest::Model::Embeddable.
+        else
+          model.send(property.name)
         end
       end
 
@@ -65,13 +77,59 @@ module Exporters
         end
       end
 
-      def build_sheet(form_name, properties, workbook)
-        return @sheets[form_name] if @sheets[form_name].present?
+      #Build the sheets definition. 
+      #Split any subform in his own sheet if there is 
+      #others none subforms properties in the same form section.
+      def build_sheets_definition(properties_by_module)
+        @sheets = {}
+        properties_by_module.each do |module_id, form_sections|
+          form_sections.each do |fs_name, properties|
+            subforms = properties.select{|prop_name, prop| prop.array == true && prop.type.include?(CouchRest::Model::Embeddable)}
+            others = (properties.to_a - subforms.to_a).to_h
+            if subforms.blank? || (subforms.length == 1 && others.blank?)
+              #The section does not have subforms or 
+              #there is just one subform in the form section.
+              build_sheet_definition(fs_name, properties, module_id)
+            else
+              #set the section with the properties that are not subforms if apply.
+              build_sheet_definition(fs_name, others, module_id) if others.present?
+              #set any subform in this own sheet.
+              subforms.each do |prop_name, props|
+                sheet_name = prop_name.titleize
+                #Make sure don't collision with the names.
+                sheet_name = "#{fs_name} #{sheet_name}" if @sheets[sheet_name].present?
+                build_sheet_definition(sheet_name, {prop_name => props}, module_id)
+              end
+            end
+          end
+        end
+      end
+
+      #build the sheet definition.
+      #If several form section has the same name, will merge the list properties
+      #in the same sheet. The sheet should be unique. Form section names can be
+      #found in different modules.
+      def build_sheet_definition(fs_name, properties, module_id)
+        props = properties
+        modules = [module_id]
+        if @sheets[fs_name].present?
+          #Merge props that probably came from other module same form section name.
+          #sheet name should be unique.
+          props = @sheets[fs_name]["properties"].merge(props)
+          #register to what module belong the form section.
+          #sheet name should be unique.
+          modules = @sheets[fs_name]["modules"] + modules
+        end 
+        @sheets[fs_name] = {"work_sheet" => nil, "column_widths" => nil, "row" => 1, "properties" => props, "modules" => modules}
+      end
+
+      def build_sheet(sheet_def, form_name, workbook)
+        return sheet_def["work_sheet"] if sheet_def["work_sheet"].present?
         work_sheet = generate_work_sheet(workbook, form_name)
-        header = build_header(properties)
+        header = ["_id", "model_type"] + build_header(sheet_def["properties"])
         work_sheet.write(0, 0, header)
-        column_widths = initial_column_widths(header)
-        @sheets[form_name] = {"work_sheet" => work_sheet, "column_widths" => column_widths, "row" => 1}
+        sheet_def["column_widths"] = initial_column_widths(header)
+        sheet_def["work_sheet"] = work_sheet
       end
 
       def generate_work_sheet(workbook, form_name)
@@ -92,14 +150,30 @@ module Exporters
         end
       end
 
+      def build_rows(model, data)
+        rows = []
+        if data.size == 1 && data[0].is_a?(Array)
+          #Extract data from the subforms.
+          data[0].each do |d|
+            rows << [model.id, model.class.name] + d
+          end
+        else
+          rows << [model.id, model.class.name] + data
+        end
+        rows
+      end
+
       def build_header(properties)
         properties.map do |key, property|
           if property.is_a?(String)
             property
+          elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
+            #Returns every property in the subform to build the header of the sheet.
+            property.type.properties.map{|p| p.name}
           else
             property.name
           end
-        end
+        end.flatten 
       end
 
     end

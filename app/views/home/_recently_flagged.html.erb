@@ -10,7 +10,7 @@
         <p><%= r.message %></p>
       </li>
     <% end %>
-    <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}", :count => recently_flagged_count), 
+    <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}", :count => recently_flagged_count),
                     index_link_dashboard_path(model), class: 'uppercase' %></li>
   </ul>
  </div>

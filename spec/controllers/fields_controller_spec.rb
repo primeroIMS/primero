@@ -18,7 +18,7 @@ describe FieldsController do
 
     it "should add the new field to the formsection" do
       FormSection.should_receive(:add_field_to_formsection).with(@form_section, @field)
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :module_id => 'test_module', :field => JSON.parse(@field.to_json)
     end
 
     it "should redirect back to the fields page" do
@@ -29,9 +29,10 @@ describe FieldsController do
 
     it "should render edit form section page if field has errors" do
       FormSection.stub(:add_field_to_formsection)
+      FormSection.stub(:list_form_group_names)
       Field.should_receive(:new).and_return(@field)
       @field.should_receive(:errors).and_return(["errors"])
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
       assigns[:show_add_field].should == {:show_add_field => true}
       response.should be_success
       response.should render_template("form_section/edit")
@@ -39,7 +40,7 @@ describe FieldsController do
 
     it "should show a flash message" do
       FormSection.stub(:add_field_to_formsection)
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
       request.flash[:notice].should == "Field successfully added"
     end
 
@@ -47,18 +48,19 @@ describe FieldsController do
       FormSection.stub(:add_field_to_formsection)
       suggested_field = "this_is_my_field"
       SuggestedField.should_receive(:mark_as_used).with(suggested_field)
-      post :create, :form_section_id => @form_section.unique_id, :from_suggested_field => suggested_field, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :from_suggested_field => suggested_field, :field => JSON.parse(@field.to_json),
+                    :module_id => "test_module"
     end
 
     it "should not mark suggested field as used if there is not one supplied" do
       FormSection.stub(:add_field_to_formsection)
       SuggestedField.should_not_receive(:mark_as_used)
-      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json)
+      post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
     end
 
     it "should use the display name to form the field name if no field name is supplied" do
       FormSection.should_receive(:add_field_to_formsection).with(anything(), hash_including("display_name_#{I18n.locale}" => "My brilliant new field"))
-      post :create, :form_section_id => @form_section.unique_id, :field => {:display_name => "My brilliant new field"}
+      post :create, :form_section_id => @form_section.unique_id, :field => {:display_name => "My brilliant new field"}, :module_id => "test_module"
     end
 
   end
@@ -69,7 +71,8 @@ describe FieldsController do
       field = double('field', :name => 'field1')
       @form_section.stub(:fields).and_return([field])
       FormSection.stub(:get_by_unique_id).with('unique_id').and_return(@form_section)
-      get :edit, :form_section_id => "unique_id", :id => 'field1'
+      FormSection.stub(:list_form_group_names)
+      get :edit, :form_section_id => "unique_id", :id => 'field1', :module_id => "test_module"
       assigns[:body_class].should == "forms-page"
       assigns[:field].should == field
       assigns[:show_add_field].should == {:show_add_field => true}
@@ -135,7 +138,7 @@ describe FieldsController do
     it "should display errors if field could not be saved" do
       field_with_error = double("field", :name => "field", :attributes= => [], :errors => ["error"])
       FormSection.stub(:get_by_unique_id).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
-
+      FormSection.stub(:list_form_group_names)
       put :update, :id => "field", :form_section_id => "unique_id",
           :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text"}
 

@@ -9,6 +9,12 @@ describe Record do
     form.save!
   end
 
+  before :each do
+    Child.any_instance.stub(:field_definitions).and_return([Field.new(:name => "a_date_field", :type => Field::DATE_FIELD, :display_name => "a_date_field")])
+    Incident.any_instance.stub(:field_definitions).and_return([Field.new(:name => "a_date_field", :type => Field::DATE_FIELD, :display_name => "a_date_field")])
+    TracingRequest.any_instance.stub(:field_definitions).and_return([Field.new(:name => "a_date_field", :type => Field::DATE_FIELD, :display_name => "a_date_field")])
+  end
+
   before :all do
     FormSection.all.each {|form| form.destroy}
     create_form_section_date_field("case")

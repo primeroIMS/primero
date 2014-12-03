@@ -242,6 +242,18 @@ module Record
      }
     end
 
+    #Returns the hash with the properties based on the form sections.
+    def get_properties_by_module(form_sections_by_module)
+      properties_by_module = {}
+      form_sections_by_module.each do |module_id, form_sections|
+        properties_by_module[module_id] = {}
+        form_sections.each do |fs|
+          properties_by_module[module_id][fs.name] = self.properties_by_form[fs.name]
+        end
+      end
+      properties_by_module
+    end
+
   end
 
   def initialize(*args)
@@ -303,8 +315,10 @@ module Record
   end
 
   def field_definitions
+    # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
+    # this will not work.
     parent_form = self.class.parent_form
-    @field_definitions ||= FormSection.all_visible_form_fields(parent_form)
+    @field_definitions ||= self.module.associated_forms_grouped_by_record_type[parent_form].map{|form| form.fields }.flatten
   end
 
   def update_properties(properties, user_name)
