@@ -16,7 +16,7 @@ module PhotoUploader
     validate :validate_photos
 
     def has_photo
-      self.current_photo_key.present?
+      self.current_photo_key.present? || self.photo_keys.present?
     end
   end
 

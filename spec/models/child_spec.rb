@@ -1296,6 +1296,51 @@ describe Child do
 
   end
 
+  describe "relationships" do
+    before do
+      FormSection.all.all.each { |form| form.destroy }
+      Dir[File.dirname(__FILE__) + '/../../db/forms/case/family_det*.rb'].each {|file| load file }
+
+      #Reload the form properties
+      Child.refresh_form_properties
+
+      @child1 = Child.new(:family_details_section => [{"relation_name" => "Jill", "relation" => "Mother"}, {"relation_name" => "Jack", "relation" => "Father"}])
+      @child2 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "Mother"}])
+      @child3 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Brad", :relation => "Father"}])
+      @child4 = create_child("Daphne")
+    end
+
+    it "should return the fathers name" do
+      expect(@child1.fathers_name).to eq("Jack")
+    end
+
+    it "should return the mothers name" do
+      expect(@child2.mothers_name).to eq("Judy")
+    end
+
+    context "father does not exist" do
+      it "should return nil for fathers name" do
+        expect(@child2.fathers_name).to be_nil
+      end
+    end
+
+    context "mother does not exist" do
+      it "should return nil for mothers name" do
+        expect(@child3.mothers_name).to be_nil
+      end
+    end
+
+    context "family details does not exist" do
+      it "should return nil for fathers name" do
+        expect(@child4.fathers_name).to be_nil
+      end
+
+      it "should return nil for mothers name" do
+        expect(@child4.mothers_name).to be_nil
+      end
+    end
+  end
+
   private
 
   def create_child(name, options={})

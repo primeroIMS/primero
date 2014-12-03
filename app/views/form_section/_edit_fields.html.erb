@@ -106,9 +106,9 @@
   <div class="sidebar_help">
     <%= @field.present? && @field.type.present? ? t("form_section.modal_sidebar_help_selected") : t("form_section.modal_sidebar_help") %>
   </div>
-  <div class="row collapse" data-equalizer>
-    <div class="medium-3 columns side-tab-container">
-      <div class="modal-side-tab" data-equalizer-watch>
+  <div class="row collapse">
+    <div class="medium-3 columns">
+      <div class="modal-side-tab">
         <ul class="field_types side-nav modal-side-nav">
           <% if @field.present? && @field.type.present? %>
             <li class="current"><%= link_to t("fields.#{@field.type}"), "javascript:void(0)", :id => "#{@field.type}", :class => "field_links sel" %> </li>
@@ -134,7 +134,7 @@
     <div class="medium-9 columns side-tab-content-container">
       <div class="side-tab-content">
         <div class="row">
-          <div class="medium-12 columns" data-equalizer-watch>
+          <div class="medium-12 columns">
             <div class="space"></div>
             <% @field ||= Field.new(:type => 'text_field') %>
             <%= error_messages_for  :field,
@@ -147,6 +147,8 @@
             <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
                                                                                                                             {:option_strings_text => :text_area}, {:option_strings_source => :select_box}] } %>
             <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tick_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
+                                                                                                                          {:tick_box_label => :text_field}] } %>
             <%
               #TODO
               # handle hidden text fields

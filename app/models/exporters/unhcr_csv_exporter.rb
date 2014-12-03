@@ -42,11 +42,9 @@ module Exporters
       'Case ID' => ['short_id'],
       'UNHCR Individual ID Number' => ['unhcr_id_no'],
       'Name' => ['name'],
-      'Father Name' => ->(c) { c.family_details_section.select{|fd| fd.relation.try(:downcase) == 'father'}[0].try(:relation_name) },
-      'Caregiver Name' => ->(c) do
-        c.name_caregiver || c.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }[0].try(:relation_name)
-      end,
-      'Mother Name' => ->(c) { c.family_details_section.select{|fd| fd.relation.try(:downcase) == 'mother'}[0].try(:relation_name) },
+      'Father Name' => ->(c) { c.fathers_name },
+      'Caregiver Name' => ->(c) { c.caregivers_name },
+      'Mother Name' => ->(c) { c.mothers_name },
       'Religion of the Child' => ->(c) { c.religion.join(', ') },
       'Nationality' => ->(c) { c.nationality.join(', ') },
       'Ethnic Group of the Child' => ->(c) { c.ethnicity.join(', ') },
