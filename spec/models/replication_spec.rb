@@ -73,7 +73,7 @@ describe Replication do
       r = build :replication, :remote_app_uri => 'abcd://app:3000'
       expect(r).to receive(:fetch_remote_couch_config).and_return(false).and_call_original
       expect(r).not_to be_valid
-      r.errors[:fetch_remote_couch_config].should_not be_empty
+      r.errors[:fetch_remote_config].should_not be_empty
     end
   end
 
