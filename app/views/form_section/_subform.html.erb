@@ -84,7 +84,7 @@
     <% subform_section[:initial_subforms].times do %>
       <script>
         $(document).ready(function(){
-          $('a#subform_<%= subform.name %>_add_button').click();
+          $('a#subform_<%=j subform.name %>_add_button').click();
         });
       </script>
     <% end %>
