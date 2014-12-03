@@ -79,11 +79,11 @@ class TracingRequest < CouchRest::Model::Base
   end
 
   def fathers_name
-    self.relation_name if self.relation_name.present? && self.relation.downcase == 'father'
+    self.relation_name if self.relation_name.present? && self.relation.present? && self.relation.downcase == 'father'
   end
 
   def mothers_name
-    self.relation_name if self.relation_name.present? && self.relation.downcase == 'mother'
+    self.relation_name if self.relation_name.present? && self.relation.present? && self.relation.downcase == 'mother'
   end
 
   def set_instance_id
