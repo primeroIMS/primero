@@ -21,6 +21,7 @@
 # JIRA PRIMERO-493
 # JIRA PRIMERO-783
 # JIRA PRIMERO-736
+# JIRA PRIMERO-837
 
 @javascript @primero @search
 Feature: Basic Identity Form
@@ -36,6 +37,8 @@ Feature: Basic Identity Form
     And I press the "New Case" button
 
   Scenario: As a logged in user, I create a case by entering something in every field in the basic identity form
+    And the "Is the age estimated?" tick box should have a "Yes" label
+    And the "Is this address permanent?" tick box should not have a label
     And I fill in the following:
       | Name                                     | Tiki Thomas Taliaferro             |
       | Nickname                                 | Tommy                              |
@@ -43,7 +46,7 @@ Feature: Basic Identity Form
       | Name(s) given to child after separation? | <Radio> No                         |
       | Sex                                      | <Select> Male                      |
       | Date of Birth                            | 04-May-1992                        |
-      | Estimated                                | <Tickbox>                          |
+      | Is the age estimated?                    | <Tickbox>                          |
       | Distinguishing Physical Characteristics  | Really tall, dark hair, brown eyes |
       | ICRC Ref No.                             | 131313                             |
       | RC ID No.                                | 141414                             |
@@ -71,7 +74,7 @@ Feature: Basic Identity Form
       | Name(s) given to child after separation? | No                                 |
       | Sex                                      | Male                               |
       | Date of Birth                            | 04-May-1992                        |
-      | Estimated                                | Yes                                |
+      | Is the age estimated?                    | Yes                                |
       | Distinguishing Physical Characteristics  | Really tall, dark hair, brown eyes |
       | ICRC Ref No.                             | 131313                             |
       | RC ID No.                                | 141414                             |
@@ -102,7 +105,7 @@ Feature: Basic Identity Form
     And I should see a value for "Sex" on the show page with the value of ""
     And I should see a value for "Age" on the show page with the value of ""
     And I should see a value for "Date of Birth" on the show page with the value of ""
-    And I should see a value for "Estimated" on the show page with the value of "No"
+    And I should see a value for "Is the age estimated?" on the show page with the value of "No"
     And I should see a value for "Distinguishing Physical Characteristics" on the show page with the value of ""
     And I should see a value for "ICRC Ref No." on the show page with the value of ""
     And I should see a value for "RC ID No." on the show page with the value of ""
