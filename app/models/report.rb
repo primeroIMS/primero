@@ -30,6 +30,7 @@ class Report < CouchRest::Model::Base
     pivots = (aggregate_by + disaggregate_by)
     if pivots.present?
       pivots = pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
+      #TODO: This has to be valid and open if a case
       response = SolrUtils.sunspot_rsolr.get(
         'select',
         :params => {
@@ -87,7 +88,6 @@ class Report < CouchRest::Model::Base
     labels = []
     datasets_hash = {}
     number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
-    #TODO: This will not work yet because the keys are 2-dimensional but the report may be up to 6 dimensional
     self.data[:graph_value_range].each do |key|
       data_key = key + [""] * number_of_blanks
       labels << key[0] if key[0] != labels.last
@@ -103,7 +103,8 @@ class Report < CouchRest::Model::Base
       datasets << {label: key, data: datasets_hash[key]}
     end
 
-    return {labels: labels, datasets: datasets}
+    #We are discarding the totals TODO: will that work for a 1X?
+    return {labels: labels[1..-1], datasets: datasets[1..-1]}
   end
 
 

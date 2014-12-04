@@ -27,22 +27,24 @@ var ReportTable = Backbone.View.extend({
       //TODO: AJAX call to the report data. Not really Backbone at all.
       var graph_url = window.location.href.toString().split(window.location.host)[1] + '/graph_data'
       $.ajax(graph_url).done(function(graph_data){
-        var colors = self.generate_colors(graph_data.datasets.length);
+        var colors = self.generateColors(graph_data.datasets.length);
         var context = canvas.get(0).getContext("2d");
         var options = {
-          showTooltips: false,
+          showTooltips: true,
+          multiTooltipTemplate: "<%= datasetLabel %>: <%= value %>",
         };
         for (var i = 0; i < graph_data.datasets.length; i++){
           graph_data.datasets[i]['fillColor'] = colors[i];
         }
         var chart = new Chart(context).Bar(graph_data,options);
+
       }).fail(function(){
         canvas.parent().remove();
       });
     }
   },
 
-  generate_colors: function(number){
+  generateColors: function(number){
     //TODO: Less than 1 yeah yeah
     var result = [];
     if (number < 30){
