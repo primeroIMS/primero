@@ -90,7 +90,7 @@ class TracingRequestsController < ApplicationController
         format.html { redirect_to(tracing_request_path(@tracing_request, { follow: true })) }
       else
         format.html {
-          @form_sections = get_form_sections
+          @form_sections = @tracing_request.allowed_formsections(current_user)
 
           render :action => "new"
         }
@@ -109,7 +109,7 @@ class TracingRequestsController < ApplicationController
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           redirect_to tracing_request_path(@tracing_request, { follow: true })
         else
-          @form_sections = get_form_sections
+          @form_sections = @tracing_request.allowed_formsections(current_user)
 
           render :action => "edit"
         end
@@ -257,7 +257,7 @@ class TracingRequestsController < ApplicationController
   end
 
   def update_tracing_request_with_attachments(tracing_request)
-    tracing_request_params = filter_params(params[:tracing_request])
+    tracing_request_params = filter_params(tracing_request, params[:tracing_request])
     new_photo = tracing_request_params.delete("photo")
     new_photo = (tracing_request_params[:photo] || "") if new_photo.nil?
     new_audio = tracing_request_params.delete("audio")

@@ -109,6 +109,10 @@ module Record
       self.name.underscore.downcase
     end
 
+    def locale_prefix
+      self.name.underscore.downcase
+    end
+
     # To avoid changing the front end, just take those hashes with the array
     # index as keys that it gives for nested subforms and convert it to real
     # arrays for assignment on the model
@@ -339,6 +343,28 @@ module Record
     self.short_id ||= self.unique_identifier.last 7
     #Method should be defined by the derived classes.
     self.set_instance_id
+  end
+
+  def allowed_formsections(user)
+    permitted_forms = FormSection.get_permitted_form_sections(self.module, self.class.parent_form, user)
+    FormSection.link_subforms(permitted_forms)
+    visible_forms = FormSection.get_visible_form_sections(permitted_forms)
+    FormSection.group_forms(visible_forms)
+  end
+
+  # Returns all of the properties that the given user is permitted to view/edit
+  def permitted_properties(user)
+    fss = allowed_formsections(user)
+    if fss.present?
+      permitted_forms = fss.values.flatten.map {|fs| fs.name }
+      self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
+    else
+      self.class.properties
+    end
+  end
+
+  def permitted_property_names(user)
+    permitted_properties(user).map {|p| p.name }
   end
 
   protected

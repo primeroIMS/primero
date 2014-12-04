@@ -113,7 +113,7 @@ class IncidentsController < ApplicationController
         #format.xml { render :xml => @incident, :status => :created, :location => @child }
       else
         format.html {
-          @form_sections = get_form_sections
+          @form_sections = @incident.allowed_formsections(current_user)
 
           render :action => "new"
         }
@@ -140,7 +140,7 @@ class IncidentsController < ApplicationController
           return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
           redirect_to incident_path(@incident, { follow: true })
         else
-          @form_sections = get_form_sections
+          @form_sections = @incident.allowed_formsections(current_user)
 
           render :action => "edit"
         end
@@ -227,7 +227,7 @@ class IncidentsController < ApplicationController
   end
 
   def update_incident_with_attachments(incident)
-    incident_params = filter_params(params[:incident])
+    incident_params = filter_params(incident, params[:incident])
     incident.update_properties(incident_params, current_user_name)
     incident
   end

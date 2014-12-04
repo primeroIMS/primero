@@ -5,157 +5,37 @@ class ChildrenController < ApplicationController
   include RecordFilteringPagination
   include TracingActions
 
-  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :edit_photo, :update_photo, :match_record ]
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
-  # GET /children
-  # GET /children.xml
-  def index
-    authorize! :index, Child
-
-    @page_name = t("home.view_records")
-    @aside = 'shared/sidebar_links'
-    @associated_users = current_user.managed_user_names
-    @children, @total_records = retrieve_records_and_total(case_filter(filter))
-    @per_page = per_page
-
-    # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
-    # index average 400ms to 600ms without and 1000ms to 3000ms with.
-    @highlighted_fields = FormSection.sorted_highlighted_fields
-    #@highlighted_fields = []
-
-    respond_to do |format|
-      format.html
-      format.xml { render :xml => @children }
-      unless params[:format].nil?
-        if @children.empty?
-          flash[:notice] = t('exports.no_records')
-          redirect_to :action => :index and return
-        end
-      end
-      respond_to_export format, @children
+  def make_new_record
+    Child.new.tap do |child|
+      child.registration_date = Date.today
+      child['record_state'] = true
+      child['child_status'] = ["Open"]
+      child['module_id'] = params['module_id']
     end
   end
 
-  # GET /children/1
-  # GET /children/1.xml
-  def show
-    authorize! :read, @child
-    @page_name = t "case.view", :short_id => @child.short_id
-    @body_class = 'profile-page'
-    @duplicates = Child.duplicates_of(params[:id])
-
-    respond_to do |format|
-      format.html
-      format.xml { render :xml => @child }
-
-      respond_to_export format, [ @child ]
-    end
+  def initialize_created_record rec
+    rec['child_status'] = "Open" if rec['child_status'].blank?
+    rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
   end
 
-  # GET /children/new
-  # GET /children/new.xml
-  def new
-    authorize! :create, Child
-
-    @page_name = t("cases.register_new_case")
-    @child = Child.new
-    @child.registration_date = Date.today
-    @child['record_state'] = true
-    @child['child_status'] = ["Open"]
-    @child['module_id'] = params['module_id']
-
-    get_form_sections
-
-    respond_to do |format|
-      format.html
-      format.xml { render :xml => @child }
-    end
-  end
-
-  # GET /children/1/edit
-  def edit
-    authorize! :update, @child
-
-    @page_name = t("case.edit")
-  end
-
-  # POST /children
-  # POST /children.xml
-  def create
-    authorize! :create, Child
-    params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
-    reindex_hash params['child']
-    create_or_update_child(params[:id], params[:child])
-    params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
-    @child['child_status'] = "Open" if @child['child_status'].blank?
-    @child['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
-    respond_to do |format|
-      if @child.save
-        flash[:notice] = t('child.messages.creation_success', record_id: @child.short_id)
-        format.html { redirect_to(case_path(@child, { follow: true })) }
-        format.xml { render :xml => @child, :status => :created, :location => @child }
-      else
-        format.html {
-          @form_sections = get_form_sections
-
-          # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
-          render :action => "new"
-        }
-        format.xml { render :xml => @child.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  def sync_unverified
-    params[:child] = JSON.parse(params[:child]) if params[:child].is_a?(String)
-    params[:child][:photo] = params[:current_photo_key] unless params[:current_photo_key].nil?
-    unless params[:child][:_id]
-      respond_to do |format|
-      end
+  def redirect_after_update
+    case_module = @child.module
+    if params[:commit] == t("buttons.create_incident") and case_module.id == PrimeroModule::GBV
+      #It is a GBV cases and the user indicate that want to create a GBV incident.
+      redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
     else
-      child = Child.get(params[:child][:_id])
-      child = update_child_with_attachments child, params
-      child.save
-      render :json => child.compact.to_json
+      redirect_to case_path(@child, { follow: true })
     end
   end
 
-  def update
-    respond_to do |format|
-      format.html do
-        @child = update_child_from(params[:id])
-        @child['child_status'] = "Open" if @child['child_status'].blank?
-
-        if @child.save
-          flash[:notice] = I18n.t("case.messages.update_success", record_id: @child.short_id)
-          return redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url]
-          case_module = @child.module
-          if params[:commit] == t("buttons.create_incident") and case_module.id == PrimeroModule::GBV
-            #It is a GBV cases and the user indicate that want to create a GBV incident.
-            redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
-          else
-            redirect_to case_path(@child, { follow: true })
-          end
-        else
-          @form_sections = get_form_sections
-
-          # TODO: (Bug- https://quoinjira.atlassian.net/browse/PRIMERO-161) This render redirects to the /children url instead of /cases
-          render :action => "edit"
-        end
-      end
-
-      format.xml do
-        @child = update_child_from(params[:id])
-        if @child.save
-          head :ok
-        else
-          render :xml => @child.errors, :status => :unprocessable_entity
-        end
-      end
-    end
+  # A hack due to photos being submitted under an adhoc key
+  def extra_permitted_parameters
+    super + ['photo', 'audio']
   end
 
   def edit_photo
@@ -177,7 +57,7 @@ class ChildrenController < ApplicationController
   end
 
   #TODO: We need to define the filter values as Constants
-  def case_filter(filter)
+  def record_filter(filter)
     #The UNHCR report should retrieve only CP cases.
     filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::CP}"} if params["format"] == "unhcr_csv"
     filter["child_status"] ||= {:type => "single", :value => "open"}
@@ -230,16 +110,8 @@ class ChildrenController < ApplicationController
     redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
   end
 
-# DELETE /children/1
-# DELETE /children/1.xml
-  def destroy
-    authorize! :destroy, @child
-    @child.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(children_url) }
-      format.xml { head :ok }
-    end
+  def redirect_after_deletion
+    redirect_to(children_url)
   end
 
   def exported_properties
@@ -281,42 +153,8 @@ class ChildrenController < ApplicationController
 
   private
 
-  def child_short_id child_params
-    child_params[:short_id] || child_params[:unique_identifier].last(7)
-  end
-
-  def create_or_update_child(id, child_params)
-    @child = Child.by_short_id(:key => child_short_id(child_params)).first if child_params[:unique_identifier]
-    if @child.nil?
-      @child = Child.new_with_user_name(current_user, child_params)
-    else
-      @child = update_child_from(id)
-    end
-  end
-
-  def load_record_or_redirect
-    @child = Child.get(params[:id])
-
-    if @child.nil?
-      respond_to do |format|
-        format.html do
-          flash[:error] = "Child with the given id is not found"
-          redirect_to :action => :index and return
-        end
-      end
-    end
-  end
-
-  def update_child_from(id)
-    child = @child || Child.get(id) || Child.new_with_user_name(current_user, params[:child])
-    authorize! :update, child
-
-    reindex_hash params[:child]
-    update_child_with_attachments(child)
-  end
-
-  def update_child_with_attachments(child)
-    child_params = filter_params(params[:child])
+  def update_record_with_attachments(child)
+    child_params = filter_params(child)
     new_photo = child_params.delete("photo")
     new_photo = (child_params[:photo] || "") if new_photo.nil?
     new_audio = child_params.delete("audio")

@@ -259,8 +259,8 @@ en:
     edit_photo: "Edit photo"
     manage_photos: "Manage photos"
 
-    view: "View Child %{short_id}"
-    edit: "Edit Child"
+    view: "View Case %{short_id}"
+    edit: "Edit Case"
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
 
