@@ -61,3 +61,4 @@
 //= require summary_page
 //= require reports
 //= require plugins/Chart
+//= require plugins/colormap
