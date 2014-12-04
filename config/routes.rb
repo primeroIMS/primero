@@ -51,9 +51,7 @@ RapidFTR::Application.routes.draw do
 
   resources :children do
     collection do
-      post :sync_unverified
       post :import_file
-      get :advanced_search
       get :search
     end
 
@@ -63,9 +61,7 @@ RapidFTR::Application.routes.draw do
 
   resources :children, as: :cases, path: :cases do
     collection do
-      post :sync_unverified
       post :import_file
-      get :advanced_search
       get :search
     end
 
@@ -82,9 +78,7 @@ RapidFTR::Application.routes.draw do
   #######################
   resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
     collection do
-      # post :sync_unverified
       post :import_file
-      # get :advanced_search
       get :search
     end
 
@@ -186,7 +180,8 @@ RapidFTR::Application.routes.draw do
 
   match '/incidents/:incident_id/document/:document_id' => 'incident_media#download_document', :as => :incident_document, :via => [:post, :get, :put, :delete]
 
-#######################
+
+ #######################
 # API URLS
 #######################
 
@@ -230,14 +225,6 @@ RapidFTR::Application.routes.draw do
           get 'photo(/:photo_id)', :action => 'show_photo'
           get 'audio(/:audio_id)', :action => 'download_audio'
         end
-      end
-    end
-
-    # ENQUIRIES
-
-    resources :enquiries, :defaults => {:format => :json} do
-      collection do
-        delete "/destroy_all" => 'enquiries#destroy_all'
       end
     end
   end

@@ -30,6 +30,9 @@ class Child < CouchRest::Model::Base
   property :investigated, TrueClass
   property :verified, TrueClass
 
+  #To hold the list of GBV Incidents created from a GBV Case.
+  property :incident_links, [String], :default => []
+
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
   validate :validate_child_wishes
@@ -120,6 +123,16 @@ class Child < CouchRest::Model::Base
   end
   include Searchable #Needs to be after ownable, quicksearch fields
 
+  searchable do
+    string :fathers_name do
+      self.fathers_name
+    end
+
+    string :mothers_name do
+      self.mothers_name
+    end
+  end
+
   def self.fetch_all_ids_and_revs
     ids_and_revs = []
     all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
@@ -192,6 +205,18 @@ class Child < CouchRest::Model::Base
     user_names_after_deletion = self['histories'].map { |change| change['user_name'] }
     user_names_after_deletion.delete(self['created_by'])
     self['last_updated_by'].blank? || user_names_after_deletion.blank?
+  end
+
+  def fathers_name
+    self.family_details_section.select{|fd| fd.relation.try(:downcase) == 'father'}.first.try(:relation_name) if self.family_details_section.present?
+  end
+
+  def mothers_name
+    self.family_details_section.select{|fd| fd.relation.try(:downcase) == 'mother'}.first.try(:relation_name) if self.family_details_section.present?
+  end
+
+  def caregivers_name
+    self.name_caregiver || self.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
   end
 
   private
