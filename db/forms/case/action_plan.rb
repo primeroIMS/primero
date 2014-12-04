@@ -61,6 +61,13 @@ action_plan_fields = [
              "display_name_all" => "Describe the psychosocial action plan.",
              "guiding_questions" => "Referral to psychosocial provider?"
             }),
+  Field.new({"name" => "incident_links",
+             "type" => "custom",
+             "display_name_all" => "Incident Links",
+             "custom_template" => "children/incident_links",
+             "create_property" => false,
+             "editable" => true
+            }),
   Field.new({"name" => "action_plan_subform_section",
              "type" => "subform",
              "editable" => true,
