@@ -4,8 +4,9 @@
 # JIRA PRIMERO-547
 # JIRA PRIMERO-548
 # JIRA PRIMERO-736
+# JIRA PRIMERO-823
 
-@javascript @primero
+@javascript @primero @search
 Feature: Copy GBV Case Survivor to GBV Incident Individuals.
   From GBV Cases form with Survivor Information, the user should see a button labeled 'Create Incident' on the same line with the Edit/Cancel/Save button
   and should be able to create GBV incidents.
@@ -80,3 +81,13 @@ Feature: Copy GBV Case Survivor to GBV Incident Individuals.
     And I press the "Survivor Information" button
     Then I should see "There were problems with the following fields:" on the page
     And I should see "Survivor Information: Please enter the date in a valid format (dd-mmm-yyyy)" on the page
+    
+  Scenario: As a logged in user, I create an GBV Incident from a GBV Cases, I should see the Incident Links populated.
+    And I press the "Create Incident" button
+    And I press "Save"
+    And I access "cases page"
+    And I click the case
+    And I press the "Edit" button
+    And I press the "Action Plan" button
+    Then I should see incident links
+    

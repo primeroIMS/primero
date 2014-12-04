@@ -6,7 +6,7 @@
   <%= render_controls(@incident) %>
 <% end %>
 
-<%= form_tag incidents_path, :multipart => true, :class => "default-form data-form", :autocomplete => "off" do %>
+<%= form_tag incidents_path, :multipart => true, :class => "default-form data-form new-incident-form", :autocomplete => "off" do %>
     <div class="page-content-new row collapse">
   	<%= hidden_field_tag "incident[posted_from]", "Browser" %>
       <div class="large-4 medium-4 columns close-side-tab side-tab-container">

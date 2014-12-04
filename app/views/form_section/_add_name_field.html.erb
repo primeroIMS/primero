@@ -10,7 +10,11 @@
         <label class="key inline"><%= t("fields.db_name") %></label>
       </div>
       <div class="large-9 medium-9 columns hello">
+        <% if fld.object.type != 'custom' %>
         <%= fld.send "#{field_type}", "#{field_name}".to_sym %>
+        <% else %>
+        <div class="db_name"><%= fld.object["#{field_name}".to_sym] %></div>
+        <% end %>
       </div>
     </div>
   <% end %>

@@ -3,7 +3,7 @@
   <div class="clearfix"></div>
   <%= render 'form_section/error_message', formObject: formObject %>
   <% (form_section.fields.select {|field| field.visible? }).each do |field| %>
-        <%= render partial: "form_section/#{field.type}", object: field, locals: {formObject: formObject, form_group_name: form_group_name} %>
+    <%= render partial: field_template_path(field), object: field, locals: {formObject: formObject, form_group_name: form_group_name} %>
   <% end %>
 
 </fieldset>

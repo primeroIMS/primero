@@ -91,11 +91,23 @@ class IncidentsController < ApplicationController
     params['incident']['violations'].compact if params['incident'].present? && params['incident']['violations'].present?
     reindex_hash params['incident']
 
+    #The Incident is being created from a GBV Case, get the
+    #case id to track the incident in the GBV case (incident_links)
+    case_id = params[:incident].delete("case_id")
+
     create_or_update_incident(params[:incident])
     @incident['status'] = "Open" if @incident['status'].blank?
 
     respond_to do |format|
       if @incident.save
+        if case_id.present?
+          #The Incident is being created from a GBV Case.
+          #track the incident in the GBV case (incident_links)
+          case_record = Child.get(case_id)
+          case_record.incident_links << @incident.id
+          #TODO what if fails to save at this point? should rollback the incident?
+          case_record.save
+        end
         flash[:notice] = t('incident.messages.creation_success', record_id: @incident.short_id)
         format.html { redirect_to(incident_path(@incident, { follow: true })) }
         #format.xml { render :xml => @incident, :status => :created, :location => @child }
