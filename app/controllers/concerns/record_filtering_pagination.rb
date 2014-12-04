@@ -26,6 +26,13 @@ module RecordFilteringPagination
     end
   end
 
+  # Expected format for filters:
+  # scope[filter_name]=filter_type||value(s)
+  #   filter_type       separator
+  #   "range"           "-"
+  #   "date_range"      "."
+  #   "list"            "||"
+  #   "single"          none
   def filter
     filter_scope = {}
     if params[:scope].present?
@@ -34,18 +41,18 @@ module RecordFilteringPagination
       model_class ||= params[:controller].camelize.singularize.constantize
       params[:scope].reject{|k,v| k == 'users'}
       params[:scope].each_key do |key|
-        filter_type, filter_values = params[:scope][key].split "||"
+        filter_values = params[:scope][key].split "||"
+        filter_type = filter_values.shift
         case filter_type
         when "range"
-          filter_values = filter_values.split "-"
+          filter_values = filter_values.first.split "-"
         when "date_range"
-          filter_values = sanitize_date_range_filter(filter_values.split ".")
+          filter_values = sanitize_date_range_filter(filter_values.first.split ".")
         else
-          if model_class.properties_by_name[key].try(:type) == TrueClass
-            filter_values = (filter_values == 'true')
-          end
+          filter_values = filter_values.map{|value| value == 'true' } if model_class.properties_by_name[key].try(:type) == TrueClass
+          filter_values = filter_values.first if ["single", "location"].include? filter_type
         end
-        filter_scope[key] = {:type => filter_type, :value => filter_values} unless filter_values.blank?
+        filter_scope[key] = {:type => filter_type, :value => filter_values} if filter_values.present? || filter_values == false
       end
       flash.now[:error] = I18n.t("messages.invalid_date_filter_value") if @invalid_date_filter_value
     end

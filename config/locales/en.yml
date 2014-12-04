@@ -473,6 +473,15 @@ en:
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
     export: "Exports"
+    filter_by:
+      flag: "Flagged:"
+      flag_label: "Flagged?"
+      social_worker: "Field/Case/Social Worker:"
+      inquiry_date: "Date of Inquiry:"
+      inquiry_status: "Inquiry Status:"
+      location_separation: "Separation Location:"
+      separation_cause: "Separation Cause:"
+      record_state: "Record State:"
 
   preposition:
     on_label: "on"
@@ -1138,9 +1147,9 @@ en:
         username_unique: "User name has already been taken! Please select a new User name"
 
       replication:
-        remote_app_uri: "Please enter a proper URL, e.g. http://<server>:<port>"
+        remote_app_uri: "Please enter a valid Primero URL"
         remote_unauthorized: "The username or password that you entered is incorrect"
-        remote_error: "Could not connect to the remote instance - is it running?"
+        remote_error: "Could not connect to the remote server"
         is_continuous: 'Continuous Replication?'
 
       password_recovery_request:

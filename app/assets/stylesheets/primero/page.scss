@@ -222,6 +222,11 @@ table.dataTable {
   }
 }
 
+div.db_name {
+  margin-top: 0.4rem;
+  font-size: 0.8125rem;
+}
+
 .translation {
   border-top: 1px solid $stroke_green_color;
   padding-top: 20px;
@@ -267,4 +272,8 @@ tr td span {
 .section_seperator {
   border-top: 1px dashed $stroke_green_color;
   padding-top: 20px;
+}
+
+.reveal-modal .mCSB_inside > .mCSB_container {
+  margin-right: 0;
 }

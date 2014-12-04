@@ -888,3 +888,12 @@ Then /^I should see the dashboard flagged (cases|incidents):$/ do |type, table|
     end
   end
 end
+
+When(/^I click the case$/) do
+  find(:xpath, "//table[contains(@class, 'record_list_view')]//a[contains(@class, 'id_link')]").click
+end
+
+Then(/^I should see incident links$/) do
+  incident = Incident.all.first
+  find(:xpath, "//ul[contains(@class, 'incident_links')]//li//a[text()='#{incident.id}']")
+end

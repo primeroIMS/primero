@@ -1031,6 +1031,35 @@ describe TracingRequest do
     end
   end
 
+  describe "mother and father" do
+    before :each do
+      @tracing_request1 = create_tracing_request "Judy", :relation => "Mother"
+      @tracing_request2 = create_tracing_request "Brad", :relation => "Father"
+      @tracing_request3 = create_tracing_request "Velma", :relation => "Sister"
+    end
+
+    it "should return mothers name" do
+      expect(@tracing_request1.mothers_name).to eq("Judy")
+    end
+
+    it "should return fathers name" do
+      expect(@tracing_request2.fathers_name).to eq("Brad")
+    end
+
+    context "mother not set" do
+      it "should return nil for mother" do
+        expect(@tracing_request3.mothers_name).to be_nil
+      end
+    end
+
+    context "father not set" do
+      it "should return nil for father" do
+        expect(@tracing_request3.fathers_name).to be_nil
+      end
+    end
+
+  end
+
   private
 
   def create_tracing_request(name, options={})

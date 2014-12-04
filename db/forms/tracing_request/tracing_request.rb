@@ -113,7 +113,7 @@ tracing_request_subform_fields = [
              "display_name_all" => "Circumstances of Separation (please provide details)"
             }),
   Field.new({"name" => "address_separation",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Separation Address (Place)"
             }),
   Field.new({"name" => "location_separation",

@@ -606,3 +606,19 @@ And (/^all the records on the page should be flagged(?: "(.*)" (time|times))?$/)
       end
   end
 end
+
+And /^I select "(.*)" from location filter$/ do |location|
+  chosen = find(:xpath, "//div[@id='location_current_chosen']")
+  chosen.click
+  chosen.find(:xpath, "./div[@class='chosen-drop']//ul[@class='chosen-results']//li[text()=\"#{location}\"]", :visible => true).click
+end
+
+And /^the "(.*)" tick box should have a "(.*)" label$/ do |tick_box, label|
+  field_label = page.find(:xpath, "//label[text()='#{tick_box}']", :visible => true)
+  page.should have_selector(:xpath, "//label[@for='#{field_label["for"]}'][text()='#{label}']")
+end
+
+And /^the "(.*)" tick box should not have a label$/ do |tick_box|
+  field_label = page.find(:xpath, "//label[text()='#{tick_box}']", :visible => true)
+  page.should_not have_selector(:xpath, "//label[@for='#{field_label["for"]}' and contains(@class, 'tick_box_label')]")
+end

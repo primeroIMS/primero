@@ -15,7 +15,7 @@
         <div class="medium-8 columns">
           <%= f.text_field :description %>
         </div>
-        <div class="medium-1 columns">
+        <div class="medium-1 columns required_field">
         *
         </div>
       </div>
@@ -26,7 +26,7 @@
         <div class="medium-8 columns">
           <%= f.text_field :remote_app_uri %>
         </div>
-        <div class="medium-1 columns">
+        <div class="medium-1 columns required_field">
         *
         </div>
       </div>
@@ -37,7 +37,7 @@
         <div class="medium-8 columns">
           <%= f.text_field :username %>
         </div>
-        <div class="medium-1 columns">
+        <div class="medium-1 columns required_field">
         *
         </div>
       </div>
@@ -48,7 +48,7 @@
         <div class="medium-8 columns">
           <%= f.password_field :password, :autocomplete => "off" %>
         </div>
-        <div class="medium-1 columns">
+        <div class="medium-1 columns required_field">
         *
         </div>
       </div>
@@ -57,7 +57,7 @@
           <%= f.label :is_continuous, t("replication.is_continuous"), :class=>'key inline'  %>
         </div>
         <div class="medium-8 columns">
-          <%= f.check_box :is_continuous, :autocomplete => 'off' %>
+          <%= f.check_box :is_continuous, :autocomplete => 'off', :class => "tick_box" %>
         </div>
         <div class="medium-1 columns">
         </div>

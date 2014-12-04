@@ -96,6 +96,7 @@
         <%= text_field_tag(:updated_at_before_value, params[:updated_at_before_value], :size => 12, :class => "datepicker") %>
       </p>
 
+      <%# TODO: ensure that the html generated is safe from injection attacks %>
       <%= @criteria_list.map { |criteria| generate_html(criteria, @all_fields) }.join("").html_safe %>
     </div>
 
@@ -129,5 +130,6 @@
   }
   CriteriaTemplateHelper.SEARCH_FILTER_START_INDEX = 100
 
+  <%# TODO: ensure that the json generated is safe from injection attacks %>
   $(".advanced-search").advancedSearch({criteria: <%= raw @criteria_list.to_json %>});
 </script>

@@ -170,7 +170,7 @@ family_details_fields = [
              "display_name_all" => "Notes about Family"
            }),
   Field.new({"name" => "childs_intended_address",
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "What is the child’s intended address?"
            }),
   ##Subform##

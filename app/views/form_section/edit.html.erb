@@ -13,8 +13,8 @@
 </div>
 
 <script>
-    var show_add_field = <%= show_add_field ||= (params[:show_add_field] || false) %>;
-    var field_type = "<%= @field.type || 'text_field' %>";
+    var show_add_field = <%= params[:show_add_field] ? 'true' : 'false' %>;
+    var field_type = "<%=j @field.type || 'text_field' %>";
     if(show_add_field){
       $("#add_field_modal").foundation('reveal', 'open');
     }

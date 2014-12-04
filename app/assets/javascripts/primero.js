@@ -134,6 +134,7 @@ var Primero = Backbone.View.extend({
     this.init_chosen_or_new();
     this.show_hide_record_type();
     this.init_scrollbar();
+    this.populate_case_id_for_gbv_incidents()
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var textarea = $('textarea[name*="field[option_strings_text"]');
@@ -193,7 +194,7 @@ var Primero = Backbone.View.extend({
       })
     );
 
-    $(".reveal-modal .row:first").mCustomScrollbar(
+    $(".reveal-modal .side-tab-content").mCustomScrollbar(
       _.extend(options, {
         setHeight: 400,
         theme: 'dark'
@@ -298,6 +299,15 @@ var Primero = Backbone.View.extend({
 
       selected_input.is(":checked") ? id_section.fadeIn(800) : id_section.fadeOut(800);
     });
+  },
+
+  //Adding the case_id from which the GBV incident is being created.
+  //GBV Case should hold list of GBV incidents created using this case.
+  populate_case_id_for_gbv_incidents: function() {
+    case_id = _primero.get_param("case_id");
+    if (case_id) {
+      $(".new-incident-form").prepend("<input id='incident_case_id' name='incident[case_id]' type='hidden' value='" + case_id + "'>");
+    }
   },
 
   submit_form: function(evt) {
