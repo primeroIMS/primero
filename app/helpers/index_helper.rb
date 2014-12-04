@@ -188,7 +188,6 @@ module IndexHelper
       {title: '', sort_title: 'select'},
       {title: 'name', sort_title: 'name'},
       {title: 'description', sort_title: 'description'},
-      {title: 'module', sort_title: 'module'}
     ]
   end
 

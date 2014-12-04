@@ -4,7 +4,7 @@ class Report < CouchRest::Model::Base
 
   property :name
   property :description
-  property :module_id
+  property :module_ids, [String]
   property :record_type #case, incident, etc.
   property :aggregate_by, [String], default: [] #Y-axis
   property :disaggregate_by, [String], default: [] #X-axis
