@@ -218,6 +218,7 @@ module IndexHelper
     filters << "Protection Status" if @is_gbv
     filters << "Armed Force or Group" if @is_mrm
     filters << "Armed Force or Group Type" if @is_mrm
+    filters << "Record State"
 
     return filters
   end

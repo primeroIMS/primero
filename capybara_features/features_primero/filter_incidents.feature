@@ -28,6 +28,7 @@ Feature: Filter Incidents
     And I should not see a filter for "Protection Status"
     And I should see a filter for "Armed Force or Group:"
     And I should see a filter for "Armed Force or Group Type:"
+    And I should see a filter for "Record State:"
 
   Scenario: As a GBV user, I want to see filters related to my role
     And I am logged in as a social worker with username "primero_gbv" and password "primero"
@@ -45,6 +46,7 @@ Feature: Filter Incidents
     And I should see a filter for "Protection Status"
     And I should not see a filter for "Armed Force or Group:"
     And I should not see a filter for "Armed Force or Group Type:"
+    And I should see a filter for "Record State:"
 
   Scenario: As a MRM manager, I want to see filters related to my role
     And I am logged in as a manager with username "primero_mgr_mrm" and password "primero"
@@ -62,6 +64,7 @@ Feature: Filter Incidents
     And I should not see a filter for "Protection Status"
     And I should see a filter for "Armed Force or Group:"
     And I should see a filter for "Armed Force or Group Type:"
+    And I should see a filter for "Record State:"
 
   Scenario: As a GBV manager, I want to see filters related to my role
     And I am logged in as a social worker with username "primero_mgr_gbv" and password "primero"
@@ -79,3 +82,4 @@ Feature: Filter Incidents
     And I should see a filter for "Protection Status"
     And I should not see a filter for "Armed Force or Group:"
     And I should not see a filter for "Armed Force or Group Type:"
+    And I should see a filter for "Record State:"
