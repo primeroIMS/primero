@@ -220,15 +220,19 @@ _primero.update_subform_heading = function(subformEl) {
   $(subformEl).find(".collapse_expand_subform_header div.display_field span").each(function(x, el){
     //view mode doesn't sent this attributes, there is no need to update the header.
     var data_types_attr = el.getAttribute("data-types"),
-        data_fields_attr = el.getAttribute("data-fields");
+        data_fields_attr = el.getAttribute("data-fields"),
+        //This is the i18n string for 'Caregiver'.
+        data_caregiver_attr = el.getAttribute("data-caregiver");
     if (data_types_attr !== null && data_fields_attr != null) {
       //retrieves the fields to update the header.
       var data_types = data_types_attr.split(","),
           data_fields = data_fields_attr.split(","),
-          values = [];
+          values = [],
+          caregiver = false;
       for (var i=0; (data_fields.length == data_types.length) && (i < data_fields.length); i++) {
         var input_id = data_fields[i],
-            input_type = data_types[i];
+            input_type = data_types[i],
+            value = null;
         if (input_type == "chosen_type") {
           //reflect changes of the chosen.
           var input = $(subformEl).find("select[id='" + input_id + "_'] option:selected");
@@ -236,13 +240,13 @@ _primero.update_subform_heading = function(subformEl) {
             var selected = input.map(function() {
               return $(this).text();
             }).get().join(', ');
-            values.push(selected);
+            value = selected;
           }
         } else if (input_type == "radio_button_type") {
           //reflect changes of the for radio buttons.
           var input = $(subformEl).find("input[id^='" + input_id + "']:checked");
           if (input.size() > 0) {
-            values.push(input.val());
+            value = input.val();
           }
         } else if (input_type == "check_boxes_type") {
           //reflect changes of the checkboxes.
@@ -251,19 +255,40 @@ _primero.update_subform_heading = function(subformEl) {
             checkboxes_values.push($(el).val());
           });
           if (checkboxes_values.length > 0) {
-            values.push(checkboxes_values.join(", "));
+            value = checkboxes_values.join(", ");
           }
+        } else if (input_type == "tick_box_type") {
+          var input = $(subformEl).find("#" + input_id + ":checked");
+          value = input.size() == 1;
         } else {
           //Probably there is other widget that should be manage differently.
           var input = $(subformEl).find("#" + input_id);
           if (input.val() !== "") {
-            values.push(input.val());
+            value = input.val();
+          }
+        }
+
+        if (value != null) {
+          //Don't see the way to do this without hardcode the name.
+          //Users can change the dbname for this field.
+          if (input_id.match(/relation_is_caregiver$/)) {
+            //Is the family member the caregiver?
+            caregiver = value;
+          } else {
+            values.push(value);
           }
         }
       }
-      $(el).text(values.join(" - "));
+
+      var display_text = values.join(" - ");
+      if (caregiver) {
+        //Add 'Caregiver' string to the end of the header.
+        //data_caregiver_attr is supposed to be a i18n string.
+        display_text = display_text + data_caregiver_attr;
+      }
+      $(el).text(display_text);
       if (display_field.length > 0) {
-        display_field.text(values.join(" - "));
+        display_field.text(display_text);
       }
     }
   });

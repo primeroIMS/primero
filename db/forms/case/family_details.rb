@@ -25,9 +25,9 @@ family_details_fields_subform = [
                                      "Other Nonfamily"].join("\n")
             }),
   Field.new({"name" => "relation_is_caregiver",
-             "type" => "radio_button",
+             "type" => "tick_box",
              "display_name_all" => "Is this person the caregiver?",
-             "option_strings_text_all" => "Yes\nNo"
+             "tick_box_all" => "Yes"
             }),
   Field.new({"name" => "relation_child_lived_with_pre_separation",
              "type" => "radio_button",
@@ -157,7 +157,8 @@ family_details_section = FormSection.create_or_update_form_section({
     :initial_subforms => 1,
     "name_all" => "Nested Family Details",
     "description_all" => "Family Details Subform",
-    "collapsed_fields" => ["relation", "relation_name"]
+    #relation_is_caregiver will have some special manage in the subforms headers.
+    "collapsed_fields" => ["relation", "relation_name", "relation_is_caregiver"]
 })
 
 family_details_fields = [

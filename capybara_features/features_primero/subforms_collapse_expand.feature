@@ -5,6 +5,7 @@
 #JIRA PRIMERO-365
 #JIRA PRIMERO-243
 #JIRA PRIMERO-736
+#JIRA PRIMERO-847
 
 @javascript @primero
 Feature: Subforms Collapse Expand
@@ -84,17 +85,18 @@ Feature: Subforms Collapse Expand
     And I update in the 1st "Family Details Section" subform with the follow:
       |Name                               | Tom                |
       |How are they related to the child? | <Select> Uncle     |
-      |Is this person the caregiver?      | <Radio> Yes        |
+      |Is this person the caregiver?      | <Tickbox>          |
       |If dead, please provide details    | No Dead Notes      |
       |Age                                | 39                 |
     And I update in the 2nd "Family Details Section" subform with the follow:
       |Name                               | Mary               |
       |How are they related to the child? | <Select> Aunt      |
-      |Is this person the caregiver?      | <Radio> No         |
       |If dead, please provide details    | No Other Dead Notes|
       |Age                                | 41                 |
     And I press "Save"
     Then I should see a success message for updated Case
+    And I should see header in the 1st "Family Details Section" subform within "Uncle - Tom (Caregiver)"
+    And I should see header in the 2nd "Family Details Section" subform within "Aunt - Mary"
     And I should see in the 1st "Family Details Section" subform with the follow:
       |Name                               | Tom           |
       |How are they related to the child? | Uncle         |
