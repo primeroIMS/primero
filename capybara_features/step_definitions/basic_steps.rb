@@ -102,7 +102,7 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
 
   #Find the element that represent the field name
   #within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/, :visible => true) do
-  within(:xpath, "//fieldset//label[@class='key' and text()=\"#{field}\"]", :visible => true) do
+  within(:xpath, "//fieldset//label[contains(@class, 'key') and text()=\"#{field}\"]", :visible => true) do
     #Sometime we just check if the field appears in the page.
     if content
       #Lookup the parent of the field to search the value

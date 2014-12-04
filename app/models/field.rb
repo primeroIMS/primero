@@ -21,6 +21,7 @@ class Field
   property :create_property, TrueClass, :default => true
   property :searchable_select, TrueClass, :default => false
   property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
+  property :field_tags, [String], :default => []
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"

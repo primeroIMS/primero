@@ -1,12 +1,12 @@
 survivor_information_fields = [
   Field.new({"name" => "case_id",
-             "type" => "text_field", 
+             "type" => "text_field",
              "display_name_all" => "Long ID",
              "editable" => false,
              "create_property" => false
             }),
   Field.new({"name" => "short_id",
-             "type" => "text_field", 
+             "type" => "text_field",
              "display_name_all" => "Case ID",
              "editable" => false,
              "create_property" => false
@@ -23,7 +23,7 @@ survivor_information_fields = [
              "hidden_text_field" => true
             }),
   Field.new({"name" => "survivor_code_no",
-             "type" => "text_field", 
+             "type" => "text_field",
              "display_name_all" => "Survivor Code"
             }),
   Field.new({"name" => "age",
@@ -45,7 +45,7 @@ survivor_information_fields = [
              "option_strings_source" => "lookup Ethnicity"
             }),
   Field.new({"name" => "country_of_origin",
-             "type" => "select_box", 
+             "type" => "select_box",
              "display_name_all" => "Country of Origin",
              "option_strings_source" => "lookup Country"
             }),
@@ -62,7 +62,7 @@ survivor_information_fields = [
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
              "display_name_all" => "Current Civil/Marital Status",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Single",
                            "Married/Cohabitating",
                            "Divorced/Separated",
@@ -82,7 +82,7 @@ survivor_information_fields = [
              "option_strings_source" => "lookup DisplacementStatus"
             }),
   Field.new({"name" => "gbv_disability_type",
-             "type" => "select_box", 
+             "type" => "select_box",
              "display_name_all" => "Is the Survivor a Person with Disabilities?",
              "option_strings_text_all" =>
                           ["No",
@@ -101,12 +101,14 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "section_heading_child_survivors_less_than_18_years_old",
              "type" => "separator",
-             "display_name_all" => "Child Survivors (less than 18 years old)"
+             "display_name_all" => "Child Survivors (less than 18 years old)",
+             "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_lives_alone",
              "type" => "radio_button",
              "display_name_all" => "If the survivor is a child, does he/she live alone?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_text_all" => "Yes\nNo",
+             "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker",
              "type" => "select_box",
@@ -115,11 +117,13 @@ survivor_information_fields = [
                           ["Parent/Guardian",
                            "Relative",
                            "Spouse/Cohabitating",
-                           "Other, please specify"].join("\n")
+                           "Other, please specify"].join("\n"),
+             "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker_other",
              "type" => "text_field",
-             "display_name_all" => "If other relation between her/him and the caretaker, please specify."
+             "display_name_all" => "If other relation between her/him and the caretaker, please specify.",
+             "field_tags" => ['child']
             }),
   Field.new({"name" => "caretaker_marital_status",
              "type" => "select_box",
@@ -129,11 +133,13 @@ survivor_information_fields = [
                            "Married/Cohabitating",
                            "Divorced/Separated",
                            "Widowed",
-                           "Unknown/Not Applicable"].join("\n")
+                           "Unknown/Not Applicable"].join("\n"),
+             "field_tags" => ['child']
             }),
   Field.new({"name" => "caretaker_occupation",
              "type" => "text_field",
-             "display_name_all" => "What is the caretaker's primary occupation?"
+             "display_name_all" => "What is the caretaker's primary occupation?",
+             "field_tags" => ['child']
             })
 ]
 
