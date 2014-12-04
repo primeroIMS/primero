@@ -1,5 +1,6 @@
 # JIRA PRIMERO-133
 # JIRA PRIMERO-736
+# JIRA PRIMERO-840
 
 @javascript @primero
 Feature: Tracing Separation History
@@ -16,6 +17,8 @@ Feature: Tracing Separation History
     And I fill in the following:
       | Additional info that could help in tracing?    | Some Additional Information |
       | Details about what the child faced / witnessed | Some Additional Details     |
+      | What was the main cause of separation?         | <Select> Other (please specify) |
+      | If Other, please specify                       | Other cause of separation       |
     And I press "Save"
     Then I should see a success message for new Case
     When I press the "Tracing" button
@@ -23,3 +26,5 @@ Feature: Tracing Separation History
     Then I should see a value for "Tracing Status" on the show page with the value of "Open"
     And I should see a value for "Additional info that could help in tracing?" on the show page with the value of "Some Additional Information"
     And I should see a value for "Details about what the child faced / witnessed" on the show page with the value of "Some Additional Details"
+    And I should see a value for "What was the main cause of separation?" on the show page with the value of "Other (please specify)"
+    And I should see a value for "If Other, please specify" on the show page with the value of "Other cause of separation"
