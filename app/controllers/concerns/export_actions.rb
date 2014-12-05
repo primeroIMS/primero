@@ -22,7 +22,6 @@ module ExportActions
           :ids => models.collect(&:id))
 
         unless self.respond_to?(:exported_properties)
-          require 'pry'; binding.pry
           raise "You must specify the properties to export as a controller method called 'exported_properties'"
         end
 
