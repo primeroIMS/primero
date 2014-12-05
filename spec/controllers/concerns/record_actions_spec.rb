@@ -12,6 +12,7 @@ describe RecordActions do
       fss = {
         "Basic Identity" => [FormSection.new(name: 'Basic Identity')]
       }
+      subject.should_receive(:current_user).and_return(double())
       subject.should_receive(:get_form_sections).and_return(fss)
       subject.should_receive(:get_record).and_return(double())
       subject.should_receive(:model_class).and_return(double(:properties_by_form => {

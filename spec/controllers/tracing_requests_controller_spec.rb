@@ -374,9 +374,7 @@ describe TracingRequestsController do
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :show, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -407,12 +405,10 @@ describe TracingRequestsController do
     end
 
     it "retrieves the grouped forms that are permitted to this user and tracing request" do
-      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
+      controller.stub(:make_new_record).and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :new, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -430,9 +426,7 @@ describe TracingRequestsController do
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end

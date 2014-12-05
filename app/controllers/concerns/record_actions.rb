@@ -81,7 +81,7 @@ module RecordActions
     authorize! :create, model_class
 
     # Ugh...why did we make two separate locale namespaces for each record type (cases/children have four)?
-    @page_name = t("#{model_class.locale_prefix.pluralize}.register_new_case")
+    @page_name = t("#{model_class.locale_prefix.pluralize}.register_new_#{model_class.locale_prefix}")
 
     @record = make_new_record
     # TODO: make the ERB templates use @record
@@ -104,7 +104,7 @@ module RecordActions
       @form_sections = @record.allowed_formsections(current_user)
       if @record.save
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
-        format.html { redirect_to(case_path(@record, { follow: true })) }
+        format.html { redirect_after_update }
         format.xml { render :xml => @record, :status => :created, :location => @record }
       else
         format.html {
@@ -169,7 +169,7 @@ module RecordActions
   def redirect_on_not_found
     respond_to do |format|
       format.html do
-        flash[:error] = "#{model_class.name} with the given id is not found"
+        flash[:error] = "#{model_class.name.underscore.capitalize.sub('_', ' ')} with the given id is not found"
         redirect_to :action => :index
         return
       end

@@ -9,35 +9,6 @@ class ChildrenController < ApplicationController
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
-  def make_new_record
-    Child.new.tap do |child|
-      child.registration_date = Date.today
-      child['record_state'] = true
-      child['child_status'] = ["Open"]
-      child['module_id'] = params['module_id']
-    end
-  end
-
-  def initialize_created_record rec
-    rec['child_status'] = "Open" if rec['child_status'].blank?
-    rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
-  end
-
-  def redirect_after_update
-    case_module = @child.module
-    if params[:commit] == t("buttons.create_incident") and case_module.id == PrimeroModule::GBV
-      #It is a GBV cases and the user indicate that want to create a GBV incident.
-      redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
-    else
-      redirect_to case_path(@child, { follow: true })
-    end
-  end
-
-  # A hack due to photos being submitted under an adhoc key
-  def extra_permitted_parameters
-    super + ['photo', 'audio']
-  end
-
   def edit_photo
     authorize! :update, @child
 
@@ -54,14 +25,6 @@ class ChildrenController < ApplicationController
       @child.save
     end
     redirect_to(@child)
-  end
-
-  #TODO: We need to define the filter values as Constants
-  def record_filter(filter)
-    #The UNHCR report should retrieve only CP cases.
-    filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::CP}"} if params["format"] == "unhcr_csv"
-    filter["child_status"] ||= {:type => "single", :value => "open"}
-    filter
   end
 
 # POST
@@ -110,10 +73,6 @@ class ChildrenController < ApplicationController
     redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
   end
 
-  def redirect_after_deletion
-    redirect_to(children_url)
-  end
-
   def exported_properties
     if params[:export_list_view].present? && params[:export_list_view] == "true"
       build_list_field_by_model(model_class)
@@ -152,6 +111,47 @@ class ChildrenController < ApplicationController
   end
 
   private
+
+  # A hack due to photos being submitted under an adhoc key
+  def extra_permitted_parameters
+    super + ['photo', 'audio']
+  end
+
+  def make_new_record
+    Child.new.tap do |child|
+      child.registration_date = Date.today
+      child['record_state'] = true
+      child['child_status'] = ["Open"]
+      child['module_id'] = params['module_id']
+    end
+  end
+
+  def initialize_created_record rec
+    rec['child_status'] = "Open" if rec['child_status'].blank?
+    rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
+  end
+
+  def redirect_after_update
+    case_module = @child.module
+    if params[:commit] == t("buttons.create_incident") and case_module.id == PrimeroModule::GBV
+      #It is a GBV cases and the user indicate that want to create a GBV incident.
+      redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
+    else
+      redirect_to case_path(@child, { follow: true })
+    end
+  end
+
+  def redirect_after_deletion
+    redirect_to(children_url)
+  end
+
+  #TODO: We need to define the filter values as Constants
+  def record_filter(filter)
+    #The UNHCR report should retrieve only CP cases.
+    filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::CP}"} if params["format"] == "unhcr_csv"
+    filter["child_status"] ||= {:type => "single", :value => "open"}
+    filter
+  end
 
   def update_record_with_attachments(child)
     child_params = filter_params(child)
