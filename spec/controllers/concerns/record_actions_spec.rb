@@ -2,6 +2,9 @@ require 'spec_helper'
 
 class RecordController < ActionController::Base
   include RecordActions
+  def model_class
+    Child
+  end
 end
 
 describe RecordActions do
@@ -12,22 +15,15 @@ describe RecordActions do
       fss = {
         "Basic Identity" => [FormSection.new(name: 'Basic Identity')]
       }
-      subject.should_receive(:current_user).and_return(double())
-      subject.should_receive(:get_form_sections).and_return(fss)
-      subject.should_receive(:get_record).and_return(double())
-      subject.should_receive(:model_class).and_return(double(:properties_by_form => {
-        "Basic Identity" => {
-          "age" => nil,
-          "name" => nil,
-        }
-      }))
-      params = ActionController::Parameters.new({
+      subject.should_receive(:current_user)
+      mock_record = double(:permitted_property_names => ['name', 'age'])
+      subject.should_receive(:record_params).and_return(ActionController::Parameters.new({
         :age => 5,
         :name => 'Johnny',
         :other_field => 'bad data',
-      })
+      }))
 
-      subject.filter_params(params).keys.sort.should == ["age", "name"]
+      subject.filter_params(mock_record).keys.sort.should == ["age", "name"]
     end
   end
 end

@@ -20,14 +20,6 @@ class IncidentsController < ApplicationController
     end
   end
 
-  def exported_properties
-    if params[:export_list_view].present? && params[:export_list_view] == "true"
-      build_list_field_by_model(model_class)
-    else
-      model_class.properties
-    end
-  end
-
   private
 
   def make_new_record

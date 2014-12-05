@@ -22,8 +22,6 @@ module RecordActions
     model_class.name.pluralize.underscore
   end
 
-  # GET /{record type}
-  # GET /{record type}.xml
   def index
     authorize! :index, model_class
 
@@ -55,8 +53,6 @@ module RecordActions
     end
   end
 
-  # GET /{record type}/1
-  # GET /{record type}/1.xml
   def show
     if @record.nil?
       redirect_on_not_found
@@ -115,7 +111,6 @@ module RecordActions
     end
   end
 
-  # GET /{record type}/1/edit
   def edit
     if @record.nil?
       redirect_on_not_found
@@ -223,10 +218,6 @@ module RecordActions
     end
   end
 
-  def exported_properties
-    model_class.properties
-  end
-
   def current_modules
     record_type = model_class.parent_form
     @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
@@ -258,10 +249,35 @@ module RecordActions
     ['base_revision', 'unique_identifier']
   end
 
+  def permitted_property_keys(record)
+    record.permitted_property_names(current_user) + extra_permitted_parameters
+  end
+
   # Filters out any unallowed parameters for a record and the current user
   def filter_params(record)
-    permitted_keys = record.permitted_property_names(current_user) + extra_permitted_parameters
+    permitted_keys = permitted_property_keys(record)
     record_params.select {|k,v| permitted_keys.include?(k) }
+  end
+
+  def filter_permitted_export_properties(models, props)
+    # this first condition is for the list view CSV export, which for some
+    # reason is implemented with a completely different interface. TODO: don't
+    # do that.
+    if props.include?(:fields)
+      props
+    else
+      all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m) }
+      prop_selector = lambda do |ps|
+        case ps
+        when Hash
+          ps.inject({}) {|acc, (k,v)| acc.merge( k => prop_selector.call(v) ) }
+        when Array
+          ps.select {|p| all_permitted_keys.include?(p.name) }
+        end
+      end
+
+      prop_selector.call(props)
+    end
   end
 
   def record_short_id
@@ -276,6 +292,14 @@ module RecordActions
     # Alias the record to a more specific name since the record controllers
     # already use it
     instance_variable_set("@#{model_class.name.underscore}", @record)
+  end
+
+  def exported_properties
+    if params[:export_list_view].present? && params[:export_list_view] == "true"
+      build_list_field_by_model(model_class)
+    else
+      model_class.properties
+    end
   end
 
   private 
@@ -298,4 +322,5 @@ module RecordActions
     reindex_hash record_params
     update_record_with_attachments(@record)
   end
+
 end

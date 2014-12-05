@@ -74,9 +74,7 @@ class ChildrenController < ApplicationController
   end
 
   def exported_properties
-    if params[:export_list_view].present? && params[:export_list_view] == "true"
-      build_list_field_by_model(model_class)
-    elsif params[:format].present? && params[:format] == "xls"
+    if params[:format].present? && params[:format] == "xls"
       #get form sections the user is allow to see.
       form_sections = FormSection.get_form_sections_by_module(@current_modules, model_class.parent_form, current_user)
       #get the model properties based on the form sections.
@@ -87,7 +85,7 @@ class ChildrenController < ApplicationController
       properties_by_module.each{|pm, fs| properties_by_module[pm].merge!(model_class.record_other_properties_form_section)}
       properties_by_module
     else
-      model_class.properties
+      super
     end
   end
 
