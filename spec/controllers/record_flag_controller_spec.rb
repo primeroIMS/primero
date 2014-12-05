@@ -238,7 +238,7 @@ describe RecordFlagController do
 
   describe "Child", search: true do
     before :each do
-      @child = create_record(Child, @user, {"child_status" => "open"})
+      @child = create_record(Child, @user, {"child_status" => "Open"})
     end
 
     it_behaves_like "Flagging" do
@@ -262,7 +262,7 @@ describe RecordFlagController do
       let(:model) { Child }
       let(:children) do
         children = []
-        50.times {children << create_record(Child, @user, {"child_status" => "open"})}
+        50.times {children << create_record(Child, @user, {"child_status" => "Open"})}
         children.map {|child| child.id}
       end
     end

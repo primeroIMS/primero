@@ -17,7 +17,8 @@ class IncidentsController < ApplicationController
     @aside = 'shared/sidebar_links'
 
     @associated_users = current_user.managed_user_names
-    @incidents, @total_records = retrieve_records_and_total(filter)
+    @filters = filter
+    @incidents, @total_records = retrieve_records_and_total(@filters)
     @per_page = per_page
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
