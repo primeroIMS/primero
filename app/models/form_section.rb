@@ -54,6 +54,20 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+
+    view :by_lookup_field,
+      :map => "function(doc) {
+                if (doc['couchrest-type'] == 'FormSection'){
+                  if (doc['fields'] != null){
+                    for(var i = 0; i<doc['fields'].length; i++){
+                      var field = doc['fields'][i];
+                      if (field['option_strings_source'] && field['option_strings_source'].indexOf('lookup') >= 0){
+                        emit(field['option_strings_source'].replace('lookup ', '').replace('group ', ''), null);
+                      }
+                    }
+                  }
+                }
+              }"
   end
 
   validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")
@@ -310,6 +324,12 @@ class FormSection < CouchRest::Model::Base
       end.to_h
     end
     memoize_in_prod :get_form_sections_by_module
+
+    #Returns a list of all form sections having a field of the passed in lookup field
+    def find_by_lookup_field lookup_field
+      by_lookup_field(:key => lookup_field)
+    end
+    memoize_in_prod :find_by_lookup_field
 
     def add_field_to_formsection formsection, field
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
