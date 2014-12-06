@@ -27,13 +27,24 @@ module ReportsHelper
       disaggregate_fields.first.length.times.each do |i|
         header_rows << pattern_histogram(disaggregate_fields[1..-1].map{|v|v[i]})
       end
+      #Replace every empty string with the value "All"
       header_rows = header_rows.map do |row|
         row.map do |header|
           header.map do |value|
-            value.present? ? value : "all" #TODO add i18n
+            value.present? ? value : t('report.all')
           end
         end
       end
+      #Append a totals column
+      if header_rows.size > 0
+        header_rows.first << [t('report.total'), 1]
+        header_rows[1..-1].each do |row|
+          row << ["", 1]
+        end
+      end
+    end
+    unless header_rows.present?
+      header_rows = [[[t('report.total'),1]]]
     end
     return header_rows
   end

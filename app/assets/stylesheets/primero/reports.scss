@@ -4,16 +4,17 @@ td.report_sidebar_value{
   text-transform: uppercase;
 }
 
-#report_table tbody tr.report_row_aggregate td{
-  /*background: #ccc;*/
+table tbody tr.report_row_aggregate td{
   background: #ebf0e4;
 }
 
 table:not(.record_list_view) tr.report_row_aggregate td.report_sidebar_value {
-  /*background: #ccc !important;*/
   background: #ebf0e4 !important;
   color: $green_color;
   font-size: $thirteen_px !important;
   font-family: 'Roboto-Medium', sans-serif !important;
 }
 
+div.report_table_content .dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: none;
+}

@@ -19,7 +19,6 @@
               <% header_row.each do |headers| %>
                 <th colspan=<%= headers[1] %>><%= headers[0] %></th>
               <% end %>
-              <th></th>
             </tr>
           <% end %>
         </thead>
@@ -30,7 +29,12 @@
               <% @report.data[:disaggregate_value_range][1..-1].each do |disaggregate| %>
                 <td><%= @report.data[:values][aggregate + disaggregate] %></td>
               <% end %>
-              <td></td>
+              <% key_padding = []
+                 if @report.data[:disaggregate_value_range]
+                   key_padding = @report.data[:disaggregate_value_range][0]
+                end
+              %>
+              <td><%= @report.data[:values][aggregate + @report.data[:disaggregate_value_range][0]] %></td>
             </tr>
           <% end %>
         </tbody>

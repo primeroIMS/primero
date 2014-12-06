@@ -936,6 +936,8 @@ en:
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
+    all: "All"
+    total: "Total"
     types:
       weekly_report: "Weekly Report"
 

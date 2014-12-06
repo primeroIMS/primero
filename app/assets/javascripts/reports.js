@@ -17,7 +17,10 @@ var ReportTable = Backbone.View.extend({
       "scrollX": '100%',
       "scrollY": '600px',
     });
-    new $.fn.dataTable.FixedColumns(this.report_table);
+    new $.fn.dataTable.FixedColumns(this.report_table, {
+      leftColumns: 1,
+      rightColumns: 1
+    });
   },
 
   init_report_chart: function(){
@@ -47,7 +50,9 @@ var ReportTable = Backbone.View.extend({
   generateColors: function(number){
     //TODO: Less than 1 yeah yeah
     var result = [];
-    if (number < 30){
+    if (number == 1){ result = ["rgba(151,187,205,1)"]; }
+    else if (number == 2){ result = ["rgba(220,220,220,1)", "rgba(151,187,205,1)"]; }
+    else if (number < 30){
       var map = Colormap({colormap: 'rainbow', nshades: 100, format: 'rgbaString'});
       var increment = Math.floor(100/number);
       for (var i = 0 ; i < map.length; i += increment){
@@ -55,7 +60,7 @@ var ReportTable = Backbone.View.extend({
       }
     }
     else {
-      result = Colormap({colormap: 'summer', nshades: number, format: 'rgbaString'});
+      result = Colormap({colormap: 'rainbow', nshades: number, format: 'rgbaString'});
     }
     return result;
 

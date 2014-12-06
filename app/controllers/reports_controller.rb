@@ -4,8 +4,10 @@ class ReportsController < ApplicationController
   #include RecordActions
   before_filter :current_modules, :only => [:index]
 
+  #TODO: Uncomment the authorizations!
+
   def index
-    authorize! :index, Report
+    #authorize! :index, Report
     reports = Report.all.page(page).per(per_page)
     @reports = paginated_collection(reports.all, reports.count)
   end
