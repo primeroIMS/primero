@@ -938,6 +938,7 @@ en:
     download: "Download"
     all: "All"
     total: "Total"
+    no_data: "No data exists for this report"
     types:
       weekly_report: "Weekly Report"
 

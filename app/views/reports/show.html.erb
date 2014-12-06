@@ -4,41 +4,44 @@
       <h4 class="report_name"><%= @report.name %></h4>
       <div class="report_description"><%= @report.description %></div>
     </div>
-    <% if @report.is_graph %>
+    <% if @report.is_graph && @report.has_data? %>
       <div class="report_chart_content">
         <canvas id="report_graph" height="300px" width="1000px"></canvas>
       </div>
     <% end %>
     <div class="report_table_content">
-      <table id="report_table">
-        <%# Header %>
-        <thead>
-          <% report_header_rows(@report.data[:disaggregate_value_range]).each do |header_row| %>
-            <tr>
-              <th></th>
-              <% header_row.each do |headers| %>
-                <th colspan=<%= headers[1] %>><%= headers[0] %></th>
-              <% end %>
-            </tr>
-          <% end %>
-        </thead>
-        <tbody>
-          <% @report.data[:aggregate_value_range][1..-1].each do |aggregate| %>
-            <tr class="<%= report_row_type(aggregate) %>">
-              <td class="report_sidebar_value"><%= report_sidebar_value(aggregate) %></td>
-              <% @report.data[:disaggregate_value_range][1..-1].each do |disaggregate| %>
-                <td><%= @report.data[:values][aggregate + disaggregate] %></td>
-              <% end %>
-              <% key_padding = []
-                 if @report.data[:disaggregate_value_range]
-                   key_padding = @report.data[:disaggregate_value_range][0]
-                end
-              %>
-              <td><%= @report.data[:values][aggregate + @report.data[:disaggregate_value_range][0]] %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <% if @report.has_data? %>
+        <table id="report_table">
+          <thead>
+            <% report_header_rows(@report.data[:disaggregate_value_range]).each do |header_row| %>
+              <tr>
+                <th></th>
+                <% header_row.each do |headers| %>
+                  <th colspan=<%= headers[1] %>><%= headers[0] %></th>
+                <% end %>
+              </tr>
+            <% end %>
+          </thead>
+          <tbody>
+            <% @report.data[:aggregate_value_range][1..-1].each do |aggregate| %>
+              <tr class="<%= report_row_type(aggregate) %>">
+                <td class="report_sidebar_value"><%= report_sidebar_value(aggregate) %></td>
+                <% @report.data[:disaggregate_value_range][1..-1].each do |disaggregate| %>
+                  <td><%= @report.data[:values][aggregate + disaggregate] %></td>
+                <% end %>
+                <% key_padding = []
+                   if @report.data[:disaggregate_value_range]
+                     key_padding = @report.data[:disaggregate_value_range][0]
+                  end
+                %>
+                <td><%= @report.data[:values][aggregate + @report.data[:disaggregate_value_range][0]] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div><%= t 'report.no_data' %></div>
+      <% end %>
     </div>
   </div>
 </div>

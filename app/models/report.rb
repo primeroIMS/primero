@@ -35,8 +35,11 @@ class Report < CouchRest::Model::Base
       #TODO: This has to be valid and open if a case
       pivots_data = query_solr(pivots, number_of_pivots)
       #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
-
-      values = self.value_vector([],pivots_data).to_h
+      if pivots_data['pivot'].present?
+        values = self.value_vector([],pivots_data).to_h
+      else
+        values = {}
+      end
       aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       if is_graph
@@ -61,6 +64,10 @@ class Report < CouchRest::Model::Base
   # def total
   #   self.data[:total]
   # end
+
+  def has_data?
+    self.data[:values].present?
+  end
 
   def aggregate_value_range
     self.data[:aggregate_value_range]
