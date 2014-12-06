@@ -11,6 +11,9 @@ def create_or_update_report(report_hash)
   end
 end
 
+#To generate the UUID, run the following in the rails consle:
+#    UUIDTools::UUID.random_create.to_s.gsub('-','')
+
 create_or_update_report({
   id: '9fed7861bef14ec9ab51b41d6555319a',
   name: 'Registration',

@@ -1,7 +1,8 @@
+<%= render 'toolbar' %>
+
 <div class="reports page-content-new row collapse" data-equalizer>
   <div class="medium-12 columns" data-equalizer-watch>
     <div class="report_header_content">
-      <h4 class="report_name"><%= @report.name %></h4>
       <div class="report_description"><%= @report.description %></div>
     </div>
     <% if @report.is_graph && @report.has_data? %>

@@ -1,0 +1,36 @@
+<%#
+    TODO: A very wet hack. Didn't refactor shared/record_controls.
+    Should have. I'm so sorry, Josh
+%>
+<div class="record_controls_container" data-top="50" data-bottom="120">
+  <div class="record_controls">
+    <div class="row collapse">
+      <div class="large-4 medium-8 columns">
+        <h4><%= @report.name %></h4>
+      </div>
+      <div class="large-8 medium-8 columns">
+        <div class="row">
+          <div class="large-12 columns">
+            <ul class="inline-list">
+              <% if can?(:edit, @report) %>
+                <%= render_controls(@report) %>
+              <% end %>
+              <% if controller.action_name != 'edit' %>
+                <ul id="menu" class="sf-menu">
+                  <li class="init_btn">
+                    <%= link_to content_tag(:span, t("buttons.export")), '#', class: 'btn green-button action_btn' %>
+                    <ul>
+                      <li><%= link_to t("report.export.graph"), '#' %></li>
+                      <li><%= link_to t("report.export.data"), '#' %></li>
+                    </ul>
+                  </li>
+                </ul>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
