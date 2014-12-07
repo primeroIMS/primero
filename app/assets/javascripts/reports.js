@@ -7,6 +7,11 @@ var ReportTable = Backbone.View.extend({
     this.init_report_chart();
   },
 
+  events: {
+    'click .report_export_graph': 'export_graph',
+    'click .report_export_data': 'export_data'
+  },
+
   init_report_table: function(){
     var self = this;
     this.report_table = $('#report_table').DataTable({
@@ -28,7 +33,7 @@ var ReportTable = Backbone.View.extend({
     var canvas = $("#report_graph");
     if (canvas.length){
       //TODO: AJAX call to the report data. Not really Backbone at all.
-      var graph_url = window.location.href.toString().split(window.location.host)[1] + '/graph_data'
+      var graph_url = window.location.pathname + '/graph_data'
       $.ajax(graph_url).done(function(graph_data){
         var colors = self.generateColors(graph_data.datasets.length);
         var context = canvas.get(0).getContext("2d");
@@ -64,7 +69,19 @@ var ReportTable = Backbone.View.extend({
     }
     return result;
 
-  }
+  },
+
+  export_graph: function(){
+    var canvas = document.getElementById("report_graph");
+    var imageURL = canvas.toDataURL("image/png");
+    $("a.report_export_graph").attr("href", imageURL);
+  },
+
+  export_data: function(){
+    var csvData = $('#report_table').table2CSV({delivery:'value'});
+    var csvURL = 'data:text/csv;charset=utf8,' + encodeURIComponent(csvData);
+    $("a.report_export_data").attr("href", csvURL);
+  },
 
 
 });
