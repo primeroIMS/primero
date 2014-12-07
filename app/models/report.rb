@@ -10,8 +10,11 @@ class Report < CouchRest::Model::Base
   property :disaggregate_by, [String], default: [] #X-axis
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
+  #TODO: Currently it's not worth trying to save off the report data.
+  #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
+  #      Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
+  #      when rendering the graph and table. So for now we will rebuild the data.
   #property :data
-
   attr_accessor :data
 
   validates_presence_of :name
