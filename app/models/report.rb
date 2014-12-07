@@ -20,9 +20,18 @@ class Report < CouchRest::Model::Base
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
+  validates_presence_of :module_ids
 
   design do
     view :by_name
+    view :by_module_id,
+      :map => "function(doc) {
+                if (doc['couchrest-type'] == 'Report' && doc['module_ids']){
+                  for(var i in doc['module_ids']){
+                    emit(doc['module_ids'][i], null);
+                  }
+                }
+              }"
   end
 
   def record_class
