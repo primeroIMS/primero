@@ -33,6 +33,10 @@ var IndexFilters = Backbone.View.extend({
         });
       }
 
+      if ($(this).is(':checkbox') && $(this).is(':checked')) {
+        self.set_array_filter(name, $(this).val(), type);
+      }
+
       if ($(this).is(':checkbox') && _.contains(current_scope, encodeURI($(this).val()))) {
         $(this).attr('checked', true);
         self.set_array_filter(name, $(this).val(), type);

@@ -19,7 +19,8 @@ class ChildrenController < ApplicationController
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
-    @children, @total_records = retrieve_records_and_total(case_filter(filter))
+    @filters = case_filter(filter)
+    @children, @total_records = retrieve_records_and_total(@filters)
     @per_page = per_page
 
     # TODO: Ask Pavel about highlighted fields. This is slowing everything down. May need some caching or lower page limit
@@ -181,7 +182,7 @@ class ChildrenController < ApplicationController
   def case_filter(filter)
     #The UNHCR report should retrieve only CP cases.
     filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::CP}"} if params["format"] == "unhcr_csv"
-    filter["child_status"] ||= {:type => "single", :value => "open"}
+    filter["child_status"] ||= {:type => "single", :value => "Open"}
     filter
   end
 
