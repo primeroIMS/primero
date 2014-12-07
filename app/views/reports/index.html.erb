@@ -1,1 +1,15 @@
-<%= render 'record_shared/list_view_table', model: Report, record: 'report', collection: @reports %>
+<%=
+  render({
+    partial: 'record_shared/list_view_table',
+    locals: {
+      model: Report,
+      record: 'report',
+      collection: @reports,
+      opts: {
+        display_actions: false,
+        display_filter: false,
+        display_create: true
+      }
+    }
+  })
+%>
