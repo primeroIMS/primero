@@ -4,10 +4,8 @@ class ReportsController < ApplicationController
   #include RecordActions
   before_filter :current_modules, :only => [:index]
 
-  #TODO: Uncomment the authorizations!
-
   def index
-    #authorize! :index, Report
+    authorize! :index, Report
     # NOTE: If we start needing anything more complicated than module filtering on reports,
     #       index them in Solr and make searchable. Replace all these views and paginations with Sunspot.
     reports = Report.by_module_id(keys: @current_user.module_ids).page(page).per(per_page)
@@ -16,7 +14,7 @@ class ReportsController < ApplicationController
 
   def show
     @report = Report.get(params[:id])
-    #authorize! :show, @report
+    authorize! :show, @report
     @report.build_report
   end
 
@@ -30,7 +28,7 @@ class ReportsController < ApplicationController
   #       but really this isn't worth it unless we find that this is a performance bottleneck.
   def graph_data
     @report = Report.get(params[:id])
-    #authorize! :show, @report
+    authorize! :show, @report
     @report.build_report #TODO: Get rid of this once the rebuild works
     render json: @report.graph_data
   end
@@ -40,7 +38,7 @@ class ReportsController < ApplicationController
   #       See models/report.rb and graph_data method above.
   def rebuild
     @report = Report.get(params[:id])
-    #authorize! :show, @report
+    authorize! :show, @report
     @report.build_report
     @report.save
     render status: :accepted
