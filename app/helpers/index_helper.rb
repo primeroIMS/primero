@@ -20,6 +20,8 @@ module IndexHelper
         list_view_header_incident
       when "tracing_request"
         list_view_header_tracing_request
+      when "report"
+        list_view_header_report
       else
         []
     end
@@ -180,6 +182,14 @@ module IndexHelper
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'},
         {title: 'tracing_requests', sort_title: 'tracing_names'}
+    ]
+  end
+
+  def list_view_header_report
+    [
+      {title: '', sort_title: 'select'},
+      {title: 'name', sort_title: 'name'},
+      {title: 'description', sort_title: 'description'},
     ]
   end
 

@@ -1,19 +1,36 @@
+<%
+  #TODO: As usual there is a good way to structure this more elegantly.
+  #       We should be using the inherited content_for code to handle rendering in these areas.
+  opts ||= {}
+  options = {
+    display_filter: true,
+    display_actions: true,
+    display_create: true}.merge(opts)
+%>
 <div class="index_controls_container" data-top="50" data-bottom="40">
   <div class="row collapse">
     <div class="large-9 columns">
       <div class="row collapse">
         <div class="large-6 columns">
           <div class="pagination_info"><%= page_entries_info collection %></div>
-        </div>  
+        </div>
         <div class="large-6 columns">
-          <%= render :partial => "record_shared/header", locals: { model: model, record: record, modules: @current_modules } %>
+          <%= render partial: "record_shared/header",
+                     locals: {
+                       model: model, record: record, modules: @current_modules,
+                       display_actions: options[:display_actions],
+                       display_create: options[:display_create]
+                     }
+          %>
         </div>
       </div>
     </div>
     <div class="large-3 columns">
+      <% if options[:display_filter] %>
         <div class="filter_title left"><%= t("buttons.filter_label") %></div>
         <%= link_to t("buttons.filter"),'', class: 'green-button right', id: 'apply_filter' %>
-    </div>  
+      <% end %>
+    </div>
   </div>
 </div>
 <div class="row collapse">

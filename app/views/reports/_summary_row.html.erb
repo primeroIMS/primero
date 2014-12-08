@@ -1,0 +1,9 @@
+<tr>
+  <td class="select_record">
+    <input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= record.name %>">
+  </td>
+  <td id="report_<%= record.id %>" class="id_column">
+    <%= link_to record.name, report_path(record), class: 'id_link' %>
+  </td>
+  <td><%= record.description %></td>
+</tr>
