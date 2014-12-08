@@ -60,7 +60,7 @@ module IndexHelper
         end
 
         if filter_value(filter)
-          checked = true if filter_value(filter).split('||').include? item.gsub('_', '')
+          checked = true if filter_value(filter).include? item.gsub('_', '')
         end
 
         concat(label_tag("#{filter}_#{item}",
@@ -96,7 +96,7 @@ module IndexHelper
   def build_filter_location(title, filter)
     options = [[I18n.t("fields.select_box_empty_item"), '']] + Location.all.all.map{|loc| [loc.name, loc.name]}
     value = filter_value(filter)
-    value = value.split("||").pop if filter_value(filter)
+    value = value.pop if value
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(select_tag filter,
@@ -109,9 +109,11 @@ module IndexHelper
 
   def filter_value(filter)
     value = nil
-    if params['scope'].present?
-      value = params['scope'][filter]
+    if @filters[filter].present?
+      value = @filters[filter][:value]
+      value = [value] unless value.is_a? Array
     end
+    value.map{|v| v.to_s} if value
   end
 
   def violation_type_list

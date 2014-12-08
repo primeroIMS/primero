@@ -147,7 +147,7 @@ class ChildrenController < ApplicationController
   def record_filter(filter)
     #The UNHCR report should retrieve only CP cases.
     filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::CP}"} if params["format"] == "unhcr_csv"
-    filter["child_status"] ||= {:type => "single", :value => "open"}
+    filter["child_status"] ||= {:type => "single", :value => "Open"}
     filter
   end
 

@@ -28,7 +28,8 @@ module RecordActions
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
-    @records, @total_records = retrieve_records_and_total(record_filter(filter))
+    @filters = record_filter(filter)
+    @records, @total_records = retrieve_records_and_total(@filters)
 
     # Alias @records to the record-specific name since ERB templates use that
     # right now
