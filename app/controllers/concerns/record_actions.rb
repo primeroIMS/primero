@@ -273,6 +273,8 @@ module RecordActions
           ps.inject({}) {|acc, (k,v)| acc.merge( k => prop_selector.call(v) ) }
         when Array
           ps.select {|p| all_permitted_keys.include?(p.name) }
+        else
+          ps
         end
       end
 
