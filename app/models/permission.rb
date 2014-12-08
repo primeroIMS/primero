@@ -1,9 +1,8 @@
 class Permission
-
-
   READ = 'read'
   WRITE = 'write'
   FLAG = 'flag'
+  IMPORT = 'import'
   ASSIGN = 'assign'
   CASE = 'case'
   INCIDENT = 'incident'
@@ -20,7 +19,7 @@ class Permission
   end
 
   def self.actions
-    [READ, WRITE, FLAG, ASSIGN]
+    [READ, WRITE, FLAG, IMPORT, ASSIGN]
   end
 
   def self.resources

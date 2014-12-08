@@ -96,6 +96,7 @@ create_or_update_role(
     Permission::USER,
     Permission::METADATA,
     Permission::SYSTEM,
+    Permission::IMPORT,
     Permission::ALL
   ]
 )
