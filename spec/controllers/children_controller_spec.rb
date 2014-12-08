@@ -20,7 +20,7 @@ describe ChildrenController do
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
     unless example.metadata[:skip_session]
-      @user = User.new(:user_name => 'fakeadmin')
+      @user = User.new(:user_name => 'test_user')
       @session = fake_admin_login @user
     end
   end
@@ -48,6 +48,7 @@ describe ChildrenController do
         get :search
         response.status.should == 403
       end
+
 
       it "GET new" do
         @controller.stub(:get_form_sections).and_return({})
@@ -379,7 +380,51 @@ describe ChildrenController do
       end
 
     end
+    
+    describe "phonetic search", search: true, skip_session: true do
+    
+      before do
 
+        #Sunspot.setup(Child) {text 'name_nickname', as: "*_ph".to_sym}
+        #Sunspot.setup(Child) {text 'name_othername', as: "*_ph".to_sym}
+        #Sunspot.setup(Child) {text 'name', as: "*_ph".to_sym}
+
+        Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
+
+        User.all.each{|u| u.destroy}
+        Child.all.each{|c| c.destroy}
+        Sunspot.remove_all!
+
+
+        roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
+
+        Child.any_instance.stub(:child_status).and_return("Open")
+        @case_worker = create(:user)
+        @case_worker.stub(:roles).and_return(roles)
+        
+      end    
+
+      it "should find english name" do
+
+        names = ["Kevin", "Albin", "Alder", "Michael", "Aubrey", "Christian"]
+        @children_cases = []
+        names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+        end
+
+        Sunspot.commit
+
+        session = fake_login @case_worker
+       
+        params = {"query" => @children_cases.first.name}
+        get :index, params
+
+        expect(assigns[:children]).to match_array([@children_cases.first])
+        
+      end
+      
+    end
 
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       before do
