@@ -18,12 +18,14 @@
 //= require plugins/outside_events.min
 //= require primero.dataTables.js
 //= require plugins/dataTables.responsive
+//= require plugins/dataTables.fixedColumns
 //= require plugins/popovers
 //= require plugins/autogrow
 //= require plugins/hoverintent
 //= require plugins/superfish
 //= require plugins/jquery.mousewheel.min
 //= require plugins/jquery.mCustomScrollbar.min
+//= require plugins/table2CSV
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations
@@ -59,4 +61,6 @@
 //= require flag_records
 //= require actions
 //= require summary_page
-
+//= require reports
+//= require plugins/Chart
+//= require plugins/colormap

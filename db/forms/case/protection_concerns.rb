@@ -46,7 +46,7 @@ protection_concern_fields = [
                 { id: 'child_mother', display_text: "Child Mother" },
                 { id: 'physically_or_mentally_abused', display_text: "Physically or Mentally Abused" },
                 { id: 'living_with_vulnerable_person', display_text: "Living with vulnerable person" },
-                { id: 'word_form_of_child_labor', display_text: "Word Forms of Child Labor" },
+                { id: 'worst_form_of_child_labor', display_text: "Worst Forms of Child Labor" },
                 { id: 'child_headed_household', display_text: "Child Headed Household" },
                 { id: 'mentally_distressed', display_text: "Mentally Distressed" },
                 { id: 'other', display_text: "Other" }

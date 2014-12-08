@@ -1,30 +1,15 @@
-<h4 class="text-center">&lt;Placeholder for <%= I18n.t("navigation.reports") %>&gt;</h4>
-
-<% if false %>
-<h1 class="no_border float_left"><%= @page_name %></h1>
-
-<div class="page-content-new">
-  <div class="side-tab-content full_width">
-    <table id="reports" class="list_table">
-      <thead>
-        <tr>
-          <th><%= t "report.type" %></th>
-          <th><%= t "report.as_of_date" %></th>
-          <th><%= t "report.download" %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @reports.each do |report| %>
-          <tr>
-            <td class="report_type"><%= t report.report_type, :scope => "report.types" %></td>
-            <td class="as_of_date"><%= l report.as_of_date, :format => :long %></td>
-            <td class="download"><%= link_to t("report.download"), report_path(report) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <%= render :partial => 'shared/pagination', :locals => { :results => @reports } %>
-  </div>
-</div>
-<% end %>
+<%=
+  render({
+    partial: 'record_shared/list_view_table',
+    locals: {
+      model: Report,
+      record: 'report',
+      collection: @reports,
+      opts: {
+        display_actions: false,
+        display_filter: false,
+        display_create: true
+      }
+    }
+  })
+%>
