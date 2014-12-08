@@ -104,6 +104,10 @@ tracing_fields = [
                         "Divorce/remarriage",
                         "Other (please specify)"].join("\n")
               }),
+  Field.new({"name" => "separation_cause_other",
+             "type" => "text_field",
+             "display_name_all" => "If Other, please specify"
+            }),
   Field.new({"name" => "separation_details",
              "type" => "textarea",
              "display_name_all" => "Circumstances of Separation (please provide details)"
