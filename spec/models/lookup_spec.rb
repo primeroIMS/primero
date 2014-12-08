@@ -41,4 +41,20 @@ describe Lookup do
     lookup = create :lookup, :name => 'test lookup 1234', :_id => nil
     lookup.id.should == "lookup-test-lookup-1234"
   end
+
+  describe "check being used" do
+    before do
+      @lookup = create :lookup, name: 'test lookup', lookup_values: ['value1', 'value2']
+    end
+
+    context "when not on a form" do
+      it "should return that it is not being used" do
+        expect(@lookup.is_being_used?).to be_false
+      end
+    end
+
+    context "when on a form" do
+
+    end
+  end
 end
