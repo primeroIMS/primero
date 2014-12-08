@@ -34,6 +34,20 @@ class ReportsController < ApplicationController
     render json: @report.graph_data
   end
 
+  def new
+  end
+
+  def create
+  end
+
+  def edit
+  end
+
+  def update
+  end
+
+
+
   # Method to trigger a report rebuild.
   # TODO: Currently this isn't used as we are not storing the generated report data.
   #       See models/report.rb and graph_data method above.
