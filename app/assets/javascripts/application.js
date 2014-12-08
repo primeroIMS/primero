@@ -25,7 +25,6 @@
 //= require plugins/superfish
 //= require plugins/jquery.mousewheel.min
 //= require plugins/jquery.mCustomScrollbar.min
-//= require plugins/table2CSV
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations
@@ -64,3 +63,4 @@
 //= require reports
 //= require plugins/Chart
 //= require plugins/colormap
+//= require primero.table2CSV
