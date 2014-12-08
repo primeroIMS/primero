@@ -28,7 +28,7 @@ class Report < CouchRest::Model::Base
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'Report' && doc['module_ids']){
                   for(var i in doc['module_ids']){
-                    emit(doc['module_ids'][i], null);
+                    emit(doc['module_ids'][i], doc['_id']);
                   }
                 }
               }"

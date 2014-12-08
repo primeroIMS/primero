@@ -8,7 +8,8 @@ class ReportsController < ApplicationController
     authorize! :index, Report
     # NOTE: If we start needing anything more complicated than module filtering on reports,
     #       index them in Solr and make searchable. Replace all these views and paginations with Sunspot.
-    reports = Report.by_module_id(keys: @current_user.module_ids).page(page).per(per_page).all
+    report_ids = Report.by_module_id(keys: @current_user.module_ids).values.uniq
+    reports = Report.all(keys: report_ids).page(page).per(per_page).all
     @reports = paginated_collection(reports, reports.count)
   end
 
