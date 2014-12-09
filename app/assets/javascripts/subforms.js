@@ -268,7 +268,7 @@ _primero.update_subform_heading = function(subformEl) {
           }
         }
 
-        if (value != null) {
+        if (value !== null) {
           //Don't see the way to do this without hardcode the name.
           //Users can change the dbname for this field.
           if (input_id.match(/relation_is_caregiver$/)) {
