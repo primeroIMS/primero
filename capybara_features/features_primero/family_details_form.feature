@@ -10,6 +10,7 @@
 #JIRA PRIMERO-244
 #JIRA PRIMERO-736
 #JIRA PRIMERO-838
+#JIRA PRIMERO-847
 
 @javascript @primero
 Feature: Family Details Form
@@ -34,7 +35,7 @@ Feature: Family Details Form
     And I fill in the 1st "Family Details Section" subform with the follow:
       |Name                                                  | Socorro                                    |
       |How are they related to the child?                    | <Select> Mother                            |
-      |Is this person the caregiver?                         | <Radio> Yes                                |
+      |Is this person the caregiver?                         | <Tickbox>                                  |
       |Did the child live with this person before separation?| <Radio> Yes                                |
       |Is the child in contact with this person?             | <Radio> Yes                                |
       |Is the child separated from this person?              | <Radio> Yes                                |
@@ -54,7 +55,6 @@ Feature: Family Details Form
     And I fill in the 2nd "Family Details Section" subform with the follow:
       |Name                                                  | Pedro                                      |
       |How are they related to the child?                    | <Select> Father                            |
-      |Is this person the caregiver?                         | <Radio> No                                 |
       |Did the child live with this person before separation?| <Radio> No                                 |
       |Is the child in contact with this person?             | <Radio> No                                 |
       |Is the child separated from this person?              | <Radio> No                                 |
