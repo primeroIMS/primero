@@ -59,11 +59,29 @@ describe LookupsController do
   end
 
   describe "post destroy" do
-    it "should delete a lookup" do
-      existing_count = Lookup.count
-      post :destroy, id: @lookup_b.id
-      expect(response).to redirect_to(lookups_path)
-      expect(Lookup.count).to eq(existing_count - 1)
+    context "when on a form" do
+      before do
+        @lookup_d = Lookup.create!(name: "D", lookup_values: ["D", "DD", "DDD", "DDDD"])
+        text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
+        select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup D" )
+        fs = create :form_section, fields: [select_box_field]
+      end
+
+      it "should not delete a lookup" do
+        existing_count = Lookup.count
+        post :destroy, id: @lookup_d.id
+        expect(response).to redirect_to(lookups_path)
+        expect(Lookup.count).to eq(existing_count)
+      end
+    end
+
+    context "when not on a form" do
+      it "should delete a lookup" do
+        existing_count = Lookup.count
+        post :destroy, id: @lookup_c.id
+        expect(response).to redirect_to(lookups_path)
+        expect(Lookup.count).to eq(existing_count - 1)
+      end
     end
   end
 end
