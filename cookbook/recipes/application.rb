@@ -6,7 +6,7 @@ include_recipe 'primero::common'
    libxml2-dev
    libxslt1-dev
    imagemagick
-   openjdk-7-jdk).each do |pkg|
+   openjdk-7-jre-headless).each do |pkg|
   package pkg
 end
 
