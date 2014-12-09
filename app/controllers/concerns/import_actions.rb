@@ -2,7 +2,6 @@ module ImportActions
   extend ActiveSupport::Concern
 
   def import_file
-    require 'pry'; binding.pry
     authorize! :import, model_class
 
     if params[:import_file].is_a? ActionDispatch::Http::UploadedFile
