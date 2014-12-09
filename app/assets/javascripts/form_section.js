@@ -21,6 +21,12 @@ $(document).ready(function() {
     });
     $(".field_location").bind('change', changeForm);
 
+    init_show_form();
+    function init_show_form() {
+        var content = $("ul.field_types a.sel").attr('id');
+        $(getFieldDetails(content)).show();
+    }
+
     function changeForm(event){
       var parent_div = $($(event.target).parents('.field-buttons'));
       parent_div.find(".destination_form_id").val($(this).val());
@@ -70,6 +76,7 @@ $(document).ready(function() {
 
     function resetAddField(){
         $('#field_details_tally').hide();
+        $('#field_details_tick_box').hide();
         $('#field_details_select_box').hide();
         $('#field_details_options').hide();
         $('#field_details').hide();
@@ -85,14 +92,14 @@ $(document).ready(function() {
         $("#err_msg_panel").hide();
 
 
-        $("#field_details_options, #field_details_select_box, #field_details_tally, #field_details").hide();
+        $("#field_details_options, #field_details_select_box, #field_details_tally, #field_details_tick_box, #field_details").hide();
 
         $(".field_details_panel input[type='text'], .field_details_panel textarea").val("");
         var _this = this;
         $(".field_type").each(function(){
             $(this).val(_this.id);
         })
-        $(getFieldDetails(this.id)).slideDown("fast");
+        $(getFieldDetails(this.id)).show();
         configureFieldMultiSelect(this.id);
         _primero.set_content_sidebar_equality();
     }
