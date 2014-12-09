@@ -376,9 +376,7 @@ describe IncidentsController do
       Incident.stub(:get).with("37").and_return(mock_incident)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_incident.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :show, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -433,9 +431,7 @@ describe IncidentsController do
       Incident.stub(:get).with("37").and_return(mock_incident)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_incident.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -844,14 +840,14 @@ describe IncidentsController do
   describe "POST create" do
     it "should update the incident record instead of creating if record already exists" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      incident = Incident.new_with_user_name(user, {:name => 'old name'})
+      incident = Incident.new_with_user_name(user, {:description => 'old incident'})
       incident.save
       fake_admin_login
       controller.stub(:authorize!)
-      post :create, :incident => {:unique_identifier => incident.unique_identifier, :name => 'new name'}
+      post :create, :incident => {:unique_identifier => incident.unique_identifier, :description => 'new incident'}
       updated_incident = Incident.by_short_id(:key => incident.short_id)
       updated_incident.all.size.should == 1
-      updated_incident.first.name.should == 'new name'
+      updated_incident.first.description.should == 'new incident'
     end
   end
 

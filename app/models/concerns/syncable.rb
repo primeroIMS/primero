@@ -123,7 +123,7 @@ module Syncable
         case new_props[key]
         when Hash
           new_props[key] = new_props[key].keys.inject(new_props[key]) do |acc, k|
-            if prop_change[k].present?
+            if prop_change.try(:fetch, k, nil).present?
               remove_proc.call(acc, [k, prop_change[k]])
             else
               acc

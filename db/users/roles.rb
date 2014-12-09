@@ -30,8 +30,10 @@ create_or_update_role(
     Permission::READ,
     Permission::FLAG,
     Permission::ASSIGN,
+    Permission::REPORT_CREATE,
     Permission::CASE,
     Permission::TRACING_REQUEST,
+    Permission::REPORT,
     Permission::USER,
     Permission::GROUP
   ]
@@ -54,8 +56,10 @@ create_or_update_role(
     Permission::READ,
     Permission::FLAG,
     Permission::ASSIGN,
+    Permission::REPORT_CREATE,
     Permission::CASE,
     Permission::INCIDENT,
+    Permission::REPORT,
     Permission::USER,
     Permission::GROUP
   ]
@@ -77,9 +81,11 @@ create_or_update_role(
     Permission::READ,
     Permission::FLAG,
     Permission::ASSIGN,
+    Permission::REPORT_CREATE,
     Permission::INCIDENT,
     Permission::USER,
-    Permission::GROUP
+    Permission::GROUP,
+    Permission::REPORT
   ]
 )
 
@@ -90,6 +96,7 @@ create_or_update_role(
     Permission::WRITE,
     Permission::FLAG,
     Permission::ASSIGN,
+    Permission::REPORT_CREATE,
     Permission::CASE,
     Permission::INCIDENT,
     Permission::TRACING_REQUEST,
@@ -97,6 +104,7 @@ create_or_update_role(
     Permission::METADATA,
     Permission::SYSTEM,
     Permission::IMPORT,
+    Permission::REPORT,
     Permission::ALL
   ]
 )

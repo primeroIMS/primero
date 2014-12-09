@@ -16,7 +16,7 @@ tracing_action_subform = [
                  "Photo Tracing",
                  "Referral to NGO",
                  "Referral to ICRC"
-               ]
+               ].join("\n")
               }),
     Field.new({"name" => "address_tracing",
                "type" => "textarea",

@@ -19,6 +19,7 @@
       <% fields_id=[]
          data_types=[]
          value_fields=[]
+         caregiver = false
          collapsed_fields.each do |field|
            fk = field_keys(subform_name, i, field.name, form_group_name)
 
@@ -38,22 +39,36 @@
            end
 
            #retrieve the value of the fields.
-           value = i.to_s == "template" ? "" : field_value(formObject, field, fk)
-           if field['option_strings_text_en'].present? && field['option_strings_text_en'].is_a?(Array)
-            value_to_display = field_value_for_multi_select value, field
+           if field.name == "relation_is_caregiver"
+             #Don't see the way to do this without hardcode the name.
+             #Users can change the dbname for this field.
+             value = i.to_s == "template" ? "" : field_value(formObject, field, fk)
+             #Display value for "false" is empty string.
+             caregiver = value == true
            else
-            value_to_display = field_value_for_display value
+             value = i.to_s == "template" ? "" : field_value(formObject, field, fk)
+             if field['option_strings_text_en'].present? && field['option_strings_text_en'].is_a?(Array)
+               value_to_display = field_value_for_multi_select value, field
+             else
+               value_to_display = field_value_for_display value
+             end
+             value_fields << value_to_display
            end
-           value_fields << value_to_display
          end
       %>
       <% if view_mode %>
         <span>
-          <%= value_fields.reject(&:empty?).join(' - ') %>
+          <% #Don't see the way to do the caregiver thing without hardcode the names.
+             #Users can change the dbname for this field.
+             #Send the i18n string t('caregiver') to the browser. %>
+          <%= value_fields.reject(&:empty?).join(' - ') + (caregiver ? t('caregiver') : "") %>
         </span>
       <% else %>
-      <span data-fields="<%= fields_id.join(',') %>" data-types="<%= data_types.join(',') %>">
-        <%= value_fields.reject(&:empty?).join(' - ') %>
+      <% #Don't see the way to do the caregiver thing without hardcode the names.
+         #Users can change the dbname for this field.
+         #Send the i18n string t('caregiver') to the browser. %>
+      <span data-fields="<%= fields_id.join(',') %>" data-types="<%= data_types.join(',') %>" data-caregiver="<%= t('caregiver') %>">
+        <%= value_fields.reject(&:empty?).join(' - ')  + (caregiver ? t('caregiver') : "") %>
       </span>
       <% end %>
     </div>

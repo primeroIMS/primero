@@ -5,6 +5,7 @@
    field_id = "#{select_box.form.name.dehumanize}_#{sanitize_to_id name}"
    value = select_box.selected_value if select_box.selected_value.present? && formObject.new_record?
    value ||= field_value formObject, select_box, field_keys
+   field_tags = select_box.field_tags.present? ? select_box.field_tags : []
 %>
 
 <div class="row">
@@ -15,12 +16,18 @@
   </div>
   <div class="medium-8 columns">
     <% if select_box.multi_select %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'multiple' => '', 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'multiple' => '',
+          'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
+          :data => { :field_tags => field_tags} %>
     <% elsif select_box.searchable_select %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), :id => field_id %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value),
+          'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), :id => field_id,
+          :data => { :field_tags => field_tags} %>
     <% else %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), :id => field_id %>
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), :id => field_id,
+          :data => { :field_tags => field_tags} %>
     <% end %>
-    <%= image_tag "new/icon_help.png", title: select_box.help_text, class: 'tool-tip-icon vtip' if select_box.help_text.present? %>
+    <%= image_tag "new/icon_help.png", title: select_box.help_text,
+        class: 'tool-tip-icon vtip' if select_box.help_text.present? %>
   </div>
 </div>
