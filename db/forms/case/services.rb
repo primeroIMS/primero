@@ -59,7 +59,7 @@ services_subform = [
   }),
   Field.new({
     "name" => "service_referral_notes",
-    "type" => "text_field",
+    "type" => "textarea",
     "display_name_all" => "Notes"
   })
 ]
