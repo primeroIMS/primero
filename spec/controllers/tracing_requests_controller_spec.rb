@@ -374,9 +374,7 @@ describe TracingRequestsController do
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :show, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -402,18 +400,15 @@ describe TracingRequestsController do
   describe "GET new" do
     it "assigns a new tracing request as @tracing_request" do
       TracingRequest.stub(:new).and_return(mock_tracing_request)
-      controller.stub :get_form_sections
       get :new
       assigns[:tracing_request].should equal(mock_tracing_request)
     end
 
     it "retrieves the grouped forms that are permitted to this user and tracing request" do
-      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
+      controller.stub(:make_new_record).and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :new, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -431,9 +426,7 @@ describe TracingRequestsController do
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -461,10 +454,10 @@ describe TracingRequestsController do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       put :update, :id => tracing_request.id,
         :tracing_request => {
-          :last_known_location => "Manchester",
+          :relation_name => "Bill",
           :photo => Rack::Test::UploadedFile.new(uploadable_photo_jeff) }
 
-      assigns[:tracing_request]['last_known_location'].should == "Manchester"
+      assigns[:tracing_request]['relation_name'].should == "Bill"
       assigns[:tracing_request]['_attachments'].size.should == 2
       updated_photo_key = assigns[:tracing_request]['_attachments'].keys.select {|key| key =~ /photo.*?-2010-01-17T140532/}.first
       assigns[:tracing_request]['_attachments'][updated_photo_key]['data'].should_not be_blank
@@ -476,11 +469,11 @@ describe TracingRequestsController do
 
       put :update, :id => tracing_request.id,
         :tracing_request => {
-          :last_known_location => "Manchester",
-          :age => '7'}
+          :relation_name => 'Bill',
+          :reunited => 'false'}
 
-      assigns[:tracing_request]['last_known_location'].should == "Manchester"
-      assigns[:tracing_request]['age'].should == "7"
+      assigns[:tracing_request]['relation_name'].should == 'Bill'
+      assigns[:tracing_request]['reunited'].should == false
       assigns[:tracing_request]['_attachments'].size.should == 1
     end
 
@@ -498,7 +491,7 @@ describe TracingRequestsController do
 
     it "should update the last_updated_by_full_name field with the logged in user full name" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      tracing_request = TracingRequest.new_with_user_name(user, {:name => 'existing tracing_request'})
+      tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'existing tracing_request'})
       TracingRequest.stub(:get).with("123").and_return(tracing_request)
       subject.should_receive('current_user_full_name').and_return('Bill Clinton')
 
@@ -509,8 +502,8 @@ describe TracingRequestsController do
 
     it "should not set photo if photo is not passed" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
-      params_tracing_request = {"name" => 'update'}
+      tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
+      params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
@@ -519,8 +512,8 @@ describe TracingRequestsController do
 
     it "should delete the audio if checked delete_tracing_request_audio checkbox" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
-      params_tracing_request = {"name" => 'update'}
+      tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
+      params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
@@ -529,8 +522,8 @@ describe TracingRequestsController do
 
     it "should redirect to redirect_url if it is present in params" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
-      params_tracing_request = {"name" => 'update'}
+      tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
+      params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
@@ -540,9 +533,9 @@ describe TracingRequestsController do
 
     it "should redirect to case page if redirect_url is not present in params" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      tracing_request = TracingRequest.new_with_user_name(user, {:name => 'some name'})
+      tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
 
-      params_tracing_request = {"name" => 'update'}
+      params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)

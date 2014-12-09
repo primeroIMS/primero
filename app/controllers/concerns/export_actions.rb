@@ -25,7 +25,8 @@ module ExportActions
           raise "You must specify the properties to export as a controller method called 'exported_properties'"
         end
 
-        export_data = exporter.export(models, exported_properties, current_user)
+        props = filter_permitted_export_properties(models, exported_properties)
+        export_data = exporter.export(models, props, current_user)
         encrypt_data_to_zip export_data, export_filename(models, exporter), params[:password]
       end
     end
@@ -39,5 +40,9 @@ module ExportActions
     else
       "#{current_user.user_name}-#{model_class.name.underscore}.#{exporter.mime_type}"
     end
+  end
+
+  def filter_permitted_export_properties(models, props)
+    props
   end
 end
