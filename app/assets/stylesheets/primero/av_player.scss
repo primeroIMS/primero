@@ -37,3 +37,20 @@
         }
     }
 }
+
+.audio {
+  audio {
+    display: none;
+  }
+}
+
+/*Only for IE10: We are not showing the jplayer progress bar on IE10 since it is not working.*/
+@media screen and (min-width:0\0) {
+ .jp-audio {
+    .jp-interface {
+      .jp-progress {
+        display: none;
+      }
+    }
+  }
+}

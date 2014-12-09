@@ -5396,6 +5396,10 @@
 		this.fnAdjustColumnSizing = function ( bRedraw )
 		{
 			var api = this.api( true ).columns.adjust();
+			// TODO: This is breaking when api is empty. Is there a better way to avoid the break?
+			if(api.length === 0) {
+				return;
+			}
 			var settings = api.settings()[0];
 			var scroll = settings.oScroll;
 		
