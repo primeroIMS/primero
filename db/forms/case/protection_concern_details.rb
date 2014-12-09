@@ -75,7 +75,7 @@ protection_concern_detail_subform_fields = [
     "option_strings_text_all" => "Yes\nNo"
   }),
   Field.new({"name" => "concern_action_taken_details",
-    "type" => "text_field",
+    "type" => "textarea",
     "display_name_all" => "Details of Action Taken"
   }),
   Field.new({"name" => "concern_action_taken_date",
