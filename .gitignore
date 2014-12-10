@@ -42,6 +42,7 @@ vendor/ruby/
 Guardfile
 cookbook/cookbooks/
 cookbook/private/
+cookbook/nodes/
 .project
 .buildpath
 coverage/

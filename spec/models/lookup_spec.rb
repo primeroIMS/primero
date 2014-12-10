@@ -41,4 +41,30 @@ describe Lookup do
     lookup = create :lookup, :name => 'test lookup 1234', :_id => nil
     lookup.id.should == "lookup-test-lookup-1234"
   end
+
+  describe "check being used" do
+    before do
+      Lookup.all.each &:destroy
+      @lookup = create :lookup, name: 'test lookup', lookup_values: ['value1', 'value2']
+    end
+
+    context "when not on a form" do
+      it "should return that it is not being used" do
+        expect(@lookup.is_being_used?).to be_false
+      end
+    end
+
+    context "when on a form" do
+      before do
+        @lookup_d = Lookup.create!(name: "D", lookup_values: ["D", "DD", "DDD", "DDDD"])
+        text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
+        select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup D" )
+        fs = create :form_section, fields: [select_box_field]
+      end
+
+      it "should return that it is being used" do
+        expect(@lookup_d.is_being_used?).to be_true
+      end
+    end
+  end
 end

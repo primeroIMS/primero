@@ -259,8 +259,8 @@ en:
     edit_photo: "Edit photo"
     manage_photos: "Manage photos"
 
-    view: "View Child %{short_id}"
-    edit: "Edit Child"
+    view: "View Case %{short_id}"
+    edit: "Edit Case"
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
 
@@ -711,12 +711,14 @@ en:
       write: "Write"
       flag: "Flag"
       assign: "Assign record owner"
+      report_create: "Build reports"
       case: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
       user: "Users, Groups, Roles"
       metadata: "Forms, Lookups"
       system: "System"
+      report: "Report"
       self: "Access only my records"
       group: "Access all records owned by users in my group"
       all: "Access all records"
@@ -928,13 +930,20 @@ en:
     no_token_provided: "no session token provided"
     no_token_in_header: "no session token in headers or cookies"
 
+  reports:
+    register_new_report: "Create Report"
+
   report:
     heading: "RapidFTR Reports"
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
-    types:
-      weekly_report: "Weekly Report"
+    all: "All"
+    total: "Total"
+    no_data: "No data exists for this report"
+    export:
+      graph: "Graph"
+      data: "Data"
 
   encrypt:
     password_title: "Create Password"
@@ -1139,6 +1148,7 @@ en:
       lookup:
         value_presence: "Please select at least one lookup value"
         unique_name: "A lookup with that name already exists, please enter a different name"
+        being_used: "This lookup is being used and cannot be deleted"
 
       system_users:
         username_unique: "User name has already been taken! Please select a new User name"
@@ -1262,3 +1272,4 @@ en:
 
   per_page_translation: "Per page _MENU_"
   total: Total
+  caregiver: " (Caregiver)"

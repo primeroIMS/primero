@@ -108,11 +108,21 @@ _primero.getInternetExplorerVersion = function() {
   {
     var ua = navigator.userAgent;
     var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-    if (re.exec(ua) != null)
+    if (re.exec(ua) !== null)
       rv = parseFloat( RegExp.$1 );
   }
   return rv;
-}
+};
+
+_primero.is_under_18 = function(date) {
+  if (date) {
+    var birthday = new Date(date);
+    age = ((Date.now() - birthday) / (31557600000));
+    return age < 18 ? true : false;
+  } else {
+    return false;
+  }
+};
 
 var Primero = Backbone.View.extend({
   el: 'body',

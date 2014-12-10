@@ -51,6 +51,9 @@
       <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('Armed Force Group Type', @lookups),
         { multi: true }) %>
     <% end %>
+    <% if filters_to_show.include? 'Record State' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}], nil, nil, 'single') %>
+    <% end %>
   </form>
   <div class="clearfix"></div>
 </div>

@@ -1,30 +1,32 @@
 class Permission
-
-
   READ = 'read'
   WRITE = 'write'
   FLAG = 'flag'
+  IMPORT = 'import'
   ASSIGN = 'assign'
+  REPORT_CREATE = 'report_create' #ok, painted us into a corner here
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
   USER = 'user'
   METADATA = 'metadata'
   SYSTEM = 'system'
+  REPORT = 'report'
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
   ALL = 'all'
+
 
   def self.description(permission)
     I18n.t("permission.#{permission}")
   end
 
   def self.actions
-    [READ, WRITE, FLAG, ASSIGN]
+    [READ, WRITE, FLAG, IMPORT, ASSIGN, REPORT_CREATE]
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, USER, METADATA, SYSTEM]
+    [CASE, INCIDENT, TRACING_REQUEST, USER, METADATA, SYSTEM, REPORT]
   end
 
   def self.management

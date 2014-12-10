@@ -37,7 +37,7 @@ template '/etc/couchdb/local.ini' do
 end
 
 service 'couchdb' do
-  action [:enable, :start]
+  action [:enable, :restart]
   provider Chef::Provider::Service::Upstart
 end
 

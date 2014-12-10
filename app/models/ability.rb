@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     alias_action :index, :view, :list, :export, :to => :read
-    alias_action :edit, :update, :create, :new, :destroy, :disable, :import, :to => :write
+    alias_action :edit, :update, :create, :new, :destroy, :disable, :to => :write
 
     @user = user
 
@@ -63,6 +63,15 @@ class Ability
       end
     end
 
+    #TODO: Yeah, yeah, we should make permissioning granular in R2.
+    if user.has_permission? Permission::REPORT
+      can :read, Report
+    end
+    if user.has_permission? Permission::REPORT_CREATE
+      can :read, Report
+      can :write, Report
+    end
+
   end
 
   def user
@@ -71,7 +80,6 @@ class Ability
 
   def configure_resource(resource, actions, is_record=false)
     if is_record
-      can actions, Report
       can actions, resource do |instance|
         if user.has_permission? Permission::ALL
           true
@@ -94,9 +102,4 @@ class Ability
   def cannot(action = nil, subject = nil, conditions = nil, &block)
     rules << CanCan::CustomRule.new(false, action, subject, conditions, block)
   end
-
-
-
-
-
 end

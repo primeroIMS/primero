@@ -498,9 +498,7 @@ describe ChildrenController do
       Child.stub(:get).with("37").and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :show, :id => "37"
       assigns[:form_sections].should == grouped_forms
       #TODO: Do we need to test ordering of forms in the controller?
@@ -526,18 +524,15 @@ describe ChildrenController do
   describe "GET new" do
     it "assigns a new child as @child" do
       Child.stub(:new).and_return(mock_child)
-      controller.stub :get_form_sections
       get :new
       assigns[:child].should equal(mock_child)
     end
 
     it "retrieves the grouped forms that are permitted to this user and child" do
-      Child.stub(:get).with("37").and_return(mock_child)
+      controller.stub(:make_new_record).and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :new, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -546,7 +541,6 @@ describe ChildrenController do
   describe "GET edit" do
     it "assigns the requested child as @child" do
       Child.stub(:get).with("37").and_return(mock_child)
-      controller.stub :get_form_sections
       get :edit, :id => "37"
       assigns[:child].should equal(mock_child)
     end
@@ -555,9 +549,7 @@ describe ChildrenController do
       Child.stub(:get).with("37").and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -580,15 +572,15 @@ describe ChildrenController do
   describe "PUT update" do
     it "should update child on a field and photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
+      child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       put :update, :id => child.id,
         :child => {
-          :last_known_location => "Manchester",
+          :name => "Manchester",
           :photo => Rack::Test::UploadedFile.new(uploadable_photo_jeff) }
 
-      assigns[:child]['last_known_location'].should == "Manchester"
+      assigns[:child]['name'].should == "Manchester"
       assigns[:child]['_attachments'].size.should == 2
       updated_photo_key = assigns[:child]['_attachments'].keys.select {|key| key =~ /photo.*?-2010-01-17T140532/}.first
       assigns[:child]['_attachments'][updated_photo_key]['data'].should_not be_blank
@@ -596,15 +588,15 @@ describe ChildrenController do
 
     it "should update only non-photo fields when no photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      child = Child.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
+      child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       put :update, :id => child.id,
         :child => {
-          :last_known_location => "Manchester",
-          :age => '7'}
+          :name => "Manchester",
+          :reunited => true}
 
-      assigns[:child]['last_known_location'].should == "Manchester"
-      assigns[:child]['age'].should == "7"
+      assigns[:child]['name'].should == "Manchester"
+      assigns[:child]['reunited'].should be_true
       assigns[:child]['_attachments'].size.should == 1
     end
 
@@ -614,8 +606,8 @@ describe ChildrenController do
         :child => {
             :id => new_uuid.to_s,
             :_id => new_uuid.to_s,
-            :last_known_location => "London",
-            :age => "7"
+            :name => "London",
+            :reunited => true
         }
       Child.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
     end

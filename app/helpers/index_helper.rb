@@ -20,6 +20,8 @@ module IndexHelper
         list_view_header_incident
       when "tracing_request"
         list_view_header_tracing_request
+      when "report"
+        list_view_header_report
       else
         []
     end
@@ -183,6 +185,14 @@ module IndexHelper
     ]
   end
 
+  def list_view_header_report
+    [
+      {title: '', sort_title: 'select'},
+      {title: 'name', sort_title: 'name'},
+      {title: 'description', sort_title: 'description'},
+    ]
+  end
+
   def index_filters_case
     filters = []
 
@@ -220,6 +230,7 @@ module IndexHelper
     filters << "Protection Status" if @is_gbv
     filters << "Armed Force or Group" if @is_mrm
     filters << "Armed Force or Group Type" if @is_mrm
+    filters << "Record State"
 
     return filters
   end

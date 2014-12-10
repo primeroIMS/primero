@@ -23,6 +23,7 @@ class Lookup < CouchRest::Model::Base
   validate :is_name_unique, :if => :name
 
   before_save :generate_id
+  before_destroy :check_is_being_used
 
   class << self
     alias :old_all :all
@@ -63,6 +64,14 @@ class Lookup < CouchRest::Model::Base
     errors.add(:name, I18n.t("errors.models.lookup.unique_name"))
   end
 
+  def is_being_used?
+    FormSection.find_by_lookup_field(self.label).all.size > 0
+  end
+
+  def label
+    self.name.gsub(' ', '')
+  end
+
   def valid?(context = :default)
     self.name = self.name.try(:titleize)
     sanitize_lookup_values
@@ -71,6 +80,13 @@ class Lookup < CouchRest::Model::Base
 
   def generate_id
     self["_id"] ||= Lookup.lookup_id_from_name self.name
+  end
+
+  def check_is_being_used
+    if self.is_being_used?
+      errors.add(:name, I18n.t("errors.models.lookup.being_used"))
+      return false
+    end
   end
 
 end
