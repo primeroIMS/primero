@@ -424,7 +424,51 @@ describe ChildrenController do
         
       end
 
+      it "should find no name" do
+
+        names = ["Kevin", "Albin", "Alder", "Michael", "Aubrey", "Christian"]
+        @children_cases = []
+        names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+        end
+
+        Sunspot.commit
+
+        session = fake_login @case_worker
+       
+        params = {"query" => "Chris"}
+        get :index, params
+        expect(assigns[:children]).to match_array([])
+
+        params = {"query" => "Keivn"}
+        get :index, params
+        expect(assigns[:children]).to match_array([])
+
+      end
+
       it "shoud find all names" do
+        names = ["Mahmoud", "Mahmud", "Mahmood"]
+
+        @children_cases = []
+        names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+        end
+
+        Sunspot.commit
+
+        session = fake_login @case_worker
+       
+        params = {"query" => @children_cases.first.name}
+        get :index, params
+
+        expect(assigns[:children]).to have(@children_cases.count).things
+      end
+      
+    end
+
+      it "shoud find at least 20" do
         names = ["Mahmoud", "Mahmud", "Mahmood"]
 
         @children_cases = []
