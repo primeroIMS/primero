@@ -497,6 +497,27 @@ describe ChildrenController do
       end
     end
 
+      it "shoud find at least 20" do
+        names = ["Mahmoud", "Mahmud", "Mahmood"]
+
+        @children_cases = []
+        names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+        end
+
+        Sunspot.commit
+
+        session = fake_login @case_worker
+       
+        params = {"query" => @children_cases.first.name}
+        get :index, params
+
+        expect(assigns[:children]).to have(@children_cases.count).things
+      end
+      
+    end
+
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       before do
         fake_field_admin_login
