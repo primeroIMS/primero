@@ -2,6 +2,8 @@ module ImportActions
   extend ActiveSupport::Concern
 
   def import_file
+    authorize! :import, model_class
+
     if params[:import_file].is_a? ActionDispatch::Http::UploadedFile
       file = params[:import_file]
       type = params[:import_type] || file.original_filename.split('.')[-1]
