@@ -424,6 +424,29 @@ describe ChildrenController do
         
       end
 
+      it "should find no name" do
+
+        names = ["Kevin", "Albin", "Alder", "Michael", "Aubrey", "Christian"]
+        @children_cases = []
+        names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+        end
+
+        Sunspot.commit
+
+        session = fake_login @case_worker
+       
+        params = {"query" => "Chris"}
+        get :index, params
+        expect(assigns[:children]).to match_array([])
+
+        params = {"query" => "Mike"}
+        get :index, params
+        expect(assigns[:children]).to match_array([])
+
+      end
+
       it "shoud find all names" do
         names = ["Mahmoud", "Mahmud", "Mahmood"]
 
@@ -441,6 +464,26 @@ describe ChildrenController do
         get :index, params
 
         expect(assigns[:children]).to have(@children_cases.count).things
+      end
+
+      it "shoud find at least 20" do
+        #29 arabic names with Abdul prefix
+        names = ["Abdul-Baseer","Abdul-Basir", "Abdul-Basit", "Abdul-Batin", "Abdul-Dhahir", "Abdul-Fattah", "Abdul-Ghafaar", "Abdul-Ghaffar", "Abdul-Ghaffar", "Abdul-Ghafoor", "Abdul-Ghafur", "Abdul-Ghafur", "Abdul-Ghani", "Abdul-Ghani", "Abdul-Hadi", "Abdul-Hadi", "Abdul-Hafeedh", "Abdul-Hafeez", "Abdul-Hafiz", "Abdul-Hakam", "Abdul-Hakeem", "Abdul-Hakeem", "Abdul-Hakim", "Abdul-Haleem", "Abdul Haleem", "Abdul-Halim", "Abdul-Hameed", "Abdul-Hameed", "Abdul-Hamid"]
+
+        @children_cases = []
+        names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+        end
+
+        Sunspot.commit
+
+        session = fake_login @case_worker
+       
+        params = {"query" => "Abdool"}
+        get :index, params
+
+        expect(assigns[:children]).to have_at_least(20).things
       end
       
     end
