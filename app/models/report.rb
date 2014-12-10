@@ -1,6 +1,7 @@
 class Report < CouchRest::Model::Base
   use_database :report
   include PrimeroModel
+  include BelongsToModule
 
   property :name
   property :description
@@ -20,7 +21,9 @@ class Report < CouchRest::Model::Base
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
-  validates_presence_of :module_ids
+  validate do |report|
+   report.validate_modules_present(:module_ids)
+  end
 
   design do
     view :by_name
