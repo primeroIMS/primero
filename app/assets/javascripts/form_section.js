@@ -5,7 +5,7 @@ $(document).ready(function() {
     $("a.delete").click(deleteItem);
     $("a.add_field").click(toggleFieldPanel);
     $("ul.field_types a").click(showFieldDetails);
-    $(".field_details_panel a.link_cancel").click(toggleFieldPanel);
+    $(".cancel_field_modal").click(backToPrevious);
     $(".field_hide_show").bind('change',fieldHideShow);
     $(".link_moveto").click(showMovePanel);
     triggerErrors();
@@ -50,6 +50,14 @@ $(document).ready(function() {
             toggleFieldPanel(null, getFieldDetails(field_type));
             $("ul.field_types a").removeClass("sel");
             $("#"+field_type).addClass("sel");
+        }
+    }
+
+    function backToPrevious(){
+        //Only go back to previous url if editing a field
+        //For add field, stay at this url
+        if((typeof(edit_field_mode) != 'undefined') && (edit_field_mode)){
+           window.history.back();
         }
     }
 

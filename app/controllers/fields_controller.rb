@@ -32,7 +32,7 @@ class FieldsController < ApplicationController
   def edit
     @body_class = 'forms-page'
     @field = @form_section.fields.detect { |field| field.name == params[:id] }
-    @show_add_field = {:show_add_field => true}
+    @show_add_field = {:show_add_field => true, :edit_field_mode => true}
     @module_id = params[:module_id]
     render :template => "form_section/edit", :locals => @show_add_field
   end
