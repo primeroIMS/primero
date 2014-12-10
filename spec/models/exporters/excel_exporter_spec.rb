@@ -1,10 +1,11 @@
 require 'spec_helper'
+
 require 'spreadsheet'
 
 module Exporters
   describe ExcelExporter do
     before :each do
-      FormSection.all.all.each {|form| form.destroy}
+      FormSection.all.each &:destroy
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(:name => "cases_test_subform_2", :parent_form => "case", "visible" => false, "is_nested"=>true,
                                 :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_subform_2",
@@ -55,14 +56,14 @@ module Exporters
       #they keep registered in the execution of the rspecs and some test breaks up because 
       #the subforms are no longer available (which is ok, they shouldn't be).
       # Should the validators be registered on Child when a Child with subform is saved?
-      FormSection.all.all.map{|f| f.fields}
+      FormSection.all.map{|f| f.fields}
         .flatten.select{|f| f.type == Field::SUBFORM}
         .map{|f| f.name}.each do |key|
         # Remove the validator for the subforms used only on this test.
         Child._validators.delete key.to_sym if Child._validators[key.to_sym]
         Child.form_properties_by_name.delete key
       end
-      FormSection.all.all.each { |form| form.destroy }
+      FormSection.all.each { |form| form.destroy }
     end
 
     it "converts data to Excel format" do

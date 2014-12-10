@@ -31,6 +31,8 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
         });
       }
     });
+
+    this.update_child_fields();
   },
 
   //This method will be called when the age field was changed.
@@ -54,6 +56,8 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
         dateOfBirthField.val(date_of_birth);
       }
     }
+
+    this.update_child_fields();
   },
 
   //This method will be called when the birth of date was changed.
@@ -79,6 +83,21 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
         console.error("Has ocurred an error during auto calculate of age. " + e);
       }
     }
+
+    this.update_child_fields();
+  },
+
+  update_child_fields: function() {
+    var dob = $('input[id$="_date_of_birth"]').val() || $('.key.date_of_birth').parents('.row:first').find('.value').text(),
+        field_tag_inputs = $('[data-field-tags]:not([data-field-tags="[]"])'),
+        fields = [];
+
+    _.each(field_tag_inputs, function(field) {
+      if (_.contains($(field).data('field-tags'), 'child')) {
+        var child_field = $(field).parents('.row:first');
+        _primero.is_under_18(dob) ? child_field.show() : child_field.hide();
+      }
+    });
   }
 });
 

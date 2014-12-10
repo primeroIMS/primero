@@ -12,5 +12,5 @@ include_recipe 'primero::application'
 
 #TODO: Do we need this in light of the last few lines in the nginx recipe?
 service 'nginx' do
-  action :reload
+  action :restart
 end

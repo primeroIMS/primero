@@ -259,8 +259,8 @@ en:
     edit_photo: "Edit photo"
     manage_photos: "Manage photos"
 
-    view: "View Child %{short_id}"
-    edit: "Edit Child"
+    view: "View Case %{short_id}"
+    edit: "Edit Case"
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
 
@@ -587,6 +587,7 @@ en:
       delete: "Delete"
     messages:
       confirmation: "Are you sure you want to delete this module? Deletion can not be undone. Click OK to delete the module."
+      invalid: "Invalid module(s)"
 
   primero_module:
     create: "Create Module"
@@ -1151,6 +1152,7 @@ en:
       lookup:
         value_presence: "Please select at least one lookup value"
         unique_name: "A lookup with that name already exists, please enter a different name"
+        being_used: "This lookup is being used and cannot be deleted"
 
       system_users:
         username_unique: "User name has already been taken! Please select a new User name"
@@ -1274,3 +1276,4 @@ en:
 
   per_page_translation: "Per page _MENU_"
   total: Total
+  caregiver: " (Caregiver)"

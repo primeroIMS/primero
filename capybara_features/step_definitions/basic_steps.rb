@@ -43,7 +43,7 @@ Then /^I press the "([^\"]*)" (button|link|span|dropdown option)(?: "(.+)" times
     if type == "span"
       find("//span[text()=\"#{label}\"]", :visible => true).click
     else
-      page.execute_script("$('.side-nav').mCustomScrollbar('scrollTo', $(\"a:contains('#{label}')\"))")
+      page.execute_script("if($(\"a:contains('#{label}')\").parents('.mCSB_container').length){$('.side-nav').mCustomScrollbar('scrollTo', $(\"a:contains('#{label}')\"))}")
       click_on(label)
     end
   end
@@ -102,7 +102,7 @@ And /^I should see a value for "(.+)" on the show page(?: with the value of "(.*
 
   #Find the element that represent the field name
   #within(:xpath, "//fieldset//label[@class='key']", :text => /\A#{Regexp.escape(field)}\z/, :visible => true) do
-  within(:xpath, "//fieldset//label[@class='key' and text()=\"#{field}\"]", :visible => true) do
+  within(:xpath, "//fieldset//label[contains(@class, 'key') and text()=\"#{field}\"]", :visible => true) do
     #Sometime we just check if the field appears in the page.
     if content
       #Lookup the parent of the field to search the value
@@ -143,7 +143,7 @@ And /^I should see the calculated Age(?: for "([^\"]*)")? of a child born in "(.
   age = Date.today.year - year.to_i
   field_name ||= "Age"
   #Find the element that represent the age field
-  within(:xpath, "//fieldset//label[@class='key' and text()=\"#{field_name}\"]") do
+  within(:xpath, "//fieldset//label[contains(@class, 'key') and text()=\"#{field_name}\"]") do
     #Lookup the parent of the field to search the value
     within(:xpath, '../..') do
       #Find the element that represent the value.
@@ -153,7 +153,7 @@ And /^I should see the calculated Age(?: for "([^\"]*)")? of a child born in "(.
 end
 
 And /^I should see a value for "(.+)" on the show page which is January 1, "(.+)" years ago$/ do |field, years_ago|
-  within(:xpath, "//fieldset//label[@class='key' and text()=\"#{field}\"]") do
+  within(:xpath, "//fieldset//label[contains(@class, 'key') and text()=\"#{field}\"]") do
     if years_ago
       content = (Date.today.at_beginning_of_year - years_ago.to_i.years).strftime("%d-%b-%Y")
       within(:xpath, '../..') do
@@ -174,7 +174,7 @@ And /^I should see values on the page for the following:$/ do |fields|
       year = content.gsub("Calculated age from", "").strip
       content = Date.today.year - year.to_i
     end
-    within(:xpath, ".//div[@class='row']//label[@class='key' and text()=\"#{name}\"]") do
+    within(:xpath, ".//div[@class='row']//label[contains(@class, 'key') and text()=\"#{name}\"]") do
       #Up to the parent of the label to find the value.
       within(:xpath, '../..') do
         find(:xpath, ".//span[@class='value' and text()=\"#{content}\"]")
@@ -213,7 +213,7 @@ And /^I should see in the (\d+)(?:st|nd|rd|th) "(.*)" subform with the follow:$/
         content = content.gsub("<Tally>", "").strip
         tally_search = true
       end
-      within(:xpath, ".//div[@class='row']//label[@class='key' and text()=#{xpath_text_string(name)}]") do
+      within(:xpath, ".//div[@class='row']//label[contains(@class, 'key') and text()=#{xpath_text_string(name)}]") do
         #Up to the parent of the label to find the value.
         within(:xpath, '../..') do
           if tally_search == true

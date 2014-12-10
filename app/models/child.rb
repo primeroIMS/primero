@@ -7,6 +7,10 @@ class Child < CouchRest::Model::Base
     'case'
   end
 
+  def locale_prefix
+    'case'
+  end
+
   include PrimeroModel
   include RapidFTR::CouchRestRailsBackward
 
