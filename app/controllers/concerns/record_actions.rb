@@ -44,23 +44,12 @@ module RecordActions
     respond_to do |format|
       format.html
       format.json { render :json => @records }
-
-      unless params[:format].nil?
-        if @records.empty?
-          flash[:notice] = t('exports.no_records')
-          redirect_to :action => :index and return
-        end
-      end
       respond_to_export format, @records
     end
   end
 
   def show
-    if @record.nil?
-      redirect_on_not_found
-      return
-    end
-
+    require 'pry'; binding.pry
     authorize! :read, @record
     @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
     @body_class = 'profile-page'
@@ -68,7 +57,13 @@ module RecordActions
     @form_sections = @record.allowed_formsections(current_user)
 
     respond_to do |format|
-      format.html
+      format.html do
+        if @record.nil?
+          redirect_on_not_found
+          return
+        end
+      end
+
       format.json { render :json => @record }
 
       respond_to_export format, [ @record ]

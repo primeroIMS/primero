@@ -185,47 +185,15 @@ RapidFTR::Application.routes.draw do
 # API URLS
 #######################
 
-  namespace :api do
-    controller :device do
-      get 'is_blacklisted/:imei', :action => 'is_blacklisted'
-    end
-
+  scope '/api' do
     controller :sessions, :defaults => {:format => :json} do
-      post :login
-      post :register
-      post :logout
+      post :login, :action => 'create'
+      post :logout, :action => 'destroy'
     end
 
-    # CHILDREN
-
-    resources :children do
-      collection do
-        get :index, :defaults => {:format => :json}
-        post :unverified, :defaults => {:format => :json}
-      end
-
-      member do
-        controller :child_media do
-          get 'photo(/:photo_id)', :action => 'show_photo'
-          get 'audio(/:audio_id)', :action => 'download_audio'
-        end
-      end
-    end
-
-    resources :children, as: :cases, path: :cases do
-      collection do
-        delete "/destroy_all" => 'children#destroy_all'
-        get :ids, :defaults => {:format => :json}
-        post :unverified, :defaults => {:format => :json}
-      end
-
-      member do
-        controller :child_media do
-          get 'photo(/:photo_id)', :action => 'show_photo'
-          get 'audio(/:audio_id)', :action => 'download_audio'
-        end
-      end
-    end
+    resources :children, as: :cases, path: :cases
+    resources :incidents, as: :incidents
+    resources :tracing_requests, as: :tracing_requests
   end
 
 #######################
