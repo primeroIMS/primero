@@ -1,0 +1,17 @@
+<%= resource_edit_field(object, 'name', 'name', 'text_field', true) %>
+<%= resource_edit_field(object, 'description', 'description', 'text_area') %>
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :module_ids, t("report.module_ids"), class: 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <span class="value value_form">
+      <%= form_builder.select :module_ids, options_for_select(@current_modules.map{|p|[p.name, p.id]}), {}, {multiple: true} %>
+    </span>
+  </div>
+  <div class="medium-1 columns">
+    <span class="required">*</span>
+  </div>
+</div>
