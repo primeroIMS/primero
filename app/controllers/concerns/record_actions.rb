@@ -43,7 +43,7 @@ module RecordActions
 
     respond_to do |format|
       format.html
-      format.json { render :json => @records }
+      format.json { render :json => @records } unless params[:password]
 
       unless params[:format].nil? || params[:format] == 'json'
         if @records.empty?
@@ -77,7 +77,7 @@ module RecordActions
         else
           render :json => '', :status => :not_found
         end
-      end
+      end unless params[:password]
 
       respond_to_export format, [ @record ]
     end
