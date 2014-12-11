@@ -43,8 +43,9 @@ module RecordActions
 
     respond_to do |format|
       format.html
-      format.xml { render :xml => @records }
-      unless params[:format].nil?
+      format.json { render :json => @records } unless params[:password]
+
+      unless params[:format].nil? || params[:format] == 'json'
         if @records.empty?
           flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
@@ -55,20 +56,28 @@ module RecordActions
   end
 
   def show
-    if @record.nil?
-      redirect_on_not_found
-      return
-    end
-
-    authorize! :read, @record
-    @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
-    @body_class = 'profile-page'
-    @duplicates = model_class.duplicates_of(params[:id])
-    @form_sections = @record.allowed_formsections(current_user)
+    authorize! :read, (@record || model_class)
 
     respond_to do |format|
-      format.html
-      format.xml { render :xml => @record }
+      format.html do
+        if @record.nil?
+          redirect_on_not_found
+          return
+        end
+
+        @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
+        @body_class = 'profile-page'
+        @duplicates = model_class.duplicates_of(params[:id])
+        @form_sections = @record.allowed_formsections(current_user)
+      end
+
+      format.json do
+        if @record.present?
+          render :json => @record
+        else
+          render :json => '', :status => :not_found
+        end
+      end unless params[:password]
 
       respond_to_export format, [ @record ]
     end
@@ -88,7 +97,6 @@ module RecordActions
 
     respond_to do |format|
       format.html
-      format.xml { render :xml => @record }
     end
   end
 
@@ -102,12 +110,12 @@ module RecordActions
       if @record.save
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
-        format.xml { render :xml => @record, :status => :created, :location => @record }
+        format.json { render :json => @record, :status => :created, :location => @record }
       else
         format.html {
           render :action => "new"
         }
-        format.xml { render :xml => @record.errors, :status => :unprocessable_entity }
+        format.json { render :json => @record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -126,28 +134,20 @@ module RecordActions
 
   def update
     respond_to do |format|
-      format.html do
-        create_or_update_record(params[:id])
-
-        if @record.save
+      create_or_update_record(params[:id])
+      if @record.save
+        format.html do
           flash[:notice] = I18n.t("#{model_class.locale_prefix}.messages.update_success", record_id: @record.short_id)
           if params[:redirect_url]
             redirect_to "#{params[:redirect_url]}?follow=true"
           else
             redirect_after_update
           end
-        else
-          render :action => "edit"
         end
-      end
-
-      format.xml do
-        @record = update_record_from(params[:id])
-        if @record.save
-          head :ok
-        else
-          render :xml => @record.errors, :status => :unprocessable_entity
-        end
+        format.json { render :json => @record }
+      else
+        format.html { render :action => "edit" }
+        format.json { render :json => @record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -158,7 +158,7 @@ module RecordActions
 
     respond_to do |format|
       format.html { redirect_after_deletion }
-      format.xml { head :ok }
+      format.json { head :ok }
     end
   end
 
