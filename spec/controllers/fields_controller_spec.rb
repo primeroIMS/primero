@@ -75,7 +75,7 @@ describe FieldsController do
       get :edit, :form_section_id => "unique_id", :id => 'field1', :module_id => "test_module"
       assigns[:body_class].should == "forms-page"
       assigns[:field].should == field
-      assigns[:show_add_field].should == {:show_add_field => true}
+      assigns[:show_add_field].should == {:show_add_field => true, :edit_field_mode => true}
       response.should render_template('form_section/edit')
     end
   end
