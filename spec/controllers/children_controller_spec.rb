@@ -495,27 +495,45 @@ describe ChildrenController do
 
         end
       end
-    end
 
-      it "shoud find at least 20" do
-        names = ["Mahmoud", "Mahmud", "Mahmood"]
-
-        @children_cases = []
-        names.each do |c|
+      context "when there is a compound name with space or dash" do
+        it "shoud find compound name first and second name phonetically" do
+        
+          #29 arabic names with Abdul prefix
+          names = ["Abdul Haseeb", "Abdul-Nasser"]
+          
+          @children_cases = []
+          names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
+          end
+        
+          Sunspot.commit
+        
+          session = fake_login @case_worker
+          
+          params = {"query" => "Abdool"}
+          get :index, params
+          expect(assigns[:children]).to have(2).things
+
+          params = {"query" => "Hasib"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.first])
+
+
+          params = {"query" => "Nassir"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.last])
+ 
+          params = {"query" => "Abdool-Hasib"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.first])
+
+          params = {"query" => "Abdool Nassir"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.last])
         end
-
-        Sunspot.commit
-
-        session = fake_login @case_worker
-       
-        params = {"query" => @children_cases.first.name}
-        get :index, params
-
-        expect(assigns[:children]).to have(@children_cases.count).things
       end
-      
     end
 
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
