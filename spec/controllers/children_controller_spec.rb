@@ -388,7 +388,7 @@ describe ChildrenController do
         controller.stub :paginated_collection => [], :render => true
       end
       it "should flash notice when exporting no records" do
-        format = "cpims"
+        format = "unhcr_csv"
         @params.merge!(:format => format)
         get :index, @params
         flash[:notice].should == "No Records Available!"

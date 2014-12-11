@@ -42,7 +42,7 @@ describe ChildrenController do
 
   describe "GET show" do
     it "should render a child record as json" do
-      Child.should_receive(:get).with("123").and_return(double(Child, :to_json => "a child record"))
+      Child.should_receive(:get).with("123").and_return(mock_model(Child, :to_json => "a child record"))
       get :show, :id => "123", :format => :json
       response.body.should == "a child record"
     end
@@ -52,12 +52,6 @@ describe ChildrenController do
       get :show, :id => "123", :format => :json
       response.response_code.should == 404
       response.body.should == ""
-    end
-
-    it "should return a 403 if the device is blacklisted" do
-      controller.should_receive(:check_device_blacklisted) { raise ErrorResponse.forbidden("Device Blacklisted") }
-      get :show, :id => "123", :format => :json
-      response.response_code.should == 403
     end
 
   end

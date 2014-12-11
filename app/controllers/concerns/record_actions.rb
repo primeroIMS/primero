@@ -44,17 +44,19 @@ module RecordActions
     respond_to do |format|
       format.html
       format.json { render :json => @records }
+
+      unless params[:format].nil? || params[:format] == 'json'
+        if @records.empty?
+          flash[:notice] = t('exports.no_records')
+          redirect_to :action => :index and return
+        end
+      end
       respond_to_export format, @records
     end
   end
 
   def show
-    require 'pry'; binding.pry
-    authorize! :read, @record
-    @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
-    @body_class = 'profile-page'
-    @duplicates = model_class.duplicates_of(params[:id])
-    @form_sections = @record.allowed_formsections(current_user)
+    authorize! :read, (@record || model_class)
 
     respond_to do |format|
       format.html do
@@ -62,9 +64,20 @@ module RecordActions
           redirect_on_not_found
           return
         end
+
+        @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
+        @body_class = 'profile-page'
+        @duplicates = model_class.duplicates_of(params[:id])
+        @form_sections = @record.allowed_formsections(current_user)
       end
 
-      format.json { render :json => @record }
+      format.json do
+        if @record.present?
+          render :json => @record
+        else
+          render :json => '', :status => :not_found
+        end
+      end
 
       respond_to_export format, [ @record ]
     end
