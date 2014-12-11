@@ -19,12 +19,7 @@ module Importable
       existing_by_id = given_id.present? ? self.get(given_id) : nil
 
       (get_unique_instance(attributes) || existing_by_id || create_new_model({'_id' => given_id}, current_user)).tap do |inst|
-        model_type = attributes.delete('model_type')
-
-        if inst.class.name != model_type
-          raise TypeError.new("Import data model_type field is #{model_type}, expected #{inst.class.name}")
-        end
-
+        verify_model_type(inst, attributes)
         self.update_existing_model(inst, attributes, current_user)
 
         if given_id.present? && given_id != inst.id
@@ -37,5 +32,19 @@ module Importable
         inst
       end
     end
+
+    private 
+
+    def verify_model_type(inst, attributes)
+      t = attributes.delete('model_type')
+      if t
+        model_type = {'Case' => 'Child'}.fetch(t, t)
+
+        if inst.class.name != model_type
+          raise TypeError.new("Import data model_type field is #{model_type}, expected #{inst.class.name}")
+        end
+      end
+    end
+
   end
 end
