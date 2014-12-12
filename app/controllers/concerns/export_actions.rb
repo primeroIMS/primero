@@ -5,6 +5,9 @@ module ExportActions
     self.model_class.properties
   end
 
+  # TODO: JSON exports need to be consolidated with the JSON format.  Right now
+  # the JSON export will just use the JSON format in the `respond_to` block and
+  # won't do the whole encrypted zip thing.
   def respond_to_export(format, models)
     if params[:selected_records].present?
       selected_records = params[:selected_records].split(",")

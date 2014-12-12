@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     alias_action :index, :view, :list, :export, :to => :read
-    alias_action :edit, :update, :create, :new, :destroy, :disable, :import, :to => :write
+    alias_action :edit, :update, :create, :new, :destroy, :disable, :to => :write
 
     @user = user
 
@@ -102,9 +102,4 @@ class Ability
   def cannot(action = nil, subject = nil, conditions = nil, &block)
     rules << CanCan::CustomRule.new(false, action, subject, conditions, block)
   end
-
-
-
-
-
 end

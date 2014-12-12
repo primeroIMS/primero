@@ -5,7 +5,7 @@ $(document).ready(function() {
     $("a.delete").click(deleteItem);
     $("a.add_field").click(toggleFieldPanel);
     $("ul.field_types a").click(showFieldDetails);
-    $(".field_details_panel a.link_cancel").click(toggleFieldPanel);
+    $(".cancel_field_modal").click(backToPrevious);
     $(".field_hide_show").bind('change',fieldHideShow);
     $(".link_moveto").click(showMovePanel);
     triggerErrors();
@@ -20,6 +20,12 @@ $(document).ready(function() {
       }
     });
     $(".field_location").bind('change', changeForm);
+
+    init_show_form();
+    function init_show_form() {
+        var content = $("ul.field_types a.sel").attr('id');
+        $(getFieldDetails(content)).show();
+    }
 
     function changeForm(event){
       var parent_div = $($(event.target).parents('.field-buttons'));
@@ -47,6 +53,14 @@ $(document).ready(function() {
         }
     }
 
+    function backToPrevious(){
+        //Only go back to previous url if editing a field
+        //For add field, stay at this url
+        if((typeof(edit_field_mode) != 'undefined') && (edit_field_mode)){
+           window.history.back();
+        }
+    }
+
     function toggleFieldPanel(event, div_to_show){
         resetAddField();
         if(div_to_show === undefined){
@@ -70,6 +84,7 @@ $(document).ready(function() {
 
     function resetAddField(){
         $('#field_details_tally').hide();
+        $('#field_details_tick_box').hide();
         $('#field_details_select_box').hide();
         $('#field_details_options').hide();
         $('#field_details').hide();
@@ -85,14 +100,14 @@ $(document).ready(function() {
         $("#err_msg_panel").hide();
 
 
-        $("#field_details_options, #field_details_select_box, #field_details_tally, #field_details").hide();
+        $("#field_details_options, #field_details_select_box, #field_details_tally, #field_details_tick_box, #field_details").hide();
 
         $(".field_details_panel input[type='text'], .field_details_panel textarea").val("");
         var _this = this;
         $(".field_type").each(function(){
             $(this).val(_this.id);
         })
-        $(getFieldDetails(this.id)).slideDown("fast");
+        $(getFieldDetails(this.id)).show();
         configureFieldMultiSelect(this.id);
         _primero.set_content_sidebar_equality();
     }
