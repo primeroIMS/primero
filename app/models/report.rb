@@ -160,6 +160,40 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  REPORTABLE_FIELD_TYPES = [
+    #Field::TEXT_FIELD,
+    #Field::TEXT_AREA,
+    Field::RADIO_BUTTON,
+    Field::SELECT_BOX,
+    Field::CHECK_BOXES,
+    Field::NUMERIC_FIELD,
+    Field::DATE_FIELD,
+    #Field::DATE_RANGE,
+    Field::TICK_BOX,
+    #Field::TALLY_FIELD,
+  ]
+
+  # Fetch and group all reportable fields by form given a user.
+  # This will be used by the field lookup.
+  def self.all_reportable_fields_by_form(primero_modules, record_type, user)
+    reportable = {}
+    primero_modules.each do |primero_module|
+      forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
+      #Hide away the subforms (but not the invisible forms!)
+      forms = forms.select{|f| !f.is_nested?}
+      forms = forms.sort_by{|f| [f.order_form_group, f.order]}
+      #TODO: Maybe move this logic to controller?
+      forms = forms.map do |form|
+        fields = form.fields.select{|f| REPORTABLE_FIELD_TYPES.include? f.type}
+        fields = fields.map{|f| [f.name, f.display_name, f.type]}
+        [form.name, fields]
+      end
+      reportable[primero_module.name] = forms
+    end
+    return reportable
+  end
+
+
   private
 
   def query_solr(pivots_string, number_of_pivots)

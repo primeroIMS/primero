@@ -942,6 +942,10 @@ en:
     download: "Download"
     all: "All"
     total: "Total"
+    modules: "Modules"
+    aggregate_by: "Group by Row"
+    disaggregate_by: "Group by Column"
+    is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
       graph: "Graph"
