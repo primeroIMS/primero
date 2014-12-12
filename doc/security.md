@@ -38,9 +38,12 @@ and updates to Passenger in order to help mitigate security risks.
 
 CouchDB
 -------
-CouchDB should only be accessible over the network via an IP address whitelist.
-Since Futon runs through the same server and under the same security
-restrictions as the rest of CouchDB, we have decided to keep it enabled in
-production servers to ease debugging and system administration.  It could be
-selectively disabled on more sensitive sites, however.
+If the IP addresses of all Primero nodes in a deployment are stable, CouchDB
+should only be accessible over the network via an IP address whitelist. In
+other cases, we would need to implement additional security, such as using a
+VPN or client SSL certificates.  Since Futon runs through the same server and
+under the same security restrictions as the rest of CouchDB, we have decided to
+keep it enabled in production servers to ease debugging and system
+administration.  It could be selectively disabled on more sensitive sites,
+however.
 
