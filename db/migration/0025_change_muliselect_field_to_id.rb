@@ -9,7 +9,7 @@ def convert_multi_string(record, field, keys)
 end
 
 def get_multi_select_fields(form)
-  return form.fields.select{ |f| f.multi_select == true && f.option_strings_text_en.is_a?(Array) }
+  return (form.present? ? form.fields.select{ |f| f.multi_select == true && f.option_strings_text_en.is_a?(Array) } : [])
 end
 
 models = [
