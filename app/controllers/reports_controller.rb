@@ -3,14 +3,14 @@ class ReportsController < ApplicationController
   include RecordFilteringPagination
   include ReportsHelper
   #include RecordActions
-  before_filter :current_modules, only: [:index, :edit, :new]
   before_filter :sanitize_multiselects, only: [:create, :update]
 
   def index
     authorize! :index, Report
     # NOTE: If we start needing anything more complicated than module filtering on reports,
     #       index them in Solr and make searchable. Replace all these views and paginations with Sunspot.
-    report_ids = Report.by_module_id(keys: current_modules.map{|m|m.id}).values.uniq
+    report_ids = Report.by_module_id(keys: current_user.modules.map{|m|m.id}).values.uniq
+    @current_modules = nil #TODO: Hack because this is expected in templates used.
     reports = Report.all(keys: report_ids).page(page).per(per_page).all
     @reports = paginated_collection(reports, reports.count)
   end
@@ -89,10 +89,6 @@ class ReportsController < ApplicationController
   end
 
   protected
-
-  def current_modules
-    @current_modules ||= current_user.modules
-  end
 
   #TODO: This is a hack to get rid of empty values that sneak in due to this Rails select Gotcha:
   #      http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-select

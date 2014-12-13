@@ -177,18 +177,20 @@ class Report < CouchRest::Model::Base
   # This will be used by the field lookup.
   def self.all_reportable_fields_by_form(primero_modules, record_type, user)
     reportable = {}
-    primero_modules.each do |primero_module|
-      forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
-      #Hide away the subforms (but not the invisible forms!)
-      forms = forms.select{|f| !f.is_nested?}
-      forms = forms.sort_by{|f| [f.order_form_group, f.order]}
-      #TODO: Maybe move this logic to controller?
-      forms = forms.map do |form|
-        fields = form.fields.select{|f| REPORTABLE_FIELD_TYPES.include? f.type}
-        fields = fields.map{|f| [f.name, f.display_name, f.type]}
-        [form.name, fields]
+    if primero_modules.present?
+      primero_modules.each do |primero_module|
+        forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
+        #Hide away the subforms (but not the invisible forms!)
+        forms = forms.select{|f| !f.is_nested?}
+        forms = forms.sort_by{|f| [f.order_form_group, f.order]}
+        #TODO: Maybe move this logic to controller?
+        forms = forms.map do |form|
+          fields = form.fields.select{|f| REPORTABLE_FIELD_TYPES.include? f.type}
+          fields = fields.map{|f| [f.name, f.display_name, f.type]}
+          [form.name, fields]
+        end
+        reportable[primero_module.name] = forms
       end
-      reportable[primero_module.name] = forms
     end
     return reportable
   end

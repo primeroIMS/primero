@@ -12,7 +12,7 @@
       <%= form_builder.select(
             :module_ids,
             options_for_select(
-              @current_modules.map{|p|[p.name, p.id]},
+              @current_user.modules.map{|p|[p.name, p.id]},
               @report.module_ids
             ),
             {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
