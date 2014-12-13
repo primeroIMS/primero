@@ -61,7 +61,7 @@
             :aggregate_by,
             grouped_options_for_select(
               select_options_fields_grouped_by_form(
-                Report.all_reportable_fields_by_form(@current_modules, @report.record_type, @current_user)
+                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
               ),
               @report.aggregate_by
             ),
@@ -87,7 +87,7 @@
             :disaggregate_by,
             grouped_options_for_select(
               select_options_fields_grouped_by_form(
-                Report.all_reportable_fields_by_form(@current_modules, @report.record_type, @current_user)
+                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
               ),
               @report.disaggregate_by
             ),

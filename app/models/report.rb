@@ -41,6 +41,10 @@ class Report < CouchRest::Model::Base
     @record_class ||= eval record_type.camelize if record_type.present?
   end
 
+  def modules
+    @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
+  end
+
   # Run the Solr query that calculates the pivots and format the output.
   def build_report
     pivots = (aggregate_by + disaggregate_by)
