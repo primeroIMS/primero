@@ -14,6 +14,8 @@ end
 #To generate the UUID, run the following in the rails consle:
 #    UUIDTools::UUID.random_create.to_s.gsub('-','')
 
+default_case_filters = [['child_status',['open']],['record_state',['true']]]
+
 create_or_update_report({
   id: '9fed7861bef14ec9ab51b41d6555319a',
   name: 'Registration',
@@ -21,6 +23,7 @@ create_or_update_report({
   module_ids: [PrimeroModule::CP, PrimeroModule::GBV],
   record_type: 'case',
   aggregate_by: ['registration_date'],
+  filters: default_case_filters,
   is_graph: true,
   editable: false
 })
@@ -33,6 +36,7 @@ create_or_update_report({
   module_ids: [PrimeroModule::CP, PrimeroModule::GBV],
   record_type: 'case',
   aggregate_by: ['owned_by'],
+  filters: default_case_filters,
   is_graph: true,
   editable: false
 })
@@ -45,6 +49,7 @@ create_or_update_report({
 #   module_ids: ['CP', 'GBV'],
 #   record_type: 'case',
 #   aggregate_by: ['owned_by'],
+#   filters: default_case_filters,
 #   is_graph: true,
 #   editable: false
 # })
@@ -56,6 +61,7 @@ create_or_update_report({
   module_ids: [PrimeroModule::CP],
   record_type: 'case',
   aggregate_by: ['nationality'],
+  filters: default_case_filters,
   is_graph: true,
   editable: false
 })
@@ -68,6 +74,7 @@ create_or_update_report({
   record_type: 'case',
   aggregate_by: ['age'],
   disaggregate_by: ['sex'],
+  filters: default_case_filters,
   is_graph: true,
   editable: false
 })
@@ -80,6 +87,7 @@ create_or_update_report({
   record_type: 'case',
   aggregate_by: ['protection_concerns'],
   disaggregate_by: ['sex'],
+  filters: default_case_filters,
   is_graph: true,
   editable: false
 })
@@ -92,6 +100,7 @@ create_or_update_report({
   record_type: 'case',
   aggregate_by: ['care_arrangements_type'],
   disaggregate_by: ['sex', 'age'],
+  filters: default_case_filters,
   is_graph: true,
   editable: false
 })
