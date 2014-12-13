@@ -1,8 +1,10 @@
 class ReportsController < ApplicationController
 
   include RecordFilteringPagination
+  include ReportsHelper
   #include RecordActions
-  before_filter :current_modules, :only => [:index, :edit, :new]
+  before_filter :current_modules, only: [:index, :edit, :new]
+  before_filter :sanitize_multiselects, only: [:create, :update]
 
   def index
     authorize! :index, Report
@@ -64,6 +66,17 @@ class ReportsController < ApplicationController
     end
   end
 
+  def permitted_field_list
+    authorize! :read, Report
+    module_ids = (params[:module_ids].present? && params[:module_ids]!='null') ? params[:module_ids] : []
+    modules = PrimeroModule.all(keys: module_ids).all
+    record_type = params[:record_type]
+    permitted_fields = select_options_fields_grouped_by_form(
+      Report.all_reportable_fields_by_form(modules, record_type, @current_user)
+    )
+    render json: permitted_fields
+  end
+
   # Method to trigger a report rebuild.
   # TODO: Currently this isn't used as we are not storing the generated report data.
   #       See models/report.rb and graph_data method above.
@@ -79,6 +92,20 @@ class ReportsController < ApplicationController
 
   def current_modules
     @current_modules ||= current_user.modules
+  end
+
+  #TODO: This is a hack to get rid of empty values that sneak in due to this Rails select Gotcha:
+  #      http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-select
+  #      We are trying to handle it in assets/javascripts/chosen.js and this is probably the best way to deal on refactor,
+  #      but currently I don't want to sneeze on any card houses.
+  def sanitize_multiselects
+    [:module_ids, :aggregate_by, :disaggregate_by].each do |multiselect|
+      if params[:report][multiselect].is_a? Array
+        params[:report][multiselect].reject!{|e|!e.present?}
+      else
+        params[:report][multiselect] = nil
+      end
+    end
   end
 
 end

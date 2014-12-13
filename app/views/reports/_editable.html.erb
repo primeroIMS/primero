@@ -39,7 +39,7 @@
               FormSection::RECORD_TYPES.map{|rt|[t("forms.record_types.#{rt}"), rt]},
               @report.record_type
             ),
-            {}, {:'data-placeholder' => t("fields.select_box_empty_item")}
+            {include_blank: t("fields.select_box_empty_item")}, {:'data-placeholder' => t("fields.select_box_empty_item")}
           )
       %>
     </span>
@@ -97,7 +97,7 @@
     </span>
   </div>
   <div class="medium-1 columns">
-    <span class="required">*</span>
+    <span></span>
   </div>
 </div>
 <%# Report Is Graph %>
