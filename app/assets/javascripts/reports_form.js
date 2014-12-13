@@ -12,7 +12,14 @@ var ReportForm = Backbone.View.extend({
   },
 
   init_multi_select: function() {
-    _primero.chosen('.reports_form select[multiple]');
+    //_primero.chosen('.reports_form select[multiple]');
+    _primero.chosen('#report_module_ids');
+    $('#report_aggregate_by, #report_disaggregate_by').chosen({
+      display_selected_options: false,
+      width:'100%',
+      search_contains: true,
+      max_selected_options: 2
+    });
   },
 
   permitted_field_list_url: '/reports/permitted_field_list',
