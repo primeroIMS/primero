@@ -271,7 +271,10 @@ RapidFTR::Application.routes.draw do
   resources :reports do
     member do
       get :graph_data
-      put :rebuild
+      #put :rebuild
+    end
+    collection do
+      get :permitted_field_list
     end
   end
 
