@@ -11,7 +11,7 @@ class SolrUtils
   def self.sunspot_setup(model)
     clazz = model
     unless clazz.is_a? Class
-      clazz = (model == 'case') ? 'Child' : model.camel_case
+      clazz = (model == 'case') ? 'Child' : model.camelcase
       clazz = eval(clazz)
     end
     Sunspot::Setup.for(clazz)
