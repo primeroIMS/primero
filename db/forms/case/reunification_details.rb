@@ -41,7 +41,7 @@ reunification_subform = [
                   "Other (Please Specify)",
                   "Photo Tracing",
                   "Spontaneous"
-               ]
+               ].join("\n")
               }),
     Field.new({"name" => "date_reunification",
                "type" => "date_field",
@@ -62,7 +62,7 @@ reunification_subform = [
                    "Failed Verification",
                    "Not Applicable",
                    "Other (Please Specify)"
-               ]
+               ].join("\n")
               }),
     Field.new({"name" => "reunification_follow_up_needed",
                "type" => "radio_button",

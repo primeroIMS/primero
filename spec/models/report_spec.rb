@@ -2,25 +2,34 @@ require 'spec_helper'
 
 describe Report do
 
+  before :all do
+    @module = create :primero_module
+  end
+
   it "must have a name" do
-    r = Report.new record_type: "case", aggregate_by: ['a', 'b']
+    r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_ids: [@module.id]
     expect(r.valid?).to be_false
     r.name = 'Test'
     expect(r.valid?).to be_true
   end
 
   it "must have an 'aggregate_by' value" do
-    r = Report.new name: 'Test', record_type: 'case'
+    r = Report.new name: 'Test', record_type: 'case', module_ids: [@module.id]
     expect(r.valid?).to be_false
     r.aggregate_by = ['a', 'b']
     expect(r.valid?).to be_true
   end
 
   it "must have a record type associated with itself" do
-    r = Report.new name: 'Test', aggregate_by: ['a', 'b']
+    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_ids: [@module.id]
     expect(r.valid?).to be_false
     r.record_type = 'case'
     expect(r.valid?).to be_true
+  end
+
+  it "doesn't point to invalid modules" do
+    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_ids: ['nosuchmodule', @module.id]
+    expect(r.valid?).to be_false
   end
 
   describe "#value_vector" do

@@ -587,6 +587,7 @@ en:
       delete: "Delete"
     messages:
       confirmation: "Are you sure you want to delete this module? Deletion can not be undone. Click OK to delete the module."
+      invalid: "Invalid module(s)"
 
   primero_module:
     create: "Create Module"
@@ -932,18 +933,25 @@ en:
 
   reports:
     register_new_report: "Create Report"
+    label: "Reports"
 
   report:
-    heading: "RapidFTR Reports"
+    heading: "Primero Reports"
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
     all: "All"
     total: "Total"
+    modules: "Modules"
+    aggregate_by: "Group by Row"
+    disaggregate_by: "Group by Column"
+    is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
       graph: "Graph"
       data: "Data"
+    successfully_updated: "Report configuration is successfully updated."
+    error_in_updating: "Error in updating the Report configuration."
 
   encrypt:
     password_title: "Create Password"

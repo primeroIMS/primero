@@ -1,6 +1,7 @@
 class Report < CouchRest::Model::Base
   use_database :report
   include PrimeroModel
+  include BelongsToModule
 
   property :name
   property :description
@@ -8,6 +9,7 @@ class Report < CouchRest::Model::Base
   property :record_type #case, incident, etc.
   property :aggregate_by, [String], default: [] #Y-axis
   property :disaggregate_by, [String], default: [] #X-axis
+  property :filters
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
   #TODO: Currently it's not worth trying to save off the report data.
@@ -20,7 +22,9 @@ class Report < CouchRest::Model::Base
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
-  validates_presence_of :module_ids
+  validate do |report|
+   report.validate_modules_present(:module_ids)
+  end
 
   design do
     view :by_name
@@ -38,14 +42,19 @@ class Report < CouchRest::Model::Base
     @record_class ||= eval record_type.camelize if record_type.present?
   end
 
+  def modules
+    @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
+  end
+
   # Run the Solr query that calculates the pivots and format the output.
   def build_report
     pivots = (aggregate_by + disaggregate_by)
     number_of_pivots = pivots.size
     if pivots.present?
       pivots = pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
+      filters = self.filters ? self.filters.map{|f| [SolrUtils.indexed_field_name(self.record_type, f[0]), f[1]]} : []
       #TODO: This has to be valid and open if a case
-      pivots_data = query_solr(pivots, number_of_pivots)
+      pivots_data = query_solr(pivots, number_of_pivots, filters)
       #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
       if pivots_data['pivot'].present?
         values = self.value_vector([],pivots_data).to_h
@@ -157,13 +166,50 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  REPORTABLE_FIELD_TYPES = [
+    #Field::TEXT_FIELD,
+    #Field::TEXT_AREA,
+    Field::RADIO_BUTTON,
+    Field::SELECT_BOX,
+    Field::CHECK_BOXES,
+    Field::NUMERIC_FIELD,
+    Field::DATE_FIELD,
+    #Field::DATE_RANGE,
+    Field::TICK_BOX,
+    #Field::TALLY_FIELD,
+  ]
+
+  # Fetch and group all reportable fields by form given a user.
+  # This will be used by the field lookup.
+  def self.all_reportable_fields_by_form(primero_modules, record_type, user)
+    reportable = {}
+    if primero_modules.present?
+      primero_modules.each do |primero_module|
+        forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
+        #Hide away the subforms (but not the invisible forms!)
+        forms = forms.select{|f| !f.is_nested?}
+        forms = forms.sort_by{|f| [f.order_form_group, f.order]}
+        #TODO: Maybe move this logic to controller?
+        forms = forms.map do |form|
+          fields = form.fields.select{|f| REPORTABLE_FIELD_TYPES.include? f.type}
+          fields = fields.map{|f| [f.name, f.display_name, f.type]}
+          [form.name, fields]
+        end
+        reportable[primero_module.name] = forms
+      end
+    end
+    return reportable
+  end
+
+
   private
 
-  def query_solr(pivots_string, number_of_pivots)
-     #TODO: This has to be valid and open if a case
+  def query_solr(pivots_string, number_of_pivots, filters)
+    #TODO: This has to be valid and open if a case.
+    filter_query = build_solr_filter_query(filters)
     if number_of_pivots == 1
       params = {
-        :q => '*:*',
+        :q => filter_query,
         :rows => 0,
         :facet => 'on',
         :'facet.field' => pivots_string,
@@ -181,13 +227,12 @@ class Report < CouchRest::Model::Base
       result = {'pivot' => pivots}
     else
       params = {
-        :q => '*:*',
+        :q => filter_query,
         :rows => 0,
         :facet => 'on',
         :'facet.pivot' => pivots_string,
         :'facet.pivot.mincount' => -1,
       }
-      #TODO: Deal with this: "facet_fields"=>{"nationality_sm"=>["Tanzania", 16, "South Sudan", 14, "Ethiopia", 13, "Rwanda", 12, "Uganda", 12, "Burundi", 11, "Somalia", 11, "Kenya", 10, "Cameroon", 1]},
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       result = {'pivot' => response['facet_counts']['facet_pivot'][pivots_string]}
     end
@@ -195,5 +240,15 @@ class Report < CouchRest::Model::Base
   end
 
 
+  #TODO: This only works for string value filters. Add at least dates?
+  def build_solr_filter_query(filters)
+    filters_query = filters.map do |filter|
+      filter[1].map do |v|
+        "#{filter[0]}:#{v}"
+      end.join(" OR ")
+    end.join(" ")
+    filters_query = '*:*' unless filters_query.present?
+    return filters_query
+  end
 
 end
