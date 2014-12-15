@@ -152,13 +152,14 @@ module Exporters
 
       def build_rows(model, data)
         rows = []
+        model_type = {'Child' => 'Case'}.fetch(model.class.name, model.class.name)
         if data.size == 1 && data[0].is_a?(Array)
           #Extract data from the subforms.
           data[0].each do |d|
-            rows << [model.id, model.class.name] + d
+            rows << [model.id, model_type] + d
           end
         else
-          rows << [model.id, model.class.name] + data
+          rows << [model.id, model_type] + data
         end
         rows
       end

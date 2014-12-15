@@ -83,6 +83,7 @@ class SessionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(:login) }
       format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 

@@ -68,7 +68,9 @@ module Exporters
         yield header_columns
 
         models.each do |m|
-          row = [m.id, m.class.name] + emit_columns.call(properties) do |prop_tree|
+          # TODO: RENAME Child to Case like we should have done months ago
+          model_type = {'Child' => 'Case'}.fetch(m.class.name, m.class.name)
+          row = [m.id, model_type] + emit_columns.call(properties) do |prop_tree|
             get_value_from_prop_tree(m, prop_tree)
           end
 

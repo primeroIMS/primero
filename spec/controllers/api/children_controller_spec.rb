@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::ChildrenController do
+describe ChildrenController do
 
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
@@ -15,8 +15,11 @@ describe Api::ChildrenController do
     end
 
     it "should fail GET show when unauthorized" do
-      @controller.current_ability.should_receive(:can?).with(:show, Child).and_return(false)
-      get :show, :id => "123"
+      child = Child.create(:short_id => 'short_id', :created_by => "fakeadmin")
+      child_arg = hash_including("_id" => child.id)
+
+      @controller.current_ability.should_receive(:can?).with(:read, child_arg).and_return(false)
+      get :show, :id => child.id, :format => :json
       response.should be_forbidden
     end
 
@@ -27,36 +30,11 @@ describe Api::ChildrenController do
     end
   end
 
-  describe "DELETE destroy_all" do
-    it 'should fail to delete when env is not android' do
-      stub_env('production') do
-        delete :destroy_all
-        response.body.should == "Unauthorized Operation"
-        response.response_code.should == 401
-      end
-
-      stub_env('test') do
-        delete :destroy_all
-        response.body.should == "Unauthorized Operation"
-        response.response_code.should == 401
-      end
-    end
-
-    it 'should delete all child records when env is android' do
-      stub_env('android') do
-        @controller.current_ability.should_receive(:can?).with(:create, Child).and_return(true)
-        delete :destroy_all
-        response.body.should == ""
-        response.response_code.should == 200
-      end
-    end
-  end
-
   describe "GET index" do
     it "should render all children as json" do
-      Child.should_receive(:all).and_return(double(:to_json => "all the children"))
+      controller.should_receive(:retrieve_records_and_total) {|*args| [double(:to_json => "all the children"), 0] }
 
-      get :index, :format => "json"
+      get :index, :format => :json
 
       response.body.should == "all the children"
     end
@@ -64,22 +42,16 @@ describe Api::ChildrenController do
 
   describe "GET show" do
     it "should render a child record as json" do
-      Child.should_receive(:get).with("123").and_return(double(:compact => double(:to_json => "a child record")))
-      get :show, :id => "123", :format => "json"
+      Child.should_receive(:get).with("123").and_return(mock_model(Child, :to_json => "a child record"))
+      get :show, :id => "123", :format => :json
       response.body.should == "a child record"
     end
 
     it "should return a 404 with empty body if no child record is found" do
       Child.should_receive(:get).with("123").and_return(nil)
-      get :show, :id => "123", :format => "json"
+      get :show, :id => "123", :format => :json
       response.response_code.should == 404
       response.body.should == ""
-    end
-
-    it "should return a 403 if the device is blacklisted" do
-      controller.should_receive(:check_device_blacklisted) { raise ErrorResponse.forbidden("Device Blacklisted") }
-      get :show, :id => "123", :format => "json"
-      response.response_code.should == 403
     end
 
   end
@@ -91,7 +63,7 @@ describe Api::ChildrenController do
       child.save!
       controller.stub(:authorize!)
 
-      post :create, :child => {:unique_identifier => child.unique_identifier, :name => 'new name'}
+      post :create, :child => {:unique_identifier => child.unique_identifier, :name => 'new name'}, :format => :json
 
       updated_child = Child.by_short_id(:key => child.short_id)
       updated_child.rows.size.should == 1
@@ -105,45 +77,6 @@ describe Api::ChildrenController do
       put :update, :id => new_uuid.to_s, :child => {:id => new_uuid.to_s, :_id => new_uuid.to_s, :last_known_location => "London", :age => "7"}
 
       Child.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
-    end
-  end
-
-  describe "#unverified" do
-    before :each do
-      @user = build :user, :verified => false, :role_ids => []
-      fake_login @user
-    end
-
-    it "should mark all children created as verified/unverifid based on the user" do
-      @user.verified = true
-      Child.should_receive(:new_with_user_name).with(@user, {"name" => "timmy", "verified" => @user.verified?}).and_return(child = Child.new)
-      child.should_receive(:save).and_return true
-
-      post :unverified, {:child => {:name => "timmy"}}
-
-      @user.verified = true
-    end
-
-    it "should set the created_by name to that of the user matching the params" do
-      Child.should_receive(:new_with_user_name).and_return(child = Child.new)
-      child.should_receive(:save).and_return true
-
-      post :unverified, {:child => {:name => "timmy"}}
-
-      child['created_by_full_name'].should eq @user.full_name
-    end
-
-    it "should update the child instead of creating new child everytime" do
-      child = Child.new
-      view = double(CouchRest::Model::Designs::View)
-      Child.should_receive(:by_short_id).with(:key => '1234567').and_return(view)
-      view.should_receive(:first).and_return(child)
-      controller.should_receive(:update_child_from).and_return(child)
-      child.should_receive(:save).and_return true
-
-      post :unverified, {:child => {:name => "timmy", :unique_identifier => '12345671234567'}}
-
-      child['created_by_full_name'].should eq @user.full_name
     end
   end
 

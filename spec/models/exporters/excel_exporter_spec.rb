@@ -76,21 +76,21 @@ module Exporters
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]
       sheet.row(0).to_a.should == ["_id", "model_type", "first_name", "last_name"]
-      sheet.row(1).to_a.should == [nil, "Child", "John", "Doe"]
+      sheet.row(1).to_a.should == [nil, "Case", "John", "Doe"]
 
       #Subform "cases_test_form_1" create this sheet because the subform.
       sheet = book.worksheets[1]
       sheet.row(0).to_a.should == ["_id", "model_type", "unique_id", "field_1", "field_2"]
-      sheet.row(1).to_a.should == [nil, "Child", "1", "field_1 value", "field_2 value"]
+      sheet.row(1).to_a.should == [nil, "Case", "1", "field_1 value", "field_2 value"]
 
       sheet = book.worksheets[2]
       sheet.row(0).to_a.should == ["_id", "model_type", "relationship", "array_field"]
-      sheet.row(1).to_a.should == [nil, "Child", "Mother", "Option1 ||| Option2"]
+      sheet.row(1).to_a.should == [nil, "Case", "Mother", "Option1 ||| Option2"]
 
       #Subform "cases_test_form_3" create this sheet because the subform.
       sheet = book.worksheets[3]
       sheet.row(0).to_a.should == ["_id", "model_type", "unique_id", "field_3", "field_4"]
-      sheet.row(1).to_a.should == [nil, "Child", "2", "field_3 value", "field_4 value"]
+      sheet.row(1).to_a.should == [nil, "Case", "2", "field_3 value", "field_4 value"]
     end
   end
 
