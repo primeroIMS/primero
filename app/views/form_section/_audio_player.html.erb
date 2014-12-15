@@ -1,22 +1,4 @@
-<% content_for :javascript do %>
-  <script language="javascript" type="text/javascript">
-    $(document).ready(function(){
-      $("#jquery_jplayer_1").jPlayer({
-        ready: function () {
-          $(this).jPlayer("setMedia", {
-            mp3: "<%=audio_url%>"
-          });
-        },
-        swfPath: "/assets",
-        supplied: "mp3",
-        useStateClassSkin: true,
-        autoBlur: false,
-        solution:"flash, html"
-      });
-    });
-  </script>
-<% end %>
-<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+<div id="jquery_jplayer_1" class="jp-jplayer" data-audio-url="<%=audio_url%>"></div>
 <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
   <div class="jp-type-single">
     <div class="jp-gui jp-interface">
