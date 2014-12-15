@@ -4,7 +4,7 @@
     border: 1px solid $stroke_green_color;
     background: #fff;
     padding: 0;
-    
+
     .panel_content {
       padding: 0px 10px 10px 10px;
     }
@@ -24,6 +24,11 @@
 
     .no-padding {
       padding: 0 !important
+    }
+
+    &.panel_main {
+      height: 632px;
+      overflow: hidden;
     }
   }
 
