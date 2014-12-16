@@ -5,6 +5,10 @@ var PhotoAudioFields = Backbone.View.extend({
   },
 
   initialize: function(){
+    this.init_audio_player();
+  },
+
+  init_audio_player: function() {
     var jplayer_input = $("#jquery_jplayer_1");
     var audio_url = jplayer_input.data("audio-url");
     jplayer_input.jPlayer({
