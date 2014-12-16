@@ -36,7 +36,7 @@ gem 'sunspot_test', require: false
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false
 
-gem 'foundation-rails', '~> 5.3.3.0'
+gem 'foundation-rails', '~> 5.4.5.0'
 
 gem 'sass-rails',    '~> 4.0.1'
 gem 'compass-rails', '~> 1.1.3'
