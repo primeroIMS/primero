@@ -56,7 +56,7 @@ module CouchChanges
     def load_sequence_numbers
       if File.exist?(@history_path)
         File.open(@history_path, 'r') do |hist_fh|
-          JSON.load(hist_fh)
+          JSON.load(hist_fh) || {}
         end
       else
         {}
