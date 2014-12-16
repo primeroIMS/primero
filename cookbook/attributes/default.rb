@@ -8,6 +8,8 @@ default[:primero].tap do |p|
   p[:log_dir] = File.join(node[:primero][:app_dir], 'log')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
+  p[:solr_user] = 'solr'
+  p[:solr_group] = 'solr'
 
   p[:git].tap do |git|
     git[:repo] = 'git@bitbucket.org:quoin/primero.git'

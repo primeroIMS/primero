@@ -216,7 +216,7 @@ en:
     match_record_failed: "Match Not Found"
 
     messages:
-      update_success: "Child %{record_id} was successfully updated."
+      update_success: "Case %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
       undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "Undo Investigation Details:"

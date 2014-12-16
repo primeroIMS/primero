@@ -21,6 +21,7 @@ module CouchChanges
     end
 
     def run(history_file=nil)
+      logger.info "Starting up Couch change watcher..."
       EventMachine.run do
         CouchChanges::Watcher.new(MODELS_TO_WATCH, history_file).watch_for_changes
       end

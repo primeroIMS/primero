@@ -12,11 +12,11 @@ end
 
 
 group node[:primero][:app_group] do
-  system false
+  system true
 end
 
 user node[:primero][:app_user] do
-  system false
+  system true
   home node[:primero][:home_dir]
   gid node[:primero][:app_group]
   shell '/bin/bash'
@@ -85,10 +85,11 @@ directory node[:primero][:app_dir] do
   group node[:primero][:app_group]
 end
 
+rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}"
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
     rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
-    rvm --default use #{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
+    rvm --default use #{rvm_ruby_name}
   EOH
 end
 
@@ -173,21 +174,11 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   group node[:primero][:app_group]
 end
 
-supervisor_service 'solr' do
-  command "#{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec rake sunspot:solr:run"
-  environment({'RAILS_ENV' => 'production'})
-  autostart true
-  autorestart true
-  killasgroup true
-  stopasgroup true
-  user node[:primero][:app_user]
-  directory node[:primero][:app_dir]
-  numprocs 1
-  action [:enable, :restart]
-end
+include_recipe 'primero::solr'
 
 file ::File.join(node[:primero][:app_dir], 'log/couch_watcher_history.json') do
   content ''
+  mode '666'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
 end
@@ -195,10 +186,14 @@ end
 supervisor_service 'couch-watcher' do
   command <<-EOH
     #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
+    capsh --drop=all --caps='cap_dac_read_search+ep' -- -c ' \
     #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
-    rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}
+    rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'
   EOH
-  environment({'RAILS_ENV' => 'production'})
+  environment({
+    'RAILS_ENV' => 'production',
+    'rvmsudo_secure_path' => '1',
+  })
   autostart true
   autorestart true
   user node[:primero][:app_user]

@@ -15,12 +15,7 @@
               <% end %>
               <div class="clearfix"></div>
             <% if is_playable_in_browser(formObject.audio) %>
-                  <audio controls="controls" id="audio_player">
-                    <source src="<%= audio_url %>"/>
-                    Your browser is unable to play this audio file. You can download the file using the link above.
-                  </audio>
-
-                  <%= render :partial => "form_section/audio_player" %>
+                  <%= render :partial => "form_section/audio_player", locals: {audio_url: audio_url} %>
             <% end %>
             </div>
         </div>
