@@ -2,6 +2,8 @@
   action ||= 'edit'
   object_name = object.class.name.underscore
   object_name_plural = object_name.pluralize
+  opts ||= {}
+  options = {show_side_tab: true}.merge(opts)
 %>
 <% content_for :breadcrumbs do %>
   <% if action == 'edit' %>
@@ -17,7 +19,9 @@
 
 <div class="page-content-new row collapse" data-equalizer>
   <div class="large-4 medium-4 columns close-side-tab side-tab-container">
-  <%= render partial: 'shared/side_tab', locals: {highlight_page: object_name_plural} %>
+  <% if options[:show_side_tab] %>
+    <%= render partial: 'shared/side_tab', locals: {highlight_page: object_name_plural} %>
+  <% end %>
   </div>
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>

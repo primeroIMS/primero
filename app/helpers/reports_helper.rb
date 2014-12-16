@@ -68,4 +68,29 @@ module ReportsHelper
     end
   end
 
+  # Assumes grouped fields is a hash that resembles:
+  # {
+  #    "module_name" => [
+  #      "form_name", [
+  #         ["field_name", "field_display_name", "field_type"]**
+  #      ]**
+  #    ]
+  # }
+  def select_options_fields_grouped_by_form(grouped_fields)
+    unique_fields = Set.new
+    grouped_fields_options = []
+    grouped_fields.keys.each do |module_name|
+      grouped_fields[module_name].each do |form|
+        form_array = ["#{form[0]} (#{module_name})", []]
+        form[1].each do |field|
+          if unique_fields.add? field[0]
+            form_array[1] << [field[1], field[0]]
+          end
+        end
+        grouped_fields_options << form_array
+      end
+    end
+    return grouped_fields_options
+  end
+
 end

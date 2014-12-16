@@ -144,7 +144,7 @@ var Primero = Backbone.View.extend({
     this.init_chosen_or_new();
     this.show_hide_record_type();
     this.init_scrollbar();
-    this.populate_case_id_for_gbv_incidents()
+    this.populate_case_id_for_gbv_incidents();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var textarea = $('textarea[name*="field[option_strings_text"]');
@@ -197,6 +197,13 @@ var Primero = Backbone.View.extend({
       })
     );
 
+    $(".panel_xl ul").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 578,
+        theme: 'dark'
+      })
+    );
+
     $(".panel_content ul").mCustomScrollbar(
       _.extend(options, {
         setHeight: 250,
@@ -208,6 +215,13 @@ var Primero = Backbone.View.extend({
       _.extend(options, {
         setHeight: 400,
         theme: 'dark'
+      })
+    );
+
+    $(".panel_main").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 269,
+        theme: 'minimal-dark'
       })
     );
   },
@@ -349,7 +363,7 @@ var Primero = Backbone.View.extend({
 
   disable_default_events: function(evt) {
     evt.preventDefault();
-  }
+  },
 });
 
 $(document).ready(function() {

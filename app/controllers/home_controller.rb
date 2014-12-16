@@ -13,6 +13,34 @@ class HomeController < ApplicationController
 
   private
 
+  # TODO: Clean up unused methods after getting done with upcoming incident dashboard ticket
+
+  def search_flags(field, criteria, type = 'child')
+    map_flags(Flag.search{
+      with(field).between(criteria)
+      with(:flag_record_type, type)
+      with(:flag_flagged_by, current_user.user_name)
+      with(:flag_is_removed, false)
+      order_by(:flag_date, :desc)
+    }.hits)
+  end
+
+  def map_flags(flags)
+    flags.map{ |flag|
+      {
+        record_id: flag.stored(:flag_record_id),
+        message: flag.stored(:flag_message),
+        flagged_by: flag.stored(:flag_flagged_by),
+        date: flag.stored(:flag_date),
+        created_at: flag.stored(:flag_created_at),
+        system_generated_follow_up: flag.stored(:flag_system_generated_follow_up),
+        short_id: flag.stored(:flag_record_short_id),
+        record_type: flag.stored(:flag_record_type),
+        name: flag.stored(:flag_child_name)
+      }
+    }.reverse
+  end
+
   def load_associated_types
     @record_types = @current_user.modules.map{|m| m.associated_record_types}.flatten.uniq
   end
@@ -30,14 +58,9 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
-    #TODO should filter by module as for Incidents? Keep current behavior for the moment.
-    #Commented out for rework "by_flag_with_date" view.
-    #@scheduled_activities = get_scheduled_activities(get_flags_by_date(Child))
-    @scheduled_activities = []
-    #TODO should filter by module as for Incidents? Keep current behavior for the moment.
-    @recently_flagged = get_recent_flags(get_recent_record_flagged(Child, @modules))
-    @recently_flagged_count = get_recent_record_flagged_count(Child, @modules)
-    @cases = get_new_records_assigned(Child)
+    @scheduled_activities = search_flags(:flag_date, Date.today..1.week.from_now.utc, 'child')
+    @overdue_activities = search_flags(:flag_date, 1.week.ago.utc..Date.today, 'child')
+    @recently_flagged = search_flags(:flag_created_at, 1.week.ago.utc..Date.today, 'child')[0..4]
   end
 
   def load_incidents_information
@@ -69,7 +92,7 @@ class HomeController < ApplicationController
     records = 0
     modules.each do |primero_module|
        row = model.by_flag_created_at_latest(:startkey => [primero_module, 1.week.ago.utc],
-                                      :endkey => [primero_module, {}], 
+                                      :endkey => [primero_module, {}],
                                       :reduce => true).rows.first
        records += row["value"].to_i if row.present?
     end
@@ -92,7 +115,7 @@ class HomeController < ApplicationController
   end
 
   def get_new_records_assigned(model)
-    model.list_records(filters={}, sort={:created_at => :desc}, pagination={ per_page: 5 }, 
+    model.list_records(filters={}, sort={:created_at => :desc}, pagination={ per_page: 5 },
         [current_user.user_name]).results
   end
 end
