@@ -6,9 +6,11 @@
   <ul>
     <% recently_flagged.each do |r| %>
       <li>
-        <%= link_to link_dashboard_title(r), link_dashboard_path(r) %>
-        <p><%= r[:message] %></p>
-        <small><%= t('dashboard.flagged_by') %> <%= r[:flagged_by] %></small>
+        <%# Temp until ticket to clean up incident dashboard and  make incident dashboard pull from solr %>
+        <% rf = model == Incident ? r.parent_record : r; %>
+        <%= link_to link_dashboard_title(rf), link_dashboard_path(rf) %>
+        <p><%= r[:message].present? ? r[:message] : r.message %></p>
+        <small><%= t('dashboard.flagged_by') %> <%= r[:flagged_by] || r.flagged_by %></small>
       </li>
     <% end %>
     <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}", :count => recently_flagged_count),
