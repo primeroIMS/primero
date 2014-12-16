@@ -6,6 +6,9 @@ server {
 
   proxy_buffering off;
 
+  access_log <%= @log_dir %>/nginx_server.log;
+  error_log <%= @log_dir %>/nginx_error.log error;
+
   location / {
     proxy_pass http://localhost:5984;
   }

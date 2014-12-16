@@ -2,7 +2,7 @@ module CouchChanges
   # Handles the sequence numbers in the history so we don't process changes
   # twice
   class Sequencer
-    DEFAULT_HISTORY_PATH = File.join(Rails.application.config.root, 'log/couch_watcher_history.json')
+    DEFAULT_HISTORY_PATH = File.join(Rails.application.config.root, 'tmp/couch_watcher_history.json')
 
     def initialize(history_path=nil)
       @history_path = history_path || DEFAULT_HISTORY_PATH

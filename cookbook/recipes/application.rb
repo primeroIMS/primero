@@ -103,9 +103,11 @@ git node[:primero][:app_dir] do
   ssh_wrapper git_wrapper_path
 end
 
+scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
 [node[:primero][:log_dir],
  File.join(node[:primero][:log_dir], 'nginx'),
- File.join(node[:primero][:log_dir], 'solr'),
+ scheduler_log_dir,
+ File.join(node[:primero][:log_dir], 'couch_watcher'),
  File.join(node[:primero][:log_dir], 'rails')].each do |log_dir|
   directory log_dir do
     action :create
@@ -176,22 +178,28 @@ end
 
 include_recipe 'primero::solr'
 
-file ::File.join(node[:primero][:app_dir], 'log/couch_watcher_history.json') do
-  content ''
-  mode '666'
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
+[::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_history.json'),
+ ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log'),
+].each do |f|
+  file f do
+    content ''
+    mode '0644'
+    owner 'root'
+    group 'root'
+  end
 end
 
 supervisor_service 'couch-watcher' do
   command <<-EOH
     #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
     capsh --drop=all --caps='cap_dac_read_search+ep' -- -c ' \
-    #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
-    rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'
+      RAILS_ENV=production RAILS_LOG_PATH=#{::File.join(node[:primero][:log_dir], 'couch_watcher')} \
+        #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
+          rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'
   EOH
   environment({
     'RAILS_ENV' => 'production',
+    'RAILS_LOG_PATH' => ::File.join(node[:primero][:log_dir], 'couch_watcher'),
     'rvmsudo_secure_path' => '1',
   })
   autostart true
@@ -202,7 +210,9 @@ supervisor_service 'couch-watcher' do
   killasgroup true
   stopasgroup true
   redirect_stderr true
-  stdout_logfile ::File.join(node[:primero][:log_dir], 'couch-watcher.log')
+  stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/output.log')
+  stdout_logfile_maxbytes '20MB'
+  stdout_logfile_backups 0
   # We want to stop the watcher before doing seeds/migrations so that it
   # doesn't go crazy with all the updates.  Make sure that everything that it
   # does is also done in this recipe (e.g. reindex solr, reset memoization,
@@ -229,12 +239,21 @@ end
 
 execute_bundle 'restart-scheduler' do
   command "rake scheduler:restart"
+  environment({"RAILS_SCHEDULER_LOG_DIR" => scheduler_log_dir})
+end
+
+logrotate_app 'primero-scheduler' do
+  path ::File.join(scheduler_log_dir, '*.log')
+  size 20 * 1024 * 1024
+  rotate 2
+  frequency nil
+  options %w( copytruncate delaycompress compress notifempty missingok )
 end
 
 # This will set the latest sequence numbers in the couch history log so that it
 # doesn't try to reprocess things from the seed/migration
 execute_bundle 'prime-couch-watcher-sequence-numbers' do
-  command "rake couch_changes:prime_sequence_numbers"
+  command "#{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} rake couch_changes:prime_sequence_numbers"
 end
 
 supervisor_service 'couch-watcher' do

@@ -17,12 +17,12 @@ server {
 
   rails_env <%= @rails_env %>;
 
-  passenger_set_cgi_param RAILS_LOG_PATH "<%= @rails_log_path %>";
+  passenger_set_cgi_param RAILS_LOG_PATH "<%= @rails_log_dir %>";
 
   gzip_disable "MSIE [1-6]\.";
   root <%= @current_path %>/public;
-  access_log <%= @log_path %>/server.log;
-  error_log <%= @log_path %>/error.log error;
+  access_log <%= @log_dir %>/nginx_server.log;
+  error_log <%= @log_dir %>/nginx_error.log error;
   client_max_body_size 50M;
 
   location ~* ^/(assets|images|javascripts|stylesheets)/ {
