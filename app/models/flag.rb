@@ -11,6 +11,56 @@ class Flag
   property :unflag_message, String
   property :created_at, Date
   property :system_generated_followup, TrueClass, :default => false
+  property :id
+
+  # alias_method :index_flags, :index
+
+  include Sunspot::Rails::Searchable
+
+  searchable do
+    date :flag_date, :stored => true do
+      self.date
+    end
+    date :flag_created_at, :stored => true do
+      self.created_at
+    end
+    string :flag_message, :stored => true do
+      self.message
+    end
+    string :flag_unflag_message, :stored => true do
+      self.unflag_message
+    end
+    string :flag_flagged_by, :stored => true do
+      self.flagged_by
+    end
+    boolean :flag_is_removed, :stored => true do
+      self.removed ? true : false
+    end
+    boolean :flag_system_generated_followup, :stored => true do
+      self.system_generated_followup
+    end
+    string :flag_record_id, :stored => true do
+      base_doc.id
+    end
+    string :flag_record_type, :stored => true do
+      base_doc.class.to_s.underscore.downcase
+    end
+    string :flag_record_short_id, :stored => true do
+      base_doc.short_id
+    end
+    string :flag_child_name, :stored => true do
+      base_doc.name
+    end
+  end
+
+  Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
+  Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
+
+  def initialize *args
+    super
+
+    self.id ||= UUIDTools::UUID.random_create.to_s
+  end
 
   def parent_record
     base_doc

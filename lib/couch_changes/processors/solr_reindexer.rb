@@ -18,6 +18,11 @@ module CouchChanges
             instance = modelCls.get(change['id'])
             if instance.present?
               Sunspot.index! instance
+
+              if instance.flags.present?
+                CouchChanges.logger.info " => Indexing flags"
+                Sunspot.index! instance.flags
+              end
               dfd.succeed
             else
               CouchChanges.logger.error "Could not find #{modelCls.name} with id #{change['id']}"

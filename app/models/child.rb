@@ -22,7 +22,6 @@ class Child < CouchRest::Model::Base
 
   include Ownable
   include AudioUploader
-  include Flaggable
 
   property :case_id
   property :nickname
@@ -126,6 +125,7 @@ class Child < CouchRest::Model::Base
     ]
   end
   include Searchable #Needs to be after ownable, quicksearch fields
+  include Flaggable
 
   searchable do
     string :fathers_name do

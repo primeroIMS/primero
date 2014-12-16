@@ -43,10 +43,14 @@ namespace :sunspot do
 
     Child.all.all.each do |child|
       child.index!
+
+      puts "  => Indexing #{child.id} Flags..."
+      Sunspot.index(child.flags)
     end
 
     puts 'Reindexing incidents...'
-    Incident.all.all.each do |incident|
+    Incident.all.all.
+    each do |incident|
       incident.index!
     end
 

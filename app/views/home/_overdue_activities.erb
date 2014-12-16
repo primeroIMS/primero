@@ -1,9 +1,9 @@
 <div class="panel">
  <div class="panel_header">
-  <h4><%= t("dashboard.scheduled_activities") %></h4>
+  <h4><%= t("dashboard.overdue_activities") %></h4>
  </div>
  <div class="panel_content no-padding panel_main">
- <% if scheduled_activities %>
+ <% if records %>
   <table cellspacing="0" cellpadding="0" class="table-floating-header">
     <thead>
       <tr>
@@ -22,7 +22,7 @@
      </tr>
     </thead>
     <tbody>
-      <% scheduled_activities.each do |s| %>
+      <% records.each do |s| %>
         <tr>
           <td class="id_column"><%= link_to s[:short_id], case_path(s[:record_id]), class: 'id_link' %></td>
           <td><%= s[:flagged_by] %></td>
@@ -35,7 +35,7 @@
     </tbody>
   </table>
   <% else %>
-    <p><%= t("dashboard.no_scheduled_activities") %></p>
+    <p><%= t("dashboard.no_overdue_activities") %></p>
   <% end %>
  </div>
 </div>

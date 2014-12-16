@@ -1,5 +1,6 @@
 module Flaggable
   extend ActiveSupport::Concern
+  include Sunspot::Rails::Searchable
 
   included do
     property :flags, [Flag], :default => []
@@ -53,6 +54,8 @@ module Flaggable
              :reduce => "_count"
     end
 
+    after_save :index_flags
+
     def flag_message_flagged_by
       #TODO Keep the panel in the show and the edit show one of the flag, the last one.
       #that panel eventually will change.
@@ -66,6 +69,10 @@ module Flaggable
       flag = Flag.new(:flagged_by => user_name, :message => message, :date => date, :created_at => DateTime.now)
       self.flags << flag
       flag
+    end
+
+    def index_flags
+      Sunspot.index! self.flags
     end
 
     #Remove flag. The caller still need to call the save method to persistence the changed by the method.
@@ -92,12 +99,15 @@ module Flaggable
     def flag_count
       self.flags.select{|f| !f.removed}.count
     end
-
   end
 
   module ClassMethods
     def flagged
       by_flag(:key => true)
+    end
+
+
+    def get_scheduled_activities
     end
   end
 

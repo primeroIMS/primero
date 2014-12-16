@@ -1030,8 +1030,11 @@ en:
     child_status_duplicate: "Duplicate"
 
   dashboard:
+    flagged_by: "Flagged by:"
     no_scheduled_activities: "No Scheduled Activities"
+    no_overdue_activities: "No Overdue Activities"
     scheduled_activities: "Scheduled Activities"
+    overdue_activities: "Overdue Activities"
     case_id: "Case #ID"
     name: "Name"
     activity: "Activity"
@@ -1039,7 +1042,7 @@ en:
     incident_id: "Incident #ID"
     incident_location: "Incident Location"
     new_child_assigned_to_you: "New Cases Assigned To You"
-    new_incident_assigned_to_you: "New Incidents Assigned To You"
+    new_incident_assigned_to_you: "New Assigned Incidents"
     recently_flagged_child: "Recently Flagged Cases"
     recently_flagged_incident: "Recently Flagged Incidents"
     incident_status_open: "Open"
