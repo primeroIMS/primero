@@ -19,10 +19,10 @@ class Flag
 
   searchable do
     date :flag_date, :stored => true do
-      self.date
+      self.date.present? ? self.date : nil
     end
     date :flag_created_at, :stored => true do
-      self.created_at
+      self.created_at.present? ? self.created_at : nil
     end
     string :flag_message, :stored => true do
       self.message
