@@ -22,6 +22,7 @@
 # JIRA PRIMERO-783
 # JIRA PRIMERO-736
 # JIRA PRIMERO-837
+# JIRA PRIMERO-946
 
 @javascript @primero @search
 Feature: Basic Identity Form
@@ -293,3 +294,17 @@ Feature: Basic Identity Form
       | 09/15/2014        |
       | 09/15/14          |
       | 10 /jly/2014      |
+
+  Scenario: Action button should not be displayed in edit mode.
+    And I fill in the following:
+      | Date of Registration or Interview | 08-Jun-2014 |
+    And I press "Save"
+    And I should see a success message for new Case
+    And I should see a "Actions" button on the page
+    And I press the "Edit" button
+    And I should not see a "Actions" button on the page
+    And I fill in the following:
+      | Date of Registration or Interview | SomeInvalidDateValue |
+    And I press "Save"
+    And I should see "Errors prohibited this record from being saved" on the page
+    And I should not see a "Actions" button on the page

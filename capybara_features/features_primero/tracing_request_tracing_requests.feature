@@ -3,6 +3,7 @@
 #JIRA PRIMERO-736
 #JIRA PRIMERO-774
 #JIRA PRIMERO-836
+#JIRA PRIMERO-946
 
 @javascript @primero @search
 Feature: Tracing Request Tracing Requests
@@ -142,3 +143,15 @@ Feature: Tracing Request Tracing Requests
     And I should see a success message for new Tracing Request
     And I press the "Edit" button
     And I should not see "Actions" on the page
+
+  Scenario: Action button should not be displayed in edit mode.
+    And I press "Save"
+    And I should see a success message for new Tracing Request
+    And I should see a "Actions" button on the page
+    And I press the "Edit" button
+    And I should not see a "Actions" button on the page
+    And I update in the 1st "Tracing Request Subform Section" subform with the follow:
+      | Date of Birth | SomeBadDate |
+    And I press "Save"
+    And I should see "Errors prohibited this record from being saved" on the page
+    And I should not see a "Actions" button on the page
