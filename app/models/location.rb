@@ -63,6 +63,22 @@ class Location < CouchRest::Model::Base
       return location.first
     end
     memoize_in_prod :get_by_location
+
+    def get_by_location_name(location_name)
+      self.by_name(key: location_name)
+    end
+    memoize_in_prod :get_by_location_name
+
+    def get_by_hierarchy_type(location_name, type)
+      location = self.get_by_location_name(location_name).first
+      place_name_tree = nil
+      location.hierarchy.map do|place_name|
+        place_name_tree = place_name_tree.blank? ? place_name : "#{place_name_tree}::#{place_name}"
+        self.get_by_location_name(place_name_tree).first
+      end.select{|location| location.type == type}
+    end
+    memoize_in_prod :get_by_hierarchy_type
+
   end
 
   def hierarchical_name

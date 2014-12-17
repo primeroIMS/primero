@@ -68,6 +68,8 @@ class IncidentsController < ApplicationController
   end
 
   def record_filter filter
+    #The 'Incident Recorder' should retrieve only GBV Incidents.
+    filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::GBV}"} if params["format"] == "incident_recorder_xls"
     filter
   end
 

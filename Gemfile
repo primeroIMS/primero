@@ -54,6 +54,7 @@ gem 'writeexcel', '~> 1.0.3'
 gem 'spreadsheet',        '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.10.0'
+gem 'rjb'
 
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
