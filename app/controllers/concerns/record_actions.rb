@@ -247,7 +247,7 @@ module RecordActions
 
   # All the stuff that isn't properties that should be allowed
   def extra_permitted_parameters
-    ['base_revision', 'unique_identifier']
+    ['base_revision', 'unique_identifier', 'upload_document', 'update_document']
   end
 
   def permitted_property_keys(record)

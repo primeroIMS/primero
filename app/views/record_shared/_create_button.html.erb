@@ -1,6 +1,8 @@
 <% if can? :create, model %>
     <% button_label = t("#{record.pluralize}.register_new_#{record}") %>
-    <% if modules.size > 1 %>
+    <% if !defined?(modules) || !modules.present? %>
+        <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record),  class: 'btn green-button right' %>
+    <% elsif modules.size > 1 %>
         <%= link_to content_tag(:span, button_label), '#', :'data-dropdown' => 'modules-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button right' %>
         <ul id="modules-dropdown" class="f-dropdown" data-dropdown-content>
         <% modules.each do |primero_module| %>

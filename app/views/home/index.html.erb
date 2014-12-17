@@ -37,9 +37,10 @@
   <div class="row collapse">
     <div id="content" class="large-9 columns">
       <%= render 'scheduled_activities', scheduled_activities: @scheduled_activities, model:Child %>
+      <%= render 'overdue_activities', records: @overdue_activities, model:Child %>
     </div>
     <div id="sidebar" class="large-3 columns">
-      <%= render 'new_assigned', records: @cases, model:Child %>
+
       <%= render 'recently_flagged', recently_flagged: @recently_flagged, recently_flagged_count: @recently_flagged_count, model:Child %>
     </div>
   </div>

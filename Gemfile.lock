@@ -192,7 +192,7 @@ GEM
       sexp_processor (~> 4.4)
     font-awesome-sass (4.2.0)
       sass (~> 3.2)
-    foundation-rails (5.3.3.0)
+    foundation-rails (5.4.5.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
     fssm (0.2.10)
@@ -485,7 +485,7 @@ DEPENDENCIES
   em-http-request (~> 1.1.2)
   factory_girl (~> 2.6)
   font-awesome-sass (~> 4.2.0)
-  foundation-rails (~> 5.3.3.0)
+  foundation-rails (~> 5.4.5.0)
   handlebars_assets
   highline (= 1.6.16)
   hpricot (~> 0.8.6)

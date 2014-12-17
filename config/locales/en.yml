@@ -106,6 +106,7 @@ en:
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
+     create_case: "Create Case"
      guiding_questions: "Guiding Questions"
      filter_label: "Filter:"
      filter: "Apply Filter"
@@ -216,7 +217,7 @@ en:
     match_record_failed: "Match Not Found"
 
     messages:
-      update_success: "Child %{record_id} was successfully updated."
+      update_success: "Case %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
       undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "Undo Investigation Details:"
@@ -933,18 +934,25 @@ en:
 
   reports:
     register_new_report: "Create Report"
+    label: "Reports"
 
   report:
-    heading: "RapidFTR Reports"
+    heading: "Primero Reports"
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
     all: "All"
     total: "Total"
+    modules: "Modules"
+    aggregate_by: "Group by Row"
+    disaggregate_by: "Group by Column"
+    is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
       graph: "Graph"
       data: "Data"
+    successfully_updated: "Report configuration is successfully updated."
+    error_in_updating: "Error in updating the Report configuration."
 
   encrypt:
     password_title: "Create Password"
@@ -1023,8 +1031,11 @@ en:
     child_status_duplicate: "Duplicate"
 
   dashboard:
+    flagged_by: "Flagged by:"
     no_scheduled_activities: "No Scheduled Activities"
+    no_overdue_activities: "No Overdue Activities"
     scheduled_activities: "Scheduled Activities"
+    overdue_activities: "Overdue Activities"
     case_id: "Case #ID"
     name: "Name"
     activity: "Activity"
@@ -1032,7 +1043,7 @@ en:
     incident_id: "Incident #ID"
     incident_location: "Incident Location"
     new_child_assigned_to_you: "New Cases Assigned To You"
-    new_incident_assigned_to_you: "New Incidents Assigned To You"
+    new_incident_assigned_to_you: "New Assigned Incidents"
     recently_flagged_child: "Recently Flagged Cases"
     recently_flagged_incident: "Recently Flagged Incidents"
     incident_status_open: "Open"

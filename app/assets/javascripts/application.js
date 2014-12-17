@@ -12,7 +12,7 @@
 //= require plugins/jquery.idletimer
 //= require plugins/jquery.idletimeout
 //= require plugins/jquery.lightbox-0.5.min
-//= require plugins/jquery.jplayer.min
+//= require plugins/jquery.jplayer
 //= require plugins/jquery.rotate.1-1
 //= require plugins/vtip-min
 //= require plugins/outside_events.min
@@ -25,7 +25,6 @@
 //= require plugins/superfish
 //= require plugins/jquery.mousewheel.min
 //= require plugins/jquery.mCustomScrollbar.min
-//= require plugins/table2CSV
 //= require chosen-jquery
 //= require i18n
 //= require i18n/translations
@@ -62,5 +61,7 @@
 //= require actions
 //= require summary_page
 //= require reports
+//= require reports_form
 //= require plugins/Chart
 //= require plugins/colormap
+//= require primero.table2CSV

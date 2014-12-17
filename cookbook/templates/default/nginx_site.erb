@@ -21,9 +21,12 @@ server {
 
   gzip_disable "MSIE [1-6]\.";
   root <%= @current_path %>/public;
+
   access_log <%= @log_dir %>/nginx_server.log;
   error_log <%= @log_dir %>/nginx_error.log error;
+
   client_max_body_size 50M;
+  client_body_buffer_size 128k;
 
   location ~* ^/(assets|images|javascripts|stylesheets)/ {
     gzip_static on;

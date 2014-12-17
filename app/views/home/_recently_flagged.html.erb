@@ -2,12 +2,15 @@
  <div class="panel_header">
   <h4><%= t("dashboard.recently_flagged_#{model.name.underscore}") %></h4>
  </div>
- <div class="panel_content">
+ <div class="panel_content panel_xl">
   <ul>
     <% recently_flagged.each do |r| %>
       <li>
-        <%= link_to link_dashboard_title(r.parent_record), link_dashboard_path(r.parent_record) %>
-        <p><%= r.message %></p>
+        <%# Temp until ticket to clean up incident dashboard and  make incident dashboard pull from solr %>
+        <% rf = model == Incident ? r.parent_record : r; %>
+        <%= link_to link_dashboard_title(rf), link_dashboard_path(rf) %>
+        <p><%= r[:message].present? ? r[:message] : r.message %></p>
+        <small><%= t('dashboard.flagged_by') %> <%= r[:flagged_by] || r.flagged_by %></small>
       </li>
     <% end %>
     <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}", :count => recently_flagged_count),

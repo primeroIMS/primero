@@ -622,3 +622,15 @@ And /^the "(.*)" tick box should not have a label$/ do |tick_box|
   field_label = page.find(:xpath, "//label[text()='#{tick_box}']", :visible => true)
   page.should_not have_selector(:xpath, "//label[@for='#{field_label["for"]}' and contains(@class, 'tick_box_label')]")
 end
+
+And /^I should see the field validation message "(.*)"$/ do |message|
+  page.should have_selector(:xpath, "//small[contains(@class, 'error') and text()='#{message}']", :visible => true)
+end
+
+And /^I should not see the field validation message "(.*)"$/ do |message|
+  page.should_not have_selector(:xpath, "//small[contains(@class, 'error') and text()='#{message}']", :visible => true)
+end
+
+And /^I create a CP Case from the (\d+)(?:st|nd|rd|th) individual details subform$/ do |subform_index|
+  page.find(:xpath, "//fieldset[@id='subform_individual_details_subform_section_#{subform_index.to_i - 1}']//a[text()='Create Case']").click
+end
