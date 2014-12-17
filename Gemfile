@@ -55,8 +55,6 @@ gem 'spreadsheet',        '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.10.0'
 
-gem 'lograge', '~> 0.3.0'
-
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
   gem 'font-awesome-sass', '~> 4.2.0'
