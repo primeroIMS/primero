@@ -320,6 +320,8 @@ fieldset {
   .grey-button {
     height: 30px;
     padding-top: 5px;
+    float: right;
+    margin-right: 10px;
   }
 }
 
@@ -342,11 +344,6 @@ fieldset {
   .header-btn-group {
     height: 35px;
     padding-right: 0;
-  }
-
-  .subform_remove {
-    float: right;
-    margin-right: 10px !important;
   }
 
   .collapse_expand_subform_header {

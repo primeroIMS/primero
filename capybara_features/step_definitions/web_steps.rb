@@ -630,3 +630,7 @@ end
 And /^I should not see the field validation message "(.*)"$/ do |message|
   page.should_not have_selector(:xpath, "//small[contains(@class, 'error') and text()='#{message}']", :visible => true)
 end
+
+And /^I create a CP Case from the (\d+)(?:st|nd|rd|th) individual details subform$/ do |subform_index|
+  page.find(:xpath, "//fieldset[@id='subform_individual_details_subform_section_#{subform_index.to_i - 1}']//a[text()='Create Case']").click
+end
