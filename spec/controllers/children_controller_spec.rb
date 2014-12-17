@@ -101,11 +101,6 @@ describe ChildrenController do
         response.status.should == 403
       end
 
-      it "DELETE destroy" do
-        @controller.current_ability.should_receive(:can?).with(:destroy, @child_arg).and_return(false);
-        delete :destroy, :id => @child.id
-        response.status.should == 403
-      end
     end
   end
 
@@ -488,20 +483,6 @@ describe ChildrenController do
       mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested child" do
-      Child.should_receive(:get).with("37").and_return(mock_child)
-      mock_child.should_receive(:destroy)
-      delete :destroy, :id => "37"
-    end
-
-    it "redirects to the children list" do
-      Child.stub(:get).and_return(mock_child(:destroy => true))
-      delete :destroy, :id => "1"
-      response.should redirect_to(children_url)
     end
   end
 
