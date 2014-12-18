@@ -30,6 +30,10 @@
       height: 632px;
       overflow: hidden;
     }
+
+    table tbody tr:last-of-type td {
+      border-bottom: 1px dashed #ccc !important;
+    }
   }
 
   #content {
