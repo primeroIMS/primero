@@ -19,6 +19,7 @@ describe ChildrenController do
 
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
+    Child.any_instance.stub(:permitted_properties).and_return(Child.properties)
     unless example.metadata[:skip_session]
       @user = User.new(:user_name => 'fakeadmin')
       @session = fake_admin_login @user

@@ -19,6 +19,7 @@ describe IncidentsController do
 
   before :each do
     Incident.any_instance.stub(:field_definitions).and_return([])
+    Incident.any_instance.stub(:permitted_properties).and_return(Incident.properties)
     unless example.metadata[:skip_session]
       fake_admin_login
     end

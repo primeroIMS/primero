@@ -19,6 +19,7 @@ describe TracingRequestsController do
 
   before :each do
     TracingRequest.any_instance.stub(:field_definitions).and_return([])
+    TracingRequest.any_instance.stub(:permitted_properties).and_return(TracingRequest.properties)
     unless example.metadata[:skip_session]
       @user = User.new(:user_name => 'fakeadmin')
       @session = fake_admin_login @user
