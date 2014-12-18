@@ -146,6 +146,7 @@ module RecordActions
         end
         format.json { render :json => @record }
       else
+        @form_sections ||= @record.allowed_formsections(current_user)
         format.html { render :action => "edit" }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
       end
