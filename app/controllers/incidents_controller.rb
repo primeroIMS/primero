@@ -29,6 +29,10 @@ class IncidentsController < ApplicationController
 
   private
 
+  def extra_permitted_parameters
+    super + ['violations']
+  end
+
   def make_new_record
     Incident.new.tap do |incident|
       incident['record_state'] = true
