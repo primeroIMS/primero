@@ -152,16 +152,6 @@ module RecordActions
     end
   end
 
-  def destroy
-    authorize! :destroy, @record
-    @record.destroy
-
-    respond_to do |format|
-      format.html { redirect_after_deletion }
-      format.json { head :ok }
-    end
-  end
-
   def redirect_on_not_found
     respond_to do |format|
       format.html do

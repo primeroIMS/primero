@@ -84,11 +84,6 @@ describe IncidentsController do
         response.status.should == 403
       end
 
-      it "DELETE destroy" do
-        @controller.current_ability.should_receive(:can?).with(:destroy, @incident_arg).and_return(false);
-        delete :destroy, :id => @incident.id
-        response.status.should == 403
-      end
     end
   end
 
@@ -434,20 +429,6 @@ describe IncidentsController do
       mock_incident.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested incident" do
-      Incident.should_receive(:get).with("37").and_return(mock_incident)
-      mock_incident.should_receive(:destroy)
-      delete :destroy, :id => "37"
-    end
-
-    it "redirects to the incidents list" do
-      Incident.stub(:get).and_return(mock_incident(:destroy => true))
-      delete :destroy, :id => "1"
-      response.should redirect_to(incidents_url)
     end
   end
 
