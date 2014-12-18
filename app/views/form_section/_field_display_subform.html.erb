@@ -14,7 +14,7 @@
 %>
 <% if number_of_subforms == 0 %>
   <% unless subform.subform_section.is_summary_section %>
-    <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(subform.name, :default => subform.display_name.singularize)) %></div>
+    <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(form_group_name == "Violations" ? "incident.violation.violation" : subform.name, :default => subform.display_name.singularize)) %></div>
   <% end %>
 <% else %>
   <div class="row">

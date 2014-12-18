@@ -417,6 +417,7 @@ en:
     history_of: "History of %{short_id}"
 
     violation:
+      violation: "Violation"
       pending: 'Pending Verification'
       killing: "Killing"
       maiming: "Maiming"
