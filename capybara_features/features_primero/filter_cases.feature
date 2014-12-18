@@ -3,6 +3,7 @@
 # JIRA PRIMERO-736
 # JIRA PRIMERO-891
 # JIRA PRIMERO-864
+# JIRA PRIMERO-935
 
 @search @javascript @primero
 Feature: Filter Cases
@@ -238,3 +239,25 @@ Scenario: As a CP user, I want to filter cases with photos
     And I check the "has_photo_photo" field
     And I press the "Apply Filter" link
     And I should see "Displaying all 4 cases" on the page
+
+  Scenario: Record State Filter
+    Given the following cases exist in the system:
+      | name     | created_by   | age | sex    | registration_date | unique_identifier                    | record_state |
+      | Rob      | primero_cp   | 14  | male   | 03-Jan-2014       | 21c4cba8-b410-4af6-b349-68c557af4aa9 | false        |
+      | John     | primero_cp   | 14  | male   | 03-Feb-2014       | 21c4cba8-b410-4af6-b349-68c557af5aa9 | true         |
+      | Theon    | primero_cp   | 14  | male   | 03-Mar-2014       | 21c4cba8-b410-4af6-b349-68c557af6aa9 | true         |
+      | Catelyn  | primero_cp   | 40  | female | 03-Jan-2014       | 21c4cba8-b410-4af6-b349-68c557af7aa9 | false        |
+    And I am logged in as a social worker with username "primero_cp" and password "primero"
+    When I press the "CASES" button
+    And I should see "Displaying all 5 cases" on the page
+    And I check the "record_state_true" field
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 3 cases" on the page
+    When I press the "CASES" button
+    And I should see "Displaying all 5 cases" on the page
+    And I check the "record_state_false" field
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 2 cases" on the page
+    And I check the "record_state_true" field
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 5 cases" on the page
