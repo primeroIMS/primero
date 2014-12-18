@@ -3,6 +3,17 @@ require 'spec_helper'
 module Exporters
   describe IncidentRecorderExporter do
 
+    def open_workbook_from_string(excel_string)
+      @byteis_class ||= Rjb::import("java.io.ByteArrayInputStream")
+      byteis = @byteis_class.new(excel_string.bytes)
+
+      @poifs_class ||= Rjb::import("org.apache.poi.poifs.filesystem.POIFSFileSystem")
+      poifs = @poifs_class.new(byteis)
+
+      @hssfwb_class ||= Rjb::import("org.apache.poi.hssf.usermodel.HSSFWorkbook")
+      @hssfwb_class.new(poifs)
+    end
+
     def verify_values(sheet, expected_values)
       i = 4
       expected_values.each do |record|
@@ -88,7 +99,8 @@ module Exporters
 
     describe "verify expected columns headers in the template file IRv66_Blank-MARA.xls" do
       it "at sheet '1. Incident Data'" do
-        IncidentRecorderExporter.export([], nil)
+        string = IncidentRecorderExporter.export([], nil)
+        workbook = open_workbook_from_string(string)
         #Verify the headers in the spreadsheet are in place
         ##### ADMINISTRATIVE INFORMATION #####
         cells = ["INCIDENT ID", "SURVIVOR CODE ", "CASE MANAGER CODE", "DATE OF INTERVIEW", "DATE OF INCIDENT",
@@ -110,7 +122,6 @@ module Exporters
          ##### ADMINISTRATION 2 #####
          "CONSENT GIVEN", "REPORTING AGENCY CODE ¦"
         ]
-        workbook = IncidentRecorderExporter.workbook
         sheet = workbook.getSheetAt(0)
         #Headers are in row 4 (zero based index)
         row = sheet.getRow(3)
@@ -126,8 +137,8 @@ module Exporters
       end
 
       it "at sheet '2. Menu Data'" do
-        IncidentRecorderExporter.export([], nil)
-        workbook = IncidentRecorderExporter.workbook
+        string = IncidentRecorderExporter.export([], nil)
+        workbook = open_workbook_from_string(string)
         sheet = workbook.getSheetAt(1)
         row = sheet.getRow(3)
         row.getCell(0).getStringCellValue.should eq("CASEWORKER CODE")
@@ -147,7 +158,7 @@ module Exporters
            "Morning (sunrise to noon)", "Nyeri", "Nyeri", "Central", "",
            "Rape", "Practice 1", "Yes", "None", "No", "Yes", 
            1, "M", "Yes", "Age 26 - 40", "Family other than spouse or caregiver",
-           "Unemployed", "Health/Medical Services & Psychosocial/Counseling Services",
+           "Unemployed", "Health / Medical Services & Psychosocial / Counseling Services",
            "Referred",
            "Referred",
            "Referred",
@@ -156,11 +167,11 @@ module Exporters
            "Referred & No referral, Service provided by your agency",
            "Referred & No referral, Service provided by your agency"],
           ["2", "5002", "4002", "02-Jan-2014", "22-Dec-2013", "01-Jan-2002", "M", @skip,
-           "Uganda", "Married/Cohabitating", "Refugee", "", "Separated Child", "During Refuge",
+           "Uganda", "Married / Cohabitating", "Refugee", "", "Separated Child", "During Refuge",
            "Afternoon (noon to sunset)", "Zone 1", "Turkana", "Rift Valley", "Kakuma IV",
            "Sexual Assault", "Practice 2", "No", "Forced Conscription", "Yes", "No", 
            2, "F and M", "Yes", "Age 0 - 11", "Primary Caregiver",
-           "Unknown", "Police/Other Security Actor & Legal Assistance Services",
+           "Unknown", "Police / Other Security Actor & Legal Assistance Services",
            "No referral, Service provided by your agency",
            "Referred & No referral, Service provided by your agency",
            "Referred & No referral, Service provided by your agency",
@@ -293,7 +304,7 @@ module Exporters
             :short_id => "2", :survivor_code => "5002", :caseworker_code => "4002",
             :date_of_first_report => "2014-01-02", :incident_date => "2013-12-22",
             :date_of_birth => "2002-01-01", :sex => "Male", :country_of_origin => "Uganda",
-            :maritial_status => "Married/Cohabitating", :displacement_status => "Refugee",
+            :maritial_status => "Married / Cohabitating", :displacement_status => "Refugee",
             :disability_type => nil, :unaccompanied_separated_status => "Separated Child",
             :displacement_incident => "During Refuge", :incident_timeofday => "Afternoon (noon to sunset)",
             :incident_location => location_name_2, :gbv_sexual_violence_type => "Sexual Assault",
@@ -316,8 +327,8 @@ module Exporters
         IncidentRecorderExporter.should_receive(:incident_recorder_camp_town).with(location_name_1).and_return(nil)
         IncidentRecorderExporter.should_receive(:incident_recorder_camp_town).with(location_name_2).and_return("Kakuma IV")
 
-        IncidentRecorderExporter.export(@records, nil)
-        @workbook = IncidentRecorderExporter.workbook
+        string = IncidentRecorderExporter.export(@records, nil)
+        @workbook = open_workbook_from_string(string)
       end
 
       it "at sheet '1. Incident Data'" do
@@ -336,17 +347,18 @@ module Exporters
         @records = []
         @caseworker_code_lookup = []
         @expected_values = []
-        #Current template file has initialized until 1,314 row,
-        #far from that will need to create the next bunch of cell.
+        #Current template file has initialized until 1,314 row with cells,
+        #and 4510 rows,  far from that will need to create the next bunch of 
+        #rows and cells.
         #export should be able to create the cells.
-        (1..3516).each do |value|
+        (1..20000).each do |value|
           @caseworker_code_lookup << "400#{value}"
           @expected_values << [value.to_s, "500#{value}", "400#{value}"]
           @records << @incident_cls.new(:short_id => value.to_s, :survivor_code => "500#{value}", :caseworker_code => "400#{value}")
         end
         @expected_lookups = [{:cell_index => 0, :values => @caseworker_code_lookup[0..49]}]
-        IncidentRecorderExporter.export(@records, nil)
-        @workbook = IncidentRecorderExporter.workbook
+        string = IncidentRecorderExporter.export(@records, nil)
+        @workbook = open_workbook_from_string(string)
       end
 
       it "at sheet '1. Incident Data' should export all records" do

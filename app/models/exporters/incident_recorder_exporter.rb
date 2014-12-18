@@ -17,20 +17,16 @@ module Exporters
                     "61+" => "Age 61 & Older",
                     "Unknown" =>"Unknown" }
 
-      #TODO: is not slow get that from the form section were defined? 
-      #TODO: should we change the value in the form section ?. 
-      #      The spreadsheet is expecting the slash between blanks.
-      #NOTE: there is others list with the " / " slash issue.
       SERVICE_REFERRED_FROM = {
-        "health_medical_services" => "Health/Medical Services",
-        "psychosocial_counseling_services" => "Psychosocial/Counseling Services",
-        "police_other_security_actor" => "Police/Other Security Actor",
+        "health_medical_services" => "Health / Medical Services",
+        "psychosocial_counseling_services" => "Psychosocial / Counseling Services",
+        "police_other_security_actor" => "Police / Other Security Actor",
         "legal_assistance_services" => "Legal Assistance Services",
         "livelihoods_program" => "Livelihoods Program",
-        "self_referral_first_point_of_contact" => "Self Referral/First Point of Contact",
-        "teacher_school_official" => "Teacher/School Official",
+        "self_referral_first_point_of_contact" => "Self Referral / First Point of Contact",
+        "teacher_school_official" => "Teacher / School Official",
         "community_or_camp_leader" => "Community or Camp Leader",
-        "safe_house_shelter" => "Safe House/Shelter",
+        "safe_house_shelter" => "Safe House / Shelter",
         "other_humanitarian_or_development_actor" => "Other Humanitarian or Development Actor",
         "other_government_service" => "Other Government Service",
         "other" => "Other"
@@ -52,10 +48,6 @@ module Exporters
         ["histories"]
       end
 
-      def workbook
-        @workbook
-      end
-
       # @returns: a String with the Excel file data
       def export(models, _, *args)
         #To collect lookups for the "2. Menu Data" sheet.
@@ -66,10 +58,10 @@ module Exporters
         @caseworker_code = {}
 
         init_poi
-        open_workbook
-        incident_data(models)
-        incident_menu
-        workbook_to_string
+        workbook = open_workbook
+        incident_data(models, workbook)
+        incident_menu(workbook)
+        workbook_to_string(workbook)
       end
 
       private
@@ -78,7 +70,7 @@ module Exporters
         apache_poi_path = Rails.root.join("apache_poi", "poi-3.10.1-20140818.jar").to_s
         #TODO should parametrize the memory parameter?
         #     not sure what should be a good value.
-        @poi ||= Rjb::load(apache_poi_path, ["-Xmx2048M"])
+        @poi ||= Rjb::load(apache_poi_path, ["-Xmx512M"])
         @fis_class ||= Rjb::import("java.io.FileInputStream")
         @byteos_class ||= Rjb::import("java.io.ByteArrayOutputStream")
         @poifs_class ||= Rjb::import("org.apache.poi.poifs.filesystem.POIFSFileSystem")
@@ -100,12 +92,12 @@ module Exporters
           template_file.close
         end
 
-        @workbook = @hssfwb_class.new(poifs)
+        @hssfwb_class.new(poifs)
       end
 
-      def workbook_to_string
+      def workbook_to_string(workbook)
         byteos = @byteos_class.new
-        @workbook.write(byteos)
+        workbook.write(byteos)
         io = StringIO.new byteos.toByteArray
         io.string
       end
@@ -296,18 +288,21 @@ module Exporters
         ]
       end
 
-      def incident_data(models)
+      def incident_data(models, workbook)
         #Sheet 0 is the "1. Incident Data".
-        sheet = @workbook.getSheetAt(0)
+        sheet = workbook.getSheetAt(0)
         #Sheet data start at row 5 (based 0 index).
         i = 4
         models.each do |model|
           row = sheet.getRow(i)
+          #Current template file has initialized until 4,510 rows,
+          #far from that will need to create the next bunch of rows.
+          row = sheet.createRow(i) if row.nil?
           j = 0
           props.each do |prop|
             if prop.present?
               cell = row.getCell(j)
-              #Current template file has initialized until 1,314 rows,
+              #Current template file has initialized until 1,314 rows with cells,
               #far from that will need to create the next bunch of cell.
               cell = row.createCell(j) if cell.nil?
               if prop.is_a?(Proc)
@@ -327,9 +322,9 @@ module Exporters
         end
       end
 
-      def incident_menu
+      def incident_menu(workbook)
         #Sheet 1 is the "2. Menu Data".
-        sheet = @workbook.getSheetAt(1)
+        sheet = workbook.getSheetAt(1)
 
         #lookups. 
         #In this sheet only 50 rows are editable for lookups.
