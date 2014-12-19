@@ -16,7 +16,14 @@
     <tbody>
       <% open_incidents.each do |incident| %>
         <tr>
-          <td class="id_column"><%= link_to text_to_identify_incident(incident), incident_path(incident), class: 'id_link' %></td>
+          <td class="id_column">
+            <%= link_to text_to_identify_incident(incident), incident_path(incident), class: 'id_link' %>
+            <% if incident.flagged? && incident.flag_count > 0 %>
+              <div class="flag_icon">
+                <%= incident.flag_count %>
+              </div>
+            <% end %>
+          </td>
           <td><%= incident.violation_number_of_victims %></td>
           <td><%= incident.violation_number_of_violations %></td>
           <td><%= incident.violation_number_of_violations_verified %></td>
