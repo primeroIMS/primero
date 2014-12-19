@@ -152,6 +152,7 @@ module Exporters
           Location.placename_from_name(location.name) if location.present?
         end
       end
+      memoize :incident_recorder_district
 
       def incident_recorder_county(location_name)
         if location_name.present?
@@ -160,6 +161,7 @@ module Exporters
           Location.placename_from_name(location.name) if location.present?
         end
       end
+      memoize :incident_recorder_county
 
       def incident_recorder_camp_town(location_name)
         if location_name.present?
@@ -170,6 +172,7 @@ module Exporters
           Location.placename_from_name(locations.last.name) if locations.present?
         end
       end
+      memoize :incident_recorder_camp_town
 
       def props
          ##### ADMINISTRATIVE INFORMATION #####
