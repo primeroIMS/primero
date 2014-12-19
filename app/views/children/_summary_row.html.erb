@@ -16,7 +16,11 @@
     </td>
   <% end %>
   <% if fields_to_show.include? 'sortable_name' %>
-    <td><%= index_highlighted_case_name(@highlighted_fields, record) %></td>
+    <%
+      # child_name = index_highlighted_case_name(@highlighted_fields, record)
+      child_name = index_case_name(record)
+    %>
+    <td><%= child_name %></td>
   <% end %>
   <% if fields_to_show.include? 'survivor_code_no' %>
     <td><%= record.survivor_code_no %></td>
