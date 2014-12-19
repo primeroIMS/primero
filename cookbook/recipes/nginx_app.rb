@@ -35,6 +35,7 @@ template "#{node[:nginx_dir]}/conf.d/passenger.conf" do
   notifies :reload, 'service[nginx]'
 end
 
+rails_log_dir = File.join(node[:primero][:log_dir], 'rails')
 site_conf_file = "#{node[:nginx_dir]}/sites-available/primero"
 template site_conf_file do
   source "nginx_site.erb"
@@ -46,8 +47,8 @@ template site_conf_file do
     :https_port => node[:primero][:https_port],
     :server_name => node[:primero][:server_hostname],
     :current_path => node[:primero][:app_dir],
-    :rails_log_path => "#{node[:primero][:log_dir]}/rails",
-    :log_path => "#{node[:primero][:log_dir]}/nginx",
+    :rails_log_dir => rails_log_dir,
+    :log_dir => rails_log_dir,
     :rails_env => node[:primero][:rails_env],
     :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/wrappers/ruby"),
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
@@ -66,3 +67,20 @@ service 'nginx' do
   action [:enable, :start]
 end
 
+logrotate_app 'primero-nginx' do
+  path ::File.join(rails_log_dir, 'nginx_*.log')
+  size 50 * 1024 * 1024
+  rotate 2
+  frequency nil
+  options %w( delaycompress compress notifempty missingok )
+  create '0640 www-data adm'
+  sharedscripts true
+  prerotate <<-EOH
+    if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+            run-parts /etc/logrotate.d/httpd-prerotate; \
+    fi \
+  EOH
+  postrotate <<-EOH
+    [ -s /run/nginx.pid ] && kill -USR1 `cat /run/nginx.pid`
+  EOH
+end

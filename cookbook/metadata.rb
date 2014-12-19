@@ -8,6 +8,7 @@ version          '0.1.0'
 
 depends 'apt', '~> 2.3.8'
 depends 'couchdb', '~> 2.5.0'
+depends 'logrotate', '= 1.7.0'
 depends 'nginx', '~> 2.4.2'
 depends 'rvm', '~> 0.9.0'
 depends 'sudo', '~> 2.7.1'

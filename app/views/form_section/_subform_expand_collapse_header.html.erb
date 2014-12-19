@@ -11,7 +11,7 @@
     collapsed_fields = subform_section.collapsed_list
 %>
 <div class="row collapse_expand_subform_header">
-  <div class="medium-8 columns">
+  <div class="medium-7 columns">
     <span class="subform_header">
       <%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %><%= violation_status(formObject, form_group_name, subform_name, i) %>
     </span>
@@ -78,9 +78,12 @@
       </div>
     <% end %>
   </div>
-  <div class="medium-4 columns">
+  <div class="medium-5 columns">
     <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
     <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
         data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
+    <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) %>
+      <%= link_to I18n.t("buttons.create_case"), create_cp_case_from_individual_details_path(formObject.id, i), {class: "grey-button"} %>
+    <% end %>
   </div>
 </div>

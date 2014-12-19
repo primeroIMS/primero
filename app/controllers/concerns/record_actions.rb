@@ -146,19 +146,10 @@ module RecordActions
         end
         format.json { render :json => @record }
       else
+        @form_sections ||= @record.allowed_formsections(current_user)
         format.html { render :action => "edit" }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
       end
-    end
-  end
-
-  def destroy
-    authorize! :destroy, @record
-    @record.destroy
-
-    respond_to do |format|
-      format.html { redirect_after_deletion }
-      format.json { head :ok }
     end
   end
 

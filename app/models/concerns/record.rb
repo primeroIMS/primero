@@ -354,13 +354,13 @@ module Record
 
   # Returns all of the properties that the given user is permitted to view/edit
   def permitted_properties(user)
+    permitted = []
     fss = allowed_formsections(user)
     if fss.present?
       permitted_forms = fss.values.flatten.map {|fs| fs.name }
-      self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
-    else
-      self.class.properties
+      permitted = self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
     end
+    return permitted
   end
 
   def permitted_property_names(user)

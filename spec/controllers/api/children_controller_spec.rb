@@ -4,6 +4,7 @@ describe ChildrenController do
 
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
+    Child.any_instance.stub(:permitted_properties).and_return(Child.properties)
     fake_admin_login
   end
 

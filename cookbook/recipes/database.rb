@@ -4,8 +4,8 @@ extend Chef::Mixin::ShellOut
 include_recipe 'apt'
 include_recipe 'primero::common'
 package 'build-essential'
-
-node.force_default[:primero][:couchdb][:config][:log][:file] = "#{node[:primero][:log_dir]}/couchdb/couch.log"
+couchdb_log_dir = ::File.join(node[:primero][:log_dir], 'couchdb')
+node.force_default[:primero][:couchdb][:config][:log][:file] = ::File.join(couchdb_log_dir, 'couch.log')
 node.force_default[:primero][:couchdb][:config][:log][:level] = "info"
 node.force_default[:primero][:couchdb][:config][:admins] = {
   node[:primero][:couchdb][:username] => node[:primero][:couchdb][:password],
@@ -39,6 +39,14 @@ end
 service 'couchdb' do
   action [:enable, :restart]
   provider Chef::Provider::Service::Upstart
+end
+
+logrotate_app 'couchdb' do
+  path ::File.join(couchdb_log_dir, '*.log')
+  size 50 * 1024 * 1024
+  rotate 2
+  frequency nil
+  options %w( copytruncate delaycompress compress notifempty missingok )
 end
 
 include_recipe 'primero::nginx_couch'

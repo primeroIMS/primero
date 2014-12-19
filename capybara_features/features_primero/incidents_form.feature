@@ -8,6 +8,7 @@
 # JIRA PRIMERO-731
 # JIRA PRIMERO-736
 # JIRA PRIMERO-774
+# JIRA PRIMERO-946
 
 @javascript @primero
 Feature: Incidents Form
@@ -118,3 +119,19 @@ Feature: Incidents Form
     And I should see a success message for new Incident
     And I press the "Edit" button
     And I should not see "Actions" on the page
+
+  Scenario: Action button should not be displayed in edit mode.
+    Given I am logged in as an admin with username "primero_mrm" and password "primero"
+    When I access "incidents page"
+    And I press the "New Incident" button
+    And I press the "Incident" button
+    And I fill in "Date of First Report" with "14-Jul-2014"
+    And I press "Save"
+    And I should see a success message for new Incident
+    And I should see a "Actions" button on the page
+    And I press the "Edit" button
+    And I should not see a "Actions" button on the page
+    And I fill in "Date of First Report" with "SomeInvalidDateValue"
+    And I press "Save"
+    And I should see "Errors prohibited this record from being saved" on the page
+    And I should not see a "Actions" button on the page
