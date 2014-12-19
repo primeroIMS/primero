@@ -50,6 +50,7 @@ module Exporters
     end
 
     before :all do
+      IncidentRecorderExporter.java_params = ["-Xmx512M"]
       @skip = "skip-column"
       #Define the properties required by the report to be filled.
       @incident_cls = Incident.clone

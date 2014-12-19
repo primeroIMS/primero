@@ -32,6 +32,15 @@ module Exporters
         "other" => "Other"
       }
 
+      attr_accessor :java_params
+
+      def java_params
+        #TODO: application seems to work fine with this configuration
+        #      but need to keep the open eye on this.
+        #Create this method to allow in the test cases increase the memory
+        @java_params ||= ["-Xmx256M"]
+      end
+
       def id
         "incident_recorder_xls"
       end
@@ -68,9 +77,7 @@ module Exporters
 
       def init_poi
         apache_poi_path = Rails.root.join("apache_poi", "poi-3.10.1-20140818.jar").to_s
-        #TODO should parametrize the memory parameter?
-        #     not sure what should be a good value.
-        @poi ||= Rjb::load(apache_poi_path, ["-Xmx512M"])
+        @poi ||= Rjb::load(apache_poi_path, java_params)
         @fis_class ||= Rjb::import("java.io.FileInputStream")
         @byteos_class ||= Rjb::import("java.io.ByteArrayOutputStream")
         @poifs_class ||= Rjb::import("org.apache.poi.poifs.filesystem.POIFSFileSystem")
