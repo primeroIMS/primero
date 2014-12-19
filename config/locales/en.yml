@@ -1060,6 +1060,9 @@ en:
     total_cases: "Total Cases"
     cases_this_week: "Cases This Week"
     missed_cases: "Missed Cases"
+    date_of_incident: "Date of Incident"
+    violence_type: "Violence Type"
+    date_of_interview: Date of Interview"
 
   errors:
 

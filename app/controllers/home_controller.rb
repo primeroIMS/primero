@@ -10,6 +10,7 @@ class HomeController < ApplicationController
     load_cases_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
+    load_gbv_incidents_information if display_gbv_incidents_dashboard?
   end
 
   private
@@ -74,6 +75,10 @@ class HomeController < ApplicationController
     @display_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::MRM)
   end
 
+  def display_gbv_incidents_dashboard?
+    @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::GBV)
+  end
+
   def load_manager_information
     # TODO: Will Open be translated?
     cases = Child.search {
@@ -115,6 +120,14 @@ class HomeController < ApplicationController
     @incidents_recently_flagged_count = recent_count(@incidents_recently_flagged)
     @incidents_recently_flagged = @incidents_recently_flagged[0..4]
     @open_incidents = Incident.open_incidents
+  end
+
+  def load_gbv_incidents_information
+    @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
+                                                type: 'incident'})
+    @gbv_incidents_recently_flagged_count = recent_count(@gbv_incidents_recently_flagged)
+    @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
+    @open_gbv_incidents = Incident.open_gbv_incidents
   end
 
   def recent_count(flags)
