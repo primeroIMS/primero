@@ -32,6 +32,15 @@ module Exporters
         "other" => "Other"
       }
 
+      SERVICE_REFERRAL = {
+        "Referred" => "Referred",
+        "No referral, Service provided by your agency" => "Service provided by your agency",
+        "No referral, Services already received from another agency" => "Services already received from another agency",
+        "No referral, Service not applicable" => "Service not applicable",
+        "No, Referral declined by survivor" => "Referral declined by survivor",
+        "No referral, Service unavailable" => "Service unavailable"
+      }
+
       attr_accessor :java_params
 
       def java_params
@@ -122,6 +131,11 @@ module Exporters
       def incident_recorder_service_referral_from(service_referral_from)
         r = SERVICE_REFERRED_FROM[service_referral_from]
         r.present? ? r : service_referral_from
+      end
+
+      def incident_recorder_service_referral(service)
+        r = SERVICE_REFERRAL[service]
+        r.present? ? r : service
       end
 
       def primary_alleged_perpetrator(model)
@@ -254,16 +268,20 @@ module Exporters
             services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ") if services.present?
           end,
           #SAFE HOUSE / SHELTER.
-          "service_safehouse_referral",
+          ->(model) do
+            incident_recorder_service_referral(model.try(:service_safehouse_referral))
+          end,
           #HEALTH / MEDICAL SERVICES
           ->(model) do 
             health_medical = model.try(:health_medical_referral_subform_section)
-            health_medical.map{|hmr| hmr.try(:service_medical_referral)}.uniq.join(" & ") if health_medical.present?
+            health_medical.map{|hmr| incident_recorder_service_referral(hmr.try(:service_medical_referral))}.
+                            uniq.join(" & ") if health_medical.present?
           end,
           #PSYCHOSOCIAL SERVICES
           ->(model) do 
             psychosocial = model.try(:psychosocial_counseling_services_subform_section)
-            psychosocial.map{|psycs| psycs.try(:service_psycho_referral)}.uniq.join(" & ") if psychosocial.present?
+            psychosocial.map{|psycs| incident_recorder_service_referral(psycs.try(:service_psycho_referral))}.
+                          uniq.join(" & ") if psychosocial.present?
           end,
           #WANTS LEGAL ACTION?
           ->(model) do
@@ -277,17 +295,20 @@ module Exporters
           #LEGAL ASSISTANCE SERVICES
           ->(model) do 
             legal = model.try(:legal_assistance_services_subform_section)
-            legal.map{|psycs| psycs.try(:service_legal_referral)}.uniq.join(" & ") if legal.present?
+            legal.map{|psycs| incident_recorder_service_referral(psycs.try(:service_legal_referral))}.
+                    uniq.join(" & ") if legal.present?
           end,
           #POLICE / OTHER SECURITY ACTOR
           ->(model) do 
             police = model.try(:police_or_other_type_of_security_services_subform_section)
-            police.map{|psycs| psycs.try(:service_police_referral)}.uniq.join(" & ") if police.present?
+            police.map{|psycs| incident_recorder_service_referral(psycs.try(:service_police_referral))}.
+                    uniq.join(" & ") if police.present?
           end,
           #LIVELIHOODS PROGRAM
           ->(model) do 
             livelihoods = model.try(:livelihoods_services_subform_section)
-            livelihoods.map{|psycs| psycs.try(:service_livelihoods_referral)}.uniq.join(" & ") if livelihoods.present?
+            livelihoods.map{|psycs| incident_recorder_service_referral(psycs.try(:service_livelihoods_referral))}.
+                          uniq.join(" & ") if livelihoods.present?
           end,
           ##### ADMINISTRATION 2 #####
           "consent_reporting",
