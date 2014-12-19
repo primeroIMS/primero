@@ -19,6 +19,15 @@ module Memoizable
     def self.handle_changes(*args)
       Rails.logger.debug("Flushing memoization cache due to change on #{self.name}")
       flush_cache
+      memoized_dependencies.each do |dependency_class|
+        Rails.logger.debug("Flushing memoization cache for #{dependency_class.name} due to change on #{self.name}")
+        dependency_class.flush_cache
+      end
+    end
+
+    # Override this when we want to flush additional classes
+    def self.memoized_dependencies
+      return []
     end
 
     extend Observable

@@ -4,7 +4,7 @@ module CouchChanges
     class Notifier < BaseProcessor
       class << self
         def supported_models
-          [Lookup, Location, FormSection, User, Agency, PrimeroModule]
+          [Lookup, Location, FormSection, User, Agency, PrimeroModule, Role]
         end
 
         def process(modelCls, change)

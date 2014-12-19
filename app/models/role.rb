@@ -4,6 +4,7 @@ class Role < CouchRest::Model::Base
   include PrimeroModel
   include Namable
   include Importable
+  include Memoizable
 
   property :permissions, :type => [String]
   property :permitted_form_ids, :type => [String]
@@ -39,6 +40,10 @@ class Role < CouchRest::Model::Base
         permitted_form_ids = all_permitted_form_ids
       end
     end
+  end
+
+  def self.memoized_dependencies
+    [FormSection]
   end
 
 end

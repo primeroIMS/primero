@@ -313,6 +313,9 @@ class User < CouchRest::Model::Base
     ADMIN_ASSIGNABLE_ATTRIBUTES.any? { |e| attributes.keys.include? e }
   end
 
+  def self.memoized_dependencies
+    [FormSection]
+  end
 
   private
 
