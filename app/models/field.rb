@@ -107,11 +107,21 @@ class Field
 
   #TODO: Any subform validations?
 
-  def validate_name_format
+  def validate_display_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
     if (display_name =~ special_characters) || (display_name =~ white_spaces)
       errors.add(:display_name, I18n.t("errors.models.field.display_name_format"))
+      return false
+    else
+      return true
+    end
+  end
+
+  #Only allow name to have lower case alpha and underscore
+  def validate_name_format
+    if name.blank? || name =~ /[^a-z_]/
+      errors.add(:name, I18n.t("errors.models.field.name_format"))
       return false
     else
       return true
@@ -146,6 +156,15 @@ class Field
 	def display_type
 		FIELD_DISPLAY_TYPES[type]
 	end
+
+  #DB field cannot be created such that its has anything but lower case alpha and underscores
+  def sanitize_name
+    if self.name.present?
+      self.name = self.name.gsub(/[^A-Za-z_ ]/, '').parameterize.underscore
+    elsif self.display_name.present?
+      self.name = self.display_name.gsub(/[^A-Za-z ]/, '').parameterize.underscore
+    end
+  end
 
   # TODO: Refator this - Slow when you rebuild a form
   def self.all_searchable_field_names(parentForm = 'case')

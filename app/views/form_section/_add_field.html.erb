@@ -1,5 +1,5 @@
 <div id="<%= div_id %>" class="field_details" style="display:none;">
-  <%= form_for @field, :url => url_for_form_section_field(@form_section.unique_id, @field), :html => {:autocomplete => "off"} do |fld| %>
+  <%= form_for @field, :url => url_for_form_section_field(@form_section.unique_id, @field), :html => {"data-abide" => '', :autocomplete => "off"} do |fld| %>
     <%= hidden_field_tag "module_id", @module_id, :id => "field_module_id" %>
     <div class="default_lang_panel">
       <div class="lang_title">
