@@ -57,7 +57,7 @@ class PrimeroModule < CouchRest::Model::Base
   end
 
   def self.memoized_dependencies
-    [FormSection]
+    [FormSection, User, Role]
   end
 
   private

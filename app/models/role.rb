@@ -43,7 +43,21 @@ class Role < CouchRest::Model::Base
   end
 
   def self.memoized_dependencies
-    [FormSection]
+    [FormSection, PrimeroModule, User]
+  end
+
+  class << self
+    alias :old_all :all
+    def all(*args)
+      old_all(*args)
+    end
+    memoize_in_prod :all
+
+    alias :old_get :get
+    def get(*args)
+      old_get(*args)
+    end
+    memoize_in_prod :get
   end
 
 end

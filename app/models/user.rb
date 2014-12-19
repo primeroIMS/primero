@@ -314,7 +314,7 @@ class User < CouchRest::Model::Base
   end
 
   def self.memoized_dependencies
-    [FormSection]
+    [FormSection, PrimeroModule, Role]
   end
 
   private
