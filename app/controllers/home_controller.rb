@@ -9,20 +9,22 @@ class HomeController < ApplicationController
 
     load_cases_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
+    load_manager_information if display_manager_dashboard?
   end
 
   private
 
   # TODO: Clean up unused methods after getting done with upcoming incident dashboard ticket
 
-  def search_flags(field, criteria, type = 'child')
-    map_flags(Flag.search{
-      with(field).between(criteria)
-      with(:flag_record_type, type)
-      with(:flag_flagged_by, current_user.user_name)
-      with(:flag_is_removed, false)
-      order_by(:flag_date, :desc)
-    }.hits)
+  def search_flags(options={})
+      map_flags(Flag.search{
+        with(options[:field]).between(options[:criteria])
+        with(:flag_record_type, options[:type])
+        with(:flag_flagged_by, current_user.user_name) unless options[:is_manager].present?
+        with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
+        with(:flag_is_removed, false)
+        order_by(:flag_date, :asc)
+      }.hits)
   end
 
   def map_flags(flags)
@@ -38,7 +40,52 @@ class HomeController < ApplicationController
         record_type: flag.stored(:flag_record_type),
         name: flag.stored(:flag_child_name)
       }
-    }.reverse
+    }
+  end
+
+  def build_manager_stats(cases, flags)
+    @aggregated_case_worker_stats = {}
+
+    cases.facet(:created_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {}; @aggregated_case_worker_stats[c.value][:total_cases] = c.count}
+
+    flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
+         .group_by{|g| g[:flagged_by]}
+         .each{|g, f| @aggregated_case_worker_stats[g][:cases_this_week] = {}; @aggregated_case_worker_stats[g][:cases_this_week] = f.count }
+
+    flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
+         .group_by{|g| g[:flagged_by]}
+         .each{|g, f| @aggregated_case_worker_stats[g][:cases_overdue] = {}; @aggregated_case_worker_stats[g][:cases_overdue] = f.count }
+
+    @aggregated_case_worker_stats
+  end
+
+  def display_cases_dashboard?
+    @display_cases_dashboard ||= @record_types.include?("case")
+  end
+
+  def display_manager_dashboard?
+    @display_manager_dashboard ||= current_user[:is_manager]
+  end
+
+  def display_incidents_dashboard?
+    @display_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::MRM)
+  end
+
+  def load_manager_information
+    # TODO: Will Open be translated?
+    cases = Child.search {
+      facet :created_by, except: [with(:child_status, 'Open'), with(:module_id, current_user[:module_ids])], limit: -1
+    }
+
+    flags = search_flags({
+      field: :flag_date,
+      criteria: 1.week.ago.utc...1.week.from_now.utc,
+      type: 'child',
+      is_manager: true,
+      modules: current_user[:module_ids]
+    })
+
+    build_manager_stats(cases, flags)
   end
 
   def load_associated_types
@@ -49,18 +96,10 @@ class HomeController < ApplicationController
     @modules = @current_user.module_ids
   end
 
-  def display_cases_dashboard?
-    @display_cases_dashboard ||= @record_types.include?("case")
-  end
-
-  def display_incidents_dashboard?
-    @display_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::MRM)
-  end
-
   def load_cases_information
-    @scheduled_activities = search_flags(:flag_date, Date.today..1.week.from_now.utc, 'child')
-    @overdue_activities = search_flags(:flag_date, 1.week.ago.utc..Date.today, 'child')
-    @recently_flagged = search_flags(:flag_created_at, 1.week.ago.utc..Date.today, 'child')[0..4]
+    @scheduled_activities = search_flags({ field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child' })
+    @overdue_activities = search_flags({ field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child' })
+    @recently_flagged = search_flags({ field: :flag_created_at, criteria: 1.week.ago.utc..Date.today, type: 'child' })[0..4]
   end
 
   def load_incidents_information
