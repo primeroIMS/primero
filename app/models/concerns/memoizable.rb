@@ -27,7 +27,6 @@ module Memoizable
 
     # Override this when we want to flush additional classes
     def self.memoized_dependencies
-      puts "Calling this incorrectly"
       return []
     end
 
