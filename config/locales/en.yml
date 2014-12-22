@@ -366,6 +366,7 @@ en:
       unaccompanied_separated_status: "Protection Status:"
       armed_force_group_name: "Armed Force or Group:"
       armed_force_group_type: "Armed Force or Group Type:"
+      record_state: "Record State:"
 
   incident:
     label: "Incident ID"

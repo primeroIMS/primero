@@ -39,7 +39,7 @@ module RecordActions
 
     @per_page = per_page
 
-    @highlighted_fields = []
+    # @highlighted_fields = []
 
     respond_to do |format|
       format.html

@@ -10,6 +10,9 @@ Feature: Hide Name
   As a Social Worker I want to hide the survivor's name so that only people with access to the record can view the actual name of the child
 
   Scenario: As a logged in user, I create a case and hide the survivor's name
+    And the following lookups exist in the system:
+      | name                           | lookup_values                                                    |
+      | case_status                    | Open, Closed, Transferred, Duplicate                             |
     Given I am logged in as an admin with username "primero_cp" and password "primero"
     When I access "cases page"
     And I press the "New Case" button
