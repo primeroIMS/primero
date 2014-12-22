@@ -1,5 +1,6 @@
 {
   "ff837103-455b-4735-9e5c-4ed9atrac001" => ->(t) do
+  t.module_id = "primeromodule-cp"
   end,
 
 }.each do |k, v|
