@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe "Child record field view model" do
+describe "record field model" do
 
   before :each do
     FormSection.all.each { |form| form.destroy }
@@ -52,8 +52,8 @@ describe "Child record field view model" do
 
     it "should not allow blank display name" do
       field = Field.new(:display_name => "")
-      field.valid?
-      field.errors[:display_name].first.include? "Display name must not be blank"
+      expect(field.valid?).to be false
+      expect(field.errors[:display_name].first).to eq "The name of the base language 'en' can not be blank"
     end
 
     it "should not allows empty field display_name of field base language " do
@@ -69,6 +69,39 @@ describe "Child record field view model" do
       field = Field.new(:display_name => "!@£$@")
       field.valid?.should == false
       field.errors[:display_name].should include("Display name must contain at least one alphabetic characters")
+    end
+
+    it "should not allow blank name" do
+      field = Field.new(:display_name => "ABC 123", :name => "")
+      expect(field.valid?).to be false
+      expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
+    end
+
+    it "should not allow capital letters in name" do
+      field = Field.new(:display_name => "ABC 123", :name => "Abc_123")
+      expect(field.valid?).to be false
+      expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
+    end
+
+    it "should not allow special characters in name" do
+      field = Field.new(:display_name => "ABC 123", :name => "a$bc_123")
+      expect(field.valid?).to be false
+      expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
+    end
+
+    it "should allow alphabetic characters numbers and underscore in name" do
+      field = Field.new(:display_name => "ABC 123", :name => "abc_123")
+      expect(field.valid?).to be true
+    end
+
+    it "should allow alphabetic only in name" do
+      field = Field.new(:display_name => "ABC 123", :name => "abc")
+      expect(field.valid?).to be true
+    end
+
+    it "should allow alphabetic and numeric only in name" do
+      field = Field.new(:display_name => "ABC 123", :name => "abc123")
+      expect(field.valid?).to be true
     end
 
     it "should validate unique within form" do
@@ -304,7 +337,7 @@ describe "Child record field view model" do
     expect(fields.last.new?).to be_false
 
     #Fix the field and save again
-    fields.first.name ="Something else"
+    fields.first.name ="something_else"
     form.save
     expect(form.errors.length).to be == 0
   end

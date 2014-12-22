@@ -101,6 +101,7 @@ class Field
   validate :validate_unique_display_name
   validate :validate_has_2_options
   validate :validate_has_a_option
+  validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
@@ -120,7 +121,7 @@ class Field
 
   #Only allow name to have lower case alpha and underscore
   def validate_name_format
-    if name.blank? || name =~ /[^a-z_]/
+    if name.blank? || name =~ /[^a-z0-9_]/
       errors.add(:name, I18n.t("errors.models.field.name_format"))
       return false
     else
@@ -160,9 +161,9 @@ class Field
   #DB field cannot be created such that its has anything but lower case alpha and underscores
   def sanitize_name
     if self.name.present?
-      self.name = self.name.gsub(/[^A-Za-z_ ]/, '').parameterize.underscore
+      self.name = self.name.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
     elsif self.display_name.present?
-      self.name = self.display_name.gsub(/[^A-Za-z ]/, '').parameterize.underscore
+      self.name = self.display_name.gsub(/[^A-Za-z0-9 ]/, '').parameterize.underscore
     end
   end
 
