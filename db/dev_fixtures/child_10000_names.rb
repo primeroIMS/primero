@@ -39,7 +39,7 @@ def create_children(id, num_children, names, lastnames)
   end
 end
 
-#Child.all.each &:destroy
+Child.all.each &:destroy
 
 path="db/dev_fixtures/names/"
 #1:Arabic names, 2:East african names, 3: English names, 4: Spanish names
