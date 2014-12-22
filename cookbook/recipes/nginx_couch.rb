@@ -9,6 +9,7 @@ template couch_conf_file do
   variables({
     :ssl_cert_path => node[:primero][:couchdb][:cert_path],
     :ssl_key_path => node[:primero][:couchdb][:key_path],
+    :log_dir => ::File.join(node[:primero][:log_dir], 'couchdb'),
   })
   notifies :restart, 'service[nginx]'
 end

@@ -33,6 +33,9 @@ class Flag
     string :flag_flagged_by, :stored => true do
       self.flagged_by
     end
+    string :flag_flagged_by_module, :stored => true do
+      base_doc.module_id
+    end
     boolean :flag_is_removed, :stored => true do
       self.removed ? true : false
     end
@@ -50,6 +53,9 @@ class Flag
     end
     string :flag_child_name, :stored => true do
       base_doc.name
+    end
+    string :flag_module_id, :stored => true do
+      base_doc.module_id
     end
   end
 

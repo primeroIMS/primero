@@ -106,6 +106,7 @@ en:
      enable_photo_wall: "Enable photo wall"
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
+     create_case: "Create Case"
      guiding_questions: "Guiding Questions"
      filter_label: "Filter:"
      filter: "Apply Filter"
@@ -416,6 +417,7 @@ en:
     history_of: "History of %{short_id}"
 
     violation:
+      violation: "Violation"
       pending: 'Pending Verification'
       killing: "Killing"
       maiming: "Maiming"
@@ -1033,6 +1035,7 @@ en:
     flagged_by: "Flagged by:"
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
+    no_caseworker_data: "No Case Worker Data"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
     case_id: "Case #ID"
@@ -1052,6 +1055,11 @@ en:
     link_see_all_child: "See all %{count} cases >"
     link_see_all_incident: "See all %{count} incidents >"
     open_incidents: "Open Incidents"
+    status_of_cases: "Status of Cases"
+    case_worker: "Case Worker"
+    total_cases: "Total Cases"
+    cases_this_week: "Cases This Week"
+    missed_cases: "Missed Cases"
 
   errors:
 

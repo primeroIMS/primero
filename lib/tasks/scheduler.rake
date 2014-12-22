@@ -6,12 +6,13 @@ namespace :scheduler do
   def daemon(argv="status")
     require 'daemons'
 
+    log_dir = ENV['RAILS_SCHEDULER_LOG_DIR'] || File.join(Rails.root, 'log')
     daemon_options = {
       :multiple => false,
       :backtrace => true,
-      :dir => File.join(Rails.root, 'log'),
+      :dir => File.join(Rails.root, 'tmp'),
       :dir_mode => :normal,
-      :log_dir => File.join(Rails.root, 'log'),
+      :log_dir => log_dir,
       :log_output => true,
       :ARGV => [ argv ].flatten
     }

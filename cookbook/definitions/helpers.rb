@@ -7,7 +7,7 @@ define :execute_as_primero, :command => nil, :cwd => nil do
   end
 end
 
-define :execute_with_ruby, :command => nil, :cwd => nil, :rails_env => nil, :user => nil, :group => nil do
+define :execute_with_ruby, :command => nil, :cwd => nil, :rails_env => nil, :user => nil, :group => nil, :environment => {} do
   params[:rails_env] ||= node[:primero][:rails_env]
   params[:user] ||= node[:primero][:app_user]
   params[:group] ||= node[:primero][:app_group]
@@ -18,13 +18,16 @@ define :execute_with_ruby, :command => nil, :cwd => nil, :rails_env => nil, :use
   rvm_shell "ruby-#{params[:name]}" do
     code command
     cwd args[:cwd]
-    environment({ 'RAILS_ENV' => args[:rails_env] })
+    environment({
+      'RAILS_ENV' => args[:rails_env],
+      'RAILS_LOG_PATH' => ::File.join(node[:primero][:log_dir], 'rails')
+    }.merge(args[:environment]))
     user args[:user]
     group args[:group]
   end
 end
 
-define :execute_bundle, :command => nil, :cwd => nil, :rails_env => nil, :user => nil, :group => nil do
+define :execute_bundle, :command => nil, :cwd => nil, :rails_env => nil, :user => nil, :group => nil, :environment => {} do
   params[:cwd] ||= node[:primero][:app_dir]
   command = params[:command]
   args = params
@@ -32,6 +35,7 @@ define :execute_bundle, :command => nil, :cwd => nil, :rails_env => nil, :user =
     command "bundle exec #{command}"
     cwd args[:cwd]
     rails_env args[:rails_env]
+    environment args[:environment]
     user args[:user]
     group args[:group]
   end
