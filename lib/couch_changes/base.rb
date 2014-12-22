@@ -11,7 +11,8 @@ module CouchChanges
     FormSection,
     PrimeroModule,
     Agency,
-    User
+    User,
+    Role
   ]
 
   class << self

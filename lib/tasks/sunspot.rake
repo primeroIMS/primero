@@ -44,19 +44,31 @@ namespace :sunspot do
     Child.all.all.each do |child|
       child.index!
 
-      puts "  => Indexing #{child.id} Flags..."
-      Sunspot.index(child.flags)
+      if child.flags
+        puts "  => Indexing #{child.id} Flags..."
+        Sunspot.index(child.flags)
+      end
     end
 
     puts 'Reindexing incidents...'
     Incident.all.all.
     each do |incident|
       incident.index!
+
+      if incident.flags
+        puts "  => Indexing #{incident.id} Flags..."
+        Sunspot.index(incident.flags)
+      end
     end
 
     puts 'Reindexing Tracing Request...'
     TracingRequest.all.all.each do |tracing|
       tracing.index!
+
+      if tracing.flags
+        puts "  => Indexing #{tracing.id} Flags..."
+        Sunspot.index(tracing.flags)
+      end
     end
   end
 end

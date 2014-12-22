@@ -10,11 +10,10 @@ class HomeController < ApplicationController
     load_cases_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
+    load_gbv_incidents_information if display_gbv_incidents_dashboard?
   end
 
   private
-
-  # TODO: Clean up unused methods after getting done with upcoming incident dashboard ticket
 
   def search_flags(options={})
       map_flags(Flag.search{
@@ -38,7 +37,9 @@ class HomeController < ApplicationController
         system_generated_follow_up: flag.stored(:flag_system_generated_follow_up),
         short_id: flag.stored(:flag_record_short_id),
         record_type: flag.stored(:flag_record_type),
-        name: flag.stored(:flag_child_name)
+        name: flag.stored(:flag_child_name),
+        date_of_first_report: flag.stored(:flag_date_of_first_report),
+        incident_location: flag.stored(:flag_incident_location)
       }
     }
   end
@@ -46,15 +47,18 @@ class HomeController < ApplicationController
   def build_manager_stats(cases, flags)
     @aggregated_case_worker_stats = {}
 
-    cases.facet(:created_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {}; @aggregated_case_worker_stats[c.value][:total_cases] = c.count}
+    cases.facet(:created_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {};
+                                           @aggregated_case_worker_stats[c.value][:total_cases] = c.count}
 
     flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
          .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g][:cases_this_week] = {}; @aggregated_case_worker_stats[g][:cases_this_week] = f.count }
+         .each{|g, f| @aggregated_case_worker_stats[g][:cases_this_week] = {};
+                      @aggregated_case_worker_stats[g][:cases_this_week] = f.count }
 
     flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
          .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g][:cases_overdue] = {}; @aggregated_case_worker_stats[g][:cases_overdue] = f.count }
+         .each{|g, f| @aggregated_case_worker_stats[g][:cases_overdue] = {};
+                      @aggregated_case_worker_stats[g][:cases_overdue] = f.count }
 
     @aggregated_case_worker_stats
   end
@@ -69,6 +73,10 @@ class HomeController < ApplicationController
 
   def display_incidents_dashboard?
     @display_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::MRM)
+  end
+
+  def display_gbv_incidents_dashboard?
+    @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::GBV)
   end
 
   def load_manager_information
@@ -97,64 +105,32 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
-    @scheduled_activities = search_flags({ field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child' })
-    @overdue_activities = search_flags({ field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child' })
-    @recently_flagged = search_flags({ field: :flag_created_at, criteria: 1.week.ago.utc..Date.today, type: 'child' })[0..4]
+    @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
+    @overdue_activities = search_flags({field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child'})
+    @recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today, type: 'child'})
+    @recently_flagged_count = recent_count(@recently_flagged)
+    @recently_flagged = @recently_flagged[0..4]
   end
 
   def load_incidents_information
     #Retrieve only MRM incidents.
     modules = [PrimeroModule::MRM]
-    @incidents_recently_flagged = get_recent_flags(get_recent_record_flagged(Incident, modules))
-    @incidents_recently_flagged_count = get_recent_record_flagged_count(Incident, modules)
-    @incidents = get_new_records_assigned(Incident)
+    @incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
+                                                type: 'incident'})
+    @incidents_recently_flagged_count = recent_count(@incidents_recently_flagged)
+    @incidents_recently_flagged = @incidents_recently_flagged[0..4]
     @open_incidents = Incident.open_incidents
   end
 
-  def get_flags_by_date(model)
-    #If remove the "descending" parameter, must use startkey instead endkey.
-    model.by_flag_with_date(:endkey => 1.week.ago.utc, :descending => true).all.uniq(&:id).map {|c| c.flags}.flatten
+  def load_gbv_incidents_information
+    @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
+                                                type: 'incident'})
+    @gbv_incidents_recently_flagged_count = recent_count(@gbv_incidents_recently_flagged)
+    @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
+    @open_gbv_incidents = Incident.open_gbv_incidents
   end
 
-  def get_recent_record_flagged(model, modules)
-    records = []
-    modules.each do |primero_module|
-      #If remove the "descending" parameter, must swap startkey and endkey value.
-      records.concat(model.by_flag_created_at_latest(:startkey => [primero_module, {}],
-                                              :endkey => [primero_module, 1.week.ago.utc],
-                                              :limit => 5, :descending => true).all)
-    end
-    records
-  end
-
-  def get_recent_record_flagged_count(model, modules)
-    records = 0
-    modules.each do |primero_module|
-       row = model.by_flag_created_at_latest(:startkey => [primero_module, 1.week.ago.utc],
-                                      :endkey => [primero_module, {}],
-                                      :reduce => true).rows.first
-       records += row["value"].to_i if row.present?
-    end
-    records
-  end
-
-  def get_scheduled_activities(flags)
-    flags.select { |flag| !flag.removed && flag.date.present? && flag.date >= 1.week.ago.utc }
-         .sort_by { |flag| flag.date }.reverse
-  end
-
-  def get_recent_flags(records)
-    flags = []
-    records.each do |record|
-      flag = record.flags.select { |flag| !flag.removed && flag.created_at.present? && flag.created_at >= 1.week.ago.utc }
-              .sort_by { |flag| flag.created_at }.last
-      flags << flag if flag.present?
-    end
-    flags
-  end
-
-  def get_new_records_assigned(model)
-    model.list_records(filters={}, sort={:created_at => :desc}, pagination={ per_page: 5 },
-        [current_user.user_name]).results
+  def recent_count(flags)
+    flags.group_by{|f| f[:record_id]}.keys.count
   end
 end
