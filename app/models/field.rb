@@ -158,7 +158,7 @@ class Field
 		FIELD_DISPLAY_TYPES[type]
 	end
 
-  #DB field cannot be created such that its has anything but lower case alpha and underscores
+  #DB field cannot be created such that its has anything but lower case alpha, numbers and underscores
   def sanitize_name
     if self.name.present?
       self.name = self.name.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
