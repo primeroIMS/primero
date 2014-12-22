@@ -8,9 +8,9 @@
     <thead>
       <tr>
         <th><%= t("dashboard.incident_id") %></th>
-        <th><%= t("dashboard.number_of_victims") %></th>
-        <th><%= t("dashboard.number_of_violations") %></th>
-        <th><%= t("dashboard.number_of_violations_verified") %></th>
+        <th><%= t("dashboard.date_of_interview") %></th>
+        <th><%= t("dashboard.date_of_incident") %></th>
+        <th><%= t("dashboard.violence_type") %></th>
      </tr>
     </thead>
     <tbody>
@@ -24,9 +24,9 @@
               </div>
             <% end %>
           </td>
-          <td><%= incident.violation_number_of_victims %></td>
-          <td><%= incident.violation_number_of_violations %></td>
-          <td><%= incident.violation_number_of_violations_verified %></td>
+          <td><%= incident.date_of_first_report %></td>
+          <td><%= incident.incident_date %></td>
+          <td><%= incident.gbv_sexual_violence_type %></td>
         </tr>
       <% end %>
     </tbody>
