@@ -56,6 +56,10 @@ class PrimeroModule < CouchRest::Model::Base
     return result
   end
 
+  def self.memoized_dependencies
+    [FormSection, User, Role]
+  end
+
   private
 
   def add_associated_subforms
