@@ -1,4 +1,5 @@
 # JIRA PRIMERO-788
+# JIRA PRIMERO-935
 
 @search @javascript @primero
 Feature: Filter Tracing Request
@@ -61,3 +62,23 @@ Scenario: I should be able to apply filters
     And I should not see "7af8aa9" on the page
     And I should not see "7af9aa9" on the page
     And I should not see "7af10a9" on the page
+
+  Scenario: Record State Filter
+    And the following tracing request exist in the system:
+      | name     | created_by   | inquiry_date | unique_identifier                    | inquiry_status | record_state |
+      | Rob      | primero_cp   | 03-Jan-2014  | 21c4cba8-b410-4af6-b349-68c557af4aa9 | Open           | true         |
+      | John     | primero_cp   | 03-Feb-2014  | 21c4cba8-b410-4af6-b349-68c557af5aa9 | Open           | true         |
+      | Theon    | primero_cp   | 03-Mar-2014  | 21c4cba8-b410-4af6-b349-68c557af6aa9 | Open           | true         |
+      | Sansa    | primero_cp   | 03-Apr-2014  | 21c4cba8-b410-4af6-b349-68c557af7aa9 | Open           | true         |
+      | Arya     | primero_cp   | 03-May-2014  | 21c4cba8-b410-4af6-b349-68c557af8aa9 | Open           | true         |
+      | Bran     | primero_cp   | 03-Jun-2014  | 21c4cba8-b410-4af6-b349-68c557af9aa9 | Open           | true         |
+      | Rickon   | primero_cp   | 03-Jul-2014  | 21c4cba8-b410-4af6-b349-68c557af10a9 | Open           | true         |
+      | Rhaegar  | primero_cp   | 03-Jan-2014  | 21c4cba8-b410-4af6-b349-68c557af11a9 | Closed         | false        |
+      | Viserys  | primero_cp   | 03-Feb-2014  | 21c4cba8-b410-4af6-b349-68c557af12a9 | Closed         | false        |
+      | Daenerys | primero_cp   | 03-Mar-2014  | 21c4cba8-b410-4af6-b349-68c557af13a9 | Closed         | false        |
+    And I am logged in as a social worker with username "primero_cp" and password "primero"
+    Then I press the "TRACING REQUESTS" button
+    And I should see "Displaying all 7 Tracing request" on the page
+    And I check the "record_state_false" field
+    And I press the "Apply Filter" link
+    And I should see "Displaying all 10 Tracing request" on the page
