@@ -108,6 +108,7 @@ module RecordActions
     respond_to do |format|
       @form_sections = @record.allowed_formsections(current_user)
       if @record.save
+        post_save_processing @record
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json { render :json => @record, :status => :created, :location => @record }
@@ -118,6 +119,10 @@ module RecordActions
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
       end
     end
+  end
+
+  def post_save_processing record
+    # This is for operation after saving the record.
   end
 
   def edit
