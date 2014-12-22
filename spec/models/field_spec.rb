@@ -74,7 +74,7 @@ describe "record field model" do
     it "should not allow blank name" do
       field = Field.new(:display_name => "ABC 123", :name => "")
       expect(field.valid?).to be false
-      expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
+      expect(field.errors[:name].first).to eq "Field name must not be blank"
     end
 
     it "should not allow capital letters in name" do
@@ -87,6 +87,12 @@ describe "record field model" do
       field = Field.new(:display_name => "ABC 123", :name => "a$bc_123")
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
+    end
+
+    it "should not allow name to start with a number" do
+      field = Field.new(:display_name => "ABC 123", :name => "1abc_123")
+      expect(field.valid?).to be false
+      expect(field.errors[:name].first).to eq "Field name cannot start with a number"
     end
 
     it "should allow alphabetic characters numbers and underscore in name" do

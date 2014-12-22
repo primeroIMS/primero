@@ -121,8 +121,14 @@ class Field
 
   #Only allow name to have lower case alpha, numbers and underscore
   def validate_name_format
-    if name.blank? || name =~ /[^a-z0-9_]/
+    if name.blank?
+      errors.add(:name, I18n.t("errors.models.field.name_presence"))
+      return false
+    elsif name =~ /[^a-z0-9_]/
       errors.add(:name, I18n.t("errors.models.field.name_format"))
+      return false
+    elsif name =~ /^\d/
+      errors.add(:name, I18n.t("errors.models.field.name_format_number_first"))
       return false
     else
       return true

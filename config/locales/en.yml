@@ -1127,6 +1127,8 @@ en:
         display_name_presence: "Display name must not be blank"
         display_name_format: "Display name must contain at least one alphabetic characters"
         name_format: "Field name must contain only lower case alphabetic characters, numbers, and underscores"
+        name_presence: "Field name must not be blank"
+        name_format_number_first: "Field name cannot start with a number"
         default_value: "Cannot find default value for type "
         has_2_options: "Field must have at least 2 options"
         has_1_option: "Checkbox must have at least 1 option"
