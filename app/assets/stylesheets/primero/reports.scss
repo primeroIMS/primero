@@ -18,3 +18,18 @@ table:not(.record_list_view) tr.report_row_aggregate td.report_sidebar_value {
 div.report_table_content .dataTables_wrapper.no-footer .dataTables_scrollBody {
   border-bottom: none;
 }
+
+div.reports_form .side-tab-content .row .row {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.report_filter_remove_button{
+  color: $green_color;
+  padding-left: 1rem;
+}
+
+.report_filter_template{
+  display: none;
+}
+

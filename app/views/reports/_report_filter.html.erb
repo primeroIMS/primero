@@ -1,0 +1,39 @@
+<%
+  hidden = false
+  if @report_filter.nil?
+    index = 'template'
+    hidden = true
+    attribute = nil
+    value = nil
+  else
+    attribute = @report_filter['attribute']
+    value = @report_filter['value']
+  end
+%>
+<div class="row collapse <%= hidden ? 'report_filter_template' : 'report_filter' %>">
+  <div class="medium-5 columns">
+    <select class="<%= hidden ? 'report_filter_attribute_template' : 'report_filter_attribute' %>"
+            data-placeholder="<%= t('fields.select_box_empty_item') %>"
+            id="<%= "report_filters_#{index}_attribute"%>"
+            name="<%= "report[filters][#{index}][attribute]"%>">
+      <%= grouped_options_for_select(
+            select_options_fields_grouped_by_form(
+              Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
+            ),
+            attribute,
+            prompt: t('fields.select_box_empty_item')
+          )
+      %>
+    </select>
+  </div>
+  <div class="medium-6 columns">
+    <input type="text"
+           id="<%= "report_filters_#{index}_value"%>"
+           name="<%= "report[filters][#{index}][value]" %>">
+  </div>
+  <div class="medium-1 column">
+    <a class="report_filter_remove_button">
+      <%= icon('close') %>
+    </a>
+  </div>
+</div>

@@ -947,6 +947,10 @@ en:
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    filters:
+      label: "Report filters"
+      attribute: "Filter"
+      value: "With"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
