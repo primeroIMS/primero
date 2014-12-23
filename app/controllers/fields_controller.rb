@@ -98,6 +98,8 @@ class FieldsController < ApplicationController
 
   def get_lookups
     @lookups = Lookup.all
+    @lookup_options = @lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
+    @lookup_options.unshift("", "Location")
   end
 
   def module_id
