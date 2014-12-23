@@ -233,7 +233,7 @@ describe FormSection do
       section = FormSection.new :name => 'somename', :unique_id => "someform"
       section.save!
 
-      section.fields = [Field.new(:name => "a field", :type => "text_field", :display_name => "A Field")]
+      section.fields = [Field.new(:name => "a_field", :type => "text_field", :display_name => "A Field")]
       section.save!
 
       field = section.fields.first

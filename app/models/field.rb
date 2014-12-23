@@ -101,17 +101,34 @@ class Field
   validate :validate_unique_display_name
   validate :validate_has_2_options
   validate :validate_has_a_option
+  validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
 
   #TODO: Any subform validations?
 
-  def validate_name_format
+  def validate_display_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
     if (display_name =~ special_characters) || (display_name =~ white_spaces)
       errors.add(:display_name, I18n.t("errors.models.field.display_name_format"))
+      return false
+    else
+      return true
+    end
+  end
+
+  #Only allow name to have lower case alpha, numbers and underscore
+  def validate_name_format
+    if name.blank?
+      errors.add(:name, I18n.t("errors.models.field.name_presence"))
+      return false
+    elsif name =~ /[^a-z0-9_]/
+      errors.add(:name, I18n.t("errors.models.field.name_format"))
+      return false
+    elsif name =~ /^\d/
+      errors.add(:name, I18n.t("errors.models.field.name_format_number_first"))
       return false
     else
       return true
@@ -146,6 +163,15 @@ class Field
 	def display_type
 		FIELD_DISPLAY_TYPES[type]
 	end
+
+  #DB field cannot be created such that its has anything but lower case alpha, numbers and underscores
+  def sanitize_name
+    if self.name.present?
+      self.name = self.name.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
+    elsif self.display_name.present?
+      self.name = self.display_name.gsub(/[^A-Za-z0-9 ]/, '').parameterize.underscore
+    end
+  end
 
   # TODO: Refator this - Slow when you rebuild a form
   def self.all_searchable_field_names(parentForm = 'case')
