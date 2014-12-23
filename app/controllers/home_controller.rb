@@ -4,8 +4,7 @@ class HomeController < ApplicationController
     @page_name = t("home.label")
     @user = User.find_by_user_name(current_user_name)
     @notifications = PasswordRecoveryRequest.to_display
-    load_associated_types
-    load_modules_id
+    load_user_module_data
 
     load_cases_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
@@ -72,17 +71,17 @@ class HomeController < ApplicationController
   end
 
   def display_incidents_dashboard?
-    @display_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::MRM)
+    @display_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::MRM)
   end
 
   def display_gbv_incidents_dashboard?
-    @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @modules.include?(PrimeroModule::GBV)
+    @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::GBV)
   end
 
   def load_manager_information
     # TODO: Will Open be translated?
     cases = Child.search {
-      facet :created_by, except: [with(:child_status, 'Open'), with(:module_id, current_user[:module_ids])], limit: -1
+      facet :created_by, except: [with(:child_status, 'Open'), with(:module_id, @module_ids)], limit: -1
     }
 
     flags = search_flags({
@@ -90,18 +89,16 @@ class HomeController < ApplicationController
       criteria: 1.week.ago.utc...1.week.from_now.utc,
       type: 'child',
       is_manager: true,
-      modules: current_user[:module_ids]
+      modules: @module_ids
     })
 
     build_manager_stats(cases, flags)
   end
 
-  def load_associated_types
-    @record_types = @current_user.modules.map{|m| m.associated_record_types}.flatten.uniq
-  end
-
-  def load_modules_id
-    @modules = @current_user.module_ids
+  def load_user_module_data
+    @modules = @current_user.modules
+    @module_ids = @modules.map{|m| m.id}
+    @record_types = @modules.map{|m| m.associated_record_types}.flatten.uniq
   end
 
   def load_cases_information
