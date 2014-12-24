@@ -53,7 +53,3 @@ file in this repo to your Bitbucket fork's deploy key list.  You add the key in
 Bitbucket by going into the repo admin and clicking on `Deployment Keys`.  You
 might have to convert the `\\n` characters in the JSON string to real newlines
 first.
-
-### Branching Strategy
-TODO by Pavel
-
