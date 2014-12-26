@@ -27,10 +27,10 @@ consent_fields = [
            "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "disclosure_other_orgs",
-           "type" => "radio_button",
+           "type" => "tick_box",
+           "tick_box_label_all" => "Yes",
            "editable" => false,
-           "display_name_all" => "Does the individual providing consent agree to share collected information with other organizations?",
-           "option_strings_text_all" => "Yes\nNo"
+           "display_name_all" => "The individual providing consent agrees to share collected information with other organizations?"
             }),
   Field.new({"name" => "consent_share_separator",
              "type" => "separator",
