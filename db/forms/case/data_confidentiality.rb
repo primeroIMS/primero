@@ -26,9 +26,15 @@ consent_fields = [
            "display_name_all" => "Consent has been obtained to disclose information for tracing purposes",
            "option_strings_text_all" => "Yes\nNo"
             }),
+  Field.new({"name" => "disclosure_other_orgs",
+           "type" => "radio_button",
+           "editable" => false,
+           "display_name_all" => "Does the individual providing consent agree to share collected information with other organizations?",
+           "option_strings_text_all" => "Yes\nNo"
+            }),
   Field.new({"name" => "consent_share_separator",
              "type" => "separator",
-             "display_name_all" => "Consent for Sharing Information",
+             "display_name_all" => "Consent Details for Sharing Information",
             }),
   Field.new({"name" => "consent_info_sharing",
              "type" => "select_box",
