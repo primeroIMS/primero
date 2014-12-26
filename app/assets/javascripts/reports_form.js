@@ -16,7 +16,8 @@ var ReportForm = Backbone.View.extend({
   init_multi_select: function() {
     //_primero.chosen('.reports_form select[multiple]');
     _primero.chosen('#report_module_ids');
-    $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute').chosen(this.chosen_options);
+    $('#report_aggregate_by, #report_disaggregate_by').chosen(this.chosen_options);
+    $('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
   },
 
   chosen_options: {
@@ -27,6 +28,8 @@ var ReportForm = Backbone.View.extend({
   },
 
   permitted_field_list_url: '/reports/permitted_field_list',
+
+  field_type_map: {},
 
   reload_field_lookups: function() {
     var self = this;
@@ -50,6 +53,7 @@ var ReportForm = Backbone.View.extend({
           constructed_options_list.push(
             "<option value=\"" + form_fields[j][1] + "\">" + form_fields[j][0] + "</option>"
           );
+          self.field_type_map[form_fields[j][1]] = form_fields[j][2];
         }
         constructed_options_list.push("</optgroup>");
       }
@@ -81,7 +85,7 @@ var ReportForm = Backbone.View.extend({
     //duplicate the template
     var new_filter = template.clone();
     //replace the template ids and template names
-    new_filter.find('.report_filter_attribute_template').each(function(){
+    new_filter.find('.report_filter_attribute_template, .report_filter_input_template').each(function(){
       var id = this.getAttribute('id').replace(/_template_/g, '_' + new_index + '_');
       var name = this.getAttribute('name').replace(/\[template\]/g, '[' + new_index + ']');
       var css_class = this.getAttribute('class').replace(/_template/g, '')
@@ -93,18 +97,18 @@ var ReportForm = Backbone.View.extend({
     new_filter.attr('class', template.attr('class').replace(/report_filter_template/,'report_filter'));
 
     $('div.report_filters_container').append(new_filter);
-    new_filter.find('.report_filter_attribute').chosen(this.chosen_options);
+    new_filter.find('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
     _primero.set_content_sidebar_equality();
   },
 
-  remove_filter: function(event) {
+  remove_filter: function(e) {
     //remove the current filter
-    var current_filter = $(event.currentTarget).parent().parent();
+    var current_filter = $(e.currentTarget).parent().parent().parent();
     current_filter.remove();
     //reassign the index for names and ids
     var index = 0;
     $('div.report_filters_container').children().each(function(){
-      var filter_attribute = $(this).find('.report_filter_attribute');
+      var filter_attribute = $(this).find('.report_filter_attribute, .report_filter_input');
       var id = filter_attribute.attr('id').replace(/_\d+_/g, '_' + index + '_');
       var name = filter_attribute.attr('name').replace(/\[\d+\]/g, '[' + index + ']');
       filter_attribute.attr('id', id);
@@ -112,6 +116,29 @@ var ReportForm = Backbone.View.extend({
       index += 1;
     });
   },
+
+  filter_attribute_selected: function(e){
+    var attribute_dropdown = $(e.currentTarget);
+    var report_filter = attribute_dropdown.parent().parent().parent();
+    var attribute = attribute_dropdown.val();
+    var type = e.data.field_type_map[attribute];
+    if (type === 'date_field'){
+      //display the date field row
+      report_filter.find('.report_filter_value_date_row').css('display', 'inline');
+      report_filter.find('.report_filter_value_numeric_row, .report_filter_value_string_row').remove();
+    } else if (type === 'numeric_field') {
+      //display the numeric field row
+      report_filter.find('.report_filter_value_numeric_row').css('display', 'inline');
+      report_filter.find('.report_filter_value_date_row, .report_filter_value_string_row').remove();
+    } else {
+      //display the select
+      //populate it via an ajax call (behind the scenes this is just a call to solr to get the populated value range for a field)
+      report_filter.find('.report_filter_value_string_row').css('display', 'inline');
+      report_filter.find('.report_filter_value_date_row, .report_filter_value_numeric_row').remove();
+    }
+    attribute_dropdown.prop('disabled', true);
+    attribute_dropdown.trigger('chosen:updated');
+  }
 
 });
 

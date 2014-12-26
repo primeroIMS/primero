@@ -11,29 +11,70 @@
   end
 %>
 <div class="row collapse <%= hidden ? 'report_filter_template' : 'report_filter' %>">
-  <div class="medium-5 columns">
-    <select class="<%= hidden ? 'report_filter_attribute_template' : 'report_filter_attribute' %>"
-            data-placeholder="<%= t('fields.select_box_empty_item') %>"
-            id="<%= "report_filters_#{index}_attribute"%>"
-            name="<%= "report[filters][#{index}][attribute]"%>">
-      <%= grouped_options_for_select(
-            select_options_fields_grouped_by_form(
-              Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
-            ),
-            attribute,
-            prompt: t('fields.select_box_empty_item')
-          )
-      %>
-    </select>
+  <div class="report_filter_attribute_row">
+    <div class="medium-11 columns">
+      <select class="<%= hidden ? 'report_filter_attribute_template' : 'report_filter_attribute' %>"
+              data-placeholder="<%= t('fields.select_box_empty_item') %>"
+              id="<%= "report_filters_#{index}_attribute"%>"
+              name="<%= "report[filters][#{index}][attribute]"%>">
+        <%= grouped_options_for_select(
+              select_options_fields_grouped_by_form(
+                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
+              ),
+              attribute,
+              prompt: t('fields.select_box_empty_item')
+            )
+        %>
+      </select>
+    </div>
+    <div class="medium-1 column">
+      <a class="report_filter_remove_button">
+        <%= icon('close') %>
+      </a>
+    </div>
   </div>
-  <div class="medium-6 columns">
-    <input type="text"
-           id="<%= "report_filters_#{index}_value"%>"
-           name="<%= "report[filters][#{index}][value]" %>">
+  <div class="report_filter_value_string_row" style="display: none;">
+    <div class="medium-11 columns end">
+      <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+             type="text"
+             id="<%= "report_filters_#{index}_value_str"%>"
+             name="<%= "report[filters][#{index}][value]" %>">
+    </div>
   </div>
-  <div class="medium-1 column">
-    <a class="report_filter_remove_button">
-      <%= icon('close') %>
-    </a>
+  <div class="report_filter_value_date_row" style="display: none;">
+    <div class="medium-2 columns">
+      <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+              id="<%= "report_filters_#{index}_constraint"%>"
+              name="<%= "report[filters][#{index}][constraint]" %>">
+        <option value></option>
+        <option value="=">=</option>
+        <option value=">">></option>
+        <option value="<"><</option>
+      </select>
+    </div>
+    <div class="medium-9 columns end">
+      <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+             type="text"
+             id="<%= "report_filters_#{index}_value_num"%>"
+             name="<%= "report[filters][#{index}][value]" %>">
+    </div>
+  </div>
+  <div class="report_filter_value_numeric_row" style="display: none;">
+    <div class="medium-2 columns">
+      <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+              id="<%= "report_filters_#{index}_constraint"%>"
+              name="<%= "report[filters][#{index}][constraint]" %>">
+        <option value></option>
+        <option value="=">=</option>
+        <option value=">">></option>
+        <option value="<"><</option>
+      </select>
+    </div>
+    <div class="medium-9 columns end">
+      <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+             type="text"
+             id="<%= "report_filters_#{index}_value_num"%>"
+             name="<%= "report[filters][#{index}][value]" %>">
+    </div>
   </div>
 </div>

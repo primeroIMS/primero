@@ -84,7 +84,7 @@ module ReportsHelper
         form_array = ["#{form[0]} (#{module_name})", []]
         form[1].each do |field|
           if unique_fields.add? field[0]
-            form_array[1] << [field[1], field[0]]
+            form_array[1] << [field[1], field[0], field[2]]
           end
         end
         grouped_fields_options << form_array
