@@ -1,13 +1,17 @@
 <%
   hidden = false
-  if @report_filter.nil?
+  if report_filter.nil?
     index = 'template'
     hidden = true
     attribute = nil
-    value = nil
+    type = nil
+    value = ''
+    constraint = ''
   else
-    attribute = @report_filter['attribute']
-    value = @report_filter['value']
+    attribute = report_filter['attribute']
+    type = @field_type_map[attribute]
+    value = report_filter['value']
+    constraint = report_filter['constraint']
   end
 %>
 <div class="row collapse <%= hidden ? 'report_filter_template' : 'report_filter' %>">
@@ -18,9 +22,7 @@
               id="<%= "report_filters_#{index}_attribute"%>"
               name="<%= "report[filters][#{index}][attribute]"%>">
         <%= grouped_options_for_select(
-              select_options_fields_grouped_by_form(
-                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
-              ),
+              select_options_fields_grouped_by_form(@reportable_fields),
               attribute,
               prompt: t('fields.select_box_empty_item')
             )
@@ -33,48 +35,51 @@
       </a>
     </div>
   </div>
-  <div class="report_filter_value_string_row" style="display: none;">
-    <div class="medium-11 columns end">
-      <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
-             type="text"
-             id="<%= "report_filters_#{index}_value_str"%>"
-             name="<%= "report[filters][#{index}][value]" %>">
+  <% if (type.present? && !(['date_field','numeric_field'].include?(type))) || hidden %>
+    <div class="report_filter_value_string_row" style="<%= hidden ? 'display: none;':'' %>">
+      <div class="medium-11 columns end">
+        <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+               type="text"
+               id="<%= "report_filters_#{index}_value_str"%>"
+               name="<%= "report[filters][#{index}][value]" %>"
+               value="<%= value %>">
+      </div>
     </div>
-  </div>
-  <div class="report_filter_value_date_row" style="display: none;">
-    <div class="medium-2 columns">
-      <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
-              id="<%= "report_filters_#{index}_constraint"%>"
-              name="<%= "report[filters][#{index}][constraint]" %>">
-        <option value></option>
-        <option value="=">=</option>
-        <option value=">">></option>
-        <option value="<"><</option>
-      </select>
+  <% end %>
+  <% if (type == 'date_field') || hidden %>
+    <div class="report_filter_value_date_row" style="<%= hidden ? 'display: none;':'' %>">
+      <div class="medium-2 columns">
+        <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+                id="<%= "report_filters_#{index}_constraint"%>"
+                name="<%= "report[filters][#{index}][constraint]" %>">
+          <%= options_for_select(['', '=', '<', '>'], constraint) %>
+        </select>
+      </div>
+      <div class="medium-9 columns end">
+        <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+               type="text"
+               id="<%= "report_filters_#{index}_value_num"%>"
+               name="<%= "report[filters][#{index}][value]" %>"
+               value="<%= value %>">
+      </div>
     </div>
-    <div class="medium-9 columns end">
-      <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
-             type="text"
-             id="<%= "report_filters_#{index}_value_num"%>"
-             name="<%= "report[filters][#{index}][value]" %>">
+  <% end %>
+  <% if (type == 'numeric_field') || hidden %>
+    <div class="report_filter_value_numeric_row" style="<%= hidden ? 'display: none;':'' %>">
+      <div class="medium-2 columns">
+        <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+                id="<%= "report_filters_#{index}_constraint"%>"
+                name="<%= "report[filters][#{index}][constraint]" %>">
+          <%= options_for_select(['', '=', '<', '>'], constraint) %>
+        </select>
+      </div>
+      <div class="medium-9 columns end">
+        <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
+               type="text"
+               id="<%= "report_filters_#{index}_value_num"%>"
+               name="<%= "report[filters][#{index}][value]" %>"
+               value="<%= value %>">
+      </div>
     </div>
-  </div>
-  <div class="report_filter_value_numeric_row" style="display: none;">
-    <div class="medium-2 columns">
-      <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
-              id="<%= "report_filters_#{index}_constraint"%>"
-              name="<%= "report[filters][#{index}][constraint]" %>">
-        <option value></option>
-        <option value="=">=</option>
-        <option value=">">></option>
-        <option value="<"><</option>
-      </select>
-    </div>
-    <div class="medium-9 columns end">
-      <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
-             type="text"
-             id="<%= "report_filters_#{index}_value_num"%>"
-             name="<%= "report[filters][#{index}][value]" %>">
-    </div>
-  </div>
+  <% end %>
 </div>

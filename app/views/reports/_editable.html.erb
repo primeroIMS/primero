@@ -111,11 +111,11 @@
     <div class="report_filters_container">
       <% if @report.filters.present? %>
         <% @report.filters.each_with_index do |filter, index|%>
-          <%= render partial: 'report_filter', object: filter, locals: {index: index} %>
+          <%= render partial: 'report_filter', locals: {report_filter: filter, index: index} %>
         <% end %>
       <% end %>
     </div>
-    <%= render partial: 'report_filter', object: nil %>
+    <%= render partial: 'report_filter', locals: {report_filter: nil, index: nil} %>
     <div class="row collapse">
       <div class="medium-5 columns medium-offset-8">
         <a id="report_filter_add_button" class="green-button">Add Filter</a>

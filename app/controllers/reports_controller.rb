@@ -4,6 +4,7 @@ class ReportsController < ApplicationController
   include ReportsHelper
   #include RecordActions
   before_filter :sanitize_multiselects, only: [:create, :update]
+  before_filter :sanitize_filters, only: [:create, :update]
 
   def index
     authorize! :index, Report
@@ -39,6 +40,7 @@ class ReportsController < ApplicationController
   def new
     authorize! :create, Report
     @report = Report.new
+    set_reportable_fields
   end
 
   def create
@@ -51,6 +53,7 @@ class ReportsController < ApplicationController
   def edit
     @report = Report.get(params[:id])
     authorize! :update, @report
+    set_reportable_fields
   end
 
   def update
@@ -72,7 +75,8 @@ class ReportsController < ApplicationController
     modules = PrimeroModule.all(keys: module_ids).all
     record_type = params[:record_type]
     permitted_fields = select_options_fields_grouped_by_form(
-      Report.all_reportable_fields_by_form(modules, record_type, @current_user)
+      Report.all_reportable_fields_by_form(modules, record_type, @current_user),
+      true
     )
     render json: permitted_fields
   end
@@ -100,6 +104,30 @@ class ReportsController < ApplicationController
         params[:report][multiselect].reject!{|e|!e.present?}
       else
         params[:report][multiselect] = nil
+      end
+    end
+  end
+
+  def sanitize_filters
+    if params[:report][:filters].present?
+      if params[:report][:filters][:template].present?
+        params[:report][:filters].delete(:template)
+        #convert to array: bad!
+        filters = params[:report][:filters].values
+        params[:report][:filters] = filters
+      end
+    end
+  end
+
+  def set_reportable_fields
+    @reportable_fields ||= Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
+    #TODO: There is probably a better way to deal with this than using hashes. Fix! Simplify the JS as well!
+    @field_type_map = {}
+    @reportable_fields.values.each do |module_properties|
+      module_properties.each do |form_properties|
+        form_properties[1].each do |property|
+          @field_type_map[property[0]] = property[2]
+        end
       end
     end
   end

@@ -74,9 +74,9 @@ module ReportsHelper
   #      "form_name", [
   #         ["field_name", "field_display_name", "field_type"]**
   #      ]**
-  #    ]
+  #    ]**
   # }
-  def select_options_fields_grouped_by_form(grouped_fields)
+  def select_options_fields_grouped_by_form(grouped_fields, include_type=false)
     unique_fields = Set.new
     grouped_fields_options = []
     grouped_fields.keys.each do |module_name|
@@ -84,7 +84,8 @@ module ReportsHelper
         form_array = ["#{form[0]} (#{module_name})", []]
         form[1].each do |field|
           if unique_fields.add? field[0]
-            form_array[1] << [field[1], field[0], field[2]]
+            form_array[1] << [field[1], field[0]]
+            form_array[1].last << field[2] if include_type
           end
         end
         grouped_fields_options << form_array

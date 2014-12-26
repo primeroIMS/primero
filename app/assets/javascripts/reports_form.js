@@ -11,10 +11,10 @@ var ReportForm = Backbone.View.extend({
 
   initialize: function() {
     this.init_multi_select();
+    this.reload_field_lookups();
   },
 
   init_multi_select: function() {
-    //_primero.chosen('.reports_form select[multiple]');
     _primero.chosen('#report_module_ids');
     $('#report_aggregate_by, #report_disaggregate_by').chosen(this.chosen_options);
     $('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
@@ -35,9 +35,8 @@ var ReportForm = Backbone.View.extend({
     var self = this;
     //get the lookup values via ajax call
     var params = {
-        //module_ids: $('#report_module_ids').val().join(','),
-        module_ids: $('#report_module_ids').val(),
-        record_type: $('#report_record_type').val()
+      module_ids: $('#report_module_ids').val(),
+      record_type: $('#report_record_type').val()
     }
     var permitted_field_list_url = this.permitted_field_list_url + '?' + decodeURIComponent($.param(params));
     $.ajax(permitted_field_list_url).done(function(permitted_field_list){
@@ -64,9 +63,14 @@ var ReportForm = Backbone.View.extend({
         el.html(constructed_options_list.join("\n"));
         //select the selected option values
         if (current_value !== null && current_value !== ""){
-          var current_value_selector = current_value.map(function(v){
-            return "option[value='" + v + "']"
-          }).join(',');
+          var current_value_selector;
+          if (current_value.constructor === Array){
+            current_value_selector = current_value.map(function(v){
+              return "option[value='" + v + "']";
+            }).join(',');
+          } else {
+            current_value_selector = "option[value='" + current_value + "']";
+          }
           el.find(current_value_selector).attr('selected','selected');
         }
       });
@@ -136,7 +140,7 @@ var ReportForm = Backbone.View.extend({
       report_filter.find('.report_filter_value_string_row').css('display', 'inline');
       report_filter.find('.report_filter_value_date_row, .report_filter_value_numeric_row').remove();
     }
-    attribute_dropdown.prop('disabled', true);
+    attribute_dropdown.find('option[value!=' + attribute + ']').remove();
     attribute_dropdown.trigger('chosen:updated');
   }
 
