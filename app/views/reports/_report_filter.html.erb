@@ -47,7 +47,7 @@
     </div>
   <% end %>
   <% if (type == 'date_field') || hidden %>
-    <div class="report_filter_value_date_row" style="<%= hidden ? 'display: none;':'' %>">
+    <div class="report_filter_value_date_row form_date_field" style="<%= hidden ? 'display: none;':'' %>">
       <div class="medium-2 columns">
         <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
                 id="<%= "report_filters_#{index}_constraint"%>"
@@ -75,7 +75,7 @@
       </div>
       <div class="medium-9 columns end">
         <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
-               type="text"
+               type="number"
                id="<%= "report_filters_#{index}_value_num"%>"
                name="<%= "report[filters][#{index}][value]" %>"
                value="<%= value %>">
