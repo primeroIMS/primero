@@ -17,6 +17,7 @@ var ReportForm = Backbone.View.extend({
   init_multi_select: function() {
     _primero.chosen('#report_module_ids');
     $('#report_aggregate_by, #report_disaggregate_by').chosen(this.chosen_options);
+    $('.report_filter_value_string_row select.report_filter_input').chosen($.extend({},this.chosen_options,{max_selected_options: Infinity}));
     $('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
   },
 
@@ -28,6 +29,8 @@ var ReportForm = Backbone.View.extend({
   },
 
   permitted_field_list_url: '/reports/permitted_field_list',
+
+  lookups_for_field_url: '/reports/lookups_for_field',
 
   field_type_map: {},
 
@@ -122,10 +125,11 @@ var ReportForm = Backbone.View.extend({
   },
 
   filter_attribute_selected: function(e){
+    var report_filter_view = e.data;
     var attribute_dropdown = $(e.currentTarget);
     var report_filter = attribute_dropdown.parent().parent().parent();
     var attribute = attribute_dropdown.val();
-    var type = e.data.field_type_map[attribute];
+    var type = report_filter_view.field_type_map[attribute];
     if (type === 'date_field'){
       //display the date field row
       report_filter.find('.report_filter_value_date_row').css('display', 'inline');
@@ -136,9 +140,27 @@ var ReportForm = Backbone.View.extend({
       report_filter.find('.report_filter_value_date_row, .report_filter_value_string_row').remove();
     } else {
       //display the select
-      //populate it via an ajax call (behind the scenes this is just a call to solr to get the populated value range for a field)
       report_filter.find('.report_filter_value_string_row').css('display', 'inline');
       report_filter.find('.report_filter_value_date_row, .report_filter_value_numeric_row').remove();
+      //populate the value select via an ajax call
+      var lookups_for_field_url = report_filter_view.lookups_for_field_url + '?' + decodeURIComponent($.param({field_name: attribute}));
+      $.ajax(lookups_for_field_url).done(function(lookups_for_field){
+        var constructed_options_list = [];
+        for (var i in lookups_for_field){
+          if (lookups_for_field[i].constructor === Array){
+            constructed_options_list.push(
+              "<option value=\"" + lookups_for_field[i][1] + "\">" + lookups_for_field[i][0] + "</option>"
+            );
+          }  else {
+            constructed_options_list.push(
+              "<option>" + lookups_for_field[i] + "</option>"
+            );
+          }
+        }
+        var el = report_filter.find('.report_filter_value_string_row select')
+        el.html(constructed_options_list.join("\n"));
+        el.chosen($.extend({},report_filter_view.chosen_options,{max_selected_options: Infinity}));
+      });
     }
     attribute_dropdown.find('option[value!=' + attribute + ']').remove();
     attribute_dropdown.trigger('chosen:updated');
