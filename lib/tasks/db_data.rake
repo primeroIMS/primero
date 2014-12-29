@@ -9,6 +9,7 @@ namespace :db do
 
       load(Rails.root.join("db/dev_fixtures", "cases.rb"))
       load(Rails.root.join("db/dev_fixtures", "incidents.rb"))
+      load(Rails.root.join("db/dev_fixtures", "flags.rb"))
       load(Rails.root.join("db/dev_fixtures", "tracing_requests.rb"))
     end
 
