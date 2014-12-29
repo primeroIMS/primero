@@ -10,8 +10,10 @@ var ReportForm = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.init_multi_select();
-    this.reload_field_lookups();
+    if (this.$el.length){
+      this.init_multi_select();
+      this.reload_field_lookups();
+    }
   },
 
   init_multi_select: function() {
