@@ -559,6 +559,8 @@ en:
     name: "Name"
     successfully_updated: "Role details are successfully updated."
     error_in_updating: "Error in updating the Role details."
+    transfer_label: "Can this role be used for Transfers?"
+    referral_label: "Can this role be used for Referrals?"
 
   agencies:
     logo: 'Logo'
