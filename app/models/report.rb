@@ -259,7 +259,7 @@ class Report < CouchRest::Model::Base
               "#{attribute}:#{value}"
             end
           else
-            query = if value.respond_to?(:map) && value.size > 1
+            query = if value.respond_to?(:map) && value.size > 0
               '(' + value.map{|v| "#{attribute}:#{v}"}.join(" OR ") + ')'
             else
               "#{attribute}:#{value}"
