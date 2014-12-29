@@ -81,6 +81,17 @@ class ReportsController < ApplicationController
     render json: permitted_fields
   end
 
+  #This method returns a list of lookups for a particular field.
+  #TODO: This really belongs in a fields or form section controller
+  def lookups_for_field
+    authorize! :read, Report
+    field_options = []
+    field_name = params[:field_name]
+    field = Field.find_by_name(field_name)
+    field_options = lookups_list_from_field(field)
+    render json: field_options
+  end
+
   # Method to trigger a report rebuild.
   # TODO: Currently this isn't used as we are not storing the generated report data.
   #       See models/report.rb and graph_data method above.
