@@ -90,6 +90,28 @@ create_or_update_role(
 )
 
 create_or_update_role(
+  :name => "Referral",
+  :permissions => [
+    Permission::READ,
+    Permission::WRITE,
+    Permission::FLAG,
+    Permission::CASE
+  ],
+  :referral => true
+)
+
+create_or_update_role(
+  :name => "Transfer",
+  :permissions => [
+    Permission::READ,
+    Permission::WRITE,
+    Permission::FLAG,
+    Permission::CASE
+  ],
+  :transfer => true
+)
+
+create_or_update_role(
   :name => "Superuser",
   :permissions => [
     Permission::READ,
