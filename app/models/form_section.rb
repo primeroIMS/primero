@@ -68,6 +68,17 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+    view :fields,
+      :map => "function(doc) {
+                if (doc['couchrest-type'] == 'FormSection'){
+                  if (doc['fields'] != null){
+                    for(var i = 0; i<doc['fields'].length; i++){
+                      var field = doc['fields'][i];
+                      emit(field['name'], field);
+                    }
+                  }
+                }
+              }"
   end
 
   validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")

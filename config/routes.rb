@@ -276,6 +276,7 @@ RapidFTR::Application.routes.draw do
     end
     collection do
       get :permitted_field_list
+      get :lookups_for_field
     end
   end
 

@@ -100,6 +100,30 @@
     <span></span>
   </div>
 </div>
+<%# Filter by %>
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :filters, t("report.filters.label"), class: 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <div class="report_filters_container">
+      <% if @report.filters.present? %>
+        <% @report.filters.each_with_index do |filter, index|%>
+          <%= render partial: 'report_filter', locals: {report_filter: filter, index: index} %>
+        <% end %>
+      <% end %>
+    </div>
+    <%= render partial: 'report_filter', locals: {report_filter: nil, index: nil} %>
+    <div class="row collapse">
+      <div class="medium-5 columns medium-offset-8">
+        <a id="report_filter_add_button" class="green-button">Add Filter</a>
+      </div>
+    </div>
+  </div>
+  <div class="medium-1 columns"></div>
+</div>
 <%# Report Is Graph %>
 <div class="row">
   <div class="medium-3 columns">
