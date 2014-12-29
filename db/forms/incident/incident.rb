@@ -49,7 +49,7 @@ incident_fields = [
              "type" => "text_field",
              "display_name_all" => "Name of Super Incident/Event"
             }),
-  Field.new({"name" => "UN_eyewitness",
+  Field.new({"name" => "un_eyewitness",
              "type" => "radio_button",
              "display_name_all" => "Did UN staff or other MRM-trained affiliate witness the incident?",
              "option_strings_text_all" => "Yes\nNo"
