@@ -52,8 +52,6 @@ class Report < CouchRest::Model::Base
     number_of_pivots = pivots.size
     if pivots.present?
       pivots = pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
-      filters = self.filters ? self.filters.map{|f| [SolrUtils.indexed_field_name(self.record_type, f[0]), f[1]]} : []
-      #TODO: This has to be valid and open if a case
       pivots_data = query_solr(pivots, number_of_pivots, filters)
       #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
       if pivots_data['pivot'].present?
@@ -204,6 +202,7 @@ class Report < CouchRest::Model::Base
 
   private
 
+  #TODO: This method should really be replaced by a Sunspot query
   def query_solr(pivots_string, number_of_pivots, filters)
     #TODO: This has to be valid and open if a case.
     filter_query = build_solr_filter_query(filters)
@@ -242,12 +241,33 @@ class Report < CouchRest::Model::Base
 
   #TODO: This only works for string value filters. Add at least dates?
   def build_solr_filter_query(filters)
-    filters_query = filters.map do |filter|
-      filter[1].map do |v|
-        "#{filter[0]}:#{v}"
-      end.join(" OR ")
-    end.join(" ")
-    filters_query = '*:*' unless filters_query.present?
+    filters_query = '*:*'
+    if filters.present?
+      filters_query = filters.map do |filter|
+        attribute = SolrUtils.indexed_field_name(self.record_type, filter['attribute'])
+        constraint = filter['constraint']
+        value = filter['value']
+        query = nil
+        if attribute.present? && value.present?
+          if constraint.present?
+            value = Date.parse(value).xmlschema unless value.is_number?
+            query = if constraint == '>'
+              "#{attribute}:[#{value} TO *]"
+            elsif constraint == '<'
+              "#{attribute}:[* TO #{value}]"
+            else
+              "#{attribute}:#{value}"
+            end
+          else
+            query = if value.respond_to?(:map) && value.size > 1
+              '(' + value.map{|v| "#{attribute}:#{v}"}.join(" OR ") + ')'
+            else
+              "#{attribute}:#{value}"
+            end
+          end
+        end
+      end.compact.join(" ")
+    end
     return filters_query
   end
 
