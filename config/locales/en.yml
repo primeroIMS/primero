@@ -559,6 +559,8 @@ en:
     name: "Name"
     successfully_updated: "Role details are successfully updated."
     error_in_updating: "Error in updating the Role details."
+    transfer_label: "Can this role be used for Transfers?"
+    referral_label: "Can this role be used for Referrals?"
 
   agencies:
     logo: 'Logo'
@@ -948,6 +950,10 @@ en:
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    filters:
+      label: "Report filters"
+      attribute: "Filter"
+      value: "With"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
