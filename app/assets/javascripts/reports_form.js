@@ -117,11 +117,13 @@ var ReportForm = Backbone.View.extend({
     //reassign the index for names and ids
     var index = 0;
     $('div.report_filters_container').children().each(function(){
-      var filter_attribute = $(this).find('.report_filter_attribute, .report_filter_input');
-      var id = filter_attribute.attr('id').replace(/_\d+_/g, '_' + index + '_');
-      var name = filter_attribute.attr('name').replace(/\[\d+\]/g, '[' + index + ']');
-      filter_attribute.attr('id', id);
-      filter_attribute.attr('name', name);
+      $(this).find('.report_filter_attribute, .report_filter_input').each(function(){
+        var el = $(this);
+        var id = el.attr('id').replace(/_\d+_/g, '_' + index + '_');
+        var name = el.attr('name').replace(/\[\d+\]/g, '[' + index + ']');
+        el.attr('id', id);
+        el.attr('name', name);
+      });
       index += 1;
     });
   },
