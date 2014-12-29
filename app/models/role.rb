@@ -8,6 +8,8 @@ class Role < CouchRest::Model::Base
 
   property :permissions, :type => [String]
   property :permitted_form_ids, :type => [String]
+  property :referral, TrueClass, :default => false
+  property :transfer, TrueClass, :default => false
 
   validates_presence_of :permissions, :message => I18n.t("errors.models.role.permission_presence")
 
