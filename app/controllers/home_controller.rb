@@ -46,18 +46,15 @@ class HomeController < ApplicationController
   def build_manager_stats(cases, flags)
     @aggregated_case_worker_stats = {}
 
-    cases.facet(:created_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {};
-                                           @aggregated_case_worker_stats[c.value][:total_cases] = c.count}
+    cases.facet(:created_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {total_cases: c.count}}
 
     flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
          .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g][:cases_this_week] = {};
-                      @aggregated_case_worker_stats[g][:cases_this_week] = f.count }
+         .each{|g, f| @aggregated_case_worker_stats[g] = {cases_this_week: f.count}}
 
     flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
          .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g][:cases_overdue] = {};
-                      @aggregated_case_worker_stats[g][:cases_overdue] = f.count }
+         .each{|g, f| @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
 
     @aggregated_case_worker_stats
   end
