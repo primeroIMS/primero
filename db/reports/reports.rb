@@ -14,7 +14,10 @@ end
 #To generate the UUID, run the following in the rails consle:
 #    UUIDTools::UUID.random_create.to_s.gsub('-','')
 
-default_case_filters = [['child_status',['open']],['record_state',['true']]]
+default_case_filters = [
+  {'attribute' => 'child_status', 'value' => ['open']},
+  {'attribute' => 'record_state', 'value' => ['true']}
+]
 
 create_or_update_report({
   id: '9fed7861bef14ec9ab51b41d6555319a',

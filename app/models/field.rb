@@ -282,6 +282,8 @@ class Field
         clazz = eval source_options.first #TODO: hoping this guy exists and is a class!
         select_options += clazz.all.map{|r| r.name}
       end
+    elsif self.type == TICK_BOX
+      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
     else
       select_options += @options.collect{ |option| option.option_name.is_a?(Hash) ? [option.option_name['display_text'],
                                           option.option_name['id']] : [option.option_name, option.option_name]}
