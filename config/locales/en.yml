@@ -366,6 +366,7 @@ en:
       unaccompanied_separated_status: "Protection Status:"
       armed_force_group_name: "Armed Force or Group:"
       armed_force_group_type: "Armed Force or Group Type:"
+      record_state: "Record State:"
 
   incident:
     label: "Incident ID"
@@ -417,6 +418,7 @@ en:
     history_of: "History of %{short_id}"
 
     violation:
+      violation: "Violation"
       pending: 'Pending Verification'
       killing: "Killing"
       maiming: "Maiming"
@@ -557,6 +559,8 @@ en:
     name: "Name"
     successfully_updated: "Role details are successfully updated."
     error_in_updating: "Error in updating the Role details."
+    transfer_label: "Can this role be used for Transfers?"
+    referral_label: "Can this role be used for Referrals?"
 
   agencies:
     logo: 'Logo'
@@ -946,6 +950,10 @@ en:
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    filters:
+      label: "Report filters"
+      attribute: "Filter"
+      value: "With"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
@@ -1034,6 +1042,7 @@ en:
     flagged_by: "Flagged by:"
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
+    no_caseworker_data: "No Case Worker Data"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
     case_id: "Case #ID"
@@ -1053,6 +1062,14 @@ en:
     link_see_all_child: "See all %{count} cases >"
     link_see_all_incident: "See all %{count} incidents >"
     open_incidents: "Open Incidents"
+    status_of_cases: "Status of Cases"
+    case_worker: "Case Worker"
+    total_cases: "Total Cases"
+    cases_this_week: "Cases This Week"
+    missed_cases: "Missed Cases"
+    date_of_incident: "Date of Incident"
+    violence_type: "Violence Type"
+    date_of_interview: Date of Interview"
 
   errors:
 
@@ -1115,6 +1132,9 @@ en:
       field:
         display_name_presence: "Display name must not be blank"
         display_name_format: "Display name must contain at least one alphabetic characters"
+        name_format: "Field name must contain only lower case alphabetic characters, numbers, and underscores"
+        name_presence: "Field name must not be blank"
+        name_format_number_first: "Field name cannot start with a number"
         default_value: "Cannot find default value for type "
         has_2_options: "Field must have at least 2 options"
         has_1_option: "Checkbox must have at least 1 option"

@@ -74,9 +74,9 @@ module ReportsHelper
   #      "form_name", [
   #         ["field_name", "field_display_name", "field_type"]**
   #      ]**
-  #    ]
+  #    ]**
   # }
-  def select_options_fields_grouped_by_form(grouped_fields)
+  def select_options_fields_grouped_by_form(grouped_fields, include_type=false)
     unique_fields = Set.new
     grouped_fields_options = []
     grouped_fields.keys.each do |module_name|
@@ -85,12 +85,26 @@ module ReportsHelper
         form[1].each do |field|
           if unique_fields.add? field[0]
             form_array[1] << [field[1], field[0]]
+            form_array[1].last << field[2] if include_type
           end
         end
         grouped_fields_options << form_array
       end
     end
     return grouped_fields_options
+  end
+
+  #TODO: This logically belongs with fields
+  def lookups_list_from_field(field)
+    field_options = []
+    if field.present?
+      field_options = field.select_options
+      #check if the select has an empty option
+      if field_options.size > 0 && field_options[0].size > 0 && field_options[0][0] == I18n.t("fields.select_box_empty_item")
+        field_options.shift
+      end
+    end
+    return field_options
   end
 
 end

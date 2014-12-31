@@ -11,9 +11,16 @@
       </div>
       <div class="large-9 medium-9 columns hello">
         <% if fld.object.type != 'custom' %>
-        <%= fld.send "#{field_type}", "#{field_name}".to_sym %>
+          <% if @field.new? %>
+            <%= fld.text_field "name" %>
+          <% else %>
+            <%# TODO - add pattern matching %>
+            <%# fld.text_field "name", required: '', pattern: '[a-z_]' %>
+            <%= fld.text_field "name", required: '' %>
+            <small class="error"><%= t('errors.models.field.name_presence') %></small>
+          <% end %>
         <% else %>
-        <div class="db_name"><%= fld.object["#{field_name}".to_sym] %></div>
+          <div class="db_name"><%= fld.object["#{field_name}".to_sym] %></div>
         <% end %>
       </div>
     </div>

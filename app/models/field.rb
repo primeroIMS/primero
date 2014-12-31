@@ -23,7 +23,7 @@ class Field
   property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
   property :field_tags, [String], :default => []
   property :custom_template, :default => nil #Custom type should set the path to the template.
-  
+
   attr_accessor :subform
 
   TEXT_FIELD = "text_field"
@@ -101,17 +101,34 @@ class Field
   validate :validate_unique_display_name
   validate :validate_has_2_options
   validate :validate_has_a_option
+  validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
 
   #TODO: Any subform validations?
 
-  def validate_name_format
+  def validate_display_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
     if (display_name =~ special_characters) || (display_name =~ white_spaces)
       errors.add(:display_name, I18n.t("errors.models.field.display_name_format"))
+      return false
+    else
+      return true
+    end
+  end
+
+  #Only allow name to have lower case alpha, numbers and underscore
+  def validate_name_format
+    if name.blank?
+      errors.add(:name, I18n.t("errors.models.field.name_presence"))
+      return false
+    elsif name =~ /[^a-z0-9_]/
+      errors.add(:name, I18n.t("errors.models.field.name_format"))
+      return false
+    elsif name =~ /^\d/
+      errors.add(:name, I18n.t("errors.models.field.name_format_number_first"))
       return false
     else
       return true
@@ -146,6 +163,15 @@ class Field
 	def display_type
 		FIELD_DISPLAY_TYPES[type]
 	end
+
+  #DB field cannot be created such that its has anything but lower case alpha, numbers and underscores
+  def sanitize_name
+    if self.name.present?
+      self.name = self.name.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
+    elsif self.display_name.present?
+      self.name = self.display_name.gsub(/[^A-Za-z0-9 ]/, '').parameterize.underscore
+    end
+  end
 
   # TODO: Refator this - Slow when you rebuild a form
   def self.all_searchable_field_names(parentForm = 'case')
@@ -233,7 +259,7 @@ class Field
     "#{objName}[#{name}]"
   end
 
-  def select_options(record, lookups)
+  def select_options(record=nil, lookups=nil)
     select_options = []
     select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
     if self.option_strings_source.present?
@@ -256,6 +282,8 @@ class Field
         clazz = eval source_options.first #TODO: hoping this guy exists and is a class!
         select_options += clazz.all.map{|r| r.name}
       end
+    elsif self.type == TICK_BOX
+      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
     else
       select_options += @options.collect{ |option| option.option_name.is_a?(Hash) ? [option.option_name['display_text'],
                                           option.option_name['id']] : [option.option_name, option.option_name]}
@@ -316,8 +344,13 @@ class Field
     Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => SELECT_BOX, :option_strings_text => option_strings.join("\n")
   end
 
+  # This is a rework of the original RapidFTR method that never worked.
+  # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
   def self.find_by_name(name)
-    Field.by_name(:key => name.downcase).first
+    field = nil
+    raw_field_data = FormSection.fields(key: name).rows.first
+    field = Field.new(raw_field_data['value']) if raw_field_data.present?
+    return field
   end
 
 

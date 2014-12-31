@@ -10,6 +10,15 @@ user node[:primero][:solr_user] do
   shell '/bin/bash'
 end
 
+log_base_dir = ::File.join(node[:primero][:log_dir], 'solr')
+
+directory log_base_dir do
+  action :create
+  mode '0777'
+  owner node[:primero][:solr_user]
+  group node[:primero][:solr_group]
+end
+
 execute "chown #{node[:primero][:solr_user]}.#{node[:primero][:solr_group]} -R #{node[:primero][:app_dir]}/solr/data"
 
 supervisor_service 'solr' do
@@ -17,8 +26,12 @@ supervisor_service 'solr' do
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
-  killasgroup true
-  stopasgroup true
+
+  redirect_stderr true
+  stdout_logfile ::File.join(log_base_dir, 'output.log')
+  stdout_logfile_maxbytes '5MB'
+  stdout_logfile_backups 0
+
   user node[:primero][:solr_user]
   # TODO: figure out how to make this more dynamic so we aren't hardcoding the
   # sunspot_solr gem dir.  That, or install solr outside of gems

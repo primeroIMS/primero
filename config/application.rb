@@ -45,6 +45,9 @@ module RapidFTR
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
     end
 
+    config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
+    config.action_view.logger = nil
+
     config.couch_watcher_log_level = Logger::INFO
 
     def locales

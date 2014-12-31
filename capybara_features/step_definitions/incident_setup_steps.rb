@@ -13,7 +13,7 @@ Given /^the following incidents exist in the system:$/ do |incident_table|
   incident_table.hashes.each do |incident_hash|
     incident_hash.reverse_merge!(
       'estimated_indicator' => 'Yes',
-      'UN_eyewitness' => 'Yes',
+      'un_eyewitness' => 'Yes',
       'incident_total_tally_boys' => '3',
       'incident_total_tally_girls' => '5',
       'incident_total_tally_unknown' => '2',
@@ -53,7 +53,7 @@ Given /^the following incidents with violations exist in the system:$/ do |incid
   incident_table.hashes.each do |incident_hash|
     incident_hash.reverse_merge!(
       'estimated_indicator' => 'Yes',
-      'UN_eyewitness' => 'Yes',
+      'un_eyewitness' => 'Yes',
       'incident_total_tally_boys' => '3',
       'incident_total_tally_girls' => '5',
       'incident_total_tally_unknown' => '2',

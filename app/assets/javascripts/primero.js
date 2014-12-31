@@ -330,7 +330,7 @@ var Primero = Backbone.View.extend({
   populate_case_id_for_gbv_incidents: function() {
     case_id = _primero.get_param("case_id");
     if (case_id) {
-      $(".new-incident-form").prepend("<input id='incident_case_id' name='incident[case_id]' type='hidden' value='" + case_id + "'>");
+      $(".new-incident-form").prepend("<input id='incident_case_id' name='incident_case_id' type='hidden' value='" + case_id + "'>");
     }
   },
 

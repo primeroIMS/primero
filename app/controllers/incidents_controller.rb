@@ -29,6 +29,10 @@ class IncidentsController < ApplicationController
 
   private
 
+  def extra_permitted_parameters
+    super + ['violations']
+  end
+
   def make_new_record
     Incident.new.tap do |incident|
       incident['record_state'] = true
@@ -45,18 +49,21 @@ class IncidentsController < ApplicationController
     end
   end
 
-  def initialize_created_record incident
-    incident['status'] = "Open" if incident['status'].blank?
-
-    case_id = params[:incident].delete("case_id")
+  def post_save_processing incident
+    # This is for operation after saving the record.
+    case_id = params["incident_case_id"]
     if case_id.present? && incident.valid?
       #The Incident is being created from a GBV Case.
       #track the incident in the GBV case (incident_links)
       case_record = Child.get(case_id)
-      case_record.incident_links << @incident.id
+      case_record.incident_links << incident.id
       #TODO what if fails to save at this point? should rollback the incident?
       case_record.save
     end
+  end
+
+  def initialize_created_record incident
+    incident['status'] = "Open" if incident['status'].blank?
   end
 
   def redirect_after_update

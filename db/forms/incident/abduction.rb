@@ -89,12 +89,12 @@ abduction_subform_fields = [
              "type" => "textarea",
              "display_name_all" => "Notes on Verification Decision"
             }),
-  Field.new({"name" => "CTFMR_verified",
+  Field.new({"name" => "ctfmr_verified",
              "type" => "radio_button",
              "display_name_all" => "Verified by CTFMR",
              "option_strings_text_all" => "Yes\nNo"
             }),
-  Field.new({"name" => "verification_date_CTFMR",
+  Field.new({"name" => "verification_date_ctfmr",
              "type" => "date_field",
              "display_name_all" => "Date verified by CTFMR"
             })

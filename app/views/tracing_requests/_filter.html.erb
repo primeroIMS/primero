@@ -34,7 +34,7 @@
       ], nil, nil, 'range') %>
     <%# end %>
     <% if filters_to_show.include? 'Record State' %>
-      <%= build_filter_checkboxes(t("tracing_requests.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}], nil, nil, 'single') %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
     <% end %>
   </form>
   <div class="clearfix"></div>
