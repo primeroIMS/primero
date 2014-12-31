@@ -3,6 +3,7 @@ module RecordActions
 
   include ImportActions
   include ExportActions
+  include ReferActions
 
   included do
     skip_before_filter :verify_authenticity_token
@@ -30,6 +31,9 @@ module RecordActions
     @associated_users = current_user.managed_user_names
     @filters = record_filter(filter)
     @records, @total_records = retrieve_records_and_total(@filters)
+
+    #TODO - is this the proper place for this???
+    @referral_roles = Role.by_referral.all
 
     # Alias @records to the record-specific name since ERB templates use that
     # right now

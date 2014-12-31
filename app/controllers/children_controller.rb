@@ -108,12 +108,6 @@ class ChildrenController < ApplicationController
     redirect_to case_path(@child)
   end
 
-  def referral
-    # TODO referral magic happens here
-    flash[:notice] = "Testing...1...2...3"
-    redirect_to cases_path
-  end
-
   private
 
   # A hack due to photos being submitted under an adhoc key
