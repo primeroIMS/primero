@@ -26,7 +26,7 @@ module Exporters
 
     end
 
-    private
+    #private
 
     #This is a private utility class that encapsulates the business logic of exporting to the GBV IR.
     #The state of the class represents the individual export.
@@ -71,6 +71,9 @@ module Exporters
       }
 
       def initialize
+        #TODO: I am dubious that these values are correctly accumulated.
+        #      Shouldn't we be trying to fetch all possible values,
+        #      rather than all values for incidents getting exported?
         @districts = {}
         @counties = {}
         @camps = {}
@@ -114,35 +117,10 @@ module Exporters
       end
       memoize :primary_alleged_perpetrator
 
-      def incident_recorder_district(location_name)
-        if location_name.present?
-          location = Location.get_by_hierarchy_type(location_name, "province").last
-          #cut off the hierarchical structure from the name.
-          Location.placename_from_name(location.name) if location.present?
-        end
+      def location_from_hierarchy(location_name, types)
+        location = Location.find_types_in_hierarchy(location_name, types)
+        location ? location.placename : ""
       end
-      memoize :incident_recorder_district
-
-      def incident_recorder_county(location_name)
-        if location_name.present?
-          location = Location.get_by_hierarchy_type(location_name, "county").last
-          #cut off the hierarchical structure from the name.
-          Location.placename_from_name(location.name) if location.present?
-        end
-      end
-      memoize :incident_recorder_county
-
-      def incident_recorder_camp_town(location_name)
-        if location_name.present?
-          locations = Location.get_by_hierarchy_type(location_name, "camp") || #try camp first.
-                      Location.get_by_hierarchy_type(location_name, "city") || #try city if not camp.
-                      Location.get_by_hierarchy_type(location_name, "village") #try village if not camp and no city.
-          #cut off the hierarchical structure from the name.
-          Location.placename_from_name(locations.last.name) if locations.present?
-        end
-      end
-      memoize :incident_recorder_camp_town
-
 
       def props
          ##### ADMINISTRATIVE INFORMATION #####
@@ -179,21 +157,21 @@ module Exporters
           end,
           #INCIDENT COUNTY
           ->(model) do
-            county_name = incident_recorder_county(model.try(:incident_location))
+            county_name = location_from_hierarchy(model.try(:incident_location), ['county'])
             #Collect information to the "2. Menu Data sheet."
             @counties[county_name] = county_name if county_name.present?
             county_name
           end,
           #INCIDENT DISTRICT
           ->(model) do
-            district_name = incident_recorder_district(model.try(:incident_location))
+            district_name = location_from_hierarchy(model.try(:incident_location), ['province'])
             #Collect information to the "2. Menu Data sheet."
             @districts[district_name] = district_name if district_name.present?
             district_name
           end,
           #INCIDENT CAMP TOWN"
           ->(model) do
-            camp_town_name = incident_recorder_camp_town(model.try(:incident_location))
+            camp_town_name = location_from_hierarchy(model.try(:incident_location),['camp', 'city', 'village'])
             #Collect information to the "2. Menu Data sheet."
             @camps[camp_town_name] = camp_town_name if camp_town_name.present?
             camp_town_name
