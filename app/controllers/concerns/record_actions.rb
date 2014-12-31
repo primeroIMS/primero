@@ -4,6 +4,7 @@ module RecordActions
   include ImportActions
   include ExportActions
   include ReferActions
+  include TransferActions
 
   included do
     skip_before_filter :verify_authenticity_token
@@ -34,6 +35,7 @@ module RecordActions
 
     #TODO - is this the proper place for this???
     @referral_roles = Role.by_referral.all
+    @transfer_roles = Role.by_transfer.all
 
     # Alias @records to the record-specific name since ERB templates use that
     # right now

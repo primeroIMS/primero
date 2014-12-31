@@ -7,7 +7,29 @@
 
   <div id="transfer-modal" class="reveal-modal tiny" data-reveal>
     <a class="close-reveal-modal">&#215;</a>
-    <%= "WORK IN PROGRESS..." %>
+    <%= form_tag(url_for(:action => 'transfer'), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
+        <label><%=I18n.t("transfers.type_label")%>
+          <%= select_tag("transfer_type", options_for_select(@transfer_roles.map {|r| [r.name, r.id]}, '')) %>
+        </label>
+        <label><%=I18n.t("transfers.existing_user_label")%>
+          <%= select_tag("existing_user", options_for_select(@associated_users, @current_user.user_name)) %>
+        </label>
+        <label><%=I18n.t("transfers.other_user_label")%>
+          <%= text_field_tag("other_user") %>
+        </label>
+        <label><%=I18n.t("transfers.other_user_agency_label")%>
+          <%= text_field_tag("other_user_agency") %>
+        </label>
+        <label><%=I18n.t("transfers.notes_label")%>
+          <%= text_area_tag("notes") %>
+        </label>
+        <label><%=I18n.t("transfers.remote_primero_label")%>
+          <%= check_box_tag("remote_primero", "true") %>
+        </label>
+        <div class="import_button">
+          <%= submit_tag(t("buttons.submit"), class: 'green-button right') %>
+        </div>
+      <% end %>
   </div>
 </li>
 <% end %>

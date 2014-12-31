@@ -1312,6 +1312,14 @@ en:
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
 
+  transfers:
+    type_label: "Type of Transfer"
+    existing_user_label: "Existing User"
+    other_user_label: "Other User"
+    other_user_agency_label: "Other User's Agency"
+    remote_primero_label: "Is the remote system a Primero implementation?"
+    notes_label: "Notes"
+
   per_page_translation: "Per page _MENU_"
   total: Total
   caregiver: " (Caregiver)"

@@ -63,6 +63,7 @@ RapidFTR::Application.routes.draw do
     collection do
       post :import_file
       post :referral
+      post :transfer
       get :search
     end
 
