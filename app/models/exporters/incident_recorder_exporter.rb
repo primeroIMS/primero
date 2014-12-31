@@ -1,8 +1,37 @@
-require "rjb"
-
 module Exporters
   class IncidentRecorderExporter < BaseExporter
     class << self
+
+      def id
+        "incident_recorder_xls"
+      end
+
+      def mime_type
+        "xls"
+      end
+
+      def supported_models
+        [Incident]
+      end
+
+      def excluded_properties
+        ["histories"]
+      end
+
+      # @returns: a String with the Excel file data
+      def export(models, _, *args)
+        builder = IRBuilder.new
+        builder.export(models)
+      end
+
+    end
+
+    private
+
+    #This is a private utility class that encapsulates the business logic of exporting to the GBV IR.
+    #The state of the class represents the individual export.
+    class IRBuilder
+      extend Memoist
 
       #Spreadsheet is expecting "M" and "F".
       SEX = { "Male" => "M", "Female" => "F" }
@@ -41,93 +70,33 @@ module Exporters
         "No referral, Service unavailable" => "Service unavailable"
       }
 
-      attr_accessor :java_params
-
-      def java_params
-        #TODO: application seems to work fine with this configuration
-        #      but need to keep the open eye on this.
-        #Create this method to allow in the test cases increase the memory
-        @java_params ||= ["-Xmx256M"]
-      end
-
-      def id
-        "incident_recorder_xls"
-      end
-
-      def mime_type
-        "xls"
-      end
-
-      def supported_models
-        [Incident]
-      end
-
-      def excluded_properties
-        ["histories"]
-      end
-
-      # @returns: a String with the Excel file data
-      def export(models, _, *args)
-        #To collect lookups for the "2. Menu Data" sheet.
+      def initialize
         @districts = {}
         @counties = {}
         @camps = {}
         @locations = {}
         @caseworker_code = {}
+      end
 
-        init_poi
-        workbook = open_workbook
+      def export(models)
+        poi = Poi.instance
+        ir_template = Rails.root.join("incident_report_template", "IRv66_Blank-MARA.xls").to_s
+        workbook = poi.open_workbook_from_template(ir_template)
         incident_data(models, workbook)
         incident_menu(workbook)
-        workbook_to_string(workbook)
-      end
-
-      private
-
-      def init_poi
-        apache_poi_path = Rails.root.join("apache_poi", "poi-3.10.1-20140818.jar").to_s
-        @poi ||= Rjb::load(apache_poi_path, java_params)
-        @fis_class ||= Rjb::import("java.io.FileInputStream")
-        @byteos_class ||= Rjb::import("java.io.ByteArrayOutputStream")
-        @poifs_class ||= Rjb::import("org.apache.poi.poifs.filesystem.POIFSFileSystem")
-        @hssfwb_class ||= Rjb::import("org.apache.poi.hssf.usermodel.HSSFWorkbook")
-      end
-
-      def open_workbook
-        incident_report_template = Rails.root.join("incident_report_template", "IRv66_Blank-MARA.xls").to_s
-        template_file = @fis_class.new(incident_report_template)
-
-        begin
-          #if successfully, will close the InputStream.
-          poifs = @poifs_class.new(template_file)
-        rescue Exception => e
-          #still throwing the exception.
-          raise e
-        ensure
-          #make sure to close the InputStream.
-          template_file.close
-        end
-
-        @hssfwb_class.new(poifs)
-      end
-
-      def workbook_to_string(workbook)
-        byteos = @byteos_class.new
-        workbook.write(byteos)
-        io = StringIO.new byteos.toByteArray
-        io.string
+        poi.workbook_to_string(workbook)
       end
 
       def incident_recorder_sex(sex)
         r = SEX[sex]
         r.present? ? r : sex
       end
-  
+
       def incident_recorder_age(age)
         r = AGE_GROUP[age]
         r.present? ? r : age
       end
-  
+
       def incident_recorder_service_referral_from(service_referral_from)
         r = SERVICE_REFERRED_FROM[service_referral_from]
         r.present? ? r : service_referral_from
@@ -174,9 +143,10 @@ module Exporters
       end
       memoize :incident_recorder_camp_town
 
+
       def props
          ##### ADMINISTRATIVE INFORMATION #####
-        ["short_id", "survivor_code", 
+        ["short_id", "survivor_code",
           #CASEWORKER CODE
           ->(model) do
             caseworker_code = model.try(:caseworker_code)
@@ -186,7 +156,7 @@ module Exporters
           end,
           "date_of_first_report", "incident_date",
           ##### SURVIVOR INFORMATION.
-          "date_of_birth", 
+          "date_of_birth",
           #SEX
           ->(model) do
             #Need to convert 'Female' to 'F' and 'Male' to 'M' because
@@ -266,7 +236,7 @@ module Exporters
           end,
           ##### REFERRAL PATHWAY DATA #####
           #REFERRED TO YOU FROM?.
-          ->(model) do 
+          ->(model) do
             services = model.try(:service_referred_from)
             services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ") if services.present?
           end,
@@ -275,13 +245,13 @@ module Exporters
             incident_recorder_service_referral(model.try(:service_safehouse_referral))
           end,
           #HEALTH / MEDICAL SERVICES
-          ->(model) do 
+          ->(model) do
             health_medical = model.try(:health_medical_referral_subform_section)
             health_medical.map{|hmr| incident_recorder_service_referral(hmr.try(:service_medical_referral))}.
                             uniq.join(" & ") if health_medical.present?
           end,
           #PSYCHOSOCIAL SERVICES
-          ->(model) do 
+          ->(model) do
             psychosocial = model.try(:psychosocial_counseling_services_subform_section)
             psychosocial.map{|psycs| incident_recorder_service_referral(psycs.try(:service_psycho_referral))}.
                           uniq.join(" & ") if psychosocial.present?
@@ -296,19 +266,19 @@ module Exporters
             end
           end,
           #LEGAL ASSISTANCE SERVICES
-          ->(model) do 
+          ->(model) do
             legal = model.try(:legal_assistance_services_subform_section)
             legal.map{|psycs| incident_recorder_service_referral(psycs.try(:service_legal_referral))}.
                     uniq.join(" & ") if legal.present?
           end,
           #POLICE / OTHER SECURITY ACTOR
-          ->(model) do 
+          ->(model) do
             police = model.try(:police_or_other_type_of_security_services_subform_section)
             police.map{|psycs| incident_recorder_service_referral(psycs.try(:service_police_referral))}.
                     uniq.join(" & ") if police.present?
           end,
           #LIVELIHOODS PROGRAM
-          ->(model) do 
+          ->(model) do
             livelihoods = model.try(:livelihoods_services_subform_section)
             livelihoods.map{|psycs| incident_recorder_service_referral(psycs.try(:service_livelihoods_referral))}.
                           uniq.join(" & ") if livelihoods.present?
@@ -357,9 +327,9 @@ module Exporters
         #Sheet 1 is the "2. Menu Data".
         sheet = workbook.getSheetAt(1)
 
-        #lookups. 
+        #lookups.
         #In this sheet only 50 rows are editable for lookups.
-        menus = [ 
+        menus = [
           {:cell_index => 0, :values => @caseworker_code.values[0..49]},
           {:cell_index => 4, :values => @locations.values[0..49]},
           {:cell_index => 6, :values => @counties.values[0..49]},
