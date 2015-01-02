@@ -29,7 +29,7 @@ module RapidFTR
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:password, :child]
 
     # i18n-js recommended configuration.
     config.assets.initialize_on_precompile = true
