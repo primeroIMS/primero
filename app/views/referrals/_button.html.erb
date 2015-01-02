@@ -21,8 +21,7 @@
           <%= text_field_tag("other_user_agency") %>
         </label>
         <label><%=I18n.t("referrals.service_label")%>
-          <%#TODO - get list of services%>
-          <%= select_tag("service", options_for_select(@referral_roles.map {|r| [r.name, r.id]}, '')) %>
+          <%= select_tag("service", options_for_select(Lookup.values("Service Type", @lookups), '')) %>
         </label>
         <label><%=I18n.t("referrals.notes_label")%>
           <%= text_area_tag("notes") %>
