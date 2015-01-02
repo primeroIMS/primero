@@ -41,7 +41,7 @@ default[:primero].tap do |p|
   p[:solr_hostname] = 'localhost'
   p[:solr_port] = 8983
   p[:solr_log_level] = 'INFO'
-  p[:ruby_version] = '2.1.2'
+  p[:ruby_version] = '2.1.5'
   p[:ruby_patch] = 'railsexpress'
 
   p[:passenger_conf].tap do |pc|
