@@ -4,6 +4,7 @@
  </div>
  <div class="panel_content panel_xl">
   <ul>
+    <% if recently_flagged.present? %>
     <% recently_flagged.each do |r| %>
       <li>
         <%= link_to link_dashboard_title(r), link_dashboard_path(r) %>
@@ -13,6 +14,9 @@
     <% end %>
     <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}", :count => recently_flagged_count),
                     index_link_dashboard_path(model), class: 'uppercase' %></li>
+    <% else %>
+      <li class="no-content"><%= t("dashboard.no_recently_flagged_#{model.name.underscore}") %></li>
+    <% end %>
   </ul>
  </div>
 </div>

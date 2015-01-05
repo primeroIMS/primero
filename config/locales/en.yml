@@ -1043,6 +1043,8 @@ en:
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
     no_caseworker_data: "No Case Worker Data"
+    no_recently_flagged_child: "No Recently Flagged Cases"
+    no_recently_flagged_incident: "No Recently Flagged Incidents"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
     case_id: "Case #ID"
