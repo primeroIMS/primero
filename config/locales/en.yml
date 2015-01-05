@@ -117,8 +117,8 @@ en:
      ok: 'OK'
      edit_subform: 'Edit Subform'
      create_new_record: "Create New %{model}"
-     transfer: "Transfer Case(s)"
-     referral: "Refer Case(s)"
+     transfer: "Transfer %{model}"
+     referral: "Refer %{model}"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"

@@ -1,8 +1,12 @@
+<%
+    model_class_name = controller.model_class.name.underscore.downcase
+    model_name = I18n.t("forms.record_types.#{model_class_name}")
+%>
 <%# TODO - tweak for referrals%>
 <% if can?(:referral, controller.model_class) %>
 <li>
   <a data-reveal-id="referral-modal" href="#">
-    <%= t("buttons.referral") %>
+    <%= t("buttons.referral", model: model_name) %>
   </a>
 
   <div id="referral-modal" class="reveal-modal tiny" data-reveal>

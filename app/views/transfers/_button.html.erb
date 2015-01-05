@@ -1,8 +1,12 @@
+<%
+    model_class_name = controller.model_class.name.underscore.downcase
+    model_name = I18n.t("forms.record_types.#{model_class_name}")
+%>
 <%# TODO - tweak for transfer%>
 <% if can?(:transfer, controller.model_class) %>
 <li>
   <a data-reveal-id="transfer-modal" href="#">
-    <%= t("buttons.transfer") %>
+    <%= t("buttons.transfer", model: model_name) %>
   </a>
 
   <div id="transfer-modal" class="reveal-modal tiny" data-reveal>
