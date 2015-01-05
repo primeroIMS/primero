@@ -10,6 +10,7 @@ default[:primero].tap do |p|
   p[:app_group] = 'primero'
   p[:solr_user] = 'solr'
   p[:solr_group] = 'solr'
+  p[:java_home] = '/usr/lib/jvm/java-7-openjdk-amd64'
 
   p[:git].tap do |git|
     git[:repo] = 'git@bitbucket.org:quoin/primero.git'

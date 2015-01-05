@@ -18,6 +18,7 @@ server {
   rails_env <%= @rails_env %>;
 
   passenger_set_cgi_param RAILS_LOG_PATH "<%= @rails_log_dir %>";
+  passenger_set_cgi_param JAVA_HOME "<%= node[:primero][:java_home] %>";
 
   gzip_disable "MSIE [1-6]\.";
   root <%= @current_path %>/public;
