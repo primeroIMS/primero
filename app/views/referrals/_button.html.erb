@@ -5,13 +5,14 @@
 <%# TODO - tweak for referrals%>
 <% if can?(:referral, controller.model_class) %>
 <li>
-  <a data-reveal-id="referral-modal" href="#">
+  <a data-reveal-id="referral-modal" class=<%= (defined?(instance) ? "" : "referral_index_action") %> href="#">
     <%= t("buttons.referral", model: model_name) %>
   </a>
 
   <div id="referral-modal" class="reveal-modal tiny" data-reveal>
     <a class="close-reveal-modal">&#215;</a>
     <%= form_tag(url_for(:action => 'referral', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
+        <%= hidden_field_tag "selected_records"%>
         <label><%=I18n.t("referrals.type_label")%>
           <%= select_tag("referral_type", options_for_select(@referral_roles.map {|r| [r.name, r.id]}, '')) %>
         </label>
