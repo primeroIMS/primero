@@ -30,7 +30,7 @@ module HomeHelper
   end
 
   def incident_link_dashboard_title(incident)
-    text = [incident[:short_id], incident[:incident_location], field_format_date(incident[:date_of_first_report])]
+    text = [incident[:short_id], field_format_date(incident[:date])]
     "#{text.compact.join(" - ")}"
   end
 
