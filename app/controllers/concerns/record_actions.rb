@@ -64,6 +64,11 @@ module RecordActions
   def show
     authorize! :read, (@record || model_class)
 
+    #TODO - is this the proper place for this???
+    @referral_roles = Role.by_referral.all
+    @transfer_roles = Role.by_transfer.all
+    @associated_users = current_user.managed_user_names
+
     respond_to do |format|
       format.html do
         if @record.nil?
