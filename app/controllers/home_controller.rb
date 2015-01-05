@@ -102,7 +102,6 @@ class HomeController < ApplicationController
     @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
     @overdue_activities = search_flags({field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child'})
     @recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today, type: 'child'})
-    @recently_flagged_count = recent_count(@recently_flagged)
     @recently_flagged = @recently_flagged[0..4]
   end
 
@@ -111,7 +110,6 @@ class HomeController < ApplicationController
     modules = [PrimeroModule::MRM]
     @incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
                                                 type: 'incident'})
-    @incidents_recently_flagged_count = recent_count(@incidents_recently_flagged)
     @incidents_recently_flagged = @incidents_recently_flagged[0..4]
     @open_incidents = Incident.open_incidents
   end
@@ -119,12 +117,7 @@ class HomeController < ApplicationController
   def load_gbv_incidents_information
     @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
                                                 type: 'incident'})
-    @gbv_incidents_recently_flagged_count = recent_count(@gbv_incidents_recently_flagged)
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents
-  end
-
-  def recent_count(flags)
-    flags.group_by{|f| f[:record_id]}.keys.count
   end
 end
