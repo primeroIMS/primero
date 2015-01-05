@@ -7,6 +7,7 @@ package 'build-essential'
 couchdb_log_dir = ::File.join(node[:primero][:log_dir], 'couchdb')
 node.force_default[:primero][:couchdb][:config][:log][:file] = ::File.join(couchdb_log_dir, 'couch.log')
 node.force_default[:primero][:couchdb][:config][:log][:level] = "info"
+node.force_default[:primero][:couchdb][:config][:couch_httpd_auth][:require_valid_user] = true
 node.force_default[:primero][:couchdb][:config][:admins] = {
   node[:primero][:couchdb][:username] => node[:primero][:couchdb][:password],
 }
