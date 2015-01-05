@@ -11,6 +11,9 @@
         <small><%= t('dashboard.flagged_by') %> <%= r[:flagged_by] || r.flagged_by %></small>
       </li>
     <% end %>
+    <li>
+      <%= link_to t("dashboard.link_see_all_#{model.name.underscore}"), index_link_dashboard_path(model), class: 'uppercase' %>
+    </li>
   </ul>
  </div>
 </div>
