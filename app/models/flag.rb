@@ -54,6 +54,9 @@ class Flag
     string :flag_child_name, :stored => true do
       base_doc.name
     end
+    string :flag_hidden_name, :stored => true do
+      base_doc.hidden_name
+    end
     string :flag_module_id, :stored => true do
       base_doc.module_id
     end

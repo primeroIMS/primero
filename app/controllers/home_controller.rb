@@ -37,7 +37,9 @@ class HomeController < ApplicationController
         short_id: flag.stored(:flag_record_short_id),
         record_type: flag.stored(:flag_record_type),
         name: flag.stored(:flag_child_name),
-        date_of_first_report: flag.stored(:flag_date_of_first_report)
+        hidden_name: flag.stored(:flag_hidden_name),
+        date_of_first_report: flag.stored(:flag_date_of_first_report),
+        incident_location: flag.stored(:flag_incident_location)
       }
     }
   end

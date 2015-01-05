@@ -10,7 +10,8 @@
 include_recipe 'primero::database'
 include_recipe 'primero::application'
 
-#TODO: Do we need this in light of the last few lines in the nginx recipe?
+execute '/usr/sbin/nginx -t'
+
 service 'nginx' do
   action :restart
 end

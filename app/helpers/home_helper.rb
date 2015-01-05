@@ -5,12 +5,6 @@ module HomeHelper
     send("#{model}_link_dashboard_title", record)
   end
 
-  # # TODO: Temp until upcoming incident dashboard ticket
-  # def link_dashboard_path_incident(record)
-  #   model = model_name(record)
-  #   send("#{model}_path", id: record)
-  # end
-
   def link_dashboard_path(record)
     model = model_name(record)
     send("#{model}_path", id: record[:record_id] || record)
@@ -23,9 +17,9 @@ module HomeHelper
 
   private
 
-  # TODO: Ask about child name
   def case_link_dashboard_title(child)
-    text = [child[:short_id], child[:name], field_format_date(child[:date])]
+    child_name = child[:hidden_name] ? '*****' : child[:name]
+    text = [child[:short_id], child_name, field_format_date(child[:date])]
     "#{text.compact.join(" - ")}"
   end
 

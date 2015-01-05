@@ -178,8 +178,19 @@ end
 
 include_recipe 'primero::solr'
 
+app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
+directory app_tmp_dir do
+  action :create
+  mode '0755'
+end
+couch_watcher_dir = ::File.join(node[:primero][:log_dir], 'couch_watcher')
+directory couch_watcher_dir do
+  action :create
+  mode '0755'
+end
+
 [::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_history.json'),
- ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log'),
+ ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log')
 ].each do |f|
   file f do
     content ''
