@@ -66,6 +66,9 @@ class Flag
     string :flag_incident_location, :stored => true do
       base_doc.incident_location
     end
+    string :flag_record_owner, :stored => true do
+      base_doc.owned_by
+    end
   end
 
   Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
