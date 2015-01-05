@@ -95,7 +95,6 @@ create_or_update_role(
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
-    Permission::REFERRAL,
     Permission::CASE
   ],
   :referral => true
@@ -107,7 +106,6 @@ create_or_update_role(
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
-    Permission::TRANSFER,
     Permission::CASE
   ],
   :transfer => true
