@@ -16,6 +16,7 @@ class Poi
     @byteos_class ||= Rjb::import("java.io.ByteArrayOutputStream")
     @poifs_class ||= Rjb::import("org.apache.poi.poifs.filesystem.POIFSFileSystem")
     @hssfwb_class ||= Rjb::import("org.apache.poi.hssf.usermodel.HSSFWorkbook")
+    @java_system ||= Rjb::import("java.lang.System")
   end
 
   #TODO: Define new workbook instantiation methods
@@ -32,6 +33,7 @@ class Poi
     ensure
       #make sure to close the InputStream.
       template_file.close
+      @java_system.gc()
     end
 
     @hssfwb_class.new(poifs)
