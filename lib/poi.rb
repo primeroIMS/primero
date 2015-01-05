@@ -27,7 +27,7 @@ class Poi
       #if success, will close the InputStream.
       poifs = @poifs_class.new(template_file)
     rescue Exception => e
-      #still throwing the exception.
+      Rails.logger.error("#{e}: #{e.backtrace}")
       raise e
     ensure
       #make sure to close the InputStream.
