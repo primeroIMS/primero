@@ -43,7 +43,10 @@ class Poi
     byteos = @byteos_class.new
     workbook.write(byteos)
     io = StringIO.new byteos.toByteArray
-    io.string
+    s = io.string
+    io.close
+    byteos.close
+    s
   end
 
 end
