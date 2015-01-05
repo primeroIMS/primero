@@ -87,7 +87,7 @@ class Location < CouchRest::Model::Base
       end
       return result.last
     end
-    memoize_in_prod :find_type_in_hierarchy
+    memoize_in_prod :find_types_in_hierarchy
 
   end
 
