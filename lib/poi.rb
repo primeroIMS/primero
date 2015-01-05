@@ -9,7 +9,7 @@ class Poi
   end
 
   def initialize
-    @java_params = Poi.java_params || ["-Xmx256M"]
+    @java_params = Poi.java_params || ["-Xmx512M"]
     apache_poi_path = Poi.apache_poi_path || Rails.root.join("apache_poi", "poi-3.10.1-20140818.jar").to_s
     @poi ||= Rjb::load(apache_poi_path, @java_params)
     @fis_class ||= Rjb::import("java.io.FileInputStream")
