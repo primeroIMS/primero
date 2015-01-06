@@ -124,6 +124,22 @@ _primero.is_under_18 = function(date) {
   }
 };
 
+_primero.loading_screen_indicator = function(action) {
+  var loading_screen = $('.loading-screen'),
+      body = $('body, html');
+
+  switch(action) {
+    case 'show':
+      loading_screen.show();
+      body.css('overflow', 'hidden');
+      break;
+    case 'hide':
+      loading_screen.hide();
+      body.css('overflow', 'visible');
+      break;
+  }
+};
+
 var Primero = Backbone.View.extend({
   el: 'body',
 
@@ -343,6 +359,8 @@ var Primero = Backbone.View.extend({
 
     if (parent.length > 0) {
       //Just a regular submit in the form.
+      _primero.loading_screen_indicator('show');
+
       parent.submit();
     } else {
       //Because some design thing we need to add the "commit" parameter
@@ -355,6 +373,8 @@ var Primero = Backbone.View.extend({
       } else {
         $(commit).val(button.val());
       }
+
+      _primero.loading_screen_indicator('show');
 
       form.submit();
     }

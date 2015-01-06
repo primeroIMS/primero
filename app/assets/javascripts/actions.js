@@ -15,12 +15,14 @@ var Actions = Backbone.View.extend({
         record_state = target.data('state'),
         flag_error_message = target.data('submit_error_message');
 
+    _primero.loading_screen_indicator('show');
+
     $.post(form_action,
       {
         'redirect_url': redirect_url,
         'record_state': record_state,
         'id': id
-      }, 
+      },
       function(response){
         if(response.success) {
           location.reload(true);

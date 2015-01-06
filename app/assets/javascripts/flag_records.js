@@ -24,6 +24,8 @@ var FlagRecord = Backbone.View.extend({
       if (selected_records.length == 0) {
         apply_to_all = true;
       }
+      _primero.loading_screen_indicator('show');
+
       $.post(form_action + "?" + _primero.object_to_params(_primero.filters),
         {
           'selected_records': selected_records,
@@ -39,6 +41,7 @@ var FlagRecord = Backbone.View.extend({
             if (apply_to_all) {
               location.reload(true);
             } else {
+              _primero.loading_screen_indicator('hide');
               window.location.search = search_params;
             }
           }
