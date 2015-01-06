@@ -172,7 +172,7 @@ create_or_update_lookup(
     "Physical Assault",
     "Forced Marriage",
     "Denial of Resources, Opportunities, or Services",
-    "Psychological/Emotional Abuse",
+    "Psychological / Emotional Abuse",
     "Non-GBV"
   ]
 )

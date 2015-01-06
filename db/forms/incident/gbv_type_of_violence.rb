@@ -3,12 +3,12 @@ gbv_reported_elsewhere_subform_fields = [
              "type" => "select_box",
              "display_name_all" => "Type of service provider where the survivor reported the incident",
              "option_strings_text_all" =>
-                                    ["Health/Medical Services",
-                                     "Psychosocial/Counseling Services",
-                                     "Police/Other Security Actor",
+                                    ["Health / Medical Services",
+                                     "Psychosocial / Counseling Services",
+                                     "Police / Other Security Actor",
                                      "Legal Assistance Services",
                                      "Livelihoods Program",
-                                     "Safe House/Shelter",
+                                     "Safe House / Shelter",
                                      "Other"].join("\n")
             }),
   Field.new({"name" => "gbv_reported_elsewhere_organization_provider",
@@ -80,7 +80,7 @@ gbv_sexual_violence_fields = [
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "gbv_reported_elsewhere_subform",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => true,
              "subform_section_id" => gbv_reported_elsewhere_subform.unique_id,
              "display_name_all" => "If yes, where?"

@@ -1284,6 +1284,10 @@ en:
       all:  Excel
       one:  Excel
       selected:  Selected to Excel
+    incident_recorder_xls:
+      all:  Incidents Recorder
+      one:  Incident Recorder
+      selected:  Selected to Incidents Recorder
     json:
       all:  JSON
       one:  JSON
