@@ -8,8 +8,8 @@
     <% recently_flagged.each do |r| %>
       <li>
         <%= link_to link_dashboard_title(r), link_dashboard_path(r) %>
-        <p><%= r[:message].present? ? r[:message] : r.message %></p>
-        <small><%= t('dashboard.flagged_by') %> <%= r[:flagged_by] || r.flagged_by %></small>
+        <p><%= r[:message] %></p>
+        <small><%= t('dashboard.flagged_by') %> <%= r[:flagged_by] || t('dashboard.system_user') %></small>
       </li>
     <% end %>
     <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}"),
