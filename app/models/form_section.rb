@@ -408,7 +408,7 @@ class FormSection < CouchRest::Model::Base
   #If there is no list defined, it will returns the first one of the fields.
   def collapsed_list
     if self.collapsed_fields.empty?
-      [self.fields.select {|field| field.visible? }.first]
+      [self.fields.select {|field| field.visible? }.first].compact
     else
       #Make sure we get the field in the order by collapsed_fields array.
       map = Hash[*self.fields.collect { |field| [field.name, field] }.flatten]
