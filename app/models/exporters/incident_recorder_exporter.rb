@@ -82,12 +82,14 @@ module Exporters
       end
 
       def export(models)
-        poi = Poi.instance
-        ir_template = Rails.root.join("incident_report_template", "IRv66_Blank-MARA.xls").to_s
-        workbook = poi.open_workbook_from_template(ir_template)
+        io = StringIO.new
+        workbook = WriteExcel.new(io)
+        workbook.add_worksheet('Incident Data')
+        workbook.add_worksheet('Menu Data')
         incident_data(models, workbook)
         incident_menu(workbook)
-        poi.workbook_to_string(workbook)
+        workbook.close
+        io.string
       end
 
       def incident_recorder_sex(sex)
@@ -124,78 +126,76 @@ module Exporters
 
       def props
          ##### ADMINISTRATIVE INFORMATION #####
-        ["short_id", "survivor_code",
-          #CASEWORKER CODE
-          ->(model) do
+        {"INCIDENT ID" => "short_id",
+         "SURVIVOR CODE" => "survivor_code",
+         "CASEWORKER CODE" => ->(model) do
             caseworker_code = model.try(:caseworker_code)
             #Collect information to the "2. Menu Data" sheet."
             @caseworker_code[caseworker_code] = caseworker_code if caseworker_code.present?
             caseworker_code
           end,
-          "date_of_first_report", "incident_date",
-          ##### SURVIVOR INFORMATION.
-          "date_of_birth",
-          #SEX
-          ->(model) do
+          "DATE OF INTERVIEW" => "date_of_first_report",
+          "DATE OF INCIDENT" => "incident_date",
+          "DATE OF BIRTH" => "date_of_birth",
+          "SEX" => ->(model) do
             #Need to convert 'Female' to 'F' and 'Male' to 'M' because
             #the spreadsheet is expecting those values.
             incident_recorder_sex(model.try(:sex))
           end,
           #NOTE: 'H' is hidden and protected in the spreadsheet.
-          "",
-          "country_of_origin", "maritial_status", "displacement_status",
-          "disability_type", "unaccompanied_separated_status",
-          ##### DETAILS OF THE INCIDENT #####
-          "displacement_incident", "incident_timeofday",
-          #INCIDENT LOCATION
-          ->(model) do
+          "ETHNICITY" => "ethnicity",
+          "COUNTRY OF ORIGIN" => "country_of_origin",
+          "CIVIL / MARITAL STATUS" => "maritial_status",
+          "DISPLACEMENT STATUS AT REPORT" => "displacement_status",
+          "PERSON WITH DISABILITY?" => "disability_type",
+          "UNACCOMPANIED OR SEPARATED CHILD?" => "unaccompanied_separated_status",
+          "STAGE OF DISPLACEMENT AT INCIDENT" => "displacement_incident",
+          "INCIDENT TIME OF DAY" => "incident_timeofday",
+          "INCIDENT LOCATION" => ->(model) do
             #cut off the hierarchical structure from the name.
             location_name = Location.placename_from_name(model.try(:incident_location))
             #Collect information to the "2. Menu Data" sheet."
             @locations[location_name] = location_name if location_name.present?
             location_name
           end,
-          #INCIDENT COUNTY
-          ->(model) do
+          "INCIDENT COUNTY" => ->(model) do
             county_name = location_from_hierarchy(model.try(:incident_location), ['county'])
             #Collect information to the "2. Menu Data sheet."
             @counties[county_name] = county_name if county_name.present?
             county_name
           end,
-          #INCIDENT DISTRICT
-          ->(model) do
+          "INCIDENT DISTRICT" => ->(model) do
             district_name = location_from_hierarchy(model.try(:incident_location), ['province'])
             #Collect information to the "2. Menu Data sheet."
             @districts[district_name] = district_name if district_name.present?
             district_name
           end,
-          #INCIDENT CAMP TOWN"
-          ->(model) do
+          "INCIDENT CAMP / TOWN" => ->(model) do
             camp_town_name = location_from_hierarchy(model.try(:incident_location),['camp', 'city', 'village'])
             #Collect information to the "2. Menu Data sheet."
             @camps[camp_town_name] = camp_town_name if camp_town_name.present?
             camp_town_name
           end,
-          "gbv_sexual_violence_type", "harmful_traditional_practice", "goods_money_exchanged",
-          "abduction_status_time_of_incident", "gbv_reported_elsewhere", "gbv_previous_incidents",
+          "GBV TYPE" => "gbv_sexual_violence_type",
+          "HARMFUL TRADITIONAL PRACTICE" => "harmful_traditional_practice",
+          "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
+          "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
+          "PREVIOUSLY REPORTED THIS INCIDENT?" => "gbv_reported_elsewhere",
+          "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
-          #No. ALLEGED PRIMARY PERPETRATOR(S).
-          ->(model) do
+          "No. ALLEGED PRIMARY PERPETRATOR(S)" => ->(model) do
             primary_alleged_perpetrator(model).size
           end,
-          #ALLEGED PERPETRATOR SEX.
-          ->(model) do
+          "ALLEGED PERPETRATOR SEX" => ->(model) do
             primary_alleged_perpetrator(model).
               map{|ap| incident_recorder_sex(ap.try(:perpetrator_sex))}.uniq.join(" and ")
           end,
-          #PREVIOUS INCIDENT WITH THIS PERPETRATOR.
-          ->(model) do
+          "PREVIOUS INCIDENT WITH THIS PERPETRATOR" => ->(model) do
             primary_alleged_perpetrator(model).
               select{|ap| ap.try(:former_perpetrator) == "Yes"}.
               first.try(:former_perpetrator)
           end,
-          #ALLEGED PERPETRATOR AGE GROUP.
-          ->(model) do
+          "ALLEGED PERPETRATOR AGE GROUP" => ->(model) do
             age_group_list = primary_alleged_perpetrator(model).
                     map{|ap| ap.try(:age_group) }.uniq.reject(&:blank?)
             if age_group_list.size > 1
@@ -204,38 +204,31 @@ module Exporters
               incident_recorder_age(age_group_list.first)
             end
           end,
-          #ALLEGED PERPETRATOR - SURVIVOR RELATIONSHIP.
-          ->(model) do
+          "ALLEGED PERPETRATOR - SURVIVOR RELATIONSHIP" => ->(model) do
             primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
           end,
-          #ALLEGED PERPETRATOR OCCUPATION.
-          ->(model) do
+          "ALLEGED PERPETRATOR OCCUPATION" => ->(model) do
             primary_alleged_perpetrator(model).first.try(:perpetrator_occupation)
           end,
           ##### REFERRAL PATHWAY DATA #####
-          #REFERRED TO YOU FROM?.
-          ->(model) do
+          "REFERRED TO YOU FROM?" => ->(model) do
             services = model.try(:service_referred_from)
             services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ") if services.present?
           end,
-          #SAFE HOUSE / SHELTER.
-          ->(model) do
+          "SAFE HOUSE / SHELTER" => ->(model) do
             incident_recorder_service_referral(model.try(:service_safehouse_referral))
           end,
-          #HEALTH / MEDICAL SERVICES
-          ->(model) do
+          "HEALTH / MEDICAL SERVICES" => ->(model) do
             health_medical = model.try(:health_medical_referral_subform_section)
             health_medical.map{|hmr| incident_recorder_service_referral(hmr.try(:service_medical_referral))}.
                             uniq.join(" & ") if health_medical.present?
           end,
-          #PSYCHOSOCIAL SERVICES
-          ->(model) do
+          "PSYCHOSOCIAL SERVICES" => ->(model) do
             psychosocial = model.try(:psychosocial_counseling_services_subform_section)
             psychosocial.map{|psycs| incident_recorder_service_referral(psycs.try(:service_psycho_referral))}.
                           uniq.join(" & ") if psychosocial.present?
           end,
-          #WANTS LEGAL ACTION?
-          ->(model) do
+          "WANTS LEGAL ACTION?" => ->(model) do
             psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
             if psychosocial_counseling.present?
               psychosocial_counseling.
@@ -243,61 +236,49 @@ module Exporters
                 first.try(:pursue_legal_action)
             end
           end,
-          #LEGAL ASSISTANCE SERVICES
-          ->(model) do
+          "LEGAL ASSISTANCE SERVICES" => ->(model) do
             legal = model.try(:legal_assistance_services_subform_section)
             legal.map{|psycs| incident_recorder_service_referral(psycs.try(:service_legal_referral))}.
                     uniq.join(" & ") if legal.present?
           end,
-          #POLICE / OTHER SECURITY ACTOR
-          ->(model) do
+          "POLICE / OTHER SECURITY ACTOR" => ->(model) do
             police = model.try(:police_or_other_type_of_security_services_subform_section)
             police.map{|psycs| incident_recorder_service_referral(psycs.try(:service_police_referral))}.
                     uniq.join(" & ") if police.present?
           end,
-          #LIVELIHOODS PROGRAM
-          ->(model) do
+          "LIVELIHOODS PROGRAM" => ->(model) do
             livelihoods = model.try(:livelihoods_services_subform_section)
             livelihoods.map{|psycs| incident_recorder_service_referral(psycs.try(:service_livelihoods_referral))}.
                           uniq.join(" & ") if livelihoods.present?
           end,
           ##### ADMINISTRATION 2 #####
-          "consent_reporting",
-          "agency_organization"
-        ]
+          "CONSENT GIVEN" => "consent_reporting",
+          "REPORTING AGENCY CODE" => "agency_organization"
+        }
       end
 
       def incident_data(models, workbook)
-        #Sheet 0 is the "1. Incident Data".
-        sheet = workbook.getSheetAt(0)
-        #Sheet data start at row 5 (based 0 index).
-        i = 4
+        #Sheet 0 is the "Incident Data".
+        worksheet = workbook.sheets(0).first
+        worksheet.write_row(0, 0, props.keys)
+        set_column_widths(worksheet, props.keys)
+        #Sheet data start at row 1 (based 0 index).
+        i = 1
         models.each do |model|
-          row = sheet.getRow(i)
-          #Current template file has initialized until 4,510 rows,
-          #far from that will need to create the next bunch of rows.
-          row = sheet.createRow(i) if row.nil?
           j = 0
-          props.each do |prop|
+          props.each do |name, prop|
             if prop.present?
-              cell = row.getCell(j)
-              #Current template file has initialized until 1,314 rows with cells,
-              #far from that will need to create the next bunch of cell.
-              cell = row.createCell(j) if cell.nil?
               if prop.is_a?(Proc)
                 value = prop.call(model)
               else
                 value = model.try(prop.to_sym)
               end
-              #TODO: how to simulate typing? some macro is executed?
-              #      formating dates using that format seems to work,
-              #      but when typing the values look different in the spreadsheet.
               if value.is_a?(Date)
                 formatted_value = value.strftime("%d-%b-%Y")
               else
                 formatted_value = value
               end
-              cell.setCellValue(formatted_value) unless formatted_value.nil?
+              worksheet.write(i, j, formatted_value) unless formatted_value.nil?
             end
             j += 1
           end
@@ -306,30 +287,37 @@ module Exporters
       end
 
       def incident_menu(workbook)
-        #Sheet 1 is the "2. Menu Data".
-        sheet = workbook.getSheetAt(1)
+        #Sheet 1 is the "Menu Data".
+        worksheet = workbook.sheets(1).first
+        header = ["CASEWORKER CODE", "ETHNICITY", "INCIDENT LOCATION", "INCIDENT COUNTY", "INCIDENT DISTRICT", "INCIDENT CAMP"]
+        worksheet.write_row(0, 0, header)
+        set_column_widths(worksheet, header)
 
         #lookups.
         #In this sheet only 50 rows are editable for lookups.
         menus = [
           {:cell_index => 0, :values => @caseworker_code.values[0..49]},
-          {:cell_index => 4, :values => @locations.values[0..49]},
-          {:cell_index => 6, :values => @counties.values[0..49]},
-          {:cell_index => 8, :values => @districts.values[0..49]},
-          {:cell_index => 10, :values => @camps.values[0..49]}
+          {:cell_index => 1, :values => @locations.values[0..49]},
+          {:cell_index => 2, :values => @counties.values[0..49]},
+          {:cell_index => 3, :values => @districts.values[0..49]},
+          {:cell_index => 4, :values => @camps.values[0..49]}
         ]
 
         menus.each do |menu|
-          #Sheet data start at row 5 (based 0 index).
-          i = 4
+          #Sheet data start at row 1 (based 0 index).
+          i = 1
           #Cell where the data should be push.
           j = menu[:cell_index]
           menu[:values].each do |value|
-            row = sheet.getRow(i)
-            cell = row.getCell(j)
-            cell.setCellValue(value)
+            worksheet.write(i, j, value)
             i += 1
           end
+        end
+      end
+
+      def set_column_widths(worksheet, header)
+        header.each_with_index do |v, i|
+          worksheet.set_column(i, i, v.length+5)
         end
       end
 
