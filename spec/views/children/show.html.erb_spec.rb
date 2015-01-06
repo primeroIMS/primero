@@ -39,6 +39,9 @@ describe "children/show.html.erb" do
       assign(:child, @child)
       assign(:current_user, User.new)
       assign(:duplicates, Array.new)
+      @referral_roles = []
+      @transfer_roles = []
+      @associated_users = []
     end
 
     # TODO: Photo removed for demo deploy. Add back later
