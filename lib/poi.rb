@@ -27,7 +27,10 @@ class Poi
     begin
       #if success, will close the InputStream.
       poifs = @poifs_class.new(template_file)
+
+      @hssfwb_class.new(poifs)
     rescue Exception => e
+      require 'pry'; binding.pry
       Rails.logger.error("#{e}: #{e.backtrace}")
       raise e
     ensure
@@ -35,8 +38,6 @@ class Poi
       template_file.close
       @java_system.gc()
     end
-
-    @hssfwb_class.new(poifs)
   end
 
   def workbook_to_string(workbook)
