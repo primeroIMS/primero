@@ -28,7 +28,13 @@
     <tbody>
       <% records.each do |u, s| %>
         <tr>
-          <td class="id_column"><%= link_to u, cases_path(scope: { owned_by: "list||#{u}" }), class: 'id_link' %></td>
+          <td class="id_column">
+            <% if u.present? %>
+              <%= link_to u, cases_path(scope: { owned_by: "list||#{u}" }), class: 'id_link' %>
+            <% else %>
+              <%= t('dashboard.system_user') %>
+            <% end %>
+          </td>
           <td><%= s[:total_cases] || 0 %></td>
           <td><%= s[:cases_this_week] || 0 %></td>
           <td><%= s[:cases_overdue] || 0 %></td>
