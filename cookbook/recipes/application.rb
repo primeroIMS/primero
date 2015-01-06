@@ -6,7 +6,7 @@ include_recipe 'primero::common'
    libxml2-dev
    libxslt1-dev
    imagemagick
-   openjdk-7-jdk).each do |pkg|
+   openjdk-7-jre-headless).each do |pkg|
   package pkg
 end
 
@@ -162,9 +162,6 @@ update_bundler 'prod-stack'
 execute_with_ruby 'bundle-install' do
   command "bundle install"
   cwd node[:primero][:app_dir]
-  environment({
-    'JAVA_HOME' => node[:primero][:java_home]
-  })
 end
 
 template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do

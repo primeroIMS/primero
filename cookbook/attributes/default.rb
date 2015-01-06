@@ -10,7 +10,6 @@ default[:primero].tap do |p|
   p[:app_group] = 'primero'
   p[:solr_user] = 'solr'
   p[:solr_group] = 'solr'
-  p[:java_home] = '/usr/lib/jvm/java-7-openjdk-amd64'
 
   p[:git].tap do |git|
     git[:repo] = 'git@bitbucket.org:quoin/primero.git'
@@ -42,7 +41,7 @@ default[:primero].tap do |p|
   p[:solr_hostname] = 'localhost'
   p[:solr_port] = 8983
   p[:solr_log_level] = 'INFO'
-  p[:ruby_version] = '2.1.5'
+  p[:ruby_version] = '2.1.2'
   p[:ruby_patch] = 'railsexpress'
 
   p[:passenger_conf].tap do |pc|

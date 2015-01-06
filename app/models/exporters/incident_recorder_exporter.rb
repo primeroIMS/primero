@@ -130,7 +130,7 @@ module Exporters
          "SURVIVOR CODE" => "survivor_code",
          "CASEWORKER CODE" => ->(model) do
             caseworker_code = model.try(:caseworker_code)
-            #Collect information to the "2. Menu Data" sheet."
+            #Collect information to the "Menu Data" sheet
             @caseworker_code[caseworker_code] = caseworker_code if caseworker_code.present?
             caseworker_code
           end,

@@ -348,7 +348,6 @@ GEM
     rest-client (1.6.8)
       mime-types (~> 1.16)
       rdoc (>= 2.4.2)
-    rjb (1.5.1)
     roodi (3.3.1)
       ruby_parser (~> 3.2, >= 3.2.2)
     rsolr (1.0.10)
@@ -510,7 +509,6 @@ DEPENDENCIES
   rapidftr_addon_cpims!
   request_exception_handler
   request_profiler!
-  rjb
   rspec (~> 2.14.1)
   rspec-instafail (~> 0.2.4)
   rspec-rails (~> 2.14.1)

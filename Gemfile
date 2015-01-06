@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.1.2'
 
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
@@ -53,7 +53,6 @@ gem 'progress_bar'
 gem 'writeexcel', '~> 1.0.3'
 gem 'spreadsheet',        '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
-gem 'rjb'
 gem 'memoist', '~> 0.11.0'
 
 group :development, :assets, :cucumber do
