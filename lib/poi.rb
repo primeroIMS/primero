@@ -30,7 +30,6 @@ class Poi
 
       @hssfwb_class.new(poifs)
     rescue Exception => e
-      require 'pry'; binding.pry
       Rails.logger.error("#{e}: #{e.backtrace}")
       raise e
     ensure

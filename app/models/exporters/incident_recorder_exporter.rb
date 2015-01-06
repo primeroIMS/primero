@@ -292,8 +292,12 @@ module Exporters
               #TODO: how to simulate typing? some macro is executed?
               #      formating dates using that format seems to work,
               #      but when typing the values look different in the spreadsheet.
-              value = value.strftime("%d-%b-%Y") if value.is_a?(Date)
-              cell.setCellValue(value)
+              if value.is_a?(Date)
+                formatted_value = value.strftime("%d-%b-%Y")
+              else
+                formatted_value = value
+              end
+              cell.setCellValue(formatted_value) unless formatted_value.nil?
             end
             j += 1
           end
