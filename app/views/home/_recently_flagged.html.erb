@@ -12,7 +12,7 @@
         <small><%= t('dashboard.flagged_by') %> <%= r[:flagged_by] || r.flagged_by %></small>
       </li>
     <% end %>
-    <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}", :count => recently_flagged_count),
+    <li><%= link_to t("dashboard.link_see_all_#{model.name.underscore}"),
                     index_link_dashboard_path(model), class: 'uppercase' %></li>
     <% else %>
       <li class="no-content"><%= t("dashboard.no_recently_flagged_#{model.name.underscore}") %></li>
