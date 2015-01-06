@@ -125,11 +125,17 @@ class Report < CouchRest::Model::Base
 
     datasets = []
     chart_datasets_hash.keys.each do |key|
-      datasets << {label: key, data: chart_datasets_hash[key]}
+      datasets << {
+        label: key,
+        title: key,
+        data: chart_datasets_hash[key]
+      }
     end
 
+    aggregate = Field.find_by_name(aggregate_by.first).display_name
+
     #We are discarding the totals TODO: will that work for a 1X?
-    return {labels: labels, datasets: datasets}
+    return {aggregate: aggregate, labels: labels, datasets: datasets}
   end
 
 
