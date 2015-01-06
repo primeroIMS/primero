@@ -29,7 +29,10 @@ module RapidFTR
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password, :child]
+    config.filter_parameters += [:password]
+    if Rails.env == 'production'
+      config.filter_parameters += [:child, :incident, :tracing_request]
+    end
 
     # i18n-js recommended configuration.
     config.assets.initialize_on_precompile = true
