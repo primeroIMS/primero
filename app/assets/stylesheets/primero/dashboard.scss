@@ -7,6 +7,18 @@
 
     .panel_content {
       padding: 0px 10px 10px 10px;
+
+      .no-content {
+        padding: 10px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        color: #999;
+        text-align: center;
+      }
+    }
+
+    .panel_xl .no-content {
+      font-size: 0.8rem;
     }
 
     .panel_header {

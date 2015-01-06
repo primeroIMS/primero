@@ -42,11 +42,11 @@ gbv_incident_fields = [
              "type" => "select_box",
              "display_name_all" => "Stage of displacement at time of incident",
              "option_strings_text_all" => [
-                "Not Displaced/Home Country",
+                "Not Displaced / Home Country",
                 "Pre-displacement",
                 "During Flight",
                 "During Refuge",
-                "During Return/Transit",
+                "During Return / Transit",
                 "Post-Displacement"].join("\n")
             }),
   Field.new({"name" => "incident_timeofday",

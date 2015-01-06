@@ -150,6 +150,8 @@ module ApplicationHelper
       current_actions(action: ['index'])
     elsif exporter_id == "unhcr_csv"
       return modules_id.include?(PrimeroModule::CP)
+    elsif exporter_id == "incident_recorder_xls"
+      return modules_id.include?(PrimeroModule::GBV)
     else
       true
     end

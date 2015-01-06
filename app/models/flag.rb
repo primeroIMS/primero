@@ -63,6 +63,9 @@ class Flag
     string :flag_incident_date_of_first_report, :stored => true do
       base_doc.date_of_first_report
     end
+    string :flag_record_owner, :stored => true do
+      base_doc.owned_by
+    end
   end
 
   Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self

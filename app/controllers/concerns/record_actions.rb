@@ -267,6 +267,10 @@ module RecordActions
     record_params.select {|k,v| permitted_keys.include?(k) }
   end
 
+  #TODO: This method will be very slow for very large exports: models.size > 1000.
+  #      One such likely case will be the GBV IR export. We may need to either explicitly ignore it,
+  #      pull out the recursion (this is there for nested forms, and it may be ok to grant access to the entire nest),
+  #      or have a more efficient way of determining the `all_permitted_keys` set.
   def filter_permitted_export_properties(models, props)
     # this first condition is for the list view CSV export, which for some
     # reason is implemented with a completely different interface. TODO: don't
@@ -312,7 +316,7 @@ module RecordActions
     end
   end
 
-  private 
+  private
 
   def create_or_update_record(id)
     @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]

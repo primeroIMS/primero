@@ -163,6 +163,10 @@ module Record
         properties_by_name.delete(name)
         properties.delete(prop)
 
+        if method_defined?(name)
+          remove_method(name)
+        end
+
         %w(= ?).each do |suffix|
           if method_defined?("#{name}#{suffix}")
             remove_method("#{name}#{suffix}")

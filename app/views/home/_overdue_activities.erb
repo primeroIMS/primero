@@ -3,7 +3,7 @@
   <h4><%= t("dashboard.overdue_activities") %></h4>
  </div>
  <div class="panel_content no-padding panel_main">
- <% if records %>
+ <% if records.present? %>
   <table cellspacing="0" cellpadding="0" class="table-floating-header">
     <thead>
       <tr>
@@ -35,7 +35,7 @@
     </tbody>
   </table>
   <% else %>
-    <p><%= t("dashboard.no_overdue_activities") %></p>
+    <p class="no-content"><%= t("dashboard.no_overdue_activities") %></p>
   <% end %>
  </div>
 </div>

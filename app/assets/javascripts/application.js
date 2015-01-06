@@ -64,6 +64,6 @@
 //= require summary_page
 //= require reports
 //= require reports_form
-//= require plugins/Chart
+//= require plugins/ChartNew
 //= require plugins/colormap
 //= require primero.table2CSV
