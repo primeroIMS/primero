@@ -124,6 +124,22 @@ _primero.is_under_18 = function(date) {
   }
 };
 
+_primero.loading_screen_indicator = function(action) {
+  var loading_screen = $('.loading-screen'),
+      body = $('body, html');
+
+  switch(action) {
+    case 'show':
+      loading_screen.show();
+      body.css('overflow', 'hidden');
+      break;
+    case 'hide':
+      loading_screen.hide();
+      body.css('overflow', 'visible');
+      break;
+  }
+};
+
 var Primero = Backbone.View.extend({
   el: 'body',
 
@@ -133,7 +149,7 @@ var Primero = Backbone.View.extend({
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
-    'change .record_types input:not([type="hidden"])': 'record_type_changed'
+    'change .record_types input:not([type="hidden"])': 'record_type_changed',
   },
 
   initialize: function() {
@@ -151,6 +167,8 @@ var Primero = Backbone.View.extend({
     if (textarea.attr('disabled') == 'disabled') {
       $('textarea[name*="field[option_strings_text"]').parents('form').find('input[name="field[multi_select]"]').attr('disabled', true);
     }
+
+    window.onbeforeunload = this.load_and_redirect;
   },
 
   init_scrollbar: function() {
@@ -364,6 +382,10 @@ var Primero = Backbone.View.extend({
   disable_default_events: function(evt) {
     evt.preventDefault();
   },
+
+  load_and_redirect: function() {
+    _primero.loading_screen_indicator('show');
+  }
 });
 
 $(document).ready(function() {

@@ -24,6 +24,7 @@ var FlagRecord = Backbone.View.extend({
       if (selected_records.length == 0) {
         apply_to_all = true;
       }
+
       $.post(form_action + "?" + _primero.object_to_params(_primero.filters),
         {
           'selected_records': selected_records,
