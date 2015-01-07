@@ -25,7 +25,7 @@
       <% scheduled_activities.each do |s| %>
         <tr>
           <td class="id_column"><%= link_to s[:short_id], case_path(s[:record_id]), class: 'id_link' %></td>
-          <td><%= s[:flagged_by] %></td>
+          <td><%= s[:flagged_by] || t('dashboard.system_user') %></td>
           <td><%= s[:message] %></td>
           <td>
             <%= field_format_date(s[:date]) %>

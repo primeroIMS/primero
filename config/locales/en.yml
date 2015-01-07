@@ -85,7 +85,7 @@ en:
      children: "CHILDREN"
      forms: "FORMS"
      lookups: "LOOKUPS"
-     users: "USERS"
+     users: "SETTINGS"
      replications: "SYNC"
      reports: "REPORTS"
      advanced_search: "Advanced Search"
@@ -1072,7 +1072,8 @@ en:
     missed_cases: "Missed Cases"
     date_of_incident: "Date of Incident"
     violence_type: "Violence Type"
-    date_of_interview: Date of Interview"
+    date_of_interview: "Date of Interview"
+    system_user: "System"
 
   errors:
 
