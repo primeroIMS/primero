@@ -237,6 +237,11 @@ RapidFTR::Application.routes.draw do
   match 'advanced_search/export_data' => 'advanced_search#export_data', :as => :export_data_children, :via => :post
 
 
+  resources :configuration_bundle
+  match 'configuration_bundle/export', :to => 'configuration_bundle#export_bundle', :via => [:post]
+  match 'configuration_bundle/import', :to => 'configuration_bundle#import_bundle', :via => [:post]
+
+
 #######################
 # LOGGING URLS
 #######################
