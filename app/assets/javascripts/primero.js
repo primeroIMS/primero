@@ -361,7 +361,6 @@ var Primero = Backbone.View.extend({
 
     if (parent.length > 0) {
       //Just a regular submit in the form.
-
       parent.submit();
     } else {
       //Because some design thing we need to add the "commit" parameter
