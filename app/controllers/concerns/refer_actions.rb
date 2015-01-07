@@ -17,6 +17,11 @@ module ReferActions
       @referral_records, @total_records = retrieve_records_and_total(@filters)
     end
 
+    #TODO - handle local instance, and remote instances
+    if params[:remote_primero].present? && params[:remote_primero] == 'true'
+    else
+    end
+
     # TODO referral magic happens here
     flash[:notice] = "Testing...1...2...3"
 

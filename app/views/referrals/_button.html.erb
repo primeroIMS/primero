@@ -31,7 +31,10 @@
         <label><%=I18n.t("referrals.notes_label")%>
           <%= text_area_tag("notes") %>
         </label>
-        <label><%=I18n.t("referrals.remote_primero_label")%>
+        <label><%=I18n.t("referrals.is_remote_label")%>
+          <%= check_box_tag("is_remote", "true") %>
+        </label>
+        <label class="remote_toggle" style="display:none"><%=I18n.t("referrals.remote_primero_label")%>
           <%= check_box_tag("remote_primero", "true") %>
         </label>
         <div class="import_button">

@@ -28,7 +28,10 @@
         <label><%=I18n.t("transfers.notes_label")%>
           <%= text_area_tag("notes") %>
         </label>
-        <label><%=I18n.t("transfers.remote_primero_label")%>
+        <label><%=I18n.t("transfers.is_remote_label")%>
+          <%= check_box_tag("is_remote", "true") %>
+        </label>
+        <label class="remote_toggle" style="display:none"><%=I18n.t("transfers.remote_primero_label")%>
           <%= check_box_tag("remote_primero", "true") %>
         </label>
         <div class="import_button">

@@ -1316,6 +1316,7 @@ en:
     other_user_label: "Other User"
     other_user_agency_label: "Other User's Agency"
     service_label: "Service"
+    is_remote_label: "Are you referring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
 
@@ -1324,6 +1325,7 @@ en:
     existing_user_label: "Existing User"
     other_user_label: "Other User"
     other_user_agency_label: "Other User's Agency"
+    is_remote_label: "Are you transferring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
 
