@@ -5,6 +5,7 @@ class Location < CouchRest::Model::Base
   include PrimeroModel
   include Namable
   include Memoizable
+  include Importable
 
   BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
 

@@ -6,6 +6,7 @@ class Agency < CouchRest::Model::Base
   include LogoUploader
   include Memoizable
   include Namable
+  include Importable
 
 
   property :telephone

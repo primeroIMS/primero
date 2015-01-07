@@ -1,0 +1,13 @@
+<a data-reveal-id="import-bundle-modal" href="#" class="btn green-button">
+  <%= t("buttons.bundle_import") %>
+</a>
+
+<div id="import-bundle-modal" class="reveal-modal tiny" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
+  <%= form_tag(url_for(:action => 'import_bundle', :controller => 'configuration_bundle'), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
+    <%= file_field_tag("import_file") %>
+    <div class="import_button">
+      <%= submit_tag(t("buttons.import"), class: 'green-button right') %>
+    </div>
+  <% end %>
+</div>

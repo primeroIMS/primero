@@ -2,6 +2,7 @@ class Report < CouchRest::Model::Base
   use_database :report
   include PrimeroModel
   include BelongsToModule
+  include Importable
 
   property :name
   property :description

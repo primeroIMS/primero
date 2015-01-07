@@ -4,6 +4,7 @@ class PrimeroProgram < CouchRest::Model::Base
 
   include PrimeroModel
   include Namable #delivers "name" and "description" fields
+  include Importable
 
   property :start_date, Date
   property :end_date, Date

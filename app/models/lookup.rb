@@ -4,6 +4,7 @@ class Lookup < CouchRest::Model::Base
 
   include PrimeroModel
   include Memoizable
+  include Importable
 
   property :name
   property :description

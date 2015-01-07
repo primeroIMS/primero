@@ -95,8 +95,8 @@ class FormSection < CouchRest::Model::Base
   end
 
   def valid_presence_of_base_language_name
-    if base_language==nil
-      self.base_language='en'
+    if base_language.nil?
+      self.base_language = 'en'
     end
     base_lang_name = self.send("name_#{base_language}")
     [!(base_lang_name.nil?||base_lang_name.empty?), I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language)]

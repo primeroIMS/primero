@@ -3,6 +3,7 @@ class Replication < CouchRest::Model::Base
   MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
 
   include PrimeroModel
+  include Importable
 
   use_database :replication_config
 

@@ -2,6 +2,7 @@ class ContactInformation < CouchRest::Model::Base
   use_database :contact_information
 
   include PrimeroModel
+  include Importable
 
   property :id
   property :name
