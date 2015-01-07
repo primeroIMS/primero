@@ -10,6 +10,8 @@ class Report < CouchRest::Model::Base
   property :aggregate_by, [String], default: [] #Y-axis
   property :disaggregate_by, [String], default: [] #X-axis
   property :filters
+  property :group_ages, TrueClass, default: false
+  property :group_dates_by
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
   #TODO: Currently it's not worth trying to save off the report data.

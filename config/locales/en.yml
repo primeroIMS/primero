@@ -950,6 +950,7 @@ en:
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    group_ages: "Age fields are grouped?"
     filters:
       label: "Report filters"
       attribute: "Filter"
