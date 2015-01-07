@@ -128,7 +128,7 @@ module Exporters
          ##### ADMINISTRATIVE INFORMATION #####
         {"INCIDENT ID" => "short_id",
          "SURVIVOR CODE" => "survivor_code",
-         "CASEWORKER CODE" => ->(model) do
+         "CASE MANAGER CODE" => ->(model) do
             caseworker_code = model.try(:caseworker_code)
             #Collect information to the "Menu Data" sheet
             @caseworker_code[caseworker_code] = caseworker_code if caseworker_code.present?
@@ -151,13 +151,7 @@ module Exporters
           "UNACCOMPANIED OR SEPARATED CHILD?" => "unaccompanied_separated_status",
           "STAGE OF DISPLACEMENT AT INCIDENT" => "displacement_incident",
           "INCIDENT TIME OF DAY" => "incident_timeofday",
-          "INCIDENT LOCATION" => ->(model) do
-            #cut off the hierarchical structure from the name.
-            location_name = Location.placename_from_name(model.try(:incident_location))
-            #Collect information to the "2. Menu Data" sheet."
-            @locations[location_name] = location_name if location_name.present?
-            location_name
-          end,
+          "INCIDENT LOCATION" => "incident_location_type",
           "INCIDENT COUNTY" => ->(model) do
             county_name = location_from_hierarchy(model.try(:incident_location), ['county'])
             #Collect information to the "2. Menu Data sheet."
@@ -180,15 +174,26 @@ module Exporters
           "HARMFUL TRADITIONAL PRACTICE" => "harmful_traditional_practice",
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
           "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
-          "PREVIOUSLY REPORTED THIS INCIDENT?" => "gbv_reported_elsewhere",
+          "PREVIOUSLY REPORTED THIS INCIDENT?" => ->(model) do
+            if model.gbv_reported_elsewhere
+              reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == 'Yes') }
+
+              if reporting_agency
+                'Yes-GBVIMS Org / Agency'
+              else
+                'Yes-Non GBVIMS Org / Agency'
+              end
+            else
+              'No'
+            end
+          end,
           "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
           "No. ALLEGED PRIMARY PERPETRATOR(S)" => ->(model) do
             primary_alleged_perpetrator(model).size
           end,
           "ALLEGED PERPETRATOR SEX" => ->(model) do
-            primary_alleged_perpetrator(model).
-              map{|ap| incident_recorder_sex(ap.try(:perpetrator_sex))}.uniq.join(" and ")
+            incident_recorder_sex(primary_alleged_perpetrator(model).first.try(:perpetrator_sex))
           end,
           "PREVIOUS INCIDENT WITH THIS PERPETRATOR" => ->(model) do
             primary_alleged_perpetrator(model).
@@ -196,13 +201,7 @@ module Exporters
               first.try(:former_perpetrator)
           end,
           "ALLEGED PERPETRATOR AGE GROUP" => ->(model) do
-            age_group_list = primary_alleged_perpetrator(model).
-                    map{|ap| ap.try(:age_group) }.uniq.reject(&:blank?)
-            if age_group_list.size > 1
-              "Multiple Age Groups"
-            else
-              incident_recorder_age(age_group_list.first)
-            end
+            incident_recorder_age(primary_alleged_perpetrator(model).first.try(:age_group))
           end,
           "ALLEGED PERPETRATOR - SURVIVOR RELATIONSHIP" => ->(model) do
             primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
