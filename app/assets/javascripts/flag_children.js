@@ -6,16 +6,10 @@ var FlagChild = Backbone.View.extend({
     'click .dropdown_btn': 'show_hide_dropdown',
     'click .dropdown': 'stop_propagation',
     'click span.collapse_expand_flag': 'collapse_expand_flag',
-    'click .flag_submit': 'submit_flag'
   },
 
   stop_propagation: function(event) {
     event.stopPropagation();
-  },
-
-  submit_flag: function(event) {
-    _primero.loading_screen_indicator('show');
-    $(event.target).parents('form').submit();
   },
 
   show_hide_dropdown: function(event) {
