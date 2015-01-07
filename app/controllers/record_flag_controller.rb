@@ -52,6 +52,7 @@ class RecordFlagController < ApplicationController
         pagination_ops[:page] = results.next_page
       end until results.next_page.nil?
     else
+      #TODO Bad Smell - There are more efficient ways to do this
       params[:selected_records].each { |id| records_to_flag << @model_class.get(id) }
     end
 

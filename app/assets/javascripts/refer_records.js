@@ -8,7 +8,7 @@ var ReferRecords = Backbone.View.extend({
 
   refer_records: function() {
     var selected_records = _primero.indexTable.get_selected_records();
-    $("#selected_referral_records").val(selected_records);
+    $("#referral-modal #selected_records").val(selected_records);
   }
 });
 

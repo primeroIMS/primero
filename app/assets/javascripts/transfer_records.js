@@ -8,7 +8,7 @@ var TransferRecords = Backbone.View.extend({
 
   transfer_records: function() {
     var selected_records = _primero.indexTable.get_selected_records();
-    $("#selected_transfer_records").val(selected_records);
+    $("#transfer-modal #selected_records").val(selected_records);
   }
 });
 

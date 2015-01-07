@@ -1,8 +1,19 @@
 module ReferActions
   extend ActiveSupport::Concern
 
+  include SelectActions
+
   def referral
-    get_selected_records
+    get_selected_ids
+
+    @referral_records = []
+    if @selected_ids.present?
+      @referral_records = model_class.all(keys: @selected_ids).all
+    else
+      #Refer all records
+      @filters = record_filter(filter)
+      @referral_records, @total_records = retrieve_records_and_total(@filters)
+    end
 
     # TODO referral magic happens here
     flash[:notice] = "Testing...1...2...3"
@@ -10,17 +21,4 @@ module ReferActions
     redirect_to :back
   end
 
-
-  private
-
-  def get_selected_records
-    @selected_records = []
-    if params[:id].present?
-      @selected_records << params[:id]
-    elsif params[:selected_referral_records].present?
-      @selected_records = params[:selected_referral_records].split(',')
-    end
-    return @selected_records
-  end
-  
 end

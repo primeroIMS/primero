@@ -1,26 +1,24 @@
 module TransferActions
   extend ActiveSupport::Concern
 
+  include SelectActions
+
   def transfer
-    get_selected_records
+    get_selected_ids
+
+    @transfer_records = []
+    if @selected_ids.present?
+      @transfer_records = model_class.all(keys: @selected_ids).all
+    else
+      #Transfer all records
+      @filters = record_filter(filter)
+      @transfer_records, @total_records = retrieve_records_and_total(@filters)
+    end
 
     # TODO transfer magic happens here
     flash[:notice] = "Testing...7...8...9"
 
-    #TODO make path generic
     redirect_to :back
   end
 
-  private
-
-  def get_selected_records
-    @selected_records = []
-    if params[:id].present?
-      @selected_records << params[:id]
-    elsif params[:selected_transfer_records].present?
-      @selected_records = params[:selected_transfer_records].split(',')
-    end
-    return @selected_records
-  end
-  
 end
