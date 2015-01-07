@@ -1071,7 +1071,8 @@ en:
     missed_cases: "Missed Cases"
     date_of_incident: "Date of Incident"
     violence_type: "Violence Type"
-    date_of_interview: Date of Interview"
+    date_of_interview: "Date of Interview"
+    system_user: "System"
 
   errors:
 
@@ -1284,6 +1285,10 @@ en:
       all:  Excel
       one:  Excel
       selected:  Selected to Excel
+    incident_recorder_xls:
+      all:  Incidents Recorder
+      one:  Incident Recorder
+      selected:  Selected to Incidents Recorder
     json:
       all:  JSON
       one:  JSON
