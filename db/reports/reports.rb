@@ -15,7 +15,7 @@ end
 #    UUIDTools::UUID.random_create.to_s.gsub('-','')
 
 default_case_filters = [
-  {'attribute' => 'child_status', 'value' => ['open']},
+  {'attribute' => 'child_status', 'value' => ['Open']},
   {'attribute' => 'record_state', 'value' => ['true']}
 ]
 
