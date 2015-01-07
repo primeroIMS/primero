@@ -4,6 +4,8 @@ module ReferActions
   include SelectActions
 
   def referral
+    authorize! :referral, model_class
+
     get_selected_ids
 
     @referral_records = []

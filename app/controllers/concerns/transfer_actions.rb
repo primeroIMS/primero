@@ -4,6 +4,8 @@ module TransferActions
   include SelectActions
 
   def transfer
+    authorize! :transfer, model_class
+
     get_selected_ids
 
     @transfer_records = []
