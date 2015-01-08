@@ -4,7 +4,8 @@ var TransferRecords = Backbone.View.extend({
 
   events: {
     'click a.transfer_index_action' : 'transfer_records',
-    'change div#transfer-modal input[name="is_remote"]' : 'toggle_remote_primero'
+    'change div#transfer-modal input[name="is_remote"]' : 'toggle_remote_primero',
+    'click div#transfer-modal input[type="submit"]' : 'close_transfer'
   },
 
   transfer_records: function() {
@@ -13,7 +14,16 @@ var TransferRecords = Backbone.View.extend({
   },
 
   toggle_remote_primero: function() {
-    $('#transfer-modal label.remote_toggle').toggle();
+    $('#transfer-modal div.remote_toggle').toggle();
+  },
+
+  close_transfer: function(e) {
+    e.preventDefault();
+    $(e.target).parents('form').submit();
+    $('#transfer-modal').foundation('reveal', 'close');
+    $('#transfer-modal form')[0].reset();
+    $('#transfer-modal div.remote_toggle').hide();
+    window.disable_loading_indicator = true;
   }
 });
 

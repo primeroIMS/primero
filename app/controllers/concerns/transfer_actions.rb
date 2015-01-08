@@ -5,7 +5,6 @@ module TransferActions
 
   def transfer
     authorize! :transfer, model_class
-
     get_selected_ids
 
     @transfer_records = []
@@ -18,19 +17,40 @@ module TransferActions
     end
 
     if params[:is_remote].present? && params[:is_remote] == 'true'
-      if params[:remote_primero].present? && params[:remote_primero] == 'true'
-        #remote Primero instance transfer  JSON
-      else
-        #remote non-Primero instance transfer  CSV
-      end
+      remote_transfer(@transfer_records)
     else
-      #local instance transfer
+      local_transfer(@transfer_records)
+      redirect_to :back
     end
+  end
 
-    # TODO transfer magic happens here
-    flash[:notice] = "Testing...7...8...9"
+  private
 
-    redirect_to :back
+  def remote_transfer(transfer_records)
+    exporter = ((params[:remote_primero].present? && params[:remote_primero] == 'true') ? Exporters::JSONExporter : Exporters::CSVExporter)
+    props = filter_permitted_export_properties(transfer_records, exported_properties)
+    export_data = exporter.export(transfer_records, props, current_user)
+    encrypt_data_to_zip export_data, transfer_filename(transfer_records, exporter), transfer_password
+  end
+
+  def transfer_password
+    #TODO - prob should not default to 123... rather require a password like export
+    transfer_password = (params[:transfer_password].present? ? params[:transfer_password] : "123")
+  end
+
+  def transfer_filename(models, exporter)
+    if params[:transfer_file_name].present?
+      "#{params[:transfer_file_name]}.#{exporter.mime_type}"
+    elsif models.length == 1
+      "#{models[0].unique_identifier}.#{exporter.mime_type}"
+    else
+      "#{current_user.user_name}-#{model_class.name.underscore}.#{exporter.mime_type}"
+    end
+  end
+
+  def local_transfer(transfer_records)
+    #TODO
+    flash[:notice] = "Testing...Local Transfer"
   end
 
 end

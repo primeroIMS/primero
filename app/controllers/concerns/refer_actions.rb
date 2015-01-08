@@ -5,7 +5,6 @@ module ReferActions
 
   def referral
     authorize! :referral, model_class
-
     get_selected_ids
 
     @referral_records = []
@@ -21,21 +20,23 @@ module ReferActions
       remote_referral(@referral_records)
     else
       #local instance referral
+      local_referral(@referral_records)
       redirect_to :back
     end
   end
+  
+  private
 
   def remote_referral(referral_records)
-    if params[:remote_primero].present? && params[:remote_primero] == 'true'
-      #remote Primero instance referral
-      exporter = Exporters::JSONExporter
-    else
-      #remote non-Primero instance referral
-      exporter = Exporters::CSVExporter
-    end
+    exporter = ((params[:remote_primero].present? && params[:remote_primero] == 'true') ? Exporters::JSONExporter : Exporters::CSVExporter)
     props = filter_permitted_export_properties(referral_records, exported_properties)
     export_data = exporter.export(referral_records, props, current_user)
-    encrypt_data_to_zip export_data, referral_filename(referral_records, exporter), params[:referral_password]
+    encrypt_data_to_zip export_data, referral_filename(referral_records, exporter), referral_password
+  end
+
+  def referral_password
+    #TODO - prob should not default to 123... rather require a password like export
+    referral_password = (params[:referral_password].present? ? params[:referral_password] : "123")
   end
 
   def referral_filename(models, exporter)
@@ -46,6 +47,11 @@ module ReferActions
     else
       "#{current_user.user_name}-#{model_class.name.underscore}.#{exporter.mime_type}"
     end
+  end
+
+  def local_referral(referral_records)
+    #TODO
+    flash[:notice] = "Testing...Local Referral"
   end
 
 end
