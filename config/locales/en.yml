@@ -950,7 +950,8 @@ en:
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
-    group_ages: "Age fields are grouped?"
+    group_ages: "Use age ranges"
+    grpup_dates: "Use date ranges"
     filters:
       label: "Report filters"
       attribute: "Filter"

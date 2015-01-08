@@ -101,7 +101,18 @@
   </div>
 </div>
 <%# Group ages%>
-<%= resource_edit_field(object, 'group_ages', 'report.group_ages', 'check_box') %>
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :group_ages, t("report.group_ages"), :class=>'key inline' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <%= form_builder.check_box :group_ages, {}, "true", "false" %>
+    <small>0-5, 6-11, 12-17, 18+</small>
+  </div>
+  <div class="medium-1 columns"> </div>
+</div>
 <%# Filter by %>
 <div class="row">
   <div class="medium-3 columns">
