@@ -20,7 +20,6 @@ Primero.PasswordPrompt = (function() {
                             errorDiv.hide();
                             Primero.PasswordPrompt.updateTarget();
                         }
-                        _primero.loading_screen_indicator('hide');
                     }
                 },
                close: function(){

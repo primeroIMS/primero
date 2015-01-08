@@ -169,7 +169,6 @@ var Primero = Backbone.View.extend({
     }
 
     window.onbeforeunload = this.load_and_redirect;
-    _primero.loading_screen_indicator('hide');
   },
 
   init_scrollbar: function() {
