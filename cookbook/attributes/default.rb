@@ -35,6 +35,9 @@ default[:primero].tap do |p|
       conf[:replicator].tap do |rep|
         rep['verify_ssl_certificates'] = true
       end
+      conf[:query_servers].tap do |qs|
+        qs[:javascript] = "/usr/bin/couchjs -S 134217728 /usr/share/couchdb/server/main.js"
+      end
     end
   end
 
