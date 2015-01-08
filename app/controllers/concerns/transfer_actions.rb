@@ -28,7 +28,7 @@ module TransferActions
 
   def remote_transfer(transfer_records)
     exporter = ((params[:remote_primero].present? && params[:remote_primero] == 'true') ? Exporters::JSONExporter : Exporters::CSVExporter)
-    props = filter_permitted_export_properties(transfer_records, exported_properties)
+    props = filter_permitted_export_properties(transfer_records, model_class.properties)
     export_data = exporter.export(transfer_records, props, current_user)
     encrypt_data_to_zip export_data, transfer_filename(transfer_records, exporter), transfer_password
   end

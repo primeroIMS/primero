@@ -29,7 +29,14 @@ module ReferActions
 
   def remote_referral(referral_records)
     exporter = ((params[:remote_primero].present? && params[:remote_primero] == 'true') ? Exporters::JSONExporter : Exporters::CSVExporter)
-    props = filter_permitted_export_properties(referral_records, exported_properties)
+
+    referral_user = User.new(
+                      role_ids: [params[:referral_type]],
+                      module_ids: ["primeromodule-cp", "primeromodule-gbv"]
+                    )
+
+    #TODO filter properties per referral role
+    props = filter_permitted_export_properties(referral_records, model_class.properties, referral_user)
     export_data = exporter.export(referral_records, props, current_user)
     encrypt_data_to_zip export_data, referral_filename(referral_records, exporter), referral_password
   end
