@@ -61,6 +61,7 @@ class Report < CouchRest::Model::Base
       else
         values = {}
       end
+      values = group_age_values(values) if group_ages
       aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       if is_graph
@@ -207,8 +208,75 @@ class Report < CouchRest::Model::Base
     return reportable
   end
 
+  #TODO: Move this out to a reports lib
+  class AgeRange < Range
+    MAX = 10000
+    MIN = -1
+
+    def <=>(other)
+      other_min = other.respond_to?(:min) ? other.min : MIN
+      self.min <=> other_min
+    end
+
+    def to_s
+      max_s = (self.max >= MAX) ? '+' : " - #{self.max}"
+      "#{min}#{max_s}"
+    end
+  end
+
+  #18+ should be good enough as 10K
+  AGE_RANGES = [
+    AgeRange.new(0,5),
+    AgeRange.new(6,11),
+    AgeRange.new(12,17),
+    AgeRange.new(18,AgeRange::MAX),
+  ]
+  AGE_FIELD = 'age' #TODO: should this be made generic?
+
+  def group_age_values(values)
+    result = values
+    age_index = (self.aggregate_by + self.disaggregate_by).index('age')
+    if age_index.present?
+      result = {}
+      #create group buckets that will need to be individually merged
+      group_buckets = values.group_by do |pivot, _|
+        #TODO: This may be slow
+        age_group = AGE_RANGES.find do |range|
+          range.cover? pivot[age_index]
+        end
+        #age_group = age_group.present? ? age_group[1] : ''
+        age_group ||= ''
+        if age_index > 0
+          pivot[0..(age_index-1)] + [age_group]
+        else
+          [age_group]
+        end
+      end
+      #for every bucket, merge the contents
+      group_buckets.each do |group, bucket|
+        merge_buckets = bucket.group_by do |pivots|
+          if age_index < pivots[0].size - 1
+            pivots[0][(age_index+1)..-1]
+          else
+            []
+          end
+        end
+        #Total the pivot counts for each merge bucket
+        merge_buckets.each do |merge, merge_bucket|
+          count = merge_bucket.reduce(0) do |sum, b|
+            sum + (b[1] ? b[1] : 0)
+          end
+          #Add the new row to the result
+          merged_pivot = group + merge
+          result[merged_pivot] = count
+        end
+      end
+    end
+    return result
+  end
 
   private
+
 
   #TODO: This method should really be replaced by a Sunspot query
   def query_solr(pivots_string, number_of_pivots, filters)
