@@ -34,9 +34,18 @@
         <label><%=I18n.t("referrals.is_remote_label")%>
           <%= check_box_tag("is_remote", "true") %>
         </label>
-        <label class="remote_toggle" style="display:none"><%=I18n.t("referrals.remote_primero_label")%>
-          <%= check_box_tag("remote_primero", "true") %>
-        </label>
+        <div class="remote_toggle" style="display:none">
+          <label><%=I18n.t("referrals.remote_primero_label")%>
+            <%= check_box_tag("remote_primero", "true") %>
+          </label>
+          <label><%=I18n.t("encrypt.password_label")%>
+            <%= password_field_tag("referral_password") %>
+          </label>
+          <small><%= t("encrypt.password_extra_info") %></small>
+          <label><%=I18n.t("encrypt.file_name")%>
+            <%= text_field_tag("referral_file_name") %>
+          </label>
+        </div>
         <div class="import_button">
           <%= submit_tag(t("buttons.submit"), class: 'green-button right') %>
         </div>

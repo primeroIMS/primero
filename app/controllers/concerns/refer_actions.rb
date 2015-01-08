@@ -18,24 +18,29 @@ module ReferActions
     end
 
     if params[:is_remote].present? && params[:is_remote] == 'true'
-      if params[:remote_primero].present? && params[:remote_primero] == 'true'
-        #remote Primero instance referral  JSON
-        props = filter_permitted_export_properties(@referral_records, exported_properties)
-        export_data = Exporters::JSONExporter.export(@referral_records, props, current_user)
-        #encrypt_data_to_zip export_data, export_filename(models, exporter), params[:password]
-        encrypt_data_to_zip export_data, export_filename(@referral_records, Exporters::JSONExporter), "123"
-      else
-        #remote non-Primero instance referral  CSV
-      end
+      remote_referral(@referral_records)
     else
       #local instance referral
+      redirect_to :back
     end
   end
 
-  #TODO - this is for testing...
-  def export_filename(models, exporter)
-    if params[:custom_export_file_name].present?
-      "#{params[:custom_export_file_name]}.#{exporter.mime_type}"
+  def remote_referral(referral_records)
+    if params[:remote_primero].present? && params[:remote_primero] == 'true'
+      #remote Primero instance referral
+      exporter = Exporters::JSONExporter
+    else
+      #remote non-Primero instance referral
+      exporter = Exporters::CSVExporter
+    end
+    props = filter_permitted_export_properties(referral_records, exported_properties)
+    export_data = exporter.export(referral_records, props, current_user)
+    encrypt_data_to_zip export_data, referral_filename(referral_records, exporter), params[:referral_password]
+  end
+
+  def referral_filename(models, exporter)
+    if params[:referral_file_name].present?
+      "#{params[:referral_file_name]}.#{exporter.mime_type}"
     elsif models.length == 1
       "#{models[0].unique_identifier}.#{exporter.mime_type}"
     else

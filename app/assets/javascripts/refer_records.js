@@ -14,7 +14,7 @@ var ReferRecords = Backbone.View.extend({
   },
 
   toggle_remote_primero: function() {
-    $('#referral-modal label.remote_toggle').toggle();
+    $('#referral-modal div.remote_toggle').toggle();
   },
 
   close_referral: function(e) {
@@ -22,7 +22,8 @@ var ReferRecords = Backbone.View.extend({
     $(e.target).parents('form').submit();
     $('#referral-modal').foundation('reveal', 'close');
     $('#referral-modal form')[0].reset();
-    $('#referral-modal label.remote_toggle').hide();
+    $('#referral-modal div.remote_toggle').hide();
+    window.disable_loading_indicator = true;
   }
 });
 
