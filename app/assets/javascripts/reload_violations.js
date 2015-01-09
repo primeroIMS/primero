@@ -18,6 +18,8 @@ var ViolationListReload = Backbone.View.extend({
     var violation_group = $('a[data-violation="true"]'),
         tabs = $('a[data-violation="true"]').parent().find('ul.sub li');
 
+    $('.empty_violations').show();
+
     if (!$('select#incident_incident_violation_category_').length) {
       selected = [];
 
@@ -41,6 +43,7 @@ var ViolationListReload = Backbone.View.extend({
       $('div[id="' + v + '_violation"]').show();
       $('a[href="#tab_' + v + '_violation_wrapper"]').parent('li').show();
       $('a[href="#tab_' + v + '_violation_wrapper"]').attr("active-violation", 'true');
+      $('.empty_violations').hide();
     });
 
     var first_violation_href = violation_group.parent('li')
