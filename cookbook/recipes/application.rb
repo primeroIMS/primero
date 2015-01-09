@@ -182,6 +182,8 @@ app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
 directory app_tmp_dir do
   action :create
   mode '0755'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
 end
 couch_watcher_dir = ::File.join(node[:primero][:log_dir], 'couch_watcher')
 directory couch_watcher_dir do
