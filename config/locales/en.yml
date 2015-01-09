@@ -393,6 +393,7 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     violation_status_verified: "Verified"
+    empty_violation: "To add violations, add the Violation Category on the Incident form to see the corresponding violation form"
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
