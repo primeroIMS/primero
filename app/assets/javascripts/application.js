@@ -58,6 +58,8 @@
 //= require tick_box_field
 //= require date_range_validation
 //= require flag_records
+//= require refer_records
+//= require transfer_records
 //= require actions
 //= require summary_page
 //= require reports

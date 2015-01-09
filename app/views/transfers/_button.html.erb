@@ -1,0 +1,53 @@
+<%
+    model_class_name = controller.model_class.name.underscore.downcase
+    model_name = I18n.t("forms.record_types.#{model_class_name}")
+%>
+<% if can?(:transfer, controller.model_class) %>
+<li>
+  <a data-reveal-id="transfer-modal" class=<%= (defined?(instance) ? "" : "transfer_index_action") %> href="#">
+    <%= t("buttons.transfer", model: model_name) %>
+  </a>
+
+  <div id="transfer-modal" class="reveal-modal tiny" data-reveal>
+    <a class="close-reveal-modal">&#215;</a>
+    <%= form_tag(url_for(:action => 'transfer', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
+        <%= hidden_field_tag "selected_records"%>
+        <label><%=I18n.t("transfers.type_label")%>
+          <%= select_tag("transfer_type", options_for_select(@transfer_roles.map {|r| [r.name, r.id]}, '')) %>
+        </label>
+        <label><%=I18n.t("transfers.existing_user_label")%>
+          <%= select_tag("existing_user", options_for_select(@associated_users, @current_user.user_name)) %>
+        </label>
+        <label><%=I18n.t("transfers.other_user_label")%>
+          <%= text_field_tag("other_user") %>
+        </label>
+        <label><%=I18n.t("transfers.other_user_agency_label")%>
+          <%= text_field_tag("other_user_agency") %>
+        </label>
+        <label><%=I18n.t("transfers.notes_label")%>
+          <%= text_area_tag("notes") %>
+        </label>
+        <label><%=I18n.t("transfers.is_remote_label")%>
+          <%= check_box_tag("is_remote", "true") %>
+        </label>
+        <div class="remote_toggle" style="display:none">
+          <label><%=I18n.t("transfers.remote_primero_label")%>
+            <%= check_box_tag("remote_primero", "true") %>
+          </label>
+          <%#TODO - need validation to require password, but only if remote transfer%>
+          <label><%=I18n.t("encrypt.password_label")%>
+            <%= password_field_tag("transfer_password") %>
+          </label>
+          <small><%= t("encrypt.password_extra_info") %></small>
+          <label><%=I18n.t("encrypt.file_name")%>
+            <%= text_field_tag("transfer_file_name") %>
+          </label>
+        </div>
+        <div class="import_button">
+          <%= submit_tag(t("buttons.submit"), class: 'green-button right') %>
+        </div>
+      <% end %>
+  </div>
+</li>
+<% end %>
+

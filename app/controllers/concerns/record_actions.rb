@@ -3,6 +3,8 @@ module RecordActions
 
   include ImportActions
   include ExportActions
+  include ReferActions
+  include TransferActions
 
   included do
     skip_before_filter :verify_authenticity_token
@@ -31,6 +33,9 @@ module RecordActions
     @filters = record_filter(filter)
     @records, @total_records = retrieve_records_and_total(@filters)
 
+    @referral_roles = Role.by_referral.all
+    @transfer_roles = Role.by_transfer.all
+
     # Alias @records to the record-specific name since ERB templates use that
     # right now
     # TODO: change the ERB templates to just accept the @records instance
@@ -57,6 +62,10 @@ module RecordActions
 
   def show
     authorize! :read, (@record || model_class)
+
+    @referral_roles = Role.by_referral.all
+    @transfer_roles = Role.by_transfer.all
+    @associated_users = current_user.managed_user_names
 
     respond_to do |format|
       format.html do
@@ -246,28 +255,28 @@ module RecordActions
     ['base_revision', 'unique_identifier', 'upload_document', 'update_document']
   end
 
-  def permitted_property_keys(record)
-    record.permitted_property_names(current_user) + extra_permitted_parameters
+  def permitted_property_keys(record, user = current_user)
+    record.permitted_property_names(user) + extra_permitted_parameters
   end
 
   # Filters out any unallowed parameters for a record and the current user
   def filter_params(record)
     permitted_keys = permitted_property_keys(record)
-    record_params.select {|k,v| permitted_keys.include?(k) }
+    record_params.select {|k,v| permitted_keys.include?(k, current_user) }
   end
 
   #TODO: This method will be very slow for very large exports: models.size > 1000.
   #      One such likely case will be the GBV IR export. We may need to either explicitly ignore it,
   #      pull out the recursion (this is there for nested forms, and it may be ok to grant access to the entire nest),
   #      or have a more efficient way of determining the `all_permitted_keys` set.
-  def filter_permitted_export_properties(models, props)
+  def filter_permitted_export_properties(models, props, user = current_user)
     # this first condition is for the list view CSV export, which for some
     # reason is implemented with a completely different interface. TODO: don't
     # do that.
     if props.include?(:fields)
       props
     else
-      all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m) }
+      all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m, user) }
       prop_selector = lambda do |ps|
         case ps
         when Hash
