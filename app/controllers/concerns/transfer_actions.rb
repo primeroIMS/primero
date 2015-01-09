@@ -19,7 +19,14 @@ module TransferActions
     if params[:is_remote].present? && params[:is_remote] == 'true'
       remote_transfer(@transfer_records)
     else
-      local_transfer(@transfer_records)
+      begin
+        local_transfer(@transfer_records)
+        #flash[:notice] = t("child.match_record_success")
+        #TODO
+        flash[:notice] = "Tansfer SUCCESS"
+      rescue
+        flash[:notice] = "Tansfer FAILED"
+      end
       redirect_to :back
     end
   end
@@ -28,7 +35,11 @@ module TransferActions
 
   def remote_transfer(transfer_records)
     exporter = ((params[:remote_primero].present? && params[:remote_primero] == 'true') ? Exporters::JSONExporter : Exporters::CSVExporter)
-    props = filter_permitted_export_properties(transfer_records, model_class.properties)
+    transfer_user = User.new(
+                      role_ids: [params[:transfer_type]],
+                      module_ids: ["primeromodule-cp", "primeromodule-gbv"]
+                    )
+    props = filter_permitted_export_properties(transfer_records, model_class.properties, transfer_user)
     export_data = exporter.export(transfer_records, props, current_user)
     encrypt_data_to_zip export_data, transfer_filename(transfer_records, exporter), transfer_password
   end
@@ -49,8 +60,19 @@ module TransferActions
   end
 
   def local_transfer(transfer_records)
-    #TODO
-    flash[:notice] = "Testing...Local Transfer"
+    #TODO - verify this is desired functionality
+    new_user = User.find_by_user_name(params[:existing_user]) if params[:existing_user].present?
+    if new_user.present?
+      transfer_records.each do |transfer_record|
+        if new_user.user_name != transfer_record.owned_by
+          transfer_record.previously_owned_by = transfer_record.owned_by
+          transfer_record.owned_by = new_user.user_name
+          transfer_record.owned_by_full_name = new_user.full_name
+          transfer_record.save!
+          #TODO log stuff
+        end
+      end
+    end
   end
 
 end
