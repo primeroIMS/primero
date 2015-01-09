@@ -61,7 +61,11 @@ class Report < CouchRest::Model::Base
       else
         values = {}
       end
-      values = group_age_values(values) if group_ages
+      if group_ages
+        values = group_values(values, pivot_index('age')) do |pivot_name|
+          AGE_RANGES.find{|range| range.cover? pivot_name}
+        end
+      end
       aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       if is_graph
@@ -233,30 +237,24 @@ class Report < CouchRest::Model::Base
   ]
   AGE_FIELD = 'age' #TODO: should this be made generic?
 
-  def group_age_values(values)
+  def group_values(values, group_pivot_index)
     result = values
-    age_index = (self.aggregate_by + self.disaggregate_by).index('age')
-    if age_index.present?
+    if group_pivot_index.present?
       result = {}
-      #create group buckets that will need to be individually merged
       group_buckets = values.group_by do |pivot, _|
-        #TODO: This may be slow
-        age_group = AGE_RANGES.find do |range|
-          range.cover? pivot[age_index]
-        end
-        #age_group = age_group.present? ? age_group[1] : ''
-        age_group ||= ''
-        if age_index > 0
-          pivot[0..(age_index-1)] + [age_group]
+        group_value = yield(pivot[group_pivot_index])
+        group_value ||= ''
+        if group_pivot_index > 0
+          pivot[0..(group_pivot_index-1)] + [group_value]
         else
-          [age_group]
+          [group_value]
         end
       end
       #for every bucket, merge the contents
       group_buckets.each do |group, bucket|
         merge_buckets = bucket.group_by do |pivots|
-          if age_index < pivots[0].size - 1
-            pivots[0][(age_index+1)..-1]
+          if group_pivot_index < pivots[0].size - 1
+            pivots[0][(group_pivot_index+1)..-1]
           else
             []
           end
@@ -273,6 +271,12 @@ class Report < CouchRest::Model::Base
       end
     end
     return result
+
+
+  end
+
+  def pivot_index(field_name)
+    (self.aggregate_by + self.disaggregate_by).index(field_name)
   end
 
   private
