@@ -17,7 +17,10 @@ module TransferActions
     end
 
     if params[:is_remote].present? && params[:is_remote] == 'true'
-      remote_transfer(@transfer_records)
+      begin
+        remote_transfer(@transfer_records)
+      rescue
+      end
     else
       begin
         local_transfer(@transfer_records)
@@ -34,6 +37,7 @@ module TransferActions
   private
 
   def remote_transfer(transfer_records)
+    set_status_transferred(transfer_records)
     exporter = ((params[:remote_primero].present? && params[:remote_primero] == 'true') ? Exporters::JSONExporter : Exporters::CSVExporter)
     transfer_user = User.new(
                       role_ids: [params[:transfer_type]],
@@ -42,6 +46,18 @@ module TransferActions
     props = filter_permitted_export_properties(transfer_records, model_class.properties, transfer_user)
     export_data = exporter.export(transfer_records, props, current_user)
     encrypt_data_to_zip export_data, transfer_filename(transfer_records, exporter), transfer_password
+  end
+
+  def set_status_transferred(transfer_records)
+    #Only update to TRANSFERRED status on Cases
+    if model_class == Child
+      transfer_records.each do |transfer_record|
+        transfer_record.child_status = "Transferred"
+        transfer_record.record_state = false
+        #TODO exception handling?
+        transfer_record.save!
+      end
+    end
   end
 
   def transfer_password

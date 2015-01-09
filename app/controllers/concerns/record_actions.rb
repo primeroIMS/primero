@@ -33,7 +33,6 @@ module RecordActions
     @filters = record_filter(filter)
     @records, @total_records = retrieve_records_and_total(@filters)
 
-    #TODO - is this the proper place for this???
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
 
@@ -64,7 +63,6 @@ module RecordActions
   def show
     authorize! :read, (@record || model_class)
 
-    #TODO - is this the proper place for this???
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
     @associated_users = current_user.managed_user_names
