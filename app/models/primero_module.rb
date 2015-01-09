@@ -8,7 +8,6 @@ class PrimeroModule < CouchRest::Model::Base
   include PrimeroModel
   include Memoizable
   include Namable #delivers "name" and "description" fields
-  include Importable
 
   property :program_id
   property :associated_record_types, :type => [String]

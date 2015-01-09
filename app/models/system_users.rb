@@ -1,7 +1,6 @@
 class SystemUsers < CouchRest::Model::Base
 
   include PrimeroModel
-  include Importable
   self.database = COUCHDB_SERVER.database("_users")
 
   property :name

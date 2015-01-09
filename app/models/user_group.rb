@@ -4,6 +4,6 @@ class UserGroup < CouchRest::Model::Base
 
   include PrimeroModel
   include Namable #delivers "name" and "description" fields
-  include Importable
+
 
 end
