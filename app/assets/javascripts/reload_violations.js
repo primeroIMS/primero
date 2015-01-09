@@ -20,6 +20,8 @@ var ViolationListReload = Backbone.View.extend({
 
     $('.empty_violations').show();
 
+    $('.empty_violations').parent().find('a.subform_add').hide();
+
     if (!$('select#incident_incident_violation_category_').length) {
       selected = [];
 
@@ -44,6 +46,7 @@ var ViolationListReload = Backbone.View.extend({
       $('a[href="#tab_' + v + '_violation_wrapper"]').parent('li').show();
       $('a[href="#tab_' + v + '_violation_wrapper"]').attr("active-violation", 'true');
       $('.empty_violations').hide();
+      $('.empty_violations').parent().find('a.subform_add').show();
     });
 
     var first_violation_href = violation_group.parent('li')
