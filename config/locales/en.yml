@@ -1328,6 +1328,8 @@ en:
     is_remote_label: "Are you transferring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
+    success: "Transfer was successful"
+    failure: "There was an error processing the transfer"
 
   per_page_translation: "Per page _MENU_"
   total: Total

@@ -24,11 +24,10 @@ module TransferActions
     else
       begin
         local_transfer(@transfer_records)
-        #flash[:notice] = t("child.match_record_success")
-        #TODO
-        flash[:notice] = "Tansfer SUCCESS"
+        flash[:notice] = t("transfers.success")
       rescue
-        flash[:notice] = "Tansfer FAILED"
+        flash[:notice] = t("transfers.failure")
+        #TODO - do we need additional logging?
       end
       redirect_to :back
     end
@@ -43,6 +42,7 @@ module TransferActions
                       role_ids: [params[:transfer_type]],
                       module_ids: ["primeromodule-cp", "primeromodule-gbv"]
                     )
+    #TODO filter records per consent
     props = filter_permitted_export_properties(transfer_records, model_class.properties, transfer_user)
     export_data = exporter.export(transfer_records, props, current_user)
     encrypt_data_to_zip export_data, transfer_filename(transfer_records, exporter), transfer_password
@@ -54,14 +54,13 @@ module TransferActions
       transfer_records.each do |transfer_record|
         transfer_record.child_status = "Transferred"
         transfer_record.record_state = false
-        #TODO exception handling?
         transfer_record.save!
       end
     end
   end
 
   def transfer_password
-    #TODO - prob should not default to 123... rather require a password like export
+    #TODO - Default to 123 only for testing... add validation to modal to require password like export
     transfer_password = (params[:transfer_password].present? ? params[:transfer_password] : "123")
   end
 
@@ -76,7 +75,6 @@ module TransferActions
   end
 
   def local_transfer(transfer_records)
-    #TODO - verify this is desired functionality
     new_user = User.find_by_user_name(params[:existing_user]) if params[:existing_user].present?
     if new_user.present?
       transfer_records.each do |transfer_record|

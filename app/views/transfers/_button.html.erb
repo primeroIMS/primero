@@ -2,7 +2,6 @@
     model_class_name = controller.model_class.name.underscore.downcase
     model_name = I18n.t("forms.record_types.#{model_class_name}")
 %>
-<%# TODO - tweak for transfer%>
 <% if can?(:transfer, controller.model_class) %>
 <li>
   <a data-reveal-id="transfer-modal" class=<%= (defined?(instance) ? "" : "transfer_index_action") %> href="#">
@@ -35,12 +34,13 @@
           <label><%=I18n.t("transfers.remote_primero_label")%>
             <%= check_box_tag("remote_primero", "true") %>
           </label>
+          <%#TODO - need validation to require password, but only if remote transfer%>
           <label><%=I18n.t("encrypt.password_label")%>
-            <%= password_field_tag("referral_password") %>
+            <%= password_field_tag("transfer_password") %>
           </label>
           <small><%= t("encrypt.password_extra_info") %></small>
           <label><%=I18n.t("encrypt.file_name")%>
-            <%= text_field_tag("referral_file_name") %>
+            <%= text_field_tag("transfer_file_name") %>
           </label>
         </div>
         <div class="import_button">

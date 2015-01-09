@@ -19,7 +19,6 @@ module ReferActions
     if params[:is_remote].present? && params[:is_remote] == 'true'
       remote_referral(@referral_records)
     else
-      #local instance referral
       local_referral(@referral_records)
       redirect_to :back
     end
@@ -33,14 +32,14 @@ module ReferActions
                       role_ids: [params[:referral_type]],
                       module_ids: ["primeromodule-cp", "primeromodule-gbv"]
                     )
-    #TODO filter properties per referral role
+    #TODO filter records per consent
     props = filter_permitted_export_properties(referral_records, model_class.properties, referral_user)
     export_data = exporter.export(referral_records, props, current_user)
     encrypt_data_to_zip export_data, referral_filename(referral_records, exporter), referral_password
   end
 
   def referral_password
-    #TODO - prob should not default to 123... rather require a password like export
+    #TODO - Default to 123 only for testing... add validation to modal to require password like export
     referral_password = (params[:referral_password].present? ? params[:referral_password] : "123")
   end
 
@@ -55,7 +54,7 @@ module ReferActions
   end
 
   def local_referral(referral_records)
-    #TODO
+    #TODO - implement this
     flash[:notice] = "Testing...Local Referral"
   end
 
