@@ -38,6 +38,11 @@ module Reports
       return result
     end
 
+    def self.date_range(date_string, type)
+      type = 'date' if type == 'day'
+      eval "#{type.capitalize}Range.new '#{date_string}'"
+    end
+
   end
 
 end
