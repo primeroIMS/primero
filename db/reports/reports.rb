@@ -26,6 +26,7 @@ create_or_update_report({
   module_ids: [PrimeroModule::CP, PrimeroModule::GBV],
   record_type: 'case',
   aggregate_by: ['registration_date'],
+  group_dates_by: 'month',
   filters: default_case_filters,
   is_graph: true,
   editable: false
@@ -77,6 +78,7 @@ create_or_update_report({
   record_type: 'case',
   aggregate_by: ['age'],
   disaggregate_by: ['sex'],
+  group_ages: true,
   filters: default_case_filters,
   is_graph: true,
   editable: false
@@ -103,6 +105,7 @@ create_or_update_report({
   record_type: 'case',
   aggregate_by: ['care_arrangements_type'],
   disaggregate_by: ['sex', 'age'],
+  group_ages: true,
   filters: default_case_filters,
   is_graph: true,
   editable: false
