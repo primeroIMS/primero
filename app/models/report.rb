@@ -25,7 +25,7 @@ class Report < CouchRest::Model::Base
   ]
   AGE_FIELD = 'age' #TODO: should this be made generic?
 
-  DAY = 'day' #eg. 13-Jan-2015
+  DAY = 'date' #eg. 13-Jan-2015
   WEEK = 'week' #eg. Week 2 Jan-2015
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
@@ -40,7 +40,7 @@ class Report < CouchRest::Model::Base
   property :disaggregate_by, [String], default: [] #X-axis
   property :filters
   property :group_ages, TrueClass, default: false
-  property :group_dates_by
+  property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
   #TODO: Currently it's not worth trying to save off the report data.
@@ -54,7 +54,7 @@ class Report < CouchRest::Model::Base
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
   validate do |report|
-   report.validate_modules_present(:module_ids)
+    report.validate_modules_present(:module_ids)
   end
 
   design do
@@ -95,8 +95,8 @@ class Report < CouchRest::Model::Base
         end
       end
       if group_dates_by.present?
-        date_fields = pivot_fields.select{|_,f| f.type == Field::DATE_FIELD}
-        date_fields.each do |field_name,_|
+        date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
+        date_fields.each do |field_name, _|
           values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
             Reports::Utils.date_range(pivot_name, group_dates_by)
           end

@@ -113,6 +113,29 @@
   </div>
   <div class="medium-1 columns"> </div>
 </div>
+<%# Group dates by input %>
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :group_dates_by, t("report.group_dates_by"), class: 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <span class="value value_form">
+      <%= form_builder.select(
+            :group_dates_by,
+            options_for_select(
+              Report::DATE_RANGES.map{|r|[t("report.date_ranges.#{r}"), r]},
+              @report.group_dates_by
+            )
+          )
+      %>
+    </span>
+  </div>
+  <div class="medium-1 columns">
+    <span class="required">*</span>
+  </div>
+</div>
 <%# Filter by %>
 <div class="row">
   <div class="medium-3 columns">
