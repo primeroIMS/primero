@@ -3,6 +3,28 @@ class Report < CouchRest::Model::Base
   include PrimeroModel
   include BelongsToModule
 
+  #18+ should be good enough as 10K
+  AGE_RANGES = [
+    Reports::AgeRange.new(0,5),
+    Reports::AgeRange.new(6,11),
+    Reports::AgeRange.new(12,17),
+    Reports::AgeRange.new(18,Reports::AgeRange::MAX),
+  ]
+  AGE_FIELD = 'age' #TODO: should this be made generic?
+
+   REPORTABLE_FIELD_TYPES = [
+    #Field::TEXT_FIELD,
+    #Field::TEXT_AREA,
+    Field::RADIO_BUTTON,
+    Field::SELECT_BOX,
+    Field::CHECK_BOXES,
+    Field::NUMERIC_FIELD,
+    Field::DATE_FIELD,
+    #Field::DATE_RANGE,
+    Field::TICK_BOX,
+    #Field::TALLY_FIELD,
+  ]
+
   property :name
   property :description
   property :module_ids, [String]
@@ -62,7 +84,7 @@ class Report < CouchRest::Model::Base
         values = {}
       end
       if group_ages
-        values = group_values(values, pivot_index('age')) do |pivot_name|
+        values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
         end
       end
@@ -177,19 +199,6 @@ class Report < CouchRest::Model::Base
     end
   end
 
-  REPORTABLE_FIELD_TYPES = [
-    #Field::TEXT_FIELD,
-    #Field::TEXT_AREA,
-    Field::RADIO_BUTTON,
-    Field::SELECT_BOX,
-    Field::CHECK_BOXES,
-    Field::NUMERIC_FIELD,
-    Field::DATE_FIELD,
-    #Field::DATE_RANGE,
-    Field::TICK_BOX,
-    #Field::TALLY_FIELD,
-  ]
-
   # Fetch and group all reportable fields by form given a user.
   # This will be used by the field lookup.
   def self.all_reportable_fields_by_form(primero_modules, record_type, user)
@@ -210,69 +219,6 @@ class Report < CouchRest::Model::Base
       end
     end
     return reportable
-  end
-
-  #TODO: Move this out to a reports lib
-  class AgeRange < Range
-    MAX = 10000
-    MIN = -1
-
-    def <=>(other)
-      other_min = other.respond_to?(:min) ? other.min : MIN
-      self.min <=> other_min
-    end
-
-    def to_s
-      max_s = (self.max >= MAX) ? '+' : " - #{self.max}"
-      "#{min}#{max_s}"
-    end
-  end
-
-  #18+ should be good enough as 10K
-  AGE_RANGES = [
-    AgeRange.new(0,5),
-    AgeRange.new(6,11),
-    AgeRange.new(12,17),
-    AgeRange.new(18,AgeRange::MAX),
-  ]
-  AGE_FIELD = 'age' #TODO: should this be made generic?
-
-  def group_values(values, group_pivot_index)
-    result = values
-    if group_pivot_index.present?
-      result = {}
-      group_buckets = values.group_by do |pivot, _|
-        group_value = yield(pivot[group_pivot_index])
-        group_value ||= ''
-        if group_pivot_index > 0
-          pivot[0..(group_pivot_index-1)] + [group_value]
-        else
-          [group_value]
-        end
-      end
-      #for every bucket, merge the contents
-      group_buckets.each do |group, bucket|
-        merge_buckets = bucket.group_by do |pivots|
-          if group_pivot_index < pivots[0].size - 1
-            pivots[0][(group_pivot_index+1)..-1]
-          else
-            []
-          end
-        end
-        #Total the pivot counts for each merge bucket
-        merge_buckets.each do |merge, merge_bucket|
-          count = merge_bucket.reduce(0) do |sum, b|
-            sum + (b[1] ? b[1] : 0)
-          end
-          #Add the new row to the result
-          merged_pivot = group + merge
-          result[merged_pivot] = count
-        end
-      end
-    end
-    return result
-
-
   end
 
   def pivot_index(field_name)
