@@ -1,3 +1,10 @@
+
+template '/etc/init/data-mounts.conf' do
+  source 'data-mounts.conf.erb'
+  owner 'root'
+  group 'root'
+end
+
 cookbook_file '/usr/local/share/ca-certificates/couch_ca.crt' do
   source 'couch_ca.crt'
   owner 'root'
