@@ -27,7 +27,7 @@ var ReportForm = Backbone.View.extend({
     display_selected_options: false,
     width:'100%',
     search_contains: true,
-    max_selected_options: 2
+    max_selected_options: 3
   },
 
   permitted_field_list_url: '/reports/permitted_field_list',
