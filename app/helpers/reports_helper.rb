@@ -9,7 +9,7 @@ module ReportsHelper
     result = []
     previous = nil
     array.each do |element|
-      if element != previous
+      if element != previous || !element.present?
         result << [element, 1]
       else
         result[-1][1] = result[-1][1] + 1
@@ -27,12 +27,15 @@ module ReportsHelper
       disaggregate_fields.first.length.times.each do |i|
         header_rows << pattern_histogram(disaggregate_fields[1..-1].map{|v|v[i]})
       end
-      #Replace every empty string with the value "All"
-      header_rows = header_rows.map do |row|
-        row.map do |header|
-          header.map do |value|
-            value.present? ? value : t('report.all')
+      header_rows.length.times.each do |i|
+        row = header_rows[i]
+        previous = nil
+        row.length.times.each do |j|
+          value = row[j][0]
+          if value != previous && previous == ""
+            header_rows[i][j-1] = [t('report.all'), header_rows[i][j-1][1]]
           end
+          previous = value
         end
       end
       #Append a totals column

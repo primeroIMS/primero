@@ -949,11 +949,18 @@ en:
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
-    all: "All"
+    all: "Total"
     total: "Total"
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    group_ages: "Use age ranges"
+    group_dates_by: "Use date ranges"
+    date_ranges:
+      date: "Day"
+      week: "Week"
+      month: "Month"
+      year: "Year"
     filters:
       label: "Report filters"
       attribute: "Filter"
@@ -1290,9 +1297,9 @@ en:
       one:  Excel
       selected:  Selected to Excel
     incident_recorder_xls:
-      all:  Incidents Recorder
+      all:  Incident Recorder
       one:  Incident Recorder
-      selected:  Selected to Incidents Recorder
+      selected:  Selected to Incident Recorder
     json:
       all:  JSON
       one:  JSON

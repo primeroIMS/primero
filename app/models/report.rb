@@ -3,6 +3,35 @@ class Report < CouchRest::Model::Base
   include PrimeroModel
   include BelongsToModule
 
+  REPORTABLE_FIELD_TYPES = [
+    #Field::TEXT_FIELD,
+    #Field::TEXT_AREA,
+    Field::RADIO_BUTTON,
+    Field::SELECT_BOX,
+    Field::CHECK_BOXES,
+    Field::NUMERIC_FIELD,
+    Field::DATE_FIELD,
+    #Field::DATE_RANGE,
+    Field::TICK_BOX,
+    #Field::TALLY_FIELD,
+  ]
+
+  #18+ should be good enough as 10K
+  AGE_RANGES = [
+    Reports::AgeRange.new(0,5),
+    Reports::AgeRange.new(6,11),
+    Reports::AgeRange.new(12,17),
+    Reports::AgeRange.new(18,Reports::AgeRange::MAX),
+  ]
+  AGE_FIELD = 'age' #TODO: should this be made generic?
+
+  DAY = 'date' #eg. 13-Jan-2015
+  WEEK = 'week' #eg. Week 2 Jan-2015
+  MONTH = 'month' #eg. Jan-2015
+  YEAR = 'year' #eg. 2015
+  DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
+
+
   property :name
   property :description
   property :module_ids, [String]
@@ -10,6 +39,8 @@ class Report < CouchRest::Model::Base
   property :aggregate_by, [String], default: [] #Y-axis
   property :disaggregate_by, [String], default: [] #X-axis
   property :filters
+  property :group_ages, TrueClass, default: false
+  property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
   #TODO: Currently it's not worth trying to save off the report data.
@@ -23,7 +54,7 @@ class Report < CouchRest::Model::Base
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
   validate do |report|
-   report.validate_modules_present(:module_ids)
+    report.validate_modules_present(:module_ids)
   end
 
   design do
@@ -48,16 +79,28 @@ class Report < CouchRest::Model::Base
 
   # Run the Solr query that calculates the pivots and format the output.
   def build_report
-    pivots = (aggregate_by + disaggregate_by)
-    number_of_pivots = pivots.size
-    if pivots.present?
-      pivots = pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
+    number_of_pivots = self.pivots.size
+    if self.pivots.present?
+      pivots =self.pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
       pivots_data = query_solr(pivots, number_of_pivots, filters)
       #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
       if pivots_data['pivot'].present?
         values = self.value_vector([],pivots_data).to_h
       else
         values = {}
+      end
+      if group_ages
+        values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
+          AGE_RANGES.find{|range| range.cover? pivot_name}
+        end
+      end
+      if group_dates_by.present?
+        date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
+        date_fields.each do |field_name, _|
+          values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
+            Reports::Utils.date_range(pivot_name, group_dates_by)
+          end
+        end
       end
       aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
       disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
@@ -113,9 +156,10 @@ class Report < CouchRest::Model::Base
       #The key to the global report data
       data_key = key + [""] * number_of_blanks
       #The label (as understood by chart.js), is always the first dimension value
-      labels << key[0] if key[0] != labels.last
+      label = key[0].to_s
+      labels << label if label != labels.last
       #The key to the
-      chart_datasets_key = (key.size > 1) ? key[1] : ""
+      chart_datasets_key = (key.size > 1) ? key[1].to_s : ""
       if chart_datasets_hash.key? chart_datasets_key
         chart_datasets_hash[chart_datasets_key] << self.values[data_key]
       else
@@ -170,19 +214,6 @@ class Report < CouchRest::Model::Base
     end
   end
 
-  REPORTABLE_FIELD_TYPES = [
-    #Field::TEXT_FIELD,
-    #Field::TEXT_AREA,
-    Field::RADIO_BUTTON,
-    Field::SELECT_BOX,
-    Field::CHECK_BOXES,
-    Field::NUMERIC_FIELD,
-    Field::DATE_FIELD,
-    #Field::DATE_RANGE,
-    Field::TICK_BOX,
-    #Field::TALLY_FIELD,
-  ]
-
   # Fetch and group all reportable fields by form given a user.
   # This will be used by the field lookup.
   def self.all_reportable_fields_by_form(primero_modules, record_type, user)
@@ -205,8 +236,23 @@ class Report < CouchRest::Model::Base
     return reportable
   end
 
+  def pivots
+    (self.aggregate_by || []) + (self.disaggregate_by || [])
+  end
+
+  def pivot_fields
+    @pivot_fields ||= Field.find_by_name(pivots)
+      .group_by{|f| f.name}
+      .map{|k,v| [k, v.first]}
+      .to_h
+  end
+
+  def pivot_index(field_name)
+    pivots.index(field_name)
+  end
 
   private
+
 
   #TODO: This method should really be replaced by a Sunspot query
   def query_solr(pivots_string, number_of_pivots, filters)
