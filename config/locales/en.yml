@@ -117,6 +117,8 @@ en:
      ok: 'OK'
      edit_subform: 'Edit Subform'
      create_new_record: "Create New %{model}"
+     bundle_import: "Import Bundle"
+     bundle_export: "Export Bundle"
      transfer: "Transfer %{model}"
      referral: "Refer %{model}"
 

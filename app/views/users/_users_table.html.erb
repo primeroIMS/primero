@@ -5,6 +5,8 @@
   <%#= render 'exports/button' %>
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>
   <%#= render 'imports/button' %>
+  <%= render :partial => 'configuration_bundle/export_button' %>
+  <%= render :partial => 'configuration_bundle/import_button' %>
 <% end %>
 <form class="filter_bar" autocomplete="off">
   <div class="row">
