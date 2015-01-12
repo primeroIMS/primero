@@ -13,8 +13,13 @@ var ReferRecords = Backbone.View.extend({
     $("#referral-modal #selected_records").val(selected_records);
   },
 
-  toggle_remote_primero: function() {
+  toggle_remote_primero: function(e) {
     $('#referral-modal div.remote_toggle').toggle();
+    if ($(e.target).prop('checked')) {
+      $('input#referral_password').prop('required', true);
+    } else {
+      $('input#referral_password').prop('required', false);
+    } 
   },
 
   close_referral: function(e) {
