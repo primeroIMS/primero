@@ -954,6 +954,13 @@ en:
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    group_ages: "Use age ranges"
+    group_dates_by: "Use date ranges"
+    date_ranges:
+      date: "Day"
+      week: "Week"
+      month: "Month"
+      year: "Year"
     filters:
       label: "Report filters"
       attribute: "Filter"
