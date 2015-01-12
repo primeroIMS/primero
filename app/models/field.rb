@@ -347,10 +347,15 @@ class Field
   # This is a rework of the original RapidFTR method that never worked.
   # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
   def self.find_by_name(name)
-    field = nil
-    raw_field_data = FormSection.fields(key: name).rows.first
-    field = Field.new(raw_field_data['value']) if raw_field_data.present?
-    return field
+    result = nil
+    if name.is_a? Array
+      raw_field_data = FormSection.fields(keys: name).rows
+      result = raw_field_data.map{|rf| Field.new(rf['value'])}
+    else
+      raw_field_data = FormSection.fields(key: name).rows.first
+      result = Field.new(raw_field_data['value']) if raw_field_data.present?
+    end
+    return result
   end
 
 
