@@ -242,6 +242,20 @@ var Primero = Backbone.View.extend({
         theme: 'minimal-dark'
       })
     );
+
+    $(".referral_form_container").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 530,
+        theme: 'minimal-dark'
+      })
+    );
+
+    $(".transfer_form_container").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 460,
+        theme: 'minimal-dark'
+      })
+    );
   },
 
   init_chosen_or_new: function() {

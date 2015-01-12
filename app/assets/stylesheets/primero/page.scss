@@ -313,3 +313,16 @@ tr td span {
 .reveal-modal .mCSB_inside > .mCSB_container {
   margin-right: 0;
 }
+
+#referral-modal, #transfer-modal{
+  small {
+    font-size: 75%;
+    color: #777;
+  }
+
+  label {
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: .78rem;
+    font-weight: bold;
+  }
+}
