@@ -949,7 +949,7 @@ en:
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
-    all: "All"
+    all: "Total"
     total: "Total"
     modules: "Modules"
     aggregate_by: "Group by Row"
