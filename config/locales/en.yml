@@ -100,6 +100,7 @@ en:
      reunite: "Reunite"
      edit: "Edit"
      back: "Back"
+     submit: "Submit"
      export: "Export"
      import: "Import"
      change_password: "Change Password"
@@ -118,6 +119,8 @@ en:
      create_new_record: "Create New %{model}"
      bundle_import: "Import Bundle"
      bundle_export: "Export Bundle"
+     transfer: "Transfer %{model}"
+     referral: "Refer %{model}"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -395,6 +398,7 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     violation_status_verified: "Verified"
+    empty_violation: "To add violations, add the Violation Category on the Incident form to see the corresponding violation form"
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
@@ -533,8 +537,6 @@ en:
     sort_by:
       label: "Sort by"
       full_name: "Full Name"
-
-
 
   roles:
     label: "Roles"
@@ -1310,6 +1312,27 @@ en:
     guess_file_type_option: "Autodetect based on file extension"
     zip_file:
       unknown_type: "The archive contains one or more files with unknown type"
+
+  referrals:
+    type_label: "Type of Referral"
+    existing_user_label: "Existing User"
+    other_user_label: "Other User"
+    other_user_agency_label: "Other User's Agency"
+    service_label: "Service"
+    is_remote_label: "Are you referring to a remote system?"
+    remote_primero_label: "Is the remote system a Primero implementation?"
+    notes_label: "Notes"
+
+  transfers:
+    type_label: "Type of Transfer"
+    existing_user_label: "Existing User"
+    other_user_label: "Other User"
+    other_user_agency_label: "Other User's Agency"
+    is_remote_label: "Are you transferring to a remote system?"
+    remote_primero_label: "Is the remote system a Primero implementation?"
+    notes_label: "Notes"
+    success: "Transfer was successful"
+    failure: "There was an error processing the transfer"
 
   per_page_translation: "Per page _MENU_"
   total: Total

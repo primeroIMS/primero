@@ -5,6 +5,8 @@ class Permission
   IMPORT = 'import'
   ASSIGN = 'assign'
   REPORT_CREATE = 'report_create' #ok, painted us into a corner here
+  TRANSFER = 'transfer'
+  REFERRAL = 'referral'
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
@@ -22,7 +24,7 @@ class Permission
   end
 
   def self.actions
-    [READ, WRITE, FLAG, IMPORT, ASSIGN, REPORT_CREATE]
+    [READ, WRITE, FLAG, IMPORT, ASSIGN, REPORT_CREATE, TRANSFER, REFERRAL]
   end
 
   def self.resources

@@ -2,6 +2,11 @@
 <fieldset id="tab_<%= form_section.section_name %>" class="<%= form_section.section_name %> tab no-border" data-first-tab="<%= form_section.is_first_tab %>">
   <div class="clearfix"></div>
   <%= render 'form_section/error_message', formObject: formObject %>
+
+  <% if form_section.form_group_name.present? && form_section.form_group_name == 'Violations' %>
+    <div class="row empty_violations"><%= t('incident.empty_violation') %></div>
+  <% end %>
+
   <% (form_section.fields.select {|field| field.visible? }).each do |field| %>
     <%= render partial: field_template_path(field), object: field, locals: {formObject: formObject, form_group_name: form_group_name} %>
   <% end %>

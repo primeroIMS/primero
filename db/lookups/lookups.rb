@@ -221,3 +221,24 @@ create_or_update_lookup(
     "Other (please specify)"
   ]
 )
+
+create_or_update_lookup(
+  :name => "service_type",
+  :lookup_values => [
+    "Safehouse Service",
+    "Health/Medical Service",
+    "Psychosocial Service",
+    "Police/Other Service",
+    "Legal Assistance Service",
+    "Livelihoods Service",
+    "Child Protection Service",
+    "Family Mediation Service",
+    "Family Reunification Service",
+    "Education Service",
+    "NFI/Clothes/Shoes Service",
+    "Water/Sanitation Service",
+    "Registration Service",
+    "Food Service",
+    "Other Service"
+  ]
+)

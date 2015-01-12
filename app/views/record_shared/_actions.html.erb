@@ -4,6 +4,15 @@
     <ul>
       <%= render 'imports/button' %>
       <%= render 'exports/button', locals: { model: model } %>
+      <%
+        #TODO - For now, only implementing transfer and referral for Cases
+        #TODO - At some point, it will be available for other record types
+        #TODO - When that happens, routes will have to be added
+      %>
+      <% if model == Child %>
+        <%= render 'referrals/button' %>
+        <%= render 'transfers/button' %>
+      <% end %>
     </ul>
   </li>
 </ul>
