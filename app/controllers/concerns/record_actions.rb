@@ -262,7 +262,7 @@ module RecordActions
   # Filters out any unallowed parameters for a record and the current user
   def filter_params(record)
     permitted_keys = permitted_property_keys(record)
-    record_params.select {|k,v| permitted_keys.include?(k, current_user) }
+    record_params.select {|k,v| permitted_keys.include?(k) }
   end
 
   #TODO: This method will be very slow for very large exports: models.size > 1000.
