@@ -25,13 +25,11 @@ var ViolationListReload = Backbone.View.extend({
 
     selected = function() {
       if ($('span[data-violation-categories]').data('violation-categories')) {
-        return $('span[data-violation-categories]').data('violation-categories').split(',')
+        return $('span[data-violation-categories]').data('violation-categories').split(',');
       } else {
         return $('select#incident_incident_violation_category_').val();
       }
-    }
-
-    console.log(selected())
+    };
 
     $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
     tabs.hide();
