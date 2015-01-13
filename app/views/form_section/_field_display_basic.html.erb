@@ -13,7 +13,11 @@
         end
         value = I18n.t("cases.hidden_text_field_text") if formObject[:hidden_name] && field.hidden_text_field
       %>
-      <span class="value" data-field-tags="<%= field.field_tags.present? ? field.field_tags : [] %>"><%= value %></span>
+      <span class="value"
+            data-field-tags="<%= field.field_tags.present? ? field.field_tags : [] %>"
+            <%= "data-violation-categories=#{formObject[field.name].join(',')}" if field.name == 'violation_category' %>>
+        <%= value %>
+      </span>
     <% end %>
   </div>
 </div>

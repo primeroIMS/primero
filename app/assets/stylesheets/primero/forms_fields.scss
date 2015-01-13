@@ -98,8 +98,12 @@ input[type="text"][disabled], select[disabled]{
   border: none !important;
 }
 
-.empty_violations {
+.empty_violations, .add_violations_message {
   text-align: center;
+}
+
+.add_violations_message {
+  display: none;
 }
 
 .gq_popovers {
