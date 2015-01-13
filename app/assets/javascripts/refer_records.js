@@ -13,7 +13,7 @@ var ReferRecords = Backbone.View.extend({
     $("#referral-modal #selected_records").val(selected_records);
   },
 
-  toggle_remote_primero: function(e) {
+  toggle_remote_primero: function() {
     $('#referral-modal div.remote_toggle').toggle();
   },
 
