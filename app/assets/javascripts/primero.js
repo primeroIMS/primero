@@ -140,6 +140,22 @@ _primero.loading_screen_indicator = function(action) {
   }
 };
 
+_primero.show_add_violation_message = function(action, event) {
+  if (action == "remove") {
+
+  } else {
+    $("fieldset[id$='_violation_wrapper'] .subforms").each(function(k, v) {
+      var elm = $(this),
+          message = $(v).parent().prev('.add_violations_message');
+      if (elm.children().length <= 0 && !message.prev('.empty_violations').is(':visible')) {
+        message.show();
+      } else {
+        message.hide();
+      }
+    });
+  }
+};
+
 var Primero = Backbone.View.extend({
   el: 'body',
 

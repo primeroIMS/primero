@@ -16,14 +16,6 @@ class IncidentsController < ApplicationController
       # Save the keys for control inputs created when removing the last violation subform.
       params['incident']['violations'].each_key { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
       params['incident']['violations'].compact
-
-      violation_keys = params['incident']['violations'].keys
-      params['incident']['violation_category'].each do |category_key|
-        unless violation_keys.include? category_key
-          params['incident']['violations'][category_key] = { "0" => {"unique_id" => UUIDTools::UUID.random_create.to_s }}
-        end
-      end
-
       violations_subforms_control_keys.each {|key| params['incident']['violations'][key] = ""}
     end
   end

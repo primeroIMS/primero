@@ -12,6 +12,7 @@ var ViolationListReload = Backbone.View.extend({
     }, this));
 
     this.show_hide_violations();
+    _primero.show_add_violation_message();
   },
 
   show_hide_violations: function(e) {
@@ -22,25 +23,21 @@ var ViolationListReload = Backbone.View.extend({
 
     $('.empty_violations').parent().find('a.subform_add').hide();
 
-    if (!$('select#incident_incident_violation_category_').length) {
-      selected = [];
-
-      _.each($("fieldset[id$='_violation_wrapper'] fieldset[id^='subform_']"), function(v) {
-        var violation = $(v).attr('id').replace(/^subform_|_\d{1,}$/g, '');
-
-        if (!_.contains(selected, violation)) {
-          selected.push(violation);
-        }
-      });
-    } else {
-      selected = $('select#incident_incident_violation_category_').val();
+    selected = function() {
+      if ($('span[data-violation-categories]').data('violation-categories')) {
+        return $('span[data-violation-categories]').data('violation-categories').split(',')
+      } else {
+        return $('select#incident_incident_violation_category_').val();
+      }
     }
+
+    console.log(selected())
 
     $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
     tabs.hide();
     $('a[data-violation="true"]').parent('li').find('ul.sub li a').removeAttr('active-violation');
 
-    _.each(selected, function(v) {
+    _.each(selected(), function(v) {
       $('div[id="' + v + '"]').show();
       $('div[id="' + v + '_violation"]').show();
       $('a[href="#tab_' + v + '_violation_wrapper"]').parent('li').show();

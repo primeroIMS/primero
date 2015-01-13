@@ -143,6 +143,8 @@ var SubformView = Backbone.View.extend({
     //when all rows were removed.
     $(subforms).parent().find("#" + _primero.model_object + "_" + subforms.attr("id") + "_empty_subform").remove();
     $('textarea').autogrow();
+
+    _primero.show_add_violation_message();
   },
 
   remove: function(event) {
@@ -166,6 +168,7 @@ var SubformView = Backbone.View.extend({
         });
       }
     }
+    _primero.show_add_violation_message();
   },
 
   remove_subform: function(target, self) {
