@@ -18,7 +18,7 @@
             <%= select_tag("referral_type", options_for_select(@referral_roles.map {|r| [r.name, r.id]}, '')) %>
           </label>
           <label><%=I18n.t("referrals.existing_user_label")%>
-            <%= select_tag("existing_user", options_for_select(@associated_users, @current_user.user_name)) %>
+            <%= select_tag("existing_user", options_for_select(@associated_users, ''), :include_blank => true) %>
           </label>
           <label><%=I18n.t("referrals.other_user_label")%>
             <%= text_field_tag("other_user") %>
@@ -27,7 +27,7 @@
             <%= text_field_tag("other_user_agency") %>
           </label>
           <label><%=I18n.t("referrals.service_label")%>
-            <%= select_tag("service", options_for_select(Lookup.values("Service Type", @lookups), '')) %>
+            <%= select_tag("service", options_for_select(Lookup.values("Service Type", @lookups), ''), :include_blank => true) %>
           </label>
           <label><%=I18n.t("referrals.notes_label")%>
             <%= text_area_tag("notes") %>
