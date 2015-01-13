@@ -23,19 +23,16 @@ var ViolationListReload = Backbone.View.extend({
 
     $('.empty_violations').parent().find('a.subform_add').hide();
 
-    selected = function() {
-      if ($('span[data-violation-categories]').data('violation-categories')) {
-        return $('span[data-violation-categories]').data('violation-categories').split(',');
-      } else {
-        return $('select#incident_incident_violation_category_').val();
-      }
-    };
+    selected = $('span[data-violation-categories]').data('violation-categories') ?
+        $('span[data-violation-categories]').data('violation-categories').split(',') :
+        $('select#incident_incident_violation_category_').val();
+
 
     $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
     tabs.hide();
     $('a[data-violation="true"]').parent('li').find('ul.sub li a').removeAttr('active-violation');
 
-    _.each(selected(), function(v) {
+    _.each(selected, function(v) {
       $('div[id="' + v + '"]').show();
       $('div[id="' + v + '_violation"]').show();
       $('a[href="#tab_' + v + '_violation_wrapper"]').parent('li').show();
