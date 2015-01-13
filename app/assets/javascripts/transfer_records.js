@@ -19,11 +19,22 @@ var TransferRecords = Backbone.View.extend({
 
   close_transfer: function(e) {
     e.preventDefault();
-    $(e.target).parents('form').submit();
-    $('#transfer-modal').foundation('reveal', 'close');
-    $('#transfer-modal form')[0].reset();
-    $('#transfer-modal div.remote_toggle').hide();
-    window.disable_loading_indicator = true;
+    var password = $('input#transfer_password').val(),
+        is_remote = $('div#transfer-modal input#is_remote').prop('checked'),
+        errorDiv = $("div#transfer-modal .flash");
+    //Require a password only if this is a remote transfer
+    if(is_remote && (password == null || password == undefined || password.trim() == "")){
+      errorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
+      errorDiv.show();
+      return false;
+    } else {
+      errorDiv.hide();
+      $(e.target).parents('form').submit();
+      $('#transfer-modal').foundation('reveal', 'close');
+      $('#transfer-modal form')[0].reset();
+      $('#transfer-modal div.remote_toggle').hide();
+      window.disable_loading_indicator = true;
+    }
   }
 });
 

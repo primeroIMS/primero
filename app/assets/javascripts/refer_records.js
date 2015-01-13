@@ -15,20 +15,26 @@ var ReferRecords = Backbone.View.extend({
 
   toggle_remote_primero: function(e) {
     $('#referral-modal div.remote_toggle').toggle();
-    if ($(e.target).prop('checked')) {
-      $('input#referral_password').prop('required', true);
-    } else {
-      $('input#referral_password').prop('required', false);
-    } 
   },
 
   close_referral: function(e) {
     e.preventDefault();
-    $(e.target).parents('form').submit();
-    $('#referral-modal').foundation('reveal', 'close');
-    $('#referral-modal form')[0].reset();
-    $('#referral-modal div.remote_toggle').hide();
-    window.disable_loading_indicator = true;
+    var password = $('input#referral_password').val(),
+        is_remote = $('div#referral-modal input#is_remote').prop('checked'),
+        errorDiv = $("div#referral-modal .flash");
+    //Require a password only if this is a remote referral
+    if(is_remote && (password == null || password == undefined || password.trim() == "")){
+      errorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
+      errorDiv.show();
+      return false;
+    } else {
+      errorDiv.hide();
+      $(e.target).parents('form').submit();
+      $('#referral-modal').foundation('reveal', 'close');
+      $('#referral-modal form')[0].reset();
+      $('#referral-modal div.remote_toggle').hide();
+      window.disable_loading_indicator = true;
+    }
   }
 });
 
