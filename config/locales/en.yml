@@ -117,6 +117,8 @@ en:
      ok: 'OK'
      edit_subform: 'Edit Subform'
      create_new_record: "Create New %{model}"
+     bundle_import: "Import Bundle"
+     bundle_export: "Export Bundle"
      transfer: "Transfer %{model}"
      referral: "Refer %{model}"
 
@@ -396,7 +398,8 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     violation_status_verified: "Verified"
-    empty_violation: "To add violations, add the Violation Category on the Incident form to see the corresponding violation form"
+    empty_violation: "To add violations, add the Violation Category on the Incident form to see the corresponding violation form."
+    add_violations: "Click add to enter violation details."
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
@@ -947,11 +950,18 @@ en:
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
-    all: "All"
+    all: "Total"
     total: "Total"
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    group_ages: "Use age ranges"
+    group_dates_by: "Use date ranges"
+    date_ranges:
+      date: "Day"
+      week: "Week"
+      month: "Month"
+      year: "Year"
     filters:
       label: "Report filters"
       attribute: "Filter"
@@ -1288,9 +1298,9 @@ en:
       one:  Excel
       selected:  Selected to Excel
     incident_recorder_xls:
-      all:  Incidents Recorder
+      all:  Incident Recorder
       one:  Incident Recorder
-      selected:  Selected to Incidents Recorder
+      selected:  Selected to Incident Recorder
     json:
       all:  JSON
       one:  JSON

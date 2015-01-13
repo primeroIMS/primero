@@ -30,6 +30,7 @@ describe RecordActions do
 
     describe '#filter_permitted_export_properties' do
       it 'outputs the intersection of all allowed properties for the models' do
+        subject.should_receive(:current_user)
         subject.should_receive(:permitted_property_keys).and_return(['name', 'age'], ['name', 'survivor_code'])
         mock_record = double()
         props = [

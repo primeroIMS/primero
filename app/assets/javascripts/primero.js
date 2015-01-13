@@ -140,6 +140,18 @@ _primero.loading_screen_indicator = function(action) {
   }
 };
 
+_primero.show_add_violation_message = function() {
+  $("fieldset[id$='_violation_wrapper'] .subforms").each(function(k, v) {
+    var elm = $(this),
+        message = $(v).parent().prev('.add_violations_message');
+    if (elm.children().length <= 0 && !message.prev('.empty_violations').is(':visible')) {
+      message.show();
+    } else {
+      message.hide();
+    }
+  });
+};
+
 var Primero = Backbone.View.extend({
   el: 'body',
 
@@ -239,6 +251,20 @@ var Primero = Backbone.View.extend({
     $(".panel_main").mCustomScrollbar(
       _.extend(options, {
         setHeight: 269,
+        theme: 'minimal-dark'
+      })
+    );
+
+    $(".referral_form_container").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 530,
+        theme: 'minimal-dark'
+      })
+    );
+
+    $(".transfer_form_container").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 460,
         theme: 'minimal-dark'
       })
     );

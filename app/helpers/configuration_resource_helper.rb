@@ -15,6 +15,10 @@ module ConfigurationResourceHelper
       concat(content_tag(:div, class: 'medium-8 columns'){
         if type == 'file_field' && field == 'logo'
           show_logo_upload(object, field_id, type, tag_helper)
+        elsif type == 'check_box'
+          label_tag(nil, class: 'left'){
+              check_box_tag(name, '1', value)
+          }
         else
           self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off',
             class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled)
