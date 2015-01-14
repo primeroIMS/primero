@@ -22,7 +22,7 @@ var Primero = Backbone.View.extend({
     _primero.getInternetExplorerVersion = this._primero_getInternetExplorerVersion;
     _primero.is_under_18 = this._primero_is_under_18;
     _primero.show_add_violation_message = this._primero_show_add_violation_message;
-    _primero.loading_screen_indicator = this._primero_show_add_violation_message;
+    _primero.loading_screen_indicator = this._primero_loading_screen_indicator;
 
     this.init_sticky();
     this.init_popovers();
