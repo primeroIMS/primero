@@ -16,6 +16,7 @@ class IncidentsController < ApplicationController
       # Save the keys for control inputs created when removing the last violation subform.
       params['incident']['violations'].each_key { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
       params['incident']['violations'].compact
+
       violations_subforms_control_keys.each {|key| params['incident']['violations'][key] = ""}
     end
   end
