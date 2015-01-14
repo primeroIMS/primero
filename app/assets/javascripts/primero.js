@@ -268,7 +268,6 @@ var Primero = Backbone.View.extend({
     evt.preventDefault();
   },
 
-  // TODO: refactor into Primero when refactoring filters behavior - JT
   _primero_clean_page_params: function(q_param) {
     var source = location.href,
         rtn = source.split("?")[0],
