@@ -188,6 +188,42 @@ table.dataTable {
   border-left: 1px solid $stroke_green_color;
 }
 
+.reveal-modal .side-tab-content-container {
+  width: 688px;
+}
+
+.loading-screen {
+  display: none;
+
+  .ls-bg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: black;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    left: 0;
+  }
+
+  .ls-icon {
+    position: fixed;
+    z-index: 10001;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+
+    i {
+      font-size: 6rem;
+      color: rgba(255,255,255,.7);
+    }
+  }
+}
+
 ////////////////////////////////////////////////
 // Panel
 ////////////////////////////////////////////////
@@ -276,4 +312,17 @@ tr td span {
 
 .reveal-modal .mCSB_inside > .mCSB_container {
   margin-right: 0;
+}
+
+#referral-modal, #transfer-modal{
+  small {
+    font-size: 75%;
+    color: #777;
+  }
+
+  label {
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: .78rem;
+    font-weight: bold;
+  }
 }

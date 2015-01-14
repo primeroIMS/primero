@@ -122,9 +122,17 @@ var IndexTable = Backbone.View.extend({
     if (column_field != 'violations' && column_field != 'photo' && column_field != 'select' && column_field != 'tracing_names'){
       window.location.search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
     }
+  },
+
+  get_selected_records: function(){
+    var selected_records = [];
+    $('input.select_record:checked').each(function(){
+      selected_records.push($(this).val());
+    });
+    return selected_records;
   }
 });
 
 $(document).ready(function() {
-  new IndexTable();
+  _primero.indexTable = new IndexTable();
 });

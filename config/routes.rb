@@ -62,6 +62,8 @@ RapidFTR::Application.routes.draw do
   resources :children, as: :cases, path: :cases do
     collection do
       post :import_file
+      post :referral
+      post :transfer
       get :search
     end
 
@@ -235,6 +237,10 @@ RapidFTR::Application.routes.draw do
   resources :advanced_search, :only => [:index, :new]
   match 'advanced_search/index', :to => 'advanced_search#index', :via => [:post, :get, :put, :delete]
   match 'advanced_search/export_data' => 'advanced_search#export_data', :as => :export_data_children, :via => :post
+
+
+  match 'configuration_bundle/export', :to => 'configuration_bundle#export_bundle', :via => [:get, :post]
+  match 'configuration_bundle/import', :to => 'configuration_bundle#import_bundle', :via => [:post]
 
 
 #######################

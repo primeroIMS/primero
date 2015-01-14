@@ -32,4 +32,6 @@ RapidFTR::Application.configure do
   config.assets.precompile += %w( jplayer.blue.monday.css **.jpg **.png )
 
   config.eager_load = true
+
+  config.filter_parameters += [:child, :incident, :tracing_request]
 end

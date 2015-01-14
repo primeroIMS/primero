@@ -31,6 +31,12 @@ class Location < CouchRest::Model::Base
     self.name = self.hierarchical_name
   end
 
+  # Override Namable concern.
+  # Allow CouchDB to set the Location's ID as a GUID
+  def generate_id
+    true
+  end
+
   def name
     self.hierarchical_name
   end
@@ -50,10 +56,13 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_location
 
+    def placenames_from_name(name)
+      return [] unless name.present?
+      name.split('::')
+    end
+
     def placename_from_name(name)
-      result = ""
-      result = name.split('::').last if name.present?
-      return result
+      placenames_from_name(name).last || ""
     end
     memoize_in_prod :placename_from_name
 
@@ -63,6 +72,29 @@ class Location < CouchRest::Model::Base
       return location.first
     end
     memoize_in_prod :get_by_location
+
+    def find_by_placenames(placenames)
+      by_placename(keys: placenames)
+    end
+    memoize_in_prod :find_by_placenames
+
+    # Produce the location that matches a given type from the hierarchy of the given location.
+    # If multiple types are included, returns the first matched types
+    # TODO: This method is fairly specific to the IR exporter.
+    #       Is there a more generic way of expressing this? Is there a need?
+    #       Don't really want to stick this on the instance to avoid the extra DB call.
+    def find_types_in_hierarchy(name, types)
+      placenames = placenames_from_name(name)
+      locations = find_by_placenames(placenames)
+      result = []
+      types.each do |type|
+        result = locations.select{|loc| loc.type == type}
+        break if result
+      end
+      return result.last
+    end
+    memoize_in_prod :find_types_in_hierarchy
+
   end
 
   def hierarchical_name

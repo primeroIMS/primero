@@ -85,7 +85,7 @@ en:
      children: "CHILDREN"
      forms: "FORMS"
      lookups: "LOOKUPS"
-     users: "USERS"
+     users: "SETTINGS"
      replications: "SYNC"
      reports: "REPORTS"
      advanced_search: "Advanced Search"
@@ -100,6 +100,7 @@ en:
      reunite: "Reunite"
      edit: "Edit"
      back: "Back"
+     submit: "Submit"
      export: "Export"
      import: "Import"
      change_password: "Change Password"
@@ -116,6 +117,10 @@ en:
      ok: 'OK'
      edit_subform: 'Edit Subform'
      create_new_record: "Create New %{model}"
+     bundle_import: "Import Bundle"
+     bundle_export: "Export Bundle"
+     transfer: "Transfer %{model}"
+     referral: "Refer %{model}"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -393,6 +398,8 @@ en:
     another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
     another_duplicate_after_link: " to see the duplicate record."
     violation_status_verified: "Verified"
+    empty_violation: "To add violations, add the Violation Category on the Incident form to see the corresponding violation form."
+    add_violations: "Click add to enter violation details."
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
@@ -531,8 +538,6 @@ en:
     sort_by:
       label: "Sort by"
       full_name: "Full Name"
-
-
 
   roles:
     label: "Roles"
@@ -945,11 +950,18 @@ en:
     type: "Type"
     as_of_date: "As of Date"
     download: "Download"
-    all: "All"
+    all: "Total"
     total: "Total"
     modules: "Modules"
     aggregate_by: "Group by Row"
     disaggregate_by: "Group by Column"
+    group_ages: "Use age ranges"
+    group_dates_by: "Use date ranges"
+    date_ranges:
+      date: "Day"
+      week: "Week"
+      month: "Month"
+      year: "Year"
     filters:
       label: "Report filters"
       attribute: "Filter"
@@ -1043,6 +1055,8 @@ en:
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
     no_caseworker_data: "No Case Worker Data"
+    no_recently_flagged_child: "No Recently Flagged Cases"
+    no_recently_flagged_incident: "No Recently Flagged Incidents"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
     case_id: "Case #ID"
@@ -1059,8 +1073,8 @@ en:
     number_of_victims: "Number Of Victims"
     number_of_violations: "Number Of Violations"
     number_of_violations_verified: "Violations Verified"
-    link_see_all_child: "See all %{count} cases >"
-    link_see_all_incident: "See all %{count} incidents >"
+    link_see_all_child: "See all flagged cases"
+    link_see_all_incident: "See all flagged incidents"
     open_incidents: "Open Incidents"
     status_of_cases: "Status of Cases"
     case_worker: "Case Worker"
@@ -1069,7 +1083,8 @@ en:
     missed_cases: "Missed Cases"
     date_of_incident: "Date of Incident"
     violence_type: "Violence Type"
-    date_of_interview: Date of Interview"
+    date_of_interview: "Date of Interview"
+    system_user: "System"
 
   errors:
 
@@ -1282,6 +1297,10 @@ en:
       all:  Excel
       one:  Excel
       selected:  Selected to Excel
+    incident_recorder_xls:
+      all:  Incident Recorder
+      one:  Incident Recorder
+      selected:  Selected to Incident Recorder
     json:
       all:  JSON
       one:  JSON
@@ -1301,6 +1320,27 @@ en:
     guess_file_type_option: "Autodetect based on file extension"
     zip_file:
       unknown_type: "The archive contains one or more files with unknown type"
+
+  referrals:
+    type_label: "Type of Referral"
+    existing_user_label: "Existing User"
+    other_user_label: "Other User"
+    other_user_agency_label: "Other User's Agency"
+    service_label: "Service"
+    is_remote_label: "Are you referring to a remote system?"
+    remote_primero_label: "Is the remote system a Primero implementation?"
+    notes_label: "Notes"
+
+  transfers:
+    type_label: "Type of Transfer"
+    existing_user_label: "Existing User"
+    other_user_label: "Other User"
+    other_user_agency_label: "Other User's Agency"
+    is_remote_label: "Are you transferring to a remote system?"
+    remote_primero_label: "Is the remote system a Primero implementation?"
+    notes_label: "Notes"
+    success: "Transfer was successful"
+    failure: "There was an error processing the transfer"
 
   per_page_translation: "Per page _MENU_"
   total: Total

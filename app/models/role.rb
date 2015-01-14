@@ -16,6 +16,22 @@ class Role < CouchRest::Model::Base
   before_save :sanitize_permissions
   before_save :add_permitted_subforms
 
+  design do
+    view :by_referral,
+              :map => "function(doc) {
+              if (doc['referral'] == true){
+                emit(doc._id);
+              }
+            }"
+
+    view :by_transfer,
+              :map => "function(doc) {
+              if (doc['transfer'] == true){
+                emit(doc._id);
+              }
+            }"
+  end
+
   def self.get_unique_instance(attributes)
     find_by_name(attributes['name'])
   end

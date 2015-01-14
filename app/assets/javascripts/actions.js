@@ -20,7 +20,7 @@ var Actions = Backbone.View.extend({
         'redirect_url': redirect_url,
         'record_state': record_state,
         'id': id
-      }, 
+      },
       function(response){
         if(response.success) {
           location.reload(true);

@@ -58,10 +58,12 @@
 //= require tick_box_field
 //= require date_range_validation
 //= require flag_records
+//= require refer_records
+//= require transfer_records
 //= require actions
 //= require summary_page
 //= require reports
 //= require reports_form
-//= require plugins/Chart
+//= require plugins/ChartNew
 //= require plugins/colormap
 //= require primero.table2CSV

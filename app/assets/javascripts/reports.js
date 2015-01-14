@@ -41,8 +41,8 @@ var ReportTable = Backbone.View.extend({
         var colors = self.generateColors(graph_data.datasets.length);
         var context = canvas.get(0).getContext("2d");
         var options = {
-          showTooltips: true,
-          multiTooltipTemplate: "<%= datasetLabel %>: <%= value %>",
+          xAxisLabel: graph_data.aggregate,
+          legend: true,
         };
         for (var i = 0; i < graph_data.datasets.length; i++){
           graph_data.datasets[i]['fillColor'] = colors[i];

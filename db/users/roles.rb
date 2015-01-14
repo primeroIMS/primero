@@ -127,6 +127,8 @@ create_or_update_role(
     Permission::SYSTEM,
     Permission::IMPORT,
     Permission::REPORT,
+    Permission::REFERRAL,
+    Permission::TRANSFER,
     Permission::ALL
   ]
 )

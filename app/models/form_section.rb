@@ -95,8 +95,8 @@ class FormSection < CouchRest::Model::Base
   end
 
   def valid_presence_of_base_language_name
-    if base_language==nil
-      self.base_language='en'
+    if base_language.nil?
+      self.base_language = 'en'
     end
     base_lang_name = self.send("name_#{base_language}")
     [!(base_lang_name.nil?||base_lang_name.empty?), I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language)]
@@ -408,7 +408,7 @@ class FormSection < CouchRest::Model::Base
   #If there is no list defined, it will returns the first one of the fields.
   def collapsed_list
     if self.collapsed_fields.empty?
-      [self.fields.select {|field| field.visible? }.first]
+      [self.fields.select {|field| field.visible? }.first].compact
     else
       #Make sure we get the field in the order by collapsed_fields array.
       map = Hash[*self.fields.collect { |field| [field.name, field] }.flatten]

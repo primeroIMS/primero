@@ -109,6 +109,7 @@
   <div class="row collapse">
     <div class="medium-3 columns">
       <div class="modal-side-tab">
+        <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>
         <ul class="field_types side-nav modal-side-nav">
           <% if @field.present? && @field.type.present? %>
             <li class="current"><%= link_to t("fields.#{@field.type}"), "javascript:void(0)", :id => "#{@field.type}", :class => "field_links sel" %> </li>
@@ -129,6 +130,7 @@
             <% end %>
           <% end %>
         </ul>
+        <div class="scrolling_indicator down"><%= t('messages.scroll_down') %></div>
       </div>
     </div>
     <div class="medium-9 columns side-tab-content-container">

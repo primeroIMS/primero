@@ -33,6 +33,7 @@ class Incident < CouchRest::Model::Base
   end
 
   before_save :set_violation_verification_default
+  before_save :ensure_violation_categories_exist
 
   before_update :clean_incident_date
 
@@ -70,6 +71,15 @@ class Incident < CouchRest::Model::Base
       self.incident_date_derived
     end
 
+  end
+
+  def ensure_violation_categories_exist
+    if self.violations.present?
+      self.violations.to_hash.compact.each_key do |key|
+        self.violation_category = [] if !self.violation_category.present?
+        self.violation_category << key if !self.violation_category.include? key
+      end
+    end
   end
 
   def self.find_by_incident_id(incident_id)

@@ -5,7 +5,7 @@ class FieldsController < ApplicationController
   before_filter :read_form_section
   before_filter :module_id, :only => [:create, :update, :destroy]
   before_filter :get_lookups, :only => [:edit, :update]
-  after_filter :refresh_properties, :only => [:create, :update]
+  after_filter :refresh_properties, :only => [:create, :update, :destroy]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
 

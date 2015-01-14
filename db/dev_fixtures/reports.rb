@@ -1,10 +1,10 @@
-r = Report.create!(
-  name: 'Test 2x2',
-  module_id: 'CP',
-  record_type: 'case',
-  aggregate_by: ["location_current", "protection_concerns"],
-  disaggregate_by: ["age", "sex"],
-)
+# r = Report.create!(
+#   name: 'Test 2x2',
+#   module_id: 'primeromodule-cp',
+#   record_type: 'case',
+#   aggregate_by: ["location_current", "protection_concerns"],
+#   disaggregate_by: ["age", "sex"],
+# )
 
 sexes = ['Male', 'Female']
 locations = ['Kenya', 'Uganda', 'Somalia', 'Ethiopia', 'Rwanda', 'Burundi', 'South Sudan', 'Tanzania']
@@ -28,8 +28,10 @@ protection_concerns = [
   "Mentally Distressed",
   "Other"
 ]
+child_status = ['open', 'closed']
+case_module_ids = ['primeromodule-cp', 'primeromodule-gbv']
 
-(0..100).each do |i|
+(0..200).each do |i|
   concerns = []
   (0..rand(4)).each do |j|
     concerns << protection_concerns[rand(protection_concerns.size-1)] if j > 0
@@ -40,6 +42,9 @@ protection_concerns = [
     age: rand(18),
     sex: sexes[rand(1)],
     location_current: locations[rand(locations.size-1)],
-    protection_concerns: concerns
+    protection_concerns: concerns,
+    child_status: child_status[rand(1)],
+    record_state: true,
+    module_id: case_module_ids[rand(1)]
   )
 end

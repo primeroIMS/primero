@@ -4,8 +4,9 @@ extend Chef::Mixin::ShellOut
 include_recipe 'apt'
 include_recipe 'primero::common'
 package 'build-essential'
-couchdb_log_dir = ::File.join(node[:primero][:log_dir], 'couchdb')
-node.force_default[:primero][:couchdb][:config][:log][:file] = ::File.join(couchdb_log_dir, 'couch.log')
+#couchdb_log_dir = ::File.join(node[:primero][:log_dir], 'couchdb')
+couchdb_log_dir = '/var/log/couchdb'
+#node.force_default[:primero][:couchdb][:config][:log][:file] = ::File.join(couchdb_log_dir, 'couch.log')
 node.force_default[:primero][:couchdb][:config][:log][:level] = "info"
 node.force_default[:primero][:couchdb][:config][:couch_httpd_auth][:require_valid_user] = true
 node.force_default[:primero][:couchdb][:config][:admins] = {

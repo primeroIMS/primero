@@ -79,7 +79,7 @@ a.chosen-single {
   box-shadow: none !important;
 }
 
-input[type="text"][disabled]{
+input[type="text"][disabled], select[disabled]{
   border: none !important;
   background: transparent !important;
   box-shadow: none;
@@ -96,6 +96,14 @@ input[type="text"][disabled]{
 
 .section-show {
   border: none !important;
+}
+
+.empty_violations, .add_violations_message {
+  text-align: center;
+}
+
+.add_violations_message {
+  display: none;
 }
 
 .gq_popovers {

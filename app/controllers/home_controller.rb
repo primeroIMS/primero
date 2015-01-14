@@ -18,7 +18,7 @@ class HomeController < ApplicationController
       map_flags(Flag.search{
         with(options[:field]).between(options[:criteria])
         with(:flag_record_type, options[:type])
-        with(:flag_flagged_by, current_user.user_name) unless options[:is_manager].present?
+        with(:flag_record_owner, current_user.user_name) unless options[:is_manager].present?
         with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
         with(:flag_is_removed, false)
         order_by(:flag_date, :asc)
@@ -31,6 +31,7 @@ class HomeController < ApplicationController
         record_id: flag.stored(:flag_record_id),
         message: flag.stored(:flag_message),
         flagged_by: flag.stored(:flag_flagged_by),
+        record_owner: flag.stored(:flag_owner),
         date: flag.stored(:flag_date),
         created_at: flag.stored(:flag_created_at),
         system_generated_follow_up: flag.stored(:flag_system_generated_follow_up),
@@ -102,7 +103,6 @@ class HomeController < ApplicationController
     @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
     @overdue_activities = search_flags({field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child'})
     @recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today, type: 'child'})
-    @recently_flagged_count = recent_count(@recently_flagged)
     @recently_flagged = @recently_flagged[0..4]
   end
 
@@ -111,7 +111,6 @@ class HomeController < ApplicationController
     modules = [PrimeroModule::MRM]
     @incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
                                                 type: 'incident'})
-    @incidents_recently_flagged_count = recent_count(@incidents_recently_flagged)
     @incidents_recently_flagged = @incidents_recently_flagged[0..4]
     @open_incidents = Incident.open_incidents
   end
@@ -119,12 +118,7 @@ class HomeController < ApplicationController
   def load_gbv_incidents_information
     @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
                                                 type: 'incident'})
-    @gbv_incidents_recently_flagged_count = recent_count(@gbv_incidents_recently_flagged)
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents
-  end
-
-  def recent_count(flags)
-    flags.group_by{|f| f[:record_id]}.keys.count
   end
 end

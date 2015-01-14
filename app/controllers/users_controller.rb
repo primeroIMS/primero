@@ -14,9 +14,9 @@ class UsersController < ApplicationController
 
     @page_name = t("home.users")
     sort_option = params[:sort] || "full_name"
-    filter_option=params[:filter] || "active"
+    filter_option = params[:filter] || "active"
 
-    @users=User.view("by_#{sort_option}_filter_view", {:startkey => [filter_option], :endkey => [filter_option, {}]})
+    @users = User.view("by_#{sort_option}_filter_view", {:startkey => [filter_option], :endkey => [filter_option, {}]})
     @users_details = users_details
 
     respond_to do |format|
