@@ -1,18 +1,23 @@
-class Referral
+class Transition
   include Syncable::PrimeroEmbeddedModel
   include PrimeroModel
 
   validate :validate_record
 
-  property :referred_to_user, String
-  property :referred_to_user_agency, String
+  property :type, String
+  property :to_user_local, String
+  property :to_user_remote, String
+  property :to_user_agency, String
   property :notes, String
-  property :referred_by, String
+  property :transitioned_by, String
   property :service, String
   property :is_remote, TrueClass
   property :is_remote_primero, TrueClass
   property :created_at, Date
   property :id
+
+  TYPE_REFERRAL = "referral"
+  TYPE_TRANSFER = "transfer"
 
   def initialize *args
     super

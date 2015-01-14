@@ -62,8 +62,8 @@ module ReferActions
 
   def log_referral(referral_records)
     referral_records.each do |record|
-      record.add_referral(referred_to_user_local, referred_to_user_remote, referred_to_user_agency, service,
-                          notes, is_remote_referral?, is_remote_primero?, current_user.user_name)
+      record.add_transition(Transition::TYPE_REFERRAL, referred_to_user_local, referred_to_user_remote, referred_to_user_agency,
+                            notes, is_remote_referral?, is_remote_primero?, current_user.user_name, service)
       #TODO - should this be done here or somewhere else?
       record.save
     end
