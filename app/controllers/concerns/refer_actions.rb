@@ -16,18 +16,20 @@ module ReferActions
       @referral_records, @total_records = retrieve_records_and_total(@filters)
     end
 
-    if params[:is_remote].present? && params[:is_remote] == 'true'
+    log_referral(@referral_records)
+
+    if is_remote_referral?
       remote_referral(@referral_records)
     else
       local_referral(@referral_records)
       redirect_to :back
     end
   end
-  
+
   private
 
   def remote_referral(referral_records)
-    exporter = ((params[:remote_primero].present? && params[:remote_primero] == 'true') ? Exporters::JSONExporter : Exporters::CSVExporter)
+    exporter = (is_remote_primero? ? Exporters::JSONExporter : Exporters::CSVExporter)
     referral_user = User.new(
                       role_ids: [params[:referral_type]],
                       module_ids: ["primeromodule-cp", "primeromodule-gbv"]
@@ -56,6 +58,43 @@ module ReferActions
   def local_referral(referral_records)
     #TODO - implement this
     flash[:notice] = "Testing...Local Referral"
+  end
+
+  def log_referral(referral_records)
+    referral_records.each do |record|
+      record.add_referral(referred_to_user_local, referred_to_user_remote, referred_to_user_agency, service,
+                          notes, is_remote_referral?, is_remote_primero?, current_user.user_name)
+      #TODO - should this be done here or somewhere else?
+      record.save
+    end
+  end
+
+  def is_remote_referral?
+    @remote_referral ||= (params[:is_remote].present? && params[:is_remote] == 'true')
+  end
+
+  def is_remote_primero?
+    @remote_primero ||= (params[:remote_primero].present? && params[:remote_primero] == 'true')
+  end
+
+  def referred_to_user_local
+    @referred_to_user_local ||= (params[:existing_user].present? ? params[:existing_user] : "")
+  end
+
+  def referred_to_user_remote
+    @referred_to_user_remote ||= (params[:other_user].present? ? params[:other_user] : "")
+  end
+
+  def referred_to_user_agency
+    @referred_to_user_agency ||= (params[:other_user_agency].present? ? params[:other_user_agency] : "")
+  end
+
+  def service
+    @service ||= (params[:service].present? ? params[:service] : "")
+  end
+
+  def notes
+    @notes ||= (params[:notes].present? ? params[:notes] : "")
   end
 
 end

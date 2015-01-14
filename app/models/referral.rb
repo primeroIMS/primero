@@ -1,5 +1,5 @@
 class Referral
-  #include Syncable::PrimeroEmbeddedModel
+  include Syncable::PrimeroEmbeddedModel
   include PrimeroModel
 
   validate :validate_record
@@ -9,6 +9,8 @@ class Referral
   property :notes, String
   property :referred_by, String
   property :service, String
+  property :is_remote, TrueClass
+  property :is_remote_primero, TrueClass
   property :created_at, Date
   property :id
 
