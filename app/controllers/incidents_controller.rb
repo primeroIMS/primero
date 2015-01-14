@@ -17,11 +17,6 @@ class IncidentsController < ApplicationController
       params['incident']['violations'].each_key { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
       params['incident']['violations'].compact
 
-      params['incident']['violations'].each_key do |key|
-        params['incident']['violation_category'] = [] if !params['incident']['violation_category'].present?
-        params['incident']['violation_category'] << key if !params['incident']['violation_category'].include? key
-      end
-
       violations_subforms_control_keys.each {|key| params['incident']['violations'][key] = ""}
     end
   end
