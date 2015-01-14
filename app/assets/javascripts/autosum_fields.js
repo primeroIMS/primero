@@ -19,8 +19,10 @@ var AutosumFields = Backbone.View.extend({
   only_allow_digits_paste: function(event) {
     var control = $(event.target);
     setTimeout(function() {
-      control.val(control.val().replace(/\D/g, ''));
+      var new_val = control.val().replace(/\D/g, '');
+      control.attr('value', new_val);
       _primero.update_autosum_field(control);
+      _primero.shared_fields.find_shared_fields(event);
     }, 0);
   }
 });
