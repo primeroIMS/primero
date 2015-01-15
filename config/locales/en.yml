@@ -1229,6 +1229,8 @@ en:
     belong_to: "belonging to"
     because: "because:"
     deleted_by: "deleted by"
+    referral: "Referred to %{to_user} by %{by_user}"
+    transfer: "Transferred to %{to_user} by %{by_user}"
 
     system_logs:
       records_performed_by: "records performed by"
