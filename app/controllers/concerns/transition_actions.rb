@@ -73,7 +73,10 @@ module TransitionActions
   end
   
   def local_referral(referral_records)
-    #TODO - implement this
+    referral_records.each do |record|
+      #TODO - implement this
+      record.save!
+    end
     flash[:notice] = "Testing...Local Referral"
   end
   
@@ -137,7 +140,8 @@ module TransitionActions
       record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency,
                             notes, is_remote?, is_remote_primero?, current_user.user_name, service)
       #TODO - should this be done here or somewhere else?
-      record.save
+      #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
+      record.save if is_remote?
     end
   end
 
