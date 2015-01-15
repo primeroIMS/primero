@@ -15,7 +15,7 @@ describe "form_section/_select_box.html.erb" do
 
     select_box.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/select_box', :locals => { :select_box => select_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
-    rendered.should have_tag("img.vtip")
+    rendered.should have_tag("p.help")
   end
 
   it "should not include image for tooltip when help text not exists" do
