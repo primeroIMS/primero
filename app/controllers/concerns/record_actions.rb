@@ -3,8 +3,7 @@ module RecordActions
 
   include ImportActions
   include ExportActions
-  include ReferActions
-  include TransferActions
+  include TransitionActions
 
   included do
     skip_before_filter :verify_authenticity_token
