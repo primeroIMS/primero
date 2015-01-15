@@ -72,7 +72,9 @@ module Flaggable
     end
 
     def index_flags
-      Sunspot.index! self.flags
+      if self.flags.present?
+        Sunspot.index! self.flags
+      end
     end
 
     #Remove flag. The caller still need to call the save method to persistence the changed by the method.

@@ -13,8 +13,6 @@ class Flag
   property :system_generated_followup, TrueClass, :default => false
   property :id
 
-  # alias_method :index_flags, :index
-
   include Sunspot::Rails::Searchable
 
   searchable do
