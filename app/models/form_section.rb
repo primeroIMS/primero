@@ -229,6 +229,12 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :sorted_highlighted_fields
 
+    def violation_forms
+      ids = Incident.violation_id_fields.keys
+      FormSection.all(keys: ids)
+    end
+    memoize :violation_forms #This can be memoized always
+
     #TODO - can this be done more efficiently?
     def find_form_groups_by_parent_form parent_form
       all_forms = self.find_by_parent_form(parent_form)
