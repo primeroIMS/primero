@@ -3,56 +3,40 @@ module TransitionActions
 
   include SelectActions
 
-  def referral
-    authorize! :referral, model_class
+  def transition
+    authorize! :referral, model_class if is_referral?
+    authorize! :transfer, model_class if is_transfer?
     get_selected_ids
 
-    @referral_records = []
+    @records = []
     if @selected_ids.present?
-      @referral_records = model_class.all(keys: @selected_ids).all
+      @records = model_class.all(keys: @selected_ids).all
     else
       #Refer all records
       @filters = record_filter(filter)
-      @referral_records, @total_records = retrieve_records_and_total(@filters)
+      @records, @total_records = retrieve_records_and_total(@filters)
     end
 
-    log_to_history(@referral_records, Transition::TYPE_REFERRAL)
+    log_to_history(@records)
 
-    if is_remote?
-      remote_referral(@referral_records)
-    else
-      local_referral(@referral_records)
-      redirect_to :back
-    end
-  end
-  
-  def transfer
-    authorize! :transfer, model_class
-    get_selected_ids
-
-    @transfer_records = []
-    if @selected_ids.present?
-      @transfer_records = model_class.all(keys: @selected_ids).all
-    else
-      #Transfer all records
-      @filters = record_filter(filter)
-      @transfer_records, @total_records = retrieve_records_and_total(@filters)
-    end
-
-    log_to_history(@transfer_records, Transition::TYPE_TRANSFER)
-    
     if is_remote?
       begin
-        remote_transfer(@transfer_records)
+        remote_transition(@records)
       rescue
+        #TODO
       end
     else
-      begin
-        local_transfer(@transfer_records)
-        flash[:notice] = t("transfers.success")
-      rescue
-        flash[:notice] = t("transfers.failure")
-        #TODO - do we need additional logging?
+      if is_referral?
+        local_referral(@records)
+      elsif is_transfer?
+        local_transfer(@records)
+        begin
+          local_transfer(@records)
+          flash[:notice] = t("transfers.success")
+        rescue
+          flash[:notice] = t("transfers.failure")
+          #TODO - do we need additional logging?
+        end
       end
       redirect_to :back
     end
@@ -60,37 +44,19 @@ module TransitionActions
 
   private
 
-  def remote_referral(referral_records)
-    exporter = (is_remote_primero? ? Exporters::JSONExporter : Exporters::CSVExporter)
-    referral_user = User.new(
-                      role_ids: [params[:referral_type]],
-                      module_ids: ["primeromodule-cp", "primeromodule-gbv"]
-                    )
-    #TODO filter records per consent
-    props = filter_permitted_export_properties(referral_records, model_class.properties, referral_user)
-    export_data = exporter.export(referral_records, props, current_user)
-    encrypt_data_to_zip export_data, filename(referral_records, exporter, Transition::TYPE_REFERRAL), password
-  end
-  
-  def local_referral(referral_records)
-    referral_records.each do |record|
-      #TODO - implement this
-      record.save!
+  def remote_transition(records)
+    if is_transfer?
+      set_status_transferred(records)
     end
-    flash[:notice] = "Testing...Local Referral"
-  end
-  
-  def remote_transfer(transfer_records)
-    set_status_transferred(transfer_records)
     exporter = (is_remote_primero? ? Exporters::JSONExporter : Exporters::CSVExporter)
-    transfer_user = User.new(
-                      role_ids: [params[:transfer_type]],
+    transition_user = User.new(
+                      role_ids: [transition_role],
                       module_ids: ["primeromodule-cp", "primeromodule-gbv"]
                     )
     #TODO filter records per consent
-    props = filter_permitted_export_properties(transfer_records, model_class.properties, transfer_user)
-    export_data = exporter.export(transfer_records, props, current_user)
-    encrypt_data_to_zip export_data, filename(transfer_records, exporter, Transition::TYPE_TRANSFER), password
+    props = filter_permitted_export_properties(records, model_class.properties, transition_user)
+    export_data = exporter.export(records, props, current_user)
+    encrypt_data_to_zip export_data, filename(records, exporter, transition_type), password
   end
 
   def set_status_transferred(transfer_records)
@@ -103,7 +69,15 @@ module TransitionActions
       end
     end
   end
-  
+
+  def local_referral(referral_records)
+    referral_records.each do |record|
+      #TODO - implement this
+      record.save!
+    end
+    flash[:notice] = "Testing...Local Referral"
+  end
+
   def local_transfer(transfer_records)
     new_user = User.find_by_user_name(params[:existing_user]) if params[:existing_user].present?
     if new_user.present?
@@ -134,8 +108,8 @@ module TransitionActions
       "#{current_user.user_name}-#{model_class.name.underscore}-#{transition_type}.#{exporter.mime_type}"
     end
   end
-  
-  def log_to_history(records, transition_type)
+
+  def log_to_history(records)
     records.each do |record|
       record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency,
                             notes, is_remote?, is_remote_primero?, current_user.user_name, service)
@@ -145,12 +119,28 @@ module TransitionActions
     end
   end
 
+  def is_transfer?
+    transition_type == Transition::TYPE_TRANSFER
+  end
+
+  def is_referral?
+    transition_type == Transition::TYPE_REFERRAL
+  end
+
   def is_remote?
     @remote ||= (params[:is_remote].present? && params[:is_remote] == 'true')
   end
 
   def is_remote_primero?
     @remote_primero ||= (params[:remote_primero].present? && params[:remote_primero] == 'true')
+  end
+
+  def transition_role
+    @transition_role ||= (params[:transition_role].present? ? params[:transition_role] : "")
+  end
+
+  def transition_type
+    @transition_type ||= (params[:transition_type].present? ? params[:transition_type] : "")
   end
 
   def to_user_local

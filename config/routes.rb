@@ -62,8 +62,7 @@ RapidFTR::Application.routes.draw do
   resources :children, as: :cases, path: :cases do
     collection do
       post :import_file
-      post :referral
-      post :transfer
+      post :transition
       get :search
     end
 
