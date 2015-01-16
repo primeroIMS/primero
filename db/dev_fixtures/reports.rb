@@ -7,7 +7,18 @@
 # )
 
 sexes = ['Male', 'Female']
-locations = ['Kenya', 'Uganda', 'Somalia', 'Ethiopia', 'Rwanda', 'Burundi', 'South Sudan', 'Tanzania']
+nationality = ['Kenya', 'Uganda', 'Somalia', 'Ethiopia', 'Rwanda', 'Burundi', 'South Sudan', 'Tanzania']
+locations = ['Kakuma', 'Dadaab', 'Dolo Ado', 'Nairobi']
+displacement_status = [
+  "Resident",
+  "IDP",
+  "Refugee",
+  "Stateless Person",
+  "Returnee",
+  "Foreign National",
+  "Asylum Seeker"
+]
+
 protection_concerns = [
   "Sexually Exploited",
   "GBV survivor",
@@ -45,6 +56,8 @@ case_module_ids = ['primeromodule-cp', 'primeromodule-gbv']
     protection_concerns: concerns,
     child_status: child_status[rand(1)],
     record_state: true,
-    module_id: case_module_ids[rand(1)]
+    module_id: case_module_ids[rand(1)],
+    nationality: [nationality[rand(nationality.size)]],
+    displacement_status: displacement_status[rand(displacement_status.size)]
   )
 end
