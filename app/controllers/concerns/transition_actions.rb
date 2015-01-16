@@ -12,7 +12,7 @@ module TransitionActions
     if @selected_ids.present?
       @records = model_class.all(keys: @selected_ids).all
     else
-      #Refer all records
+      #Get all records
       @filters = record_filter(filter)
       @records, @total_records = retrieve_records_and_total(@filters)
     end
@@ -83,8 +83,7 @@ module TransitionActions
     if new_user.present?
       transfer_records.each do |transfer_record|
         if new_user.user_name != transfer_record.owned_by
-          #TODO - owned_by is getting wiped out... possibly in ownable concern
-          #TODO - probably need to push this functionality down to ownable concern
+          #TODO - possibly need to push this functionality down to ownable concern
           transfer_record.previously_owned_by = transfer_record.owned_by
           transfer_record.owned_by = new_user.user_name
           transfer_record.owned_by_full_name = new_user.full_name
