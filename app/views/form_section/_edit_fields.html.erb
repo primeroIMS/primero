@@ -112,7 +112,8 @@
         <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>
         <ul class="field_types side-nav modal-side-nav">
           <% if @field.present? && @field.type.present? %>
-            <li class="current"><%= link_to t("fields.#{@field.type}"), "javascript:void(0)", :id => "#{@field.type}", :class => "field_links sel" %> </li>
+            <% type_field = @field.type == 'date_range' ? 'date_range_field' : @field.type %>
+            <li class="current"><%= link_to t("fields.#{type_field}"), "javascript:void(0)", :id => "#{type_field}", :class => "field_links sel" %> </li>
           <% else %>
             <li class="current"><%= link_to t("fields.text_field"), "javascript:void(0)", :id => "text_field", :class => "field_links sel" %> </li>
             <li><%= link_to t("fields.text_area"), "javascript:void(0)", :id => "textarea", :class => "field_links" %></li>
