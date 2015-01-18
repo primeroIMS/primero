@@ -43,6 +43,7 @@ class Report < CouchRest::Model::Base
   property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
+
   #TODO: Currently it's not worth trying to save off the report data.
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
   #      Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
@@ -79,10 +80,8 @@ class Report < CouchRest::Model::Base
 
   # Run the Solr query that calculates the pivots and format the output.
   def build_report
-    number_of_pivots = self.pivots.size
-    if self.pivots.present?
-      pivots =self.pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
-      pivots_data = query_solr(pivots, number_of_pivots, filters)
+    if pivots.present?
+      pivots_data = query_solr(pivots, filters)
       #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
       if pivots_data['pivot'].present?
         values = self.value_vector([],pivots_data).to_h
@@ -255,8 +254,10 @@ class Report < CouchRest::Model::Base
 
 
   #TODO: This method should really be replaced by a Sunspot query
-  def query_solr(pivots_string, number_of_pivots, filters)
+  def query_solr(pivots, filters)
     #TODO: This has to be valid and open if a case.
+    number_of_pivots = pivots.size
+    pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
     filter_query = build_solr_filter_query(filters)
     if number_of_pivots == 1
       params = {
