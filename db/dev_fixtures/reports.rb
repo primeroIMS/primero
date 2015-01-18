@@ -45,18 +45,18 @@ case_module_ids = ['primeromodule-cp', 'primeromodule-gbv']
 (0..200).each do |i|
   concerns = []
   (0..rand(4)).each do |j|
-    concerns << protection_concerns[rand(protection_concerns.size-1)] if j > 0
+    concerns << protection_concerns[rand(protection_concerns.size)] if j > 0
   end
 
   Child.create!(
     name: "Test Case #{i.to_s}",
     age: rand(18),
-    sex: sexes[rand(1)],
-    location_current: locations[rand(locations.size-1)],
+    sex: sexes[rand(sexes.size)],
+    location_current: locations[rand(locations.size)],
     protection_concerns: concerns,
-    child_status: child_status[rand(1)],
+    child_status: child_status[rand(child_status.size)],
     record_state: true,
-    module_id: case_module_ids[rand(1)],
+    module_id: case_module_ids[rand(case_module_ids.size)],
     nationality: [nationality[rand(nationality.size)]],
     displacement_status: displacement_status[rand(displacement_status.size)]
   )
