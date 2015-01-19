@@ -19,9 +19,17 @@ module Transitionable
                     :is_remote_primero => is_remote_primero,
                     :service => service,
                     :created_at => DateTime.now)
-      self.transitions << transition
+      self.transitions.unshift(transition)
       transition
     end
+  end
+
+  def referrals
+    self.transitions.select{|t| t.type == 'referral'}
+  end
+
+  def transfers
+    self.transitions.select{|t| t.type == 'transfer'}
   end
 
 end
