@@ -206,9 +206,13 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :find_all_visible_by_parent_form
 
-    def find_by_parent_form parent_form
+    def find_by_parent_form(parent_form, subforms=true)
       #TODO: the sortby can be moved to a couchdb view
-      by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+      result = by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+      if result.present? && !subforms
+        result = filter_subforms(result)
+      end
+      return result
     end
     memoize_in_prod :find_by_parent_form
 
@@ -231,7 +235,7 @@ class FormSection < CouchRest::Model::Base
 
     def violation_forms
       ids = Incident.violation_id_fields.keys
-      FormSection.all(keys: ids)
+      FormSection.by_unique_id(keys: ids)
     end
     memoize :violation_forms #This can be memoized always
 
