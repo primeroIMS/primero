@@ -34,6 +34,7 @@ class Incident < CouchRest::Model::Base
 
   before_save :set_violation_verification_default
   after_save :index_violations
+  after_destroy :unindex_violations
 
   before_update :clean_incident_date
 
@@ -257,6 +258,12 @@ class Incident < CouchRest::Model::Base
   def index_violations
     if self.violations.present?
       Sunspot.index! Violation.from_incident(self)
+    end
+  end
+
+  def unindex_violations
+    if self.violations.present?
+      Sunspot.remove! Violation.from_incident(self)
     end
   end
 
