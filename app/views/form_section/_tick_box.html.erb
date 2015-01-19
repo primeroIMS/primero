@@ -12,7 +12,7 @@
   </div>
 
   <div class="medium-8 columns">
-    <%= check_box_tag name, "true", value == true, :id => field_id, :class => "tick_box" %>
+    <%= check_box_tag name, "true", value == true, :disabled => tick_box.editable == false ? true : false, :id => field_id, :editable => tick_box.editable, :class => "tick_box" %>
     <%= label_tag field_id, label, class: "tick_box_label" if label.present? %>
     <%= hidden_field_tag name, "false", :id => "#{field_id}_" %>
   </div>
