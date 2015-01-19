@@ -70,10 +70,6 @@ class Report < CouchRest::Model::Base
               }"
   end
 
-  def record_class
-    @record_class ||= eval record_type.camelize if record_type.present?
-  end
-
   def modules
     @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
   end
@@ -81,13 +77,7 @@ class Report < CouchRest::Model::Base
   # Run the Solr query that calculates the pivots and format the output.
   def build_report
     if pivots.present?
-      pivots_data = query_solr(pivots, filters)
-      #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
-      if pivots_data['pivot'].present?
-        values = self.value_vector([],pivots_data).to_h
-      else
-        values = {}
-      end
+      values = report_values(record_type, pivots, filters)
       if group_ages
         values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
@@ -252,13 +242,23 @@ class Report < CouchRest::Model::Base
 
   private
 
+  def report_values(record_type, pivots, filters)
+    result = {}
+    pivots_data = query_solr(record_type, pivots, filters)
+    #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
+    if pivots_data['pivot'].present?
+      result = self.value_vector([],pivots_data).to_h
+    end
+    return result
+  end
+
 
   #TODO: This method should really be replaced by a Sunspot query
-  def query_solr(pivots, filters)
+  def query_solr(record_type, pivots, filters)
     #TODO: This has to be valid and open if a case.
     number_of_pivots = pivots.size
-    pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
-    filter_query = build_solr_filter_query(filters)
+    pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.join(',')
+    filter_query = build_solr_filter_query(record_type, filters)
     if number_of_pivots == 1
       params = {
         :q => filter_query,
@@ -293,11 +293,12 @@ class Report < CouchRest::Model::Base
 
 
   #TODO: This only works for string value filters. Add at least dates?
-  def build_solr_filter_query(filters)
-    filters_query = '*:*'
+  def build_solr_filter_query(record_type, filters)
+
+    filters_query = "type:#{solr_record_type(record_type)}"
     if filters.present?
-      filters_query = filters.map do |filter|
-        attribute = SolrUtils.indexed_field_name(self.record_type, filter['attribute'])
+      filters_query = filters_query + ' ' + filters.map do |filter|
+        attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
         query = nil
@@ -322,6 +323,11 @@ class Report < CouchRest::Model::Base
       end.compact.join(" ")
     end
     return filters_query
+  end
+
+  def solr_record_type(record_type)
+    record_type = 'child' if record_type == 'case'
+    record_type.camelize
   end
 
 end
