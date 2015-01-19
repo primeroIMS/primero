@@ -1,7 +1,7 @@
 <div id="dashboard">
   <div class="index_controls_container" data-top="50" data-bottom="40">
     <div class="row collapse">
-      <div class="large-6 columns">
+      <div class="large-6 small-6 columns">
         <ul id="menu" class="sf-menu">
           <li class="init_btn">
             <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
@@ -35,7 +35,7 @@
   </div>
   <% if @display_cases_dashboard %>
   <div class="row collapse">
-    <div id="content" class="large-9 columns">
+    <div id="content" class="large-9 small-9 columns">
       <%= render 'scheduled_activities', scheduled_activities: @scheduled_activities, model: Child %>
       <% if @display_manager_dashboard %>
         <%= render 'caseload', records: @aggregated_case_worker_stats, model: Child %>
@@ -43,7 +43,7 @@
         <%= render 'overdue_activities', records: @overdue_activities, model: Child %>
       <% end %>
     </div>
-    <div id="sidebar" class="large-3 columns">
+    <div id="sidebar" class="large-3 small-3 columns">
       <%= render 'recently_flagged', recently_flagged: @recently_flagged, model: Child %>
     </div>
   </div>
@@ -51,10 +51,10 @@
 
   <% if @display_incidents_dashboard %>
   <div class="row collapse">
-    <div id="content" class="large-9 columns">
+    <div id="content" class="large-9 small-9 columns">
       <%= render 'open_incidents', open_incidents: @open_incidents %>
     </div>
-    <div id="sidebar" class="large-3 columns">
+    <div id="sidebar" class="large-3 small-3 columns">
       <%= render 'recently_flagged', recently_flagged: @incidents_recently_flagged, model: Incident %>
     </div>
   </div>
@@ -62,10 +62,10 @@
 
   <% if @display_gbv_incidents_dashboard %>
   <div class="row collapse">
-    <div id="content" class="large-9 columns">
+    <div id="content" class="large-9 small-9 columns">
       <%= render 'open_gbv_incidents', open_incidents: @open_gbv_incidents %>
     </div>
-    <div id="sidebar" class="large-3 columns">
+    <div id="sidebar" class="large-3 small-3 columns">
       <%= render 'recently_flagged', recently_flagged: @gbv_incidents_recently_flagged, model: Incident %>
     </div>
   </div>
