@@ -1323,7 +1323,7 @@ en:
     zip_file:
       unknown_type: "The archive contains one or more files with unknown type"
 
-  referrals:
+  referral:
     type_label: "Type of Referral"
     existing_user_label: "Existing User"
     other_user_label: "Other User"
@@ -1334,7 +1334,7 @@ en:
     notes_label: "Notes"
     user_mandatory: "User name is required"
 
-  transfers:
+  transfer:
     type_label: "Type of Transfer"
     existing_user_label: "Existing User"
     other_user_label: "Other User"

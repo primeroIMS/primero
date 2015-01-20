@@ -32,9 +32,9 @@ module TransitionActions
         local_transfer(@records)
         begin
           local_transfer(@records)
-          flash[:notice] = t("transfers.success")
+          flash[:notice] = t("transfer.success")
         rescue
-          flash[:notice] = t("transfers.failure")
+          flash[:notice] = t("transfer.failure")
           #TODO - do we need additional logging?
         end
       end
