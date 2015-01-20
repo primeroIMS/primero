@@ -45,7 +45,7 @@ var TransferRecords = Backbone.View.extend({
 
   close_transfer: function(e) {
     e.preventDefault();
-    var password = $('input#transfer_password').val(),
+    var password = $('div#transfer-modal input#password').val(),
         is_remote = $('div#transfer-modal input#is_remote').prop('checked'),
         errorDiv = $("div#transfer-modal .flash");
     //Require a password only if this is a remote transfer

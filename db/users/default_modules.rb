@@ -44,7 +44,8 @@ create_or_update_module(
     "photos_and_audio", "protection_concern_details", "protection_concern",
     "record_owner", "services", "tracing", "verification",
     "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
-    "tracing_request_photos_and_audio", "followup", "reunification_details", "other_reportable_fields_case", "other_reportable_fields_tracing_request"
+    "tracing_request_photos_and_audio", "followup", "reunification_details", "other_reportable_fields_case",
+    "other_reportable_fields_tracing_request", "referral_transfer"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
@@ -59,7 +60,7 @@ create_or_update_module(
     "other_documents",
     "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
     "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
-    "gbv_follow_up_form", "other_reportable_fields_case", "other_reportable_fields_incident"
+    "gbv_follow_up_form", "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
