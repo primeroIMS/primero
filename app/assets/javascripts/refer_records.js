@@ -17,6 +17,7 @@ var ReferRecords = Backbone.View.extend({
 
   toggle_remote_primero: function() {
     $('#referral-modal div.remote_toggle').toggle();
+    $('#referral-modal div.local_toggle').toggle();
   },
 
   toggle_other_user: function(e) {
@@ -46,20 +47,46 @@ var ReferRecords = Backbone.View.extend({
   close_referral: function(e) {
     e.preventDefault();
     var password = $('div#referral-modal input#password').val(),
+        local_user = $('div#referral-modal select#existing_user').val(),
+        remote_user = $('div#referral-modal input#other_user').val(),
         is_remote = $('div#referral-modal input#is_remote').prop('checked'),
-        errorDiv = $("div#referral-modal .flash");
-    //Require a password only if this is a remote referral
-    if(is_remote && (password == null || password == undefined || password.trim() == "")){
-      errorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
-      errorDiv.show();
-      return false;
+        localUserErrorDiv = $("div#referral-modal .local_user_flash"),
+        remoteUserErrorDiv = $("div#referral-modal .remote_user_flash"),
+        passwordErrorDiv = $("div#referral-modal .password_flash"),
+        is_valid = true;
+    if(is_remote){
+      //Require remote user and password
+      if(remote_user == null || remote_user == undefined || remote_user.trim() == ""){
+        remoteUserErrorDiv.children(".error").text(I18n.t("referrals.user_mandatory")).css('color', 'red');
+        remoteUserErrorDiv.show();
+        is_valid = false;
+      }
+      if(password == null || password == undefined || password.trim() == ""){
+        passwordErrorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
+        passwordErrorDiv.show();
+        is_valid = false;
+      }
     } else {
-      errorDiv.hide();
+      //Require local user
+      if(local_user == null || local_user == undefined || local_user.trim() == ""){
+        localUserErrorDiv.children(".error").text(I18n.t("referrals.user_mandatory")).css('color', 'red');
+        localUserErrorDiv.show();
+        is_valid = false;
+      }
+    }
+
+    if(is_valid){
+      localUserErrorDiv.hide();
+      remoteUserErrorDiv.hide();
+      passwordErrorDiv.hide();
       $(e.target).parents('form').submit();
       $('#referral-modal').foundation('reveal', 'close');
       $('#referral-modal form')[0].reset();
       $('#referral-modal div.remote_toggle').hide();
+      $('#referral-modal div.local_toggle').show();
       window.disable_loading_indicator = true;
+    } else {
+      return false;
     }
   }
 });

@@ -17,6 +17,7 @@ var TransferRecords = Backbone.View.extend({
 
   toggle_remote_primero: function() {
     $('#transfer-modal div.remote_toggle').toggle();
+    $('#referral-modal div.local_toggle').toggle();
   },
 
   toggle_other_user: function(e) {
@@ -46,20 +47,46 @@ var TransferRecords = Backbone.View.extend({
   close_transfer: function(e) {
     e.preventDefault();
     var password = $('div#transfer-modal input#password').val(),
+        local_user = $('div#transfer-modal select#existing_user').val(),
+        remote_user = $('div#transfer-modal input#other_user').val(),
         is_remote = $('div#transfer-modal input#is_remote').prop('checked'),
-        errorDiv = $("div#transfer-modal .flash");
-    //Require a password only if this is a remote transfer
-    if(is_remote && (password == null || password == undefined || password.trim() == "")){
-      errorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
-      errorDiv.show();
-      return false;
+        localUserErrorDiv = $("div#transfer-modal .local_user_flash"),
+        remoteUserErrorDiv = $("div#transfer-modal .remote_user_flash"),
+        passwordErrorDiv = $("div#transfer-modal .password_flash"),
+        is_valid = true;
+    if(is_remote){
+      //Require remote user and password
+      if(remote_user == null || remote_user == undefined || remote_user.trim() == ""){
+        remoteUserErrorDiv.children(".error").text(I18n.t("transfer.user_mandatory")).css('color', 'red');
+        remoteUserErrorDiv.show();
+        is_valid = false;
+      }
+      if(password == null || password == undefined || password.trim() == ""){
+        passwordErrorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
+        passwordErrorDiv.show();
+        is_valid = false;
+      }
     } else {
-      errorDiv.hide();
+      //Require local user
+      if(local_user == null || local_user == undefined || local_user.trim() == ""){
+        localUserErrorDiv.children(".error").text(I18n.t("transfer.user_mandatory")).css('color', 'red');
+        localUserErrorDiv.show();
+        is_valid = false;
+      }
+    }
+
+    if(is_valid){
+      localUserErrorDiv.hide();
+      remoteUserErrorDiv.hide();
+      passwordErrorDiv.hide();
       $(e.target).parents('form').submit();
       $('#transfer-modal').foundation('reveal', 'close');
       $('#transfer-modal form')[0].reset();
       $('#transfer-modal div.remote_toggle').hide();
+      $('#transfer-modal div.local_toggle').show();
       window.disable_loading_indicator = true;
+    } else {
+      return false;
     }
   }
 });

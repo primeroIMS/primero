@@ -1332,6 +1332,7 @@ en:
     is_remote_label: "Are you referring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
+    user_mandatory: "User name is required"
 
   transfers:
     type_label: "Type of Transfer"
