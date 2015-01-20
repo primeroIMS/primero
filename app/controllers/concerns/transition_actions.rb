@@ -72,7 +72,7 @@ module TransitionActions
 
   def local_referral(referral_records)
     referral_records.each do |record|
-      #TODO - implement this
+      record.assigned_user_names |= [to_user_local] if to_user_local.present?
       record.save!
     end
   end
