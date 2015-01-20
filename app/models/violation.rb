@@ -23,6 +23,16 @@ class Violation
       form.all_filterable_numeric_fields.map(&:name).each do |f|
         integer(f) {violation_value(f)}
       end
+      form.all_tally_fields.each do |field|
+        string(field.name, multiple: true) do
+          field.tally.map do |t|
+            attribute = "#{field.name}_#{t}"
+            value = violation_value(attribute)
+            value ||= 0
+            "#{t}:#{value}"
+          end
+        end
+      end
     end
 
     Incident.searchable_string_fields.each do |fx|

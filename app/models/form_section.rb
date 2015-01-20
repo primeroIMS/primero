@@ -461,6 +461,10 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
+  def all_tally_fields
+    self.fields.select {|f| f.type == Field::TALLY_FIELD}
+  end
+
   def properties= properties
     properties.each_pair do |name, value|
       self.send("#{name}=", value) unless value == nil

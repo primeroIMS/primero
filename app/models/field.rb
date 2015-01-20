@@ -194,6 +194,10 @@ class Field
     FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
   end
 
+  def self.all_tally_fields(parent_form='case')
+    FormSection.find_by_parent_form(parent_form, false).map {|form| form.all_tally_fields.map(&:name)}.flatten
+  end
+
   def display_name_for_field_selector
     hidden_text = self.visible? ? "" : " (Hidden)"
     "#{display_name}#{hidden_text}"
