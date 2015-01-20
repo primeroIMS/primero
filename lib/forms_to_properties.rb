@@ -88,7 +88,7 @@ module FormToPropertiesConverter
         :textarea => String,
         :text_field => String,
         :radio_button => String,
-        :check_boxes => String,
+        :check_boxes => [String],
         :numeric_field => Integer,
         :tick_box => TrueClass,
       }
