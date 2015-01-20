@@ -75,7 +75,6 @@ module TransitionActions
       #TODO - implement this
       record.save!
     end
-    flash[:notice] = "Testing...Local Referral"
   end
 
   def local_transfer(transfer_records)
