@@ -38,6 +38,7 @@ class Report < CouchRest::Model::Base
   property :record_type #case, incident, etc.
   property :aggregate_by, [String], default: [] #Y-axis
   property :disaggregate_by, [String], default: [] #X-axis
+  property :aggregate_counts_from
   property :filters
   property :group_ages, TrueClass, default: false
   property :group_dates_by, default: DAY
@@ -78,6 +79,27 @@ class Report < CouchRest::Model::Base
   def build_report
     if pivots.present?
       values = report_values(record_type, pivots, filters)
+      if aggregate_counts_from.present?
+        aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
+        if aggregate_counts_from_field.type == Field::TALLY_FIELD
+          values = values.map do |pivots, value|
+            if pivots.last.present?
+              tally = pivots.last.split(':')
+              value = value * tally[1].to_i
+            end
+            [pivots, value]
+          end.to_h
+          values = Reports::Utils.group_values(values, pivots.size) do |pivot_name|
+            pivot_name.split(':')[0]
+          end
+          values = Reports::Utils.correct_aggregate_counts(values)
+        elsif aggregate_counts_from_field.type == Field::TALLY_FIELD
+          #TODO: Implement
+          #calculate the value properly for the full set of pivots
+          #correct the aggregate counts
+          #map to discard the last pivot dimension
+        end
+      end
       if group_ages
         values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
@@ -133,7 +155,9 @@ class Report < CouchRest::Model::Base
   end
 
   def dimensionality
-    (self.aggregate_by + self.disaggregate_by).size
+    d = (self.aggregate_by + self.disaggregate_by).size
+    d += 1 if aggregate_counts_from.present?
+    return d
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
@@ -244,6 +268,7 @@ class Report < CouchRest::Model::Base
 
   def report_values(record_type, pivots, filters)
     result = {}
+    pivots = pivots + [self.aggregate_counts_from] if self.aggregate_counts_from.present?
     pivots_data = query_solr(record_type, pivots, filters)
     #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
     if pivots_data['pivot'].present?
@@ -292,7 +317,6 @@ class Report < CouchRest::Model::Base
   end
 
 
-  #TODO: This only works for string value filters. Add at least dates?
   def build_solr_filter_query(record_type, filters)
 
     filters_query = "type:#{solr_record_type(record_type)}"
