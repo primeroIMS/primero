@@ -10,6 +10,7 @@ Mime::Type.register "audio/ogg", :ogg
 Mime::Type.register "image/jpeg", :jpg
 Mime::Type.register "application/vnd.ms-excel", :xls
 Mime::Type.register "application/vnd.ms-excel", :incident_recorder_xls
+Mime::Type.register "application/vnd.ms-excel", :mrm_violation_xls
 Mime::Type.register_alias "application/pdf", :photowall
 Mime::Type.register_alias "application/pdf", :case_pdf
 Mime::Type.register_alias "text/csv", :unhcr_csv
