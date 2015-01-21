@@ -22,16 +22,12 @@ module Ownable
       users_by_association[:owner]
     end
 
-    def previous_owner
-      users_by_association[:previous_owner]
-    end
-
     def database_operator
       users_by_association[:database_operator]
     end
 
     def associated_user_names
-      ([self.owned_by, self.database_operator_user_name, self.previously_owned_by] + assigned_user_names).compact
+      ([self.owned_by, self.database_operator_user_name] + assigned_user_names).compact
     end
 
     #Note this returns all associated users, including the owner
@@ -52,7 +48,6 @@ module Ownable
       @users_by_association ||= associated_users.reduce({assigned_users: []}) do |hash, user|
         hash[:owner] = user if (user.user_name == owned_by)
         hash[:database_operator] = user if (user.user_name == database_operator_user_name)
-        hash[:previous_owner] = user if (user.user_name == previously_owned_by)
         #TODO: Put this in only if we need to get user info about the other assigned users (probably transfers)
         #hash[:assigned_users] << user if assigned_user_names && assigned_user_names.include? user.user_name
         hash

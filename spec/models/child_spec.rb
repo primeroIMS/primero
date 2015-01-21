@@ -1280,10 +1280,6 @@ describe Child do
       expect(@case.owner).to eq(@owner)
     end
 
-    it "can fetch the previous owner" do
-      expect(@case.previous_owner).to eq(@previous_owner)
-    end
-
     it "can fetch the database operator" do
       expect(@case.database_operator).to eq(@operator)
     end
@@ -1291,7 +1287,7 @@ describe Child do
     it "doesn't repeat CouchDB queries when fetching different user types" do
       expect(User).to receive(:by_user_name).once.and_return(double(all: []))
       @case.owner
-      @case.previous_owner
+      @case.database_operator
     end
 
   end
