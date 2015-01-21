@@ -34,6 +34,8 @@ module RecordActions
 
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
+    module_ids = @records.map(&:module_id).uniq
+    module_users(module_ids)
 
     # Alias @records to the record-specific name since ERB templates use that
     # right now
@@ -65,6 +67,7 @@ module RecordActions
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
     @associated_users = current_user.managed_user_names
+    module_users([@record.module_id])
 
     respond_to do |format|
       format.html do
@@ -332,6 +335,10 @@ module RecordActions
 
     reindex_hash record_params
     update_record_with_attachments(@record)
+  end
+
+  def module_users(module_ids)
+    @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
   end
 
 end
