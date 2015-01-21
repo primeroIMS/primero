@@ -45,7 +45,7 @@ var ReferRecords = Backbone.View.extend({
 
   close_referral: function(e) {
     e.preventDefault();
-    var password = $('input#referral_password').val(),
+    var password = $('div#referral-modal input#password').val(),
         is_remote = $('div#referral-modal input#is_remote').prop('checked'),
         errorDiv = $("div#referral-modal .flash");
     //Require a password only if this is a remote referral

@@ -27,7 +27,6 @@
       <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), :id => field_id,
           :data => { :field_tags => field_tags} %>
     <% end %>
-    <%= image_tag "new/icon_help.png", title: select_box.help_text,
-        class: 'tool-tip-icon vtip' if select_box.help_text.present? %>
+    <p class="help"><%= select_box.help_text if select_box.help_text.present? %></p>
   </div>
 </div>

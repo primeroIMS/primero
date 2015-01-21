@@ -80,9 +80,11 @@
   </div>
   <div class="medium-5 columns">
     <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
-    <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
-        data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
-    <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) %>
+    <% if subform.editable %>
+      <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
+          data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
+    <% end %>
+    <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) && params[:action] == 'show'%>
       <%= link_to I18n.t("buttons.create_case"), create_cp_case_from_individual_details_path(formObject.id, i), {class: "grey-button"} %>
     <% end %>
   </div>

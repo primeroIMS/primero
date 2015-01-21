@@ -16,6 +16,11 @@ module HistoriesHelper
     elsif field == 'flag'
       return {:partial => "shared/histories/flag_change",
               :locals => default_locals_for(history, change).merge(:message => new_value_for(history, 'flag_message'))}
+    elsif field == 'transitions'
+      return {:partial => "shared/histories/transition_change",
+              :locals => {
+                  :datetime => @user.localize_date(history['datetime'], "%Y-%m-%d %H:%M:%S %Z"),
+                  :change => change}}
     elsif field == 'reunited'
       return {:partial => "shared/histories/reunited_change",
               :locals => default_locals_for(history, change).merge(:message => new_value_for(history, 'reunited_message'))}
