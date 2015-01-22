@@ -1,7 +1,0 @@
-LOG:  database system was shut down at 2015-01-16 20:22:15 EST
-LOG:  database system is ready to accept connections
-LOG:  autovacuum launcher started
-LOG:  received smart shutdown request
-LOG:  autovacuum launcher shutting down
-LOG:  shutting down
-LOG:  database system is shut down
