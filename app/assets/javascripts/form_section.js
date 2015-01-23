@@ -92,7 +92,8 @@ $(document).ready(function() {
         $("ul.field_types a#text_field").addClass("sel");
     }
 
-    function showFieldDetails(){
+    function showFieldDetails(e){
+        e.preventDefault();
         $("ul.field_types a").removeClass("sel");
         $("ul.field_types li").removeClass("current");
         $(this).addClass("sel");
