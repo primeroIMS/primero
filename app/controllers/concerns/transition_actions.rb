@@ -12,9 +12,8 @@ module TransitionActions
     if @selected_ids.present?
       @records = model_class.all(keys: @selected_ids).all
     else
-      #Get all records
-      @filters = record_filter(filter)
-      @records, @total_records = retrieve_records_and_total(@filters)
+      flash[:notice] = t('referral.no_records')
+      redirect_to :back and return
     end
 
     log_to_history(@records)

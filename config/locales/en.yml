@@ -1333,6 +1333,7 @@ en:
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
     user_mandatory: "User name is required"
+    no_records: "No records selected"
 
   transfer:
     type_label: "Type of Transfer"
@@ -1344,6 +1345,7 @@ en:
     notes_label: "Notes"
     success: "Transfer was successful"
     failure: "There was an error processing the transfer"
+    user_mandatory: "User name is required"
 
   per_page_translation: "Per page _MENU_"
   total: Total

@@ -57,7 +57,7 @@ var ReferRecords = Backbone.View.extend({
     if(is_remote){
       //Require remote user and password
       if(remote_user == null || remote_user == undefined || remote_user.trim() == ""){
-        remoteUserErrorDiv.children(".error").text(I18n.t("referrals.user_mandatory")).css('color', 'red');
+        remoteUserErrorDiv.children(".error").text(I18n.t("referral.user_mandatory")).css('color', 'red');
         remoteUserErrorDiv.show();
         is_valid = false;
       }
@@ -69,7 +69,7 @@ var ReferRecords = Backbone.View.extend({
     } else {
       //Require local user
       if(local_user == null || local_user == undefined || local_user.trim() == ""){
-        localUserErrorDiv.children(".error").text(I18n.t("referrals.user_mandatory")).css('color', 'red');
+        localUserErrorDiv.children(".error").text(I18n.t("referral.user_mandatory")).css('color', 'red');
         localUserErrorDiv.show();
         is_valid = false;
       }

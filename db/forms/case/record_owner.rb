@@ -49,11 +49,7 @@ record_owner_fields = [
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Other Assigned Users",
-             "option_strings_text_all" =>
-                          ["Operator 1",
-                           "Operator 2",
-                           "Operator 3",
-                           "Operator 4"].join("\n")
+             "option_strings_source" => "User"
             }),
   #TODO spreadsheet says this comes from valid users
   Field.new({"name" => "database_operator_user_name",
