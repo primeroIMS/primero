@@ -473,6 +473,24 @@ describe Syncable do
       resolved = _Child.get(@child._id)
       resolved.attachments.length.should == 2
     end
+
+    it 'does not exponentially duplicate array values' do
+      remove_languages = _Child.get(@child.id).tap do |c|
+        c.attributes = {
+          :languages => [],
+        }
+      end.save!
+
+      readd_languages = _Child.get(@child.id).tap do |c|
+        c.attributes = {
+          :languages => ['English', 'Spanish', 'German'],
+        }
+      end.save!
+
+      @child.reload.resolve_conflicting_revisions
+      resolved = _Child.get(@child._id)
+      resolved.languages.length.should == 3
+    end
   end
 
   describe 'get_intermediate_histories' do

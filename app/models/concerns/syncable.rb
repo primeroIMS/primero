@@ -265,7 +265,7 @@ module Syncable
               end
             end
           else
-            if array_value_was_added_in_changes(el, existing_changes_for_value)
+            if array_value_was_added_in_changes(el, existing_changes_for_value) && !acc.include?(el)
               acc << el
             end
           end
