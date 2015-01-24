@@ -89,7 +89,7 @@ class Report < CouchRest::Model::Base
             end
             [pivots, value]
           end.to_h
-          values = Reports::Utils.group_values(values, pivots.size) do |pivot_name|
+          values = Reports::Utils.group_values(values, dimensionality-1) do |pivot_name|
             pivot_name.split(':')[0]
           end
           values = Reports::Utils.correct_aggregate_counts(values)
@@ -102,7 +102,7 @@ class Report < CouchRest::Model::Base
             end
             [pivots, value]
           end.to_h
-          values = Reports::Utils.group_values(values, values_pivot_length(values)) do |pivot_name|
+          values = Reports::Utils.group_values(values, dimensionality-1) do |pivot_name|
             (pivot_name.is_a? Numeric) ? "" : pivot_name
           end
           values = values.map do |pivots, value|
@@ -112,7 +112,7 @@ class Report < CouchRest::Model::Base
           values = Reports::Utils.correct_aggregate_counts(values)
         end
       end
-      if group_ages && pivot_index(AGE_FIELD) < values_pivot_length(values)
+      if group_ages && pivot_index(AGE_FIELD) < dimensionality
         values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
         end
@@ -120,7 +120,7 @@ class Report < CouchRest::Model::Base
       if group_dates_by.present?
         date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
         date_fields.each do |field_name, _|
-          if pivot_index(field_name) < values_pivot_length(values)
+          if pivot_index(field_name) < dimensionality
             values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
               Reports::Utils.date_range(pivot_name, group_dates_by)
             end
@@ -165,12 +165,27 @@ class Report < CouchRest::Model::Base
   end
 
   def values
-    self.data[:values]
+    if @values.present?
+      @values
+    elsif  self.data.present?
+      self.data[:values]
+    else
+      nil
+    end
   end
 
+  def values=(values)
+    @values = values
+  end
+
+
   def dimensionality
-    d = (self.aggregate_by + self.disaggregate_by).size
-    d += 1 if aggregate_counts_from.present?
+    if values.present?
+      d = values.first.first.size
+    else
+      d = (self.aggregate_by + self.disaggregate_by).size
+      d += 1 if aggregate_counts_from.present?
+    end
     return d
   end
 
@@ -296,7 +311,7 @@ class Report < CouchRest::Model::Base
   #TODO: This method should really be replaced by a Sunspot query
   def query_solr(record_type, pivots, filters)
     #TODO: This has to be valid and open if a case.
-    number_of_pivots = pivots.size
+    number_of_pivots = pivots.size #can also be dimensionality, but the goal is to move the solr methods out
     pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.join(',')
     filter_query = build_solr_filter_query(record_type, filters)
     if number_of_pivots == 1
@@ -367,14 +382,6 @@ class Report < CouchRest::Model::Base
   def solr_record_type(record_type)
     record_type = 'child' if record_type == 'case'
     record_type.camelize
-  end
-
-  def values_pivot_length(values)
-    length = 0
-    if values.first.present?
-      length = values.first.first.size-1
-    end
-    return length
   end
 
 end
