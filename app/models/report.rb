@@ -76,25 +76,26 @@ class Report < CouchRest::Model::Base
   end
 
   # Run the Solr query that calculates the pivots and format the output.
+  #TODO: Break up into self contained, testable methods
   def build_report
     if pivots.present?
-      values = report_values(record_type, pivots, filters)
+      self.values = report_values(record_type, pivots, filters)
       if aggregate_counts_from.present?
         aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
         if aggregate_counts_from_field.type == Field::TALLY_FIELD
-          values = values.map do |pivots, value|
+          self.values = self.values.map do |pivots, value|
             if pivots.last.present? && pivots.last.match(/\w+:\d+/)
               tally = pivots.last.split(':')
               value = value * tally[1].to_i
             end
             [pivots, value]
           end.to_h
-          values = Reports::Utils.group_values(values, dimensionality-1) do |pivot_name|
+          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
             pivot_name.split(':')[0]
           end
-          values = Reports::Utils.correct_aggregate_counts(values)
+          self.values = Reports::Utils.correct_aggregate_counts(self.values)
         elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
-          values = values.map do |pivots, value|
+          self.values = self.values.map do |pivots, value|
             if pivots.last.is_a?(Numeric)
               value = value * pivots.last
             elsif pivots.last == ""
@@ -102,18 +103,18 @@ class Report < CouchRest::Model::Base
             end
             [pivots, value]
           end.to_h
-          values = Reports::Utils.group_values(values, dimensionality-1) do |pivot_name|
+          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
             (pivot_name.is_a? Numeric) ? "" : pivot_name
           end
-          values = values.map do |pivots, value|
+          self.values = self.values.map do |pivots, value|
             pivots = pivots[0..-2] if pivots.last == ""
             [pivots, value]
           end.to_h
-          values = Reports::Utils.correct_aggregate_counts(values)
+          self.values = Reports::Utils.correct_aggregate_counts(self.values)
         end
       end
       if group_ages && pivot_index(AGE_FIELD) < dimensionality
-        values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
+        self.values = Reports::Utils.group_values(self.values, pivot_index(AGE_FIELD)) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
         end
       end
@@ -121,16 +122,27 @@ class Report < CouchRest::Model::Base
         date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
         date_fields.each do |field_name, _|
           if pivot_index(field_name) < dimensionality
-            values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
+            self.values = Reports::Utils.group_values(self.values, pivot_index(field_name)) do |pivot_name|
               Reports::Utils.date_range(pivot_name, group_dates_by)
             end
           end
         end
       end
-      aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
-      disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
+
+      aggregate_limit = aggregate_by.size
+      aggregate_limit = dimensionality if aggregate_limit > dimensionality
+
+      aggregate_value_range = self.values.keys.map do |pivot|
+        pivot[0..(aggregate_limit-1)]
+      end.uniq.sort(&method(:pivot_comparator))
+
+
+      disaggregate_value_range = self.values.keys.map do |pivot|
+        pivot[(aggregate_limit)..-1]
+      end.uniq.sort(&method(:pivot_comparator))
+
       if is_graph
-        graph_value_range = values.keys.map{|k| k[0..1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
+        graph_value_range = self.values.keys.map{|k| k[0..1]}.uniq.sort(&method(:pivot_comparator))
         #Discard all aggegates that are a lower dimensionality thatn the graph
         graph_value_range = graph_value_range.select{|v| v.last.present?}
       end
@@ -140,7 +152,7 @@ class Report < CouchRest::Model::Base
         aggregate_value_range: aggregate_value_range,
         disaggregate_value_range: disaggregate_value_range,
         graph_value_range: graph_value_range,
-        values: values
+        values: @values
       }
       self.data[:graph_value_range] = graph_value_range if is_graph
       ""
@@ -165,6 +177,7 @@ class Report < CouchRest::Model::Base
   end
 
   def values
+    #A little contorted to allow report data saving in the future
     if @values.present?
       @values
     elsif  self.data.present?
@@ -292,6 +305,10 @@ class Report < CouchRest::Model::Base
 
   def pivot_index(field_name)
     pivots.index(field_name)
+  end
+
+  def pivot_comparator(a,b)
+    (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b
   end
 
   private
