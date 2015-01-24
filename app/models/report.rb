@@ -83,7 +83,7 @@ class Report < CouchRest::Model::Base
         aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
         if aggregate_counts_from_field.type == Field::TALLY_FIELD
           values = values.map do |pivots, value|
-            if pivots.last.present?
+            if pivots.last.present? && pivots.last.match(/\w+:\d+/)
               tally = pivots.last.split(':')
               value = value * tally[1].to_i
             end
@@ -93,14 +93,26 @@ class Report < CouchRest::Model::Base
             pivot_name.split(':')[0]
           end
           values = Reports::Utils.correct_aggregate_counts(values)
-        elsif aggregate_counts_from_field.type == Field::TALLY_FIELD
-          #TODO: Implement
-          #calculate the value properly for the full set of pivots
-          #correct the aggregate counts
-          #map to discard the last pivot dimension
+        elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
+          values = values.map do |pivots, value|
+            if pivots.last.is_a?(Numeric)
+              value = value * pivots.last
+            elsif pivots.last == ""
+              value = 0
+            end
+            [pivots, value]
+          end.to_h
+          values = Reports::Utils.group_values(values, values_pivot_length(values)) do |pivot_name|
+            (pivot_name.is_a? Numeric) ? "" : pivot_name
+          end
+          values = values.map do |pivots, value|
+            pivots = pivots[0..-2] if pivots.last == ""
+            [pivots, value]
+          end.to_h
+          values = Reports::Utils.correct_aggregate_counts(values)
         end
       end
-      if group_ages
+      if group_ages && pivot_index(AGE_FIELD) < values_pivot_length(values)
         values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
         end
@@ -108,8 +120,10 @@ class Report < CouchRest::Model::Base
       if group_dates_by.present?
         date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
         date_fields.each do |field_name, _|
-          values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
-            Reports::Utils.date_range(pivot_name, group_dates_by)
+          if pivot_index(field_name) < values_pivot_length(values)
+            values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
+              Reports::Utils.date_range(pivot_name, group_dates_by)
+            end
           end
         end
       end
@@ -213,7 +227,8 @@ class Report < CouchRest::Model::Base
   def value_vector(parent_key, pivots)
     current_key = parent_key + [pivots['value']]
     current_key = [] if current_key == [nil]
-    if !pivots.key? 'pivot'
+    #if !pivots.key? 'pivot'
+    if !pivots['pivot'].present?
       return [[current_key, pivots['count']]]
     else
       vectors = []
@@ -352,6 +367,14 @@ class Report < CouchRest::Model::Base
   def solr_record_type(record_type)
     record_type = 'child' if record_type == 'case'
     record_type.camelize
+  end
+
+  def values_pivot_length(values)
+    length = 0
+    if values.first.present?
+      length = values.first.first.size-1
+    end
+    return length
   end
 
 end
