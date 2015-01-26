@@ -196,6 +196,14 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
+  def violations_list_by_unique_id
+    self.violations.to_hash.inject({}) do |acc, (k, v)|
+      acc.merge(v.inject({}) do |acc2, v|
+        acc2.merge({"#{k.humanize.titleize} #{v['unique_id'][0..4]}" => v['unique_id']})
+      end)
+    end
+  end
+
   #TODO - Need rspec test for this
   def violation_type_list
     violations_list = []

@@ -268,7 +268,7 @@ class Field
       source_options = self.option_strings_source.split
       if source_options.first == 'violations'
         if record.present? && record.class == Incident
-          select_options += record.violations_list
+          select_options = record.violations_list_by_unique_id
         end
       elsif source_options.first == 'lookup'
         select_options += Lookup.values(source_options.last.titleize, lookups)
