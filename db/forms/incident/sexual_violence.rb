@@ -128,7 +128,8 @@ sexual_violence_fields = [
   Field.new({"name" => "sexual_violence",
              "type" => "subform", "editable" => true,
              "subform_section_id" => sexual_violence_subform_section.unique_id,
-             "display_name_all" => "Sexual Violence"
+             "display_name_all" => "Sexual Violence",
+             "expose_unique_id" => true,
             })
 ]
 

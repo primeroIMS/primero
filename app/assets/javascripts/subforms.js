@@ -149,7 +149,6 @@ var SubformView = Backbone.View.extend({
 
     var newUUID = this.generateUUID();
     newSubform.find("input:hidden[id$='unique_id']").val(newUUID);
-    newSubform.find("input:visible[id$='unique_id']").val(newUUID.slice(0,5));
 
     //Initialize the chosen in the subform
     _primero.chosen('#' + subformId + ' select.chosen-select:visible');

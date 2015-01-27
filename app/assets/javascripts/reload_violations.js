@@ -76,10 +76,10 @@ var ViolationListReload = Backbone.View.extend({
             // get subform header
             _primero.update_subform_heading(violationEl);
             var subformHeaderEl = $(violationEl).find(".collapse_expand_subform_header");
-            //var tmpValue = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
+            var collapsed_value = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
             var violation_type = $(violationEl).find(".collapse_expand_subform_header label").text();
             var unique_id = $(violationEl).find("input[type='hidden'][id$='unique_id']").val();
-            violation_list[violation_type + " " + unique_id.slice(0, 5)] = unique_id;
+            violation_list[violation_type + " - " + collapsed_value + " - " + unique_id.slice(0, 5)] = unique_id;
 
             index++;
           }

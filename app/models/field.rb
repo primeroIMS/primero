@@ -23,6 +23,7 @@ class Field
   property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
   property :field_tags, [String], :default => []
   property :custom_template, :default => nil #Custom type should set the path to the template.
+  property :expose_unique_id, TrueClass, :default => false
 
   attr_accessor :subform
 

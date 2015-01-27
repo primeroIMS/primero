@@ -230,7 +230,8 @@ recruitment_fields = [
   Field.new({"name" => "recruitment",
              "type" => "subform", "editable" => true,
              "subform_section_id" => recruitment_subform_section.unique_id,
-             "display_name_all" => "Recruitment"
+             "display_name_all" => "Recruitment",
+             "expose_unique_id" => true,
             })
 ]
 
