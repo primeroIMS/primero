@@ -38,6 +38,9 @@ default[:primero].tap do |p|
       conf[:query_servers].tap do |qs|
         qs[:javascript] = "/usr/bin/couchjs -S 134217728 /usr/share/couchdb/server/main.js"
       end
+      conf[:couchdb].tap do |cdb|
+        cdb[:os_process_timeout] = '20000'
+      end
     end
   end
 

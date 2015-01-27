@@ -358,4 +358,14 @@ class Incident < CouchRest::Model::Base
       self.incident_date.strftime("%d-%b-%Y")
     end
   end
+
+  # TODO: Combine/refactor this violations iterator to spit out instances of
+  # TODO: Pavel's new Violation model
+  def each_violation
+    violations.keys.each do |cat|
+      (violations[cat] || []).each do |v|
+        yield v, cat
+      end
+    end
+  end
 end
