@@ -47,6 +47,9 @@ module TransitionActions
   def remote_transition(records)
     if is_transfer?
       set_status_transferred(records)
+    elsif is_referral?
+      #On referrals, only want to send the most recent referral
+      records.each {|r| r.reject_old_transitions}
     end
     exporter = (is_remote_primero? ? Exporters::JSONExporter : Exporters::CSVExporter)
     transition_user = User.new(
