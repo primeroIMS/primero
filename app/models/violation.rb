@@ -50,6 +50,9 @@ class Violation
     Incident.searchable_location_fields.each do |f|
       text(f, as: "#{f}_lngram".to_sym) {incident_value(f)}
     end
+
+    boolean('record_state') {incident_value('record_state')}
+
   end
 
   def self.all(options={})
