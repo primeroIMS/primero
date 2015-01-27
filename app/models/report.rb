@@ -71,6 +71,16 @@ class Report < CouchRest::Model::Base
               }"
   end
 
+  def self.create_or_update(report_hash)
+    report_id = report_hash[:id]
+    report = Report.get(report_id)
+    if report.nil?
+      Report.create! report_hash
+    else
+      report.update_attributes report_hash
+    end
+  end
+
   def modules
     @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
   end

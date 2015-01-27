@@ -139,7 +139,7 @@ locations = [
 
 status = ['open', 'closed']
 
-(0..200).each do |i|
+(0..20).each do |i|
   #violations
   violations = {}
   (0..rand(7)).each do
