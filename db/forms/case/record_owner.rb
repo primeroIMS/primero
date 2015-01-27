@@ -55,11 +55,7 @@ record_owner_fields = [
   Field.new({"name" => "database_operator_user_name",
              "type" =>"select_box",
              "display_name_all" => "Database Operator",
-             "option_strings_text_all" =>
-                          ["Operator 1",
-                           "Operator 2",
-                           "Operator 3",
-                           "Operator 4"].join("\n")
+             "option_strings_source" => "User"
             }),
   Field.new({"name" => "address_registration",
            "type" => "textarea",
