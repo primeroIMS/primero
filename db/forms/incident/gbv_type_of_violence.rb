@@ -89,7 +89,7 @@ gbv_sexual_violence_fields = [
              "type" => "check_boxes",
              "display_name_all" => "Exclude this incident from reports?",
              "option_strings_text_all" => "Yes",
-             "disabled" => true,
+             "editable" => false,
             }),
   Field.new({"name" => "gbv_previous_incidents",
              "type" => "radio_button",
