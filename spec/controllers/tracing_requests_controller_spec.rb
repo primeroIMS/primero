@@ -341,7 +341,7 @@ describe TracingRequestsController do
     end
 
     it "assigns the requested tracing request" do
-      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
+      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       controller.stub :get_form_sections
       get :show, :id => "37"
       assigns[:tracing_request].should equal(mock_tracing_request)
@@ -367,7 +367,7 @@ describe TracingRequestsController do
     end
 
     it "retrieves the grouped forms that are permitted to this user and tracing request" do
-      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
+      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
@@ -384,7 +384,7 @@ describe TracingRequestsController do
     end
 
     it "should include duplicate records in the response" do
-      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
+      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       duplicates = [TracingRequest.new(:name => "duplicated")]
       TracingRequest.should_receive(:duplicates_of).with("37").and_return(duplicates)
       controller.stub :get_form_sections

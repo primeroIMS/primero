@@ -44,15 +44,18 @@ record_owner_fields = [
           "type" => "text_field",
           "display_name_all" => "Agency Telephone"
            }),
+  #TODO get list from valid users
+  Field.new({"name" => "assigned_user_names",
+             "type" =>"select_box",
+             "multi_select" => true,
+             "display_name_all" => "Other Assigned Users",
+             "option_strings_source" => "User"
+            }),
   #TODO spreadsheet says this comes from valid users
   Field.new({"name" => "database_operator_user_name",
-             "type" =>"select_box" ,
+             "type" =>"select_box",
              "display_name_all" => "Database Operator",
-             "option_strings_text_all" =>
-                          ["Operator 1",
-                           "Operator 2",
-                           "Operator 3",
-                           "Operator 4"].join("\n")
+             "option_strings_source" => "User"
             }),
   Field.new({"name" => "address_registration",
            "type" => "textarea",
@@ -92,7 +95,7 @@ record_owner_fields = [
   Field.new({"name" => "module_id",
           "type" => "text_field",
           "display_name_all" => "Module"
-          }),
+          })
 ]
 
 FormSection.create_or_update_form_section({

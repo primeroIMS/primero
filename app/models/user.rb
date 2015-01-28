@@ -92,6 +92,16 @@ class User < CouchRest::Model::Base
                 }
             }"
 
+    view :by_module,
+            :map => "function(doc) {
+                if (doc['couchrest-type'] == 'User' && doc['module_ids'])
+                {
+                  for (var i in doc['module_ids']){
+                    emit(doc['module_ids'][i], null);
+                  }
+                }
+            }"
+
   end
 
 
@@ -166,6 +176,11 @@ class User < CouchRest::Model::Base
       "user-#{name}".parameterize.dasherize
     end
     memoize_in_prod :user_id_from_name
+
+    def find_by_modules(module_ids)
+      User.by_module(keys: module_ids).all.uniq{|u| u.user_name}
+    end
+    memoize_in_prod :find_by_modules
   end
 
   def initialize(args = {}, args1 = {})

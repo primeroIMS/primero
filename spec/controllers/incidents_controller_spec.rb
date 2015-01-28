@@ -362,14 +362,14 @@ describe IncidentsController do
     end
 
     it "assigns the requested incident" do
-      Incident.stub(:get).with("37").and_return(mock_incident)
+      Incident.stub(:get).with("37").and_return(mock_incident({:module_id => 'primeromodule-mrm'}))
       controller.stub :get_form_sections
       get :show, :id => "37"
       assigns[:incident].should equal(mock_incident)
     end
 
     it "retrieves the grouped forms that are permitted to this user and incident" do
-      Incident.stub(:get).with("37").and_return(mock_incident)
+      Incident.stub(:get).with("37").and_return(mock_incident({:module_id => 'primeromodule-mrm'}))
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       mock_incident.should_receive(:allowed_formsections).and_return(grouped_forms)
@@ -386,7 +386,7 @@ describe IncidentsController do
     end
 
     it "should include duplicate records in the response" do
-      Incident.stub(:get).with("37").and_return(mock_incident)
+      Incident.stub(:get).with("37").and_return(mock_incident({:module_id => 'primeromodule-mrm'}))
       duplicates = [Incident.new(:name => "duplicated")]
       controller.stub :get_form_sections
       Incident.should_receive(:duplicates_of).with("37").and_return(duplicates)

@@ -12,9 +12,8 @@ module TransitionActions
     if @selected_ids.present?
       @records = model_class.all(keys: @selected_ids).all
     else
-      #Get all records
-      @filters = record_filter(filter)
-      @records, @total_records = retrieve_records_and_total(@filters)
+      flash[:notice] = t('referral.no_records')
+      redirect_to :back and return
     end
 
     log_to_history(@records)
@@ -24,20 +23,10 @@ module TransitionActions
         remote_transition(@records)
       rescue
         #TODO
+        logger.error "#{model_class.parent_form}s not transitioned to remote #{@to_user_remote}... failure"
       end
     else
-      if is_referral?
-        local_referral(@records)
-      elsif is_transfer?
-        local_transfer(@records)
-        begin
-          local_transfer(@records)
-          flash[:notice] = t("transfers.success")
-        rescue
-          flash[:notice] = t("transfers.failure")
-          #TODO - do we need additional logging?
-        end
-      end
+      local_transition(@records)
       redirect_to :back
     end
   end
@@ -70,27 +59,47 @@ module TransitionActions
     end
   end
 
+  def local_transition(records)
+    to_user_local
+    if @new_user.present?
+      if is_referral?
+        local_referral(records)
+      elsif is_transfer?
+        local_transfer(records)
+      end
+    end
+  end
+
   def local_referral(referral_records)
     referral_records.each do |record|
-      #TODO - implement this
-      record.save!
+      if transition_valid(record, @new_user)
+        record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
+        record.save!
+      else
+        logger.error "#{model_class.parent_form} #{record.short_id} not referred to #{@to_user_local}... not valid"
+      end
     end
   end
 
   def local_transfer(transfer_records)
-    new_user = User.find_by_user_name(params[:existing_user]) if params[:existing_user].present?
-    if new_user.present?
-      transfer_records.each do |transfer_record|
-        if new_user.user_name != transfer_record.owned_by
+    transfer_records.each do |transfer_record|
+      if transition_valid(transfer_record, @new_user)
+        if @new_user.user_name != transfer_record.owned_by
           #TODO - possibly need to push this functionality down to ownable concern
           transfer_record.previously_owned_by = transfer_record.owned_by
-          transfer_record.owned_by = new_user.user_name
-          transfer_record.owned_by_full_name = new_user.full_name
-          transfer_record.save!
+          transfer_record.owned_by = @new_user.user_name
+          transfer_record.owned_by_full_name = @new_user.full_name
+          transfer_record.save
           #TODO log stuff
         end
+      else
+        logger.error "#{model_class.parent_form} #{record.short_id} not transferred to #{@to_user_local}... not valid"
       end
     end
+  end
+
+  def transition_valid(record, user)
+    isValid = (user.permissions.include? model_class.parent_form) && (user.module_ids.include? record.module_id)
   end
 
   def password
@@ -143,6 +152,7 @@ module TransitionActions
 
   def to_user_local
     @to_user_local ||= (params[:existing_user].present? ? params[:existing_user] : "")
+    @new_user ||= User.find_by_user_name(params[:existing_user]) if params[:existing_user].present?
   end
 
   def to_user_remote
