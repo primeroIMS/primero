@@ -33,6 +33,11 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+input[type="file"] {
+  width:75% !important;
+}
+
+
 select:not([class^="ui-datepicker-"]), select:hover:not([class^="ui-datepicker-"]) {
   border: 1px solid $stroke_green_color;
   background: #fff url(image_path("select_carot.png")) no-repeat;
