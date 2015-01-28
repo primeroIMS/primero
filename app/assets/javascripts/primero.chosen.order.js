@@ -64,7 +64,8 @@
       }
       return triggerEvent(this, "chosen:updated");
     };
-
+    
+    // Build option list with optgroup included instead of just the select's options. 
     option_selection = function(select) {
       options = [];
       grps = select.getElementsByTagName('optgroup');
@@ -101,7 +102,9 @@
         if (close_btn != null) {
           rel = close_btn.getAttribute(this.relAttributeName);
         }
-
+	
+	// Building option list including the optgroup if optgroups is true
+	// else building options list with the normal funcitonality.
         if (optgroups) {
           options = option_selection(select);
         } else {
@@ -138,7 +141,8 @@
         _results = [];
         for (i = _i = 0, _len = order.length; _i < _len; i = ++_i) {
           opt = order[i];
-
+	  
+	  // Getting options options based on if optgroups if true
           tmp_select = optgroups ? option_selection(select) : select;
 
           rel = Array.prototype.indexOf.call(tmp_select, select.querySelector("option[value=\"" + opt + "\"]"));
@@ -163,6 +167,7 @@
   $ = jQuery;
 
   $.fn.extend({
+    // Added param for added optgroup functionality for getSectionOrder and setSelectionOrder
     getSelectionOrder: function(optgroup) {
       return ChosenOrder.getSelectionOrder(this, optgroup);
     },
