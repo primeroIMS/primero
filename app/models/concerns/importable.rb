@@ -2,18 +2,6 @@ module Importable
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def get_unique_instance(attributes)
-      nil
-    end
-
-    def create_new_model(attributes={}, current_user=nil)
-      self.create(attributes)
-    end
-
-    def update_existing_model(inst, attributes, current_user=nil)
-      inst.attributes = attributes
-    end
-
     def import(attributes, current_user)
       given_id = attributes.delete '_id'
       existing_by_id = given_id.present? ? self.get(given_id) : nil
