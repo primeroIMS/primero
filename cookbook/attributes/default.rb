@@ -5,7 +5,7 @@ default[:primero].tap do |p|
   p[:rails_env] = 'production'
   p[:home_dir] = '/srv/primero'
   p[:app_dir] = File.join(node[:primero][:home_dir], 'application')
-  p[:log_dir] = File.join(node[:primero][:app_dir], 'log')
+  p[:log_dir] = File.join(node[:primero][:home_dir], 'logs')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
   p[:solr_user] = 'solr'
@@ -37,6 +37,9 @@ default[:primero].tap do |p|
       end
       conf[:query_servers].tap do |qs|
         qs[:javascript] = "/usr/bin/couchjs -S 134217728 /usr/share/couchdb/server/main.js"
+      end
+      conf[:couchdb].tap do |cdb|
+        cdb[:os_process_timeout] = '20000'
       end
     end
   end

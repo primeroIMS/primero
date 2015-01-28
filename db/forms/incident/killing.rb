@@ -175,7 +175,8 @@ killing_fields = [
   Field.new({"name" => "killing",
              "type" => "subform", "editable" => true,
              "subform_section_id" => killing_subform_section.unique_id,
-             "display_name_all" => "Killing"
+             "display_name_all" => "Killing",
+             "expose_unique_id" => true,
             })
 ]
 

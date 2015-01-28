@@ -36,6 +36,7 @@ class Incident < CouchRest::Model::Base
   after_save :index_violations
   after_destroy :unindex_violations
   before_save :ensure_violation_categories_exist
+  before_save :calculate_gbv_type_of_violence_exclusion
 
   before_update :clean_incident_date
 
@@ -168,21 +169,26 @@ class Incident < CouchRest::Model::Base
     }
   end
 
-  def violation_label(violation_type, violation)
+  def violation_label(violation_type, violation, include_unique_id=false)
     id_fields = self.class.violation_id_fields
     label_id = violation.send(id_fields[violation_type].to_sym)
     label_id_text = (label_id.is_a?(Array) ? label_id.join(', ') : label_id)
     label = label_id.present? ? "#{violation_type.titleize} - #{label_id_text}" : "#{violation_type.titleize}"
+    if include_unique_id
+      label += " - #{violation['unique_id'].try(:slice, 0, 5)}"
+    end
+    label
   end
 
   #TODO - Need rspec test for this
-  def violations_list(compact_flag = false)
+  def violations_list(compact_flag = false, include_unique_id=false)
     violations_list = []
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each_with_index do |v, i|
+          vlabel = violation_label(key, v, include_unique_id)
           # Add an index if compact_flag is false
-          violations_list << (compact_flag ? "#{violation_label(key, v)}" : "#{violation_label(key, v)} #{i}")
+          violations_list << vlabel
         end
       end
     end
@@ -196,6 +202,14 @@ class Incident < CouchRest::Model::Base
     end
 
     return violations_list
+  end
+
+  def violations_list_by_unique_id
+    self.violations.to_hash.inject({}) do |acc, (vtype, vs)|
+      acc.merge(vs.inject({}) do |acc2, v|
+        acc2.merge({violation_label(vtype, v, true) => v['unique_id']})
+      end)
+    end
   end
 
   #TODO - Need rspec test for this
@@ -370,6 +384,36 @@ class Incident < CouchRest::Model::Base
       self.date_of_incident.strftime("%d-%b-%Y")
     elsif self.incident_date.present?
       self.incident_date.strftime("%d-%b-%Y")
+    end
+  end
+  
+  #  TODO: The value 'Yes' may have to be translated
+  def calculate_gbv_type_of_violence_exclusion
+    if self.gbv_reported_elsewhere == 'Yes' && self.gbv_reported_elsewhere_subform.any?{ |f| f.gbv_reported_elsewhere_reporting == 'Yes' }
+      self.gbv_do_not_report = ['Yes']
+    else
+      self.gbv_do_not_report = []
+    end
+  end
+
+  # TODO: Combine/refactor this violations iterator to spit out instances of
+  # TODO: Pavel's new Violation model
+  def each_violation
+    return enum_for(:each_violation) unless block_given?
+
+    violations.keys.each do |cat|
+      (violations[cat] || []).each do |v|
+        yield v, cat
+      end
+    end
+  end
+
+  def find_violation_by_unique_id unique_id
+    each_violation.inject(nil) do |acc, (v, cat)|
+      if v.unique_id == unique_id
+        acc = [cat, v]
+      end
+      acc
     end
   end
 end

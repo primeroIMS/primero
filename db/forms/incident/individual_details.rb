@@ -105,8 +105,8 @@ individual_details_fields = [
              "display_name_all" => "Current civil/marital status",
              "option_strings_text_all" =>
                           ["Single",
-                           "Married/Cohabitating",
-                           "Divorced/Separated",
+                           "Married / Cohabitating",
+                           "Divorced / Separated",
                            "Widowed"].join("\n")
             }),
   Field.new({"name" => "disability_type",

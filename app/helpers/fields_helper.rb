@@ -60,9 +60,23 @@ module FieldsHelper
     link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
   end
 
-  def field_value_for_multi_select field_value, field
+  def field_value_for_multi_select field_value, field, parent_obj=nil
     if field_value.blank?
       ""
+    elsif field.option_strings_source == 'violations'
+      # This is about the cleanest way to do this without totally reworking the
+      # template logic.  Just hope we don't ever have any relevant fields
+      # nested more than one level
+      if parent_obj['couchrest-type'] != 'Incident'
+        inc = parent_obj.casted_by
+      else
+        inc = parent_obj
+      end
+
+      field_value.map do |violation_id|
+        vtype, violation = inc.find_violation_by_unique_id(violation_id)
+        inc.violation_label(vtype, violation, true)
+      end.join('; ')
     else
       options = []
       if field_value.is_a?(Array)

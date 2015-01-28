@@ -15,7 +15,7 @@ var SubformView = Backbone.View.extend({
 
       //Hide Regular inputs by default unless it is a summary section.
       if (!$(el).find('span.collapse_expand_subform').hasClass('summary_section')) {
-       $(el).find(".subform").children(".row").not(":first").hide();
+        $(el).find(".subform").children(".row").not(":first").hide();
       }
 
       $(el).find(".subform div[class='row collapse_expand_subform_header'] span.collapse_expand_subform").each(function(x, el){
@@ -72,6 +72,17 @@ var SubformView = Backbone.View.extend({
     }
   },
 
+  // From: http://stackoverflow.com/a/8809472/1009106
+  generateUUID: function() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+  },
+
   add_subform: function(target) {
     //grab the correct template
     var template = target.parent().prev(),
@@ -87,14 +98,14 @@ var SubformView = Backbone.View.extend({
     var newSubform = template.clone();
 
     //replace template values, make it visible
-    var subformId = newSubform.attr("id").replace("template",i);
+    var subformId = newSubform.attr("id").replace("template", i);
     newSubform.attr("id", subformId);
 
-    var fieldsetId = newSubform.find("fieldset").attr("id").replace("template",i);
+    var fieldsetId = newSubform.find("fieldset").attr("id").replace("template", i);
     newSubform.find("fieldset").attr("id", fieldsetId);
 
     newSubform.find("label.key").each(function(x, el){
-      var for_attr = el.getAttribute("for").replace("template",i);
+      var for_attr = el.getAttribute("for").replace("template", i);
       el.setAttribute("for", for_attr);
     });
 
@@ -135,6 +146,9 @@ var SubformView = Backbone.View.extend({
 
     // set sidebar height
     _primero.set_content_sidebar_equality();
+
+    var newUUID = this.generateUUID();
+    newSubform.find("input:hidden[id$='unique_id']").val(newUUID);
 
     //Initialize the chosen in the subform
     _primero.chosen('#' + subformId + ' select.chosen-select:visible');
