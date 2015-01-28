@@ -640,7 +640,8 @@ describe FormSection do
                   }),
         Field.new({"name" => "separation_cause",
                    "type" => "select_box",
-                   "display_name_all" => "What was the main cause of separation?"
+                   "display_name_all" => "What was the main cause of separation?",
+                   "option_strings_source" => ["Cause 1", "Cause 2"],
                   })
       ]
       #Attempt to create a new section, no update form section
@@ -704,15 +705,16 @@ describe FormSection do
                   }),
         Field.new({"name" => "separation_cause",
                    "type" => "select_box",
-                   "display_name_all" => "What was the main cause of separation?"
+                   "display_name_all" => "What was the main cause of separation?",
+                   "option_strings_source" => ["Cause 1", "Cause 2"],
                   })
       ]
       properties = {
-        "visible"=>true,
+        "visible"=>false,
         :order=>11,
         :unique_id=>"tracing",
         :fields => fields,
-        :perm_visible => true,
+        :perm_visible => false,
         "editable"=>true,
         "name_all" => "Tracing Name",
         "description_all" => "Tracing Description"
@@ -720,7 +722,7 @@ describe FormSection do
 
       existing_form_section = FormSection.new
       existing_form_section.should_receive(:attributes=).with(properties)
-      existing_form_section.should_receive(:save)
+      existing_form_section.should_receive(:save!)
       FormSection.should_receive(:get_by_unique_id).with("tracing").and_return(existing_form_section)
 
       form_section = FormSection.create_or_update_form_section(properties)

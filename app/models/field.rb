@@ -23,6 +23,7 @@ class Field
   property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
   property :field_tags, [String], :default => []
   property :custom_template, :default => nil #Custom type should set the path to the template.
+  property :expose_unique_id, TrueClass, :default => false
 
   attr_accessor :subform
 
@@ -268,7 +269,7 @@ class Field
       source_options = self.option_strings_source.split
       if source_options.first == 'violations'
         if record.present? && record.class == Incident
-          select_options += record.violations_list
+          select_options = record.violations_list_by_unique_id
         end
       elsif source_options.first == 'lookup'
         select_options += Lookup.values(source_options.last.titleize, lookups)

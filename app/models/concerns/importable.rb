@@ -31,7 +31,7 @@ module Importable
       end
     end
 
-    private 
+    private
 
     def verify_model_type(inst, attributes)
       t = attributes.delete('model_type')

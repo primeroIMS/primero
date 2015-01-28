@@ -110,7 +110,8 @@ other_violation_fields = [
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => other_violation_subform_section.unique_id,
-             "display_name_all" => "Other Violations"
+             "display_name_all" => "Other Violations",
+             "expose_unique_id" => true,
             }),
   ##Subform##
 ]
