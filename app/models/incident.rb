@@ -203,7 +203,7 @@ class Incident < CouchRest::Model::Base
   end
 
   def violations_list_by_unique_id
-    self.violations.to_hash.inject({}) do |acc, (vtype, vs)|
+    (self.violations || {}).to_hash.inject({}) do |acc, (vtype, vs)|
       acc.merge(vs.inject({}) do |acc2, v|
         acc2.merge({violation_label(vtype, v, true) => v['unique_id']})
       end)
