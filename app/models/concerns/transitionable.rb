@@ -32,4 +32,8 @@ module Transitionable
     self.transitions.select{|t| t.type == 'transfer'}
   end
 
+  def reject_old_transitions
+    self.transitions = [self.transitions.first]
+  end
+
 end
