@@ -359,7 +359,8 @@ class Incident < CouchRest::Model::Base
       self.incident_date.strftime("%d-%b-%Y")
     end
   end
-
+  
+  #  TODO: The value 'Yes' may have to be translated
   def calculate_gbv_type_of_violence_exclusion
     if self.gbv_reported_elsewhere == 'Yes' && self.gbv_reported_elsewhere_subform.any?{ |f| f.gbv_reported_elsewhere_reporting == 'Yes' }
       self.gbv_do_not_report = ['Yes']
