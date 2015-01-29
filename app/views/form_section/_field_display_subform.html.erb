@@ -39,21 +39,6 @@
                              }
           %>
 
-          <div class="row">
-            <div class="medium-4 columns">
-              <label class="key"><%= t('unique_id') %></label>
-            </div>
-            <div class="medium-8 columns">
-              <%
-                value = (formObject_i['unique_id'] || "")[0..4]
-              %>
-              <span class="value"
-                    data-field-tags="[]">
-                    <%= value %>
-              </span>
-            </div>
-          </div>
-
           <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
             <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject_i} %>
           <% end %>
