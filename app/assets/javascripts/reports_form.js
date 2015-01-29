@@ -1,4 +1,4 @@
-var ReportForm = Backbone.View.extend({
+ var ReportForm = Backbone.View.extend({
 
   el: '.reports_form',
 
@@ -6,7 +6,9 @@ var ReportForm = Backbone.View.extend({
     'change #report_module_ids': 'reload_field_lookups',
     'change #report_record_type': 'reload_field_lookups',
     'click #report_filter_add_button': 'add_filter',
-    'click .report_filter_remove_button': 'remove_filter'
+    'click .report_filter_remove_button': 'remove_filter',
+    'change #report_aggregate_by': 'change_set_chosen_order',
+    'change #report_disaggregate_by': 'change_set_chosen_order'
   },
 
   initialize: function() {
@@ -21,6 +23,50 @@ var ReportForm = Backbone.View.extend({
     $('#report_aggregate_by, #report_disaggregate_by').chosen(this.chosen_options);
     $('.report_filter_value_string_row select.report_filter_input').chosen($.extend({},this.chosen_options,{max_selected_options: Infinity}));
     $('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
+
+    this.init_chosen_order($('#report_aggregate_by, #report_disaggregate_by'));
+  },
+
+  change_set_chosen_order: function(e) {
+    var self = this;
+    setTimeout(function() {
+      self.set_chosen_order($(e.target), false);
+    }, 100);
+  },
+
+  init_chosen_order: function(elements) {
+    var self = this;
+    setTimeout(function() {
+      _.each(elements, function(element) {
+        self.set_chosen_order($(element), true);
+      });
+    }, 500);
+  },
+
+  set_chosen_order: function(element, is_init) {
+    var target = element,
+        order = is_init ? target.parent().data('actual-order') : target.getSelectionOrder(true);
+        counter = 0,
+        select_control = target.parent().find('select');
+
+    if (!is_init) {
+      select_control.find("option:selected").removeAttr("selected");
+    }
+
+    target.parent().find('.order_field').remove();
+
+    _.each(order, function(item) {
+      var data = {
+        value: item,
+        name: select_control.attr('name')
+      };
+      target.parent().append(HandlebarsTemplates.chosen_ordering_hidden_field(data));
+      counter++;
+    });
+
+    if (_.isArray(order) && is_init) {
+      $(target).setSelectionOrder(order, true, true);
+    }
   },
 
   chosen_options: {

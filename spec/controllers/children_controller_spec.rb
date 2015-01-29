@@ -144,7 +144,7 @@ describe ChildrenController do
       describe "when the signed in user is a field worker" do
         before do
           @session = fake_field_worker_login
-          @stubs ||= {}
+          @stubs ||= {:module_id => 'primeromodule-cp'}
           @options ||= {}
           @params ||= {}
         end
@@ -401,7 +401,7 @@ describe ChildrenController do
     end
 
     it "assigns the requested child" do
-      Child.stub(:get).with("37").and_return(mock_child)
+      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
       ChildrenController.any_instance.stub(:get_form_sections).and_return({})
       get :show, :id => "37"
       assigns[:child].should equal(mock_child)
@@ -427,7 +427,7 @@ describe ChildrenController do
 
 
     it "retrieves the grouped forms that are permitted to this user and child" do
-      Child.stub(:get).with("37").and_return(mock_child)
+      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
@@ -444,7 +444,7 @@ describe ChildrenController do
     end
 
     it "should include duplicate records in the response" do
-      Child.stub(:get).with("37").and_return(mock_child)
+      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
       duplicates = [Child.new(:name => "duplicated")]
       Child.should_receive(:duplicates_of).with("37").and_return(duplicates)
       controller.stub :get_form_sections

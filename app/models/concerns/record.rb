@@ -231,7 +231,7 @@ module Record
         Rails.logger.warn("Updating record without user tracking!")
       end
 
-      instance.update_properties(attributes, current_user.try(:name))
+      instance.update_properties(attributes, current_user.try(:user_name))
     end
 
     #Generate a hash with properties that seems to no belong to any FormSection.
@@ -338,8 +338,8 @@ module Record
       attributes_to_update[name] = value
       attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
     end
-    self.last_updated_by = user_name
     self.attributes = attributes_to_update
+    self.last_updated_by = user_name
   end
 
   def create_identification

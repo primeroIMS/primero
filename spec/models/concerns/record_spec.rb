@@ -28,4 +28,14 @@ describe Record do
       histories.first["changes"]["current_photo_key"].should be_nil
     end
   end
+
+  describe 'update_properties' do
+    it 'updates last_updated_by with the given user even if provided in the attributes' do
+      c = _Child.new("name" => "Bob")
+      c.stub(:field_definitions).and_return([])
+      c.save!
+      c.update_properties({"last_updated_by" => "random guy", "name" => "Rob"}, 'primero')
+      c.last_updated_by.should == 'primero'
+    end
+  end
 end

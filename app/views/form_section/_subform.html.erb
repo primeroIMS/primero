@@ -21,9 +21,7 @@
     <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container" data-subform_index="<%= i %>">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-      <% fk_unique_id = field_keys(subform_name, i, 'unique_id', form_group_name) %>
-      <%= hidden_field_tag(field_tag_name(formObject, nil, fk_unique_id),
-                           field_value(formObject, nil, fk_unique_id)) %>
+
       <%= render partial: "form_section/subform_expand_collapse_header",
                  object: formObject,
                  locals: { formObject: formObject,
@@ -33,6 +31,16 @@
                            form_group_name: form_group_name
                          }
       %>
+
+      <%
+        fk_unique_id = field_keys(subform_name, i, 'unique_id', form_group_name)
+        unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
+        unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
+        unique_field_value = field_value(formObject, nil, fk_unique_id)
+      %>
+      <%= hidden_field_tag(unique_tag_name,
+                           field_value(formObject, nil, fk_unique_id)) %>
+
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
         <% fk = field_keys(subform_name, i, field.name, form_group_name) %>
         <%= render partial: "form_section/#{field.type}",
@@ -60,6 +68,15 @@
                          form_group_name: form_group_name
                        }
     %>
+
+    <%
+      fk_unique_id = field_keys(subform.name, 'template', 'unique_id', form_group_name)
+      unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
+      unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
+      unique_field_value = ''
+    %>
+    <%= hidden_field_tag(unique_tag_name, '') %>
+
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
       <% fk = field_keys(subform_name, 'template', field.name, form_group_name) %>

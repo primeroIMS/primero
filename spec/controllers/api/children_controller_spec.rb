@@ -43,7 +43,7 @@ describe ChildrenController do
 
   describe "GET show" do
     it "should render a child record as json" do
-      Child.should_receive(:get).with("123").and_return(mock_model(Child, :to_json => "a child record"))
+      Child.should_receive(:get).with("123").and_return(mock_model(Child, :module_id => 'primeromodule-cp', :to_json => "a child record"))
       get :show, :id => "123", :format => :json
       response.body.should == "a child record"
     end
