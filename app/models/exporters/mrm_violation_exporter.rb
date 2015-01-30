@@ -89,7 +89,7 @@ module Exporters
       def find_related_fields_for_violation(related_field, violation_link_field, incident, violation, type)
         index = incident.violations[type].index(violation)
         unless index.nil?
-          link_value = violation_summary_value(incident, violation, type)
+          link_value = violation['unique_id']
           incident[related_field].select {|el| (el[violation_link_field] || []).include?(link_value) }
         else
           []
@@ -114,6 +114,7 @@ module Exporters
             find_related_fields_for_violation(related_field, violation_link_field, inc, violation, type).each do |rf|
               column_values = generators.map {|_, gen| gen.call(inc, violation, type, rf) }
               worksheet.write_row(row_no, 0, format_values(column_values))
+              row_no += 1
             end
           end
         end

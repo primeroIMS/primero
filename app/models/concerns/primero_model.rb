@@ -5,6 +5,20 @@ module PrimeroModel
   extend ActiveModel::Naming
   extend ActiveSupport::Concern
 
+  module ClassMethods
+    def get_unique_instance(attributes)
+      nil
+    end
+
+    def create_new_model(attributes={}, current_user=nil)
+      self.create(attributes)
+    end
+
+    def update_existing_model(inst, attributes, current_user=nil)
+      inst.attributes = attributes
+    end
+  end
+
   # @param attr_keys: An array whose elements are properties and array indeces
   # Ex: `child.value_for_attr_keys(['family_details_section', 0, 'relation_name'])`
   # is equivalent to doing `child.family_details_section[0].relation_name`

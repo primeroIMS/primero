@@ -21,6 +21,18 @@
         <br>
       <% end %>
     <% end %>
+    <% if radio_button.guiding_questions.present? %>
+      <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0',
+            data: {
+              toggle: 'popover',
+              trigger: 'focus',
+              title: t('buttons.guiding_questions'),
+              html: true
+            }) %>
+      <div class='popover_content' style="display:none;">
+        <%=  radio_button.guiding_questions %>
+      </div>
+    <% end %>
   </div>
 
   <%= image_tag "new/icon_help.png", title: radio_button.help_text, class: 'tool-tip-icon vtip' if radio_button.help_text.present? %>

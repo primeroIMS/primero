@@ -10,8 +10,8 @@
         #TODO - When that happens, routes will have to be added
       %>
       <% if model == Child %>
-        <%= render 'referrals/button' %>
-        <%= render 'transfers/button' %>
+        <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
+        <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
       <% end %>
     </ul>
   </li>

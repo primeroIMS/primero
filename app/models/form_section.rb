@@ -192,7 +192,7 @@ class FormSection < CouchRest::Model::Base
       if form_section.present?
         Rails.logger.info {"Updating form section #{unique_id}"}
         form_section.attributes = properties
-        form_section.save
+        form_section.save!
       else
         Rails.logger.info {"Creating form section #{unique_id}"}
         return self.create!(properties)

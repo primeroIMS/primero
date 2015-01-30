@@ -225,7 +225,8 @@ attack_on_schools_fields = [
   Field.new({"name" => "attack_on_schools",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_schools_subform_section.unique_id,
-             "display_name_all" => "Attack on Schools"
+             "display_name_all" => "Attack on Schools",
+             "expose_unique_id" => true,
             })
 ]
 
