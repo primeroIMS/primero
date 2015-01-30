@@ -1,4 +1,10 @@
 gbv_data_confidentiality_fields = [
+  Field.new({"name" => "consent_for_services",
+             "type" => "radio_button",
+             "display_name_all" => "Did the survivor provide their consent for service provision",
+             "option_strings_text_all" => "Yes\nNo",
+             "guiding_questions" => "This includes consent for sharing information with other organizations providing services"
+            }),
   Field.new({"name" => "consent_release_separator",
              "type" => "separator",
              "display_name_all" => "Consent to Release Information by Referral Type",

@@ -164,10 +164,10 @@ var Primero = Backbone.View.extend({
     var guided_questions = $('.gq_popovers'),
         field = guided_questions.parent().find('input, textarea');
 
-    guided_questions.prev('input, textarea').addClass('has_help');
+    guided_questions.parent().find('input, textarea').addClass('has_help');
     guided_questions.popover({
       content: function() {
-        return $(this).next('.popover_content').html();
+        return $(this).parent().find('.popover_content').html();
       },
       placement: 'bottom',
       trigger: 'manual'
@@ -177,7 +177,7 @@ var Primero = Backbone.View.extend({
       guided_questions.popover('hide');
 
       var field = $(evt.target),
-          popover_trigger = $(evt.target).next();
+          popover_trigger = $(evt.target).parent().find('a.gq_popovers');
 
       popover_trigger.popover('show');
 
