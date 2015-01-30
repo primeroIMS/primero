@@ -55,6 +55,7 @@ class LocationsController < ApplicationController
   def destroy
     authorize! :destroy, Location
     @location.destroy
+    flash[:notice] = t("location.messages.deleted")
     redirect_to locations_path
   end
 
