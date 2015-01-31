@@ -435,49 +435,58 @@ mrm_summary_page_fields = [
   Field.new({"name" => "killing_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => killing_subform_section.unique_id,
-             "display_name_all" => "Killing"
+             "display_name_all" => "Killing",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "maiming_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => maiming_subform_section.unique_id,
-             "display_name_all" => "Maiming"
+             "display_name_all" => "Maiming",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "recruitment_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => recruitment_subform_section.unique_id,
-             "display_name_all" => "Recruitment"
+             "display_name_all" => "Recruitment",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "sexual_violence_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => sexual_violence_subform_section.unique_id,
-             "display_name_all" => "Sexual Violence"
+             "display_name_all" => "Sexual Violence",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "abduction_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => abduction_subform_section.unique_id,
-             "display_name_all" => "Abduction"
+             "display_name_all" => "Abduction",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "attack_on_schools_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_schools_subform_section.unique_id,
-             "display_name_all" => "Attack on Schools"
+             "display_name_all" => "Attack on Schools",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "attack_on_hospitals_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_hospitals_subform_section.unique_id,
-             "display_name_all" => "Attack on Hospitals"
+             "display_name_all" => "Attack on Hospitals",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "denial_humanitarian_access_summary",
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => denial_humanitarian_access_section.unique_id,
-             "display_name_all" => "Denial of Humanitarian Access"
+             "display_name_all" => "Denial of Humanitarian Access",
+             "expose_unique_id" => true
             }),
   Field.new({"name" => "other_violation_summary",
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => other_violation_subform_section.unique_id,
-             "display_name_all" => "Other Violations"
+             "display_name_all" => "Other Violations",
+             "expose_unique_id" => true
             })
 ]
 

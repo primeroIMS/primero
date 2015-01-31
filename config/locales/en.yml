@@ -932,6 +932,7 @@ en:
       cannot_create: "Location could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
       updated: "Location successfully added"
+      deleted: "Location successfully deleted"
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -1217,6 +1218,9 @@ en:
       agency:
         unique_name: "An Agency with that name already exists, please enter a different name"
         name_present: "Name or Code must not be blank"
+
+      location:
+        name_present: "must not be blank"
 
 
 

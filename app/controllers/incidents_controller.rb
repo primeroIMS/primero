@@ -19,7 +19,10 @@ class IncidentsController < ApplicationController
       params['incident']['violations'].each do |k, v|
         if v.present?
           v.each do |sk, sv|
-            if !sv.any?{ |fk, fv| fv.present? }
+            has_values_present = sv.any? do |fk, fv| 
+              fk == 'unique_id' ? false : fv.present?
+            end
+            unless has_values_present
               params['incident']['violations'][k].delete(sk)
             end
           end

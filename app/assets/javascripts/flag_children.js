@@ -38,8 +38,8 @@ var FlagChild = Backbone.View.extend({
       submit_label: dropdown.data('submit_label'),
       unflag_submit_label: dropdown.data('submit_unflag_label'),
       submit_error_message: dropdown.data('submit_error_message')
-    }
-    dropdown.find('.add_flag_form').html(HandlebarsTemplates.flag_record_form(this.data));
+    };
+    dropdown.find('.add_flag_form').html(JST['templates/flag_record_form'](this.data));
   },
 
   collapse_expand_flag: function(event) {
@@ -52,7 +52,7 @@ var FlagChild = Backbone.View.extend({
     if (target.hasClass('expanded_flag')) {
       self.data.flag_message = target.data('message');
       self.data.flag_index = target.data('message_index');
-      target.parent('li').append(HandlebarsTemplates.remove_flag_record_form(self.data));
+      target.parent('li').append(JST['templates/remove_flag_record_form'](self.data));
     }
     $('span.collapsed_flag').text('+');
     $('span.expanded_flag').text('-');

@@ -27,6 +27,8 @@ class Location < CouchRest::Model::Base
     view :by_placename
   end
 
+  validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
+
   before_save do
     self.name = self.hierarchical_name
   end

@@ -33,7 +33,7 @@ Incident.all.each do |inc|
           new_link
         else
           puts "Invalid violation link: #{violation_link}"
-          violation_link
+          nil
         end
       end
 
