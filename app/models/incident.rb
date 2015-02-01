@@ -155,10 +155,11 @@ class Incident < CouchRest::Model::Base
 
   # Each violation type has a field that is used as part of the identification
   # of that violation
+  #TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
   def self.violation_id_fields
     {
-      'killing' => 'kill_cause_of_death',
-      'maiming' => 'maim_cause_of',
+      'killing' => 'cause',
+      'maiming' => 'cause',
       'recruitment' => 'factors_of_recruitment',
       'sexual_violence' => 'sexual_violence_type',
       'abduction' => 'abduction_purpose',
@@ -386,7 +387,7 @@ class Incident < CouchRest::Model::Base
       self.incident_date.strftime("%d-%b-%Y")
     end
   end
-  
+
   #  TODO: The value 'Yes' may have to be translated
   def calculate_gbv_type_of_violence_exclusion
     if self.gbv_reported_elsewhere == 'Yes' && self.gbv_reported_elsewhere_subform.any?{ |f| f.gbv_reported_elsewhere_reporting == 'Yes' }
