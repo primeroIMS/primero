@@ -1,5 +1,5 @@
 killing_field_mapping = {
-  'kill_method' => 'method',
+  'kill_method' => 'violation_method',
   'kill_cause_of_death' => 'cause',
   'kill_cause_of_details' => 'cause_details',
   'circumstances_of_killing' => 'circumstances',
@@ -11,7 +11,7 @@ killing_field_mapping = {
 }
 
 maiming_field_mapping = {
-  'maim_method' => 'method',
+  'maim_method' => 'violation_method',
   'maim_cause_of' => 'cause',
   'maim_cause_of_details' => 'cause_details',
   'circumstances_of_maiming' => 'circumstances',

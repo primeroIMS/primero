@@ -6,7 +6,7 @@ killing_subform_fields = [
            "tally" => ['boys', 'girls', 'unknown'],
            "autosum_total" => true,
           }),
-  Field.new({"name" => "method",
+  Field.new({"name" => "violation_method",
              "type" => "select_box",
              "display_name_all" => "Method",
              "option_strings_text_all" =>
