@@ -144,15 +144,14 @@ class Report < CouchRest::Model::Base
 
       aggregate_value_range = self.values.keys.map do |pivot|
         pivot[0..(aggregate_limit-1)]
-      end.uniq.sort(&method(:pivot_comparator))
-
+      end.uniq.compact.sort(&method(:pivot_comparator))
 
       disaggregate_value_range = self.values.keys.map do |pivot|
         pivot[(aggregate_limit)..-1]
-      end.uniq.sort(&method(:pivot_comparator))
+      end.uniq.compact.sort(&method(:pivot_comparator))
 
       if is_graph
-        graph_value_range = self.values.keys.map{|k| k[0..1]}.uniq.sort(&method(:pivot_comparator))
+        graph_value_range = self.values.keys.map{|k| k[0..1]}.uniq.compact.sort(&method(:pivot_comparator))
         #Discard all aggegates that are a lower dimensionality thatn the graph
         graph_value_range = graph_value_range.select{|v| v.last.present?}
       end
@@ -241,7 +240,8 @@ class Report < CouchRest::Model::Base
       }
     end
 
-    aggregate = Field.find_by_name(aggregate_by.first).display_name
+    aggregate_field = Field.find_by_name(aggregate_by.first)
+    aggregate = aggregate_field ? aggregate_field.display_name : aggregate_by.first.humanize
 
     #We are discarding the totals TODO: will that work for a 1X?
     return {aggregate: aggregate, labels: labels, datasets: datasets}
