@@ -51,6 +51,8 @@ class Violation
       text(f, as: "#{f}_lngram".to_sym) {incident_value(f)}
     end
 
+    string('armed_force_group_names', multiple: true){armed_force_group_names}
+
     boolean('record_state') {incident_value('record_state')}
 
   end
@@ -94,6 +96,15 @@ class Violation
     if self.violation_object.present? && self.violation_object.respond_to?(field_name)
       violation_object.send field_name
     end
+  end
+
+  def perpetrators
+    #TODO: This code is brittle. There is no future guarantee that the perpetrators will be invoked this way
+    incident_value('perpetrator_subform_section').select{|p| p.perpetrator_violations.include? id}
+  end
+
+  def armed_force_group_names
+    perpetrators.map(&:armed_force_group_name).compact
   end
 
 end
