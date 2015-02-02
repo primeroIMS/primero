@@ -23,6 +23,11 @@ module CouchChanges
                 CouchChanges.logger.info " => Indexing flags"
                 Sunspot.index! instance.flags
               end
+
+              if instance.respond_to? :index_violations
+                instance.index_violations
+              end
+
               dfd.succeed
             else
               CouchChanges.logger.error "Could not find #{modelCls.name} with id #{change['id']}"

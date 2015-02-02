@@ -6,7 +6,7 @@ killing_subform_fields = [
            "tally" => ['boys', 'girls', 'unknown'],
            "autosum_total" => true,
           }),
-  Field.new({"name" => "kill_method",
+  Field.new({"name" => "violation_method",
              "type" => "select_box",
              "display_name_all" => "Method",
              "option_strings_text_all" =>
@@ -14,7 +14,7 @@ killing_subform_fields = [
                                      "Non-Victim Activated",
                                      "Summary"].join("\n")
             }),
-  Field.new({"name" => "kill_cause_of_death",
+  Field.new({"name" => "cause",
              "type" => "select_box",
              "display_name_all" => "Cause",
              "option_strings_text_all" =>
@@ -34,11 +34,11 @@ killing_subform_fields = [
                                      "Cruel and Inhumane Treatment",
                                      "Summary and Arbitrary Execution/ Extra Judicial Killing"].join("\n")
             }),
-  Field.new({"name" => "kill_cause_of_details",
+  Field.new({"name" => "cause_details",
              "type" => "text_field",
              "display_name_all" => "Details"
             }),
-  Field.new({"name" => "circumstances_of_killing",
+  Field.new({"name" => "circumstances",
              "type" => "select_box",
              "display_name_all" => "Circumstances",
              "option_strings_text_all" =>
@@ -47,7 +47,7 @@ killing_subform_fields = [
                                      "Willful Killing etc...",
                                      "Impossible to Determine"].join("\n")
             }),
-  Field.new({"name" => "consequences_of_killing",
+  Field.new({"name" => "consequences",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Consequences",
@@ -58,19 +58,19 @@ killing_subform_fields = [
                 { id: 'other', display_text: "Other" }
               ]
             }),
-  Field.new({"name" => "context_of_killing",
+  Field.new({"name" => "context",
              "type" => "select_box",
              "display_name_all" => "Context",
              "option_strings_text_all" =>
                                     ["Weapon Used By The Child",
                                      "Weapon Used Against The Child"].join("\n")
             }),
-  Field.new({"name" => "mine_incident_yes_no",
+  Field.new({"name" => "mine_incident",
              "type" => "radio_button",
              "display_name_all" => "Mine Incident",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
-  Field.new({"name" => "kill_participant",
+  Field.new({"name" => "victim_a_participant",
              "type" => "select_box",
              "display_name_all" => "Was the victim directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" =>
@@ -78,7 +78,7 @@ killing_subform_fields = [
                                      "No",
                                      "Unknown"].join("\n")
             }),
-  Field.new({"name" => "kill_abduction",
+  Field.new({"name" => "related_to_abduction",
              "type" => "select_box",
              "display_name_all" => "Did the violation occur during or as a direct result of abduction?",
              "option_strings_text_all" =>
@@ -168,7 +168,7 @@ killing_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Killing Subform",
   "description_all" => "Nested Killing Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["kill_cause_of_death"]
+  "collapsed_fields" => ["cause"]
 })
 
 killing_fields = [

@@ -6,7 +6,7 @@ maiming_subform_fields = [
          "tally" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
         }),
-  Field.new({"name" => "maim_method",
+  Field.new({"name" => "violation_method",
              "type" => "select_box",
              "display_name_all" => "Method",
              "option_strings_text_all" =>
@@ -14,7 +14,7 @@ maiming_subform_fields = [
                                      "Non-Victim Activated",
                                      "Summary"].join("\n")
             }),
-  Field.new({"name" => "maim_cause_of",
+  Field.new({"name" => "cause",
              "type" => "select_box",
              "display_name_all" => "Cause",
              "option_strings_text_all" =>
@@ -33,11 +33,11 @@ maiming_subform_fields = [
                                      "Perpetrator of Suicide Attack",
                                      "Cruel and Inhumane Treatment"].join("\n")
             }),
-  Field.new({"name" => "maim_cause_of_details",
+  Field.new({"name" => "cause_details",
              "type" => "textarea",
              "display_name_all" => "Details"
             }),
-  Field.new({"name" => "circumstances_of_maiming",
+  Field.new({"name" => "circumstances",
              "type" => "select_box",
              "display_name_all" => "Circumstances",
              "option_strings_text_all" =>
@@ -46,7 +46,7 @@ maiming_subform_fields = [
                                      "Willful Killing etc...",
                                      "Impossible to Determine"].join("\n")
             }),
-  Field.new({"name" => "consequences_of_maiming",
+  Field.new({"name" => "consequences",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Consequences",
@@ -57,7 +57,7 @@ maiming_subform_fields = [
                 { id: 'other', display_text: "Other" }
               ]
             }),
-  Field.new({"name" => "context_of_maiming",
+  Field.new({"name" => "context",
              "type" => "select_box",
              "display_name_all" => "Context",
              "option_strings_text_all" =>
@@ -69,12 +69,12 @@ maiming_subform_fields = [
              "display_name_all" => "Mine Incident",
              "option_strings_text_all" => "Yes\nNo"
             }),
-  Field.new({"name" => "maim_participant",
+  Field.new({"name" => "victim_a_participant",
              "type" => "radio_button",
              "display_name_all" => "Was the survivor directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
-  Field.new({"name" => "maim_abduction",
+  Field.new({"name" => "related_to_abduction",
              "type" => "radio_button",
              "display_name_all" => "Did the violation occur during or as a direct result of abduction?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
@@ -161,7 +161,7 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Maiming Subform",
   "description_all" => "Nested Maiming Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["maim_cause_of"]
+  "collapsed_fields" => ["cause"]
 })
 
 maiming_fields = [

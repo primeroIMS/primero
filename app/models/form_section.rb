@@ -206,9 +206,13 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :find_all_visible_by_parent_form
 
-    def find_by_parent_form parent_form
+    def find_by_parent_form(parent_form, subforms=true)
       #TODO: the sortby can be moved to a couchdb view
-      by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+      result = by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
+      if result.present? && !subforms
+        result = filter_subforms(result)
+      end
+      return result
     end
     memoize_in_prod :find_by_parent_form
 
@@ -228,6 +232,12 @@ class FormSection < CouchRest::Model::Base
       highlighted_fields.sort { |field1, field2| field1.highlight_information.order.to_i <=> field2.highlight_information.order.to_i }
     end
     memoize_in_prod :sorted_highlighted_fields
+
+    def violation_forms
+      ids = Incident.violation_id_fields.keys
+      FormSection.by_unique_id(keys: ids)
+    end
+    memoize :violation_forms #This can be memoized always
 
     #TODO - can this be done more efficiently?
     def find_form_groups_by_parent_form parent_form
@@ -449,6 +459,10 @@ class FormSection < CouchRest::Model::Base
     self.fields.select  do |field|
       [Field::NUMERIC_FIELD].include? field.type
     end
+  end
+
+  def all_tally_fields
+    self.fields.select {|f| f.type == Field::TALLY_FIELD}
   end
 
   def properties= properties

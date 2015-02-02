@@ -38,11 +38,13 @@ class Report < CouchRest::Model::Base
   property :record_type #case, incident, etc.
   property :aggregate_by, [String], default: [] #Y-axis
   property :disaggregate_by, [String], default: [] #X-axis
+  property :aggregate_counts_from
   property :filters
   property :group_ages, TrueClass, default: false
   property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
+
   #TODO: Currently it's not worth trying to save off the report data.
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
   #      Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
@@ -69,8 +71,14 @@ class Report < CouchRest::Model::Base
               }"
   end
 
-  def record_class
-    @record_class ||= eval record_type.camelize if record_type.present?
+  def self.create_or_update(report_hash)
+    report_id = report_hash[:id]
+    report = Report.get(report_id)
+    if report.nil?
+      Report.create! report_hash
+    else
+      report.update_attributes report_hash
+    end
   end
 
   def modules
@@ -78,34 +86,76 @@ class Report < CouchRest::Model::Base
   end
 
   # Run the Solr query that calculates the pivots and format the output.
+  #TODO: Break up into self contained, testable methods
   def build_report
-    number_of_pivots = self.pivots.size
-    if self.pivots.present?
-      pivots =self.pivots.map{|p| SolrUtils.indexed_field_name(self.record_type, p)}.join(',')
-      pivots_data = query_solr(pivots, number_of_pivots, filters)
-      #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
-      if pivots_data['pivot'].present?
-        values = self.value_vector([],pivots_data).to_h
-      else
-        values = {}
+    if pivots.present?
+      self.values = report_values(record_type, pivots, filters)
+      if aggregate_counts_from.present?
+        if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
+          #The numbers are off because a dimension is missing. Zero everything out!
+          self.values = self.values.map{|pivots, _| [pivots, 0]}
+        end
+        aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
+        if aggregate_counts_from_field.type == Field::TALLY_FIELD
+          self.values = self.values.map do |pivots, value|
+            if pivots.last.present? && pivots.last.match(/\w+:\d+/)
+              tally = pivots.last.split(':')
+              value = value * tally[1].to_i
+            end
+            [pivots, value]
+          end.to_h
+          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
+            pivot_name.split(':')[0]
+          end
+          self.values = Reports::Utils.correct_aggregate_counts(self.values)
+        elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
+          self.values = self.values.map do |pivots, value|
+            if pivots.last.is_a?(Numeric)
+              value = value * pivots.last
+            elsif pivots.last == ""
+              value = 0
+            end
+            [pivots, value]
+          end.to_h
+          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
+            (pivot_name.is_a? Numeric) ? "" : pivot_name
+          end
+          self.values = self.values.map do |pivots, value|
+            pivots = pivots[0..-2] if pivots.last == ""
+            [pivots, value]
+          end.to_h
+          self.values = Reports::Utils.correct_aggregate_counts(self.values)
+        end
       end
-      if group_ages
-        values = Reports::Utils.group_values(values, pivot_index(AGE_FIELD)) do |pivot_name|
+      if group_ages && pivot_index(AGE_FIELD) < dimensionality
+        self.values = Reports::Utils.group_values(self.values, pivot_index(AGE_FIELD)) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
         end
       end
       if group_dates_by.present?
         date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
         date_fields.each do |field_name, _|
-          values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
-            Reports::Utils.date_range(pivot_name, group_dates_by)
+          if pivot_index(field_name) < dimensionality
+            self.values = Reports::Utils.group_values(self.values, pivot_index(field_name)) do |pivot_name|
+              Reports::Utils.date_range(pivot_name, group_dates_by)
+            end
           end
         end
       end
-      aggregate_value_range = values.keys.map{|k| k[0..(aggregate_by.size-1)]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
-      disaggregate_value_range = values.keys.map{|k| k[(aggregate_by.size)..-1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
+
+      aggregate_limit = aggregate_by.size
+      aggregate_limit = dimensionality if aggregate_limit > dimensionality
+
+      aggregate_value_range = self.values.keys.map do |pivot|
+        pivot[0..(aggregate_limit-1)]
+      end.uniq.compact.sort(&method(:pivot_comparator))
+
+      disaggregate_value_range = self.values.keys.map do |pivot|
+        pivot[(aggregate_limit)..-1]
+      end.uniq.compact.sort(&method(:pivot_comparator))
+
       if is_graph
-        graph_value_range = values.keys.map{|k| k[0..1]}.uniq.sort{|a,b| (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b}
+        graph_value_range = self.values.keys.map{|k| k[0..1]}.uniq.compact.sort(&method(:pivot_comparator))
         #Discard all aggegates that are a lower dimensionality thatn the graph
         graph_value_range = graph_value_range.select{|v| v.last.present?}
       end
@@ -115,7 +165,7 @@ class Report < CouchRest::Model::Base
         aggregate_value_range: aggregate_value_range,
         disaggregate_value_range: disaggregate_value_range,
         graph_value_range: graph_value_range,
-        values: values
+        values: @values
       }
       self.data[:graph_value_range] = graph_value_range if is_graph
       ""
@@ -140,11 +190,29 @@ class Report < CouchRest::Model::Base
   end
 
   def values
-    self.data[:values]
+    #A little contorted to allow report data saving in the future
+    if @values.present?
+      @values
+    elsif  self.data.present?
+      self.data[:values]
+    else
+      nil
+    end
   end
 
+  def values=(values)
+    @values = values
+  end
+
+
   def dimensionality
-    (self.aggregate_by + self.disaggregate_by).size
+    if values.present?
+      d = values.first.first.size
+    else
+      d = (self.aggregate_by + self.disaggregate_by).size
+      d += 1 if aggregate_counts_from.present?
+    end
+    return d
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
@@ -176,7 +244,8 @@ class Report < CouchRest::Model::Base
       }
     end
 
-    aggregate = Field.find_by_name(aggregate_by.first).display_name
+    aggregate_field = Field.find_by_name(aggregate_by.first)
+    aggregate = aggregate_field ? aggregate_field.display_name : aggregate_by.first.humanize
 
     #We are discarding the totals TODO: will that work for a 1X?
     return {aggregate: aggregate, labels: labels, datasets: datasets}
@@ -200,7 +269,8 @@ class Report < CouchRest::Model::Base
   def value_vector(parent_key, pivots)
     current_key = parent_key + [pivots['value']]
     current_key = [] if current_key == [nil]
-    if !pivots.key? 'pivot'
+    #if !pivots.key? 'pivot'
+    if !pivots['pivot'].present?
       return [[current_key, pivots['count']]]
     else
       vectors = []
@@ -251,13 +321,30 @@ class Report < CouchRest::Model::Base
     pivots.index(field_name)
   end
 
+  def pivot_comparator(a,b)
+    (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b
+  end
+
   private
+
+  def report_values(record_type, pivots, filters)
+    result = {}
+    pivots = pivots + [self.aggregate_counts_from] if self.aggregate_counts_from.present?
+    pivots_data = query_solr(record_type, pivots, filters)
+    #TODO: The format needs to change and we should probably store data? Although the report seems pretty fast for 100...
+    if pivots_data['pivot'].present?
+      result = self.value_vector([],pivots_data).to_h
+    end
+    return result
+  end
 
 
   #TODO: This method should really be replaced by a Sunspot query
-  def query_solr(pivots_string, number_of_pivots, filters)
+  def query_solr(record_type, pivots, filters)
     #TODO: This has to be valid and open if a case.
-    filter_query = build_solr_filter_query(filters)
+    number_of_pivots = pivots.size #can also be dimensionality, but the goal is to move the solr methods out
+    pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.join(',')
+    filter_query = build_solr_filter_query(record_type, filters)
     if number_of_pivots == 1
       params = {
         :q => filter_query,
@@ -291,12 +378,12 @@ class Report < CouchRest::Model::Base
   end
 
 
-  #TODO: This only works for string value filters. Add at least dates?
-  def build_solr_filter_query(filters)
-    filters_query = '*:*'
+  def build_solr_filter_query(record_type, filters)
+
+    filters_query = "type:#{solr_record_type(record_type)}"
     if filters.present?
-      filters_query = filters.map do |filter|
-        attribute = SolrUtils.indexed_field_name(self.record_type, filter['attribute'])
+      filters_query = filters_query + ' ' + filters.map do |filter|
+        attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
         query = nil
@@ -321,6 +408,11 @@ class Report < CouchRest::Model::Base
       end.compact.join(" ")
     end
     return filters_query
+  end
+
+  def solr_record_type(record_type)
+    record_type = 'child' if record_type == 'case'
+    record_type.camelize
   end
 
 end

@@ -59,6 +59,8 @@ namespace :sunspot do
         puts "  => Indexing #{incident.id} Flags..."
         Sunspot.index(incident.flags)
       end
+
+      incident.index_violations
     end
 
     puts 'Reindexing Tracing Request...'

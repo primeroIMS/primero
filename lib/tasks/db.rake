@@ -89,6 +89,24 @@ namespace :db do
     task :clean => :environment do
       Migration.database.recreate!
     end
+
+    desc "Creates migration metdata up to and including the provided migration without executing the migrations"
+    task :fastforward, [:migration] => :environment do |t, args|
+      all = Migration.all_migrations
+      applied = Migration.applied_migrations
+
+      ff_index = all.find_index(args[:migration])
+      all[0..ff_index].each do |migration|
+        if applied.include? migration
+          puts "Migration #{migration} already applied..."
+        else
+          puts "Fast forwarding #{migration}..."
+          Migration.database.save_doc(name: migration)
+        end
+      end
+
+    end
+
   end
 
 end

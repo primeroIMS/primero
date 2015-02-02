@@ -33,6 +33,8 @@ class Incident < CouchRest::Model::Base
   end
 
   before_save :set_violation_verification_default
+  after_save :index_violations
+  after_destroy :unindex_violations
   before_save :ensure_violation_categories_exist
   before_save :calculate_gbv_type_of_violence_exclusion
 
@@ -153,15 +155,16 @@ class Incident < CouchRest::Model::Base
 
   # Each violation type has a field that is used as part of the identification
   # of that violation
+  #TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
   def self.violation_id_fields
     {
-      'killing' => 'kill_cause_of_death',
-      'maiming' => 'maim_cause_of',
+      'killing' => 'cause',
+      'maiming' => 'cause',
       'recruitment' => 'factors_of_recruitment',
       'sexual_violence' => 'sexual_violence_type',
       'abduction' => 'abduction_purpose',
       'attack_on_schools' => 'site_attack_type',
-      'attack_on_hospitals' => 'site_attack_type_hospital',
+      'attack_on_hospitals' => 'site_attack_type',
       'denial_humanitarian_access' => 'denial_method',
       'other_violation' => 'violation_other_type'
     }
@@ -277,6 +280,18 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  def index_violations
+    if self.violations.present?
+      Sunspot.index! Violation.from_incident(self)
+    end
+  end
+
+  def unindex_violations
+    if self.violations.present?
+      Sunspot.remove! Violation.from_incident(self)
+    end
+  end
+
   #TODO - Need rspec test for this
   def child_types
     child_type_list = []
@@ -372,7 +387,7 @@ class Incident < CouchRest::Model::Base
       self.incident_date.strftime("%d-%b-%Y")
     end
   end
-  
+
   #  TODO: The value 'Yes' may have to be translated
   def calculate_gbv_type_of_violence_exclusion
     if self.gbv_reported_elsewhere == 'Yes' && self.gbv_reported_elsewhere_subform.any?{ |f| f.gbv_reported_elsewhere_reporting == 'Yes' }

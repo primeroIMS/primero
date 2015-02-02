@@ -45,7 +45,8 @@ require File.dirname(__FILE__) + "/users/default_agencies.rb"
 puts "Seeding Users"
 require File.dirname(__FILE__) + "/users/default_users.rb"
 puts "Seeding Default Reports"
-require File.dirname(__FILE__) + "/reports/reports.rb"
+#require File.dirname(__FILE__) + "/reports/reports.rb"
+Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file }
 
 
 #TODO We will to revisit the I18n Setup when we address translations.
