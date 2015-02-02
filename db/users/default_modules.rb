@@ -76,7 +76,7 @@ create_or_update_module(
     "sexual_violence_violation_wrapper", "attack_on_schools_violation_wrapper", "attack_on_hospitals_violation_wrapper",
     "denial_humanitarian_access_violation_wrapper", "abduction_violation_wrapper", "other_violation_wrapper",
     "individual_details", "group_details", "source", "perpetrators_form", "intervention_form", "incident_other_documents",
-    "mrm_summary_page", "other_reportable_fields_incident"
+    "mrm_summary_page", "mrm_reportable_fields"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )

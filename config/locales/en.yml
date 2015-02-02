@@ -748,6 +748,7 @@ en:
       child: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
+      violation: "Violation"
 
   form_section:
     create: "New Form Section"
@@ -955,8 +956,9 @@ en:
     all: "Total"
     total: "Total"
     modules: "Modules"
-    aggregate_by: "Group by Row"
-    disaggregate_by: "Group by Column"
+    aggregate_by: "Group by row"
+    disaggregate_by: "Group by column"
+    aggregate_counts_from: "Aggregate counts from"
     group_ages: "Use age ranges"
     group_dates_by: "Use date ranges"
     date_ranges:
