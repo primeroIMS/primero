@@ -569,6 +569,7 @@ en:
 
   agencies:
     logo: 'Logo'
+    logo_enabled: 'Logo enabled?'
     name: 'Name or Code'
     label: "Agency"
     successfully_created: "Agency successfully created."
