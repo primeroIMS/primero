@@ -110,7 +110,7 @@
   <div class="medium-8 columns">
     <span class="value value_form">
       <%= form_builder.select(
-            :record_type,
+            :aggregate_counts_from,
             grouped_options_for_select(
               select_options_fields_grouped_by_form(
                 Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, Report::AGGREGATE_COUNTS_FIELD_TYPES)
@@ -186,6 +186,21 @@
   </div>
   <div class="medium-1 columns"></div>
 </div>
+<%# Add default filters %>
+<% if @report.add_default_filters %>
+  <div class="row">
+    <div class="medium-3 columns">
+      <span class="tool-tip-label">
+        <%= form_builder.label :add_default_filters, t("report.add_default_filters"), :class=>'key inline' %>
+      </span>
+    </div>
+    <div class="medium-8 columns">
+      <%= form_builder.check_box :add_default_filters, {}, "true", "false" %>
+      <small><%= t('report.add_default_filters_help') %></small>
+    </div>
+    <div class="medium-1 columns"> </div>
+  </div>
+<% end %>
 <%# Report Is Graph %>
 <div class="row">
   <div class="medium-3 columns">

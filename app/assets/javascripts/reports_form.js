@@ -93,6 +93,7 @@
     $.ajax(permitted_field_list_url).done(function(permitted_field_list){
       //construct the options list
       var constructed_options_list = [];
+      var constructed_options_list_numeric = [];
       for (var i in permitted_field_list){
         var form_name = permitted_field_list[i][0];
         var form_fields = permitted_field_list[i][1];
@@ -103,15 +104,24 @@
           constructed_options_list.push(
             "<option value=\"" + form_fields[j][1] + "\">" + form_fields[j][0] + "</option>"
           );
+          if (form_fields[j][2] === 'tally_field' || form_fields[j][2] === 'numeric_field'){
+            constructed_options_list_numeric.push(
+              "<option value=\"" + form_fields[j][1] + "\">" + form_fields[j][0] + "</option>"
+            );
+          }
           self.field_type_map[form_fields[j][1]] = form_fields[j][2];
         }
         constructed_options_list.push("</optgroup>");
       }
-      $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute, .report_filter_attribute_template').each(function(){
+      $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute, .report_filter_attribute_template, #report_aggregate_counts_from').each(function(){
         el = $(this);
         var current_value = el.val();
         //attach the options list to the target elements
-        el.html(constructed_options_list.join("\n"));
+        if (this.id === 'report_aggregate_counts_from'){
+          el.html(constructed_options_list_numeric.join("\n"));
+        } else {
+          el.html(constructed_options_list.join("\n"));
+        }
         //select the selected option values
         if (current_value !== null && current_value !== ""){
           var current_value_selector;
@@ -127,7 +137,7 @@
       });
       //prepend the empty selection option
       var empty_selection = "<option value>" + $('.report_filter_attribute_template').attr('data-placeholder') + "</option>";
-      $('.report_filter_attribute, .report_filter_attribute_template').prepend(empty_selection);
+      $('.report_filter_attribute, .report_filter_attribute_template, #report_aggregate_counts_from').prepend(empty_selection);
       //trigger the chosen reload
       $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute').trigger("chosen:updated");
     });

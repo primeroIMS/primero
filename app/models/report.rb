@@ -56,6 +56,7 @@ class Report < CouchRest::Model::Base
   #      when rendering the graph and table. So for now we will rebuild the data.
   #property :data
   attr_accessor :data
+  attr_accessor :add_default_filters
 
   validates_presence_of :name
   validates_presence_of :record_type
@@ -63,6 +64,8 @@ class Report < CouchRest::Model::Base
   validate do |report|
     report.validate_modules_present(:module_ids)
   end
+
+  before_save :apply_default_filters
 
   design do
     view :by_name
@@ -321,6 +324,23 @@ class Report < CouchRest::Model::Base
       end
     end
     return reportable
+  end
+
+  def apply_default_filters
+    if add_default_filters
+      self.filters ||= []
+      if ['case', 'child'].include? self.record_type
+        self.filters = (self.filters + [
+          {'attribute' => 'child_status', 'value' => ['Open']},
+          {'attribute' => 'record_state', 'value' => ['true']}
+        ]).uniq
+      else
+        self.filters = (self.filters + [
+          {'attribute' => 'status', 'value' => ['Open']},
+          {'attribute' => 'record_state', 'value' => ['true']}
+        ]).uniq
+      end
+    end
   end
 
   def pivots
