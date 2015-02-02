@@ -185,7 +185,7 @@ attack_on_hospitals_subform_section = FormSection.create_or_update_form_section(
   "name_all" => "Nested Attack on Hospitals Subform",
   "description_all" => "Nested Attack on Hospitals Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["site_attack_type_hospital"]
+  "collapsed_fields" => ["site_attack_type"]
 })
 
 attack_on_hospitals_fields = [

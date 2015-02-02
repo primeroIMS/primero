@@ -164,7 +164,7 @@ class Incident < CouchRest::Model::Base
       'sexual_violence' => 'sexual_violence_type',
       'abduction' => 'abduction_purpose',
       'attack_on_schools' => 'site_attack_type',
-      'attack_on_hospitals' => 'site_attack_type_hospital',
+      'attack_on_hospitals' => 'site_attack_type',
       'denial_humanitarian_access' => 'denial_method',
       'other_violation' => 'violation_other_type'
     }

@@ -3,7 +3,7 @@
 #type
 violation_types = ['killing', 'maiming', 'recruitment', 'sexual_violence', 'abduction', 'attack_on_schools', 'attack_on_hospitals', 'denial_humanitarian_access', 'other_violation']
 violation_type_id_fields =  {
-  'killing' => ['kill_cause_of_death',[
+  'killing' => ['cause',[
     "IED",
     "IED - Command Activated",
     "UXO/ERW",
@@ -19,7 +19,7 @@ violation_type_id_fields =  {
     "Perpetrator of Suicide Attack",
     "Cruel and Inhumane Treatment",
     "Summary and Arbitrary Execution/ Extra Judicial Killing"]],
-  'maiming' => ['maim_cause_of',[
+  'maiming' => ['cause',[
     "IED",
     "IED - Command Activated",
     "UXO/ERW",
@@ -77,7 +77,7 @@ violation_type_id_fields =  {
     "Physical Destruction",
     "Other"
   ]],
-  'attack_on_hospitals' => ['site_attack_type_hospital',[
+  'attack_on_hospitals' => ['site_attack_type',[
     "Shelling",
     "Arson",
     "Aerial Bombardment",
