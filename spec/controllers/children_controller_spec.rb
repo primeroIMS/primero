@@ -186,7 +186,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({"child_status"=>{:type=>"single", :value=>"Open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:children].should == collection
@@ -199,7 +199,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}, "child_status"=>{:type => "single", :value => "Open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all", "format" => "unhcr_csv"}
         get :index, params
         assigns[:children].should == collection
@@ -211,27 +211,27 @@ describe ChildrenController do
       before do
         @session = fake_login_as
       end
-    
+
       it "should export columns in the current list view for #{user_type} user" do
         collection = [Child.new(:id => "1"), Child.new(:id => "2")]
         collection.should_receive(:next_page).twice.and_return(nil)
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil, nil).and_return(search)
-    
+        Child.should_receive(:list_records).with({"child_status"=>{:type=>"single", :value=>"Open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil, nil).and_return(search)
+
         #User
         @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)
         @session.user.should_receive(:has_module?).with(PrimeroModule::GBV).and_return(gbv_result)
         @session.user.should_receive(:has_module?).with(PrimeroModule::MRM).and_return(mrm_result)
         @session.user.should_receive(:is_manager?).and_return(manager_result)
-    
+
         ##### Main part of the test ####
         controller.should_receive(:list_view_header).with("case").and_call_original
         #Test if the exporter receive the list of field expected.
         Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user).and_return('data')
         ##### Main part of the test ####
-    
+
         controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
         controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', nil).and_return(true)
         controller.stub :render
@@ -294,7 +294,7 @@ describe ChildrenController do
         @child1 = Child.new(:id => "1", :unique_identifier=> "unique_identifier-1")
         @child2 = Child.new(:id => "2", :unique_identifier=> "unique_identifier-2")
       end
-    
+
       it "should use the file name provided by the user" do
         Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
         #This is the file name provided by the user and should be sent as parameter.
@@ -310,7 +310,7 @@ describe ChildrenController do
         params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
         get :index, params
       end
-    
+
       it "should use the user_name and model_name to get the file name" do
         Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
         Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
@@ -324,7 +324,7 @@ describe ChildrenController do
         params = {:format => :csv, :password => @password}
         get :index, params
       end
-    
+
       it "should use the unique_identifier to get the file name" do
         Child.stub :list_records => double(:results => [ @child1 ], :total => 1)
         Exporters::CSVExporter.should_receive(:export).with([ @child1 ], anything, anything).and_return('data')
