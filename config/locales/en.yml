@@ -962,6 +962,8 @@ en:
     aggregate_counts_from: "Aggregate counts from"
     group_ages: "Use age ranges"
     group_dates_by: "Use date ranges"
+    add_default_filters: "Include default filters"
+    add_default_filters_help: "Open and valid"
     date_ranges:
       date: "Day"
       week: "Week"
