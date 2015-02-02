@@ -18,7 +18,18 @@ class ConfigurationBundleController < ApplicationController
     bundle_data = BUNDLE_MODELS.inject({}) do |acc, modelCls|
       acc.merge({modelCls.name => modelCls.database.all_docs(:include_docs => true)['rows']
                                                    .reject {|r| r['id'].start_with?('_design') }
-                                                   .map {|m| m['doc'].except('_rev') }})
+                                                   .map do |r|
+                                                     doc = r['doc'].except('_rev')
+
+                                                     if doc.include?('_attachments')
+                                                       doc['_attachments'] = doc['_attachments'].inject({}) do |acc, (name, data)|
+                                                         acc.merge(name => {"content_type" => data['content_type'],
+                                                                            "data" => Base64.encode64(modelCls.database.fetch_attachment(doc, name))})
+                                                       end
+                                                     end
+
+                                                     doc
+                                                   end})
     end
 
     encrypt_data_to_zip(bundle_data.to_json, "configuration-bundle-#{request.host}.json", params[:password])

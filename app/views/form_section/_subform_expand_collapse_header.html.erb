@@ -9,11 +9,18 @@
       form_group_name = subform.subform_section.shared_subform_group
     end
     collapsed_fields = subform_section.collapsed_list
+
+    if subform.expose_unique_id && i != "template"
+      fk = field_keys(subform_name, i, 'unique_id', form_group_name)
+      unique_id = " - #{formObject.value_for_attr_keys(fk).try(:slice, 0, 5)}"
+    else
+      unique_id = ""
+    end
 %>
 <div class="row collapse_expand_subform_header">
   <div class="medium-7 columns">
     <span class="subform_header">
-      <%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %><%= violation_status(formObject, form_group_name, subform_name, i) %>
+      <%= label_tag subform.name, t(subform.name, :default => subform.display_name.singularize), :class=>'key' %><%= unique_id %><%= violation_status(formObject, form_group_name, subform_name, i) %>
     </span>
     <div class="display_field">
       <% fields_id=[]
@@ -55,6 +62,7 @@
              value_fields << value_to_display
            end
          end
+
       %>
       <% if view_mode %>
         <span>

@@ -22,7 +22,9 @@ module Exporters
 
         mrm_incidents = incidents.reject {|inc| inc.module.try(:id) != PrimeroModule::MRM }
 
-        make_violations_tab(mrm_incidents, wb)
+        violation_types(mrm_incidents).each do |vtype|
+          make_violations_tab(mrm_incidents, vtype, wb)
+        end
         make_related_data_tab(mrm_incidents, wb, 'Individual Details', 'individual_details_subform_section', 'individual_violations')
         make_related_data_tab(mrm_incidents, wb, 'Perpetrators', 'perpetrator_subform_section', 'perpetrator_violations')
         make_related_data_tab(mrm_incidents, wb, 'Source', 'source_subform_section', 'source_violations')
@@ -35,14 +37,11 @@ module Exporters
         incidents.map {|i| i.violation_category || [] }.flatten.uniq
       end
 
-      def violation_column_generators(incidents)
-        types = violation_types(incidents)
-        all_keys = types.map do |t|
-          violation_props = Incident.properties_by_name['violations'].type.properties_by_name[t].type.properties
-          violation_props.map {|vp| vp.name }
-        end.flatten.uniq
+      def violation_column_generators(type, incidents)
+        violation_props = Incident.properties_by_name['violations'].type.properties_by_name[type].type.properties
+        prop_names = violation_props.map {|vp| vp.name }
 
-        all_keys.inject({}) {|acc, k| acc.merge({k => ->(incident, violation, type, rf=nil) { violation[k] } }) }
+        prop_names.inject({}) {|acc, k| acc.merge({k => ->(incident, violation, type, rf=nil) { violation[k] } }) }
       end
 
       def incident_column_generators
@@ -66,20 +65,24 @@ module Exporters
 
       def violation_summary_value(incident, violation, type)
         idx = incident.violations[type].index(violation)
-        parts = [violation_titleized(type), FormSection.get_by_unique_id(type).collapsed_fields.map {|cf| violation[cf] }].flatten.compact
-        "#{parts.join(' - ')} #{idx}"
+        parts = [
+          violation_titleized(type),
+          FormSection.get_by_unique_id(type).collapsed_fields.map {|cf| violation[cf] },
+          violation.unique_id[0..4]
+        ].flatten.compact
+        parts.join(' - ')
       end
 
-      def make_violations_tab(incidents, workbook)
-        worksheet = workbook.add_worksheet('Violations')
-        generators = [prefix_column_generators, incident_column_generators, violation_column_generators(incidents)].inject(&:merge)
+      def make_violations_tab(incidents, vtype, workbook)
+        worksheet = workbook.add_worksheet("Violations-#{vtype.humanize.titleize}"[0..30])
+        generators = [prefix_column_generators, incident_column_generators, violation_column_generators(vtype, incidents)].inject(&:merge)
         worksheet.write_row(0, 0, generators.keys)
         fit_column_widths(worksheet, generators.keys)
 
         row_no = 1
         incidents.each do |inc|
-          inc.each_violation do |violation, type|
-            column_values = generators.map {|_,gen| gen.call(inc, violation, type) }
+          (inc.violations[vtype] || []).each do |violation|
+            column_values = generators.map {|_,gen| gen.call(inc, violation, vtype) }
             worksheet.write_row(row_no, 0, format_values(column_values))
             row_no += 1
           end
@@ -89,7 +92,7 @@ module Exporters
       def find_related_fields_for_violation(related_field, violation_link_field, incident, violation, type)
         index = incident.violations[type].index(violation)
         unless index.nil?
-          link_value = violation_summary_value(incident, violation, type)
+          link_value = violation['unique_id']
           incident[related_field].select {|el| (el[violation_link_field] || []).include?(link_value) }
         else
           []
@@ -114,6 +117,7 @@ module Exporters
             find_related_fields_for_violation(related_field, violation_link_field, inc, violation, type).each do |rf|
               column_values = generators.map {|_, gen| gen.call(inc, violation, type, rf) }
               worksheet.write_row(row_no, 0, format_values(column_values))
+              row_no += 1
             end
           end
         end

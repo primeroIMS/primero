@@ -51,7 +51,7 @@ var ViolationListReload = Backbone.View.extend({
 
   //Refresh the options in the violations select
   reload: function(event) {
-    var violation_list = [],
+    var violation_list = {},
         context = this.el;
 
     // Build new violations list
@@ -63,7 +63,7 @@ var ViolationListReload = Backbone.View.extend({
 
           //Only add to the list if the fields have values
           var valueLength = 0;
-          $(violationEl).find('input, select, textarea').each(function(x, fieldEl){
+          $(violationEl).find('input[type!="hidden"], select, textarea').each(function(x, fieldEl){
             var tmpLen = $.trim($(fieldEl).val()).length;
             // don't count radio fields as they initailly have a default value which would lead to a false positive
             if (tmpLen > 0 && $(fieldEl).attr('type') != 'radio'){
@@ -76,21 +76,10 @@ var ViolationListReload = Backbone.View.extend({
             // get subform header
             _primero.update_subform_heading(violationEl);
             var subformHeaderEl = $(violationEl).find(".collapse_expand_subform_header");
-            var tmpValue = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
-            var tmpRes = $(violationEl).find(".collapse_expand_subform_header label").text();
-            var res = tmpRes + " " + tmpValue + " " + index;
-            violation_list.push(res);
-
-            //If hidden input field 'violation_id' exists, update it.  Otherwise add it.
-            if($(violationEl).find("input[id$='_violation_id']").length > 0){
-              violationIdEl = $(violationEl).find("input[id$='_violation_id']");
-              violationIdEl.val(res);
-            }else{
-              var i = parseInt($(violationEl).attr("id").split("_").pop());
-              var id = _primero.model_object + "_violations_" + violation_name + "_" + i + "_violation_id";
-              var name = _primero.model_object + "[violations][" + violation_name + "][" + i + "][violation_id]";
-              $(subformHeaderEl).append("<input id=\"" + id + "\" type=\"hidden\" name=\"" + name + "\" value=\"" + res + "\" />");
-            }
+            var collapsed_value = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
+            var violation_type = $(violationEl).find(".collapse_expand_subform_header label").text();
+            var unique_id = $(violationEl).find("input[type='hidden'][id$='unique_id']").val();
+            violation_list[violation_type + " - " + collapsed_value + " - " + unique_id.slice(0, 5)] = unique_id;
 
             index++;
           }
@@ -99,7 +88,7 @@ var ViolationListReload = Backbone.View.extend({
     });
 
     if (violation_list.length === 0){
-      violation_list.push("NONE");
+      violation_list["NONE"] = null;
     }
 
     // Find all violations selects and replace options with new list
@@ -111,8 +100,8 @@ var ViolationListReload = Backbone.View.extend({
       $(violationSelectEl).empty();
 
       //Add new options
-      _.each(violation_list, function(i){
-        var newOption = $('<option value="' + i + '">' + i + '</option>');
+      _.each(violation_list, function(value, key) {
+        var newOption = $('<option value="' + value + '">' + key + '</option>');
         $(violationSelectEl).append(newOption);
       });
 

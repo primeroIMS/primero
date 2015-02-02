@@ -3,7 +3,6 @@
 //= require plugins/jquery.tmpl.min
 //= require plugins/jquery_ujs
 //= require plugins/json2
-//= require handlebars.runtime
 //= require_tree ./templates
 //= require foundation
 //= require plugins/underscore
@@ -26,6 +25,7 @@
 //= require plugins/jquery.mousewheel.min
 //= require plugins/jquery.mCustomScrollbar.min
 //= require chosen-jquery
+//= require primero.chosen.order
 //= require i18n
 //= require i18n/translations
 //= require primero

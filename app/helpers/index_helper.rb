@@ -92,7 +92,7 @@ module IndexHelper
 
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls' do
-      concat(text_field_tag filter, nil, class: 'form_date_field')
+      concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
     end
   end
 

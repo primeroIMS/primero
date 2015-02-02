@@ -709,6 +709,7 @@ en:
   record: "record"
   description: "Description"
   name: "Name"
+  unique_id: "Unique ID"
 
   permissions:
     label: "Permissions"
@@ -931,6 +932,7 @@ en:
       cannot_create: "Location could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
       updated: "Location successfully added"
+      deleted: "Location successfully deleted"
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -1217,6 +1219,9 @@ en:
         unique_name: "An Agency with that name already exists, please enter a different name"
         name_present: "Name or Code must not be blank"
 
+      location:
+        name_present: "must not be blank"
+
 
 
   select_all_results: "Select all results"
@@ -1327,7 +1332,7 @@ en:
     zip_file:
       unknown_type: "The archive contains one or more files with unknown type"
 
-  referrals:
+  referral:
     type_label: "Type of Referral"
     existing_user_label: "Existing User"
     other_user_label: "Other User"
@@ -1336,8 +1341,10 @@ en:
     is_remote_label: "Are you referring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
+    user_mandatory: "User name is required"
+    no_records: "No records selected"
 
-  transfers:
+  transfer:
     type_label: "Type of Transfer"
     existing_user_label: "Existing User"
     other_user_label: "Other User"
@@ -1347,6 +1354,7 @@ en:
     notes_label: "Notes"
     success: "Transfer was successful"
     failure: "There was an error processing the transfer"
+    user_mandatory: "User name is required"
 
   per_page_translation: "Per page _MENU_"
   total: Total

@@ -167,7 +167,8 @@ denial_humanitarian_access_fields = [
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => denial_humanitarian_access_section.unique_id,
-             "display_name_all" => "Denial of Humanitarian Access"
+             "display_name_all" => "Denial of Humanitarian Access",
+             "expose_unique_id" => true,
             })
   ##Subform##
 ]

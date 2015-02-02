@@ -56,7 +56,7 @@
     </span>
   </div>
   <div class="medium-8 columns">
-    <span class="value value_form">
+    <span class="value value_form" data-actual-order="<%= @report.aggregate_by %>">
       <%= form_builder.select(
             :aggregate_by,
             grouped_options_for_select(
@@ -82,7 +82,7 @@
     </span>
   </div>
   <div class="medium-8 columns">
-    <span class="value value_form">
+    <span class="value value_form" data-actual-order="<%= @report.disaggregate_by %>">
       <%= form_builder.select(
             :disaggregate_by,
             grouped_options_for_select(

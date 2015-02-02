@@ -67,7 +67,7 @@ sudo "#{node[:primero][:app_user]}-rvm" do
   user node[:primero][:app_user]
   runas 'root'
   nopasswd true
-  env_keep_add ["RAILS_ENV"]
+  env_keep_add ["RAILS_ENV", "RAILS_LOG_PATH"]
   commands  ['/usr/bin/apt-get', '/usr/bin/env', ::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')]
 end
 
@@ -104,8 +104,7 @@ git node[:primero][:app_dir] do
 end
 
 scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
-[node[:primero][:log_dir],
- File.join(node[:primero][:log_dir], 'nginx'),
+[File.join(node[:primero][:log_dir], 'nginx'),
  scheduler_log_dir,
  File.join(node[:primero][:log_dir], 'couch_watcher'),
  File.join(node[:primero][:log_dir], 'rails')].each do |log_dir|
@@ -114,12 +113,6 @@ scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
     owner node[:primero][:app_user]
     group node[:primero][:app_group]
   end
-end
-
-directory File.join(node[:primero][:log_dir], 'couchdb') do
-  action :create
-  owner 'couchdb'
-  group 'couchdb'
 end
 
 unless node[:primero][:couchdb][:password]
@@ -268,6 +261,7 @@ end
 # doesn't try to reprocess things from the seed/migration
 execute_bundle 'prime-couch-watcher-sequence-numbers' do
   command "#{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} rake couch_changes:prime_sequence_numbers"
+  environment({"RAILS_LOG_PATH" => ::File.join(node[:primero][:log_dir], 'couch_watcher')})
 end
 
 supervisor_service 'couch-watcher' do

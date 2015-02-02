@@ -46,6 +46,10 @@ incident_fields = [
              "display_name_all" => "Is the date estimated?",
              "option_strings_text_all" => "Yes\nNo"
             }),
+  Field.new({"name" => "date_description",
+             "type" => "textarea",
+             "display_name_all" => "Notes on Dates"
+            }),
   Field.new({"name" => "super_incident_name",
              "type" => "text_field",
              "display_name_all" => "Name of Super Incident/Event"
