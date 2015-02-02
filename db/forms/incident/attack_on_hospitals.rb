@@ -1,9 +1,9 @@
 attack_on_hospitals_subform_fields = [
-  Field.new({"name" => "site_number_attacked_hospital",
+  Field.new({"name" => "site_number_attacked",
              "type" => "numeric_field",
              "display_name_all" => "Number of Sites Attacked"
             }),
-  Field.new({"name" => "site_attack_type_hospital",
+  Field.new({"name" => "site_attack_type",
              "type" => "select_box",
              "display_name_all" => "Type of Attack On Site",
              "option_strings_text_all" =>
@@ -44,35 +44,35 @@ attack_on_hospitals_subform_fields = [
        "tally" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
       }),
-  Field.new({"name" => "hospital_staff_killed_attack",
+  Field.new({"name" => "facility_staff_killed_attack",
              "type" => "numeric_field",
              "display_name_all" => "Number of Staff Killed"
             }),
-  Field.new({"name" => "hospital_staff_injured_attack",
+  Field.new({"name" => "facility_staff_injured_attack",
              "type" => "numeric_field",
              "display_name_all" => "Number of Staff Injured"
             }),
-  Field.new({"name" => "hospital_other_adults_killed_attack",
+  Field.new({"name" => "facility_other_adults_killed_attack",
              "type" => "numeric_field",
              "display_name_all" => "Number of Other Adults Killed"
             }),
-  Field.new({"name" => "hospital_other_adults_injured_attack",
+  Field.new({"name" => "facility_other_adults_injured_attack",
              "type" => "numeric_field",
              "display_name_all" => "Number of Other Adults Injured"
             }),
-  Field.new({"name" => "number_children_service_disruption_hospital",
+  Field.new({"name" => "number_children_service_disruption",
              "type" => "numeric_field",
              "display_name_all" => "Number of Children Affected by Service Disruption"
             }),
-  Field.new({"name" => "number_adults_service_disruption_hospital",
+  Field.new({"name" => "number_adults_service_disruption",
              "type" => "numeric_field",
              "display_name_all" => "Number of Adults Affected by Service Disruption"
             }),
-  Field.new({"name" => "number_children_recruited_hospitals",
+  Field.new({"name" => "number_children_recruited",
              "type" => "numeric_field",
              "display_name_all" => "Number of Children Recruited During Attack"
             }),
-  Field.new({"name" => "hospital_management",
+  Field.new({"name" => "facility_management",
              "type" => "select_box",
              "display_name_all" => "What organization manages this facilty?",
              "option_strings_text_all" =>
@@ -81,11 +81,11 @@ attack_on_hospitals_subform_fields = [
                                      "Community",
                                      "Other"].join("\n")
             }),
-  Field.new({"name" => "hospital_attack_objective",
+  Field.new({"name" => "facility_attack_objective",
              "type" => "text_field",
              "display_name_all" => "What was the main objective of the \"attack\"?"
             }),
-  Field.new({"name" => "hospital_impact",
+  Field.new({"name" => "facility_impact",
              "type" => "select_box",
              "display_name_all" => "Physical Impact of Attack",
              "option_strings_text_all" =>
@@ -94,12 +94,12 @@ attack_on_hospitals_subform_fields = [
                                      "Minor Damage",
                                      "None"].join("\n")
             }),
-  Field.new({"name" => "hospital_closed",
+  Field.new({"name" => "facility_closed",
              "type" => "radio_button",
              "display_name_all" => "Was Facility Closed As A Result?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
-  Field.new({"name" => "hospital_closed_duration",
+  Field.new({"name" => "facility_closed_duration",
              "type" => "numeric_field",
              "display_name_all" => "For How Long? (Days)"
             }),

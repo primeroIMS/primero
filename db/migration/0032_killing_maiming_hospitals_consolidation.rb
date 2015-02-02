@@ -21,6 +21,23 @@ maiming_field_mapping = {
   'maim_abduction' => 'related_to_abduction'
 }
 
+hospital_field_mapping = {
+  'site_number_attacked_hospital' => 'site_number_attacked',
+  'site_attack_type_hospital' => 'site_attack_type',
+  'hospital_staff_killed_attack' => 'facility_staff_killed_attack',
+  'hospital_staff_injured_attack' => 'facility_staff_injured_attack',
+  'hospital_other_adults_killed_attack' => 'facility_other_adults_killed_attack',
+  'hospital_other_adults_injured_attack' => 'facility_other_adults_injured_attack',
+  'number_children_service_disruption_hospital' => 'number_children_service_disruption',
+  'number_adults_service_disruption_hospital' => 'number_adults_service_disruption',
+  'number_children_recruited_hospitals' => 'number_children_recruited',
+  'hospital_management' => 'facility_management',
+  'hospital_attack_objective' => 'facility_attack_objective',
+  'hospital_impact' => 'facility_impact',
+  'hospital_closed' => 'facility_closed',
+  'hospital_closed_duration' => 'facility_closed_duration'
+}
+
 def convert_violations(doc, type, mapping)
   changed = false
   violations_hash = doc['violations']
@@ -44,7 +61,8 @@ end
 Incident.all.rows.map{|r| Incident.database.get(r["id"])}.each do |doc|
   killings_converted = convert_violations(doc, 'killing', killing_field_mapping)
   maimings_converted = convert_violations(doc, 'maiming', maiming_field_mapping)
-  if killings_converted || maimings_converted
+  hospitals_converted = convert_violations(doc, 'attack_on_hospitals', hospital_field_mapping)
+  if killings_converted || maimings_converted || hospitals_converted
     doc.save
   end
 end
