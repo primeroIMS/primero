@@ -60,7 +60,7 @@
         value: item,
         name: select_control.attr('name')
       };
-      target.parent().append(HandlebarsTemplates.chosen_ordering_hidden_field(data));
+      target.parent().append(JST['templates/chosen_ordering_hidden_field'](data));
       counter++;
     });
 
