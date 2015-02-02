@@ -17,7 +17,8 @@ module ConfigurationResourceHelper
           show_logo_upload(object, field_id, type, tag_helper)
         elsif type == 'check_box'
           label_tag(nil, class: 'left'){
-              check_box_tag(name, '1', value)
+              concat(hidden_field_tag(name, ''))
+              concat(check_box_tag(name, '1', value.present? ? true : false))
           }
         else
           self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off',
