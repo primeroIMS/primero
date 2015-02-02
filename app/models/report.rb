@@ -91,6 +91,10 @@ class Report < CouchRest::Model::Base
     if pivots.present?
       self.values = report_values(record_type, pivots, filters)
       if aggregate_counts_from.present?
+        if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
+          #The numbers are off because a dimension is missing. Zero everything out!
+          self.values = self.values.map{|pivots, _| [pivots, 0]}
+        end
         aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
         if aggregate_counts_from_field.type == Field::TALLY_FIELD
           self.values = self.values.map do |pivots, value|
