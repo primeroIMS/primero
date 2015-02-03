@@ -78,8 +78,9 @@ var ReportTable = Backbone.View.extend({
     e.preventDefault();
 
     var canvas = document.getElementById("report_graph");
-    var canvas_name = this.document_file_name();
-    var imageURL = canvas.toBlob(function(blob) {
+        canvas_name = this.document_file_name();
+
+    canvas.toBlob(function(blob) {
       saveAs(blob, canvas_name[0] + '-' + canvas_name[1] + ".png");
     });
   },
