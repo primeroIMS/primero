@@ -735,6 +735,7 @@ en:
       self: "Access only my records"
       group: "Access all records owned by users in my group"
       all: "Access all records"
+      consent_override: "Consent override"
 
   forms:
     label: "Forms"
