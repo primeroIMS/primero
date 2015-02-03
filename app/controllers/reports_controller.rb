@@ -40,6 +40,7 @@ class ReportsController < ApplicationController
   def new
     authorize! :create, Report
     @report = Report.new
+    @report.add_default_filters = true
     set_reportable_fields
   end
 

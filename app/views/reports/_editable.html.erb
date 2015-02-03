@@ -36,7 +36,7 @@
       <%= form_builder.select(
             :record_type,
             options_for_select(
-              FormSection::RECORD_TYPES.map{|rt|[t("forms.record_types.#{rt}"), rt]},
+              Report.reportable_record_types.map{|rt|[t("forms.record_types.#{rt}"), rt]},
               @report.record_type
             ),
             {include_blank: t("fields.select_box_empty_item")}, {:'data-placeholder' => t("fields.select_box_empty_item")}
@@ -92,6 +92,32 @@
               @report.disaggregate_by
             ),
             {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
+          )
+      %>
+    </span>
+  </div>
+  <div class="medium-1 columns">
+    <span></span>
+  </div>
+</div>
+<%# Aggregate counts from %>
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :aggregate_counts_from, t("report.aggregate_counts_from"), class: 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <span class="value value_form">
+      <%= form_builder.select(
+            :aggregate_counts_from,
+            grouped_options_for_select(
+              select_options_fields_grouped_by_form(
+                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, Report::AGGREGATE_COUNTS_FIELD_TYPES)
+              ),
+              @report.aggregate_counts_from
+            ),
+            {include_blank: t("fields.select_box_empty_item")}, {:'data-placeholder' => t("fields.select_box_empty_item")}
           )
       %>
     </span>
@@ -160,6 +186,21 @@
   </div>
   <div class="medium-1 columns"></div>
 </div>
+<%# Add default filters %>
+<% if @report.add_default_filters %>
+  <div class="row">
+    <div class="medium-3 columns">
+      <span class="tool-tip-label">
+        <%= form_builder.label :add_default_filters, t("report.add_default_filters"), :class=>'key inline' %>
+      </span>
+    </div>
+    <div class="medium-8 columns">
+      <%= form_builder.check_box :add_default_filters, {}, "true", "false" %>
+      <small><%= t('report.add_default_filters_help') %></small>
+    </div>
+    <div class="medium-1 columns"> </div>
+  </div>
+<% end %>
 <%# Report Is Graph %>
 <div class="row">
   <div class="medium-3 columns">

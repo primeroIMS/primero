@@ -11,6 +11,8 @@ class Agency < CouchRest::Model::Base
   property :telephone
   property :logo
   property :order, Integer, default: 0
+  property :logo_enabled, TrueClass, :default => false
+
   #TODO: What are some other agency fields?
 
   design do
@@ -31,7 +33,8 @@ class Agency < CouchRest::Model::Base
     memoize_in_prod :available_agency_names
 
     def retrieve_logo_ids
-      self.by_order.collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
+      self.by_order.select{|l| l.logo_enabled == true }
+          .collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
     end
     memoize_in_prod :retrieve_logo_ids
   end

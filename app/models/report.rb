@@ -13,7 +13,12 @@ class Report < CouchRest::Model::Base
     Field::DATE_FIELD,
     #Field::DATE_RANGE,
     Field::TICK_BOX,
-    #Field::TALLY_FIELD,
+    Field::TALLY_FIELD,
+  ]
+
+  AGGREGATE_COUNTS_FIELD_TYPES = [
+    Field::NUMERIC_FIELD,
+    Field::TALLY_FIELD,
   ]
 
   #18+ should be good enough as 10K
@@ -51,6 +56,7 @@ class Report < CouchRest::Model::Base
   #      when rendering the graph and table. So for now we will rebuild the data.
   #property :data
   attr_accessor :data
+  attr_accessor :add_default_filters
 
   validates_presence_of :name
   validates_presence_of :record_type
@@ -58,6 +64,8 @@ class Report < CouchRest::Model::Base
   validate do |report|
     report.validate_modules_present(:module_ids)
   end
+
+  before_save :apply_default_filters
 
   design do
     view :by_name
@@ -284,26 +292,55 @@ class Report < CouchRest::Model::Base
     end
   end
 
+
+  def self.reportable_record_types
+    FormSection::RECORD_TYPES + ['violation']
+  end
+
   # Fetch and group all reportable fields by form given a user.
   # This will be used by the field lookup.
-  def self.all_reportable_fields_by_form(primero_modules, record_type, user)
+  def self.all_reportable_fields_by_form(primero_modules, record_type, user, types=REPORTABLE_FIELD_TYPES)
     reportable = {}
     if primero_modules.present?
       primero_modules.each do |primero_module|
-        forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
-        #Hide away the subforms (but not the invisible forms!)
-        forms = forms.select{|f| !f.is_nested?}
+        if record_type == 'violation'
+          forms = FormSection.get_permitted_form_sections(primero_module, 'incident', user)
+          violation_forms = FormSection.violation_forms
+          forms = forms.select{|f| violation_forms.include?(f) || !f.is_nested?}
+        else
+          forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
+          #Hide away the subforms (but not the invisible forms!)
+          forms = forms.select{|f| !f.is_nested?}
+        end
         forms = forms.sort_by{|f| [f.order_form_group, f.order]}
         #TODO: Maybe move this logic to controller?
         forms = forms.map do |form|
-          fields = form.fields.select{|f| REPORTABLE_FIELD_TYPES.include? f.type}
+          fields = form.fields.select{|f| types.include? f.type}
           fields = fields.map{|f| [f.name, f.display_name, f.type]}
           [form.name, fields]
         end
+        forms = forms.select{|f| f[1].present?}
         reportable[primero_module.name] = forms
       end
     end
     return reportable
+  end
+
+  def apply_default_filters
+    if add_default_filters
+      self.filters ||= []
+      if ['case', 'child'].include? self.record_type
+        self.filters = (self.filters + [
+          {'attribute' => 'child_status', 'value' => ['Open']},
+          {'attribute' => 'record_state', 'value' => ['true']}
+        ]).uniq
+      else
+        self.filters = (self.filters + [
+          {'attribute' => 'status', 'value' => ['Open']},
+          {'attribute' => 'record_state', 'value' => ['true']}
+        ]).uniq
+      end
+    end
   end
 
   def pivots
