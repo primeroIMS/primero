@@ -36,4 +36,14 @@ module Transitionable
     self.transitions = [self.transitions.first]
   end
 
+  def given_consent(type = Transition::TYPE_REFERRAL)
+    if type == Transition::TYPE_REFERRAL
+      #TODO - consent_for_services should be a bool (ie use tick_box), not yes/no
+      #     - this is very brittle.  It does not hold up to i18n
+      disclosure_other_orgs == true && (consent_for_services.present? && consent_for_services == "Yes")
+    else
+      disclosure_other_orgs == true
+    end
+  end
+
 end
