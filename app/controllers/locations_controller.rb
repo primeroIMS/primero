@@ -65,9 +65,9 @@ class LocationsController < ApplicationController
   def load_location
     @location = Location.get params[:id] if params[:id]
   end
-  
+
   def load_all_locations
-    @locations = Location.all.all
+    @locations = Location.get_all.all
   end
 
   def load_types

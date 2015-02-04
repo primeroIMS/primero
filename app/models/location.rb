@@ -45,6 +45,7 @@ class Location < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
+    alias :get_all :all
 
     def all(*args)
       old_all(*args)

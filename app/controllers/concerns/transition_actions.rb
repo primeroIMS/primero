@@ -10,7 +10,7 @@ module TransitionActions
 
     @records = []
     if @selected_ids.present?
-      @records = model_class.all(keys: @selected_ids).select{|r| is_consent_given?(r) == true }
+      @records = model_class.all(keys: @selected_ids).select{|r| is_consent_given? r }
     else
       flash[:notice] = t('referral.no_records')
       redirect_to :back and return
@@ -40,8 +40,7 @@ module TransitionActions
   private
 
   def is_consent_given?(record)
-    return true if (is_transfer? && !is_remote?)
-    record.given_consent(transition_type)
+    (is_transfer? && !is_remote?) || record.given_consent(transition_type)
   end
 
   def remote_transition(records)

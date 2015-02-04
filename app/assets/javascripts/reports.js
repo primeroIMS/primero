@@ -74,17 +74,31 @@ var ReportTable = Backbone.View.extend({
 
   },
 
-  export_graph: function(){
+  export_graph: function(e){
+    e.preventDefault();
+
     var canvas = document.getElementById("report_graph");
-    var imageURL = canvas.toDataURL("image/png");
-    $("a.report_export_graph").attr("href", imageURL);
+        canvas_name = this.document_file_name();
+
+    canvas.toBlob(function(blob) {
+      saveAs(blob, canvas_name[0] + '-' + canvas_name[1] + ".png");
+    });
   },
 
-  export_data: function(){
-    var csvData = $('#report_table').table2CSV({delivery:'value'});
-    var csvURL = 'data:text/csv;charset=utf8,' + encodeURIComponent(csvData);
-    $("a.report_export_data").attr("href", csvURL);
+  export_data: function(e){
+    e.preventDefault();
+
+    var csvData = $('#report_table').table2CSV({delivery:'value'}),
+        name, blob;
+
+      name = this.document_file_name(),
+      blob = new Blob([csvData], {type: "text/csv;charset=utf-8"});
+      saveAs(blob, name[0] + '-' + name[1] + ".csv");
   },
+
+  document_file_name: function() {
+    return location.pathname.replace(/\//, '').split('/');
+  }
 
 
 });
