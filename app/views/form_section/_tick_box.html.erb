@@ -16,6 +16,5 @@
     <%= label_tag field_id, label, class: "tick_box_label" if label.present? %>
     <%= hidden_field_tag name, "false", :id => "#{field_id}_" %>
   </div>
-
-  <%= image_tag "new/icon_help.png", title: tick_box.help_text, class: 'tool-tip-icon vtip' if tick_box.help_text.present? %>
+  <% if tick_box.help_text %><p class="help"><%= tick_box.help_text %></p><% end %>
 </div>
