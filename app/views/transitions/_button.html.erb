@@ -6,10 +6,13 @@
     
     if transition_type == "referral"
       transition_role_options = @referral_roles.map {|r| [r.name, r.id]}
+      no_consent_count = ((@referral_consent.present? && @referral_consent == false) ? 1 : 0)
     elsif transition_type == "transfer"
       transition_role_options = @transfer_roles.map {|r| [r.name, r.id]}
+      no_consent_count = ((@transfer_consent.present? && @transfer_consent == false) ? 1 : 0)
     else
       transition_role_options = []
+      no_consent_count = 0
     end
 %>
 <% if can?(transition_type.to_sym(), controller.model_class) %>
@@ -27,11 +30,14 @@
           <%= hidden_field_tag "transition_type", transition_type%>
 
           <%# TODO - WIP %>
-          <% if can?(:consent_override, controller.model_class) %>
-            <label><span class="consent_count"></span> <%=I18n.t("#{transition_type}.consent_override_label")%>
+          <label class="consent">
+            <span class="consent_count"><%= no_consent_count%></span>
+            <%=I18n.t("#{transition_type}.consent_label")%>
+            <% if can?(:consent_override, controller.model_class) %>
+              <%=I18n.t("#{transition_type}.consent_override_label")%>
               <%= check_box_tag("consent_override", "true") %>
-            </label>
-          <% end %>
+            <% end %>
+          </label>
 
           <label><%=I18n.t("#{transition_type}.is_remote_label")%>
             <%= check_box_tag("is_remote", "true") %>

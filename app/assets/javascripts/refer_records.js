@@ -4,7 +4,7 @@ var ReferRecords = Backbone.View.extend({
 
   events: {
     'click a.referral_index_action' : 'refer_records',
-    'click a.referral_show_action' : 'no_consent_count',
+    //'click a.referral_show_action' : 'no_consent_count',
     'change div#referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
     'change div#referral-modal select#existing_user' : 'toggle_other_user',
     'change div#referral-modal input#other_user' : 'toggle_existing_user',
