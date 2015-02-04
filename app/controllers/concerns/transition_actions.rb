@@ -10,28 +10,38 @@ module TransitionActions
 
     @records = []
     if @selected_ids.present?
-      @records = model_class.all(keys: @selected_ids).all
+      @records = model_class.all(keys: @selected_ids).select{|r| is_consent_given? r }
     else
       flash[:notice] = t('referral.no_records')
       redirect_to :back and return
     end
 
-    log_to_history(@records)
-
-    if is_remote?
-      begin
-        remote_transition(@records)
-      rescue
-        #TODO
-        logger.error "#{model_class.parent_form}s not transitioned to remote #{@to_user_remote}... failure"
-      end
-    else
-      local_transition(@records)
+    if @records.blank?
+      #TODO - should we log or display something here?
+      logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
       redirect_to :back
+    else
+      log_to_history(@records)
+
+      if is_remote?
+        begin
+          remote_transition(@records)
+        rescue
+          #TODO
+          logger.error "#{model_class.parent_form}s not transitioned to remote #{@to_user_remote}... failure"
+        end
+      else
+        local_transition(@records)
+        redirect_to :back
+      end
     end
   end
 
   private
+
+  def is_consent_given?(record)
+    (is_transfer? && !is_remote?) || record.given_consent(transition_type)
+  end
 
   def remote_transition(records)
     if is_transfer?
@@ -67,7 +77,7 @@ module TransitionActions
     if @new_user.present?
       if is_referral?
         local_referral(records)
-      elsif is_transfer?
+      elsif is_transfer? == true
         local_transfer(records)
       end
     end
@@ -96,7 +106,7 @@ module TransitionActions
           #TODO log stuff
         end
       else
-        logger.error "#{model_class.parent_form} #{record.short_id} not transferred to #{@to_user_local}... not valid"
+        logger.error "#{model_class.parent_form} #{transfer_record.short_id} not transferred to #{@to_user_local}... not valid"
       end
     end
   end
@@ -154,8 +164,8 @@ module TransitionActions
   end
 
   def to_user_local
-    @to_user_local ||= (params[:existing_user].present? ? params[:existing_user] : "")
     @new_user ||= User.find_by_user_name(params[:existing_user]) if params[:existing_user].present?
+    @to_user_local ||= (params[:existing_user].present? ? params[:existing_user] : "")
   end
 
   def to_user_remote
