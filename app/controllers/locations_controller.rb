@@ -67,7 +67,7 @@ class LocationsController < ApplicationController
   end
 
   def load_all_locations
-    @locations = Location.all(true).all
+    @locations = Location.get_all.all
   end
 
   def load_types

@@ -27,11 +27,13 @@ class Lookup < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
+    alias :get_all :all
 
     def all(*args)
       old_all(*args)
     end
     memoize_in_prod :all
+
 
     def find_by_name(name)
       Lookup.by_name(:key => name).first
