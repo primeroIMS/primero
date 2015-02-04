@@ -14,7 +14,7 @@
 %>
 <% if can?(transition_type.to_sym(), controller.model_class) %>
 <li>
-  <a data-reveal-id=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "" : "#{transition_type}_index_action") %> href="#">
+  <a data-reveal-id=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %> href="#">
     <%= t("buttons.#{transition_type}", model: model_name) %>
   </a>
 
@@ -25,6 +25,14 @@
         <%= form_tag(url_for(:action => 'transition', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
           <%= hidden_field_tag "selected_records"%>
           <%= hidden_field_tag "transition_type", transition_type%>
+
+          <%# TODO - WIP %>
+          <% if can?(:consent_override, controller.model_class) %>
+            <label><span class="consent_count"></span> <%=I18n.t("#{transition_type}.consent_override_label")%>
+              <%= check_box_tag("consent_override", "true") %>
+            </label>
+          <% end %>
+
           <label><%=I18n.t("#{transition_type}.is_remote_label")%>
             <%= check_box_tag("is_remote", "true") %>
           </label>

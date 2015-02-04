@@ -4,6 +4,7 @@ var ReferRecords = Backbone.View.extend({
 
   events: {
     'click a.referral_index_action' : 'refer_records',
+    'click a.referral_show_action' : 'no_consent_count',
     'change div#referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
     'change div#referral-modal select#existing_user' : 'toggle_other_user',
     'change div#referral-modal input#other_user' : 'toggle_existing_user',
@@ -13,6 +14,13 @@ var ReferRecords = Backbone.View.extend({
   refer_records: function() {
     var selected_records = _primero.indexTable.get_selected_records();
     $("#referral-modal #selected_records").val(selected_records);
+    // TODO - WIP
+    $("#referral-modal span.consent_count").replaceWith("Abc123");
+  },
+
+  // TODO - WIP
+  no_consent_count: function() {
+    $("#referral-modal span.consent_count").replaceWith("Xyz789");
   },
 
   toggle_remote_primero: function() {
