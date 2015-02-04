@@ -14,12 +14,12 @@ module FormCustomization
   end
 
   def current_modules
-    @current_modules ||= current_user.modules
+    @current_modules ||= current_user.modules #TODO: This is a memoized call and may get us in trouble.
     @module_id = params[:module_id] || @current_modules.first.id
     @primero_module = @current_modules.select{|m| m.id == @module_id}.first
   end
 
   def get_form_group_names
-    @list_form_group_names = FormSection.list_form_group_names(@primero_module, @parent_form, current_user)
+    @list_form_group_names = FormSection.list_form_group_names(@primero_module, @parent_form, current_user, true)
   end
 end

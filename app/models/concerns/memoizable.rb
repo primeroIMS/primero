@@ -10,6 +10,29 @@ module Memoizable
       def self.memoize_in_prod(*args)
         if Rails.env == 'production'
           memoize(*args)
+        else
+          #bump up the arity of the class methods in dev.
+          args.each do |method|
+            aliased_method = "#{method}_devaliased".to_sym
+            if self.instance_methods.include? method
+              arity = self.instance_method(method).arity
+              self.send(:alias_method, aliased_method, method)
+              self.class_eval <<-EOS
+                def #{method}(*args)
+                  arity = #{arity}
+                  if arity == 0
+                    args = []
+                  elsif arity > 0
+                    args = args[0..(arity-1)]
+                  elsif arity < 0 && args.last.is_a?(TrueClass)
+                    args = args[0..-2]
+                  end
+                  #{aliased_method}(*args)
+                end
+                private :#{aliased_method}
+              EOS
+            end
+          end
         end
       end
 

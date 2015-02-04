@@ -52,7 +52,7 @@ class FormSectionController < ApplicationController
 
   def update
     authorize! :update, FormSection
-    @form_section = FormSection.get_by_unique_id(params[:id])
+    @form_section = FormSection.get_by_unique_id(params[:id], true)
     @form_section.properties = params[:form_section]
     if (@form_section.valid?)
       @form_section.save!
@@ -71,7 +71,7 @@ class FormSectionController < ApplicationController
 
   def toggle
     authorize! :update, FormSection
-    form = FormSection.get_by_unique_id(params[:id])
+    form = FormSection.get_by_unique_id(params[:id], true)
     form.visible = !form.visible?
     form.save!
     render :text => "OK"
@@ -80,7 +80,7 @@ class FormSectionController < ApplicationController
   def save_order
     authorize! :update, FormSection
     params[:ids].each_with_index do |unique_id, index|
-      form_section = FormSection.get_by_unique_id(unique_id)
+      form_section = FormSection.get_by_unique_id(unique_id, true)
       form_section.order = index + 1
       form_section.save!
     end
@@ -88,7 +88,7 @@ class FormSectionController < ApplicationController
   end
 
   def published
-    json_content = FormSection.find_all_visible_by_parent_form(@parent_form).map(&:formatted_hash).to_json
+    json_content = FormSection.find_all_visible_by_parent_form(@parent_form, true).map(&:formatted_hash).to_json
     respond_to do |format|
       format.html {render :inline => json_content }
       format.json { render :json => json_content }
@@ -99,7 +99,7 @@ class FormSectionController < ApplicationController
   private
 
   def get_form_section
-    @form_section = FormSection.get_by_unique_id(params[:id])
+    @form_section = FormSection.get_by_unique_id(params[:id], true)
     @parent_form = @form_section.parent_form
   end
 
@@ -116,11 +116,11 @@ class FormSectionController < ApplicationController
       end
     end
 
-    permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
-    FormSection.link_subforms(permitted_forms)
+    permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user, true)
+    FormSection.link_subforms(permitted_forms, true)
     #filter out the subforms
-    no_subforms = FormSection.filter_subforms(permitted_forms)
-    @form_sections = FormSection.group_forms(no_subforms)
+    no_subforms = FormSection.filter_subforms(permitted_forms, true)
+    @form_sections = FormSection.group_forms(no_subforms, true)
   end
 
   def forms_for_move
@@ -132,7 +132,7 @@ class FormSectionController < ApplicationController
   end
 
   def get_lookups
-    lookups = Lookup.all
+    lookups = Lookup.all(true)
     @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
     @lookup_options.unshift("", "Location")
   end
