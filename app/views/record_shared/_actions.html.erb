@@ -2,7 +2,9 @@
   <li class="init_btn">
     <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
     <ul>
-      <%= render 'imports/button' %>
+      <% if can?(:import, controller.model_class) %>
+        <%= render 'imports/button' %>
+      <% end %>
       <%= render 'exports/button', locals: { model: model } %>
       <%
         #TODO - For now, only implementing transfer and referral for Cases
