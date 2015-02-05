@@ -1,0 +1,42 @@
+<% if can?(:import, User) || can?(:export, User) || can?(:import, FormSection) || can?(:export, FormSection) %>
+  <ul id="menu" class="sf-menu">
+    <li class="init_btn">
+      <%= link_to content_tag(:span, t('actions.button')), '', class: 'btn green-button action_btn' %>
+      <ul>
+        <% if can?(:import, User) || can?(:import, FormSection) %>
+          <li>
+            <%= link_to t('buttons.import'), '#', class: 'has_sub' %>
+            <ul>
+              <% if can? :import, User %>
+                <%= render partial: 'imports/button', locals: {import_label: 'users.label', importers: [Importers::JSONImporter]} %>
+              <% end %>
+              <% if can? :import, FormSection %>
+                <li><%= render partial: 'configuration_bundle/import_button' %></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+        <% if can?(:export, User) || can?(:export, FormSection) %>
+          <li>
+            <%= link_to t('buttons.export'), '#', class: 'has_sub' %>
+            <ul>
+              <% if can? :export, User %>
+                <li>
+                  <%= link_to(
+                        t('users.label'),
+                        url_for(format: 'json', page: 'all', per_page: :all, id: nil, params: exporter_params_page('json', params)),
+                        class: 'password-prompt', 'data-reveal-id' => 'password-prompt-dialog'
+                      )
+                  %>
+                </li>
+              <% end %>
+              <% if can? :export, FormSection %>
+                <li><%= render :partial => 'configuration_bundle/export_button' %></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+<% end %>
