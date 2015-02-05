@@ -44,7 +44,8 @@ module TransitionActions
     records = model_class.all(keys: @selected_ids).all if @selected_ids.present?
 
     total_count = records.size
-    consent_count = records.select{|r| is_consent_given? r }.size
+    #For this count, do not factor in local transfers which are always allowed and would thus skew the count
+    consent_count = records.select{|r| r.given_consent(transition_type) }.size
 
     render json: {:record_count => total_count, :consent_count => consent_count}
   end

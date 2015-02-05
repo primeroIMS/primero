@@ -15,19 +15,12 @@ var ReferRecords = Backbone.View.extend({
         referral_button = $(event.target),
         consent_url = referral_button.data('consent_count_url');
     $("#referral-modal #selected_records").val(selected_recs);
-    // TODO - WIP
-
     $.get( consent_url, {selected_records: selected_recs.join(","), transition_type: "referral"}, function(response) {
-        // target_div.html(response);
         var total = response['record_count'],
             consent_cnt = response['consent_count'],
             no_consent_cnt = total - consent_cnt;
-
         $("#referral-modal span.consent_count").replaceWith(no_consent_cnt.toString());
-
     });
-
-    //$("#referral-modal span.consent_count").replaceWith("Abc123");
   },
 
   toggle_remote_primero: function() {
