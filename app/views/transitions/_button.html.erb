@@ -6,10 +6,10 @@
     
     if transition_type == "referral"
       transition_role_options = @referral_roles.map {|r| [r.name, r.id]}
-      no_consent_count = ((@referral_consent.present? && @referral_consent == false) ? 1 : 0)
+      no_consent_count = ((@referral_consent.present? && @referral_consent == true) ? 0 : 1)
     elsif transition_type == "transfer"
       transition_role_options = @transfer_roles.map {|r| [r.name, r.id]}
-      no_consent_count = ((@transfer_consent.present? && @transfer_consent == false) ? 1 : 0)
+      no_consent_count = ((@transfer_consent.present? && @transfer_consent == true) ? 0 : 1)
     else
       transition_role_options = []
       no_consent_count = 0
@@ -17,8 +17,9 @@
 %>
 <% if can?(transition_type.to_sym(), controller.model_class) %>
 <li>
-  <a data-reveal-id=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %> href="#">
-    <%= t("buttons.#{transition_type}", model: model_name) %>
+  <a data-consent_count_url="<%= "/#{model_name.downcase.underscore.pluralize}/consent_count" %>"
+     data-reveal-id=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %> href="#">
+     <%= t("buttons.#{transition_type}", model: model_name) %>
   </a>
 
   <div id=<%= "#{transition_type}-modal" %> class="reveal-modal tiny" data-reveal>
@@ -32,10 +33,12 @@
           <%# TODO - WIP %>
           <label class="consent">
             <span class="consent_count"><%= no_consent_count%></span>
-            <%=I18n.t("#{transition_type}.consent_label")%>
+            <%=I18n.t("#{transition_type}.consent_label")%><br />
             <% if can?(:consent_override, controller.model_class) %>
               <%=I18n.t("#{transition_type}.consent_override_label")%>
               <%= check_box_tag("consent_override", "true") %>
+            <% else %>
+              <br />
             <% end %>
           </label>
 

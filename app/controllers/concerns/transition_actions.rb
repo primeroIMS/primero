@@ -37,6 +37,18 @@ module TransitionActions
     end
   end
 
+  def consent_count
+    get_selected_ids
+
+    records = []
+    records = model_class.all(keys: @selected_ids).all if @selected_ids.present?
+
+    total_count = records.size
+    consent_count = records.select{|r| is_consent_given? r }.size
+
+    render json: {:record_count => total_count, :consent_count => consent_count}
+  end
+
   private
 
   def is_consent_given?(record)
