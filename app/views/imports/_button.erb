@@ -1,7 +1,8 @@
 <% if can?(:import, controller.model_class) %>
+  <% active_importers = (defined? importers) ? importers : Importers::ACTIVE_IMPORTERS %>
   <li>
     <a data-reveal-id="import-modal" href="#">
-      <%= t("buttons.import") %>
+      <%=(defined? import_label) ? t(import_label) : t("buttons.import") %>
     </a>
 
     <div id="import-modal" class="reveal-modal tiny" data-reveal>
@@ -12,7 +13,7 @@
           <%= password_field_tag "password" %>
         </label>
         <label><%=I18n.t("imports.format_label")%>
-          <%= select_tag("import_type", options_for_select(Importers::ACTIVE_IMPORTERS.map {|i| [i.display_name, i.id]}, 'csv')) %>
+          <%= select_tag("import_type", options_for_select(active_importers.map {|i| [i.display_name, i.id]}, 'csv')) %>
         </label>
         <div class="import_button">
           <%= submit_tag(t("buttons.import"), class: 'green-button right') %>

@@ -8,6 +8,10 @@ module Exporters
         'csv'
       end
 
+      def supported_models
+        [Child, Incident, TracingRequest]
+      end
+
       # @returns: a String with the CSV data and header
       def export(models, properties, *args)
         CSV.generate do |rows|
