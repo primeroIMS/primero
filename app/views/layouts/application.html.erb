@@ -33,7 +33,9 @@
     <div class="row">
       <header>
         <div class="large-12 columns">
-          <%= link_to 'Primero', root_path, :class => 'logo left', id: "RapidFTRlogo" %>
+          <%= link_to root_path, :class => 'logo left', id: "RapidFTRlogo"  do %>
+            <%= image_tag('logo.png', alt: 'Primero') %>
+          <% end %>
           <div class="sublogo">Protection-related information management</div>
           <ul class="agency_logos"><% display_agency_logos %></ul>
           <div class="right">
