@@ -1,4 +1,4 @@
-<% if can?(:import, User) || can(:export, User) || can?(:import, FormSection) || can?(:export, FormSection) %>
+<% if can?(:import, User) || can?(:export, User) || can?(:import, FormSection) || can?(:export, FormSection) %>
   <ul id="menu" class="sf-menu">
     <li class="init_btn">
       <%= link_to content_tag(:span, t('actions.button')), '', class: 'btn green-button action_btn' %>
