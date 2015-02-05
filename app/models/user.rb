@@ -250,11 +250,11 @@ class User < CouchRest::Model::Base
   end
 
   def role_permitted_form_ids
-    roles.compact.collect(&:permitted_form_ids).flatten
+    roles.compact.collect(&:permitted_form_ids).flatten.select(&:present?)
   end
 
   def module_permitted_form_ids
-    modules.compact.collect(&:associated_form_ids).flatten
+    modules.compact.collect(&:associated_form_ids).flatten.select(&:present?)
   end
 
 

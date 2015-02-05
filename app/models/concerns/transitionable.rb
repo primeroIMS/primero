@@ -14,7 +14,7 @@ module Transitionable
                     :to_user_remote => to_user_remote,
                     :to_user_agency => to_user_agency,
                     :transitioned_by => user_name,
-                    :notes => notes, 
+                    :notes => notes,
                     :is_remote => is_remote,
                     :is_remote_primero => is_remote_primero,
                     :service => service,
@@ -41,7 +41,7 @@ module Transitionable
     if type == Transition::TYPE_REFERRAL
       #TODO - consent_for_services should be a bool (ie use tick_box), not yes/no
       #     - this is very brittle.  It does not hold up to i18n
-      disclosure_other_orgs == true && (consent_for_services.present? && consent_for_services == "Yes")
+      disclosure_other_orgs == true && consent_for_services == true
     else
       disclosure_other_orgs == true
     end

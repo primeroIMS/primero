@@ -8,7 +8,7 @@
 }
 
 header {
-  padding: 20px 0;
+  padding: 8px 0;
   margin-bottom: 20px;
 
   .columns {
@@ -16,21 +16,14 @@ header {
   }
 }
 
-a.logo {
-  font-family: 'RobotoSlab-Thin', serif;
-  font-size: $sixtythree_px;
-  color: $green_color;
-
-  &:hover {
-    text-decoration: none;
-  }
-
+a.logo img {
+  height: 53px;
 }
 
 .sublogo {
   clear: left;
   float: left;
-  margin-top: 14px;
+  margin-top: 2px;
   font-size: $thirteen_px;
 }
 
@@ -38,7 +31,6 @@ ul.agency_logos {
   float: right;
   position: absolute;
   right: 0;
-  margin-top: -10px;
 
   li {
     display: inline;
@@ -47,7 +39,7 @@ ul.agency_logos {
 }
 
 ul.links {
-  padding: 15px 0 0 0;
+  padding: 2px 0 0 0;
   font-size: $thirteen_px;
 
   a {
