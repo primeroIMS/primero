@@ -12,6 +12,10 @@ module Exporters
         'csv'
       end
 
+      def supported_models
+        [Child, Incident, TracingRequest]
+      end
+
       def build_field_map(properties)
         field_map = {}
         properties[:fields].each do |key, value|

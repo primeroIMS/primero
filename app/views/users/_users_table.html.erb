@@ -1,12 +1,3 @@
-<% content_for :record_sub_nav_controls do %>
-  <% if can? :create,User %>
-      <%= link_to content_tag(:span, t("users.create"), :class => 'create_user'), new_user_path, :class => 'btn green-button' %>
-  <% end %>
-
-  <%= render partial: 'record_shared/actions', locals: {model: User} %>
-  <%= render :partial => 'configuration_bundle/export_button' %>
-  <%= render :partial => 'configuration_bundle/import_button' %>
-<% end %>
 <form class="filter_bar" autocomplete="off">
   <div class="row">
     <div class="medium-6 columns">

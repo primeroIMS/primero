@@ -28,7 +28,7 @@
             <ul class="left">
               <li><%= link_to t("navigation.home"), root_path, class: current_page(root_path) %></li>
               <% if can? :read, Child %>
-                <li><%= link_to t("navigation.cases"), cases_path, class: current_page(cases_path) %></li>
+                <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||Open"}), class: current_page(cases_path) %></li>
               <% end  %>
               <% if can? :read, TracingRequest %>
                 <li><%= link_to t("navigation.tracing_request"), tracing_requests_path, class: current_page(tracing_requests_path) %></li>
