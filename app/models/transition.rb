@@ -10,10 +10,10 @@ class Transition
   property :to_user_agency, String
   property :notes, String
   property :transitioned_by, String
-  property :consent_override_by, String
   property :service, String
   property :is_remote, TrueClass
   property :is_remote_primero, TrueClass
+  property :consent_overridden, TrueClass
   property :created_at, Date
   property :id
 

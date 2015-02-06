@@ -146,7 +146,7 @@ module TransitionActions
   def log_to_history(records)
     records.each do |record|
       record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, notes, is_remote?,
-                            is_remote_primero?, current_user.user_name, consent_override_by(record), service)
+                            is_remote_primero?, current_user.user_name, consent_overridden(record), service)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
       record.save if is_remote?
@@ -202,8 +202,8 @@ module TransitionActions
     @consent_override ||= (params[:consent_override].present? && params[:consent_override] == "true")
   end
 
-  def consent_override_by(record)
-    current_user.user_name if (consent_override && !(is_consent_given?(record)))
+  def consent_overridden(record)
+    consent_override && !(is_consent_given?(record))
   end
 
 end
