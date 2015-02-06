@@ -27,18 +27,18 @@ export_permissions = [
 
 create_or_update_role(
   :name => "CP Case Worker",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
     Permission::CASE,
     Permission::TRACING_REQUEST
-  ] << export_permissions).flatten!
+  ] + export_permissions
 )
 
 create_or_update_role(
   :name => "CP Manager",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::FLAG,
     Permission::ASSIGN,
@@ -48,23 +48,23 @@ create_or_update_role(
     Permission::REPORT,
     Permission::USER,
     Permission::GROUP
-  ] << export_permissions).flatten!
+  ] + export_permissions
 )
 
 create_or_update_role(
   :name => "GBV Social Worker",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
     Permission::CASE,
     Permission::INCIDENT
-  ] << export_permissions).flatten!
+  ] + export_permissions
 )
 
 create_or_update_role(
   :name => "GBV Manager",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::FLAG,
     Permission::ASSIGN,
@@ -74,22 +74,22 @@ create_or_update_role(
     Permission::REPORT,
     Permission::USER,
     Permission::GROUP
-  ] << export_permissions).flatten!
+  ] + export_permissions
 )
 
 create_or_update_role(
   :name => "MRM Worker", #TODO: Is there a better name?
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
     Permission::INCIDENT
-  ] << export_permissions).flatten!
+  ] + export_permissions
 )
 
 create_or_update_role(
   :name => "MRM Manager",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::FLAG,
     Permission::ASSIGN,
@@ -98,34 +98,34 @@ create_or_update_role(
     Permission::USER,
     Permission::GROUP,
     Permission::REPORT
-  ] << export_permissions).flatten!
+  ] + export_permissions
 )
 
 create_or_update_role(
   :name => "Referral",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
     Permission::CASE
-  ] << export_permissions).flatten!,
+  ] + export_permissions,
   :referral => true
 )
 
 create_or_update_role(
   :name => "Transfer",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
     Permission::CASE
-  ] << export_permissions).flatten!,
+  ] + export_permissions,
   :transfer => true
 )
 
 create_or_update_role(
   :name => "Superuser",
-  :permissions => ([
+  :permissions => [
     Permission::READ,
     Permission::WRITE,
     Permission::FLAG,
@@ -142,6 +142,6 @@ create_or_update_role(
     Permission::REFERRAL,
     Permission::TRANSFER,
     Permission::ALL
-  ] << export_permissions).flatten!
+  ] + export_permissions
 )
 
