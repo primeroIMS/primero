@@ -17,6 +17,7 @@ module RecordActions
     before_filter :is_cp, :only => [:index]
     before_filter :is_gbv, :only => [:index]
     before_filter :is_mrm, :only => [:index]
+    before_filter :load_consent, :only => [:show]
   end
 
   def list_variable_name
@@ -306,6 +307,13 @@ module RecordActions
     # Alias the record to a more specific name since the record controllers
     # already use it
     instance_variable_set("@#{model_class.name.underscore}", @record)
+  end
+
+  def load_consent
+    if @record.present?
+      @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
+      @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
+    end
   end
 
   def exported_properties

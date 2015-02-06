@@ -11,8 +11,17 @@ var TransferRecords = Backbone.View.extend({
   },
 
   transfer_records: function() {
-    var selected_records = _primero.indexTable.get_selected_records();
-    $("#transfer-modal #selected_records").val(selected_records);
+    var selected_recs = _primero.indexTable.get_selected_records(),
+        transfer_button = $(event.target),
+        consent_url = transfer_button.data('consent_count_url');
+    $("#transfer-modal #selected_records").val(selected_recs);
+
+    $.get( consent_url, {selected_records: selected_recs.join(","), transition_type: "transfer"}, function(response) {
+        var total = response['record_count'],
+            consent_cnt = response['consent_count'],
+            no_consent_cnt = total - consent_cnt;
+        $("#transfer-modal span.consent_count").replaceWith(no_consent_cnt.toString());
+    });
   },
 
   toggle_remote_primero: function() {

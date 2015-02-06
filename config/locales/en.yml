@@ -735,6 +735,7 @@ en:
       self: "Access only my records"
       group: "Access all records owned by users in my group"
       all: "Access all records"
+      consent_override: "Consent override"
 
   forms:
     label: "Forms"
@@ -1343,6 +1344,8 @@ en:
     other_user_label: "Other User"
     other_user_agency_label: "Other User's Agency"
     service_label: "Service"
+    consent_label: "records have not provided consent."
+    consent_override_label: "Do you wish to override this setting?"
     is_remote_label: "Are you referring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
@@ -1354,6 +1357,8 @@ en:
     existing_user_label: "Existing User"
     other_user_label: "Other User"
     other_user_agency_label: "Other User's Agency"
+    consent_label: "records have not provided consent."
+    consent_override_label: "Do you wish to override this setting?"
     is_remote_label: "Are you transferring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"

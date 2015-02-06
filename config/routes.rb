@@ -64,6 +64,7 @@ RapidFTR::Application.routes.draw do
       post :import_file
       post :transition
       get :search
+      get :consent_count
     end
 
     member do
