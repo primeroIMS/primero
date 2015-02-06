@@ -1,9 +1,9 @@
 gbv_data_confidentiality_fields = [
   Field.new({"name" => "consent_for_services",
-             "type" => "radio_button",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
              "display_name_all" => "Did the survivor provide their consent for service provision",
-             "option_strings_text_all" => "Yes\nNo",
-             "guiding_questions" => "This includes consent for sharing information with other organizations providing services"
+             "help_text" => "This includes consent for sharing information with other organizations providing services"
             }),
   Field.new({"name" => "consent_release_separator",
              "type" => "separator",

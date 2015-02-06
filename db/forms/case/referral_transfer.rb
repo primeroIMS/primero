@@ -46,6 +46,12 @@ transitions_subform = [
                "editable"=>false,
                "display_name_all" => "Is the remote system a Primero instance?",
               }),
+    Field.new({"name" => "consent_overridden",
+               "type" => "tick_box",
+               "tick_box_label_all" => "Yes",
+               "editable"=>false,
+               "display_name_all" => "No Consent to Share Setting Overridden",
+              }),
     Field.new({"name" => "created_at",
                "type" => "date_field",
                "editable"=>false,
@@ -65,7 +71,7 @@ transitions = FormSection.create_or_update_form_section({
      :fields => transitions_subform,
      "name_all" => "Nested Transitions Subform",
      "description_all" => "Transitions Subform",
-     "collapsed_fields" => ["type", "to_user_local", "to_user_remote", "created_at"]
+     "collapsed_fields" => ["type", "service", "to_user_local", "to_user_remote", "created_at"]
 })
 
 referral_transfer_fields = [

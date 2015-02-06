@@ -27,6 +27,7 @@ class Permission
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
   ALL = 'all'
+  CONSENT_OVERRIDE = 'consent_override'
 
 
   def self.description(permission)
@@ -55,7 +56,8 @@ class Permission
       ASSIGN,
       REPORT_CREATE,
       TRANSFER,
-      REFERRAL
+      REFERRAL,
+      CONSENT_OVERRIDE
     ]
   end
 
@@ -78,7 +80,4 @@ class Permission
   def self.all_grouped
     {'actions' => actions, 'resources' => resources, 'management' => management}
   end
-
-
-
 end

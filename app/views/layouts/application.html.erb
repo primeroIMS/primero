@@ -7,9 +7,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="google" value="notranslate" />
-
   <title><%= @page_name %></title>
-  <link rel="shortcut icon" href="/favicon.ico?v=2"/>
+  <%= favicon_link_tag('favicon-32x32.png?v=3', sizes: "32x32") %>
+  <%= favicon_link_tag('favicon-96x96.png?v=3', sizes: "96x96") %>
+  <%= favicon_link_tag('favicon-16x16.png?v=3', sizes: "16x16") %>
   <%= stylesheet_link_tag "application" %>
   <%= yield :stylesheet %>
   <script>
@@ -33,7 +34,9 @@
     <div class="row">
       <header>
         <div class="large-12 columns">
-          <%= link_to 'Primero', root_path, :class => 'logo left', id: "RapidFTRlogo" %>
+          <%= link_to root_path, :class => 'logo left', id: "RapidFTRlogo"  do %>
+            <%= image_tag('logo.png', alt: 'Primero') %>
+          <% end %>
           <div class="sublogo">Protection-related information management</div>
           <ul class="agency_logos"><% display_agency_logos %></ul>
           <div class="right">

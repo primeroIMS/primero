@@ -13,9 +13,10 @@ consent_fields = [
             }),
   #TODO - Yes\No is brittle.  Logic in the app depends on this which makes it not i18n compliant.  Should be a tick_box instead
   Field.new({"name" => "consent_for_services",
-             "type" => "radio_button",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
              "display_name_all" => "Consent has been obtained for the child to receive services",
-             "option_strings_text_all" => "Yes\nNo"
+             "help_text" => "This includes consent for sharing information with other organizations providing services"
             }),
   Field.new({"name" => "consent_reporting",
            "type" => "radio_button",
