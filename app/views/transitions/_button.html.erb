@@ -29,8 +29,6 @@
         <%= form_tag(url_for(:action => 'transition', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
           <%= hidden_field_tag "selected_records"%>
           <%= hidden_field_tag "transition_type", transition_type%>
-
-          <%# TODO - WIP %>
           <label class="consent">
             <span class="consent_count"><%= no_consent_count%></span>
             <%=I18n.t("#{transition_type}.consent_label")%><br />
@@ -41,7 +39,6 @@
               <br />
             <% end %>
           </label>
-
           <label><%=I18n.t("#{transition_type}.is_remote_label")%>
             <%= check_box_tag("is_remote", "true") %>
           </label>
