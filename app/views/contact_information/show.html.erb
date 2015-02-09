@@ -3,20 +3,20 @@
 <% end %>
 
 <div class="row">
-  <div class="large-12 columns">
+  <div class="large-12 columns side-tab-content">
     <div class="contact_info_page">
       <% if false %>
           <div><%= t("contact.message") %></div>
       <% end %>
-
-      <%= show_contact_field :name %>
-      <%= show_contact_field :position %>
-      <%= show_contact_field :organization %>
-      <%= show_contact_field :email %>
-      <%= show_contact_field :phone %>
-      <%= show_contact_field :location %>
-
-      <%= show_contact_field :other_information %>
+      <div class="contact_and_information">
+        <%= show_contact_field :name %>
+        <%= show_contact_field :position %>
+        <%= show_contact_field :organization %>
+        <%= show_contact_field :email %>
+        <%= show_contact_field :phone %>
+        <%= show_contact_field :location %>
+        <%= show_contact_field :other_information %>
+       </div>
     </div>
   </div>
 </div>

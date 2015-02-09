@@ -14,7 +14,7 @@
 <% end %>
 <% content_for :record_sub_nav do %>
   <!--TODO: After we got the user object in the session replace the DB query with User object-->
-  <%= render_controls(object) %>
+  <%= render_controls(object, object_name_plural) %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
