@@ -20,7 +20,7 @@ module TransitionActions
     if @records.blank?
       #TODO - should we log or display something here?
       logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
-      message_failure
+      message_failure @selected_ids.size
       redirect_to :back
     else
       log_to_history(@records)
@@ -245,7 +245,6 @@ module TransitionActions
         flash[:notice] = t('transfer.failure_batch', failed_count: failed_count)
       end
     end
-    flash[:notice] = t('transfer.failure')
   end
 
   def message_success(success_count = 0)
