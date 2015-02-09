@@ -10,7 +10,8 @@ module TransitionActions
 
     @records = []
     if @selected_ids.present?
-      @records = model_class.all(keys: @selected_ids).select{|r| is_consent_given? r }
+      @records = model_class.all(keys: @selected_ids).all
+      @records = @records.select{|r| is_consent_given? r } unless consent_override
     else
       flash[:notice] = t('referral.no_records')
       redirect_to :back and return
@@ -35,6 +36,19 @@ module TransitionActions
         redirect_to :back
       end
     end
+  end
+
+  def consent_count
+    get_selected_ids
+
+    records = []
+    records = model_class.all(keys: @selected_ids).all if @selected_ids.present?
+
+    total_count = records.size
+    #For this count, do not factor in local transfers which are always allowed and would thus skew the count
+    consent_count = records.select{|r| r.given_consent(transition_type) }.size
+
+    render json: {:record_count => total_count, :consent_count => consent_count}
   end
 
   private
@@ -131,8 +145,8 @@ module TransitionActions
 
   def log_to_history(records)
     records.each do |record|
-      record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency,
-                            notes, is_remote?, is_remote_primero?, current_user.user_name, service)
+      record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, notes, is_remote?,
+                            is_remote_primero?, current_user.user_name, consent_overridden(record), service)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
       record.save if is_remote?
@@ -182,6 +196,14 @@ module TransitionActions
 
   def notes
     @notes ||= (params[:notes].present? ? params[:notes] : "")
+  end
+
+  def consent_override
+    @consent_override ||= (params[:consent_override].present? && params[:consent_override] == "true")
+  end
+
+  def consent_overridden(record)
+    consent_override && !(is_consent_given?(record))
   end
 
 end

@@ -3,6 +3,16 @@ class Permission
   WRITE = 'write'
   FLAG = 'flag'
   IMPORT = 'import'
+  EXPORT_LIST_VIEW = 'export_list_view_csv'
+  EXPORT_CSV = 'export_csv'
+  EXPORT_EXCEL = 'export_xls'
+  EXPORT_JSON = 'export_json'
+  EXPORT_PHOTO_WALL = 'export_photowall'
+  EXPORT_PDF = 'export_pdf'
+  EXPORT_UNHCR = 'export_unhcr_csv'
+  EXPORT_CASE_PDF = 'export_case_pdf'
+  EXPORT_MRM_VIOLATION_XLS = 'export_mrm_violation_xls'
+  EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   ASSIGN = 'assign'
   REPORT_CREATE = 'report_create' #ok, painted us into a corner here
   TRANSFER = 'transfer'
@@ -17,14 +27,38 @@ class Permission
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
   ALL = 'all'
+  CONSENT_OVERRIDE = 'consent_override'
 
 
   def self.description(permission)
     I18n.t("permission.#{permission}")
   end
 
+  # TODO: For right now we are just listing the different exports, but it will need a matrix setup. We eventually want to
+  # limit export permission based on the resource.
+
   def self.actions
-    [READ, WRITE, FLAG, IMPORT, ASSIGN, REPORT_CREATE, TRANSFER, REFERRAL]
+    [
+      READ,
+      WRITE,
+      FLAG,
+      EXPORT_LIST_VIEW,
+      EXPORT_CSV,
+      EXPORT_EXCEL,
+      EXPORT_PHOTO_WALL,
+      EXPORT_PDF,
+      EXPORT_UNHCR,
+      EXPORT_MRM_VIOLATION_XLS,
+      EXPORT_INCIDENT_RECORDER,
+      EXPORT_CASE_PDF,
+      EXPORT_JSON,
+      IMPORT,
+      ASSIGN,
+      REPORT_CREATE,
+      TRANSFER,
+      REFERRAL,
+      CONSENT_OVERRIDE
+    ]
   end
 
   def self.resources
@@ -46,7 +80,4 @@ class Permission
   def self.all_grouped
     {'actions' => actions, 'resources' => resources, 'management' => management}
   end
-
-
-
 end
