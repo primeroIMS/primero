@@ -13,13 +13,14 @@ module TransitionActions
       @records = model_class.all(keys: @selected_ids).all
       @records = @records.select{|r| is_consent_given? r } unless consent_override
     else
-      flash[:notice] = t('referral.no_records')
+      flash[:notice] = t('referral.no_records_selected')
       redirect_to :back and return
     end
 
     if @records.blank?
       #TODO - should we log or display something here?
       logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
+      message_failure
       redirect_to :back
     else
       log_to_history(@records)
@@ -27,9 +28,11 @@ module TransitionActions
       if is_remote?
         begin
           remote_transition(@records)
+          message_success @records.size
         rescue
           #TODO
           logger.error "#{model_class.parent_form}s not transitioned to remote #{@to_user_remote}... failure"
+          message_failure
         end
       else
         local_transition(@records)
@@ -98,17 +101,27 @@ module TransitionActions
   end
 
   def local_referral(referral_records)
+    failed_count = 0
     referral_records.each do |record|
       if transition_valid(record, @new_user)
         record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
-        record.save!
+        unless record.save
+          failed_count += 1
+        end
       else
         logger.error "#{model_class.parent_form} #{record.short_id} not referred to #{@to_user_local}... not valid"
+        failed_count += 1
       end
+    end
+    if failed_count > 0
+      message_failure failed_count
+    else
+      message_success  referral_records.size
     end
   end
 
   def local_transfer(transfer_records)
+    failed_count = 0
     transfer_records.each do |transfer_record|
       if transition_valid(transfer_record, @new_user)
         if @new_user.user_name != transfer_record.owned_by
@@ -116,12 +129,20 @@ module TransitionActions
           transfer_record.previously_owned_by = transfer_record.owned_by
           transfer_record.owned_by = @new_user.user_name
           transfer_record.owned_by_full_name = @new_user.full_name
-          transfer_record.save
+          unless transfer_record.save
+            failed_count += 1
+          end
           #TODO log stuff
         end
       else
         logger.error "#{model_class.parent_form} #{transfer_record.short_id} not transferred to #{@to_user_local}... not valid"
+        failed_count += 1
       end
+    end
+    if failed_count > 0
+      message_failure failed_count
+    else
+      message_success transfer_records.size
     end
   end
 
@@ -169,6 +190,10 @@ module TransitionActions
     @remote_primero ||= (params[:remote_primero].present? && params[:remote_primero] == 'true')
   end
 
+  def is_single_or_batch?
+    @single_or_batch ||= (params[:id].present? ? "single" : "batch")
+  end
+
   def transition_role
     @transition_role ||= (params[:transition_role].present? ? params[:transition_role] : "")
   end
@@ -204,6 +229,47 @@ module TransitionActions
 
   def consent_overridden(record)
     consent_override && !(is_consent_given?(record))
+  end
+
+  def message_failure(failed_count = 0)
+    if is_referral?
+      if is_single_or_batch? == 'single'
+        flash[:notice] = t('referral.failure', record_type: record_type, id: record_id)
+      else
+        flash[:notice] = t('referral.failure_batch', failed_count: failed_count)
+      end
+    elsif is_transfer?
+      if is_single_or_batch? == 'single'
+        flash[:notice] = t('transfer.failure', record_type: record_type, id: record_id)
+      else
+        flash[:notice] = t('transfer.failure_batch', failed_count: failed_count)
+      end
+    end
+    flash[:notice] = t('transfer.failure')
+  end
+
+  def message_success(success_count = 0)
+    if is_referral?
+      if is_single_or_batch? == 'single'
+        flash[:notice] = t('referral.success', record_type: record_type, id: record_id)
+      else
+        flash[:notice] = t('referral.success_batch', success_count: success_count)
+      end
+    elsif is_transfer?
+      if is_single_or_batch? == 'single'
+        flash[:notice] = t('transfer.success', record_type: record_type, id: record_id)
+      else
+        flash[:notice] = t('transfer.success_batch', success_count: success_count)
+      end
+    end
+  end
+
+  def record_type
+    @record_type ||= model_class.parent_form.titleize if model_class.present?
+  end
+
+  def record_id
+    @record_id ||= @record.short_id if @record.present?
   end
 
 end
