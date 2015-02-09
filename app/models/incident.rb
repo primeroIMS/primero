@@ -140,10 +140,8 @@ class Incident < CouchRest::Model::Base
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::MRM},
                 "status" => {:type => "single", :value => "Open"},
-                "owned_by" => {:type => "single", :value => user.user_name}
               }
-    filters.delete('owned_by') if user[:is_manager]
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }).results
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
   def self.open_gbv_incidents(user)
@@ -151,10 +149,8 @@ class Incident < CouchRest::Model::Base
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::GBV},
                 "status" => {:type => "single", :value => "Open"},
-                "owned_by" => {:type => "single", :value => user.user_name}
               }
-    filters.delete('owned_by') if user[:is_manager]
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }).results
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
   # Each violation type has a field that is used as part of the identification
