@@ -1350,7 +1350,11 @@ en:
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
     user_mandatory: "User name is required"
-    no_records: "No records selected"
+    no_records_selected: "No records selected"
+    failure: "%{record_type} %{id} referral failed (check that consent fields are selected)"
+    success: "%{record_type} %{id} successfully referred"
+    failure_batch: "%{failed_count} Referral(s) failed (check that consent fields are selected)"
+    success_batch: "%{success_count} Referral(s) successfully made"
 
   transfer:
     type_label: "Type of Transfer"
@@ -1362,9 +1366,11 @@ en:
     is_remote_label: "Are you transferring to a remote system?"
     remote_primero_label: "Is the remote system a Primero implementation?"
     notes_label: "Notes"
-    success: "Transfer was successful"
-    failure: "There was an error processing the transfer"
     user_mandatory: "User name is required"
+    failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
+    success: "%{record_type} %{id} successfully transferred"
+    failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
+    success_batch: "%{success_count} Transfer(s) successfully made"
 
   per_page_translation: "Per page _MENU_"
   total: Total

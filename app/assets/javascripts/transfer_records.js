@@ -26,7 +26,7 @@ var TransferRecords = Backbone.View.extend({
 
   toggle_remote_primero: function() {
     $('#transfer-modal div.remote_toggle').toggle();
-    $('#referral-modal div.local_toggle').toggle();
+    $('#transfer-modal div.local_toggle').toggle();
   },
 
   toggle_other_user: function(e) {
