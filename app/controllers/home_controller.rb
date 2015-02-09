@@ -112,13 +112,13 @@ class HomeController < ApplicationController
     @incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
                                                 type: 'incident'})
     @incidents_recently_flagged = @incidents_recently_flagged[0..4]
-    @open_incidents = Incident.open_incidents
+    @open_incidents = Incident.open_incidents(@current_user)
   end
 
   def load_gbv_incidents_information
     @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
                                                 type: 'incident'})
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
-    @open_gbv_incidents = Incident.open_gbv_incidents
+    @open_gbv_incidents = Incident.open_gbv_incidents(@current_user)
   end
 end

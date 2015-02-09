@@ -1223,7 +1223,7 @@ en:
 
       agency:
         unique_name: "An Agency with that name already exists, please enter a different name"
-        name_present: "Name or Code must not be blank"
+        name_present: "or Code must not be blank"
 
       location:
         name_present: "must not be blank"
