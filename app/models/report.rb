@@ -135,8 +135,9 @@ class Report < CouchRest::Model::Base
           self.values = Reports::Utils.correct_aggregate_counts(self.values)
         end
       end
-      if group_ages && pivot_index(AGE_FIELD) < dimensionality
-        self.values = Reports::Utils.group_values(self.values, pivot_index(AGE_FIELD)) do |pivot_name|
+      age_field_index = pivot_index(AGE_FIELD)
+      if group_ages && age_field_index && age_field_index < dimensionality
+        self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
           AGE_RANGES.find{|range| range.cover? pivot_name}
         end
       end
@@ -204,7 +205,7 @@ class Report < CouchRest::Model::Base
     elsif  self.data.present?
       self.data[:values]
     else
-      nil
+      {}
     end
   end
 
@@ -359,7 +360,7 @@ class Report < CouchRest::Model::Base
   end
 
   def pivot_comparator(a,b)
-    (a<=>b).nil? ? a.to_s <=> b.to_s : a <=> b
+    (a <=> b) || (a.to_s <=> b.to_s)
   end
 
   private
@@ -392,8 +393,10 @@ class Report < CouchRest::Model::Base
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       pivots = []
+      is_numeric = pivots_string.end_with? '_i' #TODO: A bit of a hack to assume that numeric Solr fields will always end with "_i"
       response['facet_counts']['facet_fields'][pivots_string].each do |v|
         if v.class == String
+          v = v.to_i if is_numeric
           pivots << {'value' => v}
         else
           pivots.last['count'] = v
