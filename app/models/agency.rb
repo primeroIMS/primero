@@ -12,6 +12,7 @@ class Agency < CouchRest::Model::Base
   property :logo
   property :order, Integer, default: 0
   property :logo_enabled, TrueClass, :default => false
+  property :core_resource, TrueClass, :default => true
 
   #TODO: What are some other agency fields?
 
@@ -37,5 +38,13 @@ class Agency < CouchRest::Model::Base
           .collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
     end
     memoize_in_prod :retrieve_logo_ids
+  end
+
+  def self.new_custom agency
+    agency[:core_resource] = false  #Indicates user-added agency
+
+    newAgency = Agency.new(agency)
+
+    return newAgency
   end
 end

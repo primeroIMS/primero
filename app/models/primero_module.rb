@@ -12,6 +12,7 @@ class PrimeroModule < CouchRest::Model::Base
   property :program_id
   property :associated_record_types, :type => [String]
   property :associated_form_ids, :type => [String]
+  property :core_resource, TrueClass, :default => true
 
   before_save :add_associated_subforms
 
@@ -58,6 +59,14 @@ class PrimeroModule < CouchRest::Model::Base
 
   def self.memoized_dependencies
     [FormSection, User, Role]
+  end
+
+  def self.new_custom primero_module
+    primero_module[:core_resource] = false  #Indicates user-added module
+
+    pm = PrimeroModule.new(primero_module)
+
+    return pm
   end
 
   private

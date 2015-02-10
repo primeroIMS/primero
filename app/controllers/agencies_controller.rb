@@ -28,7 +28,7 @@ class AgenciesController < ApplicationController
 
   def create
     authorize! :create, Agency
-    @agency = Agency.new(params[:agency])
+    @agency = Agency.new_custom params[:agency]
 
     if @agency.save
       redirect_to agencies_path, notice: t("agencies.successfully_created")
