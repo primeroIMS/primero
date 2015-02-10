@@ -50,7 +50,7 @@ class PrimeroProgramsController < ApplicationController
 
   def create
     authorize! :create, PrimeroProgram
-    @primero_program = PrimeroProgram.new_custom params[:primero_program]
+    @primero_program = PrimeroProgram.new(params[:primero_program])
     if @primero_program.save
       return redirect_to primero_programs_path
     else

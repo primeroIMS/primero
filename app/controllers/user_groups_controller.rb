@@ -50,7 +50,7 @@ class UserGroupsController < ApplicationController
 
   def create
     authorize! :create, UserGroup
-    @user_group = UserGroup.new_custom params[:user_group]
+    @user_group = UserGroup.new(params[:user_group])
     return redirect_to user_groups_path if @user_group.save
     render :new
   end
