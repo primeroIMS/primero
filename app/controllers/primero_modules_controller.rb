@@ -54,7 +54,7 @@ class PrimeroModulesController < ApplicationController
 
   def create
     authorize! :create, PrimeroModule
-    @primero_module = PrimeroModule.new_custom params[:primero_module]
+    @primero_module = PrimeroModule.new(params[:primero_module])
     if @primero_module.save
       return redirect_to primero_modules_path
     else
