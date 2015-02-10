@@ -10,7 +10,7 @@ var ReferRecords = Backbone.View.extend({
     'click div#referral-modal input[type="submit"]' : 'close_referral'
   },
 
-  refer_records: function() {
+  refer_records: function(event) {
     var selected_recs = _primero.indexTable.get_selected_records(),
         referral_button = $(event.target),
         consent_url = referral_button.data('consent_count_url');
