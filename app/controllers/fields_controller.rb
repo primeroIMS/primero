@@ -20,8 +20,7 @@ class FieldsController < ApplicationController
     @field.base_language = I18n.default_locale
     if (@field.errors.length == 0)
       SuggestedField.mark_as_used(params[:from_suggested_field]) if params.has_key? :from_suggested_field
-      flash[:notice] = t("fields.successfully_added")
-      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
+      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id), flash: {notice: t("fields.successfully_added")} )
     else
       get_form_group_names
       @show_add_field = {:show_add_field => true}

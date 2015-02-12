@@ -4,6 +4,7 @@ $(document).ready(function() {
     }
     $("a.delete").click(deleteItem);
     $("a.add_field").click(toggleFieldPanel);
+    $("a.add_field_button").click(clearFlashMsg);
     $("ul.field_types a").click(showFieldDetails);
     $(".cancel_field_modal").click(backToPrevious);
     $(".field_hide_show").bind('change',fieldHideShow);
@@ -57,8 +58,13 @@ $(document).ready(function() {
         //Only go back to previous url if editing a field
         //For add field, stay at this url unless there are errors
         if(((typeof(edit_field_mode) != 'undefined') && (edit_field_mode)) || ($("#add_field_modal").find("div#errorExplanation").length > 0)){
-           window.history.back();
+           var prevLoc = document.referrer;
+           window.location = prevLoc;
         }
+    }
+
+    function clearFlashMsg(){
+      $(".flash.row").empty();
     }
 
     function toggleFieldPanel(event, div_to_show){
