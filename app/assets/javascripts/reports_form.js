@@ -24,7 +24,6 @@
     $('.report_filter_value_string_row select.report_filter_input').chosen($.extend({},this.chosen_options,{max_selected_options: Infinity}));
     $('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
 
-    this.init_chosen_order($('#report_aggregate_by, #report_disaggregate_by'));
   },
 
   change_set_chosen_order: function(e) {
@@ -40,7 +39,7 @@
       _.each(elements, function(element) {
         self.set_chosen_order($(element), true);
       });
-    }, 500);
+    }, 100);
   },
 
   set_chosen_order: function(element, is_init) {
@@ -58,7 +57,7 @@
     _.each(order, function(item) {
       var data = {
         value: item,
-        name: select_control.attr('name')
+        name: select_control.attr('name').replace(/\]\[]/, '_ordered][]')
       };
       target.parent().append(JST['templates/chosen_ordering_hidden_field'](data));
       counter++;
@@ -67,6 +66,7 @@
     if (_.isArray(order) && is_init) {
       $(target).setSelectionOrder(order, true, true);
     }
+
   },
 
   chosen_options: {
@@ -140,6 +140,7 @@
       $('.report_filter_attribute, .report_filter_attribute_template, #report_aggregate_counts_from').prepend(empty_selection);
       //trigger the chosen reload
       $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute').trigger("chosen:updated");
+      self.init_chosen_order($('#report_aggregate_by, #report_disaggregate_by'));
     });
   },
 

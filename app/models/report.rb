@@ -57,7 +57,9 @@ class Report < CouchRest::Model::Base
   #property :data
   attr_accessor :data
   attr_accessor :add_default_filters
-
+  attr_accessor :aggregate_by_ordered
+  attr_accessor :disaggregate_by_ordered
+  
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
