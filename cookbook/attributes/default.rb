@@ -21,6 +21,7 @@ default[:primero].tap do |p|
     c[:username] = 'primero'
     c[:cert_path] = '/etc/ssl/couch.crt'
     c[:key_path] = '/etc/ssl/private/couch.key'
+    c[:root_ca_cert_source] = 'couch_ca.crt'
     c[:config].tap do |conf|
       conf[:httpd].tap do |httpd|
         httpd[:bind_address] = '0.0.0.0'

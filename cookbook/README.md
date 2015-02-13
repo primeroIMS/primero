@@ -5,24 +5,7 @@ and production environments.
 
 Requirements
 ------------
-Designed to run on Ubuntu 12.04 (to be upgraded to 14.04 LTS).
+Designed to run on Ubuntu 14.04 LTS.
 
-Attributes
-----------
-
-Usage
------
-#### primero::default
-TODO: Write usage instructions for each cookbook.
-
-e.g.
-Just include `primero` in your node's `run_list`:
-
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[primero]"
-  ]
-}
-```
+See the [deployment guide](../doc/chef_deploy.md) for information on attributes
+and the runlist.
