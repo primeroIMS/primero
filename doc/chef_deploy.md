@@ -40,16 +40,61 @@ under HTTPS.
 
 ###CouchDB SSL
 The CouchDB SSL cert uses a private CA whose root certificate is distributed
-automatically to all of the servers to verify communication.  Look at the
-`README.md` file in the Quoin Couch CA repository for details on generating a
-new key and cert.
+automatically to all of the servers to verify communication.  To generate a
+new key and cert, follow the next steps.
 
 ####Initial Setup
-To setup a new root Certificate Authority to sign CouchDB certs, follow the
-instructions on [this
-site](https://jamielinux.com/articles/2013/08/act-as-your-own-certificate-authority/).
-The rest of these instructions will assume you named your key/cert files as
-`couch_ca.(key|cert)`.  You should set up your own `config.cnf` file based on
+(All from [this
+site](https://jamielinux.com/articles/2013/08/act-as-your-own-certificate-authority/).)
+
+To setup a new root Certificate Authority to sign CouchDB certs, you need to configure your machine as your own certificate authority (CA).
+Create the next directories and files to save the certificates and keys. You may need to do it as sudo.
+```sh
+$ mkdir /etc/pki/CA
+$ cd /etc/pki/CA
+$ mkdir certs crl newcerts private
+$ chmod 700 private
+$ touch index.txt
+$ echo 1000 > serial
+$ gem install knife-solo --version 0.4.2
+```
+
+Also you it is necessary to create a root key and a root certificate, that indentify the certificate authority. To generate the root key with the proper encryption:
+```sh
+$ sudo openssl genrsa -aes256 -out /etc/pki/CA/private/couch_ca.key 4096
+
+Enter pass phrase for ca.key.pem: secretpassword
+Verifying - Enter pass phrase for ca.key.pem: secretpassword
+
+$ sudo chmod 400 /etc/pki/CA/private/couch_ca.key
+```
+
+Open the file /ect/ssl/openssl.cnf. Change the field dir = /etc/pki/CA on [ CA_default ]. Also make sure the following fields look like this:
+```sh
+[ usr_cert ]
+# These extensions are added when 'ca' signs a request.
+basicConstraints=CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+nsComment = "OpenSSL Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
+[ v3_ca ]
+# Extensions for a typical CA
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = CA:true
+keyUsage = cRLSign, keyCertSign
+```
+
+To generate the root certificate:
+```sh
+$ sudo openssl req -new -x509 -days 3650 -key /etc/pki/CA/private/couch_ca.key \
+    -sha256 -extensions v3_ca -out /etc/pki/CA/certs/couch_ca.cert
+$ sudo chmod 444 /etc/pki/CA/certs/ca.cert.pem
+```
+
+You should set up your own `config.cnf` file based on
 your organization's policy and contact information.  See the openssl docs for
 more info on how to configure things.
 
@@ -138,7 +183,7 @@ standard deploy.
 Deployment
 ----------
 Once you have the requirements installed, you can run the following two commands from the
-`cookbook` folder of the repo:
+`cookbook` folder of the repo (cookbook directory must be able to be read by other users):
 
 ```sh
 $ ssh USER@APP_HOST 'which chef-solo' || knife solo prepare --bootstrap-version=11.10.4 USER@APP_HOST

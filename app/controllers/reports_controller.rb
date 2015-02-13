@@ -5,6 +5,7 @@ class ReportsController < ApplicationController
   #include RecordActions
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
+  before_filter :set_aggregate_order, only: [:create, :update]
 
   def index
     authorize! :index, Report
@@ -105,6 +106,11 @@ class ReportsController < ApplicationController
   end
 
   protected
+  
+  def set_aggregate_order
+    params['report']['aggregate_by'] = params['report']['aggregate_by_ordered']
+    params['report']['disaggregate_by'] = params['report']['disaggregate_by_ordered']
+  end
 
   #TODO: This is a hack to get rid of empty values that sneak in due to this Rails select Gotcha:
   #      http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-select

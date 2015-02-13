@@ -3,7 +3,7 @@
   <% if @form_section.editable? %>
     <div class="large-12 medium-12 columns">
       <h4 class="left"><%= t("fields.label") %></h4>
-      <a href="#" data-reveal-id="add_field_modal" class="btn green-button right">
+      <a href="#" data-reveal-id="add_field_modal" class="btn green-button right add_field_button">
         <%=t("fields.add")%>
       </a>
     </div>
@@ -140,10 +140,12 @@
           <div class="medium-12 columns">
             <div class="space"></div>
             <% @field ||= Field.new(:type => 'text_field') %>
-            <%= error_messages_for  :field,
-                                    :header_tag => :h3,
-                                    :header_message => t("form_section.messages.cannot_create"),
-                                    :message => t('form_section.messages.correct_errors') %>
+            <fieldset class="no-border">
+              <%= error_messages_for  :field,
+                                      :header_tag => :h2,
+                                      :header_message => t("form_section.messages.cannot_create"),
+                                      :message => t('form_section.messages.correct_errors') %>
+            </fieldset>
             <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}] } %>
             <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
                                                                                                                          {:option_strings_text => :text_area}] } %>

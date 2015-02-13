@@ -426,6 +426,10 @@ var Primero = Backbone.View.extend({
       _primero.loading_screen_indicator('show');
     }
     window.disable_loading_indicator = undefined;
+    
+    if (_primero.getInternetExplorerVersion() > 0) {
+      window.onbeforeunload = null;
+    }
   }
 });
 

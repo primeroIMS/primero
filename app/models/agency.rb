@@ -12,6 +12,7 @@ class Agency < CouchRest::Model::Base
   property :logo
   property :order, Integer, default: 0
   property :logo_enabled, TrueClass, :default => false
+  property :core_resource, TrueClass, :default => false
 
   #TODO: What are some other agency fields?
 

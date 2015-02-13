@@ -10,7 +10,7 @@ var TransferRecords = Backbone.View.extend({
     'click div#transfer-modal input[type="submit"]' : 'close_transfer'
   },
 
-  transfer_records: function() {
+  transfer_records: function(event) {
     var selected_recs = _primero.indexTable.get_selected_records(),
         transfer_button = $(event.target),
         consent_url = transfer_button.data('consent_count_url');
@@ -26,7 +26,7 @@ var TransferRecords = Backbone.View.extend({
 
   toggle_remote_primero: function() {
     $('#transfer-modal div.remote_toggle').toggle();
-    $('#referral-modal div.local_toggle').toggle();
+    $('#transfer-modal div.local_toggle').toggle();
   },
 
   toggle_other_user: function(e) {

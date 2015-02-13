@@ -7,7 +7,7 @@
 %>
 <div class="row">
   <div class="medium-4 columns">
-    <%= label_tag field_id, t(radio_button.name, :default => radio_button.display_name), {:class=>"key"}%>
+    <%= label_tag field_id, t(radio_button.name, :default => radio_button.display_name), {:class=>"key inline"}%>
   </div>
 
   <div class="medium-8 columns">
@@ -33,7 +33,7 @@
         <%=  radio_button.guiding_questions %>
       </div>
     <% end %>
+    <p class="help"><%= radio_button.help_text if radio_button.help_text.present? %></p>
   </div>
-
-  <%= image_tag "new/icon_help.png", title: radio_button.help_text, class: 'tool-tip-icon vtip' if radio_button.help_text.present? %>
 </div>
+

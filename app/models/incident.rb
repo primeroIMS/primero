@@ -135,22 +135,22 @@ class Incident < CouchRest::Model::Base
 
   #Returns the 20 latest open incidents.
   #TODO refactoring pagination?
-  def self.open_incidents
+  def self.open_incidents(user)
     #TODO do we need I18n for "Open" string?
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::MRM},
-                "status" => {:type => "single", :value => "Open"}
+                "status" => {:type => "single", :value => "Open"},
               }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }).results
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
-  def self.open_gbv_incidents
+  def self.open_gbv_incidents(user)
     #TODO do we need I18n for "Open" string?
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::GBV},
-                "status" => {:type => "single", :value => "Open"}
+                "status" => {:type => "single", :value => "Open"},
               }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }).results
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
   # Each violation type has a field that is used as part of the identification

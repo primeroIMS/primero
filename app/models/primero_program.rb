@@ -7,6 +7,6 @@ class PrimeroProgram < CouchRest::Model::Base
 
   property :start_date, Date
   property :end_date, Date
-
+  property :core_resource, TrueClass, :default => false
 
 end
