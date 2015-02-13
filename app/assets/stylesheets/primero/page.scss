@@ -55,9 +55,15 @@ small {
   }
 }
 
-fieldset.no-border {
-  border: none !important;
-  padding: 0 !important;
+fieldset {
+  background: $desat_green_color;
+  border: 1px solid $stroke_green_color;
+
+  &.no-border {
+    border: none !important;
+    padding: 0 !important;
+    background: none !important;
+  }
 }
 
 ul.inline-list {

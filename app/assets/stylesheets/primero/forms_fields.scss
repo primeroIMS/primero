@@ -542,6 +542,27 @@ span.postfix_val {
   }
 }
 
+
+////////////////////////////////////////////////
+// Custom Exports
+////////////////////////////////////////////////
+
+#custom-exports {
+  .chosen-container-single, .chosen-container-multi {
+    width: 100% !important;
+  }
+
+  fieldset {
+    .row {
+      padding: 0;
+    }
+
+    &.custom_export_form, &.custom_export_fields {
+      display: none;
+    }
+  }
+}
+
 ////////////////////////////////////////////////
 // User forms
 ////////////////////////////////////////////////

@@ -1,0 +1,57 @@
+<li>
+  <%= link_to t('exports.custom_exports.label'), '#', data: {"reveal-id" => 'custom-exports'} %>
+  <div id="custom-exports" class="reveal-modal large" data-reveal>
+    <h4><%= t('exports.custom_exports.label') %></h4>
+    <form id="custom_export_form">
+      <div class="row">
+        <div class="large-6 columns">
+          <fieldset>
+            <div class="row">
+              <div class="medium-6 columns">
+                <label for="format"><%= t('exports.custom_exports.format_label') %></label>
+                <input type="radio" name="format" value="forms"/>
+                <label form="format"><%= t('exports.custom_exports.form_label') %></label>
+                <input type="radio" name="format" value="fields"/>
+                <label for="format"><%= t('exports.custom_exports.field_label') %></label>
+              </div>
+              <div class="medium-6 columns">
+                <label for="module"><%= t('exports.cutstom_exports.select_module') %></label>
+                <select name="module">
+                  <option value="" disabled selected>Please select</option>
+                  <% @current_modules.each do |cm| %>
+                    <option value="<%= cm.id %>"><%= cm.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="custom_export_form">
+            <label for="forms"><%= t('exports.custom_exports.forms') %></label>
+            <select name="forms" multiple></select>
+          </fieldset>
+          <fieldset class="custom_export_fields">
+            <label for="fields"><%= t('exports.custom_exports.fields') %></label>
+            <select name="fields" multiple></select>
+          </fieldset>
+        </div>
+        <div class="large-6 columns">
+          <div>
+            <div class="flash hide">
+              <p class="error"></p>
+            </div>
+            <label for="password-prompt-field">Please enter a password that will encrypt your file.</label>
+            <input type="password" id="password-prompt-field">
+            <small>This password will be associated with the exported file and will need to be entered by anyone opening this file in the future.</small>
+            <label id="export-file-name-label" for="export-file-name-field">Create your own file name (Optional)</label>
+            <input type="text" id="export-file-name-field">
+
+            <fieldset class="no-border">
+              <button class="btn green-button right"><%= t('exports.custom_export.export_submit') %></button>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </form>
+    <a class="close-reveal-modal">&#215;</a>
+  </div>
+</li>

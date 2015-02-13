@@ -1326,6 +1326,16 @@ en:
       all:  MRM Violations
       one:  MRM Violations
       selected:  Selected to MRM Violations
+    custom_exports:
+      label: Custom Exports
+      format_label: Select Format
+      field_label: Field
+      form_label: Form
+      forms: Select Forms to export
+      fields: Select Fields to export
+      export_submit: Export
+      select_module: Select Module 
+
   imports:
     password_label: "Password (if required)"
     format_label: "Format"

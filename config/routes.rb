@@ -287,6 +287,15 @@ RapidFTR::Application.routes.draw do
   end
 
 #######################
+# CUSTOM EXPORT URLS
+#######################
+  resources :custom_exports do
+    collection do
+      get :permitted_forms_list
+    end
+  end
+
+#######################
 # LOOKUPS URLS
 #######################
   resources :lookups
