@@ -1334,7 +1334,9 @@ en:
       forms: Select Forms to export
       fields: Select Fields to export
       export_submit: Export
-      select_module: Select Module 
+      select_module: Select Module
+      choose_fields: Would you like to choose individual fields for a form?
+      module_placeholder: Please select a module.
 
   imports:
     password_label: "Password (if required)"

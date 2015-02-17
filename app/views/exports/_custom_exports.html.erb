@@ -17,9 +17,9 @@
                 <label for="format"><%= t('exports.custom_exports.field_label') %></label>
               </div>
               <div class="medium-6 columns">
-                <label for="module"><%= t('exports.cutstom_exports.select_module') %></label>
+                <label for="module"><%= t('exports.custom_exports.select_module') %></label>
                 <select name="module">
-                  <option value="" disabled selected>Please select</option>
+                  <option value="" disabled selected><%= t('exports.custom_exports.module_placeholder') %></option>
                   <% @current_modules.each do |cm| %>
                     <option value="<%= cm.id %>"><%= cm.name %></option>
                   <% end %>
@@ -28,7 +28,7 @@
             </div>
             <div class="row user_select_fields">
               <div class="medium-7 columns">
-                <label>Would you like to choose individual fields for a form?</label>
+                <label><%= t('exports.custom_exports.choose_fields') %></label>
               </div>
               <div class="medium-5 columns">
                 <input type="checkbox" name="choose_fields" />
@@ -51,10 +51,10 @@
             <div class="flash hide">
               <p class="error"></p>
             </div>
-            <label for="password-prompt-field">Please enter a password that will encrypt your file.</label>
+            <label for="password-prompt-field"><%= t('encrypt.password_label') %></label>
             <input type="password" id="password-prompt-field">
-            <small>This password will be associated with the exported file and will need to be entered by anyone opening this file in the future.</small>
-            <label id="export-file-name-label" for="export-file-name-field">Create your own file name (Optional)</label>
+            <small><%= t('encrypt.password_extra_info') %></small>
+            <label id="export-file-name-label" for="export-file-name-field"><%= t('encrypt.file_name') %></label>
             <input type="text" id="export-file-name-field">
 
             <fieldset class="no-border">
