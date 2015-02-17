@@ -292,6 +292,7 @@ RapidFTR::Application.routes.draw do
   resources :custom_exports do
     collection do
       get :permitted_forms_list
+      get :permitted_fields_list
     end
   end
 

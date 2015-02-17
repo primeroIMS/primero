@@ -1,6 +1,8 @@
 <li>
   <%= link_to t('exports.custom_exports.label'), '#', data: {"reveal-id" => 'custom-exports'} %>
-  <div id="custom-exports" class="reveal-modal large" data-reveal>
+  <div id="custom-exports" class="reveal-modal large"
+      data-reveal data-record-type="<%= controller.model_class == Child ? 'case' : controller.model_class.to_s.underscore %>"
+      data-module-id="<%= @record.module_id if @record.present? %>">
     <h4><%= t('exports.custom_exports.label') %></h4>
     <form id="custom_export_form">
       <div class="row">
@@ -24,12 +26,22 @@
                 </select>
               </div>
             </div>
+            <div class="row user_select_fields">
+              <div class="medium-7 columns">
+                <label>Would you like to choose individual fields for a form?</label>
+              </div>
+              <div class="medium-5 columns">
+                <input type="checkbox" name="choose_fields" />
+              </div>
+            </div>
           </fieldset>
           <fieldset class="custom_export_form">
+            <i class="fa fa-refresh fa-spin pull-right loading"></i>
             <label for="forms"><%= t('exports.custom_exports.forms') %></label>
             <select name="forms" multiple></select>
           </fieldset>
           <fieldset class="custom_export_fields">
+            <i class="fa fa-refresh fa-spin pull-right loading"></i>
             <label for="fields"><%= t('exports.custom_exports.fields') %></label>
             <select name="fields" multiple></select>
           </fieldset>

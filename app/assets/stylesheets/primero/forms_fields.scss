@@ -561,6 +561,18 @@ span.postfix_val {
       display: none;
     }
   }
+
+  .user_select_fields {
+    display: none;
+    margin-top: 15px;
+    border-top: 1px solid $stroke_green_color;
+    padding-top: 15px
+  }
+
+  .loading {
+    display: none;
+    color: $stroke_green_color;
+  }
 }
 
 ////////////////////////////////////////////////
