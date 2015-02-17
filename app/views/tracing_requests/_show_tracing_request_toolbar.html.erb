@@ -11,6 +11,7 @@
     <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
     <ul>
         <%= render partial: 'exports/button', locals: {model: TracingRequest, instance: @tracing_request} %>
+        <%= render partial: 'exports/custom_exports', locals: {model: TracingRequest} %>
         <% if can? :edit, @tracing_request %>
             <%= render partial: 'record_shared/enable_disable_record', locals: {model: TracingRequest, instance: @tracing_request}%>
         <% end %>

@@ -542,6 +542,39 @@ span.postfix_val {
   }
 }
 
+
+////////////////////////////////////////////////
+// Custom Exports
+////////////////////////////////////////////////
+
+#custom-exports {
+  .chosen-container-single, .chosen-container-multi {
+    width: 100% !important;
+  }
+
+  fieldset {
+    .row {
+      padding: 0;
+    }
+
+    &.custom_export_form, &.custom_export_fields {
+      display: none;
+    }
+  }
+
+  .user_select_fields {
+    display: none;
+    margin-top: 15px;
+    border-top: 1px solid $stroke_green_color;
+    padding-top: 15px
+  }
+
+  .loading {
+    display: none;
+    color: $stroke_green_color;
+  }
+}
+
 ////////////////////////////////////////////////
 // User forms
 ////////////////////////////////////////////////

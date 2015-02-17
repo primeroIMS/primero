@@ -6,6 +6,7 @@
         <%= render 'imports/button' %>
       <% end %>
       <%= render 'exports/button', locals: { model: model } %>
+      <%= render 'exports/custom_exports', locals: { model: model } %>
       <%
         #TODO - For now, only implementing transfer and referral for Cases
         #TODO - At some point, it will be available for other record types
