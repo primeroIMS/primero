@@ -114,7 +114,7 @@ var Primero = Backbone.View.extend({
       })
     );
 
-    $(".referral_form_container").mCustomScrollbar(
+    $(".referral_form_container, .modal-content").mCustomScrollbar(
       _.extend(options, {
         setHeight: 530,
         theme: 'minimal-dark'
@@ -426,7 +426,7 @@ var Primero = Backbone.View.extend({
       _primero.loading_screen_indicator('show');
     }
     window.disable_loading_indicator = undefined;
-    
+
     if (_primero.getInternetExplorerVersion() > 0) {
       window.onbeforeunload = null;
     }
