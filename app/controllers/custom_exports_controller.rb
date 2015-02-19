@@ -27,7 +27,6 @@ class CustomExportsController < ApplicationController
 
   def export
     model_class = params[:model_class].camelize.constantize
-    binding.pry
     record = model_class.get(params[:record_id])
     exporter = Exporters.active_exporters_for_model(model_class).select{|sel| sel.id == 'xls'}.first
     properties_by_module = { "#{params[:module]}" => filter_properties(model_class) }

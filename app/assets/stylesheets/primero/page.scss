@@ -228,6 +228,18 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
   width: 688px;
 }
 
+.reveal-modal {
+  background: $desat_green_color;
+
+  .close-reveal-modal {
+    color: $stroke_green_color;
+  }
+}
+
+.modal-content {
+  margin-bottom: 10px;
+}
+
 .loading-screen {
   display: none;
 

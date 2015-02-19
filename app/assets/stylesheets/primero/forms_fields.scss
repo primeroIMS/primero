@@ -463,7 +463,7 @@ span.postfix_val {
   border-left: none !important;
 }
 
-#password-prompt-dialog {
+#password-prompt-dialog, #password-prompt {
   small {
     font-size: 65%;
     line-height: 10px;
@@ -565,7 +565,6 @@ span.postfix_val {
   .user_select_fields {
     display: none;
     margin-top: 15px;
-    border-top: 1px solid $stroke_green_color;
     padding-top: 15px
   }
 

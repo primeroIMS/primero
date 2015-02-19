@@ -122,6 +122,13 @@ var Primero = Backbone.View.extend({
       })
     );
 
+    $(".modal-content").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 330,
+        theme: 'minimal-dark'
+      })
+    );
+
     $(".transfer_form_container").mCustomScrollbar(
       _.extend(options, {
         setHeight: 460,

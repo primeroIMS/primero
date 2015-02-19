@@ -1,24 +1,24 @@
 <li>
   <%= link_to t('exports.custom_exports.label'), '#', data: {"reveal-id" => 'custom-exports'} %>
-  <div id="custom-exports" class="reveal-modal large"
+  <div id="custom-exports" class="reveal-modal tiny"
       data-reveal data-record-type="<%= controller.model_class == Child ? 'case' : controller.model_class.to_s.underscore %>"
       data-module-id="<%= @record.module_id if @record.present? %>"
       data-record-id="<%= @record.id if @record.present? %>"
       data-model-class="<%= controller.model_class %>">
-    <h4><%= t('exports.custom_exports.label') %></h4>
+    <h5><%= t('exports.custom_exports.label') %></h5>
     <form id="custom_export_form">
       <div class="row">
-        <div class="large-6 columns">
+        <div class="large-12 columns modal-content">
           <fieldset>
             <div class="row">
-              <div class="medium-6 columns">
+              <div class="medium-12 columns">
                 <label for="format"><%= t('exports.custom_exports.format_label') %></label>
                 <input type="radio" name="format" value="forms"/>
                 <label form="format"><%= t('exports.custom_exports.form_label') %></label>
                 <input type="radio" name="format" value="fields"/>
                 <label for="format"><%= t('exports.custom_exports.field_label') %></label>
               </div>
-              <div class="medium-6 columns">
+              <div class="medium-12 columns">
                 <label for="module"><%= t('exports.custom_exports.select_module') %></label>
                 <select name="module">
                   <option value="" disabled selected><%= t('exports.custom_exports.module_placeholder') %></option>
@@ -47,9 +47,7 @@
             <label for="fields"><%= t('exports.custom_exports.fields') %></label>
             <select name="fields" multiple></select>
           </fieldset>
-        </div>
-        <div class="large-6 columns">
-          <div>
+          <div id="password-prompt">
             <div class="flash hide">
               <p class="error"></p>
             </div>
@@ -58,12 +56,11 @@
             <small><%= t('encrypt.password_extra_info') %></small>
             <label for="export-filename"><%= t('encrypt.file_name') %></label>
             <input type="text" id="export-filename">
-
-            <fieldset class="no-border">
-              <button id="submit_export" class="btn green-button right"><%= t('exports.custom_export.export_submit') %></button>
-            </fieldset>
           </div>
         </div>
+        <fieldset class="no-border">
+          <button id="submit_export" class="btn green-button right"><%= t('exports.custom_export.export_submit') %></button>
+        </fieldset>
       </div>
     </form>
     <a class="close-reveal-modal">&#215;</a>
