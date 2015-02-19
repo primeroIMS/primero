@@ -141,8 +141,6 @@ var CustomExports = Backbone.View.extend({
     $.get('/custom_exports/permitted_fields_list', data, function(res) {
       var select_control = $('select[name="fields"]');
 
-      console.log(res)
-
       self.clear_control('fields');
 
       _.each(res, function(form) {
