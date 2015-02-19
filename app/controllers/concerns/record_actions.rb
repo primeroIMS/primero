@@ -26,7 +26,6 @@ module RecordActions
 
   def index
     authorize! :index, model_class
-
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
@@ -58,6 +57,7 @@ module RecordActions
           redirect_to :action => :index and return
         end
       end
+
       respond_to_export format, @records
     end
   end
@@ -325,6 +325,24 @@ module RecordActions
   end
 
   private
+
+  def filter_custom_exports(properties_by_module)
+    if params[:custom_exports].present?
+      properties_by_module.keep_if{|key| params[:custom_exports][:module].include?(key)}
+
+      if params[:custom_exports][:forms].present?
+        properties_by_module.each{|pm, fs| fs.keep_if{|key| params[:custom_exports][:forms].include?(key)}}
+      elsif params[:custom_exports].present? && params[:custom_exports][:fields].present?
+        properties_by_module.each do |pm, fs|
+          fs.each do |fk, fv|
+            fv.keep_if{|key| params[:custom_exports][:fields].include?(key)}
+          end
+        end
+        properties_by_module.compact
+      end
+    end
+    properties_by_module
+  end
 
   def create_or_update_record(id)
     @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
