@@ -224,6 +224,43 @@ class Child < CouchRest::Model::Base
     self.name_caregiver || self.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
   end
 
+  #TODO - WIP
+  #Map CPIMS hash data to a Primero Case hash
+  def self.map_from_CPIMS(cpims_hash)
+    case_hash = {}
+
+    case_hash[:_id] = cpims_hash['PersonGId'] if cpims_hash['PersonGId'].present?
+    case_hash[:model_type] = 'Case'
+    case_hash[:owned_by] = 'primero'
+    case_hash[:agency] = cpims_hash['Agency'] if cpims_hash['Agency'].present?
+    case_hash[:database_operator_user_name] = cpims_hash['DatabaseOperator'] if cpims_hash['DatabaseOperator'].present?
+    case_hash[:location_registration] = cpims_hash['RegistrationLocation'] if cpims_hash['RegistrationLocation'].present? #TODO - add loc2, 3, 4, 5
+    case_hash[:created_by] = 'primero'
+    case_hash[:module_id] = 'primeromodule-cp'
+    case_hash[:child_status] = cpims_hash['Status'] if cpims_hash['Status'].present?
+
+    if cpims_hash['FirstName'].present? && cpims_hash['LastName'].present?
+      case_hash[:name] = cpims_hash['FirstName'] + " " + cpims_hash['LastName']
+    elsif cpims_hash['FirstName'].present?
+      case_hash[:name] = cpims_hash['FirstName']
+    elsif cpims_hash['LastName'].present?
+      case_hash[:name] = cpims_hash['LastName']
+    end
+
+    case_hash[:registration_date] = cpims_hash['DateOfRegistration'] if cpims_hash['DateOfRegistration'].present?
+    case_hash[:sex] = cpims_hash['Sex'] if cpims_hash['Sex'].present?
+    case_hash[:date_of_birth] = cpims_hash['DateOfBirth'] if cpims_hash['DateOfBirth'].present?
+    case_hash[:estimated] = cpims_hash['Estimated'] if cpims_hash['Estimated'].present?  #TODO primero value is boolean. Verify CPIMS value and if need to translate
+    case_hash[:icrc_ref_no] = cpims_hash['ICRCId'] if cpims_hash['ICRCId'].present?
+    case_hash[:unhcr_id_no] = cpims_hash['UNHCRId'] if cpims_hash['UNHCRId'].present?
+
+    #TODO map location_current to Primero format
+
+    #TODO remaining fields
+
+    return case_hash
+  end
+
   private
 
   def deprecated_fields
