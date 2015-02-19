@@ -1,6 +1,7 @@
 class CustomExportsController < ApplicationController
 
   include ReportsHelper
+  include ExportActions
 
   def permitted_forms_list
     # TODO: I don't think I'm actually pulling the permitted forms by user.
@@ -24,7 +25,24 @@ class CustomExportsController < ApplicationController
     render json: permitted_fields
   end
 
+  def export
+    model_class = params[:model_class].camelize.constantize
+    record = model_class.get(params[:record_id])
+    exporter = Exporters.active_exporters_for_model(model_class).select{|sel| sel.id == 'xls'}.first
+    properties_by_module = { "#{params[:module]}" => filter_properties(model_class) }
+    export_data = exporter.export([record], properties_by_module)
+    encrypt_data_to_zip export_data, export_filename(record, exporter, model_class), params[:password]
+  end
+
   private
+
+  def filter_properties(model_class)
+    forms = {}
+    if params[:forms].present?
+      params[:forms].each{ |ch| forms[ch] = model_class.properties_by_form[ch]}
+    end
+    forms
+  end
 
   def all_exportable_fields_by_form(primero_modules, record_type, user)
     custom_exportable = {}

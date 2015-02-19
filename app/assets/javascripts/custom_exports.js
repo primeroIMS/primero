@@ -4,7 +4,8 @@ var CustomExports = Backbone.View.extend({
   events: {
     'change input[name="format"]': 'set_form_state',
     'change input[name="forms"]': 'retrieve_field_names',
-    'change input[name="choose_fields"]': 'toggle_field_selection'
+    'change input[name="choose_fields"]': 'toggle_field_selection',
+    'click button#submit_export': 'submit_export_request'
   },
 
   initialize: function() {
@@ -15,6 +16,8 @@ var CustomExports = Backbone.View.extend({
     this.get_fields = $('a.get_fields');
     this.record_type = $(this.el).data('record-type');
     this.module_id = $(this.el).data('module-id');
+    this.record_id = $(this.el).data('record-id');
+    this.model_class = $(this.el).data('model-class');
 
 
     if (this.module_id.length) {
@@ -112,7 +115,7 @@ var CustomExports = Backbone.View.extend({
         self.clear_control('forms');
 
         _.each(res, function(form) {
-          var select_option = '<option value="' + form.id + '">'+ form.name + '</option>';
+          var select_option = '<option value="' + form.name + '">'+ form.name + '</option>';
           select_control.append(select_option);
         });
 
@@ -154,7 +157,31 @@ var CustomExports = Backbone.View.extend({
   },
 
   submit_export_request: function(e) {
+    e.preventDefault();
 
+    var password_control = $('#password-field'),
+        module_control = $('select[name="module"]'),
+        filename_control = $('#export-filename'),
+        fields_control = $('select[name="fields"]'),
+        forms_control = $('select[name="forms"]');
+
+    if (password_control.length) {
+      var data = {
+        record_id: this.record_id,
+        record_type: this.record_type,
+        module:  module_control.val() || this.module_id,
+        password: password_control.val(),
+        custom_export_file_name: filename_control.val(),
+        forms: forms_control.val() || [],
+        fields: fields_control.val() || [],
+        model_class: this.model_class
+      }
+
+      file_location = '/custom_exports/export?' + $.param(data)
+      $(this.el).foundation('reveal', 'close')
+      window.disable_loading_indicator = true;
+      window.location = file_location;
+    }
   }
 });
 
