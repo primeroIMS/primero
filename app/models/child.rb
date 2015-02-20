@@ -224,7 +224,6 @@ class Child < CouchRest::Model::Base
     self.name_caregiver || self.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
   end
 
-  #TODO - WIP
   #Map CPIMS hash data to a Primero Case hash
   def self.map_from_CPIMS(cpims_hash)
     case_hash = {}
@@ -232,12 +231,15 @@ class Child < CouchRest::Model::Base
     case_hash['unique_identifier'] = case_hash['case_id'] = cpims_hash['PersonGId'] if cpims_hash['PersonGId'].present?
     case_hash['model_type'] = 'Case'
     case_hash['owned_by'] = 'primero'
+    case_hash['owned_by_text'] = cpims_hash['SocialWorker'] if cpims_hash['SocialWorker'].present?
     case_hash['agency'] = cpims_hash['Agency'] if cpims_hash['Agency'].present?
     case_hash['database_operator_user_name'] = cpims_hash['DatabaseOperator'] if cpims_hash['DatabaseOperator'].present?
     case_hash['location_registration'] = cpims_hash['RegistrationLocation'] if cpims_hash['RegistrationLocation'].present? #TODO - add loc2, 3, 4, 5
+    case_hash['location_current'] = cpims_hash['CurrentLocation'] if cpims_hash['CurrentLocation'].present? #TODO - add loc2, 3, 4, 5
     case_hash['created_by'] = 'primero'
     case_hash['module_id'] = 'primeromodule-cp'
-    case_hash['child_status'] = cpims_hash['Status'] if cpims_hash['Status'].present?
+    case_hash['tracing_status'] = cpims_hash['Status'] if cpims_hash['Status'].present?
+    case_hash['child_status'] = 'Open'   #TODO is there an incoming value for this?
 
     if cpims_hash['FirstName'].present? && cpims_hash['LastName'].present?
       case_hash['name'] = cpims_hash['FirstName'] + " " + cpims_hash['LastName']
@@ -253,8 +255,11 @@ class Child < CouchRest::Model::Base
     case_hash['estimated'] = cpims_hash['Estimated'] if cpims_hash['Estimated'].present?  #TODO primero value is boolean. Verify CPIMS value and if need to translate
     case_hash['icrc_ref_no'] = cpims_hash['ICRCId'] if cpims_hash['ICRCId'].present?
     case_hash['unhcr_id_no'] = cpims_hash['UNHCRId'] if cpims_hash['UNHCRId'].present?
-
-    #TODO map location_current to Primero format
+    case_hash['protection_concerns'] = cpims_hash['ChildCategoryNIds'].split(',') if cpims_hash['ChildCategoryNIds'].present?
+    case_hash['language'] = cpims_hash['LanguageNIds'].split(',') if cpims_hash['LanguageNIds'].present?
+    case_hash['nationality'] = cpims_hash['NationalityNIds'].split(',') if cpims_hash['NationalityNIds'].present?
+    case_hash['religion'] = cpims_hash['ReligionNIds'].split(',') if cpims_hash['ReligionNIds'].present?
+    case_hash['ethnicity'] = cpims_hash['EthnicityNId'].split(',') if cpims_hash['EthnicityNId'].present?
 
     #TODO remaining fields
 

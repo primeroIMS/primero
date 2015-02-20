@@ -14,11 +14,11 @@ module Importers
       rows = book.worksheets[0].to_a
       
       #Remove empty lines
-      rows.reject! {|r| r.blank?}
+      #This includes the "Form Name" line which has a blank first column
+      #TODO - would it be better to just delete the row from the excel file?
+      rows.reject! {|r| r.blank? || r[0].blank?}
       
-      #Remove the 2nd row.  It isn't needed here.  It just contains CPIMS form info
-      rows.delete_at(1)
-      
+      #Now we have the first 2 lines as heading lines
       #Reconcile / merge row 1 and 2.  The heading is a mixture of both.  Confused yet?
       #To do this, iterate through row 1's elements, if nil, replace with value from row 2.
       a = []
