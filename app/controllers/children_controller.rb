@@ -81,8 +81,12 @@ class ChildrenController < ApplicationController
       properties_by_module = model_class.get_properties_by_module(form_sections)
       #Clean up the forms.
       properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents"].include?(key)}}
+
+      filter_custom_exports(properties_by_module)
+
       # Add other useful information for the report.
       properties_by_module.each{|pm, fs| properties_by_module[pm].merge!(model_class.record_other_properties_form_section)}
+
       properties_by_module
     else
       super

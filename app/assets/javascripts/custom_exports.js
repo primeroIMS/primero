@@ -9,8 +9,9 @@ var CustomExports = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.init_chosen_fields();
+    var self = this;
 
+    this.init_chosen_fields();
     this.forms_selector = $('fieldset.custom_export_form');
     this.fields_selector = $('fieldset.custom_export_fields');
     this.get_fields = $('a.get_fields');
@@ -20,11 +21,15 @@ var CustomExports = Backbone.View.extend({
     this.model_class = $(this.el).data('model-class');
 
 
-    if (this.module_id.length) {
+    if (this.module_id) {
       var select_module = $('select[name="module"]');
       select_module.next().hide();
       select_module.prev().hide();
     }
+
+    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+      self.reset_form();
+    });
   },
 
   init_chosen_fields: function() {
@@ -167,21 +172,39 @@ var CustomExports = Backbone.View.extend({
 
     if (password_control.length) {
       var data = {
-        record_id: this.record_id,
-        record_type: this.record_type,
-        module:  module_control.val() || this.module_id,
-        password: password_control.val(),
         custom_export_file_name: filename_control.val(),
-        forms: forms_control.val() || [],
-        fields: fields_control.val() || [],
-        model_class: this.model_class
+        password: password_control.val(),
+        custom_exports: {
+          record_id: this.record_id,
+          record_type: this.record_type,
+          module:  module_control.val() || this.module_id,
+          forms: forms_control.val() || [],
+          fields: fields_control.val() || [],
+          model_class: this.model_class
+        }
       }
 
-      file_location = '/custom_exports/export?' + $.param(data)
-      $(this.el).foundation('reveal', 'close')
+      file_location = window.location.href + window.location.search;
+      file_location += window.location.search.length ? '&' : '?';
+      file_location += $.param(data);
+      file_location += '&format=xls';
+      file_location += !_primero.get_param('page') ? '&page=all&per_page=all' : undefined;
+
+      this.reset_form();
+      $(this.el).foundation('reveal', 'close');
       window.disable_loading_indicator = true;
       window.location = file_location;
     }
+  },
+
+  reset_form: function() {
+    $(this.el).find('form')[0].reset();
+    $(this.el).find('select').val('').trigger("chosen:updated");
+    this.clear_control('fields');
+    this.clear_control('forms');
+    this.forms_selector.hide();
+    this.fields_selector.hide();
+    $('.user_select_fields').hide();
   }
 });
 
