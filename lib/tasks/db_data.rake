@@ -39,6 +39,25 @@ namespace :db do
       end
     end
 
+    desc "Import CPIMS"
+    task :import_cpims, [:file] => :environment do |t, args|
+      puts "Importing from #{args[:file]}"
+
+      import_cnt = 0
+      importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == "cpims"}.first
+      model_data = Array(importer.import(args[:file]))
+      model_data.map do |md|
+        user = User.find_by_user_name(md['owned_by']) || User.find_by_user_name('primero')
+        Child.import(md, user)
+      end.each do |m|
+        m.save!
+        puts "Successfully imported case with id #{m.id} case_id #{m.case_id}"
+        import_cnt += 1
+      end
+
+      puts "Migration complete.  Imported #{import_cnt} cases"
+    end
+
 
     desc "Remove roles and any reference of the role from users."
     task :remove_role, [:role] => :environment do |t, args|
