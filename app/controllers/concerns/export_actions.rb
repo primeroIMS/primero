@@ -2,7 +2,11 @@ module ExportActions
   extend ActiveSupport::Concern
 
   def exported_properties
-    self.model_class.properties
+    if params[:custom_exports].present? && params[:custom_exports][:forms].present?
+      self.model_class.properties.each{|pm, fs| fs.keep_if{|key| params[:custom_exports][:forms].include?(key)}}
+    else
+      self.model_class.properties
+    end
   end
 
   # TODO: JSON exports need to be consolidated with the JSON format.  Right now
