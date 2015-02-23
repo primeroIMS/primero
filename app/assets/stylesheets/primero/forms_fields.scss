@@ -548,8 +548,21 @@ span.postfix_val {
 ////////////////////////////////////////////////
 
 #custom-exports {
+  top: 38px !important;
+
   .chosen-container-single, .chosen-container-multi {
     width: 100% !important;
+  }
+
+  label[for="export-filename"] {
+    margin-top: 10px;
+  }
+
+  .message {
+    display: none;
+    background: #FFD8D8 !important;
+    border: 1px solid #F76F6F;
+    color: $grey_color
   }
 
   fieldset {
