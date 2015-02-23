@@ -24,7 +24,7 @@ module Exporters
       def export(models, properties_by_module, *args)
         io = StringIO.new
         workbook = WriteExcel.new(io)
-        workbook.add_worksheet('title')
+        workbook.add_worksheet('Selected Fields')
         worksheet = workbook.sheets(0).first
         headers = get_headers(properties_by_module)
         worksheet.write(0, 0, headers)
