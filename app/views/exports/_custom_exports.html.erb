@@ -5,8 +5,14 @@
       data-reveal data-record-type="<%= controller.model_class == Child ? 'case' : controller.model_class.to_s.underscore %>"
       data-module-id="<%= @record.module_id if @record.present? %>"
       data-record-id="<%= @record.id if @record.present? %>"
-      data-model-class="<%= controller.model_class %>">
+      data-model-class="<%= controller.model_class %>"
+      data-empty-password="<%= t('exports.custom_exports.empty_password') %>"
+      data-empty-fields-forms="<%= t('exports.custom_exports.empty_fields_forms') %>"
+      data-empty-format="<%= t('exports.custom_exports.empty_format') %>"
+      data-empty-module="<%= t('exports.custom_exports.empty_module') %>">
+
     <h5><%= t('exports.custom_exports.label') %></h5>
+    <div data-alert class="alert-box alert message"></div>
     <form id="custom_export_form">
       <div class="row">
         <div class="large-12 columns modal-content">

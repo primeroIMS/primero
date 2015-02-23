@@ -37,7 +37,7 @@ class TracingRequestsController < ApplicationController
   end
 
   def exported_properties
-    if params[:format].present? && params[:format] == "xls"
+    if params[:format].present? && (params[:format] == "xls" || params[:format] == "selected_xls")
       #get form sections the user is allow to see.
       form_sections = FormSection.get_form_sections_by_module(@current_modules, model_class.parent_form, current_user)
       #get the model properties based on the form sections.

@@ -19,6 +19,7 @@ var CustomExports = Backbone.View.extend({
     this.module_id = $(this.el).data('module-id');
     this.record_id = $(this.el).data('record-id');
     this.model_class = $(this.el).data('model-class');
+    this.filter_type = 'xls';
 
 
     if (this.module_id) {
@@ -104,7 +105,6 @@ var CustomExports = Backbone.View.extend({
 
     var self = this,
         module_control = $('select[name="module"]'),
-        format_control = $('input[name="format"]'),
         choose_fields = $('input[name="choose_fields"]'),
         data = {
           record_type: this.record_type,
@@ -168,9 +168,18 @@ var CustomExports = Backbone.View.extend({
         module_control = $('select[name="module"]'),
         filename_control = $('#export-filename'),
         fields_control = $('select[name="fields"]'),
-        forms_control = $('select[name="forms"]');
+        forms_control = $('select[name="forms"]'),
+        message = $('.message'),
+        format_control = $('input[name="format"]');
 
-    if (password_control.length) {
+    if (fields_control.val()) {
+      this.filter_type = 'selected_xls';
+    }
+
+    if (password_control.val().length &&
+        (forms_control.val() || fields_control.val()) &&
+        (module_control.val().length || this.module_id.length)) {
+
       var data = {
         custom_export_file_name: filename_control.val(),
         password: password_control.val(),
@@ -187,13 +196,34 @@ var CustomExports = Backbone.View.extend({
       file_location = window.location.href + window.location.search;
       file_location += window.location.search.length ? '&' : '?';
       file_location += $.param(data);
-      file_location += '&format=xls';
+      file_location += '&format=' + this.filter_type;
       file_location += !_primero.get_param('page') ? '&page=all&per_page=all' : undefined;
 
       this.reset_form();
       $(this.el).foundation('reveal', 'close');
       window.disable_loading_indicator = true;
       window.location = file_location;
+    } else {
+
+      var errors = [];
+
+      if (!password_control.val().length) {
+        errors.push($(this.el).data('empty-password'));
+      }
+
+      if (!forms_control.val() && !fields_control.val()) {
+        errors.push($(this.el).data('empty-fields-forms'));
+      }
+
+      if (!format_control.val().length) {
+        errors.push($(this.el).data('empty-format'));
+      }
+
+      if (!module_control.val().length && !this.module_id.length) {
+        errors.push($(this.el).data('empty-module'));
+      }
+
+      message.html(_.last(errors)).show();
     }
   },
 
@@ -205,6 +235,7 @@ var CustomExports = Backbone.View.extend({
     this.forms_selector.hide();
     this.fields_selector.hide();
     $('.user_select_fields').hide();
+    $('.message').empty().hide();
   }
 });
 

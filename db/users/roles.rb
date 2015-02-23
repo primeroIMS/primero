@@ -22,7 +22,8 @@ export_permissions = [
   Permission::EXPORT_UNHCR,
   Permission::EXPORT_CASE_PDF,
   Permission::EXPORT_MRM_VIOLATION_XLS,
-  Permission::EXPORT_INCIDENT_RECORDER
+  Permission::EXPORT_INCIDENT_RECORDER,
+  Permission::EXPORT_CUSTOM
 ]
 
 create_or_update_role(
