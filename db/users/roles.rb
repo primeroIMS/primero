@@ -22,8 +22,7 @@ export_permissions = [
   Permission::EXPORT_UNHCR,
   Permission::EXPORT_CASE_PDF,
   Permission::EXPORT_MRM_VIOLATION_XLS,
-  Permission::EXPORT_INCIDENT_RECORDER,
-  Permission::EXPORT_CUSTOM
+  Permission::EXPORT_INCIDENT_RECORDER
 ]
 
 create_or_update_role(
@@ -49,7 +48,8 @@ create_or_update_role(
     Permission::TRACING_REQUEST,
     Permission::REPORT,
     Permission::USER,
-    Permission::GROUP
+    Permission::GROUP,
+    Permission::EXPORT_CUSTOM
   ] + export_permissions
 )
 
@@ -76,7 +76,8 @@ create_or_update_role(
     Permission::INCIDENT,
     Permission::REPORT,
     Permission::USER,
-    Permission::GROUP
+    Permission::GROUP,
+    Permission::EXPORT_CUSTOM
   ] + export_permissions
 )
 
@@ -101,8 +102,9 @@ create_or_update_role(
     Permission::INCIDENT,
     Permission::USER,
     Permission::GROUP,
-    Permission::REPORT
-  ] + export_permissions
+    Permission::REPORT,
+    Permission::EXPORT_CUSTOM
+] + export_permissions
 )
 
 create_or_update_role(
@@ -146,7 +148,8 @@ create_or_update_role(
     Permission::REPORT,
     Permission::REFERRAL,
     Permission::TRANSFER,
-    Permission::ALL
+    Permission::ALL,
+    Permission::EXPORT_CUSTOM
   ] + export_permissions
 )
 

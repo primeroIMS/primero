@@ -1,4 +1,4 @@
-<% if can?(:export_custom, controller.model_class) %>
+<% if can?(:export_custom, controller.model_class) && controller.model_class != Incident %>
 <li>
   <%= link_to t('exports.custom_exports.label'), '#', data: {"reveal-id" => 'custom-exports'} %>
   <div id="custom-exports" class="reveal-modal tiny"
