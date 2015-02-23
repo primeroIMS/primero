@@ -184,6 +184,7 @@ var CustomExports = Backbone.View.extend({
       var data = {
         custom_export_file_name: filename_control.val(),
         password: password_control.val(),
+        selected_records: _primero.indexTable.get_selected_records().join(","),
         custom_exports: {
           record_id: this.record_id,
           record_type: this.record_type,
@@ -192,7 +193,7 @@ var CustomExports = Backbone.View.extend({
           fields: fields_control.val() || [],
           model_class: this.model_class
         }
-      }
+      };
 
       file_location = window.location.href + window.location.search;
       file_location += window.location.search.length ? '&' : '?';
