@@ -170,9 +170,10 @@ var CustomExports = Backbone.View.extend({
         fields_control = $('select[name="fields"]'),
         forms_control = $('select[name="forms"]'),
         message = $('.message'),
-        format_control = $('input[name="format"]');
+        format_control = $('input[name="format"]'),
+        choose_fields = $('input[name="choose_fields"]');
 
-    if (fields_control.val()) {
+    if (fields_control.val() && !choose_fields.is(':checked')) {
       this.filter_type = 'selected_xls';
     }
 
