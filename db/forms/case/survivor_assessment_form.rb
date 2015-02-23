@@ -11,7 +11,7 @@ survivor_assessment_fields = [
              }),
   Field.new({"name" => "assessment_emotional_state_end",
              "type" => "textarea",
-             "display_name_all" => "Assessement of Presenting Problem",
+             "display_name_all" => "Assessment of Presenting Problem",
              "guiding_questions" => "What has happened to her?  It is crucial to find out if physical force and weapons were used, whether there is any severe pain (especially head injuries) or bleeding, and whether there was vaginal/anal penetration. Immediate medical care and treatment is highly indicated in these circumstances.
 
                 Who the perpetrator is and whether he can access the survivor?
@@ -24,7 +24,7 @@ survivor_assessment_fields = [
              }),
   Field.new({"name" => "assessment_survivor_safety",
              "type" => "textarea",
-             "display_name_all" => "Assessement of Immediate Need",
+             "display_name_all" => "Assessment of Immediate Need",
              "guiding_questions" => "What happened to the survivor and what does she want help with?
 
                 What are the survivor’s major concerns right now?
