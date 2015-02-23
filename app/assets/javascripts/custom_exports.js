@@ -28,7 +28,7 @@ var CustomExports = Backbone.View.extend({
       select_module.prev().hide();
     }
 
-    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+    $(document).on('close.fndtn.reveal', '#custom-exports', function () {
       self.reset_form();
     });
   },
