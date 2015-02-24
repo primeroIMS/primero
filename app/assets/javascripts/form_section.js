@@ -109,7 +109,7 @@ $(document).ready(function() {
 
         $("#field_details_options, #field_details_select_box, #field_details_tally, #field_details_tick_box, #field_details").hide();
 
-        $(".field_details_panel input[type='text'], .field_details_panel textarea").val("");
+        $(".field_panel input[type='text'], .field_panel textarea").val("");
         var _this = this;
         $(".field_type").each(function(){
             $(this).val(_this.id);
