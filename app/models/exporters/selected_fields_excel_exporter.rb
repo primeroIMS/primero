@@ -25,31 +25,55 @@ module Exporters
         io = StringIO.new
         workbook = WriteExcel.new(io)
         workbook.add_worksheet('Selected Fields')
+        workbook.add_worksheet('__record__')
+        record_worksheet = workbook.sheets(1).first
         worksheet = workbook.sheets(0).first
         headers = get_headers(properties_by_module)
-        worksheet.write(0, 0, headers)
+
+        record_worksheet.write(0,0, headers[:record_fields])
+        worksheet.write(0, 0, headers[:fields])
 
         models.each_with_index do |model, row|
           row += 1
-          headers.each_with_index do |prop_name, cell|
-            if prop_name == 'model_type'
-              worksheet.write(row, cell, {'Child' => 'Case'}.fetch(model.class.name, model.class.name))
-            else
-              worksheet.write(row, cell, model.send(prop_name))
-            end
-          end
+          headers[:fields].each_with_index{|prop_name, cell| build_worksheet(row, cell, prop_name, worksheet, model)}
+          headers[:record_fields].each_with_index{|prop_name, cell| build_worksheet(row, cell, prop_name, record_worksheet, model)}
         end
-        set_column_widths(worksheet, headers)
+
+        set_column_widths(worksheet, headers[:fields])
+        set_column_widths(record_worksheet, headers[:record_fields] )
         workbook.close
         io.string
       end
 
       private
 
+      def build_worksheet(row, cell, property, worksheet, model)
+        if property == 'model_type'
+          worksheet.write(row, cell, {'Child' => 'Case'}.fetch(model.class.name, model.class.name))
+        else
+          worksheet.write(row, cell, model.send(property))
+        end
+      end
+
       def get_headers(properties_by_module)
-        headers = []
-        properties_by_module.each{|module_id, form_section| form_section.each{|form_name, prop| headers << prop.keys}}.flatten
-        (["_id", "model_type"] + headers).flatten
+        headers = {}
+        headers[:fields] = []
+        headers[:record_fields] = []
+
+        properties_by_module.each do |module_id, form_section|
+          form_section.each do |form_name, prop|
+            if form_name != '__record__'
+              (headers[:fields] << prop.keys).flatten!
+            else
+              (headers[:record_fields] << prop.keys).flatten!
+            end
+          end
+        end
+
+        record_id_fields = ["_id", "model_type"]
+        headers[:fields] = (record_id_fields + headers[:fields]).flatten
+        headers[:record_fields] = (record_id_fields+ headers[:record_fields]).flatten
+        headers
       end
 
       def set_column_widths(worksheet, header)
