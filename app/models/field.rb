@@ -284,7 +284,7 @@ class Field
         end
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
-        clazz = eval source_options.first #TODO: hoping this guy exists and is a class!
+        clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
         select_options += clazz.all.map{|r| r.name}
       end
     elsif self.type == TICK_BOX
