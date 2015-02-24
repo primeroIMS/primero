@@ -59,6 +59,7 @@ module Exporters
         headers = {}
         headers[:fields] = []
         headers[:record_fields] = []
+
         properties_by_module.each do |module_id, form_section|
           form_section.each do |form_name, prop|
             if form_name != '__record__'
@@ -68,8 +69,10 @@ module Exporters
             end
           end
         end
-        headers[:fields] = (["_id", "model_type"] + headers[:fields]).flatten
-        headers[:record_fields] = (["_id", "model_type"] + headers[:record_fields]).flatten
+
+        record_id_fields = ["_id", "model_type"]
+        headers[:fields] = (record_id_fields + headers[:fields]).flatten
+        headers[:record_fields] = (record_id_fields+ headers[:record_fields]).flatten
         headers
       end
 
