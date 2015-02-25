@@ -22,6 +22,12 @@ tracing_request_record_owner_fields = [
                                      "Agency4",
                                      "Agency5",].join("\n")
             }),
+  Field.new({"name" => "assigned_user_names",
+             "type" =>"select_box",
+             "multi_select" => true,
+             "display_name_all" => "Other Assigned Users",
+             "option_strings_source" => "User"
+            }),
   Field.new({"name" => "record_history_section",
              "type" => "separator",
              "display_name_all" => "Record History"
