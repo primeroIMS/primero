@@ -328,15 +328,16 @@ module RecordActions
 
   def filter_custom_exports(properties_by_module)
     if params[:custom_exports].present?
-      properties_by_module.keep_if{|key| params[:custom_exports][:module].include?(key)}
+      properties_by_module = properties_by_module.select{|key| params[:custom_exports][:module].include?(key)}
 
       if params[:custom_exports][:forms].present?
-        properties_by_module.each{|pm, fs| fs.keep_if{|key| params[:custom_exports][:forms].include?(key)}}
+        properties_by_module.each do |pm, fs|
+          properties_by_module[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
+        end
       elsif params[:custom_exports].present? && params[:custom_exports][:fields].present?
         properties_by_module.each do |pm, fs|
-          fs.each do |fk, fv|
-            fv.keep_if{|key| params[:custom_exports][:fields].include?(key)}
-          end
+          filtered_forms = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:fields].include?(f)}]}
+          properties_by_module[pm] = filtered_forms.to_h
         end
         properties_by_module.compact
       end
