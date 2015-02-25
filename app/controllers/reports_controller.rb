@@ -153,11 +153,7 @@ class ReportsController < ApplicationController
   end
 
   private
-
-  def redirect_after_destroy
-    reports_path
-  end
-
+  
   def action_class
     Report
   end

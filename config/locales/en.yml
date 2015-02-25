@@ -955,10 +955,6 @@ en:
       confirmation: "Are you sure you want to delete this report? Deletion can not be undone. Click OK To Delete Report."
 
   report:
-    messages:
-      delete_success: "Report was successfully deleted."
-
-  report:
     heading: "Primero Reports"
     type: "Type"
     as_of_date: "As of Date"
@@ -989,6 +985,8 @@ en:
       data: "Data"
     successfully_updated: "Report configuration is successfully updated."
     error_in_updating: "Error in updating the Report configuration."
+    messages:
+      delete_success: "Report was successfully deleted."
 
   encrypt:
     password_title: "Create Password"
