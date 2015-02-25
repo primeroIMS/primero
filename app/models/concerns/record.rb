@@ -222,7 +222,9 @@ module Record
       if attributes.include? 'unique_identifier'
         by_unique_identifier(:key => attributes['unique_identifier']).first
       else
-        raise TypeError.new("attributes must include unique_identifier for record types")
+        #commented out becuase this fails any arbitrary spreadsheet imports. Why was this here before?
+        #raise TypeError.new("attributes must include unique_identifier for record types")
+        nil
       end
     end
 
