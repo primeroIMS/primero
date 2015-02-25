@@ -10,12 +10,7 @@ tracing_request_record_owner_fields = [
   Field.new({"name" => "caseworker_code",
              "type" => "select_box",
              "display_name_all" => "Caseworker Code",
-             "option_strings_text_all" =>
-                                    ["Case Worker1",
-                                     "Case Worker2",
-                                     "Case Worker3",
-                                     "Case Worker4",
-                                     "Case Worker5"].join("\n")
+             "option_strings_source" => "User"
             }),
   Field.new({"name" => "agency_organization",
              "type" => "select_box",
