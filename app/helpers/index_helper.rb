@@ -198,6 +198,7 @@ module IndexHelper
       {title: '', sort_title: 'select'},
       {title: 'name', sort_title: 'name'},
       {title: 'description', sort_title: 'description'},
+      {title: '', sort_title: ''},
     ]
   end
 

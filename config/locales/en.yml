@@ -949,6 +949,14 @@ en:
   reports:
     register_new_report: "Create Report"
     label: "Reports"
+    actions:
+      delete: "Delete"
+    messages:
+      confirmation: "Are you sure you want to delete this report? Deletion can not be undone. Click OK To Delete Report."
+
+  report:
+    messages:
+      delete_success: "Report was successfully deleted."
 
   report:
     heading: "Primero Reports"
