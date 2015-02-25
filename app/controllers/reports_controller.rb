@@ -2,6 +2,8 @@ class ReportsController < ApplicationController
 
   include RecordFilteringPagination
   include ReportsHelper
+  include DeleteAction
+
   #include RecordActions
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
@@ -150,6 +152,12 @@ class ReportsController < ApplicationController
         end
       end
     end
+  end
+
+  private
+  
+  def action_class
+    Report
   end
 
 end

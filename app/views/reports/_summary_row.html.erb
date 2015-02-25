@@ -6,4 +6,9 @@
     <%= link_to record.name, report_path(record), class: 'id_link' %>
   </td>
   <td><%= record.description %></td>
+  <td>
+    <% if can?(:destroy, Report) %>
+        <%= link_to t("reports.actions.delete"), record, data: {confirm: t("reports.messages.confirmation")}, method: :delete %>
+    <% end %>
+  </td>
 </tr>
