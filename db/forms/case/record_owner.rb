@@ -44,7 +44,6 @@ record_owner_fields = [
           "type" => "text_field",
           "display_name_all" => "Agency Telephone"
            }),
-  #TODO get list from valid users
   Field.new({"name" => "assigned_user_names",
              "type" =>"select_box",
              "multi_select" => true,
