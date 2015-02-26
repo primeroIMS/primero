@@ -28,6 +28,16 @@ server {
   client_max_body_size 50M;
   client_body_buffer_size 128k;
 
+  limit_req_zone $binary_remote_addr zone=login__app_limit:10m rate=1r/s;
+
+  location /login/ {
+    limit_req zone=login_limit burst=5;
+  }
+
+  location /api/login/ {
+    limit_req zone=login_limit burst=5;
+  }
+
   location ~* ^/(assets|images|javascripts|stylesheets)/ {
     gzip_static on;
     add_header Cache-Control max-age=31536000;
