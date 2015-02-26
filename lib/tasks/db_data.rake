@@ -50,7 +50,7 @@ namespace :db do
       puts "Assigning imported records to user '#{user.user_name}'"
 
       import_cnt = 0
-      model_data = Array(CPIMSImporter.import(args[:file]))
+      model_data = Array(Importers::CPIMSImporter.import(args[:file]))
       model_data.map do |md|
         Child.import(md, user)
       end.each do |m|
