@@ -106,7 +106,7 @@ class ReportsController < ApplicationController
   end
 
   protected
-  
+
   def set_aggregate_order
     params['report']['aggregate_by'] = params['report']['aggregate_by_ordered']
     params['report']['disaggregate_by'] = params['report']['disaggregate_by_ordered']
@@ -132,6 +132,7 @@ class ReportsController < ApplicationController
         params[:report][:filters].delete(:template)
         #convert to array: bad!
         filters = params[:report][:filters].values
+        filters.each{|filter| filter.compact }.delete_if{|filter| filter.empty?}
         params[:report][:filters] = filters
       end
     end
