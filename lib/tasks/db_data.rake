@@ -40,14 +40,18 @@ namespace :db do
     end
 
     desc "Import CPIMS"
-    task :import_cpims, [:file] => :environment do |t, args|
+    task :import_cpims, [:file, :user] => :environment do |t, args|
       puts "Importing from #{args[:file]}"
 
+      user = User.find_by_user_name(args[:user]) || User.find_by_user_name('primero')
+
+      raise "Invalid User" if user.nil?
+
+      puts "Assigning imported records to user '#{user.user_name}'"
+
       import_cnt = 0
-      importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == "cpims"}.first
-      model_data = Array(importer.import(args[:file]))
+      model_data = Array(CPIMSImporter.import(args[:file]))
       model_data.map do |md|
-        user = User.find_by_user_name(md['owned_by']) || User.find_by_user_name('primero')
         Child.import(md, user)
       end.each do |m|
         m.save!

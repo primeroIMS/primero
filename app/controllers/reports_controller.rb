@@ -2,6 +2,8 @@ class ReportsController < ApplicationController
 
   include RecordFilteringPagination
   include ReportsHelper
+  include DeleteAction
+
   #include RecordActions
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
@@ -14,7 +16,9 @@ class ReportsController < ApplicationController
     report_ids = Report.by_module_id(keys: current_user.modules.map{|m|m.id}).values.uniq
     @current_modules = nil #TODO: Hack because this is expected in templates used.
     reports = Report.all(keys: report_ids).page(page).per(per_page).all
-    @reports = paginated_collection(reports, reports.count)
+    @total_records = report_ids.count
+    @per = per_page
+    @reports = paginated_collection(reports, report_ids.count)
   end
 
   def show
@@ -149,6 +153,12 @@ class ReportsController < ApplicationController
         end
       end
     end
+  end
+
+  private
+  
+  def action_class
+    Report
   end
 
 end
