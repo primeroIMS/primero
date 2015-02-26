@@ -1,3 +1,5 @@
+limit_req_zone $binary_remote_addr zone=couch_login_limit:10m rate=1r/s;
+
 server {
   listen 6984 ssl;
   ssl_certificate <%= @ssl_cert_path %>;
@@ -8,8 +10,6 @@ server {
 
   access_log <%= @log_dir %>/nginx_server.log;
   error_log <%= @log_dir %>/nginx_error.log error;
-
-  limit_req_zone $binary_remote_addr zone=couch_login_limit:10m rate=1r/s;
 
   location /_session/ {
     limit_req zone=couch_login_limit burst=5;

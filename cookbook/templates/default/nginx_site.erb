@@ -4,6 +4,8 @@ server {
   rewrite ^(.*)$ https://$host:<%= @https_port %>$1 redirect;
 }
 
+limit_req_zone $binary_remote_addr zone=login__app_limit:10m rate=1r/s;
+
 server {
   listen <%= @https_port %> ssl;
   <%= "server_name #{@server_name};" if @server_name %>
@@ -27,8 +29,6 @@ server {
 
   client_max_body_size 50M;
   client_body_buffer_size 128k;
-
-  limit_req_zone $binary_remote_addr zone=login__app_limit:10m rate=1r/s;
 
   location /login/ {
     limit_req zone=login_limit burst=5;
