@@ -24,7 +24,11 @@ class ReportsController < ApplicationController
   def show
     @report = Report.get(params[:id])
     authorize! :show, @report
-    @report.build_report
+    begin
+      @report.build_report
+    rescue Sunspot::UnrecognizedFieldError => e
+      redirect_to(edit_report_path(@report), notice: e.message)
+    end
   end
 
   # Method for AJAX GET of graph data.
@@ -83,7 +87,7 @@ class ReportsController < ApplicationController
     permitted_fields = select_options_fields_grouped_by_form(
       Report.all_reportable_fields_by_form(modules, record_type, @current_user),
       true
-    )
+    ).each{|filter| filter.last.compact }.delete_if{|filter| filter.last.empty?}
     render json: permitted_fields
   end
 
@@ -110,7 +114,7 @@ class ReportsController < ApplicationController
   end
 
   protected
-  
+
   def set_aggregate_order
     params['report']['aggregate_by'] = params['report']['aggregate_by_ordered']
     params['report']['disaggregate_by'] = params['report']['disaggregate_by_ordered']
@@ -136,6 +140,7 @@ class ReportsController < ApplicationController
         params[:report][:filters].delete(:template)
         #convert to array: bad!
         filters = params[:report][:filters].values
+        filters.each{|filter| filter.compact }.delete_if{|filter| filter.empty?}
         params[:report][:filters] = filters
       end
     end
