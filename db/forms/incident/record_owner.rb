@@ -7,7 +7,7 @@ record_owner_fields = [
              "type" => "text_field",
              "display_name_all" => "Field/Case/Social Worker"
             }),
-  Field.new({"name" => "caseworker_code",
+  Field.new({"name" => "owned_by",
              "type" => "select_box",
              "display_name_all" => "Caseworker Code",
              "option_strings_source" => "User"

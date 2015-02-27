@@ -7,7 +7,7 @@ tracing_request_record_owner_fields = [
              "type" => "text_field",
              "display_name_all" => "Field/Case/Social Worker"
             }),
-  Field.new({"name" => "caseworker_code",
+  Field.new({"name" => "owned_by",
              "type" => "select_box",
              "display_name_all" => "Caseworker Code",
              "option_strings_source" => "User"
@@ -42,7 +42,7 @@ tracing_request_record_owner_fields = [
              "display_name_all" => "Created by agency",
              "editable" => false
             }),
-  Field.new({"name" => "previous_owner",
+  Field.new({"name" => "previously_owned_by",
              "type" => "text_field",
              "display_name_all" => "Previous Owner"
             }),
