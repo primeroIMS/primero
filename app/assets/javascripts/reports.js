@@ -42,6 +42,7 @@ var ReportTable = Backbone.View.extend({
         var context = canvas.get(0).getContext("2d");
         var options = {
           xAxisLabel: graph_data.aggregate,
+          graphMin: 0,
           legend: true,
           yAxisMinimumInterval: 1
         };
