@@ -55,6 +55,17 @@ class Violation
 
     boolean('record_state') {incident_value('record_state')}
 
+    string('incident_total_tally', multiple: true) do
+      types = ['boys', 'girls', 'unknown']
+      tally = []
+      types.each do |type|
+        if self.incident["incident_total_tally_#{type}"].present?
+          value = incident_value("incident_total_tally_#{type}")
+          tally << "#{type}:#{value}"
+        end
+      end
+      tally
+    end
   end
 
   def self.all(options={})
