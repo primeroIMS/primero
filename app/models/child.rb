@@ -136,6 +136,9 @@ class Child < CouchRest::Model::Base
     string :mothers_name do
       self.mothers_name
     end
+
+    boolean :estimated
+    boolean :consent_for_services
   end
 
   def self.fetch_all_ids_and_revs
