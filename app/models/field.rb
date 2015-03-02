@@ -264,7 +264,7 @@ class Field
     "#{objName}[#{name}]"
   end
 
-  def select_options(record=nil, lookups=nil)
+  def select_options(record=nil, lookups=nil, locations=nil)
     select_options = []
     select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
     if self.option_strings_source.present?
@@ -282,6 +282,8 @@ class Field
           #TODO: What about I18n? What is this?
           select_options += ['Other', 'Mixed', 'Unknown']
         end
+      elsif source_options.first == 'Location' && locations.present?
+        select_options += locations || []
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
