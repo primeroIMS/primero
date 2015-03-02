@@ -43,6 +43,7 @@ var ReportTable = Backbone.View.extend({
         var options = {
           xAxisLabel: graph_data.aggregate,
           legend: true,
+          yAxisMinimumInterval: 1
         };
         for (var i = 0; i < graph_data.datasets.length; i++){
           graph_data.datasets[i]['fillColor'] = colors[i];
