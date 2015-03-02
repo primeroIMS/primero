@@ -2,7 +2,11 @@ module ExportActions
   extend ActiveSupport::Concern
 
   def exported_properties
-    self.model_class.properties
+    if params[:custom_exports].present? && params[:custom_exports][:forms].present?
+      self.model_class.properties.each{|pm, fs| fs.keep_if{|key| params[:custom_exports][:forms].include?(key)}}
+    else
+      self.model_class.properties
+    end
   end
 
   # TODO: JSON exports need to be consolidated with the JSON format.  Right now
@@ -35,13 +39,13 @@ module ExportActions
     end
   end
 
-  def export_filename(models, exporter)
+  def export_filename(models, exporter, class_name = nil)
     if params[:custom_export_file_name].present?
       "#{params[:custom_export_file_name]}.#{exporter.mime_type}"
     elsif models.length == 1
       "#{models[0].unique_identifier}.#{exporter.mime_type}"
     else
-      "#{current_user.user_name}-#{model_class.name.underscore}.#{exporter.mime_type}"
+      "#{current_user.user_name}-#{model_class.present? ? model_class.name.underscore : class_name.name.underscore}.#{exporter.mime_type}"
     end
   end
 

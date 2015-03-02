@@ -39,6 +39,29 @@ namespace :db do
       end
     end
 
+    desc "Import CPIMS"
+    task :import_cpims, [:file, :user] => :environment do |t, args|
+      puts "Importing from #{args[:file]}"
+
+      user = User.find_by_user_name(args[:user]) || User.find_by_user_name('primero')
+
+      raise "Invalid User" if user.nil?
+
+      puts "Assigning imported records to user '#{user.user_name}'"
+
+      import_cnt = 0
+      model_data = Array(Importers::CPIMSImporter.import(args[:file]))
+      model_data.map do |md|
+        Child.import(md, user)
+      end.each do |m|
+        m.save!
+        puts "Successfully imported case with id #{m.id} case_id #{m.case_id}"
+        import_cnt += 1
+      end
+
+      puts "Migration complete.  Imported #{import_cnt} cases"
+    end
+
 
     desc "Remove roles and any reference of the role from users."
     task :remove_role, [:role] => :environment do |t, args|

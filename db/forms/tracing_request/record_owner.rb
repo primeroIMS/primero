@@ -7,15 +7,10 @@ tracing_request_record_owner_fields = [
              "type" => "text_field",
              "display_name_all" => "Field/Case/Social Worker"
             }),
-  Field.new({"name" => "caseworker_code",
+  Field.new({"name" => "owned_by",
              "type" => "select_box",
              "display_name_all" => "Caseworker Code",
-             "option_strings_text_all" =>
-                                    ["Case Worker1",
-                                     "Case Worker2",
-                                     "Case Worker3",
-                                     "Case Worker4",
-                                     "Case Worker5"].join("\n")
+             "option_strings_source" => "User"
             }),
   Field.new({"name" => "agency_organization",
              "type" => "select_box",
@@ -26,6 +21,12 @@ tracing_request_record_owner_fields = [
                                      "Agency3",
                                      "Agency4",
                                      "Agency5",].join("\n")
+            }),
+  Field.new({"name" => "assigned_user_names",
+             "type" =>"select_box",
+             "multi_select" => true,
+             "display_name_all" => "Other Assigned Users",
+             "option_strings_source" => "User"
             }),
   Field.new({"name" => "record_history_section",
              "type" => "separator",
@@ -41,7 +42,7 @@ tracing_request_record_owner_fields = [
              "display_name_all" => "Created by agency",
              "editable" => false
             }),
-  Field.new({"name" => "previous_owner",
+  Field.new({"name" => "previously_owned_by",
              "type" => "text_field",
              "display_name_all" => "Previous Owner"
             }),

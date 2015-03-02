@@ -93,6 +93,10 @@ class SessionsController < ApplicationController
 
   private
   def handle_login_error(notice, format)
+    #Do a random wait to discourage brute force attacks
+    wait_seconds = rand(3) + 3
+    sleep wait_seconds
+
     format.html {
       flash[:error] = notice
       redirect_to :action => "new" }

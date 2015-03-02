@@ -949,6 +949,10 @@ en:
   reports:
     register_new_report: "Create Report"
     label: "Reports"
+    actions:
+      delete: "Delete"
+    messages:
+      confirmation: "Are you sure you want to delete this report? Deletion can not be undone. Click OK To Delete Report."
 
   report:
     heading: "Primero Reports"
@@ -981,6 +985,8 @@ en:
       data: "Data"
     successfully_updated: "Report configuration is successfully updated."
     error_in_updating: "Error in updating the Report configuration."
+    messages:
+      delete_success: "Report was successfully deleted."
 
   encrypt:
     password_title: "Create Password"
@@ -1326,6 +1332,22 @@ en:
       all:  MRM Violations
       one:  MRM Violations
       selected:  Selected to MRM Violations
+    custom_exports:
+      label: Custom Exports
+      format_label: Select Format
+      field_label: Field
+      form_label: Form
+      forms: Select Forms to export
+      fields: Select Fields to export
+      submit: OK
+      select_module: Select Module
+      choose_fields: Would you like to choose individual fields for a form?
+      module_placeholder: Please select a module.
+      empty_password: Please enter a password that will encrypt your file.
+      empty_fields_forms: Please select some forms or fields to export.
+      empty_format: Please select a format to export.
+      empty_module: Please select a module to export.
+
   imports:
     password_label: "Password (if required)"
     format_label: "Format"

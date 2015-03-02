@@ -23,7 +23,9 @@ var Primero = Backbone.View.extend({
     _primero.is_under_18 = this._primero_is_under_18;
     _primero.show_add_violation_message = this._primero_show_add_violation_message;
     _primero.loading_screen_indicator = this._primero_loading_screen_indicator;
+    _primero.serialize_object = this._primero_serialize_object;
 
+    this.init_trunc();
     this.init_sticky();
     this.init_popovers();
     this.init_autogrow();
@@ -40,6 +42,13 @@ var Primero = Backbone.View.extend({
     }
 
     window.onbeforeunload = this.load_and_redirect;
+  },
+
+  init_trunc: function() {
+    String.prototype.trunc = String.prototype.trunc ||
+      function(n){
+        return this.length>n ? this.substr(0,n-1)+'...' : this;
+      };
   },
 
   init_scrollbar: function() {
@@ -117,6 +126,13 @@ var Primero = Backbone.View.extend({
     $(".referral_form_container").mCustomScrollbar(
       _.extend(options, {
         setHeight: 530,
+        theme: 'minimal-dark'
+      })
+    );
+
+    $(".modal-content").mCustomScrollbar(
+      _.extend(options, {
+        setHeight: 330,
         theme: 'minimal-dark'
       })
     );
@@ -421,12 +437,25 @@ var Primero = Backbone.View.extend({
     });
   },
 
+  _primero_serialize_object: function(obj, prefix) {
+    var str = [];
+    for(var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+        str.push(typeof v == "object" ?
+          serialize(v, k) :
+          encodeURIComponent(k) + "=" + encodeURIComponent(v));
+      }
+    }
+    return str.join("&");
+  },
+
   load_and_redirect: function() {
     if (window.disable_loading_indicator === undefined) {
       _primero.loading_screen_indicator('show');
     }
     window.disable_loading_indicator = undefined;
-    
+
     if (_primero.getInternetExplorerVersion() > 0) {
       window.onbeforeunload = null;
     }

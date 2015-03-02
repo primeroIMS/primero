@@ -7,7 +7,7 @@ module Exporters
       def id
         'xls'
       end
-      
+
       def supported_models
         [Child, TracingRequest]
       end
@@ -24,8 +24,9 @@ module Exporters
         workbook = WriteExcel.new(io)
         models.each do |model|
           sheets_def = get_sheets_by_module(model.module_id)
+          counter = 0
           sheets_def.each do |form_name, sheet_def|
-            build_sheet(sheet_def, form_name, workbook)
+            build_sheet(sheet_def, form_name, workbook, counter)
             data = build_data(model, sheet_def["properties"])
             #Could it be more than one row because the subforms.
             rows = build_rows(model, data)
@@ -35,6 +36,7 @@ module Exporters
               sheet_def["row"] += 1
             end
             sheet_def["column_widths"].each_with_index {|w, i| sheet_def["work_sheet"].set_column(i, i, w)}
+            counter += 1
           end
         end
         workbook.close
@@ -77,8 +79,8 @@ module Exporters
         end
       end
 
-      #Build the sheets definition. 
-      #Split any subform in his own sheet if there is 
+      #Build the sheets definition.
+      #Split any subform in his own sheet if there is
       #others none subforms properties in the same form section.
       def build_sheets_definition(properties_by_module)
         @sheets = {}
@@ -87,7 +89,7 @@ module Exporters
             subforms = properties.select{|prop_name, prop| prop.array == true && prop.type.include?(CouchRest::Model::Embeddable)}
             others = (properties.to_a - subforms.to_a).to_h
             if subforms.blank? || (subforms.length == 1 && others.blank?)
-              #The section does not have subforms or 
+              #The section does not have subforms or
               #there is just one subform in the form section.
               build_sheet_definition(fs_name, properties, module_id)
             else
@@ -119,22 +121,22 @@ module Exporters
           #register to what module belong the form section.
           #sheet name should be unique.
           modules = @sheets[fs_name]["modules"] + modules
-        end 
+        end
         @sheets[fs_name] = {"work_sheet" => nil, "column_widths" => nil, "row" => 1, "properties" => props, "modules" => modules}
       end
 
-      def build_sheet(sheet_def, form_name, workbook)
+      def build_sheet(sheet_def, form_name, workbook, counter)
         return sheet_def["work_sheet"] if sheet_def["work_sheet"].present?
-        work_sheet = generate_work_sheet(workbook, form_name)
+        work_sheet = generate_work_sheet(workbook, form_name, counter)
         header = ["_id", "model_type"] + build_header(sheet_def["properties"])
         work_sheet.write(0, 0, header)
         sheet_def["column_widths"] = initial_column_widths(header)
         sheet_def["work_sheet"] = work_sheet
       end
 
-      def generate_work_sheet(workbook, form_name)
+      def generate_work_sheet(workbook, form_name, counter)
         #Clean up name and truncate to the allowed limit.
-        work_sheet_name = form_name.sub(/[\[\]\:\*\?\/\\]/, " ").truncate(31)
+        work_sheet_name = "(#{counter}) #{form_name.sub(/[\[\]\:\*\?\/\\]/, " ")}".truncate(31)
         workbook.add_worksheet(work_sheet_name)
       end
 
@@ -174,7 +176,7 @@ module Exporters
           else
             property.name
           end
-        end.flatten 
+        end.flatten
       end
 
     end

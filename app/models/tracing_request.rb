@@ -49,6 +49,12 @@ class TracingRequest < CouchRest::Model::Base
   end
   include Searchable #Needs to be after ownable
 
+  searchable do
+    string :status do
+      self.tracing_request_status
+    end
+  end
+
   def self.find_by_tracing_request_id(tracing_request_id)
     by_tracing_request_id(:key => tracing_request_id).first
   end

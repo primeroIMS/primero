@@ -16,15 +16,15 @@
   </div>
   <div class="medium-8 columns">
     <% if select_box.multi_select %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), 'multiple' => '',
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups, @locations), value), 'multiple' => '',
           'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
           :data => { :field_tags => field_tags} %>
     <% elsif select_box.searchable_select %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value),
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups, @locations), value),
           'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), :id => field_id,
           :data => { :field_tags => field_tags} %>
     <% else %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups), value), :id => field_id,
+      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups, @locations), value), :id => field_id,
           :data => { :field_tags => field_tags} %>
     <% end %>
     <p class="help"><%= select_box.help_text if select_box.help_text.present? %></p>

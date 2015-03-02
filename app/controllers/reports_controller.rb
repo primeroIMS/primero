@@ -2,6 +2,8 @@ class ReportsController < ApplicationController
 
   include RecordFilteringPagination
   include ReportsHelper
+  include DeleteAction
+
   #include RecordActions
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
@@ -14,13 +16,19 @@ class ReportsController < ApplicationController
     report_ids = Report.by_module_id(keys: current_user.modules.map{|m|m.id}).values.uniq
     @current_modules = nil #TODO: Hack because this is expected in templates used.
     reports = Report.all(keys: report_ids).page(page).per(per_page).all
-    @reports = paginated_collection(reports, reports.count)
+    @total_records = report_ids.count
+    @per = per_page
+    @reports = paginated_collection(reports, report_ids.count)
   end
 
   def show
     @report = Report.get(params[:id])
     authorize! :show, @report
-    @report.build_report
+    begin
+      @report.build_report
+    rescue Sunspot::UnrecognizedFieldError => e
+      redirect_to(edit_report_path(@report), notice: e.message)
+    end
   end
 
   # Method for AJAX GET of graph data.
@@ -79,7 +87,7 @@ class ReportsController < ApplicationController
     permitted_fields = select_options_fields_grouped_by_form(
       Report.all_reportable_fields_by_form(modules, record_type, @current_user),
       true
-    )
+    ).each{|filter| filter.last.compact }.delete_if{|filter| filter.last.empty?}
     render json: permitted_fields
   end
 
@@ -106,7 +114,7 @@ class ReportsController < ApplicationController
   end
 
   protected
-  
+
   def set_aggregate_order
     params['report']['aggregate_by'] = params['report']['aggregate_by_ordered']
     params['report']['disaggregate_by'] = params['report']['disaggregate_by_ordered']
@@ -132,6 +140,7 @@ class ReportsController < ApplicationController
         params[:report][:filters].delete(:template)
         #convert to array: bad!
         filters = params[:report][:filters].values
+        filters.each{|filter| filter.compact }.delete_if{|filter| filter.empty?}
         params[:report][:filters] = filters
       end
     end
@@ -148,6 +157,12 @@ class ReportsController < ApplicationController
         end
       end
     end
+  end
+
+  private
+  
+  def action_class
+    Report
   end
 
 end

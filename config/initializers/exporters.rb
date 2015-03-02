@@ -9,6 +9,7 @@ module Exporters
     PDFExporter,
     UnhcrCSVExporter,
     MRMViolationExporter,
+    SelectedFieldsExcelExporter
   ]
 
   def self.active_exporters_for_model(model)

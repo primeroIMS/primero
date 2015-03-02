@@ -12,6 +12,7 @@ module RecordActions
     before_filter :load_record, :except => [:new, :create, :index, :reindex]
     before_filter :current_user, :except => [:reindex]
     before_filter :get_lookups, :only => [:new, :edit, :index]
+    before_filter :load_locations, :only => [:new, :edit]
     before_filter :current_modules, :only => [:show, :index]
     before_filter :is_manager, :only => [:index]
     before_filter :is_cp, :only => [:index]
@@ -26,7 +27,6 @@ module RecordActions
 
   def index
     authorize! :index, model_class
-
     @page_name = t("home.view_records")
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
@@ -58,6 +58,7 @@ module RecordActions
           redirect_to :action => :index and return
         end
       end
+
       respond_to_export format, @records
     end
   end
@@ -206,6 +207,10 @@ module RecordActions
     @lookups = Lookup.all
   end
 
+  def load_locations
+    @locations = Location.all.map{|r| r.name}
+  end
+
   # This is to ensure that if a hash has numeric keys, then the keys are sequential
   # This cleans up instances where multiple forms are added, then 1 or more forms in the middle are removed
   def reindex_hash(a_hash)
@@ -325,6 +330,25 @@ module RecordActions
   end
 
   private
+
+  def filter_custom_exports(properties_by_module)
+    if params[:custom_exports].present?
+      properties_by_module = properties_by_module.select{|key| params[:custom_exports][:module].include?(key)}
+
+      if params[:custom_exports][:forms].present?
+        properties_by_module.each do |pm, fs|
+          properties_by_module[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
+        end
+      elsif params[:custom_exports].present? && params[:custom_exports][:fields].present?
+        properties_by_module.each do |pm, fs|
+          filtered_forms = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:fields].include?(f)}]}
+          properties_by_module[pm] = filtered_forms.to_h
+        end
+        properties_by_module.compact
+      end
+    end
+    properties_by_module
+  end
 
   def create_or_update_record(id)
     @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]

@@ -12,7 +12,7 @@ class SolrUtils
     clazz = model
     unless clazz.is_a? Class
       clazz = (model == 'case') ? 'Child' : model.camelcase
-      clazz = eval(clazz)
+      clazz = Kernel.const_get(clazz)
     end
     Sunspot::Setup.for(clazz)
   end

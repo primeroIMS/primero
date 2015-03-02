@@ -40,7 +40,8 @@
 
     def self.date_range(date_string, type)
       type = type.present? ? type : 'date'
-      eval "#{type.capitalize}Range.new '#{date_string}'"
+      range_clazz = Kernel.const_get("Reports::#{type.capitalize}Range")
+      range_clazz.new(date_string)
     end
 
     def self.correct_aggregate_counts(values)
