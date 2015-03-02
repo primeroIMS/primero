@@ -53,7 +53,6 @@ en:
     invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
     scroll_up: "Scroll up to view more"
     scroll_down: "Scroll down to view more"
-    fields_not_index: "The selected fields are not indexed in Solr. Please choose different fields"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
