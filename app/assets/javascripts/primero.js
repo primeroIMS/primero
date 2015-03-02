@@ -25,6 +25,7 @@ var Primero = Backbone.View.extend({
     _primero.loading_screen_indicator = this._primero_loading_screen_indicator;
     _primero.serialize_object = this._primero_serialize_object;
 
+    this.init_trunc();
     this.init_sticky();
     this.init_popovers();
     this.init_autogrow();
@@ -41,6 +42,13 @@ var Primero = Backbone.View.extend({
     }
 
     window.onbeforeunload = this.load_and_redirect;
+  },
+
+  init_trunc: function() {
+    String.prototype.trunc = String.prototype.trunc ||
+      function(n){
+        return this.length>n ? this.substr(0,n-1)+'...' : this;
+      };
   },
 
   init_scrollbar: function() {
