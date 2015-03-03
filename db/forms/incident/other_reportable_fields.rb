@@ -3,6 +3,10 @@ fields = [
         "type" => "tick_box",
         "display_name_all" => "Valid Record?"
         }),
+  Field.new({"name" => "number_of_individual_perpetrators_from_ir",
+        "type" => "numeric_field",
+        "display_name_all" => "Number of individual perpetrators imported from IR"
+        }),
 ]
 
 FormSection.create_or_update_form_section({
