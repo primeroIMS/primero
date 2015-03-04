@@ -585,7 +585,21 @@ span.postfix_val {
     display: none;
     color: $stroke_green_color;
   }
+
+  .chosen-container .chosen-results {
+    max-height: 150px;
+  }
+
+  fieldset.submit_button {
+    margin-bottom: 0;
+
+    button {
+      margin-bottom: 0;
+    }
+  }
 }
+
+
 
 ////////////////////////////////////////////////
 // User forms
