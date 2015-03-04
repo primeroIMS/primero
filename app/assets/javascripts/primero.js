@@ -132,7 +132,7 @@ var Primero = Backbone.View.extend({
 
     $(".modal-content").mCustomScrollbar(
       _.extend(options, {
-        setHeight: 330,
+        setHeight: 370,
         theme: 'minimal-dark'
       })
     );
