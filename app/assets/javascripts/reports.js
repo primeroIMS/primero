@@ -19,6 +19,11 @@ var ReportTable = Backbone.View.extend({
   init_report_table: function(){
     var self = this;
     this.report_table = $('#report_table');
+
+    if (this.report_table.find('tr:last td').length < 4) {
+      this.report_table.wrap("<div class='row collapse'></div>");
+    }
+
     if (this.report_table.length){
       var dataTable = this.report_table.DataTable({
         "searching": false,
@@ -26,12 +31,13 @@ var ReportTable = Backbone.View.extend({
         "ordering": false,
         "info":     false,
         "scrollX": true,
-        "scrollY": '600px',
+        "scrollY": '500px',
       });
       if (this.report_table.find('tr:last td').length > 8) {
         new $.fn.dataTable.FixedColumns(dataTable, {
           leftColumns: 1,
           rightColumns: 1,
+          heightMatch: "auto"
         });
       }
     }
