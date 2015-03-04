@@ -190,7 +190,13 @@ module Exporters
           "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
           "No. ALLEGED PRIMARY PERPETRATOR(S)" => ->(model) do
-            primary_alleged_perpetrator(model).size
+            calculated = primary_alleged_perpetrator(model).size
+            from_ir = model.try(:number_of_individual_perpetrators_from_ir)
+            if from_ir.present?
+              (calculated.present? && calculated > 1) ? calculated : from_ir
+            else
+              calculated
+            end
           end,
           "ALLEGED PERPETRATOR SEX" => ->(model) do
             incident_recorder_sex(primary_alleged_perpetrator(model).first.try(:perpetrator_sex))
