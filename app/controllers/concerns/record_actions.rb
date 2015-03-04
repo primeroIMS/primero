@@ -127,6 +127,8 @@ module RecordActions
         format.json { render :json => @record, :status => :created, :location => @record }
       else
         format.html {
+          get_lookups
+          load_locations
           render :action => "new"
         }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
@@ -165,7 +167,11 @@ module RecordActions
         format.json { render :json => @record }
       else
         @form_sections ||= @record.allowed_formsections(current_user)
-        format.html { render :action => "edit" }
+        format.html {
+          get_lookups
+          load_locations
+          render :action => "edit"
+        }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
       end
     end
