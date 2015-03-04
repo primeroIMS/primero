@@ -949,6 +949,9 @@ en:
   reports:
     register_new_report: "Create Report"
     label: "Reports"
+    tabs:
+      table: "Table"
+      graph: "Graph"
     actions:
       delete: "Delete"
     messages:
