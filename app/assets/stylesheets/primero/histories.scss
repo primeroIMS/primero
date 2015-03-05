@@ -2,8 +2,12 @@
 // Histories
 ////////////////////////////////////////////////
 
-.profile-header, .profile-tools{
+.profile-header, .profile-tools {
   margin-top:10px;
+  height: 320px;
+  overflow: hidden;
+  overflow-y: scroll;
+
   ul{
     list-style-type: none;
     padding: 0;
