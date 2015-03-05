@@ -5,6 +5,10 @@ var ReportTable = Backbone.View.extend({
   initialize: function() {
     this.init_report_table();
     this.init_report_chart();
+
+    $('.tabs').on('toggled', function (event, tab) {
+      $(window).trigger('resize');
+    });
   },
 
   events: {
@@ -15,19 +19,27 @@ var ReportTable = Backbone.View.extend({
   init_report_table: function(){
     var self = this;
     this.report_table = $('#report_table');
+
+    if (this.report_table.find('tr:last td').length < 4) {
+      this.report_table.wrap("<div class='row collapse'></div>");
+    }
+
     if (this.report_table.length){
       var dataTable = this.report_table.DataTable({
         "searching": false,
         "paging":   false,
         "ordering": false,
         "info":     false,
-        "scrollX": '100%',
-        "scrollY": '600px',
+        "scrollX": true,
+        "scrollY": '500px',
       });
-      new $.fn.dataTable.FixedColumns(dataTable, {
-        leftColumns: 1,
-        rightColumns: 1
-      });
+      if (this.report_table.find('tr:last td').length > 8) {
+        new $.fn.dataTable.FixedColumns(dataTable, {
+          leftColumns: 1,
+          rightColumns: 1,
+          heightMatch: "auto"
+        });
+      }
     }
   },
 
@@ -35,6 +47,7 @@ var ReportTable = Backbone.View.extend({
     var self = this;
     var canvas = $("#report_graph");
     if (canvas.length){
+      $('.spacer').height(0)
       //TODO: AJAX call to the report data. Not really Backbone at all.
       var graph_url = window.location.pathname + '/graph_data'
       $.ajax(graph_url).done(function(graph_data){
