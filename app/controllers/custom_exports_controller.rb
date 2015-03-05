@@ -16,12 +16,6 @@ class CustomExportsController < ApplicationController
       Field::TALLY_FIELD,
   ]
 
-  EXCLUDED_FIELD_TYPES = [
-      Field::PHOTO_UPLOAD_BOX,
-      Field::AUDIO_UPLOAD_BOX,
-      Field::DOCUMENT_UPLOAD_BOX
-  ]
-
   def permitted_forms_list
     # TODO: I don't think I'm actually pulling the permitted forms by user.
     module_id = (params[:module].present? && params[:module] != 'null') ? [params[:module]] : []
@@ -29,7 +23,6 @@ class CustomExportsController < ApplicationController
     modules = PrimeroModule.all(keys: module_id).first
     permitted_forms = FormSection.get_permitted_form_sections(modules, record_type, current_user)
                                  .select{|sel| sel.parent_form == record_type}
-                                 .select{|form| form.fields.any?{|er| EXCLUDED_FIELD_TYPES.exclude? er.type}}
                                  .map{|form| {name: form.name, id: form.unique_id}}
     render json: permitted_forms
   end
