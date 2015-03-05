@@ -34,6 +34,7 @@ var Primero = Backbone.View.extend({
     this.show_hide_record_type();
     this.init_scrollbar();
     this.populate_case_id_for_gbv_incidents();
+    this.init_add_field_modal_listener();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var textarea = $('textarea[name*="field[option_strings_text"]');
@@ -42,6 +43,16 @@ var Primero = Backbone.View.extend({
     }
 
     window.onbeforeunload = this.load_and_redirect;
+  },
+
+  init_add_field_modal_listener: function() {
+    $(document).on('close.fndtn.reveal', '#add_field_modal', function () {
+      window.location = localStorage.getItem('fs_pl');
+    });
+
+    $(document).on('open.fndtn.reveal', '#add_field_modal', function () {
+      localStorage.setItem('fs_pl', window.location.href);
+    });
   },
 
   init_trunc: function() {
@@ -130,7 +141,7 @@ var Primero = Backbone.View.extend({
       })
     );
 
-    $(".modal-content").mCustomScrollbar(
+    $(".modal-content, .profile-header").mCustomScrollbar(
       _.extend(options, {
         setHeight: 370,
         theme: 'minimal-dark'
@@ -286,21 +297,21 @@ var Primero = Backbone.View.extend({
 
   _primero_clean_page_params: function(q_param) {
     var source = location.href,
-        rtn = source.split("?")[0],
-        param,
-        params_arr = [],
-        query = (source.indexOf("?") !== -1) ? source.split("?")[1] : "";
+      rtn = source.split("?")[0],
+      param,
+      params_arr = [],
+      query = (source.indexOf("?") !== -1) ? source.split("?")[1] : "";
     if (query !== "") {
-        params_arr = query.split("&");
-        for (var i = params_arr.length - 1; i >= 0; i -= 1) {
-            param = params_arr[i].split("=")[0];
-            for(var j = 0; j < q_param.length; j++) {
-              if (param === q_param[j] || param.indexOf(q_param) === 0) {
-                  params_arr.splice(i, 1);
-              }
-            }
+      params_arr = query.split("&");
+      for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+        param = params_arr[i].split("=")[0];
+        for(var j = 0; j < q_param.length; j++) {
+          if (param === q_param[j] || param.indexOf(q_param[j]) === 0) {
+            params_arr.splice(i, 1);
+          }
         }
-        rtn = params_arr.join("&");
+      }
+      rtn = params_arr.join("&");
     } else {
       rtn = "";
     }
