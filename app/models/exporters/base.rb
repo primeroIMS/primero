@@ -95,7 +95,11 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            acc.send(prop.name.to_sym)
+            if prop.name == 'name' && acc.send(:hidden_name)
+              "*****"
+            else
+              acc.send(prop.name.to_sym)
+            end
           end
         end
       end

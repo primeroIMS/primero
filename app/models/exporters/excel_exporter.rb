@@ -62,7 +62,11 @@ module Exporters
             (model.send(property.name) || []).join(" ||| ")
           end
         else
-          model.send(property.name)
+          if property.name == 'name' && model.send('hidden_name')
+            "*****"
+          else
+            model.send(property.name)
+          end
         end
       end
 

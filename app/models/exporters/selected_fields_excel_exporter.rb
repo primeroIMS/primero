@@ -51,7 +51,15 @@ module Exporters
         if property == 'model_type'
           worksheet.write(row, cell, {'Child' => 'Case'}.fetch(model.class.name, model.class.name))
         else
-          worksheet.write(row, cell, model.send(property))
+          worksheet.write(row, cell, get_value(model, property))
+        end
+      end
+
+      def get_value(model, property)
+        if property.name == 'name' && model.send('hidden_name')
+          "*****"
+        else
+          model.send(property.name)
         end
       end
 
