@@ -123,7 +123,8 @@ module Exporters
       end
 
       def get_model_value(model, property)
-        if property.name == 'name' &&  model.module_id == PrimeroModule::GBV
+        exclude_name_mime_types = ['xls', 'csv', 'selected_xls']
+        if property.name == 'name' &&  model.module_id == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           ""
         else
           model.send(property.name)
