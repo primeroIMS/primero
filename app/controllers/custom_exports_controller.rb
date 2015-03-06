@@ -23,6 +23,7 @@ class CustomExportsController < ApplicationController
     modules = PrimeroModule.all(keys: module_id).first
     permitted_forms = FormSection.get_permitted_form_sections(modules, record_type, current_user)
                                  .select{|sel| sel.parent_form == record_type}
+                                 .select{|form| form.fields.any?{|er| EXPORTABLE_FIELD_TYPES.include? er.type}}
                                  .map{|form| {name: form.name, id: form.unique_id}}
     render json: permitted_forms
   end
