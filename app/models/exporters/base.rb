@@ -95,11 +95,7 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            if prop.name == 'name' && acc.send(:hidden_name)
-              "*****"
-            else
-              acc.send(prop.name.to_sym)
-            end
+            get_model_value(acc, prop)
           end
         end
       end
@@ -123,6 +119,14 @@ module Exporters
         else
           #Returns original value.
           value
+        end
+      end
+
+      def get_model_value(model, property)
+        if property.name == 'name' &&  model.module_id == PrimeroModule::GBV
+          ""
+        else
+          model.send(property.name)
         end
       end
     end
