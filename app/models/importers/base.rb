@@ -20,8 +20,12 @@ module Importers
               v.inject([]) do |acc2, h|
                 index = h[:index]
                 value = h[:value]
-                acc2[index] ||= {}
-                acc2[index].deep_merge!(value)
+                if value.is_a? Hash
+                  acc2[index] ||= {}
+                  acc2[index].deep_merge!(value)
+                else
+                  acc2[index] = value
+                end
                 acc2
               end
             else
@@ -36,14 +40,15 @@ module Importers
         if r[i].nil?
           acc
         else
-          acc.deeper_merge(header[0..-2].reverse.inject({header.last => r[i]}) do |acc4, part|
+          acc.deeper_merge(header.reverse.inject({}) do |acc4, part|
             match = part.match /\[(\d+)\]/
             if match
               # Subtract 1 since we make the exports use 1-based indeces
               index = match.captures[0].to_i - 1
-              {part.sub(match[0], '') => [{:index => index, :value => acc4}]}
+              value = acc4.present? ? acc4 : r[i]
+              {part.sub(match[0], '') => [{:index => index, :value => value}]}
             else
-              {part => acc4}
+              {part => r[i]}
             end
           end)
         end

@@ -63,7 +63,7 @@ var IndexFilters = Backbone.View.extend({
   apply_filters: function(evt) {
     evt.preventDefault();
 
-    var prev_params = _primero.clean_page_params(['scope']),
+    var prev_params = _primero.clean_page_params(['scope', 'page']),
         url_string = _primero.object_to_params(_primero.filters),
         add_amp = '&';
 
