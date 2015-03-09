@@ -56,7 +56,7 @@ class ReportsController < ApplicationController
   def create
     authorize! :create, Report
     @report = Report.new(params[:report])
-    return redirect_to reports_path if @report.save
+    return redirect_to report_path(@report) if @report.save
     render :new
   end
 
@@ -72,7 +72,7 @@ class ReportsController < ApplicationController
 
     if @report.update_attributes(params[:report])
       flash[:notice] = t("report.successfully_updated")
-      redirect_to(reports_path)
+      redirect_to(report_path(@report))
     else
       flash[:error] = t("report.error_in_updating")
       render :action => "edit"
@@ -160,7 +160,7 @@ class ReportsController < ApplicationController
   end
 
   private
-  
+
   def action_class
     Report
   end
