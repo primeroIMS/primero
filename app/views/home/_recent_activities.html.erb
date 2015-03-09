@@ -24,10 +24,10 @@
         <tbody>
           <% recent_activities.each do |s| %>
             <tr>
-              <td class="id_column"><%= link_to s[:short_id], case_path(s[:record_id]), class: 'id_link' %></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td class="id_column"><%= link_to s[:short_id], case_path(s[:_id]), class: 'id_link' %></td>
+              <td><%= s[:module_id] == PrimeroModule::GBV ? s[:survivor_code_no] : s[:name] %></td>
+              <td><%= s[:owned_by] %></td>
+              <td><%= field_format_date(s[:last_updated_at]) %></td>
             </tr>
           <% end %>
         </tbody>
