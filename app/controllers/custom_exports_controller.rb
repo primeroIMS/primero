@@ -3,14 +3,28 @@ class CustomExportsController < ApplicationController
   include ReportsHelper
   include ExportActions
 
+  EXPORTABLE_FIELD_TYPES = [
+      Field::TEXT_FIELD,
+      Field::TEXT_AREA,
+      Field::RADIO_BUTTON,
+      Field::SELECT_BOX,
+      Field::CHECK_BOXES,
+      Field::NUMERIC_FIELD,
+      Field::DATE_FIELD,
+      Field::DATE_RANGE,
+      Field::TICK_BOX,
+      Field::TALLY_FIELD,
+  ]
+
   def permitted_forms_list
     # TODO: I don't think I'm actually pulling the permitted forms by user.
     module_id = (params[:module].present? && params[:module] != 'null') ? [params[:module]] : []
     record_type = params[:record_type]
-    permitted_forms = PrimeroModule.all(keys: module_id).first.associated_forms
-                                   .select{|sel| sel.parent_form == record_type}
-                                   .map{|form| {name: form.name, id: form.unique_id}}
-
+    modules = PrimeroModule.all(keys: module_id).first
+    permitted_forms = FormSection.get_permitted_form_sections(modules, record_type, current_user)
+                                 .select{|sel| sel.parent_form == record_type}
+                                 .select{|form| form.fields.any?{|er| EXPORTABLE_FIELD_TYPES.include? er.type}}
+                                 .map{|form| {name: form.name, id: form.unique_id}}
     render json: permitted_forms
   end
 
@@ -27,7 +41,7 @@ class CustomExportsController < ApplicationController
 
   private
 
-  def all_exportable_fields_by_form(primero_modules, record_type, user)
+  def all_exportable_fields_by_form(primero_modules, record_type, user, types=EXPORTABLE_FIELD_TYPES)
     custom_exportable = {}
     if primero_modules.present?
       primero_modules.each do |primero_module|
@@ -42,7 +56,8 @@ class CustomExportsController < ApplicationController
         end
         forms = forms.sort_by{|f| [f.order_form_group, f.order]}
         forms = forms.map do |form|
-          fields = form.fields.map{|f| [f.name, f.display_name, f.type]}
+          fields = form.fields.select{|f| types.include? f.type}
+          fields = fields.map{|f| [f.name, f.display_name, f.type]}
           [form.name, fields]
         end
         forms = forms.select{|f| f[1].present?}
