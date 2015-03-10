@@ -127,7 +127,12 @@ module Exporters
         if property.name == 'name' &&  model.module_id == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          model.send(property.name)
+          value = model.send(property.name)
+          if value.is_a?(Array)
+            value.join(',')
+          else
+            value
+          end
         end
       end
     end
