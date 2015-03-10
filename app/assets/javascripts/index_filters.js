@@ -10,12 +10,22 @@ var IndexFilters = Backbone.View.extend({
     'click .filter-controls input[type="checkbox"]': 'change_scope',
     'change .filter-controls input[type="text"]': 'change_scope',
     'change select[filter_type="location"]': 'change_scope',
-    'click #apply_filter': 'apply_filters'
+    'click #apply_filter': 'apply_filters',
+    'click .clear_filters': 'clear_filters'
   },
 
   initialize: function() {
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
+  },
+
+  clear_filters: function(e) {
+    var default_filter = _primero.model_object === 'child' ? 'child_status' : 'status',
+        filter = {}, url_string;
+
+    filter[default_filter] = 'list||Open';
+    url_string = _primero.object_to_params(filter);
+    window.location.search = url_string;
   },
 
   set_current_scope: function() {

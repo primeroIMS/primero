@@ -27,7 +27,10 @@
     </div>
     <div class="large-3 small-3 columns">
       <% if options[:display_filter] %>
-        <div class="filter_title left"><%= t("buttons.filter_label") %></div>
+        <div class="filter_title left">
+          <%= t("buttons.filter_label") %><br>
+          <a class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_clear') %></a>
+        </div>
         <%= link_to t("buttons.filter"),'', class: 'green-button right', id: 'apply_filter' %>
       <% end %>
     </div>
