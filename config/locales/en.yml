@@ -111,6 +111,7 @@ en:
      guiding_questions: "Guiding Questions"
      filter_label: "Filter:"
      filter: "Apply Filter"
+     filter_clear: "Clear Filters"
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
