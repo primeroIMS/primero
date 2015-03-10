@@ -35,8 +35,8 @@ module Exporters
 
         models.each_with_index do |model, row|
           row += 1
-          headers[:fields].each_with_index{|prop_name, cell| build_worksheet(row, cell, prop_name, worksheet, model)}
-          headers[:record_fields].each_with_index{|prop_name, cell| build_worksheet(row, cell, prop_name, record_worksheet, model)}
+          headers[:fields].each_with_index{|property, cell| build_worksheet(row, cell, property, worksheet, model)}
+          headers[:record_fields].each_with_index{|property, cell| build_worksheet(row, cell, property, record_worksheet, model)}
         end
 
         set_column_widths(worksheet, headers[:fields])
@@ -48,7 +48,9 @@ module Exporters
       private
 
       def build_worksheet(row, cell, property, worksheet, model)
-        if property == 'model_type'
+        if property.is_a?(String) && property != 'model_type'
+          worksheet.write(row, cell, model.send(property))
+        elsif property == 'model_type'
           worksheet.write(row, cell, {'Child' => 'Case'}.fetch(model.class.name, model.class.name))
         else
           worksheet.write(row, cell, get_model_value(model, property))
@@ -63,9 +65,9 @@ module Exporters
         properties_by_module.each do |module_id, form_section|
           form_section.each do |form_name, prop|
             if form_name != '__record__'
-              (headers[:fields] << prop.keys).flatten!
+              (headers[:fields] << prop.values).flatten
             else
-              (headers[:record_fields] << prop.keys).flatten!
+              (headers[:record_fields] << prop.values).flatten
             end
           end
         end
@@ -78,6 +80,7 @@ module Exporters
 
       def set_column_widths(worksheet, header)
         header.each_with_index do |v, i|
+          v = v.is_a?(String) ? v : v.name
           worksheet.set_column(i, i, v.length+5)
         end
       end
