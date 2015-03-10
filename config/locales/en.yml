@@ -1102,6 +1102,9 @@ en:
     violence_type: "Violence Type"
     date_of_interview: "Date of Interview"
     system_user: "System"
+    name_or_survivor_code: "Name or Survivor Code"
+    current_owner: "Current Owner"
+    last_updated: "Lasted Updated"
 
   errors:
 
