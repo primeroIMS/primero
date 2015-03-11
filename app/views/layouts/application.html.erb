@@ -15,7 +15,9 @@
   <%= yield :stylesheet %>
   <script>
     window._primero = {
-      model_object: "<%= controller.controller_name.singularize %>"
+      model_object: "<%= controller.controller_name.singularize %>",
+      current_action: "<%= controller.action_name %>",
+      discard_message: "<%= t('messages.record_navigation_confirmation_message') %>"
     };
   </script>
   <%= yield :pagination_details %>
