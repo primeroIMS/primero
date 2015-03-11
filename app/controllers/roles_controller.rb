@@ -58,6 +58,7 @@ class RolesController < ApplicationController
     authorize! :create, Role
     @role = Role.new(params[:role])
     return redirect_to roles_path if @role.save
+    @forms_by_record_type = FormSection.all_forms_grouped_by_parent
     render :new
   end
 
