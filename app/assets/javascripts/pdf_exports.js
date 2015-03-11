@@ -21,7 +21,7 @@ var PdfExports = Backbone.View.extend({
 
     if (this.module_id) {
       var select_module = $(this.el).find('select[name="module"]');
-      select_module.next().hide();
+      select_module.hide();
       select_module.prev().hide();
     }
 
@@ -148,7 +148,7 @@ var PdfExports = Backbone.View.extend({
   reset_form: function() {
     $(this.el).find('form')[0].reset();
     $(this.el).find('select').val('').trigger("chosen:updated");
-    $('.message').empty().hide();
+    $(this.el).find('.message').empty().hide();
   }
 });
 
