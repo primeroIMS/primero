@@ -14,17 +14,7 @@
       <div class="row">
         <div class="large-12 columns modal-content">
           <fieldset>
-            <% if export_type == "custom"%>
-              <div class="row">
-                <div class="medium-12 columns">
-                  <label for="format"><%= t('exports.custom_exports.format_label') %></label>
-                  <input type="radio" name="format" value="forms"/>
-                  <label form="format"><%= t('exports.custom_exports.form_label') %></label>
-                  <input type="radio" name="format" value="fields"/>
-                  <label for="format"><%= t('exports.custom_exports.field_label') %></label>
-                </div>
-              </div>
-            <% end %>
+            <%= render "exports/#{export_type}_exports_format"%>
             <div class="row">
               <div class="medium-12 columns">
                 <label for="module"><%= t('exports.custom_exports.select_module') %></label>
@@ -36,29 +26,14 @@
                 </select>
               </div>
             </div>
-            <% if export_type == "custom"%>
-              <div class="row user_select_fields">
-                <div class="medium-7 columns">
-                  <label><%= t('exports.custom_exports.choose_fields') %></label>
-                </div>
-                <div class="medium-5 columns">
-                  <input type="checkbox" name="choose_fields" />
-                </div>
-              </div>
-            <% end %>
+            <%= render "exports/#{export_type}_exports_select_fields"%>
           </fieldset>
           <fieldset class=<%="#{export_type}_export_form"%>>
             <i class="fa fa-refresh fa-spin pull-right loading"></i>
             <label for="forms"><%= t('exports.custom_exports.forms') %></label>
             <select name="forms" multiple></select>
           </fieldset>
-          <% if export_type == "custom"%>
-            <fieldset class="custom_export_fields">
-              <i class="fa fa-refresh fa-spin pull-right loading"></i>
-              <label for="fields"><%= t('exports.custom_exports.fields') %></label>
-              <select name="fields" multiple></select>
-            </fieldset>
-          <% end %>
+          <%= render "exports/#{export_type}_exports_fields"%>
           <div id="password-prompt">
             <div class="flash hide">
               <p class="error"></p>
