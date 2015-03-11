@@ -15,7 +15,7 @@ module Exporters
         [Child]
       end
 
-      def export(cases, _, current_user)
+      def export(cases, properties_by_module, current_user)
         pdf = Prawn::Document.new(:info => {
           :Title => "Primero Child Export",
           :Author => "Primero",
@@ -25,10 +25,10 @@ module Exporters
 
         form_sections = form_sections_by_module(cases, current_user)
 
-        cases.each do |c|
+        cases.each do |cs|
           pdf.start_new_page if pdf.page_number > 1
-          pdf.outline.section(section_title(c), :destination => pdf.page_number)
-          render_case(pdf, c, form_sections[c.module.name])
+          pdf.outline.section(section_title(cs), :destination => pdf.page_number)
+          render_case(pdf, cs, form_sections[cs.module.name], properties_by_module[cs.module.id])
         end
 
         pdf.render
@@ -46,7 +46,9 @@ module Exporters
         (!_case.hidden_name && _case.name) || _case.short_id
       end
 
-      def render_case(pdf, _case, base_subforms)
+      def render_case(pdf, _case, base_subforms, prop)
+        base_subforms = base_subforms.select{|sf| prop.keys.include?(sf.name)}
+
         render_title(pdf, _case)
 
         render_photo(pdf, _case)

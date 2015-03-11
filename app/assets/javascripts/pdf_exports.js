@@ -14,7 +14,8 @@ var PdfExports = Backbone.View.extend({
     this.module_id = $(this.el).data('module-id');
     this.record_id = $(this.el).data('record-id');
     this.model_class = $(this.el).data('model-class');
-    this.filter_type = 'pdf';
+    // TODO - tighten this up
+    this.filter_type = 'case_pdf';
 
     this.init_chosen_fields();
 
@@ -89,7 +90,7 @@ var PdfExports = Backbone.View.extend({
   submit_export_request: function(e) {
     e.preventDefault();
 
-    var password_control = $(this.el).find('#password-prompt-field'),
+    var password_control = $(this.el).find('#password-field'),
         module_control = $(this.el).find('select[name="module"]'),
         filename_control = $(this.el).find('#export-filename'),
         forms_control = $(this.el).find('select[name="forms"]'),
