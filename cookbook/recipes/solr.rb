@@ -50,3 +50,14 @@ supervisor_service 'solr' do
   action [:enable, :restart]
 end
 
+file "/etc/cron.daily/solr_restart" do
+  mode '0755'
+  owner "root"
+  group "root"
+  content <<EOH
+#!/bin/bash
+
+supervisorctl restart solr
+EOH
+end
+

@@ -95,7 +95,7 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            acc.send(prop.name.to_sym)
+            get_model_value(acc, prop)
           end
         end
       end
@@ -119,6 +119,20 @@ module Exporters
         else
           #Returns original value.
           value
+        end
+      end
+
+      def get_model_value(model, property)
+        exclude_name_mime_types = ['xls', 'csv', 'selected_xls']
+        if property.name == 'name' &&  model.module_id == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
+          "*****"
+        else
+          value = model.send(property.name)
+          if value.is_a?(Array)
+            value.join(',')
+          else
+            value
+          end
         end
       end
     end

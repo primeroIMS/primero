@@ -1,7 +1,7 @@
 node.default['nginx']['default_site_enabled'] = false
 
 apt_repository 'phusion-passenger' do
-  uri          'https://oss-binaries.phusionpassenger.com/apt/passenger'
+  uri          'https://oss-binaries.phusionpassenger.com/apt/passenger/4'
   distribution 'trusty'
   components   ['main']
   keyserver    'keyserver.ubuntu.com'
