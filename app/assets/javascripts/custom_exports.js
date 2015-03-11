@@ -2,10 +2,10 @@ var CustomExports = Backbone.View.extend({
   el: '#custom-exports',
 
   events: {
-    'change input[name="format"]': 'set_form_state',
-    'change input[name="forms"]': 'retrieve_field_names',
-    'change input[name="choose_fields"]': 'toggle_field_selection',
-    'click button#submit_export': 'submit_export_request'
+    'change div#custom-exports input[name="format"]': 'set_form_state',
+    'change div#custom-exports input[name="forms"]': 'retrieve_field_names',
+    'change div#custom-exports input[name="choose_fields"]': 'toggle_field_selection',
+    'click div#custom-exports button#submit_export': 'submit_export_request'
   },
 
   initialize: function() {

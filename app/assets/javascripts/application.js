@@ -66,6 +66,7 @@
 //= require reports
 //= require reports_form
 //= require custom_exports
+//= require pdf_exports
 //= require plugins/ChartNew
 //= require plugins/colormap
 //= require primero.table2CSV
