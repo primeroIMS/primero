@@ -87,6 +87,7 @@ module Exporters
       # concern.  Have to figure out the inheritance tree for the models first
       # so that all exportable models get that method.
       def get_value_from_prop_tree(model, prop_tree)
+
         prop_tree.inject(model) do |acc, prop|
           if acc.nil?
             nil
@@ -127,12 +128,7 @@ module Exporters
         if property.name == 'name' &&  model.module_id == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          value = model.send(property.name)
-          if value.is_a?(Array)
-            value.join(',')
-          else
-            value
-          end
+          model.send(property.name)
         end
       end
     end
