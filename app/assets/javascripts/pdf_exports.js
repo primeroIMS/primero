@@ -20,9 +20,11 @@ var PdfExports = Backbone.View.extend({
     this.init_chosen_fields();
 
     if (this.module_id) {
-      var select_module = $(this.el).find('select[name="module"]');
+      var select_module = $(this.el).find('select[name="module"]')
+          mod_select = $(this.el).find('.module_select');
       select_module.hide();
       select_module.prev().hide();
+      mod_select.hide();
     }
 
     $(document).on('close.fndtn.reveal', '#pdf-exports', function () {

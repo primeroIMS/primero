@@ -38,10 +38,12 @@ module Exporters
       end
 
       def print_heading(pdf, _case, start_page, end_page)
-        for i in start_page..end_page
-          pdf.go_to_page(i)
-          pdf.bounding_box([pdf.bounds.right-50, pdf.bounds.top-3], :width => 50) do
-            pdf.text "#{_case.short_id}"
+        if end_page > start_page
+          for i in (start_page + 1)..end_page
+            pdf.go_to_page(i)
+            pdf.bounding_box([pdf.bounds.right-50, pdf.bounds.top + 15], :width => 50) do
+              pdf.text "#{_case.short_id}"
+            end
           end
         end
       end
