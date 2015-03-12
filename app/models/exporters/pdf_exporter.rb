@@ -27,11 +27,23 @@ module Exporters
 
         cases.each do |cs|
           pdf.start_new_page if pdf.page_number > 1
+          start_page = pdf.page_number
           pdf.outline.section(section_title(cs), :destination => pdf.page_number)
           render_case(pdf, cs, form_sections[cs.module.name], properties_by_module[cs.module.id])
+          end_page = pdf.page_number
+          print_heading(pdf, cs, start_page, end_page)
         end
 
         pdf.render
+      end
+
+      def print_heading(pdf, _case, start_page, end_page)
+        for i in start_page..end_page
+          pdf.go_to_page(i)
+          pdf.bounding_box([pdf.bounds.right-50, pdf.bounds.top-3], :width => 50) do
+            pdf.text "#{_case.short_id}"
+          end
+        end
       end
 
       def form_sections_by_module(cases, current_user)
@@ -43,15 +55,13 @@ module Exporters
       end
 
       def section_title(_case)
-        (!_case.hidden_name && _case.name) || _case.short_id
+        _case.short_id
       end
 
       def render_case(pdf, _case, base_subforms, prop)
         base_subforms = base_subforms.select{|sf| prop.keys.include?(sf.name)}
 
         render_title(pdf, _case)
-
-        render_photo(pdf, _case)
 
         grouped_subforms = base_subforms.group_by(&:form_group_name)
 
@@ -75,18 +85,6 @@ module Exporters
 
       def render_title(pdf, _case)
         pdf.text section_title(_case), :style => :bold, :size => 20, :align => :center
-      end
-
-      def render_photo(pdf, _case)
-        photo_file = if _case.primary_photo
-          _case.primary_photo.data
-        else
-          File.new("app/assets/images/no_photo_clip.jpg", 'r')
-        end
-
-        pdf.image(photo_file,
-          :position => :center,
-          :fit => [pdf.bounds.width, pdf.bounds.width])
       end
 
       def render_form_section(pdf, _case, form_section)
