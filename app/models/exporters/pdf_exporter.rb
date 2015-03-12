@@ -61,24 +61,27 @@ module Exporters
       end
 
       def render_case(pdf, _case, base_subforms, prop)
-        base_subforms = base_subforms.select{|sf| prop.keys.include?(sf.name)}
+        #Only print the case if the case's module matches the selected module
+        if prop.present?
+          base_subforms = base_subforms.select{|sf| prop.keys.include?(sf.name)}
 
-        render_title(pdf, _case)
+          render_title(pdf, _case)
 
-        grouped_subforms = base_subforms.group_by(&:form_group_name)
+          grouped_subforms = base_subforms.group_by(&:form_group_name)
 
-        pdf.outline.add_subsection_to(section_title(_case)) do
-          grouped_subforms.each do |(parent_group, fss)|
-            pdf.outline.section(parent_group, :destination => pdf.page_number, :closed => true) do
-              fss.each do |fs|
-                pdf.text fs.name, :style => :bold, :size => 16
-                pdf.move_down 10
+          pdf.outline.add_subsection_to(section_title(_case)) do
+            grouped_subforms.each do |(parent_group, fss)|
+              pdf.outline.section(parent_group, :destination => pdf.page_number, :closed => true) do
+                fss.each do |fs|
+                  pdf.text fs.name, :style => :bold, :size => 16
+                  pdf.move_down 10
 
-                pdf.outline.section(fs.name, :destination => pdf.page_number)
+                  pdf.outline.section(fs.name, :destination => pdf.page_number)
 
-                render_form_section(pdf, _case, fs)
+                  render_form_section(pdf, _case, fs)
 
-                pdf.move_down 10
+                  pdf.move_down 10
+                end
               end
             end
           end
