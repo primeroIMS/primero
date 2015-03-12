@@ -1,7 +1,4 @@
-<% if can?(:export_custom, controller.model_class) && controller.model_class != Incident %>
-<li>
-  <%= link_to t('exports.custom_exports.label'), '#', data: {"reveal-id" => 'custom-exports'} %>
-  <div id="custom-exports" class="reveal-modal tiny"
+  <div id=<%="#{export_type}-exports" %> class="reveal-modal tiny"
       data-reveal data-record-type="<%= controller.model_class == Child ? 'case' : controller.model_class.to_s.underscore %>"
       data-module-id="<%= @record.module_id if @record.present? %>"
       data-record-id="<%= @record.id if @record.present? %>"
@@ -11,20 +8,14 @@
       data-empty-format="<%= t('exports.custom_exports.empty_format') %>"
       data-empty-module="<%= t('exports.custom_exports.empty_module') %>">
 
-    <h5><%= t('exports.custom_exports.label') %></h5>
+    <h5><%= t("exports.#{export_type}_exports.label") %></h5>
     <div data-alert class="alert-box alert message"></div>
-    <form id="custom_export_form">
+    <form id=<%="#{export_type}_export_form"%>>
       <div class="row">
         <div class="large-12 columns modal-content">
-          <fieldset>
+          <fieldset class="module_select">
+            <%= render "exports/#{export_type}_exports_format"%>
             <div class="row">
-              <div class="medium-12 columns">
-                <label for="format"><%= t('exports.custom_exports.format_label') %></label>
-                <input type="radio" name="format" value="forms"/>
-                <label form="format"><%= t('exports.custom_exports.form_label') %></label>
-                <input type="radio" name="format" value="fields"/>
-                <label for="format"><%= t('exports.custom_exports.field_label') %></label>
-              </div>
               <div class="medium-12 columns">
                 <label for="module"><%= t('exports.custom_exports.select_module') %></label>
                 <select name="module">
@@ -35,25 +26,14 @@
                 </select>
               </div>
             </div>
-            <div class="row user_select_fields">
-              <div class="medium-7 columns">
-                <label><%= t('exports.custom_exports.choose_fields') %></label>
-              </div>
-              <div class="medium-5 columns">
-                <input type="checkbox" name="choose_fields" />
-              </div>
-            </div>
+            <%= render "exports/#{export_type}_exports_select_fields"%>
           </fieldset>
-          <fieldset class="custom_export_form">
+          <fieldset class=<%="#{export_type}_export_form"%>>
             <i class="fa fa-refresh fa-spin pull-right loading"></i>
             <label for="forms"><%= t('exports.custom_exports.forms') %></label>
             <select name="forms" multiple></select>
           </fieldset>
-          <fieldset class="custom_export_fields">
-            <i class="fa fa-refresh fa-spin pull-right loading"></i>
-            <label for="fields"><%= t('exports.custom_exports.fields') %></label>
-            <select name="fields" multiple></select>
-          </fieldset>
+          <%= render "exports/#{export_type}_exports_fields"%>
           <div id="password-prompt">
             <div class="flash hide">
               <p class="error"></p>
@@ -73,5 +53,3 @@
     </form>
     <a class="close-reveal-modal">&#215;</a>
   </div>
-</li>
-<% end %>

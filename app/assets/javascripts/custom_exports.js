@@ -2,10 +2,10 @@ var CustomExports = Backbone.View.extend({
   el: '#custom-exports',
 
   events: {
-    'change input[name="format"]': 'set_form_state',
-    'change input[name="forms"]': 'retrieve_field_names',
-    'change input[name="choose_fields"]': 'toggle_field_selection',
-    'click button#submit_export': 'submit_export_request'
+    'change div#custom-exports input[name="format"]': 'set_form_state',
+    'change div#custom-exports input[name="forms"]': 'retrieve_field_names',
+    'change div#custom-exports input[name="choose_fields"]': 'toggle_field_selection',
+    'click div#custom-exports button#submit_export': 'submit_export_request'
   },
 
   initialize: function() {
@@ -23,7 +23,7 @@ var CustomExports = Backbone.View.extend({
 
 
     if (this.module_id) {
-      var select_module = $('select[name="module"]');
+      var select_module = $(this.el).find('select[name="module"]');
       select_module.next().hide();
       select_module.prev().hide();
     }
@@ -36,12 +36,12 @@ var CustomExports = Backbone.View.extend({
   init_chosen_fields: function() {
     var self = this;
 
-    $('select[name="module"]').chosen().change(function() {
+    $(this.el).find('select[name="module"]').chosen().change(function() {
       self.set_form_state();
     });
 
-    $('select[name="fields"]').chosen();
-    $('select[name="forms"]').chosen();
+    $(this.el).find('select[name="fields"]').chosen();
+    $(this.el).find('select[name="forms"]').chosen();
   },
 
   toggle_field_selection: function(e) {
@@ -58,7 +58,7 @@ var CustomExports = Backbone.View.extend({
   },
 
   toggle_choose_field_control: function() {
-    var form_value = $('input[name="format"]:checked'),
+    var form_value = $(this.el).find('input[name="format"]:checked'),
         choose_fields = $('.user_select_fields');
 
     if (form_value.val() == 'forms') {
@@ -70,17 +70,17 @@ var CustomExports = Backbone.View.extend({
 
   toggle_loading_indicator: function(action) {
     if (action == 'show') {
-      $('.loading').show();
+      $(this.el).find('.loading').show();
     } else {
-      $('.loading').hide();
+      $(this.el).find('.loading').hide();
     }
   },
 
   set_form_state: function(e) {
-    var value = $('input[name="format"]:checked').val(),
+    var value = $(this.el).find('input[name="format"]:checked').val(),
         forms_selector = $('fieldset.custom_export_form'),
         fields_selector = $('fieldset.custom_export_fields'),
-        module_selector = $('select[name="module"]');
+        module_selector = $(this.el).find('select[name="module"]');
 
     forms_selector.hide();
     fields_selector.hide();
@@ -104,8 +104,8 @@ var CustomExports = Backbone.View.extend({
     this.toggle_loading_indicator('show');
 
     var self = this,
-        module_control = $('select[name="module"]'),
-        choose_fields = $('input[name="choose_fields"]'),
+        module_control = $(this.el).find('select[name="module"]'),
+        choose_fields = $(this.el).find('input[name="choose_fields"]'),
         data = {
           record_type: this.record_type,
           module: module_control.val() || this.module_id
@@ -115,7 +115,7 @@ var CustomExports = Backbone.View.extend({
       this.forms_selector.show();
 
       $.get('/custom_exports/permitted_forms_list', data, function(res) {
-        var select_control = $('select[name="forms"]');
+        var select_control = $('#custom-exports select[name="forms"]');
 
         self.clear_control('forms');
 
@@ -134,7 +134,7 @@ var CustomExports = Backbone.View.extend({
     this.toggle_loading_indicator('show');
 
     var self = this,
-        module_control = $('select[name="module"]'),
+        module_control = $(this.el).find('select[name="module"]'),
         data = {
           record_type: this.record_type,
           module: module_control.val() || this.module_id,
@@ -144,7 +144,7 @@ var CustomExports = Backbone.View.extend({
     this.fields_selector.show();
 
     $.get('/custom_exports/permitted_fields_list', data, function(res) {
-      var select_control = $('select[name="fields"]');
+      var select_control = $('#custom-exports select[name="fields"]');
 
       self.clear_control('fields');
 
@@ -164,14 +164,14 @@ var CustomExports = Backbone.View.extend({
   submit_export_request: function(e) {
     e.preventDefault();
 
-    var password_control = $('#password-field'),
-        module_control = $('select[name="module"]'),
-        filename_control = $('#export-filename'),
-        fields_control = $('select[name="fields"]'),
-        forms_control = $('select[name="forms"]'),
-        message = $('.message'),
-        format_control = $('input[name="format"]'),
-        choose_fields = $('input[name="choose_fields"]');
+    var password_control = $(this.el).find('#password-field'),
+        module_control = $(this.el).find('select[name="module"]'),
+        filename_control = $(this.el).find('#export-filename'),
+        fields_control = $(this.el).find('select[name="fields"]'),
+        forms_control = $(this.el).find('select[name="forms"]'),
+        message = $(this.el).find('.message'),
+        format_control = $(this.el).find('input[name="format"]'),
+        choose_fields = $(this.el).find('input[name="choose_fields"]');
 
     if (fields_control.val() && !choose_fields.is(':checked')) {
       this.filter_type = 'selected_xls';
@@ -236,8 +236,8 @@ var CustomExports = Backbone.View.extend({
     this.clear_control('forms');
     this.forms_selector.hide();
     this.fields_selector.hide();
-    $('.user_select_fields').hide();
-    $('.message').empty().hide();
+    $(this.el).find('.user_select_fields').hide();
+    $(this.el).find('.message').empty().hide();
   }
 });
 

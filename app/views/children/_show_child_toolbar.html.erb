@@ -20,7 +20,9 @@
     <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
     <ul>
         <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
-        <%= render partial: 'exports/custom_exports', locals: {model: Child} %>
+        <% if can? :export_custom, Child %>
+          <%= render 'exports/custom_exports_link', model: Child, export_type: 'custom' %>
+        <% end %>
         <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REFERRAL %>
         <%= render 'transitions/button', instance: @child, type: Transition::TYPE_TRANSFER %>
         <% if can? :edit, @child %>
