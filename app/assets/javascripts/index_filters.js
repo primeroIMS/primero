@@ -17,7 +17,6 @@ var IndexFilters = Backbone.View.extend({
   initialize: function() {
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
-    console.log(_primero.filters)
   },
 
   clear_filters: function(e) {
@@ -115,7 +114,6 @@ var IndexFilters = Backbone.View.extend({
   },
 
   change_scope: function(event) {
-    console.log(_primero.filters)
     var target = $(event.target),
         selected_val = target.val(),
         filter = target.attr('name'),
