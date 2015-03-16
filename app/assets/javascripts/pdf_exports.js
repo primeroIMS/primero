@@ -52,7 +52,7 @@ var PdfExports = Backbone.View.extend({
     var forms_selector = $('fieldset.pdf_export_form'),
         module_selector = $(this.el).find('select[name="module"]');
 
-    if (module_selector.val().length || this.module_id.length) {
+    if (module_selector.val() || this.module_id) {
       this.retrieve_form_names();
     }
   },
