@@ -64,7 +64,7 @@ var IndexFilters = Backbone.View.extend({
       }
       else if (type === 'location') {
         if (current_scope !== false) {
-          self.set_remove_filter(name, current_scope[0]);
+          self.set_remove_filter(name, current_scope);
         }
       }
     });
