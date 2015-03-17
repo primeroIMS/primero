@@ -229,6 +229,10 @@ supervisor_service 'couch-watcher' do
   action [:enable, :stop]
 end
 
+execute_bundle 'setup-db-migrate-design-views' do
+  command "rake db:migrate:design"
+end
+
 execute_bundle 'setup-db-seed' do
   command "rake db:seed"
 end
@@ -245,7 +249,6 @@ end
 execute_bundle 'precompile-assets' do
   command "rake app:assets_precompile"
 end
-
 
 execute 'stop all running scheduler jobs' do
   command 'pkill -f primero-scheduler'

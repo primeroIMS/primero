@@ -104,9 +104,19 @@ namespace :db do
           Migration.database.save_doc(name: migration)
         end
       end
-
     end
 
+    desc "Trigger update of the CouchDB design documents according to the Rails model specification"
+    task :design => :environment do |t, args|
+      Rails.application.eager_load!
+      couch_models = CouchRest::Model::Base.subclasses
+      couch_models.each do |couch_model|
+        if couch_model.respond_to? :design_doc
+          puts "Syncing design doc for #{couch_model.name}"
+          couch_model.design_doc.sync!
+        end
+      end
+    end
   end
 
 end
