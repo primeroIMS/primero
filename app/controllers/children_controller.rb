@@ -80,6 +80,10 @@ class ChildrenController < ApplicationController
       #get the model properties based on the form sections.
       properties_by_module = model_class.get_properties_by_module(form_sections)
       #Clean up the forms.
+      
+      # TODO: Shouldn't be doing filtering by the display form name. This will be translated. should be filtering
+      # by the form's id. This is also true in the filter_custom_exports method. This will need changes also in the 
+      # exporters ...xls, selected_xls, and case_pdf...and maybe the others too.
       properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents"].include?(key)}}
 
       properties_by_module = filter_custom_exports(properties_by_module)

@@ -108,7 +108,8 @@ var CustomExports = Backbone.View.extend({
         choose_fields = $(this.el).find('input[name="choose_fields"]'),
         data = {
           record_type: this.record_type,
-          module: module_control.val() || this.module_id
+          module: module_control.val() || this.module_id,
+          only_parent: true
         };
 
     if (!choose_fields.is(':checked')) {

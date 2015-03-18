@@ -95,27 +95,38 @@ module Exporters
       def render_form_section(pdf, _case, form_section)
         (subforms, normal_fields) = form_section.fields.reject {|f| f.type == 'separator' }
                                                        .partition {|f| f.type == Field::SUBFORM }
-
+        
         render_fields(pdf, _case, normal_fields)
 
         subforms.map do |subf|
           pdf.move_down 10
-
           form_data = _case.__send__(subf.name)
+          filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' }
+          
+          pdf.text subf.display_name, :style => :bold, :size => 12
+          
           if (form_data.try(:length) || 0) > 0
-            pdf.text subf.display_name, :style => :bold, :size => 12
+
             form_data.each do |el|
-              render_fields(pdf, el, subf.subform_section.fields.reject {|f| f.type == 'separator' })
+              render_fields(pdf, el, filtered_subforms)
               pdf.move_down 10
             end
+
+          else
+            render_fields(pdf, nil, filtered_subforms)
+            pdf.move_down 10
           end
         end
       end
 
       def render_fields(pdf, obj, fields)
         table_data = fields.map do |f|
-          value = censor_value(f.name, obj)
-          [f.display_name, format_field(f, value)]
+          if obj.present?
+            value = censor_value(f.name, obj)
+            [f.display_name, format_field(f, value)]
+          else
+            [f.display_name, nil]
+          end
         end
 
         table_options = {

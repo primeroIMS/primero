@@ -80,8 +80,7 @@ var PdfExports = Backbone.View.extend({
         self.clear_control('forms');
 
         _.each(res, function(form) {
-          var form_id = form.name.startsWith('Nested') ? form.id : form.name
-          var select_option = '<option value="' + form_id + '">'+ form.name + '</option>';
+          var select_option = '<option value="' + form.id + '">'+ form.name + '</option>';
           select_control.append(select_option);
         });
 
@@ -102,7 +101,12 @@ var PdfExports = Backbone.View.extend({
         forms = [];
     
     _.each(forms_control.val(), function(val) {
-      val.endsWith('section') || val.endsWith('transitions') ? subforms.push(val) : forms.push(val);
+      if (val.startsWith('subf:')) {
+        var vals = val.split(':');
+        subforms.push(vals[1]);
+      } else {
+        forms.push(val);
+      }
     });
 
     if (password_control.val().length &&
