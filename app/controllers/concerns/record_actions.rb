@@ -341,7 +341,7 @@ module RecordActions
     if params[:custom_exports].present?
       properties_by_module = properties_by_module.select{|key| params[:custom_exports][:module].include?(key)}
 
-      if params[:custom_exports][:forms].present?
+      if params[:custom_exports][:forms].present? || params[:custom_exports][:selected_subforms].present?
         properties_by_module = filter_by_subform(properties_by_module).deep_merge(filter_by_form(properties_by_module))
       elsif params[:custom_exports].present? && params[:custom_exports][:fields].present?
         properties_by_module.each do |pm, fs|
@@ -366,8 +366,10 @@ module RecordActions
 
   def filter_by_form(properties)
     props = {}
-    properties.each do |pm, fs|
-      props[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
+    if params[:custom_exports][:forms].present?
+      properties.each do |pm, fs|
+        props[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
+      end
     end
     props
   end
