@@ -114,7 +114,7 @@ protection_concern_detail_fields = [
                 { id: 'migrant', display_text: "Migrant" },
                 { id: 'disabled', display_text: "Disabled" },
                 { id: 'serious_health_issue', display_text: "Serious health issue" },
-                { id: 'refuggee', display_text: "Refugee" },
+                { id: 'refugee', display_text: "Refugee" },
                 { id: 'caafag', display_text: "CAAFAG" },
                 { id: 'street_child', display_text: "Street child" },
                 { id: 'child_mother', display_text: "Child Mother" },
