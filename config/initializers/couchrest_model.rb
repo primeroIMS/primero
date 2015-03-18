@@ -13,6 +13,10 @@ module CouchRest
         flag_saved_embedded_properties
       end
 
+      #Do not auto update the CouchDB design docs in production
+      #In production use `rake db:migrate:design`
+      self.auto_update_design_doc = false if Rails.env == 'production'
+
       # Instantiate a new CouchRest::Model::Base by preparing all properties
       # using the provided document hash.
       #

@@ -103,11 +103,13 @@ git node[:primero][:app_dir] do
   ssh_wrapper git_wrapper_path
 end
 
+default_rails_log_dir = ::File.join(node[:primero][:app_dir], 'log')
 scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
 [File.join(node[:primero][:log_dir], 'nginx'),
  scheduler_log_dir,
  File.join(node[:primero][:log_dir], 'couch_watcher'),
- File.join(node[:primero][:log_dir], 'rails')].each do |log_dir|
+ File.join(node[:primero][:log_dir], 'rails'),
+ default_rails_log_dir].each do |log_dir|
   directory log_dir do
     action :create
     owner node[:primero][:app_user]
@@ -227,6 +229,10 @@ supervisor_service 'couch-watcher' do
   action [:enable, :stop]
 end
 
+execute_bundle 'setup-db-migrate-design-views' do
+  command "rake db:migrate:design"
+end
+
 execute_bundle 'setup-db-seed' do
   command "rake db:seed"
 end
@@ -244,8 +250,13 @@ execute_bundle 'precompile-assets' do
   command "rake app:assets_precompile"
 end
 
-execute_bundle 'restart-scheduler' do
-  command "rake scheduler:restart"
+execute 'stop all running scheduler jobs' do
+  command 'pkill -f primero-scheduler'
+  returns [0, 1]
+end
+
+execute_bundle 'start-scheduler' do
+  command "rake scheduler:start"
   environment({"RAILS_SCHEDULER_LOG_DIR" => scheduler_log_dir})
 end
 
