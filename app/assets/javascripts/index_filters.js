@@ -20,8 +20,15 @@ var IndexFilters = Backbone.View.extend({
   },
 
   clear_filters: function(e) {
-    var default_filter = _primero.model_object === 'child' ? 'child_status' : 'status',
-        filter = {}, url_string;
+    var default_filter, filter = {}, url_string;
+    
+    if (_primero.model_object === 'child') {
+      default_filter = 'child_status'
+    } else if (_primero.model_object === 'tracing_request') {
+      default_filter = 'inquiry_status'
+    } else {
+      default_filter = 'status'
+    }
 
     filter[default_filter] = 'list||Open';
     url_string = _primero.object_to_params(filter);
