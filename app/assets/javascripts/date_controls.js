@@ -25,7 +25,7 @@ var DateControl = Backbone.View.extend({
 	      changeMonth: true,
 	      changeYear: true,
 	      constrainInput: true,
-	      yearRange: "c-130:c+10"
+	      yearRange: "1900:c+10"
 	    });
 	  };
 	  $.datepicker.defaultDateFormat = 'dd-M-yy';

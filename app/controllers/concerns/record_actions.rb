@@ -341,10 +341,8 @@ module RecordActions
     if params[:custom_exports].present?
       properties_by_module = properties_by_module.select{|key| params[:custom_exports][:module].include?(key)}
 
-      if params[:custom_exports][:forms].present?
-        properties_by_module.each do |pm, fs|
-          properties_by_module[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
-        end
+      if params[:custom_exports][:forms].present? || params[:custom_exports][:selected_subforms].present?
+        properties_by_module = filter_by_subform(properties_by_module).deep_merge(filter_by_form(properties_by_module))
       elsif params[:custom_exports].present? && params[:custom_exports][:fields].present?
         properties_by_module.each do |pm, fs|
           filtered_forms = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:fields].include?(f)}]}
@@ -354,6 +352,26 @@ module RecordActions
       end
     end
     properties_by_module
+  end
+
+  def filter_by_subform(properties)
+    sub_props = {}
+    if params[:custom_exports][:selected_subforms].present?
+      properties.each do |pm, fs| 
+        sub_props[pm] = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:selected_subforms].include?(f)}]}.to_h.compact
+      end
+    end
+    sub_props  
+  end
+
+  def filter_by_form(properties)
+    props = {}
+    if params[:custom_exports][:forms].present?
+      properties.each do |pm, fs|
+        props[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
+      end
+    end
+    props
   end
 
   def create_or_update_record(id)

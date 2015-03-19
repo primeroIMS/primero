@@ -80,7 +80,7 @@ var PdfExports = Backbone.View.extend({
         self.clear_control('forms');
 
         _.each(res, function(form) {
-          var select_option = '<option value="' + form.name + '">'+ form.name + '</option>';
+          var select_option = '<option value="' + form.id + '">'+ form.name + '</option>';
           select_control.append(select_option);
         });
 
@@ -96,7 +96,18 @@ var PdfExports = Backbone.View.extend({
         module_control = $(this.el).find('select[name="module"]'),
         filename_control = $(this.el).find('#export-filename'),
         forms_control = $(this.el).find('select[name="forms"]'),
-        message = $(this.el).find('.message');
+        message = $(this.el).find('.message'),
+        subforms = [],
+        forms = [];
+    
+    _.each(forms_control.val(), function(val) {
+      if (val.startsWith('subf:')) {
+        var vals = val.split(':');
+        subforms.push(vals[1]);
+      } else {
+        forms.push(val);
+      }
+    });
 
     if (password_control.val().length &&
         forms_control.val() &&
@@ -110,8 +121,8 @@ var PdfExports = Backbone.View.extend({
           record_id: this.record_id,
           record_type: this.record_type,
           module:  module_control.val() || this.module_id,
-          forms: forms_control.val() || [],
-          fields: [],
+          forms: forms,
+          selected_subforms: subforms,
           model_class: this.model_class
         }
       };
