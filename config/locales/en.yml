@@ -38,6 +38,7 @@ en:
     this_user: " this user?"
     keep_working: "Yes, Keep Working"
     logoff: "No, Logoff"
+    record_navigation_confirmation_message: "Clicking OK will discard any unsaved changes and navigate to the requested page . Click cancel to return to the record."
     confirmation_message: "Clicking OK will discard any unsaved changes and return to the list view . Click cancel to return to the record."
     cancel_confirmation: "Are you sure you want to cancel?"
     logoff_warning_prefix: "You will be logged off in"
@@ -111,6 +112,7 @@ en:
      guiding_questions: "Guiding Questions"
      filter_label: "Filter:"
      filter: "Apply Filter"
+     filter_clear: "Clear Filters"
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
@@ -1102,6 +1104,9 @@ en:
     violence_type: "Violence Type"
     date_of_interview: "Date of Interview"
     system_user: "System"
+    name_or_survivor_code: "Name or Survivor Code"
+    current_owner: "Current Owner"
+    last_updated: "Lasted Updated"
 
   errors:
 
@@ -1350,6 +1355,8 @@ en:
       empty_fields_forms: Please select some forms or fields to export.
       empty_format: Please select a format to export.
       empty_module: Please select a module to export.
+    pdf_exports:
+      label: PDF
 
   imports:
     password_label: "Password (if required)"

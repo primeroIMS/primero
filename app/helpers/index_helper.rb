@@ -195,7 +195,7 @@ module IndexHelper
 
   def list_view_header_report
     [
-      {title: '', sort_title: 'select'},
+      #{title: '', sort_title: 'select'},
       {title: 'name', sort_title: 'name'},
       {title: 'description', sort_title: 'description'},
       {title: '', sort_title: ''},

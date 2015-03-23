@@ -10,12 +10,29 @@ var IndexFilters = Backbone.View.extend({
     'click .filter-controls input[type="checkbox"]': 'change_scope',
     'change .filter-controls input[type="text"]': 'change_scope',
     'change select[filter_type="location"]': 'change_scope',
-    'click #apply_filter': 'apply_filters'
+    'click #apply_filter': 'apply_filters',
+    'click .clear_filters': 'clear_filters'
   },
 
   initialize: function() {
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
+  },
+
+  clear_filters: function(e) {
+    var default_filter, filter = {}, url_string;
+    
+    if (_primero.model_object === 'child') {
+      default_filter = 'child_status'
+    } else if (_primero.model_object === 'tracing_request') {
+      default_filter = 'inquiry_status'
+    } else {
+      default_filter = 'status'
+    }
+
+    filter[default_filter] = 'list||Open';
+    url_string = _primero.object_to_params(filter);
+    window.location.search = url_string;
   },
 
   set_current_scope: function() {
@@ -54,7 +71,7 @@ var IndexFilters = Backbone.View.extend({
       }
       else if (type === 'location') {
         if (current_scope !== false) {
-          self.set_remove_filter(name, current_scope[0]);
+          self.set_remove_filter(name, current_scope);
         }
       }
     });

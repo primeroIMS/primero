@@ -113,6 +113,7 @@ bundle exec rake db:create_couch_sysadmin[primero,primero]
 Migrate
 ```
 bundle exec rake db:migrate
+bundle exec rake db:migrate:design
 ```
 
 

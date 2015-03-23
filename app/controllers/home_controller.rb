@@ -99,11 +99,16 @@ class HomeController < ApplicationController
     @record_types = @modules.map{|m| m.associated_record_types}.flatten.uniq
   end
 
+  def load_recent_activities
+    Child.list_records({}, {:last_updated_at => :desc}, { page: 1, per_page: 20 }, current_user.managed_user_names)
+  end
+
   def load_cases_information
     @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
     @overdue_activities = search_flags({field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child'})
     @recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today, type: 'child'})
     @recently_flagged = @recently_flagged[0..4]
+    @recent_activities = load_recent_activities.results
   end
 
   def load_incidents_information

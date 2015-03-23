@@ -34,7 +34,14 @@ module Exporters
       end
 
       def violation_types(incidents)
-        incidents.map {|i| i.violation_category || [] }.flatten.uniq
+        incidents.map do |i|
+          violations = i.violations
+          if violations.present?
+            violations.keys.select{|k| violations[k].present?}
+          else
+            []
+          end
+        end.flatten.uniq
       end
 
       def violation_column_generators(type, incidents)

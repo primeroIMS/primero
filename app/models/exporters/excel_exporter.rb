@@ -62,7 +62,7 @@ module Exporters
             (model.send(property.name) || []).join(" ||| ")
           end
         else
-          model.send(property.name)
+          get_model_value(model, property)
         end
       end
 
