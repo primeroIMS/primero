@@ -33,6 +33,10 @@ class Location < CouchRest::Model::Base
     self.name = self.hierarchical_name
   end
 
+  def self.get_unique_instance(attributes)
+    by_name(key: attributes['name']).first
+  end
+
   # Override Namable concern.
   # Allow CouchDB to set the Location's ID as a GUID
   def generate_id
