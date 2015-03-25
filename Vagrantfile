@@ -22,6 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8903, host: 8903
   config.vm.network :forwarded_port, guest: 8902, host: 8902
 
+  if ENV['PUBLIC_NETWORK']
+    config.vm.network "public_network"
+  end
+
   config.omnibus.chef_version = '11.10.4'
   config.berkshelf.enabled = true
   config.berkshelf.berksfile_path = 'cookbook/Berksfile'
