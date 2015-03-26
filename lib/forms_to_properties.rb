@@ -120,6 +120,8 @@ module FormToPropertiesConverter
     when 'separator', 'photo_upload_box', 'audio_upload_box', 'document_upload_box', 'custom'
       {}
     else
+      #TODO: is there a more graceful way to handle this error?
+      # If 1 field gets fouled up with no type, it causes the entire site to crash
       raise "Unknown field type #{field.type}"
     end
   end
