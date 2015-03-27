@@ -53,6 +53,7 @@ class RecordFlagController < ApplicationController
       end until results.next_page.nil?
     else
       #TODO Bad Smell - There are more efficient ways to do this
+      # This should use list_records or @model_class.search to batch find records
       params[:selected_records].each { |id| records_to_flag << @model_class.get(id) }
     end
 

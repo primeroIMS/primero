@@ -99,15 +99,16 @@ var PdfExports = Backbone.View.extend({
         message = $(this.el).find('.message'),
         subforms = [],
         forms = [];
-    
-    _.each(forms_control.val(), function(val) {
-      if (val.startsWith('subf:')) {
+
+    for(var i = 0; i < forms_control.val().length; i++){
+      var val = forms_control.val()[i];
+      if (val.indexOf('subf:') == 0) {
         var vals = val.split(':');
         subforms.push(vals[1]);
       } else {
         forms.push(val);
       }
-    });
+    }
 
     if (password_control.val().length &&
         forms_control.val() &&
