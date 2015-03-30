@@ -108,6 +108,14 @@ namespace :db do
 
     desc "Trigger update of the CouchDB design documents according to the Rails model specification"
     task :design => :environment do |t, args|
+      #Temporarily overide autoupdate because CouchRest isn't very well-designed.
+      module CouchRest
+        module Model
+          class Base
+            self.auto_update_design_doc = true
+          end
+        end
+      end
       Rails.application.eager_load!
       couch_models = CouchRest::Model::Base.subclasses
       couch_models.each do |couch_model|
