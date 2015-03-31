@@ -589,6 +589,10 @@ en:
     select_prompt: "Please select an agency"
     error_in_updating: "Error in updating the Agency details."
 
+  primero_locale:
+    label: "Default Language"
+    updated: "Default Language was successfully updated."
+
   primero_modules:
     label: "Modules"
     actions:

@@ -20,6 +20,9 @@
         <%= link_to t("primero_modules.label"), primero_modules_path if can?(:index, PrimeroModule) %></li>
       <li class=<%= (highlight_page == 'contact_information' ? 'current' : '') %>>
         <%= link_to t("contact.info_label"), edit_contact_information_path("administrator") if can?(:edit, ContactInformation) %></li>
+      <li class=<%= (highlight_page == 'primero_locale' ? 'current' : '') %>>
+        <%#TODO - verify this!!!!%>
+        <%= link_to t("primero_locale.label"), edit_primero_locale_path("administrator") if can?(:manage, SystemUsers) %></li>
     </ul>
     <div class="scrolling_indicator down"><%= t('messages.scroll_down') %></div>
   </div>
