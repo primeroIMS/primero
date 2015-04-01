@@ -27,17 +27,21 @@ div.reports_form .side-tab-content .row .row {
   padding-right: 0px;
   padding-left: 0px;
 }
-.reports {
-  .report_graph {
-  }
 
+.reports_form {
+  .report_filter_template{
+    display: none;
+  }
+  
   .report_filter_remove_button{
     color: $green_color;
     padding-left: 1rem;
+    margin-left: 5px;
   }
+}
 
-  .report_filter_template{
-    display: none;
+.reports {
+  .report_graph {
   }
 
   .report_chart_content  {
