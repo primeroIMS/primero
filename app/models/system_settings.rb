@@ -7,7 +7,6 @@ class SystemSettings < CouchRest::Model::Base
   
   design do
     view :all
-    view :by_default_locale
   end
   
 end

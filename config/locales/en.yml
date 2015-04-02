@@ -591,6 +591,8 @@ en:
 
   primero_locale:
     label: "Default Language"
+    edit: "Edit Default Language"
+    show: "Default Language"
     updated: "Default Language was successfully updated."
 
   primero_modules:

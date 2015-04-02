@@ -6,7 +6,6 @@ class PrimeroLocaleController < ApplicationController
 
   def show
     @page_name = t("primero_locale.show")
-    #TODO is this right?
     @primero_language = I18n.locale
     respond_to do |format|
       format.html # index.html.erb
