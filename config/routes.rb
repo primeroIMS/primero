@@ -35,8 +35,6 @@ RapidFTR::Application.routes.draw do
       post :import_file
     end
   end
-  match 'admin' => 'admin#index', :as => :admin, :via => [:post, :get, :put, :delete]
-  match 'admin/update' => 'admin#update', :as => :admin_update, :via => [:post, :get, :put, :delete]
 
   resources :user_groups
   resources :primero_modules
