@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe AdminController do
+describe PrimeroLocaleController do
   before :each do
     fake_admin_login
   end
@@ -12,14 +12,14 @@ describe AdminController do
   end
 
   it "should set the given locale as default" do
-    put :update, :locale => "fr"
+    put :update, :locale => "fr", :id => "administrator"
     I18n.default_locale.should == :fr
   end
 
   it "should flash a update message when the system language is changed and affected by language changed " do
-    put :update, :locale => "zh"
-    flash[:notice].should =="设置成功"
-    response.should redirect_to(admin_path)
+    put :update, :locale => "zh", :id => "administrator"
+    flash[:notice].should =="Default Language was successfully updated."
+    response.should redirect_to(edit_primero_locale_path)
   end
 end
 
