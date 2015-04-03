@@ -20,6 +20,10 @@ def isTableEmpty? model
   return empty
 end
 
+#Seed the system settings table
+puts "Seeding the system settings"
+require File.dirname(__FILE__) + "/system_settings/system_settings.rb"
+
 #Reseed the lookups
 puts "Seeding Lookups"
 require File.dirname(__FILE__) + "/lookups/lookups.rb"
