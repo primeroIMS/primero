@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.2'
+ruby '2.1.5'
 
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
@@ -10,7 +10,7 @@ gem 'mini_magick',    '1.3.2'
 gem 'pdf-reader',     '1.3.3'
 gem 'prawn',          '~> 1.2.1'
 gem 'prawn-table',    '~> 0.1.1'
-gem 'rails',          '4.0.3'
+gem 'rails',          '4.0.13'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
@@ -96,4 +96,5 @@ end
 
 group :couch_watcher do
   gem 'em-http-request',    '~> 1.1.2'
+  gem 'eventmachine',       '~> 1.0.4'
 end
