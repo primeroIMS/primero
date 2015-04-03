@@ -50,6 +50,7 @@ describe ChildrenController do
         response.status.should == 403
       end
 
+
       it "GET new" do
         @controller.stub(:get_form_sections).and_return({})
         @controller.current_ability.should_receive(:can?).with(:create, Child).and_return(false);
@@ -375,7 +376,161 @@ describe ChildrenController do
       end
 
     end
+    
+    describe "phonetic search", search: true, skip_session: true do
+    
+      before do
 
+        #Sunspot.setup(Child) {text 'name_nickname', as: "*_ph".to_sym}
+        #Sunspot.setup(Child) {text 'name_othername', as: "*_ph".to_sym}
+        #Sunspot.setup(Child) {text 'name', as: "*_ph".to_sym}
+
+        Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
+
+        User.all.each{|u| u.destroy}
+        Child.all.each{|c| c.destroy}
+        Sunspot.remove_all!
+
+
+        roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
+
+        Child.any_instance.stub(:child_status).and_return("Open")
+        @case_worker = create(:user)
+        @case_worker.stub(:roles).and_return(roles)
+        
+      end    
+
+      context "when search query is the exact english name" do
+        it "should find english name" do
+
+          names = ["Kevin", "Albin", "Alder", "Michael", "Aubrey", "Christian"]
+          @children_cases = []
+          names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+          end
+          
+          Sunspot.commit
+          
+          session = fake_login @case_worker
+          
+          params = {"query" => @children_cases.first.name}
+          get :index, params
+          
+          expect(assigns[:children]).to match_array([@children_cases.first])
+          
+        end
+      end
+
+      context "when search query is a shortcurt" do
+        it "should find no name" do
+
+          names = ["Kevin", "Albin", "Alder", "Michael", "Aubrey", "Christian"]
+          @children_cases = []
+          names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+          end
+          
+          Sunspot.commit
+          
+          session = fake_login @case_worker
+
+          params = {"query" => "Chris"}
+          get :index, params
+          expect(assigns[:children]).to match_array([])
+          
+          params = {"query" => "Mike"}
+          get :index, params
+          expect(assigns[:children]).to match_array([])
+          
+        end
+      end
+
+      context "when search query is a Mahmoud name variant" do
+        it "should find all names" do
+          names = ["Mahmoud", "Mahmud", "Mahmood"]
+          
+          @children_cases = []
+          names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+          end
+          
+          Sunspot.commit
+          
+          session = fake_login @case_worker
+          params = {"query" => @children_cases.first.name}
+          get :index, params
+          
+          expect(assigns[:children]).to have(@children_cases.count).things
+
+        end
+      end
+
+      context "when query search is Abdul prefix" do
+        it "shoud find at least 20" do
+        
+          #29 arabic names with Abdul prefix
+          names = ["Abdul-Baseer","Abdul-Basir", "Abdul-Basit", "Abdul-Batin", "Abdul-Dhahir", "Abdul-Fattah", "Abdul-Ghafaar", "Abdul-Ghaffar", "Abdul-Ghaffar", "Abdul-Ghafoor", "Abdul-Ghafur", "Abdul-Ghafur", "Abdul-Ghani", "Abdul-Ghani", "Abdul-Hadi", "Abdul-Hadi", "Abdul-Hafeedh", "Abdul-Hafeez", "Abdul-Hafiz", "Abdul-Hakam", "Abdul-Hakeem", "Abdul-Hakeem", "Abdul-Hakim", "Abdul-Haleem", "Abdul Haleem", "Abdul-Halim", "Abdul-Hameed", "Abdul-Hameed", "Abdul-Hamid"]
+          
+          @children_cases = []
+          
+          names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+          end
+        
+          Sunspot.commit
+        
+          session = fake_login @case_worker
+          
+          params = {"query" => "Abdool"}
+          get :index, params
+          expect(assigns[:children]).to have_at_least(20).things
+
+        end
+      end
+
+      context "when there is a compound name with space or dash" do
+        it "shoud find compound name first and second name phonetically" do
+        
+          #29 arabic names with Abdul prefix
+          names = ["Abdul Haseeb", "Abdul-Nasser"]
+          
+          @children_cases = []
+          names.each do |c|
+            child = create(:child, name: c, owned_by: @case_worker.user_name)
+            @children_cases.push(child)
+          end
+        
+          Sunspot.commit
+        
+          session = fake_login @case_worker
+          
+          params = {"query" => "Abdool"}
+          get :index, params
+          expect(assigns[:children]).to have(2).things
+
+          params = {"query" => "Hasib"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.first])
+
+
+          params = {"query" => "Nassir"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.last])
+ 
+          params = {"query" => "Abdool-Hasib"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.first])
+
+          params = {"query" => "Abdool Nassir"}
+          get :index, params
+          expect(assigns[:children]).to match_array([@children_cases.last])
+        end
+      end
+    end
 
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       before do
