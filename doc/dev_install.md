@@ -48,7 +48,7 @@ From here on, we assume we are on ~/primero
 
 Install ruby version
 ```
-rvm install 2.1.2 --patch railsexpress -n ruby-2.1.2-railsexpress
+rvm install 2.1.5 --patch railsexpress -n ruby-2.1.5-railsexpress
 ```
 
 
