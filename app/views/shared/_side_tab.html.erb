@@ -21,7 +21,7 @@
       <li class=<%= (highlight_page == 'contact_information' ? 'current' : '') %>>
         <%= link_to t("contact.info_label"), edit_contact_information_path("administrator") if can?(:edit, ContactInformation) %></li>
       <li class=<%= (highlight_page == 'primero_locale' ? 'current' : '') %>>
-        <%= link_to t("primero_locale.label"), edit_primero_locale_path("administrator") if can?(:manage, SystemUsers) %></li>
+        <%= link_to t("primero_locale.label"), edit_locale_system_settings_path if can?(:manage, SystemUsers) %></li>
     </ul>
     <div class="scrolling_indicator down"><%= t('messages.scroll_down') %></div>
   </div>

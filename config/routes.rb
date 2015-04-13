@@ -30,6 +30,13 @@ RapidFTR::Application.routes.draw do
   resources :primero_locale, :only => [:show, :edit, :update]
   match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
 
+  resources :system_settings do
+    collection do
+      get :edit_locale
+      post :update_locale
+    end
+  end
+
   resources :roles do
     collection do
       post :import_file
