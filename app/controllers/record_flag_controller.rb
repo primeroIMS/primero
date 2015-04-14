@@ -14,7 +14,7 @@ class RecordFlagController < ApplicationController
     else
       render :json => {:error => @record.errors.full_messages + flag.errors.full_messages} if params[:redirect_url].blank?
     end
-    #TODO should we keep? the parameter is to keep compatibilty with the current tag form, but that will change. 
+    #TODO should we keep? the parameter is to keep compatibilty with the current tag form, but that will change.
     redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url].present?
   end
 
@@ -52,9 +52,7 @@ class RecordFlagController < ApplicationController
         pagination_ops[:page] = results.next_page
       end until results.next_page.nil?
     else
-      #TODO Bad Smell - There are more efficient ways to do this
-      # This should use list_records or @model_class.search to batch find records
-      params[:selected_records].each { |id| records_to_flag << @model_class.get(id) }
+      records_to_flag = @model_class.all(keys: params[:selected_records])
     end
 
     records_to_flag.each do |record|
