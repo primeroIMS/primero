@@ -28,7 +28,7 @@ class SystemSettingsController < ApplicationController
       systemSettings.save!
     end
     flash[:notice] = I18n.t("primero_locale.updated")
-    redirect_to edit_primero_locale_path
+    redirect_to edit_locale_system_setting_path("administrator")
   end
 
 end
