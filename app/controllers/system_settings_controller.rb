@@ -1,4 +1,4 @@
-class PrimeroLocaleController < ApplicationController
+class SystemSettingsController < ApplicationController
 
   before_filter do
     authorize!(:manage, SystemUsers) #This sounds arbitrary, but implies that the user can manage other System settings

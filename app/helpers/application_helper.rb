@@ -122,6 +122,8 @@ module ApplicationHelper
       ctl_cancel_button(path || record) + ctl_save_button
     elsif current_actions(action: ['update', 'edit'])
       ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button
+    elsif current_actions(action: ['edit_locale'])
+      ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
     else
       ctl_edit_button(record, path)
     end

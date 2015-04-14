@@ -31,9 +31,9 @@ RapidFTR::Application.routes.draw do
   match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
 
   resources :system_settings do
-    collection do
+    member do
       get :edit_locale
-      post :update_locale
+      put :update_locale
     end
   end
 
