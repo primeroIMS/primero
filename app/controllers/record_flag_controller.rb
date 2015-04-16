@@ -35,41 +35,45 @@ class RecordFlagController < ApplicationController
     error_message = ""
     child_filters = nil
     records_to_flag = []
+    success = true
 
     if @model_class == Child
       child_filters = filter
       child_filters["child_status"] ||= {:type => "single", :value => "open"}
     end
 
-    if params[:apply_to_all] == "true"
-      pagination_ops = {:page => 1, :per_page => 100}
-      begin
-        search = @model_class.list_records(child_filters||filter, order, pagination_ops, users_filter, params[:query])
-        results = search.results
-        records_to_flag.concat(results)
-        pagination_ops[:page] = results.next_page
-      end until results.next_page.nil?
-    else
-      records_to_flag = @model_class.all(keys: params[:selected_records]).all
+    begin
+      if params[:apply_to_all] == "true"
+        pagination_ops = {:page => 1, :per_page => 100}
+        begin
+          search = @model_class.list_records(child_filters||filter, order, pagination_ops, users_filter, params[:query])
+          results = search.results
+          records_to_flag.concat(results)
+          pagination_ops[:page] = results.next_page
+        end until results.next_page.nil?
+      else
+        records_to_flag = @model_class.all(keys: params[:selected_records]).all
+      end
+
+      records_to_flag.each do |record|
+        record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
+        #TODO: Removed the error message. We don't really need it. May need to catch errors thrown by batch update below
+        #error_message += "\n#{I18n.t("messages.record_not_flagged_message", short_id: record.short_id)}" unless record.valid?
+      end
+
+      #TODO: For now only batch flagging is relying on the CouchWatcher notifier to reindex
+      @model_class.save_all!(records_to_flag)
+      #If this is a non-production deployment, trigger the indexing of flags
+      if Rails.env != 'production'
+        Sunspot.index(records_to_flag)
+        records_to_flag.each(&:index_flags)
+      end
+    rescue
+      success = false
+      error_message = I18n.t("messages.flag_multiple_records_error_message")
     end
 
-    records_to_flag.each do |record|
-      record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
-      error_message += "\n#{I18n.t("messages.record_not_flagged_message", short_id: record.short_id)}" unless record.valid?
-    end
-
-    #TODO: For now only batch flagging is relying on the CouchWatcher notifier to reindex
-    @model_class.save_all!(records_to_flag)
-    #If this is a non-production deployment, trigger the indexing of flags
-    if Rails.env != 'production'
-      Sunspot.index(records_to_flag)
-      records_to_flag.each(&:index_flags)
-    end
-
-    success = !error_message.present?
-
-    error_message = I18n.t("messages.flag_multiple_records_error_message") + error_message unless success
-    render :json => {:success => success, :error_message => error_message, :reload_page => success}
+    render json: {success: success, error_message: error_message, reload_page: true}
   end
 
   private
