@@ -272,13 +272,14 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
   }
 }
 
-.reveal-modal {
+/* This is interfereing with the spinning icon overlaying the modals. */
+/*.reveal-modal {
   z-index: 99999;
 }
 
 .reveal-modal-bg {
   z-index: 9999;
-}
+}*/
 
 ////////////////////////////////////////////////
 // Panel
