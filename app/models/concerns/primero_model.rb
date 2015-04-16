@@ -17,6 +17,23 @@ module PrimeroModel
     def update_existing_model(inst, attributes, current_user=nil)
       inst.attributes = attributes
     end
+
+    # Use the CouchRest bulk update methods to save all records as a batch.
+    # Validations and regular record lifecycle callbacks will not be triggered
+    # Make sure you arent passing an array of Incident objects to a Child.save_all!
+    def save_all!(*records)
+      records.flatten!
+      records.each do |r|
+        # Remove nil attributes
+        r.attributes.each do |key, value|
+          r.delete(key) if value.nil? && !r.changes.has_key?(key)
+        end
+      end
+      if records.present?
+        self.database.bulk_save(records)
+      end
+    end
+
   end
 
   # @param attr_keys: An array whose elements are properties and array indeces

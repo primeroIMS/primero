@@ -51,8 +51,7 @@ namespace :sunspot do
     end
 
     puts 'Reindexing incidents...'
-    Incident.all.all.
-    each do |incident|
+    Incident.all.all.each do |incident|
       incident.index!
 
       if incident.flags
