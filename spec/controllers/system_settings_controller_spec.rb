@@ -12,14 +12,14 @@ describe SystemSettingsController do
   end
 
   it "should set the given locale as default" do
-    put :update_locale, :locale => "fr", :id => "administrator"
+    put :update, :locale => "fr", :id => "administrator"
     I18n.default_locale.should == :fr
   end
 
   it "should flash a update message when the system language is changed and affected by language changed " do
-    put :update_locale, :locale => "zh", :id => "administrator"
-    flash[:notice].should =="Default Language was successfully updated."
-    response.should redirect_to(edit_locale_system_setting_path)
+    put :update, :locale => "zh", :id => "administrator"
+    flash[:notice].should =="System Settings successfully updated."
+    response.should redirect_to(edit_system_setting_path)
   end
 end
 
