@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :record_sub_nav do %>
-  <%= render_controls(@systemSettings, 'locale_system_setting') %>
+  <%= render_controls(@systemSettings, 'system_setting') %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
@@ -14,7 +14,7 @@
     <div class="side-tab-content" data-equalizer-watch>
       <div class="row">
         <div class="large-12 columns">
-          <%= form_tag update_locale_system_setting_path, :method => "put", :class => 'default-form', :autocomplete => "off", :id => "0" do %>
+          <%= form_tag system_setting_path, :method => "put", :class => 'default-form', :autocomplete => "off", :id => "0" do %>
             <fieldset class="no-border">
             <div class="row">
               <div class="medium-3 columns">

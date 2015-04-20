@@ -165,4 +165,15 @@ module ApplicationHelper
     end
   end
 
+
+  # This is a hack to avoid getting the special HTML wrappers that the I18n library
+  # imposes on all missed translation keys. Occasionally they break HTML.
+  def t(key, options={})
+    begin
+      I18n.t(key, raise: true)
+    rescue I18n::MissingTranslationData
+      key
+    end
+  end
+
 end
