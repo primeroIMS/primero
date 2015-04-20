@@ -13,7 +13,7 @@ module CouchChanges
     Agency,
     User,
     Role,
-    SystemSetings
+    SystemSettings
   ]
 
   class << self
