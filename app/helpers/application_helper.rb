@@ -68,9 +68,15 @@ module ApplicationHelper
     path = path.singularize if path.instance_of? String
     ctl_button_wrapper do
       if path.present?
-        # This is necessary to make the translation between children and cases
-        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
-          class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        if record.present?
+          # This is necessary to make the translation between children and cases
+          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
+            class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        else
+          #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
+          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
+            class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        end
       else
         link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
           class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
@@ -112,10 +118,12 @@ module ApplicationHelper
   end
 
   def render_controls(record, path=nil)
-    if record.new?
+    if record.present? && record.new?
       ctl_cancel_button(path || record) + ctl_save_button
     elsif current_actions(action: ['update', 'edit'])
       ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button
+    elsif current_actions(action: ['edit_locale'])
+      ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
     else
       ctl_edit_button(record, path)
     end
@@ -154,6 +162,17 @@ module ApplicationHelper
       return modules_id.include?(PrimeroModule::GBV)
     else
       true
+    end
+  end
+
+
+  # This is a hack to avoid getting the special HTML wrappers that the I18n library
+  # imposes on all missed translation keys. Occasionally they break HTML.
+  def t(key, options={})
+    begin
+      I18n.t(key, raise: true)
+    rescue I18n::MissingTranslationData
+      key
     end
   end
 

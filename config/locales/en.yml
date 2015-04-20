@@ -595,6 +595,12 @@ en:
     select_prompt: "Please select an agency"
     error_in_updating: "Error in updating the Agency details."
 
+  system_settings:
+    label: "System Settings"
+    edit: "Edit System Settings"
+    show: "System Settings"
+    updated: "System Settings successfully updated."
+
   primero_modules:
     label: "Modules"
     actions:
