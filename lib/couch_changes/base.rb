@@ -12,7 +12,8 @@ module CouchChanges
     PrimeroModule,
     Agency,
     User,
-    Role
+    Role,
+    SystemSetings
   ]
 
   class << self

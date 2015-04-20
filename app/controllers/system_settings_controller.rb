@@ -21,11 +21,10 @@ class SystemSettingsController < ApplicationController
 
   def update
     system_settings = SystemSettings.first
-    I18n.default_locale = params[:locale]
-    I18n.locale = I18n.default_locale
     if system_settings.present?
-      system_settings.default_locale = I18n.default_locale
+      system_settings.default_locale = params[:locale]
       system_settings.save!
+      system_settings.update_default_locale
     end
     flash[:notice] = I18n.t("system_settings.updated")
     redirect_to edit_system_setting_path("administrator")
