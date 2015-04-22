@@ -58,8 +58,7 @@ $(document).ready(function() {
         //Only go back to previous url if editing a field
         //For add field, stay at this url unless there are errors
         if(((typeof(edit_field_mode) != 'undefined') && (edit_field_mode)) || ($("#add_field_modal").find("div#errorExplanation").length > 0)){
-           var prevLoc = document.referrer;
-           window.location = prevLoc;
+            window.history.back();
         }
     }
 
