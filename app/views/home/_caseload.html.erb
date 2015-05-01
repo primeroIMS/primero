@@ -1,49 +1,51 @@
 <div class="panel">
- <div class="panel_header">
-  <h4><%= t("dashboard.status_of_cases") %></h4>
- </div>
- <div class="panel_content no-padding panel_main">
- <% if records.present? %>
-  <table cellspacing="0" cellpadding="0" class="table-floating-header">
-    <thead>
-      <tr>
-        <th>
-          <%= t("dashboard.case_worker") %>
-        </th>
-        <th>
-          <%= t("dashboard.total_cases") %>
-        </th>
-        <th>
-          <%= t("dashboard.cases_this_week") %>
-        </th>
-        <th>
-          <%= t("dashboard.missed_cases") %>
-          <span class="fa-stack">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
-          </span>
-        </th>
-     </tr>
-    </thead>
-    <tbody>
-      <% records.each do |u, s| %>
+  <div class="panel_header">
+    <h4><%= t("dashboard.status_of_cases") %></h4>
+    <table cellspacing="0" cellpadding="0" class="table-floating-header">
+      <thead>
         <tr>
-          <td class="id_column">
-            <% if u.present? %>
-              <%= link_to u, cases_path(scope: { owned_by: "list||#{u}" }), class: 'id_link' %>
-            <% else %>
-              <%= t('dashboard.system_user') %>
-            <% end %>
-          </td>
-          <td><%= s[:total_cases] || 0 %></td>
-          <td><%= s[:cases_this_week] || 0 %></td>
-          <td><%= s[:cases_overdue] || 0 %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+          <th>
+            <%= t("dashboard.case_worker") %>
+          </th>
+          <th>
+            <%= t("dashboard.total_cases") %>
+          </th>
+          <th>
+            <%= t("dashboard.cases_this_week") %>
+          </th>
+          <th>
+            <%= t("dashboard.missed_cases") %>
+            <span class="fa-stack">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
+            </span>
+          </th>
+       </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="panel_content no-padding panel_main">
+  <% if records.present? %>
+    <table cellspacing="0" cellpadding="0" class="table-floating-header">
+      <tbody>
+        <% records.each do |u, s| %>
+          <tr>
+            <td class="id_column">
+              <% if u.present? %>
+                <%= link_to u, cases_path(scope: { owned_by: "list||#{u}" }), class: 'id_link' %>
+              <% else %>
+                <%= t('dashboard.system_user') %>
+              <% end %>
+            </td>
+            <td><%= s[:total_cases] || 0 %></td>
+            <td><%= s[:cases_this_week] || 0 %></td>
+            <td><%= s[:cases_overdue] || 0 %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     <p class="no-content"><%= t("dashboard.no_caseworker_data") %></p>
   <% end %>
- </div>
+  </div>
 </div>

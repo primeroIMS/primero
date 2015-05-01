@@ -1,26 +1,28 @@
 <div class="panel">
   <div class="panel_header">
     <h4><%= t("dashboard.recent_activities") %></h4>
+    <table cellspacing="0" cellpadding="0" class="table-floating-header">
+      <thead>
+      <tr>
+        <th>
+          <%= t("dashboard.case_id") %>
+        </th>
+        <th>
+          <%= t("dashboard.name_or_survivor_code") %>
+        </th>
+        <th>
+          <%= t("dashboard.current_owner") %>
+        </th>
+        <th>
+          <%= t("dashboard.last_updated") %>
+        </th>
+      </tr>
+      </thead>
+    </table>
   </div>
   <div class="panel_content no-padding panel_main">
     <% if recent_activities.present? %>
       <table cellspacing="0" cellpadding="0" class="table-floating-header">
-        <thead>
-        <tr>
-          <th>
-            <%= t("dashboard.case_id") %>
-          </th>
-          <th>
-            <%= t("dashboard.name_or_survivor_code") %>
-          </th>
-          <th>
-            <%= t("dashboard.current_owner") %>
-          </th>
-          <th>
-            <%= t("dashboard.last_updated") %>
-          </th>
-        </tr>
-        </thead>
         <tbody>
           <% recent_activities.each do |s| %>
             <tr>
