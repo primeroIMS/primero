@@ -7,7 +7,7 @@ var IndexTable = Backbone.View.extend({
   events: {
     'change #record_scope': 'change_scope',
     'change .dataTables_length select': 'change_display_count',
-    'click th': 'change_sorting'
+    'click .dataTable th': 'change_sorting'
   },
 
   initialize: function() {
