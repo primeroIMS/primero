@@ -27,14 +27,23 @@ RapidFTR::Application.routes.draw do
   match 'password_recovery_request/:password_recovery_request_id/hide' => 'password_recovery_requests#hide', :as => :hide_password_recovery_request, :via => :delete
 
   resources :contact_information
+  #resources :primero_locale, :only => [:show, :edit, :update]
+  #match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
+
+  # resources :system_settings do
+  #   member do
+  #     get :edit_locale
+  #     put :update_locale
+  #   end
+  # end
+
+  resources :system_settings, only: [:show, :edit, :update]
 
   resources :roles do
     collection do
       post :import_file
     end
   end
-  match 'admin' => 'admin#index', :as => :admin, :via => [:post, :get, :put, :delete]
-  match 'admin/update' => 'admin#update', :as => :admin_update, :via => [:post, :get, :put, :delete]
 
   resources :user_groups
   resources :primero_modules

@@ -30,6 +30,7 @@
 //= require i18n
 //= require i18n/translations
 //= require primero
+//= require dashboard
 //= require sidebar
 //= require rapidftr
 //= require password_prompt

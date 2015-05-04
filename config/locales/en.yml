@@ -23,7 +23,10 @@ en:
     label: "Home"
   clear: "Clear"
   messages:
-    delete_item: "Warning: If you continue, any data associated with this field will be lost.\nIf you\'re uncertain, disable the field instead.\nClick Cancel to go back. Click OK to Delete the field."
+    delete_item: |
+      Warning: If you continue, any data associated with this field will be lost.
+      If you're uncertain, disable the field instead.
+      Click Cancel to go back. Click OK to Delete the field.
     move_item: "You are about to move this field to another form section ({{selection_key}}). Is this OK?"
     enter_valid_date: "Please enter the date in a valid format (dd-mmm-yyyy)"
     enter_valid_field_value: "Please enter a valid field value."
@@ -44,7 +47,10 @@ en:
     logoff_warning_prefix: "You will be logged off in"
     logoff_warning_suffix: "seconds."
     logoff_confirmation: "Do you want to continue your session?"
-    warning: "Warning: If you continue, any data associated with this field will be lost.\nIf you're uncertain, disable the field instead.\nClick Cancel to go back. Click OK to Delete the field."
+    warning: |
+      Warning: If you continue, any data associated with this field will be lost.
+      If you're uncertain, disable the field instead.
+      Click Cancel to go back. Click OK to Delete the field.
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
@@ -589,6 +595,12 @@ en:
     select_prompt: "Please select an agency"
     error_in_updating: "Error in updating the Agency details."
 
+  system_settings:
+    label: "System Settings"
+    edit: "Edit System Settings"
+    show: "System Settings"
+    updated: "System Settings successfully updated."
+
   primero_modules:
     label: "Modules"
     actions:
@@ -1076,8 +1088,10 @@ en:
     no_caseworker_data: "No Case Worker Data"
     no_recently_flagged_child: "No Recently Flagged Cases"
     no_recently_flagged_incident: "No Recently Flagged Incidents"
+    no_open_incidents: "No Open incidents"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
+    recent_activities: "Recent Activities"
     case_id: "Case #ID"
     name: "Name"
     activity: "Activity"

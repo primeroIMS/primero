@@ -3,7 +3,7 @@ abduction_subform_fields = [
          "type" => "tally_field",
          "display_name_all" => "Number of survivors",
          "autosum_group" => "abduction_number_of_survivors",
-         "tally" => ['boys', 'girls', 'unknown'],
+         "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
         }),
   Field.new({"name" => "abduction_purpose",

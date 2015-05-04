@@ -25,6 +25,8 @@ module RapidFTR
     # I18n deprecation
     config.i18n.enforce_available_locales = false
 
+    I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 

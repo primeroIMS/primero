@@ -10,7 +10,7 @@ module CouchChanges
 
       class << self
         def supported_models
-          [Lookup, Location, FormSection, User, Agency, PrimeroModule, Role]
+          [Lookup, Location, FormSection, User, Agency, PrimeroModule, Role, SystemSettings]
         end
 
         DELAY_SECONDS = 2
@@ -65,7 +65,7 @@ module CouchChanges
           return enum_for(:each_dfd) unless block_given?
 
           @delay_queue.each do |m, arr|
-            arr.each do |h| 
+            arr.each do |h|
               yield h[:dfd]
             end
           end

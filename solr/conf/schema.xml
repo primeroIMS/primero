@@ -96,6 +96,15 @@
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
+    <!-- This field is used for arabic names searching -->
+    <fieldType name="text_phonetic" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.PhoneticFilterFactory" encoder="DoubleMetaphone" inject="True"/>
+      </analyzer>
+    </fieldType>
     <!--  This is used for location searching -->
     <fieldType name="text_lngram" class="solr.TextField" omitNorms="false">
       <analyzer type="index">
@@ -151,6 +160,8 @@
     <dynamicField name="random_*" stored="false" type="rand" multiValued="false" indexed="true"/>
     <!-- *** This field is used by Sunspot! *** -->
     <dynamicField name="*_sci" stored="false" type="string_ci" multiValued="false" indexed="true"/>
+    <!-- *** This field is used by Sunspot! *** -->
+    <dynamicField name="*_ph" stored="false" type="text_phonetic" multiValued="false" indexed="true"/>
     <!-- *** This dynamicField is used by Sunspot! *** -->
     <dynamicField name="*_lngram" stored="false" type="text_lngram" multiValued="false" indexed="true"/>
     <!-- *** This dynamicField is used by Sunspot! *** -->

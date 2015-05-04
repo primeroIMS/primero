@@ -1,0 +1,18 @@
+<% content_for :breadcrumbs do %>
+  <%= I18n.t("system_settings.label") %>
+<% end %>
+
+<div class="row">
+  <div class="large-12 columns side-tab-content">
+    <div class="primero_locale_page">
+      <div class="primero_locale">
+        <p>
+          <strong>
+            <%= "#{t("home.language")}: " %>
+          </strong>
+          <%= "#{@primero_language}"%>
+        </p>
+       </div>
+    </div>
+  </div>
+</div>

@@ -83,6 +83,10 @@
           &:last-of-type {
             border-right: none;
           }
+
+          &.id_column{
+            min-width: 105px;
+          }
         }
       }
 

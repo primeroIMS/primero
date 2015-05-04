@@ -3,7 +3,7 @@ killing_subform_fields = [
            "type" => "tally_field",
            "display_name_all" => "Number of victims",
            "autosum_group" => "killing_number_of_victims",
-           "tally" => ['boys', 'girls', 'unknown'],
+           "tally_all" => ['boys', 'girls', 'unknown'],
            "autosum_total" => true,
           }),
   Field.new({"name" => "violation_method",

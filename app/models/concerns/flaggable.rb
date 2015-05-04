@@ -54,7 +54,10 @@ module Flaggable
              :reduce => "_count"
     end
 
-    after_save :index_flags
+    # Flags are not getting indexed on save in production, however they ARE getting indexed via the Couch Watcher notifier.
+    # Technically things are getting double indexed, once in the notifier and once in the application.
+    # We can revisit moving all indexing to the notifier, but there is a concern that there may be an index lag under stress.
+    after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }
 
     def flag_message_flagged_by
       #TODO Keep the panel in the show and the edit show one of the flag, the last one.

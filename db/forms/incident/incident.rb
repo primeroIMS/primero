@@ -141,7 +141,7 @@ incident_fields = [
        "type" => "tally_field",
        "display_name_all" => "Incident Total Victims/Survivors",
        "autosum_group" => "incident_number_of_victims_survivors",
-       "tally" => ['boys', 'girls', 'unknown'],
+       "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
       }),
 ]
