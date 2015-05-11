@@ -767,6 +767,9 @@ en:
       violation: "Violation"
 
   form_section:
+    name: "Name"
+    group: "Group"
+    description: "Description"
     create: "New Form Section"
     visibility: "Visibility"
     ordering: "Ordering"
@@ -774,6 +777,7 @@ en:
     label: "Form"
     back: "Back To Forms Page"
     actions:
+      actions: "Actions"
       add_custom_field: "Add Custom Field"
       save_order: "Save Order"
     messages:
