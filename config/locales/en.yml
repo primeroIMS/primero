@@ -976,6 +976,8 @@ en:
       confirmation: "Are you sure you want to delete this report? Deletion can not be undone. Click OK To Delete Report."
 
   report:
+    name: "Name"
+    description: "Description"
     heading: "Primero Reports"
     type: "Type"
     as_of_date: "As of Date"
