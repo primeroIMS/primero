@@ -728,6 +728,9 @@ en:
 
   permissions:
     label: "Permissions"
+    Actions: "Actions"
+    Resources: "Resources"
+    Management: "Management"
     group:
       actions: "Actions"
       resources: "Resources"
@@ -750,6 +753,20 @@ en:
       group: "Access all records owned by users in my group"
       all: "Access all records"
       consent_override: "Consent override"
+      export_list_view_csv: "Export list view csv"
+      export_csv: "Export csv"
+      export_xls: "Export xls"
+      export_photowall: "Export photowall"
+      export_pdf: "Export pdf"
+      export_unhcr_csv: "Export unhcr csv"
+      export_mrm_violation_xls: "Export mrm violation xls"
+      export_incident_recorder_xls: "Export incident recorder xls"
+      export_case_pdf: "Export case pdf"
+      export_json: "Export json"
+      export_custom: "Export custom"
+      import: "Import"
+      transfer: "Transfer"
+      referral: "Referral"
 
   forms:
     label: "Forms"
