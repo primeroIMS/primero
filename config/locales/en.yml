@@ -1033,6 +1033,10 @@ en:
       Description: "Description"
       "Remote app url": "Remote app url"
 
+    attributes:
+      report:
+        aggregate_by: "Group by row"
+
     validations:
       blank: "%s must not be blank"
 
