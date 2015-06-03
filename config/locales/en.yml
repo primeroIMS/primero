@@ -946,6 +946,7 @@ en:
     stop: Stop Synchronization
     configure_a_server: Configure a Server
     reindex_pending: Reindex Pending
+    is_continuous: Is Continuous
 
   lookup:
     edit: "Edit Lookup"
