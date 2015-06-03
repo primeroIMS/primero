@@ -622,6 +622,10 @@ en:
     error_in_updating: "Error in updating the Module details."
     record_type: "Record Types for this module"
     forms: "Forms assigned to this module"
+    program: "Program"
+    associated_record_types: "Associated record types"
+    associated_form_ids: "Assocaited form ids"
+
 
   primero_programs:
     label: "Program"
