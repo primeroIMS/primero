@@ -1111,6 +1111,7 @@ en:
 
   dashboard:
     flagged_by: "Flagged by:"
+    no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
     no_caseworker_data: "No Case Worker Data"
