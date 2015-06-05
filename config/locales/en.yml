@@ -622,6 +622,10 @@ en:
     error_in_updating: "Error in updating the Module details."
     record_type: "Record Types for this module"
     forms: "Forms assigned to this module"
+    program: "Program"
+    associated_record_types: "Associated record types"
+    associated_form_ids: "Assocaited form ids"
+
 
   primero_programs:
     label: "Program"
@@ -728,6 +732,9 @@ en:
 
   permissions:
     label: "Permissions"
+    Actions: "Actions"
+    Resources: "Resources"
+    Management: "Management"
     group:
       actions: "Actions"
       resources: "Resources"
@@ -750,6 +757,20 @@ en:
       group: "Access all records owned by users in my group"
       all: "Access all records"
       consent_override: "Consent override"
+      export_list_view_csv: "Export list view csv"
+      export_csv: "Export csv"
+      export_xls: "Export xls"
+      export_photowall: "Export photowall"
+      export_pdf: "Export pdf"
+      export_unhcr_csv: "Export unhcr csv"
+      export_mrm_violation_xls: "Export mrm violation xls"
+      export_incident_recorder_xls: "Export incident recorder xls"
+      export_case_pdf: "Export case pdf"
+      export_json: "Export json"
+      export_custom: "Export custom"
+      import: "Import"
+      transfer: "Transfer"
+      referral: "Referral"
 
   forms:
     label: "Forms"
@@ -776,6 +797,7 @@ en:
     details: "Form details"
     label: "Form"
     back: "Back To Forms Page"
+    help_text: "Help Text"
     actions:
       actions: "Actions"
       add_custom_field: "Add Custom Field"
@@ -925,6 +947,7 @@ en:
     stop: Stop Synchronization
     configure_a_server: Configure a Server
     reindex_pending: Reindex Pending
+    is_continuous: Is Continuous
 
   lookup:
     edit: "Edit Lookup"
@@ -1089,6 +1112,7 @@ en:
 
   dashboard:
     flagged_by: "Flagged by:"
+    no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
     no_caseworker_data: "No Case Worker Data"
