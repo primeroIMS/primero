@@ -106,35 +106,37 @@ class Report < CouchRest::Model::Base
           self.values = self.values.map{|pivots, _| [pivots, 0]}
         end
         aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
-        if aggregate_counts_from_field.type == Field::TALLY_FIELD
-          self.values = self.values.map do |pivots, value|
-            if pivots.last.present? && pivots.last.match(/\w+:\d+/)
-              tally = pivots.last.split(':')
-              value = value * tally[1].to_i
+        if aggregate_counts_from_field.present?
+          if aggregate_counts_from_field.type == Field::TALLY_FIELD
+            self.values = self.values.map do |pivots, value|
+              if pivots.last.present? && pivots.last.match(/\w+:\d+/)
+                tally = pivots.last.split(':')
+                value = value * tally[1].to_i
+              end
+              [pivots, value]
+            end.to_h
+            self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
+              pivot_name.split(':')[0]
             end
-            [pivots, value]
-          end.to_h
-          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
-            pivot_name.split(':')[0]
-          end
-          self.values = Reports::Utils.correct_aggregate_counts(self.values)
-        elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
-          self.values = self.values.map do |pivots, value|
-            if pivots.last.is_a?(Numeric)
-              value = value * pivots.last
-            elsif pivots.last == ""
-              value = 0
+            self.values = Reports::Utils.correct_aggregate_counts(self.values)
+          elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
+            self.values = self.values.map do |pivots, value|
+              if pivots.last.is_a?(Numeric)
+                value = value * pivots.last
+              elsif pivots.last == ""
+                value = 0
+              end
+              [pivots, value]
+            end.to_h
+            self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
+              (pivot_name.is_a? Numeric) ? "" : pivot_name
             end
-            [pivots, value]
-          end.to_h
-          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
-            (pivot_name.is_a? Numeric) ? "" : pivot_name
+            self.values = self.values.map do |pivots, value|
+              pivots = pivots[0..-2] if pivots.last == ""
+              [pivots, value]
+            end.to_h
+            self.values = Reports::Utils.correct_aggregate_counts(self.values)
           end
-          self.values = self.values.map do |pivots, value|
-            pivots = pivots[0..-2] if pivots.last == ""
-            [pivots, value]
-          end.to_h
-          self.values = Reports::Utils.correct_aggregate_counts(self.values)
         end
       end
       age_field_index = pivot_index(AGE_FIELD)
