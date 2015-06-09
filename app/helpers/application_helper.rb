@@ -1,8 +1,32 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  @@menu_groups = {
+    "Home" => "root",
+    "Children" => "cases",
+    "TracingRequests" => "tracings",
+    "Incidents" => "incidents",
+    "FormSection" => "forms",
+    "Fields" => "forms",
+    "Lookups" => "forms",
+    "Locations" => "forms",
+    "Users" => "setting",
+    "Agencies" => "setting",
+    "Roles" => "setting",
+    "UserGroups" => "setting",
+    "PrimeroPrograms" => "setting",
+    "PrimeroModules" => "setting",
+    "SystemSettings" => "setting",
+    "ContactInformation" => "setting",
+    "Replications" => "replications",
+    "Reports" => "reports"
+  }
 
   def current_url_with_format_of( format )
     url_for( params.merge( :format => format ) )
+  end
+
+  def current_menu(menu_name)
+    "current" if @@menu_groups[controller.name] == menu_name
   end
 
   def current_page(path)

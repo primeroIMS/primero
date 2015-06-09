@@ -26,29 +26,29 @@
               </ul>
             <% end %>
             <ul class="left">
-              <li><%= link_to t("navigation.home"), root_path, class: current_page(root_path) %></li>
+              <li><%= link_to t("navigation.home"), root_path, class: current_menu("root") %></li>
               <% if can? :read, Child %>
-                <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||Open"}), class: current_page(cases_path) %></li>
+                <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||Open"}), class: current_menu("cases") %></li>
               <% end  %>
               <% if can? :read, TracingRequest %>
-                <li><%= link_to t("navigation.tracing_request"), tracing_requests_path, class: current_page(tracing_requests_path) %></li>
+                <li><%= link_to t("navigation.tracing_request"), tracing_requests_path, class: current_menu("tracings") %></li>
               <% end  %>
               <% if can? :read, Incident %>
-                <li><%= link_to t("navigation.incidents"), incidents_path, class: current_page(incidents_path) %></li>
+                <li><%= link_to t("navigation.incidents"), incidents_path, class: current_menu("incidents") %></li>
               <% end  %>
               <% if current_user_name==nil or can? :manage, FormSection %>
-                <li><%= link_to t("navigation.forms"), form_sections_path, class: current_page(form_sections_path) %></li>
+                <li><%= link_to t("navigation.forms"), form_sections_path, class: current_menu("forms") %></li>
               <% end %>
               <%# if can? :read, User or can? :show, Role %>
               <%# TODO: This auth check will need to be tightened up. %>
               <% if can? :edit, Role%>
-                <li><%= link_to t("navigation.users"), users_path %></li>
+                <li><%= link_to t("navigation.users"), users_path, class: current_menu("setting") %></li>
               <% end %>
               <% if can?(:read, Device) or can?(:read, Replication) %>
-                <li><%= link_to t("navigation.replications"), replications_path, class: current_page(replications_path) %></li>
+                <li><%= link_to t("navigation.replications"), replications_path, class: current_menu("replications") %></li>
               <% end %>
               <% if can? :read, Report%>
-                <li><%= link_to t("navigation.reports"), reports_path, class: current_page(reports_path) %></li>
+                <li><%= link_to t("navigation.reports"), reports_path, class: current_menu("reports") %></li>
               <% end %>
             </ul>
           </section>
