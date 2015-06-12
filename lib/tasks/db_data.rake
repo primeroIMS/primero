@@ -41,9 +41,11 @@ namespace :db do
 
 
     desc "Add locations from a JSON"
-    task :generate_locations, :json_file, :layers do |t, args|
+    task :generate_locations, :json_file, :layers, :regions do |t, args|
 
-        types = ['county', 'district']
+        puts args[:regions]
+        types = args[:regions].split(':')
+        puts types.count
 
         file = open(args[:json_file])
         string = file.read
@@ -55,7 +57,6 @@ namespace :db do
         #Create the country
         puts "\#Country"
         puts "Location.create! placename: \"#{country}\", type: \"country\""
-        puts args[:layers]
 
         (1..args[:layers].to_i).each do |layer|
             puts "\n\##{types[layer-1]}"
