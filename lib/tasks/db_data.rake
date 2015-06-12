@@ -39,6 +39,55 @@ namespace :db do
       end
     end
 
+
+    desc "Add locations from a JSON"
+    task :import_locations, :json_file, :layers do |t, args|
+
+        types = ['county', 'district']
+
+        file = open(args[:json_file])
+        string = file.read
+        parsed = JSON.parse(string) # returns a hash
+        
+        #Name of the country
+        country = parsed['features'][0]['properties']['CNTRY_NAME']
+
+        #Create the country
+        puts "\#Country"
+        puts "Location.create! placename: \"#{country}\", type: \"country\""
+        puts args[:layers]
+
+        (1..args[:layers].to_i).each do |layer|
+            puts "\n\##{types[layer-1]}"
+
+            property = "ADM#{layer}_NAME"
+            
+            #Save the names in placenames to not to repeat them
+            placenames = []
+            parsed['features'].each do |feature|
+            
+                placename = feature['properties'][property]
+            
+                #Check if that name has been already parsed
+                if !placenames.include?(placename) then
+                    placenames.push(placename)
+                    hierarchy = []
+                    aux_layers = layer
+                    
+                    #Loop to get the hierarchy
+                    while aux_layers>0 do
+                        parent_property = "ADM#{aux_layers}_NAME"
+                        hierarchy.push feature['properties'][parent_property]
+                        aux_layers -= 1
+                    end
+                    
+                    puts "Location.create! placename:\"#{placename}\", type: \"#{types[layer-1]}\", hierarchy: [\"#{hierarchy.join("\", \"")}\"]"
+                end
+            end
+        end
+    
+    end
+
     desc "Import CPIMS"
     task :import_cpims, [:file, :user] => :environment do |t, args|
       puts "Importing from #{args[:file]}"
