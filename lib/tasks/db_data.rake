@@ -41,7 +41,7 @@ namespace :db do
 
 
     desc "Add locations from a JSON"
-    task :import_locations, :json_file, :layers do |t, args|
+    task :generate_locations, :json_file, :layers do |t, args|
 
         types = ['county', 'district']
 
