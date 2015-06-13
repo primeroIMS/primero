@@ -35,5 +35,5 @@ var Dashboard = Backbone.View.extend({
 });
 
 $(document).ready(function() {
-    new Dashboard();
+    //new Dashboard();
 });
