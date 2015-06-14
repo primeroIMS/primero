@@ -19,7 +19,7 @@ directory log_base_dir do
   group node[:primero][:solr_group]
 end
 
-directory "#{node[:primero][:app_dir]}/solr/data" do
+directory node[:primero][:solr_data_dir] do
   action :create
   mode '0755'
   owner node[:primero][:solr_user]
@@ -27,12 +27,12 @@ directory "#{node[:primero][:app_dir]}/solr/data" do
 end
 
 execute 'change solr owner' do
-  command "chown #{node[:primero][:solr_user]}.#{node[:primero][:solr_group]} -R #{node[:primero][:app_dir]}/solr/data"
-  only_if { ::File.exists?("#{node[:primero][:app_dir]}/solr/data")}
+  command "chown #{node[:primero][:solr_user]}.#{node[:primero][:solr_group]} -R #{node[:primero][:solr_data_dir]}"
+  only_if { ::File.exists?(node[:primero][:solr_data_dir])}
 end
 
 supervisor_service 'solr' do
-  command "java -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:app_dir]}/solr/data/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
+  command "java -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
