@@ -14,6 +14,26 @@ node.force_default[:primero][:couchdb][:config][:admins] = {
 
 package 'couchdb'
 
+if node[:primero][:couchdb][:config][:couchdb]
+  database_dir = node[:primero][:couchdb][:config][:couchdb][:database_dir]
+  if database_dir
+    directory database_dir do
+      action :create
+      owner 'couchdb'
+      group 'couchdb'
+    end
+  end
+
+  view_index_dir = node[:primero][:couchdb][:config][:couchdb][:view_index_dir]
+  if view_index_dir
+    directory view_index_dir do
+      action :create
+      owner 'couchdb'
+      group 'couchdb'
+    end
+  end
+end
+
 directory couchdb_log_dir do
   action :create
   owner 'couchdb'
