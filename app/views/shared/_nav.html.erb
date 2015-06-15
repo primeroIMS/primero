@@ -1,8 +1,6 @@
 <div class="contain-to-grid sticky">
   <% if logged_in? %>
     <nav class="top-bar" data-topbar>
-      <div class="row">
-        <div class="large-12 columns">
           <section class="top-bar-section">
             <% model = controller.model_class %>
             <% if [Child, TracingRequest, Incident].include? model %>
@@ -52,8 +50,6 @@
               <% end %>
             </ul>
           </section>
-        </div>
-      </div>
     </nav>
   <% end %>
 </div>
