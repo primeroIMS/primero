@@ -47,7 +47,8 @@ var Primero = Backbone.View.extend({
   },
 
   init_edit_listeners: function() {
-    if (_.indexOf(['new', 'edit', 'update'], _primero.current_action) > -1) {
+    if ((_.indexOf(['new', 'edit', 'update'], _primero.current_action) > -1) &&
+        (['session','contact_information','system_setting'].indexOf(_primero.model_object) < 0)) {
       $(document).on('click', 'nav a, nav button, header a, .static_links a', function(e) {
         var warn_leaving = confirm(_primero.discard_message);
         if (warn_leaving) {
