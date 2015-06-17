@@ -157,9 +157,8 @@ $(document).ready(function() {
   RapidFTR.hideDirectionalButtons();
   RapidFTR.followTextFieldControl("#field_display_name", "#field_name", RapidFTR.Utils.dehumanize);
   RapidFTR.childPhotoRotation.init();
-    $('#dialog').hide();
-    if (window.location.href.indexOf('login') === -1) {
-    IdleSessionTimeout.start();
+  if (window.location.href.indexOf('login') === -1) {
+      IdleSessionTimeout.start();
   }
 
   RapidFTR.Utils.enableFormErrorChecking();
