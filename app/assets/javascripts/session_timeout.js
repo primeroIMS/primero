@@ -3,7 +3,7 @@ var IdleSessionTimeout = {};
 IdleSessionTimeout.start = function() {
     var dialog_buttons = {};
     dialog_buttons[I18n.t("messages.keep_working")] = function () {$(this).dialog('close');};
-    dialog_buttons[I18n.t("cancel")] = function () {$.idleTimeout.options.onTimeout.call(this);};
+    dialog_buttons[I18n.t("messages.logoff")] = function () {$.idleTimeout.options.onTimeout.call(this);};
     $("#dialog").dialog({
         autoOpen: false,
         modal: true,

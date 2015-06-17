@@ -40,7 +40,7 @@ en:
     are_you_sure: "Are you sure you want to "
     this_user: " this user?"
     keep_working: "Yes, Keep Working"
-    logoff: "No, Logoff"
+    logoff: "No, Log out"
     record_navigation_confirmation_message: "Clicking OK will discard any unsaved changes and navigate to the requested page . Click cancel to return to the record."
     confirmation_message: "Clicking OK will discard any unsaved changes and return to the list view . Click cancel to return to the record."
     cancel_confirmation: "Are you sure you want to cancel?"
