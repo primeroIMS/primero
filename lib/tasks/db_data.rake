@@ -43,9 +43,7 @@ namespace :db do
     desc "Add locations from a JSON"
     task :generate_locations, :json_file, :layers, :regions do |t, args|
 
-        puts args[:regions]
         types = args[:regions].split(':')
-        puts types.count
 
         file = open(args[:json_file])
         string = file.read
@@ -73,13 +71,14 @@ namespace :db do
                 if !placenames.include?(placename) then
                     placenames.push(placename)
                     hierarchy = []
-                    aux_layers = layer
+                    hierarchy.push(country)
+                    aux_layers = 1
                     
                     #Loop to get the hierarchy
-                    while aux_layers>0 do
+                    while aux_layers<layer do
                         parent_property = "ADM#{aux_layers}_NAME"
                         hierarchy.push feature['properties'][parent_property]
-                        aux_layers -= 1
+                        aux_layers += 1
                     end
                     
                     puts "Location.create! placename:\"#{placename}\", type: \"#{types[layer-1]}\", hierarchy: [\"#{hierarchy.join("\", \"")}\"]"
