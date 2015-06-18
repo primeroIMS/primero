@@ -40,7 +40,7 @@ namespace :db do
     end
 
 
-    desc "Add locations from a JSON"
+    desc "Add locations from a JSON. Regions should be split by colons ex: province:region:prefecture"
     task :generate_locations, :json_file, :layers, :regions do |t, args|
 
         types = args[:regions].split(':')
