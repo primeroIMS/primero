@@ -70,38 +70,38 @@ create_or_update_user(
   "is_manager" => "true"
 )
 
-create_or_update_user(
-  "user_name" => "primero_gbv",
-  "password" => "qu01n23",
-  "password_confirmation" => "qu01n23",
-  "full_name" => "GBV Worker",
-  "email" => "primero_gbv@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "GBV Social Worker").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
-  "reporting_hierarchy" => ["primero"]
-)
+# create_or_update_user(
+#   "user_name" => "primero_gbv",
+#   "password" => "qu01n23",
+#   "password_confirmation" => "qu01n23",
+#   "full_name" => "GBV Worker",
+#   "email" => "primero_gbv@primero.com",
+#   "disabled" => "false",
+#   "organization" => "agency-unicef",
+#   "role_ids" => [
+#     Role.by_name(key: "GBV Social Worker").first.id
+#   ],
+#   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+#   "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+#   "reporting_hierarchy" => ["primero"]
+# )
 
-create_or_update_user(
-  "user_name" => "primero_mgr_gbv",
-  "password" => "qu01n23",
-  "password_confirmation" => "qu01n23",
-  "full_name" => "GBV Manager",
-  "email" => "primero_mgr_gbv@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "GBV Manager").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
-  "reporting_hierarchy" => ["primero"],
-  "is_manager" => "true"
-)
+# create_or_update_user(
+#   "user_name" => "primero_mgr_gbv",
+#   "password" => "qu01n23",
+#   "password_confirmation" => "qu01n23",
+#   "full_name" => "GBV Manager",
+#   "email" => "primero_mgr_gbv@primero.com",
+#   "disabled" => "false",
+#   "organization" => "agency-unicef",
+#   "role_ids" => [
+#     Role.by_name(key: "GBV Manager").first.id
+#   ],
+#   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+#   "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+#   "reporting_hierarchy" => ["primero"],
+#   "is_manager" => "true"
+# )
 
 # create_or_update_user(
 #   "user_name" => "primero_mrm",
