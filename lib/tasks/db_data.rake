@@ -39,6 +39,55 @@ namespace :db do
       end
     end
 
+
+    desc "Add locations from a JSON. Regions should be split by colons ex: province:region:prefecture"
+    task :generate_locations, :json_file, :layers, :regions do |t, args|
+
+        types = args[:regions].split(':')
+
+        file = open(args[:json_file])
+        string = file.read
+        parsed = JSON.parse(string) # returns a hash
+        
+        #Name of the country
+        country = parsed['features'][0]['properties']['CNTRY_NAME']
+
+        #Create the country
+        puts "\#Country"
+        puts "Location.create! placename: \"#{country}\", type: \"country\""
+
+        (1..args[:layers].to_i).each do |layer|
+            puts "\n\##{types[layer-1]}"
+
+            property = "ADM#{layer}_NAME"
+            
+            #Save the names in placenames to not to repeat them
+            placenames = []
+            parsed['features'].each do |feature|
+            
+                placename = feature['properties'][property]
+            
+                #Check if that name has been already parsed
+                if !placenames.include?(placename) then
+                    placenames.push(placename)
+                    hierarchy = []
+                    hierarchy.push(country)
+                    aux_layers = 1
+                    
+                    #Loop to get the hierarchy
+                    while aux_layers<layer do
+                        parent_property = "ADM#{aux_layers}_NAME"
+                        hierarchy.push feature['properties'][parent_property]
+                        aux_layers += 1
+                    end
+                    
+                    puts "Location.create! placename:\"#{placename}\", type: \"#{types[layer-1]}\", hierarchy: [\"#{hierarchy.join("\", \"")}\"]"
+                end
+            end
+        end
+    
+    end
+
     desc "Import CPIMS"
     task :import_cpims, [:file, :user] => :environment do |t, args|
       puts "Importing from #{args[:file]}"
