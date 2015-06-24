@@ -28,14 +28,14 @@ fields = [
         }),
 ]
 
-FormSection.create_or_update_form_section({
-  :unique_id=>"mrm_reportable_fields",
-  :parent_form=>"incident",
-  "visible" => false,
-  :order => 1000,
-  :order_form_group => 1000,
-  "editable" => true,
-  :fields => fields,
-  "name_all" => "MRM Reportable Fields",
-  "description_all" => "MRM Incident Reportable Fields"
-})
+# FormSection.create_or_update_form_section({
+#   :unique_id=>"mrm_reportable_fields",
+#   :parent_form=>"incident",
+#   "visible" => false,
+#   :order => 1000,
+#   :order_form_group => 1000,
+#   "editable" => true,
+#   :fields => fields,
+#   "name_all" => "MRM Reportable Fields",
+#   "description_all" => "MRM Incident Reportable Fields"
+# })

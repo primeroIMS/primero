@@ -173,17 +173,17 @@ denial_humanitarian_access_fields = [
   ##Subform##
 ]
 
-FormSection.create_or_update_form_section({
-  :unique_id => "denial_humanitarian_access_violation_wrapper",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 40,
-  :order => 80,
-  :order_subform => 0,
-  :form_group_keyed => true,
-  :form_group_name => "Violations",
-  "editable" => true,
-  :fields => denial_humanitarian_access_fields,
-  "name_all" => "Denial of Humanitarian Access",
-  "description_all" => "Denial of Humanitarian Access"
-})
+# FormSection.create_or_update_form_section({
+#   :unique_id => "denial_humanitarian_access_violation_wrapper",
+#   :parent_form=>"incident",
+#   "visible" => true,
+#   :order_form_group => 40,
+#   :order => 80,
+#   :order_subform => 0,
+#   :form_group_keyed => true,
+#   :form_group_name => "Violations",
+#   "editable" => true,
+#   :fields => denial_humanitarian_access_fields,
+#   "name_all" => "Denial of Humanitarian Access",
+#   "description_all" => "Denial of Humanitarian Access"
+# })

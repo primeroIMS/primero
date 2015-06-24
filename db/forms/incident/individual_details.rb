@@ -140,21 +140,21 @@ individual_details_subform_section = FormSection.create_or_update_form_section({
   "collapsed_fields" => ["sex", "age"]
 })
 
-FormSection.create_or_update_form_section({
-  :unique_id => "individual_details",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 50,
-  :order => 10,
-  :order_subform => 0,
-  :form_group_name => "Individual Details",
-  "editable" => true,
-  :fields => [Field.new({"name" => "individual_details_subform_section",
-                         "type" => "subform", "editable" => true,
-                         "subform_section_id" => individual_details_subform_section.unique_id,
-                         "display_name_all" => "Individual Details"
-                        })
-             ],
-  "name_all" => "Individual Details",
-  "description_all" => "Individual Details"
-})
+# FormSection.create_or_update_form_section({
+#   :unique_id => "individual_details",
+#   :parent_form=>"incident",
+#   "visible" => true,
+#   :order_form_group => 50,
+#   :order => 10,
+#   :order_subform => 0,
+#   :form_group_name => "Individual Details",
+#   "editable" => true,
+#   :fields => [Field.new({"name" => "individual_details_subform_section",
+#                          "type" => "subform", "editable" => true,
+#                          "subform_section_id" => individual_details_subform_section.unique_id,
+#                          "display_name_all" => "Individual Details"
+#                         })
+#              ],
+#   "name_all" => "Individual Details",
+#   "description_all" => "Individual Details"
+# })

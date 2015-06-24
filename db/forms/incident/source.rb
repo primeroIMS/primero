@@ -136,16 +136,16 @@ source_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
-  :unique_id => "source",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 70,
-  :order => 10,
-  :order_subform => 0,
-  :form_group_name => "Source",
-  "editable" => true,
-  :fields => source_fields,
-  "name_all" => "Source",
-  "description_all" => "Source"
-})
+# FormSection.create_or_update_form_section({
+#   :unique_id => "source",
+#   :parent_form=>"incident",
+#   "visible" => true,
+#   :order_form_group => 70,
+#   :order => 10,
+#   :order_subform => 0,
+#   :form_group_name => "Source",
+#   "editable" => true,
+#   :fields => source_fields,
+#   "name_all" => "Source",
+#   "description_all" => "Source"
+# })

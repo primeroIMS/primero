@@ -88,16 +88,16 @@ group_details_fields = [
   ##Subform##
 ]
 
-FormSection.create_or_update_form_section({
-  :unique_id => "group_details",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 60,
-  :order => 10,
-  :order_subform => 0,
-  :form_group_name => "Group Details",
-  "editable" => true,
-  :fields => group_details_fields,
-  "name_all" => "Group Details",
-  "description_all" => "Group Details"
-})
+# FormSection.create_or_update_form_section({
+#   :unique_id => "group_details",
+#   :parent_form=>"incident",
+#   "visible" => true,
+#   :order_form_group => 60,
+#   :order => 10,
+#   :order_subform => 0,
+#   :form_group_name => "Group Details",
+#   "editable" => true,
+#   :fields => group_details_fields,
+#   "name_all" => "Group Details",
+#   "description_all" => "Group Details"
+# })

@@ -32,7 +32,7 @@ create_or_update_role(
     Permission::WRITE,
     Permission::FLAG,
     Permission::CASE,
-    Permission::TRACING_REQUEST
+    #Permission::TRACING_REQUEST
   ] + export_permissions
 )
 
@@ -45,7 +45,7 @@ create_or_update_role(
     Permission::REPORT_CREATE,
     Permission::CONSENT_OVERRIDE,
     Permission::CASE,
-    Permission::TRACING_REQUEST,
+    #Permission::TRACING_REQUEST,
     Permission::REPORT,
     Permission::USER,
     Permission::GROUP,
@@ -81,31 +81,31 @@ create_or_update_role(
   ] + export_permissions
 )
 
-create_or_update_role(
-  :name => "MRM Worker", #TODO: Is there a better name?
-  :permissions => [
-    Permission::READ,
-    Permission::WRITE,
-    Permission::FLAG,
-    Permission::INCIDENT
-  ] + export_permissions
-)
+# create_or_update_role(
+#   :name => "MRM Worker", #TODO: Is there a better name?
+#   :permissions => [
+#     Permission::READ,
+#     Permission::WRITE,
+#     Permission::FLAG,
+#     Permission::INCIDENT
+#   ] + export_permissions
+# )
 
-create_or_update_role(
-  :name => "MRM Manager",
-  :permissions => [
-    Permission::READ,
-    Permission::FLAG,
-    Permission::ASSIGN,
-    Permission::REPORT_CREATE,
-    Permission::CONSENT_OVERRIDE,
-    Permission::INCIDENT,
-    Permission::USER,
-    Permission::GROUP,
-    Permission::REPORT,
-    Permission::EXPORT_CUSTOM
-] + export_permissions
-)
+# create_or_update_role(
+#   :name => "MRM Manager",
+#   :permissions => [
+#     Permission::READ,
+#     Permission::FLAG,
+#     Permission::ASSIGN,
+#     Permission::REPORT_CREATE,
+#     Permission::CONSENT_OVERRIDE,
+#     Permission::INCIDENT,
+#     Permission::USER,
+#     Permission::GROUP,
+#     Permission::REPORT,
+#     Permission::EXPORT_CUSTOM
+# ] + export_permissions
+# )
 
 create_or_update_role(
   :name => "Referral",
