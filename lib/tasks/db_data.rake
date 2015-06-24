@@ -136,6 +136,23 @@ namespace :db do
 
     end
 
+    desc "Deletes out all metadata. Do this only if you need to reseed from scratch!"
+    task :remove_metadata, [:metadata] => :environment do |t, args|
+      metadata_models = if args[:metadata].present?
+        args[:metadata].split(',').map{|m| Kernel.const_get(m)}
+      else
+        [
+          Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
+          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, User, UserGroup
+        ]
+      end
+
+      metadata_models.each do |m|
+        puts "Deleting the database for #{m.name}"
+        m.database.delete!
+      end
+    end
+
 
     #Assign the default owner of all records to be the creator.
     #If no creator exits, set it to be the fallback_user
