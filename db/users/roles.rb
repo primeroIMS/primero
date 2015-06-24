@@ -32,7 +32,7 @@ create_or_update_role(
     Permission::WRITE,
     Permission::FLAG,
     Permission::CASE,
-    #Permission::TRACING_REQUEST
+    Permission::TRACING_REQUEST
   ] + export_permissions
 )
 
@@ -45,7 +45,7 @@ create_or_update_role(
     Permission::REPORT_CREATE,
     Permission::CONSENT_OVERRIDE,
     Permission::CASE,
-    #Permission::TRACING_REQUEST,
+    Permission::TRACING_REQUEST,
     Permission::REPORT,
     Permission::USER,
     Permission::GROUP,
