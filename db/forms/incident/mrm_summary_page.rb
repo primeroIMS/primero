@@ -490,17 +490,17 @@ mrm_summary_page_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
-  :unique_id => "mrm_summary_page",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 1,
-  :order => 1,
-  :order_subform => 0,
-  :form_group_keyed => true,
-  :form_group_name => "Summary Page",
-  "editable" => true,
-  :fields => mrm_summary_page_fields,
-  "name_all" => "Summary Page",
-  "description_all" => "Summary Page"
-})
+# FormSection.create_or_update_form_section({
+#   :unique_id => "mrm_summary_page",
+#   :parent_form=>"incident",
+#   "visible" => true,
+#   :order_form_group => 1,
+#   :order => 1,
+#   :order_subform => 0,
+#   :form_group_keyed => true,
+#   :form_group_name => "Summary Page",
+#   "editable" => true,
+#   :fields => mrm_summary_page_fields,
+#   "name_all" => "Summary Page",
+#   "description_all" => "Summary Page"
+# })

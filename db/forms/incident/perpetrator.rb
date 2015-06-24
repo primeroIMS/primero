@@ -134,16 +134,16 @@ perpetrator_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
-  :unique_id => "perpetrators_form",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 80,
-  :order => 10,
-  :order_subform => 0,
-  :form_group_name => "Perpetrator",
-  "editable" => true,
-  :fields => perpetrator_fields,
-  "name_all" => "Perpetrator",
-  "description_all" => "Perpetrator"
-})
+# FormSection.create_or_update_form_section({
+#   :unique_id => "perpetrators_form",
+#   :parent_form=>"incident",
+#   "visible" => true,
+#   :order_form_group => 80,
+#   :order => 10,
+#   :order_subform => 0,
+#   :form_group_name => "Perpetrator",
+#   "editable" => true,
+#   :fields => perpetrator_fields,
+#   "name_all" => "Perpetrator",
+#   "description_all" => "Perpetrator"
+# })
