@@ -104,9 +104,9 @@ FormSection.create_or_update_form_section({
   :order_form_group => 0,
   :order => 0,
   :order_subform => 0,
-  :form_group_name => "Record Owner",
+  :form_group_name => "Record Information",
   "editable" => true,
   :fields => record_owner_fields,
-  "name_all" => "Record Owner",
-  "description_all" => "Record Owner"
+  "name_all" => "Record Information",
+  "description_all" => "Record Information"
 })
