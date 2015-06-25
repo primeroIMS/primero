@@ -104,7 +104,7 @@ reunification_details_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "reunification_details",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 140,
   :order => 40,
   :order_subform => 0,

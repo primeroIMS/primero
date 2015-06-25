@@ -41,7 +41,7 @@ tracing_action_subform = [
 
 tracing_actions_section = FormSection.create_or_update_form_section({
      "visible"=>false,
-     "is_nested"=>true,
+     "is_nested"=>false,
      :order_form_group => 130,
      :order => 20,
      :order_subform => 2,
@@ -174,7 +174,7 @@ tracing_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "tracing",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 130,
   :order => 20,
   :order_subform => 0,

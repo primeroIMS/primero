@@ -53,7 +53,7 @@ best_interest_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "best_interest",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 70,
   :order => 20,
   :order_subgroup => 0,

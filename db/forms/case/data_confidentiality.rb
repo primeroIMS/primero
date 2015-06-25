@@ -77,7 +77,7 @@ consent_fields = [
 FormSection.create_or_update_form_section({
   :unique_id=>"consent",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 40,
   :order => 10,
   :order_subform => 0,

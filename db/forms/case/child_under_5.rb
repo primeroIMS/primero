@@ -73,7 +73,7 @@ child_under_5_fields = [
 FormSection.create_or_update_form_section({
   :unique_id=>"child_under_5",
   :parent_form=>"case",
-  "visible"=>true,
+  "visible"=>false,
   :order_form_group => 70,
   :order => 40,
   :order_subform => 0,
