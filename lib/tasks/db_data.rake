@@ -1,6 +1,9 @@
+require 'writeexcel'
+
 namespace :db do
 
   namespace :data do
+
     desc "Create test records for quickly testing out features"
     task :dev_fixtures => :environment do
       unless Rails.env == 'development'
@@ -48,7 +51,7 @@ namespace :db do
         file = open(args[:json_file])
         string = file.read
         parsed = JSON.parse(string) # returns a hash
-        
+
         #Name of the country
         country = parsed['features'][0]['properties']['CNTRY_NAME']
 
@@ -60,32 +63,32 @@ namespace :db do
             puts "\n\##{types[layer-1]}"
 
             property = "ADM#{layer}_NAME"
-            
+
             #Save the names in placenames to not to repeat them
             placenames = []
             parsed['features'].each do |feature|
-            
+
                 placename = feature['properties'][property]
-            
+
                 #Check if that name has been already parsed
                 if !placenames.include?(placename) then
                     placenames.push(placename)
                     hierarchy = []
                     hierarchy.push(country)
                     aux_layers = 1
-                    
+
                     #Loop to get the hierarchy
                     while aux_layers<layer do
                         parent_property = "ADM#{aux_layers}_NAME"
                         hierarchy.push feature['properties'][parent_property]
                         aux_layers += 1
                     end
-                    
+
                     puts "Location.create! placename:\"#{placename}\", type: \"#{types[layer-1]}\", hierarchy: [\"#{hierarchy.join("\", \"")}\"]"
                 end
             end
         end
-    
+
     end
 
     desc "Import CPIMS"
@@ -183,6 +186,62 @@ namespace :db do
         end
       end
 
+    end
+
+
+    desc "Deletes out all metadata. Do this only if you need to reseed from scratch!"
+    task :remove_metadata, [:metadata] => :environment do |t, args|
+      metadata_models = if args[:metadata].present?
+        args[:metadata].split(',').map{|m| Kernel.const_get(m)}
+      else
+        [
+          Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
+          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, User, UserGroup
+        ]
+      end
+
+      metadata_models.each do |m|
+        puts "Deleting the database for #{m.name}"
+        m.database.delete!
+      end
+    end
+
+    desc "Exports forms to an Excel spreadsheet"
+    task :forms_to_spreadsheet, [:type, :module] => :environment do |t, args|
+
+      module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
+      type = args[:type].present? ? args[:module] : 'case'
+      file_name = "forms.xls"
+      puts "Writing forms to #{file_name}"
+
+      workbook = WriteExcel.new(File.open(file_name, 'w'))
+      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Options']
+
+      primero_module = PrimeroModule.get(module_id)
+      forms = primero_module.associated_forms_grouped_by_record_type(false)
+      forms = forms[type]
+
+      forms.sort_by{|f| [f.order, f.order_form_group]}.each do |form|
+        write_out_form(form, workbook, header)
+      end
+
+      workbook.close
+    end
+
+    def write_out_form(form, workbook, header)
+      worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
+      worksheet.write(0, 0, header)
+      form.fields.each_with_index do |field, i|
+        options = ''
+        if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
+          options = field.options_list.join(', ')
+        elsif field.type == 'subform'
+          subform = field.subform_section
+          options = "Subform: #{subform.name}"
+          write_out_form(subform, workbook, header)
+        end
+        worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field.type, field.display_name, options])
+      end
     end
 
 
