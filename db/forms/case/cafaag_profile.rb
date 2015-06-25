@@ -157,7 +157,7 @@ caafag_profile_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "caafag_profile",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 70,
   :order => 50,
   :order_subform => 0,

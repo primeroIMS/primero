@@ -2,7 +2,7 @@ partner_details_fields = [
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
              "display_name_all" => "Current Civil/Marital Status",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Single",
                            "Married/Cohabitating",
                            "Divorced/Separated",
@@ -23,7 +23,7 @@ partner_details_fields = [
   Field.new({"name" => "marital_status_during_separation",
              "type" => "select_box",
              "display_name_all" => "Marital Status During Separation",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Married",
                            "Separated/Divorced",
                            "Single",
@@ -45,7 +45,7 @@ partner_details_fields = [
   Field.new({"name" => "marital_status_pre_separation",
              "type" => "select_box",
              "display_name_all" => "Marital Status Prior to Separation",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Married",
                            "Separated/Divorced",
                            "Single",
@@ -69,7 +69,7 @@ partner_details_fields = [
 FormSection.create_or_update_form_section({
   :unique_id => "partner_details",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 50,
   :order => 20,
   :order_subform => 0,
