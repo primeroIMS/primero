@@ -81,6 +81,29 @@ create_or_update_role(
   ] + export_permissions
 )
 
+create_or_update_role(
+  :name => "CP Administrator",
+  :permissions => [
+    Permission::READ,
+    Permission::WRITE,
+    Permission::FLAG,
+    Permission::ASSIGN,
+    Permission::REPORT_CREATE,
+    Permission::CONSENT_OVERRIDE,
+    Permission::CASE,
+    Permission::TRACING_REQUEST,
+    Permission::USER,
+    Permission::METADATA,
+    Permission::SYSTEM,
+    Permission::IMPORT,
+    Permission::REPORT,
+    Permission::REFERRAL,
+    Permission::TRANSFER,
+    Permission::ALL,
+    Permission::EXPORT_CUSTOM
+  ] + export_permissions
+)
+
 # create_or_update_role(
 #   :name => "MRM Worker", #TODO: Is there a better name?
 #   :permissions => [
