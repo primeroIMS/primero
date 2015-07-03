@@ -11,6 +11,8 @@ default[:primero].tap do |p|
   p[:solr_user] = 'solr'
   p[:solr_group] = 'solr'
 
+  p[:no_reseed] = false
+
   p[:git].tap do |git|
     git[:repo] = 'git@bitbucket.org:quoin/primero.git'
     git[:revision] = 'master'

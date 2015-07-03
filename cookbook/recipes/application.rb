@@ -235,6 +235,7 @@ end
 
 execute_bundle 'setup-db-seed' do
   command "rake db:seed"
+  environment({"NO_RESEED" => "true"}) if node[:primero][:no_reseed]
 end
 
 execute_bundle 'setup-db-migrate' do
