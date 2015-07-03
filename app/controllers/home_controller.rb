@@ -47,16 +47,26 @@ class HomeController < ApplicationController
   def build_manager_stats(cases, flags)
     @aggregated_case_worker_stats = {}
 
-    cases.facet(:created_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {total_cases: c.count}}
-
+    cases.facet(:owned_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {total_cases: c.count}}
     flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
          .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g] = {cases_this_week: f.count}}
+         .each do |g, fz|
+            if @aggregated_case_worker_stats[g].present?
+              @aggregated_case_worker_stats[g][:cases_this_week] = fz.count
+            # else
+            #   @aggregated_case_worker_stats[g] = {cases_this_week: f.count}
+            end
+          end
 
     flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
          .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
-
+         .each do |g, fz|
+            if @aggregated_case_worker_stats[g].present?
+              @aggregated_case_worker_stats[g][:cases_overdue] = fz.count
+            # else
+            #   @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
+            end
+          end
     @aggregated_case_worker_stats
   end
 
@@ -78,9 +88,23 @@ class HomeController < ApplicationController
 
   def load_manager_information
     # TODO: Will Open be translated?
-    cases = Child.search {
-      facet :created_by, except: [with(:child_status, 'Open'), with(:module_id, @module_ids)], limit: -1
-    }
+    module_ids = @module_ids
+
+    cases = Child.search do
+      with(:child_status, 'Open')
+      if module_ids.present?
+        any_of do
+          module_ids.each do |m|
+            with(:module_id, m)
+          end
+        end
+      end
+      facet :owned_by, limit: -1
+      adjust_solr_params do |params|
+        params['f.owned_by_s.facet.mincount'] = 0
+      end
+      paginate page: 1, per_page: 0
+    end
 
     flags = search_flags({
       field: :flag_date,
