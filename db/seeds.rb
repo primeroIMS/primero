@@ -4,7 +4,7 @@
 # Please keep the seeding idempotent, as it may be used as a migration if upgrading a production
 # instance is necessary and the target version has introduced any new types requiring seeds.
 def should_seed? model
-  empty = isTableEmpty? model
+  empty = isTableEmpty?(model) || !ENV['NO_RESEED']
   puts(empty ? "Seeding #{model}." : "Not seeding #{model}. Already populated.")
   empty
 end
@@ -26,31 +26,31 @@ require File.dirname(__FILE__) + "/system_settings/system_settings.rb"
 
 #Reseed the lookups
 puts "Seeding Lookups"
-require File.dirname(__FILE__) + "/lookups/lookups.rb"
+require File.dirname(__FILE__) + "/lookups/lookups.rb" if should_seed? Lookup
 puts "Seeding Locations"
-require File.dirname(__FILE__) + "/lookups/locations.rb"
+require File.dirname(__FILE__) + "/lookups/locations.rb" if should_seed? Location
 
 #Create the forms
 puts "[Re-]Seeding the forms"
-Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file } if should_seed? FormSection
 
 
 #Reseed the default roles and users, and modules
 puts "Seeding Roles"
-require File.dirname(__FILE__) + "/users/roles.rb"
+require File.dirname(__FILE__) + "/users/roles.rb" if should_seed?(Role)
 puts "Seeding Programs"
-require File.dirname(__FILE__) + "/users/default_programs.rb"
+require File.dirname(__FILE__) + "/users/default_programs.rb" if should_seed?(PrimeroProgram)
 puts "Seeding Modules"
-require File.dirname(__FILE__) + "/users/default_modules.rb"
+require File.dirname(__FILE__) + "/users/default_modules.rb" if should_seed?(PrimeroModule)
 puts "Seeding User Groups"
-require File.dirname(__FILE__) + "/users/default_user_groups.rb"
+require File.dirname(__FILE__) + "/users/default_user_groups.rb" if should_seed?(UserGroup)
 puts "Seeding Agencies"
-require File.dirname(__FILE__) + "/users/default_agencies.rb"
+require File.dirname(__FILE__) + "/users/default_agencies.rb" if should_seed?(Agency)
 puts "Seeding Users"
-require File.dirname(__FILE__) + "/users/default_users.rb"
+require File.dirname(__FILE__) + "/users/default_users.rb" if should_seed?(User)
 puts "Seeding Default Reports"
 #require File.dirname(__FILE__) + "/reports/reports.rb"
-Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file } if should_seed?(Report)
 
 
 #TODO We will to revisit the I18n Setup when we address translations.
