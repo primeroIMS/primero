@@ -57,5 +57,6 @@ Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file } if sho
 #RapidFTR::I18nSetup.reset_definitions
 
 if should_seed? ContactInformation
-  ContactInformation.create(:id=>"administrator")
+  #A little hacky, but no need to write a create_or_update method
+  ContactInformation.create(:id=>"administrator") if isTableEmpty?(ContactInformation)
 end
