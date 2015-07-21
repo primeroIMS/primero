@@ -224,7 +224,7 @@ GEM
       rspec (>= 2.0, < 4.0)
     launchy (2.4.2)
       addressable (~> 2.3)
-    libv8 (3.16.14.11)
+    libv8 (3.11.8.17)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     main (6.0.0)
@@ -335,7 +335,7 @@ GEM
       ruby2ruby (>= 2.0.8, < 3.0)
       ruby_parser (~> 3.3)
       sexp_processor
-    ref (2.0.0)
+    ref (1.0.5)
     request_exception_handler (0.5.0)
       actionpack (>= 2.1)
     require_all (1.3.2)
@@ -424,8 +424,8 @@ GEM
     sunspot_solr (2.1.1)
     sunspot_test (0.4.0)
       sunspot_rails (>= 1.2.1)
-    therubyracer (0.12.2)
-      libv8 (~> 3.16.14.0)
+    therubyracer (0.11.4)
+      libv8 (~> 3.11.8.12)
       ref
     thin (1.6.2)
       daemons (>= 1.0.9)
@@ -515,7 +515,7 @@ DEPENDENCIES
   sunspot_rails (= 2.1.1)
   sunspot_solr (= 2.1.1)
   sunspot_test
-  therubyracer (~> 0.12.2)
+  therubyracer (~> 0.11.4)
   thin (~> 1.6.1)
   uglifier (~> 2.0.1)
   uuidtools (~> 2.1.1)
