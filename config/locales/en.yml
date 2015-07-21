@@ -123,6 +123,7 @@ en:
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
      ok: 'OK'
+     cancel: "Cancel"
      edit_subform: 'Edit Subform'
      create_new_record: "Create New %{model}"
      bundle_import: "Configuration Bundle"
@@ -261,6 +262,7 @@ en:
       cancel: "Cancel"
       delete_photo: "Delete photo?"
       delete_audio: "Delete audio?"
+      delete_document: "Delete document?"
       choose_as_primary_photo: "Choose as primary photo"
       rotate_anti_clockwise: "Rotate Anti-Clockwise"
       restore_image: "Restore Original Image"
@@ -1008,6 +1010,7 @@ en:
     all: "Total"
     total: "Total"
     modules: "Modules"
+    record_type: "Record type"
     aggregate_by: "Group by row"
     disaggregate_by: "Group by column"
     aggregate_counts_from: "Aggregate counts from"
