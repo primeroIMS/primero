@@ -48,6 +48,7 @@ cookbook_file known_hosts_path do
   source 'ssh/known_hosts'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
+  mode '0400'
 end
 
 git_wrapper_path = File.join(ssh_dir, 'git-wrapper.sh')
@@ -169,6 +170,7 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
+  mode '444'
 end
 
 include_recipe 'primero::solr'

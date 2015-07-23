@@ -14,14 +14,14 @@ log_base_dir = ::File.join(node[:primero][:log_dir], 'solr')
 
 directory log_base_dir do
   action :create
-  mode '0777'
+  mode '0700'
   owner node[:primero][:solr_user]
   group node[:primero][:solr_group]
 end
 
 directory node[:primero][:solr_data_dir] do
   action :create
-  mode '0755'
+  mode '0700'
   owner node[:primero][:solr_user]
   group node[:primero][:solr_group]
 end
