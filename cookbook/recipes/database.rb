@@ -21,6 +21,7 @@ if node[:primero][:couchdb][:config][:couchdb]
       action :create
       owner 'couchdb'
       group 'couchdb'
+      mode '700'
     end
   end
 
@@ -30,6 +31,7 @@ if node[:primero][:couchdb][:config][:couchdb]
       action :create
       owner 'couchdb'
       group 'couchdb'
+      mode '700'
     end
   end
 end
@@ -38,6 +40,7 @@ directory couchdb_log_dir do
   action :create
   owner 'couchdb'
   group 'couchdb'
+  mode '700'
 end
 
 file node[:primero][:couchdb][:cert_path] do
@@ -59,7 +62,7 @@ template '/etc/couchdb/local.ini' do
   group 'couchdb'
   source 'couchdb/local.ini.erb'
   variables( :config => node[:primero][:couchdb][:config] )
-  mode '0644'
+  mode '0600'
   notifies :restart, 'service[couchdb]', :immediately
 end
 
