@@ -1,5 +1,6 @@
 <% content_for :resource_show_fields do %>
-  <%= resource_show_field @agency, 'name', 'agencies.name' %>
+  <%= resource_show_field @agency, 'name', 'agency.name' %>
+  <%= resource_show_field @agency, 'agency_code', 'agency.code' %>
   <%= resource_show_field @agency, 'description', 'description' %>
   <%= resource_show_field @agency, 'logo', 'agencies.logo' %>
 <% end %>
