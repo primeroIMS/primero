@@ -13,5 +13,6 @@ def create_or_update_agency(agency_hash)
 end
 
 create_or_update_agency(
-  name: "UNICEF"
+  name: "UNICEF",
+  agency_code: "UN"
 )
