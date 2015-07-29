@@ -23,6 +23,10 @@ describe Location do
     expect(@town1.name).to eq(@town1.hierarchical_name)
   end
 
+  it 'returns all names' do
+    expect(Location.all_names).to eq([@country.name, @province1.name, @province2.name, @province3.name, @town1.name, @town2.name, @town3.name])
+  end
+
   it 'sets the #name to #hierarchical_name when saving' do
     @town1.placename = "Pawtucket"
     expect(@town1['name']).to_not eq(@town1.hierarchical_name)
@@ -52,5 +56,17 @@ describe Location do
     location1.set_parent(location2)
 
     expect(location2.descendants).to match_array [location1]
+  end
+
+  it "should only allow unique location hierachies" do
+    country1 = Location.new(placename: 'USA', type: 'country')
+    country1.save
+
+    state1 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country1.placename])
+    state1.save
+
+    state2 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country1.placename])
+    state2.save
+    state2.errors[:name].should == ["A Location with that name already exists, please enter a different name"]
   end
 end
