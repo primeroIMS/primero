@@ -67,6 +67,21 @@ describe Location do
 
     state2 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country1.placename])
     state2.save
+    state2.should_not be_valid
     state2.errors[:name].should == ["A Location with that name already exists, please enter a different name"]
+  end
+
+  it "should allow locations with same placename but different hierachies" do
+    country1 = Location.new(placename: 'USA', type: 'country')
+    country1.save
+    country2 = Location.new(placename: 'Canada', type: 'country')
+    country2.save
+
+    state1 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country1.placename])
+    state1.save
+
+    state2 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country2.placename])
+    state2.save
+    state2.should be_valid
   end
 end
