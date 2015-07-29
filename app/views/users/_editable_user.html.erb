@@ -99,7 +99,7 @@
         </span>
       </div>
       <div class="medium-8 columns">
-        <%= f.select :organization, Agency.available_agency_names, { include_blank: t('agencies.select_prompt') } %>
+        <%= f.select :organization, @agency_names, { include_blank: t('agencies.select_prompt') } %>
       </div>
       <div class="medium-1 columns">
         <span class="required">*</span>
@@ -107,7 +107,21 @@
     </div>
 
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
-    <%= resource_edit_field @user, 'location', 'user.location', 'text_field' %>
+
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <label class="key" for="user_location" ><%= t("user.location") %></label>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <%= f.select :location, @location_names,
+            { include_blank: t('fields.select_box_empty_item') },
+            { class: 'chosen-select' }
+        %>
+      </div>
+      <div class="medium-1 columns"></div>
+    </div>
 
     <% if !trying_to_edit_ourself && can?(:disable, @user) %>
         <div class="row">

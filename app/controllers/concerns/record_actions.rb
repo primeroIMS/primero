@@ -214,7 +214,7 @@ module RecordActions
   end
 
   def load_locations
-    @locations = Location.all.map{|r| r.name}
+    @locations = Location.all_names
   end
 
   # This is to ensure that if a hash has numeric keys, then the keys are sequential
