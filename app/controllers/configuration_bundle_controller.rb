@@ -32,7 +32,7 @@ class ConfigurationBundleController < ApplicationController
                                                    end})
     end
 
-    encrypt_data_to_zip(bundle_data.to_json, "configuration-bundle-#{request.host}.json", params[:password])
+    encrypt_data_to_zip(JSON.pretty_generate(bundle_data), "configuration-bundle-#{request.host}.json", params[:password])
   end
 
   def import_bundle
