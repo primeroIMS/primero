@@ -7,13 +7,19 @@ describe Agency do
   end
 
   it "should create a valid lookup" do
-    Agency.new(:name => "unicef").should be_valid
+    Agency.new(:name => "unicef", :agency_code => "abc123").should be_valid
   end
 
   it "should not be valid if name is empty" do
-    agency = Agency.new
+    agency = Agency.new(:agency_code => "abc123")
     agency.should_not be_valid
-    agency.errors[:name].should == ["Name or Code must not be blank"]
+    agency.errors[:name].should == ["must not be blank"]
+  end
+
+  it "should not be valid if agency code is empty" do
+    agency = Agency.new(:name => "unicef")
+    agency.should_not be_valid
+    agency.errors[:agency_code].should == ["must not be blank"]
   end
 
   it "should not allow invalid logo uploads" do
@@ -23,13 +29,13 @@ describe Agency do
   end
 
   it "should allow valid logo uploads" do
-    agency = Agency.new(:name => "irc", 'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency = Agency.new(:name => "irc", :agency_code => "12345", 'upload_logo' => {'logo' => uploadable_photo_gif})
     agency.should be_valid
   end
 
   it "should remove old logos before updating logos" do
     Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-    agency = Agency.new(:name => "irc", 'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency = Agency.new(:name => "irc", :agency_code => "12345", 'upload_logo' => {'logo' => uploadable_photo_gif})
     agency.save
     agency["logo_key"].should eq("logo-2010-01-17T140532")
     agency['_attachments']['logo-2010-01-17T140532']['data'].should_not be_blank
@@ -45,17 +51,17 @@ describe Agency do
   end
 
   it "should only allow unique agency names" do
-    agency1 = Agency.new(:name => "irc")
+    agency1 = Agency.new(:name => "irc", :agency_code => "1234")
     agency1.save
-    agency2 = Agency.new(:name => "irc")
+    agency2 = Agency.new(:name => "irc", :agency_code => "5678")
     agency2.save
     agency2.errors[:name].should == ["An Agency with that name already exists, please enter a different name"]
   end
 
   it "should return all the available agency names" do
-    agency1 = Agency.new(:name => "agency1")
-    agency2 = Agency.new(:name => "agency2")
-    agency3 = Agency.new(:name => "agency3")
+    agency1 = Agency.new(:name => "agency1", :agency_code => "1111")
+    agency2 = Agency.new(:name => "agency2", :agency_code => "2222")
+    agency3 = Agency.new(:name => "agency3", :agency_code => "3333")
     agency1.save
     agency2.save
     agency3.save
@@ -69,13 +75,13 @@ describe Agency do
   it "should return all available agency logos for the header" do
     Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
 
-    agency1 = Agency.new(:name => "agency1", 'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency1 = Agency.new(:name => "agency1", :agency_code => "1111", :logo_enabled => true, 'upload_logo' => {'logo' => uploadable_photo_gif})
     agency1.save
 
-    agency2 = Agency.new(:name => "agency2")
+    agency2 = Agency.new(:name => "agency2", :agency_code => "2222")
     agency2.save
 
-    agency3 = Agency.new(:name => "agency3", 'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency3 = Agency.new(:name => "agency3", :agency_code => "3333", :logo_enabled => true,  'upload_logo' => {'logo' => uploadable_photo_gif})
     agency3.save
 
     logos = Agency.retrieve_logo_ids
