@@ -13,12 +13,15 @@ class Agency < CouchRest::Model::Base
   property :order, Integer, default: 0
   property :logo_enabled, TrueClass, :default => false
   property :core_resource, TrueClass, :default => false
+  property :agency_code
 
   #TODO: What are some other agency fields?
 
   design do
     view :by_order
   end
+
+  validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
 
   class << self
     alias :old_all :all

@@ -580,7 +580,6 @@ en:
   agencies:
     logo: 'Logo'
     logo_enabled: 'Logo enabled?'
-    name: 'Name or Code'
     label: "Agency"
     successfully_created: "Agency successfully created."
     successfully_updated: "Agency successfully updated."
@@ -596,6 +595,11 @@ en:
       confirmation: "Are you sure you want to delete this agency? Deletion can not be undone. Click OK to delete the agency."
     select_prompt: "Please select an agency"
     error_in_updating: "Error in updating the Agency details."
+
+  agency:
+    edit: 'Edit Agency'
+    name: 'Agency Name'
+    code: 'Agency Code'
 
   system_settings:
     label: "System Settings"
@@ -697,6 +701,7 @@ en:
     no_activity: "has no activity"
     location: "Location"
     organization: "Organization"
+    agency: "Agency"
 
   actions: "actions"
   phone: "Phone"
@@ -1291,7 +1296,8 @@ en:
 
       agency:
         unique_name: "An Agency with that name already exists, please enter a different name"
-        name_present: "or Code must not be blank"
+        name_present: "must not be blank"
+        code_present: "must not be blank"
 
       location:
         name_present: "must not be blank"
