@@ -6,6 +6,8 @@ class UsersController < ApplicationController
 
   before_filter :clean_role_ids, :only => [:update, :create]
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
+  before_filter :agency_names, :only => [:new, :edit]
+  before_filter :location_names, :only => [:new, :edit]
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
 
@@ -156,6 +158,14 @@ class UsersController < ApplicationController
       flash[:error] = t("user.messages.not_found")
       redirect_to :action => :index and return
     end
+  end
+
+  def agency_names
+    @agency_names = Agency.available_agency_names
+  end
+
+  def location_names
+    @location_names = Location.all_names
   end
 
   def clean_role_ids

@@ -102,6 +102,11 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_types_in_hierarchy
 
+    def all_names
+      self.all.map{|r| r.name}
+    end
+    memoize_in_prod :all_names
+
   end
 
   def hierarchical_name
