@@ -26,6 +26,11 @@ module FieldsHelper
   def field_value(object, field, field_keys=[])
     if field.nil?
       object.value_for_attr_keys(field_keys)
+    elsif field_keys.include? "template"
+       # If 'template' exists in the field_keys, this is a new subform
+       # The 'template' key is later replaced with the proper index value via JavaScript
+       # But for now, there is no value so just return empty string
+       ''
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type

@@ -57,7 +57,7 @@ describe "form_section/_form_section.html.erb" do
 
     context "new record" do
 
-      xit "renders text fields with a corresponding label" do
+      it "renders text fields with a corresponding label" do
         field = Field.new_field("text_field", "name")
         @form_section.add_field(field)
 
@@ -66,7 +66,8 @@ describe "form_section/_form_section.html.erb" do
 
         @form_section.fields.each do |field|
           rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
-          rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_#{field.tag_id}\" name=\"#{field.tag_name_attribute}\" type=\"text\" value=\"\" />")
+
+          rendered.should be_include("<input autocomplete=\"off\" data-field-tags=\"[]\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_name\" name=\"child[name]\" type=\"text\" value=\"\" />")
         end
       end
     end
@@ -79,7 +80,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input data-field-tags=\"[]\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_name\" name=\"child[name]\" type=\"text\" value=\"Jessica\" />")
+        rendered.should be_include("<input autocomplete=\"off\" data-field-tags=\"[]\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_name\" name=\"child[name]\" type=\"text\" value=\"Jessica\" />")
       end
     end
   end
@@ -118,14 +119,14 @@ describe "form_section/_form_section.html.erb" do
 
     context "new record" do
 
-      xit "render select boxes" do
+      it "render select boxes" do
         @child = Child.new
         @form_section.add_field Field.new_field("select_box", "date_of_separation", ["1-2 weeks ago", "More than a year ago"])
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
         rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">")
-        rendered.should be_include("<select id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
+        rendered.should be_include("<select data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
       end
     end
   end
@@ -158,6 +159,74 @@ describe "form_section/_form_section.html.erb" do
 
     end
   end
+
+  describe "rendering date ranges" do
+    context "new record" do
+      it "renders date range fields" do
+        @child = Child.new
+        field = Field.new({"name" => "test_date_range",
+                           "type" => "date_range",
+                           "display_name_all" => "Test Date Range"
+                          })
+        @form_section.add_field field
+
+        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+
+        rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
+        rendered.should be_include("<input class=\"form_date_field has_help\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_test_date_range\" name=\"child[test_date_range]\" type=\"text\" value=\"\" />")
+      end
+    end
+
+    context "on subform" do
+
+      before :each do
+        @subform = FormSection.new({
+          "visible"=>false,
+          "is_nested"=>true,
+          "unique_id" => "translated_sub",
+          "name" => "displayed_subform_name",
+          :order_form_group => 40,
+          :order => 80,
+          :order_subform => 1,
+          :initial_subforms => 1,
+          :form_group_name => "Test Group"
+        })
+      end
+
+      context "new record" do
+        #TODO - test commented out due to difficulties testing subforms
+        xit "renders date range fields" do
+          @child = Child.new
+          field = Field.new({"name" => "test_date_range",
+                             "type" => "date_range",
+                             "display_name_all" => "Test Date Range"
+                            })
+          @subform.add_field field
+
+          subField = Field.new({"name" => "test_subform",
+                                "type" => "subform", "editable" => true,
+                                "subform_section_id" => @subform.unique_id,
+                                "display_name_all" => "Test Sub Form",
+                                "expose_unique_id" => true,
+                               })
+
+          @form_section.add_field subField
+
+          #TODO for now - this will not render because the subform does not exist in the database
+          #If you were to make this to work, the subform would have to exist in the db
+          render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+
+          rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
+          #rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_#{field.tag_id}_from\" name=\"#{field.tag_name_attribute}\" type=\"text\" value=\"\" />")
+          #TODO fix this test
+          #rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_#{field.tag_id}_from\"  />")
+
+        end
+      end
+    end
+
+  end
+
 
   #TODO Date picker must be implemented in Advanced Search Page
 
