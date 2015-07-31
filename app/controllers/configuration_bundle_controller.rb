@@ -12,6 +12,7 @@ class ConfigurationBundleController < ApplicationController
     Role,
     SystemUsers,
     UserGroup,
+    SystemSettings,
   ]
 
   def export_bundle
