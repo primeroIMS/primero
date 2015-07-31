@@ -59,29 +59,41 @@ describe Location do
   end
 
   it "should only allow unique location hierachies" do
-    country1 = Location.new(placename: 'USA', type: 'country')
+    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country')
     country1.save
 
-    state1 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country1.placename])
+    state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
     state1.save
 
-    state2 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country1.placename])
+    state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
     state2.save
     state2.should_not be_valid
     state2.errors[:name].should == ["A Location with that name already exists, please enter a different name"]
   end
 
   it "should allow locations with same placename but different hierachies" do
-    country1 = Location.new(placename: 'USA', type: 'country')
+    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country')
     country1.save
-    country2 = Location.new(placename: 'Canada', type: 'country')
+    country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country')
     country2.save
 
-    state1 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country1.placename])
+    state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
     state1.save
 
-    state2 = Location.new(placename: 'North Carolina', type: 'state', hierarchy: [country2.placename])
+    state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country2.placename])
     state2.save
     state2.should be_valid
+  end
+
+  it "should not be valid if placename is empty" do
+    location = Location.new(:location_code => "abc123")
+    location.should_not be_valid
+    location.errors[:name].should == ["must not be blank"]
+  end
+
+  it "should not be valid if location code is empty" do
+    location = Location.new(:placename => "test_location")
+    location.should_not be_valid
+    location.errors[:location_code].should == ["must not be blank"]
   end
 end

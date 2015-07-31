@@ -1301,6 +1301,7 @@ en:
 
       location:
         name_present: "must not be blank"
+        code_present: "must not be blank"
         unique_name: "A Location with that name already exists, please enter a different name"
 
 

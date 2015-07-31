@@ -9,6 +9,7 @@ class Location < CouchRest::Model::Base
   BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
 
   property :placename #This is the individual placename
+  property :location_code
   property :type
   property :hierarchy, type: [String]
   property :hierarchical_name, read_only: true
@@ -28,6 +29,7 @@ class Location < CouchRest::Model::Base
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
+  validates_presence_of :location_code, :message => I18n.t("errors.models.#{self.name.underscore}.code_present")
 
   before_save do
     self.name = self.hierarchical_name
