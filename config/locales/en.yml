@@ -977,7 +977,7 @@ en:
     label: "Location"
     index: "Manage Locations"
     name: "Name"
-    code: "Location Code"
+    code: "Code"
     hierarchy: "Hierarchy"
     confirm_delete: Are you sure you want to delete this location?
     placename: "Place name"
