@@ -29,7 +29,11 @@ class Location < CouchRest::Model::Base
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
-  validates_presence_of :location_code, :message => I18n.t("errors.models.#{self.name.underscore}.code_present")
+  #TODO - add this validation back after seeds are cleaned up
+  #       currently only the Sierra Leone location seed has location_code
+  #       none of the other location seeds have location_code
+  # NOTE that commenting this out causes rspec test related to requiring location_code to fail
+  #validates_presence_of :location_code, :message => I18n.t("errors.models.#{self.name.underscore}.code_present")
 
   before_save do
     self.name = self.hierarchical_name
