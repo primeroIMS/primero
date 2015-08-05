@@ -24,6 +24,14 @@
       </div>
       <div class="row">
         <div class="medium-3 columns">
+          <%= f.label :location_code, t("location.code"), :class => "key" %>
+        </div>
+        <div class="medium-9 columns">
+          <%= f.text_field :location_code %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="medium-3 columns">
           <%= f.label :type, t("location.type"), :class => "key" %>
         </div>
         <div class="medium-9 columns">
