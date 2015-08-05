@@ -35,14 +35,14 @@ describe LocationsController do
   describe "post create" do
     it "should create a location" do
       existing_count = Location.count
-      location = {placename: "My_Country", type: "country"}
+      location = {placename: "My_Country", location_code: "my_code", type: "country"}
       post :create, location: location
       expect(Location.count).to eq(existing_count + 1)
     end
 
     context "when a parent is selected" do
       it "should create the hierarchy" do
-        location = {placename: "My_Town", type: "city", parent_id: @province3.id}
+        location = {placename: "My_Town", location_code: "my_code", type: "city", parent_id: @province3.id}
         post :create, location: location
         my_town = Location.get_by_location("My_Town")
         my_hierarchy = [@country.placename, @province3.placename]

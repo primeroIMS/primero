@@ -43,6 +43,13 @@ namespace :db do
     end
 
 
+    # Creates Location.create! statements which can be used as a Location seed file
+    # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]
+    # ARGS:    json - full path and file name of json file
+    #          layers - Number of layers in regions list
+    #          regions - colon separated list of regions within the country.  List does not include the country name
+    # NOTE:    No spaces between arguments in argement list
+    # EXAMPLE: $bundle exec rake db:data:generate_locations[/tmp/my_file.json,3,province:district:chiefdom]
     desc "Add locations from a JSON. Regions should be split by colons ex: province:region:prefecture"
     task :generate_locations, :json_file, :layers, :regions do |t, args|
 
@@ -54,21 +61,24 @@ namespace :db do
 
         #Name of the country
         country = parsed['features'][0]['properties']['CNTRY_NAME']
+        country_code = parsed['features'][0]['properties']['CNTRY_CODE']
 
         #Create the country
         puts "\#Country"
-        puts "Location.create! placename: \"#{country}\", type: \"country\""
+        puts "Location.create! placename: \"#{country}\", location_code:\"#{country_code}\", type: \"country\""
 
         (1..args[:layers].to_i).each do |layer|
             puts "\n\##{types[layer-1]}"
 
-            property = "ADM#{layer}_NAME"
+            placename_key = "ADM#{layer}_NAME"
+            location_code_key = "ADM#{layer}_CODE"
 
             #Save the names in placenames to not to repeat them
             placenames = []
             parsed['features'].each do |feature|
 
-                placename = feature['properties'][property]
+                placename = feature['properties'][placename_key]
+                location_code = feature['properties'][location_code_key]
 
                 #Check if that name has been already parsed
                 if !placenames.include?(placename) then
@@ -79,12 +89,12 @@ namespace :db do
 
                     #Loop to get the hierarchy
                     while aux_layers<layer do
-                        parent_property = "ADM#{aux_layers}_NAME"
-                        hierarchy.push feature['properties'][parent_property]
+                        parent_placename = "ADM#{aux_layers}_NAME"
+                        hierarchy.push feature['properties'][parent_placename]
                         aux_layers += 1
                     end
 
-                    puts "Location.create! placename:\"#{placename}\", type: \"#{types[layer-1]}\", hierarchy: [\"#{hierarchy.join("\", \"")}\"]"
+                    puts "Location.create! placename:\"#{placename}\", location_code:\"#{location_code}\", type: \"#{types[layer-1]}\", hierarchy: [\"#{hierarchy.join("\", \"")}\"]"
                 end
             end
         end
