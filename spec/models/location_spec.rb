@@ -91,9 +91,17 @@ describe Location do
     location.errors[:name].should == ["must not be blank"]
   end
 
-  it "should not be valid if location code is empty" do
+  #TODO - location code validation was removed.
+  #       this needs to be added back when that validation is added back
+  xit "should not be valid if location code is empty" do
     location = Location.new(:placename => "test_location")
     location.should_not be_valid
     location.errors[:location_code].should == ["must not be blank"]
+  end
+
+  #TODO - for now, Location::BASE_TYPES returns a string of hard coded location type values
+  #       When this is made I18n compliant, this test may need to be modified
+  it 'returns all location types' do
+    expect(Location::BASE_TYPES).to eq(['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other'])
   end
 end

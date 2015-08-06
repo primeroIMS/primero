@@ -6,7 +6,8 @@ class Location < CouchRest::Model::Base
   include Namable
   include Memoizable
 
-  BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
+  #TODO - I18n
+  BASE_TYPES = ['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other']
 
   property :placename #This is the individual placename
   property :location_code
