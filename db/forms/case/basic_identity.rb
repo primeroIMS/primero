@@ -11,7 +11,7 @@ basic_identity_fields = [
              "display_name_all" => "Case ID",
              "create_property" => false
             }),
-  Field.new({"name" => "marked_for_mobie",
+  Field.new({"name" => "marked_for_mobile",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Marked for mobile?",
