@@ -154,13 +154,7 @@ describe FormSection do
         expect(result_subform_field.subform).to be_a FormSection
         expect(result_subform_field.subform.unique_id).to eq("A")
       end
-
-
     end
-
-
-
-
   end
 
   describe '#unique_id' do
@@ -218,6 +212,40 @@ describe FormSection do
         form_section = FormSection.enabled_by_order_without_hidden_fields.first
         form_section.fields.should == [visible_field]
       end
+    end
+
+  end
+
+  describe "mobile forms" do
+    before do
+      FormSection.all.each &:destroy
+      @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case')
+      @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
+      @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
+      @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'case', mobile_form: true)
+      @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: 'incident')
+      @form_section_f = FormSection.create!(unique_id: "F", name: "F", parent_form: 'incident', mobile_form: true)
+    end
+
+    it "should create new form with default mobile_form value false" do
+      expect(@form_section_a.mobile_form).to be_false
+    end
+
+    it "should find all mobile forms" do
+      expect(FormSection.find_mobile_forms.all).to include(@form_section_d, @form_section_f)
+      expect(FormSection.find_mobile_forms.all.count).to eq(2)
+    end
+
+    it "should find all mobile case forms" do
+      expect(FormSection.find_mobile_forms_by_parent_form('case')).to include(@form_section_d)
+      expect(FormSection.find_mobile_forms_by_parent_form('case')).not_to include(@form_section_f)
+      expect(FormSection.find_mobile_forms_by_parent_form('case').count).to eq(1)
+    end
+
+    it "should find all mobile incident forms" do
+      expect(FormSection.find_mobile_forms_by_parent_form('incident')).not_to include(@form_section_d)
+      expect(FormSection.find_mobile_forms_by_parent_form('incident')).to include(@form_section_f)
+      expect(FormSection.find_mobile_forms_by_parent_form('incident').count).to eq(1)
     end
   end
 

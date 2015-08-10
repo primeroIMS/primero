@@ -36,9 +36,11 @@ class FormSection < CouchRest::Model::Base
   property :shared_subform
   property :shared_subform_group
   property :is_summary_section, TrueClass, :default => false
+  property :mobile_form, TrueClass, :default => false
 
   design do
     view :by_unique_id
+    view :by_mobile_form
     view :by_parent_form
     view :by_order
     view :subform_form,
@@ -412,6 +414,14 @@ class FormSection < CouchRest::Model::Base
           .collect(&:form_group_name).compact.uniq.sort
     end
     memoize_in_prod :list_form_group_names
+
+    def find_mobile_forms
+      by_mobile_form(key: true)
+    end
+
+    def find_mobile_forms_by_parent_form(parent_form = 'case')
+      find_mobile_forms.select{|f| f.parent_form == parent_form}
+    end
   end
 
   #Returns the list of field to show in collapsed subforms.
