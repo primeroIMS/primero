@@ -85,5 +85,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => consent_fields,
   "name_all" => "Data Confidentiality",
-  "description_all" => "Data Confidentiality"
+  "description_all" => "Data Confidentiality",
+  :mobile_form => true
 })
