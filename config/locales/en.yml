@@ -130,6 +130,8 @@ en:
      bundle_export: "Configuration Bundle"
      transfer: "Transfer %{model}"
      referral: "Refer %{model}"
+     mark_for_mobile: "Mark for mobile"
+     unmark_for_mobile: "Un-mark for mobile"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
