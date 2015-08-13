@@ -19,8 +19,8 @@
         <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
       <% end %>
       <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
-        <%= render 'record_shared/mark_for_mobile'  %>
-        <%= render 'record_shared/unmark_for_mobile'  %>
+        <%= render 'record_shared/mark_for_mobile_button'  %>
+        <%= render 'record_shared/unmark_for_mobile_button'  %>
       <% end %>
     </ul>
   </li>
