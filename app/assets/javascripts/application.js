@@ -62,6 +62,7 @@
 //= require flag_records
 //= require refer_records
 //= require transfer_records
+//= require mark_for_mobile
 //= require actions
 //= require summary_page
 //= require reports
