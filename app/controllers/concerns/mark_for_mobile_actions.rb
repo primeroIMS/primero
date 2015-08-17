@@ -8,23 +8,22 @@ module MarkForMobileActions
     get_selected_ids
 
     @records = []
+    message = ''
+    was_successful = false
     if @selected_ids.present?
       @records = model_class.all(keys: @selected_ids).all
-      mark_the_records(@records, mobile_value)
-      render json: {success: true}
+      failed_count = mark_the_records(@records, mobile_value)
+      if failed_count > 0
+        message = message_failure failed_count
+      else
+        was_successful = true
+        message = message_success  @records.size
+      end
     else
-      flash[:notice] = t('mark_for_mobile.no_records_selected')
-      render json: {success: false}
+      message = t('mark_for_mobile.no_records_selected')
     end
-
-    #if @records.blank?
-      #TODO - should we log or display something here?
-      #logger.info "#{model_class.parent_form}s not marked for mobile... no eligible records"
-      #message_failure @selected_ids.size
-      #redirect_to :back
-    #else
-      #redirect_to :back
-    #end
+    render json: {success: was_successful,
+                  message: message}
   end
 
   private
@@ -32,8 +31,7 @@ module MarkForMobileActions
   def mark_the_records(mobile_records, mobile_val)
     failed_count = 0
     mobile_records.each do |record|
-      binding.pry
-      if record.marked_for_mobile.present?
+      #if record.marked_for_mobile.present?
         record.marked_for_mobile = mobile_val
         if record.valid?
           unless record.save
@@ -43,13 +41,9 @@ module MarkForMobileActions
           logger.error "#{model_class.parent_form} #{record.short_id} not marked for mobile... not valid"
           failed_count += 1
         end
-      end
+      #end
     end
-    if failed_count > 0
-      message_failure failed_count
-    else
-      message_success  mobile_records.size
-    end
+    return failed_count
   end
 
   def is_single_or_batch?
@@ -57,19 +51,31 @@ module MarkForMobileActions
   end
 
   def message_failure(failed_count = 0)
+    error_message = ''
     if is_single_or_batch? == 'single'
-      flash[:notice] = t('flag_as_mobile.failure', record_type: record_type, id: record_id)
+      error_message = (mobile_value ?   t('mark_for_mobile.failure', record_type: record_type, id: record_id)
+                                      : t('unmark_for_mobile.failure', record_type: record_type, id: record_id)
+                      )
     else
-      flash[:notice] = t('flag_as_mobile.failure_batch', failed_count: failed_count)
+      error_message = (mobile_value ?   t('mark_for_mobile.failure_batch', failed_count: failed_count)
+                                      : t('unmark_for_mobile.failure_batch', failed_count: failed_count)
+                      )
     end
+    return error_message
   end
 
   def message_success(success_count = 0)
+    success_message = ''
     if is_single_or_batch? == 'single'
-      flash[:notice] = t('flag_as_mobile.success', record_type: record_type, id: record_id)
+      success_message = (mobile_value ?   t('mark_for_mobile.success', record_type: record_type, id: record_id)
+                                        : t('unmark_for_mobile.success', record_type: record_type, id: record_id)
+                      )
     else
-      flash[:notice] = t('flag_as_mobile.success_batch', success_count: success_count)
+      success_message = (mobile_value ?   t('mark_for_mobile.success_batch', success_count: success_count)
+                                        : t('unmark_for_mobile.success_batch', success_count: success_count)
+                      )
     end
+    return success_message
   end
 
   def record_type
@@ -81,7 +87,7 @@ module MarkForMobileActions
   end
 
   def mobile_value
-    params[:mobile_value] == 'true'
+    @mobile_value ||= (params[:mobile_value] == 'true')
   end
 
 end

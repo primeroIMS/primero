@@ -14,13 +14,6 @@ var MarkForMobile = Backbone.View.extend({
         request_url = mobile_button.data('mark_mobile_url'),
         mobile_value = mobile_button.data('mobile_value');
 
-    //var apply_to_all = false;
-
-    //var selected_records = _primero.indexTable.get_selected_records();
-    //if (selected_recs.length == 0) {
-      //apply_to_all = true;
-    //}
-
     //_primero.loading_screen_indicator('show');
 
     $.post(request_url,
@@ -29,16 +22,12 @@ var MarkForMobile = Backbone.View.extend({
         'mobile_value': mobile_value
       },
       function(response){
-        if (!response.success) {
-          alert(response.error_message);
-        }
-        if ((response.success) || (response.reload_page)) {
-          if (apply_to_all) {
-            location.reload(true);
-          } else {
-            window.location.search = search_params;
-          }
-        }
+        var notice_or_error = (response.success ? 'notice' : 'error');
+        var message = '<div class="flash row"> <p class="' + notice_or_error + ' large-12">' + response.message + '</p></div>';
+        $('.page_container').prepend(message);
+        setTimeout(function(){
+          $('.flash').remove();
+        },7000);
       }
     );
   },

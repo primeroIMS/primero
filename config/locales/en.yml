@@ -1469,6 +1469,19 @@ en:
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
 
+  mark_for_mobile:
+    no_records_selected: "No records selected"
+    failure: "%{record_type} %{id} mark as mobile failed"
+    success: "%{record_type} %{id} successfully marked as mobile"
+    failure_batch: "%{failed_count} Record(s) failed to be marked as mobile"
+    success_batch: "%{success_count} Record(s) successfully marked as mobile"
+
+  unmark_for_mobile:
+    failure: "%{record_type} %{id} unmark as mobile failed"
+    success: "%{record_type} %{id} successfully unmarked as mobile"
+    failure_batch: "%{failed_count} Record(s) failed to be unmarked as mobile"
+    success_batch: "%{success_count} Record(s) successfully unmarked as mobile"
+
   per_page_translation: "Per page _MENU_"
   total: Total
   caregiver: " (Caregiver)"
