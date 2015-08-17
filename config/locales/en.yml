@@ -780,6 +780,7 @@ en:
       import: "Import"
       transfer: "Transfer"
       referral: "Referral"
+      sync_mobile: "Sync with mobile device"
 
   forms:
     label: "Forms"

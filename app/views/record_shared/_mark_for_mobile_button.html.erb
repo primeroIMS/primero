@@ -6,5 +6,5 @@
 %>
 <li>
   <%= link_to button_label, '#', class: 'mark_for_mobile', :'data-mark_mobile_url' => mark_mobile_url,
-                :'data-mobile_value' => mobile_value %>
+          :'data-mobile_value' => mobile_value, :'data-id' => (defined?(instance) ? instance.id : nil)  %>
 </li>
