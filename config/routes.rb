@@ -204,9 +204,10 @@ RapidFTR::Application.routes.draw do
       post :logout, :action => 'destroy'
     end
 
-    resources :children, as: :cases, path: :cases
-    resources :incidents, as: :incidents
-    resources :tracing_requests, as: :tracing_requests
+    resources :children, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
   end
 
 #######################

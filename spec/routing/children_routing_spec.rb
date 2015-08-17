@@ -19,15 +19,15 @@ describe ChildrenController do
     end
 
     it "recognizes and generates #create" do
-      { :post => "/children" }.should route_to(:controller => "children", :action => "create") 
+      { :post => "/children" }.should route_to(:controller => "children", :action => "create")
     end
 
     it "recognizes and generates #update" do
-      { :put => "/children/1" }.should route_to(:controller => "children", :action => "update", :id => "1") 
+      { :put => "/children/1" }.should route_to(:controller => "children", :action => "update", :id => "1")
     end
 
     it "recognizes and generates #destroy" do
-      { :delete => "/children/1" }.should route_to(:controller => "children", :action => "destroy", :id => "1") 
+      { :delete => "/children/1" }.should route_to(:controller => "children", :action => "destroy", :id => "1")
     end
 
     it "recognizes and generates #search" do
@@ -70,6 +70,32 @@ describe ChildrenController do
 
     it "recognizes and generates aliased #search" do
       { :get => '/cases/search' }.should route_to(:controller => 'children', :action => 'search')
+    end
+  end
+
+  describe "RapidFTR compatible api routing" do
+    it "recognizes and generates RapidFTR #index" do
+      { :get => "/api/children" }.should route_to(:controller => "children", :action => "index", :format => :json)
+    end
+
+    it "recognizes and generates RapidFTR #new" do
+      { :get => "/api/children/new" }.should route_to(:controller => "children", :action => "new", :format => :json)
+    end
+
+    it "recognizes and generates RapidFTR #show" do
+      { :get => "/api/children/1" }.should route_to(:controller => "children", :action => "show", :id => "1", :format => :json)
+    end
+
+    it "recognizes and generates RapidFTR #edit" do
+      { :get => "/api/children/1/edit" }.should route_to(:controller => "children", :action => "edit", :id => "1", :format => :json)
+    end
+
+    it "recognizes and generates RapidFTR #create" do
+      { :post => "/api/children" }.should route_to(:controller => "children", :action => "create", :format => :json)
+    end
+
+    it "recognizes and generates RapidFTR #update" do
+      { :put => "/api/children/1" }.should route_to(:controller => "children", :action => "update", :id => "1", :format => :json)
     end
   end
 end
