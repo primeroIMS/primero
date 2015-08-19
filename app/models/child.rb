@@ -206,27 +206,14 @@ class Child < CouchRest::Model::Base
   #TODO - WIP
   #       need to come up with way to make this configurable
   def create_case_id_code
-    id_code = ""
+    code_parts = []
     user = self.created_by_user
-    if user.present?
-      location_name = user.location if user.location.present?
-      if location_name.present?
-        location = Location.by_name(key: location_name).first
-        if location.present?
-          district = location.ancestor_by_type('district')
-          id_code += district.location_code if district.present?
 
-          cheifdom = location.ancestor_by_type('cheifdom')
-          id_code += "-" if id_code.present? && cheifdom.present? && cheifdom.location_code.present?
-          id_code += cheifdom.location_code if cheifdom.present?
-        end
-      end
+    code_parts << Location.by_name(key: user.try(:location)).first.try(:ancestor_by_type, 'district').try(:location_code)
+    code_parts << Location.by_name(key: user.try(:location)).first.try(:ancestor_by_type, 'cheifdom').try(:location_code)
+    code_parts << Agency.get(user.try(:agency)).try(:agency_code)
 
-      agency = Agency.get(user.agency) if user.agency.present?
-      id_code += "-" if id_code.present? && agency.present? && agency.agency_code.present?
-      id_code += agency.agency_code if agency.present?
-    end
-    return id_code
+    code_parts.reject(&:blank?).join('-')
   end
 
   def create_class_specific_fields(fields)
