@@ -331,7 +331,7 @@ describe Child do
     end
 
     it "should save blank age" do
-      User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
+      User.stub(:find_by_user_name).and_return(double(:organization => "stc", :location => "my_country::my_state::my_town", :agency => "unicef-un"))
       child = Child.new(:age => "", :another_field => "blah", 'created_by' => "me", 'created_organization' => "stc")
       child.save.present?.should == true
       child = Child.new :foo => "bar"
