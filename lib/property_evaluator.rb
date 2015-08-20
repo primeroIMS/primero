@@ -5,14 +5,15 @@ class PropertyEvaluator
   # eg. "created_by_user.location.admin('district').location_code"
   def self.evaluate(record, expression)
     if expression.present?
-    expression.split('.').reduce(record) do |acc, particle|
-      particles =
-      if particle.match(/^[\w\?]*\(.*\)$/)
-        [particle.split('(').first]  + particle[0..-2].split('(').last.split(',')
-      else
-        [particle]
+      expression.split('.').reduce(record) do |acc, particle|
+        particles =
+        if particle.match(/^[\w\?]*\(.*\)$/)
+          [particle.split('(').first]  + particle[0..-2].split('(').last.split(',')
+        else
+          [particle]
+        end
+        acc.try(*particles)
       end
-      acc.try(*particles)
     end
   end
 

@@ -208,13 +208,13 @@ class Child < CouchRest::Model::Base
   def create_case_id_code
     separator = '-'
     code_strings = [
-      "created_by_user.try(:Location).try(:admin_level, 'district').try(:location_code)",
-      "created_by_user.try(:Location).try(:admin_level, 'cheifdom').try(:location_code)",
-      "created_by_user.try(:Agency).try(:agency_code)"
+      "created_by_user.Location.admin_level(district).location_code",
+      "created_by_user.Location.admin_level(cheifdom).location_code",
+      "created_by_user.Agency.agency_code"
     ]
 
     id_code_parts = []
-    code_strings.each {|cs| id_code_parts << eval(cs)}
+    code_strings.each {|cs| id_code_parts << PropertyEvaluator.evaluate(self, cs)}
     id_code_parts.reject(&:blank?).join(separator)
   end
 

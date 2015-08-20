@@ -5,16 +5,27 @@ describe "PropertyEvaluator" do
   before :all do
     @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI"
     @location_region = Location.create! placename:"Kindia", type: "region", hierarchy: ["Guinea"]
-    @user = User.create! user_name: 'bob123', location: @location_region
+    admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions)
+    field_worker_role = Role.create!(:name => "Field Worker", :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
+    user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+                        :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
+                        :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name})
+    user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+                        :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
+                        :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => ''})
+
     @child = Child.new case_id: 'xyz123', created_by: 'bob123'
+    @child2 = Child.new case_id: 'abc456', created_by: 'joe456'
   end
 
   it 'evaluates a test string on the test record' do
-    test_string = "created_by_user.location.admin('country').location_code"
-    expect(PropertyEvaluator.evaluate(test_string)).to eq "GUI"
+    test_string = "created_by_user.Location.admin_level(country).location_code"
+    expect(PropertyEvaluator.evaluate(@child, test_string)).to eq "GUI"
   end
 
   it "doesn't break if a value in the evaluation chain is missing" do
+    test_string = "created_by_user.Location.admin_level(country).location_code"
+    expect(PropertyEvaluator.evaluate(@child2, test_string)).to be_nil
   end
 
 
