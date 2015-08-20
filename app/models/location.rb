@@ -158,6 +158,8 @@ class Location < CouchRest::Model::Base
     end
   end
 
+  alias admin_level ancestor_by_type
+
   def set_parent(parent)
     #Figure out the new hierarchy
     hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])
