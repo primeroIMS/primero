@@ -130,6 +130,8 @@ en:
      bundle_export: "Configuration Bundle"
      transfer: "Transfer %{model}"
      referral: "Refer %{model}"
+     mark_for_mobile: "Mark for mobile"
+     unmark_for_mobile: "Un-mark for mobile"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -778,6 +780,7 @@ en:
       import: "Import"
       transfer: "Transfer"
       referral: "Referral"
+      sync_mobile: "Sync with mobile device"
 
   forms:
     label: "Forms"
@@ -1045,6 +1048,7 @@ en:
     error_in_updating: "Error in updating the Report configuration."
     messages:
       delete_success: "Report was successfully deleted."
+    edit: "Edit"
 
   encrypt:
     password_title: "Create Password"
@@ -1466,6 +1470,19 @@ en:
     success: "%{record_type} %{id} successfully transferred"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
+
+  mark_for_mobile:
+    no_records_selected: "No records selected"
+    failure: "%{record_type} %{id} mark as mobile failed"
+    success: "%{record_type} %{id} successfully marked as mobile"
+    failure_batch: "%{failed_count} Record(s) failed to be marked as mobile"
+    success_batch: "%{success_count} Record(s) successfully marked as mobile"
+
+  unmark_for_mobile:
+    failure: "%{record_type} %{id} unmark as mobile failed"
+    success: "%{record_type} %{id} successfully unmarked as mobile"
+    failure_batch: "%{failed_count} Record(s) failed to be unmarked as mobile"
+    success_batch: "%{success_count} Record(s) successfully unmarked as mobile"
 
   per_page_translation: "Per page _MENU_"
   total: Total

@@ -10,6 +10,7 @@ module Record
   include RapidFTR::Clock
   include Historical
   include Syncable
+  include SyncableMobile
   include Importable
 
   included do
