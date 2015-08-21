@@ -1337,6 +1337,25 @@ describe Child do
     end
   end
 
+  #TODO - WIP
+  describe "case id code" do
+    before :all do
+      @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI"
+      @location_region = Location.create! placename:"Kindia", type: "region", hierarchy: ["Guinea"]
+      admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions)
+      field_worker_role = Role.create!(:name => "Field Worker", :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
+      user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+                          :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
+                          :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name})
+      user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+                           :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
+                           :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => ''})
+
+      @child = Child.new case_id: 'xyz123', created_by: 'bob123'
+      @child2 = Child.new case_id: 'abc456', created_by: 'joe456'
+    end
+  end
+
   private
 
   def create_child(name, options={})
