@@ -1337,22 +1337,82 @@ describe Child do
     end
   end
 
-  #TODO - WIP
   describe "case id code" do
     before :all do
+      Location.all.each &:destroy
+      Role.all.each &:destroy
+      Agency.all.each &:destroy
       @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI"
-      @location_region = Location.create! placename:"Kindia", type: "region", hierarchy: ["Guinea"]
+      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["Guinea"]
       admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
+      agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
-                          :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
+                          :email => 'em@dd.net', :organization => 'agency-unicef', :user_type => 'user_type',
                           :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name})
       user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
-                           :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
+                           :email => 'em@dd.net', :organization => 'agency-unicef', :user_type => 'user_type',
                            :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => ''})
+      user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+                          :email => 'em@dd.net', :organization => 'NA', :user_type => 'user_type',
+                          :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name)
+    end
 
-      @child = Child.new case_id: 'xyz123', created_by: 'bob123'
-      @child2 = Child.new case_id: 'abc456', created_by: 'joe456'
+    context 'system case code format empty' do
+      before :all do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create default_locale: "en"
+      end
+
+      it 'should create an empty case id code' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_code).to be_empty
+      end
+    end
+
+    context 'system case code separator empty' do
+      before :all do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create default_locale: "en",
+                                                 case_code_format: [
+                                                           "created_by_user.Location.admin_level(country).location_code",
+                                                           "created_by_user.Location.admin_level(region).location_code",
+                                                           "created_by_user.Agency.agency_code"
+                                                 ]
+      end
+
+      it 'should create a case id code without separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_code).to eq("GUIGUI123UN")
+      end
+    end
+
+    context 'system case code format and separator present' do
+      before :all do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create default_locale: "en",
+                                                 case_code_separator: "-",
+                                                 case_code_format: [
+                                                           "created_by_user.Location.admin_level(country).location_code",
+                                                           "created_by_user.Location.admin_level(region).location_code",
+                                                           "created_by_user.Agency.agency_code"
+                                                 ]
+      end
+
+      it 'should create a case id code with separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_code).to eq("GUI-GUI123-UN")
+      end
+
+      it 'should create a case id code if user location is missing' do
+        child = Child.create! case_id: 'abc456', created_by: 'joe456'
+        expect(child.case_id_code).to eq("UN")
+      end
+
+      it 'should create a case id code if user agency is missing' do
+        child = Child.create! case_id: 'zzz', created_by: 'tom789'
+        expect(child.case_id_code).to eq("GUI-GUI123")
+      end
     end
   end
 

@@ -5,6 +5,8 @@ class SystemSettings < CouchRest::Model::Base
 
 
   property :default_locale, String
+  property :case_code_format, [String], :default => []
+  property :case_code_separator, String
 
   design do
     view :all

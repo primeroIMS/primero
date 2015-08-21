@@ -203,18 +203,13 @@ class Child < CouchRest::Model::Base
     self.case_id_code ||= create_case_id_code
   end
 
-  #TODO - WIP
-  #       need to come up with way to make this configurable
   def create_case_id_code
-    separator = '-'
-    code_strings = [
-      "created_by_user.Location.admin_level(district).location_code",
-      "created_by_user.Location.admin_level(cheifdom).location_code",
-      "created_by_user.Agency.agency_code"
-    ]
-
+    system_settings = SystemSettings.first
+    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
     id_code_parts = []
-    code_strings.each {|cs| id_code_parts << PropertyEvaluator.evaluate(self, cs)}
+    if system_settings.present? && system_settings.case_code_format.present?
+      system_settings.case_code_format.each {|cf| id_code_parts << PropertyEvaluator.evaluate(self, cf)}
+    end
     id_code_parts.reject(&:blank?).join(separator)
   end
 
