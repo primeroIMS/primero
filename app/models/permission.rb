@@ -29,6 +29,7 @@ class Permission
   GROUP = 'group'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
+  SYNC_MOBILE = 'sync_mobile'
 
 
   def self.description(permission)
@@ -59,7 +60,8 @@ class Permission
       REPORT_CREATE,
       TRANSFER,
       REFERRAL,
-      CONSENT_OVERRIDE
+      CONSENT_OVERRIDE,
+      SYNC_MOBILE
     ]
   end
 

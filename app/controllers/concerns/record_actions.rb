@@ -4,6 +4,7 @@ module RecordActions
   include ImportActions
   include ExportActions
   include TransitionActions
+  include MarkForMobileActions
 
   included do
     skip_before_filter :verify_authenticity_token

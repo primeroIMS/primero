@@ -72,6 +72,7 @@ RapidFTR::Application.routes.draw do
     collection do
       post :import_file
       post :transition
+      post :mark_for_mobile
       get :search
       get :consent_count
     end

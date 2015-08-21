@@ -49,7 +49,8 @@ create_or_update_role(
     Permission::REPORT,
     Permission::USER,
     Permission::GROUP,
-    Permission::EXPORT_CUSTOM
+    Permission::EXPORT_CUSTOM,
+    Permission::SYNC_MOBILE
   ] + export_permissions
 )
 
@@ -149,7 +150,8 @@ create_or_update_role(
     Permission::REFERRAL,
     Permission::TRANSFER,
     Permission::ALL,
-    Permission::EXPORT_CUSTOM
+    Permission::EXPORT_CUSTOM,
+    Permission::SYNC_MOBILE
   ] + export_permissions
 )
 
