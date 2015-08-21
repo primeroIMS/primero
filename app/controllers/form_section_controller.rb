@@ -52,7 +52,7 @@ class FormSectionController < ApplicationController
 
   def update
     authorize! :update, FormSection
-    @form_section = FormSection.get_by_unique_id(params[:id], true)
+    @form_section = FormSection.get_by_unique_id(params[:id])
     @form_section.properties = params[:form_section]
     if (@form_section.valid?)
       @form_section.save!
