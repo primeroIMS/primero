@@ -1048,6 +1048,7 @@ en:
     error_in_updating: "Error in updating the Report configuration."
     messages:
       delete_success: "Report was successfully deleted."
+    edit: "Edit"
 
   encrypt:
     password_title: "Create Password"
