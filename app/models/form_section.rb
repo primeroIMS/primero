@@ -418,10 +418,12 @@ class FormSection < CouchRest::Model::Base
     def find_mobile_forms
       by_mobile_form(key: true)
     end
+    memoize_in_prod :find_mobile_forms
 
     def find_mobile_forms_by_parent_form(parent_form = 'case')
       find_mobile_forms.select{|f| f.parent_form == parent_form}
     end
+    memoize_in_prod :find_mobile_forms_by_parent_form
   end
 
   #Returns the list of field to show in collapsed subforms.

@@ -1,6 +1,6 @@
 var MarkForMobile = Backbone.View.extend({
 
-  el: 'body',
+  el: '#menu',
 
   events: {
     'click a.mark_for_mobile' : 'mark_records_for_mobile'
