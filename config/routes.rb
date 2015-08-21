@@ -203,6 +203,8 @@ RapidFTR::Application.routes.draw do
       post :logout, :action => 'destroy'
     end
 
+    resources :form_sections, controller: 'form_section', as: :forms, path: :forms, constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
+
     resources :children, constraints: {format: :json}, :defaults => {:format => :json}
     resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
     resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
