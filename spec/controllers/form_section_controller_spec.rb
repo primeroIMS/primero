@@ -74,7 +74,9 @@ describe FormSectionController do
 
     it "only shows mobile forms if queried with a mobile parameter" do
       get :index, mobile: true, :format => :json
-      expect(assigns[:form_sections]).to eq({'Children' => [@form_section_b]})
+      expect(assigns[:form_sections].size).to eq(1)
+      expect(assigns[:form_sections]['Children']).not_to be_nil
+      expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
     end
   end
 
