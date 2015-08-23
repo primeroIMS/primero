@@ -15,7 +15,15 @@ class FormSectionController < ApplicationController
 
     respond_to do |format|
       format.html
-      respond_to_export(format, @form_sections.values.flatten)
+      format.json do
+        #TODO: What about module and type parameters?
+        if params[:mobile].present?
+          @form_sections = format_for_mobile(@form_sections)
+        end
+        render json: @form_sections
+      end
+      #For now, forms are exported as part of the config bundle. They don't need individual exports.
+      #respond_to_export(format, @form_sections.values.flatten)
     end
   end
 
@@ -95,7 +103,6 @@ class FormSectionController < ApplicationController
     end
   end
 
-
   private
 
   def get_form_section
@@ -135,5 +142,30 @@ class FormSectionController < ApplicationController
     lookups = Lookup.get_all
     @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
     @lookup_options.unshift("", "Location")
+  end
+
+  def format_for_mobile(form_sections)
+    #Flatten out the form sections, discarding form groups
+    form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
+    #Discard the non-mobile form sections
+    #TODO: consider nested subforms. Should we be marking them as mobile?
+    form_sections = form_sections.select{|f| f.mobile_form?}
+    #Group by form type
+    form_sections = form_sections.group_by{|f| mobile_form_type(f.parent_form)}
+    #TODO: Transform the i18n values
+  end
+
+  #This keeps the forms compatible with the mobile API
+  def mobile_form_type(parent_form)
+    case parent_form
+    when 'case'
+      'Children'
+    when 'child'
+      'Children'
+    when 'tracing_request'
+      'Enquiries' #TODO: This may be controversial
+    else
+      parent_form.camelize.pluralize
+    end
   end
 end

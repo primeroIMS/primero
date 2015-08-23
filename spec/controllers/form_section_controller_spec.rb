@@ -54,8 +54,8 @@ describe FormSectionController do
     Role.all.each &:destroy
 
     @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: "case")
-    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: "case")
-    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: "case")
+    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: "case", mobile_form: true)
+    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: "case", mobile_form: true)
     @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
     user = User.new(:user_name => 'manager_of_forms', module_ids: [@primero_module.id])
     user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
@@ -71,7 +71,21 @@ describe FormSectionController do
 
       assigns[:form_sections].should == grouped_forms
     end
+
+    it "only shows mobile forms if queried with a mobile parameter" do
+      get :index, mobile: true, :format => :json
+      expect(assigns[:form_sections]).to eq({'Children' => [@form_section_b]})
+    end
   end
+
+
+  describe "forms API", :type => :request do
+    it "gets the forms as JSON if accessed through the API url" do
+      get '/api/forms'
+      expect(response.content_type.to_s).to eq('application/json')
+    end
+  end
+
   describe "post create" do
     it "should new form_section with order" do
       existing_count = FormSection.count
@@ -124,7 +138,7 @@ describe FormSectionController do
     it "should save update if valid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1").and_return(form_section)
+      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(true)
       form_section.should_receive(:save!)
@@ -135,7 +149,7 @@ describe FormSectionController do
     it "should show errors if invalid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1").and_return(form_section)
+      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(false)
       post :update, :form_section => params, :id => "form_1"
