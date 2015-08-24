@@ -78,6 +78,11 @@ describe FormSectionController do
       expect(assigns[:form_sections]['Children']).not_to be_nil
       expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
     end
+
+    it "sets null values on mobile API forms to be an empty string" do
+      get :index, mobile: true, :format => :json
+      expect(assigns[:form_sections]['Children'].first[:help_text]['en']).to eq('')
+    end
   end
 
 

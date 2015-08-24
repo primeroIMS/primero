@@ -156,32 +156,24 @@ class FormSectionController < ApplicationController
       #convert top level attributes
       FormSection.localized_properties.each do |property|
         attributes[property] = {}
-        #empty = true
         RapidFTR::Application::locales.each do |locale|
           key = "#{property.to_s}_#{locale.to_s}"
-         # if !attributes[key].nil?
-            attributes[property][locale] = attributes[key]
-         #   empty = false
-         # end
+          value =  attributes[key].nil? ? "" : attributes[key]
+          attributes[property][locale] = value
           attributes.delete(key)
         end
-        #attributes[property] = nil if empty
       end
       #convert fields
       attributes['fields'] = attributes['fields'].map{|f| f.attributes.clone}
       form.fields.each_with_index do |field, i|
         Field.localized_properties.each do |property|
           attributes['fields'][i][property] = {}
-          #empty = true
           RapidFTR::Application::locales.each do |locale|
             key = "#{property.to_s}_#{locale.to_s}"
-            #if !attributes['fields'][i][key].nil?
-              attributes['fields'][i][property][locale] = attributes['fields'][i][key]
-            #  empty = false
-            #end
+            value = attributes['fields'][i][key].nil? ? "" : attributes['fields'][i][key]
+            attributes['fields'][i][property][locale] = value
             attributes['fields'][i].delete(key)
           end
-          #attributes['fields'][i] = nil if empty
         end
       end
       attributes
