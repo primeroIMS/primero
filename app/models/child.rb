@@ -204,7 +204,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_case_id_code
-    system_settings = SystemSettings.first
+    system_settings = SystemSettings.current
     separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
     id_code_parts = []
     if system_settings.present? && system_settings.case_code_format.present?
