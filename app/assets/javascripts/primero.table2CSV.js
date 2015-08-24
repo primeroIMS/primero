@@ -71,6 +71,15 @@ jQuery.fn.table2CSV = function(options) {
         var regexp = new RegExp(/\<[^\<]+\>/g);
         var output = output.replace(regexp, "");
         if (output == "") return '';
+
+        //Find range of numeric values - Excel got crazy with them.
+        var regexp = new RegExp(/\d+\s?-\s?\d+\s?/);
+        if (regexp.test(output)) {
+            //Put a single quote in from of the value
+            //So excel will treat as text and don't convert
+            //to some date value.
+            output = "'" + output;
+        }
         return '"' + output + '"';
     }
     function popup(data) {
