@@ -171,7 +171,7 @@ class FormSectionController < ApplicationController
           RapidFTR::Application::locales.each do |locale|
             key = "#{property.to_s}_#{locale.to_s}"
             value = if attributes['fields'][i][key].nil?
-              (property == 'option_strings_text') ? [] : ""
+              (property == :option_strings_text) ? [] : ""
             else
               attributes['fields'][i][key]
             end
