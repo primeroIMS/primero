@@ -170,11 +170,13 @@ class FormSectionController < ApplicationController
           attributes['fields'][i][property] = {}
           RapidFTR::Application::locales.each do |locale|
             key = "#{property.to_s}_#{locale.to_s}"
-            value = if attributes['fields'][i][key].nil?
-              (property == :option_strings_text) ? [] : ""
-            else
-              attributes['fields'][i][key]
+            value = attributes['fields'][i][key]
+            if property == :option_strings_text
+              value = field.option_strings
+            elsif attributes['fields'][i][key].nil?
+              value = ""
             end
+            #TODO: Add the code for handling namables and lookups here
             attributes['fields'][i][property][locale] = value
             attributes['fields'][i].delete(key)
           end
