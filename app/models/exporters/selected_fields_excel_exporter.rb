@@ -53,7 +53,14 @@ module Exporters
         elsif property == 'model_type'
           worksheet.write(row, cell, {'Child' => 'Case'}.fetch(model.class.name, model.class.name))
         else
-          worksheet.write(row, cell, get_model_value(model, property))
+          if property.array && !property.type.include?(CouchRest::Model::Embeddable)
+            #Write to single columns multiple fields comma separated.
+            worksheet.write(row, cell, (model.send(property.name) || []).join(", "))
+          else
+            #TODO there is no especial processing for subforms.
+            #Not sure if this report reach subforms.
+            worksheet.write(row, cell, get_model_value(model, property))
+          end
         end
       end
 
@@ -73,7 +80,9 @@ module Exporters
         end
 
         record_id_fields = ["_id", "model_type"]
-        headers[:fields] = (record_id_fields + headers[:fields]).flatten
+        #Fields should be unique to avoid show up shared fields which has the
+        #same name across the forms.
+        headers[:fields] = (record_id_fields + headers[:fields]).flatten.uniq
         headers[:record_fields] = (record_id_fields+ headers[:record_fields]).flatten
         headers
       end
