@@ -71,7 +71,7 @@ module FormToPropertiesConverter
     case field.type
     when "subform"
       #subform = FormSection.get_by_unique_id(field.subform_section_id)
-      subform = field.subform
+      subform = field.subform_section
 
       if subform.nil?
         raise "The FormSection pointed to (#{field.subform_section_id}) by the subform #{field.name} does not exist"
