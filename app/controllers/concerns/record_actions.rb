@@ -87,7 +87,7 @@ module RecordActions
 
       format.json do
         if @record.present?
-          render :json => @record
+          render :json => @record.as_couch_json
         else
           render :json => '', :status => :not_found
         end
@@ -358,11 +358,11 @@ module RecordActions
   def filter_by_subform(properties)
     sub_props = {}
     if params[:custom_exports][:selected_subforms].present?
-      properties.each do |pm, fs| 
+      properties.each do |pm, fs|
         sub_props[pm] = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:selected_subforms].include?(f)}]}.to_h.compact
       end
     end
-    sub_props  
+    sub_props
   end
 
   def filter_by_form(properties)
