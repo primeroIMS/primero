@@ -1,6 +1,7 @@
 module PropertiesLocalization
 
   module ClassMethods
+
     def localize_properties(properties)
       RapidFTR::Application::locales.each do |locale|
         properties.each { |key| property "#{key}_#{locale}" }
@@ -27,8 +28,17 @@ module PropertiesLocalization
           end
         end
       end
+      @localized_properties ||= []
+      @localized_properties += properties
     end
+
+    def localized_properties
+      @localized_properties
+    end
+
   end
+
+
 
   def self.included klass
     klass.extend ClassMethods
