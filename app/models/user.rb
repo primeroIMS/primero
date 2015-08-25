@@ -214,7 +214,11 @@ class User < CouchRest::Model::Base
   end
 
   def user_groups
-    @user_groups ||= UserGroup.all(keys: self.user_group_ids)
+    @user_groups ||= UserGroup.all(keys: self.user_group_ids_sanitized)
+  end
+
+  def user_group_ids_sanitized
+    self.user_group_ids.select{|g| g.present?}
   end
 
   # calling this location_obj because property location already exists on user
@@ -273,11 +277,12 @@ class User < CouchRest::Model::Base
   end
 
   def managed_users
+    user_group_ids = self.user_group_ids_sanitized
     if self.has_permission? Permission::ALL
       @managed_users ||= User.all.all
       @record_scope = [Searchable::ALL_FILTER]
-    elsif self.has_permission?(Permission::GROUP) && self.user_group_ids.present?
-      @managed_users ||= User.by_user_group(keys: self.user_group_ids).all.uniq{|u| u.user_name}
+    elsif self.has_permission?(Permission::GROUP) && user_group_ids.present?
+      @managed_users ||= User.by_user_group(keys: user_group_ids).all.uniq{|u| u.user_name}
     else
       @managed_users ||= [self]
     end
