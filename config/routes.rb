@@ -194,23 +194,7 @@ RapidFTR::Application.routes.draw do
   match '/incidents/:incident_id/create_cp_case_from_individual_details/:individual_details_subform_section' => 'incidents#create_cp_case_from_individual_details', :as => :create_cp_case_from_individual_details, :via => [:post, :get]
 
 
- #######################
-# API URLS
-#######################
 
-  scope '/api' do
-    controller :sessions, :defaults => {:format => :json} do
-      post :login, :action => 'create'
-      post :logout, :action => 'destroy'
-    end
-
-    resources :form_sections, controller: 'form_section', as: :forms, path: :forms, constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
-
-    resources :children, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
-  end
 
 #######################
 # FORM SECTION URLS
@@ -242,6 +226,28 @@ RapidFTR::Application.routes.draw do
 
   match '/published_form_sections', :to => 'form_section#published', :via => [:post, :get, :put, :delete]
 
+
+#######################
+# API URLS
+#######################
+
+  scope '/api' do
+    #Session API
+    controller :sessions, :defaults => {:format => :json} do
+      post :login, :action => 'create'
+      post :logout, :action => 'destroy'
+    end
+
+    #Forms API
+    resources :form_sections, controller: 'form_section', constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
+    resources :form_sections, controller: 'form_section', as: :forms, path: :forms, constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
+
+    #Records API
+    resources :children, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
+  end
 
 #######################
 # ADVANCED SEARCH URLS

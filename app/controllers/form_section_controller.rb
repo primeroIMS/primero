@@ -150,9 +150,43 @@ class FormSectionController < ApplicationController
     #Discard the non-mobile form sections
     #TODO: consider nested subforms. Should we be marking them as mobile?
     form_sections = form_sections.select{|f| f.mobile_form?}
+    #Transform the i18n values
+    form_sections = form_sections.map do |form|
+      attributes = form.attributes.clone
+      #convert top level attributes
+      FormSection.localized_properties.each do |property|
+        attributes[property] = {}
+        RapidFTR::Application::locales.each do |locale|
+          key = "#{property.to_s}_#{locale.to_s}"
+          value =  attributes[key].nil? ? "" : attributes[key]
+          attributes[property][locale] = value
+          attributes.delete(key)
+        end
+      end
+      #convert fields
+      attributes['fields'] = attributes['fields'].map{|f| f.attributes.clone}
+      form.fields.each_with_index do |field, i|
+        Field.localized_properties.each do |property|
+          attributes['fields'][i][property] = {}
+          RapidFTR::Application::locales.each do |locale|
+            key = "#{property.to_s}_#{locale.to_s}"
+            value = attributes['fields'][i][key]
+            if property == :option_strings_text
+              value = field.option_strings
+            elsif attributes['fields'][i][key].nil?
+              value = ""
+            end
+            #TODO: Add the code for handling namables and lookups here
+            attributes['fields'][i][property][locale] = value
+            attributes['fields'][i].delete(key)
+          end
+        end
+      end
+      attributes
+    end
     #Group by form type
-    form_sections = form_sections.group_by{|f| mobile_form_type(f.parent_form)}
-    #TODO: Transform the i18n values
+    form_sections = form_sections.group_by{|f| mobile_form_type(f['parent_form'])}
+    return form_sections
   end
 
   #This keeps the forms compatible with the mobile API
