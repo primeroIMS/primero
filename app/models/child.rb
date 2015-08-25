@@ -25,7 +25,7 @@ class Child < CouchRest::Model::Base
 
   property :case_id
   property :case_id_code
-  property :case_id_display, String, :default => ""
+  property :case_id_display
   property :nickname
   property :name
   property :hidden_name, TrueClass, :default => false
