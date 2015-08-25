@@ -25,6 +25,7 @@ class Child < CouchRest::Model::Base
 
   property :case_id
   property :case_id_code
+  property :case_id_display, String, :default => ""
   property :nickname
   property :name
   property :hidden_name, TrueClass, :default => false
@@ -199,18 +200,24 @@ class Child < CouchRest::Model::Base
   end
 
   def set_instance_id
+    system_settings = SystemSettings.current
     self.case_id ||= self.unique_identifier
-    self.case_id_code ||= create_case_id_code
+    self.case_id_code ||= create_case_id_code(system_settings)
+    self.case_id_display ||= create_case_id_display(system_settings)
   end
 
-  def create_case_id_code
-    system_settings = SystemSettings.current
+  def create_case_id_code(system_settings)
     separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
     id_code_parts = []
     if system_settings.present? && system_settings.case_code_format.present?
       system_settings.case_code_format.each {|cf| id_code_parts << PropertyEvaluator.evaluate(self, cf)}
     end
     id_code_parts.reject(&:blank?).join(separator)
+  end
+
+  def create_case_id_display(system_settings)
+    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
+    [self.case_id_code, self.short_id].reject(&:blank?).join(separator)
   end
 
   def create_class_specific_fields(fields)

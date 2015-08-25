@@ -1368,6 +1368,11 @@ describe Child do
         child = Child.create! case_id: 'xyz123', created_by: 'bob123'
         expect(child.case_id_code).to be_empty
       end
+
+      it 'should create a case id display that matches short id' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_display).to eq(child.short_id)
+      end
     end
 
     context 'system case code separator empty' do
@@ -1384,6 +1389,11 @@ describe Child do
       it 'should create a case id code without separators' do
         child = Child.create! case_id: 'xyz123', created_by: 'bob123'
         expect(child.case_id_code).to eq("GUIGUI123UN")
+      end
+
+      it 'should create a case id display without separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_display).to eq("GUIGUI123UN#{child.short_id}")
       end
     end
 
@@ -1404,14 +1414,29 @@ describe Child do
         expect(child.case_id_code).to eq("GUI-GUI123-UN")
       end
 
+      it 'should create a case id display with separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
+      end
+
       it 'should create a case id code if user location is missing' do
         child = Child.create! case_id: 'abc456', created_by: 'joe456'
         expect(child.case_id_code).to eq("UN")
       end
 
+      it 'should create a case id display if user location is missing' do
+        child = Child.create! case_id: 'abc456', created_by: 'joe456'
+        expect(child.case_id_display).to eq("UN-#{child.short_id}")
+      end
+
       it 'should create a case id code if user agency is missing' do
         child = Child.create! case_id: 'zzz', created_by: 'tom789'
         expect(child.case_id_code).to eq("GUI-GUI123")
+      end
+
+      it 'should create a case id display if user agency is missing' do
+        child = Child.create! case_id: 'zzz', created_by: 'tom789'
+        expect(child.case_id_display).to eq("GUI-GUI123-#{child.short_id}")
       end
     end
   end
