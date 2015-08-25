@@ -349,6 +349,24 @@ module RecordActions
           filtered_forms = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:fields].include?(f)}]}
           properties_by_module[pm] = filtered_forms.to_h
         end
+        #Find out duplicated fields assumed because they are shared fields.
+        properties_by_module.each do |pm, form_sections|
+          all_fields = []
+          form_sections.each do |form_section_key, fields|
+            filtered_fields = fields.map do |field_key, field|
+              if all_fields.include?(field)
+                #Field already seem, generate a key that will be wipe.
+                element = [field_key, nil]
+              else
+                #First time seem the field, generate the key/value valid.
+                element = [field_key, field]
+              end
+              all_fields << field
+              element
+            end
+            form_sections[form_section_key] = filtered_fields.to_h.compact
+          end
+        end
         properties_by_module.compact
       end
     end
