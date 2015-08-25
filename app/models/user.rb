@@ -217,6 +217,16 @@ class User < CouchRest::Model::Base
     @user_groups ||= UserGroup.all(keys: self.user_group_ids)
   end
 
+  # calling this location_obj because property location already exists on user
+  # however, the location property really is just the location name
+  # If a refactor is warranted, I would rename the location property to location_name
+  def Location
+    @location_obj = Location.get_unique_instance('name' => self.location)
+  end
+
+  def Agency
+    @agency_obj = Agency.get(self.organization)
+  end
 
   def has_module?(module_id)
     self.module_ids.include?(module_id)

@@ -130,6 +130,36 @@ class Location < CouchRest::Model::Base
     return response
   end
 
+  def ancestor_names
+    ancestors = []
+
+    self.hierarchy.each_with_index {|item, index|
+      if index == 0
+        ancestors[index] = item
+      else
+        ancestors[index] = "#{ancestors[index-1]}::#{item}"
+      end
+    }
+    return ancestors
+  end
+
+  def ancestors
+    response = Location.by_name(keys: self.ancestor_names)
+    response = response.present? ? response.all : []
+    return response
+  end
+
+  def ancestor_by_type(type)
+    if self.type == type
+      return self
+    else
+      response = self.ancestors.select{|lct| lct.type == type}
+      return response.first
+    end
+  end
+
+  alias admin_level ancestor_by_type
+
   def set_parent(parent)
     #Figure out the new hierarchy
     hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])

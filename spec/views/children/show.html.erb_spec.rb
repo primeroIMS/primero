@@ -57,6 +57,7 @@ describe "children/show.html.erb" do
     # end
 
     it "renders all fields found on the FormSection" do
+      @current_modules = []
       @form_section.add_field Field.new_text_field("age", "Age")
       @form_section.add_field Field.new_radio_button("gender", ["male", "female"], "Gender")
       @form_section.add_field Field.new_select_box("date_of_separation", ["1-2 weeks ago", "More than"], "Date of separation")
@@ -77,6 +78,7 @@ describe "children/show.html.erb" do
     end
 
     it "does not render fields found on a disabled FormSection" do
+      @current_modules = []
       @form_section['enabled'] = false
 
       render
@@ -159,11 +161,12 @@ describe "children/show.html.erb" do
       end
 
       it "should show links to export when user has appropriate permissions" do
-      link = child_path @child, :format => :csv, :action => :show, :controller => :children, :id => @child.id, :page => :all, :per_page => :all
-      @user.stub(:has_permission?).with([Permission::READ]).and_return(true)
+        @current_modules = []
+        link = child_path @child, :format => :csv, :action => :show, :controller => :children, :id => @child.id, :page => :all, :per_page => :all
+        @user.stub(:has_permission?).with([Permission::READ]).and_return(true)
 
-      render :partial => "children/show_child_toolbar", :locals => {:child => @child}
-      rendered.should have_xpath("//a[contains(@href, '#{link}')]", :visible => false)
+        render :partial => "children/show_child_toolbar", :locals => {:child => @child}
+        rendered.should have_xpath("//a[contains(@href, '#{link}')]", :visible => false)
       end
     end
 

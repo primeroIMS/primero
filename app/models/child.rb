@@ -24,6 +24,7 @@ class Child < CouchRest::Model::Base
   include AudioUploader
 
   property :case_id
+  property :case_id_code
   property :nickname
   property :name
   property :hidden_name, TrueClass, :default => false
@@ -199,6 +200,17 @@ class Child < CouchRest::Model::Base
 
   def set_instance_id
     self.case_id ||= self.unique_identifier
+    self.case_id_code ||= create_case_id_code
+  end
+
+  def create_case_id_code
+    system_settings = SystemSettings.current
+    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
+    id_code_parts = []
+    if system_settings.present? && system_settings.case_code_format.present?
+      system_settings.case_code_format.each {|cf| id_code_parts << PropertyEvaluator.evaluate(self, cf)}
+    end
+    id_code_parts.reject(&:blank?).join(separator)
   end
 
   def create_class_specific_fields(fields)
