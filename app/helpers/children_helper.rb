@@ -42,7 +42,7 @@ module ChildrenHelper
   end
 
   def text_to_identify_child child
-    child.short_id
+    child.case_id_display.present? ? child.case_id_display : child.short_id
   end
 
   def toolbar_for_child child
