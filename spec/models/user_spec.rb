@@ -296,14 +296,14 @@ describe User do
       User.all.each &:destroy
       Role.all.each &:destroy
 
-      manager_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
-      grunt_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER]
+      @manager_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
+      @grunt_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER]
 
-      @manager = create :user, role_ids: [manager_role.id], user_group_ids: ["GroupA", "GroupB"]
-      @grunt1 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupA"]
-      @grunt2 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupA"]
-      @grunt3 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupB"]
-      @grunt4 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupB"]
+      @manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", "GroupB"]
+      @grunt1 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"]
+      @grunt2 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"]
+      @grunt3 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB"]
+      @grunt4 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB"]
     end
 
     it "is a manager if it has group permission scope" do
@@ -325,7 +325,11 @@ describe User do
       expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
     end
 
-
+    it "does not manage users who share an empty group with it" do
+      manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", ""]
+      grunt = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB", ""]
+      expect(manager.managed_users).to match_array([@grunt1, @grunt2, @manager, manager])
+    end
 
   end
 
