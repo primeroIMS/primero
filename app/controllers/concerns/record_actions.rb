@@ -51,7 +51,12 @@ module RecordActions
 
     respond_to do |format|
       format.html
-      format.json { render :json => @records.map{|r| r.as_couch_json} } unless params[:password]
+      format.json do
+        unless params[:password]
+          @records = @records.map{|r| r.format_json_response}
+          render :json => @records
+        end
+      end
 
       unless params[:format].nil? || params[:format] == 'json'
         if @records.empty?
@@ -87,7 +92,8 @@ module RecordActions
 
       format.json do
         if @record.present?
-          render :json => @record.as_couch_json
+          @record = format_json_response(@record)
+          render :json => @record
         else
           render :json => '', :status => :not_found
         end
@@ -125,7 +131,10 @@ module RecordActions
         post_save_processing @record
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
-        format.json { render :json => @record.as_couch_json, :status => :created, :location => @record }
+        format.json do
+          @record = format_json_response(@record)
+          render :json => @record, :status => :created, :location => @record
+        end
       else
         format.html {
           get_lookups
@@ -165,7 +174,10 @@ module RecordActions
             redirect_after_update
           end
         end
-        format.json { render :json => @record.as_couch_json }
+        format.json do
+          @record = format_json_response(@record)
+          render :json => @record
+        end
       else
         @form_sections ||= @record.allowed_formsections(current_user)
         format.html {
@@ -337,6 +349,30 @@ module RecordActions
   end
 
   private
+
+  def format_json_response(record)
+    record = record.as_couch_json.clone
+    if params[:mobile].present?
+      #discard the empty arrays
+      record.each do |field_key, value|
+        if value.kind_of? Array
+          if value.size == 0
+            record.delete(field_key)
+          else
+            value = value.map do |v|
+              nested = v.clone
+              v.each do |field_key, value|
+                nested.delete(field_key) if value == []
+              end
+              nested
+            end
+            record[field_key] = value
+          end
+        end
+      end
+    end
+    return record
+  end
 
   def filter_custom_exports(properties_by_module)
     if params[:custom_exports].present?
