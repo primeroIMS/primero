@@ -5,6 +5,7 @@ describe ChildrenController do
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
     Child.any_instance.stub(:permitted_properties).and_return(Child.properties)
+    Child.any_instance.stub(:given_consent).and_return(false)
     fake_admin_login
   end
 
@@ -31,21 +32,28 @@ describe ChildrenController do
     end
   end
 
-  describe "GET index" do
+  describe "GET index", :type => :request do
     it "should render all children as json" do
-      controller.should_receive(:retrieve_records_and_total) {|*args| [double(:to_json => "all the children"), 0] }
-
-      get :index, :format => :json
-
-      response.body.should == "all the children"
+      get '/api/children'
+      expect(response.content_type.to_s).to eq('application/json')
     end
   end
 
   describe "GET show" do
-    it "should render a child record as json" do
-      Child.should_receive(:get).with("123").and_return(mock_model(Child, :module_id => 'primeromodule-cp', :to_json => "a child record"))
-      get :show, :id => "123", :format => :json
-      response.body.should == "a child record"
+    it "will return the underlying CouchDB JSON representation if queried from the mobile client" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', some_array: []})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+    end
+
+    it "will will discard empty arrays in the JSON representation if queried from the mobile client" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', empty_array_attr: []})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+      expect(assigns[:record][:id]).to eq('123')
+      expect(assigns[:record].key?(:empty_array_attr)).to be_false
     end
 
     it "should return a 404 with empty body if no child record is found" do
@@ -54,7 +62,13 @@ describe ChildrenController do
       response.response_code.should == 404
       response.body.should == ""
     end
+  end
 
+  describe "GET show integration", :type => :request do
+    it "should render a child record as json" do
+      get '/api/children', id: '123'
+      expect(response.content_type.to_s).to eq('application/json')
+    end
   end
 
   describe "POST create" do
