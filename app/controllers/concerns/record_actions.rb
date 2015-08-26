@@ -51,7 +51,7 @@ module RecordActions
 
     respond_to do |format|
       format.html
-      format.json { render :json => @records } unless params[:password]
+      format.json { render :json => @records.map{|r| r.as_couch_json} } unless params[:password]
 
       unless params[:format].nil? || params[:format] == 'json'
         if @records.empty?
@@ -125,7 +125,7 @@ module RecordActions
         post_save_processing @record
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
-        format.json { render :json => @record, :status => :created, :location => @record }
+        format.json { render :json => @record.as_couch_json, :status => :created, :location => @record }
       else
         format.html {
           get_lookups
@@ -165,7 +165,7 @@ module RecordActions
             redirect_after_update
           end
         end
-        format.json { render :json => @record }
+        format.json { render :json => @record.as_couch_json }
       else
         @form_sections ||= @record.allowed_formsections(current_user)
         format.html {
