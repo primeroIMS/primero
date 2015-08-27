@@ -246,7 +246,7 @@ describe UsersController do
         Role.stub(:all).and_return("some roles")
         User.should_receive(:new).and_return(mock_user)
         mock_user.should_receive(:save).and_return(false)
-        put :create, {:user => {:role_ids => ["wxyz"]}}
+        post :create, {:user => {:role_ids => ["wxyz"]}}
         response.should render_template :new
         assigns[:user].should == mock_user
         assigns[:roles].should == "some roles"
