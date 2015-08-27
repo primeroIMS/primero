@@ -237,6 +237,57 @@ describe CustomExportsController do
 
     end
 
+    describe "permitted_fields_list" do
+
+      it "returns only permitted fields per user" do
+        user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
+        session = fake_admin_login user
+        #This is important to override some stub done in the fake_admin_login method. 
+        user.stub(:roles).and_return([])
+        #Form Section Test 3 is not visible, so will not be in the output.
+        #Form Section Test 4 contains only subforms, current behavior
+        #filter out this forms, will be revisited this behavior.
+        expected_forms_sections = [
+          #field_name_3 is not visible.
+          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]],
+          #subform_section_1 is not exportable.
+          ["Form Section Test 2 (CP)", [["Field Name 5", "field_name_5", "text_field"]]],
+          ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]]
+        ]
+        params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
+        get :permitted_fields_list, params
+        json_response = JSON.parse(response.body)
+        expect(json_response).to eq(expected_forms_sections)
+      end
+
+      it "returns only permitted fields per user per role" do
+        role = Role.new(
+          :id=> "role-test", :name => "Test Role", :description => "Test Role",
+          :permissions => ["read", "write", "export_custom", "case", "tracing_request", "all"],
+          #Define the forms the user is able to see.
+          :permitted_form_ids => ["form_section_test_1", "form_section_test_5"]
+        )
+        user = User.new(
+          :user_name => 'fakeadmin',
+          :module_ids => [@primero_module.id], :role_ids => [role.id]
+        )
+        session = fake_admin_login user
+        #This is important to override some stub done in the fake_admin_login method. 
+        user.stub(:roles).and_return([role])
+        #Per role definition this is the only forms that user can access.
+        expected_forms_sections = [
+          #field_name_3 is not visible.
+          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]],
+          ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]]
+        ]
+        params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
+        get :permitted_fields_list, params
+        json_response = JSON.parse(response.body)
+        expect(json_response).to eq(expected_forms_sections)
+      end
+
+    end
+
   end
 
 end

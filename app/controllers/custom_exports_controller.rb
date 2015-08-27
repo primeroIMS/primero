@@ -61,16 +61,16 @@ class CustomExportsController < ApplicationController
       primero_modules.each do |primero_module|
         # TODO: Not sure if this violations stuff is needed.
         if record_type == 'violation'
-          forms = FormSection.get_permitted_form_sections(primero_module, 'incident', user)
+          forms = allowed_formsections(primero_module, 'incident', user)
           violation_forms = FormSection.violation_forms
           forms = forms.select{|f| violation_forms.include?(f) || !f.is_nested?}
         else
-          forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
+          forms = allowed_formsections(primero_module, record_type, user)
           forms = forms.select{|f| !f.is_nested?}
         end
         forms = forms.sort_by{|f| [f.order_form_group, f.order]}
         forms = forms.map do |form|
-          fields = form.fields.select{|f| types.include? f.type}
+          fields = form.fields.select{|f| types.include?(f.type) && f.visible?}
           fields = fields.map{|f| [f.name, f.display_name, f.type]}
           [form.name, fields]
         end
