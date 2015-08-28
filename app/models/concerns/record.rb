@@ -23,6 +23,7 @@ module Record
     property :flag_at, DateTime
     property :reunited_at, DateTime
     property :record_state, TrueClass, default: true
+    property :marked_for_mobile, TrueClass, default: false
 
     class_attribute(:form_properties_by_name)
     class_attribute(:properties_by_form)
