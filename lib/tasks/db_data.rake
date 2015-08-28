@@ -289,6 +289,29 @@ namespace :db do
 
     end
 
+
+    #Populate the case ID code and case ID Display
+    desc "Populate case ID code and case ID Display on existing Cases"
+    task :set_case_id_display => :environment do
+      puts "Updating Case ID Display..."
+      system_settings = SystemSettings.current
+      Child.all.each do |record|
+        puts "BEFORE  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  case_id_display: #{record.case_id_display}"
+
+        record.case_id_code = record.create_case_id_code(system_settings) if record.case_id_code.blank?
+        record.case_id_display = record.create_case_id_display(system_settings) if record.case_id_display.blank?
+
+        puts "AFTER  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  case_id_display: #{record.case_id_display}"
+
+        if record.changed?
+          puts "SAVING #{record.id}..."
+          record.save(validate: false)
+        end
+        puts "=========================================="
+      end
+
+    end
+
   end
 
 
