@@ -12,6 +12,7 @@
   </div>
   <div class="medium-8 columns">
     <%= text_area_tag name, value, :disabled => textarea.editable == false ? true : false, :id => field_id, :editable => textarea.editable, rows: "2" %>
+    <% if textarea.help_text %><p class="help"><%= textarea.help_text %></p><% end %>
     <% if textarea.guiding_questions.present? %>
       <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0', 
             data: { 
