@@ -38,6 +38,22 @@ create_or_update_user(
 )
 
 create_or_update_user(
+  "user_name" => "primero_admin_cp",
+  "password" => "qu01n23",
+  "password_confirmation" => "qu01n23",
+  "full_name" => "CP Administrator",
+  "email" => "primero_admin_cp@primero.com",
+  "disabled" => "false",
+  "organization" => "agency-unicef",
+  "role_ids" => [
+    Role.by_name(key: "CP Administrator").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "is_manager" => "true"
+)
+
+create_or_update_user(
   "user_name" => "primero_cp",
   "password" => "qu01n23",
   "password_confirmation" => "qu01n23",
