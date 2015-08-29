@@ -25,6 +25,49 @@ export_permissions = [
   Permission::EXPORT_INCIDENT_RECORDER
 ]
 
+
+create_or_update_role(
+  :name => "CP Administrator",
+  :permissions => [
+    Permission::READ,
+    Permission::WRITE,
+    Permission::FLAG,
+    Permission::ASSIGN,
+    Permission::REPORT_CREATE,
+    Permission::CONSENT_OVERRIDE,
+    Permission::CASE,
+    Permission::TRACING_REQUEST,
+    Permission::USER,
+    Permission::METADATA,
+    Permission::SYSTEM,
+    Permission::IMPORT,
+    Permission::REPORT,
+    Permission::REFERRAL,
+    Permission::TRANSFER,
+    Permission::ALL,
+    Permission::EXPORT_CUSTOM,
+    Permission::SYNC_MOBILE
+  ] + export_permissions.reject{|p| [Permission::EXPORT_MRM_VIOLATION_XLS,Permission::EXPORT_INCIDENT_RECORDER].include? p}
+)
+
+create_or_update_role(
+  :name => "CP Manager",
+  :permissions => [
+    Permission::READ,
+    Permission::FLAG,
+    Permission::ASSIGN,
+    Permission::REPORT_CREATE,
+    Permission::CONSENT_OVERRIDE,
+    Permission::CASE,
+    Permission::TRACING_REQUEST,
+    Permission::REPORT,
+    Permission::USER,
+    Permission::GROUP,
+    Permission::EXPORT_CUSTOM,
+    Permission::SYNC_MOBILE
+  ] + export_permissions
+)
+
 create_or_update_role(
   :name => "CP Case Worker",
   :permissions => [
