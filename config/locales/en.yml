@@ -609,6 +609,7 @@ en:
     edit: "Edit System Settings"
     show: "System Settings"
     updated: "System Settings successfully updated."
+    primero_version: "System Version"
 
   primero_modules:
     label: "Modules"
@@ -626,6 +627,7 @@ en:
   primero_module:
     create: "Create Module"
     edit: "Edit Module"
+    show: "View"
     name: "Name"
     successfully_updated: "Module details are successfully updated."
     error_in_updating: "Error in updating the Module details."
@@ -651,6 +653,7 @@ en:
   primero_program:
     create: "Create Program"
     edit: "Edit Program"
+    show: "View"
     name: "Name"
     start_date: "Program start date"
     end_date: "Program end date"
