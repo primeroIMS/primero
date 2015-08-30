@@ -2,7 +2,7 @@ class Incident < CouchRest::Model::Base
   use_database :incident
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   include Record
   include Ownable

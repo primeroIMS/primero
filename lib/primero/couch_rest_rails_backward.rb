@@ -2,7 +2,7 @@
 # Seems the application use in several classes adding this method as a workaround.
 #require 'date'
 
-module RapidFTR
+module Primero
   module CouchRestRailsBackward
 
     def self.included(base)

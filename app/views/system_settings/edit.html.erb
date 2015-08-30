@@ -21,7 +21,7 @@
                 <%= label_tag "user_locale", t("home.language") %>
               </div>
               <div class="medium-8 columns">
-                <%= select_tag :locale, options_for_select(RapidFTR::Application::LOCALES_WITH_DESCRIPTION, I18n.default_locale) %>
+                <%= select_tag :locale, options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION, I18n.default_locale) %>
               </div>
               <div class="medium-1 columns"> </div>
             </div>

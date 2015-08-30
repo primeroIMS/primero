@@ -6,7 +6,7 @@ require "action_controller/railtie"
 #Bundler.require *Rails.groups(:assets => %w(development test))
 Bundler.require(:default, :assets, Rails.env)
 
-module RapidFTR
+module Primero
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -16,7 +16,7 @@ module RapidFTR
     config.autoload_paths += %W(
       #{config.root}/lib
       #{config.root}/lib/schedules
-      #{config.root}/lib/rapid_ftr
+      #{config.root}/lib/primero
       #{config.root}/lib/extensions
       #{config.root}/app/presenters
       #{config.root}/app

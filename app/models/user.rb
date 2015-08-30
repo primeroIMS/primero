@@ -6,7 +6,7 @@ class User < CouchRest::Model::Base
   include Importable
   include Memoizable
 
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   property :full_name
   property :user_name

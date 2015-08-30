@@ -2,7 +2,7 @@ class TracingRequest < CouchRest::Model::Base
   use_database :tracing_request
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   include Record
   include Ownable
