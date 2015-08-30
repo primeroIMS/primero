@@ -61,3 +61,5 @@ module Primero
     end
   end
 end
+
+require File.expand_path('../version', __FILE__)
