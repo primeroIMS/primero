@@ -131,7 +131,7 @@ class FieldsController < ApplicationController
     # function of primero.js will also need to be removed. There is a note there too
     #
     # if field[:multi_select] == 'true' && (field[:option_strings_source].nil? || field[:option_strings_source].empty?)
-    #   RapidFTR::Application::locales.each do |locale|
+    #   Primero::Application::locales.each do |locale|
     #     if !field[:"option_strings_text_#{locale}"].empty?
     #       field[:"option_strings_text_#{locale}"] = field[:"option_strings_text_#{locale}"].split(/[\r\n]+/)
     #                      .map{ |option| { id: option.downcase.lstrip.gsub(/[^\w ]/, '').gsub(' ', '_'), display_text: option }}

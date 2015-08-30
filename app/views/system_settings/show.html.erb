@@ -1,18 +1,10 @@
-<% content_for :breadcrumbs do %>
-  <%= I18n.t("system_settings.label") %>
+<% content_for :resource_show_fields do %>
+  <%= resource_show_field @system_settings, 'primero_version', 'system_settings.primero_version' %>
+  <%= resource_show_field @system_settings, 'default_locale', 'home.language' %>
 <% end %>
 
-<div class="row">
-  <div class="large-12 columns side-tab-content">
-    <div class="primero_locale_page">
-      <div class="primero_locale">
-        <p>
-          <strong>
-            <%= "#{t("home.language")}: " %>
-          </strong>
-          <%= "#{@primero_language}"%>
-        </p>
-       </div>
-    </div>
-  </div>
-</div>
+<% content_for :breadcrumbs do %>
+  <%= t('system_settings.label') %>
+<% end %>
+
+<%= render partial: 'shared_configuration_resource/show', locals: {object: @system_settings} %>

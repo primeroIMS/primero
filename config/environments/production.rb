@@ -1,4 +1,4 @@
-RapidFTR::Application.configure do
+Primero::Application.configure do
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -24,7 +24,7 @@ RapidFTR::Application.configure do
   config.assets.js_compressor = Closure::Compiler.new
   config.assets.css_compressor = :yui
   config.assets.cache_store = :memory_store
-  
+
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
   config.assets.paths << Rails.root.join("vendor", "assets")

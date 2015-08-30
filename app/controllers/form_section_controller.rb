@@ -156,7 +156,7 @@ class FormSectionController < ApplicationController
       #convert top level attributes
       FormSection.localized_properties.each do |property|
         attributes[property] = {}
-        RapidFTR::Application::locales.each do |locale|
+        Primero::Application::locales.each do |locale|
           key = "#{property.to_s}_#{locale.to_s}"
           value =  attributes[key].nil? ? "" : attributes[key]
           attributes[property][locale] = value
@@ -168,7 +168,7 @@ class FormSectionController < ApplicationController
       form.fields.each_with_index do |field, i|
         Field.localized_properties.each do |property|
           attributes['fields'][i][property] = {}
-          RapidFTR::Application::locales.each do |locale|
+          Primero::Application::locales.each do |locale|
             key = "#{property.to_s}_#{locale.to_s}"
             value = attributes['fields'][i][key]
             if property == :option_strings_text

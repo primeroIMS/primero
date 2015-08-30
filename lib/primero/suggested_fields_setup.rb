@@ -1,4 +1,4 @@
-module RapidFTR
+module Primero
 
   module SuggestedFieldsSetup
     def self.create_field! display_name, help_text, name , field_type , options=nil

@@ -12,7 +12,7 @@ class Child < CouchRest::Model::Base
   end
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   # This module updates photo_keys with the before_save callback and needs to
   # run before the before_save callback in Historical to make the history

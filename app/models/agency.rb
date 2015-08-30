@@ -2,7 +2,7 @@ class Agency < CouchRest::Model::Base
   use_database :agency
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
   include LogoUploader
   include Memoizable
   include Namable

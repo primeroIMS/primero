@@ -7,7 +7,7 @@ module Record
   require "uuidtools"
   include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
-  include RapidFTR::Clock
+  include Primero::Clock
   include Historical
   include Syncable
   include SyncableMobile

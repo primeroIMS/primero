@@ -2,8 +2,11 @@
   object_name = object.class.name.underscore
   object_name_plural = object_name.pluralize
 %>
-<% content_for :breadcrumbs do %>
-  <%= t("#{object_name_plural}.view") %> (<%= object.name %>)
+
+<% unless content_for? :breadcrumbs %>
+  <% content_for :breadcrumbs do %>
+    <%= t("#{object_name_plural}.view") %> (<%= object.name %>)
+  <% end %>
 <% end %>
 
 <% content_for :record_sub_nav do %>

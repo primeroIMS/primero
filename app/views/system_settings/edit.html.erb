@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :record_sub_nav do %>
-  <%= render_controls(@systemSettings, 'system_setting') %>
+  <%= render_controls(@system_settings, 'system_setting') %>
 <% end %>
 
 <div class="page-content-new row collapse" data-equalizer>
@@ -16,12 +16,13 @@
         <div class="large-12 columns">
           <%= form_tag system_setting_path, :method => "put", :class => 'default-form', :autocomplete => "off", :id => "0" do %>
             <fieldset class="no-border">
+            <%= resource_edit_field(@system_settings, 'primero_version', 'system_settings.primero_version', 'text_field', false, true) %>
             <div class="row">
               <div class="medium-3 columns">
                 <%= label_tag "user_locale", t("home.language") %>
               </div>
               <div class="medium-8 columns">
-                <%= select_tag :locale, options_for_select(RapidFTR::Application::LOCALES_WITH_DESCRIPTION, I18n.default_locale) %>
+                <%= select_tag :locale, options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION, I18n.default_locale) %>
               </div>
               <div class="medium-1 columns"> </div>
             </div>

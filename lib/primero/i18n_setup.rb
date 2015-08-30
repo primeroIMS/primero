@@ -1,4 +1,4 @@
-module RapidFTR
+module Primero
   module I18nSetup
     def self.reset_definitions
 
