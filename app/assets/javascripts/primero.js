@@ -8,6 +8,7 @@ var Primero = Backbone.View.extend({
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
+    'click a#audio_link, a.document': '_primero_check_download_status'
   },
 
   initialize: function() {
@@ -24,6 +25,10 @@ var Primero = Backbone.View.extend({
     _primero.show_add_violation_message = this._primero_show_add_violation_message;
     _primero.loading_screen_indicator = this._primero_loading_screen_indicator;
     _primero.serialize_object = this._primero_serialize_object;
+    _primero.check_download_status = this._primero_check_download_status;
+    _primero.remove_cookie = this._primero_remove_cookie;
+    _primero.read_cookie = this._primero_read_cookie;
+    _primero.create_cookie = this._primero_create_cookie;
 
     this.init_trunc();
     this.init_sticky();
@@ -478,6 +483,46 @@ var Primero = Backbone.View.extend({
       }
     }
     return str.join("&");
+  },
+
+  _primero_check_download_status: function() {
+    var download_cookie_name = 'download_status_finished',
+        clock = setInterval(check_status, 2000);
+    function check_status() {
+      if (_primero.read_cookie(download_cookie_name)) {
+        _primero.loading_screen_indicator('hide');
+        _primero.remove_cookie(download_cookie_name);
+        clearInterval(clock);
+      }
+    }
+  },
+
+  _primero_create_cookie: function(name, value, days) {
+    var expires;
+
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toGMTString();
+    } else {
+        expires = "";
+    }
+    document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+  },
+
+  _primero_read_cookie: function(name) {
+    var name_eq = encodeURIComponent(name) + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(name_eq) === 0) return decodeURIComponent(c.substring(name_eq.length, c.length));
+    }
+    return null;
+  },
+
+  _primero_remove_cookie: function(name) {
+    _primero.create_cookie(name, "", -1);
   },
 
   load_and_redirect: function() {
