@@ -50,23 +50,6 @@ create_or_update_role(
 )
 
 create_or_update_role(
-  :name => "CP Manager",
-  :permissions => [
-    Permission::READ,
-    Permission::FLAG,
-    Permission::ASSIGN,
-    Permission::REPORT_CREATE,
-    Permission::CONSENT_OVERRIDE,
-    Permission::CASE,
-    Permission::TRACING_REQUEST,
-    Permission::REPORT,
-    Permission::USER,
-    Permission::GROUP,
-    Permission::EXPORT_CUSTOM
-  ] + export_permissions
-)
-
-create_or_update_role(
   :name => "CP Case Worker",
   :permissions => [
     Permission::READ,
