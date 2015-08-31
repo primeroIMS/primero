@@ -54,7 +54,7 @@ Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file } if sho
 
 
 #TODO We will to revisit the I18n Setup when we address translations.
-#RapidFTR::I18nSetup.reset_definitions
+#Primero::I18nSetup.reset_definitions
 
 if should_seed? ContactInformation
   #A little hacky, but no need to write a create_or_update method
