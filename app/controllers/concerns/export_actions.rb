@@ -34,6 +34,7 @@ module ExportActions
 
         props = filter_permitted_export_properties(models, exported_properties)
         export_data = exporter.export(models, props, current_user)
+        cookies[:download_status_finished] = true
         encrypt_data_to_zip export_data, export_filename(models, exporter), params[:password]
       end
     end

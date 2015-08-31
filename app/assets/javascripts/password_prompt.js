@@ -73,7 +73,7 @@ Primero.PasswordPrompt = (function() {
                 if (fileName != "") {
                   href += "&custom_export_file_name=" + fileName;
                 }
-                window.disable_loading_indicator = true;
+                _primero.check_download_status();
                 window.location = href;
             } else if (targetType == "input") {
                 targetEl.closest("form").find("#hidden-password-field").val(password);

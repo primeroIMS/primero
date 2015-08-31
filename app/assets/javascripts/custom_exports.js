@@ -204,7 +204,7 @@ var CustomExports = Backbone.View.extend({
 
       this.reset_form();
       $(this.el).foundation('reveal', 'close');
-      window.disable_loading_indicator = true;
+      _primero.check_download_status();
       window.location = file_location;
     } else {
 
