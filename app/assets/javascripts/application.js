@@ -26,6 +26,7 @@
 //= require plugins/jquery.mousewheel.min
 //= require plugins/jquery.mCustomScrollbar.min
 //= require chosen-jquery
+//= require moment
 //= require primero.chosen.order
 //= require i18n
 //= require i18n/translations
