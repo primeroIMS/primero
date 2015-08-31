@@ -54,6 +54,8 @@ gem 'spreadsheet',        '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.11.0'
 
+gem 'momentjs-rails', '~> 2.10.3'
+
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
