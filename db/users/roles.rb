@@ -45,8 +45,7 @@ create_or_update_role(
     Permission::REFERRAL,
     Permission::TRANSFER,
     Permission::ALL,
-    Permission::EXPORT_CUSTOM,
-    Permission::SYNC_MOBILE
+    Permission::EXPORT_CUSTOM
   ] + export_permissions.reject{|p| [Permission::EXPORT_MRM_VIOLATION_XLS,Permission::EXPORT_INCIDENT_RECORDER].include? p}
 )
 
@@ -63,8 +62,7 @@ create_or_update_role(
     Permission::REPORT,
     Permission::USER,
     Permission::GROUP,
-    Permission::EXPORT_CUSTOM,
-    Permission::SYNC_MOBILE
+    Permission::EXPORT_CUSTOM
   ] + export_permissions
 )
 
@@ -75,7 +73,8 @@ create_or_update_role(
     Permission::WRITE,
     Permission::FLAG,
     Permission::CASE,
-    Permission::TRACING_REQUEST
+    Permission::TRACING_REQUEST,
+    Permission::SYNC_MOBILE
   ] + export_permissions
 )
 
@@ -92,8 +91,7 @@ create_or_update_role(
     Permission::REPORT,
     Permission::USER,
     Permission::GROUP,
-    Permission::EXPORT_CUSTOM,
-    Permission::SYNC_MOBILE
+    Permission::EXPORT_CUSTOM
   ] + export_permissions
 )
 
