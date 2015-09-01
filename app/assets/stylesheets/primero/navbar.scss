@@ -8,6 +8,10 @@
 }
 
 .top-bar {
+  .quicksearch {
+    border-left: 1px solid $white_color;
+  }
+
   text-transform: uppercase;
   a {
     color: $white_color;
@@ -25,6 +29,9 @@
 
   button {
     font-size: 1.5rem;
+    padding-right: .5em;
+    padding-left: .5em;
+    width: 100%;
   }
 
   input, button {
@@ -60,12 +67,20 @@
      color: #fff;
   }
 
-  input {
-    border-left: 1px solid $desat_green_color;
-  }
-
   .top-bar-section .has-form {
     padding: 0;
+  }
+}
+
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+  .top-bar-section .has-form {
+    input#query {
+      width: 11em;
+    }
+
+    button {
+      width: 1.2em;
+    }
   }
 }
 
