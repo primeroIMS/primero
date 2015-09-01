@@ -8,6 +8,10 @@
 }
 
 .top-bar {
+  .quicksearch {
+    border-left: 1px solid $white_color;
+  }
+
   text-transform: uppercase;
   a {
     color: $white_color;
@@ -25,6 +29,9 @@
 
   button {
     font-size: 1.5rem;
+    padding-right: .5em;
+    padding-left: .5em;
+    width: 100%;
   }
 
   input, button {
@@ -58,10 +65,6 @@
 
   :-ms-input-placeholder {
      color: #fff;
-  }
-
-  input {
-    border-left: 1px solid $desat_green_color;
   }
 
   .top-bar-section .has-form {
