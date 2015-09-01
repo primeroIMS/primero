@@ -32,19 +32,14 @@ module MarkForMobileActions
   def mark_the_records(mobile_records, mobile_val)
     failed_count = 0
     mobile_records.each do |record|
-      if record.marked_for_mobile.nil?
-        logger.error "#{model_class.parent_form} #{record.short_id} not marked for mobile... not valid"
-        failed_count += 1
-      else
-        record.marked_for_mobile = mobile_val
-        if record.valid?
-          unless record.save
-            failed_count += 1
-          end
-        else
-          logger.error "#{model_class.parent_form} #{record.short_id} not marked for mobile... not valid"
+      record.marked_for_mobile = mobile_val
+      if record.valid?
+        unless record.save
           failed_count += 1
         end
+      else
+        logger.error "#{model_class.parent_form} #{record.short_id} not marked for mobile... not valid"
+        failed_count += 1
       end
     end
     return failed_count
