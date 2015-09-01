@@ -53,7 +53,12 @@ module RecordActions
       format.html
       format.json do
         unless params[:password]
-          @records = @records.map{|r| r.format_json_response}
+          @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?
+          if params[:ids].present?
+            @records = @records.map{|r| r.id}
+          else
+            @records = @records.map{|r| r.format_json_response}
+          end
           render :json => @records
         end
       end

@@ -32,7 +32,29 @@ describe ChildrenController do
     end
   end
 
-  describe "GET index", :type => :request do
+  describe "GET index" do
+    before :each do
+      Child.all.each{|c| c.destroy}
+      @c1 = Child.new(id: 'child1', marked_for_mobile: true, module_id: 'cp')
+      @c2 = Child.new(id: 'child2', marked_for_mobile: true, module_id: 'cp')
+      @c3 = Child.new(id: 'child3', marked_for_mobile: false, module_id: 'cp')
+      children = [@c1, @c2, @c3]
+      children.each{|c| c.stub(:format_json_response).and_return(c)}
+      ChildrenController.any_instance.stub(:retrieve_records_and_total).and_return([children, 3])
+    end
+
+    it "should filter out all the non-mobile records" do
+      get :index, format: :json, mobile: 'true'
+      expect(assigns[:records]).to match_array([@c1, @c2])
+    end
+
+    it "should return ids of all mobile-syncable records when using the ids parameter" do
+      get :index, format: :json, mobile: 'true', ids: 'true'
+      expect(assigns[:records]).to match_array(['child1', 'child2'])
+    end
+  end
+
+  describe "GET index integration", :type => :request do
     it "should render all children as json" do
       get '/api/children'
       expect(response.content_type.to_s).to eq('application/json')
