@@ -93,12 +93,14 @@ module Searchable
             any_of do
               case type
               when 'range'
-                if values.count == 1
-                  # Range +
-                  with(filter).greater_than_or_equal_to(values.first.to_i)
-                else
-                  range_start, range_stop = values.first.to_i, values.last.to_i
-                  with(filter, range_start...range_stop)
+                values.each do |f_value|
+                  if f_value.count == 1
+                    # Range +
+                    with(filter).greater_than_or_equal_to(f_value.first.to_i)
+                  else
+                    range_start, range_stop = f_value.first.to_i, f_value.last.to_i
+                    with(filter, range_start...range_stop)
+                  end
                 end
               when 'date_range'
                 if values.count > 1

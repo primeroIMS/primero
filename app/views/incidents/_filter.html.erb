@@ -23,7 +23,7 @@
         '5-11',
         '12-17',
         '18+'
-      ]) %>
+      ], nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'Children' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.children"), 'child_types', [
