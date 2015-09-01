@@ -172,7 +172,7 @@ class FormSectionController < ApplicationController
             key = "#{property.to_s}_#{locale.to_s}"
             value = attributes['fields'][i][key]
             if property == :option_strings_text
-              value = field.option_strings
+              value = field.options_list
             elsif attributes['fields'][i][key].nil?
               value = ""
             end
