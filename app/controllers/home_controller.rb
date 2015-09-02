@@ -75,7 +75,7 @@ class HomeController < ApplicationController
   end
 
   def display_manager_dashboard?
-    @display_manager_dashboard ||= current_user[:is_manager]
+    @display_manager_dashboard ||= current_user.is_manager?
   end
 
   def display_incidents_dashboard?
