@@ -740,7 +740,6 @@ en:
 
   record: "record"
   description: "Description"
-  name: "Name"
   unique_id: "Unique ID"
 
   permissions:

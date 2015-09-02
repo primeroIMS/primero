@@ -5,6 +5,7 @@ class Field
 
   property :name
   property :visible, TrueClass, :default => true
+  property :hide_on_show, TrueClass, :default => false
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
@@ -213,6 +214,7 @@ class Field
     self.autosum_total ||= false
     self.autosum_group ||= ""
     self.create_property ||= true
+    self.hide_on_show ||= false
     self.attributes = properties
   end
 
@@ -363,6 +365,12 @@ class Field
       result = Field.new(raw_field_data['value']) if raw_field_data.present?
     end
     return result
+  end
+
+  # Whether or not this should display on the show/view pages
+  # Should not affect the new/edit pages
+  def showable?
+    self.visible? && !self.hide_on_show
   end
 
 
