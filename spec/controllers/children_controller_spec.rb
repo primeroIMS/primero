@@ -584,6 +584,96 @@ describe ChildrenController do
         response.body.should match(/<th\s+(.*)>\s*Name\s*<\/th>/)
         response.body.should match(/<th\s+(.*)>\s*Survivor Code\s*<\/th>/)
       end
+    end
+
+    describe "Filter by Age Range", search: true, skip_session: true do
+      before :each do
+        @user = fake_admin_login User.new(:user_name => 'test_user')
+
+        FormSection.all.each &:destroy
+        fields = [
+            Field.new({"name" => "child_status",
+                       "type" => "text_field",
+                       "display_name_all" => "Child Status"
+                      }),
+            Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_all" => "Age"
+                    })]
+        form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+            )
+        form.save!
+        Child.any_instance.stub(:field_definitions).and_return(fields)
+        Child.refresh_form_properties
+
+        Sunspot.setup(Child) do
+          string 'child_status', as: "child_status_sci".to_sym
+          integer 'age', as: 'age_i'.to_sym
+        end
+
+        Child.all.each &:destroy
+
+        Sunspot.remove_all!
+
+        create(:child, name: "Name 1", child_status: "Open", age: "5")
+        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7")
+        create(:child, name: "Name 3", child_status: "Closed", age: "7")
+        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15")
+        create(:child, name: "Name 5", child_status: "Closed", age: "15")
+        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21")
+        create(:child, name: "Name 7", child_status: "Closed", age: "21")
+
+        Sunspot.commit
+      end
+
+      after :all do
+        FormSection.all.each &:destroy
+        Child.all.each &:destroy
+        Sunspot.remove_all!
+        Sunspot.commit
+        Child.remove_form_properties
+      end
+
+      it "should filter by one range" do
+        params = {"scope" => {"child_status" => "list||Open", "age" => "range||6-11"}}
+        get :index, params
+
+        filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
+        expect(assigns[:filters]).to eq(filters)
+        expect(assigns[:children].length).to eq(1)
+        expect(assigns[:children].first).to eq(@child_age_7)
+      end
+
+      it "should filter more than one range" do
+        params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||6-11||12-17"}}
+        get :index, params
+
+        filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
+        expect(assigns[:filters]).to eq(filters)
+        expect(assigns[:children].length).to eq(2)
+        expect(assigns[:children]).to eq([@child_age_7, @child_age_15])
+      end
+
+      it "should filter with open range" do
+        params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||18 "}}
+        get :index, params
+
+        filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
+        expect(assigns[:filters]).to eq(filters)
+        expect(assigns[:children].length).to eq(1)
+        expect(assigns[:children].first).to eq(@child_age_21)
+      end
 
     end
 
