@@ -3,26 +3,6 @@
     <nav class="top-bar" data-topbar>
           <section class="top-bar-section">
             <% model = controller.model_class %>
-            <% if [Child, TracingRequest, Incident].include? model %>
-              <ul class="quicksearch right">
-                <% if can? :read, model %>
-                  <li class="has-form">
-                    <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>
-                      <div class="row collapse">
-                        <div class="large-9 small-10 columns">
-                          <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH' %>
-                        </div>
-                        <div class="large-3 small-2 columns">
-                          <%= button_tag  :action => path_for_model(model), :method => "get" do %>
-                          <%= icon('angle-right') %>
-                          <% end %>
-                        </div>
-                      </div>
-                    <% end %>
-                  </li>
-                <% end %>
-              </ul>
-            <% end %>
             <ul class="left">
               <li><%= link_to t("navigation.home"), root_path, class: current_menu("root") %></li>
               <% if can? :read, Child %>
@@ -49,6 +29,26 @@
                 <li><%= link_to t("navigation.reports"), reports_path, class: current_menu("reports") %></li>
               <% end %>
             </ul>
+            <% if [Child, TracingRequest, Incident].include? model %>
+              <ul class="quicksearch right">
+                <% if can? :read, model %>
+                  <li class="has-form">
+                    <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>
+                      <div class="row collapse">
+                        <div class="large-9 small-10 columns">
+                          <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH' %>
+                        </div>
+                        <div class="large-3 small-2 columns">
+                          <%= button_tag  :action => path_for_model(model), :method => "get" do %>
+                          <%= icon('angle-right') %>
+                          <% end %>
+                        </div>
+                      </div>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
           </section>
     </nav>
   <% end %>
