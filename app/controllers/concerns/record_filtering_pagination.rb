@@ -45,7 +45,7 @@ module RecordFilteringPagination
         filter_type = filter_values.shift
         case filter_type
         when "range"
-          filter_values = filter_values.first.split "-"
+          filter_values = filter_values.map{|filter| filter.split "-"}
         when "date_range"
           filter_values = sanitize_date_range_filter(filter_values.first.split ".")
         else
