@@ -93,12 +93,12 @@ module Searchable
             any_of do
               case type
               when 'range'
-                values.each do |f_value|
-                  if f_value.count == 1
+                values.each do |filter_value|
+                  if filter_value.count == 1
                     # Range +
-                    with(filter).greater_than_or_equal_to(f_value.first.to_i)
+                    with(filter).greater_than_or_equal_to(filter_value.first.to_i)
                   else
-                    range_start, range_stop = f_value.first.to_i, f_value.last.to_i
+                    range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
                     with(filter, range_start...range_stop)
                   end
                 end
