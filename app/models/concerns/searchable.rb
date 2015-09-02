@@ -11,7 +11,7 @@ module Searchable
       quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true}
-      
+
       #if instance is a child do phonetic search on names
       searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
@@ -26,6 +26,9 @@ module Searchable
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
         string :owned_by
+      end
+      if self.include?(SyncableMobile)
+        boolean :marked_for_mobile
       end
       #text :name, as: :name_ph
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}

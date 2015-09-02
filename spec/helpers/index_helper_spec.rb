@@ -31,7 +31,7 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Status", "Age Range", "Sex", "Protection Status",
+                                                         "Flagged", "Mobile", "Status", "Age Range", "Sex", "Protection Status",
                                                          "Urgent Protection Concern", "Risk Level", "Current Location",
                                                          "Registration Date", "Record State", "Photo"
                                                         ]
@@ -56,7 +56,7 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Social Worker", "Status", "Age Range", "Sex", "Protection Status",
+                                                         "Flagged", "Mobile", "Social Worker", "Status", "Age Range", "Sex", "Protection Status",
                                                          "Urgent Protection Concern", "Risk Level", "Current Location",
                                                          "Registration Date", "Record State", "Photo"
                                                         ]
