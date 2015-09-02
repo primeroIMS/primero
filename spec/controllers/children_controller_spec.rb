@@ -545,6 +545,48 @@ describe ChildrenController do
         flash[:notice].should == "No Records Available!"
       end
     end
+
+    describe "Display manager information", skip_session: true do
+      render_views
+
+      it "should display information for user manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => true)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should appears in the body if the user is a manager.
+        response.body.should match(/<h3>Field\/Case\/Social Worker:<\/h3>/)
+        response.body.should match(/<th\s+(.*)>\s*Social Worker\s*<\/th>/)
+
+        #That header should not appears in the body if the user is a manager.
+        response.body.should_not match(/<th\s+(.*)>\s*Name\s*<\/th>/)
+        response.body.should_not match(/<th\s+(.*)>\s*Survivor Code\s*<\/th>/)
+      end
+
+      it "should not display information for user not manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => false)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should not appears in the body if the user is not a manager.
+        response.body.should_not match(/<h3>Field\/Case\/Social Worker:<\/h3>/)
+        response.body.should_not match(/<th\s+(.*)>\s*Social Worker\s*<\/th>/)
+
+        #That header should appears in the body if the user is not a manager.
+        response.body.should match(/<th\s+(.*)>\s*Name\s*<\/th>/)
+        response.body.should match(/<th\s+(.*)>\s*Survivor Code\s*<\/th>/)
+      end
+
+    end
+
   end
 
   describe "GET show" do

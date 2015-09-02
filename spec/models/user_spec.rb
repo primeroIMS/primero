@@ -299,16 +299,17 @@ describe User do
       @manager_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
       @grunt_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER]
 
-      @manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", "GroupB"]
-      @grunt1 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"]
+      @manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", "GroupB"], is_manager: true
+      @grunt1 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"], is_manager: false
       @grunt2 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"]
       @grunt3 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB"]
       @grunt4 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB"]
     end
 
-    it "is a manager if it has group permission scope" do
+    it "is a manager if set flag" do
       expect(@manager.is_manager?).to be_true
       expect(@grunt1.is_manager?).to be_false
+      expect(@grunt2.is_manager?).to be_false
     end
 
     it "manages all people in its group including itself" do

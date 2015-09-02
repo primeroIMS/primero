@@ -711,6 +711,7 @@ en:
     location: "Location"
     organization: "Organization"
     agency: "Agency"
+    manager: "Manager"
 
   actions: "actions"
   phone: "Phone"
