@@ -615,6 +615,7 @@ en:
 
   primero_modules:
     label: "Modules"
+    view: "View Module"
     actions:
       show_all: "Showing all"
       show: "Show"
@@ -642,6 +643,7 @@ en:
 
   primero_programs:
     label: "Program"
+    view: "View Program"
     actions:
       show_all: "Showing all"
       show: "Show"
@@ -664,6 +666,7 @@ en:
 
   user_groups:
     label: "User Groups"
+    view: "View User Group"
     actions:
       show_all: "Showing all"
       show: "Show"

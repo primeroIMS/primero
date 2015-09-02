@@ -108,10 +108,10 @@ describe MarkForMobileActions, type: :controller do
           expect(response.body).to eq(@expected)
         end
 
-        it 'does not marks as mobile when mark_for_mobile attribute does not exist' do
+        it 'marks as mobile when mark_for_mobile attribute does not exist' do
           @expected = {
-                  :success => false,
-                  :message => '1 Record(s) failed to be marked as mobile'
+                  :success => true,
+                  :message => '1 Record(s) successfully marked as mobile'
           }.to_json
 
           post :mark_for_mobile, :mobile_value => 'true', :selected_records => [@case3.id].join(',')
