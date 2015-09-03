@@ -33,9 +33,24 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "name",
              "type" => "text_field",
-             "display_name_all" => "Name",
+             "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "hidden_text_field" => true
+            }),
+  Field.new({"name" => "name_first",
+             "type" => "text_field",
+             "display_name_all" => "First Name",
+             "hide_on_view_page" => true
+            }),
+  Field.new({"name" => "name_middle",
+             "type" => "text_field",
+             "display_name_all" => "Middle Name",
+             "hide_on_view_page" => true
+            }),
+  Field.new({"name" => "name_last",
+             "type" => "text_field",
+             "display_name_all" => "Surname",
+             "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_nickname",
              "type" => "text_field",
