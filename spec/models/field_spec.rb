@@ -350,52 +350,52 @@ describe "record field model" do
 
   describe "showable?" do
     context "when visible is set to false" do
-      it "should be false if hide_on_show is not set" do
+      it "should be false if hide_on_view_page is not set" do
         field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false)
         expect(field.showable?).to be false
       end
 
-      it "should be false if hide_on_show is set to false" do
-        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false, :hide_on_show => false)
+      it "should be false if hide_on_view_page is set to false" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false, :hide_on_view_page => false)
         expect(field.showable?).to be false
       end
 
-      it "should be false if hide_on_show is set to true" do
-        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false, :hide_on_show => true)
+      it "should be false if hide_on_view_page is set to true" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false, :hide_on_view_page => true)
         expect(field.showable?).to be false
       end
     end
 
     context "when visible is set to true" do
-      it "should be true if hide_on_show is not set" do
+      it "should be true if hide_on_view_page is not set" do
         field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true)
         expect(field.showable?).to be true
       end
 
-      it "should be true if hide_on_show is set to false" do
-        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true, :hide_on_show => false)
+      it "should be true if hide_on_view_page is set to false" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true, :hide_on_view_page => false)
         expect(field.showable?).to be true
       end
 
-      it "should be false if hide_on_show is set to true" do
-        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true, :hide_on_show => true)
+      it "should be false if hide_on_view_page is set to true" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true, :hide_on_view_page => true)
         expect(field.showable?).to be false
       end
     end
 
     context "when visible is not set" do
-      it "should be true if hide_on_show is not set" do
+      it "should be true if hide_on_view_page is not set" do
         field = Field.new(:display_name => "ABC 123", :name => "abc123")
         expect(field.showable?).to be true
       end
 
-      it "should be true if hide_on_show is set to false" do
-        field = Field.new(:display_name => "ABC 123", :name => "abc123", :hide_on_show => false)
+      it "should be true if hide_on_view_page is set to false" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :hide_on_view_page => false)
         expect(field.showable?).to be true
       end
 
-      it "should be false if hide_on_show is set to true" do
-        field = Field.new(:display_name => "ABC 123", :name => "abc123", :hide_on_show => true)
+      it "should be false if hide_on_view_page is set to true" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :hide_on_view_page => true)
         expect(field.showable?).to be false
       end
     end
