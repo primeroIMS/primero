@@ -376,9 +376,9 @@ describe ChildrenController do
       end
 
     end
-    
+
     describe "phonetic search", search: true, skip_session: true do
-    
+
       before do
 
         #Sunspot.setup(Child) {text 'name_nickname', as: "*_ph".to_sym}
@@ -397,8 +397,8 @@ describe ChildrenController do
         Child.any_instance.stub(:child_status).and_return("Open")
         @case_worker = create(:user)
         @case_worker.stub(:roles).and_return(roles)
-        
-      end    
+
+      end
 
       context "when search query is the exact english name" do
         it "should find english name" do
@@ -409,16 +409,16 @@ describe ChildrenController do
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-          
+
           Sunspot.commit
-          
+
           session = fake_login @case_worker
-          
+
           params = {"query" => @children_cases.first.name}
           get :index, params
-          
+
           expect(assigns[:children]).to match_array([@children_cases.first])
-          
+
         end
       end
 
@@ -431,38 +431,38 @@ describe ChildrenController do
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-          
+
           Sunspot.commit
-          
+
           session = fake_login @case_worker
 
           params = {"query" => "Chris"}
           get :index, params
           expect(assigns[:children]).to match_array([])
-          
+
           params = {"query" => "Mike"}
           get :index, params
           expect(assigns[:children]).to match_array([])
-          
+
         end
       end
 
       context "when search query is a Mahmoud name variant" do
         it "should find all names" do
           names = ["Mahmoud", "Mahmud", "Mahmood"]
-          
+
           @children_cases = []
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-          
+
           Sunspot.commit
-          
+
           session = fake_login @case_worker
           params = {"query" => @children_cases.first.name}
           get :index, params
-          
+
           expect(assigns[:children]).to have(@children_cases.count).things
 
         end
@@ -470,21 +470,21 @@ describe ChildrenController do
 
       context "when query search is Abdul prefix" do
         it "shoud find at least 20" do
-        
+
           #29 arabic names with Abdul prefix
           names = ["Abdul-Baseer","Abdul-Basir", "Abdul-Basit", "Abdul-Batin", "Abdul-Dhahir", "Abdul-Fattah", "Abdul-Ghafaar", "Abdul-Ghaffar", "Abdul-Ghaffar", "Abdul-Ghafoor", "Abdul-Ghafur", "Abdul-Ghafur", "Abdul-Ghani", "Abdul-Ghani", "Abdul-Hadi", "Abdul-Hadi", "Abdul-Hafeedh", "Abdul-Hafeez", "Abdul-Hafiz", "Abdul-Hakam", "Abdul-Hakeem", "Abdul-Hakeem", "Abdul-Hakim", "Abdul-Haleem", "Abdul Haleem", "Abdul-Halim", "Abdul-Hameed", "Abdul-Hameed", "Abdul-Hamid"]
-          
+
           @children_cases = []
-          
+
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-        
+
           Sunspot.commit
-        
+
           session = fake_login @case_worker
-          
+
           params = {"query" => "Abdool"}
           get :index, params
           expect(assigns[:children]).to have_at_least(20).things
@@ -494,20 +494,20 @@ describe ChildrenController do
 
       context "when there is a compound name with space or dash" do
         it "shoud find compound name first and second name phonetically" do
-        
+
           #29 arabic names with Abdul prefix
           names = ["Abdul Haseeb", "Abdul-Nasser"]
-          
+
           @children_cases = []
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-        
+
           Sunspot.commit
-        
+
           session = fake_login @case_worker
-          
+
           params = {"query" => "Abdool"}
           get :index, params
           expect(assigns[:children]).to have(2).things
@@ -520,7 +520,7 @@ describe ChildrenController do
           params = {"query" => "Nassir"}
           get :index, params
           expect(assigns[:children]).to match_array([@children_cases.last])
- 
+
           params = {"query" => "Abdool-Hasib"}
           get :index, params
           expect(assigns[:children]).to match_array([@children_cases.first])
@@ -586,7 +586,8 @@ describe ChildrenController do
       end
     end
 
-    describe "Filter by Age Range", search: true, skip_session: true do
+    describe "Filter", search: true, skip_session: true do
+
       before :each do
         @user = fake_admin_login User.new(:user_name => 'test_user')
 
@@ -596,6 +597,12 @@ describe ChildrenController do
                        "type" => "text_field",
                        "display_name_all" => "Child Status"
                       }),
+            Field.new({"name" => "marked_for_mobile",
+                     "type" => "tick_box",
+                     "tick_box_label_all" => "Yes",
+                     "display_name_all" => "Marked for mobile?",
+                     "create_property" => false
+                    }),
             Field.new({"name" => "age",
                      "type" => "numeric_field",
                      "display_name_all" => "Age"
@@ -619,6 +626,7 @@ describe ChildrenController do
 
         Sunspot.setup(Child) do
           string 'child_status', as: "child_status_sci".to_sym
+          boolean 'marked_for_mobile', as: 'marked_for_mobile_b'.to_sym
           integer 'age', as: 'age_i'.to_sym
         end
 
@@ -633,6 +641,10 @@ describe ChildrenController do
         create(:child, name: "Name 5", child_status: "Closed", age: "15")
         @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21")
         create(:child, name: "Name 7", child_status: "Closed", age: "21")
+        create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false)
+        create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true)
+        @child_mobile_10= create(:child, name: "Name 10", child_status: "Open", marked_for_mobile: true)
+        @child_mobile_11 = create(:child, name: "Name 11", child_status: "Open", marked_for_mobile: true)
 
         Sunspot.commit
       end
@@ -645,38 +657,50 @@ describe ChildrenController do
         Child.remove_form_properties
       end
 
-      it "should filter by one range" do
-        params = {"scope" => {"child_status" => "list||Open", "age" => "range||6-11"}}
-        get :index, params
+      context "by age range" do
+        it "should filter by one range" do
+          params = {"scope" => {"child_status" => "list||Open", "age" => "range||6-11"}}
+          get :index, params
 
-        filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
-        expect(assigns[:filters]).to eq(filters)
-        expect(assigns[:children].length).to eq(1)
-        expect(assigns[:children].first).to eq(@child_age_7)
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(1)
+          expect(assigns[:children].first).to eq(@child_age_7)
+        end
+
+        it "should filter more than one range" do
+          params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||6-11||12-17"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(2)
+          expect(assigns[:children]).to eq([@child_age_7, @child_age_15])
+        end
+
+        it "should filter with open range" do
+          params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||18 "}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(1)
+          expect(assigns[:children].first).to eq(@child_age_21)
+        end
       end
 
-      it "should filter more than one range" do
-        params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||6-11||12-17"}}
-        get :index, params
+      context "by mobile" do
+        it "should filter by marked for mobile true" do
+          params = {"scope" => {"child_status" => "list||Open", "marked_for_mobile" => "single||true"}}
+          get :index, params
 
-        filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
-        expect(assigns[:filters]).to eq(filters)
-        expect(assigns[:children].length).to eq(2)
-        expect(assigns[:children]).to eq([@child_age_7, @child_age_15])
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "marked_for_mobile"=>{:type=>"single", :value=>true}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(2)
+          expect(assigns[:children]).to include(@child_mobile_10, @child_mobile_11)
+        end
       end
-
-      it "should filter with open range" do
-        params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||18 "}}
-        get :index, params
-
-        filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
-        expect(assigns[:filters]).to eq(filters)
-        expect(assigns[:children].length).to eq(1)
-        expect(assigns[:children].first).to eq(@child_age_21)
-      end
-
     end
-
   end
 
   describe "GET show" do

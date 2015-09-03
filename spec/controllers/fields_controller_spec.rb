@@ -139,7 +139,7 @@ describe FieldsController do
       field_with_error = double("field", :name => "field", :attributes= => [], :errors => ["error"])
       FormSection.stub(:get_by_unique_id).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
       FormSection.stub(:list_form_group_names)
-      put :update, :id => "field", :form_section_id => "unique_id",
+      put :update, :id => "field", :form_section_id => "unique_id", :module_id => "primeromodule-cp",
           :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text"}
 
       assigns[:show_add_field].should == {:show_add_field => true}

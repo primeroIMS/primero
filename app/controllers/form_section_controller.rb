@@ -18,7 +18,7 @@ class FormSectionController < ApplicationController
       format.json do
         #TODO: What about module and type parameters?
         if params[:mobile].present?
-          @form_sections = format_for_mobile(@form_sections)
+          @form_sections = format_for_mobile(@form_sections, params[:locale])
         end
         render json: @form_sections
       end
@@ -144,13 +144,18 @@ class FormSectionController < ApplicationController
     @lookup_options.unshift("", "Location")
   end
 
-  def format_for_mobile(form_sections)
+  def format_for_mobile(form_sections, locale_param=nil)
     #Flatten out the form sections, discarding form groups
     form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
     #Discard the non-mobile form sections
     #TODO: consider nested subforms. Should we be marking them as mobile?
     form_sections = form_sections.select{|f| f.mobile_form?}
     #Transform the i18n values
+    requested_locales = if locale_param.present? && Primero::Application::locales.include?(locale_param)
+      [locale_param]
+    else
+      Primero::Application::locales
+    end
     form_sections = form_sections.map do |form|
       attributes = form.attributes.clone
       #convert top level attributes
@@ -159,7 +164,9 @@ class FormSectionController < ApplicationController
         Primero::Application::locales.each do |locale|
           key = "#{property.to_s}_#{locale.to_s}"
           value =  attributes[key].nil? ? "" : attributes[key]
-          attributes[property][locale] = value
+          if requested_locales.include? locale
+            attributes[property][locale] = value
+          end
           attributes.delete(key)
         end
       end
@@ -172,12 +179,13 @@ class FormSectionController < ApplicationController
             key = "#{property.to_s}_#{locale.to_s}"
             value = attributes['fields'][i][key]
             if property == :option_strings_text
-              value = field.option_strings
+              value = field.options_list #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
             elsif attributes['fields'][i][key].nil?
               value = ""
             end
-            #TODO: Add the code for handling namables and lookups here
-            attributes['fields'][i][property][locale] = value
+            if requested_locales.include? locale
+              attributes['fields'][i][property][locale] = value
+            end
             attributes['fields'][i].delete(key)
           end
         end

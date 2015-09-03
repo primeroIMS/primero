@@ -12,8 +12,10 @@ module Exporters
             include CouchRest::Model::Embeddable
             property :name, String
             property :relationship, String
+            property :module_id, String, :default => 'primeromodule-cp'
           end]
         property :organizations, [String]
+        property :module_id, String, :default => 'primeromodule-cp'
       end
 
       @instance = @model_class.new
@@ -90,8 +92,8 @@ module Exporters
         hash = BaseExporter.convert_model_to_hash(@instance,
                                                [@model_class.properties_by_name['family_members']])
         hash.should == {'family_members' => [
-          {'name' => 'John', 'relationship' => 'father'},
-          {'name' => 'Mary', 'relationship' => 'mother'},
+          {'name' => 'John', 'relationship' => 'father', 'module_id' => 'primeromodule-cp'},
+          {'name' => 'Mary', 'relationship' => 'mother', 'module_id' => 'primeromodule-cp'},
         ],
         'model_type' => @model_class.name,
         '_id' => @instance.id}
