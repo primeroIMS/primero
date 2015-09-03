@@ -27,6 +27,7 @@
     <div class="large-8 medium-8 columns side-tab-content-container">
       <div class="side-tab-content">
         <%= hidden_field_tag('child[base_revision]', @child._rev) %>
+        <% # TODO: this may change once we decide how to handle the Record Owner form %>
         <%= hidden_field_tag('child[record_state]', @child.record_state) %>
         <% @form_sections.each do |form_group_name, form_list| %>
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
