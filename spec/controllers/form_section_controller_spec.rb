@@ -83,6 +83,18 @@ describe FormSectionController do
       get :index, mobile: true, :format => :json
       expect(assigns[:form_sections]['Children'].first[:help_text]['en']).to eq('')
     end
+
+    it "will only display requested locales if queried with a mobile parameter and a valid locale" do
+      get :index, mobile: true, locale: 'en',  :format => :json
+      expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
+      expect(assigns[:form_sections]['Children'].first[:name]['fr']).to be_nil
+    end
+
+    it "will display all locales if queried with a mobile parameter and an invalid locale" do
+      get :index, mobile: true, locale: 'ABC',  :format => :json
+      expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
+      expect(assigns[:form_sections]['Children'].first[:name].keys).to match_array(Primero::Application::locales)
+    end
   end
 
 
