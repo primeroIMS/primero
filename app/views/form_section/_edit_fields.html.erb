@@ -56,7 +56,7 @@
           </td>
           <td><%= field.type.try(:humanize) %><br><small><%= "(multi-select)" if field.multi_select %></small></td>
           <td align="center">
-            <% if @form_section.editable? && field.editable? %>
+            <% if @form_section.editable? %>
               <%= check_box_tag "fields[]", field.name, !field.visible? , {:id => "fields_#{field.name}", :class => "field_hide_show"} %>
             <% end %>
           </td>
