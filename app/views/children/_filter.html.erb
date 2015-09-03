@@ -5,6 +5,11 @@
         {flag: t("cases.filter_by.flag_label")}
       ], nil, nil, 'single') %>
     <% end %>
+    <% if filters_to_show.include? 'Mobile' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.mobile"), 'marked_for_mobile', [
+        {true: t("cases.filter_by.mobile_label")}
+      ], nil, nil, 'single') %>
+    <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
