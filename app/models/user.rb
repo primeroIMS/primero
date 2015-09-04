@@ -26,6 +26,7 @@ class User < CouchRest::Model::Base
   property :locale
   property :module_ids, :type => [String]
   property :user_group_ids, :type => [String], :default => []
+  property :is_manager, TrueClass, :default => false
 
   alias_method :agency, :organization
   alias_method :agency=, :organization=
@@ -269,11 +270,6 @@ class User < CouchRest::Model::Base
 
   def module_permitted_form_ids
     modules.compact.collect(&:associated_form_ids).flatten.select(&:present?)
-  end
-
-
-  def is_manager?
-    self.has_permission?(Permission::ALL) || self.has_permission?(Permission::GROUP)
   end
 
   def managed_users

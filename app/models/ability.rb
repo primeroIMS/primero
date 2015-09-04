@@ -56,6 +56,10 @@ class Ability
       #[:read, :update, :destroy].each{|a| can a, PrimeroModule} #Cannot create
     end
 
+    if user.has_permission? Permission::SYNC_MOBILE
+      can :index, FormSection
+    end
+
     if user.has_permission? Permission::SYSTEM
       [ContactInformation, Device, Replication, SystemUsers].each do |resource|
         #configure_resource resource, actions

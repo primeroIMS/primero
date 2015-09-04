@@ -34,7 +34,7 @@ create_or_update_user(
   ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
   "user_group_ids" => UserGroup.by_name.all.map{|g| g.id},
-  "is_manager" => "true"
+  "is_manager" => true
 )
 
 create_or_update_user(
@@ -50,7 +50,7 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
-  "is_manager" => "true"
+  "is_manager" => true
 )
 
 create_or_update_user(
@@ -83,7 +83,7 @@ create_or_update_user(
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
   "reporting_hierarchy" => ["primero"],
-  "is_manager" => "true"
+  "is_manager" => true
 )
 
 create_or_update_user(
@@ -116,7 +116,7 @@ create_or_update_user(
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
   "reporting_hierarchy" => ["primero"],
-  "is_manager" => "true"
+  "is_manager" => true
 )
 
 create_or_update_user(
@@ -149,5 +149,5 @@ create_or_update_user(
   "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id],
   "reporting_hierarchy" => ["primero"],
-  "is_manager" => "true"
+  "is_manager" => true
 )
