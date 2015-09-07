@@ -126,12 +126,12 @@ module FieldsHelper
     return subforms_count
   end
 
-  def get_subform_object(object, subform_section, form_group_name)
+  def get_subform_object(object, subform_section, form_group_name, subform_name)
     subform_object = {}
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     else
-      subform_object = object[:"#{subform_section.unique_id}"]
+      subform_object = object[:"#{subform_name}"]
     end
     return subform_object
   end

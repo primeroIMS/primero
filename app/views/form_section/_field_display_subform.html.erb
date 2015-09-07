@@ -9,7 +9,7 @@
      data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
    end
    if number_of_subforms > 0
-     subform_object = get_subform_object(formObject, subform_section, form_group_name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group)
+     subform_object = get_subform_object(formObject, subform_section, form_group_name, subform.name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group, subform.name)
    end
 %>
 <% if number_of_subforms == 0 %>
