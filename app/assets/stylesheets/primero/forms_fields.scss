@@ -45,6 +45,7 @@ select:not([class^="ui-datepicker-"]), select:hover:not([class^="ui-datepicker-"
   color: $grey_color;
   font-size: $thirteen_px;
   -moz-appearance: none;
+  padding-right: 20px;
 
   &.small {
     height: 1.5rem;

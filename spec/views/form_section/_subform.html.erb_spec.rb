@@ -1,9 +1,10 @@
 require 'spec_helper'
 
-describe "Subform display_name" do
+describe "_subform.html.erb" do
   before :each do
+    Child.all.each &:destroy
     FormSection.all.select{
-      |fs| ['form_section_test_1', 'subform_section_1', 'subform_section_2'].include?(fs.unique_id)
+      |fs| ['form_section_test_1', 'nested_subform_section_1', 'nested_subform_section_2'].include?(fs.unique_id)
     }.each &:destroy
 
     fields_subform = [
@@ -18,7 +19,8 @@ describe "Subform display_name" do
         :order_form_group => 50,
         :order => 10,
         :order_subform => 1,
-        :unique_id=>"subform_section_1",
+        #Make unique_id different from the field name in the form section.
+        :unique_id=>"nested_subform_section_1",
         :parent_form=>"case",
         "editable"=>true,
         :fields => fields_subform,
@@ -39,7 +41,8 @@ describe "Subform display_name" do
         :order_form_group => 50,
         :order => 10,
         :order_subform => 2,
-        :unique_id=>"subform_section_2",
+        #Make unique_id different from the field name in the form section.
+        :unique_id=>"nested_subform_section_2",
         :parent_form=>"case",
         "editable"=>true,
         :fields => fields_subform_2,
@@ -56,12 +59,14 @@ describe "Subform display_name" do
       Field.new({"name" => "subform_section_1",
                  "type" => "subform",
                  "editable" => true,
+                 #The unique_id is different from the field name.
                  "subform_section_id" => subform_section.unique_id,
                  "display_name_all" => "First of the Subforms"
                 }),
       Field.new({"name" => "subform_section_2",
                  "type" => "subform",
                  "editable" => true,
+                 #The unique_id is different from the field name.
                  "subform_section_id" => subform_section_2.unique_id,
                  "display_name_all" => "Another Subform"
                 })
@@ -81,23 +86,28 @@ describe "Subform display_name" do
     )
     form.save!
 
+    Child.refresh_form_properties
+
     @formObject = Child.new({
       :hidden_name => false,
-      :subform_section_1 => [{
+      #This should be the Field name in the FormSection not the subform unique_id
+      "subform_section_1" => [{
         "unique_id" => "1",
         "field_name_1" => "Field Name 1 Test Name"
       }],
-      :subform_section_2 => [{
+      #This should be the Field name in the FormSection not the subform unique_id
+      "subform_section_2" => [{
         "unique_id" => "2",
         "field_name_2" => "Field Name 2 Test Name"
       }]
     })
+
+    @formObject.save!
   end
 
   after :each do
-    FormSection.all.select{
-      |fs| ['form_section_test_1', 'subform_section_1', 'subform_section_2'].include?(fs.unique_id)
-    }.each &:destroy
+    Child.remove_form_properties
+    Child.all.each &:destroy
   end
 
   describe "form_section/_field_display_subform.html.erb" do
@@ -113,6 +123,33 @@ describe "Subform display_name" do
              :formats => [:html], :handlers => [:erb]
        #The value should not be singularize.
        rendered.should match(/<label class="key" for="subform_section_1">First of the Subforms<\/label>/)
+    
+       render :partial => 'form_section/field_display_subform',
+              :locals =>
+                 {
+                  :field => form.fields[2],
+                  :formObject => @formObject,
+                  :form_group_name => form.form_group_name
+                 },
+              :formats => [:html], :handlers => [:erb]
+       rendered.should match(/<label class="key" for="subform_section_2">Another Subform<\/label>/)
+    end
+
+    it "should use field name to retrieve the subform information" do
+      form = FormSection.get_by_unique_id("form_section_test_1")
+      render :partial => 'form_section/field_display_subform',
+             :locals =>
+                {
+                 :field => form.fields[1],
+                 :formObject => @formObject,
+                 :form_group_name => form.form_group_name
+                },
+             :formats => [:html], :handlers => [:erb]
+       rendered.should match(/<div id="subform_section_1" class="subforms"  data-form_group_name="">/)
+       #formObject should contains an hash "subform_section_1" which is the field name instead the subform unique_id
+       #With that in mind will generate the next bunch of elements.
+       rendered.should match(/<label class="key field_name_1">Field Name 1<\/label>/)
+       rendered.should match(/Field Name 1 Test Name/)
 
        render :partial => 'form_section/field_display_subform',
                  :locals =>
@@ -122,7 +159,11 @@ describe "Subform display_name" do
                      :form_group_name => form.form_group_name
                     },
                  :formats => [:html], :handlers => [:erb]
-       rendered.should match(/<label class="key" for="subform_section_2">Another Subform<\/label>/)
+       rendered.should match(/<div id="subform_section_2" class="subforms"  data-form_group_name="">/)
+       #formObject should contains an hash "subform_section_2" which is the field name instead the subform unique_id
+       #With that in mind will generate the next bunch of elements.
+       rendered.should match(/<label class="key field_name_2">Field Name 2<\/label>/)
+       rendered.should match(/Field Name 2 Test Name/)
     end
 
   end
@@ -130,7 +171,7 @@ describe "Subform display_name" do
   describe "form_section/_subform_expand_collapse_header.html.erb" do
     it "should use field display_name value as is" do
       form = FormSection.get_by_unique_id("form_section_test_1")
-      subform_section = FormSection.get_by_unique_id("subform_section_1")
+      subform_section = FormSection.get_by_unique_id("nested_subform_section_1")
       render :partial => 'form_section/subform_expand_collapse_header',
              :locals =>
                 {
@@ -144,7 +185,7 @@ describe "Subform display_name" do
        #The value should not be singularize.
        rendered.should match(/<label class="key" for="subform_section_1">First of the Subforms<\/label>/)
 
-       subform_section = FormSection.get_by_unique_id("subform_section_2")
+       subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
        render :partial => 'form_section/subform_expand_collapse_header',
              :locals =>
                 {
@@ -156,6 +197,47 @@ describe "Subform display_name" do
                 },
              :formats => [:html], :handlers => [:erb]
        rendered.should match(/<label class="key" for="subform_section_2">Another Subform<\/label>/)
+     end
+  end
+
+  describe "form_section/_subform.html.erb" do
+    it "should use field name to retrieve the subform information" do
+      form = FormSection.get_by_unique_id("form_section_test_1")
+      subform_section = FormSection.get_by_unique_id("nested_subform_section_1")
+      render :partial => 'form_section/subform',
+             :locals =>
+                {
+                 :subform => form.fields[1],
+                 :formObject => @formObject,
+                 :form_group_name => form.form_group_name
+                },
+             :formats => [:html], :handlers => [:erb]
+       rendered.should match(/<div class="subforms " id="subform_section_1"  data-form_group_name=form_section_test>/)
+       rendered.should match(/<div id="subform_container_subform_section_1_0" class="subform_container" data-subform_index="0">/)
+       rendered.should match(/<fieldset id="subform_subform_section_1_0" class="subform_section_1 subform no-border">/)
+       #formObject should contains an hash "subform_section_1" which is the field name instead the subform unique_id
+       #With that in mind will generate the next bunch of elements.
+       rendered.should match(/<input id="child_subform_section_1_0_unique_id" name="child\[subform_section_1\]\[0\]\[unique_id\]" type="hidden" value="1" \/>/)
+       rendered.should match(/<label class="key inline" for="nested_subform_section_1_child_subform_section_1_0_field_name_1">Field Name 1<\/label>/)
+       rendered.should match(/<input(.*)name="child\[subform_section_1\]\[0\]\[field_name_1\]" type="text" value="Field Name 1 Test Name" \/>/)
+
+       subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
+       render :partial => 'form_section/subform',
+             :locals =>
+                {
+                 :subform => form.fields[2],
+                 :formObject => @formObject,
+                 :form_group_name => form.form_group_name
+                },
+             :formats => [:html], :handlers => [:erb]
+       rendered.should match(/<div class="subforms " id="subform_section_2"  data-form_group_name=form_section_test>/)
+       rendered.should match(/<div id="subform_container_subform_section_2_0" class="subform_container" data-subform_index="0">/)
+       rendered.should match(/<fieldset id="subform_subform_section_2_0" class="subform_section_2 subform no-border">/)
+       #formObject should contains an hash "subform_section_2" which is the field name instead the subform unique_id
+       #With that in mind will generate the next bunch of elements.
+       rendered.should match(/<input id="child_subform_section_2_0_unique_id" name="child\[subform_section_2\]\[0\]\[unique_id\]" type="hidden" value="2" \/>/)
+       rendered.should match(/<label class="key inline" for="nested_subform_section_2_child_subform_section_2_0_field_name_2">Field Name 2<\/label>/)
+       rendered.should match(/<input(.*)name="child\[subform_section_2\]\[0\]\[field_name_2\]" type="text" value="Field Name 2 Test Name" \/>/)
     end
 
   end
