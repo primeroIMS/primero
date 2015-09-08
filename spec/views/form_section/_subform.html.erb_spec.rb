@@ -111,6 +111,30 @@ describe "_subform.html.erb" do
   end
 
   describe "form_section/_field_display_subform.html.erb" do
+    it "should use field display_name value as is" do
+      form = FormSection.get_by_unique_id("form_section_test_1")
+      render :partial => 'form_section/field_display_subform',
+             :locals =>
+                {
+                 :field => form.fields[1],
+                 :formObject => @formObject,
+                 :form_group_name => form.form_group_name
+                },
+             :formats => [:html], :handlers => [:erb]
+       #The value should not be singularize.
+       rendered.should match(/<label class="key" for="subform_section_1">First of the Subforms<\/label>/)
+    
+       render :partial => 'form_section/field_display_subform',
+              :locals =>
+                 {
+                  :field => form.fields[2],
+                  :formObject => @formObject,
+                  :form_group_name => form.form_group_name
+                 },
+              :formats => [:html], :handlers => [:erb]
+       rendered.should match(/<label class="key" for="subform_section_2">Another Subform<\/label>/)
+    end
+
     it "should use field name to retrieve the subform information" do
       form = FormSection.get_by_unique_id("form_section_test_1")
       render :partial => 'form_section/field_display_subform',
@@ -142,6 +166,38 @@ describe "_subform.html.erb" do
        rendered.should match(/Field Name 2 Test Name/)
     end
 
+  end
+
+  describe "form_section/_subform_expand_collapse_header.html.erb" do
+    it "should use field display_name value as is" do
+      form = FormSection.get_by_unique_id("form_section_test_1")
+      subform_section = FormSection.get_by_unique_id("nested_subform_section_1")
+      render :partial => 'form_section/subform_expand_collapse_header',
+             :locals =>
+                {
+                 :subform => form.fields[1],
+                 :subform_section => subform_section,
+                 :formObject => @formObject,
+                 :form_group_name => form.form_group_name,
+                 :i => 0
+                },
+             :formats => [:html], :handlers => [:erb]
+       #The value should not be singularize.
+       rendered.should match(/<label class="key" for="subform_section_1">First of the Subforms<\/label>/)
+
+       subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
+       render :partial => 'form_section/subform_expand_collapse_header',
+             :locals =>
+                {
+                 :subform => form.fields[2],
+                 :subform_section => subform_section,
+                 :formObject => @formObject,
+                 :form_group_name => form.form_group_name,
+                 :i => 0
+                },
+             :formats => [:html], :handlers => [:erb]
+       rendered.should match(/<label class="key" for="subform_section_2">Another Subform<\/label>/)
+     end
   end
 
   describe "form_section/_subform.html.erb" do
