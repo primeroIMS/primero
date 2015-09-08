@@ -69,7 +69,7 @@ describe ChildrenController do
       get :show, :id => "123", :format => :json, :mobile => 'true'
     end
 
-    it "will will discard empty arrays in the JSON representation if queried from the mobile client" do
+    it "will discard empty arrays in the JSON representation if queried from the mobile client" do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', empty_array_attr: []})
       Child.should_receive(:get).with("123").and_return(child)
@@ -78,12 +78,31 @@ describe ChildrenController do
       expect(assigns[:record].key?(:empty_array_attr)).to be_false
     end
 
+    it "will discard empty arrays in the nested subforms in the JSON representation if queried from the mobile client" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', a_nested_subform: [{field1: 'A', empty_array_attr: []}]})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+      expect(assigns[:record][:id]).to eq('123')
+      expect(assigns[:record][:a_nested_subform].first.key?(:empty_array_attr)).to be_false
+    end
+
+    it "will not discard child array attributes" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', nationality: ["Angola", "Antigua and Barbuda", "Argentina"]})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+      expect(assigns[:record][:id]).to eq('123')
+      expect(assigns[:record][:nationality]).to match_array(["Angola", "Antigua and Barbuda", "Argentina"])
+    end
+
     it "should return a 404 with empty body if no child record is found" do
       Child.should_receive(:get).with("123").and_return(nil)
       get :show, :id => "123", :format => :json
       response.response_code.should == 404
       response.body.should == ""
     end
+
   end
 
   describe "GET show integration", :type => :request do
@@ -106,6 +125,7 @@ describe ChildrenController do
       updated_child.rows.size.should == 1
       updated_child.first.name.should == 'new name'
     end
+
   end
 
   describe "PUT update" do
