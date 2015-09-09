@@ -48,21 +48,15 @@ class ConfigurationBundleController < ApplicationController
     model_data.map do |model_name, data_arr|
       begin
         modelCls = model_name.constantize
-        # models_to_delete = []
-        # data_arr.each do |d|
-        #   if d['_id']
-        #     existing = modelCls.get_unique_instance(d) || modelCls.get(d['_id'])
-        #     if existing
-        #       Rails.logger.info "Marking for deletion exisitng #{modelCls.name} prior to bundle import for id #{d['_id']}"
-        #       models_to_delete << existing
-        #     end
-        #   end
-        # end
-        # The first bulk save deletes existing models, the second recreates
-        # them from the bundle
         modelCls.database.recreate!
-        modelCls.design_doc.sync!
-        #modelCls.database.bulk_save(models_to_delete.map {|m| {'_id' => m.id, '_rev' => m.rev, :_deleted => true} })
+        begin
+          modelCls.design_doc.sync!
+        rescue RestClient::ResourceNotFound
+          #Mysteriously, the original recreate sometimes breaks.
+          Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
+          modelCls.database.create!
+          modelCls.design_doc.sync!
+        end
         modelCls.database.bulk_save(data_arr, false, false)
       rescue NameError => e
         Rails.logger.error "Invalid model name in bundle import: #{model_name}"
