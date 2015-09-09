@@ -148,7 +148,6 @@ class FormSectionController < ApplicationController
     #Flatten out the form sections, discarding form groups
     form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
     #Discard the non-mobile form sections
-    #TODO: consider nested subforms. Should we be marking them as mobile?
     form_sections = form_sections.select{|f| f.mobile_form?}
     #Transform the i18n values
     requested_locales = if locale_param.present? && Primero::Application::locales.include?(locale_param)
@@ -157,44 +156,66 @@ class FormSectionController < ApplicationController
       Primero::Application::locales
     end
     form_sections = form_sections.map do |form|
-      attributes = form.attributes.clone
-      #convert top level attributes
-      FormSection.localized_properties.each do |property|
-        attributes[property] = {}
-        Primero::Application::locales.each do |locale|
-          key = "#{property.to_s}_#{locale.to_s}"
-          value =  attributes[key].nil? ? "" : attributes[key]
-          if requested_locales.include? locale
-            attributes[property][locale] = value
-          end
-          attributes.delete(key)
+      attributes = convert_localized_form_properties(form, requested_locales)
+      attributes['fields'] = form.fields.map do |f|
+        field_hash = convert_localized_field(f, requested_locales)
+        if f.subform.present?
+          embed_subform(field_hash, f.subform, requested_locales)
         end
-      end
-      #convert fields
-      attributes['fields'] = attributes['fields'].map{|f| f.attributes.clone}
-      form.fields.each_with_index do |field, i|
-        Field.localized_properties.each do |property|
-          attributes['fields'][i][property] = {}
-          Primero::Application::locales.each do |locale|
-            key = "#{property.to_s}_#{locale.to_s}"
-            value = attributes['fields'][i][key]
-            if property == :option_strings_text
-              value = field.options_list #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
-            elsif attributes['fields'][i][key].nil?
-              value = ""
-            end
-            if requested_locales.include? locale
-              attributes['fields'][i][property][locale] = value
-            end
-            attributes['fields'][i].delete(key)
-          end
-        end
+        field_hash
       end
       attributes
     end
     #Group by form type
     form_sections = form_sections.group_by{|f| mobile_form_type(f['parent_form'])}
     return form_sections
+  end
+
+  def convert_localized_form_properties(form, requested_locales)
+    attributes = form.attributes.clone
+    #convert top level attributes
+    FormSection.localized_properties.each do |property|
+      attributes[property] = {}
+      Primero::Application::locales.each do |locale|
+        key = "#{property.to_s}_#{locale.to_s}"
+        value =  attributes[key].nil? ? "" : attributes[key]
+        if requested_locales.include? locale
+          attributes[property][locale] = value
+        end
+        attributes.delete(key)
+      end
+    end
+    return attributes
+  end
+
+  def convert_localized_field(field, requested_locales)
+    field_hash = field.attributes.clone
+    Field.localized_properties.each do |property|
+      field_hash[property] = {}
+      Primero::Application::locales.each do |locale|
+        key = "#{property.to_s}_#{locale.to_s}"
+        value = field_hash[key]
+        if property == :option_strings_text
+          value = field.options_list #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
+        elsif field_hash[key].nil?
+          value = ""
+        end
+        if requested_locales.include? locale
+          field_hash[property][locale] = value
+        end
+        field_hash.delete(key)
+      end
+    end
+    return field_hash
+  end
+
+  #TODO: Yeah, yeah, combine with format_for_mobile, make recursive
+  def embed_subform(field_hash, subform, requested_locales)
+    subform_hash = convert_localized_form_properties(subform, requested_locales)
+    subform_hash['fields'] = subform.fields.map do |f|
+      convert_localized_field(f, requested_locales)
+    end
+    field_hash['subform'] = subform_hash
   end
 
   #This keeps the forms compatible with the mobile API
