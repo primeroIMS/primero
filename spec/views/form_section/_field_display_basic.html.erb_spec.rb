@@ -9,7 +9,7 @@ describe "form_section/_field_display_basic.html.erb" do
     render :partial => 'form_section/field_display_basic', :locals => { :field => text_field, :formObject => child }, :formats => [:html], :handlers => [:erb]
 
     #Test the exact content of the tags.
-    rendered.should have_tag(".row .columns label.key[text()='Child Name Label']")
-    rendered.should have_tag(".row .columns span.value[text()='Child Name Value']")
+    rendered.should match(/<label class="key child_name">Child Name Label<\/label>/)
+    rendered.should match(/Child Name Value/)
   end
 end
