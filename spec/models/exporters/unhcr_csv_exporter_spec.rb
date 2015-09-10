@@ -45,6 +45,11 @@ module Exporters
       @test_child.stub(:module => double(:id => PrimeroModule::CP))
     end
 
+    after :each do
+      property_index = @child_cls.properties.find_index{|p| p.name == "family_details_section"}
+      @child_cls.properties.delete_at(property_index)
+    end
+
     it "converts religion to comma separated string" do
       @test_child.religion = ['abc', 'def']
       data = UnhcrCSVExporter.export([@test_child])

@@ -9,13 +9,14 @@
      data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
    end
    if number_of_subforms > 0
-     subform_object = get_subform_object(formObject, subform_section, form_group_name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group)
+     subform_object = get_subform_object(formObject, subform_section, form_group_name, subform.name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group, subform.name)
    end
 %>
 <% if number_of_subforms == 0 %>
   <% if subform.editable %>
     <% unless subform.subform_section.is_summary_section %>
-      <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(form_group_name == "Violations" ? "incident.violation.violation" : subform.name, :default => subform.display_name.singularize)) %></div>
+      <% #TODO refactoring next line when refactoring i18n %>
+      <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(form_group_name == "Violations" ? "incident.violation.violation" : subform.name, :default => subform.display_name)) %></div>
     <% end %>
   <% end %>
 <% else %>
@@ -39,7 +40,7 @@
                              }
           %>
 
-          <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+          <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
             <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject_i} %>
           <% end %>
           </fieldset>

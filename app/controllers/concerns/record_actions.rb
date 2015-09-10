@@ -380,15 +380,15 @@ module RecordActions
 
   private
 
+  #Discard nil values and empty arrays.
   def format_json_response(record)
     record = record.as_couch_json.clone
     if params[:mobile].present?
-      #discard the empty arrays
       record.each do |field_key, value|
         if value.kind_of? Array
           if value.size == 0
             record.delete(field_key)
-          else
+          elsif value.first.kind_of? Enumerable
             value = value.map do |v|
               nested = v.clone
               v.each do |field_key, value|
