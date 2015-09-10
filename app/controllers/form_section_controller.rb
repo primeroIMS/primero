@@ -18,6 +18,7 @@ class FormSectionController < ApplicationController
       format.json do
         #TODO: What about module and type parameters?
         if params[:mobile].present?
+          @lookups = Lookup.get_all
           @form_sections = format_for_mobile(@form_sections, params[:locale])
         end
         render json: @form_sections
@@ -196,7 +197,7 @@ class FormSectionController < ApplicationController
         key = "#{property.to_s}_#{locale.to_s}"
         value = field_hash[key]
         if property == :option_strings_text
-          value = field.options_list #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
+          value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
         elsif field_hash[key].nil?
           value = ""
         end
