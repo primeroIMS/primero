@@ -20,6 +20,7 @@ module RecordActions
     before_filter :is_gbv, :only => [:index]
     before_filter :is_mrm, :only => [:index]
     before_filter :load_consent, :only => [:show]
+    before_filter :sort_subforms, :only => [:show, :edit]
   end
 
   def list_variable_name
@@ -76,8 +77,6 @@ module RecordActions
 
   def show
     authorize! :read, (@record || model_class)
-
-    sort_subforms
 
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
@@ -165,8 +164,6 @@ module RecordActions
 
     authorize! :update, @record
 
-    sort_subforms
-
     @form_sections = @record.allowed_formsections(current_user)
     @page_name = t("#{model_class.locale_prefix}.edit")
   end
@@ -200,22 +197,11 @@ module RecordActions
   end
 
   def sort_subforms
-    subform_sort_order = {
-        :care_arrangements_subform => :care_arrangement_started_date,
-        :care_assessment_subform_care_assessment_section => :care_assessment_date,
-        :protection_concern_detail_subform_section => :date_field_concern_identified,
-        :cp_case_plan_subform_case_plan_interventions => :case_plan_timeframe,
-        :followup_subform_section => :followup_date,
-        :services_section => :service_appointment_date,
-        :transitions => :created_at
-    }
-    if model_class == Child
-      subform_sort_order.each do |k, v|
-        if @record[k].present?
-          # Partitioning because dates can be nil. In this case, it causes an error on sort.
-          subforms = @record[k].partition{ |r| r[v].nil? }
-          @record[k] = subforms.first + subforms.last.sort_by{|x| x[v]}.reverse
-        end
+    @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
+      if @record[field.name].present?
+        # Partitioning because dates can be nil. In this case, it causes an error on sort.
+        subforms = @record[field.name].partition{ |r| r[field.subform_sort_by].nil? }
+        @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
       end
     end
   end

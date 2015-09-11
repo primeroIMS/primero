@@ -25,6 +25,8 @@ class Field
   property :field_tags, [String], :default => []
   property :custom_template, :default => nil #Custom type should set the path to the template.
   property :expose_unique_id, TrueClass, :default => false
+  property :subform_sort_by
+
 
   attr_accessor :subform
 

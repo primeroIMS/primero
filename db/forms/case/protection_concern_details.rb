@@ -127,7 +127,8 @@ protection_concern_detail_fields = [
               ]
             }),
   Field.new({"name" => "protection_concern_detail_subform_section",
-             "type" => "subform", "editable" => true,
+             "type" => "subform",
+             "editable" => true,
              "subform_section_id" => protection_concern_detail_subform_section.unique_id,
              "display_name_all" => "Protection Concern Details"
             })
