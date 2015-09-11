@@ -3,7 +3,6 @@ require 'forms_to_properties'
 module Record
   extend ActiveSupport::Concern
 
-
   require "uuidtools"
   include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
@@ -16,6 +15,14 @@ module Record
   included do
     before_create :create_identification
 
+    #This code allows all models that implement records to mark all explicit properties as protected
+    class_attribute(:protected_properties)
+    self.protected_properties = []
+    def self.property(name, *options, &block)
+      protected_properties << name
+      couchrest_model_property(name, *options, &block)
+    end
+
     property :unique_identifier
     property :duplicate, TrueClass
     property :duplicate_of, String
@@ -27,6 +34,7 @@ module Record
 
     class_attribute(:form_properties_by_name)
     class_attribute(:properties_by_form)
+
     self.form_properties_by_name = {}
     self.properties_by_form = {}
 
@@ -94,6 +102,7 @@ module Record
 
     end
   end
+
 
   module ClassMethods
     include FormToPropertiesConverter
@@ -164,24 +173,26 @@ module Record
     def remove_form_properties
       properties_by_form.clear
       form_properties_by_name.each do |name, prop|
-        properties_by_name.delete(name)
-        properties.delete(prop)
+        unless protected_properties.include? name
+          properties_by_name.delete(name)
+          properties.delete(prop)
 
-        if method_defined?(name)
-          remove_method(name)
-        end
-
-        %w(= ?).each do |suffix|
-          if method_defined?("#{name}#{suffix}")
-            remove_method("#{name}#{suffix}")
+          if method_defined?(name)
+            remove_method(name)
           end
-        end
 
-        if prop.alias
-          remove_method("#{prop.alias}=")
-        end
+          %w(= ?).each do |suffix|
+            if method_defined?("#{name}#{suffix}")
+              remove_method("#{name}#{suffix}")
+            end
+          end
 
-        #TODO: also remove validations
+          if prop.alias
+            remove_method("#{prop.alias}=")
+          end
+
+          #TODO: also remove validations
+        end
       end
     end
 
@@ -197,7 +208,8 @@ module Record
         properties_by_form[form_name] ||= {}
 
         props.each do |name, options|
-          property name.to_sym, options
+          couchrest_model_property name.to_sym, options #using the original property to ensure that its not protected
+          #property name.to_sym, options
           properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
         end
       end
