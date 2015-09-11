@@ -10,7 +10,7 @@ module CouchChanges
 
       class << self
         def supported_models
-          [Lookup, Location, FormSection, User, Agency, PrimeroModule, Role, SystemSettings]
+          [Lookup, Location, FormSection, User, Agency, PrimeroModule, Role, SystemSettings, ConfigurationBundle]
         end
 
         DELAY_SECONDS = 2

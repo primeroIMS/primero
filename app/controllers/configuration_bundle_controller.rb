@@ -52,7 +52,11 @@ class ConfigurationBundleController < ApplicationController
         begin
           modelCls.design_doc.sync!
         rescue RestClient::ResourceNotFound
-          #Mysteriously, the original recreate sometimes breaks.
+          #TODO: CouchDB transactions are asynchronous.
+          #      That means that sometimes the server will receive a command to update a database
+          #      that has yet to be created. For now this is a hack that should work most of the time.
+          #      The real solution is to synchronize on the database creation, and only trigger
+          #      the design record sync (and any other updates) when we know the database exists.
           Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
           modelCls.database.create!
           modelCls.design_doc.sync!
@@ -64,6 +68,8 @@ class ConfigurationBundleController < ApplicationController
         redirect_to :action => :index, :controller => :users and return
       end
     end
+
+    ConfigurationBundle.create! applied_by: current_user.user_name
 
     Rails.logger.info "Successfully completed configuration bundle import."
     # TODO: modify the redirect if this ever gets it own page

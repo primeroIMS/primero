@@ -33,6 +33,7 @@ module Record
     create_form_properties
 
     FormSection.add_observer(self, :handle_form_changes)
+    ConfigurationBundle.add_observer(self, :handle_form_changes)
 
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
