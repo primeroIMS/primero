@@ -173,7 +173,7 @@ module Record
     def remove_form_properties
       properties_by_form.clear
       form_properties_by_name.each do |name, prop|
-        unless protected_properties.include? name
+        unless protected_properties.include? name.to_sym
           properties_by_name.delete(name)
           properties.delete(prop)
 
