@@ -13,6 +13,7 @@ class ConfigurationBundle < CouchRest::Model::Base
     CouchChanges::Processors::Notifier.supported_models
   end
 
-
+  #Ducktyping to allow refreshing
+  def self.flush_cache ; end
 
 end

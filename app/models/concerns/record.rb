@@ -152,6 +152,7 @@ module Record
     end
 
     def handle_form_changes(*args)
+      Rails.logger.info("Refreshing properties from forms for #{parent_form}")
       refresh_form_properties
     end
 
@@ -189,7 +190,7 @@ module Record
       FormSection.link_subforms(form_sections)
 
       if form_sections.length == 0
-        Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
+        Rails.logger.warn "This model's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
       properties_hash_from_forms(form_sections).each do |form_name, props|
