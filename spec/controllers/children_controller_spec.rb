@@ -1183,7 +1183,7 @@ describe ChildrenController do
         "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
       })
 
-      followup_fields = [
+      @followup_fields = [
         Field.new({"name" => "followup_subform_section",
                    "type" => "subform", "editable" => true,
                    "subform_section_id" => followup_subform_section.unique_id,
@@ -1201,13 +1201,15 @@ describe ChildrenController do
         :order_subform => 0,
         :form_group_name => "Services / Follow Up",
         "editable" => true,
-        :fields => followup_fields,
+        :fields => @followup_fields,
         "name_all" => "Follow Up",
         "description_all" => "Follow Up"
       })
+    end
 
+    it "should sort subforms by the sort_subform_by on show page" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      @params = {
+      params = {
         "child" => {
           "name" => "JoJo BamBeno",
           "short_id" => 'short_id',
@@ -1231,21 +1233,48 @@ describe ChildrenController do
           }
         }
       }
-      @child = Child.new_with_user_name(user, @params["child"])
-      @child.save!
-      Child.any_instance.stub(:field_definitions).and_return(followup_fields)
-    end
+      child = Child.new_with_user_name(user, params["child"])
+      child.save!
+      Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
 
-    it "should sort subforms by the sort_subform_by on show page" do
-      get :show, :id => @child.id
-      child_params = @params["child"]["followup_subform_section"]
+      get :show, :id => child.id
+      child_params = params["child"]["followup_subform_section"]
       expect(assigns[:child][:followup_subform_section]).to eq([child_params["2"], child_params["0"], child_params["1"]])
     end
 
-    it "should sort subforms by the sort_subform_by on edit page" do
-      get :edit, :id => @child.id
-      child_params = @params["child"]["followup_subform_section"]
-      expect(assigns[:child][:followup_subform_section]).to eq([child_params["2"], child_params["0"], child_params["1"]])
+    it "should sort subforms by the sort_subform_by with nil dates at the top" do
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
+      params = {
+        "child" => {
+          "name" => "JoJo BamBeno",
+          "short_id" => 'short_id',
+          "created_by" => "uname",
+          "followup_subform_section"=> {
+            "0"=> {
+              "unique_id"=>"f9672710-b257-4cd8-896d-6eb8349bbef0",
+              "followup_type"=>"Follow up After Reunification",
+              "followup_date"=>"21-Sep-2015"
+            },
+            "1"=> {
+              "unique_id"=>"f5345966-7bf5-4621-8237-b31259f71260",
+              "followup_type"=>"Follow up in Care",
+              "followup_date"=>"nil"
+            },
+            "2"=> {
+              "unique_id"=>"85004f47-70d5-4b30-96c9-138666b36413",
+              "followup_type"=>"Follow up in Care",
+              "followup_date"=>"30-Sep-2015"
+            }
+          }
+        }
+      }
+      child = Child.new_with_user_name(user, params["child"])
+      child.save!
+      Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
+
+      get :show, :id => child.id
+      child_params = params["child"]["followup_subform_section"]
+      expect(assigns[:child][:followup_subform_section]).to eq([child_params["1"], child_params["2"], child_params["0"]])
     end
   end
 end
