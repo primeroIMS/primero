@@ -14,13 +14,13 @@ class Ability
     user.permissions.each do |permission|
       case permission.resource
         when Permission::USER
-          user_permissions
+          user_permissions permission.action_symbols
         when Permission::METADATA
           metadata_permissions
         when Permission::SYSTEM
           system_permissions
         else
-          configure_resource permission.resource, permission.actions, permission.is_record?
+          configure_resource permission.resource_class, permission.action_symbols, permission.is_record?
       end
 
       #TODO - what to do with this???
@@ -30,7 +30,7 @@ class Ability
     end
   end
 
-  def user_permissions
+  def user_permissions actions
     #TODO - Handle Permission::ALL and Permission::GROUP
     can actions, User do |uzer|
       if user.has_permission? Permission::ALL
@@ -42,7 +42,7 @@ class Ability
       end
     end
     [Role, UserGroup, Agency].each do |resource|
-      configure_resource resource, permission.actions
+      configure_resource resource, actions
     end
   end
 

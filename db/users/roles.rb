@@ -39,10 +39,20 @@ create_or_update_role(
 
 superuser_permissions = [
   Permission.new(
-    :resource => Permission::ALL,
-    :actions => [
-      Permission::MANAGE
-    ]
+    :resource => Permission::CASE,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::INCIDENT,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::TRACING_REQUEST,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::USER,
+    :actions => [Permission::MANAGE]
   )
 ]
 

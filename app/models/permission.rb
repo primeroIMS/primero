@@ -97,4 +97,14 @@ class Permission
   def is_record?
     [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
   end
+
+  def resource_class
+    return nil if self.resource.blank?
+    class_str = (self.resource == CASE ? 'child' : self.resource)
+    class_str.camelize.constantize
+  end
+
+  def action_symbols
+    actions.map{|a| a.to_sym}
+  end
 end
