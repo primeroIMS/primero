@@ -1151,4 +1151,65 @@ describe ChildrenController do
 
 	end
 
+  describe "sort_subforms" do
+    before :each do
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
+      params = {
+        "child" => {
+          "name" => "JoJo BamBeno",
+          "short_id" => 'short_id',
+          "created_by" => "uname",
+          "followup_subform_section"=> {
+            "0"=> {
+              "unique_id"=>"f9672710-b257-4cd8-896d-6eb8349bbef0",
+              "followup_type"=>"Follow up After Reunification",
+              "followup_service_type"=>"",
+              "followup_assessment_type"=>"",
+              "followup_needed_by_date"=>"",
+              "followup_date"=>"21-Sep-2015",
+              "reason_child_not_seen_other_details"=>"",
+              "action_taken_details"=>"",
+              "action_taken_date"=>"",
+              "when_follow_up_visit_should_happen"=>"",
+              "followup_comments"=>""
+            },
+            "1"=> {
+              "unique_id"=>"f5345966-7bf5-4621-8237-b31259f71260",
+              "followup_type"=>"Follow up in Care",
+              "followup_service_type"=>"Health/Medical Service",
+              "followup_assessment_type"=>"Community Intervention Assessment",
+              "followup_needed_by_date"=>"",
+              "followup_date"=>"08-Sep-2015",
+              "reason_child_not_seen_other_details"=>"",
+              "action_taken_details"=>"",
+              "action_taken_date"=>"",
+              "when_follow_up_visit_should_happen"=>"",
+              "followup_comments"=>""
+            },
+            "2"=> {
+              "unique_id"=>"85004f47-70d5-4b30-96c9-138666b36413",
+              "followup_type"=>"Follow up in Care",
+              "followup_service_type"=>"Police/Other Service",
+              "followup_assessment_type"=>"Family Intervention Assessment",
+              "followup_needed_by_date"=>"30-Sep-2015",
+              "followup_date"=>"",
+              "reason_child_not_seen_other_details"=>"",
+              "action_taken_details"=>"",
+              "action_taken_date"=>"",
+              "when_follow_up_visit_should_happen"=>"",
+              "followup_comments"=>""
+            }
+          }
+        }
+      }
+      post :create, params
+    end
+
+    it "should sort subforms by the sort_subform_by" do
+      get :show, :id => assigns(:record).id
+      Child.create()
+      binding.pry
+      response.status.should == 403
+    end
+  end
 end

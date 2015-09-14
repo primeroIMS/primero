@@ -197,11 +197,13 @@ module RecordActions
   end
 
   def sort_subforms
-    @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
-      if @record[field.name].present?
-        # Partitioning because dates can be nil. In this case, it causes an error on sort.
-        subforms = @record[field.name].partition{ |r| r[field.subform_sort_by].nil? }
-        @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+    if @record.present?
+      @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
+        if @record[field.name].present?
+          # Partitioning because dates can be nil. In this case, it causes an error on sort.
+          subforms = @record[field.name].partition{ |r| r[field.subform_sort_by].nil? }
+          @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+        end
       end
     end
   end
