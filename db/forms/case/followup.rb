@@ -131,7 +131,8 @@ followup_fields = [
   Field.new({"name" => "followup_subform_section",
              "type" => "subform", "editable" => true,
              "subform_section_id" => followup_subform_section.unique_id,
-             "display_name_all" => "Follow Up"
+             "display_name_all" => "Follow Up",
+             "subform_sort_by" => "followup_date"
             })
 ]
 
