@@ -241,6 +241,10 @@ class User < CouchRest::Model::Base
     #permissions && permissions.include?(permission)
   end
 
+  def has_group_permission?(permission)
+    group_permissions && group_permissions.include?(permission)
+  end
+
   def has_permitted_form_id?(form_id)
     permitted_form_ids && permitted_form_ids.include?(form_id)
   end
@@ -251,6 +255,10 @@ class User < CouchRest::Model::Base
 
   def permissions
     roles.compact.collect(&:permissions_list).flatten
+  end
+
+  def group_permissions
+    roles.map{|r| r.group_permission}.uniq
   end
 
   def permitted_form_ids

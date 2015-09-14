@@ -79,7 +79,8 @@ cp_admin_permissions = [
 
 create_or_update_role(
   :name => "CP Administrator",
-  :permissions_list => cp_admin_permissions
+  :permissions_list => cp_admin_permissions,
+  :group_permission => Permission::ALL
 )
 
 
@@ -184,7 +185,8 @@ cp_manager_permissions = [
 
 create_or_update_role(
   :name => "CP Manager",
-  :permissions_list => cp_manager_permissions
+  :permissions_list => cp_manager_permissions,
+  :group_permission => Permission::GROUP
 )
 
 gbv_worker_permissions = [
@@ -286,7 +288,8 @@ gbv_manager_permissions = [
 
 create_or_update_role(
   :name => "GBV Manager",
-  :permissions_list => gbv_manager_permissions
+  :permissions_list => gbv_manager_permissions,
+  :group_permission => Permission::GROUP
 )
 
 mrm_worker_permissions = [
@@ -359,7 +362,8 @@ mrm_manager_permissions = [
 
 create_or_update_role(
   :name => "MRM Manager",
-  :permissions_list => mrm_manager_permissions
+  :permissions_list => mrm_manager_permissions,
+  :group_permission => Permission::GROUP
 )
 
 referral_permissions = [
@@ -441,6 +445,7 @@ superuser_permissions = [
 
 create_or_update_role(
   :name => "Superuser",
-  :permissions_list => superuser_permissions
+  :permissions_list => superuser_permissions,
+  :group_permission => Permission::ALL
 )
 
