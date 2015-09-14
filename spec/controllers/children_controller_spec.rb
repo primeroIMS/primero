@@ -1153,8 +1153,61 @@ describe ChildrenController do
 
   describe "sort_subforms" do
     before :each do
-      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      params = {
+      followup_subform_fields = [
+        Field.new({"name" => "followup_type",
+                   "type" => "select_box",
+                   "display_name_all" => "Type of follow up",
+                   "option_strings_text_all" =>
+                                ["Follow up After Reunification",
+                                 "Follow up in Care"].join("\n")
+                  }),
+        Field.new({"name" => "followup_date",
+                   "type" => "date_field",
+                   "display_name_all" => "Follow up date"
+                  })
+      ]
+
+      followup_subform_section = FormSection.create_or_update_form_section({
+        "visible" => false,
+        "is_nested" => true,
+        :order_form_group => 110,
+        :order => 20,
+        :order_subform => 1,
+        :unique_id => "followup_subform_section",
+        :parent_form=>"case",
+        "editable" => true,
+        :fields => followup_subform_fields,
+        :initial_subforms => 1,
+        "name_all" => "Nested Followup Subform",
+        "description_all" => "Nested Followup Subform",
+        "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
+      })
+
+      followup_fields = [
+        Field.new({"name" => "followup_subform_section",
+                   "type" => "subform", "editable" => true,
+                   "subform_section_id" => followup_subform_section.unique_id,
+                   "display_name_all" => "Follow Up",
+                   "subform_sort_by" => "followup_date"
+                  })
+      ]
+
+      FormSection.create_or_update_form_section({
+        :unique_id => "followup",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 110,
+        :order => 20,
+        :order_subform => 0,
+        :form_group_name => "Services / Follow Up",
+        "editable" => true,
+        :fields => followup_fields,
+        "name_all" => "Follow Up",
+        "description_all" => "Follow Up"
+      })
+
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
+      @params = {
         "child" => {
           "name" => "JoJo BamBeno",
           "short_id" => 'short_id',
@@ -1163,53 +1216,36 @@ describe ChildrenController do
             "0"=> {
               "unique_id"=>"f9672710-b257-4cd8-896d-6eb8349bbef0",
               "followup_type"=>"Follow up After Reunification",
-              "followup_service_type"=>"",
-              "followup_assessment_type"=>"",
-              "followup_needed_by_date"=>"",
-              "followup_date"=>"21-Sep-2015",
-              "reason_child_not_seen_other_details"=>"",
-              "action_taken_details"=>"",
-              "action_taken_date"=>"",
-              "when_follow_up_visit_should_happen"=>"",
-              "followup_comments"=>""
+              "followup_date"=>"21-Sep-2015"
             },
             "1"=> {
               "unique_id"=>"f5345966-7bf5-4621-8237-b31259f71260",
               "followup_type"=>"Follow up in Care",
-              "followup_service_type"=>"Health/Medical Service",
-              "followup_assessment_type"=>"Community Intervention Assessment",
-              "followup_needed_by_date"=>"",
-              "followup_date"=>"08-Sep-2015",
-              "reason_child_not_seen_other_details"=>"",
-              "action_taken_details"=>"",
-              "action_taken_date"=>"",
-              "when_follow_up_visit_should_happen"=>"",
-              "followup_comments"=>""
+              "followup_date"=>"08-Sep-2015"
             },
             "2"=> {
               "unique_id"=>"85004f47-70d5-4b30-96c9-138666b36413",
               "followup_type"=>"Follow up in Care",
-              "followup_service_type"=>"Police/Other Service",
-              "followup_assessment_type"=>"Family Intervention Assessment",
-              "followup_needed_by_date"=>"30-Sep-2015",
-              "followup_date"=>"",
-              "reason_child_not_seen_other_details"=>"",
-              "action_taken_details"=>"",
-              "action_taken_date"=>"",
-              "when_follow_up_visit_should_happen"=>"",
-              "followup_comments"=>""
+              "followup_date"=>"30-Sep-2015"
             }
           }
         }
       }
-      post :create, params
+      @child = Child.new_with_user_name(user, @params["child"])
+      @child.save!
+      Child.any_instance.stub(:field_definitions).and_return(followup_fields)
     end
 
-    it "should sort subforms by the sort_subform_by" do
-      get :show, :id => assigns(:record).id
-      Child.create()
-      binding.pry
-      response.status.should == 403
+    it "should sort subforms by the sort_subform_by on show page" do
+      get :show, :id => @child.id
+      child_params = @params["child"]["followup_subform_section"]
+      expect(assigns[:child][:followup_subform_section]).to eq([child_params["2"], child_params["0"], child_params["1"]])
+    end
+
+    it "should sort subforms by the sort_subform_by on edit page" do
+      get :edit, :id => @child.id
+      child_params = @params["child"]["followup_subform_section"]
+      expect(assigns[:child][:followup_subform_section]).to eq([child_params["2"], child_params["0"], child_params["1"]])
     end
   end
 end
