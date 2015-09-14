@@ -8,7 +8,7 @@ class Role < CouchRest::Model::Base
 
   property :permissions, :type => [String]
   property :permissions_list, :type => [Permission]
-  property :group_permission, :type => String, :default => 'user'
+  property :group_permission, :type => String, :default => Permission::SELF
   property :permitted_form_ids, :type => [String]
   property :referral, TrueClass, :default => false
   property :transfer, TrueClass, :default => false

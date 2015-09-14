@@ -94,6 +94,18 @@ class Permission
     {'actions' => actions, 'resources' => resources, 'management' => management}
   end
 
+  def self.all_permissions_list
+    [
+      self.new(:resource => CASE, :actions => [MANAGE]),
+      self.new(:resource => INCIDENT, :actions => [MANAGE]),
+      self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
+      self.new(:resource => REPORT, :actions => [MANAGE]),
+      self.new(:resource => USER, :actions => [MANAGE]),
+      self.new(:resource => METADATA, :actions => [MANAGE]),
+      self.new(:resource => SYSTEM, :actions => [MANAGE]),
+    ]
+  end
+
   def is_record?
     [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
   end
