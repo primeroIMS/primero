@@ -76,10 +76,11 @@ transitions = FormSection.create_or_update_form_section({
 
 referral_transfer_fields = [
   Field.new({"name" => "transitions",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => false,
              "subform_section_id" => transitions.unique_id,
-             "display_name_all" => "Transfers and Referrals"
+             "display_name_all" => "Transfers and Referrals",
+             "subform_sort_by" => "created_at"
             })
 ]
 

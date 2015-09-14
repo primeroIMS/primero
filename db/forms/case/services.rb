@@ -83,9 +83,11 @@ services_section = FormSection.create_or_update_form_section({
 services_fields = [
   Field.new({
     "name" => "services_section",
-    "type" => "subform", "editable" => true,
+    "type" => "subform",
+    "editable" => true,
     "subform_section_id" => services_section.unique_id,
-    "display_name_all" => "Services"
+    "display_name_all" => "Services",
+    "subform_sort_by" => "service_appointment_date"
   })
 ]
 
