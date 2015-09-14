@@ -238,7 +238,7 @@ class User < CouchRest::Model::Base
   end
 
   def has_permission?(permission)
-    permissions && permissions.include?(permission)
+    #permissions && permissions.include?(permission)
   end
 
   def has_permitted_form_id?(form_id)
@@ -250,7 +250,7 @@ class User < CouchRest::Model::Base
   end
 
   def permissions
-    roles.compact.collect(&:permissions).flatten
+    roles.compact.collect(&:permissions_list).flatten
   end
 
   def permitted_form_ids

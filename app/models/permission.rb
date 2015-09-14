@@ -1,4 +1,10 @@
 class Permission
+  include CouchRest::Model::CastedModel
+  include PrimeroModel
+
+  property :resource
+  property :actions, [String], :default => []
+
   READ = 'read'
   WRITE = 'write'
   FLAG = 'flag'
@@ -30,6 +36,9 @@ class Permission
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
+  MANAGE = 'manage'
+
+  validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
 
   def self.description(permission)
@@ -83,5 +92,9 @@ class Permission
 
   def self.all_grouped
     {'actions' => actions, 'resources' => resources, 'management' => management}
+  end
+
+  def is_record?
+    [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
   end
 end

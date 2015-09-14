@@ -7,11 +7,12 @@ class Role < CouchRest::Model::Base
   include Memoizable
 
   property :permissions, :type => [String]
+  property :permissions_list, :type => [Permission]
   property :permitted_form_ids, :type => [String]
   property :referral, TrueClass, :default => false
   property :transfer, TrueClass, :default => false
 
-  validates_presence_of :permissions, :message => I18n.t("errors.models.role.permission_presence")
+  validates_presence_of :permissions_list, :message => I18n.t("errors.models.role.permission_presence")
 
   before_save :sanitize_permissions
   before_save :add_permitted_subforms

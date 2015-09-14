@@ -7,75 +7,57 @@ class Ability
 
     @user = user
 
-    actions = Permission.actions.reduce([]) do |array, action|
-      if (user.has_permission? action)
-        array << action.to_sym
-      end
-      array
-    end
-
-    if user.has_permission? Permission::CASE
-      configure_resource Child, actions, true
-    end
-
-    if user.has_permission? Permission::INCIDENT
-      configure_resource Incident, actions, true
-    end
-
-    if user.has_permission? Permission::TRACING_REQUEST
-      configure_resource TracingRequest, actions, true
-    end
-
-    #Deal with users
     can [:read, :write], User do |uzer|
       uzer.user_name == user.user_name
     end
 
-    if user.has_permission? Permission::USER
-      can actions, User do |uzer|
-        if user.has_permission? Permission::ALL
-          true
-        elsif user.has_permission? Permission::GROUP
-          (user.user_group_ids & uzer.user_group_ids).size > 0
+    user.permissions.each do |permission|
+      case permission.resource
+        when Permission::USER
+          user_permissions
+        when Permission::METADATA
+          metadata_permissions
+        when Permission::SYSTEM
+          system_permissions
         else
-          uzer.user_name == user.user_name
-        end
+          configure_resource permission.resource, permission.actions, permission.is_record?
       end
 
-      [Role, UserGroup, Agency].each do |resource|
-        configure_resource resource, actions
+      #TODO - what to do with this???
+      #if user.has_permission? Permission::SYNC_MOBILE
+        #can :index, FormSection
+      #end
+    end
+  end
+
+  def user_permissions
+    #TODO - Handle Permission::ALL and Permission::GROUP
+    can actions, User do |uzer|
+      if user.has_permission? Permission::ALL
+        true
+      elsif user.has_permission? Permission::GROUP
+        (user.user_group_ids & uzer.user_group_ids).size > 0
+      else
+        uzer.user_name == user.user_name
       end
     end
-
-    if user.has_permission? Permission::METADATA
-      [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
-        #configure_resource resource, actions
-        can :manage, resource
-      end
-      #TODO: Think about what users can do with modules
-      #[:read, :update, :destroy].each{|a| can a, PrimeroModule} #Cannot create
+    [Role, UserGroup, Agency].each do |resource|
+      configure_resource resource, permission.actions
     end
+  end
 
-    if user.has_permission? Permission::SYNC_MOBILE
-      can :index, FormSection
+  def metadata_permissions
+    [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
+      #configure_resource resource, permission.actions
+      can :manage, resource
     end
+  end
 
-    if user.has_permission? Permission::SYSTEM
-      [ContactInformation, Device, Replication, SystemUsers].each do |resource|
-        #configure_resource resource, actions
-        can :manage, resource
-      end
+  def system_permissions
+    [ContactInformation, Device, Replication, SystemUsers].each do |resource|
+      #configure_resource resource, actions
+      can :manage, resource
     end
-
-    #TODO: Yeah, yeah, we should make permissioning granular in R2.
-    if user.has_permission? Permission::REPORT
-      can :read, Report
-    end
-    if user.has_permission? Permission::REPORT_CREATE
-      can :read, Report
-      can :write, Report
-    end
-
   end
 
   def user
@@ -83,8 +65,10 @@ class Ability
   end
 
   def configure_resource(resource, actions, is_record=false)
+    #binding.pry
     if is_record
       can actions, resource do |instance|
+        #TODO - Handle Permission::ALL and Permission::GROUP
         if user.has_permission? Permission::ALL
           true
         elsif user.has_permission? Permission::GROUP

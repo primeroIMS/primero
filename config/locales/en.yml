@@ -1283,6 +1283,9 @@ en:
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
 
+        permission:
+          resource_presence: "Please select a resource"
+
       primero_module:
         name_present: "Name must not be blank"
         unique_name: "A module with that name already exists, please enter a different name"
