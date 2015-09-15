@@ -16,10 +16,10 @@ module Record
     before_create :create_identification
 
     #This code allows all models that implement records to mark all explicit properties as protected
-    class_attribute(:protected_properties)
-    self.protected_properties = []
+    class_attribute(:primero_protected_properties)
+    self.primero_protected_properties = []
     def self.property(name, *options, &block)
-      protected_properties << name
+      primero_protected_properties << name
       couchrest_model_property(name, *options, &block)
     end
 
@@ -173,7 +173,7 @@ module Record
     def remove_form_properties
       properties_by_form.clear
       form_properties_by_name.each do |name, prop|
-        unless protected_properties.include? name.to_sym
+        unless primero_protected_properties.include? name.to_sym
           properties_by_name.delete(name)
           properties.delete(prop)
 
