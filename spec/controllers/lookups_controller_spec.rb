@@ -7,8 +7,9 @@ describe LookupsController do
     @lookup_a = Lookup.create!(name: "A", lookup_values: ["A", "AA"])
     @lookup_b = Lookup.create!(name: "B", lookup_values: ["B", "BB", "BBB"])
     @lookup_c = Lookup.create!(name: "C", lookup_values: ["C", "CC", "CCC", "CCCC"])
+    @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
     user = User.new(:user_name => 'manager_of_lookups')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
+    user.stub(:roles).and_return([Role.new(:permissions_list => [@permission_metadata])])
     fake_login user
   end
 
