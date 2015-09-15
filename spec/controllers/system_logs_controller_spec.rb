@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SystemLogsController do
 
   before :each do
-    fake_login_as(Permission::SYSTEM)
+    fake_login_as(Permission::SYSTEM, [Permission::MANAGE])
   end
 
   it "should render index with correct page name" do

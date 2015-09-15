@@ -351,8 +351,8 @@ describe ChildrenController do
         Child.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-
-        roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
+        permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        roles = [Role.new(permissions_list: [permission_case])]
 
         Child.any_instance.stub(:child_status).and_return("Open")
         @case_worker1 = create(:user)
@@ -392,7 +392,8 @@ describe ChildrenController do
         Sunspot.remove_all!
 
 
-        roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
+        permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        roles = [Role.new(permissions_list: [permission_case])]
 
         Child.any_instance.stub(:child_status).and_return("Open")
         @case_worker = create(:user)

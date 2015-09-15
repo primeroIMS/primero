@@ -312,7 +312,8 @@ describe IncidentsController do
         Incident.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-        roles = [Role.new(permissions: [Permission::READ, Permission::INCIDENT])]
+        permission = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
+        roles = [Role.new(permissions_list: [permission])]
 
         @incident_manager1 = create(:user)
         @incident_manager1.stub(:roles).and_return(roles)

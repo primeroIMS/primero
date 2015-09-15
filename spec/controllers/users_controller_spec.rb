@@ -135,7 +135,7 @@ describe UsersController do
     end
 
     xit "should throw error if an user without authorization tries to access" do
-      fake_login_as([Permission::USER, Permission::READ])
+      fake_login_as(Permission::USER, [Permission::READ])
       get :new
       response.status.should == 403
     end
@@ -152,14 +152,14 @@ describe UsersController do
     end
 
     it "should not allow editing a non-self user for users without access" do
-      fake_login_as([Permission::USER, Permission::READ])
+      fake_login_as(Permission::USER, [Permission::READ])
       User.stub(:get).with("37").and_return(mock_user(:full_name => "Test Name"))
       get :edit, :id => "37"
       response.should be_forbidden
     end
 
     it "should allow editing a non-self user for user having edit permission" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE, Permission::ALL])
+      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::ALL])
       mock_user = stub_model(User, :full_name => "Test Name", :user_name => 'fakeuser')
       User.stub(:get).with("24").and_return(mock_user)
       get :edit, :id => "24"
@@ -182,14 +182,14 @@ describe UsersController do
     end
 
     it "should not allow a destroy" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::ALL])
+      fake_login_as(Permission::USER, [Permission::READ], Permission::ALL)
       User.stub(:get).and_return(mock_user(:destroy => true))
       delete :destroy, :id => "37"
       response.status.should == 403
     end
 
     it "should allow user deletion for relevant user role" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE, Permission::ALL])
+      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
       mock_user = stub_model User
       User.should_receive(:get).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy).and_return(true)
@@ -213,7 +213,7 @@ describe UsersController do
 
     context "disabled flag" do
       it "should not allow to edit disable fields for non-disable users" do
-        fake_login_as([Permission::USER, Permission::READ, Permission::ALL])
+        fake_login_as(Permission::USER, [Permission::READ], Permission::ALL)
         user = stub_model User, :user_name => 'some name'
         params = { :id => '24', :user => { :disabled => true } }
         User.stub :get => user
@@ -222,7 +222,7 @@ describe UsersController do
       end
 
       it "should allow to edit disable fields for disable users" do
-        fake_login_as([Permission::USER, Permission::READ, Permission::WRITE, Permission::ALL])
+        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
         user = stub_model User, :user_name => 'some name'
         params = { :id => '24', :user => { :disabled => true } }
         User.stub :get => user
@@ -234,7 +234,7 @@ describe UsersController do
     end
     context "create a user" do
       it "should create admin user if the admin user type is specified" do
-        fake_login_as([Permission::USER, Permission::READ, Permission::WRITE, Permission::ALL])
+        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
         mock_user = User.new
         User.should_receive(:new).with({"role_ids" => %w(abcd)}).and_return(mock_user)
         mock_user.should_receive(:save).and_return(true)
