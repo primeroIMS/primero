@@ -235,8 +235,9 @@ describe User do
 
   describe "user roles" do
     it "should store the roles and retrive them back as Roles" do
-      admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions)
-      field_worker_role = Role.create!(:name => "Field Worker", :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
+      permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
+      field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [permission_case_read_write])
       user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
                           :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
 
@@ -253,6 +254,7 @@ describe User do
       build(:user, :role_ids => [], :verified => false).should be_valid
     end
 
+    # TODO - FIX or comment out
     describe 'permissions' do
       subject { stub_model User, :permissions => [ 1, 2, 3, 4 ] }
 
@@ -276,7 +278,8 @@ describe User do
       @form_section_b = FormSection.create!(unique_id: "B", name: "B")
       @form_section_c = FormSection.create!(unique_id: "C", name: "C")
       @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
-      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+      @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
     end
 
     it "inherits the forms permitted by the modules" do
@@ -296,8 +299,10 @@ describe User do
       User.all.each &:destroy
       Role.all.each &:destroy
 
-      @manager_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
-      @grunt_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER]
+      @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+      @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
+      @manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP
+      @grunt_role = create :role, permissions_list: [@permission_user_read]
 
       @manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", "GroupB"], is_manager: true
       @grunt1 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"], is_manager: false
@@ -312,6 +317,7 @@ describe User do
       expect(@grunt2.is_manager?).to be_false
     end
 
+    #TODO -fix
     it "manages all people in its group including itself" do
       expect(@manager.managed_users).to match_array([@grunt1, @grunt2, @grunt3, @grunt4, @manager])
     end
@@ -320,12 +326,14 @@ describe User do
       expect(@grunt1.managed_users).to eq([@grunt1])
     end
 
+    #TODO - fix
     it "has a record scope of 'all' if it an manage all users" do
-      manager_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::ALL]
+      manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::ALL
       manager = create :user, role_ids: [manager_role.id]
       expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
     end
 
+    #TODO - fix
     it "does not manage users who share an empty group with it" do
       manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", ""]
       grunt = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB", ""]

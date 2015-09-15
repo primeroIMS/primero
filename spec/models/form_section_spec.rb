@@ -49,7 +49,8 @@ describe FormSection do
         @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
         @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
         @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
-        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
         @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
       end
 
@@ -60,7 +61,7 @@ describe FormSection do
       end
 
       it "returns no FormSection objects if the user cannot view the permitted module forms" do
-        role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions: ["test_permission"])
+        role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions_list: [@permission_case_read])
         user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
         child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
 
@@ -88,7 +89,8 @@ describe FormSection do
         @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_name: "X")
         @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_name: "Y")
         @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
-        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
         @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
       end
 
