@@ -430,6 +430,10 @@ superuser_permissions = [
     :actions => [Permission::MANAGE]
   ),
   Permission.new(
+    :resource => Permission::REPORT,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
     :resource => Permission::USER,
     :actions => [Permission::MANAGE]
   ),
