@@ -20,6 +20,7 @@ module RecordActions
     before_filter :is_gbv, :only => [:index]
     before_filter :is_mrm, :only => [:index]
     before_filter :load_consent, :only => [:show]
+    before_filter :sort_subforms, :only => [:show, :edit]
   end
 
   def list_variable_name
@@ -191,6 +192,18 @@ module RecordActions
           render :action => "edit"
         }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def sort_subforms
+    if @record.present?
+      @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
+        if @record[field.name].present?
+          # Partitioning because dates can be nil. In this case, it causes an error on sort.
+          subforms = @record[field.name].partition{ |r| r[field.subform_sort_by].nil? }
+          @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+        end
       end
     end
   end
