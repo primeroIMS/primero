@@ -156,6 +156,7 @@ describe "children/show.html.erb" do
 
     context "export button" do
       it "should not show links to export when user doesn't have appropriate permissions" do
+        @current_modules = []
         @user.stub(:has_permission?).and_return(false)
         render
         rendered.should_not have_tag("a[href='#{child_path(@child,:format => :csv)}']")

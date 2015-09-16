@@ -159,7 +159,7 @@ describe UsersController do
     end
 
     it "should allow editing a non-self user for user having edit permission" do
-      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::ALL])
+      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
       mock_user = stub_model(User, :full_name => "Test Name", :user_name => 'fakeuser')
       User.stub(:get).with("24").and_return(mock_user)
       get :edit, :id => "24"

@@ -292,7 +292,7 @@ describe TracingRequestsController do
         TracingRequest.all.each{|t| t.destroy}
         Sunspot.remove_all!
 
-        @permission_tracing_request_read = Permission.new(resource: Permission::TRACING_REQUEST, actions: [PERMISSION::READ])
+        @permission_tracing_request_read = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ])
         roles = [Role.new(permissions_list: [@permission_tracing_request_read])]
 
         @case_worker1 = create(:user)

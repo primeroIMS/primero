@@ -210,7 +210,7 @@ describe ChildrenController do
 
     shared_examples_for "Export List" do |user_type|
       before do
-        @session = fake_login_as
+        @session = fake_admin_login
       end
 
       it "should export columns in the current list view for #{user_type} user" do

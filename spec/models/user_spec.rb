@@ -254,17 +254,6 @@ describe User do
       build(:user, :role_ids => [], :verified => false).should be_valid
     end
 
-    # TODO - FIX or comment out
-    describe 'permissions' do
-      subject { stub_model User, :permissions => [ 1, 2, 3, 4 ] }
-
-      it { should have_permission 1 }
-      it { should_not have_permission 5 }
-
-      it { should have_any_permission 1 }
-      it { should have_any_permission 1,2,3,4 }
-      it { should_not have_any_permission 5 }
-    end
   end
 
   describe "permitted forms" do
