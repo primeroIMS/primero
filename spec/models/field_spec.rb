@@ -294,17 +294,17 @@ describe "record field model" do
      expect(field.new?).to be_false
   end
 
-   it "should show that the field is new after the field fails validation" do
-     form =  FormSection.create! :name => 'test_form2', :unique_id => 'test_form'
-     field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
-     FormSection.add_field_to_formsection form, field
-     #Adding duplicate field.
-     field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
-     FormSection.add_field_to_formsection form, field
-     expect(field.errors.length).to be > 0
-     field.errors[:name].should == ["Field already exists on this form"]
-     expect(field.new?).to be_true
-   end
+  it "should show that the field is new after the field fails validation" do
+    form = FormSection.create! :name => 'test_form2', :unique_id => 'test_form'
+    field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
+    FormSection.add_field_to_formsection form, field
+    #Adding duplicate field.
+    field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
+    FormSection.add_field_to_formsection form, field
+    expect(field.errors.length).to be > 0
+    field.errors[:name].should == ["Field already exists on this form"]
+    expect(field.new?).to be_true
+  end
 
   it "should fails save because fields are duplicated and fields remains as new" do
     #Try to create a FormSection with duplicate fields. That will make fails the save.
