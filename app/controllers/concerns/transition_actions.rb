@@ -209,7 +209,6 @@ module TransitionActions
     elsif type_of_export == "Non-Primero"
       Exporters::CSVExporter
     elsif type_of_export == "PDF export"
-      #TODO probably need to write another exporter?
       Exporters::PDFExporter
     else
       nil
