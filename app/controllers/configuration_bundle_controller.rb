@@ -48,19 +48,19 @@ class ConfigurationBundleController < ApplicationController
     model_data.map do |model_name, data_arr|
       begin
         modelCls = model_name.constantize
-        models_to_delete = []
-        data_arr.each do |d|
-          if d['_id']
-            existing = modelCls.get_unique_instance(d) || modelCls.get(d['_id'])
-            if existing
-              Rails.logger.info "Marking for deletion exisitng #{modelCls.name} prior to bundle import for id #{d['_id']}"
-              models_to_delete << existing
-            end
-          end
+        modelCls.database.recreate!
+        begin
+          modelCls.design_doc.sync!
+        rescue RestClient::ResourceNotFound
+          #TODO: CouchDB transactions are asynchronous.
+          #      That means that sometimes the server will receive a command to update a database
+          #      that has yet to be created. For now this is a hack that should work most of the time.
+          #      The real solution is to synchronize on the database creation, and only trigger
+          #      the design record sync (and any other updates) when we know the database exists.
+          Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
+          modelCls.database.create!
+          modelCls.design_doc.sync!
         end
-        # The first bulk save deletes existing models, the second recreates
-        # them from the bundle
-        modelCls.database.bulk_save(models_to_delete.map {|m| {'_id' => m.id, '_rev' => m.rev, :_deleted => true} })
         modelCls.database.bulk_save(data_arr, false, false)
       rescue NameError => e
         Rails.logger.error "Invalid model name in bundle import: #{model_name}"
@@ -68,6 +68,8 @@ class ConfigurationBundleController < ApplicationController
         redirect_to :action => :index, :controller => :users and return
       end
     end
+
+    ConfigurationBundle.create! applied_by: current_user.user_name
 
     Rails.logger.info "Successfully completed configuration bundle import."
     # TODO: modify the redirect if this ever gets it own page

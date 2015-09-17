@@ -3,7 +3,6 @@ require 'forms_to_properties'
 module Record
   extend ActiveSupport::Concern
 
-
   require "uuidtools"
   include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
@@ -16,6 +15,14 @@ module Record
   included do
     before_create :create_identification
 
+    #This code allows all models that implement records to mark all explicit properties as protected
+    class_attribute(:primero_protected_properties)
+    self.primero_protected_properties = []
+    def self.property(name, *options, &block)
+      primero_protected_properties << name
+      couchrest_model_property(name, *options, &block)
+    end
+
     property :unique_identifier
     property :duplicate, TrueClass
     property :duplicate_of, String
@@ -27,12 +34,14 @@ module Record
 
     class_attribute(:form_properties_by_name)
     class_attribute(:properties_by_form)
+
     self.form_properties_by_name = {}
     self.properties_by_form = {}
 
     create_form_properties
 
     FormSection.add_observer(self, :handle_form_changes)
+    ConfigurationBundle.add_observer(self, :handle_form_changes)
 
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
@@ -94,6 +103,7 @@ module Record
     end
   end
 
+
   module ClassMethods
     include FormToPropertiesConverter
     include Observable
@@ -151,6 +161,7 @@ module Record
     end
 
     def handle_form_changes(*args)
+      Rails.logger.info("Refreshing properties from forms for #{parent_form}")
       refresh_form_properties
     end
 
@@ -162,24 +173,26 @@ module Record
     def remove_form_properties
       properties_by_form.clear
       form_properties_by_name.each do |name, prop|
-        properties_by_name.delete(name)
-        properties.delete(prop)
+        unless primero_protected_properties.include? name.to_sym
+          properties_by_name.delete(name)
+          properties.delete(prop)
 
-        if method_defined?(name)
-          remove_method(name)
-        end
-
-        %w(= ?).each do |suffix|
-          if method_defined?("#{name}#{suffix}")
-            remove_method("#{name}#{suffix}")
+          if method_defined?(name)
+            remove_method(name)
           end
-        end
 
-        if prop.alias
-          remove_method("#{prop.alias}=")
-        end
+          %w(= ?).each do |suffix|
+            if method_defined?("#{name}#{suffix}")
+              remove_method("#{name}#{suffix}")
+            end
+          end
 
-        #TODO: also remove validations
+          if prop.alias
+            remove_method("#{prop.alias}=")
+          end
+
+          #TODO: also remove validations
+        end
       end
     end
 
@@ -188,14 +201,15 @@ module Record
       FormSection.link_subforms(form_sections)
 
       if form_sections.length == 0
-        Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
+        Rails.logger.warn "This model's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
       properties_hash_from_forms(form_sections).each do |form_name, props|
         properties_by_form[form_name] ||= {}
 
         props.each do |name, options|
-          property name.to_sym, options
+          couchrest_model_property name.to_sym, options #using the original property to ensure that its not protected
+          #property name.to_sym, options
           properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
         end
       end

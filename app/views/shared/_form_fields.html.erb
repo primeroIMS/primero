@@ -24,7 +24,7 @@
   <div>
 </div>
 
-<script>
+<%= content_for :page_scripts do %>
 
         $("ul.forms li:first, ul.fields:first").addClass('selected');
 
@@ -54,7 +54,7 @@
             form_id : form_id
           });
         });
-</script>
+<% end %>
  </div>
     </div>
     </div>

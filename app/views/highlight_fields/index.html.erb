@@ -45,26 +45,26 @@
     <input type="hidden" name="form_id" class="highlighted-field-order" value="${form_id}"/>
 </script>
 
-<script>
+<%= content_for :page_scripts do %>
 
-var updateWithSelectedItem = function(selectedElement) {
-  $("#add-field").append($("#form-template").tmpl(selectedElement));
-  $("#add-form").submit();
-}
+  var updateWithSelectedItem = function(selectedElement) {
+    $("#add-field").append($("#form-template").tmpl(selectedElement));
+    $("#add-form").submit();
+  }
 
-$(".remove_field").live("click", function(){
-  var removeElement = { "field_name" : $(this).siblings(".highlighted-field").val(),
-                        "form_id" : $(this).siblings(".highlighted-form").val()}
-  $("#remove-field").append($("#form-template").tmpl(removeElement));
-  $("#remove-form").submit();
-});
+  $(".remove_field").live("click", function(){
+    var removeElement = { "field_name" : $(this).siblings(".highlighted-field").val(),
+                          "form_id" : $(this).siblings(".highlighted-form").val()}
+    $("#remove-field").append($("#form-template").tmpl(removeElement));
+    $("#remove-form").submit();
+  });
 
-<% if @highlighted_fields %>
-  <%# TODO: Whoever next messes with highlighted fields make sure to check this for JS injection vulnerabilities %>
-  $(".add-field-section").before($("#highlight-field-template").tmpl(<%=raw @highlighted_fields.to_json %>));
+  <% if @highlighted_fields %>
+    <%# TODO: Whoever next messes with highlighted fields make sure to check this for JS injection vulnerabilities %>
+    $(".add-field-section").before($("#highlight-field-template").tmpl(<%=raw @highlighted_fields.to_json %>));
+  <% end %>
+
 <% end %>
-
-</script>
 
 <%= render :partial => "shared/form_fields", :locals => { :menu_selector => ".add_field" ,
                                                           :on_item_select => "updateWithSelectedItem",

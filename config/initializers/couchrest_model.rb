@@ -7,6 +7,17 @@ end
 
 module CouchRest
   module Model
+    module Properties
+      module ClassMethods
+        alias_method :couchrest_model_property, :property
+      end
+    end
+  end
+end
+
+
+module CouchRest
+  module Model
     class Base
       #flag as saved CastedArray and CastedHash fields.
       after_save do
@@ -102,4 +113,6 @@ module CouchRest
       end
     end
   end
+
+
 end
