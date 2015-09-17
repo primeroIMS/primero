@@ -306,7 +306,6 @@ describe User do
       expect(@grunt2.is_manager?).to be_false
     end
 
-    #TODO -fix
     it "manages all people in its group including itself" do
       expect(@manager.managed_users).to match_array([@grunt1, @grunt2, @grunt3, @grunt4, @manager])
     end
@@ -315,14 +314,12 @@ describe User do
       expect(@grunt1.managed_users).to eq([@grunt1])
     end
 
-    #TODO - fix
     it "has a record scope of 'all' if it an manage all users" do
       manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::ALL
       manager = create :user, role_ids: [manager_role.id]
       expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
     end
 
-    #TODO - fix
     it "does not manage users who share an empty group with it" do
       manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", ""]
       grunt = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB", ""]
@@ -340,6 +337,80 @@ describe User do
       all_unverifed_users.map(&:id).should be_include unverified_user2.id
       all_unverifed_users.map(&:id).should be_include unverified_user1.id
       all_unverifed_users.map(&:id).should_not be_include verified_user.id
+    end
+  end
+
+  describe "permissions" do
+    before :each do
+      @permission_list = [
+                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE]),
+                           Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ]),
+                         ]
+      @user_perm = User.new(:user_name => 'fake_self')
+      @user_perm.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::SELF)])
+    end
+
+    it "should have READ permission" do
+      expect(@user_perm.has_permission? Permission::READ).to be_true
+    end
+
+    it "should have SYNC_MOBILE permission" do
+      expect(@user_perm.has_permission? Permission::SYNC_MOBILE).to be_true
+    end
+
+    it "should not have WRITE permission" do
+      expect(@user_perm.has_permission? Permission::WRITE).to be_false
+    end
+  end
+
+  describe "group permissions" do
+    before :each do
+      @permission_list = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
+    end
+
+    context "when logged in with SELF permissions" do
+      before do
+        @user_group = User.new(:user_name => 'fake_self')
+        @user_group.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::SELF)])
+      end
+
+      it "should not have GROUP permission" do
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_false
+      end
+
+      it "should not have ALL permission" do
+        expect(@user_group.has_group_permission? Permission::ALL).to be_false
+      end
+    end
+
+    context "when logged in with GROUP permissions" do
+      before do
+        @user_group = User.new(:user_name => 'fake_group')
+        @user_group.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::GROUP)])
+      end
+
+      it "should have GROUP permission" do
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_true
+      end
+
+      it "should not have ALL permission" do
+        expect(@user_group.has_group_permission? Permission::ALL).to be_false
+      end
+    end
+
+    context "when logged in with ALL permissions" do
+      before do
+        @user_group = User.new(:user_name => 'fake_all')
+        @user_group.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::ALL)])
+      end
+
+      it "should not have GROUP permission" do
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_false
+      end
+
+      it "should have ALL permission" do
+        expect(@user_group.has_group_permission? Permission::ALL).to be_true
+      end
     end
   end
 end

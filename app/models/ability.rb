@@ -22,11 +22,10 @@ class Ability
         else
           configure_resource permission.resource_class, permission.action_symbols, permission.is_record?
       end
+    end
 
-      #TODO - what to do with this???
-      #if user.has_permission? Permission::SYNC_MOBILE
-        #can :index, FormSection
-      #end
+    if user.has_permission? Permission::SYNC_MOBILE
+      can :index, FormSection
     end
   end
 

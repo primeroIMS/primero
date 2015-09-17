@@ -7,7 +7,7 @@ describe "children/show.html.erb" do
 
   describe "displaying a child's details"  do
     before :each do
-      @user = double('user', :permissions => Permission.all_permissions_list, :has_group_permission? => Permission::GROUP,
+      @user = double('user', :permissions => Permission.all_permissions_list, :has_permission? => true, :has_group_permission? => Permission::GROUP,
                      :user_name => 'name', :id => 'test-user-id', :full_name => 'Jose Smith')
       @user.stub(:localize_date)
       controller.stub(:current_user).and_return(@user)
