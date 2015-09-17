@@ -1,6 +1,6 @@
 _primero.Views.TransferRecords = Backbone.View.extend({
 
-  el: '#menu',
+  el: 'body',
 
   events: {
     'click a.transfer_index_action' : 'transfer_records',
