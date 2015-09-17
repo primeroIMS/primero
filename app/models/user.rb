@@ -238,7 +238,11 @@ class User < CouchRest::Model::Base
   end
 
   def has_permission?(permission)
-    permissions && permissions.include?(permission)
+    permissions && permissions.map{|p| p.actions}.flatten.include?(permission)
+  end
+
+  def has_group_permission?(permission)
+    group_permissions && group_permissions.include?(permission)
   end
 
   def has_permitted_form_id?(form_id)
@@ -250,7 +254,11 @@ class User < CouchRest::Model::Base
   end
 
   def permissions
-    roles.compact.collect(&:permissions).flatten
+    roles.compact.collect(&:permissions_list).flatten
+  end
+
+  def group_permissions
+    roles.map{|r| r.group_permission}.uniq
   end
 
   def permitted_form_ids
@@ -274,10 +282,10 @@ class User < CouchRest::Model::Base
 
   def managed_users
     user_group_ids = self.user_group_ids_sanitized
-    if self.has_permission? Permission::ALL
+    if self.has_group_permission? Permission::ALL
       @managed_users ||= User.all.all
       @record_scope = [Searchable::ALL_FILTER]
-    elsif self.has_permission?(Permission::GROUP) && user_group_ids.present?
+    elsif self.has_group_permission?(Permission::GROUP) && user_group_ids.present?
       @managed_users ||= User.by_user_group(keys: user_group_ids).all.uniq{|u| u.user_name}
     else
       @managed_users ||= [self]

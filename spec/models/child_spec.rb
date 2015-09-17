@@ -1342,10 +1342,12 @@ describe Child do
       Location.all.each &:destroy
       Role.all.each &:destroy
       Agency.all.each &:destroy
+      @permission_case ||= Permission.new(:resource => Permission::CASE,
+                                          :actions => [Permission::READ, Permission::WRITE])
       @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI"
       @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["Guinea"]
-      admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions)
-      field_worker_role = Role.create!(:name => "Field Worker", :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
+      admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
+      field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
       agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
                           :email => 'em@dd.net', :organization => 'agency-unicef', :user_type => 'user_type',

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SystemUsersController do
 
   it "should list all system users" do
-    fake_login_as Permission::SYSTEM
+    fake_login_as Permission::SYSTEM, [Permission::MANAGE]
     SystemUsers.should_receive(:all)
     get :index
   end
@@ -16,7 +16,7 @@ describe SystemUsersController do
 
   describe "create system users" do
     it "should create system users" do
-      fake_login_as Permission::SYSTEM
+      fake_login_as Permission::SYSTEM, [Permission::MANAGE]
       params = {:system_users => {:name => "test_user", :password => "test_password"}}
       mock_system_users = SystemUsers.new
       SystemUsers.should_receive(:new).and_return(mock_system_users)
@@ -25,7 +25,7 @@ describe SystemUsersController do
     end
 
     it "should redirect to the system users new page if there is a validation error" do
-      fake_login_as Permission::SYSTEM
+      fake_login_as Permission::SYSTEM, [Permission::MANAGE]
       params = {:system_users => {:name => "test_user", :password => "test_password"}}
       mock_system_users = SystemUsers.new
       SystemUsers.should_receive(:new).and_return(mock_system_users)
@@ -36,7 +36,7 @@ describe SystemUsersController do
   end
 
   it "should edit system users" do
-    fake_login_as Permission::SYSTEM
+    fake_login_as Permission::SYSTEM, [Permission::MANAGE]
     SystemUsers.should_receive(:get).with("org.couchdb.user:abcd").and_return(SystemUsers.new)
     get :edit, {:id => "abcd"}
     response.should render_template :edit
@@ -44,7 +44,7 @@ describe SystemUsersController do
 
   describe "update user" do
     it "should update system user" do
-      fake_login_as Permission::SYSTEM
+      fake_login_as Permission::SYSTEM, [Permission::MANAGE]
       mock_user = SystemUsers.new({:name => "test_user", :password => "test_password" })
       SystemUsers.should_receive(:get).with("org.couchdb.user:test_user").and_return(mock_user)
       mock_user.should_receive(:update_attributes).and_return(true)
@@ -53,7 +53,7 @@ describe SystemUsersController do
     end
 
     it "should not update system user if username is changed" do
-      fake_login_as Permission::SYSTEM
+      fake_login_as Permission::SYSTEM, [Permission::MANAGE]
       mock_user = SystemUsers.new({:name => "test_user", :password => "test_password" })
       SystemUsers.should_receive(:get).with("org.couchdb.user:abcd").and_return(mock_user)
       mock_user.should_not_receive(:update_attributes)
@@ -64,7 +64,7 @@ describe SystemUsersController do
   end
 
   it "should destroy the user" do
-    fake_login_as Permission::SYSTEM
+    fake_login_as Permission::SYSTEM, [Permission::MANAGE]
     mock_user = SystemUsers.new
     SystemUsers.should_receive(:get).with("org.couchdb.user:test_user").and_return(mock_user)
     mock_user.should_receive(:destroy)
