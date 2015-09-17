@@ -1,4 +1,4 @@
-var FlagRecord = Backbone.View.extend({
+_primero.Views.FlagRecord = Backbone.View.extend({
 
   el: 'body',
 
@@ -67,8 +67,4 @@ var FlagRecord = Backbone.View.extend({
       }
       return rtn;
   }
-});
-
-$(document).ready(function() {
-  new FlagRecord();
 });

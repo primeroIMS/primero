@@ -1,4 +1,4 @@
-var PhotoAudioFields = Backbone.View.extend({
+_primero.Views.PhotoAudioFields = Backbone.View.extend({
   el: "body",
   events: {
     "click .audio_player_section .audio .delete_check_box input[type='checkbox']" : "delete_check_box_click"
@@ -38,8 +38,4 @@ var PhotoAudioFields = Backbone.View.extend({
       upload_audio_input.removeAttr('disabled');
     }
   }
-});
-
-$(document).ready(function() {
-  new PhotoAudioFields();
 });

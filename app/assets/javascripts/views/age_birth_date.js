@@ -1,7 +1,7 @@
 //Hook up the corresponding event to auto calculate the age and date of birth.
 //For example if there a field named child_age and there is the corresponding child_date_of_birth,
 //they will update each other. Field that end on _age and _date_of_birth will be hook up the events.
-var AutoCalculateAgeDOB = Backbone.View.extend({
+_primero.Views.AutoCalculateAgeDOB = Backbone.View.extend({
   el: '.page_content form:not(.incident-form)',
 
   events: {
@@ -103,8 +103,4 @@ var AutoCalculateAgeDOB = Backbone.View.extend({
       }
     });
   }
-});
-
-$(document).ready(function(){
-  new AutoCalculateAgeDOB();
 });

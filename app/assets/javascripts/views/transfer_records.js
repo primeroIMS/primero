@@ -1,6 +1,6 @@
-var TransferRecords = Backbone.View.extend({
+_primero.Views.TransferRecords = Backbone.View.extend({
 
-  el: 'body',
+  el: '#menu',
 
   events: {
     'click a.transfer_index_action' : 'transfer_records',
@@ -98,8 +98,4 @@ var TransferRecords = Backbone.View.extend({
       return false;
     }
   }
-});
-
-$(document).ready(function() {
-  new TransferRecords();
 });

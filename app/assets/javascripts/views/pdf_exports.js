@@ -1,4 +1,4 @@
-var PdfExports = Backbone.View.extend({
+_primero.Views.PdfExports = Backbone.View.extend({
   el: '#pdf-exports',
 
   events: {
@@ -164,8 +164,4 @@ var PdfExports = Backbone.View.extend({
     $(this.el).find('select').val('').trigger("chosen:updated");
     $(this.el).find('.message').empty().hide();
   }
-});
-
-$('document').ready(function() {
-  new PdfExports();
 });

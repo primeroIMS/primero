@@ -100,12 +100,10 @@
   <% end %>
   <% initial_subforms = subform_section[:initial_subforms] || 0 %>
   <% if initial_subforms > 0 && formObject.new_record? && !formObject.errors.any? && subform_section.shared_subform.blank? %>
-    <% subform_section[:initial_subforms].times do %>
-      <script>
-        $(document).ready(function(){
-          $('a#subform_<%=j subform.name %>_add_button').click();
-        });
-      </script>
+    <% content_for :page_scripts do %>
+      <% subform_section[:initial_subforms].times do %>
+        $('a#subform_<%=j subform.name %>_add_button').click();
+      <% end %>
     <% end %>
   <% end %>
 </div>

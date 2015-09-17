@@ -1,4 +1,4 @@
-var Dashboard = Backbone.View.extend({
+_primero.Views.Dashboard = Backbone.View.extend({
 
     el: '#dashboard',
 
@@ -32,8 +32,4 @@ var Dashboard = Backbone.View.extend({
         }
     }
 
-});
-
-$(document).ready(function() {
-    //new Dashboard();
 });

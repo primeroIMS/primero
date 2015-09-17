@@ -1,4 +1,4 @@
-var FlagChild = Backbone.View.extend({
+_primero.Views.FlagChild = Backbone.View.extend({
 
   el: 'body',
 
@@ -57,8 +57,4 @@ var FlagChild = Backbone.View.extend({
     $('span.collapsed_flag').text('+');
     $('span.expanded_flag').text('-');
   }
-});
-
-$(document).ready(function() {
-  new FlagChild();
 });

@@ -1,5 +1,6 @@
-var AutosumFields = Backbone.View.extend({
+_primero.Views.AutosumFields = Backbone.View.extend({
   el: '.page_content form',
+
   events: {
     'change input.autosum[type="text"]' : 'autosum_field_change',
     'keypress input.autosum[type="text"]': 'only_allow_digits',
@@ -7,7 +8,7 @@ var AutosumFields = Backbone.View.extend({
   },
 
   autosum_field_change: function(event) {
-    _primero.update_autosum_field($(event.target));
+    _primero.update_autosum_field(this.$(event.target));
   },
 
   only_allow_digits: function(event) {
@@ -17,7 +18,7 @@ var AutosumFields = Backbone.View.extend({
   },
 
   only_allow_digits_paste: function(event) {
-    var control = $(event.target);
+    var control = this.$(event.target);
     setTimeout(function() {
       var new_val = control.val().replace(/\D/g, '');
       control.attr('value', new_val);
@@ -25,8 +26,4 @@ var AutosumFields = Backbone.View.extend({
       _primero.shared_fields.find_shared_fields(event);
     }, 0);
   }
-});
-
-$(document).ready(function(){
-  new AutosumFields();
 });

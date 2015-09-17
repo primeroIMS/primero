@@ -11,12 +11,13 @@
     </div>
   </div>
 </div>
-
 <script>
-    var show_add_field = <%= show_add_field ||= (params[:show_add_field] || false) %>;
-    var field_type = "<%=j @field.type || 'text_field' %>";
-    var edit_field_mode = <%= edit_field_mode ||= false %>;
-    if(show_add_field){
-      $("#add_field_modal").foundation('reveal', 'open');
-    }
+  var show_add_field = <%= show_add_field ||= (params[:show_add_field] || false) %>;
+  var field_type = "<%=j @field.type || 'text_field' %>";
+  var edit_field_mode = <%= edit_field_mode ||= false %>;
 </script>
+<%= content_for :page_scripts do %>
+  if(show_add_field){
+    $("#add_field_modal").foundation('reveal', 'open');
+  }
+<% end %>

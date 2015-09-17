@@ -1,4 +1,4 @@
-var IndexTable = Backbone.View.extend({
+_primero.Views.IndexTable = Backbone.View.extend({
 
   pagination: typeof pagination_details == 'undefined' ? false : pagination_details,
 
@@ -131,8 +131,4 @@ var IndexTable = Backbone.View.extend({
     });
     return selected_records;
   }
-});
-
-$(document).ready(function() {
-  _primero.indexTable = new IndexTable();
 });

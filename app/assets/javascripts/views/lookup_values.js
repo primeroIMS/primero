@@ -1,4 +1,4 @@
-var LookupValueView = Backbone.View.extend({
+_primero.Views.LookupValueView = Backbone.View.extend({
   el: '.side-tab-content',
 
   events: {
@@ -11,7 +11,7 @@ var LookupValueView = Backbone.View.extend({
 
   add: function(event) {
     event.preventDefault();
-    var valueList = $(this.el).find('#lookup_values'), 
+    var valueList = $(this.el).find('#lookup_values'),
         lastValue = valueList.children(":last"),
         newValue = lastValue.clone();
 
@@ -35,8 +35,4 @@ var LookupValueView = Backbone.View.extend({
     }
   },
 
-});
-
-$(document).ready(function() {
-  var lookupValues = new LookupValueView();
 });
