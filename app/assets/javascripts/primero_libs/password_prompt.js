@@ -1,5 +1,4 @@
-
-Primero.PasswordPrompt = (function() {
+_primero.Views.PasswordPrompt = (function() {
     var passwordDialog = null, targetEl = null, passwordEl = null, fileNameEl = null;
 
     return {
@@ -18,7 +17,7 @@ Primero.PasswordPrompt = (function() {
                             return false;
                         } else {
                             errorDiv.hide();
-                            Primero.PasswordPrompt.updateTarget();
+                            _primero.Views.PasswordPrompt.updateTarget();
                         }
                     }
                 },
@@ -30,7 +29,7 @@ Primero.PasswordPrompt = (function() {
             });
             passwordEl = $("#password-prompt-field");
             fileNameEl = $("#export-file-name-field");
-            $(".password-prompt").each(Primero.PasswordPrompt.initializeTarget);
+            $(".password-prompt").each(_primero.Views.PasswordPrompt.initializeTarget);
         },
 
         initializeTarget: function() {
@@ -82,8 +81,4 @@ Primero.PasswordPrompt = (function() {
         }
     }
 }) ();
-
-$(function() {
-  Primero.PasswordPrompt.initialize();
-});
 

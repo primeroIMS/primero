@@ -1,4 +1,4 @@
-var MarkForMobile = Backbone.View.extend({
+_primero.Views.MarkForMobile = Backbone.View.extend({
 
   el: '#menu',
 
@@ -33,8 +33,4 @@ var MarkForMobile = Backbone.View.extend({
       }
     );
   },
-});
-
-$(document).ready(function() {
-  new MarkForMobile();
 });

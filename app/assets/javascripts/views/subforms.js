@@ -1,4 +1,4 @@
-var SubformView = Backbone.View.extend({
+_primero.Views.SubformView = Backbone.View.extend({
   el: '.side-tab-content',
 
   events: {
@@ -223,98 +223,7 @@ var SubformView = Backbone.View.extend({
   }
 });
 
-_primero.update_subform_heading = function(subformEl) {
-  // get subform header for shared summary page
-  var subform = $(subformEl).parent();
-  var subform_index = $(subformEl).data('subform_index');
-  var summary_subform = $('div[data-shared_subform="' + subform.attr('id') + '"] div[data-subform_index="' + subform_index + '"]');
-  var display_field = [];
-  if (summary_subform.length > 0) {
-    display_field = summary_subform.find(".collapse_expand_subform_header div.display_field span");
-  }
-
-  //Update the static text with the corresponding input value to shows the changes if any.
-  $(subformEl).find(".collapse_expand_subform_header div.display_field span").each(function(x, el){
-    //view mode doesn't sent this attributes, there is no need to update the header.
-    var data_types_attr = el.getAttribute("data-types"),
-        data_fields_attr = el.getAttribute("data-fields"),
-        //This is the i18n string for 'Caregiver'.
-        data_caregiver_attr = el.getAttribute("data-caregiver");
-    if (data_types_attr !== null && data_fields_attr != null) {
-      //retrieves the fields to update the header.
-      var data_types = data_types_attr.split(","),
-          data_fields = data_fields_attr.split(","),
-          values = [],
-          caregiver = false;
-      for (var i=0; (data_fields.length == data_types.length) && (i < data_fields.length); i++) {
-        var input_id = data_fields[i],
-            input_type = data_types[i],
-            value = null;
-        if (input_type == "chosen_type") {
-          //reflect changes of the chosen.
-          var input = $(subformEl).find("select[id='" + input_id + "_'] option:selected");
-          if (input.val() !== null) {
-            var selected = input.map(function() {
-              return $(this).text();
-            }).get().join(', ');
-            value = selected;
-          }
-        } else if (input_type == "radio_button_type") {
-          //reflect changes of the for radio buttons.
-          var input = $(subformEl).find("input[id^='" + input_id + "']:checked");
-          if (input.size() > 0) {
-            value = input.val();
-          }
-        } else if (input_type == "check_boxes_type") {
-          //reflect changes of the checkboxes.
-          var checkboxes_values = [];
-          $(subformEl).find("input[id^='" + input_id + "']:checked").each(function(x, el){
-            checkboxes_values.push($(el).val());
-          });
-          if (checkboxes_values.length > 0) {
-            value = checkboxes_values.join(", ");
-          }
-        } else if (input_type == "tick_box_type") {
-          var input = $(subformEl).find("#" + input_id + ":checked");
-          value = input.size() == 1;
-        } else {
-          //Probably there is other widget that should be manage differently.
-          var input = $(subformEl).find("#" + input_id);
-          if (input.val() !== "") {
-            value = input.val();
-          }
-        }
-
-        if (value !== null) {
-          //Don't see the way to do this without hardcode the name.
-          //Users can change the dbname for this field.
-          if (input_id.match(/relation_is_caregiver$/)) {
-            //Is the family member the caregiver?
-            caregiver = value;
-          } else {
-            values.push(value);
-          }
-        }
-      }
-
-      var display_text = values.join(" - ");
-      if (caregiver) {
-        //Add 'Caregiver' string to the end of the header.
-        //data_caregiver_attr is supposed to be a i18n string.
-        display_text = display_text + data_caregiver_attr;
-      }
-      $(el).text(display_text);
-      if (display_field.length > 0) {
-        display_field.text(display_text);
-      }
-    }
-  });
-};
-
-
 $(document).ready(function() {
   //Disable all template inputs
   $('div.template').find('input, select, textarea').attr("disabled","disabled");
-
-  var subform = new SubformView();
 });

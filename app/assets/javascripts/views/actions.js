@@ -1,5 +1,5 @@
-var Actions = Backbone.View.extend({
-  el: 'body',
+_primero.Views.Actions = Backbone.View.extend({
+  el: '#child_enable_disable_records',
 
   events: {
     'click #enable_disable_action': 'enable_disable'
@@ -8,7 +8,7 @@ var Actions = Backbone.View.extend({
   enable_disable: function(evt) {
     evt.preventDefault();
 
-    var target = $(evt.target),
+    var target = this.$(evt.target),
         id = target.data('id'),
         form_action = target.data('form_action'),
         redirect_url = target.data('request_url'),
@@ -33,8 +33,4 @@ var Actions = Backbone.View.extend({
       }
     );
   }
-});
-
-$(document).ready(function() {
-  new Actions();
 });

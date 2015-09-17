@@ -1,4 +1,4 @@
-tabNavigation = Backbone.View.extend({
+_primero.Views.tabNavigation = Backbone.View.extend({
   is_error: false,
 
   el: '.side-tab',
@@ -15,6 +15,16 @@ tabNavigation = Backbone.View.extend({
 
     this.first_tab();
     this.tabRedirection();
+    _primero.set_content_sidebar_equality();
+
+    $(".side-nav-container").sticky({
+      topSpacing: 130,
+      bottomSpacing: 90
+    });
+
+    if ($('.errorExplanation').length || $('p.notice').length) {
+      _primero.scrollTop();
+    }
   },
 
   first_tab: function() {
@@ -142,28 +152,5 @@ tabNavigation = Backbone.View.extend({
         target_div.html(response);
       });
     }
-  }
-});
-
-_primero.set_content_sidebar_equality = function() {
-  Foundation.libs.equalizer.reflow();
-};
-
-_primero.scrollTop = function() {
-  window.scrollTo(0,0);
-};
-
-$(document).ready(function() {
-  new tabNavigation();
-
-  _primero.set_content_sidebar_equality();
-
-  $(".side-nav-container").sticky({
-    topSpacing: 130,
-    bottomSpacing: 90
-  });
-
-  if ($('.errorExplanation').length || $('p.notice').length) {
-    _primero.scrollTop();
   }
 });

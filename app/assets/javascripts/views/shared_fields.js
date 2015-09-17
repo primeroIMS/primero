@@ -1,4 +1,4 @@
-var SharedFields = Backbone.View.extend({
+_primero.Views.SharedFields = Backbone.View.extend({
   el: '.page_content form',
 
   events: {
@@ -47,8 +47,4 @@ var SharedFields = Backbone.View.extend({
       });
     }
   }
-});
-
-$(document).ready(function() {
-  _primero.shared_fields = new SharedFields();
 });

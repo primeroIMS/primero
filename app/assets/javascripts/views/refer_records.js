@@ -1,6 +1,6 @@
-var ReferRecords = Backbone.View.extend({
+_primero.Views.ReferRecords = Backbone.View.extend({
 
-  el: 'body',
+  el: '#menu',
 
   events: {
     'click a.referral_index_action' : 'refer_records',
@@ -97,8 +97,4 @@ var ReferRecords = Backbone.View.extend({
       return false;
     }
   }
-});
-
-$(document).ready(function() {
-  new ReferRecords();
 });

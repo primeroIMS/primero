@@ -1,4 +1,4 @@
-var IndexFilters = Backbone.View.extend({
+_primero.Views.IndexFilters = Backbone.View.extend({
 
   pagination: typeof pagination_details === 'undefined' ? false : pagination_details,
 
@@ -21,7 +21,7 @@ var IndexFilters = Backbone.View.extend({
 
   clear_filters: function(e) {
     var default_filter, filter = {}, url_string;
-    
+
     if (_primero.model_object === 'child') {
       default_filter = 'child_status'
     } else if (_primero.model_object === 'tracing_request') {
@@ -151,8 +151,4 @@ var IndexFilters = Backbone.View.extend({
       this.set_remove_filter(filter, $(target).val(), filter_type);
     }
   }
-});
-
-$(document).ready(function() {
-  new IndexFilters();
 });

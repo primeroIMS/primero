@@ -1,9 +1,9 @@
-var DateControl = Backbone.View.extend({
+_primero.Views.DateControl = Backbone.View.extend({
 	el: 'body',
 
 	allowed_formats: [
-    "dd-mm-yy", 
-    "dd/mm/yy", 
+    "dd-mm-yy",
+    "dd/mm/yy",
     "dd mm yy",
     "dd-M-yy",
     "dd/M/yy"
@@ -20,7 +20,7 @@ var DateControl = Backbone.View.extend({
 
 	setup_date_parser: function() {
 	  $.datepicker.initialize_datepicker = function(el) {
-	    el.datepicker({ 
+	    el.datepicker({
 	      dateFormat: $.datepicker.defaultDateFormat,
 	      changeMonth: true,
 	      changeYear: true,
@@ -78,8 +78,4 @@ var DateControl = Backbone.View.extend({
 		  control.val($.datepicker.formatDate(dateFormat, parsedDate));
 		}
 	}
-});
-
-$(document).ready(function() {
-	new DateControl();
 });

@@ -1,26 +1,21 @@
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        $("#all").click(function()
-        {
-            var checked_status = this.checked;
-            checkToggle(checked_status);
-            $("#allbottom").attr("checked", checked_status);
-        });
-        $("#allbottom").click(function(){
-            var checked_status = this.checked;
-            checkToggle(checked_status);
-            $("#all").attr("checked", checked_status);
-        });
+<%= content_for :page_scripts do %>
+    $("#all").click(function(){
+        var checked_status = this.checked;
+        checkToggle(checked_status);
+        $("#allbottom").attr("checked", checked_status);
+    });
+    $("#allbottom").click(function(){
+        var checked_status = this.checked;
+        checkToggle(checked_status);
+        $("#all").attr("checked", checked_status);
     });
 
     function checkToggle(checkStatus){
-        $(".profiles-list :checkbox").each(function()
-        {
+        $(".profiles-list :checkbox").each(function(){
             this.checked = checkStatus;
         });
     }
-</script>
+<% end %>
 
 <% has_results = (@results && @results.size > 0) %>
 <%= form_tag export_data_children_path, :method => :post, :autocomplete => "off" do %>

@@ -1,4 +1,4 @@
-var CustomExports = Backbone.View.extend({
+_primero.Views.CustomExports = Backbone.View.extend({
   el: '#custom-exports',
 
   events: {
@@ -240,8 +240,4 @@ var CustomExports = Backbone.View.extend({
     $(this.el).find('.user_select_fields').hide();
     $(this.el).find('.message').empty().hide();
   }
-});
-
-$('document').ready(function() {
-  new CustomExports();
 });

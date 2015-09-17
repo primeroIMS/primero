@@ -1,4 +1,4 @@
-var ViolationListReload = Backbone.View.extend({
+_primero.Views.ViolationListReload = Backbone.View.extend({
   el: '.page_content',
 
   events: {
@@ -111,8 +111,4 @@ var ViolationListReload = Backbone.View.extend({
       $(violationSelectEl).trigger("chosen:updated");
     });
   },
-});
-
-$(document).ready(function() {
-  var violationListReload = new ViolationListReload();
 });

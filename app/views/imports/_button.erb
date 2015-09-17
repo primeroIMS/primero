@@ -18,7 +18,7 @@
         <div class="import_button">
           <%= submit_tag(t("buttons.import"), class: 'green-button right') %>
         </div>
-        <%= javascript_tag defer: 'defer' do %>
+        <%= content_for :page_scripts do %>
           if ($("#import_type option[value='guess']").length == 0) {
             $('#import_type').append(new Option('<%=I18n.t('imports.guess_file_type_option')%>', 'guess'));
           }

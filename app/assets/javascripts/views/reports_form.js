@@ -1,4 +1,4 @@
- var ReportForm = Backbone.View.extend({
+_primero.Views.ReportForm = Backbone.View.extend({
 
   el: '.reports_form',
 
@@ -227,8 +227,4 @@
     attribute_dropdown.trigger('chosen:updated');
   }
 
-});
-
-$(document).ready(function() {
-  new ReportForm();
 });

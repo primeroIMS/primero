@@ -1,4 +1,4 @@
-var ReportTable = Backbone.View.extend({
+_primero.Views.ReportTable = Backbone.View.extend({
 
   el: '.reports',
 
@@ -121,10 +121,6 @@ var ReportTable = Backbone.View.extend({
   }
 
 
-});
-
-$(document).ready(function() {
-  new ReportTable();
 });
 
 $(window).load( function () {
