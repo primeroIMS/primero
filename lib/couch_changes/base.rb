@@ -13,7 +13,8 @@ module CouchChanges
     Agency,
     User,
     Role,
-    SystemSettings
+    SystemSettings,
+    ConfigurationBundle
   ]
 
   class << self
