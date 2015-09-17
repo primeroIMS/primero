@@ -68,6 +68,13 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
+    :resource => Permission::REPORT,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE
+    ]
+  ),
+  Permission.new(
     :resource => Permission::METADATA,
     :actions => [Permission::MANAGE]
   ),
