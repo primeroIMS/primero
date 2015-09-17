@@ -35,15 +35,14 @@ describe Role do
     Role.new(:name => "some_role", :permissions_list => Permission.all_permissions_list, :transfer => true).should be_valid
   end
 
-
   it "should create a valid referral role" do
     Role.new(:name => "some_role", :permissions_list => Permission.all_permissions_list, :referral => true).should be_valid
   end
 
-  #TODO - FIX or Comment out
   it "should only grant permissions that are assigned to a role" do
-    role = Role.new(:name => "some_role", :permissions => [Permission::CASE, Permission::READ])
-    role.valid?
+    permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+    role = Role.new(:name => "some_role", :permissions_list => [permission])
+    role.should be_valid
     role.has_permission(Permission::READ).should == true
     role.has_permission(Permission::WRITE).should == false
   end

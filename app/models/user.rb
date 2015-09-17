@@ -238,7 +238,7 @@ class User < CouchRest::Model::Base
   end
 
   def has_permission?(permission)
-    #permissions && permissions.include?(permission)
+    permissions && permissions.map{|p| p.actions}.flatten.include?(permission)
   end
 
   def has_group_permission?(permission)

@@ -39,7 +39,7 @@ class Role < CouchRest::Model::Base
   end
 
   def has_permission(permission)
-    self.permissions.include? permission
+    self.permissions_list.map{|p| p.actions}.flatten.include? permission
   end
 
   def sanitize_permissions
