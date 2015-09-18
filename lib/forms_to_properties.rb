@@ -46,6 +46,8 @@ module FormToPropertiesConverter
       end
 
       properties_hash.each do |name,options|
+        #TODO: This doesn't seem broken, but consider replacing this with:
+        #      couchrest_model_property name, options
         property name, options
       end
     end

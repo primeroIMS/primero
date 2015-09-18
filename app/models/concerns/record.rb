@@ -208,9 +208,10 @@ module Record
         properties_by_form[form_name] ||= {}
 
         props.each do |name, options|
-          couchrest_model_property name.to_sym, options #using the original property to ensure that its not protected
-          #property name.to_sym, options
-          properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
+          unless primero_protected_properties.include? name.to_sym
+            couchrest_model_property name.to_sym, options #using the original property to ensure that its not protected
+            properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
+          end
         end
       end
     end
