@@ -67,15 +67,28 @@ module TransitionActions
       #On referrals, only want to send the most recent referral
       records.each {|r| r.reject_old_transitions}
     end
-    exporter = (is_remote_primero? ? Exporters::JSONExporter : Exporters::CSVExporter)
     transition_user = User.new(
                       role_ids: [transition_role],
                       module_ids: ["primeromodule-cp", "primeromodule-gbv"]
                     )
+    exporter = type_of_export_exporter
     #TODO filter records per consent
-    props = filter_permitted_export_properties(records, model_class.properties, transition_user)
+    transition_properties = transition_exporter_properties(transition_user)
+    props = filter_permitted_export_properties(records, transition_properties, transition_user)
     export_data = exporter.export(records, props, current_user)
     encrypt_data_to_zip export_data, filename(records, exporter, transition_type), password
+  end
+
+  def transition_exporter_properties(transition_user)
+    if type_of_export_exporter == Exporters::PDFExporter
+      current_modules = PrimeroModule.all(keys: transition_user.module_ids).all
+      form_sections = FormSection.get_form_sections_by_module(current_modules, model_class.parent_form, transition_user)
+      properties_by_module = model_class.get_properties_by_module(form_sections)
+      properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents"].include?(key)}}
+      properties_by_module
+    else
+      model_class.properties
+    end
   end
 
   def set_status_transferred(transfer_records)
@@ -167,7 +180,7 @@ module TransitionActions
   def log_to_history(records)
     records.each do |record|
       record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, notes, is_remote?,
-                            is_remote_primero?, current_user.user_name, consent_overridden(record), service)
+                            type_of_export, current_user.user_name, consent_overridden(record), service)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
       record.save if is_remote?
@@ -186,8 +199,20 @@ module TransitionActions
     @remote ||= (params[:is_remote].present? && params[:is_remote] == 'true')
   end
 
-  def is_remote_primero?
-    @remote_primero ||= (params[:remote_primero].present? && params[:remote_primero] == 'true')
+  def type_of_export
+    @type_of_export ||= (params[:type_of_export].present? ? params[:type_of_export] : "")
+  end
+
+  def type_of_export_exporter
+    @type_of_export_exporter ||= if type_of_export == "Primero"
+      Exporters::JSONExporter
+    elsif type_of_export == "Non-Primero"
+      Exporters::CSVExporter
+    elsif type_of_export == "PDF export"
+      Exporters::PDFExporter
+    else
+      nil
+    end
   end
 
   def is_single_or_batch?

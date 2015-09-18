@@ -12,7 +12,7 @@ class Transition
   property :transitioned_by, String
   property :service, String
   property :is_remote, TrueClass
-  property :is_remote_primero, TrueClass
+  property :type_of_export, String
   property :consent_overridden, TrueClass
   property :created_at, Date
   property :id
