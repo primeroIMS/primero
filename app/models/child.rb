@@ -34,7 +34,10 @@ class Child < CouchRest::Model::Base
   property :reunited_message, String
   property :investigated, TrueClass
   property :verified, TrueClass
-
+  property :risk_level
+  property :child_status
+  property :system_generated_followup, TrueClass, default: false
+  property :registration_date, Date
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [String], :default => []
 
@@ -60,7 +63,7 @@ class Child < CouchRest::Model::Base
 
 
   design do
-      view :by_protection_status_and_gender_and_ftr_status
+      view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
 
       view :by_name,
               :map => "function(doc) {
