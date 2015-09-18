@@ -1,6 +1,6 @@
 _primero.Views.ReferRecords = Backbone.View.extend({
 
-  el: '#menu',
+  el: 'body',
 
   events: {
     'click a.referral_index_action' : 'refer_records',
