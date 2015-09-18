@@ -50,6 +50,7 @@ _primero.Router = Backbone.Router.extend({
   },
 
   recordShowPage: function() {
+    this.initIndexTable();
     this.recordActions();
     this.initAudio();
     this.subforms();
