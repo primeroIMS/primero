@@ -119,9 +119,7 @@
 <% end %>
 
 <% end %>
-
-<script>
-
+<%= content_for :page_scripts do %>
   CriteriaTemplateHelper = {}
   CriteriaTemplateHelper.andRadioSelected = function(join) { return join == "AND" ? "checked" : ""; }
   CriteriaTemplateHelper.orRadioSelected = function(join) { return join == "OR" ? "checked" : ""; }
@@ -132,4 +130,4 @@
 
   <%# TODO: ensure that the json generated is safe from injection attacks %>
   $(".advanced-search").advancedSearch({criteria: <%= raw @criteria_list.to_json %>});
-</script>
+<% end %>
