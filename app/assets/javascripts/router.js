@@ -16,7 +16,8 @@ _primero.Router = Backbone.Router.extend({
     'reports': 'reports',
     'reports/:id': 'reports',
     'lookups/new': 'lookups',
-    'lookups/:id/edit': 'lookups'
+    'lookups/:id/edit': 'lookups',
+    'users': 'passwordPrompt'
   },
 
   initialize: function() {
@@ -32,8 +33,12 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.LookupValueView();
   },
 
-  recordActions: function() {
+  passwordPrompt: function() {
     _primero.Views.PasswordPrompt.initialize();
+  },
+
+  recordActions: function() {
+    this.passwordPrompt();
     new _primero.Views.CustomExports();
     new _primero.Views.PdfExports();
     new _primero.Views.ReferRecords();
@@ -50,6 +55,7 @@ _primero.Router = Backbone.Router.extend({
   },
 
   recordShowPage: function() {
+    this.initIndexTable();
     this.recordActions();
     this.initAudio();
     this.subforms();

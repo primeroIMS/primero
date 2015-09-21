@@ -7,12 +7,17 @@
     if transition_type == "referral"
       transition_role_options = @referral_roles.map {|r| [r.name, r.id]}
       no_consent_count = ((@referral_consent.present? && @referral_consent == true) ? 0 : 1)
+      #TODO how i18n?
+      type_of_export_options = ["Primero", "Non-Primero", "PDF export"]
     elsif transition_type == "transfer"
       transition_role_options = @transfer_roles.map {|r| [r.name, r.id]}
       no_consent_count = ((@transfer_consent.present? && @transfer_consent == true) ? 0 : 1)
+      #TODO how i18n?
+      type_of_export_options = ["Primero", "Non-Primero"]
     else
       transition_role_options = []
       no_consent_count = 0
+      type_of_export_options = []
     end
 %>
 <% if can?(transition_type.to_sym(), controller.model_class) %>
@@ -69,8 +74,8 @@
             <%= text_area_tag("notes") %>
           </label>
           <div class="remote_toggle" style="display:none">
-            <label><%=I18n.t("#{transition_type}.remote_primero_label")%>
-              <%= check_box_tag("remote_primero", "true") %>
+            <label><%=I18n.t("#{transition_type}.type_of_export")%>
+              <%= select_tag("type_of_export", options_for_select(type_of_export_options)) %>
             </label>
             <div class='password_flash hide'><p class='error'></p></div>
             <label><%=I18n.t("encrypt.password_label")%>
