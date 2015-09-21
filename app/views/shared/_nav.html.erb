@@ -19,7 +19,7 @@
               <% end %>
               <%# if can? :read, User or can? :show, Role %>
               <%# TODO: This auth check will need to be tightened up. %>
-              <% if can? :edit, Role%>
+              <% if can? :edit, Role or can? :edit, User%>
                 <li><%= link_to t("navigation.users"), users_path, class: current_menu("setting") %></li>
               <% end %>
               <% if can?(:read, Device) or can?(:read, Replication) %>
