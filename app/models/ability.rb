@@ -39,7 +39,7 @@ class Ability
         uzer.user_name == user.user_name
       end
     end
-    [Role, UserGroup, Agency].each do |resource|
+    [UserGroup, Agency].each do |resource|
       configure_resource resource, actions
     end
   end

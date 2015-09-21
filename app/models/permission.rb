@@ -28,6 +28,7 @@ class Permission
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
   USER = 'user'
+  ROLE = 'role'
   METADATA = 'metadata'
   SYSTEM = 'system'
   REPORT = 'report'
@@ -75,7 +76,7 @@ class Permission
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, USER, METADATA, SYSTEM, REPORT]
+    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT]
   end
 
   def self.management
@@ -100,6 +101,7 @@ class Permission
       self.new(:resource => INCIDENT, :actions => [MANAGE]),
       self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
       self.new(:resource => REPORT, :actions => [MANAGE]),
+      self.new(:resource => ROLE, :actions => [MANAGE]),
       self.new(:resource => USER, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
