@@ -134,7 +134,7 @@ describe ChildrenController do
         :fields => fields
       )
       form.save!
-  
+
       fields = [
         Field.new({"name" => "field_name_2",
                    "type" => "text_field",
@@ -155,9 +155,9 @@ describe ChildrenController do
         :fields => fields
       )
       form.save!
-  
+
       Child.refresh_form_properties
-  
+
       primero_module = PrimeroModule.create!(
           program_id: "primeroprogram-primero",
           name: "CP",
@@ -165,39 +165,40 @@ describe ChildrenController do
           associated_form_ids: ["form_section_test_1", "form_section_test_2"],
           associated_record_types: ['case']
       )
-  
+
       @child = Child.new(
-        :unique_identifier => UUIDTools::UUID.random_create.to_s, 
+        :unique_identifier => UUIDTools::UUID.random_create.to_s,
         :last_updated_by => "fakeadmin",
         :module_id => primero_module.id
       )
       @child.save!
-  
+
       @child2 = Child.new(
         :unique_identifier => UUIDTools::UUID.random_create.to_s,
         :last_updated_by => "fakeadmin",
         :module_id => primero_module.id
       )
       @child2.save!
-  
+
+      @permission_case =  Permission.new(resource: Permission::CASE, actions: [Permission::EXPORT_PDF, Permission::EXPORT_JSON, Permission::EXPORT_CSV])
       @referal_rol = Role.new(
-        :name => "Rol for referal", 
-        :permissions => ["export_pdf", "export_json", "export_csv"],
+        :name => "Rol for referal",
+        :permissions_list => [@permission_case],
         :permitted_form_ids => ["form_section_test_1"],
         :referral => true
       )
       @referal_rol.save!
-  
+
       @transfer_rol = Role.new(
-        :name => "Rol for transfer", 
-        :permissions => ["export_pdf", "export_json", "export_csv"],
+        :name => "Rol for transfer",
+        :permissions_list => [@permission_case],
         :permitted_form_ids => ["form_section_test_2"],
         :transfer => true
       )
       @transfer_rol.save!
-  
+
       @user = User.new(
-        :user_name => 'fakeadmin', 
+        :user_name => 'fakeadmin',
         module_ids: [primero_module.id],
         role_ids: ["role-superuser"]
       )
