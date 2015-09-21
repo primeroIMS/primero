@@ -44,5 +44,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => notes_fields,
   "name_all" => "Notes",
-  "description_all" => "Notes"
+  "description_all" => "Notes",
+  :mobile_form => true
 })
