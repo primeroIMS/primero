@@ -17,8 +17,10 @@ class HomeController < ApplicationController
   def search_flags(options={})
       map_flags(Flag.search{
         with(options[:field]).between(options[:criteria])
+        with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
+        without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
         with(:flag_record_type, options[:type])
-        with(:flag_record_owner, current_user.user_name) unless options[:is_manager].present?
+        with(:flag_record_owner, current_user.user_name) unless options[:is_manager]
         with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
         with(:flag_is_removed, false)
         order_by(:flag_date, :asc)
@@ -128,18 +130,35 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
+    flag_criteria = {
+      field: :flag_created_at,
+      criteria: 1.week.ago.utc..Date.tomorrow,
+      type: 'child',
+      is_manager: current_user.is_manager?,
+      modules: @module_ids
+    }
+
     @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
     @overdue_activities = search_flags({field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child'})
-    @recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.tomorrow, type: 'child'})
-    @recently_flagged = @recently_flagged[0..4]
+    @flagged_by_me = search_flags(flag_criteria.merge({flagged_by: current_user.user_name}))
+    @flagged_by_me = @flagged_by_me[0..9]
     @recent_activities = load_recent_activities.results
+
+    unless current_user.is_manager?
+      @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
+      @flagged_by_others = @flagged_by_others[0..9]
+    end
   end
 
   def load_incidents_information
     #Retrieve only MRM incidents.
+    flag_criteria = {
+        field: :flag_created_at,
+        criteria: 1.week.ago.utc..Date.tomorrow,
+        type: 'incident'
+    }
     modules = [PrimeroModule::MRM]
-    @incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.tomorrow,
-                                                type: 'incident'})
+    @incidents_recently_flagged = search_flags(flag_criteria)
     @incidents_recently_flagged = @incidents_recently_flagged[0..4]
     @open_incidents = Incident.open_incidents(@current_user)
   end
