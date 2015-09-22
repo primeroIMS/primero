@@ -21,7 +21,6 @@ class Permission
   EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   EXPORT_CUSTOM = 'export_custom'
   ASSIGN = 'assign'
-  REPORT_CREATE = 'report_create' #ok, painted us into a corner here
   TRANSFER = 'transfer'
   REFERRAL = 'referral'
   CASE = 'case'
@@ -34,6 +33,7 @@ class Permission
   REPORT = 'report'
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
+  OWN_AGENCY = 'own_agency'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
@@ -67,7 +67,6 @@ class Permission
       EXPORT_CUSTOM,
       IMPORT,
       ASSIGN,
-      REPORT_CREATE,
       TRANSFER,
       REFERRAL,
       CONSENT_OVERRIDE,
@@ -80,7 +79,7 @@ class Permission
   end
 
   def self.management
-    [SELF, GROUP, ALL]
+    [SELF, OWN_AGENCY, GROUP, ALL]
   end
 
   def self.all

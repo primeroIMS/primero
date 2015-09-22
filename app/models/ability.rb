@@ -35,6 +35,8 @@ class Ability
         true
       elsif user.has_group_permission? Permission::GROUP
         (user.user_group_ids & uzer.user_group_ids).size > 0
+      elsif user.has_group_permission? Permission::OWN_AGENCY
+        uzer.agency == user.agency
       else
         uzer.user_name == user.user_name
       end
