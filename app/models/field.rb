@@ -109,6 +109,7 @@ class Field
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
+  validate :validate_same_datatype
 
   #TODO: Any subform validations?
 
@@ -427,5 +428,15 @@ class Field
     true
   end
 
+  def validate_same_datatype
+    #Find field with the same name.
+    fields = FormSection.get_fields_by_name_and_parent_form(name, form.parent_form)
+    #Check if the types are the same.
+    fields = fields.select{|field| field.type != type}
+    #Error if the type is different.
+    return errors.add(:name, I18n.t("errors.models.field.change_type_existing_field", :form_name => form.name)) if fields.present?
+    #We are OK - All the fields with the same name are consistent with the type.
+    true
+  end
 
 end
