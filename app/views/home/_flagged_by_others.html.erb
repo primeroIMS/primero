@@ -13,7 +13,7 @@
         </li>
       <% end %>
     <% else %>
-      <li class="no-content"><%= t("dashboard.no_flagged") %></li>
+      <li class="no-content"><%= t("dashboard.no_flagged_#{model.name.underscore}") %></li>
     <% end %>
   </ul>
    <% if flagged_by_others.present? %>
