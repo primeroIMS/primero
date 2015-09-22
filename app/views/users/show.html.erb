@@ -25,12 +25,12 @@
     <div class="side-tab-content" data-equalizer-watch>
       <div class="clearfix"></div>
       <fieldset class="no-border">
-        <%= resource_show_field @user, 'full_name', 'name' %>
+        <%= resource_show_field @user, 'full_name', 'user.full_name' %>
         <%= resource_show_field @user, 'user_name', 'login.username' %>
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("roles.label") %>:</label>
+            <label class="key"><%= t("roles.label") %></label>
           </div>
           <div class="medium-8 columns">
             <span class="value"><%= @user.roles.map(&:name).join(", ") %></span>
@@ -39,7 +39,7 @@
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("primero_modules.label") %>:</label>
+            <label class="key"><%= t("primero_modules.label") %></label>
           </div>
           <div class="medium-8 columns">
             <span class="value"><%= @user.modules.map(&:name).join(", ") %></span>
@@ -48,7 +48,7 @@
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("user_groups.label") %>:</label>
+            <label class="key"><%= t("user_groups.label") %></label>
           </div>
           <div class="medium-8 columns">
             <span class="value"><%= @user.user_groups.map(&:name).join(", ") %></span>

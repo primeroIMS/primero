@@ -1,7 +1,7 @@
 <% content_for :resource_show_fields do %>
-  <%= resource_show_field @primero_module, 'name', 'name' %>
-  <%= resource_show_field @primero_module, 'description', 'description' %>
-  <%= resource_show_field @primero_module, 'program_name', 'program' %>
+  <%= resource_show_field @primero_module, 'name', 'primero_module.name' %>
+  <%= resource_show_field @primero_module, 'description', 'primero_module.description' %>
+  <%= resource_show_field @primero_module, 'program_name', 'primero_module.program' %>
   <div class="row">
     <div class="medium-4 columns">
       <label class="key"><%= t("primero_module.record_type") %></label>
