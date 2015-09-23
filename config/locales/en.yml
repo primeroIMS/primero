@@ -927,6 +927,7 @@ en:
     date_range_field: "Date Range"
     subform: "Subform"
     tick_box: "Tick Box"
+    tick_box_label: "Tick Box Label"
     tally_field: "Tally Field"
     separator: "Separator"
     successfully_added: "Field successfully added"
