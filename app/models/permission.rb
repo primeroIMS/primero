@@ -4,6 +4,7 @@ class Permission
 
   property :resource
   property :actions, [String], :default => []
+  property :role_ids, [String], :default => []
 
   READ = 'read'
   WRITE = 'write'
@@ -34,6 +35,7 @@ class Permission
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
   OWN_AGENCY = 'own_agency'
+  SPECIFIC_ROLES = 'specific_roles'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
@@ -79,7 +81,7 @@ class Permission
   end
 
   def self.management
-    [SELF, OWN_AGENCY, GROUP, ALL]
+    [SELF, OWN_AGENCY, SPECIFIC_ROLES, GROUP, ALL]
   end
 
   def self.all

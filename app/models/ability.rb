@@ -15,6 +15,8 @@ class Ability
       case permission.resource
         when Permission::USER
           user_permissions permission.action_symbols
+        when Permission::ROLE
+          role_permissions permission
         when Permission::METADATA
           metadata_permissions
         when Permission::SYSTEM
@@ -43,6 +45,17 @@ class Ability
     end
     [UserGroup, Agency].each do |resource|
       configure_resource resource, actions
+    end
+  end
+
+  def role_permissions permission
+    actions = permission.action_symbols
+    can actions, Role do |instance|
+      if user.has_group_permission? Permission::SPECIFIC_ROLES
+        (instance.is_a? Role) && (permission.role_ids.include? instance.id)
+      else
+        true
+      end
     end
   end
 

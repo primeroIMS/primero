@@ -202,6 +202,76 @@ describe Ability do
       end
     end
 
+    context "when Role Specific permission is set" do
+      before do
+        Role.all.each &:destroy
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role_case_read = create :role, permissions_list: [@permission_case_read]
+        @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role_tracing_request_read = create :role, permissions_list: [@permission_tracing_request_read]
+        @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
+        @role_incident_read = create :role, permissions_list: [@permission_incident_read]
+      end
+
+      context "with read access" do
+        before :each do
+          @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_ids: [@role_case_read.id])
+          @role_role_specific_read = create :role, permissions_list: [@permission_role_specific_read], group_permission: Permission::SPECIFIC_ROLES
+          @user1.role_ids = [@role_role_specific_read.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to read roles assigned to them" do
+          expect(@ability).to authorize(:read, @role_case_read)
+        end
+
+        it "does not allow user to read roles not assigned to them" do
+          expect(@ability).not_to authorize(:read, @role_tracing_request_read)
+          expect(@ability).not_to authorize(:read, @role_incident_read)
+        end
+
+        it "does not allow user to edit roles assigned to them" do
+          expect(@ability).not_to authorize(:edit, @role_case_read)
+        end
+      end
+
+      context "with read write access" do
+        before :each do
+          @permission_role_specific_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE],
+                                                              role_ids: [@role_case_read.id, @role_incident_read.id])
+          @role_role_specific_read_write = create :role, permissions_list: [@permission_role_specific_read_write], group_permission: Permission::SPECIFIC_ROLES
+          @user1.role_ids = [@role_role_specific_read_write.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to read roles assigned to them" do
+          expect(@ability).to authorize(:read, @role_case_read)
+          expect(@ability).to authorize(:read, @role_incident_read)
+        end
+
+        it "does not allow user to read roles not assigned to them" do
+          expect(@ability).not_to authorize(:read, @role_tracing_request_read)
+        end
+
+        it "allows user to edit roles assigned to them" do
+          expect(@ability).to authorize(:edit, @role_case_read)
+          expect(@ability).to authorize(:edit, @role_incident_read)
+        end
+
+        it "does not allow user to edit roles not assigned to them" do
+          expect(@ability).not_to authorize(:edit, @role_tracing_request_read)
+        end
+      end
+
+      after do
+        Role.all.each &:destroy
+      end
+    end
+
   end
 
   describe "Users" do
