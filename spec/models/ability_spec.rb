@@ -150,6 +150,60 @@ describe Ability do
 
   end
 
+  describe "Roles" do
+    before :each do
+      @permission_role_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ])
+      @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+    end
+
+    it "allows a user with read permissions to read but not edit roles" do
+      role = create :role, permissions_list: [@permission_role_read]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, Role)
+      expect(ability).not_to authorize(:write, Role)
+    end
+
+    it "allows a user with read and write permissions to read and edit roles" do
+      role = create :role, permissions_list: [@permission_role_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, Role)
+      expect(ability).to authorize(:write, Role)
+    end
+
+    it "doesn't allow a user with only 'role' permission to manage another user" do
+      role = create :role, permissions_list: [@permission_role_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, @user2)
+      expect(ability).not_to authorize(:write, @user2)
+    end
+
+    it "doesn't allow viewing and editing of Groups, and Agencies if only the 'role' permission is set" do
+      role = create :role, permissions_list: [@permission_role_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      [UserGroup, Agency].each do |resource|
+        expect(ability).not_to authorize(:read, resource)
+        expect(ability).not_to authorize(:write, resource)
+      end
+    end
+
+  end
+
   describe "Users" do
     before :each do
       @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
@@ -217,17 +271,28 @@ describe Ability do
       expect(ability).to_not authorize(:write, user3)
     end
 
-    it "allows viewing and editing of Groups, Roles, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
+    it "allows viewing and editing of Groups, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
       role = create :role, permissions_list: [@permission_user_read_write]
       @user1.role_ids = [role.id]
       @user1.save
 
       ability = Ability.new @user1
 
-      [UserGroup, Role, Agency].each do |resource|
+      [UserGroup, Agency].each do |resource|
         expect(ability).to authorize(:read, resource)
         expect(ability).to authorize(:write, resource)
       end
+    end
+
+    it "does not allow viewing and editing of Roles if the 'user' permission is set along with 'read' and 'write'" do
+      role = create :role, permissions_list: [@permission_user_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, Role)
+      expect(ability).not_to authorize(:write, Role)
     end
 
   end

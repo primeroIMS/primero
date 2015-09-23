@@ -54,6 +54,20 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
+    :resource => Permission::ROLE,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::IMPORT,
+      Permission::EXPORT_CUSTOM,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_PDF
+    ]
+  ),
+  Permission.new(
     :resource => Permission::USER,
     :actions => [
       Permission::READ,
@@ -175,6 +189,20 @@ cp_manager_permissions = [
     ]
   ),
   Permission.new(
+    :resource => Permission::ROLE,
+    :actions => [
+      Permission::READ,
+      Permission::EXPORT_CUSTOM,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_PHOTO_WALL,
+      Permission::EXPORT_PDF,
+      Permission::EXPORT_UNHCR
+    ]
+  ),
+  Permission.new(
     :resource => Permission::USER,
     :actions => [
       Permission::READ,
@@ -278,6 +306,20 @@ gbv_manager_permissions = [
     ]
   ),
   Permission.new(
+    :resource => Permission::ROLE,
+    :actions => [
+      Permission::READ,
+      Permission::EXPORT_CUSTOM,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_PHOTO_WALL,
+      Permission::EXPORT_PDF,
+      Permission::EXPORT_UNHCR
+    ]
+  ),
+  Permission.new(
     :resource => Permission::USER,
     :actions => [
       Permission::READ,
@@ -349,6 +391,20 @@ mrm_manager_permissions = [
     :actions => [
       Permission::READ,
       Permission::WRITE
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::ROLE,
+    :actions => [
+      Permission::READ,
+      Permission::EXPORT_CUSTOM,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_PHOTO_WALL,
+      Permission::EXPORT_PDF,
+      Permission::EXPORT_UNHCR
     ]
   ),
   Permission.new(
@@ -438,6 +494,10 @@ superuser_permissions = [
   ),
   Permission.new(
     :resource => Permission::REPORT,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::ROLE,
     :actions => [Permission::MANAGE]
   ),
   Permission.new(
