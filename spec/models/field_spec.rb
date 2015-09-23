@@ -52,6 +52,8 @@ describe "record field model" do
 
     it "should not allow blank display name" do
       field = Field.new(:display_name => "")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:display_name].first).to eq "The name of the base language 'en' can not be blank"
     end
@@ -67,46 +69,62 @@ describe "record field model" do
 
     it "should not allow display name without alphabetic characters" do
       field = Field.new(:display_name => "!@£$@")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       field.valid?.should == false
       field.errors[:display_name].should include("Display name must contain at least one alphabetic characters")
     end
 
     it "should not allow blank name" do
       field = Field.new(:display_name => "ABC 123", :name => "")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name must not be blank"
     end
 
     it "should not allow capital letters in name" do
       field = Field.new(:display_name => "ABC 123", :name => "Abc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
     end
 
     it "should not allow special characters in name" do
       field = Field.new(:display_name => "ABC 123", :name => "a$bc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
     end
 
     it "should not allow name to start with a number" do
       field = Field.new(:display_name => "ABC 123", :name => "1abc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name cannot start with a number"
     end
 
     it "should allow alphabetic characters numbers and underscore in name" do
       field = Field.new(:display_name => "ABC 123", :name => "abc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be true
     end
 
     it "should allow alphabetic only in name" do
       field = Field.new(:display_name => "ABC 123", :name => "abc")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be true
     end
 
     it "should allow alphabetic and numeric only in name" do
       field = Field.new(:display_name => "ABC 123", :name => "abc123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be true
     end
 
@@ -122,6 +140,8 @@ describe "record field model" do
 
     it "should validate radio button has at least 2 options" do
       field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::RADIO_BUTTON)
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
 
       field.valid?
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
@@ -129,6 +149,8 @@ describe "record field model" do
 
     it "should validate checkbox has at least 1 option to be checked" do
       field = Field.new(:display_name => "test", :option_strings => nil, :type => Field::CHECK_BOXES)
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
 
       field.valid?
       field.errors[:option_strings].should ==  ["Checkbox must have at least 1 option"]
@@ -136,6 +158,8 @@ describe "record field model" do
 
     it "should validate select box has at least 2 options" do
       field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::SELECT_BOX)
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
 
       field.valid?
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]

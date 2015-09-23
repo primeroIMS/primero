@@ -389,6 +389,13 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_form_containing_field
 
+    def get_fields_by_name_and_parent_form(field_name, parent_form)
+      all.select{|form| form.parent_form == parent_form}
+         .map{|form| form.fields.select{|field| field.name == field_name || field.display_name == field_name } }
+         .flatten
+    end
+    memoize_in_prod :get_fields_by_name_and_parent_form
+
     def new_custom form_section, module_name = "CP"
       form_section[:core_form] = false   #Indicates this is a user-added form
 
