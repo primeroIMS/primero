@@ -12,20 +12,10 @@ class ConfigurationBundle < CouchRest::Model::Base
     model_data.map do |model_name, data_arr|
       begin
         modelCls = model_name.constantize
-        # modelCls.database.recreate!
-        # begin
-        #   modelCls.design_doc.sync!
-        # rescue RestClient::ResourceNotFound
-        #   #TODO: CouchDB transactions are asynchronous.
-        #   #      That means that sometimes the server will receive a command to update a database
-        #   #      that has yet to be created. For now this is a hack that should work most of the time.
-        #   #      The real solution is to synchronize on the database creation, and only trigger
-        #   #      the design record sync (and any other updates) when we know the database exists.
-        #   Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
-        #   modelCls.database.create!
-        #   modelCls.design_doc.sync!
-        # end
 
+        # CouchDB transactions are asynchronous.
+        # That means that sometimes the server will receive a command to delete a record is yet to be deleted
+        # that has yet to be created.
         database = modelCls.database
         while true
           docs_to_delete = database.all_docs['rows']
