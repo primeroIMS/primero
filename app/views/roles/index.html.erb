@@ -48,15 +48,21 @@
                 <td><%= truncate(role.description, :length => 40) %></td>
                 <td>
                   <% if can?(:view, role) %>
-                    <%= link_to(t("roles.actions.show"), role_path(role))%>
+                    <%# TODO: Commented out in SL-234 %>
+                    <%# TODO: Add back in SL-265 %>
+                    <%#= link_to(t("roles.actions.show"), role_path(role))%>
                     <br>
                   <% end %>
                   <% if can?(:edit, role) %>
-                    <%= link_to(t("roles.actions.edit"), edit_role_path(role))%>
+                    <%# TODO: Commented out in SL-234 %>
+                    <%# TODO: Add back in SL-265 %>
+                    <%#= link_to(t("roles.actions.edit"), edit_role_path(role))%>
                     <br>
                   <% end %>
                   <% if can?(:destroy, role) %>
-                    <%= link_to t("roles.actions.delete"), role, data: {confirm: t("roles.messages.confirmation")}, method: :delete %>
+                    <%# TODO: Commented out in SL-234 %>
+                    <%# TODO: Add back in SL-265 %>
+                    <%#= link_to t("roles.actions.delete"), role, data: {confirm: t("roles.messages.confirmation")}, method: :delete %>
                   <% end %>
                 </td>
               </tr>

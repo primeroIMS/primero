@@ -42,6 +42,15 @@ namespace :db do
       end
     end
 
+    desc "Import the configuration bundle"
+    task :import_config_bundle, [:json_file] => :environment do |t, args|
+      puts "Importing configuration from #{args[:json_file]}"
+      File.open(args[:json_file]) do |file|
+        model_data = Importers::JSONImporter.import(file)
+        ConfigurationBundle.import(model_data, 'system_operator')
+      end
+    end
+
 
     # Creates Location.create! statements which can be used as a Location seed file
     # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]

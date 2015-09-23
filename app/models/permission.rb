@@ -1,4 +1,10 @@
 class Permission
+  include CouchRest::Model::CastedModel
+  include PrimeroModel
+
+  property :resource
+  property :actions, [String], :default => []
+
   READ = 'read'
   WRITE = 'write'
   FLAG = 'flag'
@@ -22,6 +28,7 @@ class Permission
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
   USER = 'user'
+  ROLE = 'role'
   METADATA = 'metadata'
   SYSTEM = 'system'
   REPORT = 'report'
@@ -30,6 +37,9 @@ class Permission
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
+  MANAGE = 'manage'
+
+  validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
 
   def self.description(permission)
@@ -66,7 +76,7 @@ class Permission
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, USER, METADATA, SYSTEM, REPORT]
+    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT]
   end
 
   def self.management
@@ -83,5 +93,32 @@ class Permission
 
   def self.all_grouped
     {'actions' => actions, 'resources' => resources, 'management' => management}
+  end
+
+  def self.all_permissions_list
+    [
+      self.new(:resource => CASE, :actions => [MANAGE]),
+      self.new(:resource => INCIDENT, :actions => [MANAGE]),
+      self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
+      self.new(:resource => REPORT, :actions => [MANAGE]),
+      self.new(:resource => ROLE, :actions => [MANAGE]),
+      self.new(:resource => USER, :actions => [MANAGE]),
+      self.new(:resource => METADATA, :actions => [MANAGE]),
+      self.new(:resource => SYSTEM, :actions => [MANAGE]),
+    ]
+  end
+
+  def is_record?
+    [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
+  end
+
+  def resource_class
+    return nil if self.resource.blank?
+    class_str = (self.resource == CASE ? 'child' : self.resource)
+    class_str.camelize.constantize
+  end
+
+  def action_symbols
+    actions.map{|a| a.to_sym}
   end
 end
