@@ -202,7 +202,7 @@ describe Ability do
       end
     end
 
-    context "when Role Specific permission is set" do
+    context "when Role Specific permission" do
       before do
         Role.all.each &:destroy
         @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
@@ -213,7 +213,7 @@ describe Ability do
         @role_incident_read = create :role, permissions_list: [@permission_incident_read]
       end
 
-      context "with read access" do
+      context "is set with read access" do
         before :each do
           @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_ids: [@role_case_read.id])
           @role_role_specific_read = create :role, permissions_list: [@permission_role_specific_read], group_permission: Permission::SPECIFIC_ROLES
@@ -237,7 +237,7 @@ describe Ability do
         end
       end
 
-      context "with read write access" do
+      context "is set with read write access" do
         before :each do
           @permission_role_specific_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE],
                                                               role_ids: [@role_case_read.id, @role_incident_read.id])
@@ -264,6 +264,29 @@ describe Ability do
 
         it "does not allow user to edit roles not assigned to them" do
           expect(@ability).not_to authorize(:edit, @role_tracing_request_read)
+        end
+      end
+
+      context "is not set" do
+        before :each do
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+          @role_non_role_specific_read_write = create :role, permissions_list: [@permission_role_read_write]
+          @user1.role_ids = [@role_non_role_specific_read_write.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to read all roles" do
+          expect(@ability).to authorize(:read, @role_case_read)
+          expect(@ability).to authorize(:read, @role_tracing_request_read)
+          expect(@ability).to authorize(:read, @role_incident_read)
+        end
+
+        it "allows user to edit all roles" do
+          expect(@ability).to authorize(:edit, @role_case_read)
+          expect(@ability).to authorize(:edit, @role_tracing_request_read)
+          expect(@ability).to authorize(:edit, @role_incident_read)
         end
       end
 
