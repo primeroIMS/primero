@@ -12,20 +12,32 @@ class ConfigurationBundle < CouchRest::Model::Base
     model_data.map do |model_name, data_arr|
       begin
         modelCls = model_name.constantize
-        modelCls.database.recreate!
-        begin
-          modelCls.design_doc.sync!
-        rescue RestClient::ResourceNotFound
-          #TODO: CouchDB transactions are asynchronous.
-          #      That means that sometimes the server will receive a command to update a database
-          #      that has yet to be created. For now this is a hack that should work most of the time.
-          #      The real solution is to synchronize on the database creation, and only trigger
-          #      the design record sync (and any other updates) when we know the database exists.
-          Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
-          modelCls.database.create!
-          modelCls.design_doc.sync!
+        # modelCls.database.recreate!
+        # begin
+        #   modelCls.design_doc.sync!
+        # rescue RestClient::ResourceNotFound
+        #   #TODO: CouchDB transactions are asynchronous.
+        #   #      That means that sometimes the server will receive a command to update a database
+        #   #      that has yet to be created. For now this is a hack that should work most of the time.
+        #   #      The real solution is to synchronize on the database creation, and only trigger
+        #   #      the design record sync (and any other updates) when we know the database exists.
+        #   Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
+        #   modelCls.database.create!
+        #   modelCls.design_doc.sync!
+        # end
+
+        database = modelCls.database
+        while true
+          docs_to_delete = database.all_docs['rows']
+            .map{|d| {'_id' => d['id'], '_rev' => d['value']['rev']}}
+            .reject{|d| d['_id'].start_with? '_design'}
+          break if docs_to_delete.size == 0
+          docs_to_delete.each do |doc|
+            database.delete_doc doc
+          end
         end
-        modelCls.database.bulk_save(data_arr, false, false)
+
+        database.bulk_save(data_arr, false, false)
       rescue NameError => e
         Rails.logger.error "Invalid model name in bundle import: #{model_name}"
         flash[:error] = "Invalid model name #{model_name}"
