@@ -364,27 +364,6 @@ describe Ability do
       expect(ability).to_not authorize(:write, user3)
     end
 
-    it "allows a user with OWN_AGENCY scope to only edit another user in that agency" do
-      role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::OWN_AGENCY
-      @user1.role_ids = [role.id]
-      @user1.user_group_ids = ['test_group']
-      @user1.save
-      @user2.user_group_ids = ['test_group']
-      @user2.save
-      user3 = create :user, user_group_ids: ['test_group']
-
-      @user1.stub(:agency).and_return("UNICEF")
-      @user2.stub(:agency).and_return("UNICEF")
-      user3.stub(:agency).and_return("NOT_UNICEF")
-
-      ability = Ability.new @user1
-
-      expect(ability).to authorize(:read, @user2)
-      expect(ability).to authorize(:write, @user2)
-      expect(ability).to_not authorize(:read, user3)
-      expect(ability).to_not authorize(:write, user3)
-    end
-
     it "allows viewing and editing of Groups, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
       role = create :role, permissions_list: [@permission_user_read_write]
       @user1.role_ids = [role.id]
