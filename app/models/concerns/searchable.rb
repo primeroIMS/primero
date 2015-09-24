@@ -21,6 +21,7 @@ module Searchable
       boolean :duplicate
       boolean :flag
       boolean :has_photo
+      boolean :is_new
       boolean :record_state
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)

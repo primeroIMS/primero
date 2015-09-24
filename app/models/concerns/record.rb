@@ -101,6 +101,10 @@ module Record
               }"
 
     end
+
+    def is_new
+      self.histories.size <= 1
+    end
   end
 
 
