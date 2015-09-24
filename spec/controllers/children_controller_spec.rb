@@ -380,25 +380,23 @@ describe ChildrenController do
     describe "phonetic search", search: true, skip_session: true do
 
       before do
-
-        #Sunspot.setup(Child) {text 'name_nickname', as: "*_ph".to_sym}
-        #Sunspot.setup(Child) {text 'name_othername', as: "*_ph".to_sym}
-        #Sunspot.setup(Child) {text 'name', as: "*_ph".to_sym}
-
-        Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
+        #TODO For some reason needs to reload the phonetic fields
+        #     without those fields phonetic search will not work.
+        #     When run only children_controller_spec the phonetic
+        #     fields are there, but when run all the test cases
+        #     phonetic fields are not there.
+        Sunspot.setup(Child) do
+          Child.searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
+        end
 
         User.all.each{|u| u.destroy}
         Child.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-
         permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         roles = [Role.new(permissions_list: [permission_case])]
-
-        Child.any_instance.stub(:child_status).and_return("Open")
         @case_worker = create(:user)
         @case_worker.stub(:roles).and_return(roles)
-
       end
 
       context "when search query is the exact english name" do
@@ -528,7 +526,7 @@ describe ChildrenController do
 
           params = {"query" => "Abdool Nassir"}
           get :index, params
-          expect(assigns[:children]).to match_array([@children_cases.last])
+          expect(assigns[:children]).to match_array([@children_cases.first, @children_cases.last])
         end
       end
     end
@@ -701,6 +699,43 @@ describe ChildrenController do
           expect(assigns[:children]).to include(@child_mobile_10, @child_mobile_11)
         end
       end
+    end
+  end
+
+  describe "Search terms", search: true, skip_session: true do
+    before :each do
+      @user = fake_admin_login User.new(:user_name => 'test_user')
+      Child.all.each &:destroy
+      Sunspot.remove_all!
+      @child1 = create(:child, name: "Jonh Smith", child_status: "Open", owned_by: @user.user_name)
+      @child2 = create(:child, name: "James Carter", child_status: "Open", owned_by: @user.user_name)
+      Sunspot.commit
+    end
+
+    after :all do
+      Child.all.each &:destroy
+      Sunspot.remove_all!
+      Sunspot.commit
+    end
+
+    it "should treated as terms words separated by blank" do
+      params = {"query"=> "Robert Smith"}
+      get :index, params
+      expect(assigns[:children]).to match_array([@child1])
+
+      params = {"query"=> "Robert Smith Jonathan Carter"}
+      get :index, params
+      expect(assigns[:children]).to match_array([@child2, @child1])
+    end
+
+    it "should treated as phrase words double quoted" do
+      params = {"query"=> "\"Robert Smith\""}
+      get :index, params
+      expect(assigns[:children]).to match_array([])
+
+      params = {"query"=> "\"Jonh Smith\" \"James Carter\""}
+      get :index, params
+      expect(assigns[:children]).to match_array([@child2, @child1])
     end
   end
 
