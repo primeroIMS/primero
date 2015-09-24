@@ -233,7 +233,7 @@ supervisor_service 'couch-watcher' do
 end
 
 file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
-  mode '0755'
+  mode '0666'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
   content <<-EOH
