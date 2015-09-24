@@ -49,7 +49,7 @@ class Ability
   def role_permissions permission
     actions = permission.action_symbols
     can actions, Role do |instance|
-      if user.has_group_permission? Permission::SPECIFIC_ROLES
+      if (user.has_group_permission? Permission::SPECIFIC_ROLES) || (actions.include? Permission::ASSIGN)
         (instance.is_a? Role) && (permission.role_ids.include? instance.id)
       else
         true
