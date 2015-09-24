@@ -295,6 +295,114 @@ describe Ability do
       end
     end
 
+    context "when specifying which ROLES can be assigned" do
+      before do
+        Role.all.each &:destroy
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role_case_read = create :role, permissions_list: [@permission_case_read]
+        @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role_tracing_request_read = create :role, permissions_list: [@permission_tracing_request_read]
+        @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
+        @role_incident_read = create :role, permissions_list: [@permission_incident_read]
+        @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+      end
+
+      context "and specifies 2 roles" do
+        before :each do
+          @permission_role_assign_2 = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
+                                                     role_ids: [@role_case_read.id, @role_incident_read.id])
+          @role_role_assign_2 = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_2],
+                                              group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_assign_2.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to assign the 2 roles specified" do
+          expect(@ability).to authorize(:assign, @role_case_read)
+          expect(@ability).to authorize(:assign, @role_incident_read)
+        end
+
+        it "does not allow user to assign the role not specified" do
+          expect(@ability).not_to authorize(:assign, @role_tracing_request)
+        end
+
+        it "does not allow user to read any of the roles" do
+          expect(@ability).not_to authorize(:read, @role_case_read)
+          expect(@ability).not_to authorize(:read, @role_incident_read)
+          expect(@ability).not_to authorize(:read, @role_tracing_request_read)
+        end
+
+        it "does not allow user to edit any of the roles" do
+          expect(@ability).not_to authorize(:edit, @role_case_read)
+          expect(@ability).not_to authorize(:edit, @role_incident_read)
+          expect(@ability).not_to authorize(:edit, @role_tracing_request_read)
+        end
+      end
+
+      context "and specifies ALL roles" do
+        before :each do
+          @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
+                                                     role_ids: [Permission::ALL])
+          @role_role_assign_all = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_all],
+                                              group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_assign_all.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to assign all of the roles" do
+          expect(@ability).to authorize(:assign, @role_case_read)
+          expect(@ability).to authorize(:assign, @role_incident_read)
+          expect(@ability).to authorize(:assign, @role_tracing_request_read)
+          expect(@ability).to authorize(:assign, @role_role_assign_all)
+        end
+      end
+
+      context "and specifies no roles" do
+        before :each do
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+          @role_role_assign_none = create :role, permissions_list: [@permission_user_read_write, @permission_role_read_write],
+                                                 group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_assign_none.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to assign all of the roles" do
+          expect(@ability).not_to authorize(:assign, @role_case_read)
+          expect(@ability).not_to authorize(:assign, @role_incident_read)
+          expect(@ability).not_to authorize(:assign, @role_tracing_request_read)
+          expect(@ability).not_to authorize(:assign, @role_role_assign_none)
+        end
+      end
+
+      context "and user has MANAGE permission on ROLE" do
+        before :each do
+          @permission_role_manage = Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+          @role_role_manage = create :role, permissions_list: [@permission_user_read_write, @permission_role_manage],
+                                                 group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_manage.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to assign all of the roles" do
+          expect(@ability).to authorize(:assign, @role_case_read)
+          expect(@ability).to authorize(:assign, @role_incident_read)
+          expect(@ability).to authorize(:assign, @role_tracing_request_read)
+          expect(@ability).to authorize(:assign, @role_role_manage)
+        end
+      end
+
+      after do
+        Role.all.each &:destroy
+      end
+    end
   end
 
   describe "Users" do
