@@ -4,6 +4,7 @@ class Permission
 
   property :resource
   property :actions, [String], :default => []
+  property :role_ids, [String], :default => []
 
   READ = 'read'
   WRITE = 'write'
@@ -21,7 +22,6 @@ class Permission
   EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   EXPORT_CUSTOM = 'export_custom'
   ASSIGN = 'assign'
-  REPORT_CREATE = 'report_create' #ok, painted us into a corner here
   TRANSFER = 'transfer'
   REFERRAL = 'referral'
   CASE = 'case'
@@ -34,6 +34,7 @@ class Permission
   REPORT = 'report'
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
+  SPECIFIC_ROLES = 'specific_roles'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
@@ -67,7 +68,6 @@ class Permission
       EXPORT_CUSTOM,
       IMPORT,
       ASSIGN,
-      REPORT_CREATE,
       TRANSFER,
       REFERRAL,
       CONSENT_OVERRIDE,
@@ -80,7 +80,7 @@ class Permission
   end
 
   def self.management
-    [SELF, GROUP, ALL]
+    [SELF, SPECIFIC_ROLES, GROUP, ALL]
   end
 
   def self.all
