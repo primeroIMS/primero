@@ -193,11 +193,11 @@ end
  ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log')
 ].each do |f|
   file f do
-    content ''
+    #content ''
     mode '0666' #TODO: This is a hack
     owner 'root'
     group 'root'
-    action :create_if_missing
+    #action :create_if_missing
   end
 end
 
@@ -233,7 +233,7 @@ supervisor_service 'couch-watcher' do
 end
 
 file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
-  mode '0666'
+  mode '0755'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
   content <<-EOH
