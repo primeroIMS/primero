@@ -157,6 +157,14 @@ $dashboard_table_col4:170px;
     width: 225px;
     float: right;
 
+    .more {
+      padding: 7px 0 0 0;
+      margin: 5px 0 0 0;
+      display: block;
+      border-top: 1px solid $stroke_green_color;
+      text-align: center;
+    }
+
     .scrollable {
       height: 300px;
       overflow: hidden;
