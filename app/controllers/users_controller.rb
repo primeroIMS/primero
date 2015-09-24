@@ -183,7 +183,7 @@ class UsersController < ApplicationController
   end
 
   def load_lookups
-    @roles = Role.all
+    @roles = Role.alll.select{|r| can? :assign, r}
     @modules = PrimeroModule.all
     @user_groups = UserGroup.all
   end
