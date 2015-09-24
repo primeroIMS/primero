@@ -68,6 +68,11 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
+    :resource => Permission::ROLE,
+    :actions => [Permission::ASSIGN],
+    :role_ids => [Permission::ALL]
+  ),
+  Permission.new(
     :resource => Permission::USER,
     :actions => [
       Permission::READ,
