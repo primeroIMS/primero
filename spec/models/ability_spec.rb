@@ -372,7 +372,7 @@ describe Ability do
           @ability = Ability.new @user1
         end
 
-        it "allows user to assign all of the roles" do
+        it "does not allow user to assign any of the roles" do
           expect(@ability).not_to authorize(:assign, @role_case_read)
           expect(@ability).not_to authorize(:assign, @role_incident_read)
           expect(@ability).not_to authorize(:assign, @role_tracing_request_read)

@@ -183,7 +183,9 @@ class UsersController < ApplicationController
   end
 
   def load_lookups
-    @roles = Role.alll.select{|r| can? :assign, r}
+    #Only fetch the ROLES that this user is allowed to assign
+    @roles = Role.all.select{|r| can? :assign, r}
+
     @modules = PrimeroModule.all
     @user_groups = UserGroup.all
   end
