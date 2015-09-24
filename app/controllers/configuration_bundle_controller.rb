@@ -15,6 +15,7 @@ class ConfigurationBundleController < ApplicationController
     SystemSettings,
   ]
 
+  #TODO: Move the logic for this to the model
   def export_bundle
     bundle_data = BUNDLE_MODELS.inject({}) do |acc, modelCls|
       acc.merge({modelCls.name => modelCls.database.all_docs(:include_docs => true)['rows']
@@ -42,36 +43,10 @@ class ConfigurationBundleController < ApplicationController
       flash[:error] = "Please specify a file to import!"
       redirect_to :action => :index, :controller => :users and return
     end
+
     model_data = Importers::JSONImporter.import(params[:import_file])
+    ConfigurationBundle.import(model_data, current_user.user_name)
 
-    Rails.logger.info "Starting configuration bundle import..."
-    model_data.map do |model_name, data_arr|
-      begin
-        modelCls = model_name.constantize
-        modelCls.database.recreate!
-        begin
-          modelCls.design_doc.sync!
-        rescue RestClient::ResourceNotFound
-          #TODO: CouchDB transactions are asynchronous.
-          #      That means that sometimes the server will receive a command to update a database
-          #      that has yet to be created. For now this is a hack that should work most of the time.
-          #      The real solution is to synchronize on the database creation, and only trigger
-          #      the design record sync (and any other updates) when we know the database exists.
-          Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
-          modelCls.database.create!
-          modelCls.design_doc.sync!
-        end
-        modelCls.database.bulk_save(data_arr, false, false)
-      rescue NameError => e
-        Rails.logger.error "Invalid model name in bundle import: #{model_name}"
-        flash[:error] = "Invalid model name #{model_name}"
-        redirect_to :action => :index, :controller => :users and return
-      end
-    end
-
-    ConfigurationBundle.create! applied_by: current_user.user_name
-
-    Rails.logger.info "Successfully completed configuration bundle import."
     # TODO: modify the redirect if this ever gets it own page
     flash[:notice] = t('imports.successful')
     redirect_to :action => :index, :controller => :users and return
