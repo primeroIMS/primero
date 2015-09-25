@@ -9,6 +9,12 @@ $(document).ready(function() {
     $(".cancel_field_modal").click(backToPrevious);
     $(".field_hide_show").bind('change',fieldHideShow);
     $(".link_moveto").click(showMovePanel);
+    $(document).on('close.fndtn.reveal', '#add_field_modal', function(e) {
+      if (e.namespace !== 'fndtn.reveal') {
+        return;
+      }
+      backToPrevious();
+    });
     triggerErrors();
     var rows = $("table#form_sections tbody");
     rows.sortable({

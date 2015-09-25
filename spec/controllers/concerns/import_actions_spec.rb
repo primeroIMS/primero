@@ -21,11 +21,8 @@ describe ImportActions, type: :controller do
   end
 
   it 'allows imports from users with the import permission' do
-    Role.create(:id => 'importer', :name => 'importer', :permissions => [
-                                                       Permission::IMPORT,
-                                                       Permission::CASE,
-                                                       Permission::GROUP,
-                                                     ])
+    permission_import = Permission.new(resource: Permission::CASE, actions: [Permission::IMPORT])
+    Role.create(id: 'importer', name: 'importer', permissions_list: [permission_import], group_permission: Permission::GROUP)
 
     @user = User.new(:user_name => 'importing_user', :role_ids => ['importer'])
     @session = fake_login @user
@@ -35,10 +32,8 @@ describe ImportActions, type: :controller do
   end
 
   it 'does not allow imports from users without the import permission' do
-    Role.create(:id => 'nonimporter', :name => 'nonimporter', :permissions => [
-                                                       Permission::CASE,
-                                                       Permission::GROUP,
-                                                     ])
+    permission_no_import = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+    Role.create(id: 'nonimporter', name: 'nonimporter', permissions_list: [permission_no_import], group_permission: Permission::GROUP)
 
     @user = User.new(:user_name => 'nonimporting_user', :role_ids => ['nonimporter'])
     @session = fake_login @user

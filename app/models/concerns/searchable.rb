@@ -72,6 +72,10 @@ module Searchable
         end
         if query.present?
           fulltext(query.strip) do
+            #In schema.xml defaultOperator is "AND"
+            #the following change that behavior to match on
+            #any of the search terms instead all of them.
+            minimum_match(1)
             fields(*self.quicksearch_fields)
           end
         end

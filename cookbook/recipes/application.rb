@@ -6,7 +6,8 @@ include_recipe 'primero::common'
    libxml2-dev
    libxslt1-dev
    imagemagick
-   openjdk-7-jre-headless).each do |pkg|
+   openjdk-7-jre-headless
+   inotify-tools).each do |pkg|
   package pkg
 end
 
@@ -192,11 +193,11 @@ end
  ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log')
 ].each do |f|
   file f do
-    content ''
-    mode '0644'
+    #content ''
+    mode '0666' #TODO: This is a hack
     owner 'root'
     group 'root'
-    action :create_if_missing
+    #action :create_if_missing
   end
 end
 
@@ -222,6 +223,36 @@ supervisor_service 'couch-watcher' do
   stopasgroup true
   redirect_stderr true
   stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/output.log')
+  stdout_logfile_maxbytes '20MB'
+  stdout_logfile_backups 0
+  # We want to stop the watcher before doing seeds/migrations so that it
+  # doesn't go crazy with all the updates.  Make sure that everything that it
+  # does is also done in this recipe (e.g. reindex solr, reset memoization,
+  # etc..)
+  action [:enable, :stop]
+end
+
+file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
+  mode '0755'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  content <<-EOH
+#!/bin/bash
+inotifywait -e modify,close_write #{::File.join(node[:primero][:app_dir], 'tmp')}/couch_watcher_history.json && supervisorctl restart couch-watcher
+EOH
+end
+
+supervisor_service 'who-watches-the-couch-watcher' do
+  command "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh"
+  autostart true
+  autorestart true
+  user 'root'
+  directory node[:primero][:app_dir]
+  numprocs 1
+  killasgroup true
+  stopasgroup true
+  redirect_stderr true
+  stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/restart.log')
   stdout_logfile_maxbytes '20MB'
   stdout_logfile_backups 0
   # We want to stop the watcher before doing seeds/migrations so that it
@@ -279,6 +310,10 @@ execute_bundle 'prime-couch-watcher-sequence-numbers' do
 end
 
 supervisor_service 'couch-watcher' do
+  action :start
+end
+
+supervisor_service 'who-watches-the-couch-watcher' do
   action :start
 end
 

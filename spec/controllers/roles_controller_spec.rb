@@ -5,7 +5,7 @@ describe RolesController do
   describe "GET index" do
 
     it "should show page name" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = double()
       Role.should_receive(:by_name).and_return([mock])
       get :index
@@ -13,7 +13,7 @@ describe RolesController do
     end
 
     it "should allow user to view the roles" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = double()
       Role.should_receive(:by_name).and_return([mock])
       get :index
@@ -22,7 +22,7 @@ describe RolesController do
     end
 
     it "should not allow user without view permission to view roles" do
-      fake_login_as([Permission::SYSTEM])
+      fake_login_as(Permission::USER, [Permission::MANAGE])
       get :index
       response.should be_forbidden
     end
@@ -31,7 +31,7 @@ describe RolesController do
   describe "GET edit" do
 
     it "should allow user to edit roles " do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = stub_model Role, :id => "10"
       Role.should_receive(:get).with(mock.id).and_return(mock)
       get :edit, :id => mock.id
@@ -40,7 +40,14 @@ describe RolesController do
     end
 
     it "should not allow user without permission to edit roles" do
-      fake_login_as([Permission::USER, Permission::READ])
+      fake_login_as(Permission::ROLE, [Permission::READ])
+      Role.stub :get => stub_model(Role)
+      get :edit, :id => "10"
+      response.should be_forbidden
+    end
+
+    it "should not allow user with only USER permission to edit roles" do
+      fake_login_as(Permission::USER, [Permission::MANAGE])
       Role.stub :get => stub_model(Role)
       get :edit, :id => "10"
       response.should be_forbidden
@@ -51,7 +58,7 @@ describe RolesController do
   describe "GET show" do
 
     it "should allow user to view roles " do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = stub_model Role, :id => "10"
       Role.should_receive(:get).with(mock.id).and_return(mock)
       get :show, :id => mock.id
@@ -59,7 +66,7 @@ describe RolesController do
     end
 
     it "should not allow user without permission to edit roles" do
-      fake_login_as([Permission::USER, Permission::READ])
+      fake_login_as(Permission::ROLE, [Permission::READ])
       Role.stub :get => stub_model(Role)
       get :edit, :id => "10"
       response.should be_forbidden
@@ -69,7 +76,7 @@ describe RolesController do
 
   describe "POST new" do
     it "should allow valid user to create roles" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = stub_model Role
       Role.should_receive(:new).and_return(mock)
       post :new
@@ -78,7 +85,14 @@ describe RolesController do
     end
 
     it "should not allow user without permission to create new roles" do
-      fake_login_as([Permission::USER, Permission::READ])
+      fake_login_as(Permission::ROLE, [Permission::READ])
+      Role.should_not_receive(:new)
+      post :new
+      response.should be_forbidden
+    end
+
+    it "should not allow user with only USER permission to create new roles" do
+      fake_login_as(Permission::USER, [Permission::MANAGE])
       Role.should_not_receive(:new)
       post :new
       response.should be_forbidden
@@ -87,7 +101,7 @@ describe RolesController do
 
   describe "POST update" do
     it "should allow valid user to update roles" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = stub_model Role, :id => "1"
       role_mock = { "mock" => "mock" }
 
@@ -100,7 +114,7 @@ describe RolesController do
     end
 
     it "should return error if update attributes is not invoked " do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = stub_model Role, :id => "1"
       role_mock = { "mock" => "mock" }
 
@@ -113,7 +127,16 @@ describe RolesController do
     end
 
     it "should not allow invalid user to update roles" do
-      fake_login_as([Permission::USER, Permission::READ])
+      fake_login_as(Permission::ROLE, [Permission::READ])
+      mock = stub_model Role, :id => "1"
+      mock.should_not_receive(:update_attributes).with(anything)
+      Role.should_receive(:get).with(mock.id).and_return(mock)
+      post :update, :id => mock.id, :role => {}
+      response.should be_forbidden
+    end
+
+    it "should not allow user with only USER access to update roles" do
+      fake_login_as(Permission::USER, [Permission::MANAGE])
       mock = stub_model Role, :id => "1"
       mock.should_not_receive(:update_attributes).with(anything)
       Role.should_receive(:get).with(mock.id).and_return(mock)
@@ -124,7 +147,15 @@ describe RolesController do
 
   describe "POST create" do
     it "should not allow invalid user to create roles" do
-      fake_login_as([Permission::USER, Permission::READ])
+      fake_login_as(Permission::ROLE, [Permission::READ])
+      role_mock = double()
+      Role.should_not_receive(:new).with(anything)
+      post :create, :role => role_mock
+      response.should be_forbidden
+    end
+
+    it "should not allow user with only USER access to create roles" do
+      fake_login_as(Permission::USER, [Permission::MANAGE])
       role_mock = double()
       Role.should_not_receive(:new).with(anything)
       post :create, :role => role_mock
@@ -132,7 +163,7 @@ describe RolesController do
     end
 
     it "should allow valid user to create roles" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       role_mock = { "mock" => "mock" }
       role_mock.should_receive(:save).and_return(true)
       Role.should_receive(:new).with(role_mock).and_return(role_mock)
@@ -142,7 +173,7 @@ describe RolesController do
     end
 
     it "should take back to new page if save failed" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       role_mock = double()
       role_mock.should_receive(:save).and_return(false)
       Role.should_receive(:new).with(anything).and_return(role_mock)
@@ -155,7 +186,7 @@ describe RolesController do
 
   describe "DELETE" do
     it "should allow a valid user to delete a role" do
-      fake_login_as([Permission::USER, Permission::READ, Permission::WRITE, Permission::ALL])
+      fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE], Permission::ALL)
       role = build :role
       role.should_receive(:destroy).and_return(true)
       Role.should_receive(:get).with("test-role").and_return(role)

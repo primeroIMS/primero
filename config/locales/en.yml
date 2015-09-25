@@ -927,6 +927,7 @@ en:
     date_range_field: "Date Range"
     subform: "Subform"
     tick_box: "Tick Box"
+    tick_box_label: "Tick Box Label"
     tally_field: "Tally Field"
     separator: "Separator"
     successfully_added: "Field successfully added"
@@ -1153,8 +1154,8 @@ en:
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
     no_caseworker_data: "No Case Worker Data"
-    no_recently_flagged_child: "No Recently Flagged Cases"
-    no_recently_flagged_incident: "No Recently Flagged Incidents"
+    no_flagged_child: "No Flagged Cases"
+    no_flagged_incident: "No Flagged Incidents"
     no_open_incidents: "No Open incidents"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
@@ -1168,13 +1169,14 @@ en:
     new_child_assigned_to_you: "New Cases Assigned To You"
     new_incident_assigned_to_you: "New Assigned Incidents"
     recently_flagged_child: "Recently Flagged Cases"
+    flagged_by_me: "Flagged By Me"
+    flagged_by_other: "Flagged By Someone Else"
     recently_flagged_incident: "Recently Flagged Incidents"
     incident_status_open: "Open"
     number_of_victims: "Number Of Victims"
     number_of_violations: "Number Of Violations"
     number_of_violations_verified: "Violations Verified"
-    link_see_all_child: "See all flagged cases"
-    link_see_all_incident: "See all flagged incidents"
+    link_see_all: "See all"
     open_incidents: "Open Incidents"
     status_of_cases: "Status of Cases"
     case_worker: "Case Worker"
@@ -1271,6 +1273,7 @@ en:
         has_1_option: "Checkbox must have at least 1 option"
         unique_name_other: "Field already exists on form '%{form_name}'"
         unique_name_this: "Field already exists on this form"
+        change_type_existing_field: "Can't change type of existing field on form '%{form_name}'"
 
       form_section:
         presence_of_name: "Name must not be blank"
@@ -1296,6 +1299,9 @@ en:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
+
+        permission:
+          resource_presence: "Please select a resource"
 
       primero_module:
         name_present: "Name must not be blank"

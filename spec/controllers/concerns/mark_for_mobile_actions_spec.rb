@@ -21,10 +21,8 @@ describe MarkForMobileActions, type: :controller do
   describe 'mark for mobile' do
     context 'as user without permission' do
       before do
-        Role.create(:id => 'non-syncable', :name => 'non syncable', :permissions => [
-                                                       Permission::CASE,
-                                                       Permission::GROUP,
-                                                     ])
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        Role.create(id: 'non-syncable', name: 'non syncable', permissions_list: [@permission_case_read], group_permission: Permission::GROUP)
         @user = User.new(:user_name => 'non_sync_user', :role_ids => ['non-syncable'])
         @session = fake_login @user
       end
@@ -37,11 +35,8 @@ describe MarkForMobileActions, type: :controller do
 
     context 'as user with permission' do
       before do
-        Role.create(:id => 'syncable', :name => 'importer', :permissions => [
-                                                           Permission::SYNC_MOBILE,
-                                                           Permission::CASE,
-                                                           Permission::GROUP,
-                                                         ])
+        @permission_case_read_sync = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE])
+        Role.create(id: 'syncable', name: 'non syncable', permissions_list: [@permission_case_read_sync], group_permission: Permission::GROUP)
         @user = User.create(:user_name => 'sync_user', :role_ids => ['syncable'])
         @session = fake_login @user
       end

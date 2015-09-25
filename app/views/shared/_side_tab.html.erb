@@ -3,7 +3,7 @@
     <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>
     <ul class="side-nav">
       <%# TODO: We are hiding the user options for the time being. %>
-      <li class=<%= (highlight_page == 'users' ? 'current' : '') %>><%= link_to I18n.t("users.label"), users_path if can?(:index, User) && can?(:index, Role)%></li>
+      <li class=<%= (highlight_page == 'users' ? 'current' : '') %>><%= link_to I18n.t("users.label"), users_path if can?(:index, User)%></li>
       <% if false %>
       <li class=<%= (highlight_page == 'unverified' ? 'current' : '') %>>
       	<%= link_to I18n.t("users.unverified"), unverified_users_path if can?(:show, User)  %></li>

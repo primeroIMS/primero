@@ -42,7 +42,6 @@ Primero = Backbone.View.extend({
     this.show_hide_record_type();
     this.init_scrollbar();
     this.populate_case_id_for_gbv_incidents();
-    this.init_add_field_modal_listener();
     this.init_edit_listeners();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
@@ -70,16 +69,6 @@ Primero = Backbone.View.extend({
         }
       });
     }
-  },
-
-  init_add_field_modal_listener: function() {
-    $(document).on('close.fndtn.reveal', '#add_field_modal', function () {
-      window.location = localStorage.getItem('fs_pl');
-    });
-
-    $(document).on('open.fndtn.reveal', '#add_field_modal', function () {
-      localStorage.setItem('fs_pl', window.location.href);
-    });
   },
 
   init_trunc: function() {

@@ -30,20 +30,4 @@ describe 'shared/_header_links.html.erb' do
     it { should_not have_link('SYNC', :href => replications_path)}
   end
 
-  #TODO - System Settings is no longer a link in Primero
-  describe 'with all permission' do
-    let(:permissions) { Permission.all_permissions }
-    xit { should have_link('System Settings', :href => admin_path) }
-  end
-
-  describe 'with system settings permission' do
-    let(:permissions) { [Permission::SYSTEM] }
-    xit { should have_link('System Settings', :href => admin_path) }
-  end
-
-  describe 'with manage forms permisssion' do
-    let(:permissions) { [Permission::SYSTEM] }
-    xit { should have_link('System Settings', :href => admin_path) }
-  end
-
 end

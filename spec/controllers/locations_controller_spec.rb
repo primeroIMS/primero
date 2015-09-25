@@ -12,9 +12,10 @@ describe LocationsController do
     @town1 = create :location, placename: "Town1", hierarchy: [@country.placename, @province1.placename]
     @town2 = create :location, placename: "Town2", hierarchy: [@country.placename, @province1.placename]
     @town3 = create :location, placename: "Town3", hierarchy: [@country.placename, @province2.placename]
+    @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
 
     user = User.new(:user_name => 'manager_of_locations')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
+    user.stub(:roles).and_return([Role.new(:permissions_list => [@permission_metadata])])
     fake_login user
 
   end
