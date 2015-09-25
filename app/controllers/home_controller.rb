@@ -130,7 +130,6 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
-<<<<<<< HEAD
     @stats = Child.search do
       facet(:risk_level, zeros: true) do
         row(:high) do
