@@ -77,6 +77,7 @@ module ApplicationHelper
   end
 
   #TODO: Fix this when fixing customizations. Do we need them as hashed values
+  #TODO - Need to modify for SL-265
   def translated_permissions
     permissions = Permission.all_grouped.map do |group, permissions|
       [
