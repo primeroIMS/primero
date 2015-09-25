@@ -210,8 +210,8 @@ module Record
         props.each do |name, options|
           unless primero_protected_properties.include? name.to_sym
             couchrest_model_property name.to_sym, options #using the original property to ensure that its not protected
-            properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
           end
+          properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
         end
       end
     end

@@ -30,36 +30,13 @@ class ConfigurationBundle < CouchRest::Model::Base
       end
     end
 
-    reset_couch_watcher_sequences
-
     Rails.logger.info "Saving configuration data"
     model_data.each do |model_clazz, data_arr|
       model_clazz.database.bulk_save(data_arr, false, false)
     end
 
-    # model_data.map do |model_name, data_arr|
-    #   begin
-    #     modelCls = model_name.constantize
-    #     modelCls.database.recreate!
-    #     begin
-    #       modelCls.design_doc.sync!
-    #     rescue RestClient::ResourceNotFound
-    #       #TODO: CouchDB transactions are asynchronous.
-    #       #      That means that sometimes the server will receive a command to update a database
-    #       #      that has yet to be created. For now this is a hack that should work most of the time.
-    #       #      The real solution is to synchronize on the database creation, and only trigger
-    #       #      the design record sync (and any other updates) when we know the database exists.
-    #       Rails.logger.warn "Problem recreating databse #{modelCls.database.name}. Trying again"
-    #       modelCls.database.create!
-    #       modelCls.design_doc.sync!
-    #     end
-    #     modelCls.database.bulk_save(data_arr, false, false)
-    #   rescue NameError => e
-    #     Rails.logger.error "Invalid model name in bundle import: #{model_name}"
-    #     flash[:error] = "Invalid model name #{model_name}"
-    #     redirect_to :action => :index, :controller => :users and return
-    #   end
-    # end
+    reset_couch_watcher_sequences
+
     ConfigurationBundle.create! applied_by: applied_by
     #reset_couch_watcher_sequences
     Rails.logger.info "Successfully completed configuration bundle import."
@@ -78,6 +55,8 @@ class ConfigurationBundle < CouchRest::Model::Base
   private
 
   #TODO: The logic of this file belongs in the couchwatcher sequencer. It is currently duplicated in a rake task
+  #TODO: The sequence file path should be extranalized into a config file and populated by Chef
+  #In production, there is an external file watcher that will bounce the couch water when the sequence file changes
   def self.reset_couch_watcher_sequences
     Rails.logger.info "Resetting the CouchWatcher sequence file"
     latest_sequences = CouchChanges::MODELS_TO_WATCH.inject({}) do |acc, modelCls|
