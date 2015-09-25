@@ -389,8 +389,8 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_form_containing_field
 
-    def get_fields_by_name_and_parent_form(field_name, parent_form)
-      all.select{|form| form.parent_form == parent_form}
+    def get_fields_by_name_and_parent_form(field_name, parent_form, include_subforms)
+      all.select{|form| form.parent_form == parent_form && (include_subforms == true || form.is_nested == false)}
          .map{|form| form.fields.select{|field| field.name == field_name || field.display_name == field_name } }
          .flatten
     end
