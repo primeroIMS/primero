@@ -71,7 +71,8 @@ class Permission
       TRANSFER,
       REFERRAL,
       CONSENT_OVERRIDE,
-      SYNC_MOBILE
+      SYNC_MOBILE,
+      MANAGE
     ]
   end
 
@@ -93,6 +94,25 @@ class Permission
 
   def self.all_grouped
     {'actions' => actions, 'resources' => resources, 'management' => management}
+  end
+
+  def self.all_available
+    resources.map{|r| {resource: r, actions: resource_actions(r)}}
+  end
+
+  #TODO - SL-265 - May need to refine this further
+  # This is enough to get me going for now
+  def self.resource_actions(resource)
+     case resource
+       when REPORT
+         [READ, WRITE]
+       when METADATA
+         [MANAGE]
+       when SYSTEM
+         [MANAGE]
+       else
+         actions
+     end
   end
 
   def self.all_permissions_list

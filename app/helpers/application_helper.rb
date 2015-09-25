@@ -77,7 +77,7 @@ module ApplicationHelper
   end
 
   #TODO: Fix this when fixing customizations. Do we need them as hashed values
-  #TODO - Need to modify for SL-265
+  #TODO - Can this be removed in SL-265
   def translated_permissions
     permissions = Permission.all_grouped.map do |group, permissions|
       [
@@ -87,6 +87,21 @@ module ApplicationHelper
           end
       ]
     end
+  end
+
+  def translated_all_permissions_list
+    translated_permissions_list(Permission.all_available)
+  end
+
+  def translated_permissions_list(permission_list)
+    permission_list.map{|p| {resource: p[:resource], resource_translated: I18n.t(p[:resource], scope: 'permissions.permission'), actions_translated: translated_hash_list(p[:actions], 'permissions.permission')}}
+  end
+
+  # Input:  an array of strings
+  # Input:  scope within dictionary yaml
+  # Output: an array of hashes in format {key: <input string>, value: <translation>}
+  def translated_hash_list(list, scope)
+    list.map{|a| {key: a, value: I18n.t(a, :scope => scope)}}
   end
 
   def ctl_edit_button(record, path=nil)

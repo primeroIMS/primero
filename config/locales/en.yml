@@ -761,6 +761,7 @@ en:
     Actions: "Actions"
     Resources: "Resources"
     Management: "Management"
+    #TODO - SL-265 - do I still need this?
     group:
       actions: "Actions"
       resources: "Resources"
@@ -772,8 +773,6 @@ en:
       flag: "Flag"
       #TODO - ASSIGN could be an issue for SL-265
       assign: "Assign record owner"
-      #TODO - This doesn't exist anymore
-      report_create: "Build reports"
       case: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
@@ -802,6 +801,7 @@ en:
       transfer: "Transfer"
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
+      manage: "Manage"
 
   forms:
     label: "Forms"
