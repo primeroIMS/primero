@@ -1188,6 +1188,19 @@ en:
     name_or_survivor_code: "Name or Survivor Code"
     current_owner: "Current Owner"
     last_updated: "Lasted Updated"
+    case_stats: "Case Stats"
+    count_risk_level_total:
+      one: "You have 1 %{count_type} risk case "
+      other: "You have %{count} %{count_type} risk cases "
+    count_risk_level_new:
+      one: "and 1 new %{count_type} risk case."
+      other: "and %{count} new %{count_type} risk cases."
+    count_records_total:
+      one: "You have 1 total case "
+      other: "You have %{count} total cases "
+    count_records_new:
+      one: "and 1 new case."
+      other: "and %{count} new cases."
 
   errors:
 

@@ -6,16 +6,16 @@
     <table cellspacing="0" cellpadding="0" class="table-floating-header">
       <tbody>
         <tr>
-          <td>You have <%= link_to total_cases, '' %> total cases and <%= link_to new_cases, '' %> new cases </td>
+          <td><%= case_count({name: :records, new_count: :new, total_count: :total}, @stats, model) %></td>
         </tr>
         <tr>
-          <td>You have 10 high risk cases and 2 new high risk cases </td>
+          <td><%= case_count({name: :risk_level, new_count: :high, total_count: :high_total}, @stats, model) %></td>
         </tr>
         <tr>
-          <td>You have 10 medium risk cases and 2 new medium risk cases </td>
+          <td><%= case_count({name: :risk_level, new_count: :medium, total_count: :medium_total}, @stats, model) %></td>
         </tr>
         <tr>
-          <td>You have 10 low risk cases and 2 new low risk cases </td>
+          <td><%= case_count({name: :risk_level, new_count: :low, total_count: :low_total}, @stats, model) %></td>
         </tr>
         <tr>
           <td>You have 10 total referrals and 2 new referrals </td>

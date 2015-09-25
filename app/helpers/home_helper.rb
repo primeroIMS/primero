@@ -15,6 +15,26 @@ module HomeHelper
     send("#{model}_path") + "?scope[flag]=single||flag"
   end
 
+  def case_count(count, query, model)
+    results = query.facet(count[:name]).rows
+    new_count = I18n.translate("dashboard.count_#{count[:name].to_s}_new",
+                  { count: stat_link(results.select{|v| v.value == count[:new_count]}.first.count, count, model),
+                   count_type: count[:new_count].to_s })
+    total_count = I18n.translate("dashboard.count_#{count[:name].to_s}_total",
+                    { count: stat_link(results.select{|v| v.value == count[:total_count]}.first.count, count, model),
+                      count_type: count[:new_count].to_s} )
+    return (total_count + new_count).html_safe
+  end
+
+  def stat_link(count, link_query, model)
+    if count == 0
+      return content_tag(:div, count, class: 'stat_link')
+    else
+      model = model_name_class(model).pluralize
+      return link_to(count, send("#{model}_path") + "?scope[flag]=single||flag", class: 'stat_link')
+    end
+  end
+
   private
 
   def case_link_dashboard_title(child)
