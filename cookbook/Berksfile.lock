@@ -66,4 +66,4 @@ GRAPH
   yum-epel (0.3.6)
     yum (~> 3.0)
   yum-erlang_solutions (0.2.2)
-    yum (~> 3.0)
+    yum (~> 3.2)
