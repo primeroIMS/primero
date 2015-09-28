@@ -52,6 +52,8 @@
                 <span class="title"><%= permission[:resource_translated] %></span>
                 <%= hidden_field_tag("role[permissions_list][#{index}][resource]", permission[:resource]) %>
                 <% #TODO - handle role_ids %>
+                <% #TODO - handle groups %>
+                <% #TODO - see if better way to set this up.  On edit, existing permissions are not being checked %>
                 <%= hidden_field_tag("role[permissions_list][#{index}][role_ids]", 'abc123') %>
                 <% permission[:actions_translated].each do |action| %>
                   <label>
@@ -63,6 +65,8 @@
               </span>
             <% end %>
             <% #TODO - END SL-265 CHANGES %>
+
+            <% #TODO - Remove this next section %>
             <% translated_permissions.each do |group_name, permissions| %>
               <span class="section">
                 <span class="title"><%= t("permissions.#{group_name}") %></span>
