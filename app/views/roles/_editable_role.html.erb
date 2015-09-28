@@ -46,6 +46,22 @@
         <div class="medium-8 columns">
           <span class="value value_form">
             <% #TODO - BEGIN SL-265 CHANGES %>
+
+            <% translated_all_permissions_list.each_with_index do |permission, index| %>
+              <span class="section section-show">
+                <span class="title"><%= permission[:resource_translated] %></span>
+                <%= hidden_field_tag("role[permissions_list][#{index}][resource]", permission[:resource]) %>
+                <% #TODO - handle role_ids %>
+                <%= hidden_field_tag("role[permissions_list][#{index}][role_ids]", 'abc123') %>
+                <% permission[:actions_translated].each do |action| %>
+                  <label>
+                    <%= f.check_box :permissions_list, {:id => "#{permission[:resource]}_#{action[:key]}",
+                            :name => "role[permissions_list][#{index}][actions][]"}, action[:key], nil %>
+                    <%= action[:value] %>
+                  </label>
+                <% end %>
+              </span>
+            <% end %>
             <% #TODO - END SL-265 CHANGES %>
             <% translated_permissions.each do |group_name, permissions| %>
               <span class="section">

@@ -56,6 +56,8 @@ class RolesController < ApplicationController
 
   def create
     authorize! :create, Role
+    role_from_params
+    #binding.pry
     @role = Role.new(params[:role])
     return redirect_to roles_path if @role.save
     @forms_by_record_type = FormSection.all_forms_grouped_by_parent
@@ -67,6 +69,26 @@ class RolesController < ApplicationController
     authorize! :destroy, @role
     @role.destroy
     redirect_to(roles_url)
+  end
+
+  private
+
+  def role_from_params
+    role_hash = {}
+    role_hash[:name] = params[:role][:name]
+    role_hash[:description] = params[:role][:description]
+    role_hash[:permissions_list] = []
+    params[:role][:permissions_list].each do |permission|
+      #First element is the index value, second element is the actual hash
+      perm_hash = permission.second
+      if perm_hash[:actions].present?
+        new_permission = Permission.new(resource: perm_hash[:resource], actions: perm_hash[:actions])
+        role_hash[:permissions_list] << new_permission
+      end
+    end
+    #binding.pry
+    x = 0
+    return role_hash
   end
 
 end
