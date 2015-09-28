@@ -131,53 +131,51 @@ class HomeController < ApplicationController
 
   def load_cases_information
     @stats = Child.search do
-      facet(:risk_level, zeros: true) do
+      with(:child_status, 'Open')
+      record_owner = with(:owned_by, current_user.user_name)
+      associated_users = with(:associated_user_names, current_user.user_name)
+      facet(:risk_level, zeros: true, exclude: [associated_users]) do
         row(:high) do
           with(:risk_level, 'High')
           without(:last_updated_by, current_user.user_name)
-          with(:associated_user_names, current_user.user_name)
-          with(:child_status, 'Open')
         end
         row(:high_total) do
           with(:risk_level, 'High')
-          with(:associated_user_names, current_user.user_name)
-          with(:child_status, 'Open')
         end
         row(:medium) do
           with(:risk_level, 'Medium')
           without(:last_updated_by, current_user.user_name)
-          with(:associated_user_names, current_user.user_name)
-          with(:child_status, 'Open')
         end
         row(:medium_total) do
           with(:risk_level, 'Medium')
-          with(:associated_user_names, current_user.user_name)
-          with(:child_status, 'Open')
         end
         row(:low) do
           with(:risk_level, 'Low')
           without(:last_updated_by, current_user.user_name)
-          with(:associated_user_names, current_user.user_name)
-          with(:child_status, 'Open')
         end
         row(:low_total) do
           with(:risk_level, 'Low')
-          with(:associated_user_names, current_user.user_name)
+        end
+      end
+
+      facet(:records, zeros: true, exclude: [associated_users]) do
+        row(:new) do
+          without(:last_updated_by, current_user.user_name)
+        end
+        row(:total) do
           with(:child_status, 'Open')
         end
       end
 
-      facet(:records, zeros: true) do
+      facet(:referred, zeros: true, exclude: [record_owner]) do
         row(:new) do
           without(:last_updated_by, current_user.user_name)
-          with(:associated_user_names, current_user.user_name)
-          with(:child_status, 'Open')
         end
         row(:total) do
-          with(:associated_user_names, current_user.user_name)
           with(:child_status, 'Open')
         end
       end
+    end
 
     flag_criteria = {
       field: :flag_created_at,

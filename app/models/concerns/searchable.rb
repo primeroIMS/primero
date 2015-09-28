@@ -21,7 +21,6 @@ module Searchable
       boolean :duplicate
       boolean :flag
       boolean :has_photo
-      boolean :is_new
       boolean :record_state
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
@@ -119,6 +118,8 @@ module Searchable
                 end
               when 'list'
                 with(filter).any_of(values)
+              when 'neg'
+                without(filter, values)
               else
                 with(filter, values) unless values == 'all'
               end

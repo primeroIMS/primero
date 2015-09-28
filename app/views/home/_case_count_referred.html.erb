@@ -1,0 +1,5 @@
+<td><%= I18n.translate('dashboard.count_referrals_total',
+                   case_count({name: :referred, stat: :total}, stats, model)).html_safe %>
+<%= I18n.translate('dashboard.count_referrals_new',
+                   case_count({name: :referred, stat: :new, filter: "?scope[child_status]=list||Open&scope[last_updated_by]=neg||#{current_user.user_name}"}, stats, model)).html_safe %>
+</td>

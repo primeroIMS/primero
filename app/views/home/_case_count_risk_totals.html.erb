@@ -1,0 +1,60 @@
+<tr>
+  <td>
+    <%= I18n.translate('dashboard.count_risk_level_total',
+                       case_count(
+                           {
+                              name: :risk_level,
+                              stat: :high_total,
+                              filter: '?scope[child_status]=list||Open&scope[risk_level]=list||High',
+                              stat_type: 'high'
+                           }, stats, model)).html_safe %>
+    <%= I18n.translate('dashboard.count_risk_level_new',
+                       case_count(
+                           {
+                              name: :risk_level,
+                              stat: :high,
+                              filter: "?scope[child_status]=list||Open&scope[risk_level]=list||High&scope[last_updated_by]=neg||#{current_user.user_name}",
+                              stat_type: 'high'
+                           }, stats, model)).html_safe %>
+  </td>
+</tr>
+<tr>
+  <td>
+    <%= I18n.translate('dashboard.count_risk_level_total',
+                       case_count(
+                           {
+                               name: :risk_level,
+                               stat: :medium_total,
+                               filter: '?scope[child_status]=list||Open&scope[risk_level]=list||Medium',
+                               stat_type: 'medium'
+                           }, stats, model)).html_safe %>
+    <%= I18n.translate('dashboard.count_risk_level_new',
+                       case_count(
+                           {
+                               name: :risk_level,
+                               stat: :medium,
+                               filter: "?scope[child_status]=list||Open&scope[risk_level]=list||Medium&scope[last_updated_by]=neg||#{current_user.user_name}",
+                               stat_type: 'medium'
+                           }, stats, model)).html_safe %>
+  </td>
+</tr>
+<tr>
+  <td>
+    <%= I18n.translate('dashboard.count_risk_level_total',
+                       case_count(
+                           {
+                               name: :risk_level,
+                               stat: :low_total,
+                               filter: '?scope[child_status]=list||Open&scope[risk_level]=list||Low',
+                               stat_type: 'low'
+                           }, stats, model)).html_safe %>
+    <%= I18n.translate('dashboard.count_risk_level_new',
+                       case_count(
+                           {
+                               name: :risk_level,
+                               stat: :low,
+                               filter: "?scope[child_status]=list||Open&scope[risk_level]=list||Low&scope[last_updated_by]=neg||#{current_user.user_name}",
+                               stat_type: 'low'
+                           }, stats, model)).html_safe %>
+  </td>
+</tr>

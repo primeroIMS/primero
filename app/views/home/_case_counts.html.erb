@@ -6,19 +6,13 @@
     <table cellspacing="0" cellpadding="0" class="table-floating-header">
       <tbody>
         <tr>
-          <td><%= case_count({name: :records, new_count: :new, total_count: :total}, @stats, model) %></td>
+          <%= render 'case_count_new_totals', stats: @stats, model: model %>
         </tr>
         <tr>
-          <td><%= case_count({name: :risk_level, new_count: :high, total_count: :high_total}, @stats, model) %></td>
+          <%= render 'case_count_risk_totals', stats: @stats, model: model %>
         </tr>
         <tr>
-          <td><%= case_count({name: :risk_level, new_count: :medium, total_count: :medium_total}, @stats, model) %></td>
-        </tr>
-        <tr>
-          <td><%= case_count({name: :risk_level, new_count: :low, total_count: :low_total}, @stats, model) %></td>
-        </tr>
-        <tr>
-          <td>You have 10 total referrals and 2 new referrals </td>
+          <%= render 'case_count_referred', stats: @stats, model: model %>
         </tr>
       </tbody>
     </table>
