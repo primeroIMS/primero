@@ -188,10 +188,11 @@ class HomeController < ApplicationController
 
     @flagged_by_me = search_flags(flag_criteria.merge({flagged_by: current_user.user_name}))
     @flagged_by_me = @flagged_by_me[0..9]
-
-    unless current_user.is_manager?
+    
+    if current_user.is_manager?
       @recent_activities = load_recent_activities.results
       @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
+    elsif
       @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
       @flagged_by_others = @flagged_by_others[0..9]
     end
