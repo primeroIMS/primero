@@ -6,12 +6,14 @@ class Role < CouchRest::Model::Base
   include Importable
   include Memoizable
 
-  property :permissions, :type => [String]
   property :permissions_list, :type => [Permission]
   property :group_permission, :type => String, :default => Permission::SELF
   property :permitted_form_ids, :type => [String]
   property :referral, TrueClass, :default => false
   property :transfer, TrueClass, :default => false
+
+  alias_method :permissions, :permissions_list
+  alias_method :permissions=, :permissions_list=
 
   validates_presence_of :permissions_list, :message => I18n.t("errors.models.role.permission_presence")
 

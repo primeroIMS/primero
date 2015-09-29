@@ -104,6 +104,15 @@ module ApplicationHelper
     list.map{|a| {key: a, value: I18n.t(a, :scope => scope)}}
   end
 
+  def is_permission_checked(permission_list, resource, action_hash)
+    checked = false
+    if permission_list.present?
+      perm = permission_list.select{|p| p.resource == resource}.first
+      checked = (perm.present?) && (perm[:actions].include? action_hash[:key])
+    end
+    return checked
+  end
+
   def ctl_edit_button(record, path=nil)
     path = path.singularize if path.instance_of? String
     ctl_button_wrapper do

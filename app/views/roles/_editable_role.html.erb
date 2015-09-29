@@ -46,7 +46,6 @@
         <div class="medium-8 columns">
           <span class="value value_form">
             <% #TODO - BEGIN SL-265 CHANGES %>
-
             <% translated_all_permissions_list.each_with_index do |permission, index| %>
               <span class="section section-show">
                 <span class="title"><%= permission[:resource_translated] %></span>
@@ -57,26 +56,17 @@
                 <%= hidden_field_tag("role[permissions_list][#{index}][role_ids]", 'abc123') %>
                 <% permission[:actions_translated].each do |action| %>
                   <label>
-                    <%= f.check_box :permissions_list, {:id => "#{permission[:resource]}_#{action[:key]}",
-                            :name => "role[permissions_list][#{index}][actions][]"}, action[:key], nil %>
+                    <%= f.check_box :permissions_list,
+                                    {id: "#{permission[:resource]}_#{action[:key]}",
+                                     name: "role[permissions_list][#{index}][actions][]",
+                                     checked: is_permission_checked(editable_role.permissions, permission[:resource], action)},
+                                    action[:key], nil %>
                     <%= action[:value] %>
                   </label>
                 <% end %>
               </span>
             <% end %>
             <% #TODO - END SL-265 CHANGES %>
-
-            <% #TODO - Remove this next section %>
-            <% translated_permissions.each do |group_name, permissions| %>
-              <span class="section">
-                <span class="title"><%= t("permissions.#{group_name}") %></span>
-                <% Hash[*permissions.flatten].values.each do |permission| %>
-                    <label><%= f.check_box :permissions, {:id => permission.dehumanize,
-                            :name => "role[permissions][]"}, permission, nil %>
-                    <%= t("permissions.permission.#{permission}") %></label>
-                <% end %>
-              </span>
-            <% end %>
           </span>
         </div>
         <div class="medium-1 columns">
