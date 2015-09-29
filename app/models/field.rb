@@ -430,11 +430,11 @@ class Field
 
   def validate_same_datatype
     #Find field with the same name.
-    fields = FormSection.get_fields_by_name_and_parent_form(name, form.parent_form)
+    fields = FormSection.get_fields_by_name_and_parent_form(name, form.parent_form, false)
     #Check if the types are the same.
     fields = fields.select{|field| field.type != type}
     #Error if the type is different.
-    return errors.add(:name, I18n.t("errors.models.field.change_type_existing_field", :form_name => form.name)) if fields.present?
+    return errors.add(:name, I18n.t("errors.models.field.change_type_existing_field", :form_name => fields.first.form.name)) if fields.present?
     #We are OK - All the fields with the same name are consistent with the type.
     true
   end
