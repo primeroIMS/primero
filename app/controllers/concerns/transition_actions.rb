@@ -160,7 +160,7 @@ module TransitionActions
   end
 
   def transition_valid(record, user)
-    isValid = (user.permissions.include? model_class.parent_form) && (user.module_ids.include? record.module_id)
+    isValid = (user.permissions.any?{|ps| ps.resource == model_class.parent_form}) && (user.module_ids.include? record.module_id)
   end
 
   def password
