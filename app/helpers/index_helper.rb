@@ -204,6 +204,8 @@ module IndexHelper
 
   def index_filters_case
     filters = []
+    #get the id's of the forms sections the user is able to view/edit.
+    allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
 
     filters << "Flagged"
     filters << "Mobile" if @is_cp
@@ -211,9 +213,9 @@ module IndexHelper
     filters << "Status"
     filters << "Age Range"
     filters << "Sex"
-    filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", "case")
-    filters << "Protection Status" if visible_filter_field?("protection_status", "case")
-    filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", "case")
+    filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", "case", allowed_form_ids)
+    filters << "Protection Status" if visible_filter_field?("protection_status", "case", allowed_form_ids)
+    filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", "case", allowed_form_ids)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Registration Date" if @is_cp
@@ -260,9 +262,7 @@ module IndexHelper
     return filters
   end
 
-  def visible_filter_field?(field_name, parent_form)
-    #get the modules the user is allow to see.
-    allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
+  def visible_filter_field?(field_name, parent_form, allowed_form_ids)
     #Find the forms where the field name appears and if is in the allowed for the user.
     #TODO should look on subforms? for now lookup on top forms.
     forms = FormSection.fields(:key => field_name)

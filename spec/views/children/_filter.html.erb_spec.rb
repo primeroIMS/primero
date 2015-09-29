@@ -129,10 +129,10 @@ describe "children/_filter.html.erb" do
     FormSection.should_receive(:fields).with(:key => "gbv_displacement_status").and_call_original
 
     #We need this one because there is other call.
-    should_receive(:visible_filter_field?).with("gbv_displacement_status", "case").and_call_original
+    should_receive(:visible_filter_field?).with("gbv_displacement_status", "case", [@form_gbv.unique_id]).and_call_original
 
     #We need this one because this it is called no matter what and conflict with the one we want test
-    should_receive(:visible_filter_field?).with("protection_status", "case").and_return(false)
+    should_receive(:visible_filter_field?).with("protection_status", "case", [@form_gbv.unique_id]).and_return(false)
 
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should match(/<div class="filter"><h3>Displacement Status:<\/h3>/)
@@ -149,10 +149,10 @@ describe "children/_filter.html.erb" do
     FormSection.should_receive(:fields).with(:key => "gbv_displacement_status").and_call_original
 
     #We need this one because there is other call.
-    should_receive(:visible_filter_field?).with("gbv_displacement_status", "case").and_call_original
+    should_receive(:visible_filter_field?).with("gbv_displacement_status", "case", [@form_gbv.unique_id]).and_call_original
 
     #We need this one because this it is called no matter what and conflict with the one we want test
-    should_receive(:visible_filter_field?).with("protection_status", "case").and_return(false)
+    should_receive(:visible_filter_field?).with("protection_status", "case", [@form_gbv.unique_id]).and_return(false)
 
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should_not match(/<div class="filter"><h3>Displacement Status:<\/h3>/)
@@ -167,10 +167,10 @@ describe "children/_filter.html.erb" do
     FormSection.should_receive(:fields).with(:key => "urgent_protection_concern").and_call_original
 
     #We need this one because there is other call.
-    should_receive(:visible_filter_field?).with("urgent_protection_concern", "case").and_call_original
+    should_receive(:visible_filter_field?).with("urgent_protection_concern", "case", [@form_cp.unique_id]).and_call_original
 
     #We need this one because this it is called no matter what and conflict with the one we want test
-    should_receive(:visible_filter_field?).with("protection_status", "case").and_return(false)
+    should_receive(:visible_filter_field?).with("protection_status", "case", [@form_cp.unique_id]).and_return(false)
 
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should match(/<div class="filter"><h3>Urgent Protection Concern:<\/h3>/)
@@ -187,10 +187,10 @@ describe "children/_filter.html.erb" do
     FormSection.should_receive(:fields).with(:key => "urgent_protection_concern").and_call_original
 
     #We need this one because there is other call.
-    should_receive(:visible_filter_field?).with("urgent_protection_concern", "case").and_call_original
+    should_receive(:visible_filter_field?).with("urgent_protection_concern", "case", [@form_cp.unique_id]).and_call_original
 
     #We need this one because this it is called no matter what and conflict with the one we want test
-    should_receive(:visible_filter_field?).with("protection_status", "case").and_return(false)
+    should_receive(:visible_filter_field?).with("protection_status", "case", [@form_cp.unique_id]).and_return(false)
 
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should_not match(/<div class="filter"><h3>Urgent Protection Concern:<\/h3>/)
