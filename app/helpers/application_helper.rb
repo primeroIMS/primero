@@ -94,7 +94,9 @@ module ApplicationHelper
   end
 
   def translated_permissions_list(permission_list)
-    permission_list.map{|p| {resource: p[:resource], resource_translated: I18n.t(p[:resource], scope: 'permissions.permission'), actions_translated: translated_hash_list(p[:actions], 'permissions.permission')}}
+    permission_list.map{|p| {resource: p[:resource],
+                             resource_translated: I18n.t(p[:resource], scope: 'permissions.permission'),
+                             actions_translated: translated_hash_list(p[:actions], 'permissions.permission')}}
   end
 
   # Input:  an array of strings
@@ -104,13 +106,14 @@ module ApplicationHelper
     list.map{|a| {key: a, value: I18n.t(a, :scope => scope)}}
   end
 
-  def is_permission_checked(permission_list, resource, action_hash)
-    checked = false
-    if permission_list.present?
-      perm = permission_list.select{|p| p.resource == resource}.first
-      checked = (perm.present?) && (perm[:actions].include? action_hash[:key])
-    end
-    return checked
+  # Used by the view to determine if the resource / action pair in the all translated permission hash
+  # exists in the current role's permissions list, and therefore should be checked on the form
+  # Input: permission_list (from the current role)
+  # Input: resource (from the translated permissions)
+  # Input: action_hash (from the translated permissions)
+  # Output: true/false
+  def is_permission_checked(permission_list = [], resource = "", action_hash = {})
+    permission_list.select{|p| p.resource == resource}.any? {|p| p[:actions].include? action_hash[:key]}
   end
 
   def ctl_edit_button(record, path=nil)
