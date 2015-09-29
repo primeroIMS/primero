@@ -134,7 +134,8 @@ class HomeController < ApplicationController
       with(:child_status, 'Open')
       record_owner = with(:owned_by, current_user.user_name)
       associated_users = with(:associated_user_names, current_user.user_name)
-      facet(:risk_level, zeros: true, exclude: [associated_users]) do
+      referred = with(:referred_users, current_user.user_name)
+      facet(:risk_level, zeros: true, exclude: [associated_users, referred]) do
         row(:high) do
           with(:risk_level, 'High')
           without(:last_updated_by, current_user.user_name)
@@ -158,7 +159,7 @@ class HomeController < ApplicationController
         end
       end
 
-      facet(:records, zeros: true, exclude: [associated_users]) do
+      facet(:records, zeros: true, exclude: [associated_users, referred]) do
         row(:new) do
           without(:last_updated_by, current_user.user_name)
         end
