@@ -211,9 +211,9 @@ module IndexHelper
     filters << "Status"
     filters << "Age Range"
     filters << "Sex"
-    filters << "GBV Displacement Status" if @is_gbv
-    filters << "Protection Status"
-    filters << "Urgent Protection Concern" if @is_cp
+    filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", "case")
+    filters << "Protection Status" if visible_filter_field?("protection_status", "case")
+    filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", "case")
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Registration Date" if @is_cp
@@ -258,6 +258,26 @@ module IndexHelper
     filters << "Record State"
 
     return filters
+  end
+
+  def visible_filter_field?(field_name, parent_form)
+    #get the modules the user is allow to see.
+    allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
+    #Find the forms where the field name appears and if is in the allowed for the user.
+    #TODO should look on subforms? for now lookup on top forms.
+    forms = FormSection.fields(:key => field_name)
+              .all.select{|fs| fs.parent_form == parent_form && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
+    return false if allowed_form_ids.blank? || forms.blank?
+    fields = forms.map{|fs| fs.fields.select{|f| f.name == field_name} }.flatten
+    #TODO what if this is a shared field?
+    #TODO what if the field is on different modules like "sex"
+    #     and the user is able to access both modules
+    #For now any visible field will display the filter. 
+    #Not an issue when the field exist only one time.
+    #Not sure how that will work for shared field or if the user can access several modules
+    #and the field exists on those modules, in that case the filter will be display if
+    #visible for any of the modules.
+    fields.any?{|f| f.visible?}
   end
 
 end
