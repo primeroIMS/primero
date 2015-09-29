@@ -36,12 +36,16 @@
   <% if @display_cases_dashboard %>
   <div class="row collapse">
     <div id="content" class="large-9 small-9 columns">
-      <%= render 'recent_activities', recent_activities: @recent_activities, model: Child %>
-      <%= render 'scheduled_activities', scheduled_activities: @scheduled_activities, model: Child %>
       <% if @display_manager_dashboard %>
+        <%= render 'recent_activities', recent_activities: @recent_activities, model: Child %>
+        <%= render 'scheduled_activities', scheduled_activities: @scheduled_activities, model: Child %>
         <%= render 'caseload', records: @aggregated_case_worker_stats, model: Child %>
       <% else %>
-        <%= render 'overdue_activities', records: @overdue_activities, model: Child %>
+        <%= render 'case_counts',
+                   new_cases: @new_cases,
+                   total_cases: @total_cases,
+                   model: Child
+        %>
       <% end %>
     </div>
     <div id="sidebar" class="large-3 small-3 columns">
