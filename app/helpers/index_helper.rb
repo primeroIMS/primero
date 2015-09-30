@@ -206,9 +206,9 @@ module IndexHelper
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
     allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
-    #Retrieve the forms where the field name appears and if is in the allowed for the user.
+    #Retrieve the forms where the fields appears and if is in the allowed for the user.
     #TODO should look on subforms? for now lookup on top forms.
-    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern"]
+    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
     forms = FormSection.fields(:keys => field_names)
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
@@ -218,6 +218,15 @@ module IndexHelper
     filters << "Status"
     filters << "Age Range"
     filters << "Sex"
+
+    field_protection_concerns = forms.map{|fs| fs.fields.find{|f| f.name == "protection_concerns"} }.compact.first
+    if field_protection_concerns.present?
+      #Reuse the method "select_options" from the field to retrieve the list of option according
+      #the field configuration.
+      @options_protection_concerns = field_protection_concerns.select_options(nil, @lookups, @locations).map{|e| Hash[*e]}
+      filters << "Protection Concerns"
+    end
+
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)

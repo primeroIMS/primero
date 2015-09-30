@@ -74,7 +74,7 @@ describe "children/_filter.html.erb" do
 
     @filters = {}
       
-    @fields_filter = ["gbv_displacement_status", "protection_status", "urgent_protection_concern"]
+    @fields_filter = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
   end
 
   it "should not display filter 'Protection Status' for nonexistent field protection_status" do
@@ -196,6 +196,60 @@ describe "children/_filter.html.erb" do
 
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should_not match(/<div class="filter"><h3>Urgent Protection Concern:<\/h3>/)
+  end
+
+  it "should display filter 'Protection Concerns' for existent field protection_concerns" do
+    fields = [
+      Field.new({"name" => "protection_concerns",
+                 "type" => "select_box",
+                 "multi_select" => true,
+                 "option_strings_source" => "lookup ProtectionConcernsSierraLeone",
+                 "display_name_all" => "Protection Concerns"
+                })
+    ]
+    other_form_cp = FormSection.new(
+      :unique_id => "other_form_section_test_cp",
+      :parent_form=>"case",
+      "visible" => true,
+      :order_form_group => 1,
+      :order => 1,
+      :order_subform => 0,
+      :form_group_name => "Form Section Test CP",
+      "editable" => true,
+      "name_all" => "Other Form Section Test CP",
+      "description_all" => "Other Form Section Test CP",
+      :fields => fields
+    )
+    other_form_cp.save!
+
+    @primero_module_cp.associated_form_ids << other_form_cp.unique_id
+    @primero_module_cp.save!
+
+    @current_user = User.new
+    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
+    @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id, other_form_cp.unique_id])
+    FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
+    render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+    rendered.should match(/<div class="filter"><h3>Protection Concerns:<\/h3>/)
+  end
+
+  it "should not display filters if has no access to forms" do
+    @is_cp = true
+    @is_gbv = true
+    @current_user = User.new
+    @current_user.should_receive(:modules).and_return([])
+    FormSection.should_not_receive(:get_allowed_form_ids)
+    @current_user.should_not_receive(:permitted_form_ids)
+    FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
+    should_receive(:visible_filter_field?).with("gbv_displacement_status", []).and_call_original
+    should_receive(:visible_filter_field?).with("protection_status", []).and_call_original
+    should_receive(:visible_filter_field?).with("urgent_protection_concern", []).and_call_original
+    render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+    rendered.should_not match(/<div class="filter"><h3>Protection Status:<\/h3>/)
+    rendered.should_not match(/<div class="filter"><h3>Displacement Status:<\/h3>/)
+    rendered.should_not match(/<div class="filter"><h3>Urgent Protection Concern:<\/h3>/)
+    rendered.should_not match(/<div class="filter"><h3>Protection Concerns:<\/h3>/)
   end
 
 end
