@@ -71,7 +71,7 @@ cp_admin_permissions = [
       'role-cp-case-worker',
       'role-cp-manager',
       'role-referral',
-      'role-transfer',
+      'role-transfer'
     ]
   ),
   Permission.new(
