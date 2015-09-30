@@ -58,6 +58,7 @@ cp_admin_permissions = [
     :actions => [
       Permission::READ,
       Permission::WRITE,
+      Permission::ASSIGN,
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
@@ -65,12 +66,13 @@ cp_admin_permissions = [
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
       Permission::EXPORT_PDF
+    ],
+    :role_ids => [
+      'role-cp-case-worker',
+      'role-cp-manager',
+      'role-referral',
+      'role-transfer',
     ]
-  ),
-  Permission.new(
-    :resource => Permission::ROLE,
-    :actions => [Permission::ASSIGN],
-    :role_ids => [Permission::ALL]
   ),
   Permission.new(
     :resource => Permission::USER,
