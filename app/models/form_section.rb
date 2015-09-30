@@ -320,10 +320,7 @@ class FormSection < CouchRest::Model::Base
 
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
-      #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
-      user_form_ids = user.permitted_form_ids
-      module_form_ids = primero_module.present? ? primero_module.associated_form_ids.select(&:present?) : []
-      allowed_form_ids = user_form_ids & module_form_ids
+      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
 
       form_sections = []
       if allowed_form_ids.present?
@@ -337,6 +334,13 @@ class FormSection < CouchRest::Model::Base
       return form_sections
     end
     memoize_in_prod :get_permitted_form_sections
+
+    #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
+    def get_allowed_form_ids(primero_module, user)
+      user_form_ids = user.permitted_form_ids
+      module_form_ids = primero_module.present? ? primero_module.associated_form_ids.select(&:present?) : []
+      user_form_ids & module_form_ids
+    end
 
     def get_form_sections_by_module(primero_modules, parent_form, current_user)
       primero_modules.map do |primero_module|
