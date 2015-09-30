@@ -2,10 +2,15 @@ require 'spec_helper'
 
 describe UsersController do
   before do
-    fake_admin_login
-    fake_session = Session.new()
-    fake_session.stub(:admin?).with(no_args()).and_return(true)
-    Session.stub(:get).and_return(fake_session)
+    Role.all.each &:destroy
+    @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+    @role_case_read = create :role, permissions_list: [@permission_case_read]
+    @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+    @role_tracing_request_read = create :role, permissions_list: [@permission_tracing_request_read]
+    @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
+    @role_incident_read = create :role, permissions_list: [@permission_incident_read]
+
+    @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
   end
 
   def mock_user(stubs={})
@@ -14,6 +19,10 @@ describe UsersController do
 
   describe "GET index" do
     before do
+      fake_admin_login
+      fake_session = Session.new()
+      fake_session.stub(:admin?).with(no_args()).and_return(true)
+      Session.stub(:get).and_return(fake_session)
       @user = mock_user({:merge => {}, :user_name => "someone"})
     end
 
@@ -90,6 +99,13 @@ describe UsersController do
   end
 
   describe "GET show" do
+    before do
+      fake_admin_login
+      fake_session = Session.new()
+      fake_session.stub(:admin?).with(no_args()).and_return(true)
+      Session.stub(:get).and_return(fake_session)
+      @user = mock_user({:merge => {}, :user_name => "someone"})
+    end
     it "assigns the requested user as @user" do
       mock_user = double(:user_name => "fakeadmin")
       User.stub(:get).with("37").and_return(mock_user)
@@ -121,17 +137,11 @@ describe UsersController do
 
   describe "GET new" do
     it "assigns a new user as @user" do
+      fake_admin_login
       user = stub_model User
       User.stub(:new).and_return(user)
       get :new
       assigns[:user].should equal(user)
-    end
-
-    it "should assign all the available roles as @roles" do
-      roles = ["roles"]
-      Role.stub(:all).and_return(roles)
-      get :new
-      assigns[:roles].should == roles
     end
 
     xit "should throw error if an user without authorization tries to access" do
@@ -139,16 +149,72 @@ describe UsersController do
       get :new
       response.status.should == 403
     end
+
+    context "when user has MANAGE permission on ROLE" do
+      before do
+        fake_admin_login
+      end
+
+      it "should assign all the available roles as @roles" do
+        get :new
+        expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
+      end
+    end
+
+    context "when user has permission to assign 2 roles" do
+      before do
+        @permission_role_assign_2 = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
+                                                   role_ids: [@role_case_read.id, @role_incident_read.id])
+        fake_login_with_permissions([@permission_user_read_write, @permission_role_assign_2])
+      end
+
+      it "should assign all the assigned roles as @roles" do
+        get :new
+        expect(assigns[:roles]).to include(@role_case_read, @role_incident_read)
+      end
+
+      it "should not assign the unassigned roles as @roles" do
+        get :new
+        expect(assigns[:roles]).not_to include(@role_tracing_request_read)
+      end
+    end
+
+    context "when user has permission to assign all roles" do
+      before do
+        @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
+                                                   role_ids: [Permission::ALL])
+        fake_login_with_permissions([@permission_user_read_write, @permission_role_assign_all])
+      end
+
+      it "should assign all the roles as @roles" do
+        get :new
+        expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
+      end
+    end
+
+    context "when user has permission to assign none of the roles" do
+      before do
+        @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+        fake_login_with_permissions([@permission_user_read_write, @permission_role_read_write])
+      end
+
+      it "should not assign any of the roles as @roles" do
+        get :new
+        expect(assigns[:roles]).not_to include(@role_case_read)
+        expect(assigns[:roles]).not_to include(@role_tracing_request_read)
+        expect(assigns[:roles]).not_to include(@role_incident_read)
+      end
+    end
   end
 
   describe "GET edit" do
     it "assigns the requested user as @user" do
-      Role.stub(:all).and_return(["roles"])
+      fake_admin_login
       mock_user = stub_model(User, :user_name => "Test Name", :full_name => "Test")
       User.stub(:get).with("37").and_return(mock_user)
       get :edit, :id => "37"
-      assigns[:user].should equal(mock_user)
-      assigns[:roles].should == ["roles"]
+      expect(assigns[:user]).to eq(mock_user)
+      expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
     end
 
     it "should not allow editing a non-self user for users without access" do
@@ -170,12 +236,14 @@ describe UsersController do
 
   describe "DELETE destroy" do
     it "destroys the requested user" do
+      fake_admin_login
       User.should_receive(:get).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy)
       delete :destroy, :id => "37"
     end
 
     it "redirects to the users list" do
+      fake_admin_login
       User.stub(:get).and_return(mock_user(:destroy => true))
       delete :destroy, :id => "1"
       response.should redirect_to(users_url)
@@ -242,20 +310,21 @@ describe UsersController do
       end
 
       it "should render new if the given user is invalid and assign user,roles" do
+        fake_admin_login
         mock_user = User.new
-        Role.stub(:all).and_return("some roles")
         User.should_receive(:new).and_return(mock_user)
         mock_user.should_receive(:save).and_return(false)
         post :create, {:user => {:role_ids => ["wxyz"]}}
         response.should render_template :new
-        assigns[:user].should == mock_user
-        assigns[:roles].should == "some roles"
+        expect(assigns[:user]).to eq(mock_user)
+        expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
       end
     end
   end
 
   describe "POST update unverified user" do
     it "should set verify to true, if user is invalid" do
+      fake_admin_login
       controller.stub(:authorize!).and_return(true)
       User.should_receive(:get).with("unique_id").and_return(double("user", :update_attributes => false, :verified? => false))
       post :update, {:id => "unique_id", :user => {:verified => true}}
@@ -263,6 +332,7 @@ describe UsersController do
     end
 
     it "should update all the children of recently verified users" do
+      fake_admin_login
       mock_user = User.new(:user_name => "user", :verified => false)
       controller.stub(:authorize!).and_return(true)
       child1 = double("child")
@@ -278,6 +348,7 @@ describe UsersController do
     end
 
     it "should call verify_children only for recently verified users" do
+      fake_admin_login
       mock_user = User.new(:user_name => "user", :verified => true)
       mock_user.stub(:update_attributes).and_return(true)
       User.should_receive(:get).with("unique_id").and_return(mock_user)
@@ -342,6 +413,7 @@ describe UsersController do
 
   describe "index unverified users" do
     it "should list all unverfied users" do
+      fake_admin_login
       unverified_users = [double("user")]
       User.should_receive(:all_unverified).and_return(unverified_users)
       get :unverified
@@ -350,9 +422,13 @@ describe UsersController do
     end
 
     it "should show page name" do
+      fake_admin_login
       get :unverified
       assigns[:page_name].should == "Unverified Users"
     end
   end
 
+  after do
+    Role.all.each &:destroy
+  end
 end

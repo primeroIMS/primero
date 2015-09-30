@@ -22,6 +22,11 @@ module Searchable
       boolean :flag
       boolean :has_photo
       boolean :record_state
+      string :referred_users, multiple: true do
+        if self.transitions.present?
+          self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
+        end
+      end
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
@@ -118,6 +123,8 @@ module Searchable
                 end
               when 'list'
                 with(filter).any_of(values)
+              when 'neg'
+                without(filter, values)
               else
                 with(filter, values) unless values == 'all'
               end

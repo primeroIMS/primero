@@ -51,6 +51,12 @@ $dashboard_table_col4:170px;
     table tbody tr:last-of-type td {
       border-bottom: 1px dashed #ccc !important;
     }
+
+    a.stat_link, .stat_link {
+      display: inline;
+      color: $green_color;
+      font-size: 1.2rem;
+    }
   }
 
   #content {

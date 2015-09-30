@@ -15,6 +15,47 @@ module HomeHelper
     send("#{model}_path") + "?scope[flag]=single||flag"
   end
 
+  def case_count(stat_group, query, model)
+    results = query.facet(stat_group[:name]).rows
+    total = results.select{|v| v.value == stat_group[:stat]}.first.count
+    link = stat_link(total, stat_group, model)
+    return { count: total, stat: link, stat_type: stat_group[:stat_type] }
+  end
+
+  def stat_link(total, stat_group, model)
+    if total == 0
+      return content_tag(:div, total, class: 'stat_link')
+    else
+      model = model_name_class(model).pluralize
+      filter = stat_group[:filter] || ''
+      return link_to(total, send("#{model}_path") + filter, class: 'stat_link')
+    end
+  end
+
+  def index_filters(filters)
+    list = []
+    index_filters_list = {
+      child_status: "scope[child_status]=list||Open",
+      owned_by: "scope[owned_by]=single||#{current_user.user_name}",
+      new: "scope[last_updated_by]=neg||#{current_user.user_name}",
+      referred_users: "scope[referred_users]=list||#{current_user.user_name}",
+      risk_level: {
+        high: "scope[risk_level]=list||High",
+        medium: "scope[risk_level]=list||Medium",
+        low: "scope[risk_level]=list||Low"
+      }
+    }
+    filters.each do |filter|
+      filter = filter.split(':')
+      if filter.size > 1
+        list << index_filters_list[filter.first.to_sym][filter.last.to_sym]
+      elsif
+        list << index_filters_list[filter.first.to_sym]
+      end
+    end
+    return "?" + list.join('&')
+  end
+
   private
 
   def case_link_dashboard_title(child)

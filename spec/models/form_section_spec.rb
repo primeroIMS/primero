@@ -846,7 +846,7 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 2'"])
+        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
       end
 
       it "should not add subform with different type" do
@@ -877,12 +877,64 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 2'"])
+        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+      end
+
+      it "should allow fields with the same name on different subforms" do
+        #This field exists in a different subforms, but should be possible
+        #add with the same name and different type in another subform.
+        subform_fields = [
+          Field.new({"name" => "field_name_1",
+                     "type" => "textarea",
+                     "display_name_all" => "Field name 1"
+                    })
+        ]
+        subform_section = FormSection.new({
+            "visible"=>false,
+            "is_nested"=>true,
+            :order_form_group => 1,
+            :order => 1,
+            :order_subform => 1,
+            :unique_id=>"subform_section_2",
+            :parent_form=>"case",
+            "editable"=>true,
+            :fields => subform_fields,
+            :initial_subforms => 1,
+            "name_all" => "Nested Subform Section 2",
+            "description_all" => "Details Nested Subform Section 2"
+        })
+        subform_section.save
+
+        subform_section.new_record?.should be_false
+
+        expect(subform_section.fields.first.errors.messages[:name]).to eq(nil)
       end
    end
 
     describe "Edit Form Section" do
       before :each do
+        subform_fields = [
+          Field.new({"name" => "field_name_5",
+                     "type" => "textarea",
+                     "display_name_all" => "Field name 5"
+                    })
+        ]
+        @subform_section = FormSection.new({
+            "visible"=>false,
+            "is_nested"=>true,
+            :order_form_group => 1,
+            :order => 1,
+            :order_subform => 1,
+            :unique_id=>"subform_section_3",
+            :parent_form=>"case",
+            "editable"=>true,
+            :fields => subform_fields,
+            :initial_subforms => 1,
+            "name_all" => "Nested Subform Section 3",
+            "description_all" => "Details Nested Subform Section 3"
+        })
+        @subform_section.save!
+
         fields = [
           Field.new({"name" => "field_name_4",
                      "type" => "textarea",
@@ -915,7 +967,7 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 2'"])
+        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
       end
 
       it "should not add subform with different type" do
@@ -928,7 +980,18 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 2'"])
+        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+      end
+
+      it "should allow fields with the same name on different subforms" do
+        field = @subform_section.fields.first
+        #Match the name with this field on different subforms
+        field.name = "field_name_1"
+
+        #Save the record and check the status
+        @subform_section.save.should be_true
+
+        expect(@subform_section.fields.first.errors.messages[:name]).to eq(nil)
       end
    end
 

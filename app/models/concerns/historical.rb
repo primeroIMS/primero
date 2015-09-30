@@ -123,7 +123,8 @@ module Historical
   end
 
   def set_creation_fields_for(user)
-    self.last_updated_by = self.created_by = user.try(:user_name)
+    self.last_updated_by = nil
+    self.created_by = user.try(:user_name)
     self.created_by_full_name = user.try(:full_name)
     self.created_organization = user.try(:organization)
     self.last_updated_at ||= self.created_at ||= DateTime.now

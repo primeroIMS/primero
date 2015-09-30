@@ -30,6 +30,7 @@ describe RecordFlagController do
     unless example.metadata[:skip_session]
       @user = User.new(:user_name => 'fakeadmin')
       @session = fake_admin_login @user
+      User.stub(:find_by_user_name).and_return(@user)
     end
   end
 

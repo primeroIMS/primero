@@ -15,16 +15,17 @@ class HomeController < ApplicationController
   private
 
   def search_flags(options={})
-      map_flags(Flag.search{
-        with(options[:field]).between(options[:criteria])
-        with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
-        without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
-        with(:flag_record_type, options[:type])
-        with(:flag_record_owner, current_user.user_name) unless options[:is_manager]
-        with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
-        with(:flag_is_removed, false)
-        order_by(:flag_date, :asc)
-      }.hits)
+    managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
+    map_flags(Flag.search{
+      with(options[:field]).between(options[:criteria])
+      with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
+      without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
+      with(:flag_record_type, options[:type])
+      with(:flag_record_owner, managed_users)
+      with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
+      with(:flag_is_removed, false)
+      order_by(:flag_date, :asc)
+    }.hits)
   end
 
   def map_flags(flags)
@@ -130,6 +131,54 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
+    @stats = Child.search do
+      with(:child_status, 'Open')
+      record_owner = with(:owned_by, current_user.user_name)
+      associated_users = with(:associated_user_names, current_user.user_name)
+      referred = with(:referred_users, current_user.user_name)
+      facet(:risk_level, zeros: true, exclude: [associated_users, referred]) do
+        row(:high) do
+          with(:risk_level, 'High')
+          without(:last_updated_by, current_user.user_name)
+        end
+        row(:high_total) do
+          with(:risk_level, 'High')
+        end
+        row(:medium) do
+          with(:risk_level, 'Medium')
+          without(:last_updated_by, current_user.user_name)
+        end
+        row(:medium_total) do
+          with(:risk_level, 'Medium')
+        end
+        row(:low) do
+          with(:risk_level, 'Low')
+          without(:last_updated_by, current_user.user_name)
+        end
+        row(:low_total) do
+          with(:risk_level, 'Low')
+        end
+      end
+
+      facet(:records, zeros: true, exclude: [associated_users, referred]) do
+        row(:new) do
+          without(:last_updated_by, current_user.user_name)
+        end
+        row(:total) do
+          with(:child_status, 'Open')
+        end
+      end
+
+      facet(:referred, zeros: true, exclude: [record_owner]) do
+        row(:new) do
+          without(:last_updated_by, current_user.user_name)
+        end
+        row(:total) do
+          with(:child_status, 'Open')
+        end
+      end
+    end
+
     flag_criteria = {
       field: :flag_created_at,
       criteria: 1.week.ago.utc..Date.tomorrow,
@@ -138,13 +187,13 @@ class HomeController < ApplicationController
       modules: @module_ids
     }
 
-    @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
-    @overdue_activities = search_flags({field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child'})
     @flagged_by_me = search_flags(flag_criteria.merge({flagged_by: current_user.user_name}))
     @flagged_by_me = @flagged_by_me[0..9]
-    @recent_activities = load_recent_activities.results
 
-    unless current_user.is_manager?
+    if current_user.is_manager?
+      @recent_activities = load_recent_activities.results
+      @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
+    elsif
       @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
       @flagged_by_others = @flagged_by_others[0..9]
     end
