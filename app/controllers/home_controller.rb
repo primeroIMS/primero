@@ -17,14 +17,14 @@ class HomeController < ApplicationController
   def search_flags(options={})
     managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
     map_flags(Flag.search{
-      with(options[:field]).between(options[:criteria])
+      with(options[:field]).between(options[:criteria]) if options[:field].present? && options[:criteria].present?
       with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
       without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
       with(:flag_record_type, options[:type])
       with(:flag_record_owner, managed_users)
       with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
       with(:flag_is_removed, false)
-      order_by(:flag_date, :asc)
+      order_by(:flag_date, :desc)
     }.hits)
   end
 
@@ -181,7 +181,6 @@ class HomeController < ApplicationController
 
     flag_criteria = {
       field: :flag_created_at,
-      criteria: 1.week.ago.utc..Date.tomorrow,
       type: 'child',
       is_manager: current_user.is_manager?,
       modules: @module_ids
