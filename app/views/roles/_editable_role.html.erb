@@ -43,7 +43,9 @@
         </div>
         <div class="medium-8 columns">
           <label class="left">
-            <%= select_tag "role[group_permission]", options_for_select(translated_group_permissions.map{|p| p[:key]}, '') %>
+            <%= select_tag "role[group_permission]",
+                           options_for_select(translated_group_permissions.map{|p| [p[:value], p[:key]]},
+                           editable_role.group_permission) %>
           </label>
         </div>
         <div class="medium-1 columns">
