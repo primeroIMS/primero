@@ -15,16 +15,17 @@ class HomeController < ApplicationController
   private
 
   def search_flags(options={})
-      map_flags(Flag.search{
-        with(options[:field]).between(options[:criteria])
-        with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
-        without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
-        with(:flag_record_type, options[:type])
-        with(:flag_record_owner, current_user.user_name) unless options[:is_manager]
-        with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
-        with(:flag_is_removed, false)
-        order_by(:flag_date, :asc)
-      }.hits)
+    managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
+    map_flags(Flag.search{
+      with(options[:field]).between(options[:criteria])
+      with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
+      without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
+      with(:flag_record_type, options[:type])
+      with(:flag_record_owner, managed_users)
+      with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
+      with(:flag_is_removed, false)
+      order_by(:flag_date, :asc)
+    }.hits)
   end
 
   def map_flags(flags)
@@ -188,7 +189,7 @@ class HomeController < ApplicationController
 
     @flagged_by_me = search_flags(flag_criteria.merge({flagged_by: current_user.user_name}))
     @flagged_by_me = @flagged_by_me[0..9]
-    
+
     if current_user.is_manager?
       @recent_activities = load_recent_activities.results
       @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
