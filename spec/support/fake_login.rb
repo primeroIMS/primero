@@ -72,4 +72,10 @@ module FakeLogin
     fake_login user
   end
 
+  def fake_login_with_permissions(permission_list = Permission.all_permissions_list, group_permission = Permission::SELF)
+    user = User.new(:user_name => 'fakelimited')
+    user.stub(:roles).and_return([Role.new(permissions_list: permission_list, group_permission: group_permission)])
+    fake_login user
+  end
+
 end
