@@ -39,6 +39,19 @@
 
       <div class="row">
         <div class="medium-3 columns">
+          <%= f.label :group_permission, t("role.group_permission_label"), :class=>'key'  %>
+        </div>
+        <div class="medium-8 columns">
+          <label class="left">
+            <%= select_tag "role[group_permission]", options_for_select(translated_group_permissions.map{|p| p[:key]}, '') %>
+          </label>
+        </div>
+        <div class="medium-1 columns">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="medium-3 columns">
           <span class="tool-tip-label">
             <%= f.label :permissions, t("permissions.label"), :class => 'key' %>
           </span>

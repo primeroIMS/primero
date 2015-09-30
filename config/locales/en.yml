@@ -581,6 +581,7 @@ en:
     error_in_updating: "Error in updating the Role details."
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
+    group_permission_label: "What records does this role affect?"
 
   agencies:
     logo: 'Logo'
@@ -781,10 +782,11 @@ en:
       metadata: "Forms, Lookups"
       system: "System"
       report: "Report"
-      self: "Access only my records"
-      group: "Access all records owned by users in my group"
+      self: "Access only my records or user"
+      group: "Access all records or users in my group"
       #TODO - will this be an issue for SL-265?
-      all: "Access all records"
+      all: "Access all records or users"
+      specific_roles: "Access specified list of roles"
       consent_override: "Consent override"
       export_list_view_csv: "Export list view csv"
       export_csv: "Export csv"

@@ -89,6 +89,10 @@ module ApplicationHelper
     end
   end
 
+  def translated_group_permissions
+    translated_hash_list(Permission.management, 'permissions.permission')
+  end
+
   def translated_all_permissions_list
     translated_permissions_list(Permission.all_available)
   end

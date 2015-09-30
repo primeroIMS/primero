@@ -79,6 +79,7 @@ class RolesController < ApplicationController
     role_hash[:description] = params[:role][:description]
     role_hash[:transfer] = params[:role][:transfer]
     role_hash[:referral] = params[:role][:referral]
+    role_hash[:group_permission] = params[:role][:group_permission]
     role_hash[:permitted_form_ids] = params[:role][:permitted_form_ids]
     role_hash[:permissions] = []
     params[:role][:permissions_list].each do |permission|
