@@ -103,7 +103,7 @@ describe RolesController do
     it "should allow valid user to update roles" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = stub_model Role, :id => "1"
-      role_mock = { "mock" => "mock" }
+      role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
 
       mock.should_receive(:update_attributes).with(role_mock).and_return(true)
       Role.should_receive(:get).with(mock.id).and_return(mock)
@@ -116,7 +116,7 @@ describe RolesController do
     it "should return error if update attributes is not invoked " do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
       mock = stub_model Role, :id => "1"
-      role_mock = { "mock" => "mock" }
+      role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
 
       mock.should_receive(:update_attributes).with(role_mock).and_return(false)
       Role.should_receive(:get).with(mock.id).and_return(mock)
@@ -164,7 +164,7 @@ describe RolesController do
 
     it "should allow valid user to create roles" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
-      role_mock = { "mock" => "mock" }
+      role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
       role_mock.should_receive(:save).and_return(true)
       Role.should_receive(:new).with(role_mock).and_return(role_mock)
       post :create, :role => role_mock
@@ -174,7 +174,7 @@ describe RolesController do
 
     it "should take back to new page if save failed" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE])
-      role_mock = double()
+      role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
       role_mock.should_receive(:save).and_return(false)
       Role.should_receive(:new).with(anything).and_return(role_mock)
       post :create, :role => role_mock

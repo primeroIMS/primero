@@ -91,7 +91,8 @@ describe UsersController do
 
     it "should authorize index page for read only users" do
       user = User.new(:user_name => 'view_user')
-      user.stub(:roles).and_return([Role.new(:permissions => [Permission::READ, Permission::USER, Permission::ALL])])
+      user_permission = Permission.new(resource: Permission::USER, actions: [Permission::READ])
+      user.stub(:roles).and_return([Role.new(group_permission: Permission::ALL, permissions_list: [user_permission])])
       fake_login user
       get :index
       assigns(:access_error).should be_nil
