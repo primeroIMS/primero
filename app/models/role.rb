@@ -17,7 +17,6 @@ class Role < CouchRest::Model::Base
 
   validates_presence_of :permissions_list, :message => I18n.t("errors.models.role.permission_presence")
 
-  before_save :sanitize_permissions
   before_save :add_permitted_subforms
 
   design do
@@ -42,10 +41,6 @@ class Role < CouchRest::Model::Base
 
   def has_permission(permission)
     self.permissions_list.map{|p| p.actions}.flatten.include? permission
-  end
-
-  def sanitize_permissions
-    self.permissions.reject! { |permission| permission.blank? } if self.permissions
   end
 
   def has_permitted_form_id?(form_id)
