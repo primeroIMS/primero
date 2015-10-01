@@ -36,7 +36,6 @@ module HomeHelper
     list = []
     index_filters_list = {
       child_status: "scope[child_status]=list||Open",
-      owned_by: "scope[owned_by]=single||#{current_user.user_name}",
       new: "scope[last_updated_by]=neg||#{current_user.user_name}",
       referred_users: "scope[referred_users]=list||#{current_user.user_name}",
       risk_level: {
