@@ -154,6 +154,7 @@ en:
       displacement_status: "Displacement Status:"
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
+      protection_concerns: "Protection Concerns:"
       risk_level: "Risk Level:"
       current_location: "Current Location:"
       registration_date: "Registration Date:"
