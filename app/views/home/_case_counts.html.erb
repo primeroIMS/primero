@@ -3,16 +3,25 @@
     <h4><%= t("dashboard.case_stats") %></h4>
   </div>
   <div class="panel_content no-padding panel_main">
-    <table cellspacing="0" cellpadding="0" class="table-floating-header">
+    <table cellspacing="0" cellpadding="0" class="table-floating-header dashboard_counts">
       <tbody>
         <tr>
-          <%= render 'case_count_new_totals', stats: @stats, model: model %>
+          <td>
+            <div class="stat_title"><%= t("dashboard.case_stats") %></div>
+            <%= render 'case_count_new_totals', stats: @stats, model: model %>
+          </td>
         </tr>
         <tr>
-          <%= render 'case_count_risk_totals', stats: @stats, model: model %>
+          <td>
+            <div class="stat_title"><%= t('dashboard.case_stat_by_assessment_level') %></div>
+            <%= render 'case_count_risk_totals', stats: @stats, model: model %>
+          </td>
         </tr>
         <tr>
-          <%= render 'case_count_referred', stats: @stats, model: model %>
+          <td>
+            <div class="stat_title"><%= t("dashboard.case_stat_referrals") %></div>
+            <%= render 'case_count_referred', stats: @stats, model: model %>
+          </td>
         </tr>
       </tbody>
     </table>
