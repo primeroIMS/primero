@@ -1,5 +1,5 @@
-<td><%= I18n.translate('dashboard.count_records_total',
+<div><%= I18n.translate('dashboard.count_records_total',
                    case_count({name: :records, stat: :total, filter: index_filters(['owned_by'])}, stats, model)).html_safe %>
 <%= I18n.translate('dashboard.count_records_new',
                    case_count({name: :records, stat: :new, filter: index_filters(['new', 'child_status', 'owned_by'])}, stats, model)).html_safe %>
-</td>
+</div>
