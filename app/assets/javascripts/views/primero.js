@@ -43,6 +43,7 @@ Primero = Backbone.View.extend({
     this.init_scrollbar();
     this.populate_case_id_for_gbv_incidents();
     this.init_edit_listeners();
+    this.chosen_roles();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var textarea = $('textarea[name*="field[option_strings_text"]');
@@ -69,6 +70,10 @@ Primero = Backbone.View.extend({
         }
       });
     }
+  },
+
+  chosen_roles: function() {
+    _primero.chosen('#chosen_role');
   },
 
   init_trunc: function() {

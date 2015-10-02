@@ -66,9 +66,15 @@
                 <span class="title"><%= permission[:resource_translated] %></span>
                 <%= hidden_field_tag("role[permissions_list][#{index}][resource]", permission[:resource]) %>
                 <% #TODO - handle role_ids %>
-                <% #TODO - handle groups %>
-                <% #TODO - see if better way to set this up.  On edit, existing permissions are not being checked %>
-                <%= hidden_field_tag("role[permissions_list][#{index}][role_ids]", 'abc123') %>
+                <% if permission[:resource] == Permission::ROLE %>
+                  <%# TODO - editable_role.group_permission... default value %>
+                      <label>
+                        <%= f.label :group_permission, t("role.role_ids_label"), :class=>'key'  %>
+                        <%= select_tag "role[permissions_list][#{index}][role_ids]",
+                            options_for_select(Role.all.map{|r| [r.name, r.id]}, ''),
+                                    class: 'chosen_select', id: 'chosen_role', multiple: true, include_blank: true %>
+                      </label>
+                <% end %>
                 <% permission[:actions_translated].each do |action| %>
                   <label>
                     <%= f.check_box :permissions_list,

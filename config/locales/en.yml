@@ -583,6 +583,7 @@ en:
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
+    role_ids_label: "Associated Role IDs"
 
   agencies:
     logo: 'Logo'
