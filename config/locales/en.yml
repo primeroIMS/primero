@@ -1199,25 +1199,27 @@ en:
     name_or_survivor_code: "Name or Survivor Code"
     current_owner: "Current Owner"
     last_updated: "Lasted Updated"
-    case_stats: "Case Stats"
+    case_stats: "Cases"
+    case_stat_by_assessment_level: "Cases by Assessment Level"
+    case_stat_referrals: "Referrals"
     count_risk_level_total:
-      one: "You have %{stat} %{stat_type} risk case "
-      other: "You have %{stat} %{stat_type} risk cases "
+      one: "You have %{stat} <span>%{stat_type} risk</span> case "
+      other: "You have %{stat} <span>%{stat_type} risk</span> cases "
     count_risk_level_new:
-      one: "and %{stat} new %{stat_type} risk case."
-      other: "and %{stat} new %{stat_type} risk cases."
+      one: "and %{stat} <span>new</span> <span>%{stat_type} risk</span> case"
+      other: "and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases"
     count_records_total:
-      one: "You have 1 total case "
-      other: "You have %{stat} total cases "
+      one: "You have 1 <span>total</span> case "
+      other: "You have %{stat} <span>total</span> cases "
     count_records_new:
-      one: "and %{stat} new case."
-      other: "and %{stat} new cases."
+      one: "and %{stat} <span>new</span> case"
+      other: "and %{stat} <span>new</span> cases"
     count_referrals_total:
-      one: "You have 1 total referral "
-      other: "You have %{stat} total referrals  "
+      one: "You have 1 <span>total</span> referral "
+      other: "You have %{stat} <span>total</span> referrals  "
     count_referrals_new:
-      one: "and %{stat} new referrals ."
-      other: "and %{stat} new referrals ."
+      one: "and %{stat} <span>new</span> referrals"
+      other: "and %{stat} <span>new</span> referrals"
 
   errors:
 

@@ -74,6 +74,35 @@ $dashboard_table_col4:170px;
       border: none;
       margin-bottom: 0;
 
+      &.dashboard_counts {
+        div {
+          margin: 5px 0;
+        }
+
+        a {
+          border-bottom: 1px solid $stroke_green_color;
+
+          &:hover {
+            text-decoration: none;
+            background: #ebebeb;
+          }
+        }
+
+        span {
+          font-weight:600;
+          font-size: .9rem;
+          color: #000;
+        }
+      }
+
+      .stat_title {
+        text-transform: uppercase;
+        margin: 10px 0;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: $green_color;
+      }
+
       a.id_link{
         float: left;
         text-decoration: none;
