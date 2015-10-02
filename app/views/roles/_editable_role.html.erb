@@ -60,21 +60,18 @@
         </div>
         <div class="medium-8 columns">
           <span class="value value_form">
-            <% #TODO - BEGIN SL-265 CHANGES %>
             <% translated_all_permissions_list.each_with_index do |permission, index| %>
               <span class="section section-show">
                 <span class="title"><%= permission[:resource_translated] %></span>
                 <%= hidden_field_tag("role[permissions_list][#{index}][resource]", permission[:resource]) %>
-                <% #TODO - handle role_ids %>
                 <% if permission[:resource] == Permission::ROLE %>
-                  <%# TODO - editable_role.group_permission... default value %>
-                      <label>
-                        <%= f.label :group_permission, t("role.role_ids_label"), :class=>'key'  %>
-                        <%= select_tag "role[permissions_list][#{index}][role_ids]",
-                                       options_for_select(Role.all.map{|r| [r.name, r.id]},
-                                                          editable_role.associated_role_ids),
-                                    class: 'chosen_select', id: 'chosen_role', multiple: true, include_blank: true %>
-                      </label>
+                  <label>
+                    <%= f.label :role_ids, t("role.role_ids_label"), :class=>'key'  %>
+                    <%= select_tag "role[permissions_list][#{index}][role_ids]",
+                                   options_for_select(Role.all.map{|r| [r.name, r.id]},
+                                                      editable_role.associated_role_ids),
+                                class: 'chosen_select', id: 'chosen_role', multiple: true, include_blank: true %>
+                  </label>
                 <% end %>
                 <% permission[:actions_translated].each do |action| %>
                   <label>
@@ -88,7 +85,6 @@
                 <% end %>
               </span>
             <% end %>
-            <% #TODO - END SL-265 CHANGES %>
           </span>
         </div>
         <div class="medium-1 columns">
