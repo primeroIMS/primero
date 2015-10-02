@@ -775,7 +775,8 @@ en:
       write: "Write"
       flag: "Flag"
       #TODO - ASSIGN could be an issue for SL-265
-      assign: "Assign record owner"
+      #assign: "Assign record owner"
+      assign: "Assign"
       case: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"

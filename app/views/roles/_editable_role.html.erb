@@ -45,7 +45,7 @@
           <label class="left">
             <%= select_tag "role[group_permission]",
                            options_for_select(translated_group_permissions.map{|p| [p[:value], p[:key]]},
-                           editable_role.group_permission) %>
+                                              editable_role.group_permission) %>
           </label>
         </div>
         <div class="medium-1 columns">
@@ -71,7 +71,8 @@
                       <label>
                         <%= f.label :group_permission, t("role.role_ids_label"), :class=>'key'  %>
                         <%= select_tag "role[permissions_list][#{index}][role_ids]",
-                            options_for_select(Role.all.map{|r| [r.name, r.id]}, ''),
+                                       options_for_select(Role.all.map{|r| [r.name, r.id]},
+                                                          editable_role.associated_role_ids),
                                     class: 'chosen_select', id: 'chosen_role', multiple: true, include_blank: true %>
                       </label>
                 <% end %>

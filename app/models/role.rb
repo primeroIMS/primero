@@ -77,5 +77,9 @@ class Role < CouchRest::Model::Base
     memoize_in_prod :get
   end
 
+  def associated_role_ids
+    self.permissions_list.select{|p| p.resource == 'role'}.map{|p| p[:role_ids]}.flatten if permissions_list.present?
+  end
+
 end
 
