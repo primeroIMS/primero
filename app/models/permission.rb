@@ -100,10 +100,18 @@ class Permission
     resources.map{|r| {resource: r, actions: resource_actions(r)}}
   end
 
-  #TODO - SL-265 - May need to refine this further
-  # This is enough to get me going for now
   def self.resource_actions(resource)
      case resource
+       when CASE
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER].include? a}
+       when INCIDENT
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE].include? a}
+       when TRACING_REQUEST
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE].include? a}
+       when ROLE
+         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
+       when USER
+         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
        when REPORT
          [READ, WRITE]
        when METADATA

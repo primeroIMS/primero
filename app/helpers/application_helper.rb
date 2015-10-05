@@ -78,6 +78,8 @@ module ApplicationHelper
 
   #TODO: Fix this when fixing customizations. Do we need them as hashed values
   #TODO - Can this be removed in SL-265
+  # This is still used by the filter on the ROLES index page
+  # Need to determine how to fix that filter
   def translated_permissions
     permissions = Permission.all_grouped.map do |group, permissions|
       [
