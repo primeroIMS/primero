@@ -49,7 +49,7 @@ class Role < CouchRest::Model::Base
     perm_key = (perm_split.count == 1) ? 'actions' : perm_split.first
     perm_value = perm_split.last
 
-    if (perm_key == 'management')
+    if perm_key == 'management'
       self.group_permission == perm_value
     else
       self.permissions_list.map{|p| p[perm_key]}.flatten.include? perm_value

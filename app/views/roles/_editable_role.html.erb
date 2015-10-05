@@ -103,7 +103,7 @@
             <% @forms_by_record_type.each do |record_type, forms_list| %>
               <span class="section">
                 <span class="title"><%= I18n.t("forms.record_types.#{record_type}") %></span>
-                <% forms_list.sort_by{ |f| f.name }.each do |form| %>
+                <% forms_list.sort_by{ |fl| fl.name }.each do |form| %>
                     <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}",
                               :name => "role[permitted_form_ids][]", class: 'tick_box'}, form.unique_id, nil %>
                     <%= form.name %></label>
