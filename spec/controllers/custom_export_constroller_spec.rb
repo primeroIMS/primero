@@ -197,12 +197,11 @@ describe CustomExportsController do
         #This is important to override some stub done in the fake_admin_login method. 
         user.stub(:roles).and_return([])
         #Form Section Test 3 is not visible, so will not be in the output.
-        #Form Section Test 4 contains only subforms, current behavior
-        #filter out this forms, will be revisited this behavior.
         expected_forms_sections = [
           {"name"=>"Form Section Test 1", "id"=>"Form Section Test 1"},
           {"name"=>"Form Section Test 2", "id"=>"Form Section Test 2"},
-          {"name"=>"Form Section Test 5", "id"=>"Form Section Test 5"}
+          {"name"=>"Form Section Test 5", "id"=>"Form Section Test 5"},
+          {"name"=>"Form Section Test 4", "id"=>"Form Section Test 4"}
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp", "only_parent"=>"true"}
         get :permitted_forms_list, params
@@ -245,14 +244,12 @@ describe CustomExportsController do
         #This is important to override some stub done in the fake_admin_login method. 
         user.stub(:roles).and_return([])
         #Form Section Test 3 is not visible, so will not be in the output.
-        #Form Section Test 4 contains only subforms, current behavior
-        #filter out this forms, will be revisited this behavior.
         expected_forms_sections = [
           #field_name_3 is not visible.
-          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]],
-          #subform_section_1 is not exportable.
-          ["Form Section Test 2 (CP)", [["Field Name 5", "field_name_5", "text_field"]]],
-          ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]]
+          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]], 
+          ["Form Section Test 2 (CP)", [["Field Name 5", "field_name_5", "text_field"], ["Subform Section 1", "subform_section_1", "subform"]]], 
+          ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]], 
+          ["Form Section Test 4 (CP)", [["Subform Section 2", "subform_section_2", "subform"]]]
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
         get :permitted_fields_list, params
