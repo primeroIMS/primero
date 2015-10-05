@@ -764,7 +764,6 @@ en:
     Actions: "Actions"
     Resources: "Resources"
     Management: "Management"
-    #TODO - SL-265 - do I still need this?
     group:
       actions: "Actions"
       resources: "Resources"
