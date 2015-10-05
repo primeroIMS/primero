@@ -1,0 +1,37 @@
+<div class="panel">
+  <div class="panel_header">
+    <h4>Cases</h4>
+    <table cellspacing="0" cellpadding="0" class="table-floating-header">
+      <thead>
+      <tr>
+        <th></th>
+        <th>Cases</th>
+        <th>New (last week)</th>
+        <th>New (this week)</th>
+        <th>Closed (last week)</th>
+        <th>Closed (this week)</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="panel_content no-padding panel_main">
+    <% if district_stats.present? %>
+      <table cellspacing="0" cellpadding="0" class="table-floating-header">
+        <tbody>
+          <% district_stats.each do |key, val| %>
+            <tr>
+              <td class="id_column"><%= key %></td>
+              <td><%= val[:totals] %></td>
+              <td><%= val[:new_last_week] %></td>
+              <td><%= val[:new_this_week] %></td>
+              <td><%= val[:closed_last_week] %></td>
+              <td><%= val[:closed_this_week] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="no-content">Placeholder</p>
+    <% end %>
+  </div>
+</div>

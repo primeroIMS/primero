@@ -10,6 +10,7 @@ class HomeController < ApplicationController
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
+    load_admin_information if display_admin_dashboard?
   end
 
   private
@@ -89,6 +90,10 @@ class HomeController < ApplicationController
     @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::GBV)
   end
 
+  def display_admin_dashboard?
+    @display_admin_dashboard ||= current_user.group_permissions.include?(Permission::ALL)
+  end
+
   def load_manager_information
     # TODO: Will Open be translated?
     module_ids = @module_ids
@@ -132,6 +137,7 @@ class HomeController < ApplicationController
 
   def load_cases_information
     @stats = Child.search do
+      # TODO: Check for valid
       with(:child_status, 'Open')
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:referred_users, current_user.user_name)
@@ -215,5 +221,29 @@ class HomeController < ApplicationController
                                                 type: 'incident'})
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents(@current_user)
+  end
+
+  def load_admin_information
+    location_filter = {"location_current"=>{:type=>"location_list", :value=> current_user.managed_users.map{|u| u.location}.compact}}
+    cases = Child.list_records(location_filter, {}, {}, current_user.managed_user_names)
+    get_admin_stats(cases)
+  end
+
+  def get_admin_stats(cases)
+    last_week = 1.week.ago.beginning_of_week .. 1.week.ago.end_of_week
+    this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
+
+    district_stats = {}
+    grouped_districts = cases.results.group_by{|sf| sf.location_current}
+    grouped_districts.each do |district, cases|
+      district_stats[district] = {
+        totals: cases.count,
+        new_last_week: cases.select{|cs| last_week.cover?(cs.created_at) && cs.child_status == 'Open'}.count,
+        new_this_week: cases.select{|cs| this_week.cover?(cs.created_at) && cs.child_status == 'Open'}.count,
+        closed_last_week: cases.select{|cs| last_week.cover?(cs.date_closure) && cs.child_status == 'Closed'}.count,
+        closed_this_week: cases.select{|cs| this_week.cover?(cs.date_closure) && cs.child_status == 'Closed'}.count
+      }
+    end
+    @district_stats = district_stats
   end
 end

@@ -98,7 +98,12 @@ module Searchable
         #TODO: pop off the locations filter and perform a fulltext search
         filters.each do |filter,filter_value|
           if searchable_location_fields.include? filter
-            fulltext("\"#{filter_value[:value]}\"", fields: filter)
+            #TODO: Could check if also location on line 100, but will it break alot of location code
+            if filter_value[:type] == 'location_list'
+              with(filter.to_sym, filter_value[:value])
+            else
+              fulltext("\"#{filter_value[:value]}\"", fields: filter)
+            end
           else
             values = filter_value[:value]
             type = filter_value[:type]

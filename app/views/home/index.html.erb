@@ -33,6 +33,15 @@
       </div>
     </div>
   </div>
+
+  <% if @display_admin_dashboard %>
+    <div class="row collapse">
+      <div id="content" class="large-9 small-9 columns">
+        <%= render 'case_admin_district_totals', district_stats: @district_stats%>
+      </div>
+    </div>
+  <% end %>
+
   <% if @display_cases_dashboard %>
   <div class="row collapse">
     <div id="content" class="large-9 small-9 columns">
