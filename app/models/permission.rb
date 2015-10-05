@@ -93,7 +93,7 @@ class Permission
   end
 
   def self.all_grouped
-    {'actions' => actions, 'resources' => resources, 'management' => management}
+    {'actions' => actions, 'resource' => resources, 'management' => management}
   end
 
   def self.all_available

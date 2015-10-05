@@ -39,8 +39,21 @@ class Role < CouchRest::Model::Base
     find_by_name(attributes['name'])
   end
 
+  # input: either an action string (ex: read, write, flag, etc)
+  #        or a colon separated string, with the first part being resource, action, or management,
+  #        and the second being the value (ex: read, write, case, incident, etc)
   def has_permission(permission)
-    self.permissions_list.map{|p| p.actions}.flatten.include? permission
+    perm_split = permission.split(':')
+
+    #if input is a single string, not colon separated, then default the key to actions
+    perm_key = (perm_split.count == 1) ? 'actions' : perm_split.first
+    perm_value = perm_split.last
+
+    if (perm_key == 'management')
+      self.group_permission == perm_value
+    else
+      self.permissions_list.map{|p| p[perm_key]}.flatten.include? perm_value
+    end
   end
 
   def has_permitted_form_id?(form_id)

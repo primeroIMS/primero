@@ -768,6 +768,7 @@ en:
     group:
       actions: "Actions"
       resources: "Resources"
+      resource: "Resources"
       management: "Management"
 
     permission:
@@ -789,6 +790,7 @@ en:
       group: "Access all records or users in my group"
       #TODO - will this be an issue for SL-265?
       all: "Access all records or users"
+      All: "All"
       specific_roles: "Access specified list of roles"
       consent_override: "Consent override"
       export_list_view_csv: "Export list view csv"
