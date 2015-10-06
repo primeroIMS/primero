@@ -182,8 +182,7 @@ describe UsersController do
 
     context "when user has permission to assign all roles" do
       before do
-        @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
-                                                   role_ids: [Permission::ALL])
+        @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
         fake_login_with_permissions([@permission_user_read_write, @permission_role_assign_all])
       end
 

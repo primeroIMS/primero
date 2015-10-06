@@ -34,7 +34,6 @@ class Permission
   REPORT = 'report'
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
-  SPECIFIC_ROLES = 'specific_roles'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
@@ -81,7 +80,7 @@ class Permission
   end
 
   def self.management
-    [SELF, SPECIFIC_ROLES, GROUP, ALL]
+    [SELF, GROUP, ALL]
   end
 
   def self.all
