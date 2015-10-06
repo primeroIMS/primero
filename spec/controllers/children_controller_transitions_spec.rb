@@ -13,7 +13,7 @@ describe ChildrenController do
       Exporters::JSONExporter.should_receive(:export).with(records, permited_properties, @user).and_return("data")
       controller.should_receive(:filename).with(records, Exporters::JSONExporter, transition_type).and_return("test_filename");
       controller.should_receive(:encrypt_data_to_zip).with("data", "test_filename", "password")
-      controller.should_receive(:message_success).with(records.size)
+      controller.should_receive(:message_success_transition).with(records.size)
 
       params = {
         "transition_type"=>transition_type,
@@ -47,7 +47,7 @@ describe ChildrenController do
       Exporters::CSVExporter.should_receive(:export).with(records, permited_properties, @user).and_return("data")
       controller.should_receive(:filename).with(records, Exporters::CSVExporter, transition_type).and_return("test_filename");
       controller.should_receive(:encrypt_data_to_zip).with("data", "test_filename", "password")
-      controller.should_receive(:message_success).with(records.size)
+      controller.should_receive(:message_success_transition).with(records.size)
 
       params = {
         "transition_type"=>transition_type,
@@ -81,7 +81,7 @@ describe ChildrenController do
       Exporters::PDFExporter.should_receive(:export).with(records, pdf_permited_properties, @user).and_return("data")
       controller.should_receive(:filename).with(records, Exporters::PDFExporter, transition_type).and_return("test_filename");
       controller.should_receive(:encrypt_data_to_zip).with("data", "test_filename", "password")
-      controller.should_receive(:message_success).with(records.size)
+      controller.should_receive(:message_success_transition).with(records.size)
 
       params = {
         "transition_type"=>transition_type,
