@@ -64,11 +64,19 @@ module Exporters
 
       #Return the value based on the property.
       def get_value(model, property)
-        if property.array
+        if property.is_a?(String)
+          #Process synthetic properties.
+          if property == "model_type"
+            {'Child' => 'Case'}.fetch(model.class.name, model.class.name)
+          else
+            model.send(property)
+          end
+        elsif property.array
           if property.type.include?(CouchRest::Model::Embeddable)
             #data from the subform.
             (model.send(property.name) || []).map do |row|
-              property.type.properties.map do |p|
+              #Remove unique_id field for subforms.
+              property.type.properties.select{|p| p.name != 'unique_id'}.map do |p|
                 get_value(row, p)
               end
             end
@@ -84,36 +92,39 @@ module Exporters
 
       def write_row(row, properties, worksheet, model, withds)
         col = 0
-        model_type = {'Child' => 'Case'}.fetch(model.class.name, model.class.name)
-        #Write id and type of the model.
-        worksheet.write(row, col, [model.id, model_type])
-        withds[0] = model.id.length if withds[0] < model.id.length
-        withds[1] = model_type.length if withds[1] < model_type.length
-        #Write other properties a long subforms.
-        col = 2
-        #By default next row is by 1, but if there is subforms data
-        #we need to calculate based on the subforms rows.
-        next_row = 1
-        (properties || []).each do |property|
+        max_row = 1
+        (["_id", "model_type"] + (properties || [])).map do |property|
+          #Obtain the property value.
           data_row = get_value(model, property)
+          #Grab the corresponding column and data for
+          #second phase to write the data in the sheet
+          value = {col => data_row}
           if data_row.is_a?(Array)
-            #Write subforms in the sheet.
-            worksheet.write_col(row, col, data_row)
+            #Calculate the next row based on the subforms data.
+            max_row = data_row.size if data_row.size > max_row
             #calculate width based on the data.
             data_row.each{|row| row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length}}
-            #Calculate the next column.
-            col = col + property.type.properties.size
-            #Calculate the next row if there is subforms data.
-            next_row = data_row.size if data_row.size > next_row
+            #Calculate the next column, exclude unique_id
+            col = col + property.type.properties.select{|p| p.name != 'unique_id'}.size
           else
-            #Write regular fields on the sheet.
-            worksheet.write(row, col, data_row)
-            #calculate width based on the data.
+            #Regular fields calculate metadata.
             withds[col] = data_row.to_s.length if withds[col] < data_row.to_s.length
             col = col + 1
           end
+          value
+        end.each do |data_row|
+          #Occurs the write on the sheet.
+          col = data_row.keys.first
+          data = data_row.values.first
+          if data.is_a?(Array)
+            #Write subforms in the sheet.
+            worksheet.write_col(row, col, data)
+          else
+            #Write regular fields and fill the blanks because subforms.
+            worksheet.write_col(row, col, Array.new(max_row, data))
+          end
         end
-        row + next_row
+        row + max_row
       end
 
       #Fields are by module and Form Sections, build a more plain
@@ -141,7 +152,8 @@ module Exporters
          properties.map do |property|
            if property.array && property.type.include?(CouchRest::Model::Embeddable)
              #Returns every property in the subform to build the header of the sheet.
-             property.type.properties.map{|p| "#{property.name}:#{p.name}"}
+             #Remove unique_id field for subforms.
+             property.type.properties.map{|p| "#{property.name}:#{p.name}" if p.name != "unique_id"}.compact
            else
              property.name
            end
