@@ -29,10 +29,12 @@ module TransitionActions
         begin
           remote_transition(@records)
           message_success @records.size
-        rescue
-          #TODO
+        rescue => error
           logger.error "#{model_class.parent_form}s not transitioned to remote #{@to_user_remote}... failure"
+          logger.error error.message
+          logger.error error.backtrace
           message_failure
+          redirect_to :back
         end
       else
         local_transition(@records)
