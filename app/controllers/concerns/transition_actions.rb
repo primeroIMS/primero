@@ -20,7 +20,7 @@ module TransitionActions
     if @records.blank?
       #TODO - should we log or display something here?
       logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
-      message_failure @selected_ids.size
+      message_failure_transition @selected_ids.size
       redirect_to :back
     else
       log_to_history(@records)
@@ -28,12 +28,12 @@ module TransitionActions
       if is_remote?
         begin
           remote_transition(@records)
-          message_success @records.size
+          message_success_transition @records.size
         rescue => error
           logger.error "#{model_class.parent_form}s not transitioned to remote #{@to_user_remote}... failure"
           logger.error error.message
           logger.error error.backtrace
-          message_failure
+          message_failure_transition
           redirect_to :back
         end
       else
@@ -129,9 +129,9 @@ module TransitionActions
       end
     end
     if failed_count > 0
-      message_failure failed_count
+      message_failure_transition failed_count
     else
-      message_success  referral_records.size
+      message_success_transition  referral_records.size
     end
   end
 
@@ -155,9 +155,9 @@ module TransitionActions
       end
     end
     if failed_count > 0
-      message_failure failed_count
+      message_failure_transition failed_count
     else
-      message_success transfer_records.size
+      message_success_transition transfer_records.size
     end
   end
 
@@ -258,7 +258,7 @@ module TransitionActions
     consent_override && !(is_consent_given?(record))
   end
 
-  def message_failure(failed_count = 0)
+  def message_failure_transition(failed_count = 0)
     if is_referral?
       if is_single_or_batch? == 'single'
         flash[:notice] = t('referral.failure', record_type: record_type, id: record_id)
@@ -274,7 +274,7 @@ module TransitionActions
     end
   end
 
-  def message_success(success_count = 0)
+  def message_success_transition(success_count = 0)
     if is_referral?
       if is_single_or_batch? == 'single'
         flash[:notice] = t('referral.success', record_type: record_type, id: record_id)
