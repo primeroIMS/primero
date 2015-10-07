@@ -4,6 +4,11 @@ class Permission
 
   property :resource
   property :actions, [String], :default => []
+
+  # The role_ids property is used solely for the ROLE resource
+  # It associates other roles with this ROLE permission
+  # That restricts this role to only be able to manage those associated roles
+  # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
   property :role_ids, [String], :default => []
 
   READ = 'read'
