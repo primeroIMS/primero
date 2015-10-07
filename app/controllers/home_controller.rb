@@ -122,7 +122,7 @@ class HomeController < ApplicationController
       modules: @module_ids
     })
 
-    build_manager_stats(cases, flags)
+    # build_manager_stats(cases, flags)
   end
 
   def load_user_module_data
@@ -184,21 +184,25 @@ class HomeController < ApplicationController
       end
     end
 
+    show_flagged_by
+  end
+
+  def show_flagged_by
     flag_criteria = {
-      field: :flag_created_at,
-      type: 'child',
-      is_manager: current_user.is_manager?,
-      modules: @module_ids
+        field: :flag_created_at,
+        type: 'child',
+        is_manager: current_user.is_manager?,
+        modules: @module_ids
     }
 
     @flagged_by_me = search_flags(flag_criteria.merge({flagged_by: current_user.user_name}))
     @flagged_by_me = @flagged_by_me[0..9]
 
     if current_user.is_manager?
-      @recent_activities = load_recent_activities.results
-      @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
+      # @recent_activities = load_recent_activities.results
+      # @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
     elsif
-      @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
+    @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
       @flagged_by_others = @flagged_by_others[0..9]
     end
   end
@@ -224,26 +228,38 @@ class HomeController < ApplicationController
   end
 
   def load_admin_information
-    location_filter = {"location_current"=>{:type=>"location_list", :value=> current_user.managed_users.map{|u| u.location}.compact}}
-    cases = Child.list_records(location_filter, {}, {}, current_user.managed_user_names)
-    get_admin_stats(cases)
-  end
-
-  def get_admin_stats(cases)
     last_week = 1.week.ago.beginning_of_week .. 1.week.ago.end_of_week
     this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
 
+    build_admin_stats({
+      totals: get_district_stat({status: 'Open'}),
+      new_last_week: get_district_stat({ status: 'Open', new: true, date_range: last_week }),
+      new_this_week: get_district_stat({ status: 'Open', new: true, date_range: this_week }),
+      closed_last_week: get_district_stat({ status: 'Closed', closed: true, date_range: last_week }),
+      closed_this_week: get_district_stat({ status: 'Closed', closed: true, date_range: this_week })
+    })
+  end
+
+  def build_admin_stats(stats)
     district_stats = {}
-    grouped_districts = cases.results.group_by{|sf| sf.location_current}
-    grouped_districts.each do |district, cases|
-      district_stats[district] = {
-        totals: cases.count,
-        new_last_week: cases.select{|cs| last_week.cover?(cs.created_at) && cs.child_status == 'Open'}.count,
-        new_this_week: cases.select{|cs| this_week.cover?(cs.created_at) && cs.child_status == 'Open'}.count,
-        closed_last_week: cases.select{|cs| last_week.cover?(cs.date_closure) && cs.child_status == 'Closed'}.count,
-        closed_this_week: cases.select{|cs| this_week.cover?(cs.date_closure) && cs.child_status == 'Closed'}.count
-      }
+    stats.each do |k, v|
+      v.facet(:location_current).rows.each do |l|
+        district_stats[l.value] = {} unless district_stats[l.value].present?
+        district_stats[l.value][k] = l.count ||= 0
+      end
     end
     @district_stats = district_stats
+  end
+
+  def get_district_stat(query)
+    return Child.search do
+      with(:location_current, current_user.managed_users.map{|u| u.location}.compact)
+      with(:associated_user_names, current_user.managed_user_names)
+      with(:record_state, true)
+      with(:child_status, query[:status])
+      with(:created_at, query[:date_range]) if query[:new]
+      with(:date_closure, query[:date_range]) if query[:closed]
+      facet(:location_current, zeros: true)
+    end
   end
 end
