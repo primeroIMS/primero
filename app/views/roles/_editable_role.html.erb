@@ -39,19 +39,49 @@
 
       <div class="row">
         <div class="medium-3 columns">
+          <%= f.label :group_permission, t("role.group_permission_label"), :class=>'key'  %>
+        </div>
+        <div class="medium-8 columns">
+          <label class="left">
+            <%= select_tag "role[group_permission]",
+                           options_for_select(translated_group_permissions.map{|p| [p[:value], p[:key]]},
+                                              editable_role.group_permission) %>
+          </label>
+        </div>
+        <div class="medium-1 columns">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="medium-3 columns">
           <span class="tool-tip-label">
             <%= f.label :permissions, t("permissions.label"), :class => 'key' %>
           </span>
         </div>
         <div class="medium-8 columns">
           <span class="value value_form">
-            <% translated_permissions.each do |group_name, permissions| %>
-              <span class="section">
-                <span class="title"><%= t("permissions.#{group_name}") %></span>
-                <% Hash[*permissions.flatten].values.each do |permission| %>
-                    <label><%= f.check_box :permissions, {:id => permission.dehumanize,
-                            :name => "role[permissions][]"}, permission, nil %>
-                    <%= t("permissions.permission.#{permission}") %></label>
+            <% translated_all_permissions_list.each_with_index do |permission, index| %>
+              <span class="section section-show">
+                <span class="title"><%= permission[:resource_translated] %></span>
+                <%= hidden_field_tag("role[permissions_list][#{index}][resource]", permission[:resource]) %>
+                <% if permission[:resource] == Permission::ROLE %>
+                  <label>
+                    <%= f.label :role_ids, t("role.role_ids_label"), :class=>'key'  %>
+                    <%= select_tag "role[permissions_list][#{index}][role_ids]",
+                                   options_for_select(Role.all.map{|r| [r.name, r.id]},
+                                                      editable_role.associated_role_ids),
+                                class: 'chosen_select', id: 'chosen_role', multiple: true, include_blank: true %>
+                  </label>
+                <% end %>
+                <% permission[:actions_translated].each do |action| %>
+                  <label>
+                    <%= f.check_box :permissions_list,
+                                    {id: "#{permission[:resource]}_#{action[:key]}",
+                                     name: "role[permissions_list][#{index}][actions][]",
+                                     checked: is_permission_checked(editable_role.permissions, permission[:resource], action)},
+                                    action[:key], nil %>
+                    <%= action[:value] %>
+                  </label>
                 <% end %>
               </span>
             <% end %>
@@ -73,7 +103,7 @@
             <% @forms_by_record_type.each do |record_type, forms_list| %>
               <span class="section">
                 <span class="title"><%= I18n.t("forms.record_types.#{record_type}") %></span>
-                <% forms_list.sort_by{ |f| f.name }.each do |form| %>
+                <% forms_list.sort_by{ |fl| fl.name }.each do |form| %>
                     <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}",
                               :name => "role[permitted_form_ids][]", class: 'tick_box'}, form.unique_id, nil %>
                     <%= form.name %></label>

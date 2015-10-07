@@ -203,10 +203,8 @@ cp_manager_permissions = [
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_JSON
+      Permission::EXPORT_PDF
     ]
   ),
   Permission.new(
@@ -218,9 +216,7 @@ cp_manager_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_PDF
     ]
   )
 ]
@@ -380,7 +376,6 @@ mrm_manager_permissions = [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
-      Permission::CONSENT_OVERRIDE,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,

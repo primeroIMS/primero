@@ -582,6 +582,8 @@ en:
     error_in_updating: "Error in updating the Role details."
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
+    group_permission_label: "What records does this role affect?"
+    role_ids_label: "Others roles managed by this role"
 
   agencies:
     logo: 'Logo'
@@ -765,24 +767,27 @@ en:
     group:
       actions: "Actions"
       resources: "Resources"
+      resource: "Resources"
       management: "Management"
 
     permission:
       read: "Read"
       write: "Write"
       flag: "Flag"
-      assign: "Assign record owner"
-      report_create: "Build reports"
+      assign: "Assign"
       case: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
-      user: "Users, Groups, Roles"
+      role: "Roles"
+      user: "Users, Groups"
       metadata: "Forms, Lookups"
       system: "System"
       report: "Report"
-      self: "Access only my records"
-      group: "Access all records owned by users in my group"
-      all: "Access all records"
+      self: "Access only my records or user"
+      group: "Access all records or users in my group"
+      all: "Access all records or users"
+      All: "All"
+      specific_roles: "Access specified list of roles"
       consent_override: "Consent override"
       export_list_view_csv: "Export list view csv"
       export_csv: "Export csv"
@@ -799,6 +804,7 @@ en:
       transfer: "Transfer"
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
+      manage: "Manage"
 
   forms:
     label: "Forms"

@@ -194,7 +194,7 @@ describe CustomExportsController do
       it "returns only permitted forms per user" do
         user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
         session = fake_admin_login user
-        #This is important to override some stub done in the fake_admin_login method. 
+        #This is important to override some stub done in the fake_admin_login method.
         user.stub(:roles).and_return([])
         #Form Section Test 3 is not visible, so will not be in the output.
         #Form Section Test 4 contains only subforms, current behavior
@@ -211,9 +211,12 @@ describe CustomExportsController do
       end
 
       it "returns only permitted forms per user per role" do
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
-          :permissions => ["read", "write", "export_custom", "case", "tracing_request", "all"],
+          :group_permission => Permission::ALL,
+          :permissions_list => [case_permission, tracing_request_permission],
           #Define the forms the user is able to see.
           :permitted_form_ids => ["form_section_test_1", "form_section_test_5"]
         )
@@ -222,7 +225,7 @@ describe CustomExportsController do
           :module_ids => [@primero_module.id], :role_ids => [role.id]
         )
         session = fake_admin_login user
-        #This is important to override some stub done in the fake_admin_login method. 
+        #This is important to override some stub done in the fake_admin_login method.
         user.stub(:roles).and_return([role])
         #Per role definition this is the only forms that user can access.
         expected_forms_sections = [
@@ -242,7 +245,7 @@ describe CustomExportsController do
       it "returns only permitted fields per user" do
         user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
         session = fake_admin_login user
-        #This is important to override some stub done in the fake_admin_login method. 
+        #This is important to override some stub done in the fake_admin_login method.
         user.stub(:roles).and_return([])
         #Form Section Test 3 is not visible, so will not be in the output.
         #Form Section Test 4 contains only subforms, current behavior
@@ -261,9 +264,12 @@ describe CustomExportsController do
       end
 
       it "returns only permitted fields per user per role" do
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
-          :permissions => ["read", "write", "export_custom", "case", "tracing_request", "all"],
+          :group_permission => Permission::ALL,
+          :permissions_list => [case_permission, tracing_request_permission],
           #Define the forms the user is able to see.
           :permitted_form_ids => ["form_section_test_1", "form_section_test_5"]
         )
@@ -272,7 +278,7 @@ describe CustomExportsController do
           :module_ids => [@primero_module.id], :role_ids => [role.id]
         )
         session = fake_admin_login user
-        #This is important to override some stub done in the fake_admin_login method. 
+        #This is important to override some stub done in the fake_admin_login method.
         user.stub(:roles).and_return([role])
         #Per role definition this is the only forms that user can access.
         expected_forms_sections = [

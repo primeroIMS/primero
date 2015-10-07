@@ -4,6 +4,11 @@ class Permission
 
   property :resource
   property :actions, [String], :default => []
+
+  # The role_ids property is used solely for the ROLE resource
+  # It associates other roles with this ROLE permission
+  # That restricts this role to only be able to manage those associated roles
+  # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
   property :role_ids, [String], :default => []
 
   READ = 'read'
@@ -34,7 +39,6 @@ class Permission
   REPORT = 'report'
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
-  SPECIFIC_ROLES = 'specific_roles'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
@@ -71,7 +75,8 @@ class Permission
       TRANSFER,
       REFERRAL,
       CONSENT_OVERRIDE,
-      SYNC_MOBILE
+      SYNC_MOBILE,
+      MANAGE
     ]
   end
 
@@ -80,7 +85,7 @@ class Permission
   end
 
   def self.management
-    [SELF, SPECIFIC_ROLES, GROUP, ALL]
+    [SELF, GROUP, ALL]
   end
 
   def self.all
@@ -92,7 +97,34 @@ class Permission
   end
 
   def self.all_grouped
-    {'actions' => actions, 'resources' => resources, 'management' => management}
+    {'actions' => actions, 'resource' => resources, 'management' => management}
+  end
+
+  def self.all_available
+    resources.map{|r| {resource: r, actions: resource_actions(r)}}
+  end
+
+  def self.resource_actions(resource)
+     case resource
+       when CASE
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER].include? a}
+       when INCIDENT
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE].include? a}
+       when TRACING_REQUEST
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE].include? a}
+       when ROLE
+         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
+       when USER
+         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
+       when REPORT
+         [READ, WRITE]
+       when METADATA
+         [MANAGE]
+       when SYSTEM
+         [MANAGE]
+       else
+         actions
+     end
   end
 
   def self.all_permissions_list

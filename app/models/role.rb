@@ -6,16 +6,17 @@ class Role < CouchRest::Model::Base
   include Importable
   include Memoizable
 
-  property :permissions, :type => [String]
   property :permissions_list, :type => [Permission]
   property :group_permission, :type => String, :default => Permission::SELF
   property :permitted_form_ids, :type => [String]
   property :referral, TrueClass, :default => false
   property :transfer, TrueClass, :default => false
 
+  alias_method :permissions, :permissions_list
+  alias_method :permissions=, :permissions_list=
+
   validates_presence_of :permissions_list, :message => I18n.t("errors.models.role.permission_presence")
 
-  before_save :sanitize_permissions
   before_save :add_permitted_subforms
 
   design do
@@ -38,12 +39,21 @@ class Role < CouchRest::Model::Base
     find_by_name(attributes['name'])
   end
 
+  # input: either an action string (ex: read, write, flag, etc)
+  #        or a colon separated string, with the first part being resource, action, or management,
+  #        and the second being the value (ex: read, write, case, incident, etc)
   def has_permission(permission)
-    self.permissions_list.map{|p| p.actions}.flatten.include? permission
-  end
+    perm_split = permission.split(':')
 
-  def sanitize_permissions
-    self.permissions.reject! { |permission| permission.blank? } if self.permissions
+    #if input is a single string, not colon separated, then default the key to actions
+    perm_key = (perm_split.count == 1) ? 'actions' : perm_split.first
+    perm_value = perm_split.last
+
+    if perm_key == 'management'
+      self.group_permission == perm_value
+    else
+      self.permissions_list.map{|p| p[perm_key]}.flatten.include? perm_value
+    end
   end
 
   def has_permitted_form_id?(form_id)
@@ -78,6 +88,10 @@ class Role < CouchRest::Model::Base
       old_get(*args)
     end
     memoize_in_prod :get
+  end
+
+  def associated_role_ids
+    self.permissions_list.select{|p| p.resource == 'role'}.map{|p| p[:role_ids]}.flatten if permissions_list.present?
   end
 
 end

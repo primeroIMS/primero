@@ -76,16 +76,47 @@ module ApplicationHelper
     confirm_options
   end
 
-  #TODO: Fix this when fixing customizations. Do we need them as hashed values
+  # This is still used by the filter on the ROLES index page
   def translated_permissions
     permissions = Permission.all_grouped.map do |group, permissions|
       [
           I18n.t(group, :scope => "permissions.group"),
           permissions.map do |permission|
-            [ I18n.t(permission, :scope => 'permissions.permission'), permission ]
+            [ I18n.t(permission, :scope => 'permissions.permission'), "#{group}:#{permission}" ]
           end
       ]
     end
+  end
+
+  def translated_group_permissions
+    translated_hash_list(Permission.management, 'permissions.permission')
+  end
+
+  def translated_all_permissions_list
+    translated_permissions_list(Permission.all_available)
+  end
+
+  def translated_permissions_list(permission_list)
+    permission_list.map{|p| {resource: p[:resource],
+                             resource_translated: I18n.t(p[:resource], scope: 'permissions.permission'),
+                             actions_translated: translated_hash_list(p[:actions], 'permissions.permission')}}
+  end
+
+  # Input:  an array of strings
+  # Input:  scope within dictionary yaml
+  # Output: an array of hashes in format {key: <input string>, value: <translation>}
+  def translated_hash_list(list, scope)
+    list.map{|a| {key: a, value: I18n.t(a, :scope => scope)}}
+  end
+
+  # Used by the view to determine if the resource / action pair in the all translated permission hash
+  # exists in the current role's permissions list, and therefore should be checked on the form
+  # Input: permission_list (from the current role)
+  # Input: resource (from the translated permissions)
+  # Input: action_hash (from the translated permissions)
+  # Output: true/false
+  def is_permission_checked(permission_list = [], resource = "", action_hash = {})
+    permission_list.select{|p| p.resource == resource}.any? {|p| p[:actions].include? action_hash[:key]}
   end
 
   def ctl_edit_button(record, path=nil)

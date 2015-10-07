@@ -216,7 +216,7 @@ describe Ability do
       context "is set with read access" do
         before :each do
           @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_ids: [@role_case_read.id])
-          @role_role_specific_read = create :role, permissions_list: [@permission_role_specific_read], group_permission: Permission::SPECIFIC_ROLES
+          @role_role_specific_read = create :role, permissions_list: [@permission_role_specific_read], group_permission: Permission::GROUP
           @user1.role_ids = [@role_role_specific_read.id]
           @user1.save
 
@@ -241,7 +241,7 @@ describe Ability do
         before :each do
           @permission_role_specific_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE],
                                                               role_ids: [@role_case_read.id, @role_incident_read.id])
-          @role_role_specific_read_write = create :role, permissions_list: [@permission_role_specific_read_write], group_permission: Permission::SPECIFIC_ROLES
+          @role_role_specific_read_write = create :role, permissions_list: [@permission_role_specific_read_write], group_permission: Permission::GROUP
           @user1.role_ids = [@role_role_specific_read_write.id]
           @user1.save
 
@@ -343,8 +343,7 @@ describe Ability do
 
       context "and specifies ALL roles" do
         before :each do
-          @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
-                                                     role_ids: [Permission::ALL])
+          @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
           @role_role_assign_all = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_all],
                                               group_permission: Permission::GROUP
           @user1.role_ids = [@role_role_assign_all.id]
