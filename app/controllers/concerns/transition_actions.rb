@@ -18,7 +18,6 @@ module TransitionActions
     end
 
     if @records.blank?
-      #TODO - should we log or display something here?
       logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
       message_failure_transition @selected_ids.size
       redirect_to :back
