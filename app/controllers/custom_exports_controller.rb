@@ -14,6 +14,7 @@ class CustomExportsController < ApplicationController
       Field::DATE_RANGE,
       Field::TICK_BOX,
       Field::TALLY_FIELD,
+      Field::SUBFORM
   ]
 
   def permitted_forms_list
