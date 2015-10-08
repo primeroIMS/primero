@@ -31,7 +31,7 @@ consent_fields = [
   Field.new({"name" => "disclosure_other_orgs",
            "type" => "tick_box",
            "tick_box_label_all" => "Yes",
-           "editable" => true,
+           "editable" => false,
            "display_name_all" => "The individual providing consent agrees to share collected information with other organizations?"
             }),
   Field.new({"name" => "consent_share_separator",
