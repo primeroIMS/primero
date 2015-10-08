@@ -21,7 +21,7 @@ describe Incident do
     # TODO: Ask about these test
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization"]
+      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization", "owned_by_agency", "owned_by_location"]
     end
 
     it "should build with date search fields" do

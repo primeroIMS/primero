@@ -86,6 +86,7 @@ FactoryGirl.define do
     password_confirmation 'password'
     email 'email@ddress.net'
     organization 'TW'
+    location 'Sierra Leone::Southern::Bonthe::Jong'
     disabled false
     verified true
     role_ids ['random_role_id']
