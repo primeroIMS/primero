@@ -26,7 +26,7 @@ describe TracingRequest do
 
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      TracingRequest.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization"]
+      TracingRequest.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization", "owned_by_agency", "owned_by_location"]
     end
 
     it "should build with date search fields" do
