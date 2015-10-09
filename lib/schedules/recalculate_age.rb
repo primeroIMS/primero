@@ -3,7 +3,7 @@ module RecalculateAge
   class << self
 
     def schedule(scheduler)
-      scheduler.every("15s") do
+      scheduler.cron '1 1 * * *' do # every night at 01:01 am
         begin
           Rails.logger.info "Recalculating ages based on date of birth..."
           recalculate!
@@ -20,7 +20,7 @@ module RecalculateAge
         c.age = c.calculated_age
         if c.valid?
           c.save!
-          Rails.logger.info "Case:[#{c.id}]  Age before:[#{old_age}  Age after:[#{c.age}]"
+          Rails.logger.info "Case:[#{c.id}]  Age before:[#{old_age}  Age after:[#{c.age}]  Date of birth:[#{c.date_of_birth}]"
         else
           Rails.logger.info "Case:[#{c.id}] not updated... not valid"
         end
