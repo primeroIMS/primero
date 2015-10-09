@@ -8,8 +8,12 @@ module Ownable
 
     property :owned_by, String
     property :owned_by_full_name, String
+    property :owned_by_agency, String
+    property :owned_by_location, String
     property :previously_owned_by, String
     property :previously_owned_by_full_name, String
+    property :previously_owned_by_agency, String
+    property :previously_owned_by_location, String
     property :assigned_user_names, :type => [String]
     property :database_operator_user_name, String
     property :module_id
@@ -68,5 +72,13 @@ module Ownable
 
     self.previously_owned_by = self.changes['owned_by'].try(:fetch, 0) || owned_by
     self.previously_owned_by_full_name = self.changes['owned_by_full_name'].try(:fetch, 0) || owned_by_full_name
+
+    if (self.changes['owned_by'].present? || self.new?) && self.owned_by.present?
+      user = User.find_by_user_name(self.owned_by)
+      self.owned_by_agency = user.organization
+      self.owned_by_location = user.location
+      self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
+      self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
+    end
   end
 end

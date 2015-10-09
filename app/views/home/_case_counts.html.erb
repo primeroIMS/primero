@@ -3,6 +3,7 @@
     <h4><%= t("dashboard.case_stats") %></h4>
   </div>
   <div class="panel_content no-padding panel_main">
+    <% if @stats.present? %>
     <table cellspacing="0" cellpadding="0" class="table-floating-header dashboard_counts">
       <tbody>
         <tr>
@@ -25,5 +26,8 @@
         </tr>
       </tbody>
     </table>
+    <% else %>
+      <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
+    <% end %>
   </div>
 </div>

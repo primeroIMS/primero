@@ -1164,6 +1164,7 @@ en:
     no_flagged_child: "No Flagged Cases"
     no_flagged_incident: "No Flagged Incidents"
     no_open_incidents: "No Open incidents"
+    no_case_stats: "No Case Stats"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
     recent_activities: "Recent Activities"
@@ -1218,6 +1219,10 @@ en:
     count_referrals_new:
       one: "and %{stat} <span>new</span> referrals"
       other: "and %{stat} <span>new</span> referrals"
+    new_last_week: New <span>(last week)</span>
+    new_this_week: New <span>(this week)</span>
+    closed_last_week: Closed <span>(last week)</span>
+    closed_this_week: Closed <span>(this week)</span>
 
   errors:
 
