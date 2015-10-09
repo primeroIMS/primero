@@ -10,6 +10,7 @@ class HomeController < ApplicationController
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
+    load_admin_information if display_admin_dashboard?
   end
 
   private
@@ -89,6 +90,10 @@ class HomeController < ApplicationController
     @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::GBV)
   end
 
+  def display_admin_dashboard?
+    @display_admin_dashboard ||= current_user.group_permissions.include?(Permission::ALL)
+  end
+
   def load_manager_information
     # TODO: Will Open be translated?
     module_ids = @module_ids
@@ -117,7 +122,7 @@ class HomeController < ApplicationController
       modules: @module_ids
     })
 
-    build_manager_stats(cases, flags)
+    # build_manager_stats(cases, flags)
   end
 
   def load_user_module_data
@@ -132,6 +137,7 @@ class HomeController < ApplicationController
 
   def load_cases_information
     @stats = Child.search do
+      # TODO: Check for valid
       with(:child_status, 'Open')
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:referred_users, current_user.user_name)
@@ -178,21 +184,25 @@ class HomeController < ApplicationController
       end
     end
 
+    show_flagged_by
+  end
+
+  def show_flagged_by
     flag_criteria = {
-      field: :flag_created_at,
-      type: 'child',
-      is_manager: current_user.is_manager?,
-      modules: @module_ids
+        field: :flag_created_at,
+        type: 'child',
+        is_manager: current_user.is_manager?,
+        modules: @module_ids
     }
 
     @flagged_by_me = search_flags(flag_criteria.merge({flagged_by: current_user.user_name}))
     @flagged_by_me = @flagged_by_me[0..9]
 
     if current_user.is_manager?
-      @recent_activities = load_recent_activities.results
-      @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
+      # @recent_activities = load_recent_activities.results
+      # @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
     elsif
-      @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
+    @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
       @flagged_by_others = @flagged_by_others[0..9]
     end
   end
@@ -215,5 +225,41 @@ class HomeController < ApplicationController
                                                 type: 'incident'})
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents(@current_user)
+  end
+
+  def load_admin_information
+    last_week = 1.week.ago.beginning_of_week .. 1.week.ago.end_of_week
+    this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
+
+    build_admin_stats({
+      totals: get_district_stat({status: 'Open'}),
+      new_last_week: get_district_stat({ status: 'Open', new: true, date_range: last_week }),
+      new_this_week: get_district_stat({ status: 'Open', new: true, date_range: this_week }),
+      closed_last_week: get_district_stat({ status: 'Closed', closed: true, date_range: last_week }),
+      closed_this_week: get_district_stat({ status: 'Closed', closed: true, date_range: this_week })
+    })
+  end
+
+  def build_admin_stats(stats)
+    district_stats = {}
+    stats.each do |k, v|
+      v.facet(:location_current).rows.each do |l|
+        district_stats[l.value] = {} unless district_stats[l.value].present?
+        district_stats[l.value][k] = l.count ||= 0
+      end
+    end
+    @district_stats = district_stats
+  end
+
+  def get_district_stat(query)
+    return Child.search do
+      with(:location_current, current_user.managed_users.map{|u| u.location}.compact)
+      with(:associated_user_names, current_user.managed_user_names)
+      with(:record_state, true)
+      with(:child_status, query[:status])
+      with(:created_at, query[:date_range]) if query[:new]
+      with(:date_closure, query[:date_range]) if query[:closed]
+      facet(:location_current, zeros: true)
+    end
   end
 end

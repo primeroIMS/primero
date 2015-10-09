@@ -1,5 +1,6 @@
 _primero.Router = Backbone.Router.extend({
   routes: {
+    '': 'dashboard',
     'cases/new': '',
     'incidents/new': 'incidentRecordForm',
     'incidents/:id/edit': 'incidentRecordForm',
@@ -27,6 +28,10 @@ _primero.Router = Backbone.Router.extend({
     if (this.hasForm()) {
       this.recordForms();
     }
+  },
+
+  dashboard: function() {
+    new _primero.Views.Dashboard();
   },
 
   lookups: function() {

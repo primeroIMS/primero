@@ -32,27 +32,44 @@ module HomeHelper
     end
   end
 
+  def build_district_stat_link(stat, filters=nil, model)
+    if stat == 0
+      return stat
+    else
+      model = model_name_class(model).pluralize
+      return link_to(stat, send("#{model}_path") + index_filters(filters), class: 'stat_link')
+    end
+  end
+
   def index_filters(filters)
     list = []
     index_filters_list = {
-      child_status: "scope[child_status]=list||Open",
+      child_status: "scope[child_status]=list||",
       new: "scope[last_updated_by]=neg||#{current_user.user_name}",
       referred_users: "scope[referred_users]=list||#{current_user.user_name}",
-      risk_level: {
-        high: "scope[risk_level]=list||High",
-        medium: "scope[risk_level]=list||Medium",
-        low: "scope[risk_level]=list||Low"
-      }
+      risk_level: "scope[risk_level]=list||",
+      record_state: "scope[record_state]=list||",
+      location: "scope[location_current]=location||",
+      created_at: "scope[created_at]=date_range||",
+      date_closure: "scope[date_closure]=date_range||"
     }
     filters.each do |filter|
-      filter = filter.split(':')
+      filter = filter.split('=')
       if filter.size > 1
-        list << index_filters_list[filter.first.to_sym][filter.last.to_sym]
+        list << index_filters_list[filter.first.to_sym] + filter.last
       elsif
         list << index_filters_list[filter.first.to_sym]
       end
     end
     return "?" + list.join('&')
+  end
+
+  def last_week
+    return "#{1.week.ago.beginning_of_week.strftime("%d-%b-%Y")}.#{1.week.ago.end_of_week.strftime("%d-%b-%Y")}"
+  end
+
+  def this_week
+    return "#{DateTime.now.beginning_of_week.strftime("%d-%b-%Y")}.#{DateTime.now.end_of_week.strftime("%d-%b-%Y")}"
   end
 
   private
