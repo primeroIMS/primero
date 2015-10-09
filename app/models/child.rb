@@ -64,6 +64,7 @@ class Child < CouchRest::Model::Base
 
   design do
       view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
+      view :by_date_of_birth
 
       view :by_name,
               :map => "function(doc) {
@@ -153,6 +154,11 @@ class Child < CouchRest::Model::Base
       ids_and_revs << row["value"]
     end
     ids_and_revs
+  end
+
+  def self.by_birthday_today
+    now = Time.now.utc.to_date
+    self.by_date_of_birth.select{|c| c.date_of_birth.strftime('%m%d') == now.strftime('%m%d')}
   end
 
   def validate_has_at_least_one_field_value
@@ -247,6 +253,15 @@ class Child < CouchRest::Model::Base
 
   def caregivers_name
     self.name_caregiver || self.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
+  end
+
+  # Solution below taken from...
+  # http://stackoverflow.com/questions/819263/get-persons-age-in-ruby
+  def calculated_age
+    if date_of_birth.present? && date_of_birth.is_a?(Date)
+      now = Time.now.utc.to_date
+      now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
+    end
   end
 
   private

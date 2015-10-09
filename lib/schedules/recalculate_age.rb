@@ -15,10 +15,17 @@ module RecalculateAge
     end
 
     def recalculate!
-      #TODO - do stuff here :)
-      puts 'Test message for recalculate age...'
+      Child.by_birthday_today.each do |c|
+        old_age = c.age
+        c.age = c.calculated_age
+        if c.valid?
+          c.save!
+          Rails.logger.info "Case:[#{c.id}]  Age before:[#{old_age}  Age after:[#{c.age}]"
+        else
+          Rails.logger.info "Case:[#{c.id}] not updated... not valid"
+        end
+      end
     end
-    
   end
 
 end
