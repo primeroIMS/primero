@@ -230,14 +230,17 @@ class HomeController < ApplicationController
   def load_admin_information
     last_week = 1.week.ago.beginning_of_week .. 1.week.ago.end_of_week
     this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
+    locations = current_user.managed_users.map{|u| u.location}.compact.reject(&:empty?)
 
-    build_admin_stats({
-      totals: get_district_stat({status: 'Open'}),
-      new_last_week: get_district_stat({ status: 'Open', new: true, date_range: last_week }),
-      new_this_week: get_district_stat({ status: 'Open', new: true, date_range: this_week }),
-      closed_last_week: get_district_stat({ status: 'Closed', closed: true, date_range: last_week }),
-      closed_this_week: get_district_stat({ status: 'Closed', closed: true, date_range: this_week })
-    })
+    if locations.present?
+      @district_stats = build_admin_stats({
+        totals: get_district_stat({ status: 'Open', locations: locations }),
+        new_last_week: get_district_stat({ status: 'Open', new: true, date_range: last_week, locations: locations }),
+        new_this_week: get_district_stat({ status: 'Open', new: true, date_range: this_week, locations: locations }),
+        closed_last_week: get_district_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations }),
+        closed_this_week: get_district_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations })
+      })
+    end
   end
 
   def build_admin_stats(stats)
@@ -248,12 +251,12 @@ class HomeController < ApplicationController
         district_stats[l.value][k] = l.count ||= 0
       end
     end
-    @district_stats = district_stats
+    district_stats
   end
 
   def get_district_stat(query)
     return Child.search do
-      with(:location_current, current_user.managed_users.map{|u| u.location}.compact)
+      with(:location_current, query[:locations])
       with(:associated_user_names, current_user.managed_user_names)
       with(:record_state, true)
       with(:child_status, query[:status])
