@@ -1443,6 +1443,107 @@ describe Child do
     end
   end
 
+  describe 'calculate age' do
+    before do
+
+      Child.all.each &:destroy
+
+      # The following is necessary so we get back date_of_birth from the DB as a Date object, not as a string
+      FormSection.all.each &:destroy
+      fields = [
+          Field.new({"name" => "child_status",
+                     "type" => "text_field",
+                     "display_name_all" => "Child Status"
+                    }),
+          Field.new({"name" => "date_of_birth",
+                     "type" => "date_field",
+                     "display_name_all" => "Date of Birth"
+                    }),
+          Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_all" => "Age"
+                    })]
+      form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+      )
+      form.save!
+      Child.any_instance.stub(:field_definitions).and_return(fields)
+      Child.refresh_form_properties
+
+      @case1 = Child.create(name: 'case1', date_of_birth: Date.new(2010, 10, 11))
+      @case2 = Child.create(name: 'case2', date_of_birth: Date.new(2008, 10, 11))
+      @case3 = Child.create(name: 'case3', date_of_birth: Date.new(2008, 3, 13))
+      @case4 = Child.create(name: 'case4', date_of_birth: Date.new(1998, 11, 11))
+      @case5 = Child.create(name: 'case5', date_of_birth: Date.new(2014, 10, 12))
+      @case6 = Child.create(name: 'case6', date_of_birth: Date.new(2012, 2, 29)) # leap year
+      @case7 = Child.create(name: 'case7', date_of_birth: Date.new(2012, 2, 14)) # leap year
+      @case8 = Child.create(name: 'case8', date_of_birth: Date.new(2012, 10, 11)) # leap year
+      @case9 = Child.create(name: 'case9', date_of_birth: Date.new(2015, 3, 1))
+    end
+
+    context 'when current date is non-leap year 2015' do
+      before :each do
+        Date.stub(:current).and_return(Date.new(2015, 10, 11))
+      end
+
+      it 'should find cases with birthdays today' do
+        expect(Child.by_birthday_today).to include(@case1, @case2, @case8)
+      end
+
+      it 'should not find cases with birthdays not today' do
+        expect(Child.by_birthday_today).not_to include(@case3, @case4, @case5, @case6, @case7)
+      end
+
+      it 'should calculate age with birthday tomorrow' do
+        expect(@case5.calculated_age).to eq(0)
+      end
+
+      it 'should calculate age with birthday on leap day' do
+        expect(@case6.calculated_age).to eq(3)
+      end
+
+      it 'should calculate age with birthday not on leap day' do
+        expect(@case1.calculated_age).to eq(5)
+      end
+    end
+
+    context 'when current date is leap year 2016' do
+      before :each do
+        Date.stub(:current).and_return(Date.new(2016, 2, 29))
+      end
+
+      it 'should find cases with birthdays today' do
+        expect(Child.by_birthday_today).to include(@case6)
+      end
+
+      it 'should not find cases with birthdays not today' do
+        expect(Child.by_birthday_today).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9)
+      end
+
+      it 'should calculate age with birthday tomorrow' do
+        expect(@case9.calculated_age).to eq(0)
+      end
+
+      it 'should calculate age with birthday on leap day' do
+        expect(@case6.calculated_age).to eq(4)
+      end
+
+      it 'should calculate age with birthday not on leap day' do
+        expect(@case1.calculated_age).to eq(5)
+      end
+    end
+  end
+
   private
 
   def create_child(name, options={})
