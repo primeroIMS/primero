@@ -276,8 +276,6 @@ class Child < CouchRest::Model::Base
   # http://stackoverflow.com/questions/819263/get-persons-age-in-ruby
   def calculated_age
     if date_of_birth.present? && date_of_birth.is_a?(Date)
-      #TODO - is Date.current sufficient?  Or should we base it on UTC?
-      #now = Time.now.utc.to_date
       now = Date.current
       now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
     end

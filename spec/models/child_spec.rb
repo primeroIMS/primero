@@ -1489,19 +1489,30 @@ describe Child do
       @case7 = Child.create(name: 'case7', date_of_birth: Date.new(2012, 2, 14)) # leap year
       @case8 = Child.create(name: 'case8', date_of_birth: Date.new(2012, 10, 11)) # leap year
       @case9 = Child.create(name: 'case9', date_of_birth: Date.new(2015, 3, 1))
+      @case10 = Child.create(name: 'case10', date_of_birth: Date.new(2014, 10, 10))
+      @case11 = Child.create(name: 'case11', date_of_birth: Date.new(2010, 2, 28)) # leap year
     end
 
     context 'when current date is non-leap year 2015' do
       before :each do
         Date.stub(:current).and_return(Date.new(2015, 10, 11))
+        Date.stub(:yesterday).and_return(Date.new(2015, 10, 10))
       end
 
       it 'should find cases with birthdays today' do
-        expect(Child.by_birthday_today).to include(@case1, @case2, @case8)
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).to include(@case1, @case2, @case8)
       end
 
       it 'should not find cases with birthdays not today' do
-        expect(Child.by_birthday_today).not_to include(@case3, @case4, @case5, @case6, @case7)
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).not_to include(@case3, @case4, @case5, @case6, @case7)
+      end
+
+      it 'should find cases within a date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).to include(@case1, @case2, @case8, @case10)
+      end
+
+      it 'should not find cases that fall outside the given date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).not_to include(@case3, @case4, @case5, @case6, @case7)
       end
 
       it 'should calculate age with birthday tomorrow' do
@@ -1517,17 +1528,61 @@ describe Child do
       end
     end
 
-    context 'when current date is leap year 2016' do
+    context 'when current date is March 1 on non-leap year' do
       before :each do
-        Date.stub(:current).and_return(Date.new(2016, 2, 29))
+        Date.stub(:current).and_return(Date.new(2015, 3, 1))
+        Date.stub(:yesterday).and_return(Date.new(2015, 2, 28))
       end
 
       it 'should find cases with birthdays today' do
-        expect(Child.by_birthday_today).to include(@case6)
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).to include(@case9)
       end
 
       it 'should not find cases with birthdays not today' do
-        expect(Child.by_birthday_today).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9)
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case10, @case11)
+      end
+
+      it 'should find cases within a date range, including leap day' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).to include(@case6, @case9, @case11)
+      end
+
+      it 'should not find cases that fall outside the given date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case10)
+      end
+
+      it 'should calculate age with birthday today' do
+        expect(@case9.calculated_age).to eq(0)
+      end
+
+      it 'should calculate age with birthday on leap day' do
+        expect(@case6.calculated_age).to eq(3)
+      end
+
+      it 'should calculate age with birthday not on leap day' do
+        expect(@case1.calculated_age).to eq(4)
+      end
+    end
+
+    context 'when current date is leap year 2016' do
+      before :each do
+        Date.stub(:current).and_return(Date.new(2016, 2, 29))
+        Date.stub(:yesterday).and_return(Date.new(2016, 2, 28))
+      end
+
+      it 'should find cases with birthdays today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).to include(@case6)
+      end
+
+      it 'should not find cases with birthdays not today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9)
+      end
+
+      it 'should find cases within a date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).to include(@case6, @case11)
+      end
+
+      it 'should not find cases that fall outside the given date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9, @case10)
       end
 
       it 'should calculate age with birthday tomorrow' do
