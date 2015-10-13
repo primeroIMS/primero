@@ -69,14 +69,37 @@ class CustomExportsController < ApplicationController
           forms = allowed_formsections(primero_module, record_type, user)
           forms = forms.select{|f| !f.is_nested?}
         end
-        forms = forms.sort_by{|f| [f.order_form_group, f.order]}
-        forms = forms.map do |form|
-          fields = form.fields.select{|f| types.include?(f.type) && f.visible?}
-          fields = fields.map{|f| [f.name, f.display_name, f.type]}
-          [form.name, fields]
+        #Collect the information as: [[form name, fields list], ...].
+        #fields list got the format: [field name, display name, type].
+        #fields list for subforms got the format: [subform name:field name, display name, type]
+        #Subforms will appears as another section because there is no way
+        #to manage nested optgroup in choosen or select.
+        forms_and_fields = []
+        forms.sort_by{|f| [f.order_form_group, f.order]}.each do |form|
+          fields = []
+          subforms = []
+          form.fields.select{|f| types.include?(f.type) && f.visible?}.each do |f|
+            if f.type == Field::SUBFORM
+              if f.subform_section.present?
+                #Collect subforms fields to build the section.
+                subform_fields = f.subform_section.fields.select{|sf| types.include?(sf.type) && sf.visible?}
+                subform_fields = subform_fields.map do |sf|
+                  ["#{f.name}:#{sf.name}", sf.display_name, sf.type]
+                end
+                subforms << ["#{form.name}:#{f.display_name}", subform_fields]
+              end
+            else
+              #Not subforms fields.
+              fields << [f.name, f.display_name, f.type]
+            end
+          end
+          #Add the section for the current form and the not subforms fields.
+          forms_and_fields << [form.name, fields]
+          #For every subform add the section as well.
+          subforms.each{|subform| forms_and_fields << subform}
         end
-        forms = forms.select{|f| f[1].present?}
-        custom_exportable[primero_module.name] = forms
+        forms_and_fields = forms_and_fields.select{|f| f[1].present?}
+        custom_exportable[primero_module.name] = forms_and_fields
       end
     end
     return custom_exportable

@@ -49,12 +49,21 @@ module Exporters
         @sheets.select{|form_name, sheet_def| sheet_def["modules"].include?(module_id) }
       end
 
-      def get_value(model, property)
-        if property.array
+      def get_value(model, property, parent = nil)
+        if property.is_a?(Hash) && parent.present?
+          #This is the selected fields of some subform.
+          #Parent contains the subform field in the model.
+          (model.send(parent) || []).map do |row|
+            property.values.map do |p|
+              get_value(row, p)
+            end
+          end
+        elsif property.array
           if property.type.include?(CouchRest::Model::Embeddable)
             #Returns every row of the subform.
             (model.send(property.name) || []).map do |row|
-              property.type.properties.map do |p|
+              #Remove unique_id field for subforms.
+              property.type.properties.select{|p| p.name != 'unique_id'}.map do |p|
                 get_value(row, p)
               end
             end
@@ -86,7 +95,10 @@ module Exporters
         @sheets = {}
         properties_by_module.each do |module_id, form_sections|
           form_sections.each do |fs_name, properties|
-            subforms = properties.select{|prop_name, prop| prop.array == true && prop.type.include?(CouchRest::Model::Embeddable)}
+            subforms = properties.select do |prop_name, prop|
+              # when there is a Hash is a subforms with some selected fields.
+              prop.is_a?(Hash) || (prop.array == true && prop.type.include?(CouchRest::Model::Embeddable))
+            end
             others = (properties.to_a - subforms.to_a).to_h
             if subforms.blank? || (subforms.length == 1 && others.blank?)
               #The section does not have subforms or
@@ -148,7 +160,9 @@ module Exporters
 
       def build_data(model, properties)
         properties.map do |key, property|
-          get_value(model, property)
+          # When there is a Hash is a subforms with some selected fields.
+          # Send 'key' because is the subform field name.
+          get_value(model, property, property.is_a?(Hash) ? key : nil)
         end
       end
 
@@ -168,11 +182,15 @@ module Exporters
 
       def build_header(properties)
         properties.map do |key, property|
-          if property.is_a?(String)
+          if property.is_a?(Hash)
+            #The hash contains the selected fields for a subform.
+            property.values.map{|prop| prop.name}
+          elsif property.is_a?(String)
             property
           elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
             #Returns every property in the subform to build the header of the sheet.
-            property.type.properties.map{|p| p.name}
+            #Remove unique_id field for subforms.
+            property.type.properties.map{|p| p.name if p.name != "unique_id"}.compact
           else
             property.name
           end

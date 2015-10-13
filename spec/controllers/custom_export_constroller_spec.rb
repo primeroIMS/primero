@@ -127,12 +127,50 @@ describe CustomExportsController do
         "description_all" => "Details Nested Subform Section 2"
     })
     subform_section.save!
+
+    fields_subform_1 = [
+      Field.new({"name" => "field_name_8",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 8"
+               }),
+      Field.new({"name" => "field_name_9",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 9"
+               }),
+      Field.new({"name" => "field_name_10",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 10",
+                 "visible" => false
+               })
+    ]
+    subform_section_1 = FormSection.new({
+        "visible"=>false,
+        "is_nested"=>true,
+        :order_form_group => 51,
+        :order => 10,
+        :order_subform => 2,
+        :unique_id=>"subform_section_3",
+        :parent_form=>"case",
+        "editable"=>true,
+        :fields => fields_subform_1,
+        :initial_subforms => 1,
+        "name_all" => "Nested Subform Section 3",
+        "description_all" => "Details Nested Subform Section 3"
+    })
+    subform_section_1.save!
+
     fields = [
       Field.new({"name" => "subform_section_2",
                  "type" => "subform",
                  "editable" => true,
                  "subform_section_id" => subform_section.unique_id,
                  "display_name_all" => "Subform Section 2"
+                }),
+      Field.new({"name" => "subform_section_other_test",
+                 "type" => "subform",
+                 "editable" => true,
+                 "subform_section_id" => subform_section_1.unique_id,
+                 "display_name_all" => "Subform Section Other Test"
                 })
     ]
     form = FormSection.new(
@@ -249,10 +287,17 @@ describe CustomExportsController do
         #Form Section Test 3 is not visible, so will not be in the output.
         expected_forms_sections = [
           #field_name_3 is not visible.
-          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]], 
-          ["Form Section Test 2 (CP)", [["Field Name 5", "field_name_5", "text_field"], ["Subform Section 1", "subform_section_1", "subform"]]], 
-          ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]], 
-          ["Form Section Test 4 (CP)", [["Subform Section 2", "subform_section_2", "subform"]]]
+          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]],
+          ["Form Section Test 2 (CP)", [["Field Name 5", "field_name_5", "text_field"]]],
+          #Subforms and fields.
+          ["Form Section Test 2:Subform Section 1 (CP)", [["Field Name 4", "subform_section_1:field_name_4", "text_field"]]],
+          ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]],
+          #Subforms and fields.
+          ["Form Section Test 4:Subform Section 2 (CP)", [["Field Name 7", "subform_section_2:field_name_7", "text_field"]]],
+          ["Form Section Test 4:Subform Section Other Test (CP)",
+            #field_name_10 is not visible, so will not be in the output.
+            [["Field Name 8", "subform_section_other_test:field_name_8", "text_field"],
+             ["Field Name 9", "subform_section_other_test:field_name_9", "text_field"]]]
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
         get :permitted_fields_list, params

@@ -108,6 +108,10 @@ describe ChildrenController do
       Field.new({"name" => "field_name_4",
                  "type" => "text_field",
                  "display_name_all" => "Field Name 4"
+               }),
+      Field.new({"name" => "field_name_9",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 9"
                })
     ]
     subform_section = FormSection.new({
@@ -156,6 +160,14 @@ describe ChildrenController do
       Field.new({"name" => "field_name_6",
                  "type" => "text_field",
                  "display_name_all" => "Field Name 6"
+               }),
+      Field.new({"name" => "field_name_7",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 7"
+               }),
+      Field.new({"name" => "field_name_8",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 8"
                })
     ]
     subform_section = FormSection.new({
@@ -323,6 +335,57 @@ describe ChildrenController do
         get :index, params
       end
 
+      it "Should export selected subforms 'Fields'" do
+        #Main part of the test:
+        #For subforms will export selected fields.
+        expected_forms_sections = {
+          "primeromodule-cp"=> {
+            "Form Section Test 1" => {
+                "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first,
+                "shared_field" => Child.properties.select{|p| p.name == "shared_field"}.first
+            },
+            "Form Section Test 4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
+            "Form Section Test 5" => {
+              #A few fields of the subforms will be exported.
+              "subform_section_1" => 
+                  Child.properties.select{|p| p.name == "subform_section_1"}.first.
+                  type.properties.select{|p| p.name == "field_name_9"}.
+                  map{|p| [p.name, p]}.to_h
+            },
+            "__record__"=> {
+              "created_organization" => Child.properties.select{|p| p.name == "created_organization"}.first,
+              "created_by_full_name" => Child.properties.select{|p| p.name == "created_by_full_name"}.first,
+              "last_updated_at" => Child.properties.select{|p| p.name == "last_updated_at"}.first,
+              "last_updated_by" => Child.properties.select{|p| p.name == "last_updated_by"}.first,
+              "last_updated_by_full_name" => Child.properties.select{|p| p.name == "last_updated_by_full_name"}.first,
+              "posted_at" => Child.properties.select{|p| p.name == "posted_at"}.first,
+              "unique_identifier" => Child.properties.select{|p| p.name == "unique_identifier"}.first,
+              "record_state" => Child.properties.select{|p| p.name == "record_state"}.first,
+              "hidden_name" => Child.properties.select{|p| p.name == "hidden_name"}.first,
+              "owned_by_full_name" => Child.properties.select{|p| p.name == "owned_by_full_name"}.first,
+              "previously_owned_by_full_name" => Child.properties.select{|p| p.name == "previously_owned_by_full_name"}.first,
+              "duplicate" => Child.properties.select{|p| p.name == "duplicate"}.first,
+              "duplicate_of" => Child.properties.select{|p| p.name == "duplicate_of"}.first
+            }
+          }
+        }
+        Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
+
+        params = {
+          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "custom_export_file_name" => "",
+          "password" => "123456",
+          "selected_records" => "",
+          "custom_exports"=> {
+              "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
+                #Select only field_name_9 for subform_section_1.
+              "fields" => ["birth_date", "shared_field", "location_field", "subform_section_1:field_name_9"], "model_class" => "Child"
+            },
+          "page" => "all", "per_page" => "all", "format" => "xls"
+        }
+        get :index, params
+      end
+
     end
 
     describe "Select Format 'Fields'" do
@@ -416,6 +479,63 @@ describe ChildrenController do
           "custom_exports"=> {
               "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
               "fields" => ["birth_date", "subform_section_1", "subform_section_3"], "model_class" => "Child"
+            },
+          "page" => "all", "per_page" => "all", "format" => "selected_xls"
+        }
+        get :index, params
+      end
+
+      it "Should export select subforms fields" do
+        #Main part of the test:
+        #Selected subforms fields should exported.
+        expected_forms_sections = {
+          "primeromodule-cp"=> {
+            "Form Section Test 1" => {
+                "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first
+            },
+            "Form Section Test 5" => {
+                "field_name_5" => Child.properties.select{|p| p.name == "field_name_5"}.first,
+                "subform_section_1" =>
+                    Child.properties.select{|p| p.name == "subform_section_1"}.first.
+                    type.properties.select{|p| p.name == "field_name_4"}.
+                    map{|p| [p.name, p]}.to_h
+            },
+            "Form Section Test 6" => {
+              "subform_section_3" =>
+                    Child.properties.select{|p| p.name == "subform_section_3"}.first.
+                    type.properties.select{|p| p.name == "field_name_6" || p.name == "field_name_7"}.
+                    map{|p| [p.name, p]}.to_h
+            },
+            "__record__"=> {
+              "created_organization" => Child.properties.select{|p| p.name == "created_organization"}.first,
+              "created_by_full_name" => Child.properties.select{|p| p.name == "created_by_full_name"}.first,
+              "last_updated_at" => Child.properties.select{|p| p.name == "last_updated_at"}.first,
+              "last_updated_by" => Child.properties.select{|p| p.name == "last_updated_by"}.first,
+              "last_updated_by_full_name" => Child.properties.select{|p| p.name == "last_updated_by_full_name"}.first,
+              "posted_at" => Child.properties.select{|p| p.name == "posted_at"}.first,
+              "unique_identifier" => Child.properties.select{|p| p.name == "unique_identifier"}.first,
+              "record_state" => Child.properties.select{|p| p.name == "record_state"}.first,
+              "hidden_name" => Child.properties.select{|p| p.name == "hidden_name"}.first,
+              "owned_by_full_name" => Child.properties.select{|p| p.name == "owned_by_full_name"}.first,
+              "previously_owned_by_full_name" => Child.properties.select{|p| p.name == "previously_owned_by_full_name"}.first,
+              "duplicate" => Child.properties.select{|p| p.name == "duplicate"}.first,
+              "duplicate_of" => Child.properties.select{|p| p.name == "duplicate_of"}.first
+            }
+          }
+        }
+        Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
+
+        params = {
+          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "custom_export_file_name" => "",
+          "password" => "123456",
+          "selected_records" => "",
+          "custom_exports"=> {
+              "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
+              "fields" => ["birth_date", "field_name_5",
+                           "subform_section_1:field_name_4",
+                           "subform_section_3:field_name_6",
+                           "subform_section_3:field_name_7"], "model_class" => "Child"
             },
           "page" => "all", "per_page" => "all", "format" => "selected_xls"
         }
