@@ -66,7 +66,9 @@ class Location < CouchRest::Model::Base
     def find_by_location(placename)
       #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
       location = Location.by_placename(key: placename).all[0..0]
-      return location + location.first.descendants
+      if location.present?
+        return location + location.first.descendants
+      end
     end
     memoize_in_prod :find_by_location
 
@@ -113,6 +115,13 @@ class Location < CouchRest::Model::Base
       self.all.map{|r| r.name}
     end
     memoize_in_prod :all_names
+
+    def get_admin_level_from_string(location, admin_type)
+      location = Location.placename_from_name(location)
+      location_obj = Location.find_by_location(location)
+      admin_type = location_obj.present? ? location_obj.first.admin_level(admin_type) : nil
+      return admin_type.present? ? admin_type.placename : nil
+    end
 
   end
 
