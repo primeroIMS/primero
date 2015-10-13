@@ -215,6 +215,7 @@ module IndexHelper
     filters << "Flagged"
     filters << "Mobile" if @is_cp
     filters << "Social Worker" if @is_manager
+    filters << "Agency" if @is_manager
     filters << "Status"
     filters << "Age Range"
     filters << "Sex"
