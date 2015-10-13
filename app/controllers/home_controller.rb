@@ -257,7 +257,7 @@ class HomeController < ApplicationController
   def build_admin_stats(stats)
     district_stats = {}
     stats.each do |k, v|
-      v.facet(:location_current).rows.each do |l|
+      v.facet(:owned_by_location_district).rows.each do |l|
         district_stats[l.value] = {} unless district_stats[l.value].present?
         district_stats[l.value][k] = l.count ||= 0
       end
@@ -267,13 +267,12 @@ class HomeController < ApplicationController
 
   def get_district_stat(query)
     return Child.search do
-      with(:location_current, query[:locations])
       with(:associated_user_names, current_user.managed_user_names)
       with(:record_state, true)
       with(:child_status, query[:status])
       with(:created_at, query[:date_range]) if query[:new]
       with(:date_closure, query[:date_range]) if query[:closed]
-      facet(:location_current, zeros: true)
+      facet(:owned_by_location_district, zeros: true)
     end
   end
 end

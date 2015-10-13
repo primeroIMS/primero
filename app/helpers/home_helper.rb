@@ -50,6 +50,7 @@ module HomeHelper
       risk_level: "scope[risk_level]=list||",
       record_state: "scope[record_state]=list||",
       location: "scope[location_current]=location||",
+      district: "scope[owned_by_location_district]=list||",
       created_at: "scope[created_at]=date_range||",
       date_closure: "scope[date_closure]=date_range||"
     }

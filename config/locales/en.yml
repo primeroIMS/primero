@@ -1219,10 +1219,11 @@ en:
     count_referrals_new:
       one: "and %{stat} <span>new</span> referrals"
       other: "and %{stat} <span>new</span> referrals"
-    new_last_week: New <span>(last week)</span>
-    new_this_week: New <span>(this week)</span>
-    closed_last_week: Closed <span>(last week)</span>
-    closed_this_week: Closed <span>(this week)</span>
+    open_cases: "Open Cases"
+    new_last_week: "New <span>(last week)</span>"
+    new_this_week: "New <span>(this week)</span>"
+    closed_last_week: "Closed <span>(last week)</span>"
+    closed_this_week: "Closed <span>(this week)</span>"
 
   errors:
 
