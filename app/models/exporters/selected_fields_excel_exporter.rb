@@ -64,7 +64,15 @@ module Exporters
 
       #Return the value based on the property.
       def get_value(model, property)
-        if property.is_a?(String)
+        if property.is_a?(Hash)
+          #When is a hash, it is a subform with some of the selected fields.
+          subform_name, subform_props = property.keys.first, property.values.first
+          (model.send(subform_name) || []).map do |row|
+            subform_props.map do |p|
+              get_value(row, p)
+            end
+          end
+        elsif property.is_a?(String)
           #Process synthetic properties.
           if property == "model_type"
             {'Child' => 'Case'}.fetch(model.class.name, model.class.name)
@@ -104,8 +112,15 @@ module Exporters
             max_row = data_row.size if data_row.size > max_row
             #calculate width based on the data.
             data_row.each{|row| row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length}}
-            #Calculate the next column, exclude unique_id
-            col = col + property.type.properties.select{|p| p.name != 'unique_id'}.size
+            if property.is_a?(Hash)
+              #This is a subform with some selected fields.
+              size = property.values.first.size
+            else
+              #exclude unique_id
+              size = property.type.properties.select{|p| p.name != 'unique_id'}.size
+            end
+            #Calculate the next column
+            col = col + size
           else
             #Regular fields calculate metadata.
             withds[col] = data_row.to_s.length if withds[col] < data_row.to_s.length
@@ -137,7 +152,17 @@ module Exporters
             if form_name == '__record__'
               properties[:record] << props.values
             else
-              properties[:selected_fields] << props.values
+              properties[:selected_fields] << props.map do |key, value|
+                if value.is_a?(Hash)
+                  #This is a subform with some selected fields.
+                  #keep the 'key' because is the name of the subform field
+                  #in the model for retrieve values.
+                  {key => value.values}
+                else
+                  #Regular property.
+                  value
+                end
+              end
             end
           end
         end
@@ -150,7 +175,12 @@ module Exporters
       def get_header(properties)
         (["_id", "model_type"] +
          properties.map do |property|
-           if property.array && property.type.include?(CouchRest::Model::Embeddable)
+           if property.is_a?(Hash)
+             #When is a hash, it is a subform with some of the selected fields.
+             subform_name, subform_props = property.keys.first, property.values.first
+             #Field name will include the subform field name.
+             subform_props.map{|prop| "#{subform_name}:#{prop.name}"}.flatten
+           elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
              #Returns every property in the subform to build the header of the sheet.
              #Remove unique_id field for subforms.
              property.type.properties.map{|p| "#{property.name}:#{p.name}" if p.name != "unique_id"}.compact
