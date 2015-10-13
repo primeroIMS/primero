@@ -30,6 +30,7 @@
     <% if district_stats.present? %>
       <table cellspacing="0" cellpadding="0" class="table-floating-header extra">
         <tbody>
+          <% #TODO: we cannot rely on 'district' always being there. SL-specific code %>
           <% district_stats.each do |key, val| %>
             <tr>
               <td class="id_column"><%= key %></td>
