@@ -8,13 +8,13 @@
 
         </th>
         <th>
-          <%= t('dashboard.case_stats').html_safe %>
+          <%= t('dashboard.open_cases').html_safe %>
         </th>
         <th>
           <%= t('dashboard.new_last_week').html_safe %>
         </th>
         <th>
-          <%= t('dashboard.new_last_week').html_safe %>
+          <%= t('dashboard.new_this_week').html_safe %>
         </th>
         <th>
           <%= t('dashboard.closed_last_week').html_safe %>
@@ -30,14 +30,15 @@
     <% if district_stats.present? %>
       <table cellspacing="0" cellpadding="0" class="table-floating-header extra">
         <tbody>
+          <% #TODO: we cannot rely on 'district' always being there. SL-specific code %>
           <% district_stats.each do |key, val| %>
             <tr>
               <td class="id_column"><%= key %></td>
-              <td><%= build_district_stat_link(val[:totals], ['child_status=Open', 'record_state=true', "location=#{key}"] ,model)  %></td>
-              <td><%= build_district_stat_link(val[:new_last_week], ['child_status=Open', 'record_state=true', "location=#{key}", "created_at=#{last_week}"], model) %></td>
-              <td><%= build_district_stat_link(val[:new_this_week], ['child_status=Open', 'record_state=true', "location=#{key}", "created_at=#{this_week}"], model) %></td>
-              <td><%= build_district_stat_link(val[:closed_last_week], ['child_status=Closed', 'record_state=true', "location=#{key}", "date_closure=#{last_week}"], model) %></td>
-              <td><%= build_district_stat_link(val[:closed_this_week], ['child_status=Closed', 'record_state=true', "location=#{key}", "date_closure=#{this_week}"], model) %></td>
+              <td><%= build_district_stat_link(val[:totals], ['child_status=Open', 'record_state=true', "district=#{key}"] ,model)  %></td>
+              <td><%= build_district_stat_link(val[:new_last_week], ['child_status=Open', 'record_state=true', "district=#{key}", "created_at=#{last_week}"], model) %></td>
+              <td><%= build_district_stat_link(val[:new_this_week], ['child_status=Open', 'record_state=true', "district=#{key}", "created_at=#{this_week}"], model) %></td>
+              <td><%= build_district_stat_link(val[:closed_last_week], ['child_status=Closed', 'record_state=true', "district=#{key}", "date_closure=#{last_week}"], model) %></td>
+              <td><%= build_district_stat_link(val[:closed_this_week], ['child_status=Closed', 'record_state=true', "district=#{key}", "date_closure=#{this_week}"], model) %></td>
             </tr>
           <% end %>
         </tbody>
