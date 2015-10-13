@@ -48,29 +48,32 @@ class HomeController < ApplicationController
     }
   end
 
-  def build_manager_stats(cases, flags)
+  def build_manager_stats(cases_total, cases_new)
     @aggregated_case_worker_stats = {}
 
-    cases.facet(:owned_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {total_cases: c.count}}
-    flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
-         .group_by{|g| g[:flagged_by]}
-         .each do |g, fz|
-            if @aggregated_case_worker_stats[g].present?
-              @aggregated_case_worker_stats[g][:cases_this_week] = fz.count
-            # else
-            #   @aggregated_case_worker_stats[g] = {cases_this_week: f.count}
-            end
-          end
+    cases_total.facet(:owned_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {total_cases: c.count}}
+    cases_new.facet(:owned_by).rows.each{|c| @aggregated_case_worker_stats[c.value][:new_cases] = c.count}
 
-    flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
-         .group_by{|g| g[:flagged_by]}
-         .each do |g, fz|
-            if @aggregated_case_worker_stats[g].present?
-              @aggregated_case_worker_stats[g][:cases_overdue] = fz.count
-            # else
-            #   @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
-            end
-          end
+    # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
+    #      .group_by{|g| g[:flagged_by]}
+    #      .each do |g, fz|
+    #         if @aggregated_case_worker_stats[g].present?
+    #           @aggregated_case_worker_stats[g][:cases_this_week] = fz.count
+    #         # else
+    #         #   @aggregated_case_worker_stats[g] = {cases_this_week: f.count}
+    #         end
+    #       end
+    #
+    # flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
+    #      .group_by{|g| g[:flagged_by]}
+    #      .each do |g, fz|
+    #         if @aggregated_case_worker_stats[g].present?
+    #           @aggregated_case_worker_stats[g][:cases_overdue] = fz.count
+    #         # else
+    #         #   @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
+    #         end
+    #       end
+    binding.pry
     @aggregated_case_worker_stats
   end
 
@@ -94,11 +97,10 @@ class HomeController < ApplicationController
     @display_admin_dashboard ||= current_user.group_permissions.include?(Permission::ALL)
   end
 
-  def load_manager_information
-    # TODO: Will Open be translated?
+  def manager_case_query(query = {})
     module_ids = @module_ids
 
-    cases = Child.search do
+    return Child.search do
       with(:child_status, 'Open')
       if module_ids.present?
         any_of do
@@ -113,16 +115,25 @@ class HomeController < ApplicationController
       end
       paginate page: 1, per_page: 0
     end
+  end
 
-    flags = search_flags({
-      field: :flag_date,
-      criteria: 1.week.ago.utc...1.week.from_now.utc,
-      type: 'child',
-      is_manager: true,
-      modules: @module_ids
-    })
+  def load_manager_information
+    # TODO: Will Open be translated?
+    module_ids = @module_ids
 
-    # build_manager_stats(cases, flags)
+
+    # flags = search_flags({
+    #   field: :flag_date,
+    #   criteria: 1.week.ago.utc...1.week.from_now.utc,
+    #   type: 'child',
+    #   is_manager: true,
+    #   modules: @module_ids
+    # })
+
+    manager_case_totals = manager_case_query({})
+    manager_case_new = manager_case_query({})
+
+    build_manager_stats(manager_case_totals, manager_case_new)
   end
 
   def load_user_module_data
