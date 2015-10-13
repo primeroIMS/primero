@@ -39,7 +39,9 @@ module Searchable
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
       # TODO: we cannot rely on 'district' always being there. SL-specific code
       string :owned_by_location_district do
-        Location.get_admin_level_from_string(self.owner.location, 'district')
+        if self.owner.present? && self.owner.location.present?
+          Location.get_admin_level_from_string(self.owner.location, 'district')
+        end
       end
     end
 
