@@ -116,16 +116,11 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all_names
 
-    def get_district(location)
-      location = Location.placename_from_name(location).capitalize
+    def get_admin_level_from_string(location, admin_type)
+      location = Location.placename_from_name(location)
       location_obj = Location.find_by_location(location)
-      district = location_obj.present? ? location_obj.first.admin_level('district') : nil
-
-      if district.present?
-        return district.placename
-      else
-        return nil
-      end
+      admin_type = location_obj.present? ? location_obj.first.admin_level(admin_type) : nil
+      return admin_type.present? ? admin_type.placename : nil
     end
 
   end

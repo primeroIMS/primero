@@ -37,6 +37,9 @@ module Searchable
       end
       #text :name, as: :name_ph
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+      string :owned_by_location_district do
+        Location.get_admin_level_from_string(self.owner.location, 'district')
+      end
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -205,7 +208,7 @@ module Searchable
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"] +
+       "created_organization", "owned_by_agency", "owned_by_location"] +
        Field.all_filterable_field_names(self.parent_form)
     end
 
