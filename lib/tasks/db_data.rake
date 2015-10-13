@@ -327,17 +327,8 @@ namespace :db do
     desc "Recalculate ages on Cases"
     task :recalculate_case_ages => :environment do
       puts "Recalculating ages based on date of birth..."
-      Child.by_date_of_birth.each do |c|
-        old_age = c.age
-        c.age = c.calculated_age
-        if c.valid?
-          c.save!
-          puts "Case:[#{c.id}]  Age before:[#{old_age}  Age after:[#{c.age}]  Date of birth:[#{c.date_of_birth}]"
-        else
-          puts "Case:[#{c.id}] not updated... not valid"
-        end
-      end
-
+      #Passing in no params causes recalculate! to recalculate ALL cases
+      RecalculateAge::recalculate!
     end
 
   end

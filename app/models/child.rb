@@ -122,6 +122,22 @@ class Child < CouchRest::Model::Base
                          }
                        }
                      }"
+
+      view :by_date_of_birth_month_day,
+           :map => "function(doc) {
+                  if (doc['couchrest-type'] == 'Child')
+                 {
+                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                      if (doc['date_of_birth'] != null) {
+                        var dob = new Date(doc['date_of_birth']);
+                        //Add 1 to month because getMonth() is indexed starting at 0
+                        //i.e. January == 0, Februrary == 1, etc.
+                        //Add 1 to align it with Date.month which is indexed starting at 1
+                        emit([(dob.getMonth() + 1), dob.getDate()], null);
+                      }
+                    }
+                 }
+              }"
   end
 
   def self.quicksearch_fields
@@ -156,11 +172,10 @@ class Child < CouchRest::Model::Base
     ids_and_revs
   end
 
-  def self.by_birthday_today
-    # TODO - is Date.current sufficient?  Or should we base it on UTC?
-    #now = Time.now.utc.to_date
-    now = Date.current
-    self.by_date_of_birth.select{|c| c.date_of_birth.strftime('%m%d') == now.strftime('%m%d')}
+  def self.by_date_of_birth_range(startDate, endDate)
+    if startDate.is_a?(Date) && endDate.is_a?(Date)
+      self.by_date_of_birth_month_day(:startkey => [startDate.month, startDate.day], :endkey => [endDate.month, endDate.day]).all
+    end
   end
 
   def validate_has_at_least_one_field_value
