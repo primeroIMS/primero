@@ -64,6 +64,7 @@ class Child < CouchRest::Model::Base
 
   design do
       view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
+      view :by_date_of_birth
 
       view :by_name,
               :map => "function(doc) {
@@ -121,6 +122,22 @@ class Child < CouchRest::Model::Base
                          }
                        }
                      }"
+
+      view :by_date_of_birth_month_day,
+           :map => "function(doc) {
+                  if (doc['couchrest-type'] == 'Child')
+                 {
+                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                      if (doc['date_of_birth'] != null) {
+                        var dob = new Date(doc['date_of_birth']);
+                        //Add 1 to month because getMonth() is indexed starting at 0
+                        //i.e. January == 0, Februrary == 1, etc.
+                        //Add 1 to align it with Date.month which is indexed starting at 1
+                        emit([(dob.getMonth() + 1), dob.getDate()], null);
+                      }
+                    }
+                 }
+              }"
   end
 
   def self.quicksearch_fields
@@ -153,6 +170,12 @@ class Child < CouchRest::Model::Base
       ids_and_revs << row["value"]
     end
     ids_and_revs
+  end
+
+  def self.by_date_of_birth_range(startDate, endDate)
+    if startDate.is_a?(Date) && endDate.is_a?(Date)
+      self.by_date_of_birth_month_day(:startkey => [startDate.month, startDate.day], :endkey => [endDate.month, endDate.day]).all
+    end
   end
 
   def validate_has_at_least_one_field_value
@@ -247,6 +270,15 @@ class Child < CouchRest::Model::Base
 
   def caregivers_name
     self.name_caregiver || self.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
+  end
+
+  # Solution below taken from...
+  # http://stackoverflow.com/questions/819263/get-persons-age-in-ruby
+  def calculated_age
+    if date_of_birth.present? && date_of_birth.is_a?(Date)
+      now = Date.current
+      now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
+    end
   end
 
   private

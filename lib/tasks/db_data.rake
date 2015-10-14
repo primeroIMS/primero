@@ -321,6 +321,16 @@ namespace :db do
 
     end
 
+
+    # For each case having a date_of_birth, recalculate the age based on date_of_birth
+    # USAGE:   $bundle exec rake db:data:recalculate_case_ages
+    desc "Recalculate ages on Cases"
+    task :recalculate_case_ages => :environment do
+      puts "Recalculating ages based on date of birth..."
+      #Passing in no params causes recalculate! to recalculate ALL cases
+      RecalculateAge::recalculate!
+    end
+
   end
 
 
