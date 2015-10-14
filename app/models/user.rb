@@ -106,7 +106,7 @@ class User < CouchRest::Model::Base
   end
 
 
-  before_save :make_user_name_lowercase, :encrypt_password
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
   after_save :save_devices
 
 
@@ -356,6 +356,21 @@ class User < CouchRest::Model::Base
   def save_devices
     @devices.map(&:save!) if @devices
     true
+  end
+
+  def update_user_case_locations
+    if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+      # Child.by_owned_by.key(self.user_name).all.each{|child| child.save!}
+      new_location = Location.get_admin_level_from_string(self.location, 'district') if self.location.present?
+      Child.by_owned_by.limit(500).rows.map {|r| Child.database.get(r["id"]) }.each do |c|
+        if c[:owned_by] == self.user_name
+          if self.location.present?
+            c[:owned_by_location_district] = new_location
+          end
+          c.save
+        end
+      end
+    end
   end
 
   def encrypt_password
