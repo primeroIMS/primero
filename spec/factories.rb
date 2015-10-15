@@ -82,8 +82,8 @@ FactoryGirl.define do
   factory :user, :traits => [ :model ] do
     user_name { "user_name_#{counter}" }
     full_name 'full name'
-    password 'password'
-    password_confirmation 'password'
+    password 'passw0rd'
+    password_confirmation 'passw0rd'
     email 'email@ddress.net'
     organization 'TW'
     location 'Sierra Leone::Southern::Bonthe::Jong'

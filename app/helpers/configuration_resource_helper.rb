@@ -1,5 +1,5 @@
 module ConfigurationResourceHelper
-  def resource_edit_field(object, field, label_key, type, required=false, disabled=false)
+  def resource_edit_field(object, field, label_key, type, required=false, disabled=false, help_text=nil)
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
@@ -12,17 +12,21 @@ module ConfigurationResourceHelper
           label_tag(field_id, label_text, class: 'key inline')
         }
       })
-      concat(content_tag(:div, class: 'medium-8 columns'){
+      concat(
+        content_tag(:div, class: 'medium-8 columns'){
         if type == 'file_field' && field == 'logo'
-          show_logo_upload(object, field_id, type, tag_helper)
+          concat(show_logo_upload(object, field_id, type, tag_helper))
         elsif type == 'check_box'
-          label_tag(nil, class: 'left'){
+          concat(label_tag(nil, class: 'left'){
               concat(hidden_field_tag(name, ''))
               concat(check_box_tag(name, '1', value.present? ? true : false))
-          }
+          })
         else
-          self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off',
-            class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled)
+          concat(self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off',
+            class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled))
+        end
+        if help_text.present?
+          concat(content_tag(:p, help_text, class: 'help'))
         end
       })
       #TODO: This should be replaced with Foundation required field components

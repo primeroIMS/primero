@@ -6,8 +6,8 @@ describe User do
     options.reverse_merge!({
                                :user_name => "user_name_#{rand(10000)}",
                                :full_name => 'full name',
-                               :password => 'password',
-                               :password_confirmation => options[:password] || 'password',
+                               :password => 'b00h00',
+                               :password_confirmation => options[:password] || 'b00h00',
                                :email => 'email@ddress.net',
                                :user_type => 'user_type',
                                :organization => 'TW',
@@ -34,7 +34,7 @@ describe User do
     end
 
     it "should be valid when password contains whitespace" do
-      user = build_user :password => "valid with spaces"
+      user = build_user :password => "v4lid with spaces"
       user.should be_valid
     end
 
@@ -91,8 +91,8 @@ describe User do
   it "should reject saving a changed password if the confirmation doesn't match" do
     user = build_user
     user.create!
-    user.password = 'foo'
-    user.password_confirmation = 'not foo'
+    user.password = 'f00f00'
+    user.password_confirmation = 'not f00f00'
 
     user.valid?
     user.should_not be_valid
@@ -102,10 +102,18 @@ describe User do
   it "should allow password update if confirmation matches" do
     user = build_user
     user.create!
-    user.password = 'new_password'
-    user.password_confirmation = 'new_password'
+    user.password = 'new_password1'
+    user.password_confirmation = 'new_password1'
 
     user.should be_valid
+  end
+
+  it "should reject passwords that are less than 6 characters or don't have at least one alpha and at least 1 numeric character" do
+    user = build_user :password => "invalid"
+    user.should_not be_valid
+
+    user = build_user :password => 'sh0rt'
+    user.should_not be_valid
   end
 
   it "doesn't use id for equality" do
@@ -120,33 +128,33 @@ describe User do
   end
 
   it "can't authenticate which isn't saved" do
-    user = build_user(:password => "thepass")
+    user = build_user(:password => "b00h00")
     lambda { user.authenticate("thepass") }.should raise_error
   end
 
   it "can authenticate with the right password" do
-    user = build_and_save_user(:password => "thepass")
-    user.authenticate("thepass").should be_true
+    user = build_and_save_user(:password => "b00h00")
+    user.authenticate("b00h00").should be_true
   end
 
   it "can't authenticate with the wrong password" do
-    user = build_and_save_user(:password => "onepassword")
-    user.authenticate("otherpassword").should be_false
+    user = build_and_save_user(:password => "onepassw0rd")
+    user.authenticate("otherpassw0rd").should be_false
   end
 
   it "can't authenticate if disabled" do
-    user = build_and_save_user(:disabled => "true", :password => "thepass")
-    user.authenticate("thepass").should be_false
+    user = build_and_save_user(:disabled => "true", :password => "thep4ss")
+    user.authenticate("thep4ss").should be_false
   end
 
   it "can't look up password in database" do
-    user = build_and_save_user(:password => "thepass")
+    user = build_and_save_user(:password => "thep4ss")
     User.get(user.id).password.should be_nil
   end
 
   it "can authenticate if not disabled" do
-    user = build_and_save_user(:disabled => "false", :password => "thepass")
-    user.authenticate("thepass").should be_true
+    user = build_and_save_user(:disabled => "false", :password => "thep4ss")
+    user.authenticate("thep4ss").should be_true
   end
 
   it "should be able to store a mobile login event" do
@@ -207,7 +215,7 @@ describe User do
 
   it "should have error on password_confirmation if no password_confirmation" do
     user = build_user({
-                          :password => "timothy",
+                          :password => "t1mothy",
                           :password_confirmation => ""
                       })
     user.should_not be_valid
@@ -238,7 +246,7 @@ describe User do
       permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [permission_case_read_write])
-      user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+      user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
 
       User.find_by_user_name(user.user_name).roles.should == [admin_role, field_worker_role]

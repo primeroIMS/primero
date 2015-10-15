@@ -5,7 +5,7 @@ describe SessionsController do
   before :each do
     permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @session_role = Role.create(permissions_list: [permission_case])
-    @user = create :user, :password => 'test_password', :password_confirmation => 'test_password', :role_ids => [ @session_role.name ]
+    @user = create :user, :password => 'test_passw0rd', :password_confirmation => 'test_passw0rd', :role_ids => [ @session_role.name ]
   end
 
   it 'routes /api/login to the session create action' do

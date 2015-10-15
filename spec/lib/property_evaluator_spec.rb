@@ -8,10 +8,10 @@ describe "PropertyEvaluator" do
     @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
     admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
     field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case_read_write])
-    user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+    user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                         :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
                         :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name})
-    user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+    user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                         :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type',
                         :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => ''})
 
