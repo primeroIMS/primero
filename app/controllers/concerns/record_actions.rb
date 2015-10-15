@@ -377,11 +377,11 @@ module RecordActions
         if value.kind_of? Array
           if value.size == 0
             record.delete(field_key)
-          elsif value.first.kind_of? Enumerable
+          elsif value.first.respond_to?(:each)
             value = value.map do |v|
               nested = v.clone
               v.each do |field_key, value|
-                nested.delete(field_key) if value == []
+                nested.delete(field_key) if !value.present?
               end
               nested
             end
