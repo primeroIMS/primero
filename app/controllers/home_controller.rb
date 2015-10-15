@@ -48,30 +48,57 @@ class HomeController < ApplicationController
     }
   end
 
-  def build_manager_stats(cases, flags)
-    @aggregated_case_worker_stats = {}
+  def build_manager_stats(queries)
+    @aggregated_case_manager_stats = {
+      worker_totals: {},
+      manager_totals: {},
+      referred_totals: {}
+    }
 
-    cases.facet(:owned_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {total_cases: c.count}}
-    flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
-         .group_by{|g| g[:flagged_by]}
-         .each do |g, fz|
-            if @aggregated_case_worker_stats[g].present?
-              @aggregated_case_worker_stats[g][:cases_this_week] = fz.count
-            # else
-            #   @aggregated_case_worker_stats[g] = {cases_this_week: f.count}
-            end
-          end
+    queries[:totals_by_case_worker].facet(:owned_by).rows.each do |c|
+      @aggregated_case_manager_stats[:worker_totals][c.value] = {}
+      @aggregated_case_manager_stats[:worker_totals][c.value][:total_cases] = c.count
+    end
 
-    flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
-         .group_by{|g| g[:flagged_by]}
-         .each do |g, fz|
-            if @aggregated_case_worker_stats[g].present?
-              @aggregated_case_worker_stats[g][:cases_overdue] = fz.count
-            # else
-            #   @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
-            end
-          end
-    @aggregated_case_worker_stats
+    queries[:new_by_case_worker].facet(:owned_by).rows.each do |c|
+      @aggregated_case_manager_stats[:worker_totals][c.value][:new_cases] = c.count
+    end
+
+    queries[:manager_totals].facet(:child_status).rows.each do |c|
+      @aggregated_case_manager_stats[:manager_totals][c.value] = c.count
+    end
+
+    queries[:referred_total].facet(:referred_users).rows.each do |c|
+      @aggregated_case_manager_stats[:referred_totals][c.value] = {}
+      @aggregated_case_manager_stats[:referred_totals][c.value][:total_cases] = c.count
+    end
+
+    queries[:referred_new].facet(:referred_users).rows.each do |c|
+      @aggregated_case_manager_stats[:referred_totals][c.value][:new_cases] = c.count
+    end
+
+    @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
+
+    # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
+    #      .group_by{|g| g[:flagged_by]}
+    #      .each do |g, fz|
+    #         if @aggregated_case_worker_stats[g].present?
+    #           @aggregated_case_worker_stats[g][:cases_this_week] = fz.count
+    #         # else
+    #         #   @aggregated_case_worker_stats[g] = {cases_this_week: f.count}
+    #         end
+    #       end
+    #
+    # flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
+    #      .group_by{|g| g[:flagged_by]}
+    #      .each do |g, fz|
+    #         if @aggregated_case_worker_stats[g].present?
+    #           @aggregated_case_worker_stats[g][:cases_overdue] = fz.count
+    #         # else
+    #         #   @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
+    #         end
+    #       end
+    @aggregated_case_manager_stats
   end
 
   def display_cases_dashboard?
@@ -94,12 +121,14 @@ class HomeController < ApplicationController
     @display_admin_dashboard ||= current_user.group_permissions.include?(Permission::ALL)
   end
 
-  def load_manager_information
-    # TODO: Will Open be translated?
+  def manager_case_query(query = {})
     module_ids = @module_ids
-
-    cases = Child.search do
-      with(:child_status, 'Open')
+    return Child.search do
+      with(:record_state, true)
+      with(:associated_user_names, current_user.managed_user_names)
+      with(:child_status, query[:status]) if query[:status].present?
+      with(:not_edited_by_owner, true) if query[:new_records].present?
+      facet(:referred_users) if query[:referred].present?
       if module_ids.present?
         any_of do
           module_ids.each do |m|
@@ -107,22 +136,62 @@ class HomeController < ApplicationController
           end
         end
       end
-      facet :owned_by, limit: -1
-      adjust_solr_params do |params|
-        params['f.owned_by_s.facet.mincount'] = 0
+      if query[:by_owner].present?
+        facet :owned_by, limit: -1, zeros: true
+        adjust_solr_params do |params|
+          params['f.owned_by_s.facet.mincount'] = 0
+        end
+      end
+      facet(:child_status, zeros: true) if query[:by_case_status].present?
+      if query[:by_risk_level].present?
+        facet(:risk_level, zeros: true) do
+          row(:high) do
+            with(:risk_level, 'High')
+            with(:not_edited_by_owner, true)
+          end
+          row(:high_total) do
+            with(:risk_level, 'High')
+          end
+          row(:medium) do
+            with(:risk_level, 'Medium')
+            with(:not_edited_by_owner, true)
+          end
+          row(:medium_total) do
+            with(:risk_level, 'Medium')
+          end
+          row(:low) do
+            with(:risk_level, 'Low')
+            with(:not_edited_by_owner, true)
+          end
+          row(:low_total) do
+            with(:risk_level, 'Low')
+          end
+        end
       end
       paginate page: 1, per_page: 0
     end
+  end
 
-    flags = search_flags({
-      field: :flag_date,
-      criteria: 1.week.ago.utc...1.week.from_now.utc,
-      type: 'child',
-      is_manager: true,
-      modules: @module_ids
-    })
+  def load_manager_information
+    # TODO: Will Open be translated?
+    # module_ids = @module_ids
+    # flags = search_flags({
+    #   field: :flag_date,
+    #   criteria: 1.week.ago.utc...1.week.from_now.utc,
+    #   type: 'child',
+    #   is_manager: true,
+    #   modules: @module_ids
+    # })
+    queries = {
+      totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
+      new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
+      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      manager_totals: manager_case_query({ by_case_status: true }),
+      referred_total: manager_case_query({ referred: true, status: 'Open' }),
+      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true })
+    }
 
-    # build_manager_stats(cases, flags)
+    build_manager_stats(queries)
   end
 
   def load_user_module_data
@@ -139,6 +208,7 @@ class HomeController < ApplicationController
     @stats = Child.search do
       # TODO: Check for valid
       with(:child_status, 'Open')
+      with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:referred_users, current_user.user_name)
       facet(:risk_level, zeros: true, exclude: [referred]) do
@@ -168,6 +238,7 @@ class HomeController < ApplicationController
       facet(:records, zeros: true, exclude: [referred]) do
         row(:new) do
           without(:last_updated_by, current_user.user_name)
+          # with(:not_edited_by_owner, true)
         end
         row(:total) do
           with(:child_status, 'Open')

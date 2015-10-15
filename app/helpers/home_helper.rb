@@ -16,10 +16,14 @@ module HomeHelper
   end
 
   def case_count(stat_group, query, model)
-    results = query.facet(stat_group[:name]).rows
-    total = results.select{|v| v.value == stat_group[:stat]}.first.count
+    if query.present?
+      results = query.facet(stat_group[:name]).rows
+      total = results.select{|v| v.value == stat_group[:stat]}.first.count
+    else
+      total = stat_group[:count]
+    end
     link = stat_link(total, stat_group, model)
-    return { count: total, stat: link, stat_type: stat_group[:stat_type] }
+    return { count: total, stat: link, stat_type: stat_group[:stat_type], case_worker: stat_group[:case_worker] }
   end
 
   def stat_link(total, stat_group, model)
@@ -47,12 +51,16 @@ module HomeHelper
       child_status: "scope[child_status]=list||",
       new: "scope[last_updated_by]=neg||#{current_user.user_name}",
       referred_users: "scope[referred_users]=list||#{current_user.user_name}",
+      referred_user: "scope[referred_users]=list||",
       risk_level: "scope[risk_level]=list||",
       record_state: "scope[record_state]=list||",
       location: "scope[location_current]=location||",
       district: "scope[owned_by_location_district]=list||",
       created_at: "scope[created_at]=date_range||",
-      date_closure: "scope[date_closure]=date_range||"
+      date_closure: "scope[date_closure]=date_range||",
+      owned_by: "scope[owned_by]=list||",
+      new_owned_by: "scope[last_updated_by]=neg||",
+      new_other: "scope[not_edited_by_owner]=single||true"
     }
     filters.each do |filter|
       filter = filter.split('=')

@@ -1,0 +1,13 @@
+<%= I18n.translate('dashboard.manager_count_open_total',
+                   case_count({count: @aggregated_case_manager_stats[:manager_totals]['open'], filter: index_filters(['child_status=Open', 'record_state=true'])}, nil, model)).html_safe %>
+<%= I18n.translate('dashboard.manager_count_closed_total',
+                   case_count({count: @aggregated_case_manager_stats[:manager_totals]['closed'], filter: index_filters(['child_status=Closed', 'record_state=true'])}, nil, model)).html_safe %>
+
+<% stats.each do |k, v| %>
+  <div>
+  <%= I18n.translate('dashboard.worker_count_total',
+                     case_count({case_worker: k, count: v[:total_cases], filter: index_filters(["new_owned_by=#{k}", 'child_status=Open', "owned_by=#{k}", 'record_state=true'])}, nil, model)).html_safe %>
+  <%= I18n.translate('dashboard.count_records_new',
+                     case_count({count: v[:new_cases], filter: index_filters(["new_owned_by=#{k}", 'child_status=Open', "owned_by=#{k}", 'record_state=true'])}, nil, model)).html_safe %>
+  </div>
+<% end %>

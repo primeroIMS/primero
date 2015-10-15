@@ -203,7 +203,7 @@ cp_manager_permissions = [
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON
+      Permission::EXPORT_JSON,
       Permission::EXPORT_PDF
     ]
   ),

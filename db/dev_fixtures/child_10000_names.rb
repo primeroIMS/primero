@@ -10,6 +10,10 @@ f.close
 names
 end
 
+def get_random_user
+  users = ['primero', 'primero_cp']
+  return User.find_by_user_name(users.sample)
+end
 
 def create_children(id, num_children, names, lastnames)
 
@@ -23,14 +27,14 @@ def create_children(id, num_children, names, lastnames)
         
         c.module_id = 'primeromodule-cp'
         c.name = ''
-        c.child_status = 'open'
-        c.record_state = true
+        c.child_status = ['Open', 'Closed'].sample
+        c.record_state = [true, false].sample
         c.created_at = DateTime.new(2014, randommonth, randomday)
         #random name and last name
         c.name = "#{names[rand(names.size-1)]} #{lastnames[rand(lastnames.size-1)]}"
       end
     }.each do |k, v|
-      default_owner = User.find_by_user_name("primero")
+      default_owner = get_random_user
       c = Child.find_by_unique_identifier(k) || Child.new_with_user_name(default_owner, {:unique_identifier => k})
       v.call(c)
       puts "Child #{c.new? ? 'created' : 'updated'}: #{c.unique_identifier} name: #{c.name}"
