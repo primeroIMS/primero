@@ -713,6 +713,7 @@ en:
     manage_password: "Change Password"
     old_password: "Old Password"
     new_password: "New Password"
+    password_strength: "Password must be at least 6 characters and include both letters and numbers"
     new_password_confirmation: "Confirm New Password"
     new: "New User"
     user_action_history: "User action history"
