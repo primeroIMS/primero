@@ -33,6 +33,8 @@ module RecordActions
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
     @filters = record_filter(filter)
+    #make sure to get all records when querying for ids to sync down to mobile
+    params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
 
     @referral_roles = Role.by_referral.all
@@ -376,11 +378,11 @@ module RecordActions
         if value.kind_of? Array
           if value.size == 0
             record.delete(field_key)
-          elsif value.first.kind_of? Enumerable
+          elsif value.first.respond_to?(:each)
             value = value.map do |v|
               nested = v.clone
               v.each do |field_key, value|
-                nested.delete(field_key) if value == []
+                nested.delete(field_key) if !value.present?
               end
               nested
             end
@@ -399,8 +401,28 @@ module RecordActions
       if params[:custom_exports][:forms].present? || params[:custom_exports][:selected_subforms].present?
         properties_by_module = filter_by_subform(properties_by_module).deep_merge(filter_by_form(properties_by_module))
       elsif params[:custom_exports].present? && params[:custom_exports][:fields].present?
+        #Filter the selected fields from the whole form section fields.
         properties_by_module.each do |pm, fs|
-          filtered_forms = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:fields].include?(f)}]}
+          filtered_forms = []
+          fs.each do |fk, fields|
+            selected_fields = []
+            fields.each do |field|
+              f_name, f_property = field[0], field[1]
+              #Add selected fields.
+              selected_fields << field if params[:custom_exports][:fields].include?(f_name)
+              #If there is a subform in the section, filter the fields selected by the user
+              #for the subform.
+              if f_property.array && f_property.type.include?(CouchRest::Model::Embeddable)
+                subform_props = f_property.type.properties.select do |property|
+                  #Fields to be selected has the format: subform-field-name:field-name
+                  params[:custom_exports][:fields].include?("#{f_name}:#{property.name}")
+                end
+                #Create the hash to hold the selected fields for the subform.
+                selected_fields << [f_name, subform_props.map{|p| [p.name, p]}.to_h] if subform_props.present?
+              end
+            end
+            filtered_forms << [fk, selected_fields.to_h]
+          end
           properties_by_module[pm] = filtered_forms.to_h
         end
         #Find out duplicated fields assumed because they are shared fields.
