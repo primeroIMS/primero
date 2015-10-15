@@ -877,7 +877,7 @@ describe Child do
       child.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
       child.save!
       flag_history = child.histories.first.changes['flags'][child.flags[0].unique_id]
-      flag_history['message']['from'].should == nil 
+      flag_history['message']['from'].should == nil
       flag_history['message']['to'].should == 'Duplicate record!'
     end
 
@@ -1207,7 +1207,7 @@ describe Child do
 
     it "should validate single date field" do
       #date field invalid.
-      child = create_child "Bob McBobberson", :a_date_field => "asdlfkj", 
+      child = create_child "Bob McBobberson", :a_date_field => "asdlfkj",
                            :a_range_field_date_or_date_range => "date_range",
                            :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
@@ -1247,7 +1247,7 @@ describe Child do
 
     it "should validate range fields with single date selected" do
       #Single date selected wrong in the date range field.
-      child = create_child "Bob McBobberson", :b_range_field => "aslkdjflkj", 
+      child = create_child "Bob McBobberson", :b_range_field => "aslkdjflkj",
                            :b_range_field_date_or_date_range => "date",
                            :a_range_field_date_or_date_range => "date_range"
       child.errors[:b_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
@@ -1349,13 +1349,13 @@ describe Child do
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
       agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
-      user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+      user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'agency-unicef', :user_type => 'user_type',
                           :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name})
-      user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+      user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => 'agency-unicef', :user_type => 'user_type',
                            :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => ''})
-      user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
+      user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'NA', :user_type => 'user_type',
                           :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name)
     end
