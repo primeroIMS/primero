@@ -359,15 +359,15 @@ class User < CouchRest::Model::Base
   end
 
   def update_user_case_locations
+    # TODO: The following gets all the cases by user and updates the location/district.
+    # Performance degrades on save if the user changes their location.
     if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
-      # Child.by_owned_by.key(self.user_name).all.each{|child| child.save!}
-      new_location = Location.get_admin_level_from_string(self.location, 'district') if self.location.present?
-      Child.by_owned_by.limit(500).rows.map {|r| Child.database.get(r["id"]) }.each do |c|
-        if c[:owned_by] == self.user_name
-          if self.location.present?
-            c[:owned_by_location_district] = new_location
-          end
-          c.save
+      new_location = Location.get_admin_level_from_string(self.location, 'district')
+      Child.by_owned_by.key(self.user_name).all.each do |child|
+        if self.location.present?
+          child.owned_by_location = self.location
+          child.owned_by_location_district = new_location
+          child.save!
         end
       end
     end

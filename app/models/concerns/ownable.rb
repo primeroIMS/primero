@@ -80,7 +80,7 @@ module Ownable
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
       if self.owner.location.present?
-        self.owned_by_location_district = Location.get_admin_level_from_string(user.location, 'district')
+        self.owned_by_location_district = Location.get_admin_level_from_string(self.owner.location, 'district')
       end
     end
   end

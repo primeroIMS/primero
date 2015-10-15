@@ -37,12 +37,6 @@ module Searchable
       end
       #text :name, as: :name_ph
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
-      # TODO: we cannot rely on 'district' always being there. SL-specific code
-      string :owned_by_location_district do
-        if self.owner.present? && self.owner.location.present?
-          Location.get_admin_level_from_string(self.owner.location, 'district')
-        end
-      end
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -207,11 +201,12 @@ module Searchable
       ["created_at", "last_updated_at", "registration_date"] + Field.all_searchable_date_field_names(self.parent_form)
     end
 
+    # TODO: we cannot rely on 'district' always being there. SL-specific code
     def searchable_string_fields
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organization", "owned_by_agency", "owned_by_location"] +
+       "created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"] +
        Field.all_filterable_field_names(self.parent_form)
     end
 
