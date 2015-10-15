@@ -22,6 +22,9 @@ module Searchable
       boolean :flag
       boolean :has_photo
       boolean :record_state
+      boolean :not_edited_by_owner do
+        self.last_updated_by != self.owned_by
+      end
       string :referred_users, multiple: true do
         if self.transitions.present?
           self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq

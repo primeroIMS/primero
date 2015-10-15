@@ -1208,17 +1208,29 @@ en:
       one: "and %{stat} <span>new</span> <span>%{stat_type} risk</span> case"
       other: "and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases"
     count_records_total:
-      one: "You have 1 <span>total</span> case "
+      one: "You have %{stat} <span>total</span> case "
       other: "You have %{stat} <span>total</span> cases "
     count_records_new:
       one: "and %{stat} <span>new</span> case"
       other: "and %{stat} <span>new</span> cases"
     count_referrals_total:
-      one: "You have 1 <span>total</span> referral "
+      one: "You have %{stat} <span>total</span> referral "
       other: "You have %{stat} <span>total</span> referrals  "
+    worker_count_referrals_total:
+      one: "%{case_worker} has %{stat} <span>total</span> referral "
+      other: "%{case_worker} has %{stat} <span>total</span> referrals  "
     count_referrals_new:
       one: "and %{stat} <span>new</span> referrals"
       other: "and %{stat} <span>new</span> referrals"
+    worker_count_total:
+      one: "%{case_worker} has %{stat} <span>total</span> case "
+      other: "%{case_worker} has %{stat} <span>total</span> cases "
+    manager_count_open_total:
+      one: "You have %{stat} <span>open</span> case "
+      other: "You have %{stat} <span>open</span> cases "
+    manager_count_closed_total:
+      one: "and %{stat} <span>closed</span> case "
+      other: "and %{stat} <span>closed</span> cases "
     open_cases: "Open Cases"
     new_last_week: "New <span>(last week)</span>"
     new_this_week: "New <span>(this week)</span>"

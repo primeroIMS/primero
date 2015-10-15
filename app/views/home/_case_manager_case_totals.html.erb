@@ -1,1 +1,33 @@
-hello
+<div class="panel">
+  <div class="panel_header">
+    <h4><%= t("dashboard.case_stats") %></h4>
+  </div>
+  <div class="panel_content no-padding panel_main">
+    <% if @stats.present? %>
+    <table cellspacing="0" cellpadding="0" class="table-floating-header dashboard_counts">
+      <tbody>
+        <tr>
+          <td>
+            <div class="stat_title"><%= t("dashboard.case_stats") %></div>
+            <%= render 'case_manager_totals_by_worker', stats: @aggregated_case_manager_stats[:worker_totals], model: model %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="stat_title"><%= t("dashboard.case_stat_referrals") %></div>
+            <%= render 'case_manager_totals_by_referred', stats: @aggregated_case_manager_stats[:referred_totals], model: model %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="stat_title"><%= t('dashboard.case_stat_by_assessment_level') %></div>
+            <%= render 'case_manager_totals_by_risk_level', stats: @aggregated_case_manager_stats[:risk_levels], model: model %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <% else %>
+      <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
+    <% end %>
+  </div>
+</div>
