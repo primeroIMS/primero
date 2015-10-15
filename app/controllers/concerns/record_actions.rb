@@ -33,6 +33,8 @@ module RecordActions
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
     @filters = record_filter(filter)
+    #make sure to get all records when querying for ids to sync down to mobile
+    params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
 
     @referral_roles = Role.by_referral.all
