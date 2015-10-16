@@ -184,6 +184,7 @@ class User < CouchRest::Model::Base
       User.by_module(keys: module_ids).all.uniq{|u| u.user_name}
     end
     memoize_in_prod :find_by_modules
+
   end
 
   def initialize(args = {}, args1 = {})
@@ -351,6 +352,10 @@ class User < CouchRest::Model::Base
 
   def self.memoized_dependencies
     [FormSection, PrimeroModule, Role]
+  end
+
+  def is_admin?
+    self.group_permissions.include?(Permission::ALL)
   end
 
   private

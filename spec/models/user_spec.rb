@@ -9,7 +9,6 @@ describe User do
                                :password => 'b00h00',
                                :password_confirmation => options[:password] || 'b00h00',
                                :email => 'email@ddress.net',
-                               :user_type => 'user_type',
                                :organization => 'TW',
                                :disabled => 'false',
                                :verified => true,
@@ -247,7 +246,7 @@ describe User do
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [permission_case_read_write])
       user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
-                          :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
+                          :email => 'em@dd.net', :organization => 'TW', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
 
       User.find_by_user_name(user.user_name).roles.should == [admin_role, field_worker_role]
     end
