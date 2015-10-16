@@ -106,7 +106,7 @@ class User < CouchRest::Model::Base
   end
 
 
-  before_save :make_user_name_lowercase, :encrypt_password
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
   after_save :save_devices
 
 
@@ -358,6 +358,19 @@ class User < CouchRest::Model::Base
   def save_devices
     @devices.map(&:save!) if @devices
     true
+  end
+
+  def update_user_case_locations
+    # TODO: The following gets all the cases by user and updates the location/district.
+    # Performance degrades on save if the user changes their location.
+    if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+      new_location = Location.get_admin_level_from_string(self.location, 'district')
+      Child.by_owned_by.key(self.user_name).all.each do |child|
+        child.owned_by_location = self.location
+        child.owned_by_location_district = new_location
+        child.save!
+      end
+    end
   end
 
   def encrypt_password

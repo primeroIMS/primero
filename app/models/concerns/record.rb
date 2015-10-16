@@ -69,6 +69,14 @@ module Record
                    }
                 }"
 
+      view :by_owned_by,
+           :map => "function(doc) {
+                    if (doc.hasOwnProperty('owned_by'))
+                   {
+                      emit(doc['owned_by'], null);
+                   }
+                }"
+
       view :by_id,
               :map => "function(doc) {
                     if (doc.hasOwnProperty('short_id'))

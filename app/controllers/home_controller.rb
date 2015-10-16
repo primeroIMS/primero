@@ -128,7 +128,7 @@ class HomeController < ApplicationController
       with(:associated_user_names, current_user.managed_user_names)
       with(:child_status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
-      facet(:referred_users) if query[:referred].present?
+      facet(:referred_users, zeros: true) if query[:referred].present?
       if module_ids.present?
         any_of do
           module_ids.each do |m|
