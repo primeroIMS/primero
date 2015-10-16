@@ -16,6 +16,7 @@ module RecordActions
     before_filter :load_locations, :only => [:new, :edit]
     before_filter :current_modules, :only => [:show, :index]
     before_filter :is_manager, :only => [:index]
+    before_filter :is_admin, :only => [:index]
     before_filter :is_cp, :only => [:index]
     before_filter :is_gbv, :only => [:index]
     before_filter :is_mrm, :only => [:index]
@@ -41,6 +42,7 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = (@records.present? && @records.is_a?(Array)) ? @records.map{|r| r.owned_by_agency}.reject(&:blank?).uniq : []
+    @options_districts = Location.by_type.key('district').all.map{|loc| loc.placename}.sort
     module_users(module_ids) if module_ids.present?
 
     # Alias @records to the record-specific name since ERB templates use that
@@ -275,6 +277,10 @@ module RecordActions
   def current_modules
     record_type = model_class.parent_form
     @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
+  end
+
+  def is_admin
+    @is_admin ||= @current_user.group_permissions.include?(Permission::ALL)
   end
 
   def is_manager

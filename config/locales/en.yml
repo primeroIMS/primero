@@ -158,6 +158,7 @@ en:
       protection_concerns: "Protection Concerns:"
       risk_level: "Risk Level:"
       current_location: "Current Location:"
+      district: "District:"
       registration_date: "Registration Date:"
       case_open_date: "Case Open Date:"
       record_state: "Record State:"
