@@ -280,7 +280,7 @@ module RecordActions
   end
 
   def is_admin
-    @is_admin ||= @current_user.group_permissions.include?(Permission::ALL)
+    @is_admin ||= @current_user.is_admin?
   end
 
   def is_manager
