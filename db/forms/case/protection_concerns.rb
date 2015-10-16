@@ -27,6 +27,7 @@ protection_concern_fields = [
              "type" => "text_field",
              "display_name_all" => "UNHCR Protection Code"
             }),
+  #TODO - this needs a lookup.  Since it is now shared on cp_case_plan
   Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "multi_select" => true,
