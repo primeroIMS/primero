@@ -19,7 +19,12 @@ describe CustomExportsController do
       Field.new({"name" => "field_name_3",
                  "type" => "text_field",
                  "display_name_all" => "Field Name 3",
-                 "visible" => false,
+                 "visible" => false
+                }),
+      Field.new({"name" => "field_name_33",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 33",
+                 "hide_on_view_page" => true
                 })
     ]
     form = FormSection.new(
@@ -41,6 +46,11 @@ describe CustomExportsController do
       Field.new({"name" => "field_name_4",
                  "type" => "text_field",
                  "display_name_all" => "Field Name 4"
+               }),
+      Field.new({"name" => "field_name_44",
+                 "type" => "text_field",
+                 "display_name_all" => "Field Name 44",
+                 "hide_on_view_page" => true
                })
     ]
     subform_section = FormSection.new({
@@ -284,13 +294,18 @@ describe CustomExportsController do
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
         user.stub(:roles).and_return([])
+        controller.should_receive(:can?).with(:update, Child).and_return(true)
         #Form Section Test 3 is not visible, so will not be in the output.
         expected_forms_sections = [
           #field_name_3 is not visible.
-          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]],
+          #field_name_33 is hide on view page, but for this user should be in the list.
+          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"],
+                                        ["Field Name 33", "field_name_33", "text_field"]]],
           ["Form Section Test 2 (CP)", [["Field Name 5", "field_name_5", "text_field"]]],
           #Subforms and fields.
-          ["Form Section Test 2:Subform Section 1 (CP)", [["Field Name 4", "subform_section_1:field_name_4", "text_field"]]],
+          #field_name_44 is hide on view page, but for this user should be in the list.
+          ["Form Section Test 2:Subform Section 1 (CP)", [["Field Name 4", "subform_section_1:field_name_4", "text_field"],
+                                                          ["Field Name 44", "subform_section_1:field_name_44", "text_field"]]],
           ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]],
           #Subforms and fields.
           ["Form Section Test 4:Subform Section 2 (CP)", [["Field Name 7", "subform_section_2:field_name_7", "text_field"]]],
@@ -325,8 +340,41 @@ describe CustomExportsController do
         #Per role definition this is the only forms that user can access.
         expected_forms_sections = [
           #field_name_3 is not visible.
-          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]],
+          #field_name_33 is hide on view page, but for this user should be in the list.
+          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"],
+                                        ["Field Name 33", "field_name_33", "text_field"]]],
           ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]]
+        ]
+        params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
+        get :permitted_fields_list, params
+        json_response = JSON.parse(response.body)
+        expect(json_response).to eq(expected_forms_sections)
+      end
+
+      it "returns only permitted fields for readonly users" do
+        user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
+        session = fake_admin_login user
+        #This is important to override some stub done in the fake_admin_login method.
+        user.stub(:roles).and_return([])
+        #Mark the user as readonly.
+        controller.should_receive(:can?).with(:update, Child).and_return(false)
+        controller.should_receive(:can?).with(:create, Child).and_return(false)
+        #Form Section Test 3 is not visible, so will not be in the output.
+        expected_forms_sections = [
+          #field_name_3 is not visible.
+          #field_name_33 is hide on view page, for readonly users should not be in the list
+          ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "text_field"], ["Field Name 2", "field_name_2", "text_field"]]],
+          ["Form Section Test 2 (CP)", [["Field Name 5", "field_name_5", "text_field"]]],
+          #Subforms and fields.
+          #field_name_44 is hide on view page, for readonly users should not be in the list
+          ["Form Section Test 2:Subform Section 1 (CP)", [["Field Name 4", "subform_section_1:field_name_4", "text_field"]]],
+          ["Form Section Test 5 (CP)", [["Field Name 8", "field_name_8", "text_field"]]],
+          #Subforms and fields.
+          ["Form Section Test 4:Subform Section 2 (CP)", [["Field Name 7", "subform_section_2:field_name_7", "text_field"]]],
+          ["Form Section Test 4:Subform Section Other Test (CP)",
+            #field_name_10 is not visible, so will not be in the output.
+            [["Field Name 8", "subform_section_other_test:field_name_8", "text_field"],
+             ["Field Name 9", "subform_section_other_test:field_name_9", "text_field"]]]
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
         get :permitted_fields_list, params
