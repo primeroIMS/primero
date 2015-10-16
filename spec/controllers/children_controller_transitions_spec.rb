@@ -117,7 +117,10 @@ describe ChildrenController do
       fields = [
         Field.new({"name" => "field_name_1",
                    "type" => "text_field",
-                   "display_name_all" => "Field Name 1"
+                   "display_name_all" => "Field Name 1",
+                   #This field should not have effect for
+                   #transitions.
+                   "hide_on_view_page" => true
                   })
       ]
       form = FormSection.new(
@@ -138,7 +141,10 @@ describe ChildrenController do
       fields = [
         Field.new({"name" => "field_name_2",
                    "type" => "text_field",
-                   "display_name_all" => "Field Name 2"
+                   "display_name_all" => "Field Name 2",
+                  #This field should not have effect for
+                  #transitions.
+                  "hide_on_view_page" => true
                   })
       ]
       form = FormSection.new(

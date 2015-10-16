@@ -303,8 +303,8 @@ module RecordActions
     ['base_revision', 'unique_identifier', 'upload_document', 'update_document', 'record_state']
   end
 
-  def permitted_property_keys(record, user = current_user)
-    record.permitted_property_names(user) + extra_permitted_parameters
+  def permitted_property_keys(record, user = current_user, read_only_user = false)
+    record.permitted_property_names(user, read_only_user) + extra_permitted_parameters
   end
 
   # Filters out any unallowed parameters for a record and the current user
@@ -321,10 +321,18 @@ module RecordActions
     # this first condition is for the list view CSV export, which for some
     # reason is implemented with a completely different interface. TODO: don't
     # do that.
-    if props.include?(:fields)
+    # case_pdf, xls and selected_xls got his own logic to filter permitted properties.
+    # No need to call extra logic.
+    if props.include?(:fields) ||
+       (params[:action] == "index" && (["xls", "selected_xls", "case_pdf"].include?(params[:format])))
       props
     else
-      all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m, user) }
+      read_only_user = false
+      if params[:action] == "index" && params[:format] == "csv"
+        # For CSV filter the properties the readonly user can see.
+        read_only_user = !((can? :update, model_class) || (can? :create, model_class))
+      end
+      all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m, user, read_only_user) }
       prop_selector = lambda do |ps|
         case ps
         when Hash
@@ -468,6 +476,29 @@ module RecordActions
       end
     end
     props
+  end
+
+  #Filter out fields the current user is not allow to view.
+  def filter_fields_read_only_users(form_sections, properties_by_module, current_user)
+    if (can? :update, model_class) || (can? :create, model_class)
+      properties_by_module
+    else
+      #User can? :read only
+      properties_by_module.map do |pm, forms|
+        forms = forms.map do |form, fields|
+          #Find out the fields the user is able to view based on the form section.
+          form_section_fields = form_sections[pm].select do |fs|
+            fs.name == form
+          end.map do |fs|
+            fs.fields.map{|f| f.name if f.showable?}.compact
+          end.flatten
+          #Filter the properties based on the field on the form section.
+          fields = fields.select{|f_name, f_value| form_section_fields.include?(f_name) }
+          [form, fields]
+        end
+        [pm, forms.to_h.compact]
+      end.to_h.compact
+    end
   end
 
   def create_or_update_record(id)

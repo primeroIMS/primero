@@ -376,18 +376,24 @@ module Record
   end
 
   # Returns all of the properties that the given user is permitted to view/edit
-  def permitted_properties(user)
+  # read_only_user params is to indicate the user should not see properties
+  # that don't display on the show page.
+  def permitted_properties(user, read_only_user = false)
     permitted = []
     fss = allowed_formsections(user)
     if fss.present?
       permitted_forms = fss.values.flatten.map {|fs| fs.name }
       permitted = self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
+      if read_only_user
+        permitted_fields = fss.map{|k, v| v.map{|v| v.fields.map{|f| f.name if f.showable?} } }.flatten.compact
+        permitted = permitted.select{|p| permitted_fields.include?(p.name)}
+      end
     end
     return permitted
   end
 
-  def permitted_property_names(user)
-    permitted_properties(user).map {|p| p.name }
+  def permitted_property_names(user, read_only_user = false)
+    permitted_properties(user, read_only_user).map {|p| p.name }
   end
 
   protected
