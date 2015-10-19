@@ -16,7 +16,8 @@
     <% if filters_to_show.include? 'District' %>
       <%= build_filter_checkboxes(t("cases.filter_by.district"), 'owned_by_location_district', @options_districts, { multi: true }, false) %>
     <% end %>
-    <% if filters_to_show.include? 'Agency' %>
+    <% # If user is only associated with 1 agency, there is no need to display the Agency Filter %>
+    <% if (filters_to_show.include? 'Agency') && @associated_agencies.present? && @associated_agencies.count > 1 %>
       <%= build_filter_checkboxes(t("cases.filter_by.agency"), 'owned_by_agency', @associated_agencies, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
