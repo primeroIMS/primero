@@ -56,17 +56,6 @@ class CustomExportsController < ApplicationController
     permitted_forms.select{|form_section| form_section.fields.any?{|er| EXPORTABLE_FIELD_TYPES.include? er.type}}
   end
 
-  def is_readonly_user?(record_type)
-    if record_type == "case"
-      model_class = Child
-    elsif record_type == "incident" || record_type == "violation"
-      model_class = Incident
-    else
-      model_class = record_type.classify.safe_constantize
-    end
-    !((can? :update, model_class) || (can? :create, model_class))
-  end
-
   def all_exportable_fields_by_form(primero_modules, record_type, user, types=EXPORTABLE_FIELD_TYPES)
     readonly_user = is_readonly_user?(record_type)
     custom_exportable = {}
@@ -96,13 +85,13 @@ class CustomExportsController < ApplicationController
                 #Collect subforms fields to build the section.
                 subform_fields = f.subform_section.fields.select{|sf| types.include?(sf.type) && sf.visible?}
                 subform_fields = subform_fields.map do |sf|
-                  ["#{f.name}:#{sf.name}", sf.display_name, sf.type] if !readonly_user || (readonly_user && sf.showable?)
+                  ["#{f.name}:#{sf.name}", sf.display_name, sf.type] if !readonly_user || (readonly_user && !sf.hide_on_view_page)
                 end
                 subforms << ["#{form.name}:#{f.display_name}", subform_fields.compact]
               end
             else
               #Not subforms fields.
-              fields << [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && f.showable?)
+              fields << [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && !f.hide_on_view_page)
             end
           end
           #Add the section for the current form and the not subforms fields.

@@ -304,7 +304,7 @@ class Report < CouchRest::Model::Base
 
   # Fetch and group all reportable fields by form given a user.
   # This will be used by the field lookup.
-  def self.all_reportable_fields_by_form(primero_modules, record_type, user, types=REPORTABLE_FIELD_TYPES)
+  def self.all_reportable_fields_by_form(primero_modules, record_type, user, readonly_user, types=REPORTABLE_FIELD_TYPES)
     reportable = {}
     if primero_modules.present?
       primero_modules.each do |primero_module|
@@ -321,8 +321,8 @@ class Report < CouchRest::Model::Base
         #TODO: Maybe move this logic to controller?
         forms = forms.map do |form|
           fields = form.fields.select{|f| types.include? f.type}
-          fields = fields.map{|f| [f.name, f.display_name, f.type]}
-          [form.name, fields]
+          fields = fields.map{|f| [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && !f.hide_on_view_page) }
+          [form.name, fields.compact]
         end
         forms = forms.select{|f| f[1].present?}
         reportable[primero_module.name] = forms
