@@ -22,6 +22,7 @@ module HomeHelper
     else
       total = stat_group[:count]
     end
+    total = 0 if !total.present?
     link = stat_link(total, stat_group, model)
     return { count: total, stat: link, stat_type: stat_group[:stat_type], case_worker: stat_group[:case_worker] }
   end
