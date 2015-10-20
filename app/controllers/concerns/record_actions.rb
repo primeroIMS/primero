@@ -41,7 +41,7 @@ module RecordActions
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
-    @associated_agencies = (@records.present? && @records.is_a?(Array)) ? @records.map{|r| r.owned_by_agency}.reject(&:blank?).uniq : []
+    @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
     @options_districts = Location.by_type.key('district').all.map{|loc| loc.placename}.sort
     module_users(module_ids) if module_ids.present?
 

@@ -19,6 +19,14 @@ class Agency < CouchRest::Model::Base
 
   design do
     view :by_order
+
+    view :by_id,
+         :map => "function(doc) {
+                    if (doc['couchrest-type'] == 'Agency')
+                   {
+                      emit(doc['_id'], null);
+                   }
+                }"
   end
 
   validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
