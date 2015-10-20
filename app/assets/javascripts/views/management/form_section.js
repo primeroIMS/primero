@@ -6,7 +6,6 @@ $(document).ready(function() {
     $("a.add_field").click(toggleFieldPanel);
     $("a.add_field_button").click(clearFlashMsg);
     $("ul.field_types a").click(showFieldDetails);
-    $(".cancel_field_modal").click(backToPrevious);
     $(".field_hide_show").bind('change',fieldHideShow);
     $(".link_moveto").click(showMovePanel);
     $(document).on('close.fndtn.reveal', '#add_field_modal', function(e) {
@@ -84,7 +83,7 @@ $(document).ready(function() {
         }
         $(div_to_show).slideDown();
         $(".field_details_overlay").css("height",$(document).height());
-        $(".field_details_panel").css("top", scrollY + 150);
+        $(".field_details_panel").css("top", pageYOffset + 150);
         $(".translation_lang_selected").text($("#locale option:selected").text());
         $("#err_msg_panel").hide();
         $(".field_details_overlay").toggleClass("hide");
