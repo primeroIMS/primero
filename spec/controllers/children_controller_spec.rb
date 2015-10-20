@@ -634,12 +634,12 @@ describe ChildrenController do
         Sunspot.remove_all!
 
         create(:child, name: "Name 1", child_status: "Open", age: "5")
-        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1')
+        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe')
         create(:child, name: "Name 3", child_status: "Closed", age: "7")
-        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1')
+        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe')
         create(:child, name: "Name 5", child_status: "Closed", age: "15")
-        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2')
-        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3')
+        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2', owned_by_location_district: 'Port Loko')
+        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location_district: 'Port Loko')
         create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false)
         create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true)
         @child_mobile_10= create(:child, name: "Name 10", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4')
@@ -719,6 +719,18 @@ describe ChildrenController do
           expect(assigns[:filters]).to eq(filters)
           expect(assigns[:children].length).to eq(4)
           expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
+        end
+      end
+
+      context "by_district" do
+        it "should filter by district Bonthe" do
+          params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(2)
+          expect(assigns[:children]).to include(@child_age_7, @child_age_15)
         end
       end
     end

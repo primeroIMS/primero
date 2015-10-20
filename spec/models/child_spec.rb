@@ -1350,13 +1350,13 @@ describe Child do
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
       agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
-                          :email => 'em@dd.net', :organization => 'agency-unicef', :user_type => 'user_type',
+                          :email => 'em@dd.net', :organization => 'agency-unicef',
                           :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name})
       user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
-                           :email => 'em@dd.net', :organization => 'agency-unicef', :user_type => 'user_type',
+                           :email => 'em@dd.net', :organization => 'agency-unicef',
                            :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => ''})
       user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
-                          :email => 'em@dd.net', :organization => 'NA', :user_type => 'user_type',
+                          :email => 'em@dd.net', :organization => 'NA',
                           :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name)
     end
 

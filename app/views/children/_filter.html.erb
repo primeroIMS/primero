@@ -13,6 +13,9 @@
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'District' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.district"), 'owned_by_location_district', @options_districts, { multi: true }, false) %>
+    <% end %>
     <% if filters_to_show.include? 'Agency' %>
       <%= build_filter_checkboxes(t("cases.filter_by.agency"), 'owned_by_agency', @associated_agencies, { multi: true }, false) %>
     <% end %>

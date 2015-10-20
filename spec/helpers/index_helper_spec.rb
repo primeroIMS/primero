@@ -67,6 +67,23 @@ describe IndexHelper do
         end
       end
 
+      context "when the signed in user is a admin" do
+        before :each do
+          @view.instance_variable_set(:@is_admin, true)
+          @view.instance_variable_set(:@is_manager, true)
+        end
+
+        it "should return filters to show" do
+          @current_user.should_receive(:modules).and_return([])
+          @view.should_receive(:visible_filter_field?).and_return(true, true)
+          @view.index_filters_to_show('case').should == [
+              "Flagged", "Mobile", "Social Worker", "Agency", "Status", "Age Range",
+              "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
+              "Current Location", "District", "Registration Date", "Record State", "Photo"
+          ]
+        end
+      end
+
     end
 
     context "when GBV" do
