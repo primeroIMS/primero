@@ -154,7 +154,9 @@ class ReportsController < ApplicationController
 
   def set_reportable_fields
     if @report.record_type.present?
-      @reportable_fields ||= Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, is_readonly_user?(@report.record_type))
+      readonly = is_readonly_user?(@report.record_type)
+      @reportable_fields_aggregate_counts_from ||= Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, readonly, Report::AGGREGATE_COUNTS_FIELD_TYPES)
+      @reportable_fields ||= Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, readonly)
       #TODO: There is probably a better way to deal with this than using hashes. Fix! Simplify the JS as well!
       @field_type_map = {}
       @reportable_fields.values.each do |module_properties|
