@@ -88,7 +88,7 @@ class ReportsController < ApplicationController
     record_type = params[:record_type]
     if record_type.present?
       permitted_fields = select_options_fields_grouped_by_form(
-        Report.all_reportable_fields_by_form(modules, record_type, @current_user, is_readonly_user?(record_type)),
+        Report.all_reportable_fields_by_form(modules, record_type, @current_user, @current_user.readonly?(record_type)),
         true
       ).each{|filter| filter.last.compact }.delete_if{|filter| filter.last.empty?}
     else
@@ -154,7 +154,7 @@ class ReportsController < ApplicationController
 
   def set_reportable_fields
     if @report.record_type.present?
-      readonly = is_readonly_user?(@report.record_type)
+      readonly = @current_user.readonly?(@report.record_type)
       @reportable_fields_aggregate_counts_from ||= Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, readonly, Report::AGGREGATE_COUNTS_FIELD_TYPES)
       @reportable_fields ||= Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, readonly)
       #TODO: There is probably a better way to deal with this than using hashes. Fix! Simplify the JS as well!

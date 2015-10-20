@@ -112,15 +112,4 @@ module ReportsHelper
     return field_options
   end
 
-  def is_readonly_user?(record_type)
-    if record_type == "case"
-      model_class = Child
-    elsif record_type == "incident" || record_type == "violation"
-      model_class = Incident
-    else
-      model_class = record_type.classify.safe_constantize
-    end
-    !((can? :update, model_class) || (can? :create, model_class))
-  end
-
 end

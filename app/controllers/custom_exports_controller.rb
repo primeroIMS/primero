@@ -57,7 +57,7 @@ class CustomExportsController < ApplicationController
   end
 
   def all_exportable_fields_by_form(primero_modules, record_type, user, types=EXPORTABLE_FIELD_TYPES)
-    readonly_user = is_readonly_user?(record_type)
+    readonly_user = user.readonly?(record_type)
     custom_exportable = {}
     if primero_modules.present?
       primero_modules.each do |primero_module|
