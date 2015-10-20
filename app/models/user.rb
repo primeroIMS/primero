@@ -38,7 +38,6 @@ class User < CouchRest::Model::Base
   timestamps!
 
   design do
-
     view :by_user_name,
             :map => "function(doc) {
                   if ((doc['couchrest-type'] == 'User') && doc['user_name'])
@@ -184,6 +183,14 @@ class User < CouchRest::Model::Base
       User.by_module(keys: module_ids).all.uniq{|u| u.user_name}
     end
     memoize_in_prod :find_by_modules
+
+    def find_by_user_names(user_names)
+      User.by_user_name(keys: user_names).all
+    end
+
+    def agencies_by_user_list(user_names)
+      Agency.by_id(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
+    end
 
   end
 
