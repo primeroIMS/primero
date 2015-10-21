@@ -23,7 +23,7 @@ module Searchable
       boolean :has_photo
       boolean :record_state
       boolean :not_edited_by_owner do
-        self.last_updated_by != self.owned_by
+        (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
       end
       string :referred_users, multiple: true do
         if self.transitions.present?

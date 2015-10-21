@@ -55,12 +55,12 @@ class HomeController < ApplicationController
       referred_totals: {}
     }
 
-    queries[:totals_by_case_worker].facet(:owned_by).rows.each do |c|
+    queries[:totals_by_case_worker].facet(:associated_user_names).rows.each do |c|
       @aggregated_case_manager_stats[:worker_totals][c.value] = {}
       @aggregated_case_manager_stats[:worker_totals][c.value][:total_cases] = c.count
     end
 
-    queries[:new_by_case_worker].facet(:owned_by).rows.each do |c|
+    queries[:new_by_case_worker].facet(:associated_user_names).rows.each do |c|
       @aggregated_case_manager_stats[:worker_totals][c.value][:new_cases] = c.count
     end
 
@@ -123,7 +123,7 @@ class HomeController < ApplicationController
 
   def manager_case_query(query = {})
     module_ids = @module_ids
-    return Child.search do
+    results =  Child.search do
       with(:record_state, true)
       with(:associated_user_names, current_user.managed_user_names)
       with(:child_status, query[:status]) if query[:status].present?
@@ -137,7 +137,7 @@ class HomeController < ApplicationController
         end
       end
       if query[:by_owner].present?
-        facet :owned_by, limit: -1, zeros: true
+        facet :associated_user_names, limit: -1, zeros: true
         adjust_solr_params do |params|
           params['f.owned_by_s.facet.mincount'] = 0
         end
@@ -186,11 +186,10 @@ class HomeController < ApplicationController
       totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
       new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
       risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
-      manager_totals: manager_case_query({ by_case_status: true }),
+      manager_totals: manager_case_query({ by_case_status: true, status: 'Open'}),
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
       referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true })
     }
-
     build_manager_stats(queries)
   end
 
@@ -205,30 +204,38 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
+    module_ids = @module_ids
     @stats = Child.search do
       # TODO: Check for valid
       with(:child_status, 'Open')
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:referred_users, current_user.user_name)
+      if module_ids.present?
+        any_of do
+          module_ids.each do |m|
+            with(:module_id, m)
+          end
+        end
+      end
       facet(:risk_level, zeros: true, exclude: [referred]) do
         row(:high) do
           with(:risk_level, 'High')
-          without(:last_updated_by, current_user.user_name)
+          with(:not_edited_by_owner, true)
         end
         row(:high_total) do
           with(:risk_level, 'High')
         end
         row(:medium) do
           with(:risk_level, 'Medium')
-          without(:last_updated_by, current_user.user_name)
+          with(:not_edited_by_owner, true)
         end
         row(:medium_total) do
           with(:risk_level, 'Medium')
         end
         row(:low) do
           with(:risk_level, 'Low')
-          without(:last_updated_by, current_user.user_name)
+          with(:not_edited_by_owner, true)
         end
         row(:low_total) do
           with(:risk_level, 'Low')
@@ -237,8 +244,7 @@ class HomeController < ApplicationController
 
       facet(:records, zeros: true, exclude: [referred]) do
         row(:new) do
-          without(:last_updated_by, current_user.user_name)
-          # with(:not_edited_by_owner, true)
+          with(:not_edited_by_owner, true)
         end
         row(:total) do
           with(:child_status, 'Open')
