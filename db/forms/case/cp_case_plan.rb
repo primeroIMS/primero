@@ -51,7 +51,23 @@ case_plan_section = FormSection.create_or_update_form_section({
 })
 
 case_plan_fields = [
-  Field.new({"name" => "protection_concerns",
+    Field.new({"name" => "case_plan_approved",
+               "type" => "tick_box",
+               "tick_box_label_all" => "Yes",
+               "editable" => false,
+               "display_name_all" => "Approved by Manager"
+              }),
+    Field.new({"name" => "case_plan_approved_date",
+               "type" => "date_field",
+               "editable" => false,
+               "display_name_all" => "Date"
+              }),
+    Field.new({"name" => "case_plan_approved_comments",
+               "type" => "textarea",
+               "editable" => false,
+               "display_name_all" => "Manager Comments"
+              }),
+    Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "display_name_all" => "Protection Concerns",
              "multi_select" => true,
