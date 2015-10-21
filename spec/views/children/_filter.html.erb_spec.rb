@@ -252,4 +252,87 @@ describe "children/_filter.html.erb" do
     rendered.should_not match(/<div class="filter"><h3>Protection Concerns:<\/h3>/)
   end
 
+  describe "Agency filter" do
+    before do
+      @current_user = User.new
+      @current_user.should_receive(:modules).and_return([@primero_module_cp])
+      FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
+      @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+      FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
+      @associated_users = ["test_user_1", "test_user_2", "test_user_3"]
+      @options_districts = ["District 1", "District 2", "District 3"]
+    end
+
+    context 'when user is not a manager or an admin' do
+      it 'should not display the Agency filter' do
+        @is_manager = false
+        @is_admin = false
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        rendered.should_not match(/<div class="filter"><h3>Agency:<\/h3>/)
+      end
+    end
+
+    context 'when user is a manager' do
+      before :each do
+        @is_manager = true
+        @is_admin = false
+      end
+      context 'when user has no associated Agencies' do
+        it 'should not display the Agency filter' do
+          @associated_agencies = []
+          render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+          rendered.should_not match(/<div class="filter"><h3>Agency:<\/h3>/)
+        end
+      end
+
+      context 'when user has only 1 associated Agency' do
+        it 'should not display the Agency filter' do
+          @associated_agencies = [{"agency-unicef"=>"UNICEF"}]
+          render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+          rendered.should_not match(/<div class="filter"><h3>Agency:<\/h3>/)
+        end
+
+      end
+
+      context 'when user has more than 1 associated Agency' do
+        it 'should display the Agency filter' do
+          @associated_agencies = [{"agency-unicef"=>"UNICEF"}, {"agency-greenlife-west-africa"=>"GreenLife West Africa"}]
+          render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+          rendered.should match(/<div class="filter"><h3>Agency:<\/h3>/)
+        end
+      end
+    end
+
+    context 'when user is an admin' do
+      before :each do
+        @is_manager = false
+        @is_admin = true
+      end
+      context 'when user has no associated Agencies' do
+        it 'should not display the Agency filter' do
+          @associated_agencies = []
+          render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+          rendered.should_not match(/<div class="filter"><h3>Agency:<\/h3>/)
+        end
+      end
+
+      context 'when user has only 1 associated Agency' do
+        it 'should not display the Agency filter' do
+          @associated_agencies = [{"agency-unicef"=>"UNICEF"}]
+          render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+          rendered.should_not match(/<div class="filter"><h3>Agency:<\/h3>/)
+        end
+
+      end
+
+      context 'when user has more than 1 associated Agency' do
+        it 'should display the Agency filter' do
+          @associated_agencies = [{"agency-unicef"=>"UNICEF"}, {"agency-greenlife-west-africa"=>"GreenLife West Africa"}]
+          render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+          rendered.should match(/<div class="filter"><h3>Agency:<\/h3>/)
+        end
+      end
+    end
+  end
+
 end
