@@ -1,47 +1,37 @@
 #JIRA SL-327
 
 case_plan_fields_subform = [
-  Field.new({"name" => "relation_name",
+  Field.new({"name" => "intervention_service_to_be_provided",
              "type" => "text_field",
-             "display_name_all" => "Name"
+             "display_name_all" => "Name of intervention / service to be provided"
            }),
-  Field.new({"name" => "relation",
+  Field.new({"name" => "case_plan_provider_and_contact_details",
+             "type" => "textarea",
+             "display_name_all" => "Person / agency providing the service or implementing the intervention / services and contact details"
+            }),
+  Field.new({"name" => "intervention_service_goal",
+             "type" => "textarea",
+             "display_name_all" => "Goal of intervention / service"
+            }),
+  Field.new({"name" => "case_plan_timeframe",
+             "type" => "date_field",
+             "display_name_all" => "Expected timeframe (end date)"
+            }),
+  Field.new({"name" => "case_plan_monitoring_schedule",
              "type" => "select_box",
-             "display_name_all" => "How are they related to the child?",
+             "display_name_all" => "Follow up / monitoring schedule",
              "option_strings_text_all" =>
-                                    ["Mother",
-                                     "Father",
-                                     "Aunt",
-                                     "Uncle",
-                                     "Grandmother",
-                                     "Grandfather",
-                                     "Brother",
-                                     "Sister",
-                                     "Husband",
-                                     "Wife",
-                                     "Partner",
-                                     "Other Family",
-                                     "Other Nonfamily"].join("\n")
+                                    ["One time",
+                                     "Daily",
+                                     "Weekly",
+                                     "Monthly",
+                                     "Other"].join("\n")
             }),
-  Field.new({"name" => "relation_is_caregiver",
-             "type" => "tick_box",
-             "display_name_all" => "Is this person the caregiver?",
-             "tick_box_all" => "Yes"
-            }),
-
-
-
-  Field.new({"name" => "relation_sub_ethnicity1",
-             "type" => "select_box",
-             "display_name_all" => "Sub Ethnicity 1",
-             "option_strings_source" => "lookup Ethnicity"
-           }),
-  Field.new({"name" => "relation_sub_ethnicity2",
-             "type" => "select_box",
-             "display_name_all" => "Sub Ethnicity 2",
-             "option_strings_source" => "lookup Ethnicity"
-           }),
-
+  Field.new({"name" => "intervention_service_success",
+             "type" => "radio_button",
+             "display_name_all" => "Successfully implemented?",
+             "option_strings_text_all" => "Yes\nNo",
+            })
 ]
 
 case_plan_section = FormSection.create_or_update_form_section({
@@ -54,23 +44,25 @@ case_plan_section = FormSection.create_or_update_form_section({
     :parent_form=>"case",
     "editable"=>true,
     :fields => case_plan_fields_subform,
-    :initial_subforms => 1,
+    :initial_subforms => 0,
     "name_all" => "List of Interventions and Services",
     "description_all" => "List of Interventions and Services",
     "collapsed_fields" => ["case_plan_timeframe"]
 })
 
-case_plan_fields_fields = [
+case_plan_fields = [
   Field.new({"name" => "protection_concerns",
              "type" => "select_box",
-             "display_name_all" => "Protection Concerns"
+             "display_name_all" => "Protection Concerns",
+             "multi_select" => true,
+             "option_strings_source" => "lookup ProtectionConcerns"
            }),
   Field.new({"name" => "case_plan_header",
              "type" => "separator",
              "display_name_all" => "Intervention Plans and Services to be Provided",
             }),
   ##Subform##
-  Field.new({"name" => "family_details_section",
+  Field.new({"name" => "cp_case_plan_subform_case_plan_interventions",
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => case_plan_section.unique_id,
