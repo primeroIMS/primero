@@ -219,7 +219,11 @@ module IndexHelper
     filters << "Status"
     filters << "Age Range"
     filters << "Sex"
-    filters << "Protection Concerns"
+
+    field_protection_concerns = forms.map{|fs| fs.fields.find{|f| f.name == "protection_concerns"} }.compact.first
+    if field_protection_concerns.present?
+      filters << "Protection Concerns"
+    end
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
