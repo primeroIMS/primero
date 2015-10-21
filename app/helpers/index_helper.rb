@@ -222,12 +222,8 @@ module IndexHelper
 
     field_protection_concerns = forms.map{|fs| fs.fields.find{|f| f.name == "protection_concerns"} }.compact.first
     if field_protection_concerns.present?
-      #Reuse the method "select_options" from the field to retrieve the list of option according
-      #the field configuration.
-      @options_protection_concerns = field_protection_concerns.select_options(nil, @lookups, @locations).map{|e| Hash[*e]}
       filters << "Protection Concerns"
     end
-
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)

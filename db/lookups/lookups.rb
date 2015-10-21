@@ -242,3 +242,27 @@ create_or_update_lookup(
     "Other Service"
   ]
 )
+
+create_or_update_lookup(
+    :name => "protection_concerns",
+    :lookup_values => [
+        "Sexually Exploited",
+        "GBV survivor",
+        "Trafficked/smuggled",
+        "Statelessness",
+        "Arrested/Detained",
+        "Migrant",
+        "Disabled",
+        "Serious health issue",
+        "Refugee",
+        "CAAFAG",
+        "Street child",
+        "Child Mother",
+        "Physically or Mentally Abused",
+        "Living with vulnerable person",
+        "Worst Forms of Child Labor",
+        "Child Headed Household",
+        "Mentally Distressed",
+        "Other"
+    ]
+)
