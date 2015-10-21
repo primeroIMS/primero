@@ -61,7 +61,8 @@ module HomeHelper
       date_closure: "scope[date_closure]=date_range||",
       owned_by: "scope[owned_by]=list||",
       new_owned_by: "scope[last_updated_by]=neg||",
-      new_other: "scope[not_edited_by_owner]=single||true"
+      new_other: "scope[not_edited_by_owner]=single||true",
+      user: "scope[associated_user_names]=list||"
     }
     filters.each do |filter|
       filter = filter.split('=')
