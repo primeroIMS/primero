@@ -317,20 +317,22 @@ module RecordActions
   #      One such likely case will be the GBV IR export. We may need to either explicitly ignore it,
   #      pull out the recursion (this is there for nested forms, and it may be ok to grant access to the entire nest),
   #      or have a more efficient way of determining the `all_permitted_keys` set.
-  def filter_permitted_export_properties(models, props, user = current_user)
+  def filter_permitted_export_properties(models, props, user = current_user, transitions = false)
     # this first condition is for the list view CSV export, which for some
     # reason is implemented with a completely different interface. TODO: don't
     # do that.
     # case_pdf, xls and selected_xls got his own logic to filter permitted properties.
     # No need to call extra logic.
+    #Avoid call the filter readonly logic in the case of transitions (transfer and refereals).
     if props.include?(:fields) ||
-       (params[:action] == "index" && (["xls", "selected_xls", "case_pdf"].include?(params[:format])))
+       (!transitions && params[:action] == "index" && (["xls", "selected_xls", "case_pdf"].include?(params[:format])))
       props
     else
       read_only_user = false
-      if params[:action] == "index" && params[:format] == "csv"
+      #Avoid call the filter readonly logic in the case of transitions (transfer and refereals).
+      if !transitions && params[:action] == "index" && params[:format] == "csv"
         # For CSV filter the properties the readonly user can see.
-        read_only_user = !((can? :update, model_class) || (can? :create, model_class))
+        read_only_user = user.readonly?(model_class.name.underscore)
       end
       all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m, user, read_only_user) }
       prop_selector = lambda do |ps|
@@ -480,10 +482,8 @@ module RecordActions
 
   #Filter out fields the current user is not allow to view.
   def filter_fields_read_only_users(form_sections, properties_by_module, current_user)
-    if (can? :update, model_class) || (can? :create, model_class)
-      properties_by_module
-    else
-      #User can? :read only
+    if current_user.readonly?(model_class.name.underscore)
+      #Filter showable properties for readonly users.
       properties_by_module.map do |pm, forms|
         forms = forms.map do |form, fields|
           #Find out the fields the user is able to view based on the form section.
@@ -498,6 +498,8 @@ module RecordActions
         end
         [pm, forms.to_h.compact]
       end.to_h.compact
+    else
+      properties_by_module
     end
   end
 

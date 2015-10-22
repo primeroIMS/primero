@@ -12,6 +12,20 @@ module Record
   include SyncableMobile
   include Importable
 
+  EXPORTABLE_FIELD_TYPES = [
+      Field::TEXT_FIELD,
+      Field::TEXT_AREA,
+      Field::RADIO_BUTTON,
+      Field::SELECT_BOX,
+      Field::CHECK_BOXES,
+      Field::NUMERIC_FIELD,
+      Field::DATE_FIELD,
+      Field::DATE_RANGE,
+      Field::TICK_BOX,
+      Field::TALLY_FIELD,
+      Field::SUBFORM
+  ]
+
   included do
     before_create :create_identification
 
@@ -369,10 +383,7 @@ module Record
   end
 
   def allowed_formsections(user)
-    permitted_forms = FormSection.get_permitted_form_sections(self.module, self.class.parent_form, user)
-    FormSection.link_subforms(permitted_forms)
-    visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-    FormSection.group_forms(visible_forms)
+    FormSection.get_allowed_visible_forms_sections(self.module, self.class.parent_form, user)
   end
 
   # Returns all of the properties that the given user is permitted to view/edit

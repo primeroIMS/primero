@@ -58,12 +58,18 @@ describe ReportsController do
     end
 
     it "returns all fields for writeable users" do
-      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      role = Role.new(
+        :id=> "role-test", :name => "Test Role", :description => "Test Role",
+        :group_permission => [],
+        :permissions_list => [case_permission],
+        :permitted_form_ids => ["form_section_test_1"]
+      )
+      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id], :role_ids => [role.id])
       session = fake_admin_login user
       #This is important to override some stub done in the fake_admin_login method.
-      user.stub(:roles).and_return([])
+      user.stub(:roles).and_return([role])
       #Mark the user as readonly.
-      controller.should_receive(:can?).with(:update, Child).and_return(true)
       expected_forms_sections = [
         #field_name_4 is hide on view page, for writeable users should be in the list.
         ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "numeric_field"],
@@ -78,13 +84,18 @@ describe ReportsController do
     end
 
     it "returns only permitted fields for readonly users" do
-      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      role = Role.new(
+        :id=> "role-test", :name => "Test Role", :description => "Test Role",
+        :group_permission => [],
+        :permissions_list => [case_permission],
+        :permitted_form_ids => ["form_section_test_1"]
+      )
+      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id], :role_ids => [role.id])
       session = fake_admin_login user
       #This is important to override some stub done in the fake_admin_login method.
-      user.stub(:roles).and_return([])
+      user.stub(:roles).and_return([role])
       #Mark the user as readonly.
-      controller.should_receive(:can?).with(:update, Child).and_return(false)
-      controller.should_receive(:can?).with(:create, Child).and_return(false)
       expected_forms_sections = [
         #field_name_3 is not visible.
         #field_name_4 is hide on view page, for readonly users should not be in the list.

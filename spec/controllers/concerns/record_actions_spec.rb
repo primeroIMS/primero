@@ -53,8 +53,7 @@ describe RecordActions do
         params = ActionController::Parameters.new({:action => "index", :format => "csv"})
         subject.should_receive(:params).and_return(params, params, params, params)
         subject.should_receive(:permitted_property_keys).with(mock_record, mock_user, true).twice.and_return(['name'])
-        subject.should_receive(:can?).with(:update, Child).and_return(false)
-        subject.should_receive(:can?).with(:create, Child).and_return(false)
+        mock_user.should_receive(:readonly?).and_return(true)
         props = [
           mock_prop('name'),
           mock_prop('age'),
@@ -72,7 +71,7 @@ describe RecordActions do
         params = ActionController::Parameters.new({:action => "index", :format => "csv"})
         subject.should_receive(:params).and_return(params, params, params, params)
         subject.should_receive(:permitted_property_keys).with(mock_record, mock_user, false).twice.and_return(['name'])
-        subject.should_receive(:can?).with(:update, Child).and_return(true)
+        mock_user.should_receive(:readonly?).and_return(false)
         props = [
           mock_prop('name'),
           mock_prop('age'),
@@ -90,8 +89,7 @@ describe RecordActions do
         params = ActionController::Parameters.new({:action => "index", :format => "csv"})
         subject.should_receive(:params).and_return(params, params, params, params)
         subject.should_receive(:permitted_property_keys).with(mock_record, mock_user, false).twice.and_return(['name'])
-        subject.should_receive(:can?).with(:update, Child).and_return(false)
-        subject.should_receive(:can?).with(:create, Child).and_return(true)
+        mock_user.should_receive(:readonly?).and_return(false)
         props = [
           mock_prop('name'),
           mock_prop('age'),

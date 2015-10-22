@@ -437,6 +437,14 @@ describe ChildrenController do
       end
 
       it "Should not export forms field that are hide on view page" do
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        role = Role.new(
+          :id=> "role-test", :name => "Test Role", :description => "Test Role",
+          :group_permission => [],
+          :permissions_list => [case_permission],
+          :permitted_form_ids => ["form_section_test_1"]
+        )
+        @user.stub(:roles).and_return([role])
         #Main part of the test:
         expected_forms_sections = {
           "primeromodule-cp"=> {
@@ -464,9 +472,6 @@ describe ChildrenController do
           }
         }
 
-        #Make the user readonly.
-        controller.should_receive(:can?).with(:update, Child).and_return(false)
-        controller.should_receive(:can?).with(:create, Child).and_return(false)
         Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
@@ -683,6 +688,14 @@ describe ChildrenController do
       end
 
       it "Should not export forms field that are hide on view page" do
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        role = Role.new(
+          :id=> "role-test", :name => "Test Role", :description => "Test Role",
+          :group_permission => [],
+          :permissions_list => [case_permission],
+          :permitted_form_ids => ["form_section_test_1", "form_section_test_4"]
+        )
+        @user.stub(:roles).and_return([role])
         #Main part of the test:
         expected_forms_sections = {
           "primeromodule-cp"=> {
@@ -709,9 +722,6 @@ describe ChildrenController do
           }
         }
 
-        #Make the user readonly.
-        controller.should_receive(:can?).with(:update, Child).and_return(false)
-        controller.should_receive(:can?).with(:create, Child).and_return(false)
         Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
