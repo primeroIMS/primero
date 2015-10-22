@@ -57,8 +57,8 @@ module RecordActions
 
     respond_to do |format|
       format.html
-      format.json do
-        unless params[:password]
+      unless params[:password]
+        format.json do
           @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?
           if params[:ids].present?
             @records = @records.map{|r| r.id}
@@ -68,7 +68,6 @@ module RecordActions
           render :json => @records
         end
       end
-
       unless params[:format].nil? || params[:format] == 'json'
         if @records.empty?
           flash[:notice] = t('exports.no_records')
