@@ -34,7 +34,16 @@ class ConfigurationBundleController < ApplicationController
                                                    end})
     end
 
-    encrypt_data_to_zip(JSON.pretty_generate(bundle_data), "configuration-bundle-#{request.host}.json", params[:password])
+    cookies[:download_status_finished] = true
+    encrypt_data_to_zip(JSON.pretty_generate(bundle_data), export_filename, params[:password])
+  end
+
+  def export_filename
+    if params[:custom_export_file_name].present?
+      "#{params[:custom_export_file_name]}.json"
+    else
+      "configuration-bundle-#{request.host}.json"
+    end
   end
 
   def import_bundle
