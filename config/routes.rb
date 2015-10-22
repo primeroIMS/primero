@@ -73,6 +73,7 @@ Primero::Application.routes.draw do
       post :import_file
       post :transition
       post :mark_for_mobile
+      post :approve_case_plan
       get :search
       get :consent_count
     end

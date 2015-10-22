@@ -132,6 +132,7 @@ en:
      referral: "Refer %{model}"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
+     approve_case_plan: "Approve Case Plan"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -807,6 +808,7 @@ en:
       transfer: "Transfer"
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
+      approve_case_plan: "Approve case plan"
       manage: "Manage"
 
   forms:
@@ -1556,6 +1558,10 @@ en:
     success: "%{record_type} %{id} successfully unmarked as mobile"
     failure_batch: "%{failed_count} Record(s) failed to be unmarked as mobile"
     success_batch: "%{success_count} Record(s) successfully unmarked as mobile"
+
+  approve_case_plan:
+    approve_case_plan_label: "Approve Case Plan"
+    comments_label: "Comments"
 
   per_page_translation: "Per page _MENU_"
   total: Total

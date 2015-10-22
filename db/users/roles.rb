@@ -169,7 +169,8 @@ cp_manager_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::APPROVE_CASE_PLAN
     ]
   ),
   Permission.new(
