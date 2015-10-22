@@ -242,6 +242,11 @@ module Record
       new_with_user_name(current_user, attributes)
     end
 
+    #Overrid in implementing class
+    def minimum_reportable_fields
+      return {}
+    end
+
     # Attributes is just a hash
     def get_unique_instance(attributes)
       if attributes.include? 'unique_identifier'

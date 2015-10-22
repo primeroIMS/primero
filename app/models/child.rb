@@ -163,6 +163,15 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
   end
 
+  def self.minimum_reportable_fields
+    {
+      'boolean' => ['record_state'],
+       'string' => ['child_status', 'sex', 'risk_level'],
+         'date' => ['registration_date'],
+      'integer' => ['age']
+    }
+  end
+
   def self.fetch_all_ids_and_revs
     ids_and_revs = []
     all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
