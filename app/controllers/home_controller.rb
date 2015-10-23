@@ -55,13 +55,19 @@ class HomeController < ApplicationController
       referred_totals: {}
     }
 
+    managed_users = current_user.managed_user_names
+
     queries[:totals_by_case_worker].facet(:associated_user_names).rows.each do |c|
-      @aggregated_case_manager_stats[:worker_totals][c.value] = {}
-      @aggregated_case_manager_stats[:worker_totals][c.value][:total_cases] = c.count
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:worker_totals][c.value] = {}
+        @aggregated_case_manager_stats[:worker_totals][c.value][:total_cases] = c.count
+      end
     end
 
     queries[:new_by_case_worker].facet(:associated_user_names).rows.each do |c|
-      @aggregated_case_manager_stats[:worker_totals][c.value][:new_cases] = c.count
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:worker_totals][c.value][:new_cases] = c.count
+      end
     end
 
     queries[:manager_totals].facet(:child_status).rows.each do |c|
@@ -69,12 +75,16 @@ class HomeController < ApplicationController
     end
 
     queries[:referred_total].facet(:referred_users).rows.each do |c|
-      @aggregated_case_manager_stats[:referred_totals][c.value] = {}
-      @aggregated_case_manager_stats[:referred_totals][c.value][:total_cases] = c.count
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:referred_totals][c.value] = {}
+        @aggregated_case_manager_stats[:referred_totals][c.value][:total_cases] = c.count
+      end
     end
 
     queries[:referred_new].facet(:referred_users).rows.each do |c|
-      @aggregated_case_manager_stats[:referred_totals][c.value][:new_cases] = c.count
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:referred_totals][c.value][:new_cases] = c.count
+      end
     end
 
     @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
