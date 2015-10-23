@@ -1202,6 +1202,8 @@ en:
     current_owner: "Current Owner"
     last_updated: "Lasted Updated"
     case_stats: "Cases"
+    cases_by_social_worker: "Cases by social worker"
+    referrals_by_social_worker: "Referrals by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
     case_stat_referrals: "Referrals"
     count_risk_level_total:
@@ -1220,14 +1222,14 @@ en:
       one: "You have %{stat} <span>total</span> referral "
       other: "You have %{stat} <span>total</span> referrals  "
     worker_count_referrals_total:
-      one: "%{case_worker} has %{stat} <span>total</span> referral "
-      other: "%{case_worker} has %{stat} <span>total</span> referrals  "
+      one: "<span>%{case_worker}</span> has %{stat} <span>total</span> referral "
+      other: "<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  "
     count_referrals_new:
       one: "and %{stat} <span>new</span> referrals"
       other: "and %{stat} <span>new</span> referrals"
     worker_count_total:
-      one: "%{case_worker} has %{stat} <span>total</span> case "
-      other: "%{case_worker} has %{stat} <span>total</span> cases "
+      one: "<span>%{case_worker}</span> has %{stat} <span>total</span> case "
+      other: "<span>%{case_worker}</span> has %{stat} <span>total</span> cases "
     manager_count_open_total:
       one: "You have %{stat} <span>open</span> case "
       other: "You have %{stat} <span>open</span> cases "
