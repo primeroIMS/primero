@@ -51,7 +51,7 @@ describe RecordActions do
         mock_record = double()
         subject.should_receive(:current_user).and_return(mock_user);
         params = ActionController::Parameters.new({:action => "index", :format => "csv"})
-        subject.should_receive(:params).and_return(params, params, params, params)
+        subject.should_receive(:params).and_return(params, params)
         subject.should_receive(:permitted_property_keys).with(mock_record, mock_user, true).twice.and_return(['name'])
         mock_user.should_receive(:readonly?).and_return(true)
         props = [
@@ -69,7 +69,7 @@ describe RecordActions do
         mock_record = double()
         subject.should_receive(:current_user).and_return(mock_user);
         params = ActionController::Parameters.new({:action => "index", :format => "csv"})
-        subject.should_receive(:params).and_return(params, params, params, params)
+        subject.should_receive(:params).and_return(params, params)
         subject.should_receive(:permitted_property_keys).with(mock_record, mock_user, false).twice.and_return(['name'])
         mock_user.should_receive(:readonly?).and_return(false)
         props = [
@@ -87,7 +87,7 @@ describe RecordActions do
         mock_record = double()
         subject.should_receive(:current_user).and_return(mock_user);
         params = ActionController::Parameters.new({:action => "index", :format => "csv"})
-        subject.should_receive(:params).and_return(params, params, params, params)
+        subject.should_receive(:params).and_return(params, params)
         subject.should_receive(:permitted_property_keys).with(mock_record, mock_user, false).twice.and_return(['name'])
         mock_user.should_receive(:readonly?).and_return(false)
         props = [
@@ -105,7 +105,7 @@ describe RecordActions do
         mock_record = double()
         subject.should_receive(:current_user).and_return(mock_user);
         params = ActionController::Parameters.new({:action => "index", :format => "json"})
-        subject.should_receive(:params).and_return(params, params, params, params)
+        subject.should_receive(:params).and_return(params, params)
         subject.should_receive(:permitted_property_keys).with(mock_record, mock_user, false).twice.and_return(['name'])
         subject.should_not_receive(:can?)
         subject.should_not_receive(:can?)
@@ -127,7 +127,7 @@ describe RecordActions do
         mock_record = double()
         subject.should_receive(:current_user).and_return(mock_user);
         params = ActionController::Parameters.new({:action => "index", :format => format})
-        subject.should_receive(:params).and_return(params, params)
+        subject.should_receive(:params).and_return(params)
         subject.should_not_receive(:permitted_property_keys)
         subject.should_not_receive(:can?)
         subject.should_not_receive(:can?)
