@@ -75,7 +75,7 @@ module TransitionActions
     exporter = type_of_export_exporter
     #TODO filter records per consent
     transition_properties = transition_exporter_properties(transition_user)
-    props = filter_permitted_export_properties(records, transition_properties, transition_user)
+    props = filter_permitted_export_properties(records, transition_properties, transition_user, true)
     export_data = exporter.export(records, props, current_user)
     encrypt_data_to_zip export_data, filename(records, exporter, transition_type), password
   end

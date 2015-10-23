@@ -86,10 +86,14 @@ class ReportsController < ApplicationController
     module_ids = (params[:module_ids].present? && params[:module_ids]!='null') ? params[:module_ids] : []
     modules = PrimeroModule.all(keys: module_ids).all
     record_type = params[:record_type]
-    permitted_fields = select_options_fields_grouped_by_form(
-      Report.all_reportable_fields_by_form(modules, record_type, @current_user),
-      true
-    ).each{|filter| filter.last.compact }.delete_if{|filter| filter.last.empty?}
+    if record_type.present?
+      permitted_fields = select_options_fields_grouped_by_form(
+        FormSection.all_exportable_fields_by_form(modules, record_type, @current_user, Report::REPORTABLE_FIELD_TYPES, true),
+        true
+      )
+    else
+      permitted_fields = []
+    end
     render json: permitted_fields
   end
 
@@ -149,13 +153,17 @@ class ReportsController < ApplicationController
   end
 
   def set_reportable_fields
-    @reportable_fields ||= Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
-    #TODO: There is probably a better way to deal with this than using hashes. Fix! Simplify the JS as well!
-    @field_type_map = {}
-    @reportable_fields.values.each do |module_properties|
-      module_properties.each do |form_properties|
-        form_properties[1].each do |property|
-          @field_type_map[property[0]] = property[2]
+    if @report.record_type.present?
+      readonly = @current_user.readonly?(@report.record_type)
+      @reportable_fields_aggregate_counts_from ||= FormSection.all_exportable_fields_by_form(@report.modules, @report.record_type, @current_user, Report::AGGREGATE_COUNTS_FIELD_TYPES, true)
+      @reportable_fields ||= FormSection.all_exportable_fields_by_form(@report.modules, @report.record_type, @current_user, Report::REPORTABLE_FIELD_TYPES, true)
+      #TODO: There is probably a better way to deal with this than using hashes. Fix! Simplify the JS as well!
+      @field_type_map = {}
+      @reportable_fields.values.each do |module_properties|
+        module_properties.each do |form_properties|
+          form_properties[1].each do |property|
+            @field_type_map[property[0]] = property[2]
+          end
         end
       end
     end

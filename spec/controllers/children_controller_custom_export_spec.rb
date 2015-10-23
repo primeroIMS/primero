@@ -18,6 +18,12 @@ describe ChildrenController do
       Field.new({"name" => "shared_field",
                  "type" => "text_field",
                  "display_name_all" => "Shared Field"
+                }),
+      ## Will hide for readonly users.
+      Field.new({"name" => "age",
+                 "type" => "text_field",
+                 "display_name_all" => "age",
+                 "hide_on_view_page" => true
                 })
     ]
     form = FormSection.new(
@@ -386,6 +392,102 @@ describe ChildrenController do
         get :index, params
       end
 
+      it "Should export forms field that are hide on view page" do
+        #Main part of the test:
+        expected_forms_sections = {
+          "primeromodule-cp"=> {
+            "Form Section Test 1" => {
+              "child_status" => Child.properties.select{|p| p.name == "child_status"}.first,
+              "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first,
+              "shared_field" => Child.properties.select{|p| p.name == "shared_field"}.first,
+              #This field is hidden on the view page, but for this user will be exportable.
+              "age" => Child.properties.select{|p| p.name == "age"}.first
+            },
+            "__record__"=> {
+              "created_organization" => Child.properties.select{|p| p.name == "created_organization"}.first,
+              "created_by_full_name" => Child.properties.select{|p| p.name == "created_by_full_name"}.first,
+              "last_updated_at" => Child.properties.select{|p| p.name == "last_updated_at"}.first,
+              "last_updated_by" => Child.properties.select{|p| p.name == "last_updated_by"}.first,
+              "last_updated_by_full_name" => Child.properties.select{|p| p.name == "last_updated_by_full_name"}.first,
+              "posted_at" => Child.properties.select{|p| p.name == "posted_at"}.first,
+              "unique_identifier" => Child.properties.select{|p| p.name == "unique_identifier"}.first,
+              "record_state" => Child.properties.select{|p| p.name == "record_state"}.first,
+              "hidden_name" => Child.properties.select{|p| p.name == "hidden_name"}.first,
+              "owned_by_full_name" => Child.properties.select{|p| p.name == "owned_by_full_name"}.first,
+              "previously_owned_by_full_name" => Child.properties.select{|p| p.name == "previously_owned_by_full_name"}.first,
+              "duplicate" => Child.properties.select{|p| p.name == "duplicate"}.first,
+              "duplicate_of" => Child.properties.select{|p| p.name == "duplicate_of"}.first
+            }
+          }
+        }
+        Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
+      
+        params = {
+          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "custom_export_file_name" => "",
+          "password" => "123456",
+          "selected_records" => "",
+          "custom_exports"=> {
+              "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
+              "forms" => ["Form Section Test 1"], "model_class" => "Child"
+            },
+          "page" => "all", "per_page" => "all", "format" => "xls"
+        }
+        get :index, params
+      end
+
+      it "Should not export forms field that are hide on view page" do
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        role = Role.new(
+          :id=> "role-test", :name => "Test Role", :description => "Test Role",
+          :group_permission => [],
+          :permissions_list => [case_permission],
+          :permitted_form_ids => ["form_section_test_1"]
+        )
+        @user.stub(:roles).and_return([role])
+        #Main part of the test:
+        expected_forms_sections = {
+          "primeromodule-cp"=> {
+            #Age field is hide on view page and for readonly users should not be exportable.
+            "Form Section Test 1" => {
+              "child_status" => Child.properties.select{|p| p.name == "child_status"}.first,
+              "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first,
+              "shared_field" => Child.properties.select{|p| p.name == "shared_field"}.first,
+            },
+            "__record__"=> {
+              "created_organization" => Child.properties.select{|p| p.name == "created_organization"}.first,
+              "created_by_full_name" => Child.properties.select{|p| p.name == "created_by_full_name"}.first,
+              "last_updated_at" => Child.properties.select{|p| p.name == "last_updated_at"}.first,
+              "last_updated_by" => Child.properties.select{|p| p.name == "last_updated_by"}.first,
+              "last_updated_by_full_name" => Child.properties.select{|p| p.name == "last_updated_by_full_name"}.first,
+              "posted_at" => Child.properties.select{|p| p.name == "posted_at"}.first,
+              "unique_identifier" => Child.properties.select{|p| p.name == "unique_identifier"}.first,
+              "record_state" => Child.properties.select{|p| p.name == "record_state"}.first,
+              "hidden_name" => Child.properties.select{|p| p.name == "hidden_name"}.first,
+              "owned_by_full_name" => Child.properties.select{|p| p.name == "owned_by_full_name"}.first,
+              "previously_owned_by_full_name" => Child.properties.select{|p| p.name == "previously_owned_by_full_name"}.first,
+              "duplicate" => Child.properties.select{|p| p.name == "duplicate"}.first,
+              "duplicate_of" => Child.properties.select{|p| p.name == "duplicate_of"}.first
+            }
+          }
+        }
+
+        Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
+
+        params = {
+          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "custom_export_file_name" => "",
+          "password" => "123456",
+          "selected_records" => "",
+          "custom_exports"=> {
+              "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
+              "forms" => ["Form Section Test 1"], "model_class" => "Child"
+            },
+          "page" => "all", "per_page" => "all", "format" => "xls"
+        }
+        get :index, params
+      end
+
     end
 
     describe "Select Format 'Fields'" do
@@ -536,6 +638,100 @@ describe ChildrenController do
                            "subform_section_1:field_name_4",
                            "subform_section_3:field_name_6",
                            "subform_section_3:field_name_7"], "model_class" => "Child"
+            },
+          "page" => "all", "per_page" => "all", "format" => "selected_xls"
+        }
+        get :index, params
+      end
+
+      it "Should export forms field that are hide on view page" do
+        #Main part of the test:
+        expected_forms_sections = {
+          "primeromodule-cp"=> {
+            "Form Section Test 1" => { 
+                "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first,
+                #This field is hidden on the view page, but for this user will be exportable.
+                "age" => Child.properties.select{|p| p.name == "age"}.first
+            },
+            "Form Section Test 4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
+            "__record__"=> {
+              "created_organization" => Child.properties.select{|p| p.name == "created_organization"}.first,
+              "created_by_full_name" => Child.properties.select{|p| p.name == "created_by_full_name"}.first,
+              "last_updated_at" => Child.properties.select{|p| p.name == "last_updated_at"}.first,
+              "last_updated_by" => Child.properties.select{|p| p.name == "last_updated_by"}.first,
+              "last_updated_by_full_name" => Child.properties.select{|p| p.name == "last_updated_by_full_name"}.first,
+              "posted_at" => Child.properties.select{|p| p.name == "posted_at"}.first,
+              "unique_identifier" => Child.properties.select{|p| p.name == "unique_identifier"}.first,
+              "record_state" => Child.properties.select{|p| p.name == "record_state"}.first,
+              "hidden_name" => Child.properties.select{|p| p.name == "hidden_name"}.first,
+              "owned_by_full_name" => Child.properties.select{|p| p.name == "owned_by_full_name"}.first,
+              "previously_owned_by_full_name" => Child.properties.select{|p| p.name == "previously_owned_by_full_name"}.first,
+              "duplicate" => Child.properties.select{|p| p.name == "duplicate"}.first,
+              "duplicate_of" => Child.properties.select{|p| p.name == "duplicate_of"}.first
+            }
+          }
+        }
+        Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
+
+        params = {
+          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "custom_export_file_name" => "",
+          "password" => "123456",
+          "selected_records" => "",
+          "custom_exports"=> {
+              "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
+              "fields" => ["birth_date", "age", "location_field"], "model_class" => "Child"
+            },
+          "page" => "all", "per_page" => "all", "format" => "selected_xls"
+        }
+        get :index, params
+      end
+
+      it "Should not export forms field that are hide on view page" do
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        role = Role.new(
+          :id=> "role-test", :name => "Test Role", :description => "Test Role",
+          :group_permission => [],
+          :permissions_list => [case_permission],
+          :permitted_form_ids => ["form_section_test_1", "form_section_test_4"]
+        )
+        @user.stub(:roles).and_return([role])
+        #Main part of the test:
+        expected_forms_sections = {
+          "primeromodule-cp"=> {
+            #Age field is hide on view page and for readonly users should not be exportable.
+            "Form Section Test 1" => { 
+                "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first
+            },
+            "Form Section Test 4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
+            "__record__"=> {
+              "created_organization" => Child.properties.select{|p| p.name == "created_organization"}.first,
+              "created_by_full_name" => Child.properties.select{|p| p.name == "created_by_full_name"}.first,
+              "last_updated_at" => Child.properties.select{|p| p.name == "last_updated_at"}.first,
+              "last_updated_by" => Child.properties.select{|p| p.name == "last_updated_by"}.first,
+              "last_updated_by_full_name" => Child.properties.select{|p| p.name == "last_updated_by_full_name"}.first,
+              "posted_at" => Child.properties.select{|p| p.name == "posted_at"}.first,
+              "unique_identifier" => Child.properties.select{|p| p.name == "unique_identifier"}.first,
+              "record_state" => Child.properties.select{|p| p.name == "record_state"}.first,
+              "hidden_name" => Child.properties.select{|p| p.name == "hidden_name"}.first,
+              "owned_by_full_name" => Child.properties.select{|p| p.name == "owned_by_full_name"}.first,
+              "previously_owned_by_full_name" => Child.properties.select{|p| p.name == "previously_owned_by_full_name"}.first,
+              "duplicate" => Child.properties.select{|p| p.name == "duplicate"}.first,
+              "duplicate_of" => Child.properties.select{|p| p.name == "duplicate_of"}.first
+            }
+          }
+        }
+
+        Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
+
+        params = {
+          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "custom_export_file_name" => "",
+          "password" => "123456",
+          "selected_records" => "",
+          "custom_exports"=> {
+              "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
+              "fields" => ["birth_date", "age", "location_field"], "model_class" => "Child"
             },
           "page" => "all", "per_page" => "all", "format" => "selected_xls"
         }
