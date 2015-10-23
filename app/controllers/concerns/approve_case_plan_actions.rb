@@ -2,6 +2,7 @@ module ApproveCasePlanActions
   extend ActiveSupport::Concern
 
   def approve_case_plan
+    authorize! :approve_case_plan, model_class
     load_record
     if @record.present?
       begin
