@@ -267,6 +267,24 @@ class User < CouchRest::Model::Base
     roles.compact.collect(&:permissions_list).flatten
   end
 
+  #This method will return true when the user has no permission assigned
+  #or the user has no write/manage access to the record.
+  #Don't rely on this method for authorization.
+  def readonly?(record_type)
+    resource = if record_type == "violation"
+      "incident"
+    elsif record_type == "child"
+      "case"
+    else
+      record_type
+    end
+    record_type_permissions = permissions.find{|p| p.resource == resource}
+    record_type_permissions.blank? ||
+    record_type_permissions.actions.blank? ||
+    !(record_type_permissions.actions.include?(Permission::WRITE) ||
+       record_type_permissions.actions.include?(Permission::MANAGE))
+  end
+
   def group_permissions
     roles.map{|r| r.group_permission}.uniq
   end

@@ -9,7 +9,7 @@ describe ChildrenController do
       controller.should_receive(:remote_transition).with(records).and_call_original
       controller.should_receive(:set_status_transferred).with(records).and_call_original if transition_type == "transfer"
       controller.should_receive(:transition_exporter_properties).with(transition_user).and_call_original
-      controller.should_receive(:filter_permitted_export_properties).with(records, transition_properties, transition_user).and_call_original
+      controller.should_receive(:filter_permitted_export_properties).with(records, transition_properties, transition_user, true).and_call_original
       Exporters::JSONExporter.should_receive(:export).with(records, permited_properties, @user).and_return("data")
       controller.should_receive(:filename).with(records, Exporters::JSONExporter, transition_type).and_return("test_filename");
       controller.should_receive(:encrypt_data_to_zip).with("data", "test_filename", "password")
@@ -43,7 +43,7 @@ describe ChildrenController do
       controller.should_receive(:remote_transition).with(records).and_call_original
       controller.should_receive(:set_status_transferred).with(records).and_call_original if transition_type == "transfer"
       controller.should_receive(:transition_exporter_properties).with(transition_user).and_call_original
-      controller.should_receive(:filter_permitted_export_properties).with(records, transition_properties, transition_user).and_call_original
+      controller.should_receive(:filter_permitted_export_properties).with(records, transition_properties, transition_user, true).and_call_original
       Exporters::CSVExporter.should_receive(:export).with(records, permited_properties, @user).and_return("data")
       controller.should_receive(:filename).with(records, Exporters::CSVExporter, transition_type).and_return("test_filename");
       controller.should_receive(:encrypt_data_to_zip).with("data", "test_filename", "password")
@@ -77,7 +77,7 @@ describe ChildrenController do
       controller.should_receive(:remote_transition).with(records).and_call_original
       controller.should_receive(:set_status_transferred).with(records).and_call_original if transition_type == "transfer"
       controller.should_receive(:transition_exporter_properties).with(transition_user).and_call_original
-      controller.should_receive(:filter_permitted_export_properties).with(records, pdf_transition_properties, transition_user).and_call_original
+      controller.should_receive(:filter_permitted_export_properties).with(records, pdf_transition_properties, transition_user, true).and_call_original
       Exporters::PDFExporter.should_receive(:export).with(records, pdf_permited_properties, @user).and_return("data")
       controller.should_receive(:filename).with(records, Exporters::PDFExporter, transition_type).and_return("test_filename");
       controller.should_receive(:encrypt_data_to_zip).with("data", "test_filename", "password")
@@ -117,7 +117,10 @@ describe ChildrenController do
       fields = [
         Field.new({"name" => "field_name_1",
                    "type" => "text_field",
-                   "display_name_all" => "Field Name 1"
+                   "display_name_all" => "Field Name 1",
+                   #This field should not have effect for
+                   #transitions.
+                   "hide_on_view_page" => true
                   })
       ]
       form = FormSection.new(
@@ -138,7 +141,10 @@ describe ChildrenController do
       fields = [
         Field.new({"name" => "field_name_2",
                    "type" => "text_field",
-                   "display_name_all" => "Field Name 2"
+                   "display_name_all" => "Field Name 2",
+                  #This field should not have effect for
+                  #transitions.
+                  "hide_on_view_page" => true
                   })
       ]
       form = FormSection.new(

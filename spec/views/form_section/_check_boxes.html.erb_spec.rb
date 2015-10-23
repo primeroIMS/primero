@@ -16,7 +16,7 @@ describe "form_section/_check_boxes.html.erb" do
     check_boxes.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/check_boxes', :locals => { :check_boxes => check_boxes, :formObject => @child }, :formats => [:html], :handlers => [:erb]
 
-    rendered.should have_tag("img.vtip")
+    rendered.should have_tag("p.help")
   end
 
 	it "should not include image for tooltip when help text does not exist" do
@@ -28,7 +28,7 @@ describe "form_section/_check_boxes.html.erb" do
     check_boxes.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/check_boxes', :locals => { :check_boxes => check_boxes, :formObject => @child }, :formats => [:html], :handlers => [:erb]
 
-    rendered.should_not have_tag("img.vtip")
+    rendered.should_not have_tag("p.help")
   end
 
 end

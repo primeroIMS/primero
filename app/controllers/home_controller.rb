@@ -118,7 +118,7 @@ class HomeController < ApplicationController
   end
 
   def display_admin_dashboard?
-    @display_admin_dashboard ||= current_user.group_permissions.include?(Permission::ALL)
+    @display_admin_dashboard ||= current_user.is_admin?
   end
 
   def manager_case_query(query = {})

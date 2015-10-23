@@ -59,6 +59,53 @@ $dashboard_table_col6:100px;
       color: $green_color;
       font-size: 1.2rem;
     }
+
+    .stat_title {
+      text-transform: uppercase;
+      margin: 10px 0;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: $green_color;
+    }
+
+    .panel_no_table {
+      height: auto;
+      overflow: visible;
+      font-size: $thirteen_px;
+
+      .stat_title {
+        border-bottom: 1px dashed $stroke_green_color;
+        margin: 10px;
+      }
+
+      > div:not(.stat_title) {
+        border-bottom: 1px dashed #ccc;
+
+        div:not(.stat_link) {
+          padding: 0 10px;
+
+          span {
+            font-weight:600;
+            font-size: .9rem;
+            color: #000;
+          }
+        }
+      }
+
+      > div:not(.stat_title):last-child {
+        border-bottom: none;
+      }
+
+      .scrollable {
+        height: 140px;
+        overflow: hidden;
+        overflow-y: scroll;
+      }
+
+      .single_stat {
+        margin-top: 10px;
+      }
+    }
   }
 
   #content {
@@ -97,13 +144,7 @@ $dashboard_table_col6:100px;
         }
       }
 
-      .stat_title {
-        text-transform: uppercase;
-        margin: 10px 0;
-        font-weight: 600;
-        font-size: 0.8rem;
-        color: $green_color;
-      }
+
 
       a.id_link{
         float: left;

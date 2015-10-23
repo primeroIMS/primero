@@ -12,6 +12,20 @@ module Record
   include SyncableMobile
   include Importable
 
+  EXPORTABLE_FIELD_TYPES = [
+      Field::TEXT_FIELD,
+      Field::TEXT_AREA,
+      Field::RADIO_BUTTON,
+      Field::SELECT_BOX,
+      Field::CHECK_BOXES,
+      Field::NUMERIC_FIELD,
+      Field::DATE_FIELD,
+      Field::DATE_RANGE,
+      Field::TICK_BOX,
+      Field::TALLY_FIELD,
+      Field::SUBFORM
+  ]
+
   included do
     before_create :create_identification
 
@@ -377,25 +391,28 @@ module Record
   end
 
   def allowed_formsections(user)
-    permitted_forms = FormSection.get_permitted_form_sections(self.module, self.class.parent_form, user)
-    FormSection.link_subforms(permitted_forms)
-    visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-    FormSection.group_forms(visible_forms)
+    FormSection.get_allowed_visible_forms_sections(self.module, self.class.parent_form, user)
   end
 
   # Returns all of the properties that the given user is permitted to view/edit
-  def permitted_properties(user)
+  # read_only_user params is to indicate the user should not see properties
+  # that don't display on the show page.
+  def permitted_properties(user, read_only_user = false)
     permitted = []
     fss = allowed_formsections(user)
     if fss.present?
       permitted_forms = fss.values.flatten.map {|fs| fs.name }
       permitted = self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
+      if read_only_user
+        permitted_fields = fss.map{|k, v| v.map{|v| v.fields.map{|f| f.name if f.showable?} } }.flatten.compact
+        permitted = permitted.select{|p| permitted_fields.include?(p.name)}
+      end
     end
     return permitted
   end
 
-  def permitted_property_names(user)
-    permitted_properties(user).map {|p| p.name }
+  def permitted_property_names(user, read_only_user = false)
+    permitted_properties(user, read_only_user).map {|p| p.name }
   end
 
   protected

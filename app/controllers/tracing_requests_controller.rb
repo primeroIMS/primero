@@ -43,6 +43,11 @@ class TracingRequestsController < ApplicationController
       #get the model properties based on the form sections.
       properties_by_module = model_class.get_properties_by_module(form_sections)
       #Clean up the forms.
+
+      # Filter the properties the readonly user can see.
+      # Note that should call the filter for xls and selected_xls exporter.
+      properties_by_module = filter_fields_read_only_users(form_sections, properties_by_module, current_user)
+
       properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio"].include?(key)}}
 
       properties_by_module = filter_custom_exports(properties_by_module)
