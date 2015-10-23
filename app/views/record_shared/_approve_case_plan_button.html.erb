@@ -13,14 +13,11 @@
   <div class=<%= "approve_case_plan_form_container row"%> >
     <div class="large-11">
       <%= form_tag(url_for(:action => 'approve_case_plan', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
-        <%= hidden_field_tag "selected_records"%>
         <div class="row">
           <div class="medium-12 columns">
             <label for="format"><%= t('approve_case_plan.approve_case_plan_label') %></label>
-            <input type="radio" name="approval" value="yes"/>
+            <%= check_box_tag('approval', 'true', checked = true) %>
             <label form="format"><%= t('true') %></label>
-            <input type="radio" name="approval" value="no"/>
-            <label for="format"><%= t('false') %></label>
           </div>
         </div>
 
