@@ -4,6 +4,7 @@ $dashboard_table_col3:170px;
 $dashboard_table_col4:170px;
 $dashboard_table_col5:100px;
 $dashboard_table_col6:100px;
+$dashboard_table_counts:85px;
 
 #dashboard {
 
@@ -68,6 +69,16 @@ $dashboard_table_col6:100px;
 
       .panel_header h4 {
         margin-bottom: 0;
+      }
+    }
+
+    table.table-counts {
+      th:not(:first-child), td:not(:first-child) {
+        width: $dashboard_table_counts !important;
+      }
+
+      th:first-child, td:first-child {
+        width: 253px !important;
       }
     }
 
