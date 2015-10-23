@@ -25,7 +25,7 @@ class HomeController < ApplicationController
       with(:flag_record_owner, managed_users)
       with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
       with(:flag_is_removed, false)
-      order_by(:flag_date, :desc)
+      order_by(:flag_created_at, :desc)
     }.hits)
   end
 
