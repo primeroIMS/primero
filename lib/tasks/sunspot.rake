@@ -48,6 +48,8 @@ namespace :sunspot do
         puts "  => Indexing #{child.id} Flags..."
         Sunspot.index(child.flags)
       end
+
+      child.index_nested_reportables
     end
 
     puts 'Reindexing incidents...'
@@ -60,6 +62,7 @@ namespace :sunspot do
       end
 
       incident.index_violations
+      incident.index_nested_reportables
     end
 
     puts 'Reindexing Tracing Request...'
@@ -70,6 +73,8 @@ namespace :sunspot do
         puts "  => Indexing #{tracing.id} Flags..."
         Sunspot.index(tracing.flags)
       end
+
+      tracing.index_nested_reportables
     end
   end
 end

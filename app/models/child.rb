@@ -172,6 +172,10 @@ class Child < CouchRest::Model::Base
     }
   end
 
+  def self.nested_reportable_types
+    [ReportableProtectionConcern]
+  end
+
   def self.fetch_all_ids_and_revs
     ids_and_revs = []
     all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
