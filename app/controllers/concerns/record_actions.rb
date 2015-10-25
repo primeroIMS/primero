@@ -331,12 +331,12 @@ module RecordActions
     # No need to call extra logic.
     #Avoid call the filter readonly logic in the case of transitions (transfer and refereals).
     if props.include?(:fields) ||
-       (!transitions && params[:action] == "index" && (["xls", "selected_xls", "case_pdf"].include?(params[:format])))
+       (!transitions && ["xls", "selected_xls", "case_pdf"].include?(params[:format]))
       props
     else
       read_only_user = false
       #Avoid call the filter readonly logic in the case of transitions (transfer and refereals).
-      if !transitions && params[:action] == "index" && params[:format] == "csv"
+      if !transitions && params[:format] == "csv"
         # For CSV filter the properties the readonly user can see.
         read_only_user = user.readonly?(model_class.name.underscore)
       end
