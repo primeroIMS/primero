@@ -175,7 +175,7 @@ class Child < CouchRest::Model::Base
   end
 
   def self.nested_reportable_types
-    [ReportableProtectionConcern]
+    [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
   def self.fetch_all_ids_and_revs
