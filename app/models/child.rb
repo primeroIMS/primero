@@ -165,10 +165,12 @@ class Child < CouchRest::Model::Base
 
   def self.minimum_reportable_fields
     {
-      'boolean' => ['record_state'],
-       'string' => ['child_status', 'sex', 'risk_level'],
-         'date' => ['registration_date'],
-      'integer' => ['age']
+          'boolean' => ['record_state'],
+           'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by_location_district', 'owned_by'],
+      'multistring' => ['associated_user_names'],
+             'date' => ['registration_date'],
+          'integer' => ['age'],
+         'location' => ['owned_by_location', 'location_current']
     }
   end
 

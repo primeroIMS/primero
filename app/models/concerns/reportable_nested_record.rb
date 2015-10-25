@@ -56,12 +56,16 @@ module ReportableNestedRecord
         case type
         when 'string'
           fields.each{|f| string(f, as: "#{f}_sci".to_sym) {record_value(f)}}
+        when 'multistring'
+          fields.each{|f| string(f, multiple: true) {record_value(f)}}
         when 'boolean'
           fields.each{|f| boolean(f){record_value(f)}}
         when 'date'
           fields.each{|f| date(f){record_value(f)}}
         when 'integers'
           fields.each{|f| integer(f){record_value(f)}}
+        when 'location'
+          fields.each{|f| text(f, as: "#{f}_lngram".to_sym) {record_value(f)}}
         #TODO: arrays?
         end
       end
