@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "children/new.html.erb" do
+describe "tracing_requests/new.html.erb" do
 
   before :each do
     record_owner_fields = [
@@ -33,7 +33,7 @@ describe "children/new.html.erb" do
               })
     ]
     @form_section = FormSection.new({
-        :parent_form=>"case",
+        :parent_form=>"tracing_request",
         "name_all" => "Record Owner",
         :unique_id => "record_ownwer",
         :order_form_group => 40,
@@ -42,37 +42,26 @@ describe "children/new.html.erb" do
         :fields => record_owner_fields,
         :form_group_name => "Test Group"
       })
-    @child = Child.new
+    @tracing_request = TracingRequest.new
     assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
   end
 
-  it "renders a form that posts to the cases url" do
+  it "renders a hidden field for the posted_from attribute" do
     render
-    rendered.should have_tag("form[action='#{children_path}']")
+    rendered.should have_tag("input[name='tracing_request[posted_from]'][value='Browser']")
   end
-
-  xit "renders the children/form_section partial" do
-    # This should be a controller spec
-    render
-    rendered.should render_template(:partial => "_form_section", :collection => [@form_section])
-  end
-
-	it "renders a hidden field for the posted_from attribute" do
-		render
-		rendered.should have_tag("input[name='child[posted_from]'][value='Browser']")
-	end
 
   it "should have record owner fields hidden and disabled" do
-    @child['module_id'] = "primeromodule-cp"
+    @tracing_request['module_id'] = "primeromodule-cp"
     render
     #At new form, the module is the only required field to be hidden.
-    rendered.should have_tag("input[type='hidden'][name='child[module_id]'][value='primeromodule-cp']")
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[module_id]'][value='primeromodule-cp']")
     #Inspect disabled fields.
-    rendered.should have_tag("select[disabled='disabled'][name='child[owned_by]']")
-    rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[created_by]']")
-    rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[previously_owned_by]']")
-    rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[module_id]'][value='primeromodule-cp']")
+    rendered.should have_tag("select[disabled='disabled'][name='tracing_request[owned_by]']")
+    rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[created_by]']")
+    rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[previously_owned_by]']")
+    rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='child[assigned_user_names][]']")
+    rendered.should have_tag("select[class='chosen-select'][name='tracing_request[assigned_user_names][]']")
   end
 end

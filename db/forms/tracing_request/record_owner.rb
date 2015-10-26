@@ -10,7 +10,8 @@ tracing_request_record_owner_fields = [
   Field.new({"name" => "owned_by",
              "type" => "select_box",
              "display_name_all" => "Caseworker Code",
-             "option_strings_source" => "User"
+             "option_strings_source" => "User",
+             "editable" => false
             }),
   Field.new({"name" => "agency_organization",
              "type" => "select_box",
@@ -44,7 +45,8 @@ tracing_request_record_owner_fields = [
             }),
   Field.new({"name" => "previously_owned_by",
              "type" => "text_field",
-             "display_name_all" => "Previous Owner"
+             "display_name_all" => "Previous Owner",
+             "editable" => false
             }),
   Field.new({"name" => "previous_agency",
              "type" => "text_field",
@@ -52,7 +54,8 @@ tracing_request_record_owner_fields = [
             }),
   Field.new({"name" => "module_id",
           "type" => "text_field",
-          "display_name_all" => "Module"
+          "display_name_all" => "Module",
+          "editable" => false
           }),
 ]
 

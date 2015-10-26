@@ -28,6 +28,10 @@
         <%= hidden_field_tag('tracing_request[base_revision]', @tracing_request._rev) %>
         <% # TODO: this may change once we decide how to handle the Record Owner form %>
         <%= hidden_field_tag('tracing_request[record_state]', @tracing_request.record_state) %>
+        <%= hidden_field_tag('tracing_request[owned_by]', @tracing_request.owned_by) %>
+        <%= hidden_field_tag('tracing_request[created_by]', @tracing_request.created_by) %>
+        <%= hidden_field_tag('tracing_request[previously_owned_by]', @tracing_request.previously_owned_by) %>
+        <%= hidden_field_tag('tracing_request[module_id]', @tracing_request.module_id) %>
         <% @form_sections.each do |form_group_name, form_list| %>
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>
         <% end %>
