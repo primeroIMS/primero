@@ -87,7 +87,7 @@ module HomeHelper
 
   def case_link_dashboard_title(child)
     child_name = child[:hidden_name] ? '*****' : child[:name]
-    text = [child[:short_id], child_name, field_format_date(child[:date])]
+    text = [child[:short_id], child_name, field_format_date(child[:created_at])]
     "#{text.compact.join(" - ")}"
   end
 
