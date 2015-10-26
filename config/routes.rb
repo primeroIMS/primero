@@ -40,6 +40,7 @@ Primero::Application.routes.draw do
   resources :system_settings, only: [:show, :edit, :update]
 
   resources :roles do
+    post :copy
     collection do
       post :import_file
     end
