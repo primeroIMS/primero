@@ -809,6 +809,7 @@ en:
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
       approve_case_plan: "Approve case plan"
+      copy: "Copy"
       manage: "Manage"
 
   forms:
