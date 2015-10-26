@@ -350,7 +350,7 @@ describe User do
   describe "permissions" do
     before :each do
       @permission_list = [
-                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE]),
+                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE, Permission::APPROVE_CASE_PLAN]),
                            Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ]),
                          ]
       @user_perm = User.new(:user_name => 'fake_self')
@@ -363,6 +363,10 @@ describe User do
 
     it "should have SYNC_MOBILE permission" do
       expect(@user_perm.has_permission? Permission::SYNC_MOBILE).to be_true
+    end
+
+    it "should have APPROVE_CASE_PLAN permission" do
+      expect(@user_perm.has_permission? Permission::APPROVE_CASE_PLAN).to be_true
     end
 
     it "should not have WRITE permission" do

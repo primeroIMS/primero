@@ -42,6 +42,7 @@ class Permission
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
+  APPROVE_CASE_PLAN = 'approve_case_plan'
   MANAGE = 'manage'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
@@ -76,6 +77,7 @@ class Permission
       REFERRAL,
       CONSENT_OVERRIDE,
       SYNC_MOBILE,
+      APPROVE_CASE_PLAN,
       MANAGE
     ]
   end
@@ -109,9 +111,9 @@ class Permission
        when CASE
          actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER].include? a}
        when INCIDENT
-         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE].include? a}
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN].include? a}
        when TRACING_REQUEST
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN].include? a}
        when ROLE
          [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
        when USER

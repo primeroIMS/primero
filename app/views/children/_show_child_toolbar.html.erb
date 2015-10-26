@@ -32,6 +32,9 @@
           <%= render 'record_shared/mark_for_mobile_button', instance: @child, mobile_value: true  %>
           <%= render 'record_shared/mark_for_mobile_button', instance: @child, mobile_value: false  %>
         <% end %>
+        <% if can?(:approve_case_plan, controller.model_class) %>
+          <%= render 'record_shared/approve_case_plan_button', instance: @child %>
+        <% end %>
     </ul>
   </li>
 </ul>

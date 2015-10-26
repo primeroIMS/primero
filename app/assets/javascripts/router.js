@@ -64,6 +64,7 @@ _primero.Router = Backbone.Router.extend({
     this.recordActions();
     this.initAudio();
     this.subforms();
+    new _primero.Views.ApproveCasePlan();
     new _primero.Views.Actions();
   },
 
