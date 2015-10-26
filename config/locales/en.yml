@@ -1466,6 +1466,10 @@ en:
       all:  Excel
       one:  Excel
       selected:  Selected to Excel
+    selected_xls:
+      all:  Excel
+      one:  Excel
+      selected:  Selected to Excel
     incident_recorder_xls:
       all:  Incident Recorder
       one:  Incident Recorder
