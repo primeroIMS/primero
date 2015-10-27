@@ -32,6 +32,8 @@ Primero = Backbone.View.extend({
     _primero.set_content_sidebar_equality = this.set_content_sidebar_equality;
     _primero.scrollTop = this.scrollTop;
     _primero.update_subform_heading = this.update_subform_heading;
+    _primero.abide_validator_date = this.abide_validator_date;
+    _primero.valid_datepicker_value = this.valid_datepicker_value;
 
     this.init_trunc();
     this.init_sticky();
@@ -627,5 +629,30 @@ Primero = Backbone.View.extend({
         }
       }
     });
+  },
+
+  abide_validator_date: function(el, required, parent) {
+    if (el.getAttribute("disabled") !== "disabled") {
+      return _primero.valid_datepicker_value(el.value, required);
+    } else {
+      //Don't validate disabled inputs, browser does not send anyway.
+      return true;
+    }
+  },
+
+  valid_datepicker_value: function(value, required) {
+    if (value !== "") {
+      try {
+          var date = $.datepicker.parseDate($.datepicker.defaultDateFormat, value);
+          return date !== null && date !== undefined;
+      } catch(e) {
+          console.error("An error occurs parsing date value." + e);
+          return false;
+      }
+    } else {
+      //If value is empty check if required or not.
+      return !required;
+    }
   }
+
 });
