@@ -1,0 +1,46 @@
+<div class="panel">
+  <div class="panel_header">
+    <h4><%= t('dashboard.preliminary_protection_concerns') %></h4>
+    <table cellspacing="0" cellpadding="0" class="table-counts table-floating-header">
+      <thead>
+      <tr>
+        <th>
+          <%= t('dashboard.protection_concern').html_safe %>
+        </th>
+        <th>
+          <%= t('dashboard.all_cases').html_safe %>
+        </th>
+        <th>
+          <%= t('dashboard.open').html_safe %>
+        </th>
+        <th>
+          <%= t('dashboard.new_this_week').html_safe %>
+        </th>
+        <th>
+          <%= t('dashboard.closed_this_week').html_safe %>
+        </th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="panel_content no-padding panel_main">
+    <% if protection_concern_stats.present? %>
+      <table cellspacing="0" cellpadding="0" class="table-counts table-floating-header extra">
+        <tbody>
+        <% #TODO: we cannot rely on 'district' always being there. SL-specific code %>
+        <% protection_concern_stats.each do |key, val| %>
+          <tr>
+            <td class="id_column"><%= key %></td>
+            <td><%= build_district_stat_link(val[:totals], ['child_status=Open||Closed', 'record_state=true', "protection_concern=#{key}"] ,model)  %></td>
+            <td><%= build_district_stat_link(val[:open], ['child_status=Open', 'record_state=true', "protection_concern=#{key}"] ,model)  %></td>
+            <td><%= build_district_stat_link(val[:new_this_week], ['child_status=Open', 'record_state=true', "created_at=#{this_week}", "protection_concern=#{key}"] ,model)  %></td>
+            <td><%= build_district_stat_link(val[:closed_this_week], ['child_status=Closed', 'record_state=true', "date_closure=#{this_week}", "protection_concern=#{key}"] ,model)  %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
+    <% end %>
+  </div>
+</div>
