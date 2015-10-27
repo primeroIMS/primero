@@ -90,6 +90,8 @@ describe "children/edit.html.erb" do
   it "should have record owner fields hidden and disabled" do
     render
     #At save form, required field to be hidden.
+    rendered.should have_tag("input[type='hidden'][name='child[base_revision]']")
+    rendered.should have_tag("input[type='hidden'][name='child[record_state]'][value='true']")
     rendered.should have_tag("input[type='hidden'][name='child[owned_by]']")
     rendered.should have_tag("input[type='hidden'][name='child[created_by]']")
     rendered.should have_tag("input[type='hidden'][name='child[previously_owned_by]']")

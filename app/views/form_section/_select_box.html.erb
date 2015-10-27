@@ -25,6 +25,7 @@
           :data => { :field_tags => field_tags} %>
     <% else %>
       <%
+        #TODO: Pending disabled for choosen.
         disabled_select_box = !select_box.editable
         #workaround to avoid present the default value (Select...) when the select_box
         #is disable and we are on new record.

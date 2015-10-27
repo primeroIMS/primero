@@ -55,6 +55,11 @@ describe "incidents/new.html.erb" do
     @incident['module_id'] = "primeromodule-cp"
     render
     #At new form, the module is the only required field to be hidden.
+    rendered.should have_tag("input[type='hidden'][name='incident[posted_from]'][value='Browser']")
+    rendered.should have_tag("input[type='hidden'][name='incident[record_state]'][value='true']")
+    rendered.should have_tag("input[type='hidden'][name='incident[owned_by]']")
+    rendered.should have_tag("input[type='hidden'][name='incident[created_by]']")
+    rendered.should have_tag("input[type='hidden'][name='incident[previously_owned_by]']")
     rendered.should have_tag("input[type='hidden'][name='incident[module_id]'][value='primeromodule-cp']")
     #Inspect disabled fields.
     rendered.should have_tag("select[disabled='disabled'][name='incident[owned_by]']")

@@ -55,6 +55,11 @@ describe "tracing_requests/new.html.erb" do
     @tracing_request['module_id'] = "primeromodule-cp"
     render
     #At new form, the module is the only required field to be hidden.
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[posted_from]'][value='Browser']")
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[record_state]'][value='true']")
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[owned_by]']")
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[created_by]']")
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[previously_owned_by]']")
     rendered.should have_tag("input[type='hidden'][name='tracing_request[module_id]'][value='primeromodule-cp']")
     #Inspect disabled fields.
     rendered.should have_tag("select[disabled='disabled'][name='tracing_request[owned_by]']")

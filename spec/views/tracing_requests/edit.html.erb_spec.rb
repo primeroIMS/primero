@@ -77,6 +77,8 @@ describe "tracing_requests/edit.html.erb" do
   it "should have record owner fields hidden and disabled" do
     render
     #At save form, required field to be hidden.
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[base_revision]']")
+    rendered.should have_tag("input[type='hidden'][name='tracing_request[record_state]'][value='true']")
     rendered.should have_tag("input[type='hidden'][name='tracing_request[owned_by]']")
     rendered.should have_tag("input[type='hidden'][name='tracing_request[created_by]']")
     rendered.should have_tag("input[type='hidden'][name='tracing_request[previously_owned_by]']")

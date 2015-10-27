@@ -66,6 +66,11 @@ describe "children/new.html.erb" do
     @child['module_id'] = "primeromodule-cp"
     render
     #At new form, the module is the only required field to be hidden.
+    rendered.should have_tag("input[type='hidden'][name='child[posted_from]'][value='Browser']")
+    rendered.should have_tag("input[type='hidden'][name='child[record_state]'][value='true']")
+    rendered.should have_tag("input[type='hidden'][name='child[owned_by]']")
+    rendered.should have_tag("input[type='hidden'][name='child[created_by]']")
+    rendered.should have_tag("input[type='hidden'][name='child[previously_owned_by]']")
     rendered.should have_tag("input[type='hidden'][name='child[module_id]'][value='primeromodule-cp']")
     #Inspect disabled fields.
     rendered.should have_tag("select[disabled='disabled'][name='child[owned_by]']")
