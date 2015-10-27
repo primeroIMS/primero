@@ -40,11 +40,12 @@ Primero::Application.routes.draw do
   resources :system_settings, only: [:show, :edit, :update]
 
   resources :roles do
-    post :copy
     collection do
       post :import_file
     end
   end
+
+  match '/roles/:role_id/copy' => 'roles#copy', :as => :copy_role, :via => [:post]
 
   resources :user_groups
   resources :primero_modules

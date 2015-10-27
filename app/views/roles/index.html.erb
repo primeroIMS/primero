@@ -55,6 +55,13 @@
                     <%= link_to(t("roles.actions.edit"), edit_role_path(role))%>
                     <br>
                   <% end %>
+                  <% if can?(:copy, role) %>
+                    <a data-reveal-id=<%= "copy-role-modal" %> data-role-id=<%= role.id %> class=<%= "copy-role-action" %> href="#">
+                      <%= t("roles.actions.copy") %>
+                    </a>
+
+                    <br>
+                  <% end %>
                   <% if can?(:destroy, role) %>
                     <%= link_to t("roles.actions.delete"), role, data: {confirm: t("roles.messages.confirmation")}, method: :delete %>
                   <% end %>
@@ -63,6 +70,7 @@
           <% end %>
         </tbody>
       </table>
+      <%= render 'roles/copy' %>
     </div>
   </div>
 </div>

@@ -71,11 +71,9 @@ class RolesController < ApplicationController
 
   #TODO - should this be in a concern?
   def copy
-    @role = Role.get(params[:id])
-    #authorize! :copy, @role
-
-    new_role = @role.clone name_from_parms
-    binding.pry
+    @role = Role.get(params[:role_id])
+    authorize! :copy, @role
+    new_role = @role.clone(name_from_params)
     if new_role.save
       flash[:notice] = t('role.successfully_copied')
       redirect_to(roles_path)
