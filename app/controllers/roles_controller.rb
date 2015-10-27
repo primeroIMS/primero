@@ -3,6 +3,7 @@ class RolesController < ApplicationController
 
   include ExportActions
   include ImportActions
+  include CopyActions
 
   def index
     authorize! :index, Role
@@ -69,23 +70,6 @@ class RolesController < ApplicationController
     redirect_to(roles_url)
   end
 
-  #TODO - should this be in a concern?
-  def copy
-    @role = Role.get(params[:role_id])
-    authorize! :copy, @role
-    new_role = @role.clone(name_from_params)
-    if new_role.save
-      flash[:notice] = t('role.successfully_copied')
-      redirect_to(roles_path)
-    else
-      # Ticket SL-236 says to fail silently
-      # flash[:error] = t('role.error_in_copy')
-      # @forms_by_record_type = FormSection.all_forms_grouped_by_parent
-      # render :action => "edit"
-      redirect_to(roles_path)
-    end
-  end
-
   private
 
   def role_from_params
@@ -108,10 +92,6 @@ class RolesController < ApplicationController
       end
     end
     role_hash
-  end
-
-  def name_from_params
-    params[:name] || ''
   end
 
 end

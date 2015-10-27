@@ -45,7 +45,7 @@ Primero::Application.routes.draw do
     end
   end
 
-  match '/roles/:role_id/copy' => 'roles#copy', :as => :copy_role, :via => [:post]
+  match '/roles/:id/copy' => 'roles#copy', :as => :copy_role, :via => [:post]
 
   resources :user_groups
   resources :primero_modules
