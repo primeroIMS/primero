@@ -1,6 +1,6 @@
 interview_details_fields = [
   Field.new({"name" => "arrival_date",
-             "type" => "date_field", 
+             "type" => "date_field",
              "display_name_all" => "Arrival Date"
             }),
   Field.new({"name" => "interviewer_name",
@@ -14,7 +14,7 @@ interview_details_fields = [
   Field.new({"name" => "interviewer_agency",
              "type" =>"select_box" ,
              "display_name_all" => "Interviewer Agency",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Agency 1",
                            "Agency 2",
                            "Agency 3",
@@ -36,8 +36,9 @@ interview_details_fields = [
             }),
   Field.new({"name" => "source_interview",
              "type" =>"select_box" ,
+             "multi_select" => true,
              "display_name_all" => "Information Obtained From",
-             "option_strings_text_all" => 
+             "option_strings_text_all" =>
                           ["Child",
                            "Caregiver",
                            "GBV Survivor",
