@@ -90,7 +90,17 @@
     I18n.locale = "<%= I18n.locale %>";
     I18n.fallbacks = true;
 <% end %>
-<script>$(document).foundation();</script>
+<script>
+  $(document).foundation({
+    abide : {
+        validators: {
+            primeroDate: function(el, required, parent) {
+              return _primero.abide_validator_date(el, required, parent);
+            }
+        }
+    }
+  });
+</script>
 <script>
   $(document).ready(function(){
     <%= yield :page_scripts %>

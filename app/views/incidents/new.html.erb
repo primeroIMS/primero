@@ -6,7 +6,7 @@
   <%= render_controls(@incident) %>
 <% end %>
 
-<%= form_tag incidents_path, :multipart => true, :class => "default-form data-form new-incident-form", :autocomplete => "off" do %>
+<%= form_tag incidents_path, :multipart => true, :class => "default-form data-form new-incident-form", :autocomplete => "off", "data-abide" => '' do %>
     <div class="page-content-new row collapse">
       <%= render :partial => 'incidents/required_fields' %>
       <div class="large-4 medium-4 columns close-side-tab side-tab-container">
