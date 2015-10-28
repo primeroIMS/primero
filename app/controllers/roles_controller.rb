@@ -3,6 +3,7 @@ class RolesController < ApplicationController
 
   include ExportActions
   include ImportActions
+  include CopyActions
 
   def index
     authorize! :index, Role

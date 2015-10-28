@@ -43,6 +43,7 @@ class Permission
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
   APPROVE_CASE_PLAN = 'approve_case_plan'
+  COPY = 'copy'
   MANAGE = 'manage'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
@@ -78,6 +79,7 @@ class Permission
       CONSENT_OVERRIDE,
       SYNC_MOBILE,
       APPROVE_CASE_PLAN,
+      COPY,
       MANAGE
     ]
   end
@@ -109,13 +111,13 @@ class Permission
   def self.resource_actions(resource)
      case resource
        when CASE
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY].include? a}
        when INCIDENT
-         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN].include? a}
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY].include? a}
        when TRACING_REQUEST
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY].include? a}
        when ROLE
-         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
+         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
        when USER
          [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
        when REPORT

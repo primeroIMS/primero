@@ -18,7 +18,8 @@ _primero.Router = Backbone.Router.extend({
     'reports/:id': 'reports',
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
-    'users': 'passwordPrompt'
+    'users': 'passwordPrompt',
+    'roles': 'roleIndexPage'
   },
 
   initialize: function() {
@@ -126,5 +127,9 @@ _primero.Router = Backbone.Router.extend({
 
   hasForm: function() {
     return $('.data-form').length > 0 ? true : false
-  }
+  },
+
+  roleIndexPage: function() {
+    new _primero.Views.CopyRole();
+  },
 });

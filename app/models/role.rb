@@ -3,6 +3,7 @@ class Role < CouchRest::Model::Base
 
   include PrimeroModel
   include Namable
+  include Cloneable
   include Importable
   include Memoizable
 
