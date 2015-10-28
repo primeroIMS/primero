@@ -1208,6 +1208,10 @@ en:
     referrals_by_social_worker: "Referrals by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
     case_stat_referrals: "Referrals"
+    protection_concern: "Protection Concern"
+    preliminary_protection_concerns: "Preliminary Protection Concerns"
+    all_cases: "All Cases"
+    open: "Open"
     count_risk_level_total:
       one: "You have %{stat} <span>%{stat_type} risk</span> case "
       other: "You have %{stat} <span>%{stat_type} risk</span> cases "

@@ -62,7 +62,8 @@ module HomeHelper
       owned_by: "scope[owned_by]=list||",
       new_owned_by: "scope[last_updated_by]=neg||",
       new_other: "scope[not_edited_by_owner]=single||true",
-      user: "scope[associated_user_names]=list||"
+      user: "scope[associated_user_names]=list||",
+      protection_concern: "scope[protection_concerns]=list||"
     }
     filters.each do |filter|
       filter = filter.split('=')

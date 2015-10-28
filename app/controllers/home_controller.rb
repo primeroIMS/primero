@@ -321,34 +321,55 @@ class HomeController < ApplicationController
 
     if locations.present?
       @district_stats = build_admin_stats({
-        totals: get_district_stat({ status: 'Open', locations: locations }),
-        new_last_week: get_district_stat({ status: 'Open', new: true, date_range: last_week, locations: locations }),
-        new_this_week: get_district_stat({ status: 'Open', new: true, date_range: this_week, locations: locations }),
-        closed_last_week: get_district_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations }),
-        closed_this_week: get_district_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations })
+        totals: get_admin_stat({ status: 'Open', locations: locations, by_district: true }),
+        new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_district: true }),
+        new_this_week: get_admin_stat({ status: 'Open', new: true, date_range: this_week, locations: locations, by_district: true }),
+        closed_last_week: get_admin_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations, by_district: true }),
+        closed_this_week: get_admin_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations, by_district: true })
       })
     end
+
+    @protection_concern_stats = build_admin_stats({
+      totals: get_admin_stat({by_protection_concern: true }),
+      open: get_admin_stat({ status: 'Open', by_protection_concern: true }),
+      new_this_week: get_admin_stat({ status: 'Open', by_protection_concern: true, new: true, date_range: this_week}),
+      closed_this_week: get_admin_stat({ status: 'Closed', by_protection_concern: true, closed: true, date_range: this_week})
+    })
   end
 
   def build_admin_stats(stats)
-    district_stats = {}
+    admin_stats = {}
+    protection_concerns = Lookup.values('Protection Concerns', @lookups)
     stats.each do |k, v|
-      v.facet(:owned_by_location_district).rows.each do |l|
-        district_stats[l.value] = {} unless district_stats[l.value].present?
-        district_stats[l.value][k] = l.count ||= 0
+      stat_facet = v.facet(:owned_by_location_district) || v.facet(:protection_concerns)
+      stat_facet.rows.each do |l|
+        admin_stats[l.value] = {} unless admin_stats[l.value].present?
+        admin_stats[l.value][k] = l.count ||= 0
+        if v.facet(:protection_concerns).present? && !protection_concerns.include?(l.value)
+          admin_stats.delete(l.value)
+        end
       end
     end
-    district_stats
+    admin_stats
   end
 
-  def get_district_stat(query)
+  def get_admin_stat(query)
+    module_ids = @module_ids
     return Child.search do
+      if module_ids.present?
+        any_of do
+          module_ids.each do |m|
+            with(:module_id, m)
+          end
+        end
+      end
       with(:associated_user_names, current_user.managed_user_names)
       with(:record_state, true)
-      with(:child_status, query[:status])
-      with(:created_at, query[:date_range]) if query[:new]
-      with(:date_closure, query[:date_range]) if query[:closed]
-      facet(:owned_by_location_district, zeros: true)
+      with(:child_status, query[:status]) if query[:status].present?
+      with(:created_at, query[:date_range]) if query[:new].present?
+      with(:date_closure, query[:date_range]) if query[:closed].present?
+      facet(:owned_by_location_district, zeros: true) if query[:by_district].present?
+      facet(:protection_concerns, zeros: true) if query[:by_protection_concern].present?
     end
   end
 end

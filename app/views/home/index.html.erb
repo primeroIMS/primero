@@ -39,6 +39,7 @@
     <div id="content" class="large-9 small-9 columns">
       <% if @display_admin_dashboard %>
         <%= render 'case_admin_district_totals', district_stats: @district_stats, model: Child %>
+        <%= render 'case_protection_concerns', protection_concern_stats: @protection_concern_stats, model: Child %>
       <% elsif @display_manager_dashboard %>
         <%= render 'case_manager_case_totals', records: @aggregated_case_worker_stats, model: Child %>
         <%# render 'recent_activities', recent_activities: @recent_activities, model: Child %>
