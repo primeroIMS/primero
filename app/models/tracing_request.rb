@@ -68,6 +68,14 @@ class TracingRequest < CouchRest::Model::Base
     ['created_at', 'relation_name']
   end
 
+  def self.minimum_reportable_fields
+    {
+      'boolean' => ['record_state'],
+       'string' => ['inquiry_status'],
+         'date' => ['inquiry_date']
+    }
+  end
+
   def tracing_names
     names = []
     if self.tracing_request_subform_section.present?

@@ -28,6 +28,10 @@ module CouchChanges
                 instance.index_violations
               end
 
+              if instance.respond_to? :index_nested_reportables
+                instance.index_nested_reportables
+              end
+
               dfd.succeed
             else
               CouchChanges.logger.error "Could not find #{modelCls.name} with id #{change['id']}"

@@ -163,6 +163,21 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
   end
 
+  def self.minimum_reportable_fields
+    {
+          'boolean' => ['record_state'],
+           'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by_location_district', 'owned_by'],
+      'multistring' => ['associated_user_names'],
+             'date' => ['registration_date'],
+          'integer' => ['age'],
+         'location' => ['owned_by_location', 'location_current']
+    }
+  end
+
+  def self.nested_reportable_types
+    [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
+  end
+
   def self.fetch_all_ids_and_revs
     ids_and_revs = []
     all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]

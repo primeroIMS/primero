@@ -98,6 +98,14 @@ class Incident < CouchRest::Model::Base
     ['created_at', 'description']
   end
 
+  def self.minimum_reportable_fields
+    {
+      'boolean' => ['record_state'],
+       'string' => ['status'],
+         'date' => ['incident_date_derived']
+    }
+  end
+
   def set_instance_id
     self.incident_id ||= self.unique_identifier
   end

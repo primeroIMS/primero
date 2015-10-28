@@ -28,6 +28,9 @@ module Record
 
   included do
     before_create :create_identification
+    #TODO: Will this be around in production as well? In Prod we are deferring to the notifier to index
+    after_save :index_nested_reportables
+    after_destroy :unindex_nested_reportables
 
     #This code allows all models that implement records to mark all explicit properties as protected
     class_attribute(:primero_protected_properties)
@@ -256,6 +259,10 @@ module Record
       new_with_user_name(current_user, attributes)
     end
 
+    #Override in implementing class
+    def minimum_reportable_fields ; {} ; end
+    def nested_reportable_types ; [] ; end
+
     # Attributes is just a hash
     def get_unique_instance(attributes)
       if attributes.include? 'unique_identifier'
@@ -413,6 +420,22 @@ module Record
 
   def permitted_property_names(user, read_only_user = false)
     permitted_properties(user, read_only_user).map {|p| p.name }
+  end
+
+  def index_nested_reportables
+    self.class.nested_reportable_types.each do |type|
+      if self.try(type.record_field_name).present?
+        Sunspot.index! type.from_record(self)
+      end
+    end
+  end
+
+  def unindex_nested_reportables
+    self.class.nested_reportable_types.each do |type|
+      if self.try(type.record_field_name).present?
+        Sunspot.remove! type.from_record(self)
+      end
+    end
   end
 
   protected
