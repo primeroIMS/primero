@@ -3,21 +3,72 @@
 describe "children/edit.html.erb" do
 
   before :each do
+    record_owner_fields = [
+      Field.new({"name" => "owned_by",
+                 "type" =>"select_box" ,
+                 "display_name_all" => "Caseworker Code",
+                 "option_strings_source" => "User",
+                 "editable" => false
+              }),
+      Field.new({"name" => "assigned_user_names",
+                 "type" =>"select_box",
+                 "multi_select" => true,
+                 "display_name_all" => "Other Assigned Users",
+                 "option_strings_source" => "User"
+                }),
+      Field.new({"name" => "created_by",
+              "type" => "text_field",
+              "display_name_all" => "Record created by",
+              "editable" => false
+              }),
+      Field.new({"name" => "previously_owned_by",
+              "type" => "text_field",
+              "display_name_all" => "Previous Owner",
+              "editable" => false
+              }),
+      Field.new({"name" => "module_id",
+              "type" => "text_field",
+              "display_name_all" => "Module",
+              "editable" => false
+              })
+    ]
     @form_section = FormSection.new({
-        :unique_id => "section_name",
-        :visible => "true",
+        :parent_form=>"case",
+        "name_all" => "Record Owner",
+        :unique_id => "record_ownwer",
         :order_form_group => 40,
         :order => 80,
         :order_subform => 0,
+        :fields => record_owner_fields,
         :form_group_name => "Test Group"
       })
+
     assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
+
+    @child = Child.new
+    @child['owned_by'] = "me"
+    @child['created_by'] = "me"
+    @child['previously_owned_by'] = "other",
+    @child['module_id'] = "primeromodule-cp"
+    @child.save!
+
+    assign(:referral_roles, [])
+    assign(:transfer_roles, [])
+
     User.stub(:find_by_user_name).with("me").and_return(double(:organization => "stc"))
-    @child = Child.create(:name => "name", :unique_identifier => '12341234123', :created_by => "me")
-    assign(:child, @child)
     @user = User.new
     @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::USER])
     controller.stub(:current_user).and_return(@user)
+    controller.stub(:model_class).and_return(Child)
+    controller.should_receive(:can?).with(:flag, @child).and_return(false)
+    controller.should_receive(:can?).with(:update, @child).and_return(true)
+    controller.should_receive(:can?).with(:edit, @child).and_return(true)
+    controller.should_receive(:can?).with(:export, Child).and_return(false)
+    controller.should_receive(:can?).with(:export_custom, Child).and_return(false)
+    controller.should_receive(:can?).with(:referral, Child).and_return(false)
+    controller.should_receive(:can?).with(:transfer, Child).and_return(false)
+    controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)
+    controller.should_receive(:can?).with(:approve_case_plan, Child).and_return(false)
   end
 
   xit "renders a form that posts to the children url" do
@@ -34,5 +85,24 @@ describe "children/edit.html.erb" do
   xit "renders a form whose discard button links to the child listing page" do
     render
     rendered.should have_tag("a[href='#{children_path}']")
+  end
+
+  it "should have record owner fields hidden and disabled" do
+    render
+    #At save form, required field to be hidden.
+    rendered.should have_tag("input[type='hidden'][name='child[base_revision]']")
+    rendered.should have_tag("input[type='hidden'][name='child[record_state]'][value='true']")
+    rendered.should have_tag("input[type='hidden'][name='child[owned_by]']")
+    rendered.should have_tag("input[type='hidden'][name='child[created_by]']")
+    rendered.should have_tag("input[type='hidden'][name='child[previously_owned_by]']")
+    rendered.should have_tag("input[type='hidden'][name='child[module_id]'][value='primeromodule-cp']")
+
+    #Inspect disabled fields.
+    rendered.should have_tag("select[disabled='disabled'][name='child[owned_by]']")
+    rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[created_by]']")
+    rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[previously_owned_by]']")
+    rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[module_id]'][value='primeromodule-cp']")
+    #Inspect editable fields.
+    rendered.should have_tag("select[class='chosen-select'][name='child[assigned_user_names][]']")
   end
 end

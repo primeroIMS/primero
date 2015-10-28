@@ -24,8 +24,19 @@
           'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), :id => field_id,
           :data => { :field_tags => field_tags} %>
     <% else %>
-      <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups, @locations), value), :id => field_id,
-          :data => { :field_tags => field_tags} %>
+      <%
+        #TODO: Pending disabled for choosen.
+        disabled_select_box = !select_box.editable
+        #workaround to avoid present the default value (Select...) when the select_box
+        #is disable and we are on new record.
+        if disabled_select_box && value.blank? && formObject.new_record?
+          select_box_select_options = []
+        else
+          select_box_select_options = select_box.select_options(formObject, @lookups, @locations)
+        end
+      %>
+      <%= select_tag name, options_for_select(select_box_select_options, value), :id => field_id,
+          :data => { :field_tags => field_tags}, :disabled => disabled_select_box %>
     <% end %>
     <% if select_box.guiding_questions.present? %>
       <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0',
