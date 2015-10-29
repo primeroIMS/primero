@@ -49,7 +49,7 @@ describe User do
       user_name = "Billy"
       date_1 = "2015/10/23 14:54:55 -0400"
       date_2 = "2015/11/28 14:54:55 -0400"
-      params = {:imei => imei}
+      params = {:imei => imei, user_name: user_name}
 
       login(user_name, date_1, params)
       login(user_name, date_2, params)
