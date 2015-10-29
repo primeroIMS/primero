@@ -1214,6 +1214,7 @@ en:
     case_stat_referrals: "Referrals"
     protection_concern: "Protection Concern"
     preliminary_protection_concerns: "Preliminary Protection Concerns"
+    geographic_area: "Geographic Area"
     all_cases: "All Cases"
     open: "Open"
     count_risk_level_total:
