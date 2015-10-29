@@ -19,7 +19,7 @@ class Login
       mobile_login_history = user.mobile_login_history.first
       imei = mobile_login_history.nil? ? "" : mobile_login_history['imei']
       session = user.verified ? Session.for_user( user, @imei ) : ((imei == @imei) || (imei == "") ? Session.for_user( user, @imei ) : nil)
-      LoginActivity.create!(user_name: user.user_name, imei: @imei)
+      LoginActivity.create!(user_name: @user_name, imei: @imei)
     end
     
     if session and @imei
