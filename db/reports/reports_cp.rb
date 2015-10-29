@@ -32,6 +32,19 @@ Report.create_or_update({
   editable: false
 })
 
+Report.create_or_update({
+  id: 'fe317f0481350f116dd1b5d19c974e69',
+  name: 'Case status by case worker',
+  description: 'Status of cases held by case workers',
+  module_ids: [PrimeroModule::CP, PrimeroModule::GBV],
+  record_type: 'case',
+  aggregate_by: ['owned_by'],
+  disaggregate_by: ['child_status'],
+  filters: [{'attribute' => 'record_state', 'value' => ['true']}],
+  is_graph: true,
+  editable: false
+})
+
 #TODO: We need to index agaency of current record owner. What abut referrals?
 # Report.create_or_update({
 #   id: '957ade8094074ebd8b9a94baaa07d1ab',
