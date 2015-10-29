@@ -192,6 +192,10 @@ class User < CouchRest::Model::Base
       Agency.by_id(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
     end
 
+    def last_login_timestamp(user_name)
+      LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
+    end
+    memoize_in_prod :last_login_timestamp
   end
 
   def initialize(args = {}, args1 = {})

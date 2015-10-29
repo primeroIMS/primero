@@ -41,7 +41,8 @@ class UsersController < ApplicationController
   def show
     @page_name = t("users.account_details")
     authorize! :show, @user
-
+    @last_login = User.last_login_timestamp(@user.user_name)
+    @last_login = @user.localize_date(@last_login.login_timestamp, "%Y-%m-%d %H:%M:%S %Z") if @last_login.present?
     respond_to do |format|
       format.html
       respond_to_export(format, [@user])

@@ -25,6 +25,15 @@
     <div class="side-tab-content" data-equalizer-watch>
       <div class="clearfix"></div>
       <fieldset class="no-border">
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%= t("last_login") %></label>
+          </div>
+          <div class="medium-8 columns">
+            <span class="value"><%= @last_login %></span>
+          </div>
+        </div>
+
         <%= resource_show_field @user, 'full_name', 'user.full_name' %>
         <%= resource_show_field @user, 'user_name', 'login.username' %>
 
