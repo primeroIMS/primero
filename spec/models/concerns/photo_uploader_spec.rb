@@ -23,7 +23,7 @@ describe PhotoUploader do
     @rec.photo = uploadable_photo_jeff
     @rec.save
     changes = @rec.histories.first.changes
-    changes['photo_keys']['to'].last.should == "capybara_features/resources/jeff"
+    changes['photo_keys']['to'].last.should == "jeff"
   end
 
   it "should log multiple photos being added" do
@@ -59,7 +59,7 @@ describe PhotoUploader do
     @rec = TestRecord.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
     @rec.save
     @rec.primary_photo.name.should == @rec.photos.first.name
-    @rec.primary_photo.name.should == "capybara_features/resources/jorge"
+    @rec.primary_photo.name.should == "jorge"
   end
 
 

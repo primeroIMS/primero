@@ -816,7 +816,7 @@ describe Child do
         @child.photo = uploadable_photo_jeff
         @child.save
         changes = @child.histories.first.changes
-        changes['photo_keys']['to'].last.should == "capybara_features/resources/jeff"
+        changes['photo_keys']['to'].last.should == "jeff"
       end
 
       it "should log multiple photos being added" do
@@ -852,7 +852,7 @@ describe Child do
         @child = Child.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'current_photo_key' => uploadable_photo_jeff.original_filename, 'created_by' => "me", 'created_organization' => "stc")
         @child.save
         @child.primary_photo.name.should == @child.photos.first.name
-        @child.primary_photo.name.should == "capybara_features/resources/jorge"
+        @child.primary_photo.name.should == "jorge"
       end
 
 

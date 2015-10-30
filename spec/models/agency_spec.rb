@@ -37,17 +37,17 @@ describe Agency do
     Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
     agency = Agency.new(:name => "irc", :agency_code => "12345", 'upload_logo' => {'logo' => uploadable_photo_gif})
     agency.save
-    agency["logo_key"].should eq("capybara_features/resources/small")
-    agency['_attachments']['capybara_features/resources/small']['data'].should_not be_blank
-    agency['_attachments']['capybara_features/resources/small']['content_type'].should eq("image/gif")
+    agency["logo_key"].should eq("small")
+    agency['_attachments']['small']['data'].should_not be_blank
+    agency['_attachments']['small']['content_type'].should eq("image/gif")
 
     Clock.stub(:now).and_return(Time.parse("Jan 20 2010 14:05:32"))
     agency.update_attributes('upload_logo' => {'logo' => uploadable_photo})
     agency.save
-    agency["logo_key"].should eq("capybara_features/resources/jorge")
-    agency['_attachments']['capybara_features/resources/small'].should be_nil
-    agency['_attachments']['capybara_features/resources/jorge']['data'].should_not be_blank
-    agency['_attachments']['capybara_features/resources/jorge']['content_type'].should eq("image/jpg")
+    agency["logo_key"].should eq("jorge")
+    agency['_attachments']['small'].should be_nil
+    agency['_attachments']['jorge']['data'].should_not be_blank
+    agency['_attachments']['jorge']['content_type'].should eq("image/jpg")
   end
 
   it "should only allow unique agency names" do
@@ -88,11 +88,11 @@ describe Agency do
     logos.should == [
       {
         id: 'agency-agency1',
-        filename: 'capybara_features/resources/small'
+        filename: 'small'
       },
       {
         id: 'agency-agency3',
-        filename: 'capybara_features/resources/small'
+        filename: 'small'
       }
     ]
   end
