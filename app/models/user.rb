@@ -192,6 +192,10 @@ class User < CouchRest::Model::Base
       Agency.by_id(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
     end
 
+    def last_login_timestamp(user_name)
+      activity = LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
+      activity.login_timestamp if activity.present?
+    end
   end
 
   def initialize(args = {}, args1 = {})
@@ -241,6 +245,11 @@ class User < CouchRest::Model::Base
 
   def Agency
     @agency_obj = Agency.get(self.organization)
+  end
+
+  def last_login
+    timestamp = User.last_login_timestamp(self.user_name)
+    @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
   end
 
   def has_module?(module_id)

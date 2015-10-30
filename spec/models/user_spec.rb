@@ -25,6 +25,43 @@ describe User do
     user
   end
 
+  def login(user_name, date, params)
+    user = build_user :user_name => user_name
+    date_time = DateTime.parse(date)
+    DateTime.stub(:now).and_return(date_time)
+    User.stub(:find_by_user_name).and_return(user)
+    user.stub(:authenticate).and_return true
+    user.should_receive(:save)
+
+    login = Login.new(params)
+    login.authenticate_user
+  end
+
+  describe "last login timestamp" do
+    it "shouldn't return last login activity if user has never logged in" do
+      user = build_user :user_name => 'Billy'
+      last_login = User.last_login_timestamp(user.user_name)
+      last_login.should == nil
+    end
+
+    it "should return last login activity if user does have login activity" do
+      imei = "1336"
+      user_name = "Billy"
+      date_1 = "2015/10/23 14:54:55 -0400"
+      date_2 = "2015/11/28 14:54:55 -0400"
+      params = {:imei => imei, user_name: user_name}
+
+      login(user_name, date_1, params)
+      login(user_name, date_2, params)
+
+      last_login = User.last_login_timestamp(user_name)
+      last_login.login_timestamp.should_not == date_1
+      last_login.login_timestamp.should == date_2
+      last_login.imei.should == imei
+      last_login.user_name.should == user_name
+    end
+  end
+
   describe "validations" do
     it "should not be valid when username contains whitespace" do
       user = build_user :user_name => "in val id"
