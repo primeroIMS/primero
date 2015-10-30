@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   def show
     @page_name = t("users.account_details")
     authorize! :show, @user
-    
+
     respond_to do |format|
       format.html
       respond_to_export(format, [@user])

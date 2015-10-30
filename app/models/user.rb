@@ -193,7 +193,8 @@ class User < CouchRest::Model::Base
     end
 
     def last_login_timestamp(user_name)
-      LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
+      activity = LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
+      activity.login_timestamp if activity.present?
     end
   end
 
@@ -247,7 +248,8 @@ class User < CouchRest::Model::Base
   end
 
   def last_login
-    @last_login = self.localize_date(User.last_login_timestamp(self.user_name).login_timestamp, "%Y-%m-%d %H:%M:%S %Z")
+    timestamp = User.last_login_timestamp(self.user_name)
+    @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
   end
 
   def has_module?(module_id)
