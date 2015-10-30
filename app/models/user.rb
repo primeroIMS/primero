@@ -195,7 +195,6 @@ class User < CouchRest::Model::Base
     def last_login_timestamp(user_name)
       LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
     end
-    memoize_in_prod :last_login_timestamp
   end
 
   def initialize(args = {}, args1 = {})
@@ -245,6 +244,10 @@ class User < CouchRest::Model::Base
 
   def Agency
     @agency_obj = Agency.get(self.organization)
+  end
+
+  def last_login
+    @last_login = self.localize_date(User.last_login_timestamp(self.user_name).login_timestamp, "%Y-%m-%d %H:%M:%S %Z")
   end
 
   def has_module?(module_id)
