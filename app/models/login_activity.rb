@@ -11,7 +11,7 @@ class LoginActivity < CouchRest::Model::Base
     view :by_user_name_and_login_timestamp,
          :map => "function(doc) {
                  if (doc['couchrest-type'] == 'LoginActivity') {
-                   emit([doc.user_name, doc.login_timestamp], doc);
+                   emit([doc.user_name, doc.login_timestamp], null);
                  }
               }"
   end
