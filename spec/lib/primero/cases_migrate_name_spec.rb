@@ -83,125 +83,125 @@ describe CasesMigrateName do
 
     it "should set the first name" do
       child1 = Child.create!(:name => "Marlon", :module_id => @primero_module_cp.id)
-  
-      changed = CasesMigrateName.migrate_name_to_fields_names
-  
-      changed.include?(child1.id).should eq(true)
+
+      child1.should_receive(:id).and_call_original
+      @child2.should_not_receive(:id)
+      @child3.should_not_receive(:id)
+      @child4.should_not_receive(:id)
+      @child5.should_not_receive(:id)
+      @child6.should_not_receive(:id)
+      @child7.should_not_receive(:id)
+
+      CasesMigrateName.migrate_name_to_fields_names
+
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("Marlon")
       child1_result.name_first.should eq("Marlon")
       child1_result.name_middle.blank?.should eq(true)
       child1_result.name_last.blank?.should eq(true)
-  
-      changed.include?(@child2.id).should eq(false)
-      changed.include?(@child3.id).should eq(false)
-      changed.include?(@child4.id).should eq(false)
-      changed.include?(@child5.id).should eq(false)
-      changed.include?(@child6.id).should eq(false)
-      changed.include?(@child7.id).should eq(false)
     end
   
     it "should set the first name and last name" do
       child1 = Child.create!(:name => "Marlon Lopez", :module_id => @primero_module_cp.id)
-  
-      changed = CasesMigrateName.migrate_name_to_fields_names
-  
-      changed.include?(child1.id).should eq(true)
+
+      child1.should_receive(:id).and_call_original
+      @child2.should_not_receive(:id)
+      @child3.should_not_receive(:id)
+      @child4.should_not_receive(:id)
+      @child5.should_not_receive(:id)
+      @child6.should_not_receive(:id)
+      @child7.should_not_receive(:id)
+
+      CasesMigrateName.migrate_name_to_fields_names
+
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("Marlon Lopez")
       child1_result.name_first.should eq("Marlon")
       child1_result.name_middle.blank?.should eq(true)
       child1_result.name_last.should eq("Lopez")
-  
-      changed.include?(@child2.id).should eq(false)
-      changed.include?(@child3.id).should eq(false)
-      changed.include?(@child4.id).should eq(false)
-      changed.include?(@child5.id).should eq(false)
-      changed.include?(@child6.id).should eq(false)
-      changed.include?(@child7.id).should eq(false)
     end
   
     it "should set the first name, middle name and last name" do
       child1 = Child.create!(:name => "Marlon Antonio Lopez Martinez", :module_id => @primero_module_cp.id)
-  
-      changed = CasesMigrateName.migrate_name_to_fields_names
-  
-      changed.include?(child1.id).should eq(true)
+
+      child1.should_receive(:id).and_call_original
+      @child2.should_not_receive(:id)
+      @child3.should_not_receive(:id)
+      @child4.should_not_receive(:id)
+      @child5.should_not_receive(:id)
+      @child6.should_not_receive(:id)
+      @child7.should_not_receive(:id)
+
+      CasesMigrateName.migrate_name_to_fields_names
+
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("Marlon Antonio Lopez Martinez")
       child1_result.name_first.should eq("Marlon")
       child1_result.name_middle.should eq("Antonio")
       child1_result.name_last.should eq("Lopez Martinez")
-  
-      changed.include?(@child2.id).should eq(false)
-      changed.include?(@child3.id).should eq(false)
-      changed.include?(@child4.id).should eq(false)
-      changed.include?(@child5.id).should eq(false)
-      changed.include?(@child6.id).should eq(false)
-      changed.include?(@child7.id).should eq(false)
     end
   
     it "should set the missing first name" do
       child1 = Child.create!(:name => "James Franco", :name_middle => "Edward",
                              :name_last => "Franco", :module_id => @primero_module_cp.id)
+
+      child1.should_receive(:id).and_call_original
+      @child2.should_not_receive(:id)
+      @child3.should_not_receive(:id)
+      @child4.should_not_receive(:id)
+      @child5.should_not_receive(:id)
+      @child6.should_not_receive(:id)
+      @child7.should_not_receive(:id)
+
+      CasesMigrateName.migrate_name_to_fields_names
   
-      changed = CasesMigrateName.migrate_name_to_fields_names
-  
-      changed.include?(child1.id).should eq(true)
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("James Franco")
       child1_result.name_first.should eq("James")
       child1_result.name_middle.should eq("Edward")
       child1_result.name_last.should eq("Franco")
-  
-      changed.include?(@child2.id).should eq(false)
-      changed.include?(@child3.id).should eq(false)
-      changed.include?(@child4.id).should eq(false)
-      changed.include?(@child5.id).should eq(false)
-      changed.include?(@child6.id).should eq(false)
-      changed.include?(@child7.id).should eq(false)
     end
   
     it "should set the missing last name" do
       child1 = Child.create!(:name => "James Franco", :name_middle => "Edward",
                              :name_first => "James", :module_id => @primero_module_cp.id)
+
+      child1.should_receive(:id).and_call_original
+      @child2.should_not_receive(:id)
+      @child3.should_not_receive(:id)
+      @child4.should_not_receive(:id)
+      @child5.should_not_receive(:id)
+      @child6.should_not_receive(:id)
+      @child7.should_not_receive(:id)
   
-      changed = CasesMigrateName.migrate_name_to_fields_names
+      CasesMigrateName.migrate_name_to_fields_names
   
-      changed.include?(child1.id).should eq(true)
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("James Franco")
       child1_result.name_first.should eq("James")
       child1_result.name_middle.should eq("Edward")
       child1_result.name_last.should eq("Franco")
-  
-      changed.include?(@child2.id).should eq(false)
-      changed.include?(@child3.id).should eq(false)
-      changed.include?(@child4.id).should eq(false)
-      changed.include?(@child5.id).should eq(false)
-      changed.include?(@child6.id).should eq(false)
-      changed.include?(@child7.id).should eq(false)
     end
   
     it "should set the missing middle name" do
       child1 = Child.create!(:name => "James Edward Franco", :name_first => "James",
                              :name_last => "Franco", :module_id => @primero_module_cp.id)
-  
-      changed = CasesMigrateName.migrate_name_to_fields_names
-  
-      changed.include?(child1.id).should eq(true)
+
+      child1.should_receive(:id).and_call_original
+      @child2.should_not_receive(:id)
+      @child3.should_not_receive(:id)
+      @child4.should_not_receive(:id)
+      @child5.should_not_receive(:id)
+      @child6.should_not_receive(:id)
+      @child7.should_not_receive(:id)
+
+      CasesMigrateName.migrate_name_to_fields_names
+
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("James Edward Franco")
       child1_result.name_first.should eq("James")
       child1_result.name_middle.should eq("Edward")
       child1_result.name_last.should eq("Franco")
-  
-      changed.include?(@child2.id).should eq(false)
-      changed.include?(@child3.id).should eq(false)
-      changed.include?(@child4.id).should eq(false)
-      changed.include?(@child5.id).should eq(false)
-      changed.include?(@child6.id).should eq(false)
-      changed.include?(@child7.id).should eq(false)
     end
   end
 
@@ -211,7 +211,7 @@ describe CasesMigrateName do
       child1.should_receive(:name_first=).with("Marlon")
       child1.should_not_receive(:name_middle=)
       child1.should_not_receive(:name_last=)
-      Child.should_receive(:by_missed_fields_names).and_return([child1])
+      Child.should_receive(:all).and_return([child1])
       changed = CasesMigrateName.migrate_name_to_fields_names
     end
 
@@ -220,7 +220,7 @@ describe CasesMigrateName do
       child1.should_receive(:name_first=).with("Marlon")
       child1.should_not_receive(:name_middle=)
       child1.should_receive(:name_last=).with("Lopez")
-      Child.should_receive(:by_missed_fields_names).and_return([child1])
+      Child.should_receive(:all).and_return([child1])
       changed = CasesMigrateName.migrate_name_to_fields_names
     end
 
@@ -229,7 +229,7 @@ describe CasesMigrateName do
       child1.should_receive(:name_first=).with("Marlon")
       child1.should_receive(:name_middle=).with("Antonio")
       child1.should_receive(:name_last=).with("Lopez Martinez")
-      Child.should_receive(:by_missed_fields_names).and_return([child1])
+      Child.should_receive(:all).and_return([child1])
       changed = CasesMigrateName.migrate_name_to_fields_names
     end
 
@@ -240,7 +240,7 @@ describe CasesMigrateName do
       child1.should_receive(:name_first=).with("James")
       child1.should_not_receive(:name_middle=)
       child1.should_receive(:name_last=).with("Franco")
-      Child.should_receive(:by_missed_fields_names).and_return([child1])
+      Child.should_receive(:all).and_return([child1])
       changed = CasesMigrateName.migrate_name_to_fields_names
     end
 
@@ -251,7 +251,7 @@ describe CasesMigrateName do
       child1.should_receive(:name_first=).with("James")
       child1.should_not_receive(:name_middle=)
       child1.should_receive(:name_last=).with("Franco")
-      Child.should_receive(:by_missed_fields_names).and_return([child1])
+      Child.should_receive(:all).and_return([child1])
       changed = CasesMigrateName.migrate_name_to_fields_names
     end
 
@@ -262,7 +262,7 @@ describe CasesMigrateName do
       child1.should_receive(:name_first=).with("James")
       child1.should_receive(:name_middle=).with("Edward")
       child1.should_receive(:name_last=).with("Franco")
-      Child.should_receive(:by_missed_fields_names).and_return([child1])
+      Child.should_receive(:all).and_return([child1])
       changed = CasesMigrateName.migrate_name_to_fields_names
     end
 

@@ -138,28 +138,6 @@ class Child < CouchRest::Model::Base
                     }
                  }
               }"
-
-      view :by_missed_fields_names,
-             :map => "function(doc) {
-                if (doc['couchrest-type'] == 'Child') {
-                  if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                    if (doc['name'] !== null && doc['name'].trim() !== '') {
-                      var name_parts = doc['name'].split(' ');
-                      var length = name_parts.length;
-                      var missing_name_first = length >= 1 &&
-                            (doc['name_first'] == null || doc['name_first'].trim() == '');
-                      var missing_name_last = length >= 2 &&
-                            (doc['name_last'] == null || doc['name_last'].trim() == '');
-                      var missing_name_middle = length >= 3 &&
-                            (doc['name_middle'] == null || doc['name_middle'].trim() == '');
-                      if (missing_name_first || missing_name_last || missing_name_middle) {
-                        emit([doc['module_id'], doc['name']], null);
-                      }
-                    }
-                  }
-                }
-            }"
-
   end
 
   def self.quicksearch_fields
