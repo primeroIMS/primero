@@ -25,20 +25,6 @@ describe "FileAttachment" do
       File.stub(:binread).with(@file).and_return("Data")
     end
 
-    #prefix was deprecated.
-    xit "should create an instance with a name from current date and default prefix" do
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      attachment = FileAttachment.from_file(@file, "")
-      attachment.name.should == 'file-2010-01-17T140532'
-    end
-
-    #prefix and postfix was deprecated.
-    xit "should create an instance with a name from current date and prefix and postfix" do
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      attachment = FileAttachment.from_file(@file, "", "pre", "post")
-      attachment.name.should == 'pre-2010-01-17T140532-post'
-    end
-
     it "should create an instance with content type from given file" do
       attachment = FileAttachment.from_file(@file, 'image/jpg')
       attachment.content_type.should == 'image/jpg'

@@ -715,13 +715,6 @@ describe Child do
       @file_attachment = FileAttachment.new("attachment_file_name", "audio/mpeg", "data")
     end
 
-    #Not apply, changed the way the file is named.
-    xit "should use Mime::Type.lookup to create file name postfix" do
-      child = Child.new()
-      Mime::Type.should_receive(:lookup).exactly(2).times.with("audio/mpeg").and_return("abc".to_sym)
-      child.add_audio_file(@file, "audio/mpeg")
-    end
-
     it "should create a file attachment for the file with 'audio' prefix, mime mediatype as postfix" do
       child = Child.new()
       Mime::Type.stub(:lookup).and_return("abc".to_sym)
