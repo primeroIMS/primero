@@ -74,7 +74,7 @@ describe Child do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, false, {}
-      child['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
+      child['_attachments']['sample']['data'].should_not be_blank
     end
 
     it "should respond nil for photo when there is no photo associated with the child" do
@@ -113,13 +113,13 @@ describe Child do
       child.audio = uploadable_audio_amr
       child.save
       #Validate the audio file was store.
-      child['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
-      child['_attachments']['capybara_features/resources/sample']['content_type'].should eq("audio/amr")
-      child['audio_attachments']['original'].should == "capybara_features/resources/sample"
-      child['audio_attachments']['amr'].should == "capybara_features/resources/sample"
+      child['_attachments']['sample']['data'].should_not be_blank
+      child['_attachments']['sample']['content_type'].should eq("audio/amr")
+      child['audio_attachments']['original'].should == "sample"
+      child['audio_attachments']['amr'].should == "sample"
       child['audio_attachments']['mp3'].should be_nil
       #Others
-      child['recorded_audio'].should == "capybara_features/resources/sample"
+      child['recorded_audio'].should == "sample"
       child['name'].should be_nil
 
       #Update the child so a new audio is loaded.
@@ -127,13 +127,13 @@ describe Child do
       child.update_properties_with_user_name 'Jane Doe', nil, nil, uploadable_audio_mp3, false, properties
 
       #Validate the new file was stored.
-      child['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
-      child['_attachments']['capybara_features/resources/sample']['content_type'].should eq("audio/mpeg")
-      child['audio_attachments']['original'].should == "capybara_features/resources/sample"
-      child['audio_attachments']['mp3'].should == "capybara_features/resources/sample"
+      child['_attachments']['sample']['data'].should_not be_blank
+      child['_attachments']['sample']['content_type'].should eq("audio/mpeg")
+      child['audio_attachments']['original'].should == "sample"
+      child['audio_attachments']['mp3'].should == "sample"
       child['audio_attachments']['amr'].should be_nil
       #Others
-      child['recorded_audio'].should == "capybara_features/resources/sample"
+      child['recorded_audio'].should == "sample"
       child['name'].should == "Some Child Name"
     end
 
@@ -146,13 +146,13 @@ describe Child do
       child.audio = uploadable_audio_amr
       child.save
       #Validate the audio file was store.
-      child['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
-      child['_attachments']['capybara_features/resources/sample']['content_type'].should eq("audio/amr")
-      child['audio_attachments']['original'].should == "capybara_features/resources/sample"
-      child['audio_attachments']['amr'].should == "capybara_features/resources/sample"
+      child['_attachments']['sample']['data'].should_not be_blank
+      child['_attachments']['sample']['content_type'].should eq("audio/amr")
+      child['audio_attachments']['original'].should == "sample"
+      child['audio_attachments']['amr'].should == "sample"
       child['audio_attachments']['mp3'].should be_nil
       #Others
-      child['recorded_audio'].should == "capybara_features/resources/sample"
+      child['recorded_audio'].should == "sample"
       child.name.should be_nil
 
       #Update the child so the current audio is removed.
@@ -758,7 +758,7 @@ describe Child do
     it "should retrieve attachment data for attachment key" do
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       child = Child.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      child.should_receive(:read_attachment).with('capybara_features/resources/sample').and_return("Some audio")
+      child.should_receive(:read_attachment).with('sample').and_return("Some audio")
       child.audio
     end
 
@@ -768,7 +768,7 @@ describe Child do
       child = Child.create('audio' => uploaded_amr, 'created_by' => "me", 'created_organization' => "stc")
       expected_data = 'LA! LA! LA! Audio Data'
       child.stub(:read_attachment).and_return(expected_data)
-      FileAttachment.should_receive(:new).with('capybara_features/resources/sample', uploaded_amr.content_type, expected_data)
+      FileAttachment.should_receive(:new).with('sample', uploaded_amr.content_type, expected_data)
       child.audio
 
     end
@@ -790,14 +790,14 @@ describe Child do
       Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
 
-      child['audio_attachments']['original'].should == 'capybara_features/resources/sample'
+      child['audio_attachments']['original'].should == 'sample'
     end
 
     it "should change audio file if a new audio file is set" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       child.update_attributes :audio => uploadable_audio
-      child['audio_attachments']['original'].should == 'capybara_features/resources/sample'
+      child['audio_attachments']['original'].should == 'sample'
     end
 
   end

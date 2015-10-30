@@ -220,7 +220,7 @@ describe TracingRequest do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       tracing_request = TracingRequest.new
       tracing_request.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, false, {}
-      tracing_request['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
+      tracing_request['_attachments']['sample']['data'].should_not be_blank
     end
 
     it "should respond nil for photo when there is no photo associated with the tracing request" do
@@ -244,13 +244,13 @@ describe TracingRequest do
       tracing_request.audio = uploadable_audio_amr
       tracing_request.save
       #Validate the audio file was store.
-      tracing_request['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
-      tracing_request['_attachments']['capybara_features/resources/sample']['content_type'].should eq("audio/amr")
-      tracing_request['audio_attachments']['original'].should == "capybara_features/resources/sample"
-      tracing_request['audio_attachments']['amr'].should == "capybara_features/resources/sample"
+      tracing_request['_attachments']['sample']['data'].should_not be_blank
+      tracing_request['_attachments']['sample']['content_type'].should eq("audio/amr")
+      tracing_request['audio_attachments']['original'].should == "sample"
+      tracing_request['audio_attachments']['amr'].should == "sample"
       tracing_request['audio_attachments']['mp3'].should be_nil
       #Others
-      tracing_request['recorded_audio'].should == "capybara_features/resources/sample"
+      tracing_request['recorded_audio'].should == "sample"
       tracing_request['relation_name'].should be_nil
 
       #Update the tracing_request so a new audio is loaded.
@@ -258,13 +258,13 @@ describe TracingRequest do
       tracing_request.update_properties_with_user_name 'Jane Doe', nil, nil, uploadable_audio_mp3, false, properties
 
       #Validate the new file was stored.
-      tracing_request['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
-      tracing_request['_attachments']['capybara_features/resources/sample']['content_type'].should eq("audio/mpeg")
-      tracing_request['audio_attachments']['original'].should == "capybara_features/resources/sample"
-      tracing_request['audio_attachments']['mp3'].should == "capybara_features/resources/sample"
+      tracing_request['_attachments']['sample']['data'].should_not be_blank
+      tracing_request['_attachments']['sample']['content_type'].should eq("audio/mpeg")
+      tracing_request['audio_attachments']['original'].should == "sample"
+      tracing_request['audio_attachments']['mp3'].should == "sample"
       tracing_request['audio_attachments']['amr'].should be_nil
       #Others
-      tracing_request['recorded_audio'].should == "capybara_features/resources/sample"
+      tracing_request['recorded_audio'].should == "sample"
       tracing_request['relation_name'].should == "Some TracingRequest Name"
     end
 
@@ -277,13 +277,13 @@ describe TracingRequest do
       tracing_request.audio = uploadable_audio_amr
       tracing_request.save
       #Validate the audio file was store.
-      tracing_request['_attachments']['capybara_features/resources/sample']['data'].should_not be_blank
-      tracing_request['_attachments']['capybara_features/resources/sample']['content_type'].should eq("audio/amr")
-      tracing_request['audio_attachments']['original'].should == "capybara_features/resources/sample"
-      tracing_request['audio_attachments']['amr'].should == "capybara_features/resources/sample"
+      tracing_request['_attachments']['sample']['data'].should_not be_blank
+      tracing_request['_attachments']['sample']['content_type'].should eq("audio/amr")
+      tracing_request['audio_attachments']['original'].should == "sample"
+      tracing_request['audio_attachments']['amr'].should == "sample"
       tracing_request['audio_attachments']['mp3'].should be_nil
       #Others
-      tracing_request['recorded_audio'].should == "capybara_features/resources/sample"
+      tracing_request['recorded_audio'].should == "sample"
       tracing_request['relation_name'].should be_nil
 
       #Update the tracing_request so the current audio is removed.
@@ -774,7 +774,7 @@ describe TracingRequest do
     it "should retrieve attachment data for attachment key" do
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       tracing_request = TracingRequest.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      tracing_request.should_receive(:read_attachment).with('capybara_features/resources/sample').and_return("Some audio")
+      tracing_request.should_receive(:read_attachment).with('sample').and_return("Some audio")
       tracing_request.audio
     end
 
@@ -784,7 +784,7 @@ describe TracingRequest do
       tracing_request = TracingRequest.create('audio' => uploaded_amr, 'created_by' => "me", 'created_organization' => "stc")
       expected_data = 'LA! LA! LA! Audio Data'
       tracing_request.stub(:read_attachment).and_return(expected_data)
-      FileAttachment.should_receive(:new).with('capybara_features/resources/sample', uploaded_amr.content_type, expected_data)
+      FileAttachment.should_receive(:new).with('sample', uploaded_amr.content_type, expected_data)
       tracing_request.audio
 
     end
@@ -806,14 +806,14 @@ describe TracingRequest do
       Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
       tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
 
-      tracing_request['audio_attachments']['original'].should == 'capybara_features/resources/sample'
+      tracing_request['audio_attachments']['original'].should == 'sample'
     end
 
     it "should change audio file if a new audio file is set" do
       tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       tracing_request.update_attributes :audio => uploadable_audio
-      tracing_request['audio_attachments']['original'].should == 'capybara_features/resources/sample'
+      tracing_request['audio_attachments']['original'].should == 'sample'
     end
 
   end
