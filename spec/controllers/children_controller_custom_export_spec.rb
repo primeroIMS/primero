@@ -237,7 +237,7 @@ describe ChildrenController do
 
     before :each do
       @childs = [build(:child), build(:child)]
-      filters = {"child_status" => {:type => "list", :value => ["Open?scope[child_status]=list", "Open"]}}
+      filters = {"child_status" => {:type => "list", :value => ["Open"]}, "module_id" => {:type => "list", :value => ["primeromodule-cp"]}}
 
       controller.should_receive(:retrieve_records_and_total).with(filters).and_return([@childs, 2])
       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', "123456").and_return(true)
@@ -282,7 +282,7 @@ describe ChildrenController do
         Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -328,7 +328,7 @@ describe ChildrenController do
         Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -378,7 +378,7 @@ describe ChildrenController do
         Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -423,7 +423,7 @@ describe ChildrenController do
         Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
       
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -475,7 +475,7 @@ describe ChildrenController do
         Exporters::ExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -527,7 +527,7 @@ describe ChildrenController do
         Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -574,7 +574,7 @@ describe ChildrenController do
         Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -628,7 +628,7 @@ describe ChildrenController do
         Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -674,7 +674,7 @@ describe ChildrenController do
         Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
@@ -725,7 +725,7 @@ describe ChildrenController do
         Exporters::SelectedFieldsExcelExporter.should_receive(:export).with(@childs, expected_forms_sections, @user).and_return('data')
 
         params = {
-          "scope" => {"child_status" => "list||Open?scope[child_status]=list||Open"},
+          "scope" => {"child_status" => "list||Open"},
           "custom_export_file_name" => "",
           "password" => "123456",
           "selected_records" => "",
