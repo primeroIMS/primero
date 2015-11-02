@@ -134,15 +134,6 @@ describe UsersController do
       get :show, :id => "37"
       response.status.should == 403
     end
-
-    it "should show last login" do
-      session = fake_login
-      date = '2015/10/23 14:54:55 -0400'
-      user_activity = stub_model(LoginActivity, login_timestamp: DateTime.parse(date), user_name: session.user.user_name)
-      User.stub(:last_login_timestamp).and_return(user_activity)
-      get :show, :id => session.user.id
-      assigns[:last_login].should == session.user.localize_date(DateTime.parse(date), "%Y-%m-%d %H:%M:%S %Z")
-    end
   end
 
   describe "GET new" do
