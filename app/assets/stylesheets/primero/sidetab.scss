@@ -122,10 +122,19 @@ ul.side-nav, ul.modal-side-nav {
     width: 240px;
     background: #f5f5f5;
     border: 1px solid #e3e3e3;
+    padding: 8px;
 
     p {
       font-family: 'Roboto', sans-serif;
       font-size: $thirteen_px;
+      margin-bottom: 4px;
+      color: $green_color;
+
+      span {
+        font-weight: bold;
+        font-size: .75rem;
+        color: $grey_color;
+      }
     }
 
     strong {
@@ -146,7 +155,7 @@ ul.side-nav, ul.modal-side-nav {
     }
 
     hr {
-      margin: 10px 0;
+      margin: 10px 0 5px 0;
       background: none;
       border-bottom: 1px dashed #ddd;
     }
