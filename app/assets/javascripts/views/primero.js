@@ -46,6 +46,7 @@ Primero = Backbone.View.extend({
     this.populate_case_id_for_gbv_incidents();
     this.init_edit_listeners();
     this.chosen_roles();
+    this.init_modal_events();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var textarea = $('textarea[name*="field[option_strings_text"]');
@@ -54,6 +55,21 @@ Primero = Backbone.View.extend({
     }
 
     window.onbeforeunload = this.load_and_redirect;
+  },
+
+  init_modal_events: function() {
+    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+      var modal = $(this);
+      if (!modal.parent('.modal-scroll').length) {
+        modal.wrap("<div class='modal-scroll' />");
+      }
+    });
+
+    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+      var modal = $(this);
+      console.log(modal)
+      modal.unwrap("<div class='modal-scroll' />");
+    });
   },
 
   init_edit_listeners: function() {
