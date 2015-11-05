@@ -1,0 +1,36 @@
+<%
+  model_class_name = controller.model_class.name.underscore.downcase
+  model_name = I18n.t("forms.record_types.#{model_class_name}")
+  approve_case_plan_url = "/#{model_name.downcase.underscore.pluralize}/approve_case_plan"
+%>
+<li>
+  <a data-reveal-id=<%= "approve-case-plan-modal" %> class=<%= "approve_case_plan_show_action" %> href="#">
+    <%= t("buttons.approve_case_plan", model: model_name) %>
+  </a>
+
+  <div id=<%= "approve-case-plan-modal" %> class="reveal-modal tiny" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
+  <div class=<%= "approve_case_plan_form_container row"%> >
+    <div class="large-11">
+      <%= form_tag(url_for(:action => 'approve_case_plan', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
+        <div class="row">
+          <div class="medium-12 columns">
+            <label for="format"><%= t('approve_case_plan.approve_case_plan_label') %></label>
+            <%= check_box_tag('approval', 'true', checked = true) %>
+            <label form="format"><%= t('true') %></label>
+          </div>
+        </div>
+
+        <label><%=I18n.t("approve_case_plan.comments_label")%>
+          <%= text_area_tag("comments") %>
+        </label>
+        <div class="import_button">
+          <%= submit_tag(t("buttons.submit"), class: 'green-button right') %>
+        </div>
+      <% end %>
+    </div>
+    <div class="large-1">
+    </div>
+  </div>
+  </div>
+</li>

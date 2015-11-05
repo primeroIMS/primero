@@ -16,7 +16,7 @@ module FieldsHelper
   end
 
   def field_format_date(a_date)
-    if a_date.present? && a_date.is_a?(Date)
+    if a_date.present? && a_date.is_a?(Date) || a_date.is_a?(Time)
       a_date.strftime("%d-%b-%Y")
     else
       a_date
@@ -26,6 +26,11 @@ module FieldsHelper
   def field_value(object, field, field_keys=[])
     if field.nil?
       object.value_for_attr_keys(field_keys)
+    elsif field_keys.include? "template"
+       # If 'template' exists in the field_keys, this is a new subform
+       # The 'template' key is later replaced with the proper index value via JavaScript
+       # But for now, there is no value so just return empty string
+       ''
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
@@ -121,12 +126,12 @@ module FieldsHelper
     return subforms_count
   end
 
-  def get_subform_object(object, subform_section, form_group_name)
+  def get_subform_object(object, subform_section, form_group_name, subform_name)
     subform_object = {}
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     else
-      subform_object = object[:"#{subform_section.unique_id}"]
+      subform_object = object[:"#{subform_name}"]
     end
     return subform_object
   end

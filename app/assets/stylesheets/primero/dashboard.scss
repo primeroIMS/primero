@@ -1,3 +1,11 @@
+$dashboard_table_col1:166px;
+$dashboard_table_col2:220px;
+$dashboard_table_col3:170px;
+$dashboard_table_col4:170px;
+$dashboard_table_col5:100px;
+$dashboard_table_col6:100px;
+$dashboard_table_counts:85px;
+
 #dashboard {
 
   .panel {
@@ -46,9 +54,64 @@
     table tbody tr:last-of-type td {
       border-bottom: 1px dashed #ccc !important;
     }
+
+    a.stat_link, .stat_link {
+      display: inline;
+      color: $green_color;
+      font-size: 1.2rem;
+    }
+
+    .stat_title {
+      text-transform: uppercase;
+      margin: 10px 0;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: $green_color;
+    }
+
+    .panel_no_table {
+      height: auto;
+      overflow: visible;
+      font-size: $thirteen_px;
+
+      .stat_title {
+        border-bottom: 1px dashed $stroke_green_color;
+        margin: 10px;
+      }
+
+      > div:not(.stat_title) {
+        border-bottom: 1px dashed #ccc;
+
+        div:not(.stat_link) {
+          padding: 0 10px;
+
+          span {
+            font-weight:600;
+            font-size: .9rem;
+            color: #000;
+          }
+        }
+      }
+
+      > div:not(.stat_title):last-child {
+        border-bottom: none;
+      }
+
+      .scrollable {
+        height: 140px;
+        overflow: hidden;
+        overflow-y: scroll;
+      }
+
+      .single_stat {
+        margin-top: 10px;
+      }
+    }
   }
 
   #content {
+    width:748px;
+
     .panel {
 
       .panel_header h4 {
@@ -56,10 +119,43 @@
       }
     }
 
+    table.table-counts {
+      th:not(:first-child), td:not(:first-child) {
+        width: $dashboard_table_counts !important;
+      }
+
+      th:first-child, td:first-child {
+        width: 253px !important;
+      }
+    }
+
     table {
+      width:746px;
       border: none;
-      width: 100%;
       margin-bottom: 0;
+
+      &.dashboard_counts {
+        div {
+          margin: 5px 0;
+        }
+
+        a {
+          border-bottom: 1px solid $stroke_green_color;
+
+          &:hover {
+            text-decoration: none;
+            background: #ebebeb;
+          }
+        }
+
+        span {
+          font-weight:600;
+          font-size: .9rem;
+          color: #000;
+        }
+      }
+
+
 
       a.id_link{
         float: left;
@@ -71,6 +167,30 @@
 
       thead {
         background: none;
+
+        th:nth-child(1) {
+          width:$dashboard_table_col1;
+        }
+
+        th:nth-child(2) {
+          width:$dashboard_table_col2;
+        }
+
+        th:nth-child(3) {
+          width:$dashboard_table_col3;
+        }
+
+        th:nth-child(4) {
+          width:$dashboard_table_col4;
+        }
+
+        th:nth-child(5) {
+          width:$dashboard_table_col5;
+        }
+
+        th:nth-child(6) {
+          width:$dashboard_table_col6;
+        }
 
         th {
           border-bottom: 1px solid $stroke_green_color;
@@ -87,13 +207,46 @@
           &.id_column{
             min-width: 105px;
           }
+
+          span {
+            float: left;
+            font-size: .6rem;
+            color: $grey_color;
+            width: 100%
+          }
         }
       }
 
       tbody {
+        td:nth-child(1) {
+          width:$dashboard_table_col1;
+        }
+
+        td:nth-child(2) {
+          width:$dashboard_table_col2;
+        }
+
+        td:nth-child(3) {
+          width:$dashboard_table_col3;
+        }
+
+        td:nth-child(4) {
+          width:$dashboard_table_col4;
+        }
+
+        td:nth-child(5) {
+          width:$dashboard_table_col5;
+        }
+
+        td:nth-child(6) {
+          width:$dashboard_table_col6;
+        }
+
         tr td {
           border-bottom: 1px dashed #ccc;
           border-right: 1px solid $stroke_green_color;
+          word-wrap:break-word;
+          word-break: break-all;
 
           &:last-of-type {
             border-right: none;
@@ -117,6 +270,14 @@
     padding: 0;
     width: 225px;
     float: right;
+
+    .more {
+      padding: 7px 0 0 0;
+      margin: 5px 0 0 0;
+      display: block;
+      border-top: 1px solid $stroke_green_color;
+      text-align: center;
+    }
 
     .scrollable {
       height: 300px;

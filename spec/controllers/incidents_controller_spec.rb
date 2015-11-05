@@ -175,7 +175,7 @@ describe IncidentsController do
 
     shared_examples_for "Export List" do |user_type|
       before do
-        @session = fake_login_as
+        @session = fake_admin_login
       end
 
       it "should export columns in the current list view for #{user_type} user" do
@@ -312,7 +312,8 @@ describe IncidentsController do
         Incident.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-        roles = [Role.new(permissions: [Permission::READ, Permission::INCIDENT])]
+        permission = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
+        roles = [Role.new(permissions_list: [permission])]
 
         @incident_manager1 = create(:user)
         @incident_manager1.stub(:roles).and_return(roles)
@@ -350,6 +351,130 @@ describe IncidentsController do
         # flash[:notice].should == "No Records Available!"
       # end
     # end
+
+    describe "Display manager information", skip_session: true do
+      render_views
+
+      it "should display information for user manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["incident"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => true)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should appears in the body if the user is a manager.
+        response.body.should match(/<h3>Case Worker:<\/h3>/)
+        response.body.should match(/<th\s+(.*)>\s*Social Worker\s*<\/th>/)
+      end
+
+      it "should not display information for user not manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["incident"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => false)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should not appears in the body if the user is not a manager.
+        response.body.should_not match(/<h3>Case Worker:<\/h3>/)
+        response.body.should_not match(/<th\s+(.*)>\s*Social Worker\s*<\/th>/)
+      end
+    end
+
+    describe "Filter by Age Range", search: true, skip_session: true do
+      before :each do
+        @user = fake_admin_login User.new(:user_name => 'test_user')
+
+        FormSection.all.each &:destroy
+        fields = [
+            Field.new({"name" => "status",
+                       "type" => "text_field",
+                       "display_name_all" => "Status"
+                      }),
+            Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_all" => "Age"
+                    })]
+        form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"incident",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+            )
+        form.save!
+        Incident.any_instance.stub(:field_definitions).and_return(fields)
+        Incident.refresh_form_properties
+
+        Sunspot.setup(Incident) do
+          string 'status', as: "status_sci".to_sym
+          integer 'age', as: 'age_i'.to_sym
+        end
+
+        Incident.all.each &:destroy
+
+        Sunspot.remove_all!
+
+        create(:incident, name: "Name 1", status: "Open", age: "5")
+        @incident_age_7 = create(:incident, name: "Name 2", status: "Open", age: "7")
+        create(:incident, name: "Name 3", status: "Closed", age: "7")
+        @incident_age_15 = create(:incident, name: "Name 4", status: "Open", age: "15")
+        create(:incident, name: "Name 5", status: "Closed", age: "15")
+        @incident_age_21 = create(:incident, name: "Name 6", status: "Open", age: "21")
+        create(:incident, name: "Name 7", status: "Closed", age: "21")
+
+        Sunspot.commit
+      end
+
+      after :all do
+        FormSection.all.each &:destroy
+        Incident.all.each &:destroy
+        Sunspot.remove_all!
+        Sunspot.commit
+        Incident.remove_form_properties
+      end
+
+      it "should filter by one range" do
+        params = {"scope" => {"status" => "list||Open", "age" => "range||6-11"}}
+        get :index, params
+
+        filters = {"status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
+        expect(assigns[:filters]).to eq(filters)
+        expect(assigns[:incidents].length).to eq(1)
+        expect(assigns[:incidents].first).to eq(@incident_age_7)
+      end
+
+      it "should filter more than one range" do
+        params = {"scope"=>{"status"=>"list||Open", "age"=>"range||6-11||12-17"}}
+        get :index, params
+
+        filters = {"status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
+        expect(assigns[:filters]).to eq(filters)
+        expect(assigns[:incidents].length).to eq(2)
+        expect(assigns[:incidents]).to eq([@incident_age_7, @incident_age_15])
+      end
+
+      it "should filter with open range" do
+        params = {"scope"=>{"status"=>"list||Open", "age"=>"range||18 "}}
+        get :index, params
+
+        filters = {"status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
+        expect(assigns[:filters]).to eq(filters)
+        expect(assigns[:incidents].length).to eq(1)
+        expect(assigns[:incidents].first).to eq(@incident_age_21)
+      end
+
+    end
+
   end
 
   describe "GET show" do

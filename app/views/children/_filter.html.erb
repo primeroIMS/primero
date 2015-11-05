@@ -5,8 +5,20 @@
         {flag: t("cases.filter_by.flag_label")}
       ], nil, nil, 'single') %>
     <% end %>
+    <% if filters_to_show.include? 'Mobile' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.mobile"), 'marked_for_mobile', [
+        {true: t("cases.filter_by.mobile_label")}
+      ], nil, nil, 'single') %>
+    <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'District' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.district"), 'owned_by_location_district', @options_districts, { multi: true }, false) %>
+    <% end %>
+    <% # If user is only associated with 1 agency, there is no need to display the Agency Filter %>
+    <% if (filters_to_show.include? 'Agency') && @associated_agencies.present? && @associated_agencies.count > 1 %>
+      <%= build_filter_checkboxes(t("cases.filter_by.agency"), 'owned_by_agency', @associated_agencies, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
       <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', Lookup.values('Case Status', @lookups)) %>
@@ -30,6 +42,9 @@
     <% end %>
     <% if filters_to_show.include? 'Urgent Protection Concern' %>
       <%= build_filter_checkboxes(t("cases.filter_by.urgent_protection_concern"), 'urgent_protection_concern', [t("true"), t("false")]) %>
+    <% end %>
+    <% if filters_to_show.include? 'Protection Concerns' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.protection_concerns"), 'protection_concerns', Lookup.values('Protection Concerns', @lookups), { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Risk Level' %>
       <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', Lookup.values('Risk Level', @lookups)) %>

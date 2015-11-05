@@ -6,7 +6,7 @@ class User < CouchRest::Model::Base
   include Importable
   include Memoizable
 
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   property :full_name
   property :user_name
@@ -26,6 +26,7 @@ class User < CouchRest::Model::Base
   property :locale
   property :module_ids, :type => [String]
   property :user_group_ids, :type => [String], :default => []
+  property :is_manager, TrueClass, :default => false
 
   alias_method :agency, :organization
   alias_method :agency=, :organization=
@@ -37,7 +38,6 @@ class User < CouchRest::Model::Base
   timestamps!
 
   design do
-
     view :by_user_name,
             :map => "function(doc) {
                   if ((doc['couchrest-type'] == 'User') && doc['user_name'])
@@ -105,7 +105,7 @@ class User < CouchRest::Model::Base
   end
 
 
-  before_save :make_user_name_lowercase, :encrypt_password
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
   after_save :save_devices
 
 
@@ -122,6 +122,8 @@ class User < CouchRest::Model::Base
 
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
                       :message => I18n.t("errors.models.user.email")
+  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{6,}\z/, :if => :password_required?,
+                      :message => I18n.t("errors.models.user.password_text")
 
   validates_confirmation_of :password, :if => :password_required? && :password_confirmation_entered?,
                             :message => I18n.t("errors.models.user.password_mismatch")
@@ -181,6 +183,19 @@ class User < CouchRest::Model::Base
       User.by_module(keys: module_ids).all.uniq{|u| u.user_name}
     end
     memoize_in_prod :find_by_modules
+
+    def find_by_user_names(user_names)
+      User.by_user_name(keys: user_names).all
+    end
+
+    def agencies_by_user_list(user_names)
+      Agency.by_id(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
+    end
+
+    def last_login_timestamp(user_name)
+      activity = LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
+      activity.login_timestamp if activity.present?
+    end
   end
 
   def initialize(args = {}, args1 = {})
@@ -214,16 +229,39 @@ class User < CouchRest::Model::Base
   end
 
   def user_groups
-    @user_groups ||= UserGroup.all(keys: self.user_group_ids)
+    @user_groups ||= UserGroup.all(keys: self.user_group_ids_sanitized)
   end
 
+  def user_group_ids_sanitized
+    self.user_group_ids.select{|g| g.present?}
+  end
+
+  # calling this location_obj because property location already exists on user
+  # however, the location property really is just the location name
+  # If a refactor is warranted, I would rename the location property to location_name
+  def Location
+    @location_obj = Location.get_unique_instance('name' => self.location)
+  end
+
+  def Agency
+    @agency_obj = Agency.get(self.organization)
+  end
+
+  def last_login
+    timestamp = User.last_login_timestamp(self.user_name)
+    @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
+  end
 
   def has_module?(module_id)
     self.module_ids.include?(module_id)
   end
 
   def has_permission?(permission)
-    permissions && permissions.include?(permission)
+    permissions && permissions.map{|p| p.actions}.flatten.include?(permission)
+  end
+
+  def has_group_permission?(permission)
+    group_permissions && group_permissions.include?(permission)
   end
 
   def has_permitted_form_id?(form_id)
@@ -235,7 +273,29 @@ class User < CouchRest::Model::Base
   end
 
   def permissions
-    roles.compact.collect(&:permissions).flatten
+    roles.compact.collect(&:permissions_list).flatten
+  end
+
+  #This method will return true when the user has no permission assigned
+  #or the user has no write/manage access to the record.
+  #Don't rely on this method for authorization.
+  def readonly?(record_type)
+    resource = if record_type == "violation"
+      "incident"
+    elsif record_type == "child"
+      "case"
+    else
+      record_type
+    end
+    record_type_permissions = permissions.find{|p| p.resource == resource}
+    record_type_permissions.blank? ||
+    record_type_permissions.actions.blank? ||
+    !(record_type_permissions.actions.include?(Permission::WRITE) ||
+       record_type_permissions.actions.include?(Permission::MANAGE))
+  end
+
+  def group_permissions
+    roles.map{|r| r.group_permission}.uniq
   end
 
   def permitted_form_ids
@@ -257,17 +317,13 @@ class User < CouchRest::Model::Base
     modules.compact.collect(&:associated_form_ids).flatten.select(&:present?)
   end
 
-
-  def is_manager?
-    self.has_permission?(Permission::ALL) || self.has_permission?(Permission::GROUP)
-  end
-
   def managed_users
-    if self.has_permission? Permission::ALL
+    user_group_ids = self.user_group_ids_sanitized
+    if self.has_group_permission? Permission::ALL
       @managed_users ||= User.all.all
       @record_scope = [Searchable::ALL_FILTER]
-    elsif self.has_permission?(Permission::GROUP) && self.user_group_ids.present?
-      @managed_users ||= User.by_user_group(keys: self.user_group_ids).all.uniq{|u| u.user_name}
+    elsif self.has_group_permission?(Permission::GROUP) && user_group_ids.present?
+      @managed_users ||= User.by_user_group(keys: user_group_ids).all.uniq{|u| u.user_name}
     else
       @managed_users ||= [self]
     end
@@ -332,11 +388,28 @@ class User < CouchRest::Model::Base
     [FormSection, PrimeroModule, Role]
   end
 
+  def is_admin?
+    self.group_permissions.include?(Permission::ALL)
+  end
+
   private
 
   def save_devices
     @devices.map(&:save!) if @devices
     true
+  end
+
+  def update_user_case_locations
+    # TODO: The following gets all the cases by user and updates the location/district.
+    # Performance degrades on save if the user changes their location.
+    if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+      new_location = Location.get_admin_level_from_string(self.location, 'district')
+      Child.by_owned_by.key(self.user_name).all.each do |child|
+        child.owned_by_location = self.location
+        child.owned_by_location_district = new_location
+        child.save!
+      end
+    end
   end
 
   def encrypt_password

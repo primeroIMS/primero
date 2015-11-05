@@ -331,7 +331,7 @@ describe Child do
     end
 
     it "should save blank age" do
-      User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
+      User.stub(:find_by_user_name).and_return(double(:organization => "stc", :location => "my_country::my_state::my_town", :agency => "unicef-un"))
       child = Child.new(:age => "", :another_field => "blah", 'created_by' => "me", 'created_organization' => "stc")
       child.save.present?.should == true
       child = Child.new :foo => "bar"
@@ -877,7 +877,7 @@ describe Child do
       child.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
       child.save!
       flag_history = child.histories.first.changes['flags'][child.flags[0].unique_id]
-      flag_history['message']['from'].should == nil 
+      flag_history['message']['from'].should == nil
       flag_history['message']['to'].should == 'Duplicate record!'
     end
 
@@ -1207,7 +1207,7 @@ describe Child do
 
     it "should validate single date field" do
       #date field invalid.
-      child = create_child "Bob McBobberson", :a_date_field => "asdlfkj", 
+      child = create_child "Bob McBobberson", :a_date_field => "asdlfkj",
                            :a_range_field_date_or_date_range => "date_range",
                            :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
@@ -1247,7 +1247,7 @@ describe Child do
 
     it "should validate range fields with single date selected" do
       #Single date selected wrong in the date range field.
-      child = create_child "Bob McBobberson", :b_range_field => "aslkdjflkj", 
+      child = create_child "Bob McBobberson", :b_range_field => "aslkdjflkj",
                            :b_range_field_date_or_date_range => "date",
                            :a_range_field_date_or_date_range => "date_range"
       child.errors[:b_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
@@ -1333,6 +1333,268 @@ describe Child do
 
       it "should return nil for mothers name" do
         expect(@child4.mothers_name).to be_nil
+      end
+    end
+  end
+
+  describe "case id code" do
+    before :all do
+      Location.all.each &:destroy
+      Role.all.each &:destroy
+      Agency.all.each &:destroy
+      @permission_case ||= Permission.new(:resource => Permission::CASE,
+                                          :actions => [Permission::READ, Permission::WRITE])
+      @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI"
+      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["Guinea"]
+      admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
+      field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
+      agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
+      user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
+                          :email => 'em@dd.net', :organization => 'agency-unicef',
+                          :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name})
+      user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
+                           :email => 'em@dd.net', :organization => 'agency-unicef',
+                           :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => ''})
+      user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
+                          :email => 'em@dd.net', :organization => 'NA',
+                          :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false', :location => @location_region.name)
+    end
+
+    context 'system case code format empty' do
+      before :all do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create default_locale: "en"
+      end
+
+      it 'should create an empty case id code' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_code).to be_empty
+      end
+
+      it 'should create a case id display that matches short id' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_display).to eq(child.short_id)
+      end
+    end
+
+    context 'system case code separator empty' do
+      before :all do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create default_locale: "en",
+                                                 case_code_format: [
+                                                           "created_by_user.Location.admin_level(country).location_code",
+                                                           "created_by_user.Location.admin_level(region).location_code",
+                                                           "created_by_user.Agency.agency_code"
+                                                 ]
+      end
+
+      it 'should create a case id code without separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_code).to eq("GUIGUI123UN")
+      end
+
+      it 'should create a case id display without separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_display).to eq("GUIGUI123UN#{child.short_id}")
+      end
+    end
+
+    context 'system case code format and separator present' do
+      before :all do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create default_locale: "en",
+                                                 case_code_separator: "-",
+                                                 case_code_format: [
+                                                           "created_by_user.Location.admin_level(country).location_code",
+                                                           "created_by_user.Location.admin_level(region).location_code",
+                                                           "created_by_user.Agency.agency_code"
+                                                 ]
+      end
+
+      it 'should create a case id code with separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_code).to eq("GUI-GUI123-UN")
+      end
+
+      it 'should create a case id display with separators' do
+        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
+      end
+
+      it 'should create a case id code if user location is missing' do
+        child = Child.create! case_id: 'abc456', created_by: 'joe456'
+        expect(child.case_id_code).to eq("UN")
+      end
+
+      it 'should create a case id display if user location is missing' do
+        child = Child.create! case_id: 'abc456', created_by: 'joe456'
+        expect(child.case_id_display).to eq("UN-#{child.short_id}")
+      end
+
+      it 'should create a case id code if user agency is missing' do
+        child = Child.create! case_id: 'zzz', created_by: 'tom789'
+        expect(child.case_id_code).to eq("GUI-GUI123")
+      end
+
+      it 'should create a case id display if user agency is missing' do
+        child = Child.create! case_id: 'zzz', created_by: 'tom789'
+        expect(child.case_id_display).to eq("GUI-GUI123-#{child.short_id}")
+      end
+    end
+  end
+
+  describe 'calculate age' do
+    before do
+
+      Child.all.each &:destroy
+
+      # The following is necessary so we get back date_of_birth from the DB as a Date object, not as a string
+      FormSection.all.each &:destroy
+      fields = [
+          Field.new({"name" => "child_status",
+                     "type" => "text_field",
+                     "display_name_all" => "Child Status"
+                    }),
+          Field.new({"name" => "date_of_birth",
+                     "type" => "date_field",
+                     "display_name_all" => "Date of Birth"
+                    }),
+          Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_all" => "Age"
+                    })]
+      form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+      )
+      form.save!
+      Child.any_instance.stub(:field_definitions).and_return(fields)
+      Child.refresh_form_properties
+
+      @case1 = Child.create(name: 'case1', date_of_birth: Date.new(2010, 10, 11))
+      @case2 = Child.create(name: 'case2', date_of_birth: Date.new(2008, 10, 11))
+      @case3 = Child.create(name: 'case3', date_of_birth: Date.new(2008, 3, 13))
+      @case4 = Child.create(name: 'case4', date_of_birth: Date.new(1998, 11, 11))
+      @case5 = Child.create(name: 'case5', date_of_birth: Date.new(2014, 10, 12))
+      @case6 = Child.create(name: 'case6', date_of_birth: Date.new(2012, 2, 29)) # leap year
+      @case7 = Child.create(name: 'case7', date_of_birth: Date.new(2012, 2, 14)) # leap year
+      @case8 = Child.create(name: 'case8', date_of_birth: Date.new(2012, 10, 11)) # leap year
+      @case9 = Child.create(name: 'case9', date_of_birth: Date.new(2015, 3, 1))
+      @case10 = Child.create(name: 'case10', date_of_birth: Date.new(2014, 10, 10))
+      @case11 = Child.create(name: 'case11', date_of_birth: Date.new(2010, 2, 28)) # leap year
+    end
+
+    context 'when current date is non-leap year 2015' do
+      before :each do
+        Date.stub(:current).and_return(Date.new(2015, 10, 11))
+        Date.stub(:yesterday).and_return(Date.new(2015, 10, 10))
+      end
+
+      it 'should find cases with birthdays today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).to include(@case1, @case2, @case8)
+      end
+
+      it 'should not find cases with birthdays not today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).not_to include(@case3, @case4, @case5, @case6, @case7)
+      end
+
+      it 'should find cases within a date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).to include(@case1, @case2, @case8, @case10)
+      end
+
+      it 'should not find cases that fall outside the given date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).not_to include(@case3, @case4, @case5, @case6, @case7)
+      end
+
+      it 'should calculate age with birthday tomorrow' do
+        expect(@case5.calculated_age).to eq(0)
+      end
+
+      it 'should calculate age with birthday on leap day' do
+        expect(@case6.calculated_age).to eq(3)
+      end
+
+      it 'should calculate age with birthday not on leap day' do
+        expect(@case1.calculated_age).to eq(5)
+      end
+    end
+
+    context 'when current date is March 1 on non-leap year' do
+      before :each do
+        Date.stub(:current).and_return(Date.new(2015, 3, 1))
+        Date.stub(:yesterday).and_return(Date.new(2015, 2, 28))
+      end
+
+      it 'should find cases with birthdays today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).to include(@case9)
+      end
+
+      it 'should not find cases with birthdays not today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case10, @case11)
+      end
+
+      it 'should find cases within a date range, including leap day' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).to include(@case6, @case9, @case11)
+      end
+
+      it 'should not find cases that fall outside the given date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case10)
+      end
+
+      it 'should calculate age with birthday today' do
+        expect(@case9.calculated_age).to eq(0)
+      end
+
+      it 'should calculate age with birthday on leap day' do
+        expect(@case6.calculated_age).to eq(3)
+      end
+
+      it 'should calculate age with birthday not on leap day' do
+        expect(@case1.calculated_age).to eq(4)
+      end
+    end
+
+    context 'when current date is leap year 2016' do
+      before :each do
+        Date.stub(:current).and_return(Date.new(2016, 2, 29))
+        Date.stub(:yesterday).and_return(Date.new(2016, 2, 28))
+      end
+
+      it 'should find cases with birthdays today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).to include(@case6)
+      end
+
+      it 'should not find cases with birthdays not today' do
+        expect(Child.by_date_of_birth_range(Date.current, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9)
+      end
+
+      it 'should find cases within a date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).to include(@case6, @case11)
+      end
+
+      it 'should not find cases that fall outside the given date range' do
+        expect(Child.by_date_of_birth_range(Date.yesterday, Date.current)).not_to include(@case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9, @case10)
+      end
+
+      it 'should calculate age with birthday tomorrow' do
+        expect(@case9.calculated_age).to eq(0)
+      end
+
+      it 'should calculate age with birthday on leap day' do
+        expect(@case6.calculated_age).to eq(4)
+      end
+
+      it 'should calculate age with birthday not on leap day' do
+        expect(@case1.calculated_age).to eq(5)
       end
     end
   end

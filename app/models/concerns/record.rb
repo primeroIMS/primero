@@ -3,17 +3,42 @@ require 'forms_to_properties'
 module Record
   extend ActiveSupport::Concern
 
-
   require "uuidtools"
   include PrimeroModel
   include Extensions::CustomValidator::CustomFieldsValidator
-  include RapidFTR::Clock
+  include Primero::Clock
   include Historical
   include Syncable
+  include SyncableMobile
   include Importable
+
+  EXPORTABLE_FIELD_TYPES = [
+      Field::TEXT_FIELD,
+      Field::TEXT_AREA,
+      Field::RADIO_BUTTON,
+      Field::SELECT_BOX,
+      Field::CHECK_BOXES,
+      Field::NUMERIC_FIELD,
+      Field::DATE_FIELD,
+      Field::DATE_RANGE,
+      Field::TICK_BOX,
+      Field::TALLY_FIELD,
+      Field::SUBFORM
+  ]
 
   included do
     before_create :create_identification
+    #TODO: Will this be around in production as well? In Prod we are deferring to the notifier to index
+    after_save :index_nested_reportables
+    after_destroy :unindex_nested_reportables
+
+    #This code allows all models that implement records to mark all explicit properties as protected
+    class_attribute(:primero_protected_properties)
+    self.primero_protected_properties = []
+    def self.property(name, *options, &block)
+      primero_protected_properties << name
+      couchrest_model_property(name, *options, &block)
+    end
 
     property :unique_identifier
     property :duplicate, TrueClass
@@ -22,15 +47,18 @@ module Record
     property :flag_at, DateTime
     property :reunited_at, DateTime
     property :record_state, TrueClass, default: true
+    property :marked_for_mobile, TrueClass, default: false
 
     class_attribute(:form_properties_by_name)
     class_attribute(:properties_by_form)
+
     self.form_properties_by_name = {}
     self.properties_by_form = {}
 
     create_form_properties
 
     FormSection.add_observer(self, :handle_form_changes)
+    ConfigurationBundle.add_observer(self, :handle_form_changes)
 
     validate :validate_duplicate_of
     validates_with FieldValidator, :type => Field::NUMERIC_FIELD, :min => 0, :max => 130, :pattern_name => /_age$|age/
@@ -55,6 +83,14 @@ module Record
                     if (doc.hasOwnProperty('short_id'))
                    {
                       emit(doc['short_id'], null);
+                   }
+                }"
+
+      view :by_owned_by,
+           :map => "function(doc) {
+                    if (doc.hasOwnProperty('owned_by'))
+                   {
+                      emit(doc['owned_by'], null);
                    }
                 }"
 
@@ -91,6 +127,7 @@ module Record
 
     end
   end
+
 
   module ClassMethods
     include FormToPropertiesConverter
@@ -149,6 +186,7 @@ module Record
     end
 
     def handle_form_changes(*args)
+      Rails.logger.info("Refreshing properties from forms for #{parent_form}")
       refresh_form_properties
     end
 
@@ -160,24 +198,26 @@ module Record
     def remove_form_properties
       properties_by_form.clear
       form_properties_by_name.each do |name, prop|
-        properties_by_name.delete(name)
-        properties.delete(prop)
+        unless primero_protected_properties.include? name.to_sym
+          properties_by_name.delete(name)
+          properties.delete(prop)
 
-        if method_defined?(name)
-          remove_method(name)
-        end
-
-        %w(= ?).each do |suffix|
-          if method_defined?("#{name}#{suffix}")
-            remove_method("#{name}#{suffix}")
+          if method_defined?(name)
+            remove_method(name)
           end
-        end
 
-        if prop.alias
-          remove_method("#{prop.alias}=")
-        end
+          %w(= ?).each do |suffix|
+            if method_defined?("#{name}#{suffix}")
+              remove_method("#{name}#{suffix}")
+            end
+          end
 
-        #TODO: also remove validations
+          if prop.alias
+            remove_method("#{prop.alias}=")
+          end
+
+          #TODO: also remove validations
+        end
       end
     end
 
@@ -186,14 +226,16 @@ module Record
       FormSection.link_subforms(form_sections)
 
       if form_sections.length == 0
-        Rails.logger.warn "This controller's parent_form (#{parent_form}) doesn't have any FormSections!"
+        Rails.logger.warn "This model's parent_form (#{parent_form}) doesn't have any FormSections!"
       end
 
       properties_hash_from_forms(form_sections).each do |form_name, props|
         properties_by_form[form_name] ||= {}
 
         props.each do |name, options|
-          property name.to_sym, options
+          unless primero_protected_properties.include? name.to_sym
+            couchrest_model_property name.to_sym, options #using the original property to ensure that its not protected
+          end
           properties_by_form[form_name][name] = form_properties_by_name[name] = properties_by_name[name]
         end
       end
@@ -216,6 +258,10 @@ module Record
     def create_new_model(attributes={}, current_user=nil)
       new_with_user_name(current_user, attributes)
     end
+
+    #Override in implementing class
+    def minimum_reportable_fields ; {} ; end
+    def nested_reportable_types ; [] ; end
 
     # Attributes is just a hash
     def get_unique_instance(attributes)
@@ -352,25 +398,44 @@ module Record
   end
 
   def allowed_formsections(user)
-    permitted_forms = FormSection.get_permitted_form_sections(self.module, self.class.parent_form, user)
-    FormSection.link_subforms(permitted_forms)
-    visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-    FormSection.group_forms(visible_forms)
+    FormSection.get_allowed_visible_forms_sections(self.module, self.class.parent_form, user)
   end
 
   # Returns all of the properties that the given user is permitted to view/edit
-  def permitted_properties(user)
+  # read_only_user params is to indicate the user should not see properties
+  # that don't display on the show page.
+  def permitted_properties(user, read_only_user = false)
     permitted = []
     fss = allowed_formsections(user)
     if fss.present?
       permitted_forms = fss.values.flatten.map {|fs| fs.name }
       permitted = self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
+      if read_only_user
+        permitted_fields = fss.map{|k, v| v.map{|v| v.fields.map{|f| f.name if f.showable?} } }.flatten.compact
+        permitted = permitted.select{|p| permitted_fields.include?(p.name)}
+      end
     end
     return permitted
   end
 
-  def permitted_property_names(user)
-    permitted_properties(user).map {|p| p.name }
+  def permitted_property_names(user, read_only_user = false)
+    permitted_properties(user, read_only_user).map {|p| p.name }
+  end
+
+  def index_nested_reportables
+    self.class.nested_reportable_types.each do |type|
+      if self.try(type.record_field_name).present?
+        Sunspot.index! type.from_record(self)
+      end
+    end
+  end
+
+  def unindex_nested_reportables
+    self.class.nested_reportable_types.each do |type|
+      if self.try(type.record_field_name).present?
+        Sunspot.remove! type.from_record(self)
+      end
+    end
   end
 
   protected

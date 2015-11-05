@@ -40,11 +40,10 @@ transitions_subform = [
                "editable"=>false,
                "display_name_all" => "Is the referral or transfer to a remote system?",
               }),
-    Field.new({"name" => "is_remote_primero",
-               "type" => "tick_box",
-               "tick_box_label_all" => "Yes",
+    Field.new({"name" => "type_of_export",
+               "type" => "text_field",
                "editable"=>false,
-               "display_name_all" => "Is the remote system a Primero instance?",
+               "display_name_all" => "What type of export do you want",
               }),
     Field.new({"name" => "consent_overridden",
                "type" => "tick_box",
@@ -76,10 +75,11 @@ transitions = FormSection.create_or_update_form_section({
 
 referral_transfer_fields = [
   Field.new({"name" => "transitions",
-             "type" => "subform", 
+             "type" => "subform",
              "editable" => false,
              "subform_section_id" => transitions.unique_id,
-             "display_name_all" => "Transfers and Referrals"
+             "display_name_all" => "Transfers and Referrals",
+             "subform_sort_by" => "created_at"
             })
 ]
 

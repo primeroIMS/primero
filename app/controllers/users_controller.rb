@@ -6,6 +6,8 @@ class UsersController < ApplicationController
 
   before_filter :clean_role_ids, :only => [:update, :create]
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
+  before_filter :agency_names, :only => [:new, :create, :edit, :update]
+  before_filter :location_names, :only => [:new, :create, :edit, :update]
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
 
@@ -158,6 +160,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def agency_names
+    @agency_names = Agency.available_agency_names
+  end
+
+  def location_names
+    @location_names = Location.all_names
+  end
+
   def clean_role_ids
     params[:user][:role_ids] = clean_params(params[:user][:role_ids]) if params[:user][:role_ids]
   end
@@ -173,7 +183,9 @@ class UsersController < ApplicationController
   end
 
   def load_lookups
-    @roles = Role.all
+    #Only fetch the ROLES that this user is allowed to assign
+    @roles = Role.all.select{|r| can? :assign, r}
+
     @modules = PrimeroModule.all
     @user_groups = UserGroup.all
   end

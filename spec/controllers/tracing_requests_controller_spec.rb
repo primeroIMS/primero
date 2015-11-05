@@ -292,7 +292,8 @@ describe TracingRequestsController do
         TracingRequest.all.each{|t| t.destroy}
         Sunspot.remove_all!
 
-        roles = [Role.new(permissions: [Permission::TRACING_REQUEST, Permission::READ])]
+        @permission_tracing_request_read = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ])
+        roles = [Role.new(permissions_list: [@permission_tracing_request_read])]
 
         @case_worker1 = create(:user)
         @case_worker1.stub(:roles).and_return(roles)
@@ -329,6 +330,38 @@ describe TracingRequestsController do
         flash[:notice].should == "No Records Available!"
       end
     end
+
+    describe "Display manager information", skip_session: true do
+      render_views
+
+      it "should display information for user manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["tracing_request"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => true)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should appears in the body if the user is a manager.
+      response.body.should match(/<h3>Field\/Case\/Social Worker:<\/h3>/)
+      end
+
+      it "should not display information for user not manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["tracing_request"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => false)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should not appears in the body if the user is not a manager.
+        response.body.should_not match(/<h3>Field\/Case\/Social Worker:<\/h3>/)
+      end
+
+    end
+
   end
 
   describe "GET show" do

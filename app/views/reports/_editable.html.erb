@@ -1,5 +1,5 @@
-<%= resource_edit_field(object, 'name', 'name', 'text_field', true) %>
-<%= resource_edit_field(object, 'description', 'description', 'text_area') %>
+<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true) %>
+<%= resource_edit_field(object, 'description', 'report.description', 'text_area') %>
 <%# Modules input %>
 <div class="row">
   <div class="medium-3 columns">
@@ -60,9 +60,7 @@
       <%= form_builder.select(
             :aggregate_by,
             grouped_options_for_select(
-              select_options_fields_grouped_by_form(
-                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
-              ),
+              select_options_fields_grouped_by_form(@reportable_fields),
               @report.aggregate_by
             ),
             {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
@@ -86,9 +84,7 @@
       <%= form_builder.select(
             :disaggregate_by,
             grouped_options_for_select(
-              select_options_fields_grouped_by_form(
-                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user)
-              ),
+              select_options_fields_grouped_by_form(@reportable_fields),
               @report.disaggregate_by
             ),
             {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
@@ -112,9 +108,7 @@
       <%= form_builder.select(
             :aggregate_counts_from,
             grouped_options_for_select(
-              select_options_fields_grouped_by_form(
-                Report.all_reportable_fields_by_form(@report.modules, @report.record_type, @current_user, Report::AGGREGATE_COUNTS_FIELD_TYPES)
-              ),
+              select_options_fields_grouped_by_form(@reportable_fields_aggregate_counts_from),
               @report.aggregate_counts_from
             ),
             {include_blank: t("fields.select_box_empty_item")}, {:'data-placeholder' => t("fields.select_box_empty_item")}

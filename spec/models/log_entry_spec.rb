@@ -3,7 +3,7 @@ require "spec_helper"
 describe LogEntry do
 
 	it "should save with creation timestamp" do
-		RapidFTR::Clock.stub(:current_formatted_time).and_return("this is now")
+		Primero::Clock.stub(:current_formatted_time).and_return("this is now")
 
                 # changed :format to :export_format because format is a reserved word
                 # Searched through code and could not see anywhere other than in the specs where :format was being used

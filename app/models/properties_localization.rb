@@ -1,8 +1,9 @@
 module PropertiesLocalization
 
   module ClassMethods
+
     def localize_properties(properties)
-      RapidFTR::Application::locales.each do |locale|
+      Primero::Application::locales.each do |locale|
         properties.each { |key| property "#{key}_#{locale}" }
       end
 
@@ -22,13 +23,22 @@ module PropertiesLocalization
         end
 
         define_method "#{method}_all=" do |value|
-          RapidFTR::Application::locales.each do |locale|
+          Primero::Application::locales.each do |locale|
             self.send "#{method}_#{locale}=", value
           end
         end
       end
+      @localized_properties ||= []
+      @localized_properties += properties
     end
+
+    def localized_properties
+      @localized_properties
+    end
+
   end
+
+
 
   def self.included klass
     klass.extend ClassMethods
@@ -45,7 +55,7 @@ module PropertiesLocalization
       property_value = property_value.gsub(/\r\n?/, "\n").rstrip if property_value.is_a?(String)
 
       next if property_value.nil?
-      if RapidFTR::Application::locales.include? locale.to_s
+      if Primero::Application::locales.include? locale.to_s
         properties_hash[property_name] = properties_hash[property_name].nil? ? {locale => property_value} : properties_hash[property_name].merge!({locale => property_value})
       else
         properties_hash[property] = property_value

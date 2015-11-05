@@ -6,4 +6,4 @@ require 'rake'
 require 'rake/dsl_definition'
 
 include Rake::DSL
-RapidFTR::Application.load_tasks
+Primero::Application.load_tasks

@@ -6,9 +6,11 @@ class Location < CouchRest::Model::Base
   include Namable
   include Memoizable
 
-  BASE_TYPES = ['country', 'region', 'province', 'county', 'state', 'city', 'camp', 'site' 'village', 'zone', 'other']
+  #TODO - I18n
+  BASE_TYPES = ['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other']
 
   property :placename #This is the individual placename
+  property :location_code
   property :type
   property :hierarchy, type: [String]
   property :hierarchical_name, read_only: true
@@ -28,6 +30,11 @@ class Location < CouchRest::Model::Base
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
+  #TODO - add this validation back after seeds are cleaned up
+  #       currently only the Sierra Leone location seed has location_code
+  #       none of the other location seeds have location_code
+  # NOTE that commenting this out causes rspec test related to requiring location_code to fail
+  #validates_presence_of :location_code, :message => I18n.t("errors.models.#{self.name.underscore}.code_present")
 
   before_save do
     self.name = self.hierarchical_name
@@ -59,7 +66,9 @@ class Location < CouchRest::Model::Base
     def find_by_location(placename)
       #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
       location = Location.by_placename(key: placename).all[0..0]
-      return location + location.first.descendants
+      if location.present?
+        return location + location.first.descendants
+      end
     end
     memoize_in_prod :find_by_location
 
@@ -102,6 +111,18 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_types_in_hierarchy
 
+    def all_names
+      self.all.map{|r| r.name}
+    end
+    memoize_in_prod :all_names
+
+    def get_admin_level_from_string(location, admin_type)
+      location = Location.placename_from_name(location)
+      location_obj = Location.find_by_location(location)
+      admin_type = location_obj.present? ? location_obj.first.admin_level(admin_type) : nil
+      return admin_type.present? ? admin_type.placename : nil
+    end
+
   end
 
   def hierarchical_name
@@ -117,6 +138,36 @@ class Location < CouchRest::Model::Base
     response = response.present? ? response.all : []
     return response
   end
+
+  def ancestor_names
+    ancestors = []
+
+    self.hierarchy.each_with_index {|item, index|
+      if index == 0
+        ancestors[index] = item
+      else
+        ancestors[index] = "#{ancestors[index-1]}::#{item}"
+      end
+    }
+    return ancestors
+  end
+
+  def ancestors
+    response = Location.by_name(keys: self.ancestor_names)
+    response = response.present? ? response.all : []
+    return response
+  end
+
+  def ancestor_by_type(type)
+    if self.type == type
+      return self
+    else
+      response = self.ancestors.select{|lct| lct.type == type}
+      return response.first
+    end
+  end
+
+  alias admin_level ancestor_by_type
 
   def set_parent(parent)
     #Figure out the new hierarchy

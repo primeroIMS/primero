@@ -49,6 +49,7 @@ FactoryGirl.define do
 
   factory :location, :traits => [ :model ] do
     placename { "location_#{counter}"}
+    location_code { "code_#{counter}"}
     description { "location_#{counter}"}
   end
 
@@ -81,10 +82,11 @@ FactoryGirl.define do
   factory :user, :traits => [ :model ] do
     user_name { "user_name_#{counter}" }
     full_name 'full name'
-    password 'password'
-    password_confirmation 'password'
+    password 'passw0rd'
+    password_confirmation 'passw0rd'
     email 'email@ddress.net'
     organization 'TW'
+    location 'Sierra Leone::Southern::Bonthe::Jong'
     disabled false
     verified true
     role_ids ['random_role_id']
@@ -95,7 +97,7 @@ FactoryGirl.define do
   factory :role, :traits => [ :model ] do
     name { "test_role_#{counter}" }
     description "test description"
-    permissions { Permission.all }
+    permissions_list { Permission.all_permissions_list }
   end
 
   factory :form_section, :traits => [:model] do

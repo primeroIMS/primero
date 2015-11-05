@@ -54,24 +54,72 @@ describe FormSectionController do
     Role.all.each &:destroy
 
     @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: "case")
-    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: "case")
-    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: "case")
-    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
+    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: "case", mobile_form: true)
+    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: "case", mobile_form: true)
+    @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: "case", mobile_form: true, fields: [
+      Field.new(name: "nested_e", type: "subform", subform_section_id: "E", display_name_all: "nested_e")
+    ])
+    @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", is_nested: true, visible: false, fields: [
+      Field.new(name: "field1", type: "text_field", display_name_all: "field1")
+    ])
+    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B", "D"], associated_record_types: ['case'])
     user = User.new(:user_name => 'manager_of_forms', module_ids: [@primero_module.id])
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
+    @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+    user.stub(:roles).and_return([Role.new(permissions_list: [@permission_metadata])])
     fake_login user
   end
 
   describe "get index" do
     it "populate the view with all the form sections in order ignoring enabled or disabled" do
-      forms = [@form_section_a, @form_section_b]
+      forms = [@form_section_a, @form_section_b, @form_section_d]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-
       get :index, :module_id => @primero_module.id, :parent_form => 'case'
-
       assigns[:form_sections].should == grouped_forms
     end
+
+    describe "mobile API" do
+      it "only shows mobile forms" do
+        get :index, mobile: true, :format => :json
+        expect(assigns[:form_sections]['Children'].size).to eq(2)
+        expect(assigns[:form_sections]['Children']).not_to be_nil
+        expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
+      end
+
+      it "sets null values on forms to be an empty string" do
+        get :index, mobile: true, :format => :json
+        expect(assigns[:form_sections]['Children'].first[:help_text]['en']).to eq('')
+      end
+
+      it "will only display requested locales if queried with a valid locale" do
+        get :index, mobile: true, locale: 'en',  :format => :json
+        expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
+        expect(assigns[:form_sections]['Children'].first[:name]['fr']).to be_nil
+      end
+
+      it "will display all locales if queried with an invalid locale" do
+        get :index, mobile: true, locale: 'ABC',  :format => :json
+        expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
+        expect(assigns[:form_sections]['Children'].first[:name].keys).to match_array(Primero::Application::locales)
+      end
+
+      it "will embed the entire nested subform inside the top-level form" do
+        get :index, mobile: true, :format => :json
+        form_with_nested = assigns[:form_sections]['Children'].find{|f| f['unique_id'] == 'D'}
+        field_with_nested = form_with_nested['fields'].find{|f| f['name'] == 'nested_e'}
+        nested = field_with_nested['subform']
+        expect(nested['unique_id']).to eq('E')
+      end
+    end
   end
+
+
+  describe "forms API", :type => :request do
+    it "gets the forms as JSON if accessed through the API url" do
+      get '/api/forms'
+      expect(response.content_type.to_s).to eq('application/json')
+    end
+  end
+
   describe "post create" do
     it "should new form_section with order" do
       existing_count = FormSection.count
@@ -124,7 +172,7 @@ describe FormSectionController do
     it "should save update if valid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1").and_return(form_section)
+      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(true)
       form_section.should_receive(:save!)
@@ -135,7 +183,7 @@ describe FormSectionController do
     it "should show errors if invalid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1").and_return(form_section)
+      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(false)
       post :update, :form_section => params, :id => "form_1"

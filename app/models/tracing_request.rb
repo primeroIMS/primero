@@ -2,7 +2,7 @@ class TracingRequest < CouchRest::Model::Base
   use_database :tracing_request
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   include Record
   include Ownable
@@ -66,6 +66,14 @@ class TracingRequest < CouchRest::Model::Base
 
   def self.view_by_field_list
     ['created_at', 'relation_name']
+  end
+
+  def self.minimum_reportable_fields
+    {
+      'boolean' => ['record_state'],
+       'string' => ['inquiry_status'],
+         'date' => ['inquiry_date']
+    }
   end
 
   def tracing_names

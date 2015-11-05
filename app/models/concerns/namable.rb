@@ -16,7 +16,7 @@ module Namable
               }"
     end
 
-    validates_presence_of :name, :message => I18n.t("errors.models.#{self.name.underscore}.name_present"), :if => :name
+    validates_presence_of :name, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
     validate :is_name_unique, :if => :name
 
     before_save :generate_id

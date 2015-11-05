@@ -20,7 +20,6 @@
       <%= label_tag checkbox_id, option.option_name %>
       <br>
     <% end %>
+    <% if check_boxes.help_text.present? %><p class="help"><%= check_boxes.help_text  %></p><% end %>
   </div>
-
-  <%= image_tag "new/icon_help.png", title: check_boxes.help_text, class: 'tool-tip-icon vtip' if check_boxes.help_text.present? %>
 </div>

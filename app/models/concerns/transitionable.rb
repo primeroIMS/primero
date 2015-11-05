@@ -7,7 +7,7 @@ module Transitionable
 
 
     def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, notes,
-                       is_remote, is_remote_primero, user_name, consent_overridden, service = "")
+                       is_remote, type_of_export, user_name, consent_overridden, service = "")
       transition = Transition.new(
                     :type => transition_type,
                     :to_user_local => to_user_local,
@@ -16,7 +16,7 @@ module Transitionable
                     :transitioned_by => user_name,
                     :notes => notes,
                     :is_remote => is_remote,
-                    :is_remote_primero => is_remote_primero,
+                    :type_of_export => type_of_export,
                     :service => service,
                     :consent_overridden => consent_overridden,
                     :created_at => DateTime.now)

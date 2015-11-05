@@ -187,7 +187,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({"child_status"=>{:type=>"single", :value=>"Open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:children].should == collection
@@ -200,7 +200,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}, "child_status"=>{:type => "single", :value => "Open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all", "format" => "unhcr_csv"}
         get :index, params
         assigns[:children].should == collection
@@ -210,7 +210,7 @@ describe ChildrenController do
 
     shared_examples_for "Export List" do |user_type|
       before do
-        @session = fake_login_as
+        @session = fake_admin_login
       end
 
       it "should export columns in the current list view for #{user_type} user" do
@@ -219,7 +219,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
-        Child.should_receive(:list_records).with({"child_status"=>{:type=>"single", :value=>"Open"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil, nil).and_return(search)
 
         #User
         @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)
@@ -351,8 +351,8 @@ describe ChildrenController do
         Child.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-
-        roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
+        permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        roles = [Role.new(permissions_list: [permission_case])]
 
         Child.any_instance.stub(:child_status).and_return("Open")
         @case_worker1 = create(:user)
@@ -376,29 +376,28 @@ describe ChildrenController do
       end
 
     end
-    
+
     describe "phonetic search", search: true, skip_session: true do
-    
+
       before do
-
-        #Sunspot.setup(Child) {text 'name_nickname', as: "*_ph".to_sym}
-        #Sunspot.setup(Child) {text 'name_othername', as: "*_ph".to_sym}
-        #Sunspot.setup(Child) {text 'name', as: "*_ph".to_sym}
-
-        Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
+        #TODO For some reason needs to reload the phonetic fields
+        #     without those fields phonetic search will not work.
+        #     When run only children_controller_spec the phonetic
+        #     fields are there, but when run all the test cases
+        #     phonetic fields are not there.
+        Sunspot.setup(Child) do
+          Child.searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
+        end
 
         User.all.each{|u| u.destroy}
         Child.all.each{|c| c.destroy}
         Sunspot.remove_all!
 
-
-        roles = [Role.new(permissions: [Permission::CASE, Permission::READ])]
-
-        Child.any_instance.stub(:child_status).and_return("Open")
+        permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        roles = [Role.new(permissions_list: [permission_case])]
         @case_worker = create(:user)
         @case_worker.stub(:roles).and_return(roles)
-        
-      end    
+      end
 
       context "when search query is the exact english name" do
         it "should find english name" do
@@ -409,16 +408,16 @@ describe ChildrenController do
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-          
+
           Sunspot.commit
-          
+
           session = fake_login @case_worker
-          
+
           params = {"query" => @children_cases.first.name}
           get :index, params
-          
+
           expect(assigns[:children]).to match_array([@children_cases.first])
-          
+
         end
       end
 
@@ -431,38 +430,38 @@ describe ChildrenController do
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-          
+
           Sunspot.commit
-          
+
           session = fake_login @case_worker
 
           params = {"query" => "Chris"}
           get :index, params
           expect(assigns[:children]).to match_array([])
-          
+
           params = {"query" => "Mike"}
           get :index, params
           expect(assigns[:children]).to match_array([])
-          
+
         end
       end
 
       context "when search query is a Mahmoud name variant" do
         it "should find all names" do
           names = ["Mahmoud", "Mahmud", "Mahmood"]
-          
+
           @children_cases = []
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-          
+
           Sunspot.commit
-          
+
           session = fake_login @case_worker
           params = {"query" => @children_cases.first.name}
           get :index, params
-          
+
           expect(assigns[:children]).to have(@children_cases.count).things
 
         end
@@ -470,21 +469,21 @@ describe ChildrenController do
 
       context "when query search is Abdul prefix" do
         it "shoud find at least 20" do
-        
+
           #29 arabic names with Abdul prefix
           names = ["Abdul-Baseer","Abdul-Basir", "Abdul-Basit", "Abdul-Batin", "Abdul-Dhahir", "Abdul-Fattah", "Abdul-Ghafaar", "Abdul-Ghaffar", "Abdul-Ghaffar", "Abdul-Ghafoor", "Abdul-Ghafur", "Abdul-Ghafur", "Abdul-Ghani", "Abdul-Ghani", "Abdul-Hadi", "Abdul-Hadi", "Abdul-Hafeedh", "Abdul-Hafeez", "Abdul-Hafiz", "Abdul-Hakam", "Abdul-Hakeem", "Abdul-Hakeem", "Abdul-Hakim", "Abdul-Haleem", "Abdul Haleem", "Abdul-Halim", "Abdul-Hameed", "Abdul-Hameed", "Abdul-Hamid"]
-          
+
           @children_cases = []
-          
+
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-        
+
           Sunspot.commit
-        
+
           session = fake_login @case_worker
-          
+
           params = {"query" => "Abdool"}
           get :index, params
           expect(assigns[:children]).to have_at_least(20).things
@@ -494,20 +493,20 @@ describe ChildrenController do
 
       context "when there is a compound name with space or dash" do
         it "shoud find compound name first and second name phonetically" do
-        
+
           #29 arabic names with Abdul prefix
           names = ["Abdul Haseeb", "Abdul-Nasser"]
-          
+
           @children_cases = []
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-        
+
           Sunspot.commit
-        
+
           session = fake_login @case_worker
-          
+
           params = {"query" => "Abdool"}
           get :index, params
           expect(assigns[:children]).to have(2).things
@@ -520,14 +519,14 @@ describe ChildrenController do
           params = {"query" => "Nassir"}
           get :index, params
           expect(assigns[:children]).to match_array([@children_cases.last])
- 
+
           params = {"query" => "Abdool-Hasib"}
           get :index, params
           expect(assigns[:children]).to match_array([@children_cases.first])
 
           params = {"query" => "Abdool Nassir"}
           get :index, params
-          expect(assigns[:children]).to match_array([@children_cases.last])
+          expect(assigns[:children]).to match_array([@children_cases.first, @children_cases.last])
         end
       end
     end
@@ -544,6 +543,233 @@ describe ChildrenController do
         get :index, @params
         flash[:notice].should == "No Records Available!"
       end
+    end
+
+    describe "Display manager information", skip_session: true do
+      render_views
+
+      it "should display information for user manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => true)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module], [p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should appears in the body if the user is a manager.
+        response.body.should match(/<h3>Field\/Case\/Social Worker:<\/h3>/)
+        response.body.should match(/<th\s+(.*)>\s*Social Worker\s*<\/th>/)
+
+        #That header should not appears in the body if the user is a manager.
+        response.body.should_not match(/<th\s+(.*)>\s*Name\s*<\/th>/)
+        response.body.should_not match(/<th\s+(.*)>\s*Survivor Code\s*<\/th>/)
+      end
+
+      it "should not display information for user not manager" do
+        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
+        user = User.new(:user_name => 'fakeadmin', :is_manager => false)
+        session = fake_admin_login user
+        user.should_receive(:modules).and_return([p_module], [p_module])
+        user.should_receive(:has_module?).with(anything).and_return(true, true, true)
+
+        get :index
+
+        #That header should not appears in the body if the user is not a manager.
+        response.body.should_not match(/<h3>Field\/Case\/Social Worker:<\/h3>/)
+        response.body.should_not match(/<th\s+(.*)>\s*Social Worker\s*<\/th>/)
+
+        #That header should appears in the body if the user is not a manager.
+        response.body.should match(/<th\s+(.*)>\s*Name\s*<\/th>/)
+        response.body.should match(/<th\s+(.*)>\s*Survivor Code\s*<\/th>/)
+      end
+    end
+
+    describe "Filter", search: true, skip_session: true do
+
+      before :each do
+        @user = fake_admin_login User.new(:user_name => 'test_user')
+
+        FormSection.all.each &:destroy
+        fields = [
+            Field.new({"name" => "child_status",
+                       "type" => "text_field",
+                       "display_name_all" => "Child Status"
+                      }),
+            Field.new({"name" => "marked_for_mobile",
+                     "type" => "tick_box",
+                     "tick_box_label_all" => "Yes",
+                     "display_name_all" => "Marked for mobile?",
+                     "create_property" => false
+                    }),
+            Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_all" => "Age"
+                    })]
+        form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+            )
+        form.save!
+        Child.any_instance.stub(:field_definitions).and_return(fields)
+        Child.refresh_form_properties
+
+        Sunspot.setup(Child) do
+          string 'child_status', as: "child_status_sci".to_sym
+          boolean 'marked_for_mobile', as: 'marked_for_mobile_b'.to_sym
+          integer 'age', as: 'age_i'.to_sym
+        end
+
+        Child.all.each &:destroy
+
+        Sunspot.remove_all!
+
+        create(:child, name: "Name 1", child_status: "Open", age: "5")
+        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe')
+        create(:child, name: "Name 3", child_status: "Closed", age: "7")
+        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe')
+        create(:child, name: "Name 5", child_status: "Closed", age: "15")
+        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2', owned_by_location_district: 'Port Loko')
+        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location_district: 'Port Loko')
+        create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false)
+        create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true)
+        @child_mobile_10= create(:child, name: "Name 10", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4')
+        @child_mobile_11 = create(:child, name: "Name 11", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4')
+
+        Sunspot.commit
+      end
+
+      after :all do
+        FormSection.all.each &:destroy
+        Child.all.each &:destroy
+        Sunspot.remove_all!
+        Sunspot.commit
+        Child.remove_form_properties
+      end
+
+      context "by age range" do
+        it "should filter by one range" do
+          params = {"scope" => {"child_status" => "list||Open", "age" => "range||6-11"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(1)
+          expect(assigns[:children].first).to eq(@child_age_7)
+        end
+
+        it "should filter more than one range" do
+          params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||6-11||12-17"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(2)
+          expect(assigns[:children]).to eq([@child_age_7, @child_age_15])
+        end
+
+        it "should filter with open range" do
+          params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||18 "}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(1)
+          expect(assigns[:children].first).to eq(@child_age_21)
+        end
+      end
+
+      context "by mobile" do
+        it "should filter by marked for mobile true" do
+          params = {"scope" => {"child_status" => "list||Open", "marked_for_mobile" => "single||true"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "marked_for_mobile"=>{:type=>"single", :value=>true}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(2)
+          expect(assigns[:children]).to include(@child_mobile_10, @child_mobile_11)
+        end
+      end
+
+      context "by agency" do
+        it "should filter by agency agency_1" do
+          params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1"]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(2)
+          expect(assigns[:children]).to include(@child_age_7, @child_age_15)
+        end
+
+        it "should filter by agency agency_1 and agency_4" do
+          params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1||agency-4"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1", "agency-4"]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(4)
+          expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
+        end
+      end
+
+      context "by_district" do
+        it "should filter by district Bonthe" do
+          params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
+          get :index, params
+
+          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
+          expect(assigns[:filters]).to eq(filters)
+          expect(assigns[:children].length).to eq(2)
+          expect(assigns[:children]).to include(@child_age_7, @child_age_15)
+        end
+      end
+    end
+  end
+
+  describe "Search terms", search: true, skip_session: true do
+    before :each do
+      @user = fake_admin_login User.new(:user_name => 'test_user')
+      Child.all.each &:destroy
+      Sunspot.remove_all!
+      @child1 = create(:child, name: "Jonh Smith", child_status: "Open", owned_by: @user.user_name)
+      @child2 = create(:child, name: "James Carter", child_status: "Open", owned_by: @user.user_name)
+      Sunspot.commit
+    end
+
+    after :all do
+      Child.all.each &:destroy
+      Sunspot.remove_all!
+      Sunspot.commit
+    end
+
+    it "should treated as terms words separated by blank" do
+      params = {"query"=> "Robert Smith"}
+      get :index, params
+      expect(assigns[:children]).to match_array([@child1])
+
+      params = {"query"=> "Robert Smith Jonathan Carter"}
+      get :index, params
+      expect(assigns[:children]).to match_array([@child2, @child1])
+    end
+
+    it "should treated as phrase words double quoted" do
+      params = {"query"=> "\"Robert Smith\""}
+      get :index, params
+      expect(assigns[:children]).to match_array([])
+
+      params = {"query"=> "\"Jonh Smith\" \"James Carter\""}
+      get :index, params
+      expect(assigns[:children]).to match_array([@child2, @child1])
     end
   end
 
@@ -995,4 +1221,130 @@ describe ChildrenController do
 
 	end
 
+  describe "sort_subforms" do
+    before :each do
+      followup_subform_fields = [
+        Field.new({"name" => "followup_type",
+                   "type" => "select_box",
+                   "display_name_all" => "Type of follow up",
+                   "option_strings_text_all" =>
+                                ["Follow up After Reunification",
+                                 "Follow up in Care"].join("\n")
+                  }),
+        Field.new({"name" => "followup_date",
+                   "type" => "date_field",
+                   "display_name_all" => "Follow up date"
+                  })
+      ]
+
+      followup_subform_section = FormSection.create_or_update_form_section({
+        "visible" => false,
+        "is_nested" => true,
+        :order_form_group => 110,
+        :order => 20,
+        :order_subform => 1,
+        :unique_id => "followup_subform_section",
+        :parent_form=>"case",
+        "editable" => true,
+        :fields => followup_subform_fields,
+        :initial_subforms => 1,
+        "name_all" => "Nested Followup Subform",
+        "description_all" => "Nested Followup Subform",
+        "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
+      })
+
+      @followup_fields = [
+        Field.new({"name" => "followup_subform_section",
+                   "type" => "subform", "editable" => true,
+                   "subform_section_id" => followup_subform_section.unique_id,
+                   "display_name_all" => "Follow Up",
+                   "subform_sort_by" => "followup_date"
+                  })
+      ]
+
+      FormSection.create_or_update_form_section({
+        :unique_id => "followup",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 110,
+        :order => 20,
+        :order_subform => 0,
+        :form_group_name => "Services / Follow Up",
+        "editable" => true,
+        :fields => @followup_fields,
+        "name_all" => "Follow Up",
+        "description_all" => "Follow Up"
+      })
+    end
+
+    it "should sort subforms by the sort_subform_by on show page" do
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
+      params = {
+        "child" => {
+          "name" => "JoJo BamBeno",
+          "short_id" => 'short_id',
+          "created_by" => "uname",
+          "followup_subform_section"=> {
+            "0"=> {
+              "unique_id"=>"f9672710-b257-4cd8-896d-6eb8349bbef0",
+              "followup_type"=>"Follow up After Reunification",
+              "followup_date"=>"21-Sep-2015"
+            },
+            "1"=> {
+              "unique_id"=>"f5345966-7bf5-4621-8237-b31259f71260",
+              "followup_type"=>"Follow up in Care",
+              "followup_date"=>"08-Sep-2015"
+            },
+            "2"=> {
+              "unique_id"=>"85004f47-70d5-4b30-96c9-138666b36413",
+              "followup_type"=>"Follow up in Care",
+              "followup_date"=>"30-Sep-2015"
+            }
+          }
+        }
+      }
+      child = Child.new_with_user_name(user, params["child"])
+      child.save!
+      Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
+
+      get :show, :id => child.id
+      child_params = params["child"]["followup_subform_section"]
+      expect(assigns[:child][:followup_subform_section]).to eq([child_params["2"], child_params["0"], child_params["1"]])
+    end
+
+    it "should sort subforms by the sort_subform_by with nil dates at the top" do
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
+      params = {
+        "child" => {
+          "name" => "JoJo BamBeno",
+          "short_id" => 'short_id',
+          "created_by" => "uname",
+          "followup_subform_section"=> {
+            "0"=> {
+              "unique_id"=>"f9672710-b257-4cd8-896d-6eb8349bbef0",
+              "followup_type"=>"Follow up After Reunification",
+              "followup_date"=>"21-Sep-2015"
+            },
+            "1"=> {
+              "unique_id"=>"f5345966-7bf5-4621-8237-b31259f71260",
+              "followup_type"=>"Follow up in Care",
+              "followup_date"=>"nil"
+            },
+            "2"=> {
+              "unique_id"=>"85004f47-70d5-4b30-96c9-138666b36413",
+              "followup_type"=>"Follow up in Care",
+              "followup_date"=>"30-Sep-2015"
+            }
+          }
+        }
+      }
+      child = Child.new_with_user_name(user, params["child"])
+      child.save!
+      Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
+
+      get :show, :id => child.id
+      child_params = params["child"]["followup_subform_section"]
+      expect(assigns[:child][:followup_subform_section]).to eq([child_params["1"], child_params["2"], child_params["0"]])
+    end
+  end
 end

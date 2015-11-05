@@ -2,7 +2,7 @@ class Incident < CouchRest::Model::Base
   use_database :incident
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   include Record
   include Ownable
@@ -96,6 +96,14 @@ class Incident < CouchRest::Model::Base
 
   def self.view_by_field_list
     ['created_at', 'description']
+  end
+
+  def self.minimum_reportable_fields
+    {
+      'boolean' => ['record_state'],
+       'string' => ['status'],
+         'date' => ['incident_date_derived']
+    }
   end
 
   def set_instance_id

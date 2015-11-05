@@ -30,8 +30,10 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @current_user.should_receive(:modules).and_return([])
+          @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Status", "Age Range", "Sex", "Protection Status",
+                                                         "Flagged", "Mobile", "Status", "Age Range", "Sex", "Protection Status",
                                                          "Urgent Protection Concern", "Risk Level", "Current Location",
                                                          "Registration Date", "Record State", "Photo"
                                                         ]
@@ -55,11 +57,30 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @current_user.should_receive(:modules).and_return([])
+          @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Social Worker", "Status", "Age Range", "Sex", "Protection Status",
-                                                         "Urgent Protection Concern", "Risk Level", "Current Location",
-                                                         "Registration Date", "Record State", "Photo"
+                                                         "Flagged", "Mobile", "Social Worker", "Agency", "Status", "Age Range",
+                                                         "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
+                                                         "Current Location", "Registration Date", "Record State", "Photo"
                                                         ]
+        end
+      end
+
+      context "when the signed in user is a admin" do
+        before :each do
+          @view.instance_variable_set(:@is_admin, true)
+          @view.instance_variable_set(:@is_manager, true)
+        end
+
+        it "should return filters to show" do
+          @current_user.should_receive(:modules).and_return([])
+          @view.should_receive(:visible_filter_field?).and_return(true, true)
+          @view.index_filters_to_show('case').should == [
+              "Flagged", "Mobile", "Social Worker", "Agency", "Status", "Age Range",
+              "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
+              "Current Location", "District", "Registration Date", "Record State", "Photo"
+          ]
         end
       end
 
@@ -85,6 +106,8 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @current_user.should_receive(:modules).and_return([])
+          @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
                                                          "Flagged", "Status", "Age Range", "Sex", "GBV Displacement Status",
                                                          "Protection Status", "Case Open Date", "Record State"
@@ -106,8 +129,10 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @current_user.should_receive(:modules).and_return([])
+          @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Social Worker", "Status", "Age Range", "Sex", "GBV Displacement Status",
+                                                         "Flagged", "Social Worker", "Agency", "Status", "Age Range", "Sex", "GBV Displacement Status",
                                                          "Protection Status", "Case Open Date", "Record State"
                                                         ]
         end

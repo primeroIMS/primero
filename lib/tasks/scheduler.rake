@@ -52,6 +52,7 @@ namespace :scheduler do
 
     CleansingTmpDir.schedule scheduler
     ChildRiskLevelFollowUp.schedule scheduler
+    RecalculateAge.schedule scheduler
 
     logger.info 'Rufus scheduler initialized'
     scheduler.join

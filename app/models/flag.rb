@@ -9,7 +9,7 @@ class Flag
   property :flagged_by, String
   property :removed, TrueClass
   property :unflag_message, String
-  property :created_at, Date
+  property :created_at, DateTime
   property :system_generated_followup, TrueClass, :default => false
   property :id
 
@@ -19,7 +19,7 @@ class Flag
     date :flag_date, :stored => true do
       self.date.present? ? self.date : nil
     end
-    date :flag_created_at, :stored => true do
+    time :flag_created_at, :stored => true do
       self.created_at.present? ? self.created_at : nil
     end
     string :flag_message, :stored => true do

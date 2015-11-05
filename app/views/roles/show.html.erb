@@ -24,7 +24,7 @@
               <fieldset class="no-border">
                 <div class="row">
                   <div class="medium-4 columns">
-                    <%= f.label :name, t("name"), :class=>'key'  %>
+                    <%= f.label :name, t("role.name"), :class=>'key'  %>
                   </div>
                   <div class="medium-8 columns">
                     <span class="value"><%= @role.name %></span>
@@ -62,18 +62,40 @@
                 </div>
                 <div class="row">
                   <div class="medium-4 columns">
+                    <%= f.label :group_permission, t("role.group_permission_label"), :class=>'key'  %>
+                  </div>
+                  <div class="medium-8 columns">
+                    <label class="left">
+                      <%= select_tag "role[group_permission]",
+                                     options_for_select(translated_group_permissions.map{|p| [p[:value], p[:key]]},
+                                                        @role.group_permission),
+                                     disabled: true%>
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="medium-4 columns">
                     <%= f.label :permissions, t("permissions.label"), :class=>'key'  %>
                   </div>
                   <div class="medium-8 columns">
                     <span class="value value_form">
-                      <% translated_permissions.each do |group_name, permissions| %>
-                          <span class="section section-show">
-                            <span class="title"><%= t("permissions.#{group_name}") %></span>
-                            <% Hash[*permissions.flatten].values.each do |permission| %>
-                              <label><%= f.check_box :permissions, {:id => permission.dehumanize, :name => "role[permissions][]", :disabled => "disabled"}, permission, "" %>
-                                <%= t("permissions.permission.#{permission}") %></label>
-                              <% end %>
-                          </span>
+                      <% translated_permissions_list(@role.permissions_list).each_with_index do |permission, index| %>
+                        <span class="section section-show">
+                          <span class="title"><%= permission[:resource_translated] %></span>
+                          <% if permission[:resource] == Permission::ROLE %>
+                            <label>
+                              <%= f.label :role_ids, t("role.role_ids_label"), :class=>'key'  %>
+                              <%= select_tag "role[permissions_list][#{index}][role_ids]",
+                                             options_for_select(Role.all.map{|r| [r.name, r.id]},
+                                                                @role.associated_role_ids),
+                                             class: 'chosen_select', id: 'chosen_role', multiple: true,
+                                             include_blank: true, disabled: true %>
+                            </label>
+                          <% end %>
+                          <% permission[:actions_translated].each do |action| %>
+                            <label> <%= action[:value] %> </label>
+                          <% end %>
+                        </span>
                       <% end %>
                     </span>
                   </div>

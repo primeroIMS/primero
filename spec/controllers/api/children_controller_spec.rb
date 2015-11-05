@@ -5,6 +5,7 @@ describe ChildrenController do
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
     Child.any_instance.stub(:permitted_properties).and_return(Child.properties)
+    Child.any_instance.stub(:given_consent).and_return(false)
     fake_admin_login
   end
 
@@ -32,20 +33,67 @@ describe ChildrenController do
   end
 
   describe "GET index" do
+    before :each do
+      Child.all.each{|c| c.destroy}
+      @c1 = Child.new(id: 'child1', marked_for_mobile: true, module_id: 'cp')
+      @c2 = Child.new(id: 'child2', marked_for_mobile: true, module_id: 'cp')
+      @c3 = Child.new(id: 'child3', marked_for_mobile: false, module_id: 'cp')
+      children = [@c1, @c2, @c3]
+      children.each{|c| c.stub(:format_json_response).and_return(c)}
+      ChildrenController.any_instance.stub(:retrieve_records_and_total).and_return([children, 3])
+    end
+
+    it "should filter out all the non-mobile records" do
+      get :index, format: :json, mobile: 'true'
+      expect(assigns[:records]).to match_array([@c1, @c2])
+    end
+
+    it "should return ids of all mobile-syncable records when using the ids parameter" do
+      get :index, format: :json, mobile: 'true', ids: 'true'
+      expect(assigns[:records]).to match_array(['child1', 'child2'])
+    end
+  end
+
+  describe "GET index integration", :type => :request do
     it "should render all children as json" do
-      controller.should_receive(:retrieve_records_and_total) {|*args| [double(:to_json => "all the children"), 0] }
-
-      get :index, :format => :json
-
-      response.body.should == "all the children"
+      get '/api/children'
+      expect(response.content_type.to_s).to eq('application/json')
     end
   end
 
   describe "GET show" do
-    it "should render a child record as json" do
-      Child.should_receive(:get).with("123").and_return(mock_model(Child, :module_id => 'primeromodule-cp', :to_json => "a child record"))
-      get :show, :id => "123", :format => :json
-      response.body.should == "a child record"
+    it "will return the underlying CouchDB JSON representation if queried from the mobile client" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', some_array: []})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+    end
+
+    it "will discard empty arrays in the JSON representation if queried from the mobile client" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', empty_array_attr: []})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+      expect(assigns[:record][:id]).to eq('123')
+      expect(assigns[:record].key?(:empty_array_attr)).to be_false
+    end
+
+    it "will discard empty arrays in the nested subforms in the JSON representation if queried from the mobile client" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', a_nested_subform: [{field1: 'A', empty_array_attr: []}]})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+      expect(assigns[:record][:id]).to eq('123')
+      expect(assigns[:record][:a_nested_subform].first.key?(:empty_array_attr)).to be_false
+    end
+
+    it "will not discard child array attributes" do
+      child = Child.new(:module_id => 'primeromodule-cp')
+      child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', nationality: ["Angola", "Antigua and Barbuda", "Argentina"]})
+      Child.should_receive(:get).with("123").and_return(child)
+      get :show, :id => "123", :format => :json, :mobile => 'true'
+      expect(assigns[:record][:id]).to eq('123')
+      expect(assigns[:record][:nationality]).to match_array(["Angola", "Antigua and Barbuda", "Argentina"])
     end
 
     it "should return a 404 with empty body if no child record is found" do
@@ -55,6 +103,13 @@ describe ChildrenController do
       response.body.should == ""
     end
 
+  end
+
+  describe "GET show integration", :type => :request do
+    it "should render a child record as json" do
+      get '/api/children', id: '123'
+      expect(response.content_type.to_s).to eq('application/json')
+    end
   end
 
   describe "POST create" do
@@ -70,6 +125,7 @@ describe ChildrenController do
       updated_child.rows.size.should == 1
       updated_child.first.name.should == 'new name'
     end
+
   end
 
   describe "PUT update" do

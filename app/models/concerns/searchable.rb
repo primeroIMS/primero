@@ -11,7 +11,7 @@ module Searchable
       quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true}
-      
+
       #if instance is a child do phonetic search on names
       searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
@@ -22,10 +22,21 @@ module Searchable
       boolean :flag
       boolean :has_photo
       boolean :record_state
+      boolean :not_edited_by_owner do
+        (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
+      end
+      string :referred_users, multiple: true do
+        if self.transitions.present?
+          self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
+        end
+      end
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
         string :owned_by
+      end
+      if self.include?(SyncableMobile)
+        boolean :marked_for_mobile
       end
       #text :name, as: :name_ph
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
@@ -68,6 +79,10 @@ module Searchable
         end
         if query.present?
           fulltext(query.strip) do
+            #In schema.xml defaultOperator is "AND"
+            #the following change that behavior to match on
+            #any of the search terms instead all of them.
+            minimum_match(1)
             fields(*self.quicksearch_fields)
           end
         end
@@ -86,19 +101,26 @@ module Searchable
         #TODO: pop off the locations filter and perform a fulltext search
         filters.each do |filter,filter_value|
           if searchable_location_fields.include? filter
-            fulltext("\"#{filter_value[:value]}\"", fields: filter)
+            #TODO: Could check if also location on line 100, but will it break alot of location code
+            if filter_value[:type] == 'location_list'
+              with(filter.to_sym, filter_value[:value])
+            else
+              fulltext("\"#{filter_value[:value]}\"", fields: filter)
+            end
           else
             values = filter_value[:value]
             type = filter_value[:type]
             any_of do
               case type
               when 'range'
-                if values.count == 1
-                  # Range +
-                  with(filter).greater_than_or_equal_to(values.first.to_i)
-                else
-                  range_start, range_stop = values.first.to_i, values.last.to_i
-                  with(filter, range_start...range_stop)
+                values.each do |filter_value|
+                  if filter_value.count == 1
+                    # Range +
+                    with(filter).greater_than_or_equal_to(filter_value.first.to_i)
+                  else
+                    range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
+                    with(filter, range_start...range_stop)
+                  end
                 end
               when 'date_range'
                 if values.count > 1
@@ -109,6 +131,8 @@ module Searchable
                 end
               when 'list'
                 with(filter).any_of(values)
+              when 'neg'
+                without(filter, values)
               else
                 with(filter, values) unless values == 'all'
               end
@@ -180,11 +204,12 @@ module Searchable
       ["created_at", "last_updated_at", "registration_date"] + Field.all_searchable_date_field_names(self.parent_form)
     end
 
+    # TODO: we cannot rely on 'district' always being there. SL-specific code
     def searchable_string_fields
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organization"] +
+       "created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"] +
        Field.all_filterable_field_names(self.parent_form)
     end
 

@@ -10,19 +10,23 @@ class HomeController < ApplicationController
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
+    load_admin_information if display_admin_dashboard?
   end
 
   private
 
   def search_flags(options={})
-      map_flags(Flag.search{
-        with(options[:field]).between(options[:criteria])
-        with(:flag_record_type, options[:type])
-        with(:flag_record_owner, current_user.user_name) unless options[:is_manager].present?
-        with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
-        with(:flag_is_removed, false)
-        order_by(:flag_date, :asc)
-      }.hits)
+    managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
+    map_flags(Flag.search{
+      with(options[:field]).between(options[:criteria]) if options[:field].present? && options[:criteria].present?
+      with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
+      without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
+      with(:flag_record_type, options[:type])
+      with(:flag_record_owner, managed_users)
+      with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
+      with(:flag_is_removed, false)
+      order_by(:flag_created_at, :desc)
+    }.hits)
   end
 
   def map_flags(flags)
@@ -44,20 +48,67 @@ class HomeController < ApplicationController
     }
   end
 
-  def build_manager_stats(cases, flags)
-    @aggregated_case_worker_stats = {}
+  def build_manager_stats(queries)
+    @aggregated_case_manager_stats = {
+      worker_totals: {},
+      manager_totals: {},
+      referred_totals: {}
+    }
 
-    cases.facet(:created_by).rows.each{|c| @aggregated_case_worker_stats[c.value] = {total_cases: c.count}}
+    managed_users = current_user.managed_user_names
 
-    flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
-         .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g] = {cases_this_week: f.count}}
+    queries[:totals_by_case_worker].facet(:associated_user_names).rows.each do |c|
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:worker_totals][c.value] = {}
+        @aggregated_case_manager_stats[:worker_totals][c.value][:total_cases] = c.count
+      end
+    end
 
-    flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
-         .group_by{|g| g[:flagged_by]}
-         .each{|g, f| @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
+    queries[:new_by_case_worker].facet(:associated_user_names).rows.each do |c|
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:worker_totals][c.value][:new_cases] = c.count
+      end
+    end
 
-    @aggregated_case_worker_stats
+    queries[:manager_totals].facet(:child_status).rows.each do |c|
+      @aggregated_case_manager_stats[:manager_totals][c.value] = c.count
+    end
+
+    queries[:referred_total].facet(:referred_users).rows.each do |c|
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:referred_totals][c.value] = {}
+        @aggregated_case_manager_stats[:referred_totals][c.value][:total_cases] = c.count
+      end
+    end
+
+    queries[:referred_new].facet(:referred_users).rows.each do |c|
+      if managed_users.include? c.value
+        @aggregated_case_manager_stats[:referred_totals][c.value][:new_cases] = c.count
+      end
+    end
+
+    @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
+
+    # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
+    #      .group_by{|g| g[:flagged_by]}
+    #      .each do |g, fz|
+    #         if @aggregated_case_worker_stats[g].present?
+    #           @aggregated_case_worker_stats[g][:cases_this_week] = fz.count
+    #         # else
+    #         #   @aggregated_case_worker_stats[g] = {cases_this_week: f.count}
+    #         end
+    #       end
+    #
+    # flags.select{|d| (1.week.ago.utc..Date.today).cover?(d[:date])}
+    #      .group_by{|g| g[:flagged_by]}
+    #      .each do |g, fz|
+    #         if @aggregated_case_worker_stats[g].present?
+    #           @aggregated_case_worker_stats[g][:cases_overdue] = fz.count
+    #         # else
+    #         #   @aggregated_case_worker_stats[g] = {cases_overdue: f.count}}
+    #         end
+    #       end
+    @aggregated_case_manager_stats
   end
 
   def display_cases_dashboard?
@@ -65,7 +116,7 @@ class HomeController < ApplicationController
   end
 
   def display_manager_dashboard?
-    @display_manager_dashboard ||= current_user[:is_manager]
+    @display_manager_dashboard ||= current_user.is_manager?
   end
 
   def display_incidents_dashboard?
@@ -76,21 +127,80 @@ class HomeController < ApplicationController
     @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::GBV)
   end
 
+  def display_admin_dashboard?
+    @display_admin_dashboard ||= current_user.is_admin?
+  end
+
+  def manager_case_query(query = {})
+    module_ids = @module_ids
+    results =  Child.search do
+      with(:record_state, true)
+      with(:associated_user_names, current_user.managed_user_names)
+      with(:child_status, query[:status]) if query[:status].present?
+      with(:not_edited_by_owner, true) if query[:new_records].present?
+      facet(:referred_users, zeros: true) if query[:referred].present?
+      if module_ids.present?
+        any_of do
+          module_ids.each do |m|
+            with(:module_id, m)
+          end
+        end
+      end
+      if query[:by_owner].present?
+        facet :associated_user_names, limit: -1, zeros: true
+        adjust_solr_params do |params|
+          params['f.owned_by_s.facet.mincount'] = 0
+        end
+      end
+      facet(:child_status, zeros: true) if query[:by_case_status].present?
+      if query[:by_risk_level].present?
+        facet(:risk_level, zeros: true) do
+          row(:high) do
+            with(:risk_level, 'High')
+            with(:not_edited_by_owner, true)
+          end
+          row(:high_total) do
+            with(:risk_level, 'High')
+          end
+          row(:medium) do
+            with(:risk_level, 'Medium')
+            with(:not_edited_by_owner, true)
+          end
+          row(:medium_total) do
+            with(:risk_level, 'Medium')
+          end
+          row(:low) do
+            with(:risk_level, 'Low')
+            with(:not_edited_by_owner, true)
+          end
+          row(:low_total) do
+            with(:risk_level, 'Low')
+          end
+        end
+      end
+      paginate page: 1, per_page: 0
+    end
+  end
+
   def load_manager_information
     # TODO: Will Open be translated?
-    cases = Child.search {
-      facet :created_by, except: [with(:child_status, 'Open'), with(:module_id, @module_ids)], limit: -1
+    # module_ids = @module_ids
+    # flags = search_flags({
+    #   field: :flag_date,
+    #   criteria: 1.week.ago.utc...1.week.from_now.utc,
+    #   type: 'child',
+    #   is_manager: true,
+    #   modules: @module_ids
+    # })
+    queries = {
+      totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
+      new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
+      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      manager_totals: manager_case_query({ by_case_status: true}),
+      referred_total: manager_case_query({ referred: true, status: 'Open' }),
+      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true })
     }
-
-    flags = search_flags({
-      field: :flag_date,
-      criteria: 1.week.ago.utc...1.week.from_now.utc,
-      type: 'child',
-      is_manager: true,
-      modules: @module_ids
-    })
-
-    build_manager_stats(cases, flags)
+    build_manager_stats(queries)
   end
 
   def load_user_module_data
@@ -104,26 +214,162 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
-    @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
-    @overdue_activities = search_flags({field: :flag_date, criteria: 1.week.ago.utc..Date.today, type: 'child'})
-    @recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today, type: 'child'})
-    @recently_flagged = @recently_flagged[0..4]
-    @recent_activities = load_recent_activities.results
+    module_ids = @module_ids
+    @stats = Child.search do
+      # TODO: Check for valid
+      with(:child_status, 'Open')
+      with(:record_state, true)
+      associated_users = with(:associated_user_names, current_user.user_name)
+      referred = with(:referred_users, current_user.user_name)
+      if module_ids.present?
+        any_of do
+          module_ids.each do |m|
+            with(:module_id, m)
+          end
+        end
+      end
+      facet(:risk_level, zeros: true, exclude: [referred]) do
+        row(:high) do
+          with(:risk_level, 'High')
+          with(:not_edited_by_owner, true)
+        end
+        row(:high_total) do
+          with(:risk_level, 'High')
+        end
+        row(:medium) do
+          with(:risk_level, 'Medium')
+          with(:not_edited_by_owner, true)
+        end
+        row(:medium_total) do
+          with(:risk_level, 'Medium')
+        end
+        row(:low) do
+          with(:risk_level, 'Low')
+          with(:not_edited_by_owner, true)
+        end
+        row(:low_total) do
+          with(:risk_level, 'Low')
+        end
+      end
+
+      facet(:records, zeros: true, exclude: [referred]) do
+        row(:new) do
+          with(:not_edited_by_owner, true)
+        end
+        row(:total) do
+          with(:child_status, 'Open')
+        end
+      end
+
+      facet(:referred, zeros: true) do
+        row(:new) do
+          without(:last_updated_by, current_user.user_name)
+        end
+        row(:total) do
+          with(:child_status, 'Open')
+        end
+      end
+    end
+
+    show_flagged_by
+  end
+
+  def show_flagged_by
+    flag_criteria = {
+        field: :flag_created_at,
+        type: 'child',
+        is_manager: current_user.is_manager?,
+        modules: @module_ids
+    }
+
+    @flagged_by_me = search_flags(flag_criteria.merge({flagged_by: current_user.user_name}))
+    @flagged_by_me = @flagged_by_me[0..9]
+
+    if current_user.is_manager?
+      # @recent_activities = load_recent_activities.results
+      # @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
+    elsif
+    @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
+      @flagged_by_others = @flagged_by_others[0..9]
+    end
   end
 
   def load_incidents_information
     #Retrieve only MRM incidents.
+    flag_criteria = {
+        field: :flag_created_at,
+        criteria: 1.week.ago.utc..Date.tomorrow,
+        type: 'incident'
+    }
     modules = [PrimeroModule::MRM]
-    @incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
-                                                type: 'incident'})
+    @incidents_recently_flagged = search_flags(flag_criteria)
     @incidents_recently_flagged = @incidents_recently_flagged[0..4]
     @open_incidents = Incident.open_incidents(@current_user)
   end
 
   def load_gbv_incidents_information
-    @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.today,
+    @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.tomorrow,
                                                 type: 'incident'})
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents(@current_user)
+  end
+
+  def load_admin_information
+    last_week = 1.week.ago.beginning_of_week .. 1.week.ago.end_of_week
+    this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
+    locations = current_user.managed_users.map{|u| u.location}.compact.reject(&:empty?)
+
+    if locations.present?
+      @district_stats = build_admin_stats({
+        totals: get_admin_stat({ status: 'Open', locations: locations, by_district: true }),
+        new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_district: true }),
+        new_this_week: get_admin_stat({ status: 'Open', new: true, date_range: this_week, locations: locations, by_district: true }),
+        closed_last_week: get_admin_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations, by_district: true }),
+        closed_this_week: get_admin_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations, by_district: true })
+      })
+    end
+
+    @protection_concern_stats = build_admin_stats({
+      totals: get_admin_stat({by_protection_concern: true }),
+      open: get_admin_stat({ status: 'Open', by_protection_concern: true }),
+      new_this_week: get_admin_stat({ status: 'Open', by_protection_concern: true, new: true, date_range: this_week}),
+      closed_this_week: get_admin_stat({ status: 'Closed', by_protection_concern: true, closed: true, date_range: this_week})
+    })
+  end
+
+  def build_admin_stats(stats)
+    admin_stats = {}
+    protection_concerns = Lookup.values('Protection Concerns', @lookups)
+    stats.each do |k, v|
+      stat_facet = v.facet(:owned_by_location_district) || v.facet(:protection_concerns)
+      stat_facet.rows.each do |l|
+        admin_stats[l.value] = {} unless admin_stats[l.value].present?
+        admin_stats[l.value][k] = l.count ||= 0
+        if v.facet(:protection_concerns).present? && !protection_concerns.include?(l.value)
+          admin_stats.delete(l.value)
+        end
+      end
+    end
+    admin_stats
+  end
+
+  def get_admin_stat(query)
+    module_ids = @module_ids
+    return Child.search do
+      if module_ids.present?
+        any_of do
+          module_ids.each do |m|
+            with(:module_id, m)
+          end
+        end
+      end
+      with(:associated_user_names, current_user.managed_user_names)
+      with(:record_state, true)
+      with(:child_status, query[:status]) if query[:status].present?
+      with(:created_at, query[:date_range]) if query[:new].present?
+      with(:date_closure, query[:date_range]) if query[:closed].present?
+      facet(:owned_by_location_district, zeros: true) if query[:by_district].present?
+      facet(:protection_concerns, zeros: true) if query[:by_protection_concern].present?
+    end
   end
 end

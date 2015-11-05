@@ -40,12 +40,13 @@ module RecordFilteringPagination
       model_class = params[:model_class].constantize if params[:model_class].present?
       model_class ||= params[:controller].camelize.singularize.constantize
       params[:scope].reject{|k,v| k == 'users'}
+      params[:scope][:module_id] = "list||#{current_user.modules.map{|m| m.id}.join('||')}"
       params[:scope].each_key do |key|
         filter_values = params[:scope][key].split "||"
         filter_type = filter_values.shift
         case filter_type
         when "range"
-          filter_values = filter_values.first.split "-"
+          filter_values = filter_values.map{|filter| filter.split "-"}
         when "date_range"
           filter_values = sanitize_date_range_filter(filter_values.first.split ".")
         else

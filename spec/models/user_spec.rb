@@ -6,10 +6,9 @@ describe User do
     options.reverse_merge!({
                                :user_name => "user_name_#{rand(10000)}",
                                :full_name => 'full name',
-                               :password => 'password',
-                               :password_confirmation => options[:password] || 'password',
+                               :password => 'b00h00',
+                               :password_confirmation => options[:password] || 'b00h00',
                                :email => 'email@ddress.net',
-                               :user_type => 'user_type',
                                :organization => 'TW',
                                :disabled => 'false',
                                :verified => true,
@@ -26,6 +25,43 @@ describe User do
     user
   end
 
+  def login(user_name, date, params)
+    user = build_user :user_name => user_name
+    date_time = DateTime.parse(date)
+    DateTime.stub(:now).and_return(date_time)
+    User.stub(:find_by_user_name).and_return(user)
+    user.stub(:authenticate).and_return true
+    user.should_receive(:save)
+
+    login = Login.new(params)
+    login.authenticate_user
+  end
+
+  describe "last login timestamp" do
+    it "shouldn't return last login activity if user has never logged in" do
+      user = build_user :user_name => 'Billy'
+      last_login = User.last_login_timestamp(user.user_name)
+      last_login.should == nil
+    end
+
+    it "should return last login activity if user does have login activity" do
+      imei = "1336"
+      user_name = "Billy"
+      date_1 = "2015/10/23 14:54:55 -0400"
+      date_2 = "2015/11/28 14:54:55 -0400"
+      params = {:imei => imei, user_name: user_name}
+
+      login(user_name, date_1, params)
+      login(user_name, date_2, params)
+
+      last_login = User.last_login_timestamp(user_name)
+      last_login.login_timestamp.should_not == date_1
+      last_login.login_timestamp.should == date_2
+      last_login.imei.should == imei
+      last_login.user_name.should == user_name
+    end
+  end
+
   describe "validations" do
     it "should not be valid when username contains whitespace" do
       user = build_user :user_name => "in val id"
@@ -34,7 +70,7 @@ describe User do
     end
 
     it "should be valid when password contains whitespace" do
-      user = build_user :password => "valid with spaces"
+      user = build_user :password => "v4lid with spaces"
       user.should be_valid
     end
 
@@ -91,8 +127,8 @@ describe User do
   it "should reject saving a changed password if the confirmation doesn't match" do
     user = build_user
     user.create!
-    user.password = 'foo'
-    user.password_confirmation = 'not foo'
+    user.password = 'f00f00'
+    user.password_confirmation = 'not f00f00'
 
     user.valid?
     user.should_not be_valid
@@ -102,10 +138,18 @@ describe User do
   it "should allow password update if confirmation matches" do
     user = build_user
     user.create!
-    user.password = 'new_password'
-    user.password_confirmation = 'new_password'
+    user.password = 'new_password1'
+    user.password_confirmation = 'new_password1'
 
     user.should be_valid
+  end
+
+  it "should reject passwords that are less than 6 characters or don't have at least one alpha and at least 1 numeric character" do
+    user = build_user :password => "invalid"
+    user.should_not be_valid
+
+    user = build_user :password => 'sh0rt'
+    user.should_not be_valid
   end
 
   it "doesn't use id for equality" do
@@ -120,33 +164,33 @@ describe User do
   end
 
   it "can't authenticate which isn't saved" do
-    user = build_user(:password => "thepass")
+    user = build_user(:password => "b00h00")
     lambda { user.authenticate("thepass") }.should raise_error
   end
 
   it "can authenticate with the right password" do
-    user = build_and_save_user(:password => "thepass")
-    user.authenticate("thepass").should be_true
+    user = build_and_save_user(:password => "b00h00")
+    user.authenticate("b00h00").should be_true
   end
 
   it "can't authenticate with the wrong password" do
-    user = build_and_save_user(:password => "onepassword")
-    user.authenticate("otherpassword").should be_false
+    user = build_and_save_user(:password => "onepassw0rd")
+    user.authenticate("otherpassw0rd").should be_false
   end
 
   it "can't authenticate if disabled" do
-    user = build_and_save_user(:disabled => "true", :password => "thepass")
-    user.authenticate("thepass").should be_false
+    user = build_and_save_user(:disabled => "true", :password => "thep4ss")
+    user.authenticate("thep4ss").should be_false
   end
 
   it "can't look up password in database" do
-    user = build_and_save_user(:password => "thepass")
+    user = build_and_save_user(:password => "thep4ss")
     User.get(user.id).password.should be_nil
   end
 
   it "can authenticate if not disabled" do
-    user = build_and_save_user(:disabled => "false", :password => "thepass")
-    user.authenticate("thepass").should be_true
+    user = build_and_save_user(:disabled => "false", :password => "thep4ss")
+    user.authenticate("thep4ss").should be_true
   end
 
   it "should be able to store a mobile login event" do
@@ -207,7 +251,7 @@ describe User do
 
   it "should have error on password_confirmation if no password_confirmation" do
     user = build_user({
-                          :password => "timothy",
+                          :password => "t1mothy",
                           :password_confirmation => ""
                       })
     user.should_not be_valid
@@ -235,10 +279,11 @@ describe User do
 
   describe "user roles" do
     it "should store the roles and retrive them back as Roles" do
-      admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions)
-      field_worker_role = Role.create!(:name => "Field Worker", :permissions => [Permission::CASE, Permission::READ, Permission::WRITE])
-      user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'password', :password_confirmation => 'password',
-                          :email => 'em@dd.net', :organization => 'TW', :user_type => 'user_type', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
+      permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
+      field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [permission_case_read_write])
+      user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
+                          :email => 'em@dd.net', :organization => 'TW', :role_ids => [admin_role.id, field_worker_role.id], :disabled => 'false'})
 
       User.find_by_user_name(user.user_name).roles.should == [admin_role, field_worker_role]
     end
@@ -253,16 +298,6 @@ describe User do
       build(:user, :role_ids => [], :verified => false).should be_valid
     end
 
-    describe 'permissions' do
-      subject { stub_model User, :permissions => [ 1, 2, 3, 4 ] }
-
-      it { should have_permission 1 }
-      it { should_not have_permission 5 }
-
-      it { should have_any_permission 1 }
-      it { should have_any_permission 1,2,3,4 }
-      it { should_not have_any_permission 5 }
-    end
   end
 
   describe "permitted forms" do
@@ -276,7 +311,8 @@ describe User do
       @form_section_b = FormSection.create!(unique_id: "B", name: "B")
       @form_section_c = FormSection.create!(unique_id: "C", name: "C")
       @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
-      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+      @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
     end
 
     it "inherits the forms permitted by the modules" do
@@ -296,19 +332,22 @@ describe User do
       User.all.each &:destroy
       Role.all.each &:destroy
 
-      manager_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::GROUP]
-      grunt_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER]
+      @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+      @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
+      @manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP
+      @grunt_role = create :role, permissions_list: [@permission_user_read]
 
-      @manager = create :user, role_ids: [manager_role.id], user_group_ids: ["GroupA", "GroupB"]
-      @grunt1 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupA"]
-      @grunt2 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupA"]
-      @grunt3 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupB"]
-      @grunt4 = create :user, role_ids: [grunt_role.id], user_group_ids: ["GroupB"]
+      @manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", "GroupB"], is_manager: true
+      @grunt1 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"], is_manager: false
+      @grunt2 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupA"]
+      @grunt3 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB"]
+      @grunt4 = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB"]
     end
 
-    it "is a manager if it has group permission scope" do
+    it "is a manager if set flag" do
       expect(@manager.is_manager?).to be_true
       expect(@grunt1.is_manager?).to be_false
+      expect(@grunt2.is_manager?).to be_false
     end
 
     it "manages all people in its group including itself" do
@@ -320,12 +359,16 @@ describe User do
     end
 
     it "has a record scope of 'all' if it an manage all users" do
-      manager_role = create :role, permissions: [Permission::READ, Permission::WRITE, Permission::USER, Permission::ALL]
+      manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::ALL
       manager = create :user, role_ids: [manager_role.id]
       expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
     end
 
-
+    it "does not manage users who share an empty group with it" do
+      manager = create :user, role_ids: [@manager_role.id], user_group_ids: ["GroupA", ""]
+      grunt = create :user, role_ids: [@grunt_role.id], user_group_ids: ["GroupB", ""]
+      expect(manager.managed_users).to match_array([@grunt1, @grunt2, @manager, manager])
+    end
 
   end
 
@@ -338,6 +381,84 @@ describe User do
       all_unverifed_users.map(&:id).should be_include unverified_user2.id
       all_unverifed_users.map(&:id).should be_include unverified_user1.id
       all_unverifed_users.map(&:id).should_not be_include verified_user.id
+    end
+  end
+
+  describe "permissions" do
+    before :each do
+      @permission_list = [
+                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE, Permission::APPROVE_CASE_PLAN]),
+                           Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ]),
+                         ]
+      @user_perm = User.new(:user_name => 'fake_self')
+      @user_perm.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::SELF)])
+    end
+
+    it "should have READ permission" do
+      expect(@user_perm.has_permission? Permission::READ).to be_true
+    end
+
+    it "should have SYNC_MOBILE permission" do
+      expect(@user_perm.has_permission? Permission::SYNC_MOBILE).to be_true
+    end
+
+    it "should have APPROVE_CASE_PLAN permission" do
+      expect(@user_perm.has_permission? Permission::APPROVE_CASE_PLAN).to be_true
+    end
+
+    it "should not have WRITE permission" do
+      expect(@user_perm.has_permission? Permission::WRITE).to be_false
+    end
+  end
+
+  describe "group permissions" do
+    before :each do
+      @permission_list = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
+    end
+
+    context "when logged in with SELF permissions" do
+      before do
+        @user_group = User.new(:user_name => 'fake_self')
+        @user_group.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::SELF)])
+      end
+
+      it "should not have GROUP permission" do
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_false
+      end
+
+      it "should not have ALL permission" do
+        expect(@user_group.has_group_permission? Permission::ALL).to be_false
+      end
+    end
+
+    context "when logged in with GROUP permissions" do
+      before do
+        @user_group = User.new(:user_name => 'fake_group')
+        @user_group.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::GROUP)])
+      end
+
+      it "should have GROUP permission" do
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_true
+      end
+
+      it "should not have ALL permission" do
+        expect(@user_group.has_group_permission? Permission::ALL).to be_false
+      end
+    end
+
+    context "when logged in with ALL permissions" do
+      before do
+        @user_group = User.new(:user_name => 'fake_all')
+        @user_group.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::ALL)])
+      end
+
+      it "should not have GROUP permission" do
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_false
+      end
+
+      it "should have ALL permission" do
+        expect(@user_group.has_group_permission? Permission::ALL).to be_true
+      end
     end
   end
 end

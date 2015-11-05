@@ -21,7 +21,7 @@ gem 'capistrano',     '~> 2.14.2'
 gem 'highline',       '1.6.16'
 gem 'will_paginate',  '~> 3.0.5'
 gem 'i18n-js',        '~> 2.1.2'
-gem 'therubyracer',   '~> 0.11.4', :platforms => :ruby, :require => 'v8'
+gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 0.9.6'
 gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
 gem 'request_exception_handler'
@@ -31,7 +31,6 @@ gem "zipruby-compat", :require => 'zipruby', :git => "https://github.com/jawspea
 
 gem 'sunspot_rails',  '2.1.1'
 gem 'sunspot_solr',   '2.1.1'
-gem 'sunspot_test', require: false
 
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false
@@ -55,9 +54,11 @@ gem 'spreadsheet',        '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.11.0'
 
+gem 'momentjs-rails', '~> 2.10.3'
+
+#TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
-  gem 'font-awesome-sass', '~> 4.2.0'
 end
 
 group :development do
@@ -70,6 +71,7 @@ end
 group :test, :cucumber, :development do
   gem 'pry'
   gem 'pry-byebug'
+  gem 'sunspot_test', require: false
 end
 
 group :test, :cucumber do
@@ -94,6 +96,7 @@ group :test, :cucumber do
   gem "pdf-inspector",      '~> 1.1.0', :require => 'pdf/inspector'
 end
 
+#TODO: Does this get installed?
 group :couch_watcher do
   gem 'em-http-request',    '~> 1.1.2'
   gem 'eventmachine',       '~> 1.0.4'

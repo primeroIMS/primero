@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
   def set_locale
     if logged_in?
       I18n.locale = (current_user.locale || I18n.default_locale)
-      RapidFTR::Translations.set_fallbacks
+      Primero::Translations.set_fallbacks
     end
   end
 

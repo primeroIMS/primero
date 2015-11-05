@@ -19,8 +19,22 @@
       TODO: Lost a little tip panel for the user name: <span class="footnote"><%= t("user.no_blank") ></span> .
       Surely there is a prettier way to add that info back in using Foundation.
     %>
-    <%= resource_edit_field @user, 'password', 'login.password.label', 'password_field', true %>
+    <%= resource_edit_field @user, 'password', 'login.password.label', 'password_field', true, false, t("user.password_strength") %>
     <%= resource_edit_field @user, 'password_confirmation', 'login.password.re_enter', 'password_field', true %>
+
+    <% if !trying_to_edit_ourself && can?(:edit, @user) %>
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <%= f.label :is_manager, t("user.manager"), :class=>'key inline' %>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <%= f.check_box :is_manager, {}, "true", "false" %>
+      </div>
+      <div class="medium-1 columns"></div>
+    </div>
+    <% end %>
 
     <% if !trying_to_edit_ourself %>
       <div class="row">
@@ -95,11 +109,11 @@
     <div class="row">
       <div class="medium-3 columns">
         <span class="tool-tip-label">
-          <label class="key" for="user_organization" ><%= t("user.organization") %></label>
+          <label class="key" for="user_organization" ><%= t("user.agency") %></label>
         </span>
       </div>
       <div class="medium-8 columns">
-        <%= f.select :organization, Agency.available_agency_names, { include_blank: t('agencies.select_prompt') } %>
+        <%= f.select :organization, @agency_names, { include_blank: t('agencies.select_prompt') } %>
       </div>
       <div class="medium-1 columns">
         <span class="required">*</span>
@@ -107,7 +121,21 @@
     </div>
 
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
-    <%= resource_edit_field @user, 'location', 'user.location', 'text_field' %>
+
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <label class="key" for="user_location" ><%= t("user.location") %></label>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <%= f.select :location, @location_names,
+            { include_blank: t('fields.select_box_empty_item') },
+            { class: 'chosen-select' }
+        %>
+      </div>
+      <div class="medium-1 columns"></div>
+    </div>
 
     <% if !trying_to_edit_ourself && can?(:disable, @user) %>
         <div class="row">

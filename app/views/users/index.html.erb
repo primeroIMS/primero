@@ -1,10 +1,8 @@
 
 <!-- to hook in / populate the users model in backbone -->
-<script type="text/javascript">
-    $(function () {
-        window.Users.reset(<%= raw @users_details.to_json %>);
-    });
-</script>
+<%= content_for :page_scripts do %>
+  window.Users.reset(<%= raw @users_details.to_json %>);
+<% end %>
 
 <% content_for :record_sub_nav_controls do %>
   <% if can? :create,User %>

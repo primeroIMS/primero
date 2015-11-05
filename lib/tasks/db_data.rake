@@ -1,6 +1,9 @@
+require 'writeexcel'
+
 namespace :db do
 
   namespace :data do
+
     desc "Create test records for quickly testing out features"
     task :dev_fixtures => :environment do
       unless Rails.env == 'development'
@@ -37,6 +40,74 @@ namespace :db do
           puts "Successfully imported #{obj['model_type']} object with id #{inst.id}"
         end
       end
+    end
+
+    desc "Import the configuration bundle"
+    task :import_config_bundle, [:json_file] => :environment do |t, args|
+      puts "Importing configuration from #{args[:json_file]}"
+      File.open(args[:json_file]) do |file|
+        model_data = Importers::JSONImporter.import(file)
+        ConfigurationBundle.import(model_data, 'system_operator')
+      end
+    end
+
+
+    # Creates Location.create! statements which can be used as a Location seed file
+    # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]
+    # ARGS:    json - full path and file name of json file
+    #          layers - Number of layers in regions list
+    #          regions - colon separated list of regions within the country.  List does not include the country name
+    # NOTE:    No spaces between arguments in argement list
+    # EXAMPLE: $bundle exec rake db:data:generate_locations[/tmp/my_file.json,3,province:district:chiefdom]
+    desc "Add locations from a JSON. Regions should be split by colons ex: province:region:prefecture"
+    task :generate_locations, :json_file, :layers, :regions do |t, args|
+
+        types = args[:regions].split(':')
+
+        file = open(args[:json_file])
+        string = file.read
+        parsed = JSON.parse(string) # returns a hash
+
+        #Name of the country
+        country = parsed['features'][0]['properties']['CNTRY_NAME']
+        country_code = parsed['features'][0]['properties']['CNTRY_CODE']
+
+        #Create the country
+        puts "\#Country"
+        puts "Location.create! placename: \"#{country}\", location_code:\"#{country_code}\", type: \"country\""
+
+        (1..args[:layers].to_i).each do |layer|
+            puts "\n\##{types[layer-1]}"
+
+            placename_key = "ADM#{layer}_NAME"
+            location_code_key = "ADM#{layer}_CODE"
+
+            #Save the names in placenames to not to repeat them
+            placenames = []
+            parsed['features'].each do |feature|
+
+                placename = feature['properties'][placename_key]
+                location_code = feature['properties'][location_code_key]
+
+                #Check if that name has been already parsed
+                if !placenames.include?(placename) then
+                    placenames.push(placename)
+                    hierarchy = []
+                    hierarchy.push(country)
+                    aux_layers = 1
+
+                    #Loop to get the hierarchy
+                    while aux_layers<layer do
+                        parent_placename = "ADM#{aux_layers}_NAME"
+                        hierarchy.push feature['properties'][parent_placename]
+                        aux_layers += 1
+                    end
+
+                    puts "Location.create! placename:\"#{placename}\", location_code:\"#{location_code}\", type: \"#{types[layer-1]}\", hierarchy: [\"#{hierarchy.join("\", \"")}\"]"
+                end
+            end
+        end
+
     end
 
     desc "Import CPIMS"
@@ -136,6 +207,79 @@ namespace :db do
 
     end
 
+    desc "Deletes out all metadata. Do this only if you need to reseed from scratch!"
+    task :remove_metadata, [:metadata] => :environment do |t, args|
+      metadata_models = if args[:metadata].present?
+        args[:metadata].split(',').map{|m| Kernel.const_get(m)}
+      else
+        [
+          Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
+          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, User, UserGroup
+        ]
+      end
+
+      metadata_models.each do |m|
+        puts "Deleting the database for #{m.name}"
+        m.database.delete!
+      end
+    end
+
+
+    desc "Deletes out all metadata. Do this only if you need to reseed from scratch!"
+    task :remove_metadata, [:metadata] => :environment do |t, args|
+      metadata_models = if args[:metadata].present?
+        args[:metadata].split(',').map{|m| Kernel.const_get(m)}
+      else
+        [
+          Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
+          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, User, UserGroup
+        ]
+      end
+
+      metadata_models.each do |m|
+        puts "Deleting the database for #{m.name}"
+        m.database.delete!
+      end
+    end
+
+    desc "Exports forms to an Excel spreadsheet"
+    task :forms_to_spreadsheet, [:type, :module] => :environment do |t, args|
+
+      module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
+      type = args[:type].present? ? args[:module] : 'case'
+      file_name = "forms.xls"
+      puts "Writing forms to #{file_name}"
+
+      workbook = WriteExcel.new(File.open(file_name, 'w'))
+      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Options']
+
+      primero_module = PrimeroModule.get(module_id)
+      forms = primero_module.associated_forms_grouped_by_record_type(false)
+      forms = forms[type]
+
+      forms.sort_by{|f| [f.order, f.order_form_group]}.each do |form|
+        write_out_form(form, workbook, header)
+      end
+
+      workbook.close
+    end
+
+    def write_out_form(form, workbook, header)
+      worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
+      worksheet.write(0, 0, header)
+      form.fields.each_with_index do |field, i|
+        options = ''
+        if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
+          options = field.options_list.join(', ')
+        elsif field.type == 'subform'
+          subform = field.subform_section
+          options = "Subform: #{subform.name}"
+          write_out_form(subform, workbook, header)
+        end
+        worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field.type, field.display_name, options])
+      end
+    end
+
 
     #Assign the default owner of all records to be the creator.
     #If no creator exits, set it to be the fallback_user
@@ -152,6 +296,39 @@ namespace :db do
         end
       end
 
+    end
+
+
+    #Populate the case ID code and case ID Display
+    desc "Populate case ID code and case ID Display on existing Cases"
+    task :set_case_id_display => :environment do
+      puts "Updating Case ID Display..."
+      system_settings = SystemSettings.current
+      Child.all.each do |record|
+        puts "BEFORE  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  case_id_display: #{record.case_id_display}"
+
+        record.case_id_code = record.create_case_id_code(system_settings) if record.case_id_code.blank?
+        record.case_id_display = record.create_case_id_display(system_settings) if record.case_id_display.blank?
+
+        puts "AFTER  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  case_id_display: #{record.case_id_display}"
+
+        if record.changed?
+          puts "SAVING #{record.id}..."
+          record.save(validate: false)
+        end
+        puts "=========================================="
+      end
+
+    end
+
+
+    # For each case having a date_of_birth, recalculate the age based on date_of_birth
+    # USAGE:   $bundle exec rake db:data:recalculate_case_ages
+    desc "Recalculate ages on Cases"
+    task :recalculate_case_ages => :environment do
+      puts "Recalculating ages based on date of birth..."
+      #Passing in no params causes recalculate! to recalculate ALL cases
+      RecalculateAge::recalculate!
     end
 
   end

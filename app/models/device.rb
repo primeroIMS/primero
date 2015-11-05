@@ -2,7 +2,7 @@ class Device < CouchRest::Model::Base
   use_database :device
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   property :imei
   property :blacklisted, TrueClass

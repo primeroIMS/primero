@@ -1,4 +1,16 @@
 class Permission
+  include CouchRest::Model::CastedModel
+  include PrimeroModel
+
+  property :resource
+  property :actions, [String], :default => []
+
+  # The role_ids property is used solely for the ROLE resource
+  # It associates other roles with this ROLE permission
+  # That restricts this role to only be able to manage those associated roles
+  # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
+  property :role_ids, [String], :default => []
+
   READ = 'read'
   WRITE = 'write'
   FLAG = 'flag'
@@ -15,13 +27,13 @@ class Permission
   EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   EXPORT_CUSTOM = 'export_custom'
   ASSIGN = 'assign'
-  REPORT_CREATE = 'report_create' #ok, painted us into a corner here
   TRANSFER = 'transfer'
   REFERRAL = 'referral'
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
   USER = 'user'
+  ROLE = 'role'
   METADATA = 'metadata'
   SYSTEM = 'system'
   REPORT = 'report'
@@ -29,6 +41,12 @@ class Permission
   GROUP = 'group'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
+  SYNC_MOBILE = 'sync_mobile'
+  APPROVE_CASE_PLAN = 'approve_case_plan'
+  COPY = 'copy'
+  MANAGE = 'manage'
+
+  validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
 
   def self.description(permission)
@@ -56,15 +74,18 @@ class Permission
       EXPORT_CUSTOM,
       IMPORT,
       ASSIGN,
-      REPORT_CREATE,
       TRANSFER,
       REFERRAL,
-      CONSENT_OVERRIDE
+      CONSENT_OVERRIDE,
+      SYNC_MOBILE,
+      APPROVE_CASE_PLAN,
+      COPY,
+      MANAGE
     ]
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, USER, METADATA, SYSTEM, REPORT]
+    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT]
   end
 
   def self.management
@@ -80,6 +101,60 @@ class Permission
   end
 
   def self.all_grouped
-    {'actions' => actions, 'resources' => resources, 'management' => management}
+    {'actions' => actions, 'resource' => resources, 'management' => management}
+  end
+
+  def self.all_available
+    resources.map{|r| {resource: r, actions: resource_actions(r)}}
+  end
+
+  def self.resource_actions(resource)
+     case resource
+       when CASE
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY].include? a}
+       when INCIDENT
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY].include? a}
+       when TRACING_REQUEST
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY].include? a}
+       when ROLE
+         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
+       when USER
+         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
+       when REPORT
+         [READ, WRITE]
+       when METADATA
+         [MANAGE]
+       when SYSTEM
+         [MANAGE]
+       else
+         actions
+     end
+  end
+
+  def self.all_permissions_list
+    [
+      self.new(:resource => CASE, :actions => [MANAGE]),
+      self.new(:resource => INCIDENT, :actions => [MANAGE]),
+      self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
+      self.new(:resource => REPORT, :actions => [MANAGE]),
+      self.new(:resource => ROLE, :actions => [MANAGE]),
+      self.new(:resource => USER, :actions => [MANAGE]),
+      self.new(:resource => METADATA, :actions => [MANAGE]),
+      self.new(:resource => SYSTEM, :actions => [MANAGE]),
+    ]
+  end
+
+  def is_record?
+    [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
+  end
+
+  def resource_class
+    return nil if self.resource.blank?
+    class_str = (self.resource == CASE ? 'child' : self.resource)
+    class_str.camelize.constantize
+  end
+
+  def action_symbols
+    actions.map{|a| a.to_sym}
   end
 end

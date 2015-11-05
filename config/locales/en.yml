@@ -40,7 +40,7 @@ en:
     are_you_sure: "Are you sure you want to "
     this_user: " this user?"
     keep_working: "Yes, Keep Working"
-    logoff: "No, Logoff"
+    logoff: "No, Log out"
     record_navigation_confirmation_message: "Clicking OK will discard any unsaved changes and navigate to the requested page . Click cancel to return to the record."
     confirmation_message: "Clicking OK will discard any unsaved changes and return to the list view . Click cancel to return to the record."
     cancel_confirmation: "Are you sure you want to cancel?"
@@ -123,12 +123,16 @@ en:
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
      ok: 'OK'
+     cancel: "Cancel"
      edit_subform: 'Edit Subform'
      create_new_record: "Create New %{model}"
      bundle_import: "Configuration Bundle"
      bundle_export: "Configuration Bundle"
      transfer: "Transfer %{model}"
      referral: "Refer %{model}"
+     mark_for_mobile: "Mark for mobile"
+     unmark_for_mobile: "Un-mark for mobile"
+     approve_case_plan: "Approve Case Plan"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -140,7 +144,10 @@ en:
     filter_by:
       flag: "Flagged:"
       flag_label: "Flagged?"
+      mobile: "Mobile:"
+      mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
+      agency: "Agency:"
       status: "Status:"
       age_range: "Age Range:"
       sex: "Sex:"
@@ -149,8 +156,10 @@ en:
       displacement_status: "Displacement Status:"
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
+      protection_concerns: "Protection Concerns:"
       risk_level: "Risk Level:"
       current_location: "Current Location:"
+      district: "District:"
       registration_date: "Registration Date:"
       case_open_date: "Case Open Date:"
       record_state: "Record State:"
@@ -261,6 +270,7 @@ en:
       cancel: "Cancel"
       delete_photo: "Delete photo?"
       delete_audio: "Delete audio?"
+      delete_document: "Delete document?"
       choose_as_primary_photo: "Choose as primary photo"
       rotate_anti_clockwise: "Rotate Anti-Clockwise"
       restore_image: "Restore Original Image"
@@ -562,6 +572,7 @@ en:
       update: "Update"
       create: "Create"
       delete: "Delete"
+      copy: "Copy"
     view: "View Role"
     messages:
       confirmation: "Are you sure you want to delete this role? Deletion can not be undone. Click OK To Delete Role."
@@ -570,16 +581,21 @@ en:
     create: "Create Role"
     edit: "Edit Role"
     name: "Name"
+    description: "Description"
     successfully_updated: "Role details are successfully updated."
     error_in_updating: "Error in updating the Role details."
+    copy_success: "Role successfully copied."
+    copy_failure: "Error copying Role.  Ensure the name does not conflict with another Role."
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
+    group_permission_label: "What records does this role affect?"
+    role_ids_label: "Others roles managed by this role"
 
   agencies:
     logo: 'Logo'
     logo_enabled: 'Logo enabled?'
-    name: 'Name or Code'
     label: "Agency"
+    view: "View Agency"
     successfully_created: "Agency successfully created."
     successfully_updated: "Agency successfully updated."
     drag_n_drop: "You can drag & drop the fields to edit the required order"
@@ -595,14 +611,21 @@ en:
     select_prompt: "Please select an agency"
     error_in_updating: "Error in updating the Agency details."
 
+  agency:
+    edit: 'Edit Agency'
+    name: 'Agency Name'
+    code: 'Agency Code'
+
   system_settings:
     label: "System Settings"
     edit: "Edit System Settings"
     show: "System Settings"
     updated: "System Settings successfully updated."
+    primero_version: "System Version"
 
   primero_modules:
     label: "Modules"
+    view: "View Module"
     actions:
       show_all: "Showing all"
       show: "Show"
@@ -617,14 +640,21 @@ en:
   primero_module:
     create: "Create Module"
     edit: "Edit Module"
+    show: "View"
     name: "Name"
+    description: "Description"
     successfully_updated: "Module details are successfully updated."
     error_in_updating: "Error in updating the Module details."
     record_type: "Record Types for this module"
     forms: "Forms assigned to this module"
+    program: "Program"
+    associated_record_types: "Associated record types"
+    associated_form_ids: "Assocaited form ids"
+
 
   primero_programs:
     label: "Program"
+    view: "View Program"
     actions:
       show_all: "Showing all"
       show: "Show"
@@ -638,7 +668,9 @@ en:
   primero_program:
     create: "Create Program"
     edit: "Edit Program"
+    show: "View"
     name: "Name"
+    description: "Description"
     start_date: "Program start date"
     end_date: "Program end date"
     successfully_updated: "Program details are successfully updated."
@@ -646,6 +678,7 @@ en:
 
   user_groups:
     label: "User Groups"
+    view: "View User Group"
     actions:
       show_all: "Showing all"
       show: "Show"
@@ -660,6 +693,7 @@ en:
     create: "Create User Group"
     edit: "Edit User Group"
     name: "Name"
+    description: "Description"
     successfully_updated: "User Group details are successfully updated."
     error_in_updating: "Error in updating the User Group details."
 
@@ -685,12 +719,15 @@ en:
     manage_password: "Change Password"
     old_password: "Old Password"
     new_password: "New Password"
+    password_strength: "Password must be at least 6 characters and include both letters and numbers"
     new_password_confirmation: "Confirm New Password"
     new: "New User"
     user_action_history: "User action history"
     no_activity: "has no activity"
     location: "Location"
     organization: "Organization"
+    agency: "Agency"
+    manager: "Manager"
 
   actions: "actions"
   phone: "Phone"
@@ -719,37 +756,65 @@ en:
   devices: "Devices"
   replications: "Replications"
   provide_translation: "Provide translation for"
+  hide_on_view_page: "Hide On View Page"
+  last_login: "Last Login"
 
 
   record: "record"
   description: "Description"
-  name: "Name"
+  #TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
+  #       Longer term, need to refactor how that translation is handled
+  #name: "Name"
   unique_id: "Unique ID"
 
   permissions:
     label: "Permissions"
+    Actions: "Actions"
+    Resources: "Resources"
+    Management: "Management"
     group:
       actions: "Actions"
       resources: "Resources"
+      resource: "Resources"
       management: "Management"
 
     permission:
       read: "Read"
       write: "Write"
       flag: "Flag"
-      assign: "Assign record owner"
-      report_create: "Build reports"
+      assign: "Assign"
       case: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
-      user: "Users, Groups, Roles"
+      role: "Roles"
+      user: "Users, Groups"
       metadata: "Forms, Lookups"
       system: "System"
       report: "Report"
-      self: "Access only my records"
-      group: "Access all records owned by users in my group"
-      all: "Access all records"
+      self: "Access only my records or user"
+      group: "Access all records or users in my group"
+      all: "Access all records or users"
+      All: "All"
+      specific_roles: "Access specified list of roles"
       consent_override: "Consent override"
+      export_list_view_csv: "Export list view csv"
+      export_csv: "Export csv"
+      export_xls: "Export xls"
+      export_photowall: "Export photowall"
+      export_pdf: "Export pdf"
+      export_unhcr_csv: "Export unhcr csv"
+      export_mrm_violation_xls: "Export mrm violation xls"
+      export_incident_recorder_xls: "Export incident recorder xls"
+      export_case_pdf: "Export case pdf"
+      export_json: "Export json"
+      export_custom: "Export custom"
+      import: "Import"
+      transfer: "Transfer"
+      referral: "Referral"
+      sync_mobile: "Sync with mobile device"
+      approve_case_plan: "Approve case plan"
+      copy: "Copy"
+      manage: "Manage"
 
   forms:
     label: "Forms"
@@ -776,6 +841,7 @@ en:
     details: "Form details"
     label: "Form"
     back: "Back To Forms Page"
+    help_text: "Help Text"
     actions:
       actions: "Actions"
       add_custom_field: "Add Custom Field"
@@ -878,6 +944,7 @@ en:
     date_range_field: "Date Range"
     subform: "Subform"
     tick_box: "Tick Box"
+    tick_box_label: "Tick Box Label"
     tally_field: "Tally Field"
     separator: "Separator"
     successfully_added: "Field successfully added"
@@ -925,6 +992,7 @@ en:
     stop: Stop Synchronization
     configure_a_server: Configure a Server
     reindex_pending: Reindex Pending
+    is_continuous: Is Continuous
 
   lookup:
     edit: "Edit Lookup"
@@ -947,8 +1015,12 @@ en:
     label: "Location"
     index: "Manage Locations"
     name: "Name"
+    code: "Code"
     hierarchy: "Hierarchy"
     confirm_delete: Are you sure you want to delete this location?
+    placename: "Place name"
+    type: "Type"
+    parent: "Parent location"
     messages:
       cannot_create: "Location could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
@@ -985,6 +1057,7 @@ en:
     all: "Total"
     total: "Total"
     modules: "Modules"
+    record_type: "Record type"
     aggregate_by: "Group by row"
     disaggregate_by: "Group by column"
     aggregate_counts_from: "Aggregate counts from"
@@ -1010,6 +1083,7 @@ en:
     error_in_updating: "Error in updating the Report configuration."
     messages:
       delete_success: "Report was successfully deleted."
+    edit: "Edit"
 
   encrypt:
     password_title: "Create Password"
@@ -1032,6 +1106,10 @@ en:
       Password: "Password"
       Description: "Description"
       "Remote app url": "Remote app url"
+
+    attributes:
+      report:
+        aggregate_by: "Group by row"
 
     validations:
       blank: "%s must not be blank"
@@ -1089,12 +1167,14 @@ en:
 
   dashboard:
     flagged_by: "Flagged by:"
+    no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"
     no_overdue_activities: "No Overdue Activities"
     no_caseworker_data: "No Case Worker Data"
-    no_recently_flagged_child: "No Recently Flagged Cases"
-    no_recently_flagged_incident: "No Recently Flagged Incidents"
+    no_flagged_child: "No Flagged Cases"
+    no_flagged_incident: "No Flagged Incidents"
     no_open_incidents: "No Open incidents"
+    no_case_stats: "No Case Stats"
     scheduled_activities: "Scheduled Activities"
     overdue_activities: "Overdue Activities"
     recent_activities: "Recent Activities"
@@ -1107,13 +1187,14 @@ en:
     new_child_assigned_to_you: "New Cases Assigned To You"
     new_incident_assigned_to_you: "New Assigned Incidents"
     recently_flagged_child: "Recently Flagged Cases"
+    flagged_by_me: "Flagged By Me"
+    flagged_by_other: "Flagged By Someone Else"
     recently_flagged_incident: "Recently Flagged Incidents"
     incident_status_open: "Open"
     number_of_victims: "Number Of Victims"
     number_of_violations: "Number Of Violations"
     number_of_violations_verified: "Violations Verified"
-    link_see_all_child: "See all flagged cases"
-    link_see_all_incident: "See all flagged incidents"
+    link_see_all: "See all"
     open_incidents: "Open Incidents"
     status_of_cases: "Status of Cases"
     case_worker: "Case Worker"
@@ -1127,6 +1208,51 @@ en:
     name_or_survivor_code: "Name or Survivor Code"
     current_owner: "Current Owner"
     last_updated: "Lasted Updated"
+    case_stats: "Cases"
+    cases_by_social_worker: "Cases by social worker"
+    referrals_by_social_worker: "Referrals by social worker"
+    case_stat_by_assessment_level: "Cases by Assessment Level"
+    case_stat_referrals: "Referrals"
+    protection_concern: "Protection Concern"
+    preliminary_protection_concerns: "Preliminary Protection Concerns"
+    geographic_area: "Geographic Area"
+    all_cases: "All Cases"
+    open: "Open"
+    count_risk_level_total:
+      one: "You have %{stat} <span>%{stat_type} risk</span> case "
+      other: "You have %{stat} <span>%{stat_type} risk</span> cases "
+    count_risk_level_new:
+      one: "and %{stat} <span>new</span> <span>%{stat_type} risk</span> case"
+      other: "and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases"
+    count_records_total:
+      one: "You have %{stat} <span>total</span> case "
+      other: "You have %{stat} <span>total</span> cases "
+    count_records_new:
+      one: "and %{stat} <span>new</span> case"
+      other: "and %{stat} <span>new</span> cases"
+    count_referrals_total:
+      one: "You have %{stat} <span>total</span> referral "
+      other: "You have %{stat} <span>total</span> referrals  "
+    worker_count_referrals_total:
+      one: "<span>%{case_worker}</span> has %{stat} <span>total</span> referral "
+      other: "<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  "
+    count_referrals_new:
+      one: "and %{stat} <span>new</span> referrals"
+      other: "and %{stat} <span>new</span> referrals"
+    worker_count_total:
+      one: "<span>%{case_worker}</span> has %{stat} <span>total</span> case "
+      other: "<span>%{case_worker}</span> has %{stat} <span>total</span> cases "
+    manager_count_open_total:
+      one: "You have %{stat} <span>open</span> case "
+      other: "You have %{stat} <span>open</span> cases "
+    manager_count_closed_total:
+      one: "and %{stat} <span>closed</span> case "
+      other: "and %{stat} <span>closed</span> cases "
+    open_cases: "Open Cases"
+    new_last_week: "New <span>(last week)</span>"
+    new_this_week: "New <span>(this week)</span>"
+    closed_last_week: "Closed <span>(last week)</span>"
+    closed_this_week: "Closed <span>(this week)</span>"
 
   errors:
 
@@ -1162,12 +1288,13 @@ en:
         full_name: "Please enter full name of the user"
         password_confirmation: "Please enter password confirmation"
         password_mismatch: "The password fields do not have the same password"
+        password_text: "- Please create a password that is at least 6 characters in length and contains both letters and numbers"
         role_ids: "Please select at least one role"
         organization: "Please enter the user's organization name"
         user_name: "Please enter a valid user name"
         email: "Please enter a valid email address"
         user_name_uniqueness: "User name has already been taken! Please select a new User name"
-        authenticate: "Can't authenticate a un-saved user"
+        authenticate: "Can't authenticate an un-saved user"
 
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
@@ -1197,6 +1324,7 @@ en:
         has_1_option: "Checkbox must have at least 1 option"
         unique_name_other: "Field already exists on form '%{form_name}'"
         unique_name_this: "Field already exists on this form"
+        change_type_existing_field: "Can't change type of existing field on form '%{form_name}'"
 
       form_section:
         presence_of_name: "Name must not be blank"
@@ -1222,6 +1350,9 @@ en:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
+
+        permission:
+          resource_presence: "Please select a resource"
 
       primero_module:
         name_present: "Name must not be blank"
@@ -1257,10 +1388,13 @@ en:
 
       agency:
         unique_name: "An Agency with that name already exists, please enter a different name"
-        name_present: "or Code must not be blank"
+        name_present: "must not be blank"
+        code_present: "must not be blank"
 
       location:
         name_present: "must not be blank"
+        code_present: "must not be blank"
+        unique_name: "A Location with that name already exists, please enter a different name"
 
 
 
@@ -1344,6 +1478,10 @@ en:
       all:  Excel
       one:  Excel
       selected:  Selected to Excel
+    selected_xls:
+      all:  Excel
+      one:  Excel
+      selected:  Selected to Excel
     incident_recorder_xls:
       all:  Incident Recorder
       one:  Incident Recorder
@@ -1399,7 +1537,7 @@ en:
     consent_label: "records have not provided consent."
     consent_override_label: "Do you wish to override this setting?"
     is_remote_label: "Are you referring to a remote system?"
-    remote_primero_label: "Is the remote system a Primero implementation?"
+    type_of_export: "What type of export do you want"
     notes_label: "Notes"
     user_mandatory: "User name is required"
     no_records_selected: "No records selected"
@@ -1416,13 +1554,30 @@ en:
     consent_label: "records have not provided consent."
     consent_override_label: "Do you wish to override this setting?"
     is_remote_label: "Are you transferring to a remote system?"
-    remote_primero_label: "Is the remote system a Primero implementation?"
+    type_of_export: "What type of export do you want"
     notes_label: "Notes"
     user_mandatory: "User name is required"
     failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
     success: "%{record_type} %{id} successfully transferred"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
+
+  mark_for_mobile:
+    no_records_selected: "No records selected"
+    failure: "%{record_type} %{id} mark as mobile failed"
+    success: "%{record_type} %{id} successfully marked as mobile"
+    failure_batch: "%{failed_count} Record(s) failed to be marked as mobile"
+    success_batch: "%{success_count} Record(s) successfully marked as mobile"
+
+  unmark_for_mobile:
+    failure: "%{record_type} %{id} unmark as mobile failed"
+    success: "%{record_type} %{id} successfully unmarked as mobile"
+    failure_batch: "%{failed_count} Record(s) failed to be unmarked as mobile"
+    success_batch: "%{success_count} Record(s) successfully unmarked as mobile"
+
+  approve_case_plan:
+    approve_case_plan_label: "Approve Case Plan"
+    comments_label: "Comments"
 
   per_page_translation: "Per page _MENU_"
   total: Total

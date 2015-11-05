@@ -52,6 +52,8 @@ describe "record field model" do
 
     it "should not allow blank display name" do
       field = Field.new(:display_name => "")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:display_name].first).to eq "The name of the base language 'en' can not be blank"
     end
@@ -67,46 +69,62 @@ describe "record field model" do
 
     it "should not allow display name without alphabetic characters" do
       field = Field.new(:display_name => "!@£$@")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       field.valid?.should == false
       field.errors[:display_name].should include("Display name must contain at least one alphabetic characters")
     end
 
     it "should not allow blank name" do
       field = Field.new(:display_name => "ABC 123", :name => "")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name must not be blank"
     end
 
     it "should not allow capital letters in name" do
       field = Field.new(:display_name => "ABC 123", :name => "Abc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
     end
 
     it "should not allow special characters in name" do
       field = Field.new(:display_name => "ABC 123", :name => "a$bc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name must contain only lower case alphabetic characters, numbers, and underscores"
     end
 
     it "should not allow name to start with a number" do
       field = Field.new(:display_name => "ABC 123", :name => "1abc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be false
       expect(field.errors[:name].first).to eq "Field name cannot start with a number"
     end
 
     it "should allow alphabetic characters numbers and underscore in name" do
       field = Field.new(:display_name => "ABC 123", :name => "abc_123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be true
     end
 
     it "should allow alphabetic only in name" do
       field = Field.new(:display_name => "ABC 123", :name => "abc")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be true
     end
 
     it "should allow alphabetic and numeric only in name" do
       field = Field.new(:display_name => "ABC 123", :name => "abc123")
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
       expect(field.valid?).to be true
     end
 
@@ -122,6 +140,8 @@ describe "record field model" do
 
     it "should validate radio button has at least 2 options" do
       field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::RADIO_BUTTON)
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
 
       field.valid?
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
@@ -129,6 +149,8 @@ describe "record field model" do
 
     it "should validate checkbox has at least 1 option to be checked" do
       field = Field.new(:display_name => "test", :option_strings => nil, :type => Field::CHECK_BOXES)
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
 
       field.valid?
       field.errors[:option_strings].should ==  ["Checkbox must have at least 1 option"]
@@ -136,6 +158,8 @@ describe "record field model" do
 
     it "should validate select box has at least 2 options" do
       field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::SELECT_BOX)
+      form_section = FormSection.new(:parent_form => "case")
+      form_section.fields = [field]
 
       field.valid?
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
@@ -294,17 +318,17 @@ describe "record field model" do
      expect(field.new?).to be_false
   end
 
-   it "should show that the field is new after the field fails validation" do
-     form =  FormSection.create! :name => 'test_form2', :unique_id => 'test_form'
-     field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
-     FormSection.add_field_to_formsection form, field
-     #Adding duplicate field.
-     field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
-     FormSection.add_field_to_formsection form, field
-     expect(field.errors.length).to be > 0
-     field.errors[:name].should == ["Field already exists on this form"]
-     expect(field.new?).to be_true
-   end
+  it "should show that the field is new after the field fails validation" do
+    form = FormSection.create! :name => 'test_form2', :unique_id => 'test_form'
+    field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
+    FormSection.add_field_to_formsection form, field
+    #Adding duplicate field.
+    field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
+    FormSection.add_field_to_formsection form, field
+    expect(field.errors.length).to be > 0
+    field.errors[:name].should == ["Field already exists on this form"]
+    expect(field.new?).to be_true
+  end
 
   it "should fails save because fields are duplicated and fields remains as new" do
     #Try to create a FormSection with duplicate fields. That will make fails the save.
@@ -346,6 +370,59 @@ describe "record field model" do
     fields.first.name ="something_else"
     form.save
     expect(form.errors.length).to be == 0
+  end
+
+  describe "showable?" do
+    context "when visible is set to false" do
+      it "should be false if hide_on_view_page is not set" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false)
+        expect(field.showable?).to be false
+      end
+
+      it "should be false if hide_on_view_page is set to false" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false, :hide_on_view_page => false)
+        expect(field.showable?).to be false
+      end
+
+      it "should be false if hide_on_view_page is set to true" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => false, :hide_on_view_page => true)
+        expect(field.showable?).to be false
+      end
+    end
+
+    context "when visible is set to true" do
+      it "should be true if hide_on_view_page is not set" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true)
+        expect(field.showable?).to be true
+      end
+
+      it "should be true if hide_on_view_page is set to false" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true, :hide_on_view_page => false)
+        expect(field.showable?).to be true
+      end
+
+      it "should be false if hide_on_view_page is set to true" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :visible => true, :hide_on_view_page => true)
+        expect(field.showable?).to be false
+      end
+    end
+
+    context "when visible is not set" do
+      it "should be true if hide_on_view_page is not set" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123")
+        expect(field.showable?).to be true
+      end
+
+      it "should be true if hide_on_view_page is set to false" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :hide_on_view_page => false)
+        expect(field.showable?).to be true
+      end
+
+      it "should be false if hide_on_view_page is set to true" do
+        field = Field.new(:display_name => "ABC 123", :name => "abc123", :hide_on_view_page => true)
+        expect(field.showable?).to be false
+      end
+    end
   end
 
   # Test no longer valid. Now allowing sharing of fields

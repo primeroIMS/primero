@@ -45,15 +45,17 @@
     end
 
     def self.correct_aggregate_counts(values)
-      number_of_pivots = values.first.first.size
-      if number_of_pivots > 1
-        (number_of_pivots-1).downto(0).each do |i|
-          values.group_by{|pivots, value| pivots[0..i]}.each do |pivot_group, values_in_group|
-            pivots = pivot_group + [""] * (number_of_pivots - pivot_group.size)
-            sum = values_in_group.reduce(0) do |sum, pivot_value|
-              pivot_value[0].last.present? ? sum + pivot_value[1] : sum
+      if values.present?
+        number_of_pivots = values.first.first.size
+        if number_of_pivots > 1
+          (number_of_pivots-1).downto(0).each do |i|
+            values.group_by{|pivots, value| pivots[0..i]}.each do |pivot_group, values_in_group|
+              pivots = pivot_group + [""] * (number_of_pivots - pivot_group.size)
+              sum = values_in_group.reduce(0) do |sum, pivot_value|
+                pivot_value[0].last.present? ? sum + pivot_value[1] : sum
+              end
+              values[pivots] = sum
             end
-            values[pivots] = sum
           end
         end
       end

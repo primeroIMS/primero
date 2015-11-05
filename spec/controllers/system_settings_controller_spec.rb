@@ -4,10 +4,12 @@ require 'spec_helper'
 
 describe SystemSettingsController do
   before :each do
+    @system_settings = SystemSettings.create default_locale: "en"
     fake_admin_login
   end
 
   after :each do
+    SystemSettings.all.each &:destroy
     I18n.default_locale = :en
   end
 

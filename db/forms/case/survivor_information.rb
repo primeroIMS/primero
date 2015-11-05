@@ -35,7 +35,7 @@ survivor_information_fields = [
             "display_name_all" => "Date of Birth"
             }),
   Field.new({"name" => "sex",
-             "type" => "radio_button",
+             "type" => "select_box",
              "option_strings_text_all" => "Female\nMale",
              "display_name_all" => "Sex"
             }),

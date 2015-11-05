@@ -29,6 +29,7 @@ module MediaActions
     object = instance_variable_get("@#{self.model_class.name.underscore.downcase}")
     redirect_to(:controller => self.model_class.name.underscore.downcase.pluralize, :action => 'show', :id => object.id) and return unless @attachment
     send_data( @attachment.data.read, :filename => audio_filename(@attachment), :type => @attachment.content_type )
+    cookies[:download_status_finished] = true
   end
 
   def download_document
@@ -36,6 +37,7 @@ module MediaActions
     object = instance_variable_get("@#{self.model_class.name.underscore.downcase}")
     redirect_to(:controller => self.model_class.name.underscore.downcase.pluralize, :action => 'show', :id => object.id) and return unless @attachment
     send_data(@attachment.data.read, :filename => document_filename(@attachment), :type => @attachment.content_type)
+    cookies[:download_status_finished] = true
   end
 
   def document_filename attachment

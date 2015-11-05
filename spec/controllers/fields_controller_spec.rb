@@ -4,7 +4,8 @@ require 'spec_helper'
 describe FieldsController do
   before :each do
     user = User.new(:user_name => 'manager_of_forms')
-    user.stub(:roles).and_return([Role.new(:permissions => [Permission::METADATA])])
+    @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+    user.stub(:roles).and_return([Role.new(permissions_list: [@permission_metadata])])
     fake_login user
   end
 
@@ -139,7 +140,7 @@ describe FieldsController do
       field_with_error = double("field", :name => "field", :attributes= => [], :errors => ["error"])
       FormSection.stub(:get_by_unique_id).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
       FormSection.stub(:list_form_group_names)
-      put :update, :id => "field", :form_section_id => "unique_id",
+      put :update, :id => "field", :form_section_id => "unique_id", :module_id => "primeromodule-cp",
           :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text"}
 
       assigns[:show_add_field].should == {:show_add_field => true}

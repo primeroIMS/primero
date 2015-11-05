@@ -5,10 +5,11 @@ class Field
 
   property :name
   property :visible, TrueClass, :default => true
+  property :hide_on_view_page, TrueClass, :default => false
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :option_strings_source, :multi_select, :tick_box_label]
+  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label]
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
@@ -24,6 +25,8 @@ class Field
   property :field_tags, [String], :default => []
   property :custom_template, :default => nil #Custom type should set the path to the template.
   property :expose_unique_id, TrueClass, :default => false
+  property :subform_sort_by
+
 
   attr_accessor :subform
 
@@ -106,6 +109,7 @@ class Field
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
+  validate :validate_same_datatype
 
   #TODO: Any subform validations?
 
@@ -213,6 +217,7 @@ class Field
     self.autosum_total ||= false
     self.autosum_group ||= ""
     self.create_property ||= true
+    self.hide_on_view_page ||= false
     self.attributes = properties
   end
 
@@ -236,14 +241,30 @@ class Field
     self.option_strings_text.gsub(/\r\n?/, "\n").split("\n")
   end
 
-  def options_list(lookups = nil)
+  #TODO: Eventually, this method should be the ultimate list of options for this field.
+  #      Any HTML form-specific formatting should take place ina helper.
+  def options_list(record=nil, lookups=nil, locations=nil)
     options_list = []
     if self.option_strings_source.present?
       source_options = self.option_strings_source.split
-      if source_options.first == 'lookup'
+      #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
+      #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
+      if source_options.first == 'violations'
+        if record.present? && record.class == Incident
+          options_list = record.violations_list_by_unique_id
+        end
+      elsif source_options.first == 'lookup'
         options_list += Lookup.values(source_options.last.titleize, lookups)
+        if source_options.second == 'group'
+          #TODO: What about I18n? What is this?
+          options_list += ['Other', 'Mixed', 'Unknown']
+        end
+      elsif source_options.first == 'Location' && locations.present?
+        options_list += locations || []
       else
-        options_list << self.option_strings_source
+        #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
+        clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
+        options_list += clazz.all.map{|r| r.name}
       end
     else
       options_list += self.option_strings
@@ -264,38 +285,22 @@ class Field
     "#{objName}[#{name}]"
   end
 
+
+  #TODO: This should be merged with options_list above. Any HTML form specific stuff shoudl be moved to a helper
   def select_options(record=nil, lookups=nil, locations=nil)
     select_options = []
-    select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
-    if self.option_strings_source.present?
-      #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
-      #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
-      source_options = self.option_strings_source.split
-      if source_options.first == 'violations'
-        if record.present? && record.class == Incident
-          select_options = record.violations_list_by_unique_id
-        end
-      elsif source_options.first == 'lookup'
-        select_options += Lookup.values(source_options.last.titleize, lookups)
-
-        if source_options.second == 'group'
-          #TODO: What about I18n? What is this?
-          select_options += ['Other', 'Mixed', 'Unknown']
-        end
-      elsif source_options.first == 'Location' && locations.present?
-        select_options += locations || []
-      else
-        #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
-        clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
-        select_options += clazz.all.map{|r| r.name}
-      end
-    elsif self.type == TICK_BOX
+    if self.type == TICK_BOX
       select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
     else
-      select_options += @options.collect{ |option| option.option_name.is_a?(Hash) ? [option.option_name['display_text'],
-                                          option.option_name['id']] : [option.option_name, option.option_name]}
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
+      select_options += options_list(record, lookups, locations).map do |option|
+        if option.is_a? Hash
+          [option['display_text'], option['id']]
+        else
+          [option, option]
+        end
+      end
     end
-
     return select_options
   end
 
@@ -365,6 +370,12 @@ class Field
     return result
   end
 
+  # Whether or not this should display on the show/view pages
+  # Should not affect the new/edit pages
+  def showable?
+    self.visible? && !self.hide_on_view_page
+  end
+
 
   private
 
@@ -417,5 +428,15 @@ class Field
     true
   end
 
+  def validate_same_datatype
+    #Find field with the same name.
+    fields = FormSection.get_fields_by_name_and_parent_form(name, form.parent_form, false)
+    #Check if the types are the same.
+    fields = fields.select{|field| field.type != type}
+    #Error if the type is different.
+    return errors.add(:name, I18n.t("errors.models.field.change_type_existing_field", :form_name => fields.first.form.name)) if fields.present?
+    #We are OK - All the fields with the same name are consistent with the type.
+    true
+  end
 
 end

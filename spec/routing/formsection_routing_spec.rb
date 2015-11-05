@@ -30,4 +30,12 @@ describe 'Form Section routing' do
   it "has route for update field page" do
     {:put => '/forms/form_section_unique_id/fields/field_id'}.should route_to(:controller => 'fields', :action => "update", "form_section_id"=>"form_section_unique_id", "id"=>"field_id")
   end
+
+  it "routes the forms API call to JSON withe /api/forms alias" do
+    {get: 'api/forms'}.should route_to(:controller => 'form_section', :action => 'index', :format => :json)
+  end
+
+  it "routes the forms API call to JSON" do
+    {get: 'api/form_sections'}.should route_to(:controller => 'form_section', :action => 'index', :format => :json)
+  end
 end

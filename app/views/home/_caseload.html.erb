@@ -15,10 +15,7 @@
           </th>
           <th>
             <%= t("dashboard.missed_cases") %>
-            <span class="fa-stack">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
-            </span>
+            <i class="fa fa-exclamation"></i>
           </th>
        </tr>
       </thead>
@@ -32,7 +29,7 @@
           <tr>
             <td class="id_column">
               <% if u.present? %>
-                <%= link_to u, cases_path(scope: { owned_by: "list||#{u}" }), class: 'id_link' %>
+                <%= link_to u, cases_path(scope: { owned_by: "list||#{u}", child_status: "list||Open" }), class: 'id_link' %>
               <% else %>
                 <%= t('dashboard.system_user') %>
               <% end %>

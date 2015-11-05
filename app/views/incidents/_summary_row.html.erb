@@ -1,5 +1,5 @@
 <tr>
-  <td class="select_record"><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_child record %>"></td>
+  <td class="select_record"><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_incident record %>"></td>
   <% if fields_to_show.include? 'short_id' %>
     <td id="incident_<%= record.id %>" class="id_column">
       <%= link_to text_to_identify_incident(record), incident_path(record), class: 'id_link' %>

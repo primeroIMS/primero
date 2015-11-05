@@ -49,7 +49,8 @@ describe FormSection do
         @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
         @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
         @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
-        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
         @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
       end
 
@@ -60,7 +61,7 @@ describe FormSection do
       end
 
       it "returns no FormSection objects if the user cannot view the permitted module forms" do
-        role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions: ["test_permission"])
+        role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions_list: [@permission_case_read])
         user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
         child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
 
@@ -88,7 +89,8 @@ describe FormSection do
         @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_name: "X")
         @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_name: "Y")
         @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
-        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions: ["test_permission"])
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
         @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
       end
 
@@ -154,13 +156,7 @@ describe FormSection do
         expect(result_subform_field.subform).to be_a FormSection
         expect(result_subform_field.subform.unique_id).to eq("A")
       end
-
-
     end
-
-
-
-
   end
 
   describe '#unique_id' do
@@ -218,6 +214,40 @@ describe FormSection do
         form_section = FormSection.enabled_by_order_without_hidden_fields.first
         form_section.fields.should == [visible_field]
       end
+    end
+
+  end
+
+  describe "mobile forms" do
+    before do
+      FormSection.all.each &:destroy
+      @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case')
+      @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
+      @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
+      @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'case', mobile_form: true)
+      @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: 'incident')
+      @form_section_f = FormSection.create!(unique_id: "F", name: "F", parent_form: 'incident', mobile_form: true)
+    end
+
+    it "should create new form with default mobile_form value false" do
+      expect(@form_section_a.mobile_form).to be_false
+    end
+
+    it "should find all mobile forms" do
+      expect(FormSection.find_mobile_forms.all).to include(@form_section_d, @form_section_f)
+      expect(FormSection.find_mobile_forms.all.count).to eq(2)
+    end
+
+    it "should find all mobile case forms" do
+      expect(FormSection.find_mobile_forms_by_parent_form('case')).to include(@form_section_d)
+      expect(FormSection.find_mobile_forms_by_parent_form('case')).not_to include(@form_section_f)
+      expect(FormSection.find_mobile_forms_by_parent_form('case').count).to eq(1)
+    end
+
+    it "should find all mobile incident forms" do
+      expect(FormSection.find_mobile_forms_by_parent_form('incident')).not_to include(@form_section_d)
+      expect(FormSection.find_mobile_forms_by_parent_form('incident')).to include(@form_section_f)
+      expect(FormSection.find_mobile_forms_by_parent_form('incident').count).to eq(1)
     end
   end
 
@@ -635,7 +665,7 @@ describe FormSection do
 
       fields_1 = [
         Field.new({"name" => "date_of_separation",
-                   "type" => "text_field",
+                   "type" => "date_field",
                    "display_name_all" => "Date of Separation All"
                   }),
         Field.new({"name" => "separation_cause",
@@ -666,9 +696,8 @@ describe FormSection do
       form_section_1.name.should == "Tracing Name All"
       form_section_1.description.should == "Tracing Description All"
 
-      #Check that the existing field did not change.
       form_section_1.fields[0].name.should == "date_of_separation"
-      form_section_1.fields[0].type.should == "text_field"
+      form_section_1.fields[0].type.should == "date_field"
       form_section_1.fields[0].display_name.should == "Date of Separation All"
 
       #Check the new field.
@@ -730,4 +759,242 @@ describe FormSection do
     end
 
   end
+
+  describe "Fields with the same name" do
+    before :each do
+      FormSection.all.each &:destroy
+      subform_fields = [
+        Field.new({"name" => "field_name_1",
+                   "type" => "text_field",
+                   "display_name_all" => "Field name 1"
+                  })
+      ]
+      subform_section = FormSection.new({
+          "visible"=>false,
+          "is_nested"=>true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 1,
+          :unique_id=>"subform_section_1",
+          :parent_form=>"case",
+          "editable"=>true,
+          :fields => subform_fields,
+          :initial_subforms => 1,
+          "name_all" => "Nested Subform Section 1",
+          "description_all" => "Details Nested Subform Section 1"
+      })
+      subform_section.save!
+  
+      fields = [
+        Field.new({"name" => "field_name_2",
+                   "type" => "text_field",
+                   "display_name_all" => "Field Name 2"
+                  }),
+        Field.new({"name" => "field_name_3",
+                   "type" => "subform",
+                   "editable" => true,
+                   "subform_section_id" => subform_section.unique_id,
+                   "display_name_all" => "Subform Section 1"
+                  })
+      ]
+      form = FormSection.new(
+        :unique_id => "form_section_test_1",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 1,
+        :order => 1,
+        :order_subform => 0,
+        :form_group_name => "Form Section Test",
+        "editable" => true,
+        "name_all" => "Form Section Test 1",
+        "description_all" => "Form Section Test 1",
+        :fields => fields
+      )
+      form.save!
+    end
+
+    after :all do
+      FormSection.all.each &:destroy
+    end
+
+    describe "Create Form Section" do
+      it "should not add field with different type" do
+        #This field is a text_field in another form.
+        fields = [
+          Field.new({"name" => "field_name_2",
+                     "type" => "textarea",
+                     "display_name_all" => "Field Name 2"
+                    })
+        ]
+        form = FormSection.new(
+          :unique_id => "form_section_test_2",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test 2",
+          "description_all" => "Form Section Test 2",
+          :fields => fields
+        )
+        form.save
+
+        #Form was not save.
+        form.new_record?.should be_true
+
+        #There is other field with the same on other form section
+        #so, we can't change the type.
+        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+      end
+
+      it "should not add subform with different type" do
+        #This field is a subform in another form.
+        fields = [
+          Field.new({"name" => "field_name_3",
+                     "type" => "textarea",
+                     "display_name_all" => "Field Name 3"
+                    })
+        ]
+        form = FormSection.new(
+          :unique_id => "form_section_test_2",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test 2",
+          "description_all" => "Form Section Test 2",
+          :fields => fields
+        )
+        form.save
+
+        #Form was not save.
+        form.new_record?.should be_true
+
+        #There is other field with the same on other form section
+        #so, we can't change the type.
+        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+      end
+
+      it "should allow fields with the same name on different subforms" do
+        #This field exists in a different subforms, but should be possible
+        #add with the same name and different type in another subform.
+        subform_fields = [
+          Field.new({"name" => "field_name_1",
+                     "type" => "textarea",
+                     "display_name_all" => "Field name 1"
+                    })
+        ]
+        subform_section = FormSection.new({
+            "visible"=>false,
+            "is_nested"=>true,
+            :order_form_group => 1,
+            :order => 1,
+            :order_subform => 1,
+            :unique_id=>"subform_section_2",
+            :parent_form=>"case",
+            "editable"=>true,
+            :fields => subform_fields,
+            :initial_subforms => 1,
+            "name_all" => "Nested Subform Section 2",
+            "description_all" => "Details Nested Subform Section 2"
+        })
+        subform_section.save
+
+        subform_section.new_record?.should be_false
+
+        expect(subform_section.fields.first.errors.messages[:name]).to eq(nil)
+      end
+   end
+
+    describe "Edit Form Section" do
+      before :each do
+        subform_fields = [
+          Field.new({"name" => "field_name_5",
+                     "type" => "textarea",
+                     "display_name_all" => "Field name 5"
+                    })
+        ]
+        @subform_section = FormSection.new({
+            "visible"=>false,
+            "is_nested"=>true,
+            :order_form_group => 1,
+            :order => 1,
+            :order_subform => 1,
+            :unique_id=>"subform_section_3",
+            :parent_form=>"case",
+            "editable"=>true,
+            :fields => subform_fields,
+            :initial_subforms => 1,
+            "name_all" => "Nested Subform Section 3",
+            "description_all" => "Details Nested Subform Section 3"
+        })
+        @subform_section.save!
+
+        fields = [
+          Field.new({"name" => "field_name_4",
+                     "type" => "textarea",
+                     "display_name_all" => "Field Name 4"
+                    })
+        ]
+        @form = FormSection.new(
+          :unique_id => "form_section_test_2",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test 2",
+          "description_all" => "Form Section Test 2",
+          :fields => fields
+        )
+        @form.save!
+      end
+
+      it "should not add field with different type" do
+        #This field is a text_field in another form.
+        @form.fields << Field.new({"name" => "field_name_2",
+                                   "type" => "textarea",
+                                   "display_name_all" => "Field Name 2"
+                                  })
+        @form.save.should be_false
+
+        #There is other field with the same on other form section
+        #so, we can't change the type.
+        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+      end
+
+      it "should not add subform with different type" do
+        #This field is a subform in another form.
+        @form.fields << Field.new({"name" => "field_name_3",
+                                  "type" => "textarea",
+                                  "display_name_all" => "Field Name 3"
+                                 })
+        @form.save.should be_false
+
+        #There is other field with the same on other form section
+        #so, we can't change the type.
+        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+      end
+
+      it "should allow fields with the same name on different subforms" do
+        field = @subform_section.fields.first
+        #Match the name with this field on different subforms
+        field.name = "field_name_1"
+
+        #Save the record and check the status
+        @subform_section.save.should be_true
+
+        expect(@subform_section.fields.first.errors.messages[:name]).to eq(nil)
+      end
+   end
+
+  end
+
 end

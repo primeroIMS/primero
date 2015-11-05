@@ -12,7 +12,7 @@ class Child < CouchRest::Model::Base
   end
 
   include PrimeroModel
-  include RapidFTR::CouchRestRailsBackward
+  include Primero::CouchRestRailsBackward
 
   # This module updates photo_keys with the before_save callback and needs to
   # run before the before_save callback in Historical to make the history
@@ -24,6 +24,8 @@ class Child < CouchRest::Model::Base
   include AudioUploader
 
   property :case_id
+  property :case_id_code
+  property :case_id_display
   property :nickname
   property :name
   property :hidden_name, TrueClass, :default => false
@@ -32,7 +34,10 @@ class Child < CouchRest::Model::Base
   property :reunited_message, String
   property :investigated, TrueClass
   property :verified, TrueClass
-
+  property :risk_level
+  property :child_status
+  property :system_generated_followup, TrueClass, default: false
+  property :registration_date, Date
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [String], :default => []
 
@@ -58,7 +63,8 @@ class Child < CouchRest::Model::Base
 
 
   design do
-      view :by_protection_status_and_gender_and_ftr_status
+      view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
+      view :by_date_of_birth
 
       view :by_name,
               :map => "function(doc) {
@@ -116,6 +122,22 @@ class Child < CouchRest::Model::Base
                          }
                        }
                      }"
+
+      view :by_date_of_birth_month_day,
+           :map => "function(doc) {
+                  if (doc['couchrest-type'] == 'Child')
+                 {
+                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
+                      if (doc['date_of_birth'] != null) {
+                        var dob = new Date(doc['date_of_birth']);
+                        //Add 1 to month because getMonth() is indexed starting at 0
+                        //i.e. January == 0, Februrary == 1, etc.
+                        //Add 1 to align it with Date.month which is indexed starting at 1
+                        emit([(dob.getMonth() + 1), dob.getDate()], null);
+                      }
+                    }
+                 }
+              }"
   end
 
   def self.quicksearch_fields
@@ -141,6 +163,21 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
   end
 
+  def self.minimum_reportable_fields
+    {
+          'boolean' => ['record_state'],
+           'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by_location_district', 'owned_by'],
+      'multistring' => ['associated_user_names'],
+             'date' => ['registration_date'],
+          'integer' => ['age'],
+         'location' => ['owned_by_location', 'location_current']
+    }
+  end
+
+  def self.nested_reportable_types
+    [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
+  end
+
   def self.fetch_all_ids_and_revs
     ids_and_revs = []
     all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
@@ -148,6 +185,12 @@ class Child < CouchRest::Model::Base
       ids_and_revs << row["value"]
     end
     ids_and_revs
+  end
+
+  def self.by_date_of_birth_range(startDate, endDate)
+    if startDate.is_a?(Date) && endDate.is_a?(Date)
+      self.by_date_of_birth_month_day(:startkey => [startDate.month, startDate.day], :endkey => [endDate.month, endDate.day]).all
+    end
   end
 
   def validate_has_at_least_one_field_value
@@ -198,7 +241,24 @@ class Child < CouchRest::Model::Base
   end
 
   def set_instance_id
+    system_settings = SystemSettings.current
     self.case_id ||= self.unique_identifier
+    self.case_id_code ||= create_case_id_code(system_settings)
+    self.case_id_display ||= create_case_id_display(system_settings)
+  end
+
+  def create_case_id_code(system_settings)
+    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
+    id_code_parts = []
+    if system_settings.present? && system_settings.case_code_format.present?
+      system_settings.case_code_format.each {|cf| id_code_parts << PropertyEvaluator.evaluate(self, cf)}
+    end
+    id_code_parts.reject(&:blank?).join(separator)
+  end
+
+  def create_case_id_display(system_settings)
+    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
+    [self.case_id_code, self.short_id].reject(&:blank?).join(separator)
   end
 
   def create_class_specific_fields(fields)
@@ -225,6 +285,15 @@ class Child < CouchRest::Model::Base
 
   def caregivers_name
     self.name_caregiver || self.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
+  end
+
+  # Solution below taken from...
+  # http://stackoverflow.com/questions/819263/get-persons-age-in-ruby
+  def calculated_age
+    if date_of_birth.present? && date_of_birth.is_a?(Date)
+      now = Date.current
+      now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
+    end
   end
 
   private

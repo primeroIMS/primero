@@ -106,35 +106,37 @@ class Report < CouchRest::Model::Base
           self.values = self.values.map{|pivots, _| [pivots, 0]}
         end
         aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
-        if aggregate_counts_from_field.type == Field::TALLY_FIELD
-          self.values = self.values.map do |pivots, value|
-            if pivots.last.present? && pivots.last.match(/\w+:\d+/)
-              tally = pivots.last.split(':')
-              value = value * tally[1].to_i
+        if aggregate_counts_from_field.present?
+          if aggregate_counts_from_field.type == Field::TALLY_FIELD
+            self.values = self.values.map do |pivots, value|
+              if pivots.last.present? && pivots.last.match(/\w+:\d+/)
+                tally = pivots.last.split(':')
+                value = value * tally[1].to_i
+              end
+              [pivots, value]
+            end.to_h
+            self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
+              pivot_name.split(':')[0]
             end
-            [pivots, value]
-          end.to_h
-          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
-            pivot_name.split(':')[0]
-          end
-          self.values = Reports::Utils.correct_aggregate_counts(self.values)
-        elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
-          self.values = self.values.map do |pivots, value|
-            if pivots.last.is_a?(Numeric)
-              value = value * pivots.last
-            elsif pivots.last == ""
-              value = 0
+            self.values = Reports::Utils.correct_aggregate_counts(self.values)
+          elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
+            self.values = self.values.map do |pivots, value|
+              if pivots.last.is_a?(Numeric)
+                value = value * pivots.last
+              elsif pivots.last == ""
+                value = 0
+              end
+              [pivots, value]
+            end.to_h
+            self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
+              (pivot_name.is_a? Numeric) ? "" : pivot_name
             end
-            [pivots, value]
-          end.to_h
-          self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
-            (pivot_name.is_a? Numeric) ? "" : pivot_name
+            self.values = self.values.map do |pivots, value|
+              pivots = pivots[0..-2] if pivots.last == ""
+              [pivots, value]
+            end.to_h
+            self.values = Reports::Utils.correct_aggregate_counts(self.values)
           end
-          self.values = self.values.map do |pivots, value|
-            pivots = pivots[0..-2] if pivots.last == ""
-            [pivots, value]
-          end.to_h
-          self.values = Reports::Utils.correct_aggregate_counts(self.values)
         end
       end
       age_field_index = pivot_index(AGE_FIELD)
@@ -298,35 +300,6 @@ class Report < CouchRest::Model::Base
 
   def self.reportable_record_types
     FormSection::RECORD_TYPES + ['violation']
-  end
-
-  # Fetch and group all reportable fields by form given a user.
-  # This will be used by the field lookup.
-  def self.all_reportable_fields_by_form(primero_modules, record_type, user, types=REPORTABLE_FIELD_TYPES)
-    reportable = {}
-    if primero_modules.present?
-      primero_modules.each do |primero_module|
-        if record_type == 'violation'
-          forms = FormSection.get_permitted_form_sections(primero_module, 'incident', user)
-          violation_forms = FormSection.violation_forms
-          forms = forms.select{|f| violation_forms.include?(f) || !f.is_nested?}
-        else
-          forms = FormSection.get_permitted_form_sections(primero_module, record_type, user)
-          #Hide away the subforms (but not the invisible forms!)
-          forms = forms.select{|f| !f.is_nested?}
-        end
-        forms = forms.sort_by{|f| [f.order_form_group, f.order]}
-        #TODO: Maybe move this logic to controller?
-        forms = forms.map do |form|
-          fields = form.fields.select{|f| types.include? f.type}
-          fields = fields.map{|f| [f.name, f.display_name, f.type]}
-          [form.name, fields]
-        end
-        forms = forms.select{|f| f[1].present?}
-        reportable[primero_module.name] = forms
-      end
-    end
-    return reportable
   end
 
   def apply_default_filters

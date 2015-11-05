@@ -23,6 +23,10 @@ describe Location do
     expect(@town1.name).to eq(@town1.hierarchical_name)
   end
 
+  it 'returns all names' do
+    expect(Location.all_names).to eq([@country.name, @province1.name, @province2.name, @province3.name, @town1.name, @town2.name, @town3.name])
+  end
+
   it 'sets the #name to #hierarchical_name when saving' do
     @town1.placename = "Pawtucket"
     expect(@town1['name']).to_not eq(@town1.hierarchical_name)
@@ -52,5 +56,52 @@ describe Location do
     location1.set_parent(location2)
 
     expect(location2.descendants).to match_array [location1]
+  end
+
+  it "should only allow unique location hierachies" do
+    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country')
+    country1.save
+
+    state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
+    state1.save
+
+    state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
+    state2.save
+    state2.should_not be_valid
+    state2.errors[:name].should == ["A Location with that name already exists, please enter a different name"]
+  end
+
+  it "should allow locations with same placename but different hierachies" do
+    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country')
+    country1.save
+    country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country')
+    country2.save
+
+    state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
+    state1.save
+
+    state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country2.placename])
+    state2.save
+    state2.should be_valid
+  end
+
+  it "should not be valid if placename is empty" do
+    location = Location.new(:location_code => "abc123")
+    location.should_not be_valid
+    location.errors[:name].should == ["must not be blank"]
+  end
+
+  #TODO - location code validation was removed.
+  #       this needs to be added back when that validation is added back
+  xit "should not be valid if location code is empty" do
+    location = Location.new(:placename => "test_location")
+    location.should_not be_valid
+    location.errors[:location_code].should == ["must not be blank"]
+  end
+
+  #TODO - for now, Location::BASE_TYPES returns a string of hard coded location type values
+  #       When this is made I18n compliant, this test may need to be modified
+  it 'returns all location types' do
+    expect(Location::BASE_TYPES).to eq(['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other'])
   end
 end

@@ -3,12 +3,27 @@ basic_identity_fields = [
              "type" => "text_field",
              "editable" => false,
              "display_name_all" => "Long ID",
-             "create_property" => false
+             "create_property" => false,
+             "visible" => false
             }),
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "editable" => false,
+             "display_name_all" => "Short ID",
+             "create_property" => false,
+             "visible" => false
+            }),
+  Field.new({"name" => "case_id_display",
+             "type" => "text_field",
+             "editable" => false,
              "display_name_all" => "Case ID",
+             "create_property" => false
+            }),
+  Field.new({"name" => "marked_for_mobile",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Marked for mobile?",
+             "editable" => false,
              "create_property" => false
             }),
   Field.new({"name" => "child_status",
@@ -18,9 +33,24 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "name",
              "type" => "text_field",
-             "display_name_all" => "Name",
+             "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "hidden_text_field" => true
+            }),
+  Field.new({"name" => "name_first",
+             "type" => "text_field",
+             "display_name_all" => "First Name",
+             "hide_on_view_page" => true
+            }),
+  Field.new({"name" => "name_middle",
+             "type" => "text_field",
+             "display_name_all" => "Middle Name",
+             "hide_on_view_page" => true
+            }),
+  Field.new({"name" => "name_last",
+             "type" => "text_field",
+             "display_name_all" => "Surname",
+             "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_nickname",
              "type" => "text_field",
@@ -142,5 +172,6 @@ FormSection.create_or_update_form_section({
   :fields => basic_identity_fields,
   :is_first_tab => true,
   "name_all" => "Basic Identity",
-  "description_all" => "Basic identity information about a separated or unaccompanied child."
+  "description_all" => "Basic identity information about a separated or unaccompanied child.",
+  :mobile_form => true
 })

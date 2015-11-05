@@ -2,6 +2,7 @@
   <thead>
   <tr>
     <th><%= t "location.name" %></th>
+    <th><%= t "location.code" %></th>
     <th><%= t "location.type" %></th>
     <th><%= t "location.hierarchy" %></th>
     <th ></th>
@@ -12,6 +13,7 @@
       <% locations.each do |lct| %>
           <tr>
             <td><%= lct.placename %></td>
+            <td><%= lct.location_code %></td>
             <td><%= lct.type %></td>
             <td><%= lct.hierarchy.join(", ") %></td>
             <td>
