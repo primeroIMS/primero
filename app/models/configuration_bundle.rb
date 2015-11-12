@@ -63,6 +63,7 @@ class ConfigurationBundle < CouchRest::Model::Base
       acc.merge(modelCls.database.name => modelCls.database.info['update_seq'])
     end
     CouchChanges::Sequencer.prime_sequence_numbers(latest_sequences)
+    CouchChanges::Watcher::restart
   end
 
 end

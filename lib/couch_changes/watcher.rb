@@ -14,6 +14,10 @@ module CouchChanges
       end
     end
 
+    def self.restart
+      FileUtils.touch "tmp/couch_watcher_restart.txt"
+    end
+
     private
 
     def listen_for_changes(model, handler, retry_period=2, &block)

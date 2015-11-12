@@ -190,6 +190,7 @@ directory couch_watcher_dir do
 end
 
 [::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_history.json'),
+ ::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_restart.txt'),
  ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log')
 ].each do |f|
   file f do
@@ -238,7 +239,7 @@ file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
   group node[:primero][:app_group]
   content <<-EOH
 #!/bin/bash
-inotifywait -e modify,close_write #{::File.join(node[:primero][:app_dir], 'tmp')}/couch_watcher_history.json && supervisorctl restart couch-watcher
+inotifywait #{::File.join(node[:primero][:app_dir], 'tmp')}/couch_watcher_restart.txt && supervisorctl restart couch-watcher
 EOH
 end
 
