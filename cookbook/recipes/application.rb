@@ -195,6 +195,8 @@ end
 ].each do |f|
   file f do
     #content ''
+    #NOTE: couch_watcher_restart.txt must be 0666 to allow any user importing a config bundle
+    #      to be able to touch the file, triggering a restart of couch_watcher
     mode '0666' #TODO: This is a hack
     owner 'root'
     group 'root'
@@ -239,6 +241,8 @@ file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
   group node[:primero][:app_group]
   content <<-EOH
 #!/bin/bash
+#Look for any changes to /tmp/couch_watcher_restart.txt.
+#When a change occurrs to that file, restart couch-watcher
 inotifywait #{::File.join(node[:primero][:app_dir], 'tmp')}/couch_watcher_restart.txt && supervisorctl restart couch-watcher
 EOH
 end
