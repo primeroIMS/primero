@@ -48,8 +48,20 @@
     margin-right: 0;
   }
 
+  .label {
+    background: none;
+    color: $grey_color;
+    float: left;
+    width: 100%;
+    text-align: left;
+    margin: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 0;
+  }
+
   h4 {
-    font-size: $twenty_px;
+    font-size: .88rem;
     font-family: 'Roboto-Medium', sans-serif;
     color: $green_color;
   }
