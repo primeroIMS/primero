@@ -1,5 +1,5 @@
 _primero.Views.Actions = Backbone.View.extend({
-  el: '#child_enable_disable_records',
+  el: '[id$="_enable_disable_records"]',
 
   events: {
     'click #enable_disable_action': 'enable_disable'

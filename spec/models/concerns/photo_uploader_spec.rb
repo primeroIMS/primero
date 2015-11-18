@@ -23,11 +23,11 @@ describe PhotoUploader do
     @rec.photo = uploadable_photo_jeff
     @rec.save
     changes = @rec.histories.first.changes
-    changes['photo_keys']['to'].last.should =~ /photo.*?-2010-02-20T120424/
+    changes['photo_keys']['to'].last.should == "jeff"
   end
 
   it "should log multiple photos being added" do
-    @rec.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
+    @rec.photos = [uploadable_photo_jeff, uploadable_photo_jorge_300x300]
     @rec.save
     ch = @rec.histories.first.changes['photo_keys']
     (ch['to'] - ch['from']).should have(2).photo_keys
@@ -59,7 +59,7 @@ describe PhotoUploader do
     @rec = TestRecord.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
     @rec.save
     @rec.primary_photo.name.should == @rec.photos.first.name
-    @rec.primary_photo.name.should start_with("photo-")
+    @rec.primary_photo.name.should == "jorge"
   end
 
 

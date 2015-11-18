@@ -881,8 +881,7 @@ describe ChildrenController do
 
       assigns[:child]['name'].should == "Manchester"
       assigns[:child]['_attachments'].size.should == 2
-      updated_photo_key = assigns[:child]['_attachments'].keys.select {|key| key =~ /photo.*?-2010-01-17T140532/}.first
-      assigns[:child]['_attachments'][updated_photo_key]['data'].should_not be_blank
+      assigns[:child]['_attachments']["jeff"]['data'].should_not be_blank
     end
 
     it "should update only non-photo fields when no photo update" do

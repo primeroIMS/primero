@@ -98,7 +98,7 @@ describe TracingRequestMediaController do
 
       get :show_thumbnail, :tracing_request_id => "1", :photo_id => "other"
 
-      thumbnail = to_thumbnail(160, uploadable_photo.original_filename)
+      thumbnail = to_thumbnail(160, uploadable_photo.path)
       response.should represent_inline_attachment(thumbnail)
     end
 

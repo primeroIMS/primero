@@ -15,7 +15,7 @@ module ConfigurationResourceHelper
       concat(
         content_tag(:div, class: 'medium-8 columns'){
         if type == 'file_field' && field == 'logo'
-          concat(show_logo_upload(object, field_id, type, tag_helper))
+          show_logo_upload(object, field_id, type, tag_helper)
         elsif type == 'check_box'
           concat(label_tag(nil, class: 'left'){
               concat(hidden_field_tag(name, ''))

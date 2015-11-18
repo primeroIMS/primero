@@ -257,6 +257,11 @@ module Exporters
                           uniq.join(" & ") if livelihoods.present?
           end,
           ##### ADMINISTRATION 2 #####
+          "CHILD PROTECTION SERVICES / EDUCATION SERVICES" => ->(model) do
+            service_protection_referrals = model.try(:child_protection_services_subform_section)
+            service_protection_referrals.map{|psycs| incident_recorder_service_referral(psycs.try(:service_protection_referral))}.
+                          uniq.join(" & ") if service_protection_referrals.present?
+          end,
           "CONSENT GIVEN" => "consent_reporting",
           "REPORTING AGENCY CODE" => "agency_organization"
         }

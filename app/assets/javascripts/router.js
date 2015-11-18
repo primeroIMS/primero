@@ -76,9 +76,7 @@ _primero.Router = Backbone.Router.extend({
   },
 
   formControls: function() {
-    if ($('form:not("#search_form")').length > 0) {
-      new _primero.Views.DateControl();
-    }
+    new _primero.Views.DateControl();
   },
 
   recordForms: function() {

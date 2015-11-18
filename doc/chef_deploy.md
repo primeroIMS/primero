@@ -1,6 +1,8 @@
 Deploying with Chef
 ===================
 
+Please read through all the following documentation before starting.
+
 Requirements
 ------------
  - A machine to which you have ssh access
@@ -9,7 +11,7 @@ Requirements
    `/usr/bin/chef-solo` command so that you don't have to login as root (the
    machine doesn't need to have chef-solo actually installed yet)
 
- - Ruby 1.9.3 or higher, Berkshelf 3.2.1 and knife-solo 0.4.2 installed on your
+ - Ruby 2.0 or higher, Berkshelf 3.2.1 and knife-solo 0.4.2 installed on your
    local machine (the machine which will launch the deploy)
 
  - The Primero repository checked out
@@ -20,16 +22,79 @@ Requirements
 
  - A JSON attribute node file that corresponds to the node being deployed
 
+Checkout Primero repository
+------------
+###Make sure you have git installed
+
+####OSX
+```sh
+$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install git
+```
+
+####Ubuntu
+```sh
+$ sudo apt-get install git-core
+```
+
+You should add your public key to bitbucket to pull the repo. Run `git clone path-to-repo.git` to pull the repo to your local machine.
+
+Passwordless Sudo Access (remote machine)
+------------
+You will need a user that has passwordless sudo access on the remote machine you are deploying to.
+
+Run the following to edit the sudoers file.
+```sh
+$ sudo visudo
+```
+
+Add `<User> ALL=(ALL) NOPASSWD:ALL` at the end of file, where User is the username of the user.
+
+Save and run the following:
+```sh
+sudo service sudo restart
+```
+
+Install Ruby (local machine)
+------------
 To install Berkshelf and Knife-solo on your local machine, you need a working
-Ruby environment.  Then you can run:
+Ruby environment.
+
+####Ubuntu/Debian
+```sh
+$ sudo apt-add-repository ppa:brightbox/ruby-ng
+$ sudo apt-get update
+$ sudo apt-get install ruby2.1 ruby2.1-dev
+```
+
+####OSX
+First run `ruby -v` to check if ruby is install and greater than 2.0. If not run the following:
+
+Install homebrew (if not already installed) and ruby
+```sh
+$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+$ brew install ruby
+```
+
+After installation is complete run `ruby -v` to check the ruby version
+
+Berkshelf and Knife
+------------
 
 ```sh
 $ gem install berkshelf --version 3.2.1
 $ gem install knife-solo --version 0.4.2
 ```
 
-Try and run this as your normal user.  If you get permission errors you will
-have to run the gem install command as root.
+Try and run this as your normal user.  You may get an error that a directory or file isn't writeable. If you get permission errors you will have to run the gem install command as root. ex. `sudo gem install berkshelf --version 3.2.1`
+
+These gems can take a while to install. You can tack on `--verbose` to the end of the
+gem install commands to see more output.
+
+If any of the gems fail to install, for instance you recieve "Unable to resolve dependencies: ridley requires retryable (~> 2.0)." Try manually installing that gem. ex. `gem install retryable -v 2.0`
+
+Certificates
+------------
 
 ###Application SSL
 To get the application SSL cert, you must go through a recognized Certificate
@@ -48,25 +113,26 @@ new key and cert, follow the next steps.
 site](https://jamielinux.com/articles/2013/08/act-as-your-own-certificate-authority/).)
 
 To setup a new root Certificate Authority to sign CouchDB certs, you need to configure your machine as your own certificate authority (CA).
-Create the next directories and files to save the certificates and keys. You may need to do it as sudo.
+Create the next directories and files to save the certificates and keys. You may need to do it as root.
+
 ```sh
-$ mkdir /etc/pki/CA
+$ mkdir -p /etc/pki/CA
 $ cd /etc/pki/CA
 $ mkdir certs crl newcerts private
 $ chmod 700 private
 $ touch index.txt
 $ echo 1000 > serial
-$ gem install knife-solo --version 0.4.2
 ```
 
-Also you it is necessary to create a root key and a root certificate, that indentify the certificate authority. To generate the root key with the proper encryption:
+Also it is necessary to create a root key and a root certificate, that identify the certificate authority. To generate the root key with the proper encryption:
+
 ```sh
-$ sudo openssl genrsa -aes256 -out /etc/pki/CA/private/couch_ca.key 4096
+$ sudo openssl genrsa -aes256 -out /etc/pki/CA/private/couch_ca.pem 4096
 
 Enter pass phrase for ca.key.pem: secretpassword
-Verifying - Enter pass phrase for ca.key.pem: secretpassword
+Verifying - Enter pass phrase for ca_key.pem: secretpassword
 
-$ sudo chmod 400 /etc/pki/CA/private/couch_ca.key
+$ sudo chmod 600 /etc/pki/CA/private/couch_ca.pem
 ```
 
 Open the file /ect/ssl/openssl.cnf. Change the field dir = /etc/pki/CA on [ CA_default ]. Also make sure the following fields look like this:
@@ -89,18 +155,61 @@ keyUsage = cRLSign, keyCertSign
 
 To generate the root certificate:
 ```sh
-$ sudo openssl req -new -x509 -days 3650 -key /etc/pki/CA/private/couch_ca.key \
+$ sudo openssl req -new -x509 -days 3650 -key /etc/pki/CA/private/couch_ca.pem \
     -sha256 -extensions v3_ca -out /etc/pki/CA/certs/couch_ca.cert
-$ sudo chmod 444 /etc/pki/CA/certs/ca.cert.pem
+$ sudo chmod 600 /etc/pki/CA/certs/couch_ca.cert
 ```
 
 You should set up your own `config.cnf` file based on
 your organization's policy and contact information.  See the openssl docs for
 more info on how to configure things.
 
+######Example config.cnf
+
+```sh
+[req]
+default_bits            = 4096
+distinguished_name      = req_distinguished_name
+encrypt_key             = no
+prompt                  = yes
+string_mask             = nombstr
+
+[ ca ]
+default_ca = couch_ca
+
+[ couch_ca ]
+dir = /etc/pki/CA
+new_certs_dir = $dir/newcerts/
+database = $dir/index.txt
+certificate = $dir/certs/couch_ca.cert
+private_key = $dir/private/couch_ca.pem
+default_days = 3650
+default_md   = md5
+policy       = policy_match
+serial       = $dir/serial
+preserve = yes
+
+[ policy_match ]
+commonName = supplied
+
+[ req_distinguished_name ]
+countryName                 = Country Name
+stateOrProvinceName         = State Name
+localityName                = City Name
+0.organizationName          = Company/Organization
+emailAddress                = Email Address
+commonName                  = Couch DB Host
+
+countryName_default         = US
+stateOrProvinceName_default = Massachusetts
+localityName_default        = Boston
+0.organizationName_default  = Quoin, Inc.
+emailAddress_default        = unknown@quoininc.com
+```
+
 ####Creating and Signing New Certs
 Once you have a CA set up, you can make new keys and certs for individual
-CouchDB instances.  Go to the root directory of your CA.
+CouchDB instances. Go to the root directory of your CA.
 
 To create a new key:
 ```
@@ -132,7 +241,7 @@ that new file.  See below for more information on this attribute.
 Next you will need a node file: a JSON file that defines various deployment
 attributes.  You can copy the file `dev-node.json` in the root of this repo
 for a reference to a more or less complete node file for Primero.  You can put
-the node file anywhere you like on your system.
+the node file anywhere you like on your local machine.
 
 ####Attributes
 The following attributes are of special interest for configuration:
@@ -143,7 +252,9 @@ The following attributes are of special interest for configuration:
      id/tag/branch name to deploy
  - `primero.deploy_key` (required): An ssh private key that is configured in
      the Quoin bitbucket repo (under deployment keys) to allow read-only access
-     to the code
+     to the code. The key needs to be passwordless. If your current key has a password,
+     run `ssh-keygen -p` and follow the prompts to remove the key. When ask to input
+     a new passphrase and verify the passphrase just hit enter.
  - `primero.couchdb.password` (required): The CouchDB password for the
      admin user--this will replace any existing password
  - `primero.couchdb.ssl.cert` (required): The CouchDB SSL certificate,
@@ -159,6 +270,8 @@ The following attributes are of special interest for configuration:
      path of the Couch CA certificate that is used to verify other CouchDB
      instances when syncing.  This is a path is relative to the `files/default`
      directory in this repo.  You should add the CA cert there.
+ - `primero.no_reseed` (required): If set to false, the chef deploy will reseed the database.
+    If you imported a configuration bundle you should set this to true. Reseeding carries the risk of overwriting the imported configuration bundle.
 
 You set them by specifying them in JSON in the node file.  For example, if you
 want to set the hostname to _example.com_, just put the following in your node
@@ -179,6 +292,40 @@ file:
 You should set your runlist to `[ "recipe[primero::default]" ]` for any
 standard deploy.
 
+####Example node file
+```javascript
+{
+  "couch_db": {
+    "config": {
+      "httpd": {
+        "bind_address": "0.0.0.0"
+      }
+    }
+  },
+  "primero": {
+    "environment": "integration",
+    "rails_env": "production",
+    "server_hostname": "example.com",
+    "no_reseed": false,
+    "git": {
+      "repo": "git@bitbucket.org:user/primero.git",
+      "revision": "master"
+    },
+    "couchdb": {
+      "password": "couchpassword",
+      "ssl": {
+        "cert": "-----BEGIN CERTIFICATE-----\n ..."
+      }
+    },
+    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----\n ...",
+    "ssl": {
+      "crt": "-----BEGIN CERTIFICATE-----\n ...",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\n ..."
+    }
+  },
+  "run_list": [ "recipe[primero::default]" ]
+}
+```
 
 Deployment
 ----------
@@ -192,7 +339,7 @@ $ knife solo cook USER@APP_HOST NODE_FILE
 
 Replacing USER with the remote user, APP_HOST with the remote machine host, and
 NODE_FILE with the Chef node json file to use for this deploy.  It will take a
-few minutes to run to completion.
+few minutes to run to completion. Bundle install and seeding are two steps that will take some time to complete.
 
 Ports and Firewalls
 -------------------
