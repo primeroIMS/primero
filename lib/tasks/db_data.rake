@@ -243,40 +243,48 @@ namespace :db do
     end
 
     desc "Exports forms to an Excel spreadsheet"
-    task :forms_to_spreadsheet, [:type, :module] => :environment do |t, args|
+    task :forms_to_spreadsheet, [:type, :module, :show_hidden] => :environment do |t, args|
 
       module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
       type = args[:type].present? ? args[:module] : 'case'
+      show_hidden = args[:show_hidden].present?
       file_name = "forms.xls"
       puts "Writing forms to #{file_name}"
 
       workbook = WriteExcel.new(File.open(file_name, 'w'))
-      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Options']
+      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text']
 
       primero_module = PrimeroModule.get(module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
       forms = forms[type]
 
       forms.sort_by{|f| [f.order, f.order_form_group]}.each do |form|
-        write_out_form(form, workbook, header)
+        write_out_form(form, workbook, header, show_hidden)
       end
 
       workbook.close
     end
 
-    def write_out_form(form, workbook, header)
-      worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
-      worksheet.write(0, 0, header)
-      form.fields.each_with_index do |field, i|
-        options = ''
-        if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
-          options = field.options_list.join(', ')
-        elsif field.type == 'subform'
-          subform = field.subform_section
-          options = "Subform: #{subform.name}"
-          write_out_form(subform, workbook, header)
+    def write_out_form(form, workbook, header, show_hidden)
+      if show_hidden || form.visible? || form.is_nested?
+        puts "Exporting form #{form.name}"
+        worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
+        worksheet.write(0, 0, header)
+        form.fields.each_with_index do |field, i|
+          if show_hidden || field.visible?
+            visible = field.visible? ? 'Yes' : 'No'
+            options = ''
+            if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
+              options = field.options_list.join(', ')
+            elsif field.type == 'subform'
+              subform = field.subform_section
+              puts "Identifying subform #{subform.name}"
+              options = "Subform: #{subform.name}"
+              write_out_form(subform, workbook, header, show_hidden)
+            end
+            worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field.type, field.display_name, visible, options, field.help_text])
+          end
         end
-        worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field.type, field.display_name, options])
       end
     end
 
