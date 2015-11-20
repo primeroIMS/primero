@@ -90,3 +90,7 @@ div.reports_form .side-tab-content .row .row {
     border-bottom: none;
   }
 }
+
+.report_filter_value_string_row .chosen-results li:first-of-type, .report_filter_input select option:first-of-type {
+  background: $stroke_green_color;
+}

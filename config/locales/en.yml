@@ -1074,6 +1074,7 @@ en:
       label: "Report filters"
       attribute: "Filter"
       value: "With"
+      not_null: "Form value is not blank"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
