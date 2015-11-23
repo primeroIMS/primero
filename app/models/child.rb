@@ -159,6 +159,10 @@ class Child < CouchRest::Model::Base
       self.mothers_name
     end
 
+    string :case_id_display do
+      self.case_id_display
+    end
+
     boolean :estimated
     boolean :consent_for_services
   end
