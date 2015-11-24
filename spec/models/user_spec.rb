@@ -53,12 +53,9 @@ describe User do
 
       login(user_name, date_1, params)
       login(user_name, date_2, params)
-
       last_login = User.last_login_timestamp(user_name)
-      last_login.login_timestamp.should_not == date_1
-      last_login.login_timestamp.should == date_2
-      last_login.imei.should == imei
-      last_login.user_name.should == user_name
+      last_login.should_not == date_1
+      last_login.should == date_2
     end
   end
 

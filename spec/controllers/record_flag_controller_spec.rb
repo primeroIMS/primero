@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe RecordFlagController do
+  before :all do
+    @created_at = DateTime.now
+  end
+
   before :each do
     Incident.any_instance.stub(:field_definitions).and_return([])
     TracingRequest.any_instance.stub(:field_definitions).and_return([])
@@ -35,6 +39,7 @@ describe RecordFlagController do
 
     @date_time = DateTime.parse("2015/10/23 14:54:55 -0400").strftime("%Y/%m/%d %H:%M:%S %z")
     Clock.stub(:now).and_return(@date_time)
+    DateTime.stub(:now).and_return(@created_at)
   end
 
   after :each do

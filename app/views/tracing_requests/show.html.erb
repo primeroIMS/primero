@@ -53,7 +53,8 @@ $(".profile-tools .investigated a").click( function(){
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("tracing_request.label") %> #<%= text_to_identify_tracing_request(@tracing_request) %>
+  <div class="label"><%= t("tracing_request.label") %></div>
+  #<%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
 <% content_for :header_message do %>
