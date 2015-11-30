@@ -585,7 +585,7 @@ describe ChildrenController do
       end
     end
 
-    describe "Filter", search: true, skip_session: true do
+    describe "Filter and Search", search: true, skip_session: true do
 
       before :each do
         @user = fake_admin_login User.new(:user_name => 'test_user')
@@ -633,17 +633,17 @@ describe ChildrenController do
 
         Sunspot.remove_all!
 
-        create(:child, name: "Name 1", child_status: "Open", age: "5")
-        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe')
-        create(:child, name: "Name 3", child_status: "Closed", age: "7")
-        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe')
-        create(:child, name: "Name 5", child_status: "Closed", age: "15")
-        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2', owned_by_location_district: 'Port Loko')
-        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location_district: 'Port Loko')
-        create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false)
-        create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true)
-        @child_mobile_10= create(:child, name: "Name 10", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4')
-        @child_mobile_11 = create(:child, name: "Name 11", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4')
+        create(:child, name: "Name 1", child_status: "Open", age: "5", case_id_display: "UN-TEST-0001")
+        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe', case_id_display: "UN-TEST-0002")
+        create(:child, name: "Name 3", child_status: "Closed", age: "7", case_id_display: "UN-TEST-0003")
+        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe', case_id_display: "UN-TEST-0004")
+        create(:child, name: "Name 5", child_status: "Closed", age: "15", case_id_display: "UN-TEST-0005")
+        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2', owned_by_location_district: 'Port Loko', case_id_display: "UN-TEST-0006")
+        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location_district: 'Port Loko', case_id_display: "UN-TEST-0007")
+        create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false, case_id_display: "UN-TEST-0008")
+        create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true, case_id_display: "UN-TEST-0009")
+        @child_mobile_10= create(:child, name: "Name 10", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0010")
+        @child_mobile_11 = create(:child, name: "Name 11", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0011")
 
         Sunspot.commit
       end
@@ -656,81 +656,93 @@ describe ChildrenController do
         Child.remove_form_properties
       end
 
-      context "by age range" do
-        it "should filter by one range" do
-          params = {"scope" => {"child_status" => "list||Open", "age" => "range||6-11"}}
-          get :index, params
+      context "filter" do
+        context "by age range" do
+          it "should filter by one range" do
+            params = {"scope" => {"child_status" => "list||Open", "age" => "range||6-11"}}
+            get :index, params
 
-          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
-          expect(assigns[:filters]).to eq(filters)
-          expect(assigns[:children].length).to eq(1)
-          expect(assigns[:children].first).to eq(@child_age_7)
+            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
+            expect(assigns[:filters]).to eq(filters)
+            expect(assigns[:children].length).to eq(1)
+            expect(assigns[:children].first).to eq(@child_age_7)
+          end
+
+          it "should filter more than one range" do
+            params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||6-11||12-17"}}
+            get :index, params
+
+            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
+            expect(assigns[:filters]).to eq(filters)
+            expect(assigns[:children].length).to eq(2)
+            expect(assigns[:children]).to eq([@child_age_7, @child_age_15])
+          end
+
+          it "should filter with open range" do
+            params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||18 "}}
+            get :index, params
+
+            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
+            expect(assigns[:filters]).to eq(filters)
+            expect(assigns[:children].length).to eq(1)
+            expect(assigns[:children].first).to eq(@child_age_21)
+          end
         end
 
-        it "should filter more than one range" do
-          params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||6-11||12-17"}}
-          get :index, params
+        context "by mobile" do
+          it "should filter by marked for mobile true" do
+            params = {"scope" => {"child_status" => "list||Open", "marked_for_mobile" => "single||true"}}
+            get :index, params
 
-          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
-          expect(assigns[:filters]).to eq(filters)
-          expect(assigns[:children].length).to eq(2)
-          expect(assigns[:children]).to eq([@child_age_7, @child_age_15])
+            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "marked_for_mobile"=>{:type=>"single", :value=>true}}
+            expect(assigns[:filters]).to eq(filters)
+            expect(assigns[:children].length).to eq(2)
+            expect(assigns[:children]).to include(@child_mobile_10, @child_mobile_11)
+          end
         end
 
-        it "should filter with open range" do
-          params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||18 "}}
-          get :index, params
+        context "by agency" do
+          it "should filter by agency agency_1" do
+            params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1"}}
+            get :index, params
 
-          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
-          expect(assigns[:filters]).to eq(filters)
-          expect(assigns[:children].length).to eq(1)
-          expect(assigns[:children].first).to eq(@child_age_21)
+            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1"]}}
+            expect(assigns[:filters]).to eq(filters)
+            expect(assigns[:children].length).to eq(2)
+            expect(assigns[:children]).to include(@child_age_7, @child_age_15)
+          end
+
+          it "should filter by agency agency_1 and agency_4" do
+            params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1||agency-4"}}
+            get :index, params
+
+            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1", "agency-4"]}}
+            expect(assigns[:filters]).to eq(filters)
+            expect(assigns[:children].length).to eq(4)
+            expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
+          end
+        end
+
+        context "by_district" do
+          it "should filter by district Bonthe" do
+            params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
+            get :index, params
+
+            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
+            expect(assigns[:filters]).to eq(filters)
+            expect(assigns[:children].length).to eq(2)
+            expect(assigns[:children]).to include(@child_age_7, @child_age_15)
+          end
         end
       end
-
-      context "by mobile" do
-        it "should filter by marked for mobile true" do
-          params = {"scope" => {"child_status" => "list||Open", "marked_for_mobile" => "single||true"}}
-          get :index, params
-
-          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "marked_for_mobile"=>{:type=>"single", :value=>true}}
-          expect(assigns[:filters]).to eq(filters)
-          expect(assigns[:children].length).to eq(2)
-          expect(assigns[:children]).to include(@child_mobile_10, @child_mobile_11)
-        end
-      end
-
-      context "by agency" do
-        it "should filter by agency agency_1" do
-          params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1"}}
-          get :index, params
-
-          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1"]}}
-          expect(assigns[:filters]).to eq(filters)
-          expect(assigns[:children].length).to eq(2)
-          expect(assigns[:children]).to include(@child_age_7, @child_age_15)
-        end
-
-        it "should filter by agency agency_1 and agency_4" do
-          params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1||agency-4"}}
-          get :index, params
-
-          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1", "agency-4"]}}
-          expect(assigns[:filters]).to eq(filters)
-          expect(assigns[:children].length).to eq(4)
-          expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
-        end
-      end
-
-      context "by_district" do
-        it "should filter by district Bonthe" do
-          params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
-          get :index, params
-
-          filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
-          expect(assigns[:filters]).to eq(filters)
-          expect(assigns[:children].length).to eq(2)
-          expect(assigns[:children]).to include(@child_age_7, @child_age_15)
+      context "search" do
+        context "by case ID" do
+          it "should find cases" do
+            params = {"query"=> "UN-TEST-0002"}
+            get :index, params
+            expect(assigns[:children].length).to eq(1)
+            expect(assigns[:children].first).to eq(@child_age_7)
+          end
         end
       end
     end
