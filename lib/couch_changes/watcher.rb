@@ -14,6 +14,12 @@ module CouchChanges
       end
     end
 
+    def self.restart
+      #Touch the tmp/couch_watcher_restart.txt file to trigger the 'who watches' script to restart couch_watcher
+      #NOTE: This assumes the permissions on couch_watcher_restart.txt are rw-rw-rw
+      FileUtils.touch "tmp/couch_watcher_restart.txt"
+    end
+
     private
 
     def listen_for_changes(model, handler, retry_period=2, &block)
