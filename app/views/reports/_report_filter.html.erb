@@ -74,14 +74,14 @@
   <% end %>
   <% if (type == 'numeric_field') || hidden %>
     <div class="report_filter_value_numeric_row" style="<%= hidden ? 'display: none;':'' %>">
-      <div class="medium-2 columns">
+      <div class="medium-5 columns">
         <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
                 id="<%= "report_filters_#{index}_constraint"%>"
                 name="<%= "report[filters][#{index}][constraint]" %>">
-          <%= options_for_select(['', '=', '<', '>'], constraint) %>
+          <%= options_for_select(['', null_constraint, '=', '<', '>'], constraint) %>
         </select>
       </div>
-      <div class="medium-9 columns end">
+      <div class="medium-6 columns end">
         <input class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
                type="number"
                id="<%= "report_filters_#{index}_value_num"%>"
