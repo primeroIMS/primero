@@ -105,13 +105,14 @@ Primero = Backbone.View.extend({
     options = {
       axis:"y",
       scrollInertia: 20,
-      scrollButtons:{ enable: true }
+      scrollButtons:{ enable: true },
+      autoHideScrollbar: false,
+      theme: 'dark'
     };
 
     $(".side-nav").mCustomScrollbar(
       _.extend(options, {
         setHeight: 300,
-        theme: 'minimal-dark',
         callbacks:{
             onInit: function() {
               $('.scrolling_indicator.down').css('visibility', 'visible');
@@ -131,68 +132,23 @@ Primero = Backbone.View.extend({
       })
     );
 
-    $("ul.current_flags").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 250,
-        theme: 'dark'
-      })
-    );
+    $("ul.current_flags").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
 
-    $(".field-controls-multi").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 150,
-        theme: 'dark'
-      })
-    );
+    $(".field-controls-multi").mCustomScrollbar(_.extend(options, { setHeight: 150 }));
 
-    $(".panel_xl ul").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 578,
-        theme: 'dark'
-      })
-    );
+    $(".panel_xl ul").mCustomScrollbar(_.extend(options, { setHeight: 578 }));
 
-    $(".panel_content ul").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 250,
-        theme: 'dark'
-      })
-    );
+    $(".panel_content ul").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
 
-    $(".reveal-modal .side-tab-content").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 400,
-        theme: 'dark'
-      })
-    );
+    $(".reveal-modal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
-    $(".panel_main").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 269,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 269 }));
 
-    $(".referral_form_container").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 530,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".referral_form_container").mCustomScrollbar(_.extend(options, { setHeight: 530 }));
 
-    $(".modal-content, .profile-header").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 370,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".modal-content, .profile-header").mCustomScrollbar(_.extend(options, { setHeight: 370 }));
 
-    $(".transfer_form_container").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 460,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".transfer_form_container").mCustomScrollbar(_.extend(options, { setHeight: 460 }));
   },
 
   init_chosen_or_new: function() {
