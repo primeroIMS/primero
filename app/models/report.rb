@@ -414,11 +414,17 @@ class Report < CouchRest::Model::Base
             end
           else
             query = if value.respond_to?(:map) && value.size > 0
-              '(' + value.map{|v| "#{attribute}:#{v}"}.join(" OR ") + ')'
-            else
-              "#{attribute}:#{value}"
+              '(' + value.map{|v|
+                if v == "not_null"
+                  "#{attribute}:[* TO *]"
+                else
+                  "#{attribute}:#{v}"
+                end
+              }.join(" OR ") + ')'
             end
           end
+        elsif attribute.present? && constraint.present? && constraint == 'not_null'
+          "#{attribute}:[* TO *]"
         end
       end.compact.join(" ")
     end
