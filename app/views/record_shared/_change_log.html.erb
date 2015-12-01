@@ -1,3 +1,4 @@
+<a class="close-reveal-modal">&#215;</a>
 <h1><%= t("case.actions.change_log") %></h1>
 <div class="profile-header">
   <ul class="history-details">
@@ -5,7 +6,7 @@
       <% if history.action.present? && history.action.to_sym == :create %>
         <li>
           <div>
-            <%= render :partial => "shared/histories/record_created", 
+            <%= render :partial => "shared/histories/record_created",
               :locals => {:organization => history.user_organization, :user_name => history.user_name, :datetime => @user.localize_date(history.datetime, "%Y-%m-%d %H:%M:%S %Z")} %>
           </div>
         </li>
