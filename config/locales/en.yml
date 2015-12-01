@@ -702,6 +702,7 @@ en:
     full_name: "Full Name"
     history_of: "History of %{user_name}"
     disabled: "Disabled"
+    agency: "Agency"
     actions:
       delete: "Delete"
     messages:
