@@ -556,6 +556,7 @@ en:
     sort_by:
       label: "Sort by"
       full_name: "Full Name"
+      agency: "Agency"
 
   roles:
     label: "Roles"

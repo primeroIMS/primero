@@ -73,6 +73,16 @@ class User < CouchRest::Model::Base
 
                 }
             }"
+    view :by_organization_filter_view,
+            :map => "function(doc) {
+                if ((doc['couchrest-type'] == 'User') && doc['organization'])
+                {
+                  emit(['all',doc['organization']], null);
+                  if(doc['disabled'] == 'false' || doc['disabled'] == false)
+                    emit(['active',doc['organization']], null);
+
+                }
+            }"
 
     view :by_unverified,
             :map => "function(doc) {
