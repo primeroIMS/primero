@@ -253,7 +253,7 @@ class User < CouchRest::Model::Base
     @location_obj ||= Location.get_unique_instance('name' => self.location)
   end
 
-  def Agency
+  def agency
     @agency_obj ||= Agency.get(self.organization)
   end
 
