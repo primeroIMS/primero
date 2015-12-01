@@ -246,19 +246,15 @@ class User < CouchRest::Model::Base
     self.user_group_ids.select{|g| g.present?}
   end
 
-  def user_agency_name
-    Agency.get(self.organization).name
-  end
-
   # calling this location_obj because property location already exists on user
   # however, the location property really is just the location name
   # If a refactor is warranted, I would rename the location property to location_name
   def Location
-    @location_obj = Location.get_unique_instance('name' => self.location)
+    @location_obj ||= Location.get_unique_instance('name' => self.location)
   end
 
   def Agency
-    @agency_obj = Agency.get(self.organization)
+    @agency_obj ||= Agency.get(self.organization)
   end
 
   def last_login
