@@ -598,7 +598,6 @@ en:
     view: "View Agency"
     successfully_created: "Agency successfully created."
     successfully_updated: "Agency successfully updated."
-    drag_n_drop: "You can drag & drop the fields to edit the required order"
     actions:
       show_all: "Showing all"
       show: "Show"
