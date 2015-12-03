@@ -26,6 +26,7 @@ class Field
   property :custom_template, :default => nil #Custom type should set the path to the template.
   property :expose_unique_id, TrueClass, :default => false
   property :subform_sort_by
+  property :required, TrueClass, :default => false
 
 
   attr_accessor :subform

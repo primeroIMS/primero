@@ -10,6 +10,15 @@
   width: 750px;
 }
 
+.side-tab a span.label {
+  float: right;
+  position: absolute;
+  margin: 3px 4px;
+  font-size: .3rem;
+  padding: 3px 5px;
+  background: #F76F6F;
+}
+
 .side-tab, .modal-side-tab {
   position: relative;
   border-top: none;
