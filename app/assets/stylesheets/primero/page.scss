@@ -229,6 +229,7 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 }
 
 .reveal-modal {
+  top: 16% !important;
   background: $desat_green_color;
 
   .close-reveal-modal {
