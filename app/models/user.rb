@@ -73,6 +73,16 @@ class User < CouchRest::Model::Base
 
                 }
             }"
+    view :by_organization_filter_view,
+            :map => "function(doc) {
+                if ((doc['couchrest-type'] == 'User') && doc['organization'])
+                {
+                  emit(['all',doc['organization']], null);
+                  if(doc['disabled'] == 'false' || doc['disabled'] == false)
+                    emit(['active',doc['organization']], null);
+
+                }
+            }"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -240,11 +250,11 @@ class User < CouchRest::Model::Base
   # however, the location property really is just the location name
   # If a refactor is warranted, I would rename the location property to location_name
   def Location
-    @location_obj = Location.get_unique_instance('name' => self.location)
+    @location_obj ||= Location.get_unique_instance('name' => self.location)
   end
 
-  def Agency
-    @agency_obj = Agency.get(self.organization)
+  def agency
+    @agency_obj ||= Agency.get(self.organization)
   end
 
   def last_login

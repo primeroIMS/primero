@@ -1,6 +1,7 @@
 <tr>
   <th><%= t("user.full_name") %></th>
   <th><%= t("login.username") %></th>
+  <th><%= t("user.agency") %></th>
   <% if can?(:disable, User) %>
     <th><%= t("user.disabled") %></th>
   <% end %>
