@@ -222,29 +222,6 @@ fieldset {
     padding: 10px;
   }
 
-  .errorExplanation {
-    background: #FFD8D8;
-    padding: 10px;
-    border: 1px solid #F76F6F;
-    margin: 0 15px 15px 15px;
-
-    h2 {
-      font-size: 1.3rem;
-    }
-
-    p {
-      background: #FFD8D8 !important;
-    }
-
-    li {
-      list-style: none;
-
-      span {
-        font-weight: bold;
-      }
-    }
-  }
-
   p {
     -webkit-box-sizing: initial;
     box-sizing: initial;
@@ -622,6 +599,13 @@ fieldset {
       color: $red_color;
     }
 
+    .form-section-required {
+      float: right;
+      position: absolute;
+      right: 0;
+      margin-right: -6px
+    }
+
     .value {
       color: #666;
       display: block;
@@ -741,6 +725,42 @@ select.ui-datepicker-year {
     &.ui-state-active  {
       background: $desat_green_color;
       border: 1px solid $desat_green_color;
+    }
+  }
+}
+
+.errorExplanation {
+  background: #FFD8D8;
+  padding: 10px;
+  border: 1px solid #F76F6F;
+  margin: 15px;
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  p {
+    background: #FFD8D8 !important;
+    font-weight:bold;
+    color: #F76F6F
+  }
+
+  li {
+    font-size: .8rem;
+
+    span {
+      font-weight: bold;
+
+      &:first-of-type {
+        color: #333;
+        margin-right: 10px;
+        padding-right: 5px;
+        border-right: 4px solid #F76F6F
+      }
+
+      &:last-of-type {
+        color: #F76F6F;
+      }
     }
   }
 }

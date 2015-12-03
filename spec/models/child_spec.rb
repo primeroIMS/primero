@@ -1377,7 +1377,7 @@ describe Child do
                                                  case_code_format: [
                                                            "created_by_user.Location.admin_level(country).location_code",
                                                            "created_by_user.Location.admin_level(region).location_code",
-                                                           "created_by_user.Agency.agency_code"
+                                                           "created_by_user.agency.agency_code"
                                                  ]
       end
 
@@ -1400,7 +1400,7 @@ describe Child do
                                                  case_code_format: [
                                                            "created_by_user.Location.admin_level(country).location_code",
                                                            "created_by_user.Location.admin_level(region).location_code",
-                                                           "created_by_user.Agency.agency_code"
+                                                           "created_by_user.agency.agency_code"
                                                  ]
       end
 

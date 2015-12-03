@@ -142,7 +142,7 @@ class Child < CouchRest::Model::Base
 
   def self.quicksearch_fields
     [
-      'unique_identifier', 'short_id', 'name', 'name_nickname', 'name_other',
+      'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'un_no', 'other_agency_id'
     ]
   end

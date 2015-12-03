@@ -33,9 +33,9 @@ describe UsersController do
 
     context "filter and sort users" do
        before do
-         @active_user_one = mock_user({:merge => {}, :user_name => "active_user_one",:disabled=>false,:full_name=>"XYZ"})
-         @active_user_two = mock_user({:merge => {}, :user_name => "active_user_two",:disabled=>false,:full_name=>"ABC"})
-         @inactive_user = mock_user({:merge => {}, :user_name => "inactive_user",:disabled=>true,:full_name=>"inactive_user"})
+         @active_user_one = mock_user({:merge => {}, :user_name => "active_user_one",:disabled=>false,:full_name=>"XYZ", :organization => "ZAB"})
+         @active_user_two = mock_user({:merge => {}, :user_name => "active_user_two",:disabled=>false,:full_name=>"ABC", :organization => "ABB"})
+         @inactive_user = mock_user({:merge => {}, :user_name => "inactive_user",:disabled=>true,:full_name=>"inactive_user", :organization => "1BS"})
 
        end
        it "should filter active users and sort them by full_name by default" do
@@ -65,6 +65,30 @@ describe UsersController do
        it "should filter active users and sort them by user_name" do
          User.should_receive(:view).with("by_user_name_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_one,@active_user_two])
          get :index, :sort => "user_name", :filter=>"active"
+         assigns[:users].should == [@active_user_one,@active_user_two]
+       end
+
+       it "should filter all users and sort them by agency" do
+         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["all"],:endkey=>["all",{}]}).and_return([@active_user_two,@inactive_user,@active_user_one])
+         get :index, :sort => "organization", :filter=>"all"
+         assigns[:users].should == [@active_user_two,@inactive_user,@active_user_one]
+       end
+
+       it "should filter all users and sort them by agency" do
+         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["all"],:endkey=>["all",{}]}).and_return([@active_user_one,@active_user_two,@inactive_user])
+         get :index, :sort => "organization",:filter=>"all"
+         assigns[:users].should == [@active_user_one,@active_user_two,@inactive_user]
+       end
+
+       it "should filter active users and sort them by agency" do
+         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_two,@active_user_one])
+         get :index, :sort => "organization", :filter=>"active"
+         assigns[:users].should == [@active_user_two,@active_user_one]
+       end
+
+       it "should filter active users and sort them by agency" do
+         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_one,@active_user_two])
+         get :index, :sort => "organization", :filter=>"active"
          assigns[:users].should == [@active_user_one,@active_user_two]
        end
     end

@@ -65,8 +65,7 @@ cp_admin_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF,
-      Permission::COPY
+      Permission::EXPORT_PDF
     ],
     :role_ids => [
       'role-cp-case-worker',
