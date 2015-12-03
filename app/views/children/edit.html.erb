@@ -11,10 +11,6 @@
   #<%= text_to_identify_child(@child) %>
 <% end %>
 
-<% content_for :header_message do %>
-  <%= render 'record_shared/header_message', record: @child, model: 'case' %>
-<% end %>
-
 <div class="clearfix"></div>
 
 <%= form_tag child_path(@child), :method => :put, :multipart => true, :class => "edit-profile default-form data-form", :autocomplete => "off", "data-abide" => '' do %>
@@ -32,6 +28,7 @@
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
         <% end %>
       </div>
+      <%= render 'record_shared/header_message', record: @child, model: 'case' %>
     </div>
 
     <div class="hidden_params">

@@ -39,10 +39,6 @@ $(function() {
   #<%= text_to_identify_incident(@incident) %>
 <% end %>
 
-<% content_for :header_message do %>
-  <%= render 'record_shared/header_message', record: @incident, model: 'incident' %>
-<% end %>
-
 <div class="clearfix"></div>
 <% content_for :stylesheet do %>
     <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
@@ -60,5 +56,6 @@ $(function() {
       <%= render :partial => 'shared/sidebar' if false %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident} %>
     </div>
+    <%= render 'record_shared/header_message', record: @incident, model: 'incident' %>
   </div>
 </div>

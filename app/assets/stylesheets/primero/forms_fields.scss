@@ -764,3 +764,42 @@ select.ui-datepicker-year {
     }
   }
 }
+
+.form-footer {
+  margin-top: 2% !important;
+
+  ul {
+    margin: 0 2%;
+
+    li {
+      margin: 0 2%;
+    }
+  }
+
+  a {
+    border-bottom: 1px dotted $grey_color;
+    padding-bottom: 2px;
+    text-decoration: none;
+    font-size: .9rem;
+
+    &:hover {
+      color: #000 !important;
+      font-weight: bold;
+    }
+  }
+}
+
+#record_info_modal {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  p {
+    font-size: .95rem;
+
+    span {
+      font-weight: bold;
+      color: $green_color;
+    }
+  }
+}

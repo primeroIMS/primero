@@ -57,10 +57,6 @@ $(".profile-tools .investigated a").click( function(){
   #<%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
-<% content_for :header_message do %>
-  <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
-<% end %>
-
 <div class="clearfix"></div>
 <% content_for :stylesheet do %>
     <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
@@ -78,5 +74,6 @@ $(".profile-tools .investigated a").click( function(){
       <%= render :partial => 'shared/sidebar' if false %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @tracing_request} %>
     </div>
+    <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
   </div>
 </div>

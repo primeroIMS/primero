@@ -1,7 +1,7 @@
 _primero.Views.tabNavigation = Backbone.View.extend({
   is_error: false,
 
-  el: '.side-tab',
+  el: '.page_container',
 
   events: {
     'click .tab-handles a:not(div.record_status a)': 'tabControl',
