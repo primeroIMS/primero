@@ -93,6 +93,17 @@
                 </div>
                 <div class="medium-1 columns"> </div>
               </div>
+              <div class="row">
+                <div class="medium-3 columns">
+                  <span class="tool-tip-label">
+                    <%= f.label :system_information, t("system_settings.primero_version"), :class => "key inline" %>
+                  </span>
+                </div>
+                <div class="medium-8 columns">
+                  <%= @system_settings.primero_version %>
+                </div>
+                <div class="medium-1 columns"> </div>
+              </div>
             </fieldset>
           <% end %>
         </div>
