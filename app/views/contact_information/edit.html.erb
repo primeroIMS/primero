@@ -56,7 +56,7 @@
                   </span>
                 </div>
                 <div class="medium-8 columns">
-                  <%= f.text_field:phone %>
+                  <%= f.text_field :phone %>
                 </div>
                 <div class="medium-1 columns"> </div>
               </div>
@@ -79,6 +79,17 @@
                 </div>
                 <div class="medium-8 columns">
                   <%= f.text_area :location %>
+                </div>
+                <div class="medium-1 columns"> </div>
+              </div>
+              <div class="row">
+                <div class="medium-3 columns">
+                  <span class="tool-tip-label">
+                    <%= f.label :support_forum, t("contact.field.support_forum"), :class => "key inline" %>
+                  </span>
+                </div>
+                <div class="medium-8 columns">
+                  <%= f.text_field :support_forum %>
                 </div>
                 <div class="medium-1 columns"> </div>
               </div>
