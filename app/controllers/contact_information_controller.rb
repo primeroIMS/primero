@@ -1,6 +1,6 @@
 class ContactInformationController < ApplicationController
   skip_before_filter :check_authentication, :only => %w{show}
-  before_filter :system_settings
+  before_filter :system_settings, :only => [:show, :edit]
 
   # GET /contact_information/Administrator
   def show
