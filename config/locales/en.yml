@@ -1456,6 +1456,8 @@ en:
     last_update: "Last Update"
     current_owner: "Current Owner"
     change_log: "Change Log"
+    record_information: "Record Information"
+    name_date_seperator: "on"
 
   exports:
     no_records: "No Records Available!"
