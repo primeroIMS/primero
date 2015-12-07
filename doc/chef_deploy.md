@@ -37,7 +37,20 @@ brew install git
 $ sudo apt-get install git-core
 ```
 
-You should add your public key to bitbucket to pull the repo. Run `git clone path-to-repo.git` to pull the repo to your local machine.
+You should add your public key to bitbucket to pull the repo.
+Refer to Bitbucket documentation:
+https://confluence.atlassian.com/bitbucket/add-an-ssh-key-to-an-account-302811853.html
+
+
+On your local machine, run `git clone path-to-repo.git` to pull the repo to your local machine.
+NOTE: You can get the actual clone command from Bitbucket by doing the following in the repo.
+- Click on the '...' at the top left.
+- Under 'Actions', click 'Clone'
+- To the right of 'SSH', copy the command shown
+- Run that command on your local machine in the location where you want to create the repo
+
+Example:  $ git clone git@bitbucket.org:quoin/primero.git
+
 
 Passwordless Sudo Access (remote machine)
 ------------
@@ -68,7 +81,7 @@ $ sudo apt-get install ruby2.1 ruby2.1-dev
 ```
 
 ####OSX
-First run `ruby -v` to check if ruby is install and greater than 2.0. If not run the following:
+First, run `ruby -v` to check if ruby is installed and greater than 2.0. If not run the following:
 
 Install homebrew (if not already installed) and ruby
 ```sh
@@ -86,12 +99,14 @@ $ gem install berkshelf --version 3.2.1
 $ gem install knife-solo --version 0.4.2
 ```
 
-Try and run this as your normal user.  You may get an error that a directory or file isn't writeable. If you get permission errors you will have to run the gem install command as root. ex. `sudo gem install berkshelf --version 3.2.1`
+Try and run this as your normal user.  You may get an error that a directory or file isn't writeable.
+If you get permission errors you will have to run the gem install command as root. ex. `sudo gem install berkshelf --version 3.2.1`
 
 These gems can take a while to install. You can tack on `--verbose` to the end of the
 gem install commands to see more output.
 
-If any of the gems fail to install, for instance you recieve "Unable to resolve dependencies: ridley requires retryable (~> 2.0)." Try manually installing that gem. ex. `gem install retryable -v 2.0`
+If any of the gems fail to install, for instance you recieve "Unable to resolve dependencies: ridley requires retryable (~> 2.0)."
+Try manually installing that gem. ex. `gem install retryable -v 2.0`
 
 Certificates
 ------------
