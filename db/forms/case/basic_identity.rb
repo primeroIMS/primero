@@ -17,7 +17,7 @@ basic_identity_fields = [
              "type" => "text_field",
              "editable" => false,
              "display_name_all" => "Case ID",
-             "create_property" => false
+             "create_property" => true
             }),
   Field.new({"name" => "marked_for_mobile",
              "type" => "tick_box",
