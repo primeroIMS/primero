@@ -33,6 +33,6 @@ class ContactInformationController < ApplicationController
   private
 
   def system_settings
-    @system_settings = SystemSettings.first
+    @system_settings ||= SystemSettings.first
   end
 end
