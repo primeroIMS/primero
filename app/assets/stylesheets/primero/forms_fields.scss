@@ -687,6 +687,7 @@ fieldset {
   -webkit-box-shadow: 0 0 4px 1px rgba(0,0,0,.2);
   box-shadow: 0 0 4px 1px rgba(0,0,0,.2);
   border: 1px solid $stroke_green_color !important;
+  z-index: 9999 !important;
 }
 
 select.ui-datepicker-month {
@@ -761,6 +762,45 @@ select.ui-datepicker-year {
       &:last-of-type {
         color: #F76F6F;
       }
+    }
+  }
+}
+
+.form-footer {
+  margin-top: 2% !important;
+
+  ul {
+    margin: 0 2%;
+
+    li {
+      margin: 0 2%;
+    }
+  }
+
+  a {
+    border-bottom: 1px dotted $grey_color;
+    padding-bottom: 2px;
+    text-decoration: none;
+    font-size: .9rem;
+
+    &:hover {
+      color: #000 !important;
+      font-weight: bold;
+    }
+  }
+}
+
+#record_info_modal {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  p {
+    font-size: .95rem;
+
+    span {
+      font-weight: bold;
+      color: $green_color;
     }
   }
 }

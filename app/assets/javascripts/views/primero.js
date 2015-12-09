@@ -112,7 +112,7 @@ Primero = Backbone.View.extend({
 
     $(".side-nav").mCustomScrollbar(
       _.extend(options, {
-        setHeight: 300,
+        setHeight: 460,
         callbacks:{
             onInit: function() {
               $('.scrolling_indicator.down').css('visibility', 'visible');
