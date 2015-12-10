@@ -901,6 +901,7 @@ en:
       phone: "Phone"
       location: "Location"
       other_information: "Other information"
+      support_forum: "Support Forum"
     updated: "Contact information was successfully updated."
     edit_info: "Edit Contact Information"
     info_label: "Contact Information"
@@ -1456,6 +1457,8 @@ en:
     last_update: "Last Update"
     current_owner: "Current Owner"
     change_log: "Change Log"
+    record_information: "Record Information"
+    name_date_seperator: "on"
 
   exports:
     no_records: "No Records Available!"

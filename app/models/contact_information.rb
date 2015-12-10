@@ -9,6 +9,7 @@ class ContactInformation < CouchRest::Model::Base
   property :phone
   property :location
   property :other_information
+  property :support_forum
   property :email
   property :position
   unique_id :id
