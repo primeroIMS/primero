@@ -91,8 +91,16 @@ $ brew install ruby
 
 After installation is complete run `ruby -v` to check the ruby version
 
-Berkshelf and Knife
+
+Berkshelf and Knife (local machine)
 ------------
+
+Make sure 'make' and the proper compilers are installed.
+
+####Ubuntu/Debian
+```sh
+$ sudo apt-get install make g++ gcc libssl-dev autoconf
+```
 
 ```sh
 $ gem install berkshelf --version 3.2.1
@@ -100,7 +108,8 @@ $ gem install knife-solo --version 0.4.2
 ```
 
 Try and run this as your normal user.  You may get an error that a directory or file isn't writeable.
-If you get permission errors you will have to run the gem install command as root. ex. `sudo gem install berkshelf --version 3.2.1`
+If you get permission errors you will have to run the gem install command as root.
+ex. `sudo gem install berkshelf --version 3.2.1`
 
 These gems can take a while to install. You can tack on `--verbose` to the end of the
 gem install commands to see more output.
@@ -150,7 +159,13 @@ Verifying - Enter pass phrase for ca_key.pem: secretpassword
 $ sudo chmod 600 /etc/pki/CA/private/couch_ca.pem
 ```
 
-Open the file /ect/ssl/openssl.cnf. Change the field dir = /etc/pki/CA on [ CA_default ]. Also make sure the following fields look like this:
+Open the file /ect/ssl/openssl.cnf.
+Under [ CA_default ], change the field 'dir' to the following
+dir = /etc/pki/CA
+
+Also, in the same file, make sure the following fields look like the following:
+NOTE: if one of the lines below is commented out, uncomment it.
+
 ```sh
 [ usr_cert ]
 # These extensions are added when 'ca' signs a request.
@@ -168,6 +183,9 @@ basicConstraints = CA:true
 keyUsage = cRLSign, keyCertSign
 ```
 
+Save any changes made to the openssl.cnf file.
+
+
 To generate the root certificate:
 ```sh
 $ sudo openssl req -new -x509 -days 3650 -key /etc/pki/CA/private/couch_ca.pem \
@@ -175,9 +193,14 @@ $ sudo openssl req -new -x509 -days 3650 -key /etc/pki/CA/private/couch_ca.pem \
 $ sudo chmod 600 /etc/pki/CA/certs/couch_ca.cert
 ```
 
-You should set up your own `config.cnf` file based on
-your organization's policy and contact information.  See the openssl docs for
-more info on how to configure things.
+The first time you do this, it will prompt you for information about your location, company, etc.
+Answer those questions per your organization's location and contact information.
+
+After the first time, you should set up your own `config.cnf` file based on
+your organization's policy and contact information.
+See example below.
+See the openssl docs for more info on how to configure things.
+https://www.openssl.org/docs/
 
 ######Example config.cnf
 
@@ -224,7 +247,9 @@ emailAddress_default        = unknown@quoininc.com
 
 ####Creating and Signing New Certs
 Once you have a CA set up, you can make new keys and certs for individual
-CouchDB instances. Go to the root directory of your CA.
+CouchDB instances. Go to the root directory of your CA. (/etc/pki/CA)
+
+For the following, HOST_NAME is the host name of the remote server.
 
 To create a new key:
 ```
@@ -247,13 +272,25 @@ All clients using HTTPS must have trust the root cert in the file
 You must configure the node file (see below) to provision this new CA
 certificate onto the deployed server so that it can verify remote connections
 upon replication.  You can either overwrite the file
-`cookbook/files/couch_ca.crt` with your own root cert or you can move the cert
+`<Primero Application Directory>/cookbook/files/couch_ca.crt` with your own root cert or you can move the cert
 into another file in that directory and set the
 `primero.couchdb.root_ca_cert_source` attribute in the node file to point to
 that new file.  See below for more information on this attribute.
+EXAMPLE:
+```sh
+ubuntu@ubuntu:~/work/primero/cookbook/files$ cp /etc/pki/CA/certs/couch_ca.cert .
+```
 
 ###Node File
-Next you will need a node file: a JSON file that defines various deployment
+The node file is in the root directory of the application.
+
+```sh
+ubuntu@ubuntu:~/work/primero$ ls -l *node*
+-rw-rw-r-- 1 ubuntu ubuntu 6655 Dec  7 15:53 dev-node.json
+ubuntu@ubuntu:~/work/primero$
+```
+
+This is a JSON file that defines various deployment
 attributes.  You can copy the file `dev-node.json` in the root of this repo
 for a reference to a more or less complete node file for Primero.  You can put
 the node file anywhere you like on your local machine.
@@ -265,22 +302,50 @@ The following attributes are of special interest for configuration:
      site should be accessed with this host name.
  - `primero.git.revision` (default: `master`): The commit
      id/tag/branch name to deploy
- - `primero.deploy_key` (required): An ssh private key that is configured in
-     the Quoin bitbucket repo (under deployment keys) to allow read-only access
-     to the code. The key needs to be passwordless. If your current key has a password,
-     run `ssh-keygen -p` and follow the prompts to remove the key. When ask to input
-     a new passphrase and verify the passphrase just hit enter.
+ - `primero.deploy_key` (required):
+     In the Quoin bitbucket repo (under Settings->deployment keys) make sure you have a key for yur deployment.
+     If it does not already exist, add a new key for your deployment here
+     - Click "Add key"
+     - Add a label of your choosing
+     - In the 'Key' box, paste in the contents of your public key (id_rsa.pub)
+     - Click Save
+     If you do not currently have such a key, use ssh-keygen to generate it.
+     Leave the passphrase empty when creating the key.
+     If you already have a key that has a passphrase, use `ssh-keygen -p' to remove the passphrase.
+
+     Next, add the private key as the value of the primero.deploy_key field in the dev-node.json file.
+     Copy the contents of the private key (id_rsa).
+     Replace the contents between "BEGIN RSA PRIVATE KEY" AND "END RSA PRIVATE KEY" with your private key.
+     If added as separate lines, join the lines together with a newline character '\n'.
  - `primero.couchdb.password` (required): The CouchDB password for the
      admin user--this will replace any existing password
  - `primero.couchdb.ssl.cert` (required): The CouchDB SSL certificate,
      formatted to replace all newlines with '\n'
+     To get this certificate:
+     - List the contents of /etc/pki/CA/index.txt
+           ubuntu@ubuntu:/etc/pki/CA$ cat index.txt
+           V	251205162522Z		1000	unknown	/CN=primero.test_deploy
+           ubuntu@ubuntu:/etc/pki/CA$
+     - Use the value of the 3rd column (in example above, 1000) and find the corresponding .pem file in /etc/pki/CA/newcerts
+           ubuntu@ubuntu:/etc/pki/CA$ ls -l newcerts
+           total 8
+           -rw-r--r-- 1 root root 5036 Dec  8 11:25 1000.pem
+           ubuntu@ubuntu:/etc/pki/CA$
+     - Cat out the contents of that file
+     - Copy the contents from "BEGIN CERTIFICATE" AND "END CERTIFICATE"
+     - Past this as the value of the cert field in the json file.
+     - It probably will be added as multiple lines.  Joine the lines together with newline characters '\n'
  - `primero.couchdb.ssl.key` (required): The CouchDB SSL secret key,
      formatted to replace all newlines with '\n'
- - `primero.ssl.cert` (required): The app SSL certificate,
+     This is in /etc/pki/CA/<HOST_NAME>.key
+     Cut/paste the conents of that key, the same as you did in the previous steps.
+ - `primero.ssl.crt` (required): The app SSL certificate,
      formatted to replace all newlines with '\n'--the hostname in this cert
      should match the `primero.server_hostname` value.
+     You can use the same cert created for couchdb (primero.couchdb.ssl.cert)
  - `primero.ssl.key` (required): The app SSL secret key,
      formatted to replace all newlines with '\n'
+     You can use the same key created for couchdb (primero.couchdb.ssl.key)
  - `primero.couchdb.root_ca_cert_source` (default: `couch_ca.crt`): The source
      path of the Couch CA certificate that is used to verify other CouchDB
      instances when syncing.  This is a path is relative to the `files/default`
@@ -355,6 +420,14 @@ $ knife solo cook USER@APP_HOST NODE_FILE
 Replacing USER with the remote user, APP_HOST with the remote machine host, and
 NODE_FILE with the Chef node json file to use for this deploy.  It will take a
 few minutes to run to completion. Bundle install and seeding are two steps that will take some time to complete.
+
+EXAMPLE:
+ubuntu@ubuntu:~/work/primero/cookbook$ knife solo cook ubuntu@primero.test_deploy ../dev-node.json
+
+If an error occurs, make note of the error.  It may suggest a command to run manually on the remote server,
+such as manually installing a missing gem.  If a particular gem fails, trying to install it manually on the remote server
+may give more infomation as to what is causing the error.
+After this, re-run the deployment.
 
 Ports and Firewalls
 -------------------
