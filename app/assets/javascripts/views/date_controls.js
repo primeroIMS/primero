@@ -26,7 +26,11 @@ _primero.Views.DateControl = Backbone.View.extend({
 	      changeYear: true,
 	      constrainInput: true,
 	      yearRange: "1900:c+10"
-	    });
+	    }).click(function(e) {
+        $('#ui-datepicker-div').click(function(e){
+          e.stopPropagation();
+        });
+      });
 	  };
 	  $.datepicker.defaultDateFormat = 'dd-M-yy';
 		$.datepicker.inputFormats = this.allowed_formats;
