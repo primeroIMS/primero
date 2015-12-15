@@ -20,10 +20,6 @@ _primero.Views.ReportTable = Backbone.View.extend({
     var self = this;
     this.report_table = $('#report_table');
 
-    if (this.report_table.find('tr:last td').length < 4) {
-      this.report_table.wrap("<div class='row collapse'></div>");
-    }
-
     if (this.report_table.length){
       var dataTable = this.report_table.DataTable({
         "searching": false,

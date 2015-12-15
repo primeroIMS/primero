@@ -21,7 +21,7 @@ table:not(.record_list_view) tr.report_row_aggregate td.report_sidebar_value {
 }
 
 div.report_table_content .dataTables_wrapper.no-footer .dataTables_scrollBody {
-  border-bottom: none;
+  border-bottom: 1px solid $stroke_green_color;
 }
 
 div.reports_form .side-tab-content .row .row {
