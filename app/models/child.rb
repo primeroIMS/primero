@@ -46,6 +46,8 @@ class Child < CouchRest::Model::Base
   validate :validate_child_wishes
   # validate :validate_date_closure
 
+  before_save :sync_protection_concerns
+
   def initialize *args
     self['photo_keys'] ||= []
     self['document_keys'] ||= []
@@ -293,6 +295,14 @@ class Child < CouchRest::Model::Base
     if date_of_birth.present? && date_of_birth.is_a?(Date)
       now = Date.current
       now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
+    end
+  end
+
+  def sync_protection_concerns
+    protection_concerns = self.try(:protection_concerns)
+    protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
+    if protection_concern_subforms.present? && protection_concern_subforms.present?
+      self.protection_concerns = (protection_concerns + protection_concern_subforms.map{|pc| pc.try(:protection_concern_type)}).compact.uniq
     end
   end
 

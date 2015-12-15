@@ -1436,6 +1436,112 @@ describe Child do
     end
   end
 
+  describe 'syncing of protection concerns' do
+    before do
+      Child.all.each &:destroy
+      FormSection.all.each &:destroy
+
+      # protection concern form
+      protection_concern_fields = [
+        Field.new({"name" => "protection_concerns",
+                   "type" => "select_box",
+                   "multi_select" => true,
+                   "display_name_all" => "Protection Concerns",
+                   "option_strings_source" => "lookup ProtectionConcerns"
+                  })
+      ]
+      protection_concern_form = FormSection.create({
+        :unique_id => "protection_concern",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 30,
+        :order => 20,
+        :order_subform => 0,
+        :form_group_name => "Identification / Registration",
+        :fields => protection_concern_fields,
+        "name_all" => "Protection Concerns",
+        "description_all" => "Protection concerns"
+      })
+      protection_concern_form.save!
+
+      # protection concern form with subform
+      protection_concern_detail_subform_fields = [
+        Field.new({"name" => "protection_concern_type",
+                   "type" => "select_box",
+                   "display_name_all" => "Type of Protection Concern",
+                   "option_strings_source" => "lookup ProtectionConcerns"
+                  })
+      ]
+
+      protection_concern_detail_subform_section = FormSection.create_or_update_form_section({
+        "visible" => false,
+        "is_nested" => true,
+        :order_form_group => 70,
+        :order => 30,
+        :order_subform => 1,
+        :unique_id => "protection_concern_detail_subform_section",
+        :parent_form=>"case",
+        :fields => protection_concern_detail_subform_fields,
+        "name_all" => "Nested Protection Concerns Subform",
+        "description_all" => "Nested Protection Concerns Subform",
+      })
+
+      protection_concern_detail_fields = [
+        Field.new({"name" => "protection_concern_detail_subform_section",
+          "type" => "subform",
+          "subform_section_id" => protection_concern_detail_subform_section.unique_id,
+          "display_name_all" => "Protection Concern Details"
+        })
+      ]
+
+      protection_concern_form_with_subform = FormSection.create({
+          :unique_id => "protection_concern_details",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 70,
+          :order => 30,
+          :order_subform => 0,
+          :form_group_name => "Assessment",
+          :fields => protection_concern_detail_fields,
+          "editable" => true,
+          "name_all" => "Protection Concern Details",
+          "description_all" => "Protection Concern Details"
+      })
+
+      protection_concern_form_with_subform.save!
+
+      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
+
+      @protection_concerns = ["Separated", "Unaccompanied"]
+
+      Child.refresh_form_properties
+    end
+
+    it "should add protection concerns from subform to multiselect protection concerns field" do
+      @child = Child.new('name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
+                          'protection_concern_detail_subform_section' => [
+                              {protection_concern_type: "Child is neglected"},
+                              {protection_concern_type: "Extreme levels of poverty"},
+                              {protection_concern_type: "Unaccompanied"}
+
+                          ])
+      @child.save!
+      @child[:protection_concerns].should == @protection_concerns + ["Child is neglected", "Extreme levels of poverty"]
+    end
+
+    it "should remove nils from protection concerns multiselect" do
+      @child = Child.new('name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
+                       'protection_concern_detail_subform_section' => [
+                           {protection_concern_type: "Child is neglected"},
+                           {protection_concern_type: nil},
+                           {protection_concern_type: nil},
+                           {protection_concern_type: "Unaccompanied"}
+                       ])
+      @child.save!
+      @child[:protection_concerns].should_not include(nil)
+    end
+  end
+
   describe 'calculate age' do
     before do
 
