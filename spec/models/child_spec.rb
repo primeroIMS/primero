@@ -1438,6 +1438,9 @@ describe Child do
 
   describe 'syncing of protection concerns' do
     before do
+      Child.all.each &:destroy
+      FormSection.all.each &:destroy
+
       # protection concern form
       protection_concern_fields = [
         Field.new({"name" => "protection_concerns",
@@ -1526,7 +1529,17 @@ describe Child do
       @child[:protection_concerns].should == @protection_concerns + ["Child is neglected", "Extreme levels of poverty"]
     end
 
-
+    it "should remove nils from protection concerns multiselect" do
+      @child = Child.new('name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
+                       'protection_concern_detail_subform_section' => [
+                           {protection_concern_type: "Child is neglected"},
+                           {protection_concern_type: nil},
+                           {protection_concern_type: nil},
+                           {protection_concern_type: "Unaccompanied"}
+                       ])
+      @child.save!
+      @child[:protection_concerns].should_not include(nil)
+    end
   end
 
   describe 'calculate age' do
