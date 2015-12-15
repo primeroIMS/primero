@@ -462,7 +462,7 @@ class FormSection < CouchRest::Model::Base
               #For reporting show all forms, not just the visible.
               forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
               #For reporting avoid subforms.
-              forms = forms.select{|f| !f.is_nested?}
+              forms = forms.select{|f| !f.is_nested? || Report::REPORTABLE_SUBFORMS.include?(f.unique_id)}
             else
               #For custom export shows only visible forms.
               forms = FormSection.get_allowed_visible_forms_sections(primero_module, parent_form, user)

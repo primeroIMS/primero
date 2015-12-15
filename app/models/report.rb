@@ -36,6 +36,11 @@ class Report < CouchRest::Model::Base
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
 
+  REPORTABLE_SUBFORMS = [
+      'followup_subform_section',
+      'protection_concern_detail_subform_section',
+      'services_section'
+  ]
 
   property :name
   property :description
@@ -59,7 +64,7 @@ class Report < CouchRest::Model::Base
   attr_accessor :add_default_filters
   attr_accessor :aggregate_by_ordered
   attr_accessor :disaggregate_by_ordered
-  
+
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
@@ -299,10 +304,11 @@ class Report < CouchRest::Model::Base
 
 
   def self.reportable_record_types
-    FormSection::RECORD_TYPES + ['violation']
+    FormSection::RECORD_TYPES + ['violation', 'reportable_protection_concern', 'reportable_service', 'reportable_follow_up']
   end
 
   def apply_default_filters
+    binding.pry
     if add_default_filters
       self.filters ||= []
       if ['case', 'child'].include? self.record_type
