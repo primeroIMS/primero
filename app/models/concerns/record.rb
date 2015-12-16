@@ -128,6 +128,9 @@ module Record
     end
   end
 
+  def self.model_from_name(name)
+    name == 'case' ? Child : Object.const_get(name.camelize)
+  end
 
   module ClassMethods
     include FormToPropertiesConverter

@@ -443,9 +443,23 @@ class FormSection < CouchRest::Model::Base
       FormSection.group_forms(visible_forms)
     end
 
+    def determine_parent_form(record_type, reports=false)
+      if record_type == "violation"
+        "incident"
+      elsif record_type.starts_with?("reportable") && reports
+        # Used to figure out if reportable nested form belongs to incident, child, or tracing request.
+        parent_record_type = Object.const_get(record_type.camelize).parent_record_type.to_s.downcase
+        parent_record_type == "child" ? "case" : parent_record_type
+      else
+        record_type
+      end
+    end
+
     def all_exportable_fields_by_form(primero_modules, record_type, user, types, reports=false)
       #Custom export does not have "violation" just reports.
-      parent_form = record_type == "violation" ? "incident" : record_type
+      parent_form = determine_parent_form(record_type, reports)
+      model = Record::model_from_name(parent_form)
+
       #hide_on_view_page will filter fields for readonly users.
       readonly_user = user.readonly?(parent_form)
       custom_exportable = {}
@@ -462,7 +476,15 @@ class FormSection < CouchRest::Model::Base
               #For reporting show all forms, not just the visible.
               forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
               #For reporting avoid subforms.
-              forms = forms.select{|f| !f.is_nested? || Report::REPORTABLE_SUBFORMS.include?(f.unique_id)}
+
+              # Filtering out nested subform minus any selected reportable subforms.
+              forms = forms.select do |f|
+                if Report.record_type_is_nested_reportable_subform?(parent_form, record_type)
+                  !f.is_nested? || Report.get_reportable_subform_record_field_name(parent_form ,record_type).eql?(f.unique_id)
+                else
+                  !f.is_nested?
+                end
+              end
             else
               #For custom export shows only visible forms.
               forms = FormSection.get_allowed_visible_forms_sections(primero_module, parent_form, user)
@@ -490,22 +512,33 @@ class FormSection < CouchRest::Model::Base
           forms.sort_by{|f| [f.order_form_group, f.order]}.each do |form|
             fields = []
             subforms = []
-            form.fields.select(&include_field).each do |f|
-              if f.type == Field::SUBFORM
-                #Process subforms fields only for custom exports, for now.
-                if !reports
-                  if f.subform_section.present?
-                    #Collect subforms fields to build the section.
-                    subform_fields = f.subform_section.fields.select{|sf| types.include?(sf.type) && sf.visible?}
-                    subform_fields = subform_fields.map do |sf|
-                      ["#{f.name}:#{sf.name}", sf.display_name, sf.type] if !readonly_user || (readonly_user && !sf.hide_on_view_page)
-                    end
-                    subforms << ["#{form.name}:#{f.display_name}", subform_fields.compact]
-                  end
+            # TODO: Refactor the mess below
+            if reports && Report.record_type_is_nested_reportable_subform?(parent_form, record_type)
+              # Keep nested form and minimal fields only
+              form.fields.select(&include_field).each do |f|
+                if model.minimum_reportable_fields.values.flatten.include?(f.name) || form.unique_id == Report.get_reportable_subform_record_field_name(parent_form, record_type)
+                    #Not subforms fields.
+                    fields << [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && !f.hide_on_view_page)
                 end
-              else
-                #Not subforms fields.
-                fields << [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && !f.hide_on_view_page)
+              end
+            else
+              form.fields.select(&include_field).each do |f|
+                if f.type == Field::SUBFORM
+                  #Process subforms fields only for custom exports, for now.
+                  if !reports
+                    if f.subform_section.present?
+                      #Collect subforms fields to build the section.
+                      subform_fields = f.subform_section.fields.select{|sf| types.include?(sf.type) && sf.visible?}
+                      subform_fields = subform_fields.map do |sf|
+                        ["#{f.name}:#{sf.name}", sf.display_name, sf.type] if !readonly_user || (readonly_user && !sf.hide_on_view_page)
+                      end
+                      subforms << ["#{form.name}:#{f.display_name}", subform_fields.compact]
+                    end
+                  end
+                else
+                  #Not subforms fields.
+                  fields << [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && !f.hide_on_view_page)
+                end
               end
             end
             #Add the section for the current form and the not subforms fields.

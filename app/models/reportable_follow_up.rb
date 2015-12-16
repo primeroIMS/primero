@@ -8,6 +8,10 @@ class ReportableFollowUp
     'followup_subform_section'
   end
 
+  def self.not_null_field
+    'followup_date'
+  end
+
 
   include ReportableNestedRecord
 

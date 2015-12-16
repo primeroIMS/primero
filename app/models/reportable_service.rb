@@ -8,6 +8,10 @@ class ReportableService
     'services_section'
   end
 
+  def self.not_null_field
+    'service_type'
+  end
+
 
   include ReportableNestedRecord
 
