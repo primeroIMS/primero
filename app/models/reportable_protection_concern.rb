@@ -8,8 +8,8 @@ class ReportableProtectionConcern
     'protection_concern_detail_subform_section'
   end
 
-  def self.not_null_field
-    'protection_concern_type'
+  def self.report_filters
+    [{'attribute' => 'protection_concern_type', 'value' => 'not_null'}]
   end
 
 

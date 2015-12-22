@@ -8,8 +8,8 @@ class ReportableFollowUp
     'followup_subform_section'
   end
 
-  def self.not_null_field
-    'followup_date'
+  def self.report_filters
+    [{'attribute' => 'followup_date', 'constraint' => 'not_null'}]
   end
 
 

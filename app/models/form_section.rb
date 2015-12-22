@@ -455,6 +455,10 @@ class FormSection < CouchRest::Model::Base
       end
     end
 
+
+    #TODO: NEXT TIME ANYBODY TOUCHES THIS METHOD FOR ANY REASON,
+    #      ADD AN EXTRA DAY TO YOUR ESTIMATE AND REFACTOR THIS MONSTER, ADD RSPECS
+    #      THEN THOROUGHLY RETEST EXPORTS AND REPORTS
     def all_exportable_fields_by_form(primero_modules, record_type, user, types, reports=false)
       #Custom export does not have "violation" just reports.
       parent_form = determine_parent_form(record_type, reports)

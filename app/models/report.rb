@@ -36,21 +36,6 @@ class Report < CouchRest::Model::Base
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
 
-  REPORTABLE_SUBFORMS = {
-      'reportable_follow_up' => {
-        'subform' => 'followup_subform_section',
-        'not_null_field' => 'followup_date'
-      },
-      'reportable_protection_concern' => {
-        'subform' => 'protection_concern_detail_subform_section',
-        'not_null_field' => 'protection_concern_type'
-      },
-      'reportable_service' => {
-        'subform' => 'services_section',
-        'not_null_field' => 'service_type'
-      }
-  }
-
   DEFAULT_CASE_FILTERS = [
       {'attribute' => 'child_status', 'value' => ['Open']},
       {'attribute' => 'record_state', 'value' => ['true']}
@@ -358,11 +343,7 @@ class Report < CouchRest::Model::Base
       case_record_types = ['case', 'child'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
       default_filters = case_record_types.include?(self.record_type) ? DEFAULT_CASE_FILTERS : DEFAULT_FILTERS
       if Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}.include? self.record_type
-        default_filters = (default_filters + [
-            # TODO: for filters with a date or numeric type the filter params should be the following
-            # {'attribute' =>  Record.model_from_name(record_type).try(:not_null_field), 'constraint' => 'not_null'}
-            {'attribute' =>  Record.model_from_name(record_type).try(:not_null_field), 'value' => ['not_null']}
-        ])
+        default_filters = (default_filters + Record.model_from_name(record_type).report_filters)
       end
       self.filters = (self.filters + default_filters).uniq
     end

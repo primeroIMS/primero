@@ -8,8 +8,11 @@ class ReportableService
     'services_section'
   end
 
-  def self.not_null_field
-    'service_type'
+  def self.report_filters
+    [
+      {'attribute' => 'service_type', 'value' => 'not_null'},
+      {'attribute' => 'service_appointment_date', 'constraint' => 'not_null'}
+    ]
   end
 
 
