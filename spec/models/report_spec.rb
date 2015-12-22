@@ -32,6 +32,39 @@ describe Report do
     expect(r.valid?).to be_false
   end
 
+  it "lists reportable record types" do
+    expect(Report.reportable_record_types).to include('case','incident', 'tracing_request', 'violation')
+  end
+
+  describe "nested reports" do
+
+    it "lists reportsable nested record types" do
+      expect(Report.reportable_record_types).to include('reportable_follow_up', 'reportable_protection_concern', 'reportable_service')
+    end
+
+    it "has default follow up filters" do
+      r = Report.new(record_type: 'reportable_follow_up', add_default_filters: true)
+      r.apply_default_filters
+      expect(r.filters).to include({'attribute' => 'followup_date', 'constraint' => 'not_null'})
+    end
+
+    it "has default service filters" do
+      r = Report.new(record_type: 'reportable_service', add_default_filters: true)
+      r.apply_default_filters
+      expect(r.filters).to include(
+        {'attribute' => 'service_type', 'value' => 'not_null'},
+        {'attribute' => 'service_appointment_date', 'constraint' => 'not_null'}
+      )
+    end
+
+    it "has default protection concern filters" do
+      r = Report.new(record_type: 'reportable_protection_concern', add_default_filters: true)
+      r.apply_default_filters
+      expect(r.filters).to include({'attribute' => 'protection_concern_type', 'value' => 'not_null'})
+    end
+
+  end
+
   describe "#value_vector" do
     it "will parse a Solr output to build a vector of pivot counts keyd by the pivot fields" do
 

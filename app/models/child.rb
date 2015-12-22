@@ -165,6 +165,13 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
   end
 
+  def self.report_filters
+    [
+      {'attribute' => 'child_status', 'value' => ['Open']},
+      {'attribute' => 'record_state', 'value' => ['true']}
+    ]
+  end
+
   def self.minimum_reportable_fields
     {
           'boolean' => ['record_state'],
