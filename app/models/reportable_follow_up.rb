@@ -9,7 +9,11 @@ class ReportableFollowUp
   end
 
   def self.report_filters
-    [{'attribute' => 'followup_date', 'constraint' => 'not_null'}]
+    [
+      {'attribute' => 'child_status', 'value' => ['Open']},
+      {'attribute' => 'record_state', 'value' => ['true']},
+      {'attribute' => 'followup_date', 'constraint' => 'not_null'}
+    ]
   end
 
 

@@ -266,6 +266,13 @@ module Record
     def minimum_reportable_fields ; {} ; end
     def nested_reportable_types ; [] ; end
 
+    def report_filters
+      [
+        {'attribute' => 'status', 'value' => ['Open']},
+        {'attribute' => 'record_state', 'value' => ['true']}
+      ]
+    end
+
     # Attributes is just a hash
     def get_unique_instance(attributes)
       if attributes.include? 'unique_identifier'

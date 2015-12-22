@@ -36,16 +36,6 @@ class Report < CouchRest::Model::Base
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
 
-  DEFAULT_CASE_FILTERS = [
-      {'attribute' => 'child_status', 'value' => ['Open']},
-      {'attribute' => 'record_state', 'value' => ['true']}
-  ]
-
-  DEFAULT_FILTERS = [
-      {'attribute' => 'status', 'value' => ['Open']},
-      {'attribute' => 'record_state', 'value' => ['true']}
-  ]
-
   property :name
   property :description
   property :module_ids, [String]
@@ -338,13 +328,9 @@ class Report < CouchRest::Model::Base
   end
 
   def apply_default_filters
-    if add_default_filters
+    if self.add_default_filters
       self.filters ||= []
-      case_record_types = ['case', 'child'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
-      default_filters = case_record_types.include?(self.record_type) ? DEFAULT_CASE_FILTERS : DEFAULT_FILTERS
-      if Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}.include? self.record_type
-        default_filters = (default_filters + Record.model_from_name(record_type).report_filters)
-      end
+      default_filters = Record.model_from_name(self.record_type).report_filters
       self.filters = (self.filters + default_filters).uniq
     end
   end

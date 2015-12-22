@@ -9,7 +9,11 @@ class ReportableProtectionConcern
   end
 
   def self.report_filters
-    [{'attribute' => 'protection_concern_type', 'value' => 'not_null'}]
+    [
+      {'attribute' => 'child_status', 'value' => ['Open']},
+      {'attribute' => 'record_state', 'value' => ['true']},
+      {'attribute' => 'protection_concern_type', 'value' => 'not_null'}
+    ]
   end
 
 

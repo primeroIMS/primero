@@ -10,6 +10,8 @@ class ReportableService
 
   def self.report_filters
     [
+      {'attribute' => 'child_status', 'value' => ['Open']},
+      {'attribute' => 'record_state', 'value' => ['true']},
       {'attribute' => 'service_type', 'value' => 'not_null'},
       {'attribute' => 'service_appointment_date', 'constraint' => 'not_null'}
     ]
