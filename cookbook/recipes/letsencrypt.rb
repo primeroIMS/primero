@@ -30,7 +30,7 @@ certfiles = {
 }
 if node[:primero][:letsencrypt][:couchdb]
   certfiles.merge({
-    node[:primero][:couchdb][:cert_path] => fullchain
+    node[:primero][:couchdb][:cert_path] => fullchain,
     node[:primero][:couchdb][:key_path] => privkey}
   })
 end
