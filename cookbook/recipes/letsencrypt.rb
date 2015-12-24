@@ -43,7 +43,7 @@ certfiles.each do |certfile|
 
   link certfile[0] do
     to certfile[1]
-    not_if { ::File.symlink?(certfile[0]) }
+    not_if { ::File.symlink?(certfile[0])   }
   end
 end
 
@@ -60,7 +60,8 @@ file "/etc/cron.monthly/letsencrypt_renew.sh" do
 #!/bin/bash
 
 cd #{letsencrypt_dir}
-./letsencrypt-auto certonly --webroot -w #{letsencrypt_public_dir} -d #{node[:primero][:server_hostname]} --agree-tos --email #{node[:primero][:letsencrypt][:email]}
+./letsencrypt-auto certonly --renew-by-default --webroot -w #{letsencrypt_public_dir} -d #{node[:primero][:server_hostname]} --agree-tos --email #{node[:primero][:letsencrypt][:email]}
+/etc/init.d/nginx restart
 EOH
 end
 
