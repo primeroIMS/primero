@@ -36,16 +36,14 @@ if node[:primero][:letsencrypt][:couchdb]
 end
 
 certfiles.each do |certfile|
-  already_symlinked = ::File.symlink?(certfile[0])
-
   file certfile[0] do
     action :delete
-    not_if already_symlinked
+    not_if ::File.symlink?(certfile[0])
   end
 
   link certfile[0] do
     to certfile[1]
-    not_if already_symlinked
+    not_if ::File.symlink?(certfile[0])
   end
 end
 
