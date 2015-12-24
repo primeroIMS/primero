@@ -38,12 +38,12 @@ end
 certfiles.each do |certfile|
   file certfile[0] do
     action :delete
-    not_if ::File.symlink?(certfile[0])
+    not_if { ::File.symlink?(certfile[0]) }
   end
 
   link certfile[0] do
     to certfile[1]
-    not_if ::File.symlink?(certfile[0])
+    not_if { ::File.symlink?(certfile[0]) }
   end
 end
 
