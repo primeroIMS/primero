@@ -28,7 +28,7 @@ certfiles = {
   '/etc/nginx/ssl/primero.crt' => fullchain,
   '/etc/nginx/ssl/primero.key' => privkey
 }
-if node[:primero][:letsencrypt].present? && node[:primero][:letsencrypt][:couchdb]
+if node[:primero][:letsencrypt] && node[:primero][:letsencrypt][:couchdb]
   certfiles = certfiles.merge({
     node[:primero][:couchdb][:cert_path] => fullchain,
     node[:primero][:couchdb][:key_path] => privkey
