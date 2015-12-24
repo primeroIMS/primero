@@ -50,6 +50,7 @@ file node[:primero][:couchdb][:cert_path] do
   mode '644'
   not_if do
     ::File.symlink?(node[:primero][:couchdb][:cert_path]) &&
+    node[:primero][:letsencrypt].present? &&
     node[:primero][:letsencrypt][:couchdb]
   end
   #If symlink, then this has been created and is being maintained by letsencrypt
@@ -62,6 +63,7 @@ file node[:primero][:couchdb][:key_path] do
   mode '400'
   not_if do
     ::File.symlink?(node[:primero][:couchdb][:key_path]) &&
+    node[:primero][:letsencrypt].present? &&
     node[:primero][:letsencrypt][:couchdb]
   end
   #If symlink, then this has been created and is being maintained by letsencrypt
