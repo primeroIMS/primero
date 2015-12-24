@@ -43,8 +43,8 @@ certfiles.each do |certfile|
     not_if already_symlinked
   end
 
-  link certfile[1] do
-    to certfile[0]
+  link certfile[0] do
+    to certfile[1]
     not_if already_symlinked
   end
 end
