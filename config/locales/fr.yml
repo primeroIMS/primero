@@ -7,11 +7,11 @@ fr:
   "false": "No"
   home:
     fr: "Français"
-    en: "Anglais"
-    ar: "Arabe"
-    zh: "Chinois"
-    es: "Espagnol"
-    ru: "Russe"
+    en: "English"
+    ar: "العربية"
+    zh: "中文"
+    es: "Español"
+    ru: "Русский"
     dashboard: "Tableau de bord"
     welcome: "Bienvenue sur Primero"
     current_time_zone: "Fuseau horaire actuel "
@@ -23,8 +23,7 @@ fr:
     label: "Accueil"
   clear: "Effacer"
   messages:
-    delete_item: "Attention : si vous poursuivez, les données associées à ce champ seront perdues. \nSi vous n’êtes pas sûr(e), désactivez le champ.\nCliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.\n"
-    move_item: "Vous êtes sur le point de déplacer ce champ vers une autre partie du formulaire ({{selection_key}}). Souhaitez-vous continuer ?"
+    delete_item: "Attention : si vous poursuivez, les données associées à ce champ seront perdues. \nSi vous n’êtes pas sûr(e), désactivez le champ.\nCliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.\n"    move_item: "Vous êtes sur le point de déplacer ce champ vers une autre partie du formulaire ({{selection_key}}). Souhaitez-vous continuer ?"
     enter_valid_date: "Saisissez la date dans un format correct (jj-mm-aaaa) "
     enter_valid_field_value: "Saisissez une valeur valide pour ce champ. "
     enter_valid_number_in_tally: "%{field}: %{tally} doit être un nombre valide"
@@ -59,7 +58,7 @@ fr:
     scroll_down: "Faites défiler vers le bas pour en voir plus."
 
   data_base:
-    delete_all_documents: "Effacé tous les documents relatifs à l'enfant "
+    delete_all_documents: "Tous les documents relatifs à l'enfant ont été effacés"
     operation_not_allowed: "Opération non autorisée dans un environnement %{rails_env} "
 
   login:
@@ -529,11 +528,11 @@ fr:
       multi_page_html: "Affichage %{model} <b>%{from} - %{to}</b> sur un total de <b>%{count}</b>"
     models:
       report:
-        one: ""
-        other: ""
+        one: "rapport"
+        other: "rapports"
       child:
-        one: ""
-        other: ""
+        one: "cas"
+        other: "cas"
       incident:
         one: "incident"
         other: "incidents"
@@ -552,7 +551,7 @@ fr:
     sort_by:
       label: "Trier par"
       full_name: "Nom complet"
-      agency: ""
+      agency: "Agence"
 
   roles:
     label: "Fonctions"
@@ -860,7 +859,7 @@ fr:
     options: "Options"
     confirm_delete: "Êtes-vous sûr(e) de vouloir supprimer ce formulaire ?"
     required_field: "%{field} est requis"
-    required_field_js: ""
+    required_field_js: "est un champ obligatoire, qui ne peut pas être laissé vide."
     form_group_name: "Nom du groupe de formulaires"
     modal_sidebar_help: "Sélectionner le type de champ"
     modal_sidebar_help_selected: "Type de champ"
@@ -877,8 +876,8 @@ fr:
     date_updated: "Date de mise à jour :"
     select_a_criteria: "Sélectionnez le Critère A"
     records_found:
-      one: ""
-      other: ""
+      one: "un dossier trouvé"
+      other: "%{count} dossiers trouvés"
   search: "Rechercher"
   select_all: "Sélectionner tous les dossiers"
   no_results_found: "Aucun résultat trouvé"
@@ -896,7 +895,7 @@ fr:
       phone: "Téléphone"
       location: "Lieu"
       other_information: "Autres informations"
-      support_forum: ""
+      support_forum: "Forum d’assistance"
     updated: "Les coordonnées ont bien été mises à jour."
     edit_info: "Éditer les coordonnées"
     info_label: "Coordonnées"
@@ -1072,7 +1071,7 @@ fr:
       label: "Filtres du rapport"
       attribute: "Filtre"
       value: "Avec"
-      not_null: ""
+      not_null: "La valeur du formulaire n’est pas vide"
     is_graph: "Générer un graphique ?"
     no_data: "Il n'existe aucune donnée pour ce rapport"
     export:
@@ -1218,35 +1217,35 @@ fr:
     all_cases: "Tous les cas"
     open: "Ouverts"
     count_risk_level_total:
-      one: ""
-      other: ""
+      one: "Vous avez %{stat} <span>%{stat_type} cas </span> à risque"
+      other: "Vous avez %{stat} <span>%{stat_type} cas </span> à risque"
     count_risk_level_new:
-      one: ""
-      other: ""
+      one: "et %{stat} <span>nouveau</span> <span>%{stat_type} cas</span> à risque"
+      other: "et %{stat} <span>nouveaux</span> <span>%{stat_type} cas</span> à risque"
     count_records_total:
-      one: ""
-      other: ""
+      one: "Vous avez %{stat} <span>cas</span> au total "
+      other: "Vous avez %{stat} <span>cas</span> au total"
     count_records_new:
-      one: ""
-      other: ""
+      one: "et %{stat} <span>nouveau</span> cas"
+      other: "et %{stat} <span>nouveaux</span> cas"
     count_referrals_total:
-      one: ""
-      other: ""
+      one: "Vous avez %{stat} <span>orientation</span> au total"
+      other: "Vous avez %{stat} <span>orientations</span> au total"
     worker_count_referrals_total:
-      one: ""
-      other: ""
+      one: "<span>%{case_worker}</span> a %{stat} <span>orientation</span> au total"
+      other: "<span>%{case_worker}</span> a %{stat} <span>orientations</span> au total"
     count_referrals_new:
-      one: ""
-      other: ""
+      one: "et %{stat} <span>nouvelle</span> orientation"
+      other: "et %{stat} <span>nouvelles</span> orientations"
     worker_count_total:
-      one: ""
-      other: ""
+      one: "<span>%{case_worker}</span> a %{stat} <span>cas</span> au total"
+      other: "<span>%{case_worker}</span> a %{stat} <span>cas</span> au total"
     manager_count_open_total:
-      one: ""
-      other: ""
+      one: "Vous avez %{stat} <span>cas</span> ouvert"
+      other: "Vous avez %{stat} <span>cas</span> ouverts"
     manager_count_closed_total:
-      one: ""
-      other: ""
+      one: "et %{stat} <span>cas</span> clos"
+      other: "et %{stat} <span>cas</span> clos"
     open_cases: "Cas ouverts"
     new_last_week: "Nouveaux<span>(semaine dernière)</span>"
     new_this_week: "Nouveaux <span>(cette semaine)</span>"
@@ -1260,7 +1259,7 @@ fr:
         one: "Une erreur a empêché l'enregistrement de ce %{model} "
         other: "%{count} erreurs ont empêché l'enregistrement de ce %{model} "
         body: "Des problèmes ont été détectés concernant les champs suivants :"
-        body_js: ""
+        body_js: "Afin de enregistrer le dossier, les problèmes des champs suivants doivent être résolus :"
 
     agencies:
       logo_size: "Veuillez télécharger un fichier inférieur à 10 Mo"
@@ -1452,8 +1451,8 @@ fr:
     last_update: "Dernière mise à jour"
     current_owner: "Propriétaire actuel"
     change_log: "Modifier le journal"
-    record_information: ""
-    name_date_seperator: ""
+    record_information: "Information du dossier"
+    name_date_seperator: "sur"
 
   exports:
     no_records: "Aucun dossier disponible !"
@@ -1562,7 +1561,7 @@ fr:
     failure: "Le transfert %{record_type} %{id} a échoué (vérifiez que les champs de consentement sont sélectionnés)"
     success: "%{record_type} %{id} a bien été transféré"
     failure_batch: "%{failed_count} transfert(s) a (ont) échoué (vérifiez que les champs de consentement sont sélectionnés)"
-    success_batch: "%{success_count} transfert(s) a (ont) bien été effectués(s)"
+    success_batch: "%{success_count} transfert(s) a (ont) bien été effectué(s)"
 
   mark_for_mobile:
     no_records_selected: "Aucun dossier sélectionné"

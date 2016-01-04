@@ -532,14 +532,14 @@ es:
       multi_page_html: "Desplegando %{model} <b>%{from} - %{to}</b> de <b>%{count}</b> en total"
     models:
       report:
-        one: ""
-        other: ""
+        one: "informe"
+        other: "informes"
       child:
-        one: ""
-        other: ""
+        one: "caso"
+        other: "casos"
       incident:
-        one: ""
-        other: ""
+        one: "incidente"
+        other: "incidentes"
   users:
     unverified: "Usuarios no verificados"
     select_role: "Seleccione un rol antes de verificar el usuario"
@@ -555,6 +555,7 @@ es:
     sort_by:
       label: "Ordenar por"
       full_name: "Nombre completo"
+      agency: "Agencia"
 
   roles:
     label: "Roles"
@@ -597,7 +598,6 @@ es:
     view: "Ver agencia"
     successfully_created: "La agencia se generó correctamente."
     successfully_updated: "La agencia se actualizó correctamente."
-    drag_n_drop: "Puede arrastrar y soltar los campos para editar el orden requerido"
     actions:
       show_all: "Mostrando todos"
       show: "Mostrar"
@@ -701,6 +701,7 @@ es:
     full_name: "Nombre completo"
     history_of: "Historial de %{user_name}"
     disabled: "Desactivado"
+    agency: "Agency"
     actions:
       delete: "Eliminar"
     messages:
@@ -862,6 +863,7 @@ es:
     options: "Opciones"
     confirm_delete: "¿Está seguro de que desea eliminar este formulario?"
     required_field: "se requiere de %{field}"
+    required_field_js: "Este es un campo mandatorio"
     form_group_name: "Nombre de grupo del formulario"
     modal_sidebar_help: "Seleccionar tipo de campo"
     modal_sidebar_help_selected: "Tipo de campo"
@@ -878,8 +880,8 @@ es:
     date_updated: "Actualizado el:"
     select_a_criteria: "Seleccionar un criterio"
     records_found:
-      one: ""
-      other: ""
+      one: "Un archivo encontrado"
+      other: "%{count} archivos encontrados"
   search: "Buscar"
   select_all: "Seleccionar todos los registros"
   no_results_found: "No se encontraron resultados"
@@ -897,6 +899,7 @@ es:
       phone: "Teléfono"
       location: "Localidad"
       other_information: "Otra información"
+      support_forum: "Comunidad de Soporte"
     updated: "La información de contacto se actualizó correctamente."
     edit_info: "Editar información de contacto"
     info_label: "Información de contacto"
@@ -1072,6 +1075,7 @@ es:
       label: "Filtros del informe"
       attribute: "Filtro"
       value: "Con"
+      not_null: "El valor en el formulario no queda vacío"
     is_graph: "¿Generar gráfico?"
     no_data: "No existe información para este informe"
     export:
@@ -1217,35 +1221,35 @@ es:
     all_cases: "Todos los casos"
     open: "Abierto"
     count_risk_level_total:
-      one: ""
-      other: ""
+      one: "Tiene %{stat} <span>%{stat_type} riesgo </span> caso"
+      other: "Tiene %{stat} <span>%{stat_type} riesgo </span> casos"
     count_risk_level_new:
-      one: ""
-      other: ""
+      one: "y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> caso"
+      other: "y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> casos"
     count_records_total:
-      one: ""
-      other: ""
+      one: "Tiene %{stat} <span>caso</span> total"
+      other: "Tiene %{stat} <span>casos</span> totales"
     count_records_new:
-      one: ""
-      other: ""
+      one: "y %{stat} <span>nuevo</span> caso"
+      other: "y %{stat} <span>nuevos</span> casos"
     count_referrals_total:
-      one: ""
-      other: ""
+      one: "Tiene %{stat} <span>referencia</span> total"
+      other: "Tiene %{stat} <span>referencias</span> totales"
     worker_count_referrals_total:
-      one: ""
-      other: ""
+      one: "<span>%{case_worker}</span> tiene %{stat} <span>referencia</span> total"
+      other: "<span>%{case_worker}</span> tiene %{stat} <span>referencias</span> totales"
     count_referrals_new:
-      one: ""
-      other: ""
+      one: "y %{stat} <span>referencia</span> nueva"
+      other: "y %{stat} <span>referencias</span> nuevas"
     worker_count_total:
-      one: ""
-      other: ""
+      one: "<span>%{case_worker}</span> tiene %{stat} <span>caso</span>total"
+      other: "<span>%{case_worker}</span> tiene %{stat} <span>casos</span>totales"
     manager_count_open_total:
-      one: ""
-      other: ""
+      one: "Tiene %{stat} <span>caso</span> abierto"
+      other: "Tiene %{stat} <span>casos</span> abiertos"
     manager_count_closed_total:
-      one: ""
-      other: ""
+      one: "y %{stat} <span>caso</span>cerrado"
+      other: "y %{stat} <span>casos</span>cerrados"
     open_cases: "Casos abiertos"
     new_last_week: "Nuevo<span>(útima semana)</span>"
     new_this_week: "Nuevo <span>(esta semana)</span>"
@@ -1259,6 +1263,7 @@ es:
         one: "1 error impidió la grabación de este %{model} "
         other: "%{count} impidieron la grabación de este %{model} "
         body: "Se produjeron problemas con los siguientes campos:"
+        body_js: "Para poder guardar este archivo, hay que arreglar los problemas en los siguientes campos:"
 
     agencies:
       logo_size: "Suba un archivo de menos de 10mb"
@@ -1450,6 +1455,8 @@ es:
     last_update: "Ultima actualización"
     current_owner: "Dueño actual"
     change_log: "Cambiar el log"
+    record_information: "Información del Archivo"
+    name_date_seperator: "activado"
 
   exports:
     no_records: "No hay registros disponibles!"
