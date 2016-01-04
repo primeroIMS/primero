@@ -23,7 +23,8 @@ fr:
     label: "Accueil"
   clear: "Effacer"
   messages:
-    delete_item: "Attention : si vous poursuivez, les données associées à ce champ seront perdues. \nSi vous n’êtes pas sûr(e), désactivez le champ.\nCliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.\n"    move_item: "Vous êtes sur le point de déplacer ce champ vers une autre partie du formulaire ({{selection_key}}). Souhaitez-vous continuer ?"
+    delete_item: "Attention : si vous poursuivez, les données associées à ce champ seront perdues. \nSi vous n’êtes pas sûr(e), désactivez le champ.\nCliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.\n"
+    move_item: "Vous êtes sur le point de déplacer ce champ vers une autre partie du formulaire ({{selection_key}}). Souhaitez-vous continuer ?"
     enter_valid_date: "Saisissez la date dans un format correct (jj-mm-aaaa) "
     enter_valid_field_value: "Saisissez une valeur valide pour ce champ. "
     enter_valid_number_in_tally: "%{field}: %{tally} doit être un nombre valide"
