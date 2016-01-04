@@ -40,8 +40,10 @@ module Primero
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    LOCALES = ['en','fr','ar','zh','es','ru']
-    LOCALES_WITH_DESCRIPTION = [['-', nil],['العربية','ar'],['中文','zh'],['English', 'en'],['Français', 'fr'],['Русский', 'ru'],['Español', 'es']]
+    #LOCALES = ['en','fr','ar','zh','es','ru']
+    #LOCALES_WITH_DESCRIPTION = [['-', nil],['العربية','ar'],['中文','zh'],['English', 'en'],['Français', 'fr'],['Русский', 'ru'],['Español', 'es']]
+    LOCALES = ['en','fr','ar','es']
+    LOCALES_WITH_DESCRIPTION = [['-', nil],['English', 'en'],['Français', 'fr'],['العربية','ar'],['Español', 'es']]
 
     if ENV['RAILS_LOG_PATH'].present?
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"

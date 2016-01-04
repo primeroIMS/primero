@@ -3,413 +3,1587 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 es:
+  "true": "Yes"
+  "false": "No"
   home:
-    fr: "Français"
-    en: "English"
-    ar: "العربية"
-    zh: "中文"
+    fr: "Francés"
+    en: "Ingles"
+    ar: "Árabe"
+    zh: "Chino"
     es: "Español"
-    ru: "Русский"
-  #   welcome: "Bienvenido RapidFTR"
-  #   current_time_zone: "Current time zone"
-  #   language: "Language"
-  #   view_records: "View All Children"
-  #   records_need_attention: "Records need Attention"
+    ru: "Ruso"
+    dashboard: "Tablero"
+    welcome: "Bienvenida a Primero"
+    current_time_zone: "Zona horaria actual"
+    language: "Idioma"
+    view_records: "Ver archivos"
+    users: "Gestionar usuarios"
+    manage_system_users: "Gestionar sincronización de usuarios en el servidor"
+    records_need_attention: "Hay archivos que requieren de su atención"
+    label: "Pagina de inicio"
+  clear: "Borrar"
+  messages:
+    delete_item: |
+      Advertencia: Si continúa, perderá toda la información asociada a este campo.
+      Si no está seguro, desactive el campo.
+      Haga clic en Cancelar para volver. Haga clic en OK para Eliminar el campo.
+    move_item: "Está a punto de mover este campo a otra sección del formulario ({{selection_key}}). ¿Es lo que desea?  "
+    enter_valid_date: "Ingrese la fecha en un formato válido (dd-mmm-aaaa)"
+    enter_valid_field_value: "Ingrese un valor de campo válido."
+    enter_valid_number_in_tally: "%{field}: %{tally} debe ser un número válido"
+    valid_search_criteria: "Ingrese por lo menos un criterio de búsqueda"
+    show_hide_forms: "Seleccione el/los formulario/s que desea mostrar/ocultar."
+    show_forms: "¿Está seguro de que desea hacer visibles estos formularios?"
+    hide_forms: "¿Está seguro de que desea ocultar este/os formulario(s)?"
+    primary_photo_changed: "Se ha cambiado la foto principal."
+    select_photo: "Seleccione una foto."
+    are_you_sure: "¿Está seguro de que desea"
+    this_user: " este usuario?"
+    keep_working: "Sí, continuar trabajando"
+    logoff: "No, terminar sesión"
+    record_navigation_confirmation_message: "Al hacer clic en OK se descartarán los cambios no guardados y será dirigido a la página solicitada. Haga clic en cancelar para volver al registro."
+    confirmation_message: "Al hacer clic en OK se descartarán los cambios no guardados y volverá a la lista. Haga clic en cancelar para volver al registro."
+    cancel_confirmation: "¿Está seguro de que desea cancelar?"
+    logoff_warning_prefix: "Su sesión terminará en"
+    logoff_warning_suffix: "segundos."
+    logoff_confirmation: "¿Desea continuar su sesión?"
+    warning: |
+      Advertencia: Si continúa, perderá toda la información asociada a este campo.
+      Si no está seguro, desactive el campo.
+      Haga clic en Cancelar para volver. Haga clic en OK para Eliminar el campo.
+    enter_each_in_one_line: "Ingrese cada opción en una línea nueva"
+    record_count: "Mostrando %{start} a %{end} de %{total} registros"
+    form_sections_help_text_for_edit: "Haga clic en el botón EDITAR para agregar %{form_section_name} información"
+    enable_disable_record: "Al hacer clic en OK el estado de este registro cambiará a '%{action}'"
+    flag_multiple_records_error_message: "Se ha producido un error al intentar marcar los registros:"
+    record_not_flagged_message: "%{short_id}: No marcados"
+    invalid_date_filter_value: "Algunos filtros no pudieron aplicarse debido a un valor de fecha inválido. Por favor verifique los valores de filtro de fecha."
+    scroll_up: "Desplácese hacia arriba para ver más"
+    scroll_down: "Desplácese hacia abajo para ver más"
 
-  #   label: "Home"
-  # messages:
-  #   delete_item: "Warning: If you continue, any data associated with this field will be lost.\nIf you\'re uncertain, disable the field instead.\nClick Cancel to go back. Click OK to Delete the field."
-  #   move_item: "You are about to move this field to another form section ({{selection_key}}). Is this OK?"
-  #   enter_valid_date: "Please enter a valid 'After' and/or 'Before' Date Created (format yyyy-mm-dd)."
-  #   enter_valid_field_value: "Please enter a valid field value."
-  #   valid_search_criteria: "Please enter at least one search criteria"
-  #   show_hide_forms: "Please select form(s) you want to show/hide."
-  #   show_forms: "Are you sure you want to make these form(s) visible?"
-  #   hide_forms: "Are you sure you want to hide these form(s)?"
-  #   primary_photo_changed: "Primary photo changed."
-  #   select_photo: "Please select a photo."
-  #   are_you_sure: "Are you sure you want to "
-  #   this_user: " this user?"
-  #   keep_working: "Yes, Keep Working"
-  #   logoff: "No, Logoff"
-  #   confirmation_message: "Clicking OK Will Discard Any Unsaved Changes. Click Cancel To Return To The Child Record Instead."
-  #   cancel_confirmation: "Are you sure you want to cancel?"
-  #   logoff_warning_prefix: "You will be logged off in"
-  #   logoff_warning_suffix: "seconds."
-  #   logoff_confirmation: "Do you want to continue your session?"
-  #   warning: "Warning: If you continue, any data associated with this field will be lost.\nIf you're uncertain, disable the field instead.\nClick Cancel to go back. Click OK to Delete the field."
+  data_base:
+    delete_all_documents: "Todos los documentos de menores han sido eliminados"
+    operation_not_allowed: "Operación no permitida en el entorno %{rails_env} "
 
-  #   enter_each_in_one_line: "Enter each option on a new line"
-  # login:
-  #   details: "Login details"
-  #   username: "User Name"
-  #   password:
-  #     label: "Password"
-  #     reset: "Request Password Reset"
-  #     re_enter: "Re-enter password"
+  login:
+    details: "Información de acceso"
+    username: "Nombre de usuario"
+    password:
+      label: "Contraseña"
+      reset: "Solicitar reseteo de contraseña"
+      re_enter: "Re-ingresar contraseña"
+      success_notice: "Gracias. Un administrador RapidFTR se comunicará con Ud. a la brevedad. De ser posible, comuníquese de inmediato con el administrador."
+      successfully_hidden: "La notificación de solicitud de contraseña pudo ocultarse adecuadamente."
 
-  #   label: "Login"
-  # header:
-  #   contact: "Contact & Help"
-  #   welcome: "Welcome"
-  #   logout: "Logout"
-  #   my_account: "My Account"
-  #   system_settings: "System settings"
+    label: "Inicio de sesión"
+  header:
+    contact: "Contacto y Ayuda"
+    logged_in_as: "Sesión iniciada como:"
+    welcome: "Bienvenido"
+    logout: "Desconectarse"
+    my_account: "Mi cuenta"
+    system_settings: "Configuración del sistema"
 
-  # navigation:
-  #    children: "CHILDREN"
-  #    forms: "FORMS"
-  #    users: "USERS"
-  #    devices: "DEVICES"
-  #    reports: "REPORTS"
-  #    advanced_search: "Advanced Search"
-  #    go: "Go"
-  #    search: "Search"
+  navigation:
+     home: "INICIO"
+     cases: "CASOS"
+     tracing_request: "SEGUIMIENTO DE SOLICITUDES"
+     incidents: "INCIDENTES"
+     children: "MENORES"
+     forms: "FORMULARIOS"
+     lookups: "BUSQUEDAS"
+     users: "CONFIGURACION"
+     replications: "SINC"
+     reports: "INFORMES"
+     advanced_search: "Búsqueda avanzada"
+     go: "Ir"
+     search: "Buscar"
+     locations: "UBICACIONES"
 
-  # buttons:
-  #    delete: "Delete"
-  #    save: "Save"
-  #    login: "Log in"
-  #    reunite: "Reunite"
-  #    edit: "Edit"
-  #    back: "Back"
-  #    change_password: "Change Password"
-  #    enable_photo_wall: "Enable photo wall"
-  #    disable_photo_wall: "Disable photo wall"
+  buttons:
+     delete: "Eliminar"
+     save: "Guardar"
+     login: "Iniciar sesión"
+     reunite: "Reunir"
+     edit: "Editar"
+     back: "Volver"
+     submit: "Enviar"
+     export: "Exportar"
+     import: "Importar"
+     change_password: "Cambiar contrase­ña"
+     enable_photo_wall: "Activar pared de fotos"
+     disable_photo_wall: "Desactivar pared de fotos"
+     create_incident: "Crear incidente"
+     create_case: "Crear caso"
+     guiding_questions: "Preguntas de referencia"
+     filter_label: "Filtro:"
+     filter: "Aplicar filtro"
+     filter_clear: "Eliminar filtros"
+     flag_records: "Marcar"
+     flag_model: "Marcar %{model}"
+     unflag_model: "Desmarcar %{model}"
+     ok: 'OK'
+     cancel: "Cancelar"
+     edit_subform: 'Editar Subformulario'
+     create_new_record: "Crear nuevo %{model}"
+     bundle_import: "Paquete de configuración"
+     bundle_export: "Paquete de configuración"
+     transfer: "Transferir %{model}"
+     referral: "Referir %{model}"
+     mark_for_mobile: "Marcar para móvil"
+     unmark_for_mobile: "Desmarcar para móvil"
+     approve_case_plan: "Aprobar plan de caso"
 
-  # children:
-  #   label: "Children"
-  #   register_new_child: "Register New Child"
-  #   export: "Export"
-  #   export_all_child_records_to_csv: "Export All Child Records to CSV"
-  #   export_all_child_records_to_pdf: "Export All Child Records to PDF"
-  #   export_some_records_to_csv: "Export Some Records to CSV"
-  #   filter_by:
-  #     label: "Filter by"
-  #     all: "All"
-  #     active: "Active"
-  #     reunited: "Reunited"
-  #     flag: "Flagged"
-  #     created: "Created"
-  #   order_by:
-  #     most_recently: "Most recently"
-  #     label: "Order by"
-  #     name: "Name"
-  #   flag_summary: "Flag summary"
+  placeholders:
+    subforms: "Haga clic en el botón editar para agregar información %{form}"
 
-  #   filer_by:
-  #     all: "All"
-  #     active: "Active"
-  #     reunited: "Reunited"
-  #     flagged: "Flagged"
+  cases:
+    label: "Casos"
+    register_new_case: "Nuevo caso"
+    export: "Exportar"
+    filter_by:
+      flag: "Marcado:"
+      flag_label: "Marcado?"
+      mobile: "Móvil:"
+      mobile_label: "¿Marcado para móvil?"
+      social_worker: "Trabajador de terreno/caso/social:"
+      agency: "Agencia:"
+      status: "Estado:"
+      age_range: "Rango de edad:"
+      sex: "Sexo:"
+      male: "Masculino"
+      female: "Femenino"
+      displacement_status: "Estado de desplazamiento:"
+      protection_status: "Estado de protección:"
+      urgent_protection_concern: "Inquietudes sobre protección de emergencia"
+      protection_concerns: "Inquietudes sobre protección"
+      risk_level: "Nivel de riesgo:"
+      current_location: "Ubicación actual:"
+      district: "Distrito:"
+      registration_date: "Fecha de registro:"
+      case_open_date: "Fecha de apertura de caso:"
+      record_state: "Estado del registro:"
+      photo: "Foto:"
+      photo_label: "¿Tiene foto?"
+    order_by:
+      most_recently: "Más recientemente"
+      label: "Ordenar por"
+      name: "Nombre"
+    flag_summary: "Resumen de registros marcados"
 
-  # child:
-  #   flagged_by: "Flagged By"
-  #   last_updated: "Last updated"
-  #   registered_by: "Registered by"
-  #   mark_as_duplicate: "Mark as Duplicate"
-  #   flag_record: "Flag record"
-  #   flag_label: "Flag"
-  #   flag_reason: "Flag Reason"
-  #   unflag_record: "Unflag record"
-  #   unflag_reason: "Unflag Reason"
-  #   unflag_label: "Unflag"
-  #   unflag_error_message: "Please explain why you are unflagging this record."
-  #   id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
-  #   duplicate_header: "Marking %{child_name} as Duplicate"
-  #   flag_error_message: "Please explain why you are flagging this record."
-  #   investigation_details: "Investigation Details:"
-  #   reunite_details: "Reunite Details:"
-  #   another_duplicate_before_link: "Another record has been marked as a duplicate of this one. Click"
-  #   another_duplicate_after_link: " to see the duplicate record."
-  #   messages:
-  #     update_success: "Child was successfully updated."
-  #     investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
-  #     undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
-  #     undo_investigation_error_message: "Undo Investigation Details:"
-  #     reunite_error_message: "Please confirm this child has been reunited with family or caregivers, and enter any details you have."
-  #     undo_reunite_error_message: "Please confirm child should be marked as Not Reunited, and enter any details you have."
-  #     see_full_size: "Click on the Image to see full size"
-  #     creation_success: "Child record successfully created."
-  #   actions:
-  #     mark_as_investigated: "Mark as Investigated"
-  #     mark_as_reunited: "Mark as Reunited"
-  #     export_to_photo_wall: "Export to Photo Wall"
-  #     export_to_pdf: "Export to PDF"
-  #     export_to_csv: "Export to CSV"
-  #     change_log: "Change Log"
-  #     mark_as_not_investigated: "Mark as Not Investigated"
-  #     reunited: "Mark as Reunited"
-  #     reunited_details: "Reunite Details:"
-  #     reunite: "Reunite"
-  #     not_reunited: "Mark as Not Reunited"
-  #     undo_reunited_details: "Undo reunite Reason:"
-  #     undo_reunite: "Undo Reunite"
-  #     investigation_details: "Investigation Details"
-  #     undo_investigation_details: "Undo Investigation Details"
-  #     undo_investigated: "Undo Investigated"
-  #   change_log: "Change Log"
-  #   flagged_as_suspected: "Flagged as suspect record by"
-  #   posted_from_mobile: "Posted from the mobile client at:"
-  #   edit_photo: "Edit photo"
-  #   manage_photos: "Manage photos"
+    filer_by:
+      all: "Todos"
+      active: "Activos"
 
-  #   view: "View Children"
-  #   edit: "Edit Child"
-  #   mark_as_duplicate_with_param: "Mark %{child_name} as Duplicate"
-  # preposition:
-  #   on_label: "on"
-  #   because: "Because"
+    hidden_text_field_text: "*****"
+    hide_name: "Ocultar nombre"
+    view_name: " Ver nombre"
+    ok: "Ok"
+    hide_name_error: "Se ha producido un error al guardar sus cambios. Por favor intente nuevamente."
 
-  # will_paginate:
-  #   previous_label: "&#8592; Previous"
-  #   next_label: "Next &#8594;"
-  #   page_gap: "&hellip;"
+  children:
+    label: "Menores"
+    register_new_child: "Registrar nuevo menor"
+    export: "Exportar"
+    filter_by:
+      label: "Filtrar por"
+      all: "Todos"
+      active: "Activos"
+      reunited: "Reunidos"
+      flag: "Marcados"
+      created: "Creado"
+    order_by:
+      most_recently: "Más recientemente"
+      label: "Ordenar por"
+      name: "Nombre"
+    flag_summary: "Resumen de registros marcados"
 
-  # users:
-  #   unverified: "Unverified Users"
-  #   select_role: "Please select a role before verifying the user"
-  #   manage: "Manage Users"
-  #   label: "Users"
-  #   create: "Create User"
-  #   actions:
-  #     show_all: "Showing all"
-  #     show: "Show"
-  #   messages:
-  #     disable: 'Are you sure you want to disable this user?'
-  #   sort_by:
-  #     label: "Sort by"
-  #     full_name: "Full Name"
+    filer_by:
+      all: "Todos"
+      active: "Activos"
+      reunited: "Reunidos"
+      flagged: "Marcados"
 
-  # roles:
-  #   label: "Roles"
-  #   list: "List of Roles"
-  #   sort_by:
-  #     label: "Sort by"
-  #     ascending: "Ascending"
-  #     descending: "Descending"
-  #   name: "Role Name"
-  #   actions:
-  #     show_all: "Showing all"
-  #     show: "Show"
-  #     edit: "Edit"
-  # user:
-  #   label: "user"
-  #   full_name: "Full Name"
-  #   disabled: "Disabled"
-  #   actions:
-  #     delete: "Delete"
-  #   messages:
-  #     confirmation: "Are you sure you want to delete this user? Deletion can not be undone. Click OK To Delete User."
-  #     created: "User was successfully created."
-  #     updated: "User was successfully updated."
-  #     not_found: "User with the given id is not found"
-  #     passwords_do_not_match: "does not match current password"
-  #     password_changed_successfully: "Password changed successfully"
-  #     time_zone_updated: "The change was successfully updated."
-  #   update: "Update"
-  #   verify: "Verify"
-  #   create: "Create"
-  #   no_blank: "user name should not contain blanks"
-  #   manage_password: "Change Password"
-  #   old_password: "Old Password"
-  #   new_password: "New Password"
-  #   new_password_confirmation: "Confirm New Password"
+  child:
+    flagged_by: "Marcados por"
+    last_updated: "Ultima actualización"
+    registered_by: "Registrado por"
+    mark_as_duplicate: "Marcar como duplicado"
+    flag_record: "Registros marcados"
+    flag_label: "Marcar"
+    flag_reason: "Marcado por"
+    flag_reason_date: "Fecha (optativo)"
+    unflag_record: "Desmarcar registro"
+    unflag_reason: "Motivo por el cual se desmarca"
+    unflag_label: "Desmarcar"
+    unflag_error_message: "Por favor explique porqué está desmarcando este registro."
+    id_of_record_this_duplicate_of: "Ingrese la identificación del registro del cual éste es duplicado:"
+    duplicate_header: "Marcando %{child_name} como Duplicado"
+    flag_error_message: "Por favor explique por qué está marcando este registro."
+    flag_records_error_message: "Por favor explique por qué está marcando estos registros."
+    selected_records_error_message: "Seleccione uno o más registros a marcar."
+    investigation_details: "Información de la investigación:"
+    reunite_details: "Información de la reunión:"
+    another_duplicate_before_link: "Otro registro ha sido marcado como duplicado de este. Haga clic"
+    another_duplicate_after_link: "para ver el registro duplicado."
+    export_error: "¡No hay registros disponibles!"
+    # TODO: Possibly use another method to label the list view columns
+    id: "Nº de ID"
+    name: "Nombre"
+    age: "Edad"
+    sex: "Sexo"
+    registration_date: "Fecha de registro"
+    status: "Estado"
+    match_record: "Concordancia"
+    match_record_success: "Registros con concordancia"
+    match_record_failed: "No se encontró concordancia"
 
-  #   new: "New User"
-  # phone: "Phone"
-  # email: "Email"
-  # organization: "Organisation"
-  # position: "Position"
-  # location: "Location"
-  # false: "false"
-  # true: "true"
-  # mandatory_field: "marked fields are mandatory"
-  # add: "add"
-  # belonging_to: "belonging to"
-  # hello: "Hello"
-  # imei: "IMEI"
-  # blacklisted: "Blacklisted?"
-  # visible: "Visible"
-  # hidden: "Hidden"
-  # help_text: "Help text"
-  # cancel: "Cancel"
-  # discard: "Discard"
-  # form: "Form"
-  # details: "Details"
-  # enabled: "Enabled"
-  # status: "Status"
-  # devices: "Devices"
-  # provide_translation: "Provide translation for"
+    messages:
+      update_success: "El caso %{record_id} se actualizo correctamente."
+      investigation_error_message: "Confirme que los registros marcados deben marcarse como investigados e ingrese toda la información que posea."
+      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
+      undo_investigation_error_message: "Deshacer la información de la investigación:"
+      reunite_error_message: "Confirme que este menor se ha reunido con su familia o cuidadores, e ingrese toda la información que posea."
+      undo_reunite_error_message: "Confirme que el menor debe ser marcado como No Reunido e ingrese toda la información que posea."
+      see_full_size: "Haga clic en la Imagen para ver a tamaño completo."
+      creation_success: "El registro de caso %{record_id} se generó adecuadamente."
+      not_found: "No se encontró el menor con la identificación proporcionada"
+      confirm_duplicate: "¿Está seguro de que desea continuar? De ser así, haga clic en OK. Si no, haga clic en Cancelar."
 
-  # role:
-  #   create: "Create Role"
-  #   edit: "Edit Role"
+    actions:
+      mark_as_investigated: "Marcar como investigado"
+      mark_as_reunited: "Marcar como reunido"
+      export_to_photo_wall: "Exportar a la pared de fotos"
+      export_to_pdf: "Exportar a PDF"
+      export_to_csv: "Exportar a CSV"
+      change_log: "Cambiar el log"
+      mark_as_not_investigated: "Marcar como no investigado"
+      reunited: "Marcar como reunido"
+      reunited_details: "Información de la reunión:"
+      reunite: "Reunido"
+      not_reunited: "Marcar como no reunido"
+      undo_reunited_details: "Deshacer motivo de la reunión:"
+      undo_reunite: "Deshacer Reunión"
+      investigation_details: "Información de la investigación"
+      undo_investigation_details: "Deshacer información de la investigación"
+      undo_investigated: "Deshacer investigado"
+      cancel: "Cancelar"
+      delete_photo: "¿Borrar foto?"
+      delete_audio: "¿Eliminar audio?"
+      delete_document: "¿Eliminar documento?"
+      choose_as_primary_photo: "Elegir como foto principal"
+      rotate_anti_clockwise: "Girar en el sentido contrario a las agujas del reloj"
+      restore_image: "Restaurar imagen original"
+      rotate_clockwise: "Girar en el sentido de las agujas del reloj"
+      view_full_size_photo: "Ver la foto a tamaño completo"
 
-  #   name: "Name"
-  # record: "record"
-  # description: "Description"
-  # name: "Name"
+    change_log: "Cambiar el log"
+    flagged_as_suspected: "Marcado por"
+    posted_from_mobile: "Publicado del cliente móvil en:"
+    edit_photo: "Editar foto"
+    manage_photos: "Gestionar fotos"
 
-  # permissions:
-  #   label: "Permissions"
-  #   group:
-  #     Reports: Reports
-  #     Devices: Devices
-  #     System: System
-  #     Roles: Roles
-  #     Children: Children
-  #     Forms: Forms
-  #     Users: Users
-  #     ALL: All
+    view: "Ver caso %{short_id}"
+    edit: "Editar caso"
+    mark_child_as_duplicate: "Marcar %{short_id} como duplicado"
+    history_of: "Historial de %{short_id}"
 
-  #   permission:
-  #     "Register Child": "Register Child"
-  #     "Edit Child": "Edit Child"
-  #     "View And Search Child": "View And Search Child"
-  #     "Export to Photowall/CSV/PDF": "Export to Photowall/CSV/PDF"
-  #     "Manage Forms": "Manage Forms"
-  #     "Create and Edit Users": "Create and Edit Users"
-  #     "View Users": "View Users"
-  #     "Delete Users": "Delete Users"
-  #     "Disable Users": "Disable Users"
-  #     "BlackList Devices": "BlackList Devices"
-  #     "Create and Edit Roles": "Create and Edit Roles"
-  #     "View roles": "View roles"
-  #     "System Settings": "System Settings"
-  #     "Highlight Fields": "Highlight Fields"
-  #     "Manage Replications": "Manage Replications"
-  #     "View roles": "View roles"
-  #     "All": "All"
-  #     "View and Download Reports": "View and Download Reports"
-  # forms:
-  #   label: "Forms"
-  #   save: "Save Form"
-  #   save_details: "Save Details"
-  #   messages:
-  #     use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
-  #   initial_language: "Initial Language"
-  #   cannot_be_edited: "Fields on this form cannot be edited."
+  case:
+    label: "Identificación de Caso"
+    flagged_by: "Marcado por"
+    last_updated: "Ultima actualización"
+    registered_by: "Registrado por"
+    mark_as_duplicate: "Marcar como duplicado"
+    flag_record: "Marcar registro"
+    flag_label: "Marcar"
+    flag_reason: "Marcado por"
+    flag_reason_date: "Fecha (optativo)"
+    unflag_record: "Desmarcar registro"
+    unflag_reason: "Motivo por el cual se desmarca"
+    unflag_label: "Desmarcar"
+    unflag_error_message: "Por favor explique porqué está desmarcando este registro."
+    id_of_record_this_duplicate_of: "Ingrese la identificación del registro del cual éste es duplicado:"
+    duplicate_header: "Marcando %{child_name} como Duplicado"
+    flag_error_message: "Por favor explique por qué está marcando este registro."
+    investigation_details: "Información de la investigación:"
+    reunite_details: "Información de la reunión:"
+    another_duplicate_before_link: "Otro registro ha sido marcado como duplicado de este. Haga clic"
+    another_duplicate_after_link: "para ver el registro duplicado."
+    # TODO: Possibly use another method to label the list view columns
+    select: "Seleccionar"
+    id: "Nº de ID"
+    name: "Nombre"
+    age: "Edad"
+    sex: "Sexo"
+    registration_date: "Fecha de registro"
+    status: "Estado"
+    social_worker: "Trabajador social"
+    survivor_code: "Código de sobreviviente"
+    case_opening_date: "Fecha de apertura de caso"
+    photo: "Foto"
 
-  # form_section:
-  #   create: "Create New Form Section"
-  #   visibility: "Visibility"
-  #   ordering: "Ordering"
-  #   details: "Form details"
-  #   label: "Form Section"
-  #   back: "Back To Forms Page"
-  #   actions:
-  #     add_custom_field: "Add Custom Field"
-  #     save_order: "Save Order"
-  #   messages:
-  #     order_saved: "Order is successfully saved."
-  #     cannot_create: "Form section could not be created"
-  #     correct_errors: "Please correct the following errors and resubmit:"
-  #     hide_confirmation: "Are you sure you want to hide fields?"
-  #     show_confirmation: "Are you sure you want to show fields?"
-  #     drag_drop_help_text: You can click on the fields to drag &amp; drop on the required order.
+    messages:
+      update_success: "El caso %{record_id} fue actualizado adecuadamente."
+      investigation_error_message: "Confirme que los registros marcados deben marcarse como investigados e ingrese toda la información que posea."
+      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
+      undo_investigation_error_message: "Deshacer la información de la investigación:"
+      reunite_error_message: "Confirme que este caso ha sido reunido con su familia o cuidadores e ingrese toda la información que posea."
+      undo_reunite_error_message: "Confirme que este caso debe marcarse como No Reunido e ingrese toda la información que posea."
+      see_full_size: "Haga clic en la Imagen para ver a tamaño completo."
+      creation_success: "El registro de caso se ha generado correctamente."
+      not_found: "No se encontró el menor con la identificación proporcionada"
+      confirm_duplicate: "¿Está seguro de que desea continuar? De ser así, haga clic en OK. Si no, haga clic en Cancelar."
 
-  #     updated: "Form section successfully added"
-  #   hide: "Hide"
-  #   show: "Show"
-  #   manage: "Manage Form Sections"
-  #   edit: "Edit Form Sections"
-  #   buttons:
-  #     add: "Add"
-  #   options: "Options"
-  # message:
+    actions:
+      mark_as_investigated: "Marcar como investigado"
+      mark_as_reunited: "Marcar como reunido"
+      change_log: "Cambiar el log"
+      mark_as_not_investigated: "Marcar como no investigado"
+      reunited: "Marcar como reunido"
+      reunited_details: "Información de la reunión:"
+      reunite: "Reunido"
+      not_reunited: "Marcar como no reunido"
+      undo_reunited_details: "Deshacer motivo de la reunión:"
+      undo_reunite: "Deshacer Reunión"
+      investigation_details: "Información de la investigación"
+      undo_investigation_details: "Deshacer información de la investigación"
+      undo_investigated: "Deshacer investigado"
+      cancel: "Cancelar"
+      delete_photo: "¿Eliminar foto?"
+      delete_audio: "¿Eliminar audio?"
+      choose_as_primary_photo: "Elegir como foto principal"
+      rotate_anti_clockwise: "Girar en el sentido contrario a las agujas del reloj"
+      restore_image: "Restaurar imagen original"
+      rotate_clockwise: "Girar en el sentido de las agujas del reloj"
+      view_full_size_photo: "Ver la foto a tamaño completo"
+
+    change_log: "Cambiar el log"
+    flagged_as_suspected: "Marcado por"
+    posted_from_mobile: "Publicado del cliente móvil en:"
+    edit_photo: "Editar foto"
+    manage_photos: "Gestionar fotos"
+
+    view: "Ver caso %{short_id}"
+    edit: "Editar caso"
+    mark_child_as_duplicate: "Marcar %{short_id} como duplicado"
+    history_of: "Historial de %{short_id}"
+
+  incidents:
+    label: "Incidentes"
+    register_new_incident: "Nuevo incidente"
+    filter_by:
+      flag: "Marcado:"
+      flag_label: "Marcado?"
+      violation: "Violación"
+      violence_type: "Tipo de violencia"
+      social_worker: "Trabajador de caso"
+      status: "Estado:"
+      age_range: "Rango de edad:"
+      children: "Menores"
+      boys: "Niños"
+      girls: "Niñas"
+      unknown: "Se desconoce"
+      verification_status: "Estado de verificación:"
+      incident_location: "Lugar del incidente:"
+      incident_date: "Fecha del incidente"
+      unaccompanied_separated_status: "Estado de protección:"
+      armed_force_group_name: "Grupo o Fuerza Armada"
+      armed_force_group_type: "Tipo de Grupo o Fuerza Armada"
+      record_state: "Estado del registro:"
+
+  incident:
+    label: "Identificación del incidente"
+    flagged_by: "Marcados por"
+    last_updated: "Ultima actualización"
+    registered_by: "Registrado por"
+    mark_as_duplicate: "Marcar como duplicado"
+    flag_record: "Registros marcados"
+    flag_label: "Marcar"
+    flag_reason: "Marcado por"
+    flag_reason_date: "Fecha (optativo)"
+    unflag_record: "Desmarcar registro"
+    unflag_reason: "Motivo por el cual se desmarca"
+    unflag_label: "Desmarcar"
+    unflag_error_message: "Por favor explique porqué está desmarcando este registro."
+    flagged_as_suspected: "Marcado por"
+    id_of_record_this_duplicate_of: "Ingrese la identificación del registro del cual éste es duplicado:"
+    duplicate_header: "Marcando %{child_name} como Duplicado"
+    flag_error_message: "Por favor explique por qué está marcando este registro."
+    flag_records_error_message: "Por favor explique por qué está marcando estos registros."
+    selected_records_error_message: "Seleccione uno o más registros a marcar."
+    investigation_details: "Información de la investigación:"
+    reunite_details: "Información de la reunión:"
+    another_duplicate_before_link: "Otro registro ha sido marcado como duplicado de este. Haga clic"
+    another_duplicate_after_link: "para ver el registro duplicado."
+    violation_status_verified: "Verificado"
+    empty_violation: "Para agregar violaciones, agregue la Categoría de Violación en el formulario de Incidentes y podrá ver el formulario de violación correspondiente."
+    add_violations: "Haga clic en agregar para ingresar la información de la violación."
+
+    messages:
+      update_success: "El incidente %{record_id} se actualizó correctamente."
+      creation_success: "El registro del incidente %{record_id} se generó correctamente."
+
+    view: "Ver incidente %{short_id}"
+    edit: "Editar incidente"
+    select: "Seleccionar"
+    id: "Nº de ID"
+    survivor_code: "Código de sobreviviente"
+    case_worker_code: "Código de trabajador de caso"
+    date_of_interview: "Fecha de la entrevista"
+    date_of_incident: "Fecha del incidente"
+    violence_type: "Tipo de violencia"
+    incident_location: "Lugar del incidente"
+    violations: "Violaciones"
+    social_worker: "Trabajador social"
+    change_log: "Cambiar el log"
+
+    actions:
+      change_log: "Cambiar el log"
+
+    history_of: "Historial de %{short_id}"
+
+    violation:
+      violation: "Violación"
+      pending: 'Pendiente de verificación'
+      killing: "Asesinato"
+      maiming: "Mutilación"
+      recruitment: "Reclutamiento"
+      sexual_violence: "Violencia sexual"
+      abduction: "Secuestro"
+      attack_on_schools: "Ataque a escuelas"
+      attack_on_hospitals: "Ataque a hospitales"
+      denial_humanitarian_access: "Negación de acceso humanitario"
+      other_violation: "Otro tipo de violación"
+
+  tracing_request:
+    label: "Identificación de quien consulta"
+    register_new_tracing_request: "Nueva solicitud de localización"
+    change_log: "Change Log"
+    name_of_inquirer: "Nombre de quien consulta"
+    date_of_inquiry: "Fecha de la consulta"
+    tracing_requests: "Solicitudes de localización"
+    change_log: "Cambiar el log"
+    last_updated: "Ultima actualización"
+    registered_by: "Registrado por"
+    edit_photo: "Editar foto"
+    flag_record: "Registros marcados"
+    flag_label: "Marcar"
+    flag_reason: "Marcado por"
+    flag_reason_date: "Fecha (optativo)"
+    flag_records_error_message: "Por favor explique por qué está marcando estos registros."
+    selected_records_error_message: "Seleccione uno o más registros a marcar."
+    unflag_record: "Desmarcar registro"
+    unflag_reason: "Motivo por el cual se desmarca"
+    unflag_label: "Desmarcar"
+    unflag_error_message: "Por favor explique porqué está desmarcando este registro."
+    flag_error_message: "Por favor explique por qué está marcando este registro."
+    flagged_as_suspected: "Marcado por"
+    find_match: "Encontrar concordancia"
+
+    actions:
+      change_log: "Cambiar el log"
+      delete_photo: "Borrar foto?"
+      delete_audio: "Eliminar audio?"
+
+    messages:
+      update_success: "La solicitud de localización %{record_id} se actualizó correctamente."
+      creation_success: "El registro de solicitud de localización %{record_id}  se generó correctamente."
+
+    view: "Ver solicitud de localización %{short_id}"
+    edit: "Editar solicitud de localización"
+    select: "Seleccionar"
+    id: "Nº de ID"
+    enquirer_name: "Nombre de quien consulta"
+    enquirer_date: "Fecha de la consulta"
+
+    history_of: "Historial de %{short_id}"
+
+  tracing_requests:
+    register_new_tracing_request: "Nueva solicitud de localización"
+    export: "Exportaciones"
+    filter_by:
+      flag: "Marcado:"
+      flag_label: "Marcado?"
+      social_worker: "Trabajador de terreno/caso/social:"
+      inquiry_date: "Fecha de la consulta"
+      inquiry_status: "Estado de la consulta"
+      location_separation: "Lugar de separación:"
+      separation_cause: "Motivo de separación:"
+      record_state: "Estado del registro:"
+
+  preposition:
+    on_label: "el"
+    because: "Debido a"
+    at_label: "en"
+
+  pagination:
+    zero: "No se encontró %{model}"
+    page_entries_info: Desplegando_START_ a_END_ de_TOTAL_ %{model}
+
+  will_paginate:
+    previous_label: "&#8592; Previo"
+    next_label: "Próximo &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "No se encontró %{model}"
+        one: "Desplegando <b>1</b> %{model}"
+        other: "Desplegando <b>todos %{count}</b> %{model}"
+      multi_page_html: "Desplegando %{model} <b>%{from} - %{to}</b> de <b>%{count}</b> en total"
+    models:
+      report:
+        one: "informe"
+        other: "informes"
+      child:
+        one: "caso"
+        other: "casos"
+      incident:
+        one: "incidente"
+        other: "incidentes"
+  users:
+    unverified: "Usuarios no verificados"
+    select_role: "Seleccione un rol antes de verificar el usuario"
+    manage: "Gestionar usuarios"
+    label: "Usuarios"
+    create: "Crear usuario"
+    account_details: "Datos de la cuenta"
+    actions:
+      show_all: "Mostrando todos"
+      show: "Mostrar"
+    messages:
+      disable: '¿Está seguro de que desea desactivar a este usuario?'
+    sort_by:
+      label: "Ordenar por"
+      full_name: "Nombre completo"
+      agency: "Agencia"
+
+  roles:
+    label: "Roles"
+    list: "Lista de roles"
+    sort_by:
+      label: "Ordenar por"
+      ascending: "Ascendente"
+      descending: "Descendente"
+    name: "Nombre del rol"
+    actions:
+      show_all: "Mostrando todos"
+      show: "Mostrar"
+      edit: "Editar"
+      update: "Actualizar"
+      create: "Crear"
+      delete: "Eliminar"
+      copy: "Copiar"
+    view: "Ver rol"
+    messages:
+      confirmation: "¿Está seguro de que desea eliminar este rol? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el rol."
+
+  role:
+    create: "Crear rol"
+    edit: "Editar rol"
+    name: "Nombre"
+    description: "Descripción"
+    successfully_updated: "La información del rol se actualizó correctamente."
+    error_in_updating: "Error al actualizar la información del rol."
+    copy_success: "El rol se copió correctamente."
+    copy_failure: "Error al copiar el rol. Asegúrese de que el nombre no está en conflicto con otro rol."
+    transfer_label: "¿Puede utilizarse este rol para Transferencias?"
+    referral_label: "¿Puede utilizarse este rol para Referencias?"
+    group_permission_label: "¿Qué registros afecta este rol?"
+    role_ids_label: "Otros roles administrados por este rol"
+
+  agencies:
+    logo: 'Logotipo'
+    logo_enabled: '¿Logotipo activado?'
+    label: "Agencia"
+    view: "Ver agencia"
+    successfully_created: "La agencia se generó correctamente."
+    successfully_updated: "La agencia se actualizó correctamente."
+    actions:
+      show_all: "Mostrando todos"
+      show: "Mostrar"
+      edit: "Editar"
+      update: "Actualizar"
+      create: "Crear"
+      delete: "Eliminar"
+    messages:
+      confirmation: "¿Está seguro de que desea eliminar esta agencia? Una vez eliminada no podrá recuperarse. Haga clic en OK para eliminar la agencia."
+    select_prompt: "Seleccione una agencia"
+    error_in_updating: "Error al actualizar la información de la agencia."
+
+  agency:
+    edit: 'Editar agencia'
+    name: 'Nombre de la agencia'
+    code: 'Código de la agencia'
+
+  system_settings:
+    label: "Configuración del sistema"
+    edit: "Editar configuración del sistema"
+    show: "Configuración del sistema"
+    updated: "La configuración del sistema se actualizó correctamente."
+    primero_version: "Versión del sistema"
+
+  primero_modules:
+    label: "Módulo"
+    view: "Ver Módulo"
+    actions:
+      show_all: "Mostrando todos"
+      show: "Mostrar"
+      edit: "Editar"
+      update: "Actualizar"
+      create: "Crear"
+      delete: "Eliminar"
+    messages:
+      confirmation: "¿Está seguro de que desea eliminar este módulo? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el módulo."
+      invalid: "Módulo(s) inválido(s)"
+
+  primero_module:
+    create: "Crear módulo"
+    edit: "Editar módulo"
+    show: "Ver"
+    name: "Nombre"
+    description: "Descripción"
+    successfully_updated: "La información del módulo se actualizó correctamente."
+    error_in_updating: "Error al actualizar la información del Módulo."
+    record_type: "Tipos de registros para este módulo"
+    forms: "Formularios asignados a este módulo"
+    program: "Programa"
+    associated_record_types: "Tipos de registros asociados"
+    associated_form_ids: "Formas de identificación asociadas"
 
 
-  # advanced_search:
-  #   instruction: "Separate words by OR to search for more than one option eg. Tim OR Rahul"
-  #   date_instruction: "Enter a date (yyyy-mm-dd) in the first box to search records created or updated after that date.       Enter a date (yyyy-mm-dd) in the second box to see records created or updated before that date.       Enter dates in both boxes to see records created between the dates."
-  #   created_by_org: "Created By Organisation :"
-  #   date_created: "Date Created :"
-  #   updated_by: "Updated by(User) :"
-  #   after: "After :"
-  #   before: "Before :"
-  #   created_by: "Created by(User) :"
-  #   date_updated: "Date Updated :"
-  #   select_a_criteria: "Select A Criteria"
+  primero_programs:
+    label: "Programa"
+    view: "Ver programa"
+    actions:
+      show_all: "Mostrando todos"
+      show: "Mostrar"
+      edit: "Editar"
+      update: "Actualizar"
+      create: "Crear"
+      delete: "Eliminar"
+    messages:
+      confirmation: "¿Está seguro de que desea eliminar el módulo de programa? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el programa."
 
-  # search: "Search"
-  # select_all: "Select all records"
-  # no_results_found: "No results found"
-  # date_format: "yy-mm-dd"
-  # yes_label: "Yes"
-  # cancel: "Cancel"
+  primero_program:
+    create: "Crear programa"
+    edit: "Editar programa"
+    show: "Ver"
+    name: "Nombre"
+    description: "Descripción"
+    start_date: "Fecha de inicio del programa"
+    end_date: "Fecha de terminación del programa"
+    successfully_updated: "La información del programa se actualizó correctamente."
+    error_in_updating: "Error al actualizar la información del Programa."
 
-  # contact:
-  #   message: "If you experience any problems with RapidFTR, or believe your password has been exposed, please contact the system administrator immediately."
-  #   field:
-  #     name: "Name"
-  #     position: "Position"
-  #     organization: "Organization"
-  #     email: "Email"
-  #     phone: "Phone"
-  #     location: "Location"
-  #     other_information: "Other information"
-  #   updated: "Contact information was successfully updated."
-  #   edit_info: "Edit Contact Information"
-  #   info_label: "Contact Information"
+  user_groups:
+    label: "Grupos de usuarios"
+    view: "Ver grupo de usuarios"
+    actions:
+      show_all: "Mostrando todos"
+      show: "Mostrar"
+      edit: "Editar"
+      update: "Actualizar"
+      create: "Crear"
+      delete: "Eliminar"
+    messages:
+      confirmation: "¿Está seguro de que desea eliminar este grupo de usuarios? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el grupo de usuarios."
 
-  # device:
-  #   blacklist: "Blacklist Device"
-  #   messages:
-  #     blacklist: "Do you want to add this device to blacklist?"
-  #     remove_blacklist: "Do you want to remove this device from blacklist?"
-  #     disable: 'Are you sure you want to disable this device?'
-  #   information: "Device Information"
-  #   mobile_number: "Mobile Number"
-  #   timestamp: "Timestamp"
+  user_group:
+    create: "Crear grupo de usuarios"
+    edit: "Editar grupo de usuarios"
+    name: "Nombre"
+    description: "Descripción"
+    successfully_updated: "La información del grupo de usuarios se actualizó correctamente."
+    error_in_updating: "Error al actualizar la información del grupo de usuarios."
 
-  # admin:
-  #   contact_info: "Admin Contact Information"
-  #   highlight_fields: "Highlight Fields"
-  #   manage_system_users: "Manage System Users"
-  #   create_system_user: Create a System User
+  user:
+    label: "usuario"
+    full_name: "Nombre completo"
+    history_of: "Historial de %{user_name}"
+    disabled: "Desactivado"
+    agency: "Agency"
+    actions:
+      delete: "Eliminar"
+    messages:
+      confirmation: "¿Está seguro de que desea eliminar este usuario? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el usuario."
+      created: "El usuario se generó correctamente."
+      updated: "El usuario se actualizó correctamente."
+      not_found: "No se encontró el usuario con la identificación proporcionada"
+      passwords_do_not_match: "no concuerda con la contraseña actual"
+      password_changed_successfully: "La contraseña se cambió correctamente"
+      time_zone_updated: "El cambio se actualizó correctamente."
+    update: "Actualizar"
+    verify: "Verificar"
+    create: "Crear"
+    no_blank: "el nombre de usuario no debe tener espacios en blanco"
+    manage_password: "Cambiar contrase­ña"
+    old_password: "Antigua contraseña"
+    new_password: "Nueva contraseña"
+    password_strength: "La contraseña debe tener por lo menos 6 caracteres e incluir letras y números"
+    new_password_confirmation: "Confirme la nueva contraseña"
+    new: "Nuevo usuario"
+    user_action_history: "Historial de movimientos del usuario"
+    no_activity: "no tiene actividad"
+    location: "Localidad"
+    organization: "Organización"
+    agency: "Agencia"
+    manager: "Supervisor"
 
-  # fields:
-  #   label: "Fields"
-  #   field_name: "Field Name"
-  #   display_name: "Display Name"
-  #   option_strings_text: "Options"
-  #   form_name: "Form Name"
-  #   action: "Action"
-  #   remove: "remove"
-  #   text_field: "Text Field"
-  #   check_box: "Check boxes"
-  #   select_box: "Select drop down"
-  #   radio_button: "Radio button"
-  #   text_area: "Text Area"
-  #   numeric_field: "Numeric Field"
-  #   date_field: "Date Field"
+  actions: "actions"
+  phone: "Teléfono"
+  email: "Correo electrónico"
+  organization: "Organización"
+  position: "Puesto"
+  false: "falso"
+  true: "verdadero"
+  mandatory_field: "los campos marcados son obligatorios"
+  add: "agregar"
+  belonging_to: "pertenece a"
+  hello: "Hola"
+  imei: "IMEI"
+  blacklisted: "¿En la lista negra?"
+  visible: "Visible"
+  hidden: "Oculto"
+  help_text: "Texto de ayuda"
+  multi_select: "Selección múltiple"
+  option_strings_source: "Opción de fuente de secuencias"
+  cancel: "Cancel"
+  discard: "Descartar"
+  form: "Formulario"
+  details: "Información"
+  enabled: "Activado"
+  status: "Estado"
+  devices: "Dispositivos"
+  replications: "Copias"
+  provide_translation: "Proporcionar traducción para"
+  hide_on_view_page: "Ocultar en la página de vista"
+  last_login: "Ultimo inicio de sesión"
 
-  #   add: "Add Field"
-  #   type: "Field type"
-  # replication:
-  #   label: Replication
-  #   index: Manage Replications
-  #   create: Configure a Server
-  #   edit: Edit Configuration
-  #   remote_app_url: RapidFTR URL
-  #   actions: Actions
-  #   status: Status
-  #   description: Description
-  #   timestamp: Timestamp
-  #   delete: Delete
-  #   completed: Successful
-  #   triggered: In Progress
-  #   error: Failed
-  #   confirm_delete: Are you sure you want to delete this replication?
-  #   start: Start Synchronization
-  #   stop: Stop Synchronization
-  #   configure_a_server: Configure a Server
 
-  # session_expire: "Your session is about to expire!"
-  # administration: "Administration"
-  # new: "New"
-  # saved: "Saved"
-  # history_of: "History of"
-  # account: "Account"
-  # moved_from: "%{field_name} moved from %{from_fs} to %{to_fs}"
+  record: "registro"
+  description: "Descripción"
+  #TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
+  #       Longer term, need to refactor how that translation is handled
+  #name: "Name"
+  unique_id: "Identificación única"
+
+  permissions:
+    label: "Autorizaciones"
+    Actions: "Acciones"
+    Resources: "Recursos"
+    Management: "Gestión"
+    group:
+      actions: "Acciones"
+      resources: "Recursos"
+      resource: "Recursos"
+      management: "Gestión"
+
+    permission:
+      read: "Leer"
+      write: "Escribir"
+      flag: "Marcar"
+      assign: "Asignar"
+      case: "Caso"
+      incident: "Incidente"
+      tracing_request: "Localizando solicitud"
+      role: "Roles"
+      user: "Usuarios, Grupos"
+      metadata: "Formularios, búsquedas"
+      system: "Sistema"
+      report: "Informe"
+      self: "Acceso solo a mis registros o usuario"
+      group: "Acceso a todos los registros o usuarios en mi grupo"
+      all: "Acceso a todos los registros o usuarios"
+      All: "Todos"
+      specific_roles: "Acceso a listas específicas de roles"
+      consent_override: "Aprobar control manual"
+      export_list_view_csv: "Exportar lista csv"
+      export_csv: "Exportar csv"
+      export_xls: "Exportar xls"
+      export_photowall: "Exportar pared de fotos"
+      export_pdf: "Exportar pdf"
+      export_unhcr_csv: "Exportar unhcr csv"
+      export_mrm_violation_xls: "Exportar violación mrm xls"
+      export_incident_recorder_xls: "Exportar registro de incidentes xls"
+      export_case_pdf: "Exportar pdf del caso"
+      export_json: "Exportar json"
+      export_custom: "Exportar archivo personalizado"
+      import: "Importar"
+      transfer: "Transferir"
+      referral: "Referencia"
+      sync_mobile: "Sincronizar con dispositivo móvil"
+      approve_case_plan: "Aprobar plan del caso"
+      copy: "Copiar"
+      manage: "Gestionar"
+
+  forms:
+    label: "Formularios"
+    save: "Guardar formulario"
+    save_details: "Guardar"
+    messages:
+      use_existing: "Le instamos a que utilice los formularios existentes ya que así es más fácil compartir y combinar la información entre las instituciones."
+    initial_language: "Idioma inicial"
+    cannot_be_edited: "Los campos en este formulario no pueden editarse."
+    record_types:
+      case: "Caso"
+      child: "Caso"
+      incident: "Incidente"
+      tracing_request: "Localizando solicitud"
+      violation: "Violación"
+
+  form_section:
+    name: "Nombre"
+    group: "Grupo"
+    description: "Descripción"
+    create: "Nueva sección del formulario"
+    visibility: "Visibilidad"
+    ordering: "Ordenando"
+    details: "Información del formulario"
+    label: "Formulario"
+    back: "Regresar a la página de formularios"
+    help_text: "Texto de ayuda"
+    actions:
+      actions: "Acciones"
+      add_custom_field: "Agregar campo personalizado"
+      save_order: "Guardar orden"
+    messages:
+      order_saved: "La orden se guardó correctamente."
+      cannot_create: "No pudo generarse la sección del formulario"
+      correct_errors: "Corrija los siguientes errores y re-envíe:"
+      hide_confirmation: "¿Está seguro de que desea ocultar los campos?"
+      show_confirmation: "¿Está seguro de que desea mostrar los campos?"
+      drag_drop_help_text: Puede hacer clic en los campos para arrastrar &amp; soltar en el orden requerido.
+      updated: "La sección del formulario se agregó correctamente"
+    hide: "¿Oculto?"
+    show: "Mostrar"
+    manage: "Administrar sección del formulario"
+    edit: "Editar secciones del formulario"
+    buttons:
+      add: "Agregar"
+    options: "Opciones"
+    confirm_delete: "¿Está seguro de que desea eliminar este formulario?"
+    required_field: "se requiere de %{field}"
+    required_field_js: "Este es un campo mandatorio"
+    form_group_name: "Nombre de grupo del formulario"
+    modal_sidebar_help: "Seleccionar tipo de campo"
+    modal_sidebar_help_selected: "Tipo de campo"
+
+  advanced_search:
+    instruction: "Separe las palabras con O para buscar más de una opción, por ejemplo Tim O Raul"
+    date_instruction: "Ingrese una fecha (aaaa-mm-dd) en la primera casilla para buscar registros generados o actualizados con posterioridad a dicha fecha. Ingrese una fecha (aaaa-mm-dd) en la segunda casilla para ver los registros generados o actualizados con anterioridad a dicha fecha. Ingrese fechas en ambas casillas para ver los registros generados entre ambas fechas."
+    created_by_org: "Generado por (Organización):"
+    date_created: "Fecha en que se generó:"
+    updated_by: "Actualizado por (Usuario):"
+    after: "Después de:"
+    before: "Antes de:"
+    created_by: "Creado por (Usuario):"
+    date_updated: "Actualizado el:"
+    select_a_criteria: "Seleccionar un criterio"
+    records_found:
+      one: "Un archivo encontrado"
+      other: "%{count} archivos encontrados"
+  search: "Buscar"
+  select_all: "Seleccionar todos los registros"
+  no_results_found: "No se encontraron resultados"
+  date_format: "aa-mm-dd"
+  yes_label: "Sí"
+  cancel: "Cancelar"
+
+  contact:
+    message: "Si tiene problemas con RapidFTR, o piensa que su contraseña ha sido expuesta, comuníquese de inmediato con el administrador del sistema."
+    field:
+      name: "Nombre"
+      position: "Puesto"
+      organization: "Organización"
+      email: "Correo electrónico"
+      phone: "Teléfono"
+      location: "Localidad"
+      other_information: "Otra información"
+      support_forum: "Comunidad de Soporte"
+    updated: "La información de contacto se actualizó correctamente."
+    edit_info: "Editar información de contacto"
+    info_label: "Información de contacto"
+    not_found: "No se encuentra información de contacto con identificación %{id}"
+
+  device:
+    blacklist: "Agregar dispositivo a la lista negra"
+    messages:
+      blacklist: "¿Desea agregar este dispositivo a la lista negra?"
+      remove_blacklist: "¿Está seguro de que desea eliminar este dispositivo de la lista negra?"
+      disable: '¿Está seguro de que desea desactivar este dispositivo?'
+    information: "Información del dispositivo"
+    mobile_number: "Número de móvil"
+    timestamp: "Hora de registro"
+
+  admin:
+    contact_info: "Información de contacto del Admin"
+    highlight_fields: "Resaltar campos"
+    manage_system_users: "Gestionar sincronización de usuarios en el servidor"
+    create_system_user: Crear un usuario del sistema
+    system_logs: "Registros del sistema"
+
+  fields:
+    label: "Campos"
+    field_name: "Nombre del campo"
+    display_name: "Desplegar nombre"
+    db_name: "Nombre DB"
+    help_text: "Texto de ayuda"
+    actions: "Acciones"
+    option_strings_text: "Opciones"
+    option_strings_source: "Búsquedas"
+    form_name: "Nombre del formulario"
+    action: "Acción"
+    remove: "Eliminar"
+    subform_remove_message: "¿Está seguro de que desea eliminar este subformulario?"
+    text_field: "Campo de texto"
+    check_box: "Marcar casillas"
+    select_box: "Seleccione desplegar hacia abajo"
+    radio_button: "Botón de radio"
+    text_area: "Área de texto"
+    numeric_field: "Campo numérico"
+    date_field: "Campo de fecha"
+    date_range_field: "Rango de fecha"
+    subform: "Subformulario"
+    tick_box: "Marcar casilla"
+    tick_box_label: "Marcar etiqueta de casilla"
+    tally_field: "Campo de cuenta"
+    separator: "Separador"
+    successfully_added: "El campo se agregó correctamente"
+    updated: "Campo actualizado"
+    deleted: "El campo %{display_name} ha sido eliminado."
+    add: "Agregar"
+    type: "Tipo de campo"
+    move_to: "Mover a"
+    select_box_empty_item: "(Seleccionar...)"
+    chosen_placeholder: "Seleccione todo lo que corresponda"
+    multi_select: "Selección múltiple"
+    date_help: "dd-mmm-aaaa"
+    date_range:
+      from: "Desde"
+      to: "Hasta"
+      date: "Fecha"
+      date_range: "Rango de fecha"
+    file_upload_box:
+      select_file_button_text: "Seleccionar expediente"
+      no_file_selected: "No hay archivos seleccionados."
+      document_file_restrictions_message: "Los archivos no deben ser de más de 10mb (no pueden subirse archivos ejecutables (.exe))."
+      photo_file_restrictions_message: "Los fotos deben ser de menos de 10mb. Los archivos de audio deben ser de menos de 10mb. Mientras más chicos, mejor."
+      add_document_label: "Agregar documento"
+      add_photo_label: "Agregar foto"
+      add_new_document_button_text: "Agregar otro documento"
+      add_new_photo_button_text: "Agregar otra foto"
+      document_description: "Descripción del documento"
+
+  replication:
+    label: Copia
+    index: Administrar copias
+    create: Agregar servidor remoto
+    edit: Editar configuración
+    remote_app_uri: URL de Primero
+    actions: Acciones
+    status: Estado
+    description: Descripción
+    timestamp: Hora de registro
+    delete: Eliminar
+    completed: Correctamente
+    triggered: En progreso
+    error: Error
+    confirm_delete: ¿Está seguro de que desea eliminar esta copia?
+    start: Comenzar sincronización
+    stop: Detener sincronización
+    configure_a_server: Configurar un servidor
+    reindex_pending: Reindexación pendiente
+    is_continuous: Es continuo
+
+  lookup:
+    edit: "Editar búsqueda"
+    create: "Nueva búsqueda"
+    label: "Búsqueda"
+    index: "Administrar búsquedas"
+    name: "Nombre"
+    values: "Opciones"
+    add_value: "Agregar opción"
+    remove: "Eliminar"
+    confirm_delete: ¿Está seguro de que desea eliminar esta búsqueda?
+    messages:
+      cannot_create: "No pudo generarse la búsqueda"
+      correct_errors: "Corrija los siguientes errores y re-envíe:"
+      updated: "La búsqueda se agregó correctamente"
+
+  location:
+    create: "Nueva localidad"
+    edit: "Editar localidad"
+    label: "Localidad"
+    index: "Administrar localidades"
+    name: "Nombre"
+    code: "Código"
+    hierarchy: "Jerarquía"
+    confirm_delete: ¿Está seguro de que desea eliminar esta localidad?
+    placename: "Nombre del lugar"
+    type: "Tipo"
+    parent: "Ubicación actual"
+    messages:
+      cannot_create: "No pudo generarse la localidad"
+      correct_errors: "Corrija los siguientes errores y re-envíe:"
+      updated: "La localidad se agregó correctamente"
+      deleted: "La localidad se eliminó correctamente"
+
+  session:
+    about_to_expire: "¡Su sesión está por expirar!"
+    has_expired: "Su sesión ha expirado. Por favor ingrese nuevamente."
+    invalid_credentials: "Credenciales inválidas. ¡Intente de nuevo!"
+    login_error: "Se ha producido un error al iniciar la sesión. Inténtelo de nuevo."
+    invalid_token: "Token de sesión inválido"
+    no_token_provided: "No se ha proporcionado un token de sesión"
+    no_token_in_header: "No hay token de sesión en los encabezados o cookies"
+
+  reports:
+    register_new_report: "Crear informe"
+    label: "Informes"
+    tabs:
+      table: "Tabla"
+      graph: "Gráfico"
+    actions:
+      delete: "Eliminar"
+    messages:
+      confirmation: "¿Está seguro de que desea eliminar este informe? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el Informe."
+
+  report:
+    name: "Nombre"
+    description: "Descripción"
+    heading: "Informes Primero"
+    type: "Tipo"
+    as_of_date: "Al"
+    download: "Descargar"
+    all: "Total"
+    total: "Total"
+    modules: "Módulos"
+    record_type: "Tipo de registro"
+    aggregate_by: "Agrupar por fila"
+    disaggregate_by: "Agrupar por columna"
+    aggregate_counts_from: "Sumar las cifras desde"
+    group_ages: "Usar rangos de edades"
+    group_dates_by: "Usar rangos de fechas"
+    add_default_filters: "Incluir filtros por defecto"
+    add_default_filters_help: "Abrir y validar"
+    date_ranges:
+      date: "Día"
+      week: "Semana"
+      month: "Mes"
+      year: "Año"
+    filters:
+      label: "Filtros del informe"
+      attribute: "Filtro"
+      value: "Con"
+      not_null: "El valor en el formulario no queda vacío"
+    is_graph: "¿Generar gráfico?"
+    no_data: "No existe información para este informe"
+    export:
+      graph: "Gráfico"
+      data: "Fecha"
+    successfully_updated: "La configuración del informe se actualizó correctamente."
+    error_in_updating: "Error al actualizar la configuración del informe."
+    messages:
+      delete_success: "El informe se eliminó correctamente."
+    edit: "Editar"
+
+  encrypt:
+    password_title: "Crear contrase­ña"
+    password_label: "Ingrese una contraseña para codificar su archivo."
+    password_mandatory: "Ingrese una contraseña válida"
+    password_extra_info: "Esta contraseña quedará asociada al archivo exportado y toda persona que en el futuro abra este archivo, deberá ingresarla."
+    file_name: "Cree su propio nombre de archivo (Optativo)"
+
+  administration: "Administración"
+  new: "Nuevo"
+  saved: "Guardado"
+  account: "Cuenta"
+  moved_from: "%{field_name} movido de%{from_fs} a%{to_fs}"
+
+  # validation error messages
+  couchrest:
+    fields:
+      Name: "Nombre"
+      Username: "Nombre de usuario"
+      Password: "Contraseña"
+      Description: "Descripción"
+      "Remote app url": "url del App remoto"
+
+    attributes:
+      report:
+        aggregate_by: "Agrupar por fila"
+
+    validations:
+      blank: "%s no debe estar en blanco"
+
+  gbv_report:
+    18_and_over_age: "Mayores de 18 años"
+    12_17_age: "12-17"
+    0_11_age: "0-11"
+    unknown: "Se desconoce"
+    adult: "Adulto"
+    child: "Menor"
+    "yes": "Sí"
+    "no": "No"
+    none: "Ninguno"
+    uam_sc_ovc: "UAM/SC/OVC"
+    unaccompanied_minor: "Menor no acompañado"
+    separated_child: "Niño/a separado/a"
+    other_vulnerable_child: "Otro niño/a vulnerable"
+    rape: "Violación"
+    sexual_assault: "Asalto sexual"
+    non_gbv: "No-GBV"
+    disability: "Discapacidad"
+    sexual_violence: "Violencia sexual"
+    intimate_partner_former_partner: "Pareja actual/Pareja anterior"
+    intimate_partner_violence: "Violencia de pareja"
+    child_sexual_abuse: "Abuso sexual de menores"
+    forced_marriage: "Matrimonio forzado"
+    early_marriage: "Matrimonio precoz"
+    harmful_traditional_practice: "Prácticas tradicionales perjudiciales"
+    possible_sexual_exploitation: "Posible exploración sexual"
+    possible_sexual_slavery: "Posible esclavitud sexual"
+    over_1_month: "Más de 1 mes"
+    2_weeks_1_month: "2 semanas - 1 mes"
+    6_14_days: "6-14 días"
+    4_5_days: "4-5 días"
+    0_3_days: "0-3 días"
+    exclude: "Excluir"
+    include: "Incluir"
+    quarter_4: "4to trimestre"
+    quarter_3: "3er trimestre"
+    quarter_2: "2do trimestre"
+    quarter_1: "1er trimestre"
+
+  followup_reminders:
+    system_generated_followup_flag: "Consulta de seguimiento obligatoria"
+    system_generated_followup_unflag: "expirado"
+    system_generated_followup_unflag_cancelled: "cancelado"
+    high_risk_level: "Alta"
+    medium_risk_level: "Media"
+    low_risk_level: "Baja"
+    child_status_open: "Abierto"
+    child_status_closed: "Cerrado"
+    child_status_transferred: "Transferido"
+    child_status_duplicate: "Duplicado"
+
+  dashboard:
+    flagged_by: "Marcado por"
+    no_recent_activities: "No hay actividad reciente"
+    no_scheduled_activities: "No hay actividades programadas"
+    no_overdue_activities: "No hay actividades vencidas"
+    no_caseworker_data: "No hay información del trabajador de caso"
+    no_flagged_child: "No hay casos marcados"
+    no_flagged_incident: "No hay incidentes marcados"
+    no_open_incidents: "No hay incidentes abiertos"
+    no_case_stats: "No hay estadísticas del caso"
+    scheduled_activities: "Actividades programadas"
+    overdue_activities: "Actividades vencidas"
+    recent_activities: "Actividades recientes"
+    case_id: "Nº de Identificación del Caso"
+    name: "Nombre"
+    activity: "Actividad"
+    date: "Fecha"
+    incident_id: "Nº de Identificación del incidente"
+    incident_location: "Lugar del incidente"
+    new_child_assigned_to_you: "Casos nuevos asignados a Ud."
+    new_incident_assigned_to_you: "Incidentes nuevos asignados"
+    recently_flagged_child: "Casos recientemente marcados"
+    flagged_by_me: "Que yo he marcado"
+    flagged_by_other: "Marcados por otra persona"
+    recently_flagged_incident: "Incidentes recientemente marcados"
+    incident_status_open: "Abierto"
+    number_of_victims: "Cantidad de víctimas"
+    number_of_violations: "Cantidad de violaciones"
+    number_of_violations_verified: "Violaciones verificadas"
+    link_see_all: "Ver todos"
+    open_incidents: "Abrir incidentes"
+    status_of_cases: "Estado de los casos"
+    case_worker: "Trabajador de caso"
+    total_cases: "Total de casos"
+    cases_this_week: "Casos esta semana"
+    missed_cases: "Casos perdidos"
+    date_of_incident: "Fecha del incidente"
+    violence_type: "Tipo de violencia"
+    date_of_interview: "Fecha de la entrevista"
+    system_user: "Sistema"
+    name_or_survivor_code: "Nombre o código de sobreviviente"
+    current_owner: "Dueño actual"
+    last_updated: "Ultima actualización"
+    case_stats: "Casos"
+    cases_by_social_worker: "Casos por trabajador social"
+    referrals_by_social_worker: "Referidos por el trabajador social"
+    case_stat_by_assessment_level: "Casos por nivel de evaluación"
+    case_stat_referrals: "Referencias"
+    protection_concern: "Inquietud sobre protección"
+    preliminary_protection_concerns: "Inquietudes preliminares sobre protección "
+    geographic_area: "Área Geográfica"
+    all_cases: "Todos los casos"
+    open: "Abierto"
+    count_risk_level_total:
+      one: "Tiene %{stat} <span>%{stat_type} riesgo </span> caso"
+      other: "Tiene %{stat} <span>%{stat_type} riesgo </span> casos"
+    count_risk_level_new:
+      one: "y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> caso"
+      other: "y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> casos"
+    count_records_total:
+      one: "Tiene %{stat} <span>caso</span> total"
+      other: "Tiene %{stat} <span>casos</span> totales"
+    count_records_new:
+      one: "y %{stat} <span>nuevo</span> caso"
+      other: "y %{stat} <span>nuevos</span> casos"
+    count_referrals_total:
+      one: "Tiene %{stat} <span>referencia</span> total"
+      other: "Tiene %{stat} <span>referencias</span> totales"
+    worker_count_referrals_total:
+      one: "<span>%{case_worker}</span> tiene %{stat} <span>referencia</span> total"
+      other: "<span>%{case_worker}</span> tiene %{stat} <span>referencias</span> totales"
+    count_referrals_new:
+      one: "y %{stat} <span>referencia</span> nueva"
+      other: "y %{stat} <span>referencias</span> nuevas"
+    worker_count_total:
+      one: "<span>%{case_worker}</span> tiene %{stat} <span>caso</span>total"
+      other: "<span>%{case_worker}</span> tiene %{stat} <span>casos</span>totales"
+    manager_count_open_total:
+      one: "Tiene %{stat} <span>caso</span> abierto"
+      other: "Tiene %{stat} <span>casos</span> abiertos"
+    manager_count_closed_total:
+      one: "y %{stat} <span>caso</span>cerrado"
+      other: "y %{stat} <span>casos</span>cerrados"
+    open_cases: "Casos abiertos"
+    new_last_week: "Nuevo<span>(útima semana)</span>"
+    new_this_week: "Nuevo <span>(esta semana)</span>"
+    closed_last_week: "Cerrado <span>(útima semana)</span>"
+    closed_this_week: "Cerrado <span>(esta semana)</span>"
+
+  errors:
+
+    template:
+      header:
+        one: "1 error impidió la grabación de este %{model} "
+        other: "%{count} impidieron la grabación de este %{model} "
+        body: "Se produjeron problemas con los siguientes campos:"
+        body_js: "Para poder guardar este archivo, hay que arreglar los problemas en los siguientes campos:"
+
+    agencies:
+      logo_size: "Suba un archivo de menos de 10mb"
+      logo_format: "Suba un archivo de logotipo válido (jpg, gif, or png)"
+
+    models:
+      flags:
+         message: "Atención: el campo de mensaje es inválido"
+         date: "Atención: el campo de fecha es inválido"
+         index: "Atención: no se puede eliminar la marca en la posición %{index}"
+
+      date_range_invalid: "<span>%{field_name}:</span> Ingrese un rango de fecha válido 'Desde:' debe ser anterior a 'Hasta:'"
+
+      photo:
+        primary_photo_id: "Error al intentar establecer '%{photo_id}' como la foto principal: no existe dicha clave de foto"
+        photo_size: "Suba un archivo de menos de 10mb"
+        photo_format: "Suba un archivo de foto válido (jpg or png) para este %{model_name} registro"
+        photo_count: "Se le permiten %{photos_count} fotos por %{model_name}."
+
+      audio:
+        audio_size: "Suba un archivo de menos de 10mb"
+        audio_format: "Suba un archivo de audio válido (amr or mp3) para este %{model_name} registro"
+
+      user:
+        full_name: "Ingrese el nombre completo del usuario"
+        password_confirmation: "Ingrese la confirmación de la contraseña"
+        password_mismatch: "Los campos de contraseña no tienen la misma contraseña"
+        password_text: "- Genere una contraseña de por lo menos 6 caracteres que contenga letras y números"
+        role_ids: "Seleccione por lo menos un rol"
+        organization: "Ingrese el nombre de la organización del usuario"
+        user_name: "Ingrese un nombre de usuario válido"
+        email: "Ingrese una dirección de correo electrónico válida"
+        user_name_uniqueness: "¡Este nombre de usuario ya ha sido utilizado! Seleccione un nuevo nombre de usuario."
+        authenticate: "No se puede autenticar un usuario no guardado"
+
+      child:
+        at_least_one_field: "Complete por lo menos un campo o suba un archivo"
+        age: "La edad debe ser entre 0 y 130"
+        validate_duplicate: "Debe proporcionar una identificación duplicada válida"
+        date_of_birth: "Ingrese una fecha de nacimiento válida para este registro de caso"
+        wishes_preferences_count: "Solo se le permiten %{preferences_count} preferencias del menor"
+        value_range: "%{field_name} debe ser entre %{min} y %{max}"
+        document_size: "Suba un documento de menos de 10mb"
+        documents_count: "Solo se le permiten %{documents_count} documentos por caso."
+        document_format: "No se permiten archivos ejecutables."
+        date_closure: "La fecha de cierre de caso debe ser posterior o igual a la fecha de apertura de caso."
+
+      incident:
+        document_size: "Suba un documento de menos de 10mb"
+        documents_count: "Solo se le permiten %{documents_count} documentos por caso."
+        document_format: "No se permiten archivos ejecutables."
+
+      field:
+        display_name_presence: "El nombre no debe estar en blanco"
+        display_name_format: "El nombre debe contener por lo menos un caracter alfabético"
+        name_format: "El campo del nombre debe contener caracteres alfabéticos en minúscula, números y guion bajo"
+        name_presence: "El campo de nombre no debe estar en blanco"
+        name_format_number_first: "El campo de nombre no puede comenzar con un número"
+        default_value: "No se encuentra valor por defecto para el tipo"
+        has_2_options: "El campo debe tener por lo menos 2 opciones"
+        has_1_option: "La casilla de verificación debe tener por lo menos 1 opción"
+        unique_name_other: "El campo ya existe en el formulario '%{form_name}'"
+        unique_name_this: "El campo ya existe en este formulario"
+        change_type_existing_field: "No se puede cambiar el tipo del campo existente en el formulario '%{form_name}'"
+
+      form_section:
+        presence_of_name: "El nombre no puede estar en blanco"
+        presence_of_base_language_name: "El nombre del idioma principal '%{base_language}' no puede estar en blanco"
+        format_of_name: "El nombre debe contener solo caracteres alfanuméricos y espacios"
+        visible_method: "visible no puede ser falso si perm)visible es verdadero"
+        fixed_order_method: "fixed_order no puede ser falso si perm_ebnabled es verdadero"
+        perm_visible_method: "perm_visible no puede ser falso si perm_enabled es verdadero"
+        add_field_to_form_section: "La sección del formulario no es editable"
+        delete_field: "No puede eliminarse un campo no editable"
+        unique_name: "El nombre '%{name}' ya ha sido tomado."
+        unique_id: "La identificación única '%{unique_id}' ya ha sido tomada."
+
+      enquiry:
+        presence_of_criteria: "Agregue criterios a su consulta"
+        presence_of_enquirer_name: "Agregue el nombre de quien consulta a su consulta"
+        presence_of_reporter_details: "Agregue la información de quien reporta a su consulta"
+        create_forbidden: "Prohibido"
+        not_found: "No se encontró"
+        malformed_query: "Solicitud inválida"
+
+      role:
+        name_present: "El nombre no puede estar en blanco"
+        permission_presence: "Seleccione por lo menos una autorización"
+        unique_name: "Ya existe un rol con ese nombre, por favor ingrese otro nombre"
+
+        permission:
+          resource_presence: "Seleccione un recurso"
+
+      primero_module:
+        name_present: "El nombre no puede estar en blanco"
+        unique_name: "Ya existe un módulo con ese nombre, por favor ingrese otro nombre"
+        program: "Debe asociarse un programa a este módulo"
+        associated_form_ids: "Debe asociarse por lo menos un formulario a este módulo"
+        associated_record_types: "Debe asociarse por lo menos un tipo de registro a este módulo"
+
+      primero_program:
+        name_present: "El nombre no puede estar en blanco"
+        unique_name: "Ya existe un programa con ese nombre, por favor ingrese otro nombre"
+
+      lookup:
+        value_presence: "Seleccione por lo menos un valor de búsqueda"
+        unique_name: "Ya existe una búsqueda con ese nombre, por favor ingrese otro nombre"
+        being_used: "Esta búsqueda está siendo utilizada y no puede eliminarse"
+
+      system_users:
+        username_unique: "¡Este nombre de usuario ya ha sido utilizado! Seleccione un nuevo nombre de usuario."
+
+      replication:
+        remote_app_uri: "Ingrese un URL válido de Primero"
+        remote_unauthorized: "El nombre de usuario o la contraseña ingresados son incorrectos"
+        remote_error: "No se pudo conectar al servidor remoto"
+        is_continuous: '¿Continuar copia?'
+
+      password_recovery_request:
+        user_name_mandatory: "Ingrese un nombre de usuario válido"
+
+      ownership:
+        associated_user_names_present: "Debe asociarse un usuario a este registro"
+        module_id_prsesnt: "Debe asociarse un módulo a este registro"
+
+      agency:
+        unique_name: "Ya existe una agencia con ese nombre, por favor ingrese otro nombre"
+        name_present: "no puede estar en blanco"
+        code_present: "no puede estar en blanco"
+
+      location:
+        name_present: "no puede estar en blanco"
+        code_present: "no puede estar en blanco"
+        unique_name: "Ya existe una localidad con ese nombre, por favor ingrese otro nombre"
+
+
+
+  select_all_results: "Seleccionar todos los resultados"
+
+  histories:
+    of: "de"
+    to: "a"
+    by: "por"
+    added_by: "agregado por"
+    belong_to: "pertenece a"
+    because: "debido a:"
+    deleted_by: "eliminado por"
+    referral: "Referido a %{to_user} por %{by_user}"
+    transfer: "Transferido a %{to_user} por %{by_user}"
+
+    system_logs:
+      records_performed_by: "registros realizados por"
+      performed_by: "realizado por"
+      of_child_with_id: "de menor con identificación"
+
+    audio:
+      audio: "Audio"
+      audio_change: "El audio se cambió de"
+
+    duplicate:
+      mark_as_duplicate: "marcó este registro como duplicado de"
+      no_longer_active: "El registro actual ya no está activo o no es editable"
+
+    flag:
+      record_flagged_by: "El registro fue marcado por"
+      record_unflagged_by: "El registro fue desmarcado por"
+
+    investigated:
+      mark_as_investigated_by: "El registro fue marcado como investigado por"
+      mark_as_not_investigated_by: "El registro fue marcado como No investigado por"
+
+    reunited:
+      child_status_changed: "Estado del menor cambiado a activo por"
+      with_details: "con esta información:"
+
+  actions:
+    button: "Acciones"
+    enable: "Activar"
+    disable: "Desactivar"
+    description:
+      valid: "Registro válido"
+      invalid: "Registro inválido"
+
+  record_panel:
+    valid: "Registro válido"
+    invalid: "Registro inválido"
+    record_state: "Estado del registro"
+    created_by: "Creado por"
+    last_update: "Ultima actualización"
+    current_owner: "Dueño actual"
+    change_log: "Cambiar el log"
+    record_information: "Información del Archivo"
+    name_date_seperator: "activado"
+
+  exports:
+    no_records: "No hay registros disponibles!"
+    pdf:
+      all:  PDF
+      one:  PDF
+      selected:  Seleccionado a PDF
+    photowall:
+      all:  Pared de fotos
+      one:  Pared de fotos
+      selected:  Seleccionado a pared de fotos
+    case_pdf:
+      all:  PDF
+      one:  PDF
+      selected:  Seleccionado a PDF
+    list_view_csv:
+      all:  Exportar lista
+      selected:  Seleccionado a CSV
+    csv:
+      all:  CSV
+      one:  CSV
+      selected:  Seleccionado a CSV
+    xls:
+      all:  Excel
+      one:  Excel
+      selected:  Seleccionado a Excel
+    selected_xls:
+      all:  Excel
+      one:  Excel
+      selected:  Seleccionado a Excel
+    incident_recorder_xls:
+      all:  Incidente registrado por
+      one:  Incidente registrado por
+      selected:  Seleccionado a quien registró el incidente
+    json:
+      all:  JSON
+      one:  JSON
+      selected:  Seleccionado a JSON
+    unhcr_csv:
+      all:  UNHCR
+      one:  UNHCR
+      selected:  Seleccionado a UNHCR
+    mrm_violation_xls:
+      all:  Violaciones MRM
+      one:  Violaciones MRM
+      selected:  Seleccionado a violaciones MRM
+    custom_exports:
+      label: Exportaciones personalizadas
+      format_label: Seleccionar formato
+      field_label: Campo
+      form_label: Formulario
+      forms: Seleccionar formularios a exportar
+      fields: Seleccionar campos a exportar
+      submit: OK
+      select_module: Seleccionar módulo
+      choose_fields: ¿Desea seleccionar campos individuales para un formulario?
+      module_placeholder: Seleccione un módulo.
+      empty_password: Ingrese una contraseña para codificar su archivo.
+      empty_fields_forms: Seleccione algunos formularios o campos a exportar.
+      empty_format: Seleccione un formato a exportar.
+      empty_module: Seleccione un módulo a exportar.
+    pdf_exports:
+      label: PDF
+
+  imports:
+    password_label: "Contraseña (en caso de requerirse)"
+    format_label: "Formato"
+    successful: "El archivo se importó correctamente"
+    error: "Se produjo el siguiente error al importar: %{error}"
+    file_missing: "Debe seleccionar un archivo a importar"
+    unknown_type: "Tipo de archivo a importar desconocido o inválido"
+    decrypt_error: "No se pudo decodificar el archivo con la contraseña proporcionada"
+    guess_file_type_option: "Autodetectar en base a la extensión del archivo"
+    zip_file:
+      unknown_type: "El archivo contiene uno o más expedientes de tipo desconocido"
+
+  referral:
+    type_label: "Tipo de referencia"
+    existing_user_label: "Usuario existente"
+    other_user_label: "Otro usuario"
+    other_user_agency_label: "Agencia del otro usuario"
+    service_label: "Servicio"
+    consent_label: "los registros no han proporcionado consentimiento."
+    consent_override_label: "¿Desea sobreescribir esta configuración?"
+    is_remote_label: "¿Está refiriendo a un sistema remoto?"
+    type_of_export: "Qué tipo de exportación desea realizar"
+    notes_label: "Notas"
+    user_mandatory: "Se requiere del nombre de usuario"
+    no_records_selected: "No hay registros seleccionados."
+    failure: "%{record_type} %{id} error en la referencia (verifique que los campos de consentimiento hayan sido seleccionados)"
+    success: "%{record_type} %{id} referido correctamente"
+    failure_batch: "%{failed_count} Error en la/s referencia(s) (verifique que los campos de consentimiento hayan sido seleccionados)"
+    success_batch: "%{success_count} Referencia(s) realizadas correctamente"
+
+  transfer:
+    type_label: "Tipo de transferencia"
+    existing_user_label: "Usuario existente"
+    other_user_label: "Otro usuario"
+    other_user_agency_label: "Agencia del otro usuario"
+    consent_label: "los registros no han proporcionado consentimiento."
+    consent_override_label: "¿Desea sobreescribir esta configuración?"
+    is_remote_label: "¿Está transfiriendo a un sistema remoto?"
+    type_of_export: "Qué tipo de exportación desea realizar"
+    notes_label: "Notas"
+    user_mandatory: "Se requiere del nombre de usuario"
+    failure: "%{record_type} %{id} error en la transferencia (verifique que los campos de consentimiento hayan sido seleccionados)"
+    success: "%{record_type} %{id} transferido correctamente"
+    failure_batch: "%{failed_count} Error en la/s transferencia(s) (verifique que los campos de consentimiento hayan sido seleccionados)"
+    success_batch: "%{success_count} la/s transferencia(s) se realizo/aron correctamente"
+
+  mark_for_mobile:
+    no_records_selected: "No hay registros seleccionados."
+    failure: "%{record_type} %{id} error al marcar como móvil"
+    success: "%{record_type} %{id} marcado correctamente como móvil"
+    failure_batch: "%{failed_count} Error al marcar el/los registro(s) como móvil"
+    success_batch: "%{success_count} El/los registro(s) se marcó/aron correctamente como móvil"
+
+  unmark_for_mobile:
+    failure: "%{record_type} %{id} error al desmarcar como móvil"
+    success: "%{record_type} %{id} desmarcado correctamente como móvil"
+    failure_batch: "%{failed_count} Registros(s) no pudieron desmarcarse como móvil"
+    success_batch: "%{success_count} Registro(s) desmarcados correctamente como móvil"
+
+  approve_case_plan:
+    approve_case_plan_label: "Aprobar plan de caso"
+    comments_label: "Comentarios"
+
+  per_page_translation: "_MENU_ por página"
+  total: Total
+  caregiver: "(Cuidador)"
