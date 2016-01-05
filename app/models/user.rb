@@ -132,7 +132,7 @@ class User < CouchRest::Model::Base
 
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
                       :message => I18n.t("errors.models.user.email")
-  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{6,}\z/, :if => :password_required?,
+  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/, :if => :password_required?,
                       :message => I18n.t("errors.models.user.password_text")
 
   validates_confirmation_of :password, :if => :password_required? && :password_confirmation_entered?,
