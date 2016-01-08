@@ -816,6 +816,8 @@ en:
       approve_case_plan: "Approve case plan"
       copy: "Copy"
       manage: "Manage"
+      administrator_read: "Administrator Read"
+      group_read: "Group Read"
 
   forms:
     label: "Forms"

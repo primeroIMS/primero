@@ -109,5 +109,4 @@ describe Report do
       )
     end
   end
-
 end
