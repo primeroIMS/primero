@@ -135,7 +135,7 @@ describe ReportsController do
     end
 
     it "returns all fields for writeable users" do
-      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::GROUP_READ])
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
       role = Role.new(
         :id=> "role-test", :name => "Test Role", :description => "Test Role",
         :group_permission => [],
