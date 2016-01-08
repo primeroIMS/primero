@@ -15,7 +15,7 @@
         <%= show_contact_field :email %>
         <%= show_contact_field :phone %>
         <%= show_contact_field :location %>
-        <%= show_contact_field :support_forum, link: true %>
+        <%= show_contact_field(:support_forum, true, true) %>
         <%= show_contact_field :other_information %>
         <p><strong><%= t('system_settings.primero_version') %>:</strong> <%= @system_settings.primero_version %></p>
        </div>
