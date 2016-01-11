@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
     @report = Report.get(params[:id])
     authorize!(:read_reports, @report)
     begin
-      @report.permission_filter = report_permission_filter
+      @report.permission_filter = report_permission_filter(current_user)
       @report.build_report
     rescue Sunspot::UnrecognizedFieldError => e
       redirect_to(edit_report_path(@report), notice: e.message)
@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
   def graph_data
     @report = Report.get(params[:id])
     authorize!(:read_reports, @report)
-    @report.permission_filter = report_permission_filter
+    @report.permission_filter = report_permission_filter(current_user)
     @report.build_report #TODO: Get rid of this once the rebuild works
     render json: @report.graph_data
   end
@@ -116,15 +116,15 @@ class ReportsController < ApplicationController
   def rebuild
     @report = Report.get(params[:id])
     authorize!(:read_reports, @report)
-    @report.permission_filter = report_permission_filter
+    @report.permission_filter = report_permission_filter(current_user)
     @report.build_report
     @report.save
     render status: :accepted
   end
 
-  def report_permission_filter
+  def report_permission_filter(user)
     unless can?(:read, @report)
-      { "attribute" => "associated_user_names", "value" => current_user.managed_user_names }
+      { "attribute" => "associated_user_names", "value" => user.managed_user_names }
     end
   end
 
