@@ -1221,7 +1221,7 @@ en:
     case_stat_by_assessment_level: "Cases by Assessment Level"
     case_stat_referrals: "Referrals"
     protection_concern: "Protection Concern"
-    preliminary_protection_concerns: "Preliminary Protection Concerns"
+    protection_concerns: "Protection Concerns"
     geographic_area: "Geographic Area"
     all_cases: "All Cases"
     open: "Open"
