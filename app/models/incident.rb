@@ -101,8 +101,9 @@ class Incident < CouchRest::Model::Base
   def self.minimum_reportable_fields
     {
       'boolean' => ['record_state'],
-       'string' => ['status'],
-         'date' => ['incident_date_derived']
+      'string' => ['status', 'owned_by'],
+      'multistring' => ['associated_user_names'],
+      'date' => ['incident_date_derived']
     }
   end
 
