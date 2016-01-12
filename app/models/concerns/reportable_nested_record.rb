@@ -62,7 +62,7 @@ module ReportableNestedRecord
           fields.each{|f| boolean(f){record_value(f)}}
         when 'date'
           fields.each{|f| date(f){record_value(f)}}
-        when 'integers'
+        when 'integer'
           fields.each{|f| integer(f){record_value(f)}}
         when 'location'
           fields.each{|f| text(f, as: "#{f}_lngram".to_sym) {record_value(f)}}
