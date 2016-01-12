@@ -58,6 +58,7 @@ class Report < CouchRest::Model::Base
   attr_accessor :add_default_filters
   attr_accessor :aggregate_by_ordered
   attr_accessor :disaggregate_by_ordered
+  attr_accessor :permission_filter
 
   validates_presence_of :name
   validates_presence_of :record_type
@@ -123,6 +124,9 @@ class Report < CouchRest::Model::Base
   # Run the Solr query that calculates the pivots and format the output.
   #TODO: Break up into self contained, testable methods
   def build_report
+    if permission_filter.present?
+      filters << permission_filter
+    end
     if pivots.present?
       self.values = report_values(record_type, pivots, filters)
       if aggregate_counts_from.present?

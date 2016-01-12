@@ -52,9 +52,86 @@ describe ReportsController do
 
   end
 
+
+  describe "build report", search: true do
+    before do
+      Sunspot.remove_all!
+      Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
+
+      admin_report_permission = Permission.new(resource: Permission::REPORT, actions: [Permission::READ])
+      admin_role = Role.new(
+          :id=> "role-test", :name => "Test Role", :description => "Test Role",
+          :group_permission => [],
+          :permissions_list => [admin_report_permission],
+          :permitted_form_ids => ["form_section_test_1"]
+      )
+
+      report_permission = Permission.new(resource: Permission::REPORT, actions: [Permission::GROUP_READ])
+      role = Role.new(
+          :id=> "role-test", :name => "Test Role", :description => "Test Role",
+          :group_permission => [],
+          :permissions_list => [report_permission],
+          :permitted_form_ids => ["form_section_test_1"]
+      )
+
+      @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id]
+      @owner.stub(:roles).and_return([admin_role])
+
+      @owner2 = create :user, module_ids: [@primero_module.id], user_name: 'fred', role_ids: [role.id]
+      @owner2.stub(:roles).and_return([role])
+
+      User.stub(:find_by_user_name).and_return(@owner)
+      @case1 = build :child, owned_by: @owner.user_name
+      @case2 = build :child, owned_by: @owner.user_name
+      @case1.save
+      @case2.save
+
+      User.stub(:find_by_user_name).and_return(@owner2)
+      @case3 = build :child, owned_by: @owner2.user_name
+      @case3.save
+
+      Sunspot.commit
+
+      @report = Report.new(
+          id: 'testid',
+          name: 'test report',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by'],
+          add_default_filters: true
+      )
+      @report.apply_default_filters
+      @report.save!
+    end
+
+    it "should build a report for admin" do
+      expected_results = {
+          ["bobby"] => 2,
+          ["fred"] =>1 ,
+          [""] => nil
+      }
+      session = fake_login @owner
+      get :show, id: @report.id
+      assigns[:report].has_data?.should eq(true)
+      assigns[:report].data[:values].should eq(expected_results)
+    end
+
+    it "should build a report for group member" do
+      expected_results = {
+          ["fred"] => 1 ,
+          ["bobby"] => 0,
+          [""] => nil
+      }
+      session = fake_login @owner2
+      get :show, id: @report.id
+      assigns[:report].has_data?.should eq(true)
+      assigns[:report].data[:values].should eq(expected_results)
+    end
+  end
+
   describe "permitted_fields_list" do
     before :each do
-      controller.should_receive(:authorize!).with(:read, Report).and_return(true)
+      controller.should_receive(:authorize!).with(:read_reports, Report).and_return(true)
     end
 
     it "returns all fields for writeable users" do

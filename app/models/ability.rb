@@ -11,6 +11,10 @@ class Ability
       uzer.user_name == user.user_name
     end
 
+    can [:read_reports], Report do |report|
+      can?(:read, report) || can?(:group_read, report)
+    end
+
     user.permissions.each do |permission|
       case permission.resource
         when Permission::USER

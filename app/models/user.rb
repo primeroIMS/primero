@@ -417,6 +417,7 @@ class User < CouchRest::Model::Base
       Child.by_owned_by.key(self.user_name).all.each do |child|
         child.owned_by_location = self.location
         child.owned_by_location_district = new_location
+        child.owned_by_location_district = new_location
         child.save!
       end
     end
