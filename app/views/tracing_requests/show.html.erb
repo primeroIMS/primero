@@ -53,11 +53,8 @@ $(".profile-tools .investigated a").click( function(){
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("tracing_request.label") %> #<%= text_to_identify_tracing_request(@tracing_request) %>
-<% end %>
-
-<% content_for :header_message do %>
-  <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
+  <div class="label"><%= t("tracing_request.label") %></div>
+  #<%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
 <div class="clearfix"></div>
@@ -77,5 +74,6 @@ $(".profile-tools .investigated a").click( function(){
       <%= render :partial => 'shared/sidebar' if false %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @tracing_request} %>
     </div>
+    <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
   </div>
 </div>

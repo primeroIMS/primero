@@ -71,8 +71,9 @@ class TracingRequest < CouchRest::Model::Base
   def self.minimum_reportable_fields
     {
       'boolean' => ['record_state'],
-       'string' => ['inquiry_status'],
-         'date' => ['inquiry_date']
+      'string' => ['inquiry_status', 'owned_by'],
+      'multistring' => ['associated_user_names'],
+      'date' => ['inquiry_date']
     }
   end
 

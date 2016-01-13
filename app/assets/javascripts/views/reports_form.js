@@ -191,6 +191,8 @@ _primero.Views.ReportForm = Backbone.View.extend({
     var report_filter = attribute_dropdown.parent().parent().parent();
     var attribute = attribute_dropdown.val();
     var type = report_filter_view.field_type_map[attribute];
+    var string_select = report_filter.find('.report_filter_value_string_row select');
+    var string_select_not_null_translation = string_select.data('not-null-translation')
     if (type === 'date_field'){
       //display the date field row
       report_filter.find('.report_filter_value_date_row').css('display', 'inline');
@@ -207,6 +209,7 @@ _primero.Views.ReportForm = Backbone.View.extend({
       var lookups_for_field_url = report_filter_view.lookups_for_field_url + '?' + decodeURIComponent($.param({field_name: attribute}));
       $.ajax(lookups_for_field_url).done(function(lookups_for_field){
         var constructed_options_list = [];
+        constructed_options_list.push("<option value='not_null'>" + string_select_not_null_translation + "</option>")
         for (var i in lookups_for_field){
           if (lookups_for_field[i].constructor === Array){
             constructed_options_list.push(

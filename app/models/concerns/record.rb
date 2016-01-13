@@ -128,6 +128,9 @@ module Record
     end
   end
 
+  def self.model_from_name(name)
+    name == 'case' ? Child : Object.const_get(name.camelize)
+  end
 
   module ClassMethods
     include FormToPropertiesConverter
@@ -262,6 +265,13 @@ module Record
     #Override in implementing class
     def minimum_reportable_fields ; {} ; end
     def nested_reportable_types ; [] ; end
+
+    def report_filters
+      [
+        {'attribute' => 'status', 'value' => ['Open']},
+        {'attribute' => 'record_state', 'value' => ['true']}
+      ]
+    end
 
     # Attributes is just a hash
     def get_unique_instance(attributes)

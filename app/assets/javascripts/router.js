@@ -76,9 +76,7 @@ _primero.Router = Backbone.Router.extend({
   },
 
   formControls: function() {
-    if ($('form:not("#search_form")').length > 0) {
-      new _primero.Views.DateControl();
-    }
+    new _primero.Views.DateControl();
   },
 
   recordForms: function() {
@@ -86,6 +84,7 @@ _primero.Router = Backbone.Router.extend({
 
     if ($('form:not("#search_form")').length > 0) {
       _primero.shared_fields = new _primero.Views.SharedFields();
+      new _primero.Views.RequiredFields();
       new _primero.Views.AutosumFields();
       new _primero.Views.AutoCalculateAgeDOB();
       new _primero.Views.DateRangeControl();

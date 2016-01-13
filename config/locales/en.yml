@@ -556,6 +556,7 @@ en:
     sort_by:
       label: "Sort by"
       full_name: "Full Name"
+      agency: "Agency"
 
   roles:
     label: "Roles"
@@ -598,7 +599,6 @@ en:
     view: "View Agency"
     successfully_created: "Agency successfully created."
     successfully_updated: "Agency successfully updated."
-    drag_n_drop: "You can drag & drop the fields to edit the required order"
     actions:
       show_all: "Showing all"
       show: "Show"
@@ -702,6 +702,7 @@ en:
     full_name: "Full Name"
     history_of: "History of %{user_name}"
     disabled: "Disabled"
+    agency: "Agency"
     actions:
       delete: "Delete"
     messages:
@@ -719,7 +720,7 @@ en:
     manage_password: "Change Password"
     old_password: "Old Password"
     new_password: "New Password"
-    password_strength: "Password must be at least 6 characters and include both letters and numbers"
+    password_strength: "Password must be at least 8 characters and include both letters and numbers"
     new_password_confirmation: "Confirm New Password"
     new: "New User"
     user_action_history: "User action history"
@@ -815,6 +816,8 @@ en:
       approve_case_plan: "Approve case plan"
       copy: "Copy"
       manage: "Manage"
+      administrator_read: "Administrator Read"
+      group_read: "Group Read"
 
   forms:
     label: "Forms"
@@ -830,6 +833,9 @@ en:
       incident: "Incident"
       tracing_request: "Tracing Request"
       violation: "Violation"
+      reportable_service: "Service"
+      reportable_follow_up: "Follow Up"
+      reportable_protection_concern: "Protection Concern"
 
   form_section:
     name: "Name"
@@ -863,6 +869,7 @@ en:
     options: "Options"
     confirm_delete: "Are you sure you want to delete this form?"
     required_field: "%{field} is required"
+    required_field_js: "is a required field, it cannot be blank."
     form_group_name: "Form Group Name"
     modal_sidebar_help: "Select type of field"
     modal_sidebar_help_selected: "Type of field"
@@ -899,6 +906,7 @@ en:
       phone: "Phone"
       location: "Location"
       other_information: "Other information"
+      support_forum: "Support Forum"
     updated: "Contact information was successfully updated."
     edit_info: "Edit Contact Information"
     info_label: "Contact Information"
@@ -1074,6 +1082,7 @@ en:
       label: "Report filters"
       attribute: "Filter"
       value: "With"
+      not_null: "Form value is not blank"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
@@ -1214,7 +1223,7 @@ en:
     case_stat_by_assessment_level: "Cases by Assessment Level"
     case_stat_referrals: "Referrals"
     protection_concern: "Protection Concern"
-    preliminary_protection_concerns: "Preliminary Protection Concerns"
+    protection_concerns: "Protection Concerns"
     geographic_area: "Geographic Area"
     all_cases: "All Cases"
     open: "Open"
@@ -1261,6 +1270,7 @@ en:
         one: "1 error prohibited this %{model} from being saved"
         other: "%{count} errors prohibited this %{model} from being saved"
         body: "There were problems with the following fields:"
+        body_js: "In order to save the record, the problems with the following fields need to be addressed:"
 
     agencies:
       logo_size: "Please upload a file smaller than 10mb"
@@ -1288,7 +1298,7 @@ en:
         full_name: "Please enter full name of the user"
         password_confirmation: "Please enter password confirmation"
         password_mismatch: "The password fields do not have the same password"
-        password_text: "- Please create a password that is at least 6 characters in length and contains both letters and numbers"
+        password_text: "- Please create a password that is at least 8 characters in length and contains both letters and numbers"
         role_ids: "Please select at least one role"
         organization: "Please enter the user's organization name"
         user_name: "Please enter a valid user name"
@@ -1452,6 +1462,8 @@ en:
     last_update: "Last Update"
     current_owner: "Current Owner"
     change_log: "Change Log"
+    record_information: "Record Information"
+    name_date_seperator: "on"
 
   exports:
     no_records: "No Records Available!"

@@ -36,7 +36,6 @@ class Report < CouchRest::Model::Base
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
 
-
   property :name
   property :description
   property :module_ids, [String]
@@ -59,7 +58,8 @@ class Report < CouchRest::Model::Base
   attr_accessor :add_default_filters
   attr_accessor :aggregate_by_ordered
   attr_accessor :disaggregate_by_ordered
-  
+  attr_accessor :permission_filter
+
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
@@ -91,6 +91,32 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  def self.get_reportable_subform_record_field_name(model, record_type)
+    model = Record::model_from_name(model)
+    if model.try(:nested_reportable_types)
+      return model.nested_reportable_types.select{|nrt| nrt.model_name.param_key == record_type}.first.try(:record_field_name)
+    end
+  end
+
+  def self.get_reportable_subform_record_field_names(model)
+    model = Record::model_from_name(model)
+    if model.try(:nested_reportable_types)
+      return model.nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+    end
+  end
+
+  def self.record_type_is_nested_reportable_subform?(model, record_type)
+    get_reportable_subform_record_field_names(model).include?(record_type)
+  end
+
+  def self.get_all_nested_reportable_types
+    record_types = []
+    FormSection::RECORD_TYPES.each do |rt|
+      record_types = record_types + Record.model_from_name(rt).try(:nested_reportable_types)
+    end
+    record_types
+  end
+
   def modules
     @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
   end
@@ -98,6 +124,9 @@ class Report < CouchRest::Model::Base
   # Run the Solr query that calculates the pivots and format the output.
   #TODO: Break up into self contained, testable methods
   def build_report
+    if permission_filter.present?
+      filters << permission_filter
+    end
     if pivots.present?
       self.values = report_values(record_type, pivots, filters)
       if aggregate_counts_from.present?
@@ -299,23 +328,14 @@ class Report < CouchRest::Model::Base
 
 
   def self.reportable_record_types
-    FormSection::RECORD_TYPES + ['violation']
+    FormSection::RECORD_TYPES + ['violation'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
   end
 
   def apply_default_filters
-    if add_default_filters
+    if self.add_default_filters
       self.filters ||= []
-      if ['case', 'child'].include? self.record_type
-        self.filters = (self.filters + [
-          {'attribute' => 'child_status', 'value' => ['Open']},
-          {'attribute' => 'record_state', 'value' => ['true']}
-        ]).uniq
-      else
-        self.filters = (self.filters + [
-          {'attribute' => 'status', 'value' => ['Open']},
-          {'attribute' => 'record_state', 'value' => ['true']}
-        ]).uniq
-      end
+      default_filters = Record.model_from_name(self.record_type).report_filters
+      self.filters = (self.filters + default_filters).uniq
     end
   end
 
@@ -414,11 +434,17 @@ class Report < CouchRest::Model::Base
             end
           else
             query = if value.respond_to?(:map) && value.size > 0
-              '(' + value.map{|v| "#{attribute}:#{v}"}.join(" OR ") + ')'
-            else
-              "#{attribute}:#{value}"
+              '(' + value.map{|v|
+                if v == "not_null"
+                  "#{attribute}:[* TO *]"
+                else
+                  "#{attribute}:#{v}"
+                end
+              }.join(" OR ") + ')'
             end
           end
+        elsif attribute.present? && constraint.present? && constraint == 'not_null'
+          "#{attribute}:[* TO *]"
         end
       end.compact.join(" ")
     end

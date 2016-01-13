@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
   before_filter :set_aggregate_order, only: [:create, :update]
 
   def index
-    authorize! :index, Report
+    authorize!(:read_reports, Report)
     # NOTE: If we start needing anything more complicated than module filtering on reports,
     #       index them in Solr and make searchable. Replace all these views and paginations with Sunspot.
     report_ids = Report.by_module_id(keys: current_user.modules.map{|m|m.id}).values.uniq
@@ -23,8 +23,9 @@ class ReportsController < ApplicationController
 
   def show
     @report = Report.get(params[:id])
-    authorize! :show, @report
+    authorize!(:read_reports, @report)
     begin
+      @report.permission_filter = report_permission_filter(current_user)
       @report.build_report
     rescue Sunspot::UnrecognizedFieldError => e
       redirect_to(edit_report_path(@report), notice: e.message)
@@ -41,7 +42,8 @@ class ReportsController < ApplicationController
   #       but really this isn't worth it unless we find that this is a performance bottleneck.
   def graph_data
     @report = Report.get(params[:id])
-    authorize! :show, @report
+    authorize!(:read_reports, @report)
+    @report.permission_filter = report_permission_filter(current_user)
     @report.build_report #TODO: Get rid of this once the rebuild works
     render json: @report.graph_data
   end
@@ -82,7 +84,7 @@ class ReportsController < ApplicationController
   end
 
   def permitted_field_list
-    authorize! :read, Report
+    authorize!(:read_reports, Report)
     module_ids = (params[:module_ids].present? && params[:module_ids]!='null') ? params[:module_ids] : []
     modules = PrimeroModule.all(keys: module_ids).all
     record_type = params[:record_type]
@@ -100,7 +102,7 @@ class ReportsController < ApplicationController
   #This method returns a list of lookups for a particular field.
   #TODO: This really belongs in a fields or form section controller
   def lookups_for_field
-    authorize! :read, Report
+    authorize!(:read_reports, Report)
     field_options = []
     field_name = params[:field_name]
     field = Field.find_by_name(field_name)
@@ -113,10 +115,17 @@ class ReportsController < ApplicationController
   #       See models/report.rb and graph_data method above.
   def rebuild
     @report = Report.get(params[:id])
-    authorize! :show, @report
+    authorize!(:read_reports, @report)
+    @report.permission_filter = report_permission_filter(current_user)
     @report.build_report
     @report.save
     render status: :accepted
+  end
+
+  def report_permission_filter(user)
+    unless can?(:read, @report)
+      { "attribute" => "associated_user_names", "value" => user.managed_user_names }
+    end
   end
 
   protected

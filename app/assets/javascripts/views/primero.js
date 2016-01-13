@@ -46,6 +46,7 @@ Primero = Backbone.View.extend({
     this.populate_case_id_for_gbv_incidents();
     this.init_edit_listeners();
     this.chosen_roles();
+    this.init_modal_events();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var textarea = $('textarea[name*="field[option_strings_text"]');
@@ -54,6 +55,21 @@ Primero = Backbone.View.extend({
     }
 
     window.onbeforeunload = this.load_and_redirect;
+  },
+
+  init_modal_events: function() {
+    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+      var modal = $(this);
+      if (!modal.parent('.modal-scroll').length) {
+        modal.wrap("<div class='modal-scroll' />");
+      }
+    });
+
+    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+      var modal = $(this);
+      console.log(modal)
+      modal.unwrap("<div class='modal-scroll' />");
+    });
   },
 
   init_edit_listeners: function() {
@@ -89,13 +105,14 @@ Primero = Backbone.View.extend({
     options = {
       axis:"y",
       scrollInertia: 20,
-      scrollButtons:{ enable: true }
+      scrollButtons:{ enable: true },
+      autoHideScrollbar: false,
+      theme: 'dark'
     };
 
     $(".side-nav").mCustomScrollbar(
       _.extend(options, {
-        setHeight: 300,
-        theme: 'minimal-dark',
+        setHeight: 460,
         callbacks:{
             onInit: function() {
               $('.scrolling_indicator.down').css('visibility', 'visible');
@@ -115,68 +132,23 @@ Primero = Backbone.View.extend({
       })
     );
 
-    $("ul.current_flags").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 250,
-        theme: 'dark'
-      })
-    );
+    $("ul.current_flags").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
 
-    $(".field-controls-multi").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 150,
-        theme: 'dark'
-      })
-    );
+    $(".field-controls-multi, .scrollable").mCustomScrollbar(_.extend(options, { setHeight: 150 }));
 
-    $(".panel_xl ul").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 578,
-        theme: 'dark'
-      })
-    );
+    $(".panel_xl ul").mCustomScrollbar(_.extend(options, { setHeight: 578 }));
 
-    $(".panel_content ul").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 250,
-        theme: 'dark'
-      })
-    );
+    $(".panel_content ul").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
 
-    $(".reveal-modal .side-tab-content").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 400,
-        theme: 'dark'
-      })
-    );
+    $(".reveal-modal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
-    $(".panel_main").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 269,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 269 }));
 
-    $(".referral_form_container").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 530,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".referral_form_container").mCustomScrollbar(_.extend(options, { setHeight: 530 }));
 
-    $(".modal-content, .profile-header").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 370,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".modal-content, .profile-header").mCustomScrollbar(_.extend(options, { setHeight: 370 }));
 
-    $(".transfer_form_container").mCustomScrollbar(
-      _.extend(options, {
-        setHeight: 460,
-        theme: 'minimal-dark'
-      })
-    );
+    $(".transfer_form_container").mCustomScrollbar(_.extend(options, { setHeight: 460 }));
   },
 
   init_chosen_or_new: function() {

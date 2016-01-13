@@ -8,6 +8,14 @@ class ReportableProtectionConcern
     'protection_concern_detail_subform_section'
   end
 
+  def self.report_filters
+    [
+      {'attribute' => 'child_status', 'value' => ['Open']},
+      {'attribute' => 'record_state', 'value' => ['true']},
+      {'attribute' => 'protection_concern_type', 'value' => 'not_null'}
+    ]
+  end
+
 
   include ReportableNestedRecord
 

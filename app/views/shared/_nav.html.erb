@@ -26,7 +26,7 @@
               <% if can?(:read, Device) or can?(:read, Replication) %>
                 <li><%= link_to t("navigation.replications"), replications_path, class: current_menu("replications") %></li>
               <% end %>
-              <% if can? :read, Report%>
+              <% if can?(:group_read, Report) || can?(:read, Report) %>
                 <li><%= link_to t("navigation.reports"), reports_path, class: current_menu("reports") %></li>
               <% end %>
             </ul>

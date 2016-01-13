@@ -8,6 +8,14 @@ class ReportableFollowUp
     'followup_subform_section'
   end
 
+  def self.report_filters
+    [
+      {'attribute' => 'child_status', 'value' => ['Open']},
+      {'attribute' => 'record_state', 'value' => ['true']},
+      {'attribute' => 'followup_date', 'constraint' => 'not_null'}
+    ]
+  end
+
 
   include ReportableNestedRecord
 

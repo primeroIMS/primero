@@ -474,8 +474,7 @@ describe TracingRequestsController do
 
       assigns[:tracing_request]['relation_name'].should == "Bill"
       assigns[:tracing_request]['_attachments'].size.should == 2
-      updated_photo_key = assigns[:tracing_request]['_attachments'].keys.select {|key| key =~ /photo.*?-2010-01-17T140532/}.first
-      assigns[:tracing_request]['_attachments'][updated_photo_key]['data'].should_not be_blank
+      assigns[:tracing_request]['_attachments']["jeff"]['data'].should_not be_blank
     end
 
     it "should update only non-photo fields when no photo update" do

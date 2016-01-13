@@ -21,7 +21,7 @@ table:not(.record_list_view) tr.report_row_aggregate td.report_sidebar_value {
 }
 
 div.report_table_content .dataTables_wrapper.no-footer .dataTables_scrollBody {
-  border-bottom: none;
+  border-bottom: 1px solid $stroke_green_color;
 }
 
 div.reports_form .side-tab-content .row .row {
@@ -89,4 +89,8 @@ div.reports_form .side-tab-content .row .row {
     border: 1px solid $stroke_green_color;
     border-bottom: none;
   }
+}
+
+.report_filter_value_string_row .chosen-results li:first-of-type, .report_filter_input select option:first-of-type {
+  background: $stroke_green_color;
 }

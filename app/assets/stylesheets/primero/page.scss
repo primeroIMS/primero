@@ -173,7 +173,7 @@ hr {
 }
 
 .spacer {
-  height: 200px;
+  height: 50px;
 }
 
 .tab {
@@ -229,6 +229,7 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 }
 
 .reveal-modal {
+  top: 16% !important;
   background: $desat_green_color;
 
   .close-reveal-modal {
@@ -238,6 +239,15 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 
 .modal-content {
   margin-bottom: 10px;
+}
+
+.modal-scroll {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  overflow: scroll;
 }
 
 .loading-screen {
@@ -386,4 +396,8 @@ tr td span {
     font-size: .78rem;
     font-weight: bold;
   }
+}
+
+.back-button {
+  padding-left: 5px !important;
 }

@@ -21,6 +21,10 @@ module ApplicationHelper
     "Reports" => "reports"
   }
 
+  @@alias_role_action_label = {
+      "report" => { "read" => "administrator_read" }
+  }
+
   def current_url_with_format_of( format )
     url_for( params.merge( :format => format ) )
   end
@@ -99,14 +103,18 @@ module ApplicationHelper
   def translated_permissions_list(permission_list)
     permission_list.map{|p| {resource: p[:resource],
                              resource_translated: I18n.t(p[:resource], scope: 'permissions.permission'),
-                             actions_translated: translated_hash_list(p[:actions], 'permissions.permission')}}
+                             actions_translated: translated_hash_list(p[:actions], 'permissions.permission', p[:resource])}}
   end
 
   # Input:  an array of strings
   # Input:  scope within dictionary yaml
   # Output: an array of hashes in format {key: <input string>, value: <translation>}
-  def translated_hash_list(list, scope)
-    list.map{|a| {key: a, value: I18n.t(a, :scope => scope)}}
+  def translated_hash_list(list, scope, resource=nil)
+    list.map do |a|
+      key_to_translate = @@alias_role_action_label.keys.include?(resource) && @@alias_role_action_label[resource].try(:[], a) ?
+          @@alias_role_action_label[resource][a] : a
+      {key: a, value: I18n.t(key_to_translate, :scope => scope)}
+    end
   end
 
   # Used by the view to determine if the resource / action pair in the all translated permission hash

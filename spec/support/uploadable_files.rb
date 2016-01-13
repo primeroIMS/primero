@@ -12,7 +12,7 @@ module UploadableFiles
     end
 
     def photo.original_filename
-      self.path
+      self.path.split("/").last
     end
 
     def photo.data
@@ -118,7 +118,7 @@ module UploadableFiles
     end
 
     def audio.original_filename
-      self.path
+      self.path.split("/").last
     end
 
     def audio.data

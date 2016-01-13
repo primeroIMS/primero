@@ -7,11 +7,8 @@
 <% end %>
 
 <% content_for :breadcrumbs do %>
-  <%= t("tracing_request.label") %> #<%= text_to_identify_tracing_request(@tracing_request) %>
-<% end %>
-
-<% content_for :header_message do %>
-  <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
+  <div class="label"><%= t("tracing_request.label") %></div>
+  #<%= text_to_identify_tracing_request(@tracing_request) %>
 <% end %>
 
 <div class="clearfix"></div>
@@ -30,6 +27,7 @@
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @tracing_request, :form_group_name => form_group_name} %>
         <% end %>
       </div>
+      <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
     </div>
   </div>
 

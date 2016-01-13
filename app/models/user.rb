@@ -73,6 +73,16 @@ class User < CouchRest::Model::Base
 
                 }
             }"
+    view :by_organization_filter_view,
+            :map => "function(doc) {
+                if ((doc['couchrest-type'] == 'User') && doc['organization'])
+                {
+                  emit(['all',doc['organization']], null);
+                  if(doc['disabled'] == 'false' || doc['disabled'] == false)
+                    emit(['active',doc['organization']], null);
+
+                }
+            }"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -122,7 +132,7 @@ class User < CouchRest::Model::Base
 
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
                       :message => I18n.t("errors.models.user.email")
-  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{6,}\z/, :if => :password_required?,
+  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/, :if => :password_required?,
                       :message => I18n.t("errors.models.user.password_text")
 
   validates_confirmation_of :password, :if => :password_required? && :password_confirmation_entered?,
@@ -240,11 +250,11 @@ class User < CouchRest::Model::Base
   # however, the location property really is just the location name
   # If a refactor is warranted, I would rename the location property to location_name
   def Location
-    @location_obj = Location.get_unique_instance('name' => self.location)
+    @location_obj ||= Location.get_unique_instance('name' => self.location)
   end
 
-  def Agency
-    @agency_obj = Agency.get(self.organization)
+  def agency
+    @agency_obj ||= Agency.get(self.organization)
   end
 
   def last_login
@@ -406,6 +416,7 @@ class User < CouchRest::Model::Base
       new_location = Location.get_admin_level_from_string(self.location, 'district')
       Child.by_owned_by.key(self.user_name).all.each do |child|
         child.owned_by_location = self.location
+        child.owned_by_location_district = new_location
         child.owned_by_location_district = new_location
         child.save!
       end

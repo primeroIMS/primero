@@ -74,7 +74,7 @@ describe Child do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, false, {}
-      child['_attachments']['audio-2010-01-17T140532']['data'].should_not be_blank
+      child['_attachments']['sample']['data'].should_not be_blank
     end
 
     it "should respond nil for photo when there is no photo associated with the child" do
@@ -113,28 +113,27 @@ describe Child do
       child.audio = uploadable_audio_amr
       child.save
       #Validate the audio file was store.
-      child['_attachments']['audio-2010-01-17T140532']['data'].should_not be_blank
-      child['_attachments']['audio-2010-01-17T140532']['content_type'].should eq("audio/amr")
-      child['audio_attachments']['original'].should == "audio-2010-01-17T140532"
-      child['audio_attachments']['amr'].should == "audio-2010-01-17T140532"
+      child['_attachments']['sample']['data'].should_not be_blank
+      child['_attachments']['sample']['content_type'].should eq("audio/amr")
+      child['audio_attachments']['original'].should == "sample"
+      child['audio_attachments']['amr'].should == "sample"
       child['audio_attachments']['mp3'].should be_nil
       #Others
-      child['recorded_audio'].should == "audio-2010-01-17T140532"
+      child['recorded_audio'].should == "sample"
       child['name'].should be_nil
 
       #Update the child so a new audio is loaded.
       properties = {:name => "Some Child Name"}
       child.update_properties_with_user_name 'Jane Doe', nil, nil, uploadable_audio_mp3, false, properties
 
-      #Validate the old file was removed.
-      child['_attachments']['audio-2010-01-17T140532'].should be_blank
       #Validate the new file was stored.
-      child['_attachments']['audio-2010-01-18T140532']['data'].should_not be_blank
-      child['_attachments']['audio-2010-01-18T140532']['content_type'].should eq("audio/mpeg")
-      child['audio_attachments']['original'].should == "audio-2010-01-18T140532"
-      child['audio_attachments']['mp3'].should == "audio-2010-01-18T140532"
+      child['_attachments']['sample']['data'].should_not be_blank
+      child['_attachments']['sample']['content_type'].should eq("audio/mpeg")
+      child['audio_attachments']['original'].should == "sample"
+      child['audio_attachments']['mp3'].should == "sample"
+      child['audio_attachments']['amr'].should be_nil
       #Others
-      child['recorded_audio'].should == "audio-2010-01-18T140532"
+      child['recorded_audio'].should == "sample"
       child['name'].should == "Some Child Name"
     end
 
@@ -147,13 +146,13 @@ describe Child do
       child.audio = uploadable_audio_amr
       child.save
       #Validate the audio file was store.
-      child['_attachments']['audio-2010-01-17T140532']['data'].should_not be_blank
-      child['_attachments']['audio-2010-01-17T140532']['content_type'].should eq("audio/amr")
-      child['audio_attachments']['original'].should == "audio-2010-01-17T140532"
-      child['audio_attachments']['amr'].should == "audio-2010-01-17T140532"
+      child['_attachments']['sample']['data'].should_not be_blank
+      child['_attachments']['sample']['content_type'].should eq("audio/amr")
+      child['audio_attachments']['original'].should == "sample"
+      child['audio_attachments']['amr'].should == "sample"
       child['audio_attachments']['mp3'].should be_nil
       #Others
-      child['recorded_audio'].should == "audio-2010-01-17T140532"
+      child['recorded_audio'].should == "sample"
       child.name.should be_nil
 
       #Update the child so the current audio is removed.
@@ -716,12 +715,6 @@ describe Child do
       @file_attachment = FileAttachment.new("attachment_file_name", "audio/mpeg", "data")
     end
 
-    it "should use Mime::Type.lookup to create file name postfix" do
-      child = Child.new()
-      Mime::Type.should_receive(:lookup).exactly(2).times.with("audio/mpeg").and_return("abc".to_sym)
-      child.add_audio_file(@file, "audio/mpeg")
-    end
-
     it "should create a file attachment for the file with 'audio' prefix, mime mediatype as postfix" do
       child = Child.new()
       Mime::Type.stub(:lookup).and_return("abc".to_sym)
@@ -765,7 +758,7 @@ describe Child do
     it "should retrieve attachment data for attachment key" do
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       child = Child.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      child.should_receive(:read_attachment).with('audio-2010-02-20T120432').and_return("Some audio")
+      child.should_receive(:read_attachment).with('sample').and_return("Some audio")
       child.audio
     end
 
@@ -775,7 +768,7 @@ describe Child do
       child = Child.create('audio' => uploaded_amr, 'created_by' => "me", 'created_organization' => "stc")
       expected_data = 'LA! LA! LA! Audio Data'
       child.stub(:read_attachment).and_return(expected_data)
-      FileAttachment.should_receive(:new).with('audio-2010-02-20T120432', uploaded_amr.content_type, expected_data)
+      FileAttachment.should_receive(:new).with('sample', uploaded_amr.content_type, expected_data)
       child.audio
 
     end
@@ -797,14 +790,14 @@ describe Child do
       Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
 
-      child['audio_attachments']['original'].should == 'audio-2010-01-20T171032'
+      child['audio_attachments']['original'].should == 'sample'
     end
 
     it "should change audio file if a new audio file is set" do
       child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
       Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
       child.update_attributes :audio => uploadable_audio
-      child['audio_attachments']['original'].should == 'audio-2010-02-20T120432'
+      child['audio_attachments']['original'].should == 'sample'
     end
 
   end
@@ -823,11 +816,11 @@ describe Child do
         @child.photo = uploadable_photo_jeff
         @child.save
         changes = @child.histories.first.changes
-        changes['photo_keys']['to'].last.should =~ /photo.*?-2010-02-20T120424/
+        changes['photo_keys']['to'].last.should == "jeff"
       end
 
       it "should log multiple photos being added" do
-        @child.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
+        @child.photos = [uploadable_photo_jeff, uploadable_photo_jorge_300x300]
         @child.save
         ch = @child.histories.first.changes['photo_keys']
         (ch['to'] - ch['from']).should have(2).photo_keys
@@ -859,7 +852,7 @@ describe Child do
         @child = Child.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'current_photo_key' => uploadable_photo_jeff.original_filename, 'created_by' => "me", 'created_organization' => "stc")
         @child.save
         @child.primary_photo.name.should == @child.photos.first.name
-        @child.primary_photo.name.should start_with("photo-")
+        @child.primary_photo.name.should == "jorge"
       end
 
 
@@ -1384,7 +1377,7 @@ describe Child do
                                                  case_code_format: [
                                                            "created_by_user.Location.admin_level(country).location_code",
                                                            "created_by_user.Location.admin_level(region).location_code",
-                                                           "created_by_user.Agency.agency_code"
+                                                           "created_by_user.agency.agency_code"
                                                  ]
       end
 
@@ -1407,7 +1400,7 @@ describe Child do
                                                  case_code_format: [
                                                            "created_by_user.Location.admin_level(country).location_code",
                                                            "created_by_user.Location.admin_level(region).location_code",
-                                                           "created_by_user.Agency.agency_code"
+                                                           "created_by_user.agency.agency_code"
                                                  ]
       end
 
@@ -1440,6 +1433,112 @@ describe Child do
         child = Child.create! case_id: 'zzz', created_by: 'tom789'
         expect(child.case_id_display).to eq("GUI-GUI123-#{child.short_id}")
       end
+    end
+  end
+
+  describe 'syncing of protection concerns' do
+    before do
+      Child.all.each &:destroy
+      FormSection.all.each &:destroy
+
+      # protection concern form
+      protection_concern_fields = [
+        Field.new({"name" => "protection_concerns",
+                   "type" => "select_box",
+                   "multi_select" => true,
+                   "display_name_all" => "Protection Concerns",
+                   "option_strings_source" => "lookup ProtectionConcerns"
+                  })
+      ]
+      protection_concern_form = FormSection.create({
+        :unique_id => "protection_concern",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 30,
+        :order => 20,
+        :order_subform => 0,
+        :form_group_name => "Identification / Registration",
+        :fields => protection_concern_fields,
+        "name_all" => "Protection Concerns",
+        "description_all" => "Protection concerns"
+      })
+      protection_concern_form.save!
+
+      # protection concern form with subform
+      protection_concern_detail_subform_fields = [
+        Field.new({"name" => "protection_concern_type",
+                   "type" => "select_box",
+                   "display_name_all" => "Type of Protection Concern",
+                   "option_strings_source" => "lookup ProtectionConcerns"
+                  })
+      ]
+
+      protection_concern_detail_subform_section = FormSection.create_or_update_form_section({
+        "visible" => false,
+        "is_nested" => true,
+        :order_form_group => 70,
+        :order => 30,
+        :order_subform => 1,
+        :unique_id => "protection_concern_detail_subform_section",
+        :parent_form=>"case",
+        :fields => protection_concern_detail_subform_fields,
+        "name_all" => "Nested Protection Concerns Subform",
+        "description_all" => "Nested Protection Concerns Subform",
+      })
+
+      protection_concern_detail_fields = [
+        Field.new({"name" => "protection_concern_detail_subform_section",
+          "type" => "subform",
+          "subform_section_id" => protection_concern_detail_subform_section.unique_id,
+          "display_name_all" => "Protection Concern Details"
+        })
+      ]
+
+      protection_concern_form_with_subform = FormSection.create({
+          :unique_id => "protection_concern_details",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 70,
+          :order => 30,
+          :order_subform => 0,
+          :form_group_name => "Assessment",
+          :fields => protection_concern_detail_fields,
+          "editable" => true,
+          "name_all" => "Protection Concern Details",
+          "description_all" => "Protection Concern Details"
+      })
+
+      protection_concern_form_with_subform.save!
+
+      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
+
+      @protection_concerns = ["Separated", "Unaccompanied"]
+
+      Child.refresh_form_properties
+    end
+
+    it "should add protection concerns from subform to multiselect protection concerns field" do
+      @child = Child.new('name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
+                          'protection_concern_detail_subform_section' => [
+                              {protection_concern_type: "Child is neglected"},
+                              {protection_concern_type: "Extreme levels of poverty"},
+                              {protection_concern_type: "Unaccompanied"}
+
+                          ])
+      @child.save!
+      @child[:protection_concerns].should == @protection_concerns + ["Child is neglected", "Extreme levels of poverty"]
+    end
+
+    it "should remove nils from protection concerns multiselect" do
+      @child = Child.new('name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
+                       'protection_concern_detail_subform_section' => [
+                           {protection_concern_type: "Child is neglected"},
+                           {protection_concern_type: nil},
+                           {protection_concern_type: nil},
+                           {protection_concern_type: "Unaccompanied"}
+                       ])
+      @child.save!
+      @child[:protection_concerns].should_not include(nil)
     end
   end
 

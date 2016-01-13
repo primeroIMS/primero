@@ -57,6 +57,7 @@
   <% end %>
   <div class="page_content">
     <%= yield %>
+    <%= yield :header_message %>
   </div>
 </div>
 
@@ -80,6 +81,10 @@
     model_object: "<%= controller.controller_name.singularize %>",
     current_action: "<%= controller.action_name %>",
     discard_message: "<%= t('messages.record_navigation_confirmation_message', default: 'Discard unsaved changes?') %>",
+    form_error_messages: {
+      required: "<%= t('form_section.required_field_js') %>",
+      form_message: "<%= t('errors.template.header.body_js')%>"
+    },
     Views: {}
   };
 </script>

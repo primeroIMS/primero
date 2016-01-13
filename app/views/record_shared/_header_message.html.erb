@@ -1,34 +1,42 @@
-<div class="panel record_status">
-  <div class="header_message">
-    <div id="interviewer_details">
-      <!-- record state -->
-      <p>
-        <%= t("record_panel.record_state") %>:
-        <%= record.record_state ? t("record_panel.valid") : t("record_panel.invalid") %>
-      </p>
-      <!-- creator -->
-      <p>
-        <%= t("record_panel.created_by") %>:
-        <%= record.created_by_full_name %><br>
-        <%= field_format_date(record.created_at) %>
-      </p>
-      <!-- last updated -->
-      <p>
-        <%= t("record_panel.last_update") %>:
-        <%= field_format_date(record.last_updated_at) %>
-      </p>
-      <!-- current owner -->
-      <p>
-        <%= t("record_panel.current_owner") %>:
-        <%= record.owner ? record.owner.full_name : 'None' %>
-      </p>
-      <hr>
-      <!-- change log -->
-      <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>"
-         data-reveal-id="<%= model %>_<%= record.short_id%>_change_log" href="#">
-        <%= t("record_panel.change_log") %>
-      </a>
-      <div class="reveal-modal medium" id="<%= model %>_<%=record.short_id%>_change_log" data-reveal></div>
-    </div>
+<div class="row form-footer">
+  <div class="large-6 columns collapse">
+    <ul class="inline-list">
+      <li>
+        <a href="#" data-reveal-id="record_info_modal"><%= t('record_panel.record_information') %></a>
+      </li>
+      <li>
+        <!-- change log -->
+        <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>"
+           data-reveal-id="<%= model %>_<%= record.short_id%>_change_log" href="#">
+          <%= t("record_panel.change_log") %>
+        </a>
+        <div class="reveal-modal medium" id="<%= model %>_<%=record.short_id%>_change_log" data-reveal></div>
+      </li>
+    </ul>
   </div>
+</div>
+
+<div id="record_info_modal" class="reveal-modal tiny" data-reveal aria-hidden="true" role="dialog">
+  <h1><%= t('record_panel.record_information') %></h1>
+  <!-- record state -->
+  <p>
+    <span><%= t("record_panel.record_state") %>:</span>
+    <%= record.record_state ? t("record_panel.valid") : t("record_panel.invalid") %>
+  </p>
+  <!-- creator -->
+  <p>
+    <span><%= t("record_panel.created_by") %>:</span>
+    <%= record.created_by_full_name %> <span><%= t('record_panel.name_date_seperator') %></span> <%= field_format_date(record.created_at) %>
+  </p>
+  <!-- last updated -->
+  <p>
+    <span><%= t("record_panel.last_update") %>:</span>
+    <%= field_format_date(record.last_updated_at) %>
+  </p>
+  <!-- current owner -->
+  <p>
+    <span><%= t("record_panel.current_owner") %>:</span>
+    <%= record.owner ? record.owner.full_name : 'None' %>
+  </p>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>

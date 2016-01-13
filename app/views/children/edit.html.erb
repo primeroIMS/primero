@@ -7,11 +7,8 @@
 <% end %>
 
 <% content_for :breadcrumbs do %>
-    <%= t("case.label") %> #<%= text_to_identify_child(@child) %>
-<% end %>
-
-<% content_for :header_message do %>
-  <%= render 'record_shared/header_message', record: @child, model: 'case' %>
+  <div class="label"><%= t("case.label") %></div>
+  #<%= text_to_identify_child(@child) %>
 <% end %>
 
 <div class="clearfix"></div>
@@ -31,6 +28,7 @@
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
         <% end %>
       </div>
+      <%= render 'record_shared/header_message', record: @child, model: 'case' %>
     </div>
 
     <div class="hidden_params">

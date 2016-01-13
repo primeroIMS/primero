@@ -139,6 +139,8 @@ module IndexHelper
     model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
     list_view_fields = { :type => model, :fields => {} }
     list_view_header(model).each do |header|
+      #TODO: The current logic is a ctually broken as it excludes photos. Fix? Something like:
+      #if !['select','flag'].include?(header[:title]) && header[:sort_title].present?
       if header[:title].present? && header[:sort_title].present?
         list_view_fields[:fields].merge!({ header[:title].titleize => header[:sort_title] })
       end
@@ -159,7 +161,7 @@ module IndexHelper
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
     header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv
-    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
+    header_list << {title: '', sort_title: 'photo'} if @is_cp
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
 
     return header_list
@@ -280,7 +282,7 @@ module IndexHelper
     #TODO what if this is a shared field?
     #TODO what if the field is on different modules like "sex"
     #     and the user is able to access both modules
-    #For now any visible field will display the filter. 
+    #For now any visible field will display the filter.
     #Not an issue when the field exist only one time.
     #Not sure how that will work for shared field or if the user can access several modules
     #and the field exists on those modules, in that case the filter will be display if

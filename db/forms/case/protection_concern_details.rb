@@ -70,9 +70,9 @@ protection_concern_detail_subform_fields = [
     "display_name_all" => "Intervention needed by"
   }),
   Field.new({"name" => "concern_action_taken_already",
-    "type" => "radio_button",
+    "type" => "tick_box",
     "display_name_all" => "Has action been taken?",
-    "option_strings_text_all" => "Yes\nNo"
+    "tick_box_label_all" => "Yes"
   }),
   Field.new({"name" => "concern_action_taken_details",
     "type" => "textarea",
@@ -81,6 +81,11 @@ protection_concern_detail_subform_fields = [
   Field.new({"name" => "concern_action_taken_date",
     "type" => "date_field",
     "display_name_all" => "Date when action was taken"
+  }),
+  Field.new({"name" => "concern_is_resolved",
+    "type" => "tick_box",
+    "display_name_all" => "Protection concern resolved?",
+    "tick_box_label_all" => "Yes"
   })
 ]
 

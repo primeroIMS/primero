@@ -3,6 +3,22 @@ fields = [
         "type" => "tick_box",
         "display_name_all" => "Valid Record?"
         }),
+  Field.new({"name" => "owned_by_agency",
+        "type" => "select_box",
+        "display_name_all" => "Case Manager's Agency",
+        "option_strings_source" => "Agency"
+        }),
+  # Field.new({"name" => "owned_by_location_district",
+  #       "type" => "select_box",
+  #       "display_name_all" => "Case Manager's District",
+  #       "option_strings_source" => "lookup Districts"
+  #       }),
+  Field.new({"name" => "owned_by_location",
+        "type" => "select_box",
+        "display_name_all" => "Case Manager's Location",
+        "searchable_select" => true,
+        "option_strings_source" => "Location"
+        })
 ]
 
 FormSection.create_or_update_form_section({

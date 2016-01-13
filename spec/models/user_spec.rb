@@ -6,8 +6,8 @@ describe User do
     options.reverse_merge!({
                                :user_name => "user_name_#{rand(10000)}",
                                :full_name => 'full name',
-                               :password => 'b00h00',
-                               :password_confirmation => options[:password] || 'b00h00',
+                               :password => 'b00h00h00',
+                               :password_confirmation => options[:password] || 'b00h00h00',
                                :email => 'email@ddress.net',
                                :organization => 'TW',
                                :disabled => 'false',
@@ -53,12 +53,9 @@ describe User do
 
       login(user_name, date_1, params)
       login(user_name, date_2, params)
-
       last_login = User.last_login_timestamp(user_name)
-      last_login.login_timestamp.should_not == date_1
-      last_login.login_timestamp.should == date_2
-      last_login.imei.should == imei
-      last_login.user_name.should == user_name
+      last_login.should_not == date_1
+      last_login.should == date_2
     end
   end
 
@@ -144,7 +141,7 @@ describe User do
     user.should be_valid
   end
 
-  it "should reject passwords that are less than 6 characters or don't have at least one alpha and at least 1 numeric character" do
+  it "should reject passwords that are less than 8 characters or don't have at least one alpha and at least 1 numeric character" do
     user = build_user :password => "invalid"
     user.should_not be_valid
 
@@ -164,13 +161,13 @@ describe User do
   end
 
   it "can't authenticate which isn't saved" do
-    user = build_user(:password => "b00h00")
+    user = build_user(:password => "b00h00h00")
     lambda { user.authenticate("thepass") }.should raise_error
   end
 
   it "can authenticate with the right password" do
-    user = build_and_save_user(:password => "b00h00")
-    user.authenticate("b00h00").should be_true
+    user = build_and_save_user(:password => "b00h00h00")
+    user.authenticate("b00h00h00").should be_true
   end
 
   it "can't authenticate with the wrong password" do
@@ -179,18 +176,18 @@ describe User do
   end
 
   it "can't authenticate if disabled" do
-    user = build_and_save_user(:disabled => "true", :password => "thep4ss")
-    user.authenticate("thep4ss").should be_false
+    user = build_and_save_user(:disabled => "true", :password => "thep4sswd")
+    user.authenticate("thep4sswd").should be_false
   end
 
   it "can't look up password in database" do
-    user = build_and_save_user(:password => "thep4ss")
+    user = build_and_save_user(:password => "thep4sswd")
     User.get(user.id).password.should be_nil
   end
 
   it "can authenticate if not disabled" do
-    user = build_and_save_user(:disabled => "false", :password => "thep4ss")
-    user.authenticate("thep4ss").should be_true
+    user = build_and_save_user(:disabled => "false", :password => "thep4sswd")
+    user.authenticate("thep4sswd").should be_true
   end
 
   it "should be able to store a mobile login event" do
