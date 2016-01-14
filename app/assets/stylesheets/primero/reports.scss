@@ -20,8 +20,23 @@ table:not(.record_list_view) tr.report_row_aggregate td.report_sidebar_value {
   font-family: 'Roboto-Medium', sans-serif !important;
 }
 
-div.report_table_content .dataTables_wrapper.no-footer .dataTables_scrollBody {
+.DTFC_LeftHeadWrapper table tr:first-of-type th, .DTFC_RightHeadWrapper table tr:first-of-type th {
+  border-bottom: 1px solid $stroke_green_color !important;
+}
+
+div.report_table_content .dataTables_wrapper.no-footer .dataTables_scrollBody, div.DTFC_LeftBodyWrapper, div.DTFC_RightBodyWrapper {
   border-bottom: 1px solid $stroke_green_color;
+}
+
+.dataTables_scrollBody table tbody tr:last-of-type td,
+.DTFC_LeftBodyLiner table tbody tr:last-of-type td,
+.DTFC_RightBodyLiner table tbody tr:last-of-type td {
+  border-bottom: none;
+}
+
+.dataTables_scrollBody {
+  max-height: 500px;
+  height: inherit !important;
 }
 
 div.reports_form .side-tab-content .row .row {
@@ -93,4 +108,59 @@ div.reports_form .side-tab-content .row .row {
 
 .report_filter_value_string_row .chosen-results li:first-of-type, .report_filter_input select option:first-of-type {
   background: $stroke_green_color;
+}
+
+.DTFC_LeftBodyLiner::-webkit-scrollbar, .DTFC_RightBodyLiner::-webkit-scrollbar {
+  display: none;
+}
+
+div.DTFC_LeftHeadWrapper table,
+div.DTFC_LeftBodyWrapper table,
+div.DTFC_LeftFootWrapper table {
+  border-right-width: 0;
+}
+
+div.DTFC_RightHeadWrapper table,
+div.DTFC_RightBodyWrapper table,
+div.DTFC_RightFootWrapper table {
+  border-left-width: 0;
+}
+
+div.DTFC_LeftHeadWrapper table,
+div.DTFC_RightHeadWrapper table {
+  margin-bottom: 0 !important;
+}
+
+div.DTFC_LeftBodyWrapper table,
+div.DTFC_RightBodyWrapper table {
+  border-top: none;
+  margin: 0 !important;
+}
+
+div.DTFC_LeftFootWrapper table,
+div.DTFC_RightFootWrapper table {
+  margin-top: 0 !important;
+}
+
+.dataTables_scrollHead {
+  border-bottom: none !important;
+
+  table thead tr th {
+    border-bottom: 1px solid $stroke_green_color;
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .DTFC_LeftBodyWrapper {
+    border-right: 1px solid $stroke_green_color;
+
+  }
+
+  .DTFC_LeftBodyLiner, .DTFC_RightBodyLiner  {
+    -ms-overflow-style: none;
+  }
+
+  .DTFC_LeftBodyLiner .DTFC_Cloned {
+    border-right: 1px solid $stroke_green_color;
+  }
 }
