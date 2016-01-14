@@ -64,7 +64,7 @@
 
   <% if @display_incidents_dashboard %>
   <div class="row collapse">
-    <div id="content" class="large-9 small-9 columns">
+    <div id="content" class="large-9 small-9 columns dashboards">
       <%= render 'open_incidents', open_incidents: @open_incidents %>
     </div>
     <div id="sidebar" class="large-3 small-3 columns">
@@ -75,7 +75,7 @@
 
   <% if @display_gbv_incidents_dashboard %>
   <div class="row collapse">
-    <div id="content" class="large-9 small-9 columns">
+    <div id="content" class="large-9 small-9 columns dashboards">
       <%= render 'open_gbv_incidents', open_incidents: @open_gbv_incidents %>
     </div>
     <div id="sidebar" class="large-3 small-3 columns">
