@@ -1,11 +1,13 @@
 fields = [
   Field.new({"name" => "record_state",
         "type" => "tick_box",
+        "editable" => false,
         "display_name_all" => "Valid Record?"
         }),
   Field.new({"name" => "owned_by_agency",
         "type" => "select_box",
         "display_name_all" => "Case Manager's Agency",
+        "editable" => false,
         "option_strings_source" => "Agency"
         }),
   # Field.new({"name" => "owned_by_location_district",
@@ -17,6 +19,7 @@ fields = [
         "type" => "select_box",
         "display_name_all" => "Case Manager's Location",
         "searchable_select" => true,
+        "editable" => false,
         "option_strings_source" => "Location"
         })
 ]
