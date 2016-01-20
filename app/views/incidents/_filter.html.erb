@@ -38,7 +38,10 @@
     <% if filters_to_show.include? 'Incident Location' %>
       <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
     <% end %>
-    <% if filters_to_show.include? 'Incident Date' %>
+    <% if filters_to_show.include? 'Interview Date' %>
+			<%= render 'record_shared/filter_date', record: 'incidents', date_field_title: 'interview_date', date_field: 'date_of_first_report' %>
+		<% end %>
+		<% if filters_to_show.include? 'Incident Date' %>
       <%= render "record_shared/filter_date", record: 'incidents', date_field_title: 'incident_date', date_field: 'incident_date_derived' %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
