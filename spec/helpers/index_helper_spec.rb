@@ -25,7 +25,7 @@ describe IndexHelper do
                                                     {title: "age", sort_title: "age"},
                                                     {title: "sex", sort_title: "sex"},
                                                     {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "photo", sort_title: "photo"}
+                                                    {title: "", sort_title: "photo"}
                                                    ]
         end
 
@@ -51,7 +51,7 @@ describe IndexHelper do
                                                     {title: "age", sort_title: "age"},
                                                     {title: "sex", sort_title: "sex"},
                                                     {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "photo", sort_title: "photo"},
+                                                    {title: "", sort_title: "photo"},
                                                     {title: "social_worker", sort_title: "owned_by"}
                                                    ]
         end
@@ -216,7 +216,7 @@ describe IndexHelper do
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Violence Type", "Status", "Age Range",
-                                                         "Incident Location", "Incident Date", "Protection Status", "Record State"
+                                                         "Incident Location", "Interview Date", "Incident Date", "Protection Status", "Record State"
                                                         ]
         end
       end
@@ -239,7 +239,7 @@ describe IndexHelper do
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Violence Type", "Social Worker", "Status", "Age Range",
-                                                         "Incident Location", "Incident Date", "Protection Status", "Record State"
+                                                         "Incident Location", "Interview Date", "Incident Date", "Protection Status", "Record State"
                                                         ]
         end
       end
