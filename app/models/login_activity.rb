@@ -22,4 +22,8 @@ class LoginActivity < CouchRest::Model::Base
   def set_timestamp
     self.login_timestamp = DateTime.now
   end
+
+  def mobile?
+    self.imei.present?
+  end
 end

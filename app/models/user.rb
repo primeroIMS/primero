@@ -359,7 +359,7 @@ class User < CouchRest::Model::Base
       descending: true,
       endkey: [user_name],
       startkey: [user_name, {}]
-    ).all.select{|e| e['imei'].present?}
+    ).all.select(&:mobile?)
   end
 
   def devices
