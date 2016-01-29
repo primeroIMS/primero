@@ -190,25 +190,23 @@ describe User do
     user.authenticate("thep4sswd").should be_true
   end
 
-  it "should be able to store a mobile login event" do
-    imei = "1337"
-    mobile_number = "555-555"
-    now = Time.parse("2008-06-21 13:30:00 UTC")
-
+  it "should be able to select a user's mobile login events from a list of login events" do
     user = build_user
     user.create!
 
-    Clock.stub(:now).and_return(now)
+    LoginActivity.create!(user_name: user.user_name, imei: 'IMEI1', mobile_number: '123-456-7890')
+    LoginActivity.create!(user_name: user.user_name, imei: nil, mobile_number: nil)
+    LoginActivity.create!(user_name: 'billybob', imei: 'IMEI', mobile_number: '123-456-7890')
+    LoginActivity.create!(user_name: 'billybob')
+    sleep(1) #make sure we have a second gap in activities
+    LoginActivity.create!(user_name: user.user_name, imei: 'IMEI2', mobile_number: '123-456-7890')
+    LoginActivity.create!(user_name: 'sueanne', imei: 'IMEI', mobile_number: '123-456-7890')
 
-    user.add_mobile_login_event(imei, mobile_number)
-    user.save
 
-    user = User.get(user.id)
-    event = user.mobile_login_history.first
+    mobile_login_history = user.mobile_login_history
 
-    event[:imei].should == imei
-    event[:mobile_number].should == mobile_number
-    event[:timestamp].should == now
+    expect(mobile_login_history).to have(2).events
+    expect(mobile_login_history.first.imei).to eq('IMEI2')
   end
 
   it "should store list of devices when new device is used" do

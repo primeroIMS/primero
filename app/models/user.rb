@@ -20,7 +20,6 @@ class User < CouchRest::Model::Base
   property :position
   property :location
   property :disabled, TrueClass, :default => false
-  property :mobile_login_history, [MobileLoginEvent]
   property :role_ids, [String]
   property :time_zone, :default => "UTC"
   property :locale
@@ -208,11 +207,6 @@ class User < CouchRest::Model::Base
     end
   end
 
-  def initialize(args = {}, args1 = {})
-    self["mobile_login_history"] = []
-    super args, args1
-  end
-
   def email_entered?
     !email.blank?
   end
@@ -352,14 +346,20 @@ class User < CouchRest::Model::Base
     return @record_scope
   end
 
-
+  #TODO: Why is this on the user?
   def add_mobile_login_event imei, mobile_number
-    self.mobile_login_history << MobileLoginEvent.new(:imei => imei, :mobile_number => mobile_number)
-
     if (Device.all.none? { |device| device.imei == imei })
       device = Device.new(:imei => imei, :blacklisted => false, :user_name => self.user_name)
       device.save!
     end
+  end
+
+  def mobile_login_history
+    LoginActivity.by_user_name_and_login_timestamp(
+      descending: true,
+      endkey: [user_name],
+      startkey: [user_name, {}]
+    ).all.select{|e| e['imei'].present?}
   end
 
   def devices
