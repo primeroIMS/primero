@@ -60,6 +60,7 @@ module Searchable
   # end
 
   module ClassMethods
+    include Matchable
 
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
@@ -88,7 +89,7 @@ module Searchable
         end
         if match.present?
           adjust_solr_params do |params|
-            build_match(match, params)
+            self.build_match(match, params)
           end
 
           sort={:score => :desc}
@@ -143,56 +144,6 @@ module Searchable
           end
         end
       end
-    end
-
-    #This method controls trace matching logic
-    def build_match(match={}, params)
-      phonetic_fields = { name_ph: match[:name], name_nickname_ph: match[:name_nickname] }
-
-      # The score property will give more weight to that field during matching.
-      # TODO: Figure out if we need to make certain fields more relevant than others.
-      boost_fields = {
-        sex_sci: { value: match[:sex], score: 0.5 },
-        relation_language_sm: { value: match[:language], score: 0.5 },
-        relation_religion_sm: { value: match[:religion], score: 0.5 },
-        nationality_sm: { value: match[:nationality], score: 0.5 },
-        relation_ethnicity_sci: { value: match[:ethnicity], score: 0.5 },
-        sub_ethnicity_1_sm: { value: match[:ethnicity], score: 0.5 },
-        sub_ethnicity_2_sm: { value: match[:ethnicity], score: 0.5 },
-        relations_sm: { value: match[:relation], score: 0.5 }
-      }
-
-      # To satisfy solr, dates needed to formated to utc iso8601
-      if match[:date_of_birth].present?
-        to = (match[:date_of_birth] + 2.years).to_time.utc.iso8601
-        from = (match[:date_of_birth] - 2.years).to_time.utc.iso8601
-        boost_fields[:date_of_birth_d] = { value: "#{from} TO #{to}", boost: 0.5, date: true }
-      end
-
-      params[:bq] = boost_query_fields(boost_fields, true)
-
-      params[:q] = if phonetic_fields.values.any?{|m| m.present?}
-        phonetic_fields.compact.map{|k, v| "#{k}:(#{v})"}.join(' OR ')
-      else
-        boost_query_fields(boost_fields, false)
-      end
-
-      params[:defType] = "edismax"
-      params
-    end
-
-    def boost_query_fields(fields, include_boost)
-      fields = fields.map do |k, v|
-        if v[:value].present?
-          value = v[:value].is_a?(Array) ? v[:value].join(' OR ') : v[:value]
-          if v[:score].present? && include_boost.present?
-            v[:date].present? ? "#{k}:[#{value}]^#{v[:score]}" : "#{k}:(#{value})^#{v[:score]}"
-          else
-            v[:date].present? ? "#{k}:[#{value}]" : "#{k}:(#{value})"
-          end
-        end
-      end
-      fields.compact.join(' OR ')
     end
 
     # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
