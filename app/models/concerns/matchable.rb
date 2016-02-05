@@ -1,7 +1,7 @@
 module Matchable
   extend ActiveSupport::Concern
 
-  included do
+  module ClassMethods
 
     #This method controls trace matching logic
     def build_match(match={}, params)

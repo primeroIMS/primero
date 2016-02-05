@@ -60,8 +60,6 @@ module Searchable
   # end
 
   module ClassMethods
-    include Matchable
-
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?

@@ -21,6 +21,7 @@ class Child < CouchRest::Model::Base
   include DocumentUploader
 
   include Ownable
+  include Matchable
   include AudioUploader
 
   property :case_id
