@@ -119,19 +119,18 @@ class TracingRequest < CouchRest::Model::Base
     match_criteria = {}
 
     if match_request.present?
-      match_criteria[:name] = match_request.name
-      match_criteria[:name_nickname] = match_request.name_nickname
-      match_criteria[:sex] = match_request.sex
-      match_criteria[:date_of_birth] = match_request.date_of_birth
+      match_criteria[:name] = match_request.try(:name)
+      match_criteria[:name_nickname] = match_request.try(:name_nickname)
+      match_criteria[:sex] = match_request.try(:sex)
+      match_criteria[:date_of_birth] = match_request.try(:date_of_birth)
 
-      match_criteria[:language] = self.relation_language
-      match_criteria[:religion] = self.relation_religion
-      match_criteria[:nationality] = self.relation_nationality
-      match_criteria[:fathers_name] = self.fathers_name
-      match_criteria[:mothers_name] = self.mothers_name
+      match_criteria[:language] = self.try(:relation_language)
+      match_criteria[:religion] = self.try(:relation_religion)
+      match_criteria[:nationality] = self.try(:relation_nationality)
+      match_criteria[:relation] = self.try(:relation)
 
       match_criteria[:ethnicity] = []
-      match_criteria[:ethnicity].push(self.relation_ethnicity, self.relation_sub_ethnicity1, self.relation_sub_ethnicity2)
+      match_criteria[:ethnicity].push(self.try(:relation_ethnicity), self.try(:relation_sub_ethnicity1), self.try(:relation_sub_ethnicity2))
       match_criteria[:ethnicity].uniq!
       match_criteria[:ethnicity].compact!
     end

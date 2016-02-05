@@ -60,7 +60,6 @@ module Searchable
   # end
 
   module ClassMethods
-
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
@@ -87,7 +86,10 @@ module Searchable
           end
         end
         if match.present?
-          build_match(self, match)
+          adjust_solr_params do |params|
+            self.build_match(match, params)
+          end
+
           sort={:score => :desc}
         end
         sort.each{|sort_field,order| order_by(sort_field, order)}
@@ -137,35 +139,6 @@ module Searchable
                 with(filter, values) unless values == 'all'
               end
             end
-          end
-        end
-      end
-    end
-
-    #This method controls trace matching logic
-    def build_match(sunspot, match={})
-      sunspot.instance_eval do
-        #TODO - add more match criteria
-        fulltext match[:name], :minimum_match => 1 if match[:name].present?
-        fulltext match[:name_nickname], :minimum_match => 1 if match[:name_nickname].present?
-
-        any_of do
-          with(:sex, match[:sex]) if match[:sex].present?
-          with(:language, match[:language]) if match[:language].present?
-          with(:religion, match[:religion]) if match[:religion].present?
-          with(:nationality, match[:nationality]) if match[:nationality].present?
-          with(:fathers_name, match[:fathers_name]) if match[:fathers_name].present?
-          with(:mothers_name, match[:mothers_name]) if match[:mothers_name].present?
-
-          with(:ethnicity, match[:ethnicity]) if match[:ethnicity].present?
-          with(:sub_ethnicity_1, match[:ethnicity]) if match[:ethnicity].present?
-          with(:sub_ethnicity_2, match[:ethnicity]) if match[:ethnicity].present?
-
-          #TODO - verify this range and parameterize it
-          if match[:date_of_birth].present? and match[:date_of_birth].is_a?(Date)
-            to = match[:date_of_birth] + 2.years
-            from = match[:date_of_birth] - 2.years
-            with(:date_of_birth, from..to)
           end
         end
       end
