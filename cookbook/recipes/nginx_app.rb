@@ -16,11 +16,14 @@ unless node[:primero][:server_hostname]
 end
 
 ['crt', 'key'].each do |ext|
-  file ::File.join(ssl_dir, "primero.#{ext}") do
+  certfile = ::File.join(ssl_dir, "primero.#{ext}")
+  file certfile do
     content node[:primero][:ssl][ext.to_sym]
     owner "root"
     group "root"
     mode "0400"
+    not_if { ::File.symlink?(certfile) }
+    #If symlink, then this has been created and is being maintained by letsencrypt
     notifies :reload, 'service[nginx]'
   end
 end

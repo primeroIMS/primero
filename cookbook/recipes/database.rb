@@ -48,6 +48,12 @@ file node[:primero][:couchdb][:cert_path] do
   owner 'root'
   group 'root'
   mode '644'
+  not_if do
+    ::File.symlink?(node[:primero][:couchdb][:cert_path]) &&
+    node[:primero][:letsencrypt] &&
+    node[:primero][:letsencrypt][:couchdb]
+  end
+  #If symlink, then this has been created and is being maintained by letsencrypt
 end
 
 file node[:primero][:couchdb][:key_path] do
@@ -55,6 +61,12 @@ file node[:primero][:couchdb][:key_path] do
   owner 'root'
   group 'root'
   mode '400'
+  not_if do
+    ::File.symlink?(node[:primero][:couchdb][:key_path]) &&
+    node[:primero][:letsencrypt] &&
+    node[:primero][:letsencrypt][:couchdb]
+  end
+  #If symlink, then this has been created and is being maintained by letsencrypt
 end
 
 template '/etc/couchdb/local.ini' do
