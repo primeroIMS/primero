@@ -52,7 +52,7 @@ service 'nginx' do
   action :restart
 end
 
-file "/etc/cron.monthly/letsencrypt_renew.sh" do
+file "/etc/cron.monthly/letsencrypt_renew" do
   mode '0755'
   owner "root"
   group "root"
