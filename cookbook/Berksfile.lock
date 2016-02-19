@@ -1,4 +1,8 @@
 DEPENDENCIES
+  chef-unattended-upgrades
+    git: git@github.com:Quoin/chef-unattended-upgrades
+    revision: 13b0b86386d87ee4d19ae62451ca7f37b9c87d02
+    ref: 13b0b86
   couchdb
     git: https://github.com/Quoin/couchdb-cookbook.git
     revision: a673f71a82b2549dd6c17987d3b76117d05d15f7
@@ -19,6 +23,8 @@ GRAPH
   bluepill (2.3.1)
     rsyslog (>= 0.0.0)
   build-essential (2.0.2)
+  chef-unattended-upgrades (1.0.1)
+    apt (>= 0.0.0)
   chef_gem (0.1.0)
   couchdb (2.5.2)
     erlang (>= 0.0.0)
@@ -42,6 +48,7 @@ GRAPH
   ohai (1.1.12)
   primero (0.1.0)
     apt (~> 2.3.8)
+    chef-unattended-upgrades (= 1.0.1)
     couchdb (~> 2.5.0)
     logrotate (= 1.7.0)
     nginx (~> 2.4.2)
