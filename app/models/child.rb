@@ -21,6 +21,7 @@ class Child < CouchRest::Model::Base
   include DocumentUploader
 
   include Ownable
+  include Matchable
   include AudioUploader
 
   property :case_id
@@ -148,6 +149,21 @@ class Child < CouchRest::Model::Base
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'un_no', 'other_agency_id'
     ]
   end
+
+  def self.match_boost_fields
+    [
+        {field: 'sex', match: 'sex', boost: 0.5},
+        {field: 'language', match: 'language', boost: 0.5},
+        {field: 'religion', match: 'religion', boost: 0.5},
+        {field: 'nationality', match: 'nationality', boost: 0.5},
+        {field: 'ethnicity', match: 'ethnicity', boost: 0.5},
+        {field: 'sub_ethnicity_1', match: 'ethnicity', boost: 0.5},
+        {field: 'sub_ethnicity_2', match: 'ethnicity', boost: 0.5},
+        {field: 'relations', match: 'relation', boost: 0.5},
+        {field: 'date_of_birth', match: 'date_of_birth', boost: 0.5, date:true}
+    ]
+  end
+
   include Searchable #Needs to be after ownable, quicksearch fields
   include Flaggable
   include Transitionable
@@ -159,6 +175,12 @@ class Child < CouchRest::Model::Base
 
     string :mothers_name do
       self.mothers_name
+    end
+
+    string :relations, multiple: true do
+      if self.try(:family_details_section)
+        self.family_details_section.map{|fds| fds.relation}.compact
+      end
     end
 
     boolean :estimated

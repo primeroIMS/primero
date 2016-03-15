@@ -1,6 +1,7 @@
 fields = [
   Field.new({"name" => "record_state",
         "type" => "tick_box",
+        "editable" => false,
         "display_name_all" => "Valid Record?"
         }),
 ]

@@ -252,6 +252,7 @@ module IndexHelper
     filters << "Children" if @is_mrm
     filters << "Verification Status" if @is_mrm
     filters << "Incident Location"
+    filters << "Interview Date" if @is_gbv
     filters << "Incident Date"
     filters << "Protection Status" if @is_gbv
     filters << "Armed Force or Group" if @is_mrm

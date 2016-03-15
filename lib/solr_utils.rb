@@ -19,8 +19,13 @@ class SolrUtils
 
   # Return the indexed field name as Sunspot calculated it
   def self.indexed_field_name(model, name)
-    field = sunspot_setup(model).field(name)
-    field.indexed_name
+    begin
+      field = sunspot_setup(model).field(name)
+      field.indexed_name
+    rescue Sunspot::UnrecognizedFieldError => e
+      Rails.logger.warn e.message
+      nil
+    end
   end
 
 

@@ -6,6 +6,7 @@ class LoginActivity < CouchRest::Model::Base
   property :imei
   property :user_name
   property :login_timestamp, DateTime
+  property :mobile_number
 
   design do
     view :by_user_name_and_login_timestamp,
@@ -20,5 +21,9 @@ class LoginActivity < CouchRest::Model::Base
 
   def set_timestamp
     self.login_timestamp = DateTime.now
+  end
+
+  def mobile?
+    self.imei.present?
   end
 end
