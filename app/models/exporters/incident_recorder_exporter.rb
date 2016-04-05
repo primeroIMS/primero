@@ -150,7 +150,10 @@ module Exporters
           "PERSON WITH DISABILITY?" => "disability_type",
           "UNACCOMPANIED OR SEPARATED CHILD?" => "unaccompanied_separated_status",
           "STAGE OF DISPLACEMENT AT INCIDENT" => "displacement_incident",
-          "INCIDENT TIME OF DAY" => "incident_timeofday",
+          "INCIDENT TIME OF DAY" => ->(model) do
+            incident_timeofday = model.try(:incident_timeofday)
+            incident_timeofday.present? ? incident_timeofday.split("(").first.strip : nil
+          end,
           "INCIDENT LOCATION" => "incident_location_type",
           "INCIDENT COUNTY" => ->(model) do
             county_name = location_from_hierarchy(model.try(:incident_location), ['county'])
