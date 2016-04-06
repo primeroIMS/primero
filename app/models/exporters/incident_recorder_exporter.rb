@@ -129,7 +129,10 @@ module Exporters
         {"INCIDENT ID" => "incidentid_ir",
          "SURVIVOR CODE" => "survivor_code",
          "CASE MANAGER CODE" => ->(model) do
-            caseworker_code = model.try(:caseworker_code)
+            caseworker_code = @caseworker_code[model.owned_by]
+            unless caseworker_code.present?
+              caseworker_code = model.try(:owner).try(:code)
+            end
             #Collect information to the "Menu Data" sheet
             @caseworker_code[caseworker_code] = caseworker_code if caseworker_code.present?
             caseworker_code
