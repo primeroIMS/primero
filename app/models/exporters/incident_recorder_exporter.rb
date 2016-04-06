@@ -126,7 +126,7 @@ module Exporters
 
       def props
          ##### ADMINISTRATIVE INFORMATION #####
-        {"INCIDENT ID" => "short_id",
+        {"INCIDENT ID" => "incidentid_ir",
          "SURVIVOR CODE" => "survivor_code",
          "CASE MANAGER CODE" => ->(model) do
             caseworker_code = model.try(:caseworker_code)

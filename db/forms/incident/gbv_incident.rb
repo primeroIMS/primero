@@ -16,6 +16,11 @@ gbv_incident_fields = [
              "editable" => false,
              "display_name_all" => "Incident Code"
             }),
+  Field.new({"name" => "incidentid_ir",
+             "type" => "text_field",
+             "display_name_all" => "Incident ID IR",
+             "help_text_all" => "Incident ID for the IR"
+            }),
   Field.new({"name" => "status",
              "type" => "select_box",
              "display_name_all" => "Incident Status",
