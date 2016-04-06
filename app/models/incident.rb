@@ -11,6 +11,7 @@ class Incident < CouchRest::Model::Base
   include GBVDerivedFields
 
   property :incident_id
+  property :incidentid_ir
   property :description
 
   def initialize *args
@@ -44,7 +45,7 @@ class Incident < CouchRest::Model::Base
     [
       'incident_id', 'incident_code', 'super_incident_name', 'incident_description',
       'monitor_number', 'survivor_code',
-      'individual_ids'
+      'individual_ids', 'incidentid_ir'
     ]
   end
   include Searchable #Needs to be after Ownable

@@ -701,6 +701,7 @@ en:
   user:
     label: "user"
     full_name: "Full Name"
+    code: "User Code"
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
