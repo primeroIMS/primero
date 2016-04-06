@@ -239,9 +239,15 @@ module Exporters
           "WANTS LEGAL ACTION?" => ->(model) do
             psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
             if psychosocial_counseling.present?
-              psychosocial_counseling.
-                select{|psycs| psycs.try(:pursue_legal_action) == "Yes"}.
-                first.try(:pursue_legal_action)
+              legal_actions = psychosocial_counseling.
+                map{|psycs| psycs.try(:pursue_legal_action)}
+              if legal_actions.include? 'Yes'
+                'Yes'
+              elsif legal_actions.include? 'No'
+                'No'
+              elsif legal_actions.include? 'Undecided at time of report'
+                'Undecided at time of report'
+              end
             end
           end,
           "LEGAL ASSISTANCE SERVICES" => ->(model) do
