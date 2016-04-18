@@ -1,6 +1,6 @@
 DEPENDENCIES
   chef-unattended-upgrades
-    git: git@github.com:Quoin/chef-unattended-upgrades
+    git: https://github.com/Quoin/chef-unattended-upgrades.git
     revision: 13b0b86386d87ee4d19ae62451ca7f37b9c87d02
     ref: 13b0b86
   couchdb
