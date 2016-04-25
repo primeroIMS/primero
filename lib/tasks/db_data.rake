@@ -246,7 +246,7 @@ namespace :db do
     task :forms_to_spreadsheet, [:type, :module, :show_hidden] => :environment do |t, args|
 
       module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
-      type = args[:type].present? ? args[:module] : 'case'
+      type = args[:type].present? ? args[:type] : 'case'
       show_hidden = args[:show_hidden].present?
       file_name = "forms.xls"
       puts "Writing forms to #{file_name}"
