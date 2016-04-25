@@ -254,17 +254,14 @@ namespace :db do
       workbook = WriteExcel.new(File.open(file_name, 'w'))
       header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text']
 
-      puts module_id
       primero_module = PrimeroModule.get(module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
-      puts forms
-      puts "==========================================================="
-      puts type
       forms = forms[type]
-      puts "==========================================================="
-      puts forms==nil
-      forms.sort_by{|f| [f.order, f.order_form_group]}.each do |form|
-        write_out_form(form, workbook, header, show_hidden)
+      form_hash = FormSection.group_forms(forms)
+      form_hash.each do |group, form_sections|
+        form_sections.sort_by{|f| [f.order, (f.is_nested? ? 1 : -1)]}.each do |form|
+          write_out_form(form, workbook, header, show_hidden)
+        end
       end
 
       workbook.close
@@ -274,28 +271,22 @@ namespace :db do
       if show_hidden || form.visible? || form.is_nested?
         puts "Exporting form #{form.name}"
         worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
-        puts "  1"
         worksheet.write(0, 0, header)
-        puts "  2"
         form.fields.each_with_index do |field, i|
-          puts field.name
           if show_hidden || field.visible?
-            puts "  3"
             visible = field.visible? ? 'Yes' : 'No'
-            puts "  4"
             options = ''
             if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
-              puts "  5"
               options = field.options_list.join(', ')
             elsif field.type == 'subform'
-              puts "  6"
               subform = field.subform_section
               puts "Identifying subform #{subform.name}"
               options = "Subform: #{subform.name}"
               write_out_form(subform, workbook, header, show_hidden)
             end
-            puts "  7"
-            worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field.type, field.display_name, visible, options, field.help_text])
+            field_type = field.type
+            field_type += " (multi)" if field.type == 'select_box' && field.multi_select
+            worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, options, field.help_text])
           end
         end
       end
