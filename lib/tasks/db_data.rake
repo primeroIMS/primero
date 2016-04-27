@@ -271,7 +271,8 @@ namespace :db do
       if show_hidden || form.visible? || form.is_nested?
         puts "Exporting form #{form.name}"
         worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
-        worksheet.write(0, 0, header)
+        worksheet.write(0, 0, form.name)
+        worksheet.write(1, 0, header)
         form.fields.each_with_index do |field, i|
           if show_hidden || field.visible?
             visible = field.visible? ? 'Yes' : 'No'
