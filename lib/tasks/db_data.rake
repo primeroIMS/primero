@@ -252,7 +252,7 @@ namespace :db do
       puts "Writing forms to #{file_name}"
 
       workbook = WriteExcel.new(File.open(file_name, 'w'))
-      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text']
+      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text', 'Guiding Questions']
 
       primero_module = PrimeroModule.get(module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
@@ -271,7 +271,8 @@ namespace :db do
       if show_hidden || form.visible? || form.is_nested?
         puts "Exporting form #{form.name}"
         worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
-        worksheet.write(0, 0, header)
+        worksheet.write(0, 0, form.name)
+        worksheet.write(1, 0, header)
         form.fields.each_with_index do |field, i|
           if show_hidden || field.visible?
             visible = field.visible? ? 'Yes' : 'No'
@@ -286,7 +287,7 @@ namespace :db do
             end
             field_type = field.type
             field_type += " (multi)" if field.type == 'select_box' && field.multi_select
-            worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, options, field.help_text])
+            worksheet.write((i+2),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, options, field.help_text, field.guiding_questions])
           end
         end
       end
