@@ -252,7 +252,7 @@ namespace :db do
       puts "Writing forms to #{file_name}"
 
       workbook = WriteExcel.new(File.open(file_name, 'w'))
-      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text']
+      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text', 'Guiding Questions']
 
       primero_module = PrimeroModule.get(module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
