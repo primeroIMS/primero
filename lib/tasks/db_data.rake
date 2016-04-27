@@ -287,7 +287,7 @@ namespace :db do
             end
             field_type = field.type
             field_type += " (multi)" if field.type == 'select_box' && field.multi_select
-            worksheet.write((i+1),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, options, field.help_text])
+            worksheet.write((i+2),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, options, field.help_text, field.guiding_questions])
           end
         end
       end
