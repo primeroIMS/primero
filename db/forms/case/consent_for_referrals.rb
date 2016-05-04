@@ -1,10 +1,4 @@
-gbv_data_confidentiality_fields = [
-  Field.new({"name" => "consent_for_services",
-             "type" => "tick_box",
-             "tick_box_label_all" => "Yes",
-             "display_name_all" => "Did the survivor provide their consent for service provision",
-             "help_text" => "This includes consent for sharing information with other organizations providing services"
-            }),
+consent_for_referrals_fields = [
   Field.new({"name" => "consent_release_separator",
              "type" => "separator",
              "display_name_all" => "Consent to Release Information by Referral Type",
@@ -84,15 +78,15 @@ gbv_data_confidentiality_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id=>"gbv_data_confidentiality",
+  :unique_id=>"consent_for_referrals",
   :parent_form=>"case",
   "visible" => true,
-  :order_form_group => 30,
+  :order_form_group => 60,
   :order => 10,
   :order_subform => 0,
-  :form_group_name => "GBV Data Confidentiality",
+  :form_group_name => "Consent for Referrals",
   "editable" => true,
-  :fields => gbv_data_confidentiality_fields,
-  "name_all" => "GBV Data Confidentiality",
-  "description_all" => "GBV Data Confidentiality"
+  :fields => consent_for_referrals_fields,
+  "name_all" => "Consent for Referrals",
+  "description_all" => "Consent for Referrals",
 })
