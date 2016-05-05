@@ -111,7 +111,7 @@ FormSection.create_or_update_form_section({
   :unique_id=>"safety_plan",
   :parent_form=>"case",
   "visible" => true,
-  :order_form_group => 80,
+  :order_form_group => 70,
   :order => 10,
   :order_subform => 0,
   :form_group_name => "Safety Plan",
