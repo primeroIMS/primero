@@ -23,5 +23,4 @@ FormSection.create_or_update_form_section({
   :fields => service_consent_fields,
   "name_all" => "Consent for Services",
   "description_all" => "Consent for Services",
-  :mobile_form => true
 })
