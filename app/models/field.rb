@@ -252,7 +252,7 @@ class Field
       #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
       if source_options.first == 'violations'
         if record.present? && record.class == Incident
-          options_list = record.violations_list_by_unique_id
+          options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       elsif source_options.first == 'lookup'
         options_list += Lookup.values(source_options.last.titleize, lookups)
