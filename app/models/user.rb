@@ -13,7 +13,7 @@ class User < CouchRest::Model::Base
   property :verified, TrueClass, :default => true
   property :crypted_password
   property :salt
-
+  property :code
   property :phone
   property :email
   property :organization

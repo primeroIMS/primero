@@ -126,10 +126,13 @@ module Exporters
 
       def props
          ##### ADMINISTRATIVE INFORMATION #####
-        {"INCIDENT ID" => "short_id",
+        {"INCIDENT ID" => "incidentid_ir",
          "SURVIVOR CODE" => "survivor_code",
          "CASE MANAGER CODE" => ->(model) do
-            caseworker_code = model.try(:caseworker_code)
+            caseworker_code = @caseworker_code[model.owned_by]
+            unless caseworker_code.present?
+              caseworker_code = model.try(:owner).try(:code)
+            end
             #Collect information to the "Menu Data" sheet
             @caseworker_code[caseworker_code] = caseworker_code if caseworker_code.present?
             caseworker_code
@@ -150,7 +153,10 @@ module Exporters
           "PERSON WITH DISABILITY?" => "disability_type",
           "UNACCOMPANIED OR SEPARATED CHILD?" => "unaccompanied_separated_status",
           "STAGE OF DISPLACEMENT AT INCIDENT" => "displacement_incident",
-          "INCIDENT TIME OF DAY" => "incident_timeofday",
+          "INCIDENT TIME OF DAY" => ->(model) do
+            incident_timeofday = model.try(:incident_timeofday)
+            incident_timeofday.present? ? incident_timeofday.split("(").first.strip : nil
+          end,
           "INCIDENT LOCATION" => "incident_location_type",
           "INCIDENT COUNTY" => ->(model) do
             county_name = location_from_hierarchy(model.try(:incident_location), ['county'])
@@ -236,9 +242,15 @@ module Exporters
           "WANTS LEGAL ACTION?" => ->(model) do
             psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
             if psychosocial_counseling.present?
-              psychosocial_counseling.
-                select{|psycs| psycs.try(:pursue_legal_action) == "Yes"}.
-                first.try(:pursue_legal_action)
+              legal_actions = psychosocial_counseling.
+                map{|psycs| psycs.try(:pursue_legal_action)}
+              if legal_actions.include? 'Yes'
+                'Yes'
+              elsif legal_actions.include? 'No'
+                'No'
+              elsif legal_actions.include? 'Undecided at time of report'
+                'Undecided at time of report'
+              end
             end
           end,
           "LEGAL ASSISTANCE SERVICES" => ->(model) do

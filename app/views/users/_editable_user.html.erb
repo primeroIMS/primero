@@ -15,6 +15,7 @@
 
     <%= resource_edit_field @user, 'full_name', 'user.full_name', 'text_field', true %>
     <%= resource_edit_field @user, 'user_name', 'login.username', 'text_field', true, !editable_user.new_record? %>
+    <%= resource_edit_field @user, 'code', 'user.code', 'text_field' %>
     <%#
       TODO: Lost a little tip panel for the user name: <span class="footnote"><%= t("user.no_blank") ></span> .
       Surely there is a prettier way to add that info back in using Foundation.
