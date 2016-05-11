@@ -217,7 +217,8 @@ action_plan_fields = [
             }),
   Field.new({"name" => "action_explanation_header",
              "type" => "separator",
-             "display_name_all" => "Please add all needs that you identified in the assessment. Use the Add button to add other needs that should be part of the Action Plan."
+             "display_name_all" => "Action Plan ", #Note the extra trailing space!
+             "help_text_all" => "Please add all needs that you identified in the assessment. Use the Add button to add other needs that should be part of the Action Plan."
             }),
   Field.new({"name" => "action_plan_section",
              "type" => "subform", "editable" => true,
