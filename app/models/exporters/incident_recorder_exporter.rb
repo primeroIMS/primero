@@ -208,9 +208,14 @@ module Exporters
             incident_recorder_sex(primary_alleged_perpetrator(model).first.try(:perpetrator_sex))
           end,
           "PREVIOUS INCIDENT WITH THIS PERPETRATOR" => ->(model) do
-            primary_alleged_perpetrator(model).
-              select{|ap| ap.try(:former_perpetrator) == "Yes"}.
-              first.try(:former_perpetrator)
+            former_perpetrators = primary_alleged_perpetrator(model)
+            .map{|ap| ap.try(:former_perpetrator)}
+            .select{|is_ap| is_ap != nil}
+            if former_perpetrators.include? 'Yes'
+              'Yes'
+            elsif former_perpetrators.all? { |is_fp| is_fp == 'No' }
+              'No'
+            end
           end,
           "ALLEGED PERPETRATOR AGE GROUP" => ->(model) do
             incident_recorder_age(primary_alleged_perpetrator(model).first.try(:age_group))
