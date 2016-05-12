@@ -35,11 +35,13 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
+             "required" => true,
              "hidden_text_field" => true
             }),
   Field.new({"name" => "name_first",
              "type" => "text_field",
              "display_name_all" => "First Name",
+             "required" => true,
              "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_middle",
@@ -50,6 +52,7 @@ basic_identity_fields = [
   Field.new({"name" => "name_last",
              "type" => "text_field",
              "display_name_all" => "Surname",
+             "required" => true,
              "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_nickname",
@@ -67,19 +70,23 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",
+             "required" => true,
              "display_name_all" => "Date of Registration or Interview"
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
              "option_strings_text_all" => "Male\nFemale",
+             "required" => true,
              "display_name_all" => "Sex"
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
+             "required" => true,
              "display_name_all" => "Age"
             }),
   Field.new({"name" => "date_of_birth",
             "type" => "date_field",
+            "required" => true,
             "display_name_all" => "Date of Birth"
             }),
   Field.new({"name" => "estimated",
@@ -138,6 +145,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "address_current",
              "type" => "textarea",
+             "required" => true,
              "display_name_all" => "Current Address"
             }),
   Field.new({"name" => "landmark_current",
