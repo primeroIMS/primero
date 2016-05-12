@@ -39,42 +39,32 @@ namespace :sunspot do
   task :reindex => :wait do
 
     puts 'Reindexing Solr...'
-    puts 'Reindexing cases...'
 
-    Child.all.all.each do |child|
-      child.index!
+    batch_reindex(Child){|record| record.index_nested_reportables}
+    batch_reindex(Incident)
+    batch_reindex(TracingRequest)
 
-      if child.flags
-        puts "  => Indexing #{child.id} Flags..."
-        Sunspot.index(child.flags)
+    puts 'Solr successfully reindexed'
+  end
+
+  def batch_reindex(model, batch_size=500)
+    count = model.all.count
+    pages = (count / batch_size.to_f).ceil
+
+    puts "Reindexing #{count} #{model.name} records in batches of #{batch_size}..."
+
+    1.upto(pages).each do |page|
+      puts "Indexing batch #{page} of #{pages}"
+
+      model.all.page(page).per(batch_size).all.each do |record|
+        record.index!
+        if record.flags.present?
+          Sunspot.index(record.flags)
+        end
+        yield(record) if block_given?
       end
-
-      child.index_nested_reportables
-    end
-
-    puts 'Reindexing incidents...'
-    Incident.all.all.each do |incident|
-      incident.index!
-
-      if incident.flags
-        puts "  => Indexing #{incident.id} Flags..."
-        Sunspot.index(incident.flags)
-      end
-
-      incident.index_violations
-      incident.index_nested_reportables
-    end
-
-    puts 'Reindexing Tracing Request...'
-    TracingRequest.all.all.each do |tracing|
-      tracing.index!
-
-      if tracing.flags
-        puts "  => Indexing #{tracing.id} Flags..."
-        Sunspot.index(tracing.flags)
-      end
-
-      tracing.index_nested_reportables
     end
   end
+
+
 end
