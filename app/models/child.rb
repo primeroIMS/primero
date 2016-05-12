@@ -330,7 +330,7 @@ class Child < CouchRest::Model::Base
   def sync_protection_concerns
     protection_concerns = self.try(:protection_concerns)
     protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
-    if protection_concern_subforms.present? && protection_concern_subforms.present?
+    if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map{|pc| pc.try(:protection_concern_type)}).compact.uniq
     end
   end
