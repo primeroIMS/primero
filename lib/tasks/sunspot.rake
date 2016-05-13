@@ -40,7 +40,7 @@ namespace :sunspot do
 
     puts 'Reindexing Solr...'
 
-    batch_reindex(Child){|record| record.index_nested_reportables}
+    batch_reindex(Child)
     batch_reindex(Incident)
     batch_reindex(TracingRequest)
 
@@ -56,13 +56,21 @@ namespace :sunspot do
     1.upto(pages).each do |page|
       puts "Indexing batch #{page} of #{pages}"
 
-      model.all.page(page).per(batch_size).all.each do |record|
-        record.index!
-        if record.flags.present?
-          Sunspot.index(record.flags)
-        end
-        yield(record) if block_given?
+      records = model.all.page(page).per(batch_size).all
+      flags = records.reduce([]) do |list, record|
+        list = list + record.flags if record.flags.present?
+        list
       end
+      nesteds = records.reduce([]) do |list, record|
+        record.nested_reportables_hash.each do |_, reportables|
+          list = list + reportables
+        end
+        list
+      end
+
+      Sunspot.index(records)
+      flags.each_slice(batch_size){|batch| Sunspot.index(batch)}
+      nesteds.each_slice(batch_size){|batch| Sunspot.index(batch)}
     end
   end
 
