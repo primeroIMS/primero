@@ -181,7 +181,7 @@ module Exporters
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
           "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
           "PREVIOUSLY REPORTED THIS INCIDENT?" => ->(model) do
-            if model.gbv_reported_elsewhere
+            if model.gbv_reported_elsewhere == 'Yes'
               reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == 'Yes') }
 
               if reporting_agency
