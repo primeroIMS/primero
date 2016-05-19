@@ -223,7 +223,15 @@ module RecordActions
   end
 
   def retrieve_records_and_total(filter)
-    if params["page"] == "all"
+    records = []
+    total_records = 0
+    if params["selected_records"].present?
+      selected_record_ids = params["selected_records"].split(',')
+      if selected_record_ids.present?
+        records = model_class.all(keys: selected_record_ids).all
+        total_records = records.size
+      end
+    elsif params["page"] == "all"
       pagination_ops = {:page => 1, :per_page => 100}
       records = []
       begin
@@ -232,7 +240,7 @@ module RecordActions
         records.concat(results)
         #Set again the values of the pagination variable because the method modified the variable.
         pagination_ops[:page] = results.next_page
-        pagination_ops[:per_page] = 100
+        pagination_ops[:per_page] = 500
       end until results.next_page.nil?
       total_records = search.total
     else
