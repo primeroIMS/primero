@@ -232,7 +232,7 @@ module RecordActions
         total_records = records.size
       end
     elsif params["page"] == "all"
-      pagination_ops = {:page => 1, :per_page => 100}
+      pagination_ops = {:page => 1, :per_page => 500}
       records = []
       begin
         search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], @match_criteria
