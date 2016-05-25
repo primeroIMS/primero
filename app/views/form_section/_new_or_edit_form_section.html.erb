@@ -28,6 +28,14 @@
                   <%= f.check_box :visible?, {}, "true", "false" %>
                 </div>
               </div>
+              <div class="row">
+                <div class="medium-3 columns">
+                  <%= f.label :mobile_form, t("mobile_form", :locale => I18n.default_locale), :class => 'key inline' %>
+                </div>
+                <div class="medium-9 columns">
+                  <%= f.check_box :mobile_form?, {}, "true", "false" %>
+                </div>
+              </div>
             <% end %>
             <div class="row name-field">
               <div class="medium-3 columns">

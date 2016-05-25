@@ -746,6 +746,7 @@ en:
   imei: "IMEI"
   blacklisted: "Blacklisted?"
   visible: "Visible"
+  mobile_form: "Mobile form"
   hidden: "Hidden"
   help_text: "Help text"
   multi_select: "Multi Select"
