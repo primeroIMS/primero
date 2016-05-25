@@ -18,6 +18,7 @@ _primero.Router = Backbone.Router.extend({
     'reports/:id': 'reports',
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
+    'forms/:id/edit': 'formSectionEditPage',
     'users': 'passwordPrompt',
     'roles': 'roleIndexPage'
   },
@@ -131,4 +132,8 @@ _primero.Router = Backbone.Router.extend({
   roleIndexPage: function() {
     new _primero.Views.CopyRole();
   },
+
+  formSectionEditPage: function() {
+    new _primero.Views.VisibleMobileForm();
+  }
 });
