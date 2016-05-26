@@ -58,21 +58,17 @@ module RecordActions
     respond_to do |format|
       format.html
       unless params[:password]
-        if @records.empty?
-            render :json => @records and return
-        else
-          format.json do
-            @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?
-            if params[:ids].present?
-              @records = @records.map{|r| r.id}
-            else
-              @records = @records.map{|r| format_json_response(r)}
-            end
-            render :json => @records
+        format.json do
+          @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?
+          if params[:ids].present?
+            @records = @records.map{|r| r.id}
+          else
+            @records = @records.map{|r| format_json_response(r)}
           end
+          render :json => @records
         end
       end
-      unless params[:format].nil? || params[:format] == 'json'
+      unless params[:format].nil? || params[:format] == :json
         if @records.empty?
           flash[:notice] = t('exports.no_records')
           redirect_to :action => :index and return
