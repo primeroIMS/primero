@@ -482,6 +482,46 @@ create_or_update_role(
   :transfer => true
 )
 
+ftr_manager_permissions = [
+    Permission.new(
+        :resource => Permission::CASE,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::FLAG,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_UNHCR,
+            Permission::SYNC_MOBILE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::TRACING_REQUEST,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::FLAG,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR
+        ]
+    )
+]
+
+create_or_update_role(
+    :name => "FTR Manager",
+    :permissions_list => ftr_manager_permissions
+)
+
 superuser_permissions = [
   Permission.new(
     :resource => Permission::CASE,
