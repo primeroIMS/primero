@@ -29,6 +29,7 @@ module Matchable
                    end
 
       params[:defType] = "edismax"
+      params[:fl] = "* score"
       params
     end
 
