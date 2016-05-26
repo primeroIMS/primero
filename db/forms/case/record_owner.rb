@@ -18,7 +18,7 @@ record_owner_fields = [
           }),
   #TODO reconcile difference between Agency and Other Agency
   #TODO: Move data to hardcoded record status panel
-  Field.new({"name" => "agency",
+  Field.new({"name" => "agency_name",
              "type" =>"select_box" ,
              "display_name_all" => "Agency",
              "option_strings_text_all" =>
