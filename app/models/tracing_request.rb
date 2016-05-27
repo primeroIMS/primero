@@ -10,6 +10,8 @@ class TracingRequest < CouchRest::Model::Base
   include AudioUploader
   include Flaggable
 
+  after_save :find_matching_children
+
   property :tracing_request_id
   property :relation_name
   property :reunited, TrueClass
@@ -110,12 +112,7 @@ class TracingRequest < CouchRest::Model::Base
     self['inquiry_status'] ||= "Open"
   end
 
-  def match_request(subform_id)
-    self.tracing_request_subform_section.select{|tr| tr.unique_id == subform_id}.first
-  end
-
-  def match_criteria(subform_id)
-    match_request = self.match_request(subform_id)
+  def match_criteria(match_request)
     match_criteria = {}
 
     if match_request.present?
@@ -135,6 +132,6 @@ class TracingRequest < CouchRest::Model::Base
       match_criteria[:ethnicity].compact!
     end
 
-    return match_criteria
+    match_criteria
   end
 end

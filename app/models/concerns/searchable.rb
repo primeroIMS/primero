@@ -144,6 +144,17 @@ module Searchable
       end
     end
 
+    def find_match_records(match, match_class)
+      match_class.search do
+        adjust_solr_params do |params|
+          match_class.build_match(match, params)
+        end
+
+        sort={:score => :desc}
+        sort.each{|sort_field,order| order_by(sort_field, order)}
+      end
+    end
+
     # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
     #      Currently nothing calls this?
     def reindex!
