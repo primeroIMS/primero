@@ -101,6 +101,9 @@
         validators: {
             primeroDate: function(el, required, parent) {
               return _primero.abide_validator_date(el, required, parent);
+            },
+            primeroDateNotInFuture: function(el, required, parent) {
+              return _primero.abide_validator_date_not_future(el, required, parent);
             }
         }
     }
