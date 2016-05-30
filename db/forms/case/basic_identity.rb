@@ -67,7 +67,8 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",
-             "display_name_all" => "Date of Registration or Interview"
+             "display_name_all" => "Date of Registration or Interview",
+             "not_future_date" => true
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
@@ -80,7 +81,8 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "date_of_birth",
             "type" => "date_field",
-            "display_name_all" => "Date of Birth"
+            "display_name_all" => "Date of Birth",
+            "not_future_date" => true
             }),
   Field.new({"name" => "estimated",
              "type" => "tick_box",

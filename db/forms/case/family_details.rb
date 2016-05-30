@@ -67,7 +67,8 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
-             "display_name_all" => "Date of Birth"
+             "display_name_all" => "Date of Birth",
+             "not_future_date" => true
            }),
   Field.new({"name" => "relation_language",
              "type" => "select_box",

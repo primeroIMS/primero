@@ -61,7 +61,8 @@ tracing_request_subform_fields = [
            }),
   Field.new({"name" => "date_of_birth",
              "type" => "date_field",
-             "display_name_all" => "Date of Birth"
+             "display_name_all" => "Date of Birth",
+             "not_future_date" => true
              }),
   Field.new({"name" => "physical_characteristics",
              "type" => "textarea",
