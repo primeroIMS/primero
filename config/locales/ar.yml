@@ -769,6 +769,7 @@ ar:
   replications: "نسخ متماثلة"
   provide_translation: "توفير ترجمة لـ"
   hide_on_view_page: "إخفاء صفحة العرض"
+  not_future_date: "ليس تاريخا في المستقبل" # translated with google translate
   last_login: "آخر تسجيل للدخول"
 
 

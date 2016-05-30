@@ -757,6 +757,7 @@ es:
   replications: "Copias"
   provide_translation: "Proporcionar traducción para"
   hide_on_view_page: "Ocultar en la página de vista"
+  not_future_date: "No es una fecha futura"
   last_login: "Ultimo inicio de sesión"
 
 

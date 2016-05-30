@@ -754,6 +754,7 @@ fr:
   replications: "Reproductions"
   provide_translation: "Fournir une traduction pour"
   hide_on_view_page: "Masquer la page affichée"
+  not_future_date: "Est pas une date future" #translated with google translate
   last_login: "Dernière connexion"
 
 
