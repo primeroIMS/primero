@@ -487,9 +487,8 @@ module Record
     self.tracing_request_subform_section.each do |match_request|
       match_class = Child
       match_criteria = match_criteria(match_request)
-      search = self.class.find_match_records(match_criteria, match_class)
-      hits = search.hits
-      PotentialMatch.update_matches_for_tracing_request(self.id, hits)
+      results = self.class.find_match_records(match_criteria, match_class)
+      PotentialMatch.update_matches_for_tracing_request(self.id, results) unless results.empty?
     end
   end
 end

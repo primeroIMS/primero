@@ -138,8 +138,8 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :all_child_field_names
 
-    def all_visible_form_fields(parent_form = 'case')
-      find_all_visible_by_parent_form(parent_form).map do |form_section|
+    def all_visible_form_fields(parent_form = 'case', subforms=true)
+      find_all_visible_by_parent_form(parent_form, subforms).map do |form_section|
         form_section.fields.find_all(&:visible)
       end.flatten
     end
@@ -202,9 +202,9 @@ class FormSection < CouchRest::Model::Base
       form_section
     end
 
-    def find_all_visible_by_parent_form parent_form
+    def find_all_visible_by_parent_form(parent_form, subforms=true)
       #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
-      find_by_parent_form(parent_form).select(&:visible?)
+      find_by_parent_form(parent_form, subforms).select(&:visible?)
     end
     memoize_in_prod :find_all_visible_by_parent_form
 

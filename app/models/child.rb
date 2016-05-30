@@ -24,6 +24,8 @@ class Child < CouchRest::Model::Base
   include Matchable
   include AudioUploader
 
+  FORM_NAME = 'case'
+
   property :case_id
   property :case_id_code
   property :case_id_display
@@ -162,6 +164,14 @@ class Child < CouchRest::Model::Base
         {field: 'relations', match: 'relation', boost: 0.5},
         {field: 'date_of_birth', match: 'date_of_birth', boost: 0.5, date:true}
     ]
+  end
+
+  def self.matchable_fields
+    Array.new(FormSection.all_visible_form_fields(Child::FORM_NAME, false)).keep_if { |field| self.select_text_field(field) }.flatten.map(&:name)
+  end
+
+  def self.select_text_field(field)
+    field.type == 'textarea' || field.type == 'textarea' || field.type == 'select_box'
   end
 
   include Searchable #Needs to be after ownable, quicksearch fields

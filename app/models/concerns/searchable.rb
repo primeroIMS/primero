@@ -8,6 +8,7 @@ module Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
     searchable do
+      Child.matchable_fields.each {|f| text f}
       quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true}
@@ -144,14 +145,16 @@ module Searchable
       end
     end
 
-    def find_match_records(match, match_class)
-      match_class.search do
-        adjust_solr_params do |params|
-          match_class.build_match(match, params)
+    def find_match_records(match_criteria, match_class)
+      if match_criteria.nil? || match_criteria.empty?
+        []
+      else
+        search = Sunspot.search(match_class) do
+          fulltext match_criteria.values.join(' '), :fields => match_class.matchable_fields, :minimum_match => 1
         end
-
-        sort={:score => :desc}
-        sort.each{|sort_field,order| order_by(sort_field, order)}
+        results = {}
+        search.hits.each { |hit| results[hit.result.id] = hit.score }
+        results
       end
     end
 

@@ -16,6 +16,8 @@ class TracingRequest < CouchRest::Model::Base
   property :relation_name
   property :reunited, TrueClass
 
+  FORM_NAME = 'tracing_request'
+
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -116,22 +118,17 @@ class TracingRequest < CouchRest::Model::Base
     match_criteria = {}
 
     if match_request.present?
-      match_criteria[:name] = match_request.try(:name)
-      match_criteria[:name_nickname] = match_request.try(:name_nickname)
-      match_criteria[:sex] = match_request.try(:sex)
-      match_criteria[:date_of_birth] = match_request.try(:date_of_birth)
-
-      match_criteria[:language] = self.try(:relation_language)
-      match_criteria[:religion] = self.try(:relation_religion)
-      match_criteria[:nationality] = self.try(:relation_nationality)
-      match_criteria[:relation] = self.try(:relation)
-
-      match_criteria[:ethnicity] = []
-      match_criteria[:ethnicity].push(self.try(:relation_ethnicity), self.try(:relation_sub_ethnicity1), self.try(:relation_sub_ethnicity2))
-      match_criteria[:ethnicity].uniq!
-      match_criteria[:ethnicity].compact!
+      match_request.each { |key, value| match_criteria[key] = value }
     end
 
-    match_criteria
+    fields = Array.new(FormSection.all_visible_form_fields(TracingRequest::FORM_NAME, false)).keep_if { |field| is_filled_in?(field) && field.type != 'subform'}
+    fields.each { |field| match_criteria[field.name] = self[field.name] }
+    match_criteria.select do |key, value|
+      if value.is_a?(Array)
+        !value.empty?
+      else
+        !value.nil?
+      end
+    end
   end
 end

@@ -51,12 +51,8 @@ class PotentialMatch < CouchRest::Model::Base
   end
 
   class << self
-    def update_matches_for_tracing_request(tracing_request_id, hits)
-      hits.each do |hit|
-        child_id = hit.result.id
-        score = hit.score
-        update_potential_match(child_id, tracing_request_id, score.to_f)
-      end
+    def update_matches_for_tracing_request(tracing_request_id, results)
+      results.each { |child_id, score| update_potential_match(child_id, tracing_request_id, score.to_f) }
     end
 
     private
