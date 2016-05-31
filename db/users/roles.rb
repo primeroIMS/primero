@@ -144,6 +144,21 @@ cp_caseworker_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR
     ]
+  ),
+    Permission.new(
+    :resource => Permission::POTENTIAL_MATCH,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::FLAG,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_PHOTO_WALL,
+      Permission::EXPORT_PDF,
+      Permission::EXPORT_UNHCR
+    ]
   )
 ]
 
@@ -180,6 +195,21 @@ cp_manager_permissions = [
       Permission::FLAG,
       Permission::ASSIGN,
       Permission::EXPORT_CUSTOM,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_PHOTO_WALL,
+      Permission::EXPORT_PDF,
+      Permission::EXPORT_UNHCR
+    ]
+  ),
+    Permission.new(
+    :resource => Permission::POTENTIAL_MATCH,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::FLAG,
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
@@ -514,6 +544,21 @@ ftr_manager_permissions = [
             Permission::EXPORT_PDF,
             Permission::EXPORT_UNHCR
         ]
+    ),
+    Permission.new(
+      :resource => Permission::POTENTIAL_MATCH,
+      :actions => [
+        Permission::READ,
+        Permission::WRITE,
+        Permission::FLAG,
+        Permission::EXPORT_LIST_VIEW,
+        Permission::EXPORT_CSV,
+        Permission::EXPORT_EXCEL,
+        Permission::EXPORT_JSON,
+        Permission::EXPORT_PHOTO_WALL,
+        Permission::EXPORT_PDF,
+        Permission::EXPORT_UNHCR
+      ]
     )
 ]
 
@@ -533,6 +578,10 @@ superuser_permissions = [
   ),
   Permission.new(
     :resource => Permission::TRACING_REQUEST,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::POTENTIAL_MATCH,
     :actions => [Permission::MANAGE]
   ),
   Permission.new(
