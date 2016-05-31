@@ -231,7 +231,7 @@ GEM
       fattr (>= 2.2.0)
       map (>= 5.1.0)
     map (6.5.5)
-    memoist (0.11.0)
+    memoist (0.14.0)
     method_source (0.8.2)
     metric_fu (4.11.1)
       cane (~> 2.5, >= 2.5.2)
@@ -480,7 +480,7 @@ DEPENDENCIES
   jasmine (~> 1.3.2)
   jquery-rails
   json_spec (~> 1.1.1)
-  memoist (~> 0.11.0)
+  memoist (~> 0.14.0)
   metric_fu
   mime-types (= 1.16)
   mini_magick (= 1.3.2)
