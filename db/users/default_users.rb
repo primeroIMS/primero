@@ -156,7 +156,7 @@ create_or_update_user(
     "role_ids" => [
         Role.by_name(key: "FTR Manager").first.id
     ],
-    "module_ids" => [PrimeroModule.by_name(key: "FTR").first.id],
+    "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.by_name(key: "Primero FTR").first.id],
     "is_manager" => true
 )
