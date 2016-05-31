@@ -29,6 +29,16 @@
         </div>
       </div>
     </p>
+    <p class="chkbox_show_on_minify_form">
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= fld.label :show_on_minify_form, t("show_on_minify_form"), :class => 'key inline' %>
+        </div>
+        <div class="medium-9 columns">
+          <%= fld.check_box :show_on_minify_form?, {}, "true", "false" %>
+        </div>
+      </div>
+      </p>
     <% if @field.type == 'subform' %>
     <p>
       <div class="row">

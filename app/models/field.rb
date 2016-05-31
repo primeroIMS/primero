@@ -6,6 +6,7 @@ class Field
   property :name
   property :visible, TrueClass, :default => true
   property :hide_on_view_page, TrueClass, :default => false
+  property :show_on_minify_form, TrueClass, :default => false
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
