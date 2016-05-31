@@ -872,7 +872,7 @@ en:
     options: "Options"
     confirm_delete: "Are you sure you want to delete this form?"
     required_field: "%{field} is required"
-    required_field_js: "is a required field, it cannot be blank."
+    required_field_js: "is a required field. Currently it's blank or invalid."
     form_group_name: "Form Group Name"
     modal_sidebar_help: "Select type of field"
     modal_sidebar_help_selected: "Type of field"
