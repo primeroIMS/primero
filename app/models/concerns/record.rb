@@ -482,13 +482,4 @@ module Record
       self[target_key] = source[source_key] if source[source_key].present?
     end
   end
-
-  def find_matching_children
-    self.tracing_request_subform_section.each do |match_request|
-      match_class = Child
-      match_criteria = match_criteria(match_request)
-      results = self.class.find_match_records(match_criteria, match_class)
-      PotentialMatch.update_matches_for_tracing_request(self.id, results) unless results.empty?
-    end
-  end
 end

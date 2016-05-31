@@ -10,8 +10,6 @@ class TracingRequest < CouchRest::Model::Base
   include AudioUploader
   include Flaggable
 
-  after_save :find_matching_children
-
   property :tracing_request_id
   property :relation_name
   property :reunited, TrueClass
