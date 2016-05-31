@@ -89,6 +89,7 @@ en:
      cases: "CASES"
      tracing_request: "TRACING REQUESTS"
      incidents: "INCIDENTS"
+     potential_match: "MATCHES"
      children: "CHILDREN"
      forms: "FORMS"
      lookups: "LOOKUPS"

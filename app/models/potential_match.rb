@@ -51,6 +51,13 @@ class PotentialMatch < CouchRest::Model::Base
   end
 
   class << self
+    alias :old_all :all
+    alias :get_all :all
+
+    def all(*args)
+      old_all(*args)
+    end
+
     def update_matches_for_tracing_request(tracing_request_id, results)
       results.each { |child_id, score| update_potential_match(child_id, tracing_request_id, score.to_f) }
     end
