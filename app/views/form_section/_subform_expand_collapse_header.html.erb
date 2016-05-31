@@ -83,7 +83,7 @@
     </div>
     <% if view_mode && (subform_section.subform_header_links.include? "tracing") %>
       <div class="subform_tracing_link">
-        <%= link_to t('tracing_request.find_match'), cases_path(match: "#{@tracing_request.id}::#{@tracing_request.tracing_request_subform_section[i].unique_id}") %>
+        <%= link_to t('tracing_request.find_match'), potential_matches_path(match: "#{@tracing_request.id}::#{@tracing_request.tracing_request_subform_section[i].unique_id}") %>
       </div>
     <% end %>
   </div>

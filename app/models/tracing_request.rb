@@ -114,7 +114,12 @@ class TracingRequest < CouchRest::Model::Base
     self['inquiry_status'] ||= "Open"
   end
 
-  def match_criteria(match_request)
+  def match_request(subform_id)
+    self.tracing_request_subform_section.select{|tr| tr.unique_id == subform_id}.first
+  end
+
+  def match_criteria(subform_id)
+    match_request = self.match_request(subform_id)
     match_criteria = {}
 
     if match_request.present?
