@@ -770,6 +770,7 @@ ar:
   replications: "نسخ متماثلة"
   provide_translation: "توفير ترجمة لـ"
   hide_on_view_page: "إخفاء صفحة العرض"
+  show_on_minify_form: "اطلع على"
   last_login: "آخر تسجيل للدخول"
 
 
