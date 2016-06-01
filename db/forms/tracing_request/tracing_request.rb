@@ -21,7 +21,8 @@ tracing_request_subform_fields = [
             }),
   Field.new({"name" => "name",
              "type" => "text_field",
-             "display_name_all" => "Name"
+             "display_name_all" => "Name",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_to_inquirer",
              "type" => "select_box",
@@ -35,7 +36,8 @@ tracing_request_subform_fields = [
                                      "Brother",
                                      "Sister",
                                      "Other family",
-                                     "Other non-family"].join("\n")
+                                     "Other non-family"].join("\n"),
+             "matchable" => true
             }),
   Field.new({"name" => "relation_child_lived_with_pre_separation",
              "type" => "radio_button",
@@ -44,29 +46,35 @@ tracing_request_subform_fields = [
             }),
   Field.new({"name" => "name_nickname",
              "type" => "text_field",
-             "display_name_all" => "Nickname"
+             "display_name_all" => "Nickname",
+             "matchable" => true
            }),
   Field.new({"name" => "name_other",
              "type" => "text_field",
-             "display_name_all" => "Other Name"
+             "display_name_all" => "Other Name",
+             "matchable" => true
            }),
   Field.new({"name" => "sex",
              "type" => "select_box",
              "display_name_all" => "Sex",
-             "option_strings_text_all" => "Male\nFemale"
+             "option_strings_text_all" => "Male\nFemale",
+             "matchable" => true
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
-             "display_name_all" => "Age"
+             "display_name_all" => "Age",
+             "matchable" => true
            }),
   Field.new({"name" => "date_of_birth",
              "type" => "date_field",
              "display_name_all" => "Date of Birth",
-             "date_validation" => "not_future_date"
+             "date_validation" => "not_future_date",
+             "matchable" => true
              }),
   Field.new({"name" => "physical_characteristics",
              "type" => "textarea",
-             "display_name_all" => "Distinguishing Physical Characteristics"
+             "display_name_all" => "Distinguishing Physical Characteristics",
+             "matchable" => true
             }),
   Field.new({"name" => "inquirer_special_message",
                "type" => "textarea",
@@ -82,7 +90,8 @@ tracing_request_subform_fields = [
             }),
   Field.new({"name" => "date_of_separation",
              "type" => "date_field",
-             "display_name_all" => "Date of Separation"
+             "display_name_all" => "Date of Separation",
+             "matchable" => true
             }),
   Field.new({"name" => "separation_cause",
              "type" => "select_box",
@@ -103,7 +112,8 @@ tracing_request_subform_fields = [
                         "Poverty",
                         "Natural disaster",
                         "Divorce/remarriage",
-                        "Other (please specify)"].join("\n")
+                        "Other (please specify)"].join("\n"),
+             "matchable" => true
             }),
   Field.new({"name" => "separation_evacuation",
              "type" => "tick_box",
@@ -111,39 +121,47 @@ tracing_request_subform_fields = [
             }),
   Field.new({"name" => "separation_details",
              "type" => "textarea",
-             "display_name_all" => "Circumstances of Separation (please provide details)"
+             "display_name_all" => "Circumstances of Separation (please provide details)",
+             "matchable" => true
             }),
   Field.new({"name" => "address_separation",
              "type" => "textarea",
-             "display_name_all" => "Separation Address (Place)"
+             "display_name_all" => "Separation Address (Place)",
+             "matchable" => true
             }),
   Field.new({"name" => "location_separation",
              "type" => "select_box",
              "display_name_all" => "Separation Location",
              "searchable_select" => true,
-             "option_strings_source" => "Location"
+             "option_strings_source" => "Location",
+             "matchable" => true
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",
-             "display_name_all" => "Last Address"
+             "display_name_all" => "Last Address",
+             "matchable" => true
             }),
   Field.new({"name" => "landmark_last",
              "type" => "text_field",
-             "display_name_all" => "Last Landmark"
+             "display_name_all" => "Last Landmark",
+             "matchable" => true
             }),
   Field.new({"name" => "location_last",
              "type" =>"select_box" ,
              "display_name_all" => "Last Location",
              "searchable_select" => true,
-             "option_strings_source" => "Location"
+             "option_strings_source" => "Location",
+             "matchable" => true
             }),
   Field.new({"name" => "telephone_last",
              "type" => "text_field",
-             "display_name_all" => "Last Telephone"
+             "display_name_all" => "Last Telephone",
+             "matchable" => true
             }),
   Field.new({"name" => "additional_tracing_info",
              "type" => "textarea",
-             "display_name_all" => "Additional info that could help in tracing?"
+             "display_name_all" => "Additional info that could help in tracing?",
+             "matchable" => true
             })
 ]
 

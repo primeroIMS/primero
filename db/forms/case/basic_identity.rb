@@ -36,32 +36,38 @@ basic_identity_fields = [
              "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "required" => false,
-             "hidden_text_field" => true
+             "hidden_text_field" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_first",
              "type" => "text_field",
              "display_name_all" => "First Name",
              "required" => false,
-             "hide_on_view_page" => true
+             "hide_on_view_page" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_middle",
              "type" => "text_field",
              "display_name_all" => "Middle Name",
-             "hide_on_view_page" => true
+             "hide_on_view_page" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_last",
              "type" => "text_field",
              "display_name_all" => "Surname",
              "required" => false,
-             "hide_on_view_page" => true
+             "hide_on_view_page" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_nickname",
              "type" => "text_field",
-             "display_name_all" => "Nickname"
+             "display_name_all" => "Nickname",
+             "matchable" => true
             }),
   Field.new({"name" => "name_other",
              "type" => "text_field",
-             "display_name_all" => "Other Name"
+             "display_name_all" => "Other Name",
+             "matchable" => true
             }),
   Field.new({"name" => "name_given_post_separation",
              "type" => "radio_button",
@@ -78,18 +84,18 @@ basic_identity_fields = [
              "type" => "select_box",
              "option_strings_text_all" => "Male\nFemale",
              "required" => false,
-             "display_name_all" => "Sex"
+             "display_name_all" => "Sex",
+             "matchable" => true
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
-             "required" => false,
-             "display_name_all" => "Age"
+             "display_name_all" => "Age",
+             "matchable" => true
             }),
   Field.new({"name" => "date_of_birth",
             "type" => "date_field",
-            "required" => false,
             "display_name_all" => "Date of Birth",
-            "date_validation" => "not_future_date"
+            "matchable" => true
             }),
   Field.new({"name" => "estimated",
              "type" => "tick_box",
@@ -98,7 +104,8 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "physical_characteristics",
              "type" => "textarea",
-             "display_name_all" => "Distinguishing Physical Characteristics"
+             "display_name_all" => "Distinguishing Physical Characteristics",
+             "matchable" => true
             }),
   Field.new({"name" => "ration_card_no",
              "type" => "text_field",
