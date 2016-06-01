@@ -82,7 +82,7 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def find_or_build(tracing_request_id, subform_id, child_id)
-      potential_match = by_child_id_and_tr_subform_id.key([subform_id, child_id]).first
+      potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first
       return potential_match unless potential_match.nil?
       PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
     end
