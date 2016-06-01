@@ -15,7 +15,7 @@
     <% if date_field.required %><span class="required form-section-required">*</span><% end %>
     <%= text_field_tag name, value, :class => 'form_date_field has_help', :id => field_id,
     :disabled => date_field.editable == false ? true : false, :editable => date_field.editable,
-    "data-abide-validator" => date_field.not_future_date == true ? "primeroDateNotInFuture" : "primeroDate",
+    "data-abide-validator" => date_field.date_validation == 'not_future_date' ? "primeroDateNotInFuture" : "primeroDate",
     required: date_field.required %>
     <p class="help"><%= t("fields.date_help") %></p>
   </div>

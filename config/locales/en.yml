@@ -760,7 +760,6 @@ en:
   replications: "Replications"
   provide_translation: "Provide translation for"
   hide_on_view_page: "Hide On View Page"
-  not_future_date: "Is not a future date"
   last_login: "Last Login"
 
 
@@ -957,6 +956,9 @@ en:
     tick_box: "Tick Box"
     tick_box_label: "Tick Box Label"
     tally_field: "Tally Field"
+    select_date_validation: "Select date validation method"
+    not_future_date: "Is not a future date"
+    default_date_validation: "Default date validation"
     separator: "Separator"
     successfully_added: "Field successfully added"
     updated: "Field updated"

@@ -27,8 +27,9 @@ class Field
   property :expose_unique_id, TrueClass, :default => false
   property :subform_sort_by
   property :required, TrueClass, :default => false
-  property :not_future_date, TrueClass, :default => false
+  property :date_validation, :default => 'default_date_validation'
 
+  DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
 
   attr_accessor :subform
 
@@ -220,7 +221,6 @@ class Field
     self.autosum_group ||= ""
     self.create_property ||= true
     self.hide_on_view_page ||= false
-    self.not_future_date ||= false if self.type == DATE_FIELD
     self.attributes = properties
   end
 

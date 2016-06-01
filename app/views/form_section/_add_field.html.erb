@@ -30,15 +30,8 @@
       </div>
     </p>
     <% if @field.type == 'date_field' %>
-    <p class="chkbox_not_future_date">
-      <div class="row">
-        <div class="medium-3 columns">
-          <%= fld.label :not_future_date, t("not_future_date"), :class => 'key inline' %>
-        </div>
-        <div class="medium-9 columns">
-          <%= fld.check_box :not_future_date?, {}, "true", "false" %>
-        </div>
-      </div>
+    <p class="date_validation_method">
+      <%= render :partial => "form_section/add_date_validation", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true }%>
     </p>
     <% end %>
     <% if @field.type == 'subform' %>
