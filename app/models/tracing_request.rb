@@ -15,7 +15,11 @@ class TracingRequest < CouchRest::Model::Base
   property :reunited, TrueClass
 
   FORM_NAME = 'tracing_request'
-
+  MATCHABLE_FORM_SECTIONS =
+  [
+    TRACING_REQUEST_INQUIRER = 'tracing_request_inquirer',
+    TRACING_REQUEST_SUBFORM_SECTION = 'tracing_request_subform_section'
+  ]
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -49,9 +53,32 @@ class TracingRequest < CouchRest::Model::Base
       'monitor_number', 'survivor_code'
     ]
   end
+
+  def self.form_matchable_fields
+    form_fields = FormSection.get_fields_by_form_sections([TRACING_REQUEST_INQUIRER, TRACING_REQUEST_SUBFORM_SECTION], false, FORM_NAME)
+    Array.new(form_fields).map(&:name)
+  end
+
+  def self.subform_matchable_fields
+    form_fields = FormSection.get_fields_by_form_sections([TRACING_REQUEST_INQUIRER, TRACING_REQUEST_SUBFORM_SECTION], true, FORM_NAME)
+    Array.new(form_fields).map(&:name)
+  end
+
+  def self.matchable_fields
+    form_matchable_fields.concat(subform_matchable_fields)
+  end
+
   include Searchable #Needs to be after ownable
 
   searchable do
+    self.form_matchable_fields.each { |field| text field }
+
+    self.subform_matchable_fields.each do |field|
+      text field do
+        self.tracing_request_subform_section.map{|fds| fds[:"#{field}"]}.compact if self.try(:tracing_request_subform_section)
+      end
+    end
+
     string :status do
       self.tracing_request_status
     end
