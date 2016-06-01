@@ -57,7 +57,7 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
              "display_name_all" => "Date of Birth",
-             "not_future_date" => true
+             "date_validation" => "not_future_date"
              }),
   Field.new({"name" => "relation_language",
              "type" => "select_box",

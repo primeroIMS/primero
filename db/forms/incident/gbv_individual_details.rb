@@ -14,7 +14,7 @@ gbv_individual_details_fields = [
   Field.new({"name" => "date_of_birth",
              "type" => "date_field",
              "display_name_all" => "What is the survivor's Date of Birth?",
-             "not_future_date" => true
+             "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
