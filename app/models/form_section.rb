@@ -318,6 +318,17 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :filter_subforms
 
+    def get_fields_by_form_sections(form_sections_ids, subform, parent_form)
+      form_sections = FormSection.by_unique_id(keys: form_sections_ids).all.select{ |fs| fs.parent_form == parent_form }
+      if subform
+        form_fields = form_sections.select{|f| (f.is_nested.present? && f.is_nested == true)}.map{|fs| fs.all_matchable_fields}.flatten
+      else
+        form_fields = filter_subforms(form_sections).map{|fs| fs.all_matchable_fields}.flatten
+      end
+      form_fields
+    end
+    memoize_in_prod :get_fields_by_form_sections
+
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
@@ -574,6 +585,10 @@ class FormSection < CouchRest::Model::Base
   # TODO: all searchable/filterable methods can possible be refactored
   def all_text_fields
     self.fields.select { |field| field.type == Field::TEXT_FIELD || field.type == Field::TEXT_AREA }
+  end
+
+  def all_matchable_fields
+    self.fields.select { |field| field.matchable.present? && field.matchable == true }
   end
 
   def all_searchable_fields

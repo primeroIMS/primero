@@ -8,7 +8,6 @@ module Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
     searchable do
-      Child.matchable_fields.each {|f| text f}
       quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true}

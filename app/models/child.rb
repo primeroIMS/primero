@@ -25,6 +25,12 @@ class Child < CouchRest::Model::Base
   include AudioUploader
 
   FORM_NAME = 'case'
+  MATCHABLE_FORM_SECTIONS =
+  [
+    BASIC_IDENTITY = 'basic_identity',
+    OTHER_IDENTITY_DETAILS = 'other_identity_details',
+    FAMILY_DETAILS_SECTION = 'family_details_section'
+  ]
 
   property :case_id
   property :case_id_code
@@ -166,12 +172,18 @@ class Child < CouchRest::Model::Base
     ]
   end
 
-  def self.matchable_fields
-    Array.new(FormSection.all_visible_form_fields(Child::FORM_NAME, false)).keep_if { |field| self.select_text_field(field) }.flatten.map(&:name)
+  def self.form_matchable_fields
+    form_fields = FormSection.get_fields_by_form_sections([BASIC_IDENTITY, OTHER_IDENTITY_DETAILS, FAMILY_DETAILS_SECTION], false, FORM_NAME)
+    Array.new(form_fields).map(&:name)
   end
 
-  def self.select_text_field(field)
-    field.type == 'textarea' || field.type == 'textarea' || field.type == 'select_box'
+  def self.subform_matchable_fields
+    form_fields = FormSection.get_fields_by_form_sections([BASIC_IDENTITY, OTHER_IDENTITY_DETAILS, FAMILY_DETAILS_SECTION], true, FORM_NAME)
+    Array.new(form_fields).map(&:name)
+  end
+
+  def self.matchable_fields
+    form_matchable_fields.concat(subform_matchable_fields)
   end
 
   include Searchable #Needs to be after ownable, quicksearch fields
@@ -179,17 +191,11 @@ class Child < CouchRest::Model::Base
   include Transitionable
 
   searchable do
-    string :fathers_name do
-      self.fathers_name
-    end
+    self.form_matchable_fields.each { |field| text field }
 
-    string :mothers_name do
-      self.mothers_name
-    end
-
-    string :relations, multiple: true do
-      if self.try(:family_details_section)
-        self.family_details_section.map{|fds| fds.relation}.compact
+    self.subform_matchable_fields.each do |field|
+      text field do
+        self.family_details_section.map{|fds| fds[:"#{field}"]}.compact if self.try(:family_details_section)
       end
     end
 
