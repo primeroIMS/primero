@@ -959,6 +959,8 @@ en:
     select_date_validation: "Select date validation method"
     not_future_date: "Is not a future date"
     default_date_validation: "Default date validation"
+    date_not_valid: "This date is not valid."
+    future_date_not_valid: "This date cannot be in future."
     separator: "Separator"
     successfully_added: "Field successfully added"
     updated: "Field updated"
