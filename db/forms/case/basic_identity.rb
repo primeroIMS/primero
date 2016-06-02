@@ -35,11 +35,13 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
+             "required" => false,
              "hidden_text_field" => true
             }),
   Field.new({"name" => "name_first",
              "type" => "text_field",
              "display_name_all" => "First Name",
+             "required" => false,
              "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_middle",
@@ -50,6 +52,7 @@ basic_identity_fields = [
   Field.new({"name" => "name_last",
              "type" => "text_field",
              "display_name_all" => "Surname",
+             "required" => false,
              "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_nickname",
@@ -67,20 +70,24 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",
+             "required" => false,
              "display_name_all" => "Date of Registration or Interview",
              "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
              "option_strings_text_all" => "Male\nFemale",
+             "required" => false,
              "display_name_all" => "Sex"
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
+             "required" => false,
              "display_name_all" => "Age"
             }),
   Field.new({"name" => "date_of_birth",
             "type" => "date_field",
+            "required" => false,
             "display_name_all" => "Date of Birth",
             "date_validation" => "not_future_date"
             }),
@@ -140,6 +147,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "address_current",
              "type" => "textarea",
+             "required" => false,
              "display_name_all" => "Current Address"
             }),
   Field.new({"name" => "landmark_current",
