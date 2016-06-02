@@ -318,8 +318,8 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :filter_subforms
 
-    def get_fields_by_form_sections(form_sections_ids, subform, parent_form)
-      form_sections = FormSection.by_unique_id(keys: form_sections_ids).all.select{ |fs| fs.parent_form == parent_form }
+    def get_matchable_fields_by_parent_form(parent_form, subform=true)
+      form_sections = FormSection.by_parent_form(:key => parent_form).all
       if subform
         form_fields = form_sections.select{|f| (f.is_nested.present? && f.is_nested == true)}.map{|fs| fs.all_matchable_fields}.flatten
       else
@@ -327,7 +327,7 @@ class FormSection < CouchRest::Model::Base
       end
       form_fields
     end
-    memoize_in_prod :get_fields_by_form_sections
+    memoize_in_prod :get_matchable_fields_by_parent_form
 
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)

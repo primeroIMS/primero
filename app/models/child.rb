@@ -25,12 +25,6 @@ class Child < CouchRest::Model::Base
   include AudioUploader
 
   FORM_NAME = 'case'
-  MATCHABLE_FORM_SECTIONS =
-  [
-    BASIC_IDENTITY = 'basic_identity',
-    OTHER_IDENTITY_DETAILS = 'other_identity_details',
-    FAMILY_DETAILS_SECTION = 'family_details_section'
-  ]
 
   property :case_id
   property :case_id_code
@@ -173,12 +167,12 @@ class Child < CouchRest::Model::Base
   end
 
   def self.form_matchable_fields
-    form_fields = FormSection.get_fields_by_form_sections([BASIC_IDENTITY, OTHER_IDENTITY_DETAILS, FAMILY_DETAILS_SECTION], false, FORM_NAME)
+    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME, false)
     Array.new(form_fields).map(&:name)
   end
 
   def self.subform_matchable_fields
-    form_fields = FormSection.get_fields_by_form_sections([BASIC_IDENTITY, OTHER_IDENTITY_DETAILS, FAMILY_DETAILS_SECTION], true, FORM_NAME)
+    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME)
     Array.new(form_fields).map(&:name)
   end
 

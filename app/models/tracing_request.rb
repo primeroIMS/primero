@@ -15,11 +15,6 @@ class TracingRequest < CouchRest::Model::Base
   property :reunited, TrueClass
 
   FORM_NAME = 'tracing_request'
-  MATCHABLE_FORM_SECTIONS =
-  [
-    TRACING_REQUEST_INQUIRER = 'tracing_request_inquirer',
-    TRACING_REQUEST_SUBFORM_SECTION = 'tracing_request_subform_section'
-  ]
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -55,12 +50,12 @@ class TracingRequest < CouchRest::Model::Base
   end
 
   def self.form_matchable_fields
-    form_fields = FormSection.get_fields_by_form_sections([TRACING_REQUEST_INQUIRER, TRACING_REQUEST_SUBFORM_SECTION], false, FORM_NAME)
+    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME, false)
     Array.new(form_fields).map(&:name)
   end
 
   def self.subform_matchable_fields
-    form_fields = FormSection.get_fields_by_form_sections([TRACING_REQUEST_INQUIRER, TRACING_REQUEST_SUBFORM_SECTION], true, FORM_NAME)
+    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME)
     Array.new(form_fields).map(&:name)
   end
 
@@ -148,11 +143,10 @@ class TracingRequest < CouchRest::Model::Base
     match_criteria = {}
 
     if match_request.present?
-      match_request.each { |key, value| match_criteria[key] = value }
+      match_request.each { |key, value| match_criteria[key] = value if self.class.subform_matchable_fields.include? key}
     end
 
-    fields = Array.new(FormSection.all_visible_form_fields(TracingRequest::FORM_NAME, false)).keep_if { |field| is_filled_in?(field) && field.type != 'subform'}
-    fields.each { |field| match_criteria[field.name] = self[field.name] }
+    self.class.form_matchable_fields.each { |field| match_criteria[:"#{field}"] = self.try(:"#{field}") }
     match_criteria.select do |key, value|
       if value.is_a?(Array)
         !value.empty?
