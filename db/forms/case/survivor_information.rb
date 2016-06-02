@@ -32,7 +32,8 @@ survivor_information_fields = [
             }),
   Field.new({"name" => "date_of_birth",
             "type" => "date_field",
-            "display_name_all" => "Date of Birth"
+            "display_name_all" => "Date of Birth",
+            "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
