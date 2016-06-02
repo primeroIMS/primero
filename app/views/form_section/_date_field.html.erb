@@ -3,6 +3,8 @@
    name = field_tag_name formObject, date_field, field_keys
    field_id = "#{date_field.form.name.dehumanize}_#{sanitize_to_id name}"
    value ||= field_value formObject, date_field, field_keys
+   date_validator = date_field.date_validation == 'not_future_date' ? "primeroDateNotInFuture" : "primeroDate"
+   error_msg = date_field.date_validation == 'not_future_date' ? "fields.future_date_not_valid" : "fields.date_not_valid"
 %>
 
 <div class="row">
@@ -13,8 +15,10 @@
   </div>
   <div class="medium-8 columns">
     <% if date_field.required %><span class="required form-section-required">*</span><% end %>
-    <%= text_field_tag name, value, :class => 'form_date_field has_help', :id => field_id, :disabled => date_field.editable == false ? true : false,
-                       :editable => date_field.editable, "data-abide-validator" => "primeroDate", required: date_field.required %>
+    <%= text_field_tag name, value, :class => 'form_date_field has_help', :id => field_id,
+    :disabled => date_field.editable == false ? true : false, :editable => date_field.editable,
+    "data-abide-validator" => date_validator, required: date_field.required %>
+    <small class="error"><%= I18n.t(error_msg)%></small>
     <p class="help"><%= t("fields.date_help") %></p>
   </div>
 </div>

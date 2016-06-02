@@ -27,7 +27,9 @@ class Field
   property :expose_unique_id, TrueClass, :default => false
   property :subform_sort_by
   property :required, TrueClass, :default => false
+  property :date_validation, :default => 'default_date_validation'
 
+  DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
 
   attr_accessor :subform
 
