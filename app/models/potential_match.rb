@@ -19,6 +19,7 @@ class PotentialMatch < CouchRest::Model::Base
     view :by_child_id
     view :by_tracing_request_id_and_child_id
     view :by_child_id_and_tr_subform_id
+    view :by_tracing_request_id_and_tr_subform_id
     view :by_tracing_request_id_and_status
     view :by_tracing_request_id_and_marked_invalid
     view :by_child_id_and_status
@@ -45,11 +46,11 @@ class PotentialMatch < CouchRest::Model::Base
     mark_as_status(PotentialMatch::POTENTIAL)
   end
   def mark_as_status(status)
-    self[:status] = status
+    self.status = status
   end
 
   def marked_as?(status)
-    self[:status] == status
+    self.status == status
   end
 
   class << self
@@ -61,7 +62,16 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def update_matches_for_tracing_request(tracing_request_id, subform_id, results)
-      results.each { |child_id, score| update_potential_match(child_id, tracing_request_id, subform_id, score.to_f) }
+      by_tracing_request_id_and_tr_subform_id.key([tracing_request_id, subform_id]).all.each do |pm|
+        unless results.include? pm.child_id
+          pm.mark_as_deleted
+          pm.save
+        end
+      end
+
+      unless results.empty?
+        results.each { |child_id, score| update_potential_match(child_id, tracing_request_id, subform_id, score.to_f) }
+      end
     end
 
     private
@@ -76,7 +86,7 @@ class PotentialMatch < CouchRest::Model::Base
         pm.mark_as_deleted
         pm.save
       elsif valid_score
-        pm.mark_as_potential_match if pm.deleted?
+        pm.mark_as_potential_match
         pm.save
       end
     end
