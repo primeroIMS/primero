@@ -14,6 +14,8 @@ class TracingRequest < CouchRest::Model::Base
   property :relation_name
   property :reunited, TrueClass
 
+  after_save :find_match_children
+
   FORM_NAME = 'tracing_request'
 
   def initialize *args
@@ -153,6 +155,15 @@ class TracingRequest < CouchRest::Model::Base
       else
         !value.nil?
       end
+    end
+  end
+
+  def find_match_children
+    match_class = Child
+    self.tracing_request_subform_section.each do |tr|
+      match_criteria = match_criteria(tr.unique_id)
+      results = self.class.find_match_records(match_criteria, match_class)
+      PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, results)
     end
   end
 end
