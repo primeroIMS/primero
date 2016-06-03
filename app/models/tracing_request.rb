@@ -136,18 +136,9 @@ class TracingRequest < CouchRest::Model::Base
     self['inquiry_status'] ||= "Open"
   end
 
-  def match_request(subform_id)
-    self.tracing_request_subform_section.select{|tr| tr.unique_id == subform_id}.first
-  end
-
-  def match_criteria(subform_id)
-    match_request = self.match_request(subform_id)
+  def match_criteria(match_request)
     match_criteria = {}
-
-    if match_request.present?
-      match_request.each { |key, value| match_criteria[key] = value if self.class.subform_matchable_fields.include? key}
-    end
-
+    self.class.subform_matchable_fields.each { |field| match_criteria[:"#{field}"] = match_request.try(:"#{field}") }
     self.class.form_matchable_fields.each { |field| match_criteria[:"#{field}"] = self.try(:"#{field}") }
     match_criteria.select do |key, value|
       if value.is_a?(Array)
@@ -161,7 +152,7 @@ class TracingRequest < CouchRest::Model::Base
   def find_match_children
     match_class = Child
     self.tracing_request_subform_section.each do |tr|
-      match_criteria = match_criteria(tr.unique_id)
+      match_criteria = match_criteria(tr)
       results = self.class.find_match_records(match_criteria, match_class)
       PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, results)
     end
