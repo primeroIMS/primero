@@ -1,8 +1,6 @@
 class PotentialMatchesController < ApplicationController
   @model_class = PotentialMatch
 
-  include TracingActions
-
   def index
     if params[:match].present?
       @potential_matches = PotentialMatch.get_matches_for_tracing_request(params[:match])
