@@ -68,17 +68,14 @@ class TracingRequest < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
 
   searchable do
-    self.form_matchable_fields.each { |field| text field }
+    form_matchable_fields.each { |field| text field }
 
-    self.subform_matchable_fields.each do |field|
+    subform_matchable_fields.each do |field|
       text field do
         self.tracing_request_subform_section.map{|fds| fds[:"#{field}"]}.compact if self.try(:tracing_request_subform_section)
       end
     end
 
-    string :status do
-      self.tracing_request_status
-    end
   end
 
   def self.find_by_tracing_request_id(tracing_request_id)
@@ -134,19 +131,6 @@ class TracingRequest < CouchRest::Model::Base
   def create_class_specific_fields(fields)
     self['inquiry_date'] ||= DateTime.now.strftime("%d-%b-%Y")
     self['inquiry_status'] ||= "Open"
-  end
-
-  def match_criteria(match_request)
-    match_criteria = {}
-    self.class.subform_matchable_fields.each { |field| match_criteria[:"#{field}"] = match_request.try(:"#{field}") }
-    self.class.form_matchable_fields.each { |field| match_criteria[:"#{field}"] = self.try(:"#{field}") }
-    match_criteria.select do |key, value|
-      if value.is_a?(Array)
-        !value.empty?
-      else
-        !value.nil?
-      end
-    end
   end
 
   def find_match_children
