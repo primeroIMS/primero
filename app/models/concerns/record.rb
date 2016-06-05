@@ -482,4 +482,19 @@ module Record
       self[target_key] = source[source_key] if source[source_key].present?
     end
   end
+
+  def match_criteria(match_request=nil)
+    match_criteria = {}
+    unless match_request.nil?
+      self.class.subform_matchable_fields.each { |field| match_criteria[:"#{field}"] = match_request.try(:"#{field}") }
+    end
+    self.class.form_matchable_fields.each { |field| match_criteria[:"#{field}"] = self.try(:"#{field}") }
+    match_criteria.select do |key, value|
+      if value.is_a?(Array)
+        !value.empty?
+      else
+        !value.nil?
+      end
+    end
+  end
 end

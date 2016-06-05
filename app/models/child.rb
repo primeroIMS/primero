@@ -50,6 +50,7 @@ class Child < CouchRest::Model::Base
   # validate :validate_date_closure
 
   before_save :sync_protection_concerns
+  after_save :find_match_tracing_requests
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -185,9 +186,9 @@ class Child < CouchRest::Model::Base
   include Transitionable
 
   searchable do
-    self.form_matchable_fields.each { |field| text field }
+    form_matchable_fields.each { |field| text field }
 
-    self.subform_matchable_fields.each do |field|
+    subform_matchable_fields.each do |field|
       text field do
         self.family_details_section.map{|fds| fds[:"#{field}"]}.compact if self.try(:family_details_section)
       end
@@ -367,6 +368,12 @@ class Child < CouchRest::Model::Base
                      "photo_keys"]
     existing_fields = system_fields + field_definitions.map { |x| x.name }
     self.reject { |k, v| existing_fields.include? k }
+  end
+
+  def find_match_tracing_requests
+    match_class = TracingRequest
+    results = self.class.find_match_records(match_criteria, match_class)
+    PotentialMatch.update_matches_for_child(self.id, results)
   end
 
 end
