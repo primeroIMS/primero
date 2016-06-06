@@ -18,7 +18,7 @@ _primero.Views.FlagRecord = Backbone.View.extend({
     var flag_error_message = target.data('submit_error_message');
     var flag_message = target.parents('.flag_records').find('input.flag_message').val();
     var flag_date = target.parents('.flag_records').find('input.flag_date').val();
-    var flag_date_valid = !('invalid' in target.parents('.flag_records').find('input.flag_date').data());
+    var flag_date_valid = !(target.parents('.flag_records').find('input.flag_date')[0].hasAttribute('data-invalid'));
     var search_params = this.clean_select_all_page_params();
     var apply_to_all = false;
     if (flag_message.length > 0 && flag_date_valid) {
