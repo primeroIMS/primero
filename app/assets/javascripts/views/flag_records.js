@@ -1,5 +1,10 @@
 _primero.Views.FlagRecord = Backbone.View.extend({
 
+  /**
+  TODO: This is code for batch flagging. It should really be consolidated with the code for individual flags
+        in flag_children.js.
+  **/
+
   el: 'body',
 
   events: {
@@ -13,9 +18,10 @@ _primero.Views.FlagRecord = Backbone.View.extend({
     var flag_error_message = target.data('submit_error_message');
     var flag_message = target.parents('.flag_records').find('input.flag_message').val();
     var flag_date = target.parents('.flag_records').find('input.flag_date').val();
+    var flag_date_valid = !(target.parents('.flag_records').find('input.flag_date')[0].hasAttribute('data-invalid'));
     var search_params = this.clean_select_all_page_params();
     var apply_to_all = false;
-    if (flag_message.length > 0) {
+    if (flag_message.length > 0 && flag_date_valid) {
       var selected_records = _primero.indexTable.get_selected_records();
       if (selected_records.length == 0) {
         apply_to_all = true;

@@ -2,21 +2,19 @@ Primero
 ========
 
 ## Development
-To develop the application locally, you will need to install [Vagrant
-1.6.1](http://www.vagrantup.com/download-archive/v1.6.1.html) manually and a
-few Vagrant plugins to use Chef Solo.  Newer versions of Vagrant may work, but
-they are unsupported at this time.  If you are using a Quoin standard machine,
-then you need to apply [Pavel's patch to Ruby's ssh
-library](https://bitbucket.org/quoin/quoin-toolbox) (look under the *Baseline
-Tools* section) on your host machine so that your SSH cert keys don't make
-vagrant bomb out.  Once you have Vagrant installed, run the following to
-install the right plugins:
+To develop the application locally, you will need to do the following:
 
-    $ vagrant plugin install vagrant-berkshelf --plugin-version 3.0.1
+- Install [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads)
+- Install [Vagrant 1.8.x](https://www.vagrantup.com/downloads.html)
+- Install [Chef DK 0.9.0](https://downloads.chef.io/chef-dk/). 
+**Note that currently the latest supported Chef DK version is 0.9.0**
+
+**Note:** If you are using a Quoin standard machine, then you need to apply [Pavel's patch to Ruby's ssh library](https://bitbucket.org/quoin/quoin-toolbox) (look under the *Baseline Tools* section) on your host machine so that your SSH cert keys don't make vagrant bomb out.
+
+Once you have Vagrant installed, run the following to install the right plugins:
+
+    $ vagrant plugin install vagrant-berkshelf --plugin-version 4.1.0
     $ vagrant plugin install vagrant-omnibus --plugin-version 1.4.1
-
-You will also need to download and install the [Chef DK for your
-platform](https://downloads.getchef.com/chef-dk/).
 
 Now you are ready to start the VM.  Make sure you don't have anything running
 on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from

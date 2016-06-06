@@ -137,5 +137,5 @@ bundle exec rake sunspot:solr:reindex
 
 Run Server
 ```
-rails server
+bundle exec rails server
 ```
