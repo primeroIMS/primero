@@ -88,7 +88,6 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     private
-
     def update_potential_match(child_id, tracing_request_id, score, subform_id=nil)
       threshold = 0
       pm = find_or_build tracing_request_id, child_id, subform_id
@@ -116,17 +115,17 @@ class PotentialMatch < CouchRest::Model::Base
       return potential_match unless potential_match.nil?
       PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
     end
+  end
 
-    def get_matches_for_tracing_request(param_match)
-      tracing_request_id = param_match.split("::").first
-      subform_id = param_match.split("::").last
-      all_potential_matches = by_tracing_request_id_and_tr_subform_id.key([tracing_request_id, subform_id]).all
-      filter_deleted_matches(all_potential_matches)
-    end
+  def self.get_matches_for_tracing_request(param_match)
+    tracing_request_id = param_match.split("::").first
+    subform_id = param_match.split("::").last
+    all_potential_matches = by_tracing_request_id_and_tr_subform_id.key([tracing_request_id, subform_id]).all
+    filter_deleted_matches(all_potential_matches)
+  end
 
-    def filter_deleted_matches(matches)
-      matches.select{ |m| !m.deleted? }
-    end
+  def self.filter_deleted_matches(matches)
+    matches.select { |m| !m.deleted? }
   end
 
 end
