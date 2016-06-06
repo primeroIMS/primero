@@ -6,6 +6,7 @@ module CouchChanges
     Child,
     Incident,
     TracingRequest,
+    PotentialMatch,
     Lookup,
     Location,
     FormSection,

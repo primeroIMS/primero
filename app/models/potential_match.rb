@@ -34,6 +34,21 @@ class PotentialMatch < CouchRest::Model::Base
                      }"
   end
 
+  def self.quicksearch_fields
+    ['child_id', 'tracing_request_id', 'tr_subform_id']
+  end
+
+  include Sunspot::Rails::Searchable
+
+  searchable do
+    text :status
+
+    quicksearch_fields.each {|f| text f}
+
+    Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
+    Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
+  end
+
   def mark_as_deleted
     mark_as_status(PotentialMatch::DELETED)
   end

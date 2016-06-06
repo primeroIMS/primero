@@ -17,7 +17,7 @@ namespace :db do
 
     desc "Remove records"
     task :remove_records, [:type] => :environment do |t, args|
-      types = [Child, TracingRequest, Incident]
+      types = [Child, TracingRequest, Incident, PotentialMatch]
       if args[:type].present?
         types = [eval(args[:type])]
       end

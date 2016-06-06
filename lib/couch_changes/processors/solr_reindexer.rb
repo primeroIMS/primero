@@ -3,7 +3,7 @@ module CouchChanges
     class SolrReindexer < BaseProcessor
       class << self
         def supported_models
-          [Child, Incident, TracingRequest]
+          [Child, Incident, TracingRequest, PotentialMatch]
         end
 
         def process(modelCls, change)

@@ -43,6 +43,7 @@ namespace :sunspot do
     batch_reindex(Child)
     batch_reindex(Incident)
     batch_reindex(TracingRequest)
+    batch_reindex(PotentialMatch)
 
     puts 'Solr successfully reindexed'
   end
@@ -57,22 +58,26 @@ namespace :sunspot do
       puts "Indexing batch #{page} of #{pages}"
 
       records = model.all.page(page).per(batch_size).all
-      flags = records.reduce([]) do |list, record|
-        list = list + record.flags if record.flags.present?
-        list
-      end
-      nesteds = records.reduce([]) do |list, record|
-        record.nested_reportables_hash.each do |_, reportables|
-          list = list + reportables
+      flags = []
+      nesteds = []
+      unless model.to_s == "PotentialMatch"
+        flags = records.reduce([]) do |list, record|
+          list = list + record.flags if record.flags.present?
+          list
         end
-        list
+        nesteds = records.reduce([]) do |list, record|
+          record.nested_reportables_hash.each do |_, reportables|
+            list = list + reportables
+          end
+          list
+        end
       end
 
       Sunspot.index(records)
-      flags.each_slice(batch_size){|batch| Sunspot.index(batch)}
-      nesteds.each_slice(batch_size){|batch| Sunspot.index(batch)}
+      flags.each_slice(batch_size){|batch| Sunspot.index(batch)} unless flags.empty?
+      nesteds.each_slice(batch_size){|batch| Sunspot.index(batch)} unless nesteds.empty?
     end
-  end
 
+  end
 
 end
