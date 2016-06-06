@@ -92,6 +92,7 @@ class PotentialMatch < CouchRest::Model::Base
     def update_potential_match(child_id, tracing_request_id, score, subform_id=nil)
       threshold = 0
       pm = find_or_build tracing_request_id, child_id, subform_id
+      pm.tr_subform_id = subform_id if pm.tr_subform_id.nil?
       pm.score = score
       valid_score = score >= threshold
       should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
@@ -105,11 +106,12 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def find_or_build(tracing_request_id, child_id, subform_id=nil)
-      if subform_id.nil?
+      potential_match = {}
+      potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first unless subform_id.nil?
+      if potential_match.nil? || potential_match.empty?
         potential_match = by_tracing_request_id_and_child_id.key([tracing_request_id, child_id]).first
-        subform_id = potential_match.tr_subform_id
       else
-        potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first
+        subform_id = potential_match.tr_subform_id
       end
       return potential_match unless potential_match.nil?
       PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id

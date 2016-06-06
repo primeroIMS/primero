@@ -69,6 +69,8 @@ module Record
     validates_with FieldValidator, :type => Field::DATE_RANGE
     validates_with FieldValidator, :type => Field::TALLY_FIELD
 
+    after_save :reindex_record
+
     design do
       view :by_unique_identifier,
               :map => "function(doc) {
@@ -481,6 +483,11 @@ module Record
     mapping.each do |source_key, target_key|
       self[target_key] = source[source_key] if source[source_key].present?
     end
+  end
+
+  def reindex_record
+    Sunspot.remove self
+    Sunspot.index! self
   end
 
   def match_criteria(match_request=nil)
