@@ -1,16 +1,26 @@
 class PotentialMatch < CouchRest::Model::Base
-  !use_database :potential_match
+  use_database :potential_match
+
+  def self.parent_form
+    'potential_match'
+  end
 
   include PrimeroModel
+  include Historical
+  include Syncable
+  include SyncableMobile
+  include Importable
 
   belongs_to :tracing_request
   belongs_to :child
   property :tr_subform_id
   property :score, String
   property :status, String, :default => 'POTENTIAL'
-  timestamps!
+  property :unique_identifier
+  property :short_id
   validates :child_id, :uniqueness => {:scope => :tr_subform_id}
 
+  ALL_FILTER = 'all'
   POTENTIAL = 'POTENTIAL'
   DELETED = 'DELETED'
 
@@ -32,18 +42,36 @@ class PotentialMatch < CouchRest::Model::Base
          :reduce => "function(key, values) {
                        return null;
                      }"
+    view :by_short_id,
+            :map => "function(doc) {
+                  if (doc.hasOwnProperty('short_id'))
+                 {
+                    emit(doc['short_id'], null);
+                 }
+              }"
+    view :by_unique_identifier,
+            :map => "function(doc) {
+                  if (doc.hasOwnProperty('unique_identifier'))
+                 {
+                    emit(doc['unique_identifier'], null);
+                 }
+              }"
   end
 
   def self.quicksearch_fields
     ['child_id', 'tracing_request_id', 'tr_subform_id']
   end
 
+  def self.searchable_date_fields
+    ["created_at", "last_updated_at"]
+  end
+
   include Sunspot::Rails::Searchable
 
   searchable do
-    text :status
-
+    string :status
     quicksearch_fields.each {|f| text f}
+    searchable_date_fields.each {|f| date f}
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
