@@ -1,0 +1,8 @@
+<div class="panel">
+  <form id="index_filter_form" autocomplete="off">
+    <% if filters_to_show.include? 'Status' %>
+      <%= build_filter_checkboxes(t("potential_matches.filter_by.status"), 'status', [{'true' => 'Potential'}, {'false' => 'Deleted'}]) %>
+    <% end %>
+  </form>
+  <div class="clearfix"></div>
+</div>

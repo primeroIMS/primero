@@ -2,10 +2,11 @@
   #TODO: As usual there is a good way to structure this more elegantly.
   #       We should be using the inherited content_for code to handle rendering in these areas.
   opts ||= {}
+  display_create = model.to_s == "PotentialMatch" ? false : true
   options = {
     display_filter: true,
     display_actions: true,
-    display_create: true}.merge(opts)
+    display_create: display_create}.merge(opts)
 %>
 <div class="index_controls_container" data-top="50" data-bottom="40">
   <div class="row collapse">

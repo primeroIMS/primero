@@ -30,6 +30,8 @@ module IndexHelper
         list_view_header_tracing_request
       when "report"
         list_view_header_report
+      when "potential_match"
+        list_view_header_potential_match
       else
         []
     end
@@ -49,6 +51,8 @@ module IndexHelper
         index_filters_incident
       when "tracing_request"
         index_filters_tracing_request
+      when "potential_match"
+        index_filters_potential_match
       else
         []
     end
@@ -204,6 +208,16 @@ module IndexHelper
     ]
   end
 
+  def list_view_header_potential_match
+    [
+      {title: '', sort_title: 'select'},
+      {title: 'id', sort_title: 'short_id'},
+      {title: 'child_id', sort_title: 'child_id'},
+      {title: 'tr_id', sort_title: 'tracing_request_id'},
+      {title: 'score', sort_title: 'score'},
+    ]
+  end
+
   def index_filters_case
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
@@ -275,6 +289,12 @@ module IndexHelper
     filters << "Record State"
 
     return filters
+  end
+
+  def index_filters_potential_match
+    filters = []
+    filters << "Status"
+    filters
   end
 
   def visible_filter_field?(field_name, forms)

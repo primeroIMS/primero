@@ -513,6 +513,10 @@ en:
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
 
+  potential_matches:
+    filter_by:
+      status: "Record Status"
+
   preposition:
     on_label: "on"
     because: "Because"
