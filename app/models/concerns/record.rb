@@ -432,19 +432,25 @@ module Record
     permitted_properties(user, read_only_user).map {|p| p.name }
   end
 
-  def index_nested_reportables
-    self.class.nested_reportable_types.each do |type|
+  def nested_reportables_hash
+    #TODO: Consider returning this as a straight list
+    self.class.nested_reportable_types.reduce({}) do |hash, type|
       if self.try(type.record_field_name).present?
-        Sunspot.index! type.from_record(self)
+        hash[type] = type.from_record(self)
       end
+      hash
+    end
+  end
+
+  def index_nested_reportables
+    self.nested_reportables_hash.each do |_, reportables|
+      Sunspot.index! reportables if reportables.present?
     end
   end
 
   def unindex_nested_reportables
-    self.class.nested_reportable_types.each do |type|
-      if self.try(type.record_field_name).present?
-        Sunspot.remove! type.from_record(self)
-      end
+    self.nested_reportables_hash.each do |_, reportables|
+      Sunspot.remove! reportables if reportables.present?
     end
   end
 

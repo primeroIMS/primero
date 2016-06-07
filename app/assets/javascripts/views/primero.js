@@ -33,6 +33,8 @@ Primero = Backbone.View.extend({
     _primero.scrollTop = this.scrollTop;
     _primero.update_subform_heading = this.update_subform_heading;
     _primero.abide_validator_date = this.abide_validator_date;
+    _primero.abide_validator_date_not_future = this.abide_validator_date_not_future;
+    _primero.date_not_future = this.date_not_future;
     _primero.valid_datepicker_value = this.valid_datepicker_value;
 
     this.init_trunc();
@@ -601,6 +603,30 @@ Primero = Backbone.View.extend({
         }
       }
     });
+  },
+
+  abide_validator_date_not_future: function(el, required, parent) {
+    if (el.getAttribute("disabled") !== "disabled") {
+      return _primero.valid_datepicker_value(el.value, required) && _primero.date_not_future(el.value, required);
+    } else {
+      //Don't validate disabled inputs, browser does not send anyway.
+      return true;
+    }
+  },
+
+  date_not_future: function(value, required) {
+    if (value !== "") {
+      try {
+          var date = $.datepicker.parseDate($.datepicker.defaultDateFormat, value);
+          return date < Date.now();
+      } catch(e) {
+          console.error("An error occurs parsing date value." + e);
+          return false;
+      }
+    } else {
+      //If value is empty check if required or not.
+      return !required;
+    }
   },
 
   abide_validator_date: function(el, required, parent) {

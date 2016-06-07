@@ -38,7 +38,12 @@
           <%= fld.check_box :show_on_minify_form?, {}, "true", "false" %>
         </div>
       </div>
-      </p>
+    </p>
+    <% if @field.type == 'date_field' %>
+    <p class="date_validation_method">
+      <%= render :partial => "form_section/add_date_validation", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true }%>
+    </p>
+    <% end %>
     <% if @field.type == 'subform' %>
     <p>
       <div class="row">

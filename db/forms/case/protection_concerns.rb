@@ -31,6 +31,7 @@ protection_concern_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Protection Concerns",
+             "required" => false,
              "option_strings_source" => "lookup ProtectionConcerns"
             }),
   Field.new({"name" => "protection_concerns_other",
