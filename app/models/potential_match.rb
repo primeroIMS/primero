@@ -21,6 +21,7 @@ class PotentialMatch < CouchRest::Model::Base
   validates :child_id, :uniqueness => {:scope => :tr_subform_id}
 
   before_create :create_identification
+  after_save :reindex_record
 
   ALL_FILTER = 'all'
   POTENTIAL = 'POTENTIAL'
@@ -101,6 +102,11 @@ class PotentialMatch < CouchRest::Model::Base
   def create_identification
     self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
     self.short_id ||= self.unique_identifier.last 7
+  end
+
+  def reindex_record
+    Sunspot.remove self
+    Sunspot.index! self
   end
 
   class << self
