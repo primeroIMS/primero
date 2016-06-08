@@ -149,7 +149,9 @@ module Searchable
         []
       else
         search = Sunspot.search(match_class) do
-          fulltext match_criteria.values.join(' '), :fields => match_class.matchable_fields, :minimum_match => 1
+          any do
+            match_criteria.each { |key, value| fulltext(value, :fields => key) }
+          end
         end
         results = {}
         search.hits.each { |hit| results[hit.result.id] = hit.score }
