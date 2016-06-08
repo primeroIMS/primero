@@ -8,20 +8,17 @@ other_identity_details_fields = [
             }),
   Field.new({"name" => "place_of_birth",
              "type" => "text_field",
-             "display_name_all" => "Place of Birth",
-             "matchable" => true
+             "display_name_all" => "Place of Birth"
             }),
   Field.new({"name" => "country_of_birth",
              "type" =>"select_box",
              "display_name_all" => "Birth Country",
-             "option_strings_source" => "lookup Country",
-             "matchable" => true
+             "option_strings_source" => "lookup Country"
             }),
   Field.new({"name" => "country_of_origin",
              "type" =>"select_box" ,
              "display_name_all" => "Country of Origin",
-             "option_strings_source" => "lookup Country",
-             "matchable" => true
+             "option_strings_source" => "lookup Country"
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",

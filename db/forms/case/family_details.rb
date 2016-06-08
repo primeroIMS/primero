@@ -92,7 +92,8 @@ family_details_fields_subform = [
   Field.new({"name" => "relation_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Ethnicity",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup Ethnicity",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
@@ -120,8 +121,7 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_occupation",
              "type" => "text_field",
-             "display_name_all" => "Occupation",
-             "matchable" => true
+             "display_name_all" => "Occupation"
            }),
   Field.new({"name" => "relation_address_current",
              "type" => "textarea",
@@ -141,15 +141,13 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_address_last",
              "type" => "textarea",
-             "display_name_all" => "Last Known Address",
-             "matchable" => true
+             "display_name_all" => "Last Known Address"
            }),
   Field.new({"name" => "relation_location_last",
              "type" => "select_box",
              "display_name_all" => "Last Known Location",
              "searchable_select" => true,
-             "option_strings_source" => "Location",
-             "matchable" => true
+             "option_strings_source" => "Location"
            }),
   Field.new({"name" => "relation_telephone",
              "type" => "text_field",

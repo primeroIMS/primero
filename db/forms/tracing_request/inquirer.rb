@@ -29,25 +29,6 @@ tracing_request_inquirer_fields = [
              "display_name_all" => "Name of inquirer",
              "matchable" => true
            }),
-  Field.new({"name" => "relation",
-             "type" => "select_box",
-             "display_name_all" => "How are they related to the child?",
-             "option_strings_text_all" =>
-                                    ["Mother",
-                                     "Father",
-                                     "Aunt",
-                                     "Uncle",
-                                     "Grandmother",
-                                     "Grandfather",
-                                     "Brother",
-                                     "Sister",
-                                     "Husband",
-                                     "Wife",
-                                     "Partner",
-                                     "Other Family",
-                                     "Other Nonfamily"].join("\n"),
-             "matchable" => true
-            }),
   Field.new({"name" => "relation_nickname",
              "type" => "text_field",
              "display_name_all" => "Nickname of inquirer",
@@ -174,10 +155,10 @@ tracing_request_inquirer_fields = [
              "display_name_all" => "Did the separation occur in relation to evacuation?"
             }),
   Field.new({"name" => "separation_details",
-             "type" => "textarea",
-             "display_name_all" => "Circumstances of Separation (please provide details)",
-             "matchable" => true
-            }),
+              "type" => "textarea",
+              "display_name_all" => "Circumstances of Separation (please provide details)",
+              "matchable" => true
+             }),
   Field.new({"name" => "address_separation",
              "type" => "textarea",
              "display_name_all" => "Separation Address (Place)",

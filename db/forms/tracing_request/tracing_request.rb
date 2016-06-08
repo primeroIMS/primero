@@ -24,19 +24,23 @@ tracing_request_subform_fields = [
              "display_name_all" => "Name",
              "matchable" => true
            }),
-  Field.new({"name" => "relation_to_inquirer",
+  Field.new({"name" => "relation",
              "type" => "select_box",
-             "display_name_all" => "How are they related to the inquirer?",
+             "display_name_all" => "How is the inquirer related to the child?",
              "option_strings_text_all" =>
-                                    ["Son",
-                                     "Daughter",
-                                     "Niece",
-                                     "Nephew",
-                                     "Grandchild",
+                                    ["Mother",
+                                     "Father",
+                                     "Aunt",
+                                     "Uncle",
+                                     "Grandmother",
+                                     "Grandfather",
                                      "Brother",
                                      "Sister",
-                                     "Other family",
-                                     "Other non-family"].join("\n"),
+                                     "Husband",
+                                     "Wife",
+                                     "Partner",
+                                     "Other Family",
+                                     "Other Nonfamily"].join("\n"),
              "matchable" => true
             }),
   Field.new({"name" => "relation_child_lived_with_pre_separation",
@@ -178,7 +182,7 @@ tracing_request_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Tracing Request Subform",
   "description_all" => "Nested Tracing Request Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["name", "relation_to_inquirer"],
+  "collapsed_fields" => ["name"],
   :subform_header_links => ["tracing"]
 })
 
