@@ -150,7 +150,7 @@ module Searchable
       else
         search = Sunspot.search(match_class) do
           any do
-            match_criteria.each { |key, value| fulltext(value, :fields => key) }
+            match_criteria.each { |key, value| fulltext(value, :fields => Record.get_match_field(key.to_s)) }
           end
         end
         results = {}

@@ -68,10 +68,12 @@ class TracingRequest < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
 
   searchable do
-    form_matchable_fields.each { |field| text field }
+    form_matchable_fields.select{|field| Record.exclude_match_field(field)}.each do |field|
+      text field, :boost => Record.get_field_boost(field)
+    end
 
-    subform_matchable_fields.each do |field|
-      text field do
+    subform_matchable_fields.select{|field| Record.exclude_match_field(field)}.each do |field|
+      text field, :boost => Record.get_field_boost(field) do
         self.tracing_request_subform_section.map{|fds| fds[:"#{field}"]}.compact if self.try(:tracing_request_subform_section)
       end
     end

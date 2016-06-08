@@ -186,10 +186,10 @@ class Child < CouchRest::Model::Base
   include Transitionable
 
   searchable do
-    form_matchable_fields.each { |field| text field }
+    form_matchable_fields.select{|field| Record.exclude_match_field(field)}.each { |field| text field, :boost => Record.get_field_boost(field)}
 
-    subform_matchable_fields.each do |field|
-      text field do
+    subform_matchable_fields.select{|field| Record.exclude_match_field(field)}.each do |field|
+      text field, :boost => Record.get_field_boost(field) do
         self.family_details_section.map{|fds| fds[:"#{field}"]}.compact if self.try(:family_details_section)
       end
     end
