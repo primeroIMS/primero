@@ -492,16 +492,22 @@ module Record
 
   def match_criteria(match_request=nil)
     match_criteria = {}
-    unless match_request.nil?
-      self.class.subform_matchable_fields.each { |field| match_criteria[:"#{field}"] = match_request.try(:"#{field}") }
-    end
-    self.class.form_matchable_fields.each { |field| match_criteria[:"#{field}"] = self.try(:"#{field}") }
-    match_criteria.select do |key, value|
-      if value.is_a?(Array)
-        !value.empty?
-      else
-        !value.nil?
+    placeholder = (0...8).map { (97 + rand(26)).chr }.join
+    if self.class.to_s == 'TracingRequest'
+      self.class.subform_matchable_fields.each do |field|
+        match_criteria[:"#{field}"] = match_request[:"#{field}"].nil?? placeholder : match_request[:"#{field}"]
+      end
+    elsif self.class.to_s == 'Child'
+      self.class.subform_matchable_fields.each do |field|
+        field_contents = self.family_details_section.map{|fds| fds[:"#{field}"]}.join(' ')
+        match_criteria[:"#{field}"] = field_contents.empty?? placeholder : field_contents
       end
     end
+    self.class.form_matchable_fields.each do |field|
+      value = self[:"#{field}"]
+      value_empty = (value.is_a? Array) ? value.empty? : value.nil?
+      match_criteria[:"#{field}"] = value_empty ? placeholder : value
+    end
+    match_criteria
   end
 end
