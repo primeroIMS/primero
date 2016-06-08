@@ -75,6 +75,7 @@ table.dataTable tbody tr.selected {
 table.dataTable tbody th,
 table.dataTable tbody td {
   padding: 15px 10px;
+  text-align: center;
   border-bottom: 1px dashed #ccc;
   border-right: 1px solid $stroke_green_color;
 }
