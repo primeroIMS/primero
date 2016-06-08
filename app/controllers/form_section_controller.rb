@@ -21,6 +21,18 @@ class FormSectionController < ApplicationController
           @lookups = Lookup.all.all
           @locations = Location.all_names
           @form_sections = format_for_mobile(@form_sections, params[:locale])
+          for @section in @form_sections["Children"]
+            @section.slice!(:name, "order", :help_text, "base_language", "fields")
+            for @field in @section["fields"]
+              @field.slice!("name", "editable", "multi_select", "type", :display_name, :help_text, :option_strings_text , "subform" )
+              if @field["type"] == "subform"
+                @field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
+                for @subfield in @field["subform"]["fields"]
+                  @subfield.slice!("name", "editable", "multi_select", "type", :display_name, :help_text, :option_strings_text)
+                end
+              end
+            end
+          end
         end
         render json: @form_sections
       end

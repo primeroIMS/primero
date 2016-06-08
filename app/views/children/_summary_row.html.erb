@@ -1,3 +1,16 @@
+<% content_for :javascript do %>
+    <script type="text/javascript" language="javascript">
+      $(function() {
+        $('.photo .child_<%= record.id %> a').lightBox({fixedNavigation:true,
+          imageLoading:			'<%= image_url('lightbox-ico-loading.gif') %>',
+          imageBtnPrev:			'<%= image_url('lightbox-btn-prev.gif') %>',
+          imageBtnNext:			'<%= image_url('lightbox-btn-next.gif') %>',
+          imageBtnClose:		'<%= image_url('lightbox-btn-close.gif') %>',
+          imageBlank:				'<%= image_url('lightbox-blank.gif') %>'
+        });
+      });
+    </script>
+<% end %>
 <tr>
   <td class="select_record"><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_child record %>"></td>
   <% if fields_to_show.include? 'short_id' %>
@@ -38,12 +51,14 @@
     <td><%= field_format_date(record.created_at) %></td>
   <% end %>
   <% if fields_to_show.include? 'photo' %>
-    <td class="photo"><%= icon('camera') if record.photo_keys.present? %><div class="thumbnails photos">
-      <% record.photos.each do |photo| %>
+    <td class="photos">
+      <div class="photo">
+      <% record.photos.each_with_index do |photo,index| %>
           <% photo_path = send("#{record.class.name.underscore.downcase}_resized_photo_path", record, photo.name || record.current_photo_key, 328, :ts => record.last_updated_at) %>
-          <div class="thumbnail"><%= link_to thumbnail_tag(record, photo.name), photo_path %></div>
+            <div class="child_<%= record.id %>" style="<%='display:none;' if index!=0 %>" ><%= link_to icon('camera'), photo_path%></div>
       <% end %>
-    </div></td>
+      </div>
+    </td>
   <% end %>
   <% if fields_to_show.include? 'owned_by' %>
     <% #TODO - Get name or code.  Prob should be in helper. Should this be owned_by_text?%>
