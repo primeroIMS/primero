@@ -69,8 +69,6 @@ module Record
     validates_with FieldValidator, :type => Field::DATE_RANGE
     validates_with FieldValidator, :type => Field::TALLY_FIELD
 
-    after_save :reindex_record
-
     design do
       view :by_unique_identifier,
               :map => "function(doc) {
@@ -528,11 +526,6 @@ module Record
     end
   end
 
-  def reindex_record
-    Sunspot.remove self
-    Sunspot.index! self
-  end
-
   def match_criteria(match_request=nil)
     match_criteria = {}
     placeholder = (0...8).map { (97 + rand(26)).chr }.join
@@ -553,4 +546,5 @@ module Record
     end
     match_criteria
   end
+
 end

@@ -14,8 +14,6 @@ class TracingRequest < CouchRest::Model::Base
   property :relation_name
   property :reunited, TrueClass
 
-  after_save :find_match_children
-
   FORM_NAME = 'tracing_request'
 
   def initialize *args
