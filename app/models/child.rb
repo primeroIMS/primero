@@ -193,6 +193,10 @@ class Child < CouchRest::Model::Base
       end
     end
 
+    string :id do
+      self['_id']
+    end
+
     boolean :estimated
     boolean :consent_for_services
   end
@@ -348,7 +352,10 @@ class Child < CouchRest::Model::Base
   def find_match_tracing_requests
     match_class = TracingRequest
     results = self.class.find_match_records(match_criteria, match_class)
-    PotentialMatch.update_matches_for_child(self.id, results)
+    unless results.empty?
+      PotentialMatch.update_matches_for_child(self.id, results)
+      match_class.get_tracing_requests_for_child(self.id, results)
+    end
   end
 
   private

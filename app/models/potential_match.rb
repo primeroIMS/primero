@@ -111,11 +111,13 @@ class PotentialMatch < CouchRest::Model::Base
       old_all(*args)
     end
 
-    def update_matches_for_tracing_request(tracing_request_id, subform_id, results)
-      by_tracing_request_id_and_tr_subform_id.key([tracing_request_id, subform_id]).all.each do |pm|
-        unless results.include? pm.child_id
-          pm.mark_as_deleted
-          pm.save
+    def update_matches_for_tracing_request(tracing_request_id, subform_id, results, child_id=nil)
+      if child_id.nil?
+        by_tracing_request_id_and_tr_subform_id.key([tracing_request_id, subform_id]).all.each do |pm|
+          unless results.include? pm.child_id
+            pm.mark_as_deleted
+            pm.save
+          end
         end
       end
 
@@ -130,10 +132,6 @@ class PotentialMatch < CouchRest::Model::Base
           pm.mark_as_deleted
           pm.save
         end
-      end
-
-      unless results.empty?
-        results.each { |tracing_request_id, score| update_potential_match(child_id, tracing_request_id, score.to_f)}
       end
     end
 
@@ -156,16 +154,11 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def find_or_build(tracing_request_id, child_id, subform_id=nil)
-      potential_match = {}
-      potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first unless subform_id.nil?
-      if potential_match.nil? || potential_match.empty?
-        potential_match = by_tracing_request_id_and_child_id.key([tracing_request_id, child_id]).first
-      else
-        subform_id = potential_match.tr_subform_id
-      end
+      potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first
       return potential_match unless potential_match.nil?
       PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
     end
+
   end
 
   def self.get_matches_for_tracing_request(param_match)

@@ -133,12 +133,17 @@ class TracingRequest < CouchRest::Model::Base
     self['inquiry_status'] ||= "Open"
   end
 
-  def find_match_children
+  def find_match_children(child_id=nil)
     match_class = Child
     self.tracing_request_subform_section.each do |tr|
       match_criteria = match_criteria(tr)
-      results = self.class.find_match_records(match_criteria, match_class)
-      PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, results)
+      results = self.class.find_match_records(match_criteria, match_class, child_id)
+      PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, results, child_id)
     end
   end
+
+  def self.get_tracing_requests_for_child(child_id, results)
+    results.each { |id, score| by_id(:key => id).first.find_match_children(child_id) }
+  end
+
 end
