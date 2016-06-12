@@ -72,7 +72,7 @@ class TracingRequest < CouchRest::Model::Base
 
     subform_matchable_fields.select{|field| Record.exclude_match_field(field)}.each do |field|
       text field, :boost => Record.get_field_boost(field) do
-        self.tracing_request_subform_section.map{|fds| fds[:"#{field}"]}.compact if self.try(:tracing_request_subform_section)
+        self.tracing_request_subform_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
       end
     end
 
