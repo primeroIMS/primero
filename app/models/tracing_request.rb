@@ -142,8 +142,8 @@ class TracingRequest < CouchRest::Model::Base
     end
   end
 
-  def self.get_tracing_requests_for_child(child_id, results)
-    results.each { |id, score| by_id(:key => id).first.find_match_children(child_id) }
+  def self.match_tracing_requests_for_child(child_id)
+    TracingRequest.all.all.each { |tr| tr.find_match_children(child_id) }
   end
 
 end

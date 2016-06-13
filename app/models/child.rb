@@ -351,11 +351,7 @@ class Child < CouchRest::Model::Base
 
   def find_match_tracing_requests
     match_class = TracingRequest
-    results = self.class.find_match_records(match_criteria, match_class)
-    unless results.empty?
-      PotentialMatch.update_matches_for_child(self.id, results)
-      match_class.get_tracing_requests_for_child(self.id, results)
-    end
+    match_class.match_tracing_requests_for_child(self.id)
   end
 
   private
