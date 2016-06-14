@@ -103,4 +103,18 @@ class MatchChild < CouchRest::Model::Base
 
   end
 
+  def self.save_new_record(child)
+    attributes = {}
+    form_matchable_fields.each { |field| attributes.merge!(:"#{field}" => child.try(:"#{field}")) }
+    attributes.merge!(:family_details_section => child.try(:family_details_section))
+    attributes.select!{|key, value| !(value.nil? || (value.empty? if value.is_a? Array))}
+    match_child = MatchChild.new
+    match_child.update_attributes(attributes).id
+  end
+
+  def self.delete_record(match_child_id)
+    match_child = by_id(:key => match_child_id).first
+    match_child.destroy unless match_child.nil?
+  end
+
 end

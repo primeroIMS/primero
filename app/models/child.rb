@@ -350,8 +350,9 @@ class Child < CouchRest::Model::Base
   end
 
   def find_match_tracing_requests
-    match_class = TracingRequest
-    match_class.match_tracing_requests_for_child(self.id)
+    match_child_id = MatchChild.save_new_record(self)
+    TracingRequest.match_tracing_requests_for_child(self.id)
+    MatchChild.delete_record(match_child_id)
   end
 
   private

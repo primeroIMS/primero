@@ -154,10 +154,13 @@ module Searchable
               fulltext(value, :fields => Record.get_match_field(key.to_s))
             end
           end
-          with(:id, child_id) unless child_id.nil?
         end
         results = {}
-        search.hits.each { |hit| results[hit.result.id] = hit.score }
+        if child_id.nil?
+          search.hits.each { |hit| results[hit.result.id] = hit.score }
+        else
+          search.hits.each { |hit| results[child_id] = hit.score }
+        end
         results
       end
     end

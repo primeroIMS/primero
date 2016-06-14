@@ -134,7 +134,11 @@ class TracingRequest < CouchRest::Model::Base
   end
 
   def find_match_children(child_id=nil)
-    match_class = Child
+    if child_id.nil?
+      match_class = Child
+    else
+      match_class = MatchChild
+    end
     self.tracing_request_subform_section.each do |tr|
       match_criteria = match_criteria(tr)
       results = self.class.find_match_records(match_criteria, match_class, child_id)
