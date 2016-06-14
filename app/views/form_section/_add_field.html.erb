@@ -8,7 +8,7 @@
       <div class="space"></div>
       <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false} %>
     </div>
-    <p class="chkbox_visible">
+    <p class="chkbox_web_visible">
       <div class="row">
         <div class="medium-3 columns">
           <%= fld.label :visible, t("visible_for_web"), :class => 'key inline' %>
@@ -19,6 +19,17 @@
         </div>
       </div>
     </p>
+      <p class="chkbox_mobile_visible">
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= fld.label :mobile_visible, t("visible_for_mobile"), :class => 'key inline' %>
+        </div>
+        <div class="medium-9 columns">
+          <%= fld.check_box :mobile_visible?, {}, "true", "false" %>
+          <%= fld.hidden_field :type, :class => "field_type"%>
+        </div>
+      </div>
+      </p>
     <p class="chkbox_hide_on_view_page">
       <div class="row">
         <div class="medium-3 columns">

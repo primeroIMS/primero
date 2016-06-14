@@ -4,6 +4,7 @@ basic_identity_fields = [
              "editable" => false,
              "display_name_all" => "Long ID",
              "create_property" => false,
+             "mobile_visible" => false,
              "visible" => false
             }),
   Field.new({"name" => "short_id",
@@ -11,6 +12,7 @@ basic_identity_fields = [
              "editable" => false,
              "display_name_all" => "Short ID",
              "create_property" => false,
+             "mobile_visible" => false,
              "visible" => false
             }),
   Field.new({"name" => "case_id_display",

@@ -21,18 +21,6 @@ class FormSectionController < ApplicationController
           @lookups = Lookup.all.all
           @locations = Location.all_names
           @form_sections = format_for_mobile(@form_sections, params[:locale])
-          for @section in @form_sections["Children"]
-            @section.slice!(:name, "order", :help_text, "base_language", "fields")
-            for @field in @section["fields"]
-              @field.slice!("name", "editable", "multi_select", "type", :display_name, :help_text, :option_strings_text , "subform" )
-              if @field["type"] == "subform"
-                @field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
-                for @subfield in @field["subform"]["fields"]
-                  @subfield.slice!("name", "editable", "multi_select", "type", :display_name, :help_text, :option_strings_text)
-                end
-              end
-            end
-          end
         end
         render json: @form_sections
       end
@@ -182,6 +170,27 @@ class FormSectionController < ApplicationController
     end
     #Group by form type
     form_sections = form_sections.group_by{|f| mobile_form_type(f['parent_form'])}
+    return simplify_form_content(form_sections)
+  end
+
+
+
+  def simplify_form_content(form_sections)
+    #Todo: write this block of code in a simple way
+    for section in form_sections["Children"]
+      section.slice!(:name, "order", :help_text, "base_language", "fields")
+      section["fields"].delete_if{|i|i["mobile_visible"]==false}
+      for field in section["fields"]
+        field.slice!("name", "editable", "multi_select", "type", :display_name, :help_text, :option_strings_text , "subform", "required")
+        if field["type"] == "subform"
+          field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
+          field["subform"]["fields"].delete_if{|i|i["mobile_visible"]==false}
+          for subfield in field["subform"]["fields"]
+            subfield.slice!("name", "editable", "multi_select", "type", :display_name, :help_text, :option_strings_text,"required")
+          end
+        end
+      end
+    end
     return form_sections
   end
 
