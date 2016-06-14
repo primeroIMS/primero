@@ -45,7 +45,7 @@ supervisor_service 'solr' do
   user node[:primero][:solr_user]
   # TODO: figure out how to make this more dynamic so we aren't hardcoding the
   # sunspot_solr gem dir.  That, or install solr outside of gems
-  directory "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.1.1/solr/"
+  directory "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.2.0/solr/"
   numprocs 1
   action [:enable, :restart]
 end
