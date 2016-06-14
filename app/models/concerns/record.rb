@@ -528,23 +528,19 @@ module Record
 
   def match_criteria(match_request=nil)
     match_criteria = {}
-    placeholder = (0...8).map { (97 + rand(26)).chr }.join
     if self.class.to_s == 'TracingRequest'
       self.class.subform_matchable_fields.each do |field|
-        value = (match_request[:"#{field}"].is_a? Array) ? match_request[:"#{field}"].join(' ') : match_request[:"#{field}"]
-        match_criteria[:"#{field}"] = (value.nil? || value == '')? placeholder : value
+        match_criteria[:"#{field}"] = (match_request[:"#{field}"].is_a? Array) ? match_request[:"#{field}"].join(' ') : match_request[:"#{field}"]
       end
     elsif self.class.to_s == 'Child'
       self.class.subform_matchable_fields.each do |field|
-        value = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
-        match_criteria[:"#{field}"] = (value.nil? || value == '')? placeholder : value
+        match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
       end
     end
     self.class.form_matchable_fields.each do |field|
-      value = (self[:"#{field}"].is_a? Array) ? self[:"#{field}"].join(' ') : self[:"#{field}"]
-      match_criteria[:"#{field}"] = (value.nil? || value == '')? placeholder : value
+      match_criteria[:"#{field}"] = (self[:"#{field}"].is_a? Array) ? self[:"#{field}"].join(' ') : self[:"#{field}"]
     end
-    match_criteria
+    match_criteria.select{ |key, value| !(value.nil? || value == '') }
   end
 
 end
