@@ -3,48 +3,49 @@
     "environment": "test",
     "rails_env": "production",
     "server_hostname": "52.24.42.32",
-    "no_reseed": false,
     "http_port": 8000,
     "https_port": 8443,
     "git": {
-      "repo": "git@bitbucket.org:quoin/primero.git",
-      "revision": "development_thoughtworks"
+      "repo": "git@bitbucket.org:primeroims/primero.git",
+      "revision": "test_thoughtworks"
     },
-    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEAvTE9vsZC7yk0hXavlkgHCNDFIxtxStMK4Uj94agHv4oEn7ghi0n5+iKqxQiEr3HRxdcL/ZtbSp1un2S3XXVfIfuSFPGqjO2FU/rdEX4lEBBi6peIuvOhdX2c/4uxaU0rHfgNf/gbdpceufFMoZ74bYsHbGRUv3ZVQ0pllKlkSGK0XgmcRF5/3EG1duWNBfba4rf0VmsAgaImlsxS7p4zoVsFo00jpAMGQjZkiG47QKaRFqCgw5v8/+njlO/QOO61ki19TkFrEhfFmKVE+EhXcsjMjvs6cJ0GtTvirTRaLwN8nsXCsZtfRuafb10eW4WZuohMF2QhCtvH/YIu/A2b8wIDAQABAoIBAE3F+Uj8fbWNLc8TrDjOIT4pfHDjLh6BRT65X8ys44qEtUPnULrOzVlbePIIf2sUEhUPQxmdDNlOgJQ7tflQb6wrm7DKa78FQUL1pH01aw0Af3lKk+Wuk5gV7D1M8sCD/Y6TUxFhMAD/PJ1ZqZPjIuL9PS78y63tej1wTvPe8p+iZbjXGD7ZWTOd+tpPR8tUUMuaK/KBZR0em9Gv+MTw6vMUI8vow2Hwlmt7dUcA8M/8zniMghr0U7a+cpeWvAGsG71HsguOilLoVnruCmDjhgxdMtLQqnqsEsIVEks82AaTZ8at/750BeU3XyBdQRK3wcODjfUub+WKe4uADfKRzAECgYEA9vCqu2jQEDRC4fwoBB+z8Bp4Hc+2Zu8TQ0GI0+nE/OnrBzcp3csZqYaX9VtCi1R4f25IPvJ6ih+Qt5jX0BOz54PTfOQmYz3zSG3dZs+bBPOK0igcm58deojXX3bKE3FlUJy071LP92wIWYM9348lKHN8MZcKzduruByaJSfhEfMCgYEAxCIwyqkyxupqFT3jAEoU2VsbXPePdZBHvstLBIHfXNvNPZVX/RAcQylj1hJml+bOKJBrNZbNQKMm/yv7YjbYhO6+MyAk4EQ+ZdsGAAQdAyKmXjaaYcg/Tuui7eG/svLCg8BBW+6pKAHQv4jbpGWJGRgX+hKc/Vw5i2Efvu0ZzgECgYBPb5fcdZkIvWcOfyj4OqKNiFY/cMQCVMHjjr9PPBIMMctTJOGo4V698/gKC3Nakq+4fmdrKGFW8VSCWv6BhvUGcpejw1i97/3EvOLN4dbCPv3XIOQjA4peEosFwJa8rmujBOYHXqJbuzrsYJWUxt1zJ8M5yJbHJfUVYs4LScrTFQKBgEMjeRRGqw0QfVPcJXKZ6V0mJM3EKKWTyBt1t65JTs6Ypz8nekE0XJhY+MX08o2ZAoU8OpbTkltH/jdnNNw/7gpDN3SE0lq6walYOkuTHONP3ydtBZfnVlSLsPBBUL/O/erfyv/PSLRbOrv1+0nhP/cJGlwONxM7mK8vhhBzVVwBAoGAELQ4QsZi8cYLv1PrgbJkjUgdp8y5mDyYalhdSc2LA+Z+EguDPYcsq9WJaGfk8ImgCQIQ/YUxeTmBj4w6DTJ5aayYbeer+i52sfwENYy8MeM+++sPmm0J4t5HOtIo2WIOlYvEG3e8HivapfMFy5q6EaggZfzYNy20HwxQn/Gi9cI=\n-----END RSA PRIVATE KEY-----",
-    "ssl": {
-      "crt": "-----BEGIN CERTIFICATE-----\nMIICzTCCAjYCCQC+kY2H7nft9zANBgkqhkiG9w0BAQUFADCBqjELMAkGA1UEBhMC\nVVMxFzAVBgNVBAgMDk5vcnRoIENhcm9saW5hMREwDwYDVQQHDAhEYXZpZHNvbjEU\nMBIGA1UECgwLUXVvaW4sIEluYy4xHDAaBgNVBAsME1ByaW1lcm8gRGV2ZWxvcG1l\nbnQxFDASBgNVBAMMC3ByaW1lcm8uZGV2MSUwIwYJKoZIhvcNAQkBFhZiZW4ua2Vp\ndGhAcXVvaW5pbmMuY29tMB4XDTE0MDMxMjE4NDQyMloXDTE5MDkwMjE4NDQyMlow\ngaoxCzAJBgNVBAYTAlVTMRcwFQYDVQQIDA5Ob3J0aCBDYXJvbGluYTERMA8GA1UE\nBwwIRGF2aWRzb24xFDASBgNVBAoMC1F1b2luLCBJbmMuMRwwGgYDVQQLDBNQcmlt\nZXJvIERldmVsb3BtZW50MRQwEgYDVQQDDAtwcmltZXJvLmRldjElMCMGCSqGSIb3\nDQEJARYWYmVuLmtlaXRoQHF1b2luaW5jLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOB\njQAwgYkCgYEAv6vdn7LGQPxdBbZt4GCHSnG5MPju0Xl3enDK6c7xYp2FVkBQYjvq\nuX1vhHZR4VJyMBEQsvl121boWJsL43rLo5OzryzIYZTuxjBnAkqGHeCowyb2OmIF\nbT89aJA4VKitOPOvCcwv07ssjCA3vJ6T4fhd51aMnBWvYW8xsuEmEVECAwEAATAN\nBgkqhkiG9w0BAQUFAAOBgQCm9P7ibbIwWz0t7SxU3q4xmNjV5h7eqBftelzTa8TB\nMFQsafztC1bDRAAGds6Cf5qAHhlWojiTCUznxsK1ZXWbMa/6UhoLmay7ON2vNTsA\nr1bdFqMiNOvU/rP3A3TkSTKv+vP+0K9m+hre1CvirHBZhIpkCyo1kp+oylfo9LU+\nHQ==\n-----END CERTIFICATE-----",
-      "key": "-----BEGIN RSA PRIVATE KEY-----\nMIICXgIBAAKBgQC/q92fssZA/F0Ftm3gYIdKcbkw+O7ReXd6cMrpzvFinYVWQFBi\nO+q5fW+EdlHhUnIwERCy+XXbVuhYmwvjesujk7OvLMhhlO7GMGcCSoYd4KjDJvY6\nYgVtPz1okDhUqK04868JzC/TuyyMIDe8npPh+F3nVoycFa9hbzGy4SYRUQIDAQAB\nAoGBAI7iuJzM0S6w80fG77JNQ44jqULw0FgojQEiBKK4OwqhEz1xRHt230zYTcIZ\n0oB+zdE3Z5OElG+nIh6rtvkmGZfVsPTBP+3mg8LIIFr95RAJnIKCZEMR7DRcfSM+\nRcP/pDyIYu5JMJt01Gt4vfaGkUoR/1f8vNU5vhcxRrrcE9fhAkEA4rDUj0g5rxI1\ngmKX/77IKi72NbYU5Zp5/YtEdWbyE1awkryXFrWMNN00U8vsUZH9oI71cAyxDCne\nI23t6/mACwJBANhz8FwVDpY/nPvNfB3sx4e2T2aBN9sopKeX5qzmlZIRLTjqyKnU\ndwhNPtRg1a9ESdqWrdgjWbYLD/AZOIOUgZMCQB2oQMbWDiXnXfTG7VfaH9nU9wUj\n4yv+v8L5+2TYqQb6qnMoFSQ1cDhiUDw+S5aIYQQmb9nO70LGH3fHI/9hTu0CQQCK\nBbQZI5w/lqTFtAwXEOtS0J/k3zT83PfRnn0Ld6WclLNffeci1EZq1sbfqjfYIRVu\n+3IzRqdn+7nYAl0VGlddAkEAiEzCHKVAUX9bQr4vF/h8OMkvhh6bgp1VgTaoFpKH\nkzSYMmeO67ffKMn9LhWrKR0Rl683zhDjbQMWYutHCiA31A==\n-----END RSA PRIVATE KEY-----"
-    },
+    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEAvTE9vsZC7yk0hXavlkgHCNDFIxtxStMK4Uj94agHv4oEn7gh\ni0n5+iKqxQiEr3HRxdcL/ZtbSp1un2S3XXVfIfuSFPGqjO2FU/rdEX4lEBBi6peI\nuvOhdX2c/4uxaU0rHfgNf/gbdpceufFMoZ74bYsHbGRUv3ZVQ0pllKlkSGK0Xgmc\nRF5/3EG1duWNBfba4rf0VmsAgaImlsxS7p4zoVsFo00jpAMGQjZkiG47QKaRFqCg\nw5v8/+njlO/QOO61ki19TkFrEhfFmKVE+EhXcsjMjvs6cJ0GtTvirTRaLwN8nsXC\nsZtfRuafb10eW4WZuohMF2QhCtvH/YIu/A2b8wIDAQABAoIBAE3F+Uj8fbWNLc8T\nrDjOIT4pfHDjLh6BRT65X8ys44qEtUPnULrOzVlbePIIf2sUEhUPQxmdDNlOgJQ7\ntflQb6wrm7DKa78FQUL1pH01aw0Af3lKk+Wuk5gV7D1M8sCD/Y6TUxFhMAD/PJ1Z\nqZPjIuL9PS78y63tej1wTvPe8p+iZbjXGD7ZWTOd+tpPR8tUUMuaK/KBZR0em9Gv\n+MTw6vMUI8vow2Hwlmt7dUcA8M/8zniMghr0U7a+cpeWvAGsG71HsguOilLoVnru\nCmDjhgxdMtLQqnqsEsIVEks82AaTZ8at/750BeU3XyBdQRK3wcODjfUub+WKe4uA\nDfKRzAECgYEA9vCqu2jQEDRC4fwoBB+z8Bp4Hc+2Zu8TQ0GI0+nE/OnrBzcp3csZ\nqYaX9VtCi1R4f25IPvJ6ih+Qt5jX0BOz54PTfOQmYz3zSG3dZs+bBPOK0igcm58d\neojXX3bKE3FlUJy071LP92wIWYM9348lKHN8MZcKzduruByaJSfhEfMCgYEAxCIw\nyqkyxupqFT3jAEoU2VsbXPePdZBHvstLBIHfXNvNPZVX/RAcQylj1hJml+bOKJBr\nNZbNQKMm/yv7YjbYhO6+MyAk4EQ+ZdsGAAQdAyKmXjaaYcg/Tuui7eG/svLCg8BB\nW+6pKAHQv4jbpGWJGRgX+hKc/Vw5i2Efvu0ZzgECgYBPb5fcdZkIvWcOfyj4OqKN\niFY/cMQCVMHjjr9PPBIMMctTJOGo4V698/gKC3Nakq+4fmdrKGFW8VSCWv6BhvUG\ncpejw1i97/3EvOLN4dbCPv3XIOQjA4peEosFwJa8rmujBOYHXqJbuzrsYJWUxt1z\nJ8M5yJbHJfUVYs4LScrTFQKBgEMjeRRGqw0QfVPcJXKZ6V0mJM3EKKWTyBt1t65J\nTs6Ypz8nekE0XJhY+MX08o2ZAoU8OpbTkltH/jdnNNw/7gpDN3SE0lq6walYOkuT\nHONP3ydtBZfnVlSLsPBBUL/O/erfyv/PSLRbOrv1+0nhP/cJGlwONxM7mK8vhhBz\nVVwBAoGAELQ4QsZi8cYLv1PrgbJkjUgdp8y5mDyYalhdSc2LA+Z+EguDPYcsq9WJ\naGfk8ImgCQIQ/YUxeTmBj4w6DTJ5aayYbeer+i52sfwENYy8MeM+++sPmm0J4t5H\nOtIo2WIOlYvEG3e8HivapfMFy5q6EaggZfzYNy20HwxQn/Gi9cI=\n-----END RSA PRIVATE KEY-----",
     "couchdb": {
       "password": "primero",
       "ssl": {
         "cert": "-----BEGIN CERTIFICATE-----\nMIIDrTCCAZUCAQUwDQYJKoZIhvcNAQEEBQAwgaYxCzAJBgNVBAYTAlVTMRYwFAYD\nVQQIDA1NYXNzYWNodXNldHRzMQ8wDQYDVQQHDAZCb3N0b24xFDASBgNVBAoMC1F1\nb2luLCBJbmMuMRQwEgYDVQQLDAtQcmltZXJvIERldjEZMBcGA1UEAwwQUHJpbWVy\nbyBDb3VjaCBDQTEnMCUGCSqGSIb3DQEJARYYcHJpbWVyby1kZXZAcXVvaW5pbmMu\nY29tMB4XDTE0MTAxNDEzNTIzOVoXDTI0MTAxMTEzNTIzOVowFjEUMBIGA1UEAxML\ncHJpbWVyby5kZXYwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMMDdksQLJEj\nE6tHvicvwuVG5NndKEflnFibTWiyCiahT7v9HmFawgwxLhSb5F030r1H8vmt5Ewp\n3mwB2BuTdOzH4Ry3p25AbbcZtTAG7B+2cbuIHjm2mQfx2h+N21BSp8oCXkLQT3JD\n2IIGr8vJ5OC/cBHkV3ANEZSEBKBL2uXTAgMBAAEwDQYJKoZIhvcNAQEEBQADggIB\nAKm+IbUUdU7hOxgmMP80lrOZl9qDpTZxhsJ1drnsEN/sGMMny6HU/ZTlNPKBIM9+\nwkX5XDRum9Tq5MPIFWw+gGiixP6wNy+Xx1s4tXZZYFk0hc0cWL0YcCzSobtSmDkp\nGKCiqlNtC1hDzpjtf6xU5qnuaOBOX92nvb2oh4yqrcoqFDYsIIjXR64MZZ6N811y\n41Y4hClOBCit85yyjcAU8EbidodX3ax4+2hdblOy4W2KF4CXhePh6DFjy/9J4+IU\nBzUqujoih05bqqtDdHY1xVGQLjKGFaBQJm7Ary+JYpfCVtAURV7U70E1VHjO79hP\nfeCw975Le1ZTWAFuhFbSfg2rr4M21WaTDg6MRN76zHL0WOCZAfevZCpdE5kjZEG9\n6B+3oC2lkVkdmXJ5d1fCwUI4BA6JE7HyJ++dYCPq4Lv32ePPhr3/eVr0aK/CSNBh\n3D3UlDp8rqPaass+BtAxP2rouDh1gmihXHc3f3xgR+5P04TPNyVfmpXRPu9NlcJP\nB4ONTy6Tzkd2HKr6jbg2FCqcS0TwojwfGbuWwcusmTxEtYn2RiFDwX5efGslg6s3\nCrWMd+kWFvYK1c60EtRGplNRod/8+bngEjKiPMYbp1Jm/VvPL5UN9hJpWLbOB+bb\n2kgGdsnK8Yj0qvXg0wVCTJMaaHIbWdSKw+dODYj5eyi+\n-----END CERTIFICATE-----",
         "key": "-----BEGIN RSA PRIVATE KEY-----\nMIICXQIBAAKBgQDDA3ZLECyRIxOrR74nL8LlRuTZ3ShH5ZxYm01osgomoU+7/R5h\nWsIMMS4Um+RdN9K9R/L5reRMKd5sAdgbk3Tsx+Ect6duQG23GbUwBuwftnG7iB45\ntpkH8dofjdtQUqfKAl5C0E9yQ9iCBq/LyeTgv3AR5FdwDRGUhASgS9rl0wIDAQAB\nAoGAMyReSnM0bN+ZEesfqCEzaHN+ItCH9sr1hJs94r4GQXk+ctt/syJdD1t6bTcw\n3W19W9xZkTcUTxEP3p1hMmIqYFUWh5FTFixvYIGr3zW3kxY2fjBSHxXF7BMtZ9A8\nA6rQkd/QqwO71L2NcoYaPeEG1yHjgwJ6Kc6S7/hw2uL/0YkCQQDkSQidRHHmcJmB\n4PBkDjcC7LpnoD5wmBfjoOnn8ew20S7f6NjvswJXzYI/OJZcggAu4tudz385/xjv\nPO7HqXSFAkEA2rBcyvEmoW6G3r0LQbXI6yTG4ByEhHF8h1PP5+YlOYU9Ro5V3hD7\nvElwEHCNCRo/Nh1WXAWa/RhA/lu2//mMdwJBANOYxn1PVevs7ryuDOQRMPhrCJTI\nuVeQAoShQG4XlYVx+2rb30i+uis8d7+16dkxPo43BK2QCTNuumP2LLWw4ikCQDDm\nCnmeXmLuUd3wK1owCZL6kDWAaukqbwvbY7uYrG4mKsNiBDU5WvCJAzPJ1t9YLRYu\njSbaYgOBrtaxL0QhSpUCQQCalY+jAERKLseXTsWl621+c7+yFgbP03IVIh3va3oX\nohMJsfq1KA2gtEZLANdZm15IklI6oRSX3AJCs1hFpSKE\n-----END RSA PRIVATE KEY-----"
       }
+    },
+    "ssl": {
+      "crt": "-----BEGIN CERTIFICATE-----\nMIICzTCCAjYCCQC+kY2H7nft9zANBgkqhkiG9w0BAQUFADCBqjELMAkGA1UEBhMC\nVVMxFzAVBgNVBAgMDk5vcnRoIENhcm9saW5hMREwDwYDVQQHDAhEYXZpZHNvbjEU\nMBIGA1UECgwLUXVvaW4sIEluYy4xHDAaBgNVBAsME1ByaW1lcm8gRGV2ZWxvcG1l\nbnQxFDASBgNVBAMMC3ByaW1lcm8uZGV2MSUwIwYJKoZIhvcNAQkBFhZiZW4ua2Vp\ndGhAcXVvaW5pbmMuY29tMB4XDTE0MDMxMjE4NDQyMloXDTE5MDkwMjE4NDQyMlow\ngaoxCzAJBgNVBAYTAlVTMRcwFQYDVQQIDA5Ob3J0aCBDYXJvbGluYTERMA8GA1UE\nBwwIRGF2aWRzb24xFDASBgNVBAoMC1F1b2luLCBJbmMuMRwwGgYDVQQLDBNQcmlt\nZXJvIERldmVsb3BtZW50MRQwEgYDVQQDDAtwcmltZXJvLmRldjElMCMGCSqGSIb3\nDQEJARYWYmVuLmtlaXRoQHF1b2luaW5jLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOB\njQAwgYkCgYEAv6vdn7LGQPxdBbZt4GCHSnG5MPju0Xl3enDK6c7xYp2FVkBQYjvq\nuX1vhHZR4VJyMBEQsvl121boWJsL43rLo5OzryzIYZTuxjBnAkqGHeCowyb2OmIF\nbT89aJA4VKitOPOvCcwv07ssjCA3vJ6T4fhd51aMnBWvYW8xsuEmEVECAwEAATAN\nBgkqhkiG9w0BAQUFAAOBgQCm9P7ibbIwWz0t7SxU3q4xmNjV5h7eqBftelzTa8TB\nMFQsafztC1bDRAAGds6Cf5qAHhlWojiTCUznxsK1ZXWbMa/6UhoLmay7ON2vNTsA\nr1bdFqMiNOvU/rP3A3TkSTKv+vP+0K9m+hre1CvirHBZhIpkCyo1kp+oylfo9LU+\nHQ==\n-----END CERTIFICATE-----",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\nMIICXgIBAAKBgQC/q92fssZA/F0Ftm3gYIdKcbkw+O7ReXd6cMrpzvFinYVWQFBi\nO+q5fW+EdlHhUnIwERCy+XXbVuhYmwvjesujk7OvLMhhlO7GMGcCSoYd4KjDJvY6\nYgVtPz1okDhUqK04868JzC/TuyyMIDe8npPh+F3nVoycFa9hbzGy4SYRUQIDAQAB\nAoGBAI7iuJzM0S6w80fG77JNQ44jqULw0FgojQEiBKK4OwqhEz1xRHt230zYTcIZ\n0oB+zdE3Z5OElG+nIh6rtvkmGZfVsPTBP+3mg8LIIFr95RAJnIKCZEMR7DRcfSM+\nRcP/pDyIYu5JMJt01Gt4vfaGkUoR/1f8vNU5vhcxRrrcE9fhAkEA4rDUj0g5rxI1\ngmKX/77IKi72NbYU5Zp5/YtEdWbyE1awkryXFrWMNN00U8vsUZH9oI71cAyxDCne\nI23t6/mACwJBANhz8FwVDpY/nPvNfB3sx4e2T2aBN9sopKeX5qzmlZIRLTjqyKnU\ndwhNPtRg1a9ESdqWrdgjWbYLD/AZOIOUgZMCQB2oQMbWDiXnXfTG7VfaH9nU9wUj\n4yv+v8L5+2TYqQb6qnMoFSQ1cDhiUDw+S5aIYQQmb9nO70LGH3fHI/9hTu0CQQCK\nBbQZI5w/lqTFtAwXEOtS0J/k3zT83PfRnn0Ld6WclLNffeci1EZq1sbfqjfYIRVu\n+3IzRqdn+7nYAl0VGlddAkEAiEzCHKVAUX9bQr4vF/h8OMkvhh6bgp1VgTaoFpKH\nkzSYMmeO67ffKMn9LhWrKR0Rl683zhDjbQMWYutHCiA31A==\n-----END RSA PRIVATE KEY-----"
     }
   },
   "rvm": {
     "user_installs": [
       {
         "user": "primero",
-        "home": "/srv/primero"
-      },
-      {
-        "user": "vagrant",
-        "home": "/home/vagrant"
+        "home": "/srv/primero",
+        "install_rubies": true,
+        "default_ruby": "2.1.5-railsexpress",
+        "rubies": ["2.1.5-railsexpress"],
+        "global": "2.1.5-railsexpress",
+        "gems": {
+          "2.1.5-railsexpress": [
+            { "name": "bundler" }
+          ]
+        }
       }
     ]
   },
   "unattended-upgrades": {
     "send_email": true,
-    "email_address": "primero_support@your.org",
+    "email_address": "sjyuan@thoughtworks.com",
     "auto_reboot": true
   },
   "run_list": [
-    "rvm::vagrant",
     "recipe[primero::default]",
-    "recipe[primero::development]",
-    "recipe[primero::letsencrypt]",
     "recipe[chef-unattended-upgrades::default]"
   ]
 }
