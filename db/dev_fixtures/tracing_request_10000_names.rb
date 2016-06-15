@@ -15,46 +15,53 @@ def get_random_user
   return User.find_by_user_name(users.sample)
 end
 
-def create_children(id, num_children, names, lastnames)
+def create_tracing_request(id, num_of_tracing_requests, names, lastnames)
   relation = ["Mother", "Father", "Aunt", "Uncle", "Brother", "Sister",]
 
-  children = (0..num_children).each do |i|
+  tracing_requests = (0..num_of_tracing_requests).each do |i|
 
     {
       "#{id}#{i}" => ->(c) do
         randommonth = 10 + rand(2)
         randomday = 1 + rand(29)
-        
+
         c.module_id = 'primeromodule-cp'
-        c.name = ''
-        c.child_status = ['Open', 'Closed'].sample
+        c.relation_name = ''
+        c.inquiry_status = ['Open', 'Closed'].sample
         c.record_state = [true, false].sample
         c.created_at = DateTime.new(2014, randommonth, randomday)
         #random name and last name
-        c.name = "#{names[rand(names.size-1)]} #{lastnames[rand(lastnames.size-1)]}"
-        c.family_details_section = [
+        c.relation_name = "#{names[rand(names.size-1)]} #{lastnames[rand(lastnames.size-1)]}"
+        c.tracing_request_subform_section = [
           {
             :unique_id => "#{id}#{i}-1",
-            :relation_name => "#{c.name}1",
+            :name => "#{c.relation_name}1",
+            :age => 1 + rand(15),
+            :relation => relation.sample
+          },
+          {
+            :unique_id => "#{id}#{i}-2",
+            :name => "#{c.relation_name}2",
+            :age => 1 + rand(15),
             :relation => relation.sample
           }
         ]
       end
     }.each do |k, v|
       default_owner = get_random_user
-      c = Child.find_by_unique_identifier(k) || Child.new_with_user_name(default_owner, {:unique_identifier => k})
+      c = TracingRequest.find_by_unique_identifier(k) || TracingRequest.new_with_user_name(default_owner, {:unique_identifier => k})
       v.call(c)
-      puts "Child #{c.new? ? 'created' : 'updated'}: #{c.unique_identifier} name: #{c.name}"
+      puts "TracingRequest #{c.new? ? 'created' : 'updated'}: #{c.unique_identifier} relation_name: #{c.relation_name}"
       c.save!
     end
   end
 end
 
-Child.all.each &:destroy
+TracingRequest.all.each &:destroy
 
 path="db/dev_fixtures/names/"
 #1:Arabic names, 2:East african names, 3: English names, 4: Spanish names
-number_of_children=[4000, 3000, 2000, 1000]
+num_of_tracing_requests=[4000, 3000, 2000, 1000]
 ids = ["ara", "ea", "eng", "spa"]
 names = [read_file("#{path}arabic_names.csv"),
     read_file("#{path}swahili_names.csv"),
@@ -68,5 +75,5 @@ lastnames = [read_file("#{path}arabic_surnames.csv"),
 
 
 (0..3).each do |i|
-    children = create_children(ids[i], number_of_children[i], names[i], lastnames[i])
+    tracing_requests = create_tracing_request(ids[i], num_of_tracing_requests[i], names[i], lastnames[i])
 end
