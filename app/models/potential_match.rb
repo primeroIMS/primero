@@ -35,6 +35,7 @@ class PotentialMatch < CouchRest::Model::Base
     view :by_tracing_request_id_and_status
     view :by_tracing_request_id_and_marked_invalid
     view :by_child_id_and_status
+    view :by_score
     view :all_valid_tracing_request_ids,
          :map => "function(doc) {
                     if(doc['couchrest-type'] == 'PotentialMatch' && doc['status'] == '#{PotentialMatch::POTENTIAL}') {
