@@ -15,7 +15,8 @@ module CouchChanges
     User,
     Role,
     SystemSettings,
-    ConfigurationBundle
+    ConfigurationBundle,
+    MatchChild
   ]
 
   class << self
