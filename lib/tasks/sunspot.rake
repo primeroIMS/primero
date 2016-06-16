@@ -44,7 +44,6 @@ namespace :sunspot do
     batch_reindex(Incident)
     batch_reindex(TracingRequest)
     batch_reindex(PotentialMatch)
-    batch_reindex(MatchChild)
 
     puts 'Solr successfully reindexed'
   end
