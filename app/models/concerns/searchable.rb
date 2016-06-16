@@ -144,9 +144,8 @@ module Searchable
       end
     end
 
-    def find_match_records(match_criteria, match_class, child_id=nil)
+    def find_match_records(match_criteria, match_class, pagination = {:page => 1, :per_page => 100})
       sort={:score => :desc}
-      pagination = {:page => 1, :per_page => 100}
       if match_criteria.nil? || match_criteria.empty?
         []
       else
@@ -160,11 +159,7 @@ module Searchable
           paginate pagination
         end
         results = {}
-        if child_id.nil?
-          search.hits.each { |hit| results[hit.result.id] = hit.score }
-        else
-          search.hits.each { |hit| results[child_id] = hit.score }
-        end
+        search.hits.each { |hit| results[hit.result.id] = hit.score }
         results
       end
     end

@@ -128,20 +128,24 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def update_matches_for_child(child_id, results)
+      tr_subform_ids = results.map{ |result| result[:tr_subform_id] }.uniq
       by_child_id.key(child_id).all.each do |pm|
-        unless results.include? pm.tracing_request_id
+        unless tr_subform_ids.include? pm.tr_subform_id
           pm.mark_as_deleted
           pm.save
         end
+      end
+
+      unless results.empty?
+        results.each { |result| update_potential_match(child_id, result[:tracing_request_id], result[:score].to_f, result[:tr_subform_id]) }
       end
     end
 
     private
 
-    def update_potential_match(child_id, tracing_request_id, score, subform_id=nil)
+    def update_potential_match(child_id, tracing_request_id, score, subform_id)
       threshold = 0
       pm = find_or_build tracing_request_id, child_id, subform_id
-      pm.tr_subform_id = subform_id if pm.tr_subform_id.nil?
       pm.score = score
       valid_score = score >= threshold
       should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
@@ -154,7 +158,7 @@ class PotentialMatch < CouchRest::Model::Base
       end
     end
 
-    def find_or_build(tracing_request_id, child_id, subform_id=nil)
+    def find_or_build(tracing_request_id, child_id, subform_id)
       potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first
       return potential_match unless potential_match.nil?
       PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
