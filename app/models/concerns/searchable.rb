@@ -145,6 +145,8 @@ module Searchable
     end
 
     def find_match_records(match_criteria, match_class, child_id=nil)
+      sort={:score => :desc}
+      pagination = {:page => 1, :per_page => 100}
       if match_criteria.nil? || match_criteria.empty?
         []
       else
@@ -154,6 +156,8 @@ module Searchable
               fulltext(value, :fields => Record.get_match_field(key.to_s))
             end
           end
+          sort.each{|sort_field,order| order_by(sort_field, order)}
+          paginate pagination
         end
         results = {}
         if child_id.nil?
