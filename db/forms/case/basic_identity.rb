@@ -85,13 +85,14 @@ basic_identity_fields = [
   Field.new({"name" => "sex",
              "type" => "select_box",
              "option_strings_text_all" => "Male\nFemale",
-             "required" => false,
+             "required" => true,
              "display_name_all" => "Sex",
              "matchable" => true
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
              "display_name_all" => "Age",
+             "required" => true,
              "matchable" => true
             }),
   Field.new({"name" => "date_of_birth",
