@@ -115,6 +115,9 @@ nav {
   }
 }
 
-.top-bar-section li:not(.has-form) a:not(.button):hover {
-  background: $green_color;
+.top-bar-section li:not(.has-form) a:not(.button) {
+  padding: 0 0.85rem;
+  &:hover {
+    background: $green_color;
+  }
 }
