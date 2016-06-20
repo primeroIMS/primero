@@ -14,7 +14,7 @@ class PotentialMatch < CouchRest::Model::Base
   belongs_to :tracing_request
   belongs_to :child
   property :tr_subform_id
-  property :score, String
+  property :average_rating, Float
   property :status, String, :default => 'POTENTIAL'
   property :unique_identifier
   property :short_id
@@ -35,7 +35,7 @@ class PotentialMatch < CouchRest::Model::Base
     view :by_tracing_request_id_and_status
     view :by_tracing_request_id_and_marked_invalid
     view :by_child_id_and_status
-    view :by_score
+    view :by_average_rating
     view :all_valid_tracing_request_ids,
          :map => "function(doc) {
                     if(doc['couchrest-type'] == 'PotentialMatch' && doc['status'] == '#{PotentialMatch::POTENTIAL}') {
@@ -62,7 +62,11 @@ class PotentialMatch < CouchRest::Model::Base
   end
 
   def self.quicksearch_fields
-    ['child_id', 'tracing_request_id', 'tr_subform_id']
+    ['child_id', 'tracing_request_id', 'tr_subform_id', 'average_rating']
+  end
+
+  def self.searchable_string_fields
+    ['child_id', 'tracing_request_id', 'tr_subform_id', 'average_rating']
   end
 
   def self.searchable_date_fields
@@ -73,8 +77,7 @@ class PotentialMatch < CouchRest::Model::Base
 
   searchable do
     string :status
-    quicksearch_fields.each {|f| text f}
-    searchable_date_fields.each {|f| date f}
+    double :average_rating
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
@@ -146,7 +149,7 @@ class PotentialMatch < CouchRest::Model::Base
     def update_potential_match(child_id, tracing_request_id, score, subform_id)
       threshold = 0
       pm = find_or_build tracing_request_id, child_id, subform_id
-      pm.score = score
+      pm.average_rating = score
       valid_score = score >= threshold
       should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
       if should_mark_deleted
