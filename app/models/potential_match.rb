@@ -73,7 +73,7 @@ class PotentialMatch < CouchRest::Model::Base
     ["created_at", "last_updated_at"]
   end
 
-  include Sunspot::Rails::Searchable
+  include Searchable
 
   searchable do
     string :status
@@ -178,48 +178,6 @@ class PotentialMatch < CouchRest::Model::Base
 
   def self.filter_deleted_matches(matches)
     matches.select { |m| !m.deleted? }
-  end
-
-  def self.list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match={})
-    self.search do
-      if filters.present?
-        PotentialMatch.build_filters(self, filters)
-      end
-      if match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
-        any_of do
-          associated_user_names.each do |user_name|
-            with(:associated_user_names, user_name)
-          end
-        end
-      end
-      if query.present?
-        fulltext(query.strip) do
-          minimum_match(1)
-          fields(*self.quicksearch_fields)
-        end
-      end
-      sort.each{|sort_field,order| order_by(sort_field, order)}
-      paginate pagination
-    end
-  end
-
-  def self.build_filters(sunspot, filters)
-    sunspot.instance_eval do
-      filters.each do |filter, filter_value|
-        values = filter_value[:value]
-        type = filter_value[:type]
-        any_of do
-          case type
-            when 'list'
-              with(filter).any_of(values)
-            when 'neg'
-              without(filter, values)
-            else
-              with(filter, values) unless values == 'all'
-          end
-        end
-      end
-    end
   end
 
 end

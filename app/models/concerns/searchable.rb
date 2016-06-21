@@ -10,36 +10,38 @@ module Searchable
     searchable do
       quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
-      searchable_multi_fields.each {|f| string f, multiple: true}
+      searchable_multi_fields.each {|f| string f, multiple: true} if self.include?(Record)
 
       #if instance is a child do phonetic search on names
-      searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
+      # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each {|f| date f}
-      searchable_numeric_fields.each {|f| integer f}
+      searchable_numeric_fields.each {|f| integer f} if self.include?(Record)
       # TODO: boolean with have to change if we want to index arbitrary index fields
-      boolean :duplicate
-      boolean :flag
-      boolean :has_photo
-      boolean :record_state
-      boolean :not_edited_by_owner do
-        (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
-      end
-      string :referred_users, multiple: true do
-        if self.transitions.present?
-          self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
+      if self.include?(Record)
+        boolean :duplicate
+        boolean :flag
+        boolean :has_photo
+        boolean :record_state
+        boolean :not_edited_by_owner do
+          (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
         end
+        string :referred_users, multiple: true do
+          if self.transitions.present?
+            self.transitions.map { |er| [er.to_user_local, er.to_user_remote] }.flatten.compact.uniq
+          end
+        end
+        string :sortable_name, as: :sortable_name_sci
+        if self.include?(Ownable)
+          string :associated_user_names, multiple: true
+          string :owned_by
+        end
+        if self.include?(SyncableMobile)
+          boolean :marked_for_mobile
+        end
+        #text :name, as: :name_ph
+        searchable_location_fields.each { |f| text f, as: "#{f}_lngram".to_sym }
       end
-      string :sortable_name, as: :sortable_name_sci
-      if self.include?(Ownable)
-        string :associated_user_names, multiple: true
-        string :owned_by
-      end
-      if self.include?(SyncableMobile)
-        boolean :marked_for_mobile
-      end
-      #text :name, as: :name_ph
-      searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -64,7 +66,7 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match={})
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil)
       self.search do
         if filters.present?
           build_filters(self, filters)
@@ -85,13 +87,8 @@ module Searchable
             fields(*self.quicksearch_fields)
           end
         end
-        if match.present?
-          adjust_solr_params do |params|
-            self.build_match(match, params)
-          end
 
-          sort={:score => :desc}
-        end
+        sort={:average_rating => :desc} if match.present?
         sort.each{|sort_field,order| order_by(sort_field, order)}
         paginate pagination
       end
