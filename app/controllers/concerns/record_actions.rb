@@ -235,7 +235,7 @@ module RecordActions
       pagination_ops = {:page => 1, :per_page => 500}
       records = []
       begin
-        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], @match_criteria
+        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], params[:match]
         results = search.results
         records.concat(results)
         #Set again the values of the pagination variable because the method modified the variable.
@@ -244,7 +244,7 @@ module RecordActions
       end until results.next_page.nil?
       total_records = search.total
     else
-      search = model_class.list_records filter, order, pagination, users_filter, params[:query], @match_criteria
+      search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
       records = search.results
       total_records = search.total
     end
