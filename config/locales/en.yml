@@ -102,6 +102,8 @@ en:
 
   buttons:
      delete: "Delete"
+     disable: "Disable"
+     enable: "Enable"
      save: "Save"
      login: "Log in"
      reunite: "Reunite"

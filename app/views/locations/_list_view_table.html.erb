@@ -19,7 +19,9 @@
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>
               <br>
-              <%= link_to t("buttons.delete"), location_path(lct), data: {confirm: t("location.confirm_delete")}, method: :delete %>
+              <%= link_to t("buttons.disable"), edit_location_path(lct) %>
+              <br>
+              <%# link_to t("buttons.delete"), location_path(lct), data: {confirm: t("location.confirm_delete")}, method: :delete %>
             </td>
           </tr>
       <% end %>

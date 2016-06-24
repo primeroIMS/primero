@@ -5,6 +5,7 @@ class Location < CouchRest::Model::Base
   include PrimeroModel
   include Namable
   include Memoizable
+  include Disableable
 
   #TODO - I18n
   BASE_TYPES = ['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other']
