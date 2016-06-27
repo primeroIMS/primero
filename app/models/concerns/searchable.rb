@@ -142,7 +142,7 @@ module Searchable
     end
 
     def find_match_records(match_criteria, match_class, child_id = nil)
-      pagination = {:page => 1, :per_page => 100}
+      pagination = {:page => 1, :per_page => 20}
       sort={:score => :desc}
       if match_criteria.nil? || match_criteria.empty?
         []

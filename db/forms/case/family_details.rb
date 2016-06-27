@@ -212,5 +212,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => family_details_fields,
   "name_all" => "Family Details",
-  "description_all" => "Family Details"
+  "description_all" => "Family Details",
+  :mobile_form => true
 })
