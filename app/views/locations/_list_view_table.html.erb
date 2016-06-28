@@ -1,3 +1,15 @@
+<form class="filter_bar" autocomplete="off">
+  <div class="row">
+    <div class="medium-6 columns">
+      <div class="float_left">
+        <small class="scope_label"><%= t("location.show") %></small>
+        <%= select_tag :filter, disabled_options(params[:filter]), { :onchange => "this.form.submit();"} %>
+      </div>
+    </div>
+    <div class="medium-6 columns">
+    </div>
+  </div>
+</form>
 <table id="list_table_2" class="list_table_2 dataTable in_content_area">
   <thead>
   <tr>
