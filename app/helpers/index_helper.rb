@@ -191,7 +191,6 @@ module IndexHelper
   def list_view_header_tracing_request
     return [
         {title: '', sort_title: 'select'},
-        {title: '', sort_title: 'flag'},
         {title: 'id', sort_title: 'short_id'},
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'},
