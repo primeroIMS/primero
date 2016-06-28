@@ -353,7 +353,7 @@ class Child < CouchRest::Model::Base
     match_class = TracingRequest
     tracing_request_ids = self.class.find_match_records(match_criteria, match_class).keys
     all_results = TracingRequest.match_tracing_requests_for_child(self.id, tracing_request_ids).uniq
-    results = all_results.sort_by{ |result| result[:score]}.reverse.slice(0, 100)
+    results = all_results.sort_by{ |result| result[:score]}.reverse.slice(0, 20)
     PotentialMatch.update_matches_for_child(self.id, results)
   end
 
