@@ -230,6 +230,14 @@ module ApplicationHelper
     end
   end
 
+  def disabled_status record
+    if record.disabled
+      t "disabled.status.disabled"
+    else
+      t "disabled.status.enabled"
+    end
+  end
+
 
   # This is a hack to avoid getting the special HTML wrappers that the I18n library
   # imposes on all missed translation keys. Occasionally they break HTML.

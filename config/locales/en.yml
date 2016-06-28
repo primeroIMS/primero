@@ -1034,6 +1034,7 @@ en:
     name: "Name"
     code: "Code"
     hierarchy: "Hierarchy"
+    status: "Status"
     confirm_delete: Are you sure you want to delete this location?
     placename: "Place name"
     type: "Type"
@@ -1603,3 +1604,8 @@ en:
   per_page_translation: "Per page _MENU_"
   total: Total
   caregiver: " (Caregiver)"
+
+  disabled:
+    status:
+      enabled: "Enabled"
+      disabled: "Disabled"
