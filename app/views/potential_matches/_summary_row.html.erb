@@ -1,9 +1,13 @@
 <tr>
   <td class="select_record"><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_potential_match record %>"></td>
   <td id="potential_match_<%= record.id %>" class="id_column">
-    <%= link_to text_to_identify_potential_match(record), potential_matches_path(record), class: 'id_link' %>
+    <%= record.short_id%>
   </td>
-  <td><%= record.child_id %></td>
-  <td><%= record.tracing_request_id %></td>
+  <td class="id_column">
+    <%= link_to text_to_identify_potential_match_child(record), case_path(record.child_id), class: 'id_link' %>
+  </td>
+  <td class="id_column">
+    <%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record.tracing_request_id), class: 'id_link' %>
+  </td>
   <td><%= record.average_rating %></td>
 </tr>

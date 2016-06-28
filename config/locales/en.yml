@@ -517,6 +517,12 @@ en:
     filter_by:
       status: "Record Status"
 
+  potential_match:
+    id: "ID#"
+    child_id: 'child_id'
+    tr_id: 'tr_id'
+    score: 'score'
+
   preposition:
     on_label: "on"
     because: "Because"
