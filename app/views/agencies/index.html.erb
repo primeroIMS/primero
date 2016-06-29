@@ -14,6 +14,7 @@
   </div>
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
+      <%= render partial: 'shared_configuration_resource/table_disabled_filter'%>
       <%= render partial: 'shared_configuration_resource/table',
                  locals: {objects: @agencies,
                           object_class: Agency,

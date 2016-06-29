@@ -16,6 +16,9 @@
       <% heading_keys.each do |heading_key| %>
         <th><%= t(heading_key) %></th>
       <% end %>
+      <% if object_class.method_defined? :disabled %>
+        <th><%= t("disabled.status.label") %></th>
+      <% end %>
       <th></th>
     </tr>
   </thead>
@@ -24,6 +27,9 @@
       <tr id="user-row-<%= "#{object_name}-row-#{object.name}" %>">
         <% properties.each do |property| %>
           <td class=<%= property %>><%= h object.send(property) %></td>
+        <% end %>
+        <% if object.respond_to? :disabled %>
+          <td><%= disabled_status object %></td>
         <% end %>
         <td>
           <% permissions.each do |permission| %>

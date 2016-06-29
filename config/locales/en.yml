@@ -1612,3 +1612,4 @@ en:
       enabled: "Enabled"
       disabled: "Disabled"
       all: "All"
+      label: "Status"
