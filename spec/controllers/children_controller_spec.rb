@@ -187,7 +187,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:children].should == collection
@@ -200,7 +200,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all", "format" => "unhcr_csv"}
         get :index, params
         assigns[:children].should == collection
@@ -219,7 +219,7 @@ describe ChildrenController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil, nil).and_return(search)
+        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["all"], nil, nil).and_return(search)
 
         #User
         @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)

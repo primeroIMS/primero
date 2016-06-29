@@ -230,6 +230,20 @@ module ApplicationHelper
     end
   end
 
+  def disabled_status(object)
+    if object.disabled
+      t "disabled.status.disabled"
+    else
+      t "disabled.status.enabled"
+    end
+  end
+
+  def disabled_options filter
+    options_for_select([[t("disabled.status.enabled"),"enabled"],
+                        [t("disabled.status.disabled"),"disabled"],
+                        [t("disabled.status.all"), "all"]], filter)
+  end
+
 
   # This is a hack to avoid getting the special HTML wrappers that the I18n library
   # imposes on all missed translation keys. Occasionally they break HTML.

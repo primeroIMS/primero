@@ -1,3 +1,15 @@
+<form class="filter_bar" autocomplete="off">
+  <div class="row">
+    <div class="medium-6 columns">
+      <div class="float_left">
+        <small class="scope_label"><%= t("location.show") %></small>
+        <%= select_tag :filter, disabled_options(params[:filter]), { :onchange => "this.form.submit();"} %>
+      </div>
+    </div>
+    <div class="medium-6 columns">
+    </div>
+  </div>
+</form>
 <table id="list_table_2" class="list_table_2 dataTable in_content_area">
   <thead>
   <tr>
@@ -5,6 +17,7 @@
     <th><%= t "location.code" %></th>
     <th><%= t "location.type" %></th>
     <th><%= t "location.hierarchy" %></th>
+    <th><%= t "location.status" %></th>
     <th ></th>
   </tr>
   </thead>
@@ -16,10 +29,9 @@
             <td><%= lct.location_code %></td>
             <td><%= lct.type %></td>
             <td><%= lct.hierarchy.join(", ") %></td>
+            <td><%= disabled_status lct %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>
-              <br>
-              <%= link_to t("buttons.delete"), location_path(lct), data: {confirm: t("location.confirm_delete")}, method: :delete %>
             </td>
           </tr>
       <% end %>
