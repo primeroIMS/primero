@@ -230,8 +230,8 @@ module ApplicationHelper
     end
   end
 
-  def disabled_status record
-    if record.disabled
+  def disabled_status(object)
+    if object.disabled
       t "disabled.status.disabled"
     else
       t "disabled.status.enabled"
