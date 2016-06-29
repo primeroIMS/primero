@@ -3,9 +3,12 @@
   #object_class
   #heading_keys
   #properties
+  #hide_links
+  hide_links ||= []
   object_name = object_class.name.underscore
   object_name_plural = object_name.pluralize
-  permissions = [:show, :edit, :destroy].select{|p| can?(p, object_class)}
+  permissions = [:show, :edit, :destroy].select{|p| can?(p, object_class) && hide_links.exclude?(p)}
+
 %>
 <table id="list_table" class="list_table_2 dataTable in_content_area <%= object_name %>">
   <thead>
