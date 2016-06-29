@@ -10,8 +10,10 @@ describe Location do
     @province2 = create :location, hierarchy: [@country.placename]
     @province3 = create :location, hierarchy: [@country.placename]
     @town1 = create :location, hierarchy: [@country.placename, @province1.placename]
-    @town2 = create :location, hierarchy: [@country.placename, @province1.placename]
+    @town2 = create :location, hierarchy: [@country.placename, @province1.placename], disabled: false
     @town3 = create :location, hierarchy: [@country.placename, @province2.placename]
+    @disabled1 = create :location, hierarchy: [@country.placename, @province2.placename], disabled: true
+    @disabled2 = create :location, hierarchy: [@country.placename, @province2.placename], disabled: true
 
   end
 
@@ -23,6 +25,16 @@ describe Location do
     expect(@town1.name).to eq(@town1.hierarchical_name)
   end
 
+  describe 'all names' do
+    it 'returns names for enabled locations' do
+      expect(Location.all_names.count).to eq(7)
+      expect(Location.all_names).to include(@country.name, @province1.name, @province2.name, @province3.name, @town1.name, @town2.name, @town3.name)
+    end
+
+    it 'does not return names for disabled locations' do
+      expect(Location.all_names).not_to include(@disabled1.name, @disabled2.name)
+    end
+  end
   it 'returns all names' do
     expect(Location.all_names).to eq([@country.name, @province1.name, @province2.name, @province3.name, @town1.name, @town2.name, @town3.name])
   end
@@ -38,8 +50,8 @@ describe Location do
 
   it "returns all descendants" do
     expect(@province1.descendants).to match_array [@town1, @town2]
-    expect(@province2.descendants).to match_array [@town3]
-    expect(@country.descendants).to match_array [@province1, @province2, @province3, @town1, @town2, @town3]
+    expect(@province2.descendants).to match_array [@town3, @disabled1, @disabled2]
+    expect(@country.descendants).to match_array [@province1, @province2, @province3, @town1, @town2, @town3, @disabled1, @disabled2]
   end
 
   it "makes a single couchdb query to fetch a multi-level hierarchy" do
