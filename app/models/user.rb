@@ -125,6 +125,8 @@ class User < CouchRest::Model::Base
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
   validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), :if => :password_required?
   validates_presence_of :role_ids, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new {|user| user.verified}
+  validates_presence_of :module_ids, :message => I18n.t("errors.models.user.module_ids")
+
   validates_presence_of :organization, :message => I18n.t("errors.models.user.organization")
 
   validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => I18n.t("errors.models.user.user_name")

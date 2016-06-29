@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   include ImportActions
 
   before_filter :clean_role_ids, :only => [:update, :create]
+  before_filter :clean_module_ids, :only => [:update, :create]
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
   before_filter :agency_names, :only => [:new, :create, :edit, :update]
   before_filter :location_names, :only => [:new, :create, :edit, :update]
@@ -170,6 +171,10 @@ class UsersController < ApplicationController
 
   def clean_role_ids
     params[:user][:role_ids] = clean_params(params[:user][:role_ids]) if params[:user][:role_ids]
+  end
+
+  def clean_module_ids
+    params[:user][:module_ids] = clean_params(params[:user][:module_ids]) if params[:user][:module_ids]
   end
 
   def users_details
