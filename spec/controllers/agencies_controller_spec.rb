@@ -5,24 +5,91 @@ describe AgenciesController do
     Agency.all.each &:destroy
 
     @agency_a = Agency.create!(name: "A", agency_code: "AAA", 'upload_logo' => {'logo' => uploadable_photo})
-    @agency_b = Agency.create!(name: "B", agency_code: "BBB")
+    @agency_b = Agency.create!(name: "B", agency_code: "BBB", disabled: false)
     @agency_c = Agency.create!(name: "C", agency_code: "CCC", 'upload_logo' => {'logo' => uploadable_photo_gif})
+    @agency_d = Agency.create!(name: "D", agency_code: "DDD", disabled: true)
+    @agency_e = Agency.create!(name: "E", agency_code: "EEE", disabled: true)
 
     @user = User.new(:user_name => 'fakeadmin')
     @session = fake_admin_login @user
   end
 
   describe "get index" do
-    it "populate the view with all the agencies" do
-      agencies = [@agency_a, @agency_b, @agency_c]
-      get :index
-      expect(assigns(:agencies)).to eq(agencies)
+    context "with filter disabled" do
+      before :each do
+        @params = {"filter" => 'disabled'}
+      end
+
+      it "populates the view with all the disabled agencies" do
+        get :index, @params
+        expect(assigns(:agencies)).to include(@agency_d, @agency_e)
+      end
+
+      it "does not populate the vew with enabled agencies" do
+        get :index, @params
+        expect(assigns(:agencies)).not_to include(@agency_a, @agency_b, @agency_c)
+      end
+
+      it "renders the index template" do
+        get :index, @params
+        expect(response).to render_template("index")
+      end
     end
 
-    it "renders the index template" do
-      get :index
-      expect(response).to render_template("index")
+    context "with filter enabled" do
+      before :each do
+        @params = {"filter" => 'enabled'}
+      end
+
+      it "populates the view with all the enabled agencies" do
+        get :index, @params
+        expect(assigns(:agencies)).to include(@agency_a, @agency_b, @agency_c)
+      end
+
+      it "does not populate the vew with disabled agencies" do
+        get :index, @params
+        expect(assigns(:agencies)).not_to include(@agency_d, @agency_e)
+      end
+
+      it "renders the index template" do
+        get :index, @params
+        expect(response).to render_template("index")
+      end
     end
+
+    context "with filter all" do
+      before :each do
+        @params = {"filter" => 'all'}
+      end
+
+      it "populates the view with all the agencies" do
+        get :index, @params
+        expect(assigns(:agencies)).to include(@agency_a, @agency_b, @agency_c, @agency_d, @agency_e)
+      end
+
+      it "renders the index template" do
+        get :index, @params
+        expect(response).to render_template("index")
+      end
+    end
+
+    context "with no filter" do
+      it "populates the view with all the enabled agencies" do
+        get :index
+        expect(assigns(:agencies)).to include(@agency_a, @agency_b, @agency_c)
+      end
+
+      it "does not populate the vew with disabled agencies" do
+        get :index
+        expect(assigns(:agencies)).not_to include(@agency_d, @agency_e)
+      end
+
+      it "renders the index template" do
+        get :index
+        expect(response).to render_template("index")
+      end
+    end
+
   end
 
   describe "post create" do
