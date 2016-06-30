@@ -1034,12 +1034,10 @@ en:
     name: "Name"
     code: "Code"
     hierarchy: "Hierarchy"
-    status: "Status"
     confirm_delete: Are you sure you want to delete this location?
     placename: "Place name"
     type: "Type"
     parent: "Parent location"
-    show: "Show"
     messages:
       cannot_create: "Location could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
@@ -1608,6 +1606,7 @@ en:
   caregiver: " (Caregiver)"
 
   disabled:
+    filter_label: "Show"
     status:
       enabled: "Enabled"
       disabled: "Disabled"

@@ -231,7 +231,7 @@ module ApplicationHelper
   end
 
   def disabled_status(object)
-    if object.disabled
+    if object.disabled == true
       t "disabled.status.disabled"
     else
       t "disabled.status.enabled"

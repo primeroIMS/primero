@@ -11,7 +11,6 @@ class AgenciesController < ApplicationController
   def index
     authorize! :index, Agency
     @page_name = t("agencies.label")
-    # @agencies = Agency.by_order
   end
 
   def show
