@@ -18,6 +18,8 @@ class PotentialMatch < CouchRest::Model::Base
   property :status, String, :default => 'POTENTIAL'
   property :unique_identifier
   property :short_id
+  property :case_id
+  property :tr_id
   validates :child_id, :uniqueness => {:scope => :tr_subform_id}
 
   before_create :create_identification
@@ -46,14 +48,14 @@ class PotentialMatch < CouchRest::Model::Base
                        return null;
                      }"
     view :by_short_id,
-            :map => "function(doc) {
+         :map => "function(doc) {
                   if (doc.hasOwnProperty('short_id'))
                  {
                     emit(doc['short_id'], null);
                  }
               }"
     view :by_unique_identifier,
-            :map => "function(doc) {
+         :map => "function(doc) {
                   if (doc.hasOwnProperty('unique_identifier'))
                  {
                     emit(doc['unique_identifier'], null);
@@ -94,6 +96,7 @@ class PotentialMatch < CouchRest::Model::Base
   def mark_as_potential_match
     mark_as_status(PotentialMatch::POTENTIAL)
   end
+
   def mark_as_status(status)
     self.status = status
   end
@@ -131,7 +134,7 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def update_matches_for_child(child_id, results)
-      tr_subform_ids = results.map{ |result| result[:tr_subform_id] }.uniq
+      tr_subform_ids = results.map { |result| result[:tr_subform_id] }.uniq
       by_child_id.key(child_id).all.each do |pm|
         unless tr_subform_ids.include? pm.tr_subform_id
           pm.mark_as_deleted
@@ -140,7 +143,9 @@ class PotentialMatch < CouchRest::Model::Base
       end
 
       unless results.empty?
-        results.each { |result| update_potential_match(child_id, result[:tracing_request_id], result[:score].to_f, result[:tr_subform_id]) }
+        results.each {
+            |result| update_potential_match(child_id, result[:tracing_request_id], result[:score].to_f, result[:tr_subform_id])
+        }
       end
     end
 
@@ -150,6 +155,8 @@ class PotentialMatch < CouchRest::Model::Base
       threshold = 0
       pm = find_or_build tracing_request_id, child_id, subform_id
       pm.average_rating = score
+      pm.case_id = Child.get_case_id(child_id)
+      pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
       valid_score = score >= threshold
       should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
       if should_mark_deleted

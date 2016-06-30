@@ -159,6 +159,7 @@ module Searchable
         end
         results = {}
         search.hits.each { |hit| results[hit.result.id] = hit.score }
+        puts results
         results
       end
     end

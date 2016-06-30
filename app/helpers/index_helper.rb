@@ -210,7 +210,6 @@ module IndexHelper
   def list_view_header_potential_match
     [
       {title: '', sort_title: 'select'},
-      {title: 'id', sort_title: 'short_id'},
       {title: 'child_id', sort_title: 'child_id'},
       {title: 'tr_id', sort_title: 'tracing_request_id'},
       {title: 'score', sort_title: 'score'},

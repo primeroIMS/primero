@@ -32,7 +32,7 @@ class TracingRequest < CouchRest::Model::Base
   design do
     view :by_tracing_request_id
     view :by_relation_name,
-            :map => "function(doc) {
+         :map => "function(doc) {
                 if (doc['couchrest-type'] == 'TracingRequest')
                {
                   if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -40,12 +40,18 @@ class TracingRequest < CouchRest::Model::Base
                   }
                }
             }"
+    view :by_ids_and_revs,
+         :map => "function(doc) {
+              if (doc['couchrest-type'] == 'TracingRequest'){
+                emit(doc._id, {_id: doc._id, _rev: doc._rev});
+              }
+            }"
   end
 
   def self.quicksearch_fields
     [
-      'tracing_request_id', 'short_id', 'relation_name', 'relation_nickname', 'tracing_names', 'tracing_nicknames',
-      'monitor_number', 'survivor_code'
+        'tracing_request_id', 'short_id', 'relation_name', 'relation_nickname', 'tracing_names', 'tracing_nicknames',
+        'monitor_number', 'survivor_code'
     ]
   end
 
@@ -66,13 +72,13 @@ class TracingRequest < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
 
   searchable do
-    form_matchable_fields.select{|field| Record.exclude_match_field(field)}.each do |field|
+    form_matchable_fields.select { |field| Record.exclude_match_field(field) }.each do |field|
       text field, :boost => Record.get_field_boost(field)
     end
 
-    subform_matchable_fields.select{|field| Record.exclude_match_field(field)}.each do |field|
+    subform_matchable_fields.select { |field| Record.exclude_match_field(field) }.each do |field|
       text field, :boost => Record.get_field_boost(field) do
-        self.tracing_request_subform_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
+        self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
       end
     end
 
@@ -93,10 +99,10 @@ class TracingRequest < CouchRest::Model::Base
 
   def self.minimum_reportable_fields
     {
-      'boolean' => ['record_state'],
-      'string' => ['inquiry_status', 'owned_by'],
-      'multistring' => ['associated_user_names'],
-      'date' => ['inquiry_date']
+        'boolean' => ['record_state'],
+        'string' => ['inquiry_status', 'owned_by'],
+        'multistring' => ['associated_user_names'],
+        'date' => ['inquiry_date']
     }
   end
 
@@ -154,6 +160,14 @@ class TracingRequest < CouchRest::Model::Base
     results = []
     TracingRequest.by_id(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_children(child_id)) }
     results
+  end
+
+  def self.get_tr_id(tracing_request_id)
+    tr_id=""
+    by_ids_and_revs.key(tracing_request_id).all.each do |tr|
+      tr_id = tr.tracing_request_id
+    end
+    return tr_id
   end
 
 end
