@@ -91,7 +91,7 @@ basic_identity_fields = [
              "type" => "select_box",
              "option_strings_text_all" => "Male\nFemale",
              "show_on_minify_form" => true,
-             "required" => true,
+             "required" => false,
              "display_name_all" => "Sex",
              "matchable" => true
             }),

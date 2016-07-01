@@ -112,5 +112,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => record_owner_fields,
   "name_all" => "Record Owner",
-  "description_all" => "Record Owner"
+  "description_all" => "Record Owner",
+  :mobile_form => false
 })
