@@ -5,6 +5,7 @@ class User < CouchRest::Model::Base
   include PrimeroModel
   include Importable
   include Memoizable
+  include Disableable
 
   include Primero::CouchRestRailsBackward
 
@@ -19,7 +20,6 @@ class User < CouchRest::Model::Base
   property :organization
   property :position
   property :location
-  property :disabled, TrueClass, :default => false
   property :role_ids, [String]
   property :time_zone, :default => "UTC"
   property :locale
@@ -53,6 +53,7 @@ class User < CouchRest::Model::Base
                 }
             }"
 
+    #TODO - refactor?
     view :by_user_name_filter_view,
             :map => "function(doc) {
                   if ((doc['couchrest-type'] == 'User') && doc['user_name'])
@@ -62,6 +63,8 @@ class User < CouchRest::Model::Base
                         emit(['active',doc['user_name']], null);
                   }
             }"
+
+    #TODO - refactor?
     view :by_full_name_filter_view,
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['full_name'])
@@ -72,6 +75,8 @@ class User < CouchRest::Model::Base
 
                 }
             }"
+
+    #TODO - refactor?
     view :by_organization_filter_view,
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['organization'])
@@ -117,7 +122,7 @@ class User < CouchRest::Model::Base
   before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
   after_save :save_devices
 
-
+  #TODO - refactor?
   before_update :if => :disabled? do |user|
     Session.delete_for user
   end

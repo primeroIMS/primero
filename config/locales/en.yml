@@ -1612,3 +1612,6 @@ en:
       disabled: "Disabled"
       all: "All"
       label: "Status"
+
+  sort_by:
+    label: "Sort by"
