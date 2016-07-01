@@ -77,7 +77,6 @@ class AgenciesController < ApplicationController
     @agency = Agency.get(params[:id]) if params[:id]
   end
 
-  # TODO - DRY this up... very similar to code in locations_controller
   def load_agencies_according_to_filter
     filter_option = params[:filter] || "enabled"
 
