@@ -99,7 +99,7 @@ basic_identity_fields = [
              "type" => "numeric_field",
              "display_name_all" => "Age",
              "show_on_minify_form" => true,
-             "required" => true,
+             "required" => false,
              "matchable" => true
             }),
   Field.new({"name" => "date_of_birth",
