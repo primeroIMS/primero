@@ -258,6 +258,10 @@ class User < CouchRest::Model::Base
     @agency_obj ||= Agency.get(self.organization)
   end
 
+  def agency_name
+    self.agency.name
+  end
+
   def last_login
     timestamp = User.last_login_timestamp(self.user_name)
     @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?

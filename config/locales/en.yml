@@ -554,6 +554,7 @@ en:
     actions:
       show_all: "Showing all"
       show: "Show"
+      edit: "Edit"
     messages:
       disable: 'Are you sure you want to disable this user?'
     sort_by:
