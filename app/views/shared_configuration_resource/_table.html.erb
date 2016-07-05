@@ -3,15 +3,21 @@
   #object_class
   #heading_keys
   #properties
+  #hide_links
+  hide_links ||= []
   object_name = object_class.name.underscore
   object_name_plural = object_name.pluralize
-  permissions = [:show, :edit, :destroy].select{|p| can?(p, object_class)}
+  permissions = [:show, :edit, :destroy].select{|p| can?(p, object_class) && hide_links.exclude?(p)}
+
 %>
 <table id="list_table" class="list_table_2 dataTable in_content_area <%= object_name %>">
   <thead>
     <tr>
       <% heading_keys.each do |heading_key| %>
         <th><%= t(heading_key) %></th>
+      <% end %>
+      <% if object_class.method_defined? :disabled %>
+        <th><%= t("disabled.status.label") %></th>
       <% end %>
       <th></th>
     </tr>
@@ -21,6 +27,9 @@
       <tr id="user-row-<%= "#{object_name}-row-#{object.name}" %>">
         <% properties.each do |property| %>
           <td class=<%= property %>><%= h object.send(property) %></td>
+        <% end %>
+        <% if object.respond_to? :disabled %>
+          <td><%= disabled_status object %></td>
         <% end %>
         <td>
           <% permissions.each do |permission| %>

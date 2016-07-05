@@ -6,6 +6,7 @@ class Agency < CouchRest::Model::Base
   include LogoUploader
   include Memoizable
   include Namable
+  include Disableable
 
 
   property :telephone
@@ -40,7 +41,7 @@ class Agency < CouchRest::Model::Base
     memoize_in_prod :all
 
     def available_agency_names
-      self.all.all.collect{ |a| [ a.name, a.id ] }
+      self.by_enabled.all.collect{ |a| [ a.name, a.id ] }
     end
     memoize_in_prod :available_agency_names
 

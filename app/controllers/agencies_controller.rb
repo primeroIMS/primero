@@ -6,11 +6,11 @@ class AgenciesController < ApplicationController
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
+  before_filter :load_agencies_according_to_filter, :only => [:index]
 
   def index
     authorize! :index, Agency
     @page_name = t("agencies.label")
-    @agencies = Agency.by_order
   end
 
   def show
@@ -75,5 +75,18 @@ class AgenciesController < ApplicationController
 
   def load_record_or_redirect
     @agency = Agency.get(params[:id]) if params[:id]
+  end
+
+  def load_agencies_according_to_filter
+    filter_option = params[:filter] || "enabled"
+
+    case filter_option
+      when "all"
+        @agencies = Agency.all.all
+      when "disabled"
+        @agencies = Agency.by_disabled.all
+      else
+        @agencies = Agency.by_enabled.all
+    end
   end
 end
