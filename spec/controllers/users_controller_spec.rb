@@ -3,12 +3,15 @@ require 'spec_helper'
 describe UsersController do
   before do
     Role.all.each &:destroy
+    PrimeroModule.all.each &:destroy
+
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @role_case_read = create :role, permissions_list: [@permission_case_read]
     @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @role_tracing_request_read = create :role, permissions_list: [@permission_tracing_request_read]
     @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
     @role_incident_read = create :role, permissions_list: [@permission_incident_read]
+    @a_module = PrimeroModule.create name: "Test Module"
 
     @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
   end
@@ -19,12 +22,103 @@ describe UsersController do
 
   describe "GET index" do
     before do
+      User.all.each &:destroy
+
+      @user_a = User.create!(user_name: "AAA123", full_name: "AAA", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'NA')
+      @user_b = User.create!(user_name: "BBB123", full_name: "BBB", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'NA', disabled: false)
+      @user_c = User.create!(user_name: "CCC123", full_name: "CCC", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'NA')
+      @user_d = User.create!(user_name: "DDD123", full_name: "DDD", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'NA', disabled: true)
+      @user_e = User.create!(user_name: "EEE123", full_name: "EEE", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'NA', disabled: true)
+
+
       fake_admin_login
       fake_session = Session.new()
       fake_session.stub(:admin?).with(no_args()).and_return(true)
       Session.stub(:get).and_return(fake_session)
       @user = mock_user({:merge => {}, :user_name => "someone"})
     end
+
+    context "with filter disabled" do
+      before :each do
+        @params = {"filter" => 'disabled'}
+      end
+
+      it "populates the view with all the disabled users" do
+        get :index, @params
+        expect(assigns(:users)).to include(@user_d, @user_e)
+      end
+
+      it "does not populate the vew with enabled users" do
+        get :index, @params
+        expect(assigns(:users)).not_to include(@user_a, @user_b, @user_c)
+      end
+
+      it "renders the index template" do
+        get :index, @params
+        expect(response).to render_template("index")
+      end
+    end
+
+    # context "with filter enabled" do
+    #   before :each do
+    #     @params = {"filter" => 'enabled'}
+    #   end
+    #
+    #   it "populates the view with all the enabled agencies" do
+    #     get :index, @params
+    #     expect(assigns(:agencies)).to include(@agency_a, @agency_b, @agency_c)
+    #   end
+    #
+    #   it "does not populate the vew with disabled agencies" do
+    #     get :index, @params
+    #     expect(assigns(:agencies)).not_to include(@agency_d, @agency_e)
+    #   end
+    #
+    #   it "renders the index template" do
+    #     get :index, @params
+    #     expect(response).to render_template("index")
+    #   end
+    # end
+    #
+    # context "with filter all" do
+    #   before :each do
+    #     @params = {"filter" => 'all'}
+    #   end
+    #
+    #   it "populates the view with all the agencies" do
+    #     get :index, @params
+    #     expect(assigns(:agencies)).to include(@agency_a, @agency_b, @agency_c, @agency_d, @agency_e)
+    #   end
+    #
+    #   it "renders the index template" do
+    #     get :index, @params
+    #     expect(response).to render_template("index")
+    #   end
+    # end
+    #
+    # context "with no filter" do
+    #   it "populates the view with all the enabled agencies" do
+    #     get :index
+    #     expect(assigns(:agencies)).to include(@agency_a, @agency_b, @agency_c)
+    #   end
+    #
+    #   it "does not populate the vew with disabled agencies" do
+    #     get :index
+    #     expect(assigns(:agencies)).not_to include(@agency_d, @agency_e)
+    #   end
+    #
+    #   it "renders the index template" do
+    #     get :index
+    #     expect(response).to render_template("index")
+    #   end
+    # end
+
+
 
     it "shows the page name" do
       get :index
