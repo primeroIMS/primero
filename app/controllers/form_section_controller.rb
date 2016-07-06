@@ -20,7 +20,7 @@ class FormSectionController < ApplicationController
         if params[:mobile].present?
           @lookups = Lookup.all.all
           @locations = Location.all_names
-          @form_sections = format_for_mobile(@form_sections, params[:locale])
+          @form_sections = format_for_mobile(@form_sections, params[:locale], params[:parent_form])
         end
         render json: @form_sections
       end
@@ -146,7 +146,7 @@ class FormSectionController < ApplicationController
     @lookup_options.unshift("", "Location")
   end
 
-  def format_for_mobile(form_sections, locale_param=nil)
+  def format_for_mobile(form_sections, locale_param=nil, parent_form_param=nil)
     #Flatten out the form sections, discarding form groups
     form_sections = form_sections.reduce([]) { |memo, elem| memo + elem[1] }.flatten
     #Discard the non-mobile form sections
@@ -170,22 +170,24 @@ class FormSectionController < ApplicationController
     end
     #Group by form type
     form_sections = form_sections.group_by { |f| mobile_form_type(f['parent_form']) }
-    return simplify_form_content(form_sections)
+    return simplify_form_content(form_sections, parent_form_param)
   end
 
 
-  def simplify_form_content(form_sections)
+  def simplify_form_content(form_sections, parent_form_param=nil)
     #Todo: write this block of code in a simple way
-    for section in form_sections["Children"]
-      section.slice!(:name, "order", :help_text, "base_language", "fields")
-      section["fields"].delete_if { |i| i["mobile_visible"]==false }
-      for field in section["fields"]
-        field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form", :display_name, :help_text, :option_strings_text)
-        if field["type"] == "subform"
-          field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
-          field["subform"]["fields"].delete_if { |i| i["mobile_visible"]==false }
-          for subfield in field["subform"]["fields"]
-            subfield.slice!("name", "editable", "multi_select", "type", "required", "show_on_minify_form", :display_name, :help_text, :option_strings_text)
+    if parent_form_param == 'case'
+      for section in form_sections["Children"]
+        section.slice!(:name, "order", :help_text, "base_language", "fields")
+        section["fields"].delete_if { |i| i["mobile_visible"]==false }
+        for field in section["fields"]
+          field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form", :display_name, :help_text, :option_strings_text)
+          if field["type"] == "subform"
+            field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
+            field["subform"]["fields"].delete_if { |i| i["mobile_visible"]==false }
+            for subfield in field["subform"]["fields"]
+              subfield.slice!("name", "editable", "multi_select", "type", "required", "show_on_minify_form", :display_name, :help_text, :option_strings_text)
+            end
           end
         end
       end
