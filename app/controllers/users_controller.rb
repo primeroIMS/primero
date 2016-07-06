@@ -3,10 +3,12 @@ class UsersController < ApplicationController
 
   include ExportActions
   include ImportActions
+  include DisableActions
 
   before_filter :clean_role_ids, :only => [:update, :create]
   before_filter :clean_module_ids, :only => [:update, :create]
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
+  before_filter :load_records_according_to_disable_filter, :only => [:index]
   before_filter :agency_names, :only => [:new, :create, :edit, :update]
   before_filter :location_names, :only => [:new, :create, :edit, :update]
 
@@ -16,11 +18,11 @@ class UsersController < ApplicationController
     authorize! :read, User
 
     @page_name = t("home.users")
-    sort_option = params[:sort] || "full_name"
-    filter_option = params[:filter] || "active"
+    # sort_option = params[:sort] || "full_name"
+    # filter_option = params[:filter] || "active"
 
     #TODO
-    @users = User.view("by_#{sort_option}_filter_view", {:startkey => [filter_option], :endkey => [filter_option, {}]})
+    # @users = User.view("by_#{sort_option}_filter_view", {:startkey => [filter_option], :endkey => [filter_option, {}]})
     @users_details = users_details
 
     respond_to do |format|

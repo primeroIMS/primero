@@ -164,6 +164,7 @@ class User < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
+    alias :by_all :all
     def all(*args)
       old_all(*args)
     end

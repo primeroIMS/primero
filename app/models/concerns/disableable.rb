@@ -5,6 +5,11 @@ module Disableable
   included do
     property :disabled, TrueClass, default: false
 
+    # TODO - for now pushed this down to models because of issue with User
+    # class << self
+    #   alias :by_all :all
+    # end
+
     design do
       view :by_disabled,
            :map => "function(doc) {

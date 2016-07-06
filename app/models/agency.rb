@@ -34,6 +34,7 @@ class Agency < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
+    alias :by_all :all
 
     def all
       old_all
