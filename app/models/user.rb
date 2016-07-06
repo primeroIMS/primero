@@ -39,54 +39,66 @@ class User < CouchRest::Model::Base
   design do
     view :by_user_name,
             :map => "function(doc) {
-                  if ((doc['couchrest-type'] == 'User') && doc['user_name'])
-                  {
-                       emit(doc['user_name'], null);
-                  }
-            }"
+                if ((doc['couchrest-type'] == 'User') && doc['user_name']) {
+                  emit(doc['user_name'], null);
+                }
+              }"
+
+    view :by_user_name_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('user_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['user_name'], null);
+                }
+              }"
+
+    view :by_user_name_disabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('user_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
+                  emit(doc['user_name'], null);
+                }
+              }"
 
     view :by_full_name,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name'])
-                {
+         :map => "function(doc) {
+                if ((doc['couchrest-type'] == 'User') && doc['full_name']) {
                   emit(doc['full_name'], null);
                 }
-            }"
+              }"
 
-    #TODO - refactor?
-    view :by_user_name_filter_view,
-            :map => "function(doc) {
-                  if ((doc['couchrest-type'] == 'User') && doc['user_name'])
-                  {
-                      emit(['all',doc['user_name']], null);
-                      if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                        emit(['active',doc['user_name']], null);
-                  }
-            }"
-
-    #TODO - refactor?
-    view :by_full_name_filter_view,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name'])
-                {
-                  emit(['all',doc['full_name']], null);
-                  if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                    emit(['active',doc['full_name']], null);
-
+    view :by_full_name_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('full_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['full_name'], null);
                 }
-            }"
+              }"
 
-    #TODO - refactor?
-    view :by_organization_filter_view,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['organization'])
-                {
-                  emit(['all',doc['organization']], null);
-                  if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                    emit(['active',doc['organization']], null);
-
+    view :by_full_name_disabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('full_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
+                  emit(doc['full_name'], null);
                 }
-            }"
+              }"
+
+    view :by_organization,
+         :map => "function(doc) {
+                if ((doc['couchrest-type'] == 'User') && doc['organization']) {
+                  emit(doc['organization'], null);
+                }
+              }"
+
+    view :by_organization_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('organization') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['organization'], null);
+                }
+              }"
+
+    view :by_organization_disabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('organization') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
+                  emit(doc['organization'], null);
+                }
+              }"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -165,6 +177,9 @@ class User < CouchRest::Model::Base
   class << self
     alias :old_all :all
     alias :by_all :all
+    alias :by_user_name_all :by_user_name
+    alias :by_full_name_all :by_full_name
+    alias :by_organization_all :by_organization
     def all(*args)
       old_all(*args)
     end
