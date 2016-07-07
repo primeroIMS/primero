@@ -251,7 +251,7 @@ describe UsersController do
       users_details = assigns[:users_details]
       users_details.should_not be_nil
       user_detail = users_details[0]
-      user_detail[:user_name].should == "aaa123"
+      user_detail[:user_name].should == "ccc123"
       user_detail[:user_url].should_not be_blank
     end
 
