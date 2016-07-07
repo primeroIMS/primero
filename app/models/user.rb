@@ -134,7 +134,6 @@ class User < CouchRest::Model::Base
   before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
   after_save :save_devices
 
-  #TODO - refactor?
   before_update :if => :disabled? do |user|
     Session.delete_for user
   end
@@ -227,6 +226,10 @@ class User < CouchRest::Model::Base
     def last_login_timestamp(user_name)
       activity = LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
       activity.login_timestamp if activity.present?
+    end
+
+    def default_sort_field
+      'full_name'
     end
   end
 

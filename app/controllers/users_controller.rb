@@ -18,11 +18,6 @@ class UsersController < ApplicationController
     authorize! :read, User
 
     @page_name = t("home.users")
-    # sort_option = params[:sort] || "full_name"
-    # filter_option = params[:filter] || "active"
-
-    #TODO
-    # @users = User.view("by_#{sort_option}_filter_view", {:startkey => [filter_option], :endkey => [filter_option, {}]})
     @users_details = users_details
 
     respond_to do |format|
@@ -30,7 +25,6 @@ class UsersController < ApplicationController
       respond_to_export(format, @users)
     end
 
-    #TODO - cleanup
     if params[:ajax] == "true"
       render :partial => "users/user", :collection => @users
     end
