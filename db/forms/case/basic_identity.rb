@@ -25,7 +25,7 @@ basic_identity_fields = [
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Marked for mobile?",
-             "editable" => false,
+             "editable" => true,
              "create_property" => false
             }),
   Field.new({"name" => "child_status",
