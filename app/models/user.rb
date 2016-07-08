@@ -5,6 +5,7 @@ class User < CouchRest::Model::Base
   include PrimeroModel
   include Importable
   include Memoizable
+  include Disableable
 
   include Primero::CouchRestRailsBackward
 
@@ -19,7 +20,6 @@ class User < CouchRest::Model::Base
   property :organization
   property :position
   property :location
-  property :disabled, TrueClass, :default => false
   property :role_ids, [String]
   property :time_zone, :default => "UTC"
   property :locale
@@ -39,49 +39,66 @@ class User < CouchRest::Model::Base
   design do
     view :by_user_name,
             :map => "function(doc) {
-                  if ((doc['couchrest-type'] == 'User') && doc['user_name'])
-                  {
-                       emit(doc['user_name'], null);
-                  }
-            }"
+                if ((doc['couchrest-type'] == 'User') && doc['user_name']) {
+                  emit(doc['user_name'], null);
+                }
+              }"
+
+    view :by_user_name_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('user_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['user_name'], null);
+                }
+              }"
+
+    view :by_user_name_disabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('user_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
+                  emit(doc['user_name'], null);
+                }
+              }"
 
     view :by_full_name,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name'])
-                {
+         :map => "function(doc) {
+                if ((doc['couchrest-type'] == 'User') && doc['full_name']) {
                   emit(doc['full_name'], null);
                 }
-            }"
+              }"
 
-    view :by_user_name_filter_view,
-            :map => "function(doc) {
-                  if ((doc['couchrest-type'] == 'User') && doc['user_name'])
-                  {
-                      emit(['all',doc['user_name']], null);
-                      if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                        emit(['active',doc['user_name']], null);
-                  }
-            }"
-    view :by_full_name_filter_view,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name'])
-                {
-                  emit(['all',doc['full_name']], null);
-                  if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                    emit(['active',doc['full_name']], null);
-
+    view :by_full_name_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('full_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['full_name'], null);
                 }
-            }"
-    view :by_organization_filter_view,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['organization'])
-                {
-                  emit(['all',doc['organization']], null);
-                  if(doc['disabled'] == 'false' || doc['disabled'] == false)
-                    emit(['active',doc['organization']], null);
+              }"
 
+    view :by_full_name_disabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('full_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
+                  emit(doc['full_name'], null);
                 }
-            }"
+              }"
+
+    view :by_organization,
+         :map => "function(doc) {
+                if ((doc['couchrest-type'] == 'User') && doc['organization']) {
+                  emit(doc['organization'], null);
+                }
+              }"
+
+    view :by_organization_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('organization') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['organization'], null);
+                }
+              }"
+
+    view :by_organization_disabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('organization') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
+                  emit(doc['organization'], null);
+                }
+              }"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -116,7 +133,6 @@ class User < CouchRest::Model::Base
 
   before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
   after_save :save_devices
-
 
   before_update :if => :disabled? do |user|
     Session.delete_for user
@@ -159,6 +175,10 @@ class User < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
+    alias :by_all :all
+    alias :by_user_name_all :by_user_name
+    alias :by_full_name_all :by_full_name
+    alias :by_organization_all :by_organization
     def all(*args)
       old_all(*args)
     end
@@ -207,6 +227,10 @@ class User < CouchRest::Model::Base
       activity = LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
       activity.login_timestamp if activity.present?
     end
+
+    def default_sort_field
+      'full_name'
+    end
   end
 
   def email_entered?
@@ -251,6 +275,10 @@ class User < CouchRest::Model::Base
 
   def agency
     @agency_obj ||= Agency.get(self.organization)
+  end
+
+  def agency_name
+    self.agency.name
   end
 
   def last_login

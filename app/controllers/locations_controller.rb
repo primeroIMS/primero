@@ -1,7 +1,11 @@
 class LocationsController < ApplicationController
 
+  @model_class = Location
+
+  include DisableActions
+
   before_filter :load_location, :only => [:edit, :update, :destroy]
-  before_filter :load_locations_according_to_filter, :only => [:index, :new, :edit]
+  before_filter :load_records_according_to_disable_filter, :only => [:index, :new, :edit]
   before_filter :load_types, :only => [:new, :edit]
 
   def index
@@ -64,19 +68,6 @@ class LocationsController < ApplicationController
 
   def load_location
     @location = Location.get params[:id] if params[:id]
-  end
-
-  def load_locations_according_to_filter
-    filter_option = params[:filter] || "enabled"
-
-    case filter_option
-    when "all"
-      @locations = Location.get_all.all
-    when "disabled"
-      @locations = Location.by_disabled.all
-    else
-      @locations = Location.by_enabled.all
-    end
   end
 
   def load_types
