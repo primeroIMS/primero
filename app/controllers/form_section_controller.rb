@@ -17,7 +17,7 @@ class FormSectionController < ApplicationController
       format.html
       format.json do
         #TODO: What about module and type parameters?
-        if params[:mobile].present?
+          if params[:mobile]
           @lookups = Lookup.all.all
           @locations = Location.all_names
           @form_sections = format_for_mobile(@form_sections, params[:locale], params[:parent_form])
