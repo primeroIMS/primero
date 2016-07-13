@@ -20,6 +20,7 @@ class Child < CouchRest::Model::Base
   include Record
   include DocumentUploader
 
+  include UNHCRMapping
   include Ownable
   include Matchable
   include AudioUploader
