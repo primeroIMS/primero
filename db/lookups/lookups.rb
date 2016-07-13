@@ -266,3 +266,45 @@ create_or_update_lookup(
         "Other"
     ]
 )
+
+create_or_update_lookup(
+    :name => "unhcr_needs_codes",
+    :lookup_values => [
+        "CR-CP: Child parent",
+        "CR-CS: Child spouse",
+        "CR-CC: Child carer",
+        "CR-TP: Teenage pregnancy",
+        "CR-LW: Child engaged in worst forms of child labour",
+        "CR-LO: Child engaged in other forms of child labour",
+        "CR-NE: Child at risk of not attending school",
+        "CR-SE: Child with special education needs",
+        "CR-AF: Child associated with armed forces or groups",
+        "CR-CL: Child in conflict with the law",
+        "SC-CH: Child headed household",
+        "SC-IC: Child in institutional care",
+        "SC-FC: Child in foster care",
+        "DS-BD: Visual impairment (including blindness)",
+        "DS-DF: Hearing Impairment (including deafness)",
+        "DS-PM: Physical disability",
+        "DS-PS: Physical disability - severe",
+        "DS-MM: Mental disability",
+        "DS-MS: Mental disability - severe",
+        "DS-SD: Speech impairment/disability",
+        "SM-MI: Mental illness",
+        "SM-MN: Malnutrition",
+        "SM-CI: Chronic illness",
+        "SM-CC: Critical medical",
+        "SM-OT: Other medical condition",
+        "FU-TR: Tracing required",
+        "FU-FR: Family reunification required",
+        "LP-ND: No legal documentation",
+        "TR-PI: Psych. and/or physical impairment due to torture",
+        "TR-HO: Forced to egregious acts",
+        "TR-WV: Witness of violence to other",
+        "SV-VA: SGBV",
+        "LP-AN: Violence, abuse or neglect",
+        "LP-MD: Multiple displacements",
+        "LP-MS: Marginalized from society or community",
+        "LP-RR: At risk of refoulement"
+    ]
+)
