@@ -1,9 +1,12 @@
 <tr>
   <td class="id_column">
-    <%= link_to text_to_identify_potential_match_child(record), case_path(record.child_id), class: 'id_link' %>
+    <%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record.tracing_request_id), class: 'id_link' %>
   </td>
   <td class="id_column">
-    <%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record.tracing_request_id), class: 'id_link' %>
+    <%= record.tr_subform_id.last 7 %>
+  </td>
+  <td class="id_column">
+    <%= link_to text_to_identify_potential_match_child(record), case_path(record.child_id), class: 'id_link' %>
   </td>
   <td><%= record.average_rating %></td>
 </tr>

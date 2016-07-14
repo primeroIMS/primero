@@ -519,9 +519,10 @@ en:
 
   potential_match:
     id: "ID#"
-    child_id: 'child_id'
-    tr_id: 'tr_id'
-    score: 'score'
+    child_id: 'child id'
+    inquirer_id: 'inquirer id'
+    tr_id: 'tr id'
+    average_rating: 'average rating'
 
   preposition:
     on_label: "on"
