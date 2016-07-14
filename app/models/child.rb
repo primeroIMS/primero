@@ -49,6 +49,7 @@ class Child < CouchRest::Model::Base
   # validate :validate_date_closure
 
   before_save :sync_protection_concerns
+  before_save :auto_populate_name
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -270,6 +271,10 @@ class Child < CouchRest::Model::Base
 
   def self.view_by_field_list
     ['created_at', 'name', 'flag_at', 'reunited_at']
+  end
+
+  def auto_populate_name
+    self.name = auto_populate('name')
   end
 
   def set_instance_id
