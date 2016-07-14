@@ -3,10 +3,11 @@ module UNHCRMapping
 
   included do
     before_save :map_protection_concerns_to_unhcr_codes
+  end
 
-    def map_protection_concerns_to_unhcr_codes
+  def map_protection_concerns_to_unhcr_codes
         # TODO Implement this!!
-    end
+        puts SystemSettings.mapping
   end
 
 end
