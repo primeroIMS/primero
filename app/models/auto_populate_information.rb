@@ -1,9 +1,9 @@
 class AutoPopulateInformation
   include CouchRest::Model::CastedModel
 
-  property :populate_field
+  property :field_key
   property :populate_format, [String], :default => []
-  property :separator, String
+  property :separator, String, :defaul => ''
   property :autoPopulated, TrueClass, :default => false
 
 end

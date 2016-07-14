@@ -35,7 +35,7 @@ class SystemSettings < CouchRest::Model::Base
   end
 
   def auto_populate_info(field_key = "")
-    self.auto_populate_list.select{|ap| ap.populate_field == field_key}.first
+    self.auto_populate_list.select{|ap| ap.field_key == field_key}.first
   end
 
   def self.handle_changes

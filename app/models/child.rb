@@ -23,6 +23,7 @@ class Child < CouchRest::Model::Base
   include Ownable
   include Matchable
   include AudioUploader
+  include AutoPopulatable
 
   property :case_id
   property :case_id_code
