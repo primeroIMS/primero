@@ -181,12 +181,12 @@ class FormSectionController < ApplicationController
         section.slice!(:name, "order", :help_text, "base_language", "fields")
         section["fields"].delete_if { |i| i["mobile_visible"]==false }
         for field in section["fields"]
-          field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form", :display_name, :help_text, :option_strings_text)
+          field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
           if field["type"] == "subform"
             field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
             field["subform"]["fields"].delete_if { |i| i["mobile_visible"]==false }
             for subfield in field["subform"]["fields"]
-              subfield.slice!("name", "editable", "multi_select", "type", "required", "show_on_minify_form", :display_name, :help_text, :option_strings_text)
+              subfield.slice!("name", "editable", "multi_select", "type", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
             end
           end
         end
