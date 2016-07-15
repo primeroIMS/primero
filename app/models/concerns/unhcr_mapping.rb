@@ -6,8 +6,18 @@ module UNHCRMapping
   end
 
   def map_protection_concerns_to_unhcr_codes
-        # TODO Implement this!!
-        puts SystemSettings.mapping
+    if self.is_a? Child
+      system_settings = SystemSettings.current
+      unhcr_mapping = system_settings.unhcr_needs_codes_mapping
+      if unhcr_mapping.present? && unhcr_mapping.autocalculate == true && unhcr_mapping.mapping.present?
+        if self['protection_concerns'].present?
+          concerns = self['protection_concerns']
+          mapping = unhcr_mapping.mapping
+
+          self['unhcr_needs_codes'] = concerns.map{ |concern| mapping[concern] }.compact.uniq
+        end
+      end
+    end
   end
 
 end
