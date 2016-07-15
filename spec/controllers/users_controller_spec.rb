@@ -3,12 +3,15 @@ require 'spec_helper'
 describe UsersController do
   before do
     Role.all.each &:destroy
+    PrimeroModule.all.each &:destroy
+
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @role_case_read = create :role, permissions_list: [@permission_case_read]
     @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @role_tracing_request_read = create :role, permissions_list: [@permission_tracing_request_read]
     @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
     @role_incident_read = create :role, permissions_list: [@permission_incident_read]
+    @a_module = PrimeroModule.create name: "Test Module"
 
     @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
   end
@@ -19,6 +22,19 @@ describe UsersController do
 
   describe "GET index" do
     before do
+      User.all.each &:destroy
+
+      @user_a = User.create!(user_name: "AAA123", full_name: "ZZZ", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'cc')
+      @user_b = User.create!(user_name: "BBB123", full_name: "YYY", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'aa', disabled: false)
+      @user_c = User.create!(user_name: "CCC123", full_name: "XXX", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'ee')
+      @user_d = User.create!(user_name: "DDD123", full_name: "WWW", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'dd', disabled: true)
+      @user_e = User.create!(user_name: "EEE123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: true)
+
       fake_admin_login
       fake_session = Session.new()
       fake_session.stub(:admin?).with(no_args()).and_return(true)
@@ -26,73 +42,208 @@ describe UsersController do
       @user = mock_user({:merge => {}, :user_name => "someone"})
     end
 
+    context "when sorting by user name" do
+      before :each do
+        @params = {"sort" => 'user_name'}
+      end
+
+      context "with filter disabled" do
+        before :each do
+          @params['filter'] = 'disabled'
+        end
+
+        it "populates the view with all the disabled users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_d, @user_e])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with filter enabled" do
+        before :each do
+          @params['filter'] = 'enabled'
+        end
+
+        it "populates the view with all the enabled users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with filter all" do
+        before :each do
+          @params['filter'] = 'all'
+        end
+
+        it "populates the view with all the users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_d, @user_e])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with no filter" do
+        it "populates the view with all the users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+    end
+
+    context "when sorting by full name" do
+      before :each do
+        @params = {"sort" => 'full_name'}
+      end
+
+      context "with filter disabled" do
+        before :each do
+          @params['filter'] = 'disabled'
+        end
+
+        it "populates the view with all the disabled users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_e, @user_d])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with filter enabled" do
+        before :each do
+          @params['filter'] = 'enabled'
+        end
+
+        it "populates the view with all the enabled users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_c, @user_b, @user_a])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with filter all" do
+        before :each do
+          @params['filter'] = 'all'
+        end
+
+        it "populates the view with all the users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_e, @user_d, @user_c, @user_b, @user_a])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with no filter" do
+        it "populates the view with all the users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_c, @user_b, @user_a])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+    end
+
+    context "when sorting by organization" do
+      before :each do
+        @params = {"sort" => 'organization'}
+      end
+
+      context "with filter disabled" do
+        before :each do
+          @params['filter'] = 'disabled'
+        end
+
+        it "populates the view with all the disabled users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_e, @user_d])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with filter enabled" do
+        before :each do
+          @params['filter'] = 'enabled'
+        end
+
+        it "populates the view with all the enabled users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_b, @user_a, @user_c])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with filter all" do
+        before :each do
+          @params['filter'] = 'all'
+        end
+
+        it "populates the view with all the users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_b, @user_e, @user_a, @user_d, @user_c])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "with no filter" do
+        it "populates the view with all the users" do
+          get :index, @params
+          expect(assigns(:users)).to eq([@user_b, @user_a, @user_c])
+        end
+
+        it "renders the index template" do
+          get :index, @params
+          expect(response).to render_template("index")
+        end
+      end
+    end
+
     it "shows the page name" do
       get :index
       assigns[:page_name].should == "Manage Users"
     end
-
-    context "filter and sort users" do
-       before do
-         @active_user_one = mock_user({:merge => {}, :user_name => "active_user_one",:disabled=>false,:full_name=>"XYZ", :organization => "ZAB"})
-         @active_user_two = mock_user({:merge => {}, :user_name => "active_user_two",:disabled=>false,:full_name=>"ABC", :organization => "ABB"})
-         @inactive_user = mock_user({:merge => {}, :user_name => "inactive_user",:disabled=>true,:full_name=>"inactive_user", :organization => "1BS"})
-
-       end
-       it "should filter active users and sort them by full_name by default" do
-         User.should_receive(:view).with("by_full_name_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_two,@active_user_one])
-         get :index
-         assigns[:users].should == [@active_user_two,@active_user_one]
-       end
-
-       it "should filter all users and sort them by full_name" do
-         User.should_receive(:view).with("by_full_name_filter_view",{:startkey=>["all"],:endkey=>["all",{}]}).and_return([@active_user_two,@inactive_user,@active_user_one])
-         get :index, :sort => "full_name", :filter=>"all"
-         assigns[:users].should == [@active_user_two,@inactive_user,@active_user_one]
-       end
-
-       it "should filter all users and sort them by user_name" do
-         User.should_receive(:view).with("by_user_name_filter_view",{:startkey=>["all"],:endkey=>["all",{}]}).and_return([@active_user_one,@active_user_two,@inactive_user])
-         get :index, :sort => "user_name",:filter=>"all"
-         assigns[:users].should == [@active_user_one,@active_user_two,@inactive_user]
-       end
-
-       it "should filter active users and sort them by full_name" do
-         User.should_receive(:view).with("by_full_name_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_two,@active_user_one])
-         get :index, :sort => "full_name", :filter=>"active"
-         assigns[:users].should == [@active_user_two,@active_user_one]
-       end
-
-       it "should filter active users and sort them by user_name" do
-         User.should_receive(:view).with("by_user_name_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_one,@active_user_two])
-         get :index, :sort => "user_name", :filter=>"active"
-         assigns[:users].should == [@active_user_one,@active_user_two]
-       end
-
-       it "should filter all users and sort them by agency" do
-         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["all"],:endkey=>["all",{}]}).and_return([@active_user_two,@inactive_user,@active_user_one])
-         get :index, :sort => "organization", :filter=>"all"
-         assigns[:users].should == [@active_user_two,@inactive_user,@active_user_one]
-       end
-
-       it "should filter all users and sort them by agency" do
-         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["all"],:endkey=>["all",{}]}).and_return([@active_user_one,@active_user_two,@inactive_user])
-         get :index, :sort => "organization",:filter=>"all"
-         assigns[:users].should == [@active_user_one,@active_user_two,@inactive_user]
-       end
-
-       it "should filter active users and sort them by agency" do
-         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_two,@active_user_one])
-         get :index, :sort => "organization", :filter=>"active"
-         assigns[:users].should == [@active_user_two,@active_user_one]
-       end
-
-       it "should filter active users and sort them by agency" do
-         User.should_receive(:view).with("by_organization_filter_view",{:startkey=>["active"],:endkey=>["active",{}]}).and_return([@active_user_one,@active_user_two])
-         get :index, :sort => "organization", :filter=>"active"
-         assigns[:users].should == [@active_user_one,@active_user_two]
-       end
-    end
-
 
     it "assigns users_details for backbone" do
       User.stub(:view).and_return([@user])
@@ -100,7 +251,7 @@ describe UsersController do
       users_details = assigns[:users_details]
       users_details.should_not be_nil
       user_detail = users_details[0]
-      user_detail[:user_name].should == "someone"
+      user_detail[:user_name].should == "ccc123"
       user_detail[:user_url].should_not be_blank
     end
 
