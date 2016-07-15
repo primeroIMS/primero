@@ -19,7 +19,7 @@ class SystemSettings < CouchRest::Model::Base
     view :all
   end
 
-  #SyetsmSettings shoudl be a singleton. It can have a hard-coded name.
+  #SyetsmSettings should be a singleton. It can have a hard-coded name.
   def name
     I18n.t('system_settings.label')
   end
@@ -35,7 +35,7 @@ class SystemSettings < CouchRest::Model::Base
   end
 
   def auto_populate_info(field_key = "")
-    self.auto_populate_list.select{|ap| ap.field_key == field_key}.first
+    self.auto_populate_list.select{|ap| ap.field_key == field_key}.first if self.auto_populate_list.present?
   end
 
   def self.handle_changes

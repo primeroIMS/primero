@@ -8,7 +8,7 @@ module AutoPopulatable
       auto_populate_info.format.each {|pf| id_code_parts << PropertyEvaluator.evaluate(self, pf)}
       id_code_parts.reject(&:blank?).join(auto_populate_info.separator)
     else
-      ""
+      nil
     end
   end
 

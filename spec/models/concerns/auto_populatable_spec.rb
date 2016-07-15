@@ -47,6 +47,7 @@ describe AutoPopulatable do
   end
 
   context 'when SystemSettings is passed in' do
+
     context 'and auto_populated is true' do
       context 'and all format fields are populated' do
         before :each do
@@ -83,7 +84,11 @@ describe AutoPopulatable do
     end
 
     context 'and auto_populated is false' do
+      #TODO
+    end
 
+    context 'and auto_populate_list is nil' do
+      #TODO
     end
   end
 
