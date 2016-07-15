@@ -9,12 +9,15 @@ module UNHCRMapping
     if self.is_a? Child
       system_settings = SystemSettings.current
       unhcr_mapping = system_settings.unhcr_needs_codes_mapping
-      if unhcr_mapping.present? && unhcr_mapping.autocalculate == true && unhcr_mapping.mapping.present?
-        if self['protection_concerns'].present?
+      if unhcr_mapping.present?
+        if unhcr_mapping.autocalculate == true && unhcr_mapping.mapping.present? && self['protection_concerns'].present?
+
           concerns = self['protection_concerns']
           mapping = unhcr_mapping.mapping
 
           self['unhcr_needs_codes'] = concerns.map{ |concern| mapping[concern] }.compact.uniq
+        else
+          self['unhcr_needs_codes'] = nil
         end
       end
     end
