@@ -16,16 +16,17 @@ describe UNHCRMapping do
 
   describe 'empty protection_concerns' do
     it 'should return nil for unhcr_needs_codes' do
-      child = Child.create!(case_id: '123', created_by: 'user')
-      expect(child['unhcr_needs_codes']).to eq(nil)
+      child = Child.create!(protection_concerns: nil)
+      expect(child.unhcr_needs_codes).to eq(nil)
     end
   end
 
   describe 'case with protection_concerns' do
     it 'should return valid unhcr_needs_codes' do
-      child = Child.create!(protection_concerns: ['protection ab','protection cd'],
-                              unhcr_needs_codes: nil)
-      expect(child['unhcr_needs_codes']).to eq(['AB','CD'])
+      child = Child.create! protection_concerns: ['protection ab','protection cd'],
+                            unhcr_needs_codes: nil
+
+      expect(child.unhcr_needs_codes).to eq(['AB','CD'])
     end
 
     it 'should map one to many' do
@@ -35,7 +36,7 @@ describe UNHCRMapping do
 
         child = Child.create!(protection_concerns: ['protection ab','protection ef'],
                               unhcr_needs_codes: nil)
-        expect(child['unhcr_needs_codes']).to eq(['AB'])
+        expect(child.unhcr_needs_codes).to eq(['AB'])
     end
 
     context 'should not return unhcr_needs_codes' do
@@ -45,7 +46,7 @@ describe UNHCRMapping do
 
         child = Child.create!(protection_concerns: ['protection ab','protection cd'],
                               unhcr_needs_codes: nil)
-        expect(child['unhcr_needs_codes']).to eq(nil)
+        expect(child.unhcr_needs_codes).to eq(nil)
       end
 
       it 'when autocalculate is set to false' do
@@ -54,7 +55,7 @@ describe UNHCRMapping do
 
         child = Child.create!(protection_concerns: ['protection ab','protection cd'],
                               unhcr_needs_codes: nil)
-        expect(child['unhcr_needs_codes']).to eq(nil)
+        expect(child.unhcr_needs_codes).to eq(nil)
       end
     end
 
@@ -62,7 +63,7 @@ describe UNHCRMapping do
       it 'after protection_concerns change' do
         child = Child.create!(protection_concerns: ['protection ab'],
                                 unhcr_needs_codes: ['AB','CD','EF'])
-        expect(child['unhcr_needs_codes']).to eq(['AB'])
+        expect(child.unhcr_needs_codes).to eq(['AB'])
       end
 
       it 'after settings change' do
@@ -71,10 +72,11 @@ describe UNHCRMapping do
 
         @system_settings.unhcr_needs_codes_mapping.autocalculate = false
         @system_settings.save!
+
         child.attributes = {'name' => 'Johnny Bravo'}
         child.save!
 
-        expect(child['unhcr_needs_codes']).to eq(nil)
+        expect(child.unhcr_needs_codes).to eq(nil)
       end
     end
   end

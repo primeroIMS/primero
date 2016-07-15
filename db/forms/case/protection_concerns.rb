@@ -26,6 +26,7 @@ protection_concern_fields = [
   Field.new({"name" => "unhcr_protection_code",
              "type" => "text_field",
              "display_name_all" => "UNHCR Protection Code",
+             "visible" => false,
              "editable" => false,
              "help_text_all" => "This field is deprecated in v1.2 and replaced by unchr_needs_code"
             }),
@@ -39,7 +40,7 @@ protection_concern_fields = [
   Field.new({"name" => "protection_concerns_other",
              "type" => "text_field",
              "display_name_all" => "If Other, please specify"
-  }),
+            }),
   Field.new({"name" => "unhcr_needs_codes",
              "type" => "select_box",
              "multi_select" => true,
