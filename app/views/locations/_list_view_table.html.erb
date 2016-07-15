@@ -5,6 +5,7 @@
     <th><%= t "location.code" %></th>
     <th><%= t "location.type" %></th>
     <th><%= t "location.hierarchy" %></th>
+    <th><%= t "disabled.status.label" %></th>
     <th ></th>
   </tr>
   </thead>
@@ -16,10 +17,9 @@
             <td><%= lct.location_code %></td>
             <td><%= lct.type %></td>
             <td><%= lct.hierarchy.join(", ") %></td>
+            <td><%= disabled_status lct %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>
-              <br>
-              <%= link_to t("buttons.delete"), location_path(lct), data: {confirm: t("location.confirm_delete")}, method: :delete %>
             </td>
           </tr>
       <% end %>

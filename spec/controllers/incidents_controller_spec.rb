@@ -165,7 +165,7 @@ describe IncidentsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakemrmworker"], nil, nil).and_return(search)
+        Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakemrmworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:incidents].should == collection
@@ -184,7 +184,7 @@ describe IncidentsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
-        Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["all"], nil, nil).and_return(search)
+        Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["all"], nil, nil).and_return(search)
 
         #User
         @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)

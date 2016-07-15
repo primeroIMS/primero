@@ -102,6 +102,8 @@ en:
 
   buttons:
      delete: "Delete"
+     disable: "Disable"
+     enable: "Enable"
      save: "Save"
      login: "Log in"
      reunite: "Reunite"
@@ -552,6 +554,7 @@ en:
     actions:
       show_all: "Showing all"
       show: "Show"
+      edit: "Edit"
     messages:
       disable: 'Are you sure you want to disable this user?'
     sort_by:
@@ -1307,6 +1310,7 @@ en:
         password_mismatch: "The password fields do not have the same password"
         password_text: "- Please create a password that is at least 8 characters in length and contains both letters and numbers"
         role_ids: "Please select at least one role"
+        module_ids: "Please select at least one module"
         organization: "Please enter the user's organization name"
         user_name: "Please enter a valid user name"
         email: "Please enter a valid email address"
@@ -1601,3 +1605,14 @@ en:
   per_page_translation: "Per page _MENU_"
   total: Total
   caregiver: " (Caregiver)"
+
+  disabled:
+    filter_label: "Show"
+    status:
+      enabled: "Enabled"
+      disabled: "Disabled"
+      all: "All"
+      label: "Status"
+
+  sort_by:
+    label: "Sort by"

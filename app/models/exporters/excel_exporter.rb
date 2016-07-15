@@ -148,7 +148,9 @@ module Exporters
 
       def generate_work_sheet(workbook, form_name, counter)
         #Clean up name and truncate to the allowed limit.
-        work_sheet_name = "(#{counter}) #{form_name.sub(/[\[\]\:\*\?\/\\]/, " ")}".truncate(31)
+        #Patch to remove non-ascii characters
+        #TODO - refactor to use gem that better handles unicode characters (such as Arabic)
+        work_sheet_name = "(#{counter}) #{form_name.sub(/[\[\]\:\*\?\/\\]/, " ")}".encode("iso-8859-1", undef: :replace, replace: "").strip.truncate(31)
         workbook.add_worksheet(work_sheet_name)
       end
 
