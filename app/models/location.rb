@@ -5,6 +5,7 @@ class Location < CouchRest::Model::Base
   include PrimeroModel
   include Namable
   include Memoizable
+  include Disableable
 
   #TODO - I18n
   BASE_TYPES = ['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other']
@@ -25,6 +26,14 @@ class Location < CouchRest::Model::Base
                 }
               }
             }"
+
+    view :by_type_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('type') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['type'], null);
+                }
+              }"
+
     view :by_type
     view :by_placename
   end
@@ -56,7 +65,7 @@ class Location < CouchRest::Model::Base
 
   class << self
     alias :old_all :all
-    alias :get_all :all
+    alias :by_all :all
 
     def all(*args)
       old_all(*args)
@@ -112,7 +121,7 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :find_types_in_hierarchy
 
     def all_names
-      self.all.map{|r| r.name}
+      self.by_enabled.map{|r| r.name}
     end
     memoize_in_prod :all_names
 

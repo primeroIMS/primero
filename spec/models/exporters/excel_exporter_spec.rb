@@ -8,21 +8,21 @@ module Exporters
       FormSection.all.each &:destroy
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(:name => "cases_test_subform_2", :parent_form => "case", "visible" => false, "is_nested"=>true,
-                                :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_subform_2",
+                                :order_form_group => 2, :order => 0, :order_subform => 0, :form_group_name => "Case Form 3",
                                 :unique_id => "cases_test_subform_2")
       subform.fields << Field.new(:name => "field_3", :type => Field::TEXT_FIELD, :display_name => "field_3")
       subform.fields << Field.new(:name => "field_4", :type => Field::TEXT_FIELD, :display_name => "field_4")
       subform.save!
 
       form = FormSection.new(:name => "cases_test_form_3", :parent_form => "case", "visible" => true,
-                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_3")
+                             :order_form_group => 2, :order => 0, :order_subform => 0, :form_group_name => "Case Form 3")
       form.fields << Field.new(:name => "subform_field_2", :type => Field::SUBFORM, :display_name => "subform field", "subform_section_id" => subform.unique_id)
       form.save!
       #### Build Form Section with subforms fields only ######
 
       #### Build Form Section with none subforms fields ######
       form = FormSection.new(:name => "cases_test_form_2", :parent_form => "case", "visible" => true,
-                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_2")
+                             :order_form_group => 1, :order => 0, :order_subform => 0, :form_group_name => "Case Form 2")
       form.fields << Field.new(:name => "relationship", :type => Field::TEXT_FIELD, :display_name => "relationship")
       form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true, 
                                :option_strings_text => ["Option1", "Option2"])
@@ -31,21 +31,21 @@ module Exporters
 
       #### Build Form Section with subforms fields and others kind of fields ######
       subform = FormSection.new(:name => "cases_test_subform_1", :parent_form => "case", "visible" => false, "is_nested"=>true,
-                                :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_subform_1",
+                                :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "Case Form 1",
                                 :unique_id => "cases_test_subform_1")
       subform.fields << Field.new(:name => "field_1", :type => Field::TEXT_FIELD, :display_name => "field_1")
       subform.fields << Field.new(:name => "field_2", :type => Field::TEXT_FIELD, :display_name => "field_2")
       subform.save!
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(:name => "cases_test_subform_3", :parent_form => "case", "visible" => false, "is_nested"=>true,
-                                :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_subform_3",
+                                :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "Case Form 1",
                                 :unique_id => "cases_test_subform_3")
       subform.fields << Field.new(:name => "field_5", :type => Field::TEXT_FIELD, :display_name => "field_5")
       subform.fields << Field.new(:name => "field_6", :type => Field::TEXT_FIELD, :display_name => "field_6")
       subform.save!
 
       form = FormSection.new(:name => "cases_test_form_1", :parent_form => "case", "visible" => true,
-                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_1")
+                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "Case Form 1")
       form.fields << Field.new(:name => "first_name", :type => Field::TEXT_FIELD, :display_name => "first_name")
       form.fields << Field.new(:name => "last_name", :type => Field::TEXT_FIELD, :display_name => "last_name")
       form.fields << Field.new(:name => "subform_field_1", :type => Field::SUBFORM, :display_name => "subform field", "subform_section_id" => "cases_test_subform_1")
@@ -53,12 +53,21 @@ module Exporters
       form.save!
       #### Build Form Section with subforms fields and others kind of fields ######
 
+      #### Build Form Section with Arabic characters in the form name ######
+      form = FormSection.new(:name => "Test Arabic فاكيا قد به،. بـ حتى", :parent_form => "case", "visible" => true,
+                             :order_form_group => 3, :order => 3, :order_subform => 0, :form_group_name => "Test Arabic")
+      form.fields << Field.new(:name => "arabic_text", :type => Field::TEXT_FIELD, :display_name => "arabic text")
+      form.fields << Field.new(:name => "arabic_array", :type => Field::SELECT_BOX, :display_name => "arabic array", :multi_select => true,
+                               :option_strings_text => ["عقبت 1", "لدّفاع 2"])
+      form.save!
+
       Child.refresh_form_properties
 
       @properties_by_module = {"primeromodule-cp" => Child.properties_by_form }
 
       @records = [Child.new("module_id" => "primeromodule-cp", "first_name" => "John", "last_name" => "Doe",
                            "relationship"=>"Mother", "array_field"=> ["Option1", "Option2"],
+                            "arabic_text" => "لدّفاع", "arabic_array" => ["النفط", "المشتّتون"],
                            "subform_field_1" => [{"unique_id" =>"1", "field_1" => "field_1 value", "field_2" => "field_2 value"}],
                            "subform_field_2" => [{"unique_id" =>"2", "field_3" => "field_3 value", "field_4" => "field_4 value"}],
                            "subform_field_3" => [{"unique_id" =>"3", "field_5" => "field_5 value", "field_6" => "field_6 value"}])]
@@ -106,6 +115,10 @@ module Exporters
       sheet = book.worksheets[4]
       sheet.row(0).to_a.should == ["_id", "model_type", "field_3", "field_4"]
       sheet.row(1).to_a.should == [nil, "Case", "field_3 value", "field_4 value"]
+
+      #Arabic form.
+      sheet = book.worksheets[5]
+      sheet.row(0).to_a.should == ["_id", "model_type", "arabic_text", "arabic_array"]
     end
 
     it "converts data to Excel format - subforms selected fields" do

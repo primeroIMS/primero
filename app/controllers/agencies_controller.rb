@@ -3,14 +3,15 @@ class AgenciesController < ApplicationController
   @model_class = Agency
 
   include MediaActions
+  include DisableActions
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
+  before_filter :load_records_according_to_disable_filter, :only => [:index]
 
   def index
     authorize! :index, Agency
     @page_name = t("agencies.label")
-    @agencies = Agency.by_order
   end
 
   def show

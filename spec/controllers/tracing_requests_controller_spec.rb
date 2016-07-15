@@ -186,7 +186,7 @@ describe TracingRequestsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(100)
-        TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
         get :index, params
         assigns[:tracing_requests].should == collection
@@ -205,7 +205,7 @@ describe TracingRequestsController do
         search = double(Sunspot::Search::StandardSearch)
         search.should_receive(:results).and_return(collection)
         search.should_receive(:total).and_return(2)
-        TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 100}, ["fakefieldworker"], nil, nil).and_return(search)
+        TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
 
         ##### Main part of the test ####
         controller.should_receive(:list_view_header).with("tracing_request").and_call_original
