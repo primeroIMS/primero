@@ -12,7 +12,7 @@ class ConfigurationBundleController < ApplicationController
     Role,
     SystemUsers,
     UserGroup,
-    SystemSettings,
+    SystemSettings
   ]
 
   #TODO: Move the logic for this to the model

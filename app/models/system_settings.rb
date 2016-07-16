@@ -4,11 +4,11 @@ class SystemSettings < CouchRest::Model::Base
   include PrimeroModel
   include Memoizable
 
-
   property :default_locale, String
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
+  property :unhcr_needs_codes_mapping, Mapping
   property :primero_version
 
   #TODO: Think about what needs to take place to the current config. Update?

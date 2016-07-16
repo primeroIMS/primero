@@ -25,7 +25,10 @@ protection_concern_fields = [
             }),
   Field.new({"name" => "unhcr_protection_code",
              "type" => "text_field",
-             "display_name_all" => "UNHCR Protection Code"
+             "display_name_all" => "UNHCR Protection Code",
+             "visible" => false,
+             "editable" => false,
+             "help_text_all" => "This field is deprecated in v1.2 and replaced by unchr_needs_code"
             }),
   Field.new({"name" => "protection_concerns",
              "type" => "select_box",
@@ -35,9 +38,16 @@ protection_concern_fields = [
              "option_strings_source" => "lookup ProtectionConcerns"
             }),
   Field.new({"name" => "protection_concerns_other",
-    "type" => "text_field",
-    "display_name_all" => "If Other, please specify"
-  }),
+             "type" => "text_field",
+             "display_name_all" => "If Other, please specify"
+            }),
+  Field.new({"name" => "unhcr_needs_codes",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "UNHCR Needs Codes",
+             "editable" => false,
+             "option_strings_source" => "lookup UnhcrNeedsCodes"
+            }),
   Field.new({"name" => "disability_type",
              "type" =>"select_box" ,
              "display_name_all" => "Disability Type",
