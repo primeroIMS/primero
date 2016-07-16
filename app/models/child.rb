@@ -289,8 +289,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_case_id_display(system_settings)
-    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
-    [self.case_id_code, self.short_id].reject(&:blank?).join(separator)
+    [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
   end
 
   def create_class_specific_fields(fields)

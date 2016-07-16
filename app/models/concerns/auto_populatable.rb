@@ -12,4 +12,9 @@ module AutoPopulatable
     end
   end
 
+  def auto_populate_separator(field_key, system_settings = SystemSettings.current)
+    auto_populate_info = system_settings.auto_populate_info(field_key) if system_settings.present?
+    auto_populate_info.present? ? auto_populate_info.separator : ""
+  end
+
 end
