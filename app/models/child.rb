@@ -19,6 +19,7 @@ class Child < CouchRest::Model::Base
   include PhotoUploader
   include Record
   include DocumentUploader
+  include UNHCRMapping
 
   include Ownable
   include Matchable
@@ -29,6 +30,7 @@ class Child < CouchRest::Model::Base
   property :case_id_display
   property :nickname
   property :name
+  property :protection_concerns
   property :hidden_name, TrueClass, :default => false
   property :registration_date, Date
   property :reunited, TrueClass
@@ -328,7 +330,7 @@ class Child < CouchRest::Model::Base
   end
 
   def sync_protection_concerns
-    protection_concerns = self.try(:protection_concerns)
+    protection_concerns = self.protection_concerns
     protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map{|pc| pc.try(:protection_concern_type)}).compact.uniq
