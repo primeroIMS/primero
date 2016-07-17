@@ -1364,7 +1364,7 @@ describe Child do
 
       it 'should create an empty case id code' do
         child = Child.create! case_id: 'xyz123', created_by: 'bob123'
-        expect(child.case_id_code).to be_empty
+        expect(child.case_id_code).to be_nil
       end
 
       it 'should create a case id display that matches short id' do
@@ -1376,12 +1376,15 @@ describe Child do
     context 'system case code separator empty' do
       before :all do
         SystemSettings.all.each &:destroy
-        @system_settings = SystemSettings.create default_locale: "en",
-                                                 case_code_format: [
-                                                           "created_by_user.Location.admin_level(country).location_code",
-                                                           "created_by_user.Location.admin_level(region).location_code",
-                                                           "created_by_user.agency.agency_code"
-                                                 ]
+        ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
+                                          format: [
+                                              "created_by_user.Location.admin_level(country).location_code",
+                                              "created_by_user.Location.admin_level(region).location_code",
+                                              "created_by_user.agency.agency_code"
+                                          ],
+                                          auto_populated: true)
+
+        @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
       end
 
       it 'should create a case id code without separators' do
@@ -1398,13 +1401,15 @@ describe Child do
     context 'system case code format and separator present' do
       before :all do
         SystemSettings.all.each &:destroy
-        @system_settings = SystemSettings.create default_locale: "en",
-                                                 case_code_separator: "-",
-                                                 case_code_format: [
-                                                           "created_by_user.Location.admin_level(country).location_code",
-                                                           "created_by_user.Location.admin_level(region).location_code",
-                                                           "created_by_user.agency.agency_code"
-                                                 ]
+        ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
+                                          format: [
+                                              "created_by_user.Location.admin_level(country).location_code",
+                                              "created_by_user.Location.admin_level(region).location_code",
+                                              "created_by_user.agency.agency_code"
+                                          ],
+                                          separator: '-', auto_populated: true)
+
+        @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
       end
 
       it 'should create a case id code with separators' do

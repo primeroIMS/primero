@@ -24,6 +24,7 @@ class Child < CouchRest::Model::Base
   include Ownable
   include Matchable
   include AudioUploader
+  include AutoPopulatable
 
   property :case_id
   property :case_id_code
@@ -50,6 +51,7 @@ class Child < CouchRest::Model::Base
   # validate :validate_date_closure
 
   before_save :sync_protection_concerns
+  before_save :auto_populate_name
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -273,25 +275,21 @@ class Child < CouchRest::Model::Base
     ['created_at', 'name', 'flag_at', 'reunited_at']
   end
 
+  def auto_populate_name
+    #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
+    a_name = auto_populate('name')
+    self.name = a_name unless a_name.nil?
+  end
+
   def set_instance_id
     system_settings = SystemSettings.current
     self.case_id ||= self.unique_identifier
-    self.case_id_code ||= create_case_id_code(system_settings)
+    self.case_id_code ||= auto_populate('case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
 
-  def create_case_id_code(system_settings)
-    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
-    id_code_parts = []
-    if system_settings.present? && system_settings.case_code_format.present?
-      system_settings.case_code_format.each {|cf| id_code_parts << PropertyEvaluator.evaluate(self, cf)}
-    end
-    id_code_parts.reject(&:blank?).join(separator)
-  end
-
   def create_case_id_display(system_settings)
-    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
-    [self.case_id_code, self.short_id].reject(&:blank?).join(separator)
+    [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
   end
 
   def create_class_specific_fields(fields)
