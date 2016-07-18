@@ -257,6 +257,7 @@ Primero::Application.routes.draw do
     resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
     resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
     resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
   end
 
 #######################
