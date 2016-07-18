@@ -56,7 +56,7 @@ module Exporters
       end,
       'Protection Concern' => ['unhcr_protection_code'],
       'Protection Status' => ['protection_status'],
-      'Protection Concerns' => ->(c) { c.protection_concerns.join(', ') },
+      'Protection Concerns' => ->(c) { c.protection_concerns.join(', ') if c.protection_concerns.present?},
       'Disability Type' => ['disability_type'],
       'Place of origin' => ['country_of_origin'],
       'Language' => ->(c) { c.language.join(', ') },
