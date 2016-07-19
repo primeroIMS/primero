@@ -8,7 +8,8 @@ describe "children/new.html.erb" do
                  "type" =>"select_box" ,
                  "display_name_all" => "Caseworker Code",
                  "option_strings_source" => "User",
-                 "editable" => false
+                 "editable" => false,
+                 "disabled" => true
               }),
       Field.new({"name" => "assigned_user_names",
                  "type" =>"select_box",
@@ -19,17 +20,20 @@ describe "children/new.html.erb" do
       Field.new({"name" => "created_by",
               "type" => "text_field",
               "display_name_all" => "Record created by",
-              "editable" => false
+              "editable" => false,
+              "disabled" => true
               }),
       Field.new({"name" => "previously_owned_by",
               "type" => "text_field",
               "display_name_all" => "Previous Owner",
-              "editable" => false
+              "editable" => false,
+              "disabled" => true
               }),
       Field.new({"name" => "module_id",
               "type" => "text_field",
               "display_name_all" => "Module",
-              "editable" => false
+              "editable" => false,
+              "disabled" => true
               })
     ]
     @form_section = FormSection.new({

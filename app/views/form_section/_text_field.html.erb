@@ -7,7 +7,8 @@
   hide_text_link_text = formObject.hidden_name ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
   hide_text_link_action = formObject.hidden_name ? "view" : "protect"
   value = I18n.t("cases.hidden_text_field_text") if text_field.hidden_text_field && formObject.hidden_name && !formObject.new_record?
-  disabled_field = (text_field.hidden_text_field && formObject.hidden_name && !formObject.new_record?) || (!text_field.editable)
+
+  disabled_field = (text_field.hidden_text_field && formObject.hidden_name && !formObject.new_record?) || text_field.disabled
   field_tags = text_field.field_tags.present? ? text_field.field_tags : []
 %>
 <div class="row">
