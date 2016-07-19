@@ -114,7 +114,13 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "unhcr_id_no",
              "type" => "text_field",
-             "display_name_all" => "UNHCR ID"
+             "display_name_all" => "proGres Case ID",
+             "help_text_all" => "UNHCR Asylum Seeker Certificate Number"
+            }),
+  Field.new({"name" => "unhcr_individual_no",
+             "type" => "text_field",
+             "display_name_all" => "proGres Individual ID",
+             "help_text_all" => "This ID is shown on the tracking sheet."
             }),
   Field.new({"name" => "un_no",
             "type" => "text_field",
