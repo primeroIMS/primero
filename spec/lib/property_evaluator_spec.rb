@@ -21,12 +21,12 @@ describe "PropertyEvaluator" do
   end
 
   it 'evaluates a test string on the test record' do
-    test_string = "created_by_user.Location.admin_level(country).location_code"
+    test_string = "created_by_user.Location.ancestor_by_type(country).location_code"
     expect(PropertyEvaluator.evaluate(@child, test_string)).to eq "GUI"
   end
 
   it "doesn't break if a value in the evaluation chain is missing" do
-    test_string = "created_by_user.Location.admin_level(country).location_code"
+    test_string = "created_by_user.Location.ancestor_by_type(country).location_code"
     expect(PropertyEvaluator.evaluate(@child2, test_string)).to be_nil
   end
 

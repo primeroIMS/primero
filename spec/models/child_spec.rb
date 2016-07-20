@@ -1378,8 +1378,8 @@ describe Child do
         SystemSettings.all.each &:destroy
         @system_settings = SystemSettings.create default_locale: "en",
                                                  case_code_format: [
-                                                           "created_by_user.Location.admin_level(country).location_code",
-                                                           "created_by_user.Location.admin_level(region).location_code",
+                                                           "created_by_user.Location.ancestor_by_type(country).location_code",
+                                                           "created_by_user.Location.ancestor_by_type(region).location_code",
                                                            "created_by_user.agency.agency_code"
                                                  ]
       end
@@ -1401,8 +1401,8 @@ describe Child do
         @system_settings = SystemSettings.create default_locale: "en",
                                                  case_code_separator: "-",
                                                  case_code_format: [
-                                                           "created_by_user.Location.admin_level(country).location_code",
-                                                           "created_by_user.Location.admin_level(region).location_code",
+                                                           "created_by_user.Location.ancestor_by_type(country).location_code",
+                                                           "created_by_user.Location.ancestor_by_type(region).location_code",
                                                            "created_by_user.agency.agency_code"
                                                  ]
       end

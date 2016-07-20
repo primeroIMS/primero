@@ -15,6 +15,7 @@ class Location < CouchRest::Model::Base
   property :type
   property :hierarchy, type: [String]
   property :hierarchical_name, read_only: true
+
   attr_accessor :parent_id
 
   design do
@@ -125,11 +126,11 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all_names
 
-    def get_admin_level_from_string(location, admin_type)
+    def ancestor_name_by_type(location, admin_type)
       location = Location.placename_from_name(location)
       location_obj = Location.find_by_location(location)
-      admin_type = location_obj.present? ? location_obj.first.admin_level(admin_type) : nil
-      return admin_type.present? ? admin_type.placename : nil
+      ancestor = location_obj.present? ? location_obj.first.ancestor_by_type(admin_type) : nil
+      return ancestor.present? ? ancestor.placename : nil
     end
 
   end
@@ -175,8 +176,6 @@ class Location < CouchRest::Model::Base
       return response.first
     end
   end
-
-  alias admin_level ancestor_by_type
 
   def set_parent(parent)
     #Figure out the new hierarchy
