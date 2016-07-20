@@ -444,7 +444,7 @@ module Record
   end
 
   def create_identification
-    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
+    self.unique_identifier ||= (self.case_id || UUIDTools::UUID.random_create.to_s)
     self.short_id ||= self.unique_identifier.last 7
     #Method should be defined by the derived classes.
     self.set_instance_id

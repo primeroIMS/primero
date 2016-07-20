@@ -186,7 +186,7 @@ module RecordActions
         end
         format.json do
           @record = format_json_response(@record)
-          render :json => @record
+          render :json => @record.slice!("_attachments","histories")
         end
       else
         @form_sections ||= @record.allowed_formsections(current_user)
