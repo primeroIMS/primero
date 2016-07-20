@@ -19,10 +19,12 @@ class Child < CouchRest::Model::Base
   include PhotoUploader
   include Record
   include DocumentUploader
+  include UNHCRMapping
 
   include Ownable
   include Matchable
   include AudioUploader
+  include AutoPopulatable
 
   FORM_NAME = 'case'
 
@@ -31,6 +33,7 @@ class Child < CouchRest::Model::Base
   property :case_id_display
   property :nickname
   property :name
+  property :protection_concerns
   property :hidden_name, TrueClass, :default => false
   property :registration_date, Date
   property :reunited, TrueClass
@@ -50,6 +53,7 @@ class Child < CouchRest::Model::Base
   # validate :validate_date_closure
 
   before_save :sync_protection_concerns
+  before_save :auto_populate_name
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -294,13 +298,19 @@ class Child < CouchRest::Model::Base
   end
 
 
+  def auto_populate_name
+    #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
+    a_name = auto_populate('name')
+    self.name = a_name unless a_name.nil?
+  end
+
   def set_instance_id
     system_settings = SystemSettings.current
     self.case_id ||= self.unique_identifier
-    self.case_id_code ||= create_case_id_code(system_settings)
+    self.case_id_code ||= auto_populate('case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
-
+  
   def create_case_id_code(system_settings)
     separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
     id_code_parts = []
@@ -311,8 +321,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_case_id_display(system_settings)
-    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
-    [self.case_id_code, self.short_id].reject(&:blank?).join(separator)
+    [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
   end
 
   def create_class_specific_fields(fields)
@@ -351,7 +360,7 @@ class Child < CouchRest::Model::Base
   end
 
   def sync_protection_concerns
-    protection_concerns = self.try(:protection_concerns)
+    protection_concerns = self.protection_concerns
     protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc.try(:protection_concern_type) }).compact.uniq

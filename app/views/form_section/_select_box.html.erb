@@ -19,13 +19,16 @@
     <% if select_box.multi_select %>
       <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups, @locations), value), 'multiple' => '',
           'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
-          :data => { :field_tags => field_tags}, required: select_box.required %>
+          :data => { :field_tags => field_tags}, required: select_box.required, :editable => select_box.editable, :disabled => select_box.editable == false ? true : false %>
     <% elsif select_box.searchable_select %>
       <%= select_tag name, options_for_select(select_box.select_options(formObject, @lookups, @locations), value),
           'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), :id => field_id,
           :data => { :field_tags => field_tags}, required: select_box.required %>
     <% else %>
       <%
+        #TODO: We should combine single and multi selects and simplify this code
+        # select_box.searchable_select is a hack, refactor, refactor, refactor!  
+
         #TODO: Pending disabled for choosen.
         disabled_select_box = !select_box.editable
         #workaround to avoid present the default value (Select...) when the select_box
@@ -37,7 +40,7 @@
         end
       %>
       <%= select_tag name, options_for_select(select_box_select_options, value), :id => field_id,
-          :data => { :field_tags => field_tags}, :disabled => disabled_select_box, :required => select_box.required %>
+          :data => { :field_tags => field_tags}, :disabled => disabled_select_box, :required => select_box.required, :editable => select_box.editable %>
     <% end %>
     <% if select_box.guiding_questions.present? %>
       <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0',

@@ -46,6 +46,19 @@
           <%= select_tag 'location[parent_id]', options_for_select(parent_options, parent_selection )%>
         </div>
       </div>
+      <% if can?(:disable, @location) %>
+        <div class="row">
+          <div class="medium-3 columns">
+            <span class="tool-tip-label">
+              <%= f.label :disabled, t("disabled.status.disabled"), :class=>'key inline' %>
+            </span>
+          </div>
+          <div class="medium-8 columns">
+            <%= f.check_box :disabled, {}, "true", "false" %>
+          </div>
+          <div class="medium-1 columns"></div>
+        </div>
+      <% end %>
     </fieldset>
   <% end %>
 </div>

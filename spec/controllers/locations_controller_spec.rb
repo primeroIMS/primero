@@ -10,8 +10,10 @@ describe LocationsController do
     @province2 = create :location, placename: "Province2", hierarchy: [@country.placename]
     @province3 = create :location, placename: "Province3", hierarchy: [@country.placename]
     @town1 = create :location, placename: "Town1", hierarchy: [@country.placename, @province1.placename]
-    @town2 = create :location, placename: "Town2", hierarchy: [@country.placename, @province1.placename]
+    @town2 = create :location, placename: "Town2", hierarchy: [@country.placename, @province1.placename], disabled: false
     @town3 = create :location, placename: "Town3", hierarchy: [@country.placename, @province2.placename]
+    @disabled1 = create :location, hierarchy: [@country.placename, @province2.placename], disabled: true
+    @disabled2 = create :location, hierarchy: [@country.placename, @province2.placename], disabled: true
     @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
 
     user = User.new(:user_name => 'manager_of_locations')
@@ -21,16 +23,81 @@ describe LocationsController do
   end
 
   describe "get index" do
-    it "populate the view with all the lookups" do
-      locations = [@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3]
-      get :index
-      expect(assigns(:locations)).to eq(locations)
+    context "with filter disabled" do
+      before :each do
+        @params = {"filter" => 'disabled'}
+      end
+
+      it "populates the view with all the disabled locations" do
+        get :index, @params
+        expect(assigns(:locations)).to include(@disabled1, @disabled2)
+      end
+
+      it "does not populate the vew with enabled locations" do
+        get :index, @params
+        expect(assigns(:locations)).not_to include(@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3)
+      end
+
+      it "renders the index template" do
+        get :index, @params
+        expect(response).to render_template("index")
+      end
     end
 
-    it "renders the index template" do
-      get :index
-      expect(response).to render_template("index")
+    context "with filter enabled" do
+      before :each do
+        @params = {"filter" => 'enabled'}
+      end
+
+      it "populates the view with all the enabled locations" do
+        get :index, @params
+        expect(assigns(:locations)).to include(@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3)
+      end
+
+      it "does not populate the vew with disabled locations" do
+        get :index, @params
+        expect(assigns(:locations)).not_to include(@disabled1, @disabled2)
+      end
+
+      it "renders the index template" do
+        get :index, @params
+        expect(response).to render_template("index")
+      end
     end
+
+    context "with filter all" do
+      before :each do
+        @params = {"filter" => 'all'}
+      end
+
+      it "populates the view with all the locations" do
+        get :index, @params
+        expect(assigns(:locations)).to include(@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3, @disabled1, @disabled2)
+      end
+
+      it "renders the index template" do
+        get :index, @params
+        expect(response).to render_template("index")
+      end
+    end
+
+    context "with no filter" do
+      it "populates the view with all the enabled locations" do
+        get :index
+        expect(assigns(:locations)).to include(@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3)
+      end
+
+      it "does not populate the vew with disabled locations" do
+        get :index
+        expect(assigns(:locations)).not_to include(@disabled1, @disabled2)
+      end
+
+      it "renders the index template" do
+        get :index
+        expect(response).to render_template("index")
+      end
+    end
+
   end
 
   describe "post create" do

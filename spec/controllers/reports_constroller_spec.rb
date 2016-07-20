@@ -58,6 +58,8 @@ describe ReportsController do
       Sunspot.remove_all!
       Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
 
+      Report.all.each &:destroy
+
       admin_report_permission = Permission.new(resource: Permission::REPORT, actions: [Permission::READ])
       admin_role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
