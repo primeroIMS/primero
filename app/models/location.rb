@@ -19,7 +19,6 @@ class Location < CouchRest::Model::Base
   property :admin_level, Integer
   attr_accessor :parent_id
 
-
   design do
     view :by_parent,
             :map => "function(doc) {
@@ -42,6 +41,7 @@ class Location < CouchRest::Model::Base
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
+  validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
   #TODO - add this validation back after seeds are cleaned up
   #       currently only the Sierra Leone location seed has location_code
   #       none of the other location seeds have location_code
@@ -238,5 +238,9 @@ class Location < CouchRest::Model::Base
       a_parent = Location.get(self.parent_id)
       set_parent(a_parent) if a_parent.present?
     end
+  end
+
+  def admin_level_required?
+    self.parent.blank?
   end
 end

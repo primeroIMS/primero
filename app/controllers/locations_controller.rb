@@ -7,7 +7,6 @@ class LocationsController < ApplicationController
   before_filter :load_location, :only => [:edit, :update, :destroy]
   before_filter :load_records_according_to_disable_filter, :only => [:index, :new, :edit]
   before_filter :load_types, :only => [:new, :edit]
-  before_filter :load_admin_level, :only => [:new, :edit]
 
   def index
     authorize! :index, Location
@@ -31,7 +30,6 @@ class LocationsController < ApplicationController
       redirect_to locations_path
     else
       @location = location
-      load_all_locations
       load_types
       render :new
     end
@@ -51,7 +49,6 @@ class LocationsController < ApplicationController
       redirect_to locations_path
     else
       load_location
-      load_all_locations
       load_types
       render :edit
     end
@@ -73,10 +70,6 @@ class LocationsController < ApplicationController
 
   def load_types
     @location_types = Location::BASE_TYPES
-  end
-
-  def load_admin_level
-    @location.calculate_admin_level
   end
 
 end
