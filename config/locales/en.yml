@@ -1039,6 +1039,7 @@ en:
     placename: "Place name"
     type: "Type"
     parent: "Parent location"
+    admin_level: "Admin Level"
     messages:
       cannot_create: "Location could not be created"
       correct_errors: "Please correct the following errors and resubmit:"

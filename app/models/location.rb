@@ -9,14 +9,16 @@ class Location < CouchRest::Model::Base
 
   #TODO - I18n
   BASE_TYPES = ['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other']
+  ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
 
   property :placename #This is the individual placename
   property :location_code
   property :type
   property :hierarchy, type: [String]
   property :hierarchical_name, read_only: true
-
+  property :admin_level, Integer
   attr_accessor :parent_id
+
 
   design do
     view :by_parent,
@@ -46,6 +48,7 @@ class Location < CouchRest::Model::Base
   # NOTE that commenting this out causes rspec test related to requiring location_code to fail
   #validates_presence_of :location_code, :message => I18n.t("errors.models.#{self.name.underscore}.code_present")
 
+  before_save :calculate_admin_level
   before_save do
     self.name = self.hierarchical_name
   end
@@ -141,6 +144,12 @@ class Location < CouchRest::Model::Base
     else
       [self.placename]
     end.join('::')
+  end
+
+  #TODO - need rspec tests for all of this!!!
+  def calculate_admin_level
+    parentLct = self.parent
+    self.admin_level = ((parentLct.admin_level || 0) + 1) if parentLct.present?
   end
 
   def descendants
