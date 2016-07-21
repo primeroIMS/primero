@@ -95,8 +95,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
+        rendered.should be_include("<input data-field-tags=\"[]\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
+        rendered.should be_include("<input data-field-tags=\"[]\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
       end
     end
 
@@ -109,8 +109,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
+        rendered.should be_include("<input data-field-tags=\"[]\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
+        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" editable=\"true\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
       end
     end
   end

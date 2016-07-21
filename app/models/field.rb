@@ -329,7 +329,7 @@ class Field
 
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])
-    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n")
+    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n"), :editable => true, :disabled => false
   end
 
   def self.new_check_boxes_field field_name, display_name = nil, option_strings = []
