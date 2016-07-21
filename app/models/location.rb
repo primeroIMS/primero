@@ -145,8 +145,7 @@ class Location < CouchRest::Model::Base
       [self.placename]
     end.join('::')
   end
-
-  #TODO - need rspec tests for all of this!!!
+  
   def calculate_admin_level
     parentLct = self.parent
     self.admin_level = ((parentLct.admin_level || 0) + 1) if parentLct.present?
