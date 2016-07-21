@@ -20,12 +20,20 @@ class Location < CouchRest::Model::Base
   attr_accessor :parent_id
 
   design do
-    view :by_parent,
+    view :by_ancestor,
             :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
                 for(var i in doc['hierarchy']){
                   emit(doc['hierarchy'][i], null);
                 }
+              }
+            }"
+
+    view :by_parent,
+         :map => "function(doc) {
+              if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
+                var i = doc['hierarchy'].length - 1;
+                emit(doc['hierarchy'][i], null);
               }
             }"
 
@@ -145,16 +153,21 @@ class Location < CouchRest::Model::Base
       [self.placename]
     end.join('::')
   end
-  
+
   def calculate_admin_level
     parentLct = self.parent
     self.admin_level = ((parentLct.admin_level || 0) + 1) if parentLct.present?
   end
 
   def descendants
+    response = Location.by_ancestor(key: self.placename)
+    response.present? ? response.all : []
+  end
+
+  #TODO - rspec tests
+  def direct_descendants
     response = Location.by_parent(key: self.placename)
-    response = response.present? ? response.all : []
-    return response
+    response.present? ? response.all : []
   end
 
   def ancestor_names
@@ -241,5 +254,21 @@ class Location < CouchRest::Model::Base
 
   def admin_level_required?
     self.parent.blank?
+  end
+
+  #TODO - need extensive rspec tests for this
+  #TODO - TBD if this will be used when a highest level location's admin level is updated manually
+  #HANDLE WITH CARE
+  #This should probably only be called by an experienced user in a limited way... say from console, in a script, migration, etc
+  #Do not recommend having this be called from within the app due to performance concerns
+  def update_descendants_admin_level
+    # there is a before_save that recalculates admin level
+    puts "Name: #{self.name}"
+    self.calculate_admin_level
+    self.save!
+    puts "Admin Level: #{self.admin_level}"
+
+    #Here be dragons...Beware... recursion!!!
+    self.direct_descendants.each {|lct| lct.update_descendants_admin_level}
   end
 end

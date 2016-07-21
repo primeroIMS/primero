@@ -55,7 +55,7 @@ describe Location do
   end
 
   it "makes a single couchdb query to fetch a multi-level hierarchy" do
-    expect(Location).to receive(:by_parent).once
+    expect(Location).to receive(:by_ancestor).once
     expect(Location).to_not receive(:get)
     expect(Location).to_not receive(:by_name)
     @country.descendants
