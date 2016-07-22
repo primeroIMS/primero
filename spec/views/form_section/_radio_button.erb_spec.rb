@@ -18,9 +18,9 @@ describe "form_section/_radio_button.html.erb" do
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
 
-    rendered.should match(/<input data-field-tags="\[\]" editable="true" id="formsection_child_new_field_m" name="child\[new field\]" type="radio" value="M" \/>/)
+    rendered.should match(/<input data-field-tags="\[\]" id="formsection_child_new_field_m" name="child\[new field\]" type="radio" value="M" \/>/)
     rendered.should match(/<label for="formsection_child_new_field_m">M<\/label>/)
-    rendered.should match(/<input data-field-tags="\[\]" editable="true" id="formsection_child_new_field_f" name="child\[new field\]" type="radio" value="F" \/>/)
+    rendered.should match(/<input data-field-tags="\[\]" id="formsection_child_new_field_f" name="child\[new field\]" type="radio" value="F" \/>/)
     rendered.should match(/<label for="formsection_child_new_field_f">F<\/label>/)
     rendered.should match(/<p class="help">This is my help text<\/p>/)
   end
