@@ -46,6 +46,8 @@ class Location < CouchRest::Model::Base
 
     view :by_type
     view :by_placename
+    view :by_hierarchy
+    view :by_admin_level
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
@@ -56,10 +58,12 @@ class Location < CouchRest::Model::Base
   # NOTE that commenting this out causes rspec test related to requiring location_code to fail
   #validates_presence_of :location_code, :message => I18n.t("errors.models.#{self.name.underscore}.code_present")
 
-  before_save :calculate_admin_level
+
   before_save do
     self.name = self.hierarchical_name
   end
+  before_save :calculate_admin_level, unless: :is_top_level?
+  after_save :update_descendants_admin_level, if: :is_top_level?
 
   def self.get_unique_instance(attributes)
     by_name(key: attributes['name']).first
@@ -142,6 +146,11 @@ class Location < CouchRest::Model::Base
       location_obj = Location.find_by_location(location)
       ancestor = location_obj.present? ? location_obj.first.ancestor_by_type(admin_type) : nil
       return ancestor.present? ? ancestor.placename : nil
+    end
+
+    def all_top_level_ancestors
+      response = self.by_hierarchy(key: [])
+      response.present? ? response.all : []
     end
 
   end
@@ -252,21 +261,18 @@ class Location < CouchRest::Model::Base
     end
   end
 
-  def admin_level_required?
-    self.parent.blank?
+  def is_top_level?
+    self.hierarchy.blank?
   end
+  alias_method :admin_level_required?, :is_top_level?
 
   #TODO - need extensive rspec tests for this
-  #TODO - TBD if this will be used when a highest level location's admin level is updated manually
   #HANDLE WITH CARE
-  #This should probably only be called by an experienced user in a limited way... say from console, in a script, migration, etc
-  #Do not recommend having this be called from within the app due to performance concerns
   def update_descendants_admin_level
-    # there is a before_save that recalculates admin level
-    puts "Name: #{self.name}"
-    self.calculate_admin_level
-    self.save!
-    puts "Admin Level: #{self.admin_level}"
+    unless is_top_level?
+      self.calculate_admin_level
+      self.save!
+    end
 
     #Here be dragons...Beware... recursion!!!
     self.direct_descendants.each {|lct| lct.update_descendants_admin_level}
