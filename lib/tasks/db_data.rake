@@ -178,6 +178,19 @@ namespace :db do
       locations.each(&:destroy)
     end
 
+    desc "Recalculates admin_level on all locations"
+    task :recalculate_admin_level => :environment do
+      locations = Location.all_top_level_ancestors
+      if locations.present?
+        locations.each do |lct|
+          lct.admin_level ||= 0
+          lct.save!
+          puts "Updating admin level for all descendants of #{lct.name}"
+          lct.update_descendants_admin_level
+        end
+      end
+    end
+
     desc "Allocates default modules to records"
     task :set_module_defaults => :environment do
 
