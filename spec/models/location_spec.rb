@@ -127,6 +127,18 @@ describe Location do
         expect(@location).to be_valid
       end
     end
+
+    context 'and parents admin_level is equal to the max admin_level' do
+      before :each do
+        @country_max = create :location, admin_level: Location::ADMIN_LEVELS.last, placename: 'MaxCountry'
+        @location[:hierarchy] = [@country_max.placename]
+      end
+
+      it 'calculates admin_level as out of range' do
+        expect(@location.calculate_admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
+        expect(@location.admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
+      end
+    end
   end
 
   context 'when location does not have a parent' do

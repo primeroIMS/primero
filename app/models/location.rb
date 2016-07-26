@@ -10,6 +10,7 @@ class Location < CouchRest::Model::Base
   #TODO - I18n
   BASE_TYPES = ['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other']
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
+  ADMIN_LEVEL_OUT_OF_RANGE = 100
 
   property :placename #This is the individual placename
   property :location_code
@@ -165,7 +166,10 @@ class Location < CouchRest::Model::Base
 
   def calculate_admin_level
     parentLct = self.parent
-    self.admin_level = ((parentLct.admin_level || 0) + 1) if parentLct.present?
+    if parentLct.present?
+      new_admin_level = ((parentLct.admin_level || 0) + 1)
+      self.admin_level = (ADMIN_LEVELS.include? new_admin_level) ? new_admin_level : ADMIN_LEVEL_OUT_OF_RANGE
+    end
   end
 
   def descendants
