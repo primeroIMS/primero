@@ -167,7 +167,7 @@ class TracingRequest < CouchRest::Model::Base
     by_ids_and_revs.key(tracing_request_id).all.each do |tr|
       tr_id = tr.tracing_request_id
     end
-    return tr_id
+    tr_id
   end
 
 end

@@ -41,8 +41,8 @@ module RecordActions
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
-    @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
-    @options_districts = Location.by_type_enabled.key('district').all.map{|loc| loc.placename}.sort
+    @associated_agencies = User.agencies_by_user_list(@associated_users).map { |a| {a.id => a.name} }
+    @options_districts = Location.by_type_enabled.key('district').all.map { |loc| loc.placename }.sort
     module_users(module_ids) if module_ids.present?
 
     # Alias @records to the record-specific name since ERB templates use that
@@ -59,11 +59,11 @@ module RecordActions
       format.html
       unless params[:password]
         format.json do
-          @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?
+          @records = @records.select { |r| r.marked_for_mobile } if params[:mobile].present?
           if params[:ids].present?
-            @records = @records.map{|r| r.id}
+            @records = @records.map { |r| r.id }
           else
-            @records = @records.map{|r| format_json_response(r)}
+            @records = @records.map { |r| format_json_response(r) }
           end
           render :json => @records
         end
@@ -109,7 +109,7 @@ module RecordActions
         end
       end unless params[:password]
 
-      respond_to_export format, [ @record ]
+      respond_to_export format, [@record]
     end
   end
 
@@ -186,7 +186,7 @@ module RecordActions
         end
         format.json do
           @record = format_json_response(@record)
-          render :json => @record.slice!("_attachments","histories")
+          render :json => @record.slice!("_attachments", "histories")
         end
       else
         @form_sections ||= @record.allowed_formsections(current_user)
@@ -202,11 +202,11 @@ module RecordActions
 
   def sort_subforms
     if @record.present?
-      @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
+      @record.field_definitions.select { |f| !f.subform_sort_by.nil? }.each do |field|
         if @record[field.name].present?
           # Partitioning because dates can be nil. In this case, it causes an error on sort.
-          subforms = @record[field.name].partition{ |r| r[field.subform_sort_by].nil? }
-          @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+          subforms = @record[field.name].partition { |r| r[field.subform_sort_by].nil? }
+          @record[field.name] = subforms.first + subforms.last.sort_by { |x| x[field.subform_sort_by] }.reverse
         end
       end
     end
@@ -235,7 +235,7 @@ module RecordActions
       pagination_ops = {:page => 1, :per_page => 500}
       records = []
       begin
-        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], params[:match]
+        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], params[:match], model_class
         results = search.results
         records.concat(results)
         #Set again the values of the pagination variable because the method modified the variable.
@@ -244,7 +244,7 @@ module RecordActions
       end until results.next_page.nil?
       total_records = search.total
     else
-      search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
+      search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match], model_class
       records = search.results
       total_records = search.total
     end
@@ -283,7 +283,7 @@ module RecordActions
 
   def current_modules
     record_type = model_class.parent_form
-    @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
+    @current_modules ||= current_user.modules.select { |m| m.associated_record_types.include? record_type }
   end
 
   def is_admin
@@ -323,7 +323,7 @@ module RecordActions
   # Filters out any unallowed parameters for a record and the current user
   def filter_params(record)
     permitted_keys = permitted_property_keys(record)
-    record_params.select {|k,v| permitted_keys.include?(k) }
+    record_params.select { |k, v| permitted_keys.include?(k) }
   end
 
   #TODO: This method will be very slow for very large exports: models.size > 1000.
@@ -338,7 +338,7 @@ module RecordActions
     # No need to call extra logic.
     #Avoid call the filter readonly logic in the case of transitions (transfer and refereals).
     if props.include?(:fields) ||
-       (!transitions && ["xls", "selected_xls", "case_pdf"].include?(params[:format]))
+        (!transitions && ["xls", "selected_xls", "case_pdf"].include?(params[:format]))
       props
     else
       read_only_user = false
@@ -347,15 +347,15 @@ module RecordActions
         # For CSV filter the properties the readonly user can see.
         read_only_user = user.readonly?(model_class.name.underscore)
       end
-      all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m, user, read_only_user) }
+      all_permitted_keys = models.inject([]) { |acc, m| acc | permitted_property_keys(m, user, read_only_user) }
       prop_selector = lambda do |ps|
         case ps
-        when Hash
-          ps.inject({}) {|acc, (k,v)| acc.merge( k => prop_selector.call(v) ) }
-        when Array
-          ps.select {|p| all_permitted_keys.include?(p.name) }
-        else
-          ps
+          when Hash
+            ps.inject({}) { |acc, (k, v)| acc.merge(k => prop_selector.call(v)) }
+          when Array
+            ps.select { |p| all_permitted_keys.include?(p.name) }
+          else
+            ps
         end
       end
 
@@ -420,7 +420,7 @@ module RecordActions
 
   def filter_custom_exports(properties_by_module)
     if params[:custom_exports].present?
-      properties_by_module = properties_by_module.select{|key| params[:custom_exports][:module].include?(key)}
+      properties_by_module = properties_by_module.select { |key| params[:custom_exports][:module].include?(key) }
 
       if params[:custom_exports][:forms].present? || params[:custom_exports][:selected_subforms].present?
         properties_by_module = filter_by_subform(properties_by_module).deep_merge(filter_by_form(properties_by_module))
@@ -442,7 +442,7 @@ module RecordActions
                   params[:custom_exports][:fields].include?("#{f_name}:#{property.name}")
                 end
                 #Create the hash to hold the selected fields for the subform.
-                selected_fields << [f_name, subform_props.map{|p| [p.name, p]}.to_h] if subform_props.present?
+                selected_fields << [f_name, subform_props.map { |p| [p.name, p] }.to_h] if subform_props.present?
               end
             end
             filtered_forms << [fk, selected_fields.to_h]
@@ -477,7 +477,7 @@ module RecordActions
     sub_props = {}
     if params[:custom_exports][:selected_subforms].present?
       properties.each do |pm, fs|
-        sub_props[pm] = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:selected_subforms].include?(f)}]}.to_h.compact
+        sub_props[pm] = fs.map { |fk, fields| [fk, fields.select { |f| params[:custom_exports][:selected_subforms].include?(f) }] }.to_h.compact
       end
     end
     sub_props
@@ -487,7 +487,7 @@ module RecordActions
     props = {}
     if params[:custom_exports][:forms].present?
       properties.each do |pm, fs|
-        props[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
+        props[pm] = fs.select { |key| params[:custom_exports][:forms].include?(key) }
       end
     end
     props
@@ -503,10 +503,10 @@ module RecordActions
           form_section_fields = form_sections[pm].select do |fs|
             fs.name == form
           end.map do |fs|
-            fs.fields.map{|f| f.name if f.showable?}.compact
+            fs.fields.map { |f| f.name if f.showable? }.compact
           end.flatten
           #Filter the properties based on the field on the form section.
-          fields = fields.select{|f_name, f_value| form_section_fields.include?(f_name) }
+          fields = fields.select { |f_name, f_value| form_section_fields.include?(f_name) }
           [form, fields]
         end
         [pm, forms.to_h.compact]
@@ -536,7 +536,7 @@ module RecordActions
   end
 
   def module_users(module_ids)
-    @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
+    @module_users = User.find_by_modules(module_ids).map(&:user_name).reject { |u| u == current_user.user_name }
   end
 
 end

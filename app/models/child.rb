@@ -180,6 +180,10 @@ class Child < CouchRest::Model::Base
     Array.new(form_fields).map(&:name)
   end
 
+  def self.find_by_case_id(child_id)
+    by_id(:key => child_id).first
+  end
+
   def self.matchable_fields
     form_matchable_fields.concat(subform_matchable_fields)
   end
@@ -310,7 +314,7 @@ class Child < CouchRest::Model::Base
     self.case_id_code ||= auto_populate('case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
-  
+
   def create_case_id_code(system_settings)
     separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
     id_code_parts = []
@@ -369,7 +373,8 @@ class Child < CouchRest::Model::Base
 
   def find_match_tracing_requests
     match_class = TracingRequest
-    tracing_request_ids = self.class.find_match_records(match_criteria, match_class).keys
+    match_result = self.class.find_match_records(match_criteria, match_class)
+    tracing_request_ids = match_result==[] ? [] : match_result.keys
     all_results = TracingRequest.match_tracing_requests_for_child(self.id, tracing_request_ids).uniq
     results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
     PotentialMatch.update_matches_for_child(self.id, results)

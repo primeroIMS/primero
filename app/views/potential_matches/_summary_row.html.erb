@@ -1,12 +1,12 @@
-<tr>
-  <td class="id_column">
-    <%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record.tracing_request_id), class: 'id_link' %>
-  </td>
-  <td class="id_column">
+<div style="border: 1px black solid; margin-bottom: 10px;">
+  <div>
+    <label> <%= t("potential_match.inquirer_id") %></label><%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record.tracing_request_id), class: 'id_link' %>
+  </div>
+  <div>
     <%= record.tr_subform_id.last 7 %>
-  </td>
-  <td class="id_column">
+  </div>
+  <div>
     <%= link_to text_to_identify_potential_match_child(record), case_path(record.child_id), class: 'id_link' %>
-  </td>
-  <td><%= record.average_rating %></td>
-</tr>
+  </div>
+  <div><%= record.average_rating %></div>
+</div>

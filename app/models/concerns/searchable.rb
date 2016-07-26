@@ -8,15 +8,15 @@ module Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
     searchable do
-      quicksearch_fields.each {|f| text f}
-      searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
-      searchable_multi_fields.each {|f| string f, multiple: true} if self.include?(Record)
+      quicksearch_fields.each { |f| text f }
+      searchable_string_fields.each { |f| string f, as: "#{f}_sci".to_sym }
+      searchable_multi_fields.each { |f| string f, multiple: true } if self.include?(Record)
 
       #if instance is a child do phonetic search on names
       # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
-      searchable_date_fields.each {|f| date f}
-      searchable_numeric_fields.each {|f| integer f} if self.include?(Record)
+      searchable_date_fields.each { |f| date f }
+      searchable_numeric_fields.each { |f| integer f } if self.include?(Record)
       # TODO: boolean with have to change if we want to index arbitrary index fields
       if self.include?(Record)
         boolean :duplicate
@@ -66,15 +66,18 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil)
+    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil, model_class=nil)
+      pagination = {} if model_class == PotentialMatch
       self.search do
         if filters.present?
           build_filters(self, filters)
         end
-        if match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
-          any_of do
-            associated_user_names.each do |user_name|
-              with(:associated_user_names, user_name)
+        unless model_class == PotentialMatch
+          if match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
+            any_of do
+              associated_user_names.each do |user_name|
+                with(:associated_user_names, user_name)
+              end
             end
           end
         end
@@ -89,7 +92,7 @@ module Searchable
         end
 
         sort={:average_rating => :desc} if match.present?
-        sort.each{|sort_field,order| order_by(sort_field, order)}
+        sort.each { |sort_field, order| order_by(sort_field, order) }
         paginate pagination
       end
     end
@@ -98,7 +101,7 @@ module Searchable
     def build_filters(sunspot, filters={})
       sunspot.instance_eval do
         #TODO: pop off the locations filter and perform a fulltext search
-        filters.each do |filter,filter_value|
+        filters.each do |filter, filter_value|
           if searchable_location_fields.include? filter
             #TODO: Could check if also location on line 100, but will it break alot of location code
             if filter_value[:type] == 'location_list'
@@ -111,29 +114,29 @@ module Searchable
             type = filter_value[:type]
             any_of do
               case type
-              when 'range'
-                values.each do |filter_value|
-                  if filter_value.count == 1
-                    # Range +
-                    with(filter).greater_than_or_equal_to(filter_value.first.to_i)
-                  else
-                    range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
-                    with(filter, range_start...range_stop)
+                when 'range'
+                  values.each do |filter_value|
+                    if filter_value.count == 1
+                      # Range +
+                      with(filter).greater_than_or_equal_to(filter_value.first.to_i)
+                    else
+                      range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
+                      with(filter, range_start...range_stop)
+                    end
                   end
-                end
-              when 'date_range'
-                if values.count > 1
-                  to, from = values.first, values.last
-                  with(filter).between(to..from)
+                when 'date_range'
+                  if values.count > 1
+                    to, from = values.first, values.last
+                    with(filter).between(to..from)
+                  else
+                    with(filter, values.first)
+                  end
+                when 'list'
+                  with(filter).any_of(values)
+                when 'neg'
+                  without(filter, values)
                 else
-                  with(filter, values.first)
-                end
-              when 'list'
-                with(filter).any_of(values)
-              when 'neg'
-                without(filter, values)
-              else
-                with(filter, values) unless values == 'all'
+                  with(filter, values) unless values == 'all'
               end
             end
           end
@@ -154,12 +157,11 @@ module Searchable
             end
           end
           with(:id, child_id) unless child_id.nil?
-          sort.each{|sort_field,order| order_by(sort_field, order)}
+          sort.each { |sort_field, order| order_by(sort_field, order) }
           paginate pagination
         end
         results = {}
         search.hits.each { |hit| results[hit.result.id] = hit.score }
-        puts results
         results
       end
     end
@@ -203,11 +205,11 @@ module Searchable
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
        "created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"] +
-       Field.all_filterable_field_names(self.parent_form)
+          Field.all_filterable_field_names(self.parent_form)
     end
 
     def searchable_phonetic_fields
-        ["name", "name_nickname", "name_other"]
+      ["name", "name_nickname", "name_other"]
     end
 
     def searchable_multi_fields
