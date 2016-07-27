@@ -177,7 +177,6 @@ class Location < CouchRest::Model::Base
     response.present? ? response.all : []
   end
 
-  #TODO - rspec tests
   def direct_descendants
     response = Location.by_parent(key: self.placename)
     response.present? ? response.all : []
@@ -270,7 +269,6 @@ class Location < CouchRest::Model::Base
   end
   alias_method :admin_level_required?, :is_top_level?
 
-  #TODO - need extensive rspec tests for this
   #HANDLE WITH CARE
   def update_descendants_admin_level
     unless is_top_level?
