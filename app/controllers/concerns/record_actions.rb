@@ -415,6 +415,10 @@ module RecordActions
         end
       end
     end
+    if model_class == Child
+      record.delete("_attachments") if record.key?("_attachments")
+      record.delete("histories") if record.key?("histories")
+    end
     return record
   end
 
