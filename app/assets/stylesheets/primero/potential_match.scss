@@ -1,0 +1,26 @@
+////////////////////////////////////////////////
+// Potential Match
+////////////////////////////////////////////////
+
+.pm_div {
+  border: 2px $green_color solid;
+  margin-bottom: 15px;
+  .pm_table {
+    border-spacing: 0px !important;
+    margin-bottom: 0em !important;
+    border: none;
+    tr th, tr td {
+      text-align: center;
+
+    }
+    th {
+      background-color: $light_green_color;
+      color: $green_color;
+      text-transform: uppercase;
+    }
+    :not(.record_list_view) tr td{
+      background: none !important;
+    }
+  }
+}
+

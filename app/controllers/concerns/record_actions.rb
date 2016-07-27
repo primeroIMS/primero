@@ -54,7 +54,6 @@ module RecordActions
     @per_page = per_page
 
     # @highlighted_fields = []
-
     respond_to do |format|
       format.html
       unless params[:password]
@@ -65,6 +64,7 @@ module RecordActions
           else
             @records = @records.map { |r| format_json_response(r) }
           end
+
           render :json => @records
         end
       end

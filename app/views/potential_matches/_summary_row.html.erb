@@ -1,12 +1,27 @@
-<div style="border: 1px black solid; margin-bottom: 10px;">
-  <div>
-    <label> <%= t("potential_match.inquirer_id") %></label><%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record.tracing_request_id), class: 'id_link' %>
-  </div>
-  <div>
-    <%= record.tr_subform_id.last 7 %>
-  </div>
-  <div>
-    <%= link_to text_to_identify_potential_match_child(record), case_path(record.child_id), class: 'id_link' %>
-  </div>
-  <div><%= record.average_rating %></div>
+<div class="pm_div">
+  <table style="width:100%" class="pm_table">
+    <tr>
+      <th><%= t("potential_match.inquirer_id") %></th>
+      <th>Name of Inquirer</th>
+      <th>Date of inquiry</th>
+      <th>Tracing request</th>
+    </tr>
+    <tr>
+      <td><%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record["tr_uuid"]), class: 'id_link' %></td>
+      <td><%= record["relation_name"] %></td>
+      <td><%= record["inquiry_date"] %></td>
+      <td><%= record["subform_tracing_request_name"] %></td>
+    </tr>
+  </table>
+  <table style="width:100%" class="pm_table">
+    <tr>
+      <th>CHILD ID#</th>
+      <th>AGE</th>
+      <th>GENDER</th>
+      <th>REGISTRARION DATE</th>
+      <th>SOCIAL WORKER</th>
+      <th>SCORE</th>
+    </tr>
+    <%= render :partial => "#{controller.controller_name}/child_summary_row", collection: record["match_details"], as: :detail %>
+  </table>
 </div>

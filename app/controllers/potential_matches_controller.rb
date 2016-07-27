@@ -28,14 +28,8 @@ class PotentialMatchesController < ApplicationController
     @match_results = get_all_match_details @match_results, @potential_matches
     respond_to do |format|
       format.html
-
       unless params[:password]
         format.json do
-          # if params[:ids].present?
-          #   @potential_matches = @potential_matches.map { |r| r.id }
-          # else
-          #   @potential_matches = @potential_matches.map { |r| format_json_response(r) }
-          # end
           render :json => @match_results
         end
       end
@@ -76,6 +70,7 @@ class PotentialMatchesController < ApplicationController
       for subform in t.tracing_request_subform_section
         inquirer_tr_pair = {}
         inquirer_tr_pair["tracing_request_id"] = t.tracing_request_id || ""
+        inquirer_tr_pair["tr_uuid"] = t._id || ""
         inquirer_tr_pair["relation_name"] = t.relation_name || ""
         inquirer_tr_pair["inquiry_date"] = t.inquiry_date || ""
         inquirer_tr_pair["subform_tracing_request_id"] = subform.unique_id
