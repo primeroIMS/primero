@@ -3,14 +3,14 @@
     <thead>
     <tr>
       <th><%= t("potential_match.inquirer_id") %></th>
-      <th>Name of Inquirer</th>
-      <th>Date of inquiry</th>
-      <th>Tracing request</th>
+      <th><%= t("potential_match.inquirer_name") %></th>
+      <th><%= t("potential_match.inquiry_date") %></th>
+      <th><%= t("potential_match.inquirer_tr_name") %></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-      <td><%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record["tr_uuid"]), class: 'id_link' %></td>
+      <td class="id_column"><%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record["tr_uuid"]), class: 'id_link ' %></td>
       <td><%= record["relation_name"] %></td>
       <td><%= record["inquiry_date"] %></td>
       <td><%= record["subform_tracing_request_name"] %></td>
@@ -20,12 +20,12 @@
   <table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table tablesorter" id="myTable_<%= record["subform_tracing_request_id"] %>">
     <thead>
     <tr>
-      <th>CHILD ID#</th>
-      <th>AGE</th>
-      <th>GENDER</th>
-      <th>REGISTRARION DATE</th>
-      <th>SOCIAL WORKER</th>
-      <th>SCORE</th>
+      <th><%= t("potential_match.child_id") %></th>
+      <th><%= t("potential_match.child_age") %></th>
+      <th><%= t("potential_match.child_gender") %></th>
+      <th><%= t("potential_match.reg_date") %></th>
+      <th><%= t("potential_match.social_worker") %></th>
+      <th><%= t("potential_match.score") %></th>
     </tr>
     </thead>
     <tbody>

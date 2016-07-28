@@ -29,7 +29,7 @@
             <%= t("buttons.filter_label") %><br>
             <a class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_clear') %></a>
           </div>
-          <%= link_to t("buttons.filter"),'', class: 'green-button right', id: 'apply_filter' %>
+          <%= link_to t("buttons.filter"), '', class: 'green-button right', id: 'apply_filter' %>
       <% end %>
     </div>
   </div>
@@ -37,7 +37,7 @@
 <div class="row collapse">
   <div class="large-9 small-9 columns">
     <div class="clearfix"></div>
-      <%= render :partial => "#{controller.controller_name}/summary_row", collection: collection, as: :record %>
+    <%= render :partial => "#{controller.controller_name}/summary_row", collection: collection, as: :record %>
   </div>
   <div class="large-3 small-3 columns index_filters">
     <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>

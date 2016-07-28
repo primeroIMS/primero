@@ -10,6 +10,15 @@
     margin-bottom: 0em !important;
     border: none;
     transition: 300ms ease-out;
+    .id_column {
+      text-transform: uppercase;
+      &:hover {
+        font-weight: 600;
+      }
+      a:hover {
+        text-decoration: blink;
+      }
+    }
     tr th, tr td {
       text-align: center;
     }
