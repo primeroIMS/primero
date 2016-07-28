@@ -12,6 +12,7 @@
 //= require plugins/jquery.idletimer
 //= require plugins/jquery.idletimeout
 //= require plugins/jquery.lightbox-0.5.min
+//= require plugins/jquery.tablesorter.min
 //= require plugins/jquery.jplayer
 //= require plugins/jquery.rotate.1-1
 //= require plugins/vtip-min

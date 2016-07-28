@@ -4,7 +4,7 @@
   opts ||= {}
   display_create = model.to_s == "PotentialMatch" ? false : true
   options = {
-      display_filter: false,
+      display_filter: true,
       display_actions: model.to_s =="PotentialMatch" ? false : true,
       display_create: display_create}.merge(opts)
 %>
@@ -39,7 +39,7 @@
     <div class="clearfix"></div>
       <%= render :partial => "#{controller.controller_name}/summary_row", collection: collection, as: :record %>
   </div>
-  <!--<div class="large-3 small-3 columns index_filters">-->
-    <!--<%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>-->
-  <!--</div>-->
+  <div class="large-3 small-3 columns index_filters">
+    <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
+  </div>
 </div>
