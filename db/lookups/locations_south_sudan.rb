@@ -1,4 +1,4 @@
-Location.create! placename: "South Sudan", type: "country"
+Location.create! placename: "South Sudan", admin_level: 0, type: "country"
 
 Location.create! placename: "Bahr el Ghazal", type: "region", hierarchy: ["South Sudan"]
 Location.create! placename: "Northern Bahr el Ghazal", type: "region", hierarchy: ["South Sudan", "Bahr el Ghazal"]

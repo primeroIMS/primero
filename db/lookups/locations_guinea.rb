@@ -1,5 +1,5 @@
 #Country
-Location.create! placename: "Guinea", type: "country"
+Location.create! placename: "Guinea", admin_level: 0, type: "country"
 
 #region
 Location.create! placename:"Kindia", type: "region", hierarchy: ["Guinea"]

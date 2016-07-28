@@ -1,5 +1,5 @@
 #Country
-Location.create! placename: "Liberia", type: "country"
+Location.create! placename: "Liberia", admin_level: 0, type: "country"
 
 #county
 Location.create! placename:"Grand Kru", type: "county", hierarchy: ["Liberia"]
