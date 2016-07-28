@@ -99,6 +99,11 @@ class PotentialMatchesController < ApplicationController
         end
       end
     end
+    compact_result match_results
+  end
+
+  def compact_result match_results
+    match_results.delete_if { |h| h["match_details"].length == 0 }
     match_results
   end
 
