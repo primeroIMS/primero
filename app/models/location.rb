@@ -63,6 +63,9 @@ class Location < CouchRest::Model::Base
   before_save do
     self.name = self.hierarchical_name
   end
+
+  # Only top level locations' admin levels are editable
+  # All other locations' admin levels are calculated based on their parent's admin level
   before_save :calculate_admin_level, unless: :is_top_level?
   after_save :update_descendants_admin_level, if: :is_top_level?
 
@@ -269,7 +272,9 @@ class Location < CouchRest::Model::Base
   end
   alias_method :admin_level_required?, :is_top_level?
 
-  #HANDLE WITH CARE
+  # HANDLE WITH CARE
+  # If a top level location's admin level changes,
+  # the admin level of all of its descendants must be recalculated
   def update_descendants_admin_level
     unless is_top_level?
       self.calculate_admin_level
