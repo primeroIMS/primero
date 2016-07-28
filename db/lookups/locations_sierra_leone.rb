@@ -1,5 +1,5 @@
 #Country
-Location.create! placename: "Sierra Leone", location_code:"SLE", type: "country"
+Location.create! placename: "Sierra Leone", admin_level: 0, location_code:"SLE", type: "country"
 
 #province
 Location.create! placename:"Southern", location_code:"SLE03", type: "province", hierarchy: ["Sierra Leone"]
