@@ -1339,7 +1339,7 @@ describe Child do
 
       @permission_case ||= Permission.new(:resource => Permission::CASE,
                                           :actions => [Permission::READ, Permission::WRITE])
-      @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI"
+      @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
       @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["Guinea"]
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
@@ -1378,8 +1378,8 @@ describe Child do
         SystemSettings.all.each &:destroy
         ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
                                           format: [
-                                              "created_by_user.Location.admin_level(country).location_code",
-                                              "created_by_user.Location.admin_level(region).location_code",
+                                              "created_by_user.Location.ancestor_by_type(country).location_code",
+                                              "created_by_user.Location.ancestor_by_type(region).location_code",
                                               "created_by_user.agency.agency_code"
                                           ],
                                           auto_populated: true)
@@ -1403,8 +1403,8 @@ describe Child do
         SystemSettings.all.each &:destroy
         ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
                                           format: [
-                                              "created_by_user.Location.admin_level(country).location_code",
-                                              "created_by_user.Location.admin_level(region).location_code",
+                                              "created_by_user.Location.ancestor_by_type(country).location_code",
+                                              "created_by_user.Location.ancestor_by_type(region).location_code",
                                               "created_by_user.agency.agency_code"
                                           ],
                                           separator: '-', auto_populated: true)

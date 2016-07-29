@@ -30,7 +30,6 @@ class LocationsController < ApplicationController
       redirect_to locations_path
     else
       @location = location
-      load_all_locations
       load_types
       render :new
     end
@@ -50,7 +49,6 @@ class LocationsController < ApplicationController
       redirect_to locations_path
     else
       load_location
-      load_all_locations
       load_types
       render :edit
     end

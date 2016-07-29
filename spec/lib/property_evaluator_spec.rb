@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "PropertyEvaluator" do
 
   before :all do
-    @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI"
+    @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
     @location_region = Location.create! placename:"Kindia", type: "region", hierarchy: ["Guinea"]
     @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
     admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
@@ -21,12 +21,12 @@ describe "PropertyEvaluator" do
   end
 
   it 'evaluates a test string on the test record' do
-    test_string = "created_by_user.Location.admin_level(country).location_code"
+    test_string = "created_by_user.Location.ancestor_by_type(country).location_code"
     expect(PropertyEvaluator.evaluate(@child, test_string)).to eq "GUI"
   end
 
   it "doesn't break if a value in the evaluation chain is missing" do
-    test_string = "created_by_user.Location.admin_level(country).location_code"
+    test_string = "created_by_user.Location.ancestor_by_type(country).location_code"
     expect(PropertyEvaluator.evaluate(@child2, test_string)).to be_nil
   end
 

@@ -4,8 +4,8 @@ describe LocationsController do
   before do
     Location.all.each &:destroy
 
-    @country = create :location, placename: "Country1"
-    @country2 = create :location, placename: "Country2"
+    @country = create :location, placename: "Country1", admin_level: 0
+    @country2 = create :location, placename: "Country2", admin_level: 0
     @province1 = create :location, placename: "Province1", hierarchy: [@country.placename]
     @province2 = create :location, placename: "Province2", hierarchy: [@country.placename]
     @province3 = create :location, placename: "Province3", hierarchy: [@country.placename]
@@ -103,7 +103,7 @@ describe LocationsController do
   describe "post create" do
     it "should create a location" do
       existing_count = Location.count
-      location = {placename: "My_Country", location_code: "my_code", type: "country"}
+      location = {placename: "My_Country", location_code: "my_code", type: "country", admin_level: 0}
       post :create, location: location
       expect(Location.count).to eq(existing_count + 1)
     end
