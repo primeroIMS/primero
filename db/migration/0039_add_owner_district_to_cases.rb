@@ -10,7 +10,7 @@ modules.each do |m|
     record_modified = false
     if !record[:owned_by_location_district].present? && record[:owned_by_location].present?
       user = User.find_by_user_name(record[:owned_by])
-      record[:owned_by_location_district] = Location.get_admin_level_from_string(user.location, 'district')
+      record[:owned_by_location_district] = Location.ancestor_name_by_type(user.location, 'district')
       record_modified = true
     end
     if record_modified

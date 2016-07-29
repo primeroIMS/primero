@@ -5,7 +5,7 @@ describe Location do
   before do
     Location.all.each &:destroy
 
-    @country = create :location
+    @country = create :location, admin_level: 0, placename: 'MyCountry'
     @province1 = create :location, hierarchy: [@country.placename]
     @province2 = create :location, hierarchy: [@country.placename]
     @province3 = create :location, hierarchy: [@country.placename]
@@ -55,15 +55,15 @@ describe Location do
   end
 
   it "makes a single couchdb query to fetch a multi-level hierarchy" do
-    expect(Location).to receive(:by_parent).once
+    expect(Location).to receive(:by_ancestor).once
     expect(Location).to_not receive(:get)
     expect(Location).to_not receive(:by_name)
     @country.descendants
   end
 
   it "adds location as a parent" do
-    location1 = create :location
-    location2 = create :location
+    location1 = create :location, admin_level: 1
+    location2 = create :location, admin_level: 0
 
     location1.set_parent(location2)
 
@@ -71,7 +71,7 @@ describe Location do
   end
 
   it "should only allow unique location hierachies" do
-    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country')
+    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
     country1.save
 
     state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
@@ -84,9 +84,9 @@ describe Location do
   end
 
   it "should allow locations with same placename but different hierachies" do
-    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country')
+    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
     country1.save
-    country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country')
+    country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country', admin_level: 0)
     country2.save
 
     state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
@@ -101,6 +101,78 @@ describe Location do
     location = Location.new(:location_code => "abc123")
     location.should_not be_valid
     location.errors[:name].should == ["must not be blank"]
+  end
+
+  context 'when location has a parent' do
+    before :each do
+      @location = Location.new(placename: 'MyTown', location_code: 'abc123', hierarchy: [@country.placename])
+    end
+
+    it 'calculates admin_level' do
+      expect(@location.calculate_admin_level).to eq((@country.admin_level + 1))
+      expect(@location.admin_level).to eq((@country.admin_level + 1))
+    end
+
+    context 'and admin_level is empty' do
+      it "is valid" do
+        expect(@location).to be_valid
+      end
+    end
+
+    context 'and admin_level is present' do
+      before :each do
+        @location[:admin_level] = 1
+      end
+      it "is valid" do
+        expect(@location).to be_valid
+      end
+    end
+
+    context 'and parents admin_level is equal to the max admin_level' do
+      before :each do
+        @country_max = create :location, admin_level: Location::ADMIN_LEVELS.last, placename: 'MaxCountry'
+        @location[:hierarchy] = [@country_max.placename]
+      end
+
+      it 'calculates admin_level as out of range' do
+        expect(@location.calculate_admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
+        expect(@location.admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
+      end
+    end
+  end
+
+  context 'when location does not have a parent' do
+    before :each do
+      @location = Location.new(placename: 'MyTown', location_code: 'abc123')
+    end
+
+    context 'and admin_level is empty' do
+      it "is not valid" do
+        expect(@location).not_to be_valid
+        expect(@location.errors[:admin_level]).to eq(['must not be blank'])
+      end
+
+      it 'does not calculate admin_level' do
+        orig_admin_level = @location.admin_level
+        expect(@location.calculate_admin_level).to be_nil
+        expect(@location.admin_level).to eq(orig_admin_level)
+      end
+    end
+
+    context 'and admin_level is present' do
+      before :each do
+        @location[:admin_level] = 1
+      end
+      it "is valid" do
+        expect(@location).to be_valid
+      end
+
+      it 'does not calculate admin_level' do
+        orig_admin_level = @location.admin_level
+        expect(@location.calculate_admin_level).to be_nil
+        expect(@location.admin_level).to eq(orig_admin_level)
+      end
+    end
   end
 
   #TODO - location code validation was removed.
