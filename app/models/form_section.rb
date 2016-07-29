@@ -13,9 +13,9 @@ class FormSection < CouchRest::Model::Base
   property :unique_id
   property :parent_form
   property :visible, TrueClass, :default => true
-  property :order, Integer
-  property :order_form_group, Integer
-  property :order_subform, Integer
+  property :order, Integer, :default => 0
+  property :order_form_group, Integer, :default => 0
+  property :order_subform, Integer, :default => 0
   property :form_group_keyed, TrueClass, :default => false
   property :form_group_name
   property :fields, [Field]
