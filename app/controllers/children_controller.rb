@@ -79,8 +79,10 @@ class ChildrenController < ApplicationController
     child.child_status = params[:child_status]
     child.case_status_reopened = params[:case_reopened]
 
-    if !child.save
-      puts child.errors.messages
+    if child.save
+      render :json => { :success => true, :error_message => "", :reload_page => true }
+    else
+      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
     end
   end
 
