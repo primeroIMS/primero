@@ -301,6 +301,15 @@ class Child < CouchRest::Model::Base
     return case_id
   end
 
+  def self.get_case_age_and_gender(child_id)
+    age, gender = nil, nil
+    by_ids_and_revs.key(child_id).all.each do |cs|
+      age = cs.age
+      gender = cs.sex
+    end
+    return age, gender
+  end
+
 
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off

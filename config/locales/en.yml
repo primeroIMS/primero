@@ -517,8 +517,9 @@ en:
 
   potential_matches:
     filter_by:
-      status: "Record Status"
-      score: "Score"
+      score_range: "Score Range"
+      age_range: "Age Range of Tracing Requests"
+      sex: "Sex of Tracing Requests"
 
   potential_match:
     inquirer_id: 'inquirer id#'

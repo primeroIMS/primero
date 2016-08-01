@@ -23,6 +23,10 @@ class PotentialMatch < CouchRest::Model::Base
   property :short_id
   property :case_id
   property :tr_id
+  property :tr_gender
+  property :tr_age
+  property :child_gender
+  property :child_age
   validates :child_id, :uniqueness => {:scope => :tr_subform_id}
 
   before_create :create_identification
@@ -82,6 +86,10 @@ class PotentialMatch < CouchRest::Model::Base
 
   searchable do
     string :status
+    integer :child_age
+    string :child_gender
+    integer :tr_age
+    integer :tr_gender
     string :module_id
     double :average_rating
 
@@ -122,7 +130,7 @@ class PotentialMatch < CouchRest::Model::Base
       old_all(*args)
     end
 
-    def update_matches_for_tracing_request(tracing_request_id, subform_id, results, child_id=nil)
+    def update_matches_for_tracing_request(tracing_request_id, subform_id, tr_age, tr_sex, results, child_id=nil)
       if child_id.nil?
         by_tracing_request_id_and_tr_subform_id.key([tracing_request_id, subform_id]).all.each do |pm|
           unless results.include? pm.child_id
@@ -133,7 +141,7 @@ class PotentialMatch < CouchRest::Model::Base
       end
 
       unless results.empty?
-        results.each { |child_id, score| update_potential_match(child_id, tracing_request_id, score.to_f, subform_id) }
+        results.each { |child_id, score| update_potential_match(child_id, tracing_request_id, score.to_f, subform_id, tr_age, tr_sex) }
       end
     end
 
@@ -155,11 +163,13 @@ class PotentialMatch < CouchRest::Model::Base
 
     private
 
-    def update_potential_match(child_id, tracing_request_id, score, subform_id)
+    def update_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
       threshold = 0
       pm = find_or_build tracing_request_id, child_id, subform_id
       pm.average_rating = score
       pm.case_id = Child.get_case_id(child_id)
+      pm.child_age, pm.child_gender = Child.get_case_age_and_gender(child_id)
+      pm.tr_age, pm.tr_gender = tr_age, tr_sex
       pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
       pm.module_id = PrimeroModule::CP
       valid_score = score >= threshold

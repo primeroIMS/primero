@@ -292,8 +292,8 @@ module IndexHelper
   def index_filters_potential_match
     filters = []
     filters << "Sex"
-    filters << "Age"
-    filters << "Score"
+    filters << "Age Range"
+    filters << "Score Range"
 
     return filters
   end
