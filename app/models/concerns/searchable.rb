@@ -112,6 +112,7 @@ module Searchable
           else
             values = filter_value[:value]
             type = filter_value[:type]
+            puts values, type, filter
             any_of do
               case type
                 when 'range'

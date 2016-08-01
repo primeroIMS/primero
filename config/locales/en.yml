@@ -518,6 +518,7 @@ en:
   potential_matches:
     filter_by:
       status: "Record Status"
+      score: "Score"
 
   potential_match:
     inquirer_id: 'inquirer id#'

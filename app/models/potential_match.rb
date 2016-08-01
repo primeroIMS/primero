@@ -5,11 +5,14 @@ class PotentialMatch < CouchRest::Model::Base
     'potential_match'
   end
 
+
   include PrimeroModel
   include Historical
   include Syncable
   include SyncableMobile
   include Importable
+  include Ownable
+
 
   belongs_to :tracing_request
   belongs_to :child
@@ -79,10 +82,11 @@ class PotentialMatch < CouchRest::Model::Base
 
   searchable do
     string :status
+    string :module_id
     double :average_rating
 
-    Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
-    Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
+    # Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
+    # Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
   end
 
   def mark_as_deleted
@@ -157,6 +161,7 @@ class PotentialMatch < CouchRest::Model::Base
       pm.average_rating = score
       pm.case_id = Child.get_case_id(child_id)
       pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
+      pm.module_id = PrimeroModule::CP
       valid_score = score >= threshold
       should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
       if should_mark_deleted
