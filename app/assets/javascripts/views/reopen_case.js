@@ -1,24 +1,24 @@
-_primero.Views.Actions = Backbone.View.extend({
-  el: '[id$="_enable_disable_records"]',
+_primero.Views.ReopenCase = Backbone.View.extend({
+  el: '[id$="_reopen_records"]',
 
   events: {
-    'click #enable_disable_action': 'enable_disable'
+    'click #reopen_action': 'reopen_case'
   },
 
-  enable_disable: function(evt) {
+  reopen_case: function(evt) {
     evt.preventDefault();
 
     var target = this.$(evt.target),
         id = target.data('id'),
         form_action = target.data('form_action'),
         redirect_url = target.data('request_url'),
-        record_state = target.data('state'),
+        child_status = target.data('status'),
         flag_error_message = target.data('submit_error_message');
 
     $.post(form_action,
       {
         'redirect_url': redirect_url,
-        'record_state': record_state,
+        'child_status': child_status,
         'id': id
       },
       function(response){
