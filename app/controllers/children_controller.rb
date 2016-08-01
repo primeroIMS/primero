@@ -74,6 +74,16 @@ class ChildrenController < ApplicationController
     redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
   end
 
+  def reopen_case
+    child = Child.get(params[:child_id])
+    child.child_status = params[:child_status]
+    child.case_status_reopened = params[:case_reopened]
+
+    if !child.save
+      puts child.errors.messages
+    end
+  end
+
   def exported_properties
     if params[:format].present? && (params[:format] == "xls" || params[:format] == "selected_xls" || params[:format] == "case_pdf")
       #get form sections the user is allow to see.

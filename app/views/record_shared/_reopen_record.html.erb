@@ -14,11 +14,10 @@
         <a class="btn green-button right"
           id="reopen_action"
           data-id="<%= instance.id %>"
-          data-request_url="<%= request.url %>"
-          data-form_action="<%= send("#{model.name.underscore.downcase}_record_status_path") %>"
+          data-form_action="<%= send("#{model.name.underscore.downcase}_reopen_case_path") %>"
           data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
-          <%# Without debuging it's hard to say how to access and change child.child_status = 'Open' and then how to tick true on case_status_reopened %>
-          data-state="<%= instance.record_state ? false : true %>"
+          data-status="Open"
+          data-reopen="true"
           href=""><%= t("buttons.ok") %>
         </a>
         <a class="close-reveal-modal btn green-button right"><%= t("buttons.cancel") %></a>

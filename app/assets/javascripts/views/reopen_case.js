@@ -11,15 +11,15 @@ _primero.Views.ReopenCase = Backbone.View.extend({
     var target = this.$(evt.target),
         id = target.data('id'),
         form_action = target.data('form_action'),
-        redirect_url = target.data('request_url'),
         child_status = target.data('status'),
+        case_reopened = target.data('reopen'),
         flag_error_message = target.data('submit_error_message');
 
     $.post(form_action,
       {
-        'redirect_url': redirect_url,
+        'child_id': id,
         'child_status': child_status,
-        'id': id
+        'case_reopened': case_reopened
       },
       function(response){
         if(response.success) {

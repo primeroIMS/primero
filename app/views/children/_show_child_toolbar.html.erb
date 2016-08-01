@@ -28,8 +28,7 @@
         <% if can? :edit, @child %>
             <%= render partial: 'record_shared/enable_disable_record', locals: {model: Child, instance: @child} %>
         <% end %>
-        <% if can?(:edit, @child) %>
-        <%# if where to put this: ? instance.is_a Child && instance.child_status != 'Open' %>
+        <% if can?(:edit, @child)  && @child.child_status != 'Open'%>
             <%= render partial: 'record_shared/reopen_record', locals: {model: Child, instance: @child} %>
         <% end %>
         <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
