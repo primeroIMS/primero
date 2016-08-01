@@ -297,12 +297,6 @@ module IndexHelper
 
     return filters
   end
-  #
-  # def index_filters_potential_match
-  #   filters = []
-  #   filters << "Status"
-  #   filters
-  # end
 
   def visible_filter_field?(field_name, forms)
     return false if forms.blank?
