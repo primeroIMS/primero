@@ -171,6 +171,7 @@ class Child < CouchRest::Model::Base
   include Searchable #Needs to be after ownable, quicksearch fields
   include Flaggable
   include Transitionable
+  include Reopenable
 
   searchable do
     string :fathers_name do
