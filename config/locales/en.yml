@@ -520,6 +520,8 @@ en:
       score_range: "Score Range"
       age_range: "Age Range of Tracing Requests"
       sex: "Sex of Tracing Requests"
+      male: "Male"
+      female: "Female"
 
   potential_match:
     inquirer_id: 'inquirer id#'

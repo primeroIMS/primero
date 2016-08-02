@@ -89,7 +89,7 @@ class PotentialMatch < CouchRest::Model::Base
     integer :child_age
     string :child_gender
     integer :tr_age
-    integer :tr_gender
+    string :tr_gender
     string :module_id
     double :average_rating
 
