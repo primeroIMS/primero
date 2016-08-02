@@ -204,6 +204,7 @@ FormSection.create_or_update_form_section({
   :order_subform => 0,
   :form_group_name => "Tracing Request",
   "editable" => true,
+  "mobile_form" => true,
   :fields => tracing_request_tracing_request_fields,
   "name_all" => "Tracing Request",
   "description_all" => "Tracing Request"

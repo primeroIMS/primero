@@ -220,6 +220,7 @@ FormSection.create_or_update_form_section({
   "visible" => true,
   :order_form_group => 20,
   :order => 20,
+  "mobile_form" => true,
   :order_subform => 0,
   :form_group_name => "Inquirer",
   "editable" => true,
