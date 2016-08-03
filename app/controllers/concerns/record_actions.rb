@@ -401,10 +401,8 @@ module RecordActions
       record.each do |field_key, value|
         if value.kind_of? DateTime
           record[field_key] = value.strftime("%d/%m/%Y %T")
-          puts record[field_key]
         elsif value.kind_of? Date
           record[field_key] = value.strftime("%d/%m/%Y")
-          puts record[field_key]
         elsif value.kind_of? Array
           if value.size == 0
             record.delete(field_key)
