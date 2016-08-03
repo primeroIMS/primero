@@ -27,15 +27,15 @@ Primero::Application.routes.draw do
   match 'password_recovery_request/:password_recovery_request_id/hide' => 'password_recovery_requests#hide', :as => :hide_password_recovery_request, :via => :delete
 
   resources :contact_information
-  #resources :primero_locale, :only => [:show, :edit, :update]
-  #match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
+#resources :primero_locale, :only => [:show, :edit, :update]
+#match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
 
-  # resources :system_settings do
-  #   member do
-  #     get :edit_locale
-  #     put :update_locale
-  #   end
-  # end
+# resources :system_settings do
+#   member do
+#     get :edit_locale
+#     put :update_locale
+#   end
+# end
 
   resources :system_settings, only: [:show, :edit, :update]
 
@@ -88,9 +88,9 @@ Primero::Application.routes.draw do
     resource :duplicate, :only => [:new, :create]
   end
 
-  #######################
-  # TRACING REQUESTS URLS
-  #######################
+#######################
+# TRACING REQUESTS URLS
+#######################
   resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
     collection do
       post :import_file
@@ -133,28 +133,28 @@ Primero::Application.routes.draw do
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:child_id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
-  #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
+#Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
 
-  #Flag routing
-  match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class:'Child', :via => [:post, :put]
-  match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class:'Incident', :via => [:post, :put]
-  match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, model_class:'TracingRequest', :via => [:post, :put]
+#Flag routing
+  match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class: 'Child', :via => [:post, :put]
+  match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class: 'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, model_class: 'TracingRequest', :via => [:post, :put]
 
-  #Flag multiple records routing
+#Flag multiple records routing
   match '/cases/flag_records' => 'record_flag#flag_records', :as => :child_flag_records, :model_class => 'Child', :via => [:post, :put]
   match '/incidents/flag_records' => 'record_flag#flag_records', :as => :incident_flag_records, :model_class => 'Incident', :via => [:post, :put]
   match '/tracing_requests/flag_records' => 'record_flag#flag_records', :as => :tracing_request_flag_records, :model_class => 'TracingRequest', :via => [:post, :put]
 
-  # Set Record Status
+# Set Record Status
   match '/cases/record_status' => 'record_status#set_record_status', :as => :child_record_status, :model_class => 'Child', :via => [:post, :put]
   match '/incidents/record_status' => 'record_status#set_record_status', :as => :incident_record_status, :model_class => 'Incident', :via => [:post, :put]
   match '/tracing_requests/record_status' => 'record_status#set_record_status', :as => :tracing_request_record_status, :model_class => 'TracingRequest', :via => [:post, :put]
 
-  #Unflag routing
-  match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]
-  match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class:'Incident', :via => [:post, :put]
-  match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, model_class:'TracingRequest', :via => [:post, :put]
+#Unflag routing
+  match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class: 'Child', :via => [:post, :put]
+  match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class: 'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, model_class: 'TracingRequest', :via => [:post, :put]
 
   match '/tracing_requests-ids' => 'tracing_request_ids#all', :as => :tracing_request_ids, :via => [:post, :get, :put, :delete]
   match '/tracing_requests/:id/photo/edit' => 'tracing_requests#edit_photo', :as => :edit_tracing_requests_photo, :via => :get
@@ -204,6 +204,7 @@ Primero::Application.routes.draw do
       post :import_file
     end
   end
+  # match '/potential_matches/:method' => 'potential_matches#index', :as => :potential_matches_method, :via => [:post, :get, :put, :delete]
 
 
 #######################

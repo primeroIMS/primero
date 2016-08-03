@@ -156,7 +156,7 @@ class PotentialMatch < CouchRest::Model::Base
 
       unless results.empty?
         results.each {
-            |result| update_potential_match(child_id, result[:tracing_request_id], result[:score].to_f, result[:tr_subform_id])
+            |result| update_potential_match(child_id, result[:tracing_request_id], result[:score].to_f, result[:tr_subform_id], result[:tr_age], result[:tr_gender],)
         }
       end
     end
@@ -169,7 +169,8 @@ class PotentialMatch < CouchRest::Model::Base
       pm.average_rating = score
       pm.case_id = Child.get_case_id(child_id)
       pm.child_age, pm.child_gender = Child.get_case_age_and_gender(child_id)
-      pm.tr_age, pm.tr_gender = tr_age, tr_sex
+      pm.tr_age = tr_age
+      pm.tr_gender = tr_sex
       pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
       pm.module_id = PrimeroModule::CP
       valid_score = score >= threshold

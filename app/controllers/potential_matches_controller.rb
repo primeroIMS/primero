@@ -4,28 +4,35 @@ class PotentialMatchesController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include RecordActions
+  require "will_paginate/array"
 
   def index
     authorize! :index, model_class
     @page_name = t("home.view_records")
-    @aside = 'shared/sidebar_links'
+    @aside = "shared/sidebar_links"
     @associated_users = current_user.managed_user_names
     @filters = record_filter(filter)
     #make sure to get all records when querying for ids to sync down to mobile
-    params['page'] = 'all' if params['mobile'] && params['ids']
+    params["page"] = "all" if params["mobile"] && params["ids"]
     @records, @total_records = retrieve_records_and_total(@filters)
 
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map { |a| {a.id => a.name} }
-    @options_districts = Location.by_type_enabled.key('district').all.map { |loc| loc.placename }.sort
+    @options_districts = Location.by_type_enabled.key("district").all.map { |loc| loc.placename }.sort
     module_users(module_ids) if module_ids.present?
-
     instance_variable_set("@#{list_variable_name}", @records)
-    @per_page = per_page
+
+    params[:method]
     @match_results = get_all_tr_pairs
-    @match_results = get_all_match_details @match_results, @potential_matches
+    @match_results = get_all_match_details_by_tr @match_results, @potential_matches
+
+    @per_page = per_page
+    @match_results = @match_results.paginate(:page => page, :per_page => per_page)
+    @total_records = @match_results.total_entries
+
+
     respond_to do |format|
       format.html
       unless params[:password]
@@ -35,7 +42,7 @@ class PotentialMatchesController < ApplicationController
       end
       unless params[:format].nil? || params[:format] == :json
         if @potential_matches.empty?
-          flash[:notice] = t('exports.no_records')
+          flash[:notice] = t("exports.no_records")
           redirect_to :action => :index and return
         end
       end
@@ -43,6 +50,8 @@ class PotentialMatchesController < ApplicationController
       respond_to_export format, @records
     end
   end
+
+
 
   def load_tracing_request
     if params[:match].present?
@@ -82,7 +91,7 @@ class PotentialMatchesController < ApplicationController
     match_result
   end
 
-  def get_all_match_details(match_results=[], potential_matches=[])
+  def get_all_match_details_by_tr(match_results=[], potential_matches=[])
     for match_result in match_results
       for potential_match in potential_matches
         if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"]
@@ -100,11 +109,24 @@ class PotentialMatchesController < ApplicationController
       end
     end
     compact_result match_results
+    sort_hash match_results
   end
 
   def compact_result match_results
     match_results.delete_if { |h| h["match_details"].length == 0 }
     match_results
+  end
+
+  def sort_hash match_results
+    match_results = match_results.sort_by { |hash| -find_max_score_element(hash["match_details"])["average_rating"] }
+    match_results
+  end
+
+  def find_max_score_element array
+    array = array.max_by do |element|
+      element["average_rating"]
+    end
+    array
   end
 
 end

@@ -149,7 +149,7 @@ class TracingRequest < CouchRest::Model::Base
         PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, tr.age, tr.sex, results, child_id)
       else
         results.each do |key, value|
-          all_results.push({:tracing_request_id => self.id, :tr_subform_id => tr.unique_id, :score => value})
+          all_results.push({:tracing_request_id => self.id, :tr_subform_id => tr.unique_id,:tr_age => tr.age, :tr_gender => tr.sex, :score => value})
         end
       end
     end

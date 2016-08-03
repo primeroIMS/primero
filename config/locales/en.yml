@@ -558,14 +558,17 @@ en:
       multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
     models:
       report:
-        one: "report"
-        other: "reports"
+        one: "Report"
+        other: "Reports"
       child:
-        one: "case"
-        other: "cases"
+        one: "Case"
+        other: "Cases"
       incident:
-        one: "incident"
-        other: "incidents"
+        one: "Incident"
+        other: "Incidents"
+      hash:
+        one: "Matching Result"
+        other: "Matching Results"
 
   users:
     unverified: "Unverified Users"
