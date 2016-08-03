@@ -78,7 +78,7 @@ class ChildrenController < ApplicationController
     child = Child.get(params[:child_id])
     child.child_status = params[:child_status]
     child.case_status_reopened = params[:case_reopened]
-    child.add_log(current_user.user_name)
+    child.add_reopened_log(current_user.user_name)
 
     if child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }

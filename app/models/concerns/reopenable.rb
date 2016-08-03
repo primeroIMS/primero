@@ -4,10 +4,10 @@ module Reopenable
   included do
     property :reopened_logs, [ReopenLog], :default => []
 
-    def add_log(case_reopened_user)
+    def add_reopened_log(user)
       log = ReopenLog.new(
-                    :case_reopened_date => DateTime.now,
-                    :case_reopened_user => case_reopened_user)
+                    :reopened_date => DateTime.now,
+                    :reopened_user => user)
 
       self.reopened_logs.unshift(log)
       reopened_logs
