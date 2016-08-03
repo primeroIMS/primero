@@ -55,6 +55,7 @@ en:
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
+    reopen_record: "Clicking OK will change the status of this case to Open"
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
     invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
@@ -1463,6 +1464,7 @@ en:
     button: "Actions"
     enable: "Enable"
     disable: "Disable"
+    reopen: "Reopen"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

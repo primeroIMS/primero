@@ -67,6 +67,7 @@ _primero.Router = Backbone.Router.extend({
     this.subforms();
     new _primero.Views.ApproveCasePlan();
     new _primero.Views.Actions();
+    new _primero.Views.ReopenCase();
   },
 
   incidentShowPage: function() {
