@@ -3,15 +3,17 @@ module DocumentUploader
 
   include Attachable
 
+  # TODO: Increase the number
   MAX_DOCUMENTS = 10
 
   included do
     property :document_keys, [String]
-    property :other_documents, [Class.new() do
+    property :other_documents, [Class.new() do #TODO: refactor this to be "documents"
       include Syncable::PrimeroEmbeddedModel
-
+      #TODO: Refactor to a separate file!
       property :file_name, String
       property :attachment_key, String
+      property :document_type, String # TODO: This should be like in Transition::TYPE_REFERRAL
       property :document_description, String
     end]
     validate :validate_documents_size
@@ -20,6 +22,7 @@ module DocumentUploader
   end
 
   def validate_documents_size
+    # TODO: Examine size and perhaps increase 10 !
     return true if @documents.blank? || @documents.all? {|document| document.size < 10.megabytes }
     errors.add(:document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
     error_with_section(:upload_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
