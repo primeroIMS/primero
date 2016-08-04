@@ -136,6 +136,8 @@ en:
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
      approve_case_plan: "Approve Case Plan"
+     sort_by_tr: "Tracing Requests"
+     sort_by_case: "Cases"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -518,8 +520,10 @@ en:
   potential_matches:
     filter_by:
       score_range: "Score Range"
-      age_range: "Age Range of Tracing Requests"
-      sex: "Sex of Tracing Requests"
+      age_range_case: "Age Range of Cases"
+      age_range_tracing_request: "Age Range of Tracing Requests"
+      sex_case: "Sex of Cases"
+      sex_tracing_request: "Sex of Tracing Requests"
       male: "Male"
       female: "Female"
 
@@ -865,6 +869,7 @@ en:
       child: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
+      potential_match: "Potential Match"
       violation: "Violation"
       reportable_service: "Service"
       reportable_follow_up: "Follow Up"

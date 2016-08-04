@@ -1,12 +1,8 @@
 <%
-  #TODO: As usual there is a good way to structure this more elegantly.
-  #       We should be using the inherited content_for code to handle rendering in these areas.
-  opts ||= {}
-  display_create = model.to_s == "PotentialMatch" ? false : true
   options = {
       display_filter: true,
-      display_actions: model.to_s =="PotentialMatch" ? false : true,
-      display_create: display_create}.merge(opts)
+      sort_method: true,
+  }
 %>
 
 <div class="index_controls_container" data-top="50" data-bottom="40">
@@ -17,11 +13,10 @@
           <div class="pagination_info"><%= page_entries_info collection %></div>
         </div>
         <div class="large-6 small-6 columns">
-          <%= render partial: "record_shared/header",
+          <%= render partial: "potential_matches/header",
                      locals: {
                          model: model, record: record, modules: @current_modules,
-                         display_actions: options[:display_actions],
-                         display_create: options[:display_create]
+                         sort_method: options[:sort_method],
                      }
           %>
         </div>
@@ -39,7 +34,7 @@
   </div>
 </div>
 <div class="row collapse">
-  <div class="large-9 small-9 columns" style="padding-top: 14px;">
+  <div class="large-9 small-9 columns">
     <div class="clearfix"></div>
     <%= render :partial => "#{controller.controller_name}/summary_row", collection: collection, as: :record %>
 

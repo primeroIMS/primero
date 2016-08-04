@@ -24,9 +24,19 @@ class PotentialMatchesController < ApplicationController
     module_users(module_ids) if module_ids.present?
     instance_variable_set("@#{list_variable_name}", @records)
 
-    params[:method]
-    @match_results = get_all_tr_pairs
-    @match_results = get_all_match_details_by_tr @match_results, @potential_matches
+    @type = params[:type] || "tracing_request"
+
+    case @type
+      when "case"
+        @match_results = get_all_case
+        @match_results = get_all_match_details_by_case @match_results, @potential_matches
+      when "tracing_request"
+        @match_results = get_all_tr_pairs
+        @match_results = get_all_match_details_by_tr @match_results, @potential_matches
+      else
+        @match_results = []
+    end
+
 
     @per_page = per_page
     @match_results = @match_results.paginate(:page => page, :per_page => per_page)
@@ -50,7 +60,6 @@ class PotentialMatchesController < ApplicationController
       respond_to_export format, @records
     end
   end
-
 
 
   def load_tracing_request
@@ -91,6 +100,23 @@ class PotentialMatchesController < ApplicationController
     match_result
   end
 
+  def get_all_case
+    @cases = Child.all
+    match_result=[]
+    for c in @cases
+      case_details = {}
+      case_details["case_id"] = c.case_id
+      case_details["child_id"] = c._id
+      case_details["age"] = c.age
+      case_details["sex"] = c.sex
+      case_details["registration_date"] = c.registration_date
+      case_details["owned_by"] = c.owned_by
+      case_details["match_details"] = []
+      match_result << case_details
+    end
+    match_result
+  end
+
   def get_all_match_details_by_tr(match_results=[], potential_matches=[])
     for match_result in match_results
       for potential_match in potential_matches
@@ -103,6 +129,32 @@ class PotentialMatchesController < ApplicationController
           match_detail["sex"] = child.sex
           match_detail["registration_date"] = child.registration_date
           match_detail["owned_by"] = child.owned_by
+          match_detail["average_rating"] =potential_match.average_rating
+          match_result["match_details"] << match_detail
+        end
+      end
+    end
+    compact_result match_results
+    sort_hash match_results
+  end
+
+  def get_all_match_details_by_case(match_results=[], potential_matches=[])
+    for match_result in match_results
+      for potential_match in potential_matches
+        if potential_match["case_id"] == match_result["case_id"]
+          match_detail = {}
+          match_detail["tracing_request_id"] = potential_match.tr_id
+          inquiry = TracingRequest.find_by_tracing_request_id potential_match.tr_id
+          match_detail["tr_uuid"] = inquiry._id
+          for subform in inquiry.tracing_request_subform_section
+            if subform.unique_id == potential_match.tr_subform_id
+              # match_detail["age"] = subform.age
+              # match_detail["sex"] = subform.sex
+              match_detail["subform_tracing_request_name"] =subform.name
+            end
+          end
+          match_detail["inquiry_date"] = inquiry.inquiry_date
+          match_detail["relation_name"] = inquiry.relation_name
           match_detail["average_rating"] =potential_match.average_rating
           match_result["match_details"] << match_detail
         end

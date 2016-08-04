@@ -2,7 +2,7 @@
     <script type="text/javascript" language="javascript">
       $(document).ready(function () {
         $("[id^='myTable_']").tablesorter({
-          sortList: [[5, 1]]
+          sortList: [[col, 1]]
         });
       });
     </script>
@@ -26,5 +26,7 @@
       });
     </script>
 <% end %>
-
+<%= javascript_tag do %>
+    var col = '<%= (@type == "tracing_request") ? 5: 4%>';
+<% end %>
 <%= render 'record_shared/list_view_div', model: PotentialMatch, record: 'potential_match', collection: @match_results %>
