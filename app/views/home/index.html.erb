@@ -37,6 +37,7 @@
   <% if @display_cases_dashboard %>
   <div class="row collapse">
     <div id="content" class="large-9 small-9 columns dashboards">
+      <%= render 'match_result_statistics', match_stats: @match_stats, model: PotentialMatch %>
       <% if @display_admin_dashboard %>
         <%= render 'case_admin_district_totals', district_stats: @district_stats, model: Child %>
         <%= render 'case_protection_concerns', protection_concern_stats: @protection_concern_stats, model: Child %>
