@@ -40,7 +40,7 @@ create_or_update_module(
     "activities", "basic_identity", "best_interest", "caafag_profile",
     "care_arrangements", "care_assessment", "child_under_5",
     "child_wishes", "closure_form", "consent", "family_details", "followup",
-    "interview_details", "other_documents", "other_identity_details", "partner_details",
+    "interview_details", "documents", "other_identity_details", "partner_details",
     "photos_and_audio", "protection_concern_details", "protection_concern",
     "record_owner", "services", "tracing", "verification",
     "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
@@ -57,7 +57,7 @@ create_or_update_module(
   associated_record_types: ["case", "incident"],
   associated_form_ids: [
     "record_owner", "consent_for_services", "gbv_survivor_information",
-    "other_documents", "consent_for_referrals","safety_plan",
+    "documents", "consent_for_referrals","safety_plan",
     "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
     "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
     "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer"
