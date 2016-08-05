@@ -44,7 +44,7 @@ module MediaActions
     object = instance_variable_get("@#{self.model_class.name.underscore.downcase}")
     document_key_index = object['document_keys'].find_index attachment.name
     unless document_key_index.nil?
-      object['other_documents'][document_key_index]['file_name']
+      object['documents'][document_key_index]['file_name']
     end
   end
 

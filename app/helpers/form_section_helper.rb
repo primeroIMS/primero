@@ -68,11 +68,11 @@ module FormSectionHelper
         end
       else
         #There is no straightforward way to know that "Audio and Photo" or "Other Documents" section are empties
-        #So, the verification rely on the hardcoded attributes "other_documents", "recorded_audio" and "current_photo_key".
+        #So, the verification rely on the hardcoded attributes "documents", "recorded_audio" and "current_photo_key".
 
         #assumed we are on "Other Documents" section because the first field is DOCUMENT_UPLOAD_BOX
         if field.type == Field::DOCUMENT_UPLOAD_BOX
-          return formObject["other_documents"].blank?
+          return formObject["documents"].blank?
         elsif field.type == Field::PHOTO_UPLOAD_BOX
           #assumed we are on "Audio and Photo" because the first field is PHOTO_UPLOAD_BOX
           blank = formObject["current_photo_key"].blank?

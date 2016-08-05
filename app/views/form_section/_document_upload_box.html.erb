@@ -1,5 +1,6 @@
 <%
-  documents = formObject["other_documents"] || []
+  #TODO: Add loading different types of documents (BIA, BID, Other)
+  documents = formObject["documents"] || []
   documents = documents.select { |document| document["file_name"].present? && document["attachment_key"].present? }
   record_class_name = formObject.class.name.underscore.downcase
 %>

@@ -455,7 +455,7 @@ describe Child do
       end
 
       it "should only have one document on creation" do
-        @child.other_documents.size.should eql 1
+        @child.documents.size.should eql 1
       end
     end
 
@@ -464,7 +464,7 @@ describe Child do
         User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
         docs = [uploadable_photo, uploadable_photo_jeff, uploadable_photo_jorge].map {|d| {'document' => d}}
         @child = Child.create('upload_document' => docs, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        @child.other_documents.size.should eql 3
+        @child.documents.size.should eql 3
       end
     end
   end
