@@ -44,18 +44,25 @@ module DocumentUploader
   end
 
   def upload_document=(new_documents)
+    # TODO: After validation is implemented add appropriate type: Document::TYPE_BIA
+    upload('documents', "", new_documents)
+  end
+
+  def upload(form_id, type, new_documents)
     @documents = []
-    self['documents'] ||= []
+    self[form_id] ||= []
     self['document_keys'] ||= []
+
     new_documents.each do |doc|
-      uploaded_document = doc["document"]
-      document_description = doc["document_description"]
+      uploaded_document = doc['document']
+      document_description = doc['document_description']
+
       if uploaded_document.present?
         @documents.push uploaded_document
         @document_file_name = uploaded_document.original_filename
         attachment = FileAttachment.from_uploadable_file uploaded_document, "document-#{uploaded_document.path.hash}"
         self['document_keys'].push attachment.name
-        self['documents'].push({:file_name => @document_file_name, :attachment_key => attachment.name, :document_description => document_description})
+        self[form_id].push({:file_name => @document_file_name, :attachment_key => attachment.name, :document_type => type, :document_description => document_description})
         attach attachment
       end
     end
@@ -63,17 +70,21 @@ module DocumentUploader
 
   def update_document=(updated_documents)
     return unless updated_documents
+    document_update('documents', "", updated_documents)
+  end
+
+  def document_update(form_id, type, updated_documents)
     document_names = updated_documents.keys if updated_documents.is_a? Hash
     document_names.each do |document_key|
       attachment_index = self['document_keys'].find_index(document_key)
-      documents_index = self['documents'].find_index {|document| document['attachment_key'] == document_key}
+      documents_index = self[form_id].find_index {|document| document['attachment_key'] == document_key}
       if attachment_index.present? && documents_index.present?
         if updated_documents[document_key]["delete_document"].present?
           self['document_keys'].delete_at(attachment_index)
-          self['documents'].delete_at(attachment_index)
+          self[form_id].delete_at(documents_index)
           delete_attachment(document_key)
-        elsif self['documents'][documents_index]['document_description'] != updated_documents[document_key]["document_description"]
-          self['documents'][documents_index]['document_description'] = updated_documents[document_key]["document_description"]
+        elsif self[form_id][documents_index]['document_description'] != updated_documents[document_key]["document_description"]
+          self[form_id][documents_index]['document_description'] = updated_documents[document_key]["document_description"]
         end
       end
     end
