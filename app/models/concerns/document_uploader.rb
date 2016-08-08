@@ -5,25 +5,28 @@ module DocumentUploader
 
   # TODO: Increase the number
   MAX_DOCUMENTS = 10
+  MAX_SIZE = 10.megabytes
 
   included do
     property :document_keys, [String]
-    property :documents, [Class.new() do
-      include Syncable::PrimeroEmbeddedModel
-      #TODO: Refactor to a separate file!
-      property :file_name, String
-      property :attachment_key, String
-      property :document_type, String # TODO: This should be like in Transition::TYPE_REFERRAL
-      property :document_description, String
-    end]
+    #property :other_documents, [Document], default: []
+    property :documents, [Document], default: []
+    property :bia_documents, [Document], default: []
+    property :bid_documents, [Document], default: []
     validate :validate_documents_size
+    #TODO Implement validations
+    #validate :validate_bia_documents_size
+    #validate :validate_bid_documents_size
     validate :validate_documents_count
+    #validate :validate_bia_documents_count
+    #validate :validate_bid_documents_count
     validate :validate_documents_file_type
+    #validate :validate_bia_documents_file_type
+    #validate :validate_bid_documents_file_type
   end
 
   def validate_documents_size
-    # TODO: Examine size and perhaps increase 10 !
-    return true if @documents.blank? || @documents.all? {|document| document.size < 10.megabytes }
+    return true if @documents.blank? || @documents.all? {|document| document.size < MAX_SIZE }
     errors.add(:document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
     error_with_section(:upload_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
   end
