@@ -181,7 +181,7 @@ describe Child do
 
     it "should disallow uploading executable files for documents" do
       child = Child.new
-      child.upload_document = [{'document' => uploadable_executable_file}]
+      child.upload_other_document = [{'document' => uploadable_executable_file}]
       child.should_not be_valid
     end
 
@@ -189,13 +189,13 @@ describe Child do
       documents = []
       11.times { documents.push({'document' => uploadable_photo_gif}) }
       child = Child.new
-      child.upload_document = documents
+      child.upload_other_document = documents
       child.should_not be_valid
     end
 
     it "should disallow uploading a document larger than 10 megabytes" do
       child = Child.new
-      child.upload_document = [{'document' => uploadable_large_photo}]
+      child.upload_other_document = [{'document' => uploadable_large_photo}]
       child.should_not be_valid
     end
 
@@ -451,11 +451,11 @@ describe Child do
     context "with a single new document" do
       before :each do
         User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @child = Child.create('upload_document' => [{'document' => uploadable_photo}], 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
+        @child = Child.create('upload_other_document' => [{'document' => uploadable_photo}], 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
       end
 
       it "should only have one document on creation" do
-        @child.documents.size.should eql 1
+        @child.other_documents.size.should eql 1
       end
     end
 
@@ -463,8 +463,8 @@ describe Child do
       it "should only have one document on creation" do
         User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
         docs = [uploadable_photo, uploadable_photo_jeff, uploadable_photo_jorge].map {|d| {'document' => d}}
-        @child = Child.create('upload_document' => docs, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        @child.documents.size.should eql 3
+        @child = Child.create('upload_other_document' => docs, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
+        @child.other_documents.size.should eql 3
       end
     end
   end

@@ -442,7 +442,7 @@ describe Incident do
 
     it "should disallow uploading executable files for documents" do
       incident = Incident.new
-      incident.upload_document = [{'document' => uploadable_executable_file}]
+      incident.upload_other_document = [{'document' => uploadable_executable_file}]
       incident.should_not be_valid
     end
 
@@ -450,13 +450,13 @@ describe Incident do
       documents = []
       11.times { documents.push({'document' => uploadable_photo_gif}) }
       incident = Incident.new
-      incident.upload_document = documents
+      incident.upload_other_document = documents
       incident.should_not be_valid
     end
 
     it "should disallow uploading a document larger than 10 megabytes" do
       incident = Incident.new
-      incident.upload_document = [{'document' => uploadable_large_photo}]
+      incident.upload_other_document = [{'document' => uploadable_large_photo}]
       incident.should_not be_valid
     end
   end
