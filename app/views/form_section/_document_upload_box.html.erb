@@ -1,6 +1,7 @@
 <%
   #TODO: Add loading different types of documents (BIA, BID, Other)
   upload_document = field.name
+  update_document = upload_document.sub 'upload', 'update'
 
   documents = formObject[form_id] || []
   documents = documents.select { |document| document["file_name"].present? && document["attachment_key"].present? }
@@ -30,11 +31,11 @@
       <div class="medium-8 columns">
         <% attachment_key = document["attachment_key"] %>
         <% document_description = document["document_description"] || "" %>
-        <% name = "#{record_class_name}[update_document][#{attachment_key}]" %>
-        <% description_field_id = "#{record_class_name}_update_document_#{attachment_key}_document_description"%>
+        <% name = "#{record_class_name}[#{update_document}][#{attachment_key}]" %>
+        <% description_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_document_description"%>
         <%= text_field_tag "#{name}[document_description]", document_description, :id => description_field_id %>
         <div>
-          <% checkbox_id = "#{record_class_name}_update_document_#{attachment_key}_delete_document" %>
+          <% checkbox_id = "#{record_class_name}_#{update_document}_#{attachment_key}_delete_document" %>
           <%= check_box_tag("#{name}[delete_document]", true, false, :id => checkbox_id) %>
           <%= label_tag checkbox_id, t("#{record_class_name}.actions.delete_document") %>
         </div>
