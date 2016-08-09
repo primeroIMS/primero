@@ -1,12 +1,11 @@
 children = Child.all
 children.each do |child|
-
   record_modified = false
 
-  # Change other_documents name to documents
-  if child[:other_documents].present?
-    child.update_attributes(documents: child['other_documents'])
-    child[:other_documents] = nil
+  # Change upload_document name to upload_other_document
+  if child[:upload_document].present?
+    child.update_attributes(upload_other_document: child['upload_document'])
+    child[:upload_document] = nil
 
     if child.save
       puts "Saved changes to case record..."
@@ -17,9 +16,9 @@ children.each do |child|
 end
 
 children.each do |child|
-  if child['other_documents']
-    child.delete('other_documents')
+  if child['upload_document']
+    child.delete('upload_document')
     child.save
-    puts "Deleted key other_documents from child #{child.short_id}"
+    puts "Deleted key upload_document from child #{child.short_id}"
   end
 end

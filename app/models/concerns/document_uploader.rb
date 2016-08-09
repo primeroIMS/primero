@@ -10,7 +10,6 @@ module DocumentUploader
   included do
     property :document_keys, [String]
     property :other_documents, [Document], default: []
-    property :documents, [Document], default: []
     property :bia_documents, [Document], default: []
     property :bid_documents, [Document], default: []
     validate :validate_documents_size
@@ -28,23 +27,19 @@ module DocumentUploader
   def validate_documents_size
     return true if @documents.blank? || @documents.all? {|document| document.size < MAX_SIZE }
     errors.add(:document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
-    error_with_section(:upload_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
+    error_with_section(:upload_other_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
   end
 
   def validate_documents_count
     return true if @documents.blank? || self['document_keys'].size <= MAX_DOCUMENTS
     errors.add(:document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.documents_count", :documents_count => MAX_DOCUMENTS))
-    error_with_section(:upload_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.documents_count", :documents_count => MAX_DOCUMENTS))
+    error_with_section(:upload_other_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.documents_count", :documents_count => MAX_DOCUMENTS))
   end
 
   def validate_documents_file_type
     return true if @documents.blank? || @documents.all? { |document| !document.original_filename.downcase.ends_with? ".exe" }
     errors.add(:document, "errors.models.#{self.class.name.underscore.downcase}.document_format")
-    error_with_section(:upload_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_format"))
-  end
-
-  def upload_document=(new_documents)
-    upload('documents', "", new_documents)
+    error_with_section(:upload_other_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_format"))
   end
 
   def upload_other_document=(new_documents)
@@ -69,11 +64,6 @@ module DocumentUploader
         attach attachment
       end
     end
-  end
-
-  def update_document=(updated_documents)
-    return unless updated_documents
-    document_update('documents', "", updated_documents)
   end
 
   def update_other_document=(updated_documents)
