@@ -9,7 +9,7 @@ module DocumentUploader
 
   included do
     property :document_keys, [String]
-    #property :other_documents, [Document], default: []
+    property :other_documents, [Document], default: []
     property :documents, [Document], default: []
     property :bia_documents, [Document], default: []
     property :bid_documents, [Document], default: []
@@ -44,8 +44,11 @@ module DocumentUploader
   end
 
   def upload_document=(new_documents)
-    # TODO: After validation is implemented add appropriate type: Document::TYPE_BIA
     upload('documents', "", new_documents)
+  end
+
+  def upload_other_document=(new_documents)
+    upload('other_documents', Document::TYPE_OTHER, new_documents)
   end
 
   def upload(form_id, type, new_documents)
@@ -73,11 +76,17 @@ module DocumentUploader
     document_update('documents', "", updated_documents)
   end
 
+  def update_other_document=(updated_documents)
+    return unless updated_documents
+    document_update('other_documents', Document::TYPE_OTHER, updated_documents)
+  end
+
   def document_update(form_id, type, updated_documents)
     document_names = updated_documents.keys if updated_documents.is_a? Hash
     document_names.each do |document_key|
       attachment_index = self['document_keys'].find_index(document_key)
       documents_index = self[form_id].find_index {|document| document['attachment_key'] == document_key}
+
       if attachment_index.present? && documents_index.present?
         if updated_documents[document_key]["delete_document"].present?
           self['document_keys'].delete_at(attachment_index)
