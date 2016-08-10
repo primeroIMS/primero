@@ -267,10 +267,6 @@ supervisor_service 'who-watches-the-couch-watcher' do
   action [:enable, :stop]
 end
 
-execute_bundle 'reset_app' do
-  command "rake app:reset"
-end
-
 execute_bundle 'remove_all_caches' do
   command "rails runner Sunspot.remove_all"
 end
