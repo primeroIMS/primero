@@ -10,7 +10,6 @@ class Document
   property :date, Date
   property :comments, String
 
-
   validates_presence_of :file_name
   validate :type_validation
 
