@@ -191,12 +191,19 @@ describe Child do
       child.should_not be_valid
     end
 
+    it "should disallow uploading executable files for bid_documents" do
+      child = Child.new
+      child.upload_bid_document = [{'document' => uploadable_executable_file}]
+      child.should_not be_valid
+    end
+
     it "should disallow uploading more than 10 documents" do
       documents = []
-      6.times { documents.push({'document' => uploadable_photo_gif}) }
+      4.times { documents.push({'document' => uploadable_photo_gif}) }
       child = Child.new
       child.upload_other_document = documents
       child.upload_bia_document = documents
+      child.upload_bid_document = documents
       child.should_not be_valid
     end
 
