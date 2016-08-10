@@ -7,6 +7,8 @@ class Document
   property :attachment_key, String
   property :document_type, String
   property :document_description, String
+  property :date, Date
+  property :comments, String
 
   validates_presence_of :file_name
   validate :type_validation
