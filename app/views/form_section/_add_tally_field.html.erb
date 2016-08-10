@@ -10,16 +10,16 @@
   end
 %>
 <div class="row">
-  <div class="large-3 medium-3 columns">
+  <div class="large-4 medium-4 columns">
     <%= label_tag :tally_label, t("fields.tally_field", :locale => given_locale.to_sym)%>
   </div>
-  <div class="large-3 medium-3 columns">
+  <div class="large-4 medium-4 columns">
     <%= text_field_tag "field[tally_#{given_locale}][]", tally1 %>
   </div>
-  <div class="large-3 medium-3 columns">
+  <div class="large-4 medium-4 columns">
     <%= text_field_tag "field[tally_#{given_locale}][]", tally2 %>
   </div>
-  <div class="large-3 medium-3 columns">
+  <div class="large-4 medium-4 columns">
     <%= text_field_tag "field[tally_#{given_locale}][]", tally3 %>
   </div>
 </div>

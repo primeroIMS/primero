@@ -20,6 +20,7 @@ _primero.Router = Backbone.Router.extend({
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
     'forms/:id/edit': 'formSectionEditPage',
+    'forms/:form_section_id/fields/:id/edit': 'fieldEditPage',
     'users': 'passwordPrompt',
     'roles': 'roleIndexPage'
   },
@@ -136,5 +137,9 @@ _primero.Router = Backbone.Router.extend({
 
   formSectionEditPage: function() {
     new _primero.Views.VisibleMobileForm();
-  }
+  },
+
+  fieldEditPage: function() {
+    new _primero.Views.VisibleMobileField();
+  },
 });
