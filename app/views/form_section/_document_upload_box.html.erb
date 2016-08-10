@@ -81,19 +81,19 @@
           <label class="key">Document Name</label>
         </div>
         <div class="medium-8 columns">
-          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][document_description]", "", :id => description_upload_id %>
+          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][document_description]", "", :id => description_upload_id, :tag => "description" %>
         </div>
         <div class="medium-4 columns">
           <label class="key">Document Date</label>
         </div>
         <div class="medium-8 columns">
-          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :id => date_upload_id, :class => 'form_date_field' %>
+          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :id => date_upload_id, :tag => "date", :class => 'form_date_field' %>
         </div>
         <div class="medium-4 columns">
           <label class="key">Comments</label>
         </div>
         <div class="medium-8 columns">
-          <%= text_area_tag "#{record_class_name}[#{upload_document}][0][comments]", "", :id => comments_upload_id %>
+          <%= text_area_tag "#{record_class_name}[#{upload_document}][0][comments]", "", :id => comments_upload_id, :tag => "comments" %>
         </div>
       </div>
     </div>
