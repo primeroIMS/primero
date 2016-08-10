@@ -312,10 +312,9 @@ module RecordActions
   end
 
   # All the stuff that isn't properties that should be allowed
-  # TODO: Add here upload_bid_document and upload_bia_document ?
   def extra_permitted_parameters
     ['base_revision', 'unique_identifier', 'record_state',
-     'upload_other_document', 'update_other_document']
+     'upload_other_document', 'update_other_document', 'upload_bia_document', 'update_bia_document']
   end
 
   def permitted_property_keys(record, user = current_user, read_only_user = false)
