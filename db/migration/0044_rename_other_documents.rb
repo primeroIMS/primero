@@ -18,7 +18,10 @@ end
 children.each do |child|
   if child['upload_document']
     child.delete('upload_document')
-    child.save
-    puts "Deleted key upload_document from child #{child.short_id}"
+    if child.save
+      puts "Deleted key upload_document from child #{child.short_id}"
+    else
+      puts "Key upload_document not deleted from child #{child.short_id}"
+    end
   end
 end

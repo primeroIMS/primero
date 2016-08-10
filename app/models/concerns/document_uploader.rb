@@ -3,7 +3,6 @@ module DocumentUploader
 
   include Attachable
 
-  # TODO: Increase the number
   MAX_DOCUMENTS = 10
   MAX_SIZE = 10.megabytes
 
@@ -13,33 +12,23 @@ module DocumentUploader
     property :bia_documents, [Document], default: []
     property :bid_documents, [Document], default: []
     validate :validate_documents_size
-    #TODO Implement validations
-    #validate :validate_bia_documents_size
-    #validate :validate_bid_documents_size
     validate :validate_documents_count
-    #validate :validate_bia_documents_count
-    #validate :validate_bid_documents_count
     validate :validate_documents_file_type
-    #validate :validate_bia_documents_file_type
-    #validate :validate_bid_documents_file_type
   end
 
   def validate_documents_size
     return true if @documents.blank? || @documents.all? {|document| document.size < MAX_SIZE }
     errors.add(:document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
-    error_with_section(:upload_other_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_size"))
   end
 
   def validate_documents_count
     return true if @documents.blank? || self['document_keys'].size <= MAX_DOCUMENTS
     errors.add(:document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.documents_count", :documents_count => MAX_DOCUMENTS))
-    error_with_section(:upload_other_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.documents_count", :documents_count => MAX_DOCUMENTS))
   end
 
   def validate_documents_file_type
     return true if @documents.blank? || @documents.all? { |document| !document.original_filename.downcase.ends_with? ".exe" }
     errors.add(:document, "errors.models.#{self.class.name.underscore.downcase}.document_format")
-    error_with_section(:upload_other_document, I18n.t("errors.models.#{self.class.name.underscore.downcase}.document_format"))
   end
 
   def upload_other_document=(new_documents)
