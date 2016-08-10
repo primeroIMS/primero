@@ -18,12 +18,12 @@
     <div class="row update_document">
       <% attachment_key = document["attachment_key"] %>
       <% document_description = document["document_description"] || "" %>
-      <% date = document["document_date"] || "" %>
       <% comments = document["comments"] || "" %>
       <% name = "#{record_class_name}[#{update_document}][#{attachment_key}]" %>
       <% description_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_document_description"%>
       <% date_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_date"%>
       <% comments_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_comments"%>
+      <% delete_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_delete_document"%>
       <div class="medium-4 columns">
         <span class="tool-tip-label">
           <%= label_tag I18n.t(document_upload_box.name, :default => document_upload_box.display_name) %>
@@ -44,7 +44,7 @@
         <label class="key">Document Date</label>
       </div>
       <div class="medium-8 columns">
-        <%= text_field_tag "#{name}[date]", date, :id => date_field_id, :class => 'form_date_field' %>
+        <%= text_field_tag "#{name}[date]", document["date"], :id => date_field_id, :class => 'form_date_field' %>
       </div>
       <div class="medium-4 columns">
         <label class="key">Comments</label>
@@ -52,9 +52,8 @@
       <div class="medium-8 columns">
         <%= text_area_tag "#{name}[comments]", comments, :id => comments_field_id %>
         <div>
-          <% checkbox_id = "#{record_class_name}_#{update_document}_#{attachment_key}_delete_document" %>
-          <%= check_box_tag("#{name}[delete_document]", true, false, :id => checkbox_id) %>
-          <%= label_tag checkbox_id, t("#{record_class_name}.actions.delete_document") %>
+          <%= check_box_tag("#{name}[delete_document]", true, false, :id => delete_field_id) %>
+          <%= label_tag delete_field_id, t("#{record_class_name}.actions.delete_document") %>
         </div>
       </div>
     </div>
@@ -64,23 +63,37 @@
   <div id="file-group" class="document">
     <div class="file">
       <div class="row">
+        <% prefix = "#{record_class_name}_#{upload_document}"%>
+        <% description_upload_id = "#{prefix}_0_document_description"%>
+        <% date_upload_id = "#{prefix}_0_date"%>
+        <% comments_upload_id = "#{prefix}_0_comments"%>
+        <% delete_upload_id = "#{prefix}_0_delete_document"%>
+
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document]", I18n.t("fields.file_upload_box.add_document_label"), :class=>'key inline' %>
+            <%= label_tag "#{record_class_name}[#{upload_document}][0][document]", I18n.t("fields.file_upload_box.add_document_label"), :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns file_upload">
-          <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document]", id: "#{formObject.class.name.underscore.downcase}_#{upload_document}_0_document", help_text: document_upload_box.help_text || ""%>
+          <%= render "form_section/file_input", name: "#{record_class_name}[#{upload_document}][0][document]", id: "#{record_class_name}_#{upload_document}_0_document", help_text: document_upload_box.help_text || ""%>
         </div>
-      </div>
-      <div class="row">
         <div class="medium-4 columns">
-          <span class="tool-tip-label">
-            <%= label_tag "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document_description]", I18n.t("fields.file_upload_box.document_description"), :class=>'key inline' %>
-          </span>
+          <label class="key">Document Name</label>
         </div>
         <div class="medium-8 columns">
-          <%= text_field_tag "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document_description]", "", :id => "#{formObject.class.name.underscore.downcase}_#{upload_document}_0_document_description" %>
+          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][document_description]", "", :id => description_upload_id %>
+        </div>
+        <div class="medium-4 columns">
+          <label class="key">Document Date</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :id => date_upload_id, :class => 'form_date_field' %>
+        </div>
+        <div class="medium-4 columns">
+          <label class="key">Comments</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= text_area_tag "#{record_class_name}[#{upload_document}][0][comments]", "", :id => comments_upload_id %>
         </div>
       </div>
     </div>

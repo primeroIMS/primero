@@ -42,14 +42,17 @@ module DocumentUploader
 
     new_documents.each do |doc|
       uploaded_document = doc['document']
-      document_description = doc['document_description']
+      description = doc['document_description']
+      date = doc['date']
+      comments = doc['comments']
 
       if uploaded_document.present?
         @documents.push uploaded_document
         @document_file_name = uploaded_document.original_filename
         attachment = FileAttachment.from_uploadable_file uploaded_document, "document-#{uploaded_document.path.hash}"
         self['document_keys'].push attachment.name
-        self[form_id].push({:file_name => @document_file_name, :attachment_key => attachment.name, :document_type => type, :document_description => document_description})
+        self[form_id].push({:file_name => @document_file_name, :attachment_key => attachment.name,
+          :document_type => type, :document_description => description, :date => date, :comments => comments })
         attach attachment
       end
     end
@@ -67,12 +70,20 @@ module DocumentUploader
       documents_index = self[form_id].find_index {|document| document['attachment_key'] == document_key}
 
       if attachment_index.present? && documents_index.present?
-        if updated_documents[document_key]["delete_document"].present?
+        if updated_documents[document_key]['delete_document'].present?
           self['document_keys'].delete_at(attachment_index)
           self[form_id].delete_at(documents_index)
           delete_attachment(document_key)
-        elsif self[form_id][documents_index]['document_description'] != updated_documents[document_key]["document_description"]
-          self[form_id][documents_index]['document_description'] = updated_documents[document_key]["document_description"]
+        else
+          if self[form_id][documents_index]['document_description'] != updated_documents[document_key]['document_description']
+            self[form_id][documents_index]['document_description'] = updated_documents[document_key]['document_description']
+          end
+          if self[form_id][documents_index]['date'] != updated_documents[document_key]['date']
+            self[form_id][documents_index]['date'] = updated_documents[document_key]['date']
+          end
+          if self[form_id][documents_index]['comments'] != updated_documents[document_key]['comments']
+            self[form_id][documents_index]['comments'] = updated_documents[document_key]['comments']
+          end
         end
       end
     end
