@@ -1,5 +1,10 @@
 <%
-  documents = formObject["other_documents"] || []
+  # By having certain things derived from field name and form name
+  # it'll be much easier now to load different types of document forms (BIA, BID, Other)
+  upload_document = field.name
+  update_document = upload_document.sub 'upload', 'update'
+
+  documents = formObject[form_id] || []
   documents = documents.select { |document| document["file_name"].present? && document["attachment_key"].present? }
   record_class_name = formObject.class.name.underscore.downcase
 %>
@@ -27,11 +32,11 @@
       <div class="medium-8 columns">
         <% attachment_key = document["attachment_key"] %>
         <% document_description = document["document_description"] || "" %>
-        <% name = "#{record_class_name}[update_document][#{attachment_key}]" %>
-        <% description_field_id = "#{record_class_name}_update_document_#{attachment_key}_document_description"%>
+        <% name = "#{record_class_name}[#{update_document}][#{attachment_key}]" %>
+        <% description_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_document_description"%>
         <%= text_field_tag "#{name}[document_description]", document_description, :id => description_field_id %>
         <div>
-          <% checkbox_id = "#{record_class_name}_update_document_#{attachment_key}_delete_document" %>
+          <% checkbox_id = "#{record_class_name}_#{update_document}_#{attachment_key}_delete_document" %>
           <%= check_box_tag("#{name}[delete_document]", true, false, :id => checkbox_id) %>
           <%= label_tag checkbox_id, t("#{record_class_name}.actions.delete_document") %>
         </div>
@@ -45,21 +50,21 @@
       <div class="row">
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", I18n.t("fields.file_upload_box.add_document_label"), :class=>'key inline' %>
+            <%= label_tag "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document]", I18n.t("fields.file_upload_box.add_document_label"), :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns file_upload">
-          <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[upload_document][0][document]", id: "#{formObject.class.name.underscore.downcase}_upload_document_0_document", help_text: document_upload_box.help_text || ""%>
+          <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document]", id: "#{formObject.class.name.underscore.downcase}_#{upload_document}_0_document", help_text: document_upload_box.help_text || ""%>
         </div>
       </div>
       <div class="row">
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document_description]", I18n.t("fields.file_upload_box.document_description"), :class=>'key inline' %>
+            <%= label_tag "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document_description]", I18n.t("fields.file_upload_box.document_description"), :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns">
-          <%= text_field_tag "#{formObject.class.name.underscore.downcase}[upload_document][0][document_description]", "", :id => "#{formObject.class.name.underscore.downcase}_upload_document_0_document_description" %>
+          <%= text_field_tag "#{formObject.class.name.underscore.downcase}[#{upload_document}][0][document_description]", "", :id => "#{formObject.class.name.underscore.downcase}_#{upload_document}_0_document_description" %>
         </div>
       </div>
     </div>

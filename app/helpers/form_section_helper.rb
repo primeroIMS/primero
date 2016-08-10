@@ -57,6 +57,14 @@ module FormSectionHelper
 
   def display_help_text_on_view?(formObject, form_section)
     return false unless form_section.display_help_text_view
+
+    # This is a verification whether documents section is empty
+    # bia_documents are stored in a property bia_documents,
+    # same thing with bid_documents and other_documents
+    if form_section.name.downcase.include? "documents"
+      return formObject[form_section.name.downcase].blank?
+    end
+
     field = form_section.fields.first
     if field
       if field.type == Field::SUBFORM
@@ -70,10 +78,7 @@ module FormSectionHelper
         #There is no straightforward way to know that "Audio and Photo" or "Other Documents" section are empties
         #So, the verification rely on the hardcoded attributes "other_documents", "recorded_audio" and "current_photo_key".
 
-        #assumed we are on "Other Documents" section because the first field is DOCUMENT_UPLOAD_BOX
-        if field.type == Field::DOCUMENT_UPLOAD_BOX
-          return formObject["other_documents"].blank?
-        elsif field.type == Field::PHOTO_UPLOAD_BOX
+        if field.type == Field::PHOTO_UPLOAD_BOX
           #assumed we are on "Audio and Photo" because the first field is PHOTO_UPLOAD_BOX
           blank = formObject["current_photo_key"].blank?
           #assumed the section has two fields and the last one is AUDIO_UPLOAD_BOX.

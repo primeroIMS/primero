@@ -1,9 +1,11 @@
-<% if formObject["other_documents"].present? %>
+<% if formObject[form_id].present? %>
   <div class="uploaded-documents">
-    <% formObject["other_documents"].each do |document| %>
+    <% formObject[form_id].each do |document| %>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key document">Other Document</label>
+          <span class="key document">
+          <%= label_tag I18n.t(field.name, :default => field.display_name) %>
+        </span>
         </div>
         <div class="medium-8 columns">
           <% document_url = send("#{formObject.class.name.underscore.downcase}_document_url", formObject.id, document["attachment_key"]) %>
