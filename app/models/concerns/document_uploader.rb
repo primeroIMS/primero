@@ -39,6 +39,10 @@ module DocumentUploader
     upload('bia_documents', Document::TYPE_BIA, new_documents)
   end
 
+  def upload_bid_document=(new_documents)
+    upload('bid_documents', Document::TYPE_BID, new_documents)
+  end
+
   def upload(form_id, type, new_documents)
     @documents = []
     self[form_id] ||= []
@@ -70,6 +74,11 @@ module DocumentUploader
   def update_bia_document=(updated_documents)
     return unless updated_documents
     document_update('bia_documents', Document::TYPE_BIA, updated_documents)
+  end
+
+  def update_bid_document=(updated_documents)
+    return unless updated_documents
+    document_update('bid_documents', Document::TYPE_BID, updated_documents)
   end
 
   def document_update(form_id, type, updated_documents)
