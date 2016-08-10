@@ -2,12 +2,12 @@ tracing_request_photo_audio_fields = [
     Field.new({"name" => "current_photo_key",
                "type" => "photo_upload_box", "editable" => false,
                "display_name_all" => "Current Photo Key",
-               "show_on_minify_form" => true
+               "show_on_short_form" => true
               }),
     Field.new({"name" => "recorded_audio",
                "type" => "audio_upload_box", "editable" => false,
                "display_name_all" => "Recorded Audio",
-               "show_on_minify_form" => true
+               "show_on_short_form" => true
               })
 ]
 
