@@ -122,6 +122,7 @@ es:
      flag_records: "Marcar"
      flag_model: "Marcar %{model}"
      unflag_model: "Desmarcar %{model}"
+     unflag_model_history: "Historico de Desmarcado para %{model}"
      ok: 'OK'
      cancel: "Cancelar"
      edit_subform: 'Editar Subformulario'
@@ -133,6 +134,7 @@ es:
      mark_for_mobile: "Marcar para móvil"
      unmark_for_mobile: "Desmarcar para móvil"
      approve_case_plan: "Aprobar plan de caso"
+     view_flags_history: "Ver historial"
 
   placeholders:
     subforms: "Haga clic en el botón editar para agregar información %{form}"
@@ -215,6 +217,8 @@ es:
     flag_reason_date: "Fecha (optativo)"
     unflag_record: "Desmarcar registro"
     unflag_reason: "Motivo por el cual se desmarca"
+    unflag_date: "Fecha en que se desmarcó"
+    unflag_by: "Desmarcado por"
     unflag_label: "Desmarcar"
     unflag_error_message: "Por favor explique porqué está desmarcando este registro."
     id_of_record_this_duplicate_of: "Ingrese la identificación del registro del cual éste es duplicado:"
@@ -300,6 +304,8 @@ es:
     flag_reason_date: "Fecha (optativo)"
     unflag_record: "Desmarcar registro"
     unflag_reason: "Motivo por el cual se desmarca"
+    unflag_date: "Fecha en que se desmarcó"
+    unflag_by: "Desmarcado por"
     unflag_label: "Desmarcar"
     unflag_error_message: "Por favor explique porqué está desmarcando este registro."
     id_of_record_this_duplicate_of: "Ingrese la identificación del registro del cual éste es duplicado:"
@@ -403,6 +409,8 @@ es:
     flag_reason_date: "Fecha (optativo)"
     unflag_record: "Desmarcar registro"
     unflag_reason: "Motivo por el cual se desmarca"
+    unflag_date: "Fecha en que se desmarcó"
+    unflag_by: "Desmarcado por"
     unflag_label: "Desmarcar"
     unflag_error_message: "Por favor explique porqué está desmarcando este registro."
     flagged_as_suspected: "Marcado por"
@@ -474,6 +482,8 @@ es:
     selected_records_error_message: "Seleccione uno o más registros a marcar."
     unflag_record: "Desmarcar registro"
     unflag_reason: "Motivo por el cual se desmarca"
+    unflag_date: "Fecha en que se desmarcó"
+    unflag_by: "Desmarcado por"
     unflag_label: "Desmarcar"
     unflag_error_message: "Por favor explique porqué está desmarcando este registro."
     flag_error_message: "Por favor explique por qué está marcando este registro."
