@@ -267,11 +267,6 @@ supervisor_service 'who-watches-the-couch-watcher' do
   action [:enable, :stop]
 end
 
-# execute_bundle 'remove_all_caches' do
-#   command "rails runner Sunspot.remove_all"
-#   command "rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'"
-# end
-
 execute_bundle 'setup-db-migrate-design-views' do
   command "rake db:migrate:design"
 end
