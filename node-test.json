@@ -2,7 +2,7 @@
   "primero": {
     "environment": "test",
     "rails_env": "production",
-    "server_hostname": "54.218.92.194",
+    "server_hostname": "52.34.194.254",
     "http_port": 8000,
     "https_port": 8443,
     "git": {
