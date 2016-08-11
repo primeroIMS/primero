@@ -30,7 +30,7 @@ _primero.Views.VisibleMobileField = Backbone.View.extend({
     },
 
     set_visible_for_minify_form: function (el) {
-        var checkbox_control = el.parents('div').find('#field_details .minify_form');
+        var checkbox_control = el.parents('div').find('#field_details .short_form');
         this.change_checkbox_status(el, checkbox_control)
     },
 

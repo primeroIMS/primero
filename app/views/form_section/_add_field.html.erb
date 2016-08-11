@@ -27,20 +27,20 @@
               <%= fld.hidden_field :type, :class => "field_type" %>
             </div>
           </div>
+          <div class="row short_form">
+            <div class="medium-4 columns">
+              <%= fld.label :show_on_minify_form, t("show_on_short_form"), :class => 'key inline' %>
+            </div>
+            <div class="medium-8 columns">
+              <%= fld.check_box :show_on_minify_form?, {}, "true", "false" %>
+            </div>
+          </div>
           <div class="row">
             <div class="medium-4 columns">
               <%= fld.label :hide_on_view_page, t("hide_on_view_page"), :class => 'key inline' %>
             </div>
             <div class="medium-8 columns">
               <%= fld.check_box :hide_on_view_page?, {}, "true", "false" %>
-            </div>
-          </div>
-          <div class="row short_form">
-            <div class="medium-4 columns">
-              <%= fld.label :show_on_short_form, t("show_on_short_form"), :class => 'key inline' %>
-            </div>
-            <div class="medium-8 columns">
-              <%= fld.check_box :show_on_short_form?, {}, "true", "false" %>
             </div>
           </div>
       <% end %>

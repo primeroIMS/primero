@@ -7,7 +7,7 @@ class Field
   property :visible, TrueClass, :default => true
   property :mobile_visible, TrueClass, :default => true
   property :hide_on_view_page, TrueClass, :default => false
-  property :show_on_short_form, TrueClass, :default => false
+  property :show_on_minify_form, TrueClass, :default => false
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
@@ -221,7 +221,7 @@ class Field
     self.editable = true if properties["editable"].nil?
     self.multi_select = false if properties["multi_select"].nil?
     self.required = false if properties["required"].nil?
-    self.show_on_short_form = false if properties["show_on_short_form"].nil?
+    self.show_on_minify_form = false if properties["show_on_minify_form"].nil?
     self.hidden_text_field ||= false
     self.autosum_total ||= false
     self.autosum_group ||= ""

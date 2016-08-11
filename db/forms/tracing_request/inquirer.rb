@@ -13,13 +13,13 @@ tracing_request_inquirer_fields = [
             }),
   Field.new({"name" => "inquiry_date",
              "type" => "date_field",
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "display_name_all" => "Date of Inquiry"
             }),
   Field.new({"name" => "inquiry_status",
              "type" =>"select_box" ,
              "display_name_all" => "Inquiry Status",
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "option_strings_text_all" => "Open\nClosed"
             }),
   Field.new({"name" => "inquirer_details_section",
@@ -29,7 +29,7 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "relation_name",
              "type" => "text_field",
              "display_name_all" => "Name of inquirer",
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "matchable" => true
            }),
   Field.new({"name" => "relation_nickname",
@@ -40,14 +40,14 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "relation_age",
              "type" => "numeric_field",
              "display_name_all" => "Age",
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "matchable" => true
            }),
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
              "display_name_all" => "Date of Birth",
              "date_validation" => "not_future_date",
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "matchable" => true
              }),
   Field.new({"name" => "relation_language",
@@ -86,7 +86,7 @@ tracing_request_inquirer_fields = [
              "type" => "select_box",
              "display_name_all" => "Nationality",
              "multi_select" => true,
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "option_strings_source" => "lookup Nationality",
              "matchable" => true
            }),
@@ -102,7 +102,7 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "relation_address_current",
              "type" => "textarea",
              "display_name_all" => "Current Address",
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "matchable" => true
            }),
   Field.new({"name" => "relation_location_current",
@@ -114,7 +114,7 @@ tracing_request_inquirer_fields = [
              }),
   Field.new({"name" => "relation_address_is_permanent",
              "type" => "tick_box",
-             "show_on_short_form" => true,
+             "show_on_minify_form" => true,
              "display_name_all" => "Is this a permanent location?"
             }),
   Field.new({"name" => "relation_telephone",

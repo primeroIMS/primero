@@ -1,12 +1,12 @@
 photo_audio_fields = [
     Field.new({"name" => "current_photo_key",
               "type" => "photo_upload_box", "editable" => false,
-               "show_on_short_form" => true,
+               "show_on_minify_form" => true,
               "display_name_all" => "Current Photo Key"
               }),
     Field.new({"name" => "recorded_audio",
               "type" => "audio_upload_box", "editable" => false,
-               "show_on_short_form" => true,
+               "show_on_minify_form" => true,
               "display_name_all" => "Recorded Audio"
               })
 ]
