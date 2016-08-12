@@ -2,6 +2,8 @@ require 'prawn/document'
 
 module Exporters
   class PDFExporter < BaseExporter
+    extend BaseSelectFields
+
     class << self
       def id
         'case_pdf'
@@ -15,7 +17,16 @@ module Exporters
         [Child]
       end
 
-      def export(cases, properties_by_module, current_user)
+      def excluded_forms
+        ["Photos and Audio", "Other Documents"]
+      end
+
+      def export(cases, properties_by_module, current_user, custom_export_options, *args)
+        unless custom_export_options.present?
+          properties_by_module = exclude_forms(properties_by_module) if self.excluded_forms.present?
+        end
+        properties_by_module = filter_custom_exports(properties_by_module, custom_export_options)
+
         pdf = Prawn::Document.new(:info => {
           :Title => "Primero Child Export",
           :Author => "Primero",
@@ -95,16 +106,16 @@ module Exporters
       def render_form_section(pdf, _case, form_section, prop)
         (subforms, normal_fields) = form_section.fields.reject {|f| f.type == 'separator' }
                                                        .partition {|f| f.type == Field::SUBFORM }
-        
+
         render_fields(pdf, _case, normal_fields)
 
         subforms.map do |subf|
           pdf.move_down 10
           form_data = _case.__send__(subf.name)
           filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' }
-          
+
           pdf.text subf.display_name, :style => :bold, :size => 12
-          
+
           if prop[form_section.name].count == 1 && prop[form_section.name][subf.subform_section_id].present?
             render_blank_subform(pdf, filtered_subforms)
           else
@@ -119,7 +130,7 @@ module Exporters
           end
         end
       end
-      
+
       def render_blank_subform(pdf, subforms)
         render_fields(pdf, nil, subforms)
         pdf.move_down 10

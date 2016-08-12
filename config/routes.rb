@@ -197,7 +197,7 @@ Primero::Application.routes.draw do
   match '/incidents/:incident_id/create_cp_case_from_individual_details/:individual_details_subform_section' => 'incidents#create_cp_case_from_individual_details', :as => :create_cp_case_from_individual_details, :via => [:post, :get]
 
 
-
+  resources :bulk_exports, only: [:index, :show]
 
 #######################
 # FORM SECTION URLS

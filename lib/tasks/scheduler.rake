@@ -47,12 +47,12 @@ namespace :scheduler do
   task :run => :environment do
     require 'rufus/scheduler'
     logger = Rails.logger = Logger.new(STDOUT, Rails.logger.level)
-
     scheduler = Rufus::Scheduler.start_new
 
-    CleansingTmpDir.schedule scheduler
-    ChildRiskLevelFollowUp.schedule scheduler
-    RecalculateAge.schedule scheduler
+    [
+      CleansingTmpDir, ArchiveBulkExports,
+      ChildRiskLevelFollowUp, RecalculateAge
+    ].each{|job| job.schedule(scheduler)}
 
     logger.info 'Rufus scheduler initialized'
     scheduler.join

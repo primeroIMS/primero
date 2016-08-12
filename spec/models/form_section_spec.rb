@@ -562,11 +562,11 @@ describe FormSection do
     describe "formatted hash" do
       it "should combine the translations into a hash" do
         fs = FormSection.new(:name_en => "english name", :name_fr => "french name", :unique_id => "unique id",
-                             :fields => [Field.new(:display_name_en => "dn in english", :display_name_zh => "dn in chinese", :name => "name")])
+                             :fields => [Field.new(:display_name_en => "dn in english", :display_name_es => "dn in spanish", :name => "name")])
         form_section = fs.formatted_hash
         form_section["name"].should == {"en" => "english name", "fr" => "french name"}
         form_section["unique_id"].should == "unique id"
-        form_section["fields"].first["display_name"].should == {"en" => "dn in english", "zh" => "dn in chinese"}
+        form_section["fields"].first["display_name"].should == {"en" => "dn in english", "es" => "dn in spanish"}
         form_section["fields"].first["name"].should == "name"
       end
     end
