@@ -127,7 +127,8 @@ cp_caseworker_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::REQUEST_APPROVAL
     ]
   ),
   Permission.new(
