@@ -2,6 +2,8 @@ require 'writeexcel'
 
 module Exporters
   class ExcelExporter < BaseExporter
+    extend BaseSelectFields
+
     class << self
 
       def id
@@ -17,7 +19,8 @@ module Exporters
       end
 
       # @returns: a String with the Excel file data
-      def export(models, properties_by_module, *args)
+      def export(models, properties_by_module, current_user, custom_export_options, *args)
+        properties_by_module = properties_to_export(properties_by_module, custom_export_options, models)
         build_sheets_definition(properties_by_module)
 
         io = StringIO.new
@@ -41,6 +44,13 @@ module Exporters
         end
         workbook.close
         io.string
+      end
+
+      def properties_to_export(properties_by_module, custom_export_options, models)
+        properties_by_module = filter_custom_exports(properties_by_module, custom_export_options)
+        return include_metadata_properties(
+            properties_by_module, current_model_class(models)
+        )
       end
 
       private

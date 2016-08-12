@@ -23,11 +23,15 @@
               <% if can? :edit, Role or can? :edit, UserGroup%>
                 <li><%= link_to t("navigation.users"), users_path, class: current_menu("setting") %></li>
               <% end %>
-              <% if can?(:read, Device) or can?(:read, Replication) %>
-                <li><%= link_to t("navigation.replications"), replications_path, class: current_menu("replications") %></li>
-              <% end %>
               <% if can?(:group_read, Report) || can?(:read, Report) %>
                 <li><%= link_to t("navigation.reports"), reports_path, class: current_menu("reports") %></li>
+              <% end %>
+              <% if can?(:index, BulkExport) %>
+                <li>
+                  <a class="<%= current_menu('bulk_exports') %>" href="<%= bulk_exports_path %> ">
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                </li>
               <% end %>
             </ul>
             <% if [Child, TracingRequest, Incident].include? model %>

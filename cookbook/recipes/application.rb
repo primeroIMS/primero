@@ -175,6 +175,7 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
 end
 
 include_recipe 'primero::solr'
+include_recipe 'primero::queue'
 
 app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
 directory app_tmp_dir do
@@ -266,6 +267,8 @@ supervisor_service 'who-watches-the-couch-watcher' do
   # etc..)
   action [:enable, :stop]
 end
+
+include_recipe 'primero::queue_consumer'
 
 execute_bundle 'setup-db-migrate-design-views' do
   command "rake db:migrate:design"

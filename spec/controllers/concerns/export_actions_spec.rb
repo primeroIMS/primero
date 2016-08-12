@@ -1,0 +1,117 @@
+require 'spec_helper'
+
+describe ExportActions, type: :controller do
+
+  controller(ApplicationController) do
+    include ExportActions
+
+    def model_class
+      Child
+    end
+
+    # def redirect_to *args
+    #   super(:action => :index, :controller => :home)
+    # end
+  end
+
+  # before do
+  #   routes.draw {
+  #     post 'transition' => 'anonymous#transition'
+  #   }
+  # end
+
+  describe 'filter_fields_read_only_users' do
+
+    before :each do
+      FormSection.all.each &:destroy
+      PrimeroModule.all.each &:destroy
+      fields = [
+        Field.new({"name" => "child_status",
+                   "type" => "text_field",
+                   "display_name_all" => "Child Status"
+                  }),
+        Field.new({"name" => "birth_date",
+                   "type" => "text_field",
+                   "display_name_all" => "Birth Date"
+                  }),
+        ## Shared field ##
+        Field.new({"name" => "shared_field",
+                   "type" => "text_field",
+                   "display_name_all" => "Shared Field"
+                  }),
+        ## Will hide for readonly users.
+        Field.new({"name" => "age",
+                   "type" => "text_field",
+                   "display_name_all" => "age",
+                   "hide_on_view_page" => true
+                  })
+      ]
+      form = FormSection.new(
+        :unique_id => "form_section_test_1",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 50,
+        :order => 15,
+        :order_subform => 0,
+        :form_group_name => "Form Section Test",
+        "editable" => true,
+        "name_all" => "Form Section Test 1",
+        "description_all" => "Form Section Test 1",
+        :fields => fields
+      )
+      form.save!
+
+      @primero_module = PrimeroModule.create!(
+        program_id: "primeroprogram-primero",
+        name: "CP",
+        description: "Child Protection",
+        associated_form_ids: ["form_section_test_1"],
+        associated_record_types: ['case']
+      )
+
+      Child.refresh_form_properties
+
+      @role = Role.new(
+        :id=> "role-test", :name => "Test Role", :description => "Test Role",
+        :group_permission => [],
+        :permitted_form_ids => ["form_section_test_1", "form_section_test_4"]
+      )
+
+      @user = User.new(:user_name => 'fakeadmin', module_ids: [@primero_module.id])
+
+    end
+
+    after :each do
+      Child.remove_form_properties
+    end
+
+    it "discards fields that are hidden on view page for read only users" do
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      @role.permissions_list = [case_permission]
+      @user.stub(:roles).and_return([@role])
+
+      form_sections = FormSection.get_form_sections_by_module([@primero_module], Child.parent_form, @user)
+      properties_by_module = Child.get_properties_by_module(form_sections)
+      filtered_fields = controller.filter_fields_read_only_users(form_sections, properties_by_module, @user)
+      filtered_properties = filtered_fields['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
+
+      expect(filtered_properties.include?('age')).to be_false
+    end
+
+    it "keeps fields that are hidden on view page for users with edit permissions" do
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      @role.permissions_list = [case_permission]
+      @user.stub(:roles).and_return([@role])
+
+      form_sections = FormSection.get_form_sections_by_module([@primero_module], Child.parent_form, @user)
+      properties_by_module = Child.get_properties_by_module(form_sections)
+      filtered_fields = controller.filter_fields_read_only_users(form_sections, properties_by_module, @user)
+      filtered_properties = filtered_fields['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
+
+      expect(filtered_properties.include?('child_status')).to be_true
+      expect(filtered_properties.include?('birth_date')).to be_true
+      expect(filtered_properties.include?('shared_field')).to be_true
+      expect(filtered_properties.include?('age')).to be_true
+    end
+  end
+end

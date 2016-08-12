@@ -90,7 +90,6 @@ describe "children/show.html.erb" do
     describe "interviewer details" do
       it "should show registered by details and no link to change log if child has not been updated" do
         render :partial => "record_shared/header_message", :locals => {:record => @child, model: 'child'}
-        rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Created By:')
         rendered.should be_include('Jose Smith')
         rendered.should_not be_include("Last updated")
@@ -108,10 +107,8 @@ describe "children/show.html.erb" do
 
         render :partial => "record_shared/header_message", :locals => {record: child, model: 'child'}
 
-        rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Created By:')
         rendered.should be_include('Jose Smith')
-        rendered.should have_tag("#interviewer_details")
         rendered.should be_include('Last Update:')
         rendered.should be_include(child.last_updated_at.strftime('%d-%b-%Y'))
       end

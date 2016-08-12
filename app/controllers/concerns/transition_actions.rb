@@ -68,28 +68,16 @@ module TransitionActions
       #On referrals, only want to send the most recent referral
       records.each {|r| r.reject_old_transitions}
     end
+    transition_user_modules = current_modules
     transition_user = User.new(
                       role_ids: [transition_role],
-                      module_ids: ["primeromodule-cp", "primeromodule-gbv"]
+                      module_ids: transition_user_modules.map(&:id)
                     )
     exporter = type_of_export_exporter
-    #TODO filter records per consent
-    transition_properties = transition_exporter_properties(transition_user)
-    props = filter_permitted_export_properties(records, transition_properties, transition_user, true)
-    export_data = exporter.export(records, props, current_user)
+    #TODO: filter records per consent
+    props = authorized_export_properties(exporter, transition_user, transition_user_modules, model_class)
+    export_data = exporter.export(records, props, current_user, {})
     encrypt_data_to_zip export_data, filename(records, exporter, transition_type), password
-  end
-
-  def transition_exporter_properties(transition_user)
-    if type_of_export_exporter == Exporters::PDFExporter
-      current_modules = PrimeroModule.all(keys: transition_user.module_ids).all
-      form_sections = FormSection.get_form_sections_by_module(current_modules, model_class.parent_form, transition_user)
-      properties_by_module = model_class.get_properties_by_module(form_sections)
-      properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents"].include?(key)}}
-      properties_by_module
-    else
-      model_class.properties
-    end
   end
 
   def set_status_transferred(transfer_records)

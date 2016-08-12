@@ -19,7 +19,7 @@ describe SystemSettingsController do
   end
 
   it "should flash a update message when the system language is changed and affected by language changed " do
-    put :update, :locale => "zh", :id => "administrator"
+    put :update, :locale => "en", :id => "administrator"
     flash[:notice].should =="System Settings successfully updated."
     response.should redirect_to(edit_system_setting_path)
   end

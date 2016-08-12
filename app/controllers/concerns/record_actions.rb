@@ -35,7 +35,9 @@ module RecordActions
     @associated_users = current_user.managed_user_names
     @filters = record_filter(filter)
     #make sure to get all records when querying for ids to sync down to mobile
-    params['page'] = 'all' if params['mobile'] && params['ids']
+    #TODO: This is questionable for large databases. May break the phone? the server?
+    #      Revisit when integrating in v1.3.x
+    #params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
 
     @referral_roles = Role.by_referral.all
@@ -68,13 +70,15 @@ module RecordActions
           render :json => @records
         end
       end
-      unless params[:format].nil? || params[:format] == 'json'
-        if @records.empty?
-          flash[:notice] = t('exports.no_records')
-          redirect_to :action => :index and return
-        end
-      end
-
+      #TODO: We are losing the use case of not exporting an empty set with bulk exports.
+      #      In the case of a bulk export the controller doesnt do the counting.
+      #      In the case of a selected records export, we know what records are selected
+      # unless params[:format].nil? || params[:format] == 'json' || (params[:page] == 'all')
+      #   if @records.empty?
+      #     flash[:notice] = t('exports.no_records')
+      #     redirect_to :action => :index and return
+      #   end
+      # end
       respond_to_export format, @records
     end
   end
@@ -97,7 +101,7 @@ module RecordActions
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
         @duplicates = model_class.duplicates_of(params[:id])
-        @form_sections = @record.allowed_formsections(current_user)
+        @form_sections = @record.class.allowed_formsections(current_user, @record.module)
       end
 
       format.json do
@@ -123,7 +127,7 @@ module RecordActions
     # TODO: make the ERB templates use @record
     instance_variable_set("@#{model_class.name.underscore}", @record)
 
-    @form_sections = @record.allowed_formsections(current_user)
+    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
 
     respond_to do |format|
       format.html
@@ -136,7 +140,7 @@ module RecordActions
     @record = create_or_update_record(params[:id])
     initialize_created_record(@record)
     respond_to do |format|
-      @form_sections = @record.allowed_formsections(current_user)
+      @form_sections = @record.class.allowed_formsections(current_user, @record.module)
       if @record.save
         post_save_processing @record
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
@@ -168,7 +172,7 @@ module RecordActions
 
     authorize! :update, @record
 
-    @form_sections = @record.allowed_formsections(current_user)
+    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
     @page_name = t("#{model_class.locale_prefix}.edit")
   end
 
@@ -189,7 +193,7 @@ module RecordActions
           render :json => @record
         end
       else
-        @form_sections ||= @record.allowed_formsections(current_user)
+        @form_sections ||= @record.class.allowed_formsections(current_user, @record.module)
         format.html {
           get_lookups
           load_locations
@@ -231,18 +235,21 @@ module RecordActions
         records = model_class.all(keys: selected_record_ids).all
         total_records = records.size
       end
-    elsif params["page"] == "all"
-      pagination_ops = {:page => 1, :per_page => 500}
-      records = []
-      begin
-        search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], @match_criteria
-        results = search.results
-        records.concat(results)
-        #Set again the values of the pagination variable because the method modified the variable.
-        pagination_ops[:page] = results.next_page
-        pagination_ops[:per_page] = 500
-      end until results.next_page.nil?
-      total_records = search.total
+    #TODO: Commenting out. This code was used by mobile syncs and bulk exports.
+    #      The bulk export code has been moved out of the controller, but there is
+    #      nothing handling the mobile code. When that is resolved delete the commented stuff.
+    # elsif params["page"] == "all"
+    #   pagination_ops = {:page => 1, :per_page => 500}
+    #   records = []
+    #   begin
+    #     search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], @match_criteria
+    #     results = search.results
+    #     records.concat(results)
+    #     #Set again the values of the pagination variable because the method modified the variable.
+    #     pagination_ops[:page] = results.next_page
+    #     pagination_ops[:per_page] = 500
+    #   end until results.next_page.nil?
+    #   total_records = search.total
     else
       search = model_class.list_records filter, order, pagination, users_filter, params[:query], @match_criteria
       records = search.results
@@ -317,50 +324,13 @@ module RecordActions
   end
 
   def permitted_property_keys(record, user = current_user, read_only_user = false)
-    record.permitted_property_names(user, read_only_user) + extra_permitted_parameters
+    record.class.permitted_property_names(user, record.module, read_only_user) + extra_permitted_parameters
   end
 
   # Filters out any unallowed parameters for a record and the current user
   def filter_params(record)
     permitted_keys = permitted_property_keys(record)
     record_params.select {|k,v| permitted_keys.include?(k) }
-  end
-
-  #TODO: This method will be very slow for very large exports: models.size > 1000.
-  #      One such likely case will be the GBV IR export. We may need to either explicitly ignore it,
-  #      pull out the recursion (this is there for nested forms, and it may be ok to grant access to the entire nest),
-  #      or have a more efficient way of determining the `all_permitted_keys` set.
-  def filter_permitted_export_properties(models, props, user = current_user, transitions = false)
-    # this first condition is for the list view CSV export, which for some
-    # reason is implemented with a completely different interface. TODO: don't
-    # do that.
-    # case_pdf, xls and selected_xls got his own logic to filter permitted properties.
-    # No need to call extra logic.
-    #Avoid call the filter readonly logic in the case of transitions (transfer and refereals).
-    if props.include?(:fields) ||
-       (!transitions && ["xls", "selected_xls", "case_pdf"].include?(params[:format]))
-      props
-    else
-      read_only_user = false
-      #Avoid call the filter readonly logic in the case of transitions (transfer and refereals).
-      if !transitions && params[:format] == "csv"
-        # For CSV filter the properties the readonly user can see.
-        read_only_user = user.readonly?(model_class.name.underscore)
-      end
-      all_permitted_keys = models.inject([]) {|acc, m| acc | permitted_property_keys(m, user, read_only_user) }
-      prop_selector = lambda do |ps|
-        case ps
-        when Hash
-          ps.inject({}) {|acc, (k,v)| acc.merge( k => prop_selector.call(v) ) }
-        when Array
-          ps.select {|p| all_permitted_keys.include?(p.name) }
-        else
-          ps
-        end
-      end
-
-      prop_selector.call(props)
-    end
   end
 
   def record_short_id
@@ -381,14 +351,6 @@ module RecordActions
     if @record.present?
       @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
       @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
-    end
-  end
-
-  def exported_properties
-    if params[:export_list_view].present? && params[:export_list_view] == "true"
-      build_list_field_by_model(model_class)
-    else
-      model_class.properties
     end
   end
 
@@ -416,104 +378,6 @@ module RecordActions
       end
     end
     return record
-  end
-
-  def filter_custom_exports(properties_by_module)
-    if params[:custom_exports].present?
-      properties_by_module = properties_by_module.select{|key| params[:custom_exports][:module].include?(key)}
-
-      if params[:custom_exports][:forms].present? || params[:custom_exports][:selected_subforms].present?
-        properties_by_module = filter_by_subform(properties_by_module).deep_merge(filter_by_form(properties_by_module))
-      elsif params[:custom_exports].present? && params[:custom_exports][:fields].present?
-        #Filter the selected fields from the whole form section fields.
-        properties_by_module.each do |pm, fs|
-          filtered_forms = []
-          fs.each do |fk, fields|
-            selected_fields = []
-            fields.each do |field|
-              f_name, f_property = field[0], field[1]
-              #Add selected fields.
-              selected_fields << field if params[:custom_exports][:fields].include?(f_name)
-              #If there is a subform in the section, filter the fields selected by the user
-              #for the subform.
-              if f_property.array && f_property.type.include?(CouchRest::Model::Embeddable)
-                subform_props = f_property.type.properties.select do |property|
-                  #Fields to be selected has the format: subform-field-name:field-name
-                  params[:custom_exports][:fields].include?("#{f_name}:#{property.name}")
-                end
-                #Create the hash to hold the selected fields for the subform.
-                selected_fields << [f_name, subform_props.map{|p| [p.name, p]}.to_h] if subform_props.present?
-              end
-            end
-            filtered_forms << [fk, selected_fields.to_h]
-          end
-          properties_by_module[pm] = filtered_forms.to_h
-        end
-        #Find out duplicated fields assumed because they are shared fields.
-        properties_by_module.each do |pm, form_sections|
-          all_fields = []
-          form_sections.each do |form_section_key, fields|
-            filtered_fields = fields.map do |field_key, field|
-              if all_fields.include?(field)
-                #Field already seem, generate a key that will be wipe.
-                element = [field_key, nil]
-              else
-                #First time seem the field, generate the key/value valid.
-                element = [field_key, field]
-              end
-              all_fields << field
-              element
-            end
-            form_sections[form_section_key] = filtered_fields.to_h.compact
-          end
-        end
-        properties_by_module.compact
-      end
-    end
-    properties_by_module
-  end
-
-  def filter_by_subform(properties)
-    sub_props = {}
-    if params[:custom_exports][:selected_subforms].present?
-      properties.each do |pm, fs|
-        sub_props[pm] = fs.map{|fk, fields| [fk, fields.select{|f| params[:custom_exports][:selected_subforms].include?(f)}]}.to_h.compact
-      end
-    end
-    sub_props
-  end
-
-  def filter_by_form(properties)
-    props = {}
-    if params[:custom_exports][:forms].present?
-      properties.each do |pm, fs|
-        props[pm] = fs.select{|key| params[:custom_exports][:forms].include?(key)}
-      end
-    end
-    props
-  end
-
-  #Filter out fields the current user is not allow to view.
-  def filter_fields_read_only_users(form_sections, properties_by_module, current_user)
-    if current_user.readonly?(model_class.name.underscore)
-      #Filter showable properties for readonly users.
-      properties_by_module.map do |pm, forms|
-        forms = forms.map do |form, fields|
-          #Find out the fields the user is able to view based on the form section.
-          form_section_fields = form_sections[pm].select do |fs|
-            fs.name == form
-          end.map do |fs|
-            fs.fields.map{|f| f.name if f.showable?}.compact
-          end.flatten
-          #Filter the properties based on the field on the form section.
-          fields = fields.select{|f_name, f_value| form_section_fields.include?(f_name) }
-          [form, fields]
-        end
-        [pm, forms.to_h.compact]
-      end.to_h.compact
-    else
-      properties_by_module
-    end
   end
 
   def create_or_update_record(id)

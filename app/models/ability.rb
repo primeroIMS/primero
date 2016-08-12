@@ -89,6 +89,9 @@ class Ability
           instance.associated_user_names.include? user.user_name
         end
       end
+      can [:index, :show], BulkExport do |instance|
+        instance.owned_by == user.user_name
+      end
     else
       can actions, resource
     end

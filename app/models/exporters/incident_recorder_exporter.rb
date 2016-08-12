@@ -24,6 +24,10 @@ module Exporters
         builder.export(models)
       end
 
+      def authorize_fields_to_user?
+        false
+      end
+
     end
 
     #private

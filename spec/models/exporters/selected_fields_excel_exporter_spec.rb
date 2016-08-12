@@ -6,6 +6,7 @@ module Exporters
   describe SelectedFieldsExcelExporter do
     before :each do
       FormSection.all.each &:destroy
+      PrimeroModule.all.each &:destroy
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(:name => "cases_test_subform_2", :parent_form => "case", "visible" => false, "is_nested"=>true,
                                 :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_subform_2",
@@ -24,7 +25,7 @@ module Exporters
       form = FormSection.new(:name => "cases_test_form_2", :parent_form => "case", "visible" => true,
                              :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_2")
       form.fields << Field.new(:name => "relationship", :type => Field::TEXT_FIELD, :display_name => "relationship")
-      form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true, 
+      form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true,
                                :option_strings_text => ["Option1", "Option2"])
       form.save!
       #### Build Form Section with none subforms fields ######
@@ -47,6 +48,14 @@ module Exporters
 
       Child.refresh_form_properties
 
+      @primero_module = PrimeroModule.create!(
+          program_id: "primeroprogram-primero",
+          name: "CP",
+          description: "Child Protection",
+          associated_form_ids: FormSection.all.map(&:unique_id),
+          associated_record_types: ['case']
+      )
+
       @properties_by_module = {"primeromodule-cp" => Child.properties_by_form }
 
       @records = [Child.new("module_id" => "primeromodule-cp", "first_name" => "John", "last_name" => "Doe",
@@ -68,6 +77,7 @@ module Exporters
                            "subform_field_1" => [{"unique_id" =>"21"}]),
                  Child.new("module_id" => "primeromodule-cp", "first_name" => "Emilio", "last_name" => "Steves", "_id" => "00000000006",
                            "subform_field_1" => [{"unique_id" =>"99"}], "subform_field_1" => [{"unique_id" =>"66"}])]
+      @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
     end
 
     after :each do
@@ -84,10 +94,11 @@ module Exporters
         Child.form_properties_by_name.delete key
       end
       FormSection.all.each { |form| form.destroy }
+      PrimeroModule.all.each &:destroy
     end
 
     it "converts data to Excel format" do
-      data = SelectedFieldsExcelExporter.export(@records, @properties_by_module)
+      data = SelectedFieldsExcelExporter.export(@records, @properties_by_module, @user, {})
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]
       sheet.row(0).to_a.should == ["_id", "model_type", "first_name", "last_name",
@@ -131,7 +142,7 @@ module Exporters
       field = subform.type.properties.select{|p| p.name == "field_4"}.first
       @properties_by_module["primeromodule-cp"]["cases_test_form_3"]["subform_field_2"] = {field.name => field}
 
-      data = SelectedFieldsExcelExporter.export(@records, @properties_by_module)
+      data = SelectedFieldsExcelExporter.export(@records, @properties_by_module, @user, {})
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]
       sheet.row(0).to_a.should == ["_id", "model_type", "first_name", "last_name",

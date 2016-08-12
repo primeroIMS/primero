@@ -15,6 +15,10 @@ module Exporters
         [Child]
       end
 
+      def authorize_fields_to_user?
+        false
+      end
+
       def export(child_data, _, *args)
         pdf = Prawn::Document.new
         child_data.each do |child|

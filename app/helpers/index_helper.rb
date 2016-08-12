@@ -30,6 +30,8 @@ module IndexHelper
         list_view_header_tracing_request
       when "report"
         list_view_header_report
+      when "bulk_export"
+        list_view_header_bulk_export
       else
         []
     end
@@ -139,8 +141,6 @@ module IndexHelper
     model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
     list_view_fields = { :type => model, :fields => {} }
     list_view_header(model).each do |header|
-      #TODO: The current logic is a ctually broken as it excludes photos. Fix? Something like:
-      #if !['select','flag'].include?(header[:title]) && header[:sort_title].present?
       if header[:title].present? && header[:sort_title].present?
         list_view_fields[:fields].merge!({ header[:title].titleize => header[:sort_title] })
       end
@@ -201,6 +201,15 @@ module IndexHelper
       {title: 'name', sort_title: 'name'},
       {title: 'description', sort_title: 'description'},
       {title: '', sort_title: ''},
+    ]
+  end
+
+  def list_view_header_bulk_export
+    [
+        #{title: '', sort_title: 'select'},
+        {title: 'file_name', sort_title: 'file_name'},
+        {title: 'record_type', sort_title: 'record_type'},
+        {title: 'started_on', sort_title: 'started_on'}
     ]
   end
 

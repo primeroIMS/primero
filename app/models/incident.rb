@@ -108,6 +108,26 @@ class Incident < CouchRest::Model::Base
     }
   end
 
+  #This method is overriding the one from the record concern to add in the violations property
+  def self.get_properties_by_module(form_sections_by_module)
+    props = super(form_sections_by_module)
+    if props['primeromodule-mrm'].present?
+      violations_property = Incident.properties.select{|p| p.name == 'violations'}.first
+      if violations_property.present?
+        violation_form_keys = Incident.violation_id_fields.keys
+        violation_forms = form_sections_by_module['primeromodule-mrm'].select do |fs|
+          fs.fields.any?{|f| (f.type == Field::SUBFORM) && violation_form_keys.include?(f.name)}
+        end.map{|f| f.name}
+        props['primeromodule-mrm'].each do |form_name, form|
+          if violation_forms.include? form_name
+            props['primeromodule-mrm'][form_name] = {'violations' => violations_property}
+          end
+        end
+      end
+    end
+    return props
+  end
+
   def set_instance_id
     self.incident_id ||= self.unique_identifier
   end

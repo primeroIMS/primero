@@ -317,6 +317,31 @@ module Record
       properties_by_module
     end
 
+    def allowed_formsections(user, primero_module)
+      FormSection.get_allowed_visible_forms_sections(primero_module, self.parent_form, user)
+    end
+
+    # Returns all of the properties that the given user is permitted to view/edit
+    # read_only_user params is to indicate the user should not see properties
+    # that don't display on the show page.
+    def permitted_properties(user, primero_module, read_only_user = false)
+      permitted = []
+      fss = allowed_formsections(user, primero_module)
+      if fss.present?
+        permitted_forms = fss.values.flatten.map {|fs| fs.name }
+        permitted = self.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
+        if read_only_user
+          permitted_fields = fss.map{|k, v| v.map{|v| v.fields.map{|f| f.name if f.showable?} } }.flatten.compact
+          permitted = permitted.select{|p| permitted_fields.include?(p.name)}
+        end
+      end
+      return permitted
+    end
+
+    def permitted_property_names(user, primero_module, read_only_user = false)
+      self.permitted_properties(user, primero_module, read_only_user).map {|p| p.name }
+    end
+
   end
 
   def initialize(*args)
@@ -405,31 +430,6 @@ module Record
     self.short_id ||= self.unique_identifier.last 7
     #Method should be defined by the derived classes.
     self.set_instance_id
-  end
-
-  def allowed_formsections(user)
-    FormSection.get_allowed_visible_forms_sections(self.module, self.class.parent_form, user)
-  end
-
-  # Returns all of the properties that the given user is permitted to view/edit
-  # read_only_user params is to indicate the user should not see properties
-  # that don't display on the show page.
-  def permitted_properties(user, read_only_user = false)
-    permitted = []
-    fss = allowed_formsections(user)
-    if fss.present?
-      permitted_forms = fss.values.flatten.map {|fs| fs.name }
-      permitted = self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
-      if read_only_user
-        permitted_fields = fss.map{|k, v| v.map{|v| v.fields.map{|f| f.name if f.showable?} } }.flatten.compact
-        permitted = permitted.select{|p| permitted_fields.include?(p.name)}
-      end
-    end
-    return permitted
-  end
-
-  def permitted_property_names(user, read_only_user = false)
-    permitted_properties(user, read_only_user).map {|p| p.name }
   end
 
   def nested_reportables_hash
