@@ -54,11 +54,11 @@ module ExportActions
       format.any(exporter.id) do
         authorize! :export, model_class
         LogEntry.create!(
-            :type => LogEntry::TYPE[exporter.id],
-            :user_name => current_user.user_name,
-            :organization => current_user.organization,
-            :model_type => model_class.name.downcase,
-            :ids => models.collect(&:id))
+          :type => LogEntry::TYPE[exporter.id],
+          :user_name => current_user.user_name,
+          :organization => current_user.organization,
+          :model_type => model_class.name.downcase,
+          :ids => models.collect(&:id))
         props = authorized_export_properties(exporter, current_user, current_modules, model_class)
         file_name = export_filename(models, exporter)
         if models.present?

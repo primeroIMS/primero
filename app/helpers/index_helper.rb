@@ -206,10 +206,10 @@ module IndexHelper
 
   def list_view_header_bulk_export
     [
-        #{title: '', sort_title: 'select'},
-        {title: 'file_name', sort_title: 'file_name'},
-        {title: 'record_type', sort_title: 'record_type'},
-        {title: 'started_on', sort_title: 'started_on'}
+      #{title: '', sort_title: 'select'},
+      {title: 'file_name', sort_title: 'file_name'},
+      {title: 'record_type', sort_title: 'record_type'},
+      {title: 'started_on', sort_title: 'started_on'}
     ]
   end
 

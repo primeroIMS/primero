@@ -49,11 +49,11 @@ module Exporters
       Child.refresh_form_properties
 
       @primero_module = PrimeroModule.create!(
-          program_id: "primeroprogram-primero",
-          name: "CP",
-          description: "Child Protection",
-          associated_form_ids: FormSection.all.map(&:unique_id),
-          associated_record_types: ['case']
+        program_id: "primeroprogram-primero",
+        name: "CP",
+        description: "Child Protection",
+        associated_form_ids: FormSection.all.map(&:unique_id),
+        associated_record_types: ['case']
       )
 
       @properties_by_module = {"primeromodule-cp" => Child.properties_by_form }

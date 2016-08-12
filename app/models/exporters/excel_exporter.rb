@@ -49,7 +49,7 @@ module Exporters
       def properties_to_export(properties_by_module, custom_export_options, models)
         properties_by_module = filter_custom_exports(properties_by_module, custom_export_options)
         return include_metadata_properties(
-            properties_by_module, current_model_class(models)
+          properties_by_module, current_model_class(models)
         )
       end
 

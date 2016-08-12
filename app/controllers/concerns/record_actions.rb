@@ -250,7 +250,7 @@ module RecordActions
     #     pagination_ops[:per_page] = 500
     #   end until results.next_page.nil?
     #   total_records = search.total
-    else
+    elsif params[:page] != 'all'
       search = model_class.list_records filter, order, pagination, users_filter, params[:query], @match_criteria
       records = search.results
       total_records = search.total
