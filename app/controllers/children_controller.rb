@@ -87,6 +87,27 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def request_approval
+    child = Child.get(params[:child_id])
+
+    case params[:approval_type]
+      when "bia"
+        child.approval_status_bia = params[:approval_status]
+      when "case_plan"
+        child.approval_status_case_plan = params[:approval_status]
+      when "closure"
+        child.approval_status_closure = params[:approval_status]
+      else
+        render :json => {:success => false, :error_message => 'Unkown Approval Type', :reload_page => true }
+    end
+
+    if child.save
+      render :json => { :success => true, :error_message => "", :reload_page => true }
+    else
+      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+    end
+  end
+
   def exported_properties
     if params[:format].present? && (params[:format] == "xls" || params[:format] == "selected_xls" || params[:format] == "case_pdf")
       #get form sections the user is allow to see.

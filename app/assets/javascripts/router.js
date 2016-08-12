@@ -81,6 +81,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.ApproveCasePlan();
       new _primero.Views.Actions();
       new _primero.Views.ReopenCase();
+      new _primero.Views.RequestApproval();
     }
   },
 
