@@ -136,6 +136,7 @@ en:
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
      approve_case_plan: "Approve Case Plan"
+     approval: "Request Approval"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1606,6 +1607,14 @@ en:
   approve_case_plan:
     approve_case_plan_label: "Approve Case Plan"
     comments_label: "Comments"
+
+  approvals:
+    approve_bia: "Request Approval for the BIA form?"
+    approve_care_plan: "Request Approval for the Care Plan form?"
+    approve_closure: "Request Approval for the Closure form?"
+    bia: "BIA"
+    care_plan: "Care Plan"
+    closure: "Closure"
 
   per_page_translation: "Per page _MENU_"
   total: Total

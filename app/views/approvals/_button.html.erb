@@ -1,0 +1,17 @@
+<li>
+  <%= link_to t("buttons.approval"), '#', class: 'has_sub', onclick: 'return false;' %>
+  <ul style="display:none;">
+    <li>
+      <%= link_to t("approvals.bia"), '#', data: {"reveal-id" => "bia_approvals"} %>
+      <%= render partial: 'approvals/approve_record', locals: {approval_type: "bia", model: model, instance: instance} %>
+    </li>
+    <li>
+      <%= link_to t("approvals.care_plan"), '#', data: {"reveal-id" => "case_plan_approvals"} %>
+      <%= render partial: 'approvals/approve_record', locals: {approval_type: "case_plan", model: model, instance: instance} %>
+    </li>
+    <li>
+      <%= link_to t("approvals.closure"), '#', data: {"reveal-id" => "closure_approvals"} %>
+      <%= render partial: 'approvals/approve_record', locals: {approval_type: "closure", model: model, instance: instance} %>
+    </li>
+  </ul>
+</li>

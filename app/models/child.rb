@@ -172,6 +172,7 @@ class Child < CouchRest::Model::Base
   include Flaggable
   include Transitionable
   include Reopenable
+  include Approvable
 
   searchable do
     string :fathers_name do
