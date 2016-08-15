@@ -67,7 +67,7 @@ module Searchable
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil, model_class=nil)
-      pagination = {} if model_class == PotentialMatch
+      pagination = {page:1, per_page:PotentialMatch.count} if model_class == PotentialMatch
       self.search do
         if filters.present?
           build_filters(self, filters)

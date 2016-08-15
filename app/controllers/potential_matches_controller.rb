@@ -137,8 +137,9 @@ class PotentialMatchesController < ApplicationController
 
   def get_all_match_details_by_tr(match_results=[], potential_matches=[], associated_users)
     for match_result in match_results
+      count = 0
       for potential_match in potential_matches
-        if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"]
+        if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"] && count < 20
           match_detail = {}
           match_detail["child_id"] = potential_match.child_id
           child = Child.find_by_case_id potential_match.child_id
@@ -149,6 +150,7 @@ class PotentialMatchesController < ApplicationController
           match_detail["owned_by"] = child.owned_by
           match_detail["average_rating"] =potential_match.average_rating
           match_result["match_details"] << match_detail
+          count += 1
         end
       end
     end
@@ -158,8 +160,9 @@ class PotentialMatchesController < ApplicationController
 
   def get_all_match_details_by_case(match_results=[], potential_matches=[], associated_users)
     for match_result in match_results
+      count = 0
       for potential_match in potential_matches
-        if potential_match["case_id"] == match_result["case_id"]
+        if potential_match["case_id"] == match_result["case_id"] && count < 20
           match_detail = {}
           match_detail["tracing_request_id"] = potential_match.tr_id
           inquiry = TracingRequest.find_by_tracing_request_id potential_match.tr_id
@@ -174,6 +177,7 @@ class PotentialMatchesController < ApplicationController
           match_detail["average_rating"] =potential_match.average_rating
           match_detail["owned_by"] =inquiry.owned_by
           match_result["match_details"] << match_detail
+          count += 1
         end
       end
     end
