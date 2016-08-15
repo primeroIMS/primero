@@ -425,6 +425,55 @@ describe "record field model" do
     end
   end
 
+  describe 'is_location?' do
+    context 'when it is a select field' do
+      context 'and option_strings_source is Location' do
+        it 'should be true' do
+          field = Field.new({"name" => "test_location",
+                             "type" => "select_box",
+                             "display_name_all" => "My Test Field",
+                             "option_strings_source" => "Location"
+                            })
+          expect(field.is_location?).to be_true
+        end
+      end
+
+      context 'and option_strings_source is not Location' do
+        it 'should be false' do
+          field = Field.new({"name" => "test_not_location",
+                             "type" => "select_box",
+                             "display_name_all" => "My Test Field",
+                             "option_strings_source" => "lookup Country"
+                            })
+          expect(field.is_location?).to be_false
+        end
+      end
+
+      context 'and option_strings_source is empty' do
+        it 'should be false' do
+          field = Field.new({"name" => "test_not_location",
+                             "type" => "select_box",
+                             "display_name_all" => "My Test Field",
+                             "option_strings" => "yes\nno"
+                            })
+          expect(field.is_location?).to be_false
+        end
+
+      end
+
+    end
+
+    context 'when it is not a select field' do
+      it 'should be false' do
+        field = Field.new({"name" => "test_field",
+                           "type" => "text_field",
+                           "display_name_all" => "My Test Field"
+                          })
+        expect(field.is_location?).to be_false
+      end
+    end
+  end
+
   # Test no longer valid. Now allowing sharing of fields
 
   # it "should fails save second form section because duplicate name in other form section" do

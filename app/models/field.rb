@@ -379,6 +379,9 @@ class Field
     self.visible? && !self.hide_on_view_page
   end
 
+  def is_location?
+    self.option_strings_source == 'Location'
+  end
 
   private
 
