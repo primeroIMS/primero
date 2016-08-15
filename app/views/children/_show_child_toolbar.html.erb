@@ -38,9 +38,7 @@
         <% if can?(:request_approval, controller.model_class) %>
           <%= render partial: 'approvals/button', locals: {model: Child, instance: @child} %>
         <% end %>
-        <% if can?(:approve_case_plan, controller.model_class) %>
-          <%= render 'record_shared/approve_case_plan_button', instance: @child %>
-        <% end %>
+        <%= render partial: 'approvals/approve_button', instance: @child, model: Child %>
     </ul>
   </li>
 </ul>

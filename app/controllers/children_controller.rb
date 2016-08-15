@@ -4,7 +4,7 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include TracingActions
-  include ApproveCasePlanActions
+  include ApprovalActions
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
