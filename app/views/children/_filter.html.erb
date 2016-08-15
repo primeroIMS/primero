@@ -13,11 +13,19 @@
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
-    <% if filters_to_show.include? 'Pending Approvals' %>
-      <%= build_filter_checkboxes_group(t("cases.filter_by.pending_approvals"),
-          [{:approval_status_bia => {:label => t("approvals.bia"), :value => t("approvals.pending_status")}},
-           {:approval_status_case_plan => {:label => t("approvals.care_plan"), :value => t("approvals.pending_status")}},
-           {:approval_status_closure => {:label => t("approvals.closure"), :value => t("approvals.pending_status")}}]) %>
+    <% if filters_to_show.include? 'Pending Approvals'
+      approvals_filters = []
+      if filters_to_show.include? 'cp_bia_form'
+        approvals_filters << {:approval_status_bia => {:label => t("approvals.bia"), :value => t("approvals.pending_status")}}
+      end
+      if filters_to_show.include? 'cp_case_plan'
+        approvals_filters << {:approval_status_case_plan => {:label => t("approvals.care_plan"), :value => t("approvals.pending_status")}}
+      end
+      if filters_to_show.include? 'closure_form'
+        approvals_filters << {:approval_status_closure => {:label => t("approvals.closure"), :value => t("approvals.pending_status")}}
+      end
+    %>
+      <%= build_filter_checkboxes_group(t("cases.filter_by.pending_approvals"), approvals_filters) %>
     <% end %>
     <% if filters_to_show.include? 'District' %>
       <%= build_filter_checkboxes(t("cases.filter_by.district"), 'owned_by_location_district', @options_districts, { multi: true }, false) %>
