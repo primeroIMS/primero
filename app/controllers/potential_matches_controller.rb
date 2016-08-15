@@ -83,6 +83,7 @@ class PotentialMatchesController < ApplicationController
   end
 
   def get_all_tr_pairs associated_users
+    pagination = {page:1, per_page:TracingRequest.count}
     search = TracingRequest.search do
       if associated_users.present? && associated_users.first != ALL_FILTER
         any_of do
@@ -91,6 +92,7 @@ class PotentialMatchesController < ApplicationController
           end
         end
       end
+      paginate pagination
     end
     @tracing_requests = search.results
     match_result=[]
@@ -111,6 +113,7 @@ class PotentialMatchesController < ApplicationController
   end
 
   def get_all_case associated_users
+    pagination = {page:1, per_page:Child.count}
     search = Child.search do
       if associated_users.present? && associated_users.first != ALL_FILTER
         any_of do
@@ -119,6 +122,7 @@ class PotentialMatchesController < ApplicationController
           end
         end
       end
+      paginate pagination
     end
     @cases = search.results
     match_result=[]
