@@ -11,7 +11,8 @@ class Document
   property :comments, String
 
   validates_presence_of :file_name
-  validate :type_validation
+  #TODO - add this validation back when a migration is created to clean up existing records
+  # validate :type_validation
 
   TYPE_BIA = "bia" # Reachable as Document::TYPE_BIA
   TYPE_BID = "bid"
