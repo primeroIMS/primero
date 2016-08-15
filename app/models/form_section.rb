@@ -81,6 +81,32 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+    view :location_fields,
+         :map => "function(doc) {
+                if (doc['couchrest-type'] == 'FormSection'){
+                  if (doc['fields'] != null){
+                    for(var i = 0; i<doc['fields'].length; i++){
+                      var field = doc['fields'][i];
+                      if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
+                        emit(field['name'], field);
+                      }
+                    }
+                  }
+                }
+              }"
+    view :location_fields_by_parent_form,
+         :map => "function(doc) {
+                if (doc['couchrest-type'] == 'FormSection'){
+                  if (doc['fields'] != null){
+                    for(var i = 0; i<doc['fields'].length; i++){
+                      var field = doc['fields'][i];
+                      if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
+                        emit(doc['parent_form'], field, null);
+                      }
+                    }
+                  }
+                }
+              }"
   end
 
   validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")
@@ -555,6 +581,18 @@ class FormSection < CouchRest::Model::Base
         end
       end
       return custom_exportable
+    end
+
+    def all_location_fields
+      location_fields.map{|f| {form: f.name, fields: f.fields.select{|x| x.is_location?}}}
+    end
+
+    def all_location_fields_by_parent_form(parent_form = 'case')
+      field_names = []
+      location_fields_by_parent_form(key: parent_form).each do |form|
+        field_names += form.fields.select{|f| f.is_location?}.map{|f| f.name}
+      end
+      field_names
     end
 
   end
