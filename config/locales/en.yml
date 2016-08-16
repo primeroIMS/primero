@@ -138,7 +138,7 @@ en:
      unmark_for_mobile: "Un-mark for mobile"
      approve_case_plan: "Approve Case Plan"
      view_flags_history: "View History"
-     approval: "Approval"
+     approval: "Request Approval"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
