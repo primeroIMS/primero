@@ -1611,6 +1611,7 @@ en:
 
   approvals:
     approve_bia: "Request Approval for the BIA form?"
+    approve_care_plan: "Request Approval for the Care Plan form?"
     approve_case_plan: "Request Approval for the Care Plan form?"
     approve_closure: "Request Approval for the Closure form?"
     bia: "BIA"
