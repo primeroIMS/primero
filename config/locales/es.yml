@@ -122,7 +122,6 @@ es:
      flag_records: "Marcar"
      flag_model: "Marcar %{model}"
      unflag_model: "Desmarcar %{model}"
-     unflag_model_history: "Historico de Desmarcado para %{model}"
      ok: 'OK'
      cancel: "Cancelar"
      edit_subform: 'Editar Subformulario'
