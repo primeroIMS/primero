@@ -152,7 +152,7 @@ class PotentialMatchesController < ApplicationController
           match_detail["sex"] = is_visible?(child.owned_by, associated_user_names) ? child.sex : "***"
           match_detail["registration_date"] = is_visible?(child.owned_by, associated_user_names) ? child.registration_date : "***"
           match_detail["owned_by"] = child.owned_by
-          match_detail["visible"] = is_visible?(inquiry.owned_by, associated_user_names)
+          match_detail["visible"] = is_visible?(child.owned_by, associated_user_names)
           match_detail["average_rating"] =potential_match.average_rating
           match_result["match_details"] << match_detail
           count += 1
