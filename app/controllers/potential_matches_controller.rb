@@ -12,7 +12,6 @@ class PotentialMatchesController < ApplicationController
     @page_name = t("home.view_records")
     @aside = "shared/sidebar_links"
     @associated_users = current_user.managed_user_names
-    puts @associated_users
     @filters = record_filter(filter)
     #make sure to get all records when querying for ids to sync down to mobile
     params["page"] = "all" if params["mobile"] && params["ids"]
@@ -58,7 +57,6 @@ class PotentialMatchesController < ApplicationController
           redirect_to :action => :index and return
         end
       end
-
       respond_to_export format, @records
     end
   end
@@ -83,7 +81,7 @@ class PotentialMatchesController < ApplicationController
   end
 
   def get_all_tr_pairs associated_user_names
-    pagination = {page:1, per_page:TracingRequest.count}
+    pagination = {page: 1, per_page: TracingRequest.count}
     search = TracingRequest.search do
       if associated_user_names.present? && associated_user_names.first != ALL_FILTER
         any_of do
@@ -113,7 +111,7 @@ class PotentialMatchesController < ApplicationController
   end
 
   def get_all_case associated_user_names
-    pagination = {page:1, per_page:Child.count}
+    pagination = {page: 1, per_page: Child.count}
     search = Child.search do
       if associated_user_names.present? && associated_user_names.first != ALL_FILTER
         any_of do
@@ -143,7 +141,7 @@ class PotentialMatchesController < ApplicationController
     for match_result in match_results
       count = 0
       for potential_match in potential_matches
-        if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"] && count < 20
+        if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"]
           match_detail = {}
           match_detail["child_id"] = potential_match.child_id
           child = Child.find_by_case_id potential_match.child_id
@@ -158,6 +156,8 @@ class PotentialMatchesController < ApplicationController
           count += 1
         end
       end
+      match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
+                                          .first(20)
     end
     compact_result match_results
     sort_hash match_results
@@ -167,7 +167,7 @@ class PotentialMatchesController < ApplicationController
     for match_result in match_results
       count = 0
       for potential_match in potential_matches
-        if potential_match["case_id"] == match_result["case_id"] && count < 20
+        if potential_match["case_id"] == match_result["case_id"]
           match_detail = {}
           match_detail["tracing_request_id"] = potential_match.tr_id
           inquiry = TracingRequest.find_by_tracing_request_id potential_match.tr_id
@@ -186,6 +186,8 @@ class PotentialMatchesController < ApplicationController
           count += 1
         end
       end
+      match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
+                                          .first(20)
     end
     compact_result match_results
     sort_hash match_results
