@@ -27,13 +27,13 @@ class PotentialMatchesController < ApplicationController
     instance_variable_set("@#{list_variable_name}", @records)
 
     @type = params[:type] || "tracing_request"
-
+    @associated_user_names = users_filter
     case @type
       when "case"
-        @match_results = get_all_case @associated_users
+        @match_results = get_all_case @associated_user_names
         @match_results = get_all_match_details_by_case @match_results, @potential_matches, @associated_users
       when "tracing_request"
-        @match_results = get_all_tr_pairs @associated_users
+        @match_results = get_all_tr_pairs @associated_user_names
         @match_results = get_all_match_details_by_tr @match_results, @potential_matches, @associated_users
       else
         @match_results = []
@@ -82,12 +82,12 @@ class PotentialMatchesController < ApplicationController
     filter
   end
 
-  def get_all_tr_pairs associated_users
+  def get_all_tr_pairs associated_user_names
     pagination = {page:1, per_page:TracingRequest.count}
     search = TracingRequest.search do
-      if associated_users.present? && associated_users.first != ALL_FILTER
+      if associated_user_names.present? && associated_user_names.first != ALL_FILTER
         any_of do
-          associated_users.each do |user_name|
+          associated_user_names.each do |user_name|
             with(:associated_user_names, user_name)
           end
         end
@@ -112,12 +112,12 @@ class PotentialMatchesController < ApplicationController
     match_result
   end
 
-  def get_all_case associated_users
+  def get_all_case associated_user_names
     pagination = {page:1, per_page:Child.count}
     search = Child.search do
-      if associated_users.present? && associated_users.first != ALL_FILTER
+      if associated_user_names.present? && associated_user_names.first != ALL_FILTER
         any_of do
-          associated_users.each do |user_name|
+          associated_user_names.each do |user_name|
             with(:associated_user_names, user_name)
           end
         end
