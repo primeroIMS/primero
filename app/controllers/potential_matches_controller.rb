@@ -31,10 +31,10 @@ class PotentialMatchesController < ApplicationController
     case @type
       when "case"
         @match_results = get_all_case @associated_user_names
-        @match_results = get_all_match_details_by_case @match_results, @potential_matches, @associated_users
+        @match_results = get_all_match_details_by_case @match_results, @potential_matches, @associated_user_names
       when "tracing_request"
         @match_results = get_all_tr_pairs @associated_user_names
-        @match_results = get_all_match_details_by_tr @match_results, @potential_matches, @associated_users
+        @match_results = get_all_match_details_by_tr @match_results, @potential_matches, @associated_user_names
       else
         @match_results = []
     end
@@ -139,7 +139,7 @@ class PotentialMatchesController < ApplicationController
     match_result
   end
 
-  def get_all_match_details_by_tr(match_results=[], potential_matches=[], associated_users)
+  def get_all_match_details_by_tr(match_results=[], potential_matches=[], associated_user_names)
     for match_result in match_results
       count = 0
       for potential_match in potential_matches
@@ -148,10 +148,11 @@ class PotentialMatchesController < ApplicationController
           match_detail["child_id"] = potential_match.child_id
           child = Child.find_by_case_id potential_match.child_id
           match_detail["case_id"] = potential_match.case_id
-          match_detail["age"] = is_visible?(child.owned_by, associated_users) ? child.age : "***"
-          match_detail["sex"] = is_visible?(child.owned_by, associated_users) ? child.sex : "***"
-          match_detail["registration_date"] = is_visible?(child.owned_by, associated_users) ? child.registration_date : "***"
+          match_detail["age"] = is_visible?(child.owned_by, associated_user_names) ? child.age : "***"
+          match_detail["sex"] = is_visible?(child.owned_by, associated_user_names) ? child.sex : "***"
+          match_detail["registration_date"] = is_visible?(child.owned_by, associated_user_names) ? child.registration_date : "***"
           match_detail["owned_by"] = child.owned_by
+          match_detail["visible"] = is_visible?(inquiry.owned_by, associated_user_names)
           match_detail["average_rating"] =potential_match.average_rating
           match_result["match_details"] << match_detail
           count += 1
@@ -162,7 +163,7 @@ class PotentialMatchesController < ApplicationController
     sort_hash match_results
   end
 
-  def get_all_match_details_by_case(match_results=[], potential_matches=[], associated_users)
+  def get_all_match_details_by_case(match_results=[], potential_matches=[], associated_user_names)
     for match_result in match_results
       count = 0
       for potential_match in potential_matches
@@ -173,11 +174,12 @@ class PotentialMatchesController < ApplicationController
           match_detail["tr_uuid"] = inquiry._id
           for subform in inquiry.tracing_request_subform_section
             if subform.unique_id == potential_match.tr_subform_id
-              match_detail["subform_tracing_request_name"] = is_visible?(inquiry.owned_by, associated_users) ? subform.name : "***"
+              match_detail["subform_tracing_request_name"] = is_visible?(inquiry.owned_by, associated_user_names) ? subform.name : "***"
             end
           end
-          match_detail["inquiry_date"] = is_visible?(inquiry.owned_by, associated_users) ? inquiry.inquiry_date : "***"
-          match_detail["relation_name"] = is_visible?(inquiry.owned_by, associated_users) ? inquiry.relation_name : "***"
+          match_detail["inquiry_date"] = is_visible?(inquiry.owned_by, associated_user_names) ? inquiry.inquiry_date : "***"
+          match_detail["relation_name"] = is_visible?(inquiry.owned_by, associated_user_names) ? inquiry.relation_name : "***"
+          match_detail["visible"] = is_visible?(inquiry.owned_by, associated_user_names)
           match_detail["average_rating"] =potential_match.average_rating
           match_detail["owned_by"] =inquiry.owned_by
           match_result["match_details"] << match_detail
@@ -206,7 +208,7 @@ class PotentialMatchesController < ApplicationController
     array
   end
 
-  def is_visible? owner, associated_users
-    return (associated_users.first == ALL_FILTER || associated_users.include?(owner))
+  def is_visible? owner, associated_user_names
+    return (associated_user_names.first == ALL_FILTER || associated_user_names.include?(owner))
   end
 end
