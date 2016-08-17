@@ -40,6 +40,10 @@ module Searchable
       end
       #text :name, as: :name_ph
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+
+      #TODO - location hierarchy
+      test_tmp = all_searchable_location_fields
+
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -200,6 +204,10 @@ module Searchable
 
     def searchable_location_fields
       ['location_current', 'incident_location']
+    end
+
+    def all_searchable_location_fields
+      #TODO
     end
 
     # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date

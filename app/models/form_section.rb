@@ -81,33 +81,7 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
-    view :location_fields,
-         :map => "function(doc) {
-                if (doc['couchrest-type'] == 'FormSection'){
-                  if (doc['fields'] != null){
-                    for(var i = 0; i<doc['fields'].length; i++){
-                      var field = doc['fields'][i];
-                      if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
-                        emit(field['name'], field);
-                      }
-                    }
-                  }
-                }
-              }"
-    view :location_fields_by_form,
-         :map => "function(doc) {
-                if (doc['couchrest-type'] == 'FormSection'){
-                  if (doc['fields'] != null){
-                    for(var i = 0; i<doc['fields'].length; i++){
-                      var field = doc['fields'][i];
-                      if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
-                        emit(doc['unique_id'], doc['parent_form'], null);
-                      }
-                    }
-                  }
-                }
-              }"
-    view :location_fields_by_parent_form,
+    view :having_location_fields_by_parent_form,
          :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
                   if (doc['fields'] != null){
@@ -596,41 +570,11 @@ class FormSection < CouchRest::Model::Base
       return custom_exportable
     end
 
-    def all_location_fields
-      location_fields.map{|f| {form: f.name, fields: f.fields.select{|x| x.is_location?}}}
+    def find_locations_by_parent_form(parent_form = 'case')
+      #TODO - figure out why this is returning dupes.  And why uniq doesn't work
+      having_location_fields_by_parent_form(key: parent_form).all
     end
-
-    def all_location_fields_form_names
-      #TODO - determine if this is the best way
-      #Can the view be improved?
-      all_location_fields.map{|f| f[:form]}.uniq
-    end
-
-    def all_location_fields_field_names
-      #TODO - determine if this is the best way
-      #Can the view be improved?
-      all_location_fields.map{|f| f[:fields].map{|x| x.name}}.flatten.uniq
-    end
-
-    def all_location_fields_by_parent_form(parent_form = 'case')
-      #TODO - determine if this is the best way
-      #Can the view be improved?
-      field_names = []
-      location_fields_by_parent_form(key: parent_form).each do |form|
-        field_names += form.fields.select{|f| f.is_location?}.map{|f| f.name}
-      end
-      field_names.uniq
-    end
-
-    def all_location_fields_by_module_and_parent_form(primero_module, parent_form = 'case')
-      #TODO - determine if this is the best way
-      field_names = []
-      location_fields_by_form(keys: primero_module.associated_forms.map{|f| f.unique_id}).each do |form|
-        field_names += form.fields.select{|f| f.is_location?}.map{|f| f.name} if form.parent_form == parent_form
-      end
-      field_names.uniq
-    end
-    memoize_in_prod :all_location_fields_by_module_and_parent_form
+    memoize_in_prod :find_locations_by_parent_form
 
   end
 
@@ -684,6 +628,11 @@ class FormSection < CouchRest::Model::Base
   def all_tally_fields
     self.fields.select {|f| f.type == Field::TALLY_FIELD}
   end
+
+  def all_location_fields
+    self.fields.select{|f| f.is_location?}
+  end
+
 
   def properties= properties
     properties.each_pair do |name, value|

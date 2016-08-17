@@ -997,10 +997,9 @@ describe FormSection do
 
   end
 
-  describe "All location Fields" do
+  describe "Finding locations by parent form" do
     before do
       FormSection.all.each &:destroy
-      PrimeroModule.all.each &:destroy
 
       fields = [
           Field.new({"name" => "field_name_1",
@@ -1012,7 +1011,7 @@ describe FormSection do
                      "display_name_all" => "Field Name 2"
                     })
       ]
-      form = FormSection.new(
+      @form_0 = FormSection.create(
           :unique_id => "form_section_no_locations",
           :parent_form=>"case",
           "visible" => true,
@@ -1025,7 +1024,6 @@ describe FormSection do
           "description_all" => "Form Section No Locations",
           :fields => fields
       )
-      form.save!
 
       fields = [
           Field.new({"name" => "test_location",
@@ -1047,7 +1045,7 @@ describe FormSection do
                      "option_strings_source" => "lookup Country"
                     })
       ]
-      form = FormSection.new(
+      @form_1 = FormSection.create(
           :unique_id => "form_section_one_location",
           :parent_form=>"case",
           "visible" => true,
@@ -1060,7 +1058,6 @@ describe FormSection do
           "description_all" => "Form Section One Location",
           :fields => fields
       )
-      form.save!
 
       fields = [
           Field.new({"name" => "test_location_2",
@@ -1092,7 +1089,7 @@ describe FormSection do
                      "option_strings_source" => "lookup Country"
                     })
       ]
-      form = FormSection.new(
+      @form_2 = FormSection.create(
           :unique_id => "form_section_two_locations",
           :parent_form=>"tracing_request",
           "visible" => true,
@@ -1105,7 +1102,6 @@ describe FormSection do
           "description_all" => "Form Section Two Locations",
           :fields => fields
       )
-      form.save!
 
       fields = [
           Field.new({"name" => "test_location_4",
@@ -1132,7 +1128,7 @@ describe FormSection do
                      "option_strings_source" => "Location"
                     })
       ]
-      form = FormSection.new(
+      @form_3 = FormSection.create(
           :unique_id => "form_section_three_locations",
           :parent_form=>"tracing_request",
           "visible" => true,
@@ -1145,7 +1141,6 @@ describe FormSection do
           "description_all" => "Form Section Three Locations",
           :fields => fields
       )
-      form.save!
 
       fields = [
           Field.new({"name" => "test_location_7",
@@ -1171,13 +1166,13 @@ describe FormSection do
                      "display_name_all" => "Test Location 9",
                      "option_strings_source" => "Location"
                     }),
-      Field.new({"name" => "test_location_10",
-                 "type" => "select_box",
-                 "display_name_all" => "Test Location 10",
-                 "option_strings_source" => "Location"
-                })
+          Field.new({"name" => "test_location_10",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 10",
+                     "option_strings_source" => "Location"
+                    })
       ]
-      form = FormSection.new(
+      @form_4 = FormSection.create(
           :unique_id => "form_section_four_locations",
           :parent_form=>"incident",
           "visible" => true,
@@ -1190,82 +1185,34 @@ describe FormSection do
           "description_all" => "Form Section Four Locations",
           :fields => fields
       )
-      form.save!
-
-      @module_cp = PrimeroModule.create!(program_id: "some_program", name: "CP",
-                                        associated_record_types: ['case', 'tracing_request'],
-                                        associated_form_ids: ["form_section_no_locations", "form_section_one_location",
-                                                              "form_section_two_locations"])
-      @module_gbv = PrimeroModule.create!(program_id: "some_program", name: "GBV",
-                                        associated_record_types: ['tracing_request', 'incident'],
-                                        associated_form_ids: ["form_section_two_locations", "form_section_three_locations",
-                                                              "form_section_four_locations"])
     end
 
     after :all do
       FormSection.all.each &:destroy
-      PrimeroModule.all.each &:destroy
     end
 
-    #TODO - may remove later
-    it "returns the fields names" do
-      expect(FormSection.all_location_fields_field_names).to match_array ['test_location', 'test_location_2',
-                                            'test_location_3', 'test_location_4', 'test_location_5', 'test_location_6',
-                                            'test_location_7', 'test_location_8', 'test_location_9', 'test_location_10']
-    end
-
-    #TODO - may remove later
-    it "returns the fields form name" do
-      expect(FormSection.all_location_fields_form_names).to match_array ['Form Section One Location', 'Form Section Two Locations',
-                                                                         'Form Section Three Locations', 'Form Section Four Locations']
-    end
-
-    describe "by parent form" do
-      context "when parent form is case" do
-        it "returns the field names" do
-          expect(FormSection.all_location_fields_by_parent_form('case')).to match_array ['test_location']
-        end
+    context "when parent form is not passed in" do
+      it "returns the forms for case" do
+        expect(FormSection.find_locations_by_parent_form).to match_array [@form1]
       end
-
-      context "when parent form is tracing_request" do
-        it "returns the field names" do
-          expect(FormSection.all_location_fields_by_parent_form('tracing_request')).to match_array [
-                          'test_location_2', 'test_location_3', 'test_location_4', 'test_location_5', 'test_location_6']
-        end
-      end
-
     end
 
-    describe "by module and parent form" do
-      context "when module is CP" do
-        context "when parent form is case" do
-          it "returns the field names" do
-            expect(FormSection.all_location_fields_by_module_and_parent_form(@module_cp, 'case')).to match_array ['test_location']
-          end
-        end
-
-        context "when parent form is tracing_request" do
-          it "returns the field names" do
-            expect(FormSection.all_location_fields_by_module_and_parent_form(@module_cp, 'tracing_request')).to match_array [
-                                                                                   'test_location_2', 'test_location_3']
-          end
-        end
+    context "when parent form is case" do
+      it "returns the forms" do
+        expect(FormSection.find_locations_by_parent_form('case')).to match_array [@form_1]
       end
+    end
 
-      context "when module is GBV" do
-        context "when parent form is tracing request" do
-          it "returns the field names" do
-            expect(FormSection.all_location_fields_by_module_and_parent_form(@module_gbv, 'tracing_request')).to match_array [
-                          'test_location_2', 'test_location_3', 'test_location_4', 'test_location_5', 'test_location_6']
-          end
-        end
+    #TODO - figure why this is returning dupes.  Fix
+    context "when parent form is tracing_request" do
+      it "returns the forms" do
+        expect(FormSection.find_locations_by_parent_form('tracing_request')).to match_array [@form_2, @form_3]
+      end
+    end
 
-        context "when parent form is incident" do
-          it "returns the field names" do
-            expect(FormSection.all_location_fields_by_module_and_parent_form(@module_gbv, 'incident')).to match_array [
-                                            'test_location_7', 'test_location_8', 'test_location_9', 'test_location_10']
-          end
-        end
+    context "when parent form is incident" do
+      it "returns the forms" do
+        expect(FormSection.find_locations_by_parent_form('incident')).to match_array [@form_4]
       end
     end
 
