@@ -1053,6 +1053,44 @@ describe TracingRequest do
 
   end
 
+  describe "Batch processing" do
+    before do
+      TracingRequest.all.each { |tracing_request| tracing_request.destroy }
+    end
+
+    it "should process in two batches" do
+      tracing_request1 = TracingRequest.new('created_by' => "user1", :name => "tracing_request1")
+      tracing_request2 = TracingRequest.new('created_by' => "user2", :name => "tracing_request2")
+      tracing_request3 = TracingRequest.new('created_by' => "user3", :name => "tracing_request3")
+      tracing_request4 = TracingRequest.new('created_by' => "user4", :name => "tracing_request4")
+      tracing_request4.save!
+      tracing_request3.save!
+      tracing_request2.save!
+      tracing_request1.save!
+
+      expect(TracingRequest.all.page(1).per(3).all).to include(tracing_request1, tracing_request2, tracing_request3)
+      expect(TracingRequest.all.page(2).per(3).all).to include(tracing_request4)
+      TracingRequest.should_receive(:all).exactly(3).times.and_call_original
+
+      records = []
+      TracingRequest.each_slice(3) do |tracing_requests|
+        tracing_requests.each{|t| records << t.name}
+      end
+
+      records.should eq(["tracing_request1", "tracing_request2", "tracing_request3", "tracing_request4"])
+    end
+
+    it "should process in 0 batches" do
+      TracingRequest.should_receive(:all).exactly(1).times.and_call_original
+      records = []
+      TracingRequest.each_slice(3) do |tracing_requests|
+        tracing_requests.each{|t| records << t.name}
+      end
+      records.should eq([])
+    end
+
+  end
+
   private
 
   def create_tracing_request(name, options={})
