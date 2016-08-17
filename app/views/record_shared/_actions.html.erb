@@ -4,7 +4,6 @@
     <ul>
       <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
           <%= render 'imports/button' %>
-          <%= controller.model_class %>
       <% end %>
       <% if controller.model_class != PotentialMatch %>
           <%= render 'exports/button', locals: {model: model} %>
