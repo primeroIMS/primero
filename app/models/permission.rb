@@ -32,7 +32,7 @@ class Permission
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
-  # POTENTIAL_MATCH = 'potential_match'
+  POTENTIAL_MATCH = 'potential_match'
   USER = 'user'
   ROLE = 'role'
   METADATA = 'metadata'
@@ -88,7 +88,7 @@ class Permission
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT]
+    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH,ROLE, USER, METADATA, SYSTEM, REPORT]
   end
 
   def self.management
@@ -119,8 +119,6 @@ class Permission
          actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY, GROUP_READ].include? a}
        when TRACING_REQUEST
          actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY, GROUP_READ].include? a}
-       # when POTENTIAL_MATCH
-       #   actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY, GROUP_READ].include? a}
        when ROLE
          [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
        when USER
@@ -129,6 +127,8 @@ class Permission
          [READ, GROUP_READ, WRITE]
        when METADATA
          [MANAGE]
+       when POTENTIAL_MATCH
+         [READ]
        when SYSTEM
          [MANAGE]
        else
@@ -141,7 +141,7 @@ class Permission
       self.new(:resource => CASE, :actions => [MANAGE]),
       self.new(:resource => INCIDENT, :actions => [MANAGE]),
       self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
-      # self.new(:resource => POTENTIAL_MATCH, :actions => [MANAGE]),
+      self.new(:resource => POTENTIAL_MATCH, :actions => [READ]),
       self.new(:resource => REPORT, :actions => [MANAGE]),
       self.new(:resource => ROLE, :actions => [MANAGE]),
       self.new(:resource => USER, :actions => [MANAGE]),
