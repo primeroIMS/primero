@@ -125,6 +125,7 @@ en:
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
+     unflag_model_history: "Flag History %{model}"
      ok: 'OK'
      cancel: "Cancel"
      edit_subform: 'Edit Subform'
@@ -136,6 +137,7 @@ en:
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
      approve_case_plan: "Approve Case Plan"
+     view_flags_history: "View History"
      approval: "Request Approval"
 
   placeholders:
@@ -220,6 +222,8 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflag_date: "Date Unflagged"
+    unflag_by: "Unflagged By"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
@@ -305,6 +309,8 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflag_date: "Date Unflagged"
+    unflag_by: "Unflagged By"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
@@ -409,6 +415,8 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflag_date: "Date Unflagged"
+    unflag_by: "Unflagged By"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     flagged_as_suspected: "Flagged by"
@@ -480,6 +488,8 @@ en:
     selected_records_error_message: "Please select one or more records to flag."
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflag_date: "Date Unflagged"
+    unflag_by: "Unflagged By"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     flag_error_message: "Please explain why you are flagging this record."

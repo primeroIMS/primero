@@ -11,6 +11,8 @@ class Flag
   property :unflag_message, String
   property :created_at, DateTime
   property :system_generated_followup, TrueClass, :default => false
+  property :unflagged_by, String
+  property :unflagged_date, Date
   property :id
 
   include Sunspot::Rails::Searchable
