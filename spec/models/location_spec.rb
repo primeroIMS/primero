@@ -188,4 +188,46 @@ describe Location do
   it 'returns all location types' do
     expect(Location::BASE_TYPES).to eq(['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other'])
   end
+
+  describe "Batch processing" do
+    before do
+      Location.all.each { |location| location.destroy }
+    end
+
+    it "should process in two batches" do
+      country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
+      country1.save!
+
+      country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country', admin_level: 0)
+      country2.save!
+
+      state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.placename])
+      state1.save!
+
+      state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country2.placename])
+      state2.save!
+
+      expect(Location.all.page(1).per(3).all).to include(state2, state1, country2)
+      expect(Location.all.page(2).per(3).all).to include(country1)
+      Location.should_receive(:all).exactly(3).times.and_call_original
+
+      records = []
+      Location.each_slice(3) do |locations|
+        locations.each{|l| records << l.placename}
+      end
+
+      records.should eq(["North Carolina", "North Carolina", "Canada", "USA"])
+    end
+
+    it "should process in 0 batches" do
+      Location.should_receive(:all).exactly(1).times.and_call_original
+      records = []
+      Location.each_slice(3) do |location|
+        locations.each{|l| records << l.placename}
+      end
+      records.should eq([])
+    end
+
+  end
+
 end
