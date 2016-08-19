@@ -20,7 +20,7 @@
       <% if detail["visible"] %>
           <%= link_to text_to_identify_potential_match_tracing_request(detail), tracing_request_path(detail["tr_uuid"]), class: 'id_link ' %>
       <% else %>
-          <%= potential_match["tracing_request_id"].last 7 %>
+          <%= detail["tracing_request_id"].last 7 %>
       <% end %>
       </td>
       <td><%= detail["relation_name"] %></td>
