@@ -49,6 +49,7 @@ class Location < CouchRest::Model::Base
     view :by_placename
     view :by_hierarchy
     view :by_admin_level
+    view :by_name_and_admin_level
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
@@ -157,6 +158,19 @@ class Location < CouchRest::Model::Base
       response.present? ? response.all : []
     end
 
+    def find_by_names(location_names = [])
+      response = Location.by_name(keys: location_names)
+      response.present? ? response.all : []
+    end
+    memoize_in_prod :find_by_names
+
+    def find_by_names_and_admin_level(location_names = [], admin_level = 0)
+      key_list = location_names.map{|ln| [ln, admin_level]}
+      response = Location.by_name_and_admin_level(keys: key_list)
+      response.present? ? response.all : []
+    end
+    memoize_in_prod :find_by_names_and_admin_level
+
   end
 
   def hierarchical_name
@@ -186,22 +200,20 @@ class Location < CouchRest::Model::Base
   end
 
   def ancestor_names
-    ancestors = []
+    ancestor_list = []
 
     self.hierarchy.each_with_index {|item, index|
       if index == 0
-        ancestors[index] = item
+        ancestor_list[index] = item
       else
-        ancestors[index] = "#{ancestors[index-1]}::#{item}"
+        ancestor_list[index] = "#{ancestor_list[index-1]}::#{item}"
       end
     }
-    return ancestors
+    return ancestor_list
   end
 
   def ancestors
-    response = Location.by_name(keys: self.ancestor_names)
-    response = response.present? ? response.all : []
-    return response
+    Location.find_by_names(self.ancestor_names)
   end
 
   def ancestor_by_type(type)

@@ -206,7 +206,7 @@ class Field
     FormSection.find_by_parent_form(parent_form, false).map {|form| form.all_tally_fields.map(&:name)}.flatten
   end
 
-  def self.all_location_fields(parent_form='case')
+  def self.all_location_field_names(parent_form='case')
     FormSection.find_locations_by_parent_form(parent_form).map {|form| form.all_location_fields.map(&:name)}.flatten.uniq
   end
 

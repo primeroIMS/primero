@@ -670,19 +670,19 @@ describe "record field model" do
 
     context "when parent form is not passed in" do
       it "returns the forms for case" do
-        expect(Field.all_location_fields).to match_array ['test_location_1']
+        expect(Field.all_location_field_names).to match_array ['test_location_1']
       end
     end
 
     context "when parent form is case" do
       it "returns the forms" do
-        expect(Field.all_location_fields('case')).to match_array ['test_location_1']
+        expect(Field.all_location_field_names('case')).to match_array ['test_location_1']
       end
     end
 
     context "when parent form is tracing_request" do
       it "returns the forms" do
-        expect(Field.all_location_fields('tracing_request')).to match_array ['test_location_2', 'test_location_3',
+        expect(Field.all_location_field_names('tracing_request')).to match_array ['test_location_2', 'test_location_3',
                                                                              'test_location_4', 'test_location_5',
                                                                              'test_location_6']
       end
@@ -690,7 +690,7 @@ describe "record field model" do
 
     context "when parent form is incident" do
       it "returns the forms" do
-        expect(Field.all_location_fields('incident')).to match_array ['test_location_7', 'test_location_8',
+        expect(Field.all_location_field_names('incident')).to match_array ['test_location_7', 'test_location_8',
                                                                       'test_location_9', 'test_location_10']
       end
     end

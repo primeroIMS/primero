@@ -1193,7 +1193,7 @@ describe FormSection do
 
     context "when parent form is not passed in" do
       it "returns the forms for case" do
-        expect(FormSection.find_locations_by_parent_form).to match_array [@form1]
+        expect(FormSection.find_locations_by_parent_form).to match_array [@form_1]
       end
     end
 
