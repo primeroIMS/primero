@@ -125,7 +125,7 @@ class BulkExport < CouchRest::Model::Base
     begin
       search = self.model_class.list_records(
         self.filters, self.order, pagination_ops,
-        [self.owned_by], self.query, self.match_criteria
+        self.owner.managed_user_names, self.query, self.match_criteria
       )
       results = search.results
       records.concat(results)
