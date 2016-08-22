@@ -85,11 +85,15 @@ class FormSection < CouchRest::Model::Base
          :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
                   if (doc['fields'] != null){
+                    var loc_fields = false;
                     for(var i = 0; i<doc['fields'].length; i++){
                       var field = doc['fields'][i];
                       if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
-                        emit(doc['parent_form'], null);
+                        loc_fields = true;
                       }
+                    }
+                    if(loc_fields == true){
+                      emit(doc['parent_form'], null);
                     }
                   }
                 }

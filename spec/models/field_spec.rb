@@ -474,7 +474,7 @@ describe "record field model" do
     end
   end
 
-  describe "all_location_fields" do
+  describe "all location field names" do
     before do
       FormSection.all.each &:destroy
 

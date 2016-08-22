@@ -38,14 +38,15 @@ module Searchable
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
       end
-      #text :name, as: :name_ph
+
+      #TODO - can this be removed?  I see it also as part of filtering
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
 
       all_searchable_location_fields.each do |field|
         location = nil
         ancestors = nil
         Location::ADMIN_LEVELS.each do |admin_level|
-          string "#{field}_#{admin_level}", as: "#{field}_#{admin_level}_sci".to_sym do
+          string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
             location ||= Location.by_name(key: self.send(field)).first
             if location.present?
               # break if admin_level > location.admin_level
@@ -219,6 +220,7 @@ module Searchable
       Field.all_filterable_numeric_field_names(self.parent_form)
     end
 
+    #TODO - can this be removed?  I see it also as part of filtering
     def searchable_location_fields
       ['location_current', 'incident_location']
     end

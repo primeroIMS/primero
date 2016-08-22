@@ -49,7 +49,6 @@ class Location < CouchRest::Model::Base
     view :by_placename
     view :by_hierarchy
     view :by_admin_level
-    view :by_name_and_admin_level
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
@@ -163,13 +162,6 @@ class Location < CouchRest::Model::Base
       response.present? ? response.all : []
     end
     memoize_in_prod :find_by_names
-
-    def find_by_names_and_admin_level(location_names = [], admin_level = 0)
-      key_list = location_names.map{|ln| [ln, admin_level]}
-      response = Location.by_name_and_admin_level(keys: key_list)
-      response.present? ? response.all : []
-    end
-    memoize_in_prod :find_by_names_and_admin_level
 
   end
 
