@@ -1,3 +1,34 @@
+reopened_subform = [
+    Field.new({"name" => "reopened_date",
+               "type" => "date_field",
+               "editable"=>false,
+               "disabled"=>true,
+               "display_name_all" => "Date Reopened",
+              }),
+    Field.new({"name" => "reopened_user",
+               "type" => "text_field",
+               "editable"=>false,
+               "disabled"=>true,
+               "display_name_all" => "Reopened by",
+              })
+]
+
+reopened_logs = FormSection.create_or_update_form_section({
+     "visible"=>true,
+     "is_nested"=>true,
+     :order_form_group => 150,
+     :order => 10,
+     :order_subform => 1,
+     :unique_id=>"reopened_logs",
+     :parent_form=>"case",
+     "editable"=>false,
+     :fields => reopened_subform,
+     "name_all" => "Case Reopened",
+     "description_all" => "Case Reopened Subform",
+     "collapsed_fields" => ["reopened_date", "reopened_user"],
+     "display_help_text_view" => false
+})
+
 record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
 
@@ -98,6 +129,14 @@ record_owner_fields = [
           "type" => "text_field",
           "display_name_all" => "Module",
           "editable" => false
+          }),
+Field.new({"name" => "reopened_logs",
+           "type" => "subform",
+           "editable" => false,
+           "disabled" => true,
+           "subform_section_id" => reopened_logs.unique_id,
+           "display_name_all" => "Case Reopened",
+           "subform_sort_by" => "reopened_date"
           })
 ]
 
@@ -108,9 +147,9 @@ FormSection.create_or_update_form_section({
   :order_form_group => 0,
   :order => 0,
   :order_subform => 0,
-  :form_group_name => "Record Owner",
+  :form_group_name => "Record Information",
   "editable" => true,
   :fields => record_owner_fields,
-  "name_all" => "Record Owner",
-  "description_all" => "Record Owner"
+  "name_all" => "Record Information",
+  "description_all" => "Record Information"
 })
