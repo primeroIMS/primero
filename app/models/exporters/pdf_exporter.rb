@@ -104,7 +104,7 @@ module Exporters
       end
 
       def render_form_section(pdf, _case, form_section, prop)
-        (subforms, normal_fields) = form_section.fields.reject {|f| f.type == 'separator' }
+        (subforms, normal_fields) = form_section.fields.reject {|f| f.type == 'separator' || f.visible? == false}
                                                        .partition {|f| f.type == Field::SUBFORM }
 
         render_fields(pdf, _case, normal_fields)
@@ -112,7 +112,7 @@ module Exporters
         subforms.map do |subf|
           pdf.move_down 10
           form_data = _case.__send__(subf.name)
-          filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' }
+          filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' || f.visible? == false}
 
           pdf.text subf.display_name, :style => :bold, :size => 12
 
