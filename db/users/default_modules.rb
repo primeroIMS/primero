@@ -38,7 +38,7 @@ create_or_update_module(
   associated_record_types: ["case", "tracing_request"],
   associated_form_ids: [
     "activities", "basic_identity", "best_interest", "caafag_profile",
-    "care_arrangements", "care_assessment", "child_under_5",
+    "care_arrangements", "care_assessment", "child_under_5", "bia_documents",
     "child_wishes", "closure_form", "consent", "family_details", "followup",
     "interview_details", "other_documents", "other_identity_details", "partner_details",
     "photos_and_audio", "protection_concern_details", "protection_concern",
