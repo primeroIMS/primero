@@ -46,6 +46,12 @@ followup_subform_fields = [
                             "Health Intervention Assessment",
                             "Other Intervention Assessment"].join("\n")
             }),
+  Field.new({"name" => "protection_concern_type",
+             "type" => "select_box",
+             "visible" => false,
+             "display_name_all" => "Type of Protection Concern ",
+             "option_strings_source" => "lookup ProtectionConcerns"
+            }),
   Field.new({"name" => "followup_needed_by_date",
              "type" => "date_field",
              "display_name_all" => "Follow up needed by"
@@ -124,7 +130,7 @@ followup_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 1,
   "name_all" => "Nested Followup Subform",
   "description_all" => "Nested Followup Subform",
-  "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
+  "collapsed_fields" => ["followup_date", "followup_type"]
 })
 
 followup_fields = [
