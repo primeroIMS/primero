@@ -39,7 +39,8 @@ module Searchable
         boolean :marked_for_mobile
       end
 
-      #TODO - can this be removed?  I see it also as part of filtering
+      #TODO - This is likely deprecated and needs to be refactored away
+      #TODO - searchable_location_fields currently used by filtering
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
 
       all_searchable_location_fields.each do |field|
@@ -220,7 +221,8 @@ module Searchable
       Field.all_filterable_numeric_field_names(self.parent_form)
     end
 
-    #TODO - can this be removed?  I see it also as part of filtering
+    #TODO - This is likely deprecated and needs to be refactored away
+    #TODO - searchable_location_fields currently used by filtering
     def searchable_location_fields
       ['location_current', 'incident_location']
     end

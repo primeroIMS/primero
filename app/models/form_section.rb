@@ -575,7 +575,6 @@ class FormSection < CouchRest::Model::Base
     end
 
     def find_locations_by_parent_form(parent_form = 'case')
-      #TODO - figure out why this is returning dupes.  And why uniq doesn't work
       having_location_fields_by_parent_form(key: parent_form).all
     end
     memoize_in_prod :find_locations_by_parent_form
