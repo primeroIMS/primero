@@ -113,14 +113,39 @@ class BulkExport < CouchRest::Model::Base
 
   def stored_file_name
     if self.file_name.present?
-      File.join(EXPORT_DIR,"#{self.file_name}.zip")
+      #File.join(EXPORT_DIR,"#{self.file_name}.zip")
+      File.join(EXPORT_DIR,"#{self.file_name}")
     end
   end
 
-  def retrieve_records
+  def retrieve_and_export_records(exporter)
     #TODO: this is a good candidate for multithreading
     #TODO: Right now this is duplicated code with what appears in the record_actions controller concern
+
     pagination_ops = {:page => 1, :per_page => 500}
+    #records = []
+    begin
+      search = self.model_class.list_records(
+        self.filters, self.order, pagination_ops,
+        self.owner.managed_user_names, self.query, self.match_criteria
+      )
+      results = search.results
+      #records.concat(results)
+      #yield(exporter, results)
+      exporter.export(results, permitted_properties, owner, custom_export_params)
+      #Set again the values of the pagination variable because the method modified the variable.
+      pagination_ops[:page] = results.next_page
+      pagination_ops[:per_page] = 500
+
+    end until results.next_page.nil?
+    #return records
+  end
+
+  def test_retrieve_and_export_records
+    #TODO: this is a good candidate for multithreading
+    #TODO: Right now this is duplicated code with what appears in the record_actions controller concern
+
+    pagination_ops = {:page => 1, :per_page => 200}
     records = []
     begin
       search = self.model_class.list_records(
@@ -128,10 +153,12 @@ class BulkExport < CouchRest::Model::Base
         self.owner.managed_user_names, self.query, self.match_criteria
       )
       results = search.results
-      records.concat(results)
+      #records.concat(results)
+      #yield(exporter, results)
       #Set again the values of the pagination variable because the method modified the variable.
       pagination_ops[:page] = results.next_page
-      pagination_ops[:per_page] = 500
+      pagination_ops[:per_page] = 200
+
     end until results.next_page.nil?
     return records
   end
