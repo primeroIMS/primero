@@ -1203,7 +1203,6 @@ describe FormSection do
       end
     end
 
-    #TODO - figure why this is returning dupes.  Fix
     context "when parent form is tracing_request" do
       it "returns the forms" do
         expect(FormSection.find_locations_by_parent_form('tracing_request')).to match_array [@form_2, @form_3]
