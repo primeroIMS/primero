@@ -113,7 +113,7 @@ class BulkExport < CouchRest::Model::Base
 
   def stored_file_name
     if self.file_name.present?
-      File.join(EXPORT_DIR,"#{self.file_name}.zip")
+      File.join(EXPORT_DIR,"#{self.id}_#{self.file_name}.zip")
     end
   end
 
@@ -125,7 +125,7 @@ class BulkExport < CouchRest::Model::Base
     begin
       search = self.model_class.list_records(
         self.filters, self.order, pagination_ops,
-        [self.owned_by], self.query, self.match_criteria
+        self.owner.managed_user_names, self.query, self.match_criteria
       )
       results = search.results
       records.concat(results)
