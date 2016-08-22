@@ -38,8 +38,31 @@ module Searchable
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
       end
-      #text :name, as: :name_ph
-      searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+
+      #TODO - This is likely deprecated and needs to be refactored away
+      #TODO - searchable_location_fields currently used by filtering
+      # searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+
+      all_searchable_location_fields.each do |field|
+        location = nil
+        ancestors = nil
+        Location::ADMIN_LEVELS.each do |admin_level|
+          string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
+            location ||= Location.by_name(key: self.send(field)).first
+            if location.present?
+              # break if admin_level > location.admin_level
+              if admin_level == location.admin_level
+                location.name
+              elsif location.admin_level.present? && (admin_level < location.admin_level)
+                ancestors ||= location.ancestors
+                # find the ancestor with the current admin_level
+                lct = ancestors.select{|l| l.admin_level == admin_level}
+                lct.present? ? lct.first.name : nil
+              end
+            end
+          end
+        end
+      end
     end
 
     Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
@@ -198,8 +221,14 @@ module Searchable
       Field.all_filterable_numeric_field_names(self.parent_form)
     end
 
+    #TODO - This is likely deprecated and needs to be refactored away
+    #TODO - searchable_location_fields currently used by filtering
     def searchable_location_fields
       ['location_current', 'incident_location']
+    end
+
+    def all_searchable_location_fields
+      Field.all_location_field_names(self.parent_form)
     end
 
     # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date
