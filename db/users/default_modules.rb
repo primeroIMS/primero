@@ -42,7 +42,7 @@ create_or_update_module(
     "child_wishes", "closure_form", "consent", "family_details", "followup",
     "interview_details", "other_documents", "other_identity_details", "partner_details",
     "photos_and_audio", "protection_concern_details", "protection_concern",
-    "record_owner", "services", "tracing", "verification",
+    "record_owner", "services", "tracing", "verification", "bid_documents",
     "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
     "tracing_request_photos_and_audio", "followup", "reunification_details", "other_reportable_fields_case",
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan"
