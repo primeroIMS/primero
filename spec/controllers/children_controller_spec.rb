@@ -176,118 +176,6 @@ describe ChildrenController do
       end
     end
 
-    describe "export all" do
-      before do
-        @session = fake_field_worker_login
-      end
-
-      it "should export all children" do
-        collection = [Child.new, Child.new]
-        collection.should_receive(:next_page).twice.and_return(nil)
-        search = double(Sunspot::Search::StandardSearch)
-        search.should_receive(:results).and_return(collection)
-        search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
-        params = {"page" => "all"}
-        get :index, params
-        assigns[:children].should == collection
-        assigns[:total_records].should == 100
-      end
-
-      it "should export only CP children when export UNHCR" do
-        collection = [Child.new(:family_details_section => [], :religion => [], :nationality => [], :ethnicity => [], :protection_concerns => [], :language => [])]
-        collection.should_receive(:next_page).twice.and_return(nil)
-        search = double(Sunspot::Search::StandardSearch)
-        search.should_receive(:results).and_return(collection)
-        search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
-        params = {"page" => "all", "format" => "unhcr_csv"}
-        get :index, params
-        assigns[:children].should == collection
-        assigns[:total_records].should == 100
-      end
-    end
-
-    shared_examples_for "Export List" do |user_type|
-      before do
-        @session = fake_admin_login
-      end
-
-      it "should export columns in the current list view for #{user_type} user" do
-        collection = [Child.new(:id => "1"), Child.new(:id => "2")]
-        collection.should_receive(:next_page).twice.and_return(nil)
-        search = double(Sunspot::Search::StandardSearch)
-        search.should_receive(:results).and_return(collection)
-        search.should_receive(:total).and_return(2)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["all"], nil, nil).and_return(search)
-
-        #User
-        @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)
-        @session.user.should_receive(:has_module?).with(PrimeroModule::GBV).and_return(gbv_result)
-        @session.user.should_receive(:has_module?).with(PrimeroModule::MRM).and_return(mrm_result)
-        @session.user.should_receive(:is_manager?).and_return(manager_result)
-
-        ##### Main part of the test ####
-        controller.should_receive(:list_view_header).with("case").and_call_original
-        #Test if the exporter receive the list of field expected.
-        Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user).and_return('data')
-        ##### Main part of the test ####
-
-        controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
-        controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', nil).and_return(true)
-        controller.stub :render
-        #Prepare parameters to call the corresponding exporter.
-        params = {"page" => "all", "export_list_view" => "true", "format" => "list_view_csv"}
-        get :index, params
-      end
-    end
-
-    it_behaves_like "Export List", "admin" do
-      let(:cp_result) { true }
-      let(:gbv_result) { true }
-      let(:mrm_result) { true }
-      let(:manager_result) { true }
-      let(:expected_properties) { {
-        :type => "case",
-        :fields => {
-          "Id" => "short_id",
-          "Age" => "age",
-          "Sex" => "sex",
-          "Registration Date" => "registration_date",
-          "Case Opening Date" => "created_at",
-          "Photo" => "photo",
-          "Social Worker" => "owned_by"} } }
-    end
-
-    it_behaves_like "Export List", "cp" do
-      let(:cp_result) { true }
-      let(:gbv_result) { false }
-      let(:mrm_result) { false }
-      let(:manager_result) { false }
-      let(:expected_properties) { {
-        :type => "case",
-        :fields => {
-          "Id" => "short_id",
-          "Name" => "sortable_name",
-          "Age" => "age",
-          "Sex" => "sex",
-          "Registration Date" => "registration_date",
-          "Photo" => "photo"} } }
-    end
-
-    it_behaves_like "Export List", "gbv" do
-      let(:cp_result) { false }
-      let(:gbv_result) { true }
-      let(:mrm_result) { false }
-      let(:manager_result) { false }
-      let(:expected_properties) { {
-        :type => "case",
-        :fields => {
-          "Id" => "short_id",
-          "Survivor Code" => "survivor_code_no",
-          "Case Opening Date" => "created_at"} } }
-    end
-
     describe "export_filename" do
       before :each do
         @password = 's3cr3t'
@@ -300,7 +188,7 @@ describe ChildrenController do
         Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
         #This is the file name provided by the user and should be sent as parameter.
         custom_export_file_name = "user file name"
-        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
@@ -314,7 +202,7 @@ describe ChildrenController do
 
       it "should use the user_name and model_name to get the file name" do
         Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
-        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
@@ -328,7 +216,7 @@ describe ChildrenController do
 
       it "should use the unique_identifier to get the file name" do
         Child.stub :list_records => double(:results => [ @child1 ], :total => 1)
-        Exporters::CSVExporter.should_receive(:export).with([ @child1 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @child1 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @child1 ], Exporters::CSVExporter).and_call_original
@@ -541,7 +429,8 @@ describe ChildrenController do
         format = "unhcr_csv"
         @params.merge!(:format => format)
         get :index, @params
-        flash[:notice].should == "No Records Available!"
+        #flash[:notice].should == "No Records Available!"
+        expect(flash[:notice]).to eq("Generating the export file: fakefieldadmin-child.csv")
       end
     end
 
@@ -794,10 +683,11 @@ describe ChildrenController do
     end
 
     it "assigns the requested child" do
-      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
-      ChildrenController.any_instance.stub(:get_form_sections).and_return({})
+      Child.any_instance.stub(:allowed_formsections).and_return({})
+      child = Child.new(:module_id => 'primeromodule-cp')
+      Child.stub(:get).with("37").and_return(child)
       get :show, :id => "37"
-      assigns[:child].should equal(mock_child)
+      assigns[:child].should equal(child)
     end
 
     it 'should not fail if primary_photo_id is not present' do
@@ -820,10 +710,11 @@ describe ChildrenController do
 
 
     it "retrieves the grouped forms that are permitted to this user and child" do
-      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
+      child = mock_child({:module_id => 'primeromodule-cp'})
+      Child.stub(:allowed_formsections).and_return(grouped_forms)
+      Child.stub(:get).with("37").and_return(child)
       get :show, :id => "37"
       assigns[:form_sections].should == grouped_forms
       #TODO: Do we need to test ordering of forms in the controller?
@@ -837,10 +728,11 @@ describe ChildrenController do
     end
 
     it "should include duplicate records in the response" do
-      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
+      child = mock_child({:module_id => 'primeromodule-cp'})
+      Child.stub(:allowed_formsections).and_return({})
+      Child.stub(:get).with("37").and_return(child)
       duplicates = [Child.new(:name => "duplicated")]
-      Child.should_receive(:duplicates_of).with("37").and_return(duplicates)
-      controller.stub :get_form_sections
+      Child.stub(:duplicates_of).with("37").and_return(duplicates)
       get :show, :id => "37"
       assigns[:duplicates].should == duplicates
     end
@@ -848,6 +740,7 @@ describe ChildrenController do
 
   describe "GET new" do
     it "assigns a new child as @child" do
+      Child.stub(:allowed_formsections).and_return({})
       Child.stub(:new).and_return(mock_child)
       get :new
       assigns[:child].should equal(mock_child)
@@ -857,7 +750,7 @@ describe ChildrenController do
       controller.stub(:make_new_record).and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
+      Child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :new, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -865,6 +758,7 @@ describe ChildrenController do
 
   describe "GET edit" do
     it "assigns the requested child as @child" do
+      Child.stub(:allowed_formsections).and_return({})
       Child.stub(:get).with("37").and_return(mock_child)
       get :edit, :id => "37"
       assigns[:child].should equal(mock_child)
@@ -874,13 +768,17 @@ describe ChildrenController do
       Child.stub(:get).with("37").and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
+      Child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
   end
 
   describe "PUT update" do
+    before :each do
+      Child.stub(:permitted_property_names).and_return(['name', 'unique_identifier', 'reunited', ])
+    end
+
     it "should update child on a field and photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
@@ -1078,24 +976,14 @@ describe ChildrenController do
       Child.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
     end
 
-    xit "should handle full PDF" do
-      Addons::PdfExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      get :index, :format => :pdf
-    end
-
-    xit "should handle Photowall PDF" do
-      Addons::PhotowallExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      get :index, :format => :photowall
-    end
-
     it "should handle CSV" do
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
       get :index, :format => :csv
     end
 
     it "should encrypt result" do
       password = 's3cr3t'
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
       controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
       get :index, :format => :csv, :password => password
@@ -1158,6 +1046,10 @@ describe ChildrenController do
   end
 
   describe "POST create" do
+    before :each do
+      Child.stub(:permitted_property_names).and_return(['name', 'unique_identifier', 'age', 'nickname'])
+    end
+
     it "should update the child record instead of creating if record already exists" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       child = Child.new_with_user_name(user, {:name => 'old name'})

@@ -14,8 +14,9 @@ module Exporters
 
       # @returns: a String with the CSV data and header
       def export(models, properties, *args)
+        props = properties_to_export(properties)
         CSV.generate do |rows|
-          to_2D_array(models, properties_to_export(properties)) do |row|
+          to_2D_array(models, props) do |row|
             rows << row
           end
         end

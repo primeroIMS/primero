@@ -11,6 +11,12 @@ default[:primero].tap do |p|
   p[:solr_user] = 'solr'
   p[:solr_group] = 'solr'
 
+  p[:queue].tap do |queue|
+    queue[:host] = 'localhost'
+    queue[:port] = '11300'
+    queue[:storage_dir] = File.join(node[:primero][:home_dir], 'beanstalkd')
+  end
+
   p[:no_reseed] = false
 
   p[:git].tap do |git|

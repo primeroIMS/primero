@@ -18,7 +18,8 @@ module ApplicationHelper
     "SystemSettings" => "setting",
     "ContactInformation" => "setting",
     "Replications" => "replications",
-    "Reports" => "reports"
+    "Reports" => "reports",
+    "BulkExports" => "bulk_exports"
   }
 
   @@alias_role_action_label = {

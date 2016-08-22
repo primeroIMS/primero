@@ -35,6 +35,9 @@ gem 'sunspot_solr',   '2.1.1'
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false
 
+gem 'activejob_backport'
+gem 'backburner', require: false
+
 gem 'foundation-rails', '~> 5.4.5.0'
 
 gem 'sass-rails',    '~> 4.0.1'

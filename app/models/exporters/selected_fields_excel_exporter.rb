@@ -2,6 +2,8 @@ require 'writeexcel'
 
 module Exporters
   class SelectedFieldsExcelExporter < BaseExporter
+    extend BaseSelectFields
+
     class << self
 
       def id
@@ -16,12 +18,21 @@ module Exporters
         ['histories']
       end
 
+      def excluded_forms
+        ["Photos and Audio", "Other Documents"]
+      end
+
       def mime_type
         "xls"
       end
 
       # @returns: a String with the Excel file data
-      def export(models, properties_by_module, *args)
+      def export(models, properties_by_module, current_user, custom_export_options, *args)
+        unless custom_export_options.present?
+          properties_by_module = exclude_forms(properties_by_module) if self.excluded_forms.present?
+        end
+        properties_by_module = filter_custom_exports(properties_by_module, custom_export_options)
+
         io = StringIO.new
         workbook = WriteExcel.new(io)
         worksheet = workbook.add_worksheet('Selected Fields')
