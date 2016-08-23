@@ -113,8 +113,8 @@ class BulkExport < CouchRest::Model::Base
 
   def stored_file_name
     if self.file_name.present?
-      #File.join(EXPORT_DIR,"#{self.file_name}.zip")
-      File.join(EXPORT_DIR,"#{self.file_name}")
+      #File.join(EXPORT_DIR,"#{self.file_name}")
+      File.join(EXPORT_DIR,"#{self.id}_#{self.file_name}.zip")
     end
   end
 
