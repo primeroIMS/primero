@@ -14,6 +14,17 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
+          <label class="key">Is this the current document?</label>
+        </div>
+        <div class="medium-8 columns">
+          <% value = document["is_current"]
+             value = "false" if value.blank?
+             %>
+          <span class="value"><%= I18n.t(value) %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="medium-4 columns">
           <label class="key">Document Name</label>
         </div>
         <div class="medium-8 columns">
@@ -21,17 +32,6 @@
           <span class="value"><%= value %></span>
         </div>
       </div>
-      <div class="row">
-      <div class="medium-4 columns">
-        <label class="key">Is this the current document?</label>
-      </div>
-      <div class="medium-8 columns">
-        <% value = document["is_current"]
-           value = "false" if value.blank?
-           %>
-        <span class="value"><%= I18n.t(value) %></span>
-      </div>
-    </div>
       <div class="row">
         <div class="medium-4 columns">
           <label class="key">Document Date</label>
