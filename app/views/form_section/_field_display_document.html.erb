@@ -3,9 +3,7 @@
     <% formObject[form_id].each do |document| %>
       <div class="row">
         <div class="medium-4 columns">
-          <span class="key document">
-            <%= label_tag I18n.t(field.name, :default => field.display_name) %>
-          </span>
+          <label class="key"><%= I18n.t("fields.#{field.name}") %></label>
         </div>
         <div class="medium-8 columns">
           <% document_url = send("#{formObject.class.name.underscore.downcase}_document_url", formObject.id, document["attachment_key"]) %>
