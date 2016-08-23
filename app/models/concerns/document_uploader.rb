@@ -32,18 +32,18 @@ module DocumentUploader
   end
 
   def upload_other_document=(new_documents)
-    upload('other_documents', Document::TYPE_OTHER, new_documents)
+    upload('other_documents', new_documents)
   end
 
   def upload_bia_document=(new_documents)
-    upload('bia_documents', Document::TYPE_BIA, new_documents)
+    upload('bia_documents', new_documents)
   end
 
   def upload_bid_document=(new_documents)
-    upload('bid_documents', Document::TYPE_BID, new_documents)
+    upload('bid_documents', new_documents)
   end
 
-  def upload(form_id, type, new_documents)
+  def upload(form_id, new_documents)
     @documents = []
     self[form_id] ||= []
     self['document_keys'] ||= []
@@ -60,9 +60,8 @@ module DocumentUploader
         @document_file_name = uploaded_document.original_filename
         attachment = FileAttachment.from_uploadable_file uploaded_document, "document-#{uploaded_document.path.hash}"
         self['document_keys'].push attachment.name
-        self[form_id].push({:file_name => @document_file_name, :attachment_key => attachment.name,
-          :document_type => type, :document_description => description, :date => date, :comments => comments,
-          :is_current => is_current })
+        self[form_id].push({:file_name => @document_file_name, :attachment_key => attachment.name, :is_current => is_current,
+                            :document_description => description, :date => date, :comments => comments })
         attach attachment
       end
     end
@@ -70,20 +69,20 @@ module DocumentUploader
 
   def update_other_document=(updated_documents)
     return unless updated_documents
-    document_update('other_documents', Document::TYPE_OTHER, updated_documents)
+    document_update('other_documents', updated_documents)
   end
 
   def update_bia_document=(updated_documents)
     return unless updated_documents
-    document_update('bia_documents', Document::TYPE_BIA, updated_documents)
+    document_update('bia_documents', updated_documents)
   end
 
   def update_bid_document=(updated_documents)
     return unless updated_documents
-    document_update('bid_documents', Document::TYPE_BID, updated_documents)
+    document_update('bid_documents', updated_documents)
   end
 
-  def document_update(form_id, type, updated_documents)
+  def document_update(form_id, updated_documents)
     document_names = updated_documents.keys if updated_documents.is_a? Hash
     document_names.each do |document_key|
       attachment_index = self['document_keys'].find_index(document_key)
