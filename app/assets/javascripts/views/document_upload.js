@@ -19,11 +19,12 @@ _primero.Views.FileUploadField = Backbone.View.extend({
     var new_file_upload_field = file_group.find('div.file:first-child').clone();
     var upload_inputs_count = file_group.find('div.file').length;
     var new_file_input = new_file_upload_field.find('input[type="file"]').val('');
+    var new_file_is_current = new_file_upload_field.find('input[tag="is_current"]').val('');
     var new_file_description = new_file_upload_field.find('input[tag="description"]').val('');
     var new_file_date = new_file_upload_field.find('input[tag="date"]').val('');
     var new_file_comments = new_file_upload_field.find('textarea[tag="comments"]').val('');
 
-    $([new_file_input, new_file_description, new_file_date, new_file_comments]).each(function(){
+    $([new_file_input, new_file_is_current, new_file_description, new_file_date, new_file_comments]).each(function(){
       var input = $(this);
       if (input.length > 0) {
         var labels = new_file_upload_field.find('label[for="' + input.attr('id') + '"]');

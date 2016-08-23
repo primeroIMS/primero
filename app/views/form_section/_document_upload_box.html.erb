@@ -21,6 +21,7 @@
       document_description = document["document_description"] || ""
       comments = document["comments"] || ""
       name = "#{record_class_name}[#{update_document}][#{attachment_key}]"
+      is_current_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_is_current"
       description_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_document_description"
       date_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_date"
       comments_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_comments"
@@ -35,6 +36,14 @@
         <div>
           <span class="document"><%= document["file_name"] %></span>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="medium-4 columns">
+        <label class="key">Is this the current document?</label>
+      </div>
+      <div class="medium-8 columns">
+        <%= check_box_tag "#{name}[is_current]", document["is_current"], :id => is_current_field_id %>
       </div>
     </div>
     <div class="row">
@@ -72,6 +81,7 @@
     <div class="file">
       <%
         prefix = "#{record_class_name}_#{upload_document}"
+        is_current_upload_id =  "#{prefix}_0_is_current"
         description_upload_id = "#{prefix}_0_document_description"
         date_upload_id = "#{prefix}_0_date"
         comments_upload_id = "#{prefix}_0_comments"
@@ -85,6 +95,14 @@
         </div>
         <div class="medium-8 columns file_upload">
           <%= render "form_section/file_input", name: "#{record_class_name}[#{upload_document}][0][document]", id: "#{record_class_name}_#{upload_document}_0_document", help_text: document_upload_box.help_text || ""%>
+        </div>
+      </div>
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key">Is this the current document?</label>
+        </div>
+        <div class="medium-8 columns">
+          <%= check_box_tag "#{record_class_name}[#{upload_document}][0][is_current]", true, false, :id => is_current_upload_id, :tag => "is_current" %>
         </div>
       </div>
       <div class="row">
