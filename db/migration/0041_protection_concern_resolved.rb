@@ -1,8 +1,6 @@
-
-
-records = Child.all.rows.map{|r| Child.database.get(r["id"])}
-if records.present?
-  records.each do |record|
+Child.each_slice do |children|
+  children_to_save = []
+  children.each do |record|
     if record[:protection_concern_detail_subform_section].present?
       record[:protection_concern_detail_subform_section].each do |concern|
         if concern[:concern_is_resolved] == 'Yes' || concern[:concern_is_resolved] == true
@@ -16,11 +14,11 @@ if records.present?
           concern[:concern_action_taken_already] = false
         end
       end
-      if record.save
-        puts "Updating protection concern booleans on #{record.id}"
-      else
-        puts "Skipping record #{record.id}"
-      end
+      children_to_save << record
+      puts "About to save record #{record.id}"
     end
+  end
+  if children_to_save.present?
+    Child.save_all!(children_to_save)
   end
 end

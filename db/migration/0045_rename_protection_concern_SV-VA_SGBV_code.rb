@@ -1,8 +1,8 @@
 old_code = "SV-VA: SGBV"
 new_code = "SV-VA: Victim/Survivor of SGBV in country of asylum"
-records = Child.all.rows.map{|r| Child.database.get(r["id"])}
-if records.present?
-  records.each do |record|
+Child.each_slice do |children|
+  children_to_save = []
+  children.each do |record|
     changed = false
     if record[:protection_concerns].present?
       index = record[:protection_concerns].index(old_code)
@@ -19,10 +19,14 @@ if records.present?
         end
       end
     end
-    if changed && record.save
-      puts "Updating protection concern values #{record.id}"
+    if changed
+      children_to_save << record
+      puts "About to save record #{record.id}"
     else
       puts "Skipping record #{record.id}"
     end
+  end
+  if children_to_save.present?
+    Child.save_all!(children_to_save)
   end
 end
