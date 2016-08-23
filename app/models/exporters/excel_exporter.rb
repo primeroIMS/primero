@@ -28,12 +28,8 @@ module Exporters
     end
 
     def initialize(output_file_path=nil)
-      @io = if output_file_path.present?
-        File.new(output_file_path, "w")
-      else
-        StringIO.new
-      end
-      @workbook = WriteExcel.new(@io)
+      super(output_file_path)
+      @workbook = WriteExcel.new(self.buffer)
     end
 
     # @returns: a String with the Excel file data
@@ -45,9 +41,9 @@ module Exporters
 
       models.each do |model|
         sheets_def = get_sheets_by_module(model.module_id)
-        @counter = 0
+        counter = 0
         sheets_def.each do |form_name, sheet_def|
-          build_sheet(sheet_def, form_name, @workbook, @counter)
+          build_sheet(sheet_def, form_name, @workbook, counter)
           data = build_data(model, sheet_def["properties"])
           #Could it be more than one row because the subforms.
           rows = build_rows(model, data)
@@ -58,14 +54,14 @@ module Exporters
           end
           #TODO: Worksheet#set_column contains a memory leak. Why were we doing this in the first place?
           #sheet_def["column_widths"].each_with_index {|w, i| sheet_def["work_sheet"].set_column(i, i, w)}
-          @counter += 1
+          counter += 1
         end
       end
     end
 
     def complete
       @workbook.close
-      return @io
+      return self.buffer
     end
 
     private

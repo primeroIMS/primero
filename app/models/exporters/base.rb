@@ -32,6 +32,15 @@ module Exporters
         true
       end
 
+      #This is a class method that does a one-shot export to a String buffer.
+      #Don't use this for large datasets.
+      def export(*args)
+        exporter_obj = new()
+        exporter_obj.export(*args)
+        buffer = exporter_obj.complete
+        return buffer.string
+      end
+
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
         props = properties_to_keys(props)
@@ -191,6 +200,26 @@ module Exporters
           model.send(property.name)
         end
       end
+    end
+
+    def initialize(output_file_path=nil)
+      @io = if output_file_path.present?
+        File.new(output_file_path, "w")
+      else
+        StringIO.new
+      end
+    end
+
+    def export(*args)
+      raise NotImplementedError
+    end
+
+    def complete
+      return @io
+    end
+
+    def buffer
+      return @io
     end
   end
 end

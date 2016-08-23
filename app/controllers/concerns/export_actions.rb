@@ -68,9 +68,7 @@ module ExportActions
         else
           queue_bulk_export(exporter.id, props, file_name)
           flash[:notice] = "#{t('exports.queueing')}: #{file_name}"
-          #TODO confirm with PAVEL - this is necessary to handle when called from rspec tests
           redirect_back_or_default
-          # redirect_to(:back)
         end
       end
     end
