@@ -1720,6 +1720,44 @@ describe Child do
     end
   end
 
+  describe "Batch processing" do
+    before do
+      Child.all.each { |child| child.destroy }
+    end
+
+    it "should process in two batches" do
+      child1 = create_child_with_created_by("user1", :name => "child1")
+      child2 = create_child_with_created_by("user2", :name => "child2")
+      child3 = create_child_with_created_by("user3", :name => "child3")
+      child4 = create_child_with_created_by("user4", :name => "child4")
+      child4.create!
+      child3.create!
+      child2.create!
+      child1.create!
+
+      expect(Child.all.page(1).per(3).all).to include(child1, child2, child3)
+      expect(Child.all.page(2).per(3).all).to include(child4)
+      Child.should_receive(:all).exactly(3).times.and_call_original
+
+      records = []
+      Child.each_slice(3) do |children|
+        children.each{|c| records << c.name}
+      end
+
+      records.should eq(["child1", "child2", "child3", "child4"])
+    end
+
+    it "should process in 0 batches" do
+      Child.should_receive(:all).exactly(1).times.and_call_original
+      records = []
+      Child.each_slice(3) do |children|
+        children.each{|c| records << c.name}
+      end
+      records.should eq([])
+    end
+
+  end
+
   private
 
   def create_child(name, options={})

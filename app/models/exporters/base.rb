@@ -6,7 +6,7 @@ module Exporters
     class << self
       extend Memoist
 
-      public 
+      public
 
       def id
         raise NotImplementedError
@@ -24,8 +24,68 @@ module Exporters
         []
       end
 
+      def excluded_forms
+        []
+      end
+
+      def authorize_fields_to_user?
+        true
+      end
+
       def properties_to_export(props)
-        props.reject {|p| self.excluded_properties.include?(p.name) }
+        props = exclude_forms(props) if self.excluded_forms.present?
+        props = properties_to_keys(props)
+        props.reject {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
+        return props
+      end
+
+      def exclude_forms(props)
+        filtered_props = {}
+        if props.is_a?(Hash)
+          props.each do |mod, forms|
+            forms = forms.to_h.reject do |form_name, _|
+              self.excluded_forms.include?(form_name)
+            end
+            filtered_props[mod] = forms
+          end
+        else
+          filtered_props = props
+        end
+        return filtered_props
+      end
+
+      def properties_to_keys(props)
+        #This flattens out the properties by modules by form,
+        # while maintaining form order and discarding dupes
+        if props.present?
+          if props.is_a?(Hash)
+            props.reduce({}) do |acc1, primero_module|
+              hash = primero_module[1].reduce({}) do |acc2, form|
+                acc2.merge(form[1])
+              end
+              acc1.merge(hash)
+            end.values
+          else
+            props
+          end
+        else
+          []
+        end
+      end
+
+      ## Add other useful information for the report.
+      def include_metadata_properties(props, model_class)
+        props.each do |pm, fs|
+          #TODO: Does order of the special form matter?
+          props[pm].merge!(model_class.record_other_properties_form_section)
+        end
+        return props
+      end
+
+      def current_model_class(models)
+        if models.present? && models.is_a?(Array)
+          models.first.class
+        end
       end
 
       # @param properties: array of CouchRest Model Property instances

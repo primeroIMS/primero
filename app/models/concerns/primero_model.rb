@@ -34,6 +34,17 @@ module PrimeroModel
       end
     end
 
+    def each_slice(size=500, &block)
+      #Don't know why, but although self.all is a CouchRest::Model::Designs::View
+      #we can't use the methods "total_count" and "total_pages" in order to calculate
+      #the amount of pages of the result. So, do manually.
+      total_count = self.all.count
+      pages = (total_count / size.to_f).ceil
+      (1..pages).each do |page|
+        yield(self.all.page(page).per(size).all)
+      end
+    end
+
   end
 
   # @param attr_keys: An array whose elements are properties and array indeces

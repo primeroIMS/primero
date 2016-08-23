@@ -529,6 +529,44 @@ describe Incident do
     end
   end
 
+  describe "Batch processing" do
+    before do
+      Incident.all.each { |incident| incident.destroy }
+    end
+
+    it "should process in two batches" do
+      incident1 = Incident.new('created_by' => "user1", :name => "incident1")
+      incident2 = Incident.new('created_by' => "user2", :name => "incident2")
+      incident3 = Incident.new('created_by' => "user3", :name => "incident3")
+      incident4 = Incident.new('created_by' => "user4", :name => "incident4")
+      incident4.save!
+      incident3.save!
+      incident2.save!
+      incident1.save!
+
+      expect(Incident.all.page(1).per(3).all).to include(incident1, incident2, incident3)
+      expect(Incident.all.page(2).per(3).all).to include(incident4)
+      Incident.should_receive(:all).exactly(3).times.and_call_original
+
+      records = []
+      Incident.each_slice(3) do |incidents|
+        incidents.each{|i| records << i.name}
+      end
+
+      records.should eq(["incident1", "incident2", "incident3", "incident4"])
+    end
+
+    it "should process in 0 batches" do
+      Incident.should_receive(:all).exactly(1).times.and_call_original
+      records = []
+      Incident.each_slice(3) do |incidents|
+        incidents.each{|i| records << i.name}
+      end
+      records.should eq([])
+    end
+
+  end
+
   private
 
   def create_incident(description, options={})

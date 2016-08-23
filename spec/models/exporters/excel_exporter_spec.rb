@@ -24,7 +24,7 @@ module Exporters
       form = FormSection.new(:name => "cases_test_form_2", :parent_form => "case", "visible" => true,
                              :order_form_group => 1, :order => 0, :order_subform => 0, :form_group_name => "Case Form 2")
       form.fields << Field.new(:name => "relationship", :type => Field::TEXT_FIELD, :display_name => "relationship")
-      form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true, 
+      form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true,
                                :option_strings_text => ["Option1", "Option2"])
       form.save!
       #### Build Form Section with none subforms fields ######
@@ -90,7 +90,7 @@ module Exporters
     end
 
     it "converts data to Excel format" do
-      data = ExcelExporter.export(@records, @properties_by_module)
+      data = ExcelExporter.export(@records, @properties_by_module, nil, nil)
 
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]
@@ -137,7 +137,7 @@ module Exporters
       field = subform.type.properties.select{|p| p.name == "field_6"}.first
       @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_3"] = {field.name => field}
 
-      data = ExcelExporter.export(@records, @properties_by_module)
+      data = ExcelExporter.export(@records, @properties_by_module, nil, nil)
 
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]

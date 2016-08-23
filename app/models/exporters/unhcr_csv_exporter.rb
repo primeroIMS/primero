@@ -16,6 +16,10 @@ module Exporters
         [Child]
       end
 
+      def authorize_fields_to_user?
+        false
+      end
+
       attr_accessor :field_map
 
       def export(cases, *args)

@@ -1,0 +1,20 @@
+<tr>
+  <% if false %>
+  <td class="select_record">
+    <input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= record.name %>">
+  </td>
+  <% end %>
+  <td id="bulk_export_<%= record.id %>" class="id_column">
+    <% if record.status == BulkExport::COMPLETE %>
+      <%= link_to record.file_name, bulk_export_path(record), class: 'id_link bulk_export_download' %>
+    <% elsif record.status == BulkExport::PROCESSING %>
+      <%= record.file_name %>
+      <i class="fa fa-refresh fa-spin"></i>
+    <% else %>
+      <%= record.file_name %>
+      <i class="fa fa-exclamation"></i>
+    <% end %>
+  </td>
+  <td><%= record.record_type %></td>
+  <td><%= field_format_date(record.started_on) %></td>
+</tr>

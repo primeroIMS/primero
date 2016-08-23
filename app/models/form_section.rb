@@ -81,6 +81,23 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+    view :having_location_fields_by_parent_form,
+         :map => "function(doc) {
+                if (doc['couchrest-type'] == 'FormSection'){
+                  if (doc['fields'] != null){
+                    var loc_fields = false;
+                    for(var i = 0; i<doc['fields'].length; i++){
+                      var field = doc['fields'][i];
+                      if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
+                        loc_fields = true;
+                      }
+                    }
+                    if(loc_fields == true){
+                      emit(doc['parent_form'], null);
+                    }
+                  }
+                }
+              }"
   end
 
   validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")
@@ -240,6 +257,12 @@ class FormSection < CouchRest::Model::Base
       FormSection.by_unique_id(keys: ids)
     end
     memoize :violation_forms #This can be memoized always
+
+    #TODO: This needs to be made not hard-coded
+    def binary_form_names
+      ['Photos and Audio', 'Other Documents', 'BID Records', 'BIA Records']
+    end
+
 
     #TODO - can this be done more efficiently?
     def find_form_groups_by_parent_form parent_form
@@ -557,6 +580,11 @@ class FormSection < CouchRest::Model::Base
       return custom_exportable
     end
 
+    def find_locations_by_parent_form(parent_form = 'case')
+      having_location_fields_by_parent_form(key: parent_form).all
+    end
+    memoize_in_prod :find_locations_by_parent_form
+
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -608,6 +636,10 @@ class FormSection < CouchRest::Model::Base
 
   def all_tally_fields
     self.fields.select {|f| f.type == Field::TALLY_FIELD}
+  end
+
+  def all_location_fields
+    self.fields.select{|f| f.is_location?}
   end
 
   def properties= properties

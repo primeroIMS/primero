@@ -556,6 +556,9 @@ en:
       incident:
         one: "incident"
         other: "incidents"
+      bulk_export:
+        one: "bulk file export"
+        other: "bulk file exports"
 
   users:
     unverified: "Unverified Users"
@@ -1493,8 +1496,16 @@ en:
     record_information: "Record Information"
     name_date_seperator: "on"
 
+  bulk_export:
+    file_name: "File"
+    record_type: "Type"
+    started_on: "Started"
+    status: "Status"
+    retry: "This export is invalid. Please try recreating your export."
+
   exports:
     no_records: "No Records Available!"
+    queueing: "Generating the export file"
     pdf:
       all:  PDF
       one:  PDF
