@@ -19,7 +19,7 @@ module Exporters
       end
 
       def excluded_forms
-        ["Photos and Audio", "Other Documents"]
+        FormSection.binary_form_names
       end
 
       def mime_type

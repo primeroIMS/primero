@@ -18,7 +18,7 @@ module Exporters
       end
 
       def excluded_forms
-        ["Photos and Audio", "Other Documents"]
+        FormSection.binary_form_names
       end
 
       def export(cases, properties_by_module, current_user, custom_export_options, *args)
