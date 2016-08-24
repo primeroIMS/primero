@@ -23,10 +23,10 @@ class Report < CouchRest::Model::Base
 
   #18+ should be good enough as 10K
   AGE_RANGES = [
-    Reports::AgeRange.new(0,5),
-    Reports::AgeRange.new(6,11),
-    Reports::AgeRange.new(12,17),
-    Reports::AgeRange.new(18,Reports::AgeRange::MAX),
+    AgeRange.new(0, 5),
+    AgeRange.new(6, 11),
+    AgeRange.new(12, 17),
+    AgeRange.new(18, AgeRange::MAX),
   ]
   AGE_FIELD = 'age' #TODO: should this be made generic?
 
