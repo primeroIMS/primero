@@ -320,6 +320,7 @@ class HomeController < ApplicationController
     locations = current_user.managed_users.map{|u| u.location}.compact.reject(&:empty?)
 
     if locations.present?
+      #TODO - pass in admin level
       @district_stats = build_admin_stats({
         totals: get_admin_stat({ status: 'Open', locations: locations, by_district: true }),
         new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_district: true }),
@@ -337,11 +338,12 @@ class HomeController < ApplicationController
     })
   end
 
-  def build_admin_stats(stats)
+  #TODO - default admin_level to 2 (district... I think)
+  def build_admin_stats(stats, admin_level=2)
     admin_stats = {}
     protection_concerns = Lookup.values('Protection Concerns', @lookups)
     stats.each do |k, v|
-      stat_facet = v.facet(:owned_by_location_district) || v.facet(:protection_concerns)
+      stat_facet = v.facet("owned_by_location#{admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|
         admin_stats[l.value] = {} unless admin_stats[l.value].present?
         admin_stats[l.value][k] = l.count ||= 0
@@ -353,7 +355,8 @@ class HomeController < ApplicationController
     admin_stats
   end
 
-  def get_admin_stat(query)
+  #TODO - default admin_level to 2 (district... I think)
+  def get_admin_stat(query, admin_level=2)
     module_ids = @module_ids
     return Child.search do
       if module_ids.present?
@@ -368,7 +371,7 @@ class HomeController < ApplicationController
       with(:child_status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
       with(:date_closure, query[:date_range]) if query[:closed].present?
-      facet(:owned_by_location_district, zeros: true) if query[:by_district].present?
+      facet("owned_by_location#{admin_level}".to_sym, zeros: true) if query[:by_district].present?
       facet(:protection_concerns, zeros: true) if query[:by_protection_concern].present?
     end
   end

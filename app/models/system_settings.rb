@@ -8,6 +8,7 @@ class SystemSettings < CouchRest::Model::Base
   property :default_locale, String
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
+  property :reporting_location_config, ReportingLocation
   property :primero_version
 
   #TODO: Think about what needs to take place to the current config. Update?
