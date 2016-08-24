@@ -21,13 +21,6 @@ class Report < CouchRest::Model::Base
     Field::TALLY_FIELD,
   ]
 
-  #18+ should be good enough as 10K
-  AGE_RANGES = [
-    AgeRange.new(0, 5),
-    AgeRange.new(6, 11),
-    AgeRange.new(12, 17),
-    AgeRange.new(18, AgeRange::MAX),
-  ]
   AGE_FIELD = 'age' #TODO: should this be made generic?
 
   DAY = 'date' #eg. 13-Jan-2015
@@ -170,8 +163,12 @@ class Report < CouchRest::Model::Base
       end
       age_field_index = pivot_index(AGE_FIELD)
       if group_ages && age_field_index && age_field_index < dimensionality
+        sys = SystemSettings.current
+        primary_range = sys.primary_age_range
+        age_ranges = sys.age_ranges[primary_range]
+
         self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
-          AGE_RANGES.find{|range| range.cover? pivot_name}
+          age_ranges.find{|range| range.cover? pivot_name}
         end
       end
       if group_dates_by.present?
