@@ -11,6 +11,8 @@ class SystemSettings < CouchRest::Model::Base
   property :unhcr_needs_codes_mapping, Mapping
   property :reporting_location_config, ReportingLocation
   property :primero_version
+  property :age_ranges, Hash, :default => { "primero" => AgeRangeGroup.createDefaultSet, "unhcr" => AgeRangeGroup.createUnhcrSet }
+  property :primary_age_range, String, :default => "primero"
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
