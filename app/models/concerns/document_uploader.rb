@@ -50,6 +50,7 @@ module DocumentUploader
 
     new_documents.each do |doc|
       uploaded_document = doc['document']
+      is_current = doc['is_current']
       description = doc['document_description']
       date = doc['date']
       comments = doc['comments']
@@ -60,7 +61,8 @@ module DocumentUploader
         attachment = FileAttachment.from_uploadable_file uploaded_document, "document-#{uploaded_document.path.hash}"
         self['document_keys'].push attachment.name
         self[form_id].push({:file_name => @document_file_name, :attachment_key => attachment.name,
-          :document_type => type, :document_description => description, :date => date, :comments => comments })
+          :document_type => type, :document_description => description, :date => date, :comments => comments,
+          :is_current => is_current })
         attach attachment
       end
     end
@@ -93,6 +95,9 @@ module DocumentUploader
           self[form_id].delete_at(documents_index)
           delete_attachment(document_key)
         else
+          if self[form_id][documents_index]['is_current'] != updated_documents[document_key]['is_current']
+            self[form_id][documents_index]['is_current'] = updated_documents[document_key]['is_current']
+          end
           if self[form_id][documents_index]['document_description'] != updated_documents[document_key]['document_description']
             self[form_id][documents_index]['document_description'] = updated_documents[document_key]['document_description']
           end
