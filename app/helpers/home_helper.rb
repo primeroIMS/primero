@@ -37,12 +37,7 @@ module HomeHelper
     end
   end
 
-  # def build_reporting_location_stat_link(stat, filters=nil, model, reporting_location, admin_level)
-  def build_reporting_location_stat_link(stat, filters=nil, model)
-    #TODO - temp testing
-    reporting_location = 'owned_by_location'
-    admin_level = 2
-
+  def build_reporting_location_stat_link(stat, filters=nil, model, reporting_location, admin_level)
     if stat == 0
       return stat
     else
