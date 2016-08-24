@@ -9,6 +9,7 @@ class Document
   property :document_description, String
   property :date, Date
   property :comments, String
+  property :is_current, TrueClass
 
   validates_presence_of :file_name
   #TODO - add this validation back when a migration is created to clean up existing records

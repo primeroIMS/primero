@@ -20,12 +20,13 @@
       attachment_key = document["attachment_key"]
       document_description = document["document_description"] || ""
       comments = document["comments"] || ""
+      prefix = "#{record_class_name}_#{update_document}_#{attachment_key}"
       name = "#{record_class_name}[#{update_document}][#{attachment_key}]"
-      is_current_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_is_current"
-      description_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_document_description"
-      date_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_date"
-      comments_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_comments"
-      delete_field_id = "#{record_class_name}_#{update_document}_#{attachment_key}_delete_document"
+      is_current_field_id = "#{prefix}_is_current"
+      description_field_id = "##{prefix}_document_description"
+      date_field_id = "#{prefix}_date"
+      comments_field_id = "#{prefix}_comments"
+      delete_field_id = "#{prefix}_delete_document"
       %>
       <div class="medium-4 columns">
         <span class="tool-tip-label">
@@ -43,7 +44,8 @@
         <label class="key">Is this the current document?</label>
       </div>
       <div class="medium-8 columns">
-        <%= check_box_tag "#{name}[is_current]", "", document["is_current"], :id => is_current_field_id %>
+        <% checked = document["is_current"].present? %>
+        <%= check_box_tag "#{name}[is_current]", true, checked, :id => is_current_field_id %>
       </div>
     </div>
     <div class="row">
