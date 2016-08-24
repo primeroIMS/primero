@@ -136,9 +136,12 @@ en:
      referral: "Refer %{model}"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
+     approve_bia: "Approve BIA"
      approve_case_plan: "Approve Case Plan"
+     approve_closure: "Approve Closure"
      view_flags_history: "View History"
-     approval: "Request Approval"
+     request_approval: "Request Approval"
+     approvals: "Approvals"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1629,19 +1632,24 @@ en:
     failure_batch: "%{failed_count} Record(s) failed to be unmarked as mobile"
     success_batch: "%{success_count} Record(s) successfully unmarked as mobile"
 
-  approve_case_plan:
-    approve_case_plan_label: "Approve Case Plan"
-    comments_label: "Comments"
 
   approvals:
     approve_bia: "Request Approval for the BIA form?"
+    approve_bia_label: "Approve BIA Form"
     approve_care_plan: "Request Approval for the Care Plan form?"
+    approve_case_plan_label: "Approve Case Plan"
     approve_case_plan: "Request Approval for the Care Plan form?"
     approve_closure: "Request Approval for the Closure form?"
+    approve_closure_label: "Approve Closure Form"
     bia: "BIA"
     care_plan: "Care Plan"
     closure: "Closure"
+    comments_label: "Comments"
     pending_status: "Pending"
+
+    status:
+      approved: "Approved"
+      rejected: "Rejected"
 
   per_page_translation: "Per page _MENU_"
   total: Total
