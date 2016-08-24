@@ -6,7 +6,11 @@
  ------------------------------------------------------------------------------
 *******************************************************************************/
 
-var BaseMasked = function() { };
+var BaseMasked = function() {
+  this.field = null;
+  this.symbol = null;
+  this.fullmask = false;
+};
 
 BaseMasked.prototype = {
   //identify Internet Explorer for a couple of conditions
@@ -17,7 +21,7 @@ BaseMasked.prototype = {
 
 
   //implement copy the text to the hidden input.
-  doCopyValue : function(textbox, symbol)
+  doCopyValue : function(textbox)
   {
     var plainpassword = "";
 
@@ -30,7 +34,7 @@ BaseMasked.prototype = {
       //from the real field, and any plain characters in the input
       for(var i=0; i<textbox.value.length; i++)
       {
-        if(textbox.value.charAt(i) == symbol)
+        if(textbox.value.charAt(i) == this.symbol)
         {
           plainpassword += textbox._realfield.value.charAt(i);
         }
@@ -51,14 +55,14 @@ BaseMasked.prototype = {
   },
 
   //implement password masking for a textbox event
-  doPasswordMasking : function(textbox, symbol, fullmask)
+  doPasswordMasking : function(textbox)
   {
     //create the plain password string
-    var plainpassword = this.doCopyValue(textbox, symbol);
+    var plainpassword = this.doCopyValue(textbox, this.symbol);
 
     //get the masked version of the plainpassword, according to fullmask
     //and passing the textbox reference so we have its symbol and limit properties
-    var maskedstring = this.encodeMaskedPassword(plainpassword, fullmask, textbox, symbol);
+    var maskedstring = this.encodeMaskedPassword(plainpassword, this.fullmask, textbox, this.symbol);
 
     //then we modify the textfield values
     //if (AND ONLY IF) one of the values are now different from the original
@@ -140,6 +144,11 @@ BaseMasked.prototype = {
       if(/form/i.test(textbox.nodeName)) { break; }
       textbox = textbox.parentNode;
     }
+
+    //Original code expected the text box be part of a form
+    //but on primero some of the dialog boxes has not form.
+    if (textbox == null) { return null };
+
     //if the reference is not a form then the textbox wasn't wrapped in one
     //so in that case we'll just have to abandon what we're doing here
     if(!/form/i.test(textbox.nodeName)) { return null; }
@@ -311,6 +320,25 @@ BaseMasked.prototype = {
 
     //otherwise return the target
     return e.target ? e.target : e.srcElement;
+  },
+
+  //Just a very very simple get/set value.
+  val : function(newVal)
+  {
+    if (newVal !== undefined)
+    {
+      if (newVal == "")
+      {
+        this.field._realfield.value = newVal;
+        this.field.value = newVal;
+      }
+      else
+      {
+        this.field._realfield.value = newVal;
+        this.doPasswordMasking(this.field);
+      }
+    }
+    return this.field._realfield.value;
   }
 };
 
@@ -325,7 +353,7 @@ var MaskedPassword = function(passfield) {
   if(passfield == null) { return false; }
 
   //Symbol to mask the password input.
-  var symbol = '\u25CF';
+  this.symbol = '\u25CF';
 
   //create a fullmask flag which will be used from events to determine
   //whether to mask the entire password (true)
@@ -338,7 +366,7 @@ var MaskedPassword = function(passfield) {
   //that fullmask never works; so by doing it like this, we can set it to
   //true from the blur event and that will persist through all subsequent
   //onpropertychange events, until another manual event changes it back to false
-  var fullmask = true;
+  this.fullmask = true;
 
   //delete any default value for security (and simplicity!)
   passfield.value = '';
@@ -403,16 +431,16 @@ var MaskedPassword = function(passfield) {
   //then apply the core events to the visible field
   this.addListener(passfield, 'change', function(e)
   {
-    self.doPasswordMasking(self.getTarget(e), symbol, fullmask);
+    self.doPasswordMasking(self.getTarget(e));
   });
   this.addListener(passfield, 'input', function(e)
   {
-    self.doPasswordMasking(self.getTarget(e), symbol, fullmask);
+    self.doPasswordMasking(self.getTarget(e));
   });
   //no fullmask setting for onpropertychange (as noted above)
   this.addListener(passfield, 'propertychange', function(e)
   {
-    self.doPasswordMasking(self.getTarget(e), symbol, fullmask);
+    self.doPasswordMasking(self.getTarget(e));
   });
 
   //for keyup, don't respond to the tab or shift key, otherwise when you [shift/]tab
@@ -425,7 +453,7 @@ var MaskedPassword = function(passfield) {
   {
     if(!/^(9|1[678]|224|3[789]|40)$/.test(e.keyCode.toString()))
     {
-      self.doPasswordMasking(self.getTarget(e), symbol, fullmask);
+      self.doPasswordMasking(self.getTarget(e));
     }
   });
 
@@ -433,7 +461,10 @@ var MaskedPassword = function(passfield) {
   //(as opposed to leaving the last n characters plain during input)
   this.addListener(passfield, 'blur', function(e)
   {
-    self.doPasswordMasking(self.getTarget(e), symbol, true);
+    var oldfullmask = self.fullmask;
+    self.fullmask = true;
+    self.doPasswordMasking(self.getTarget(e));
+    self.fullmask = oldfullmask;
   });
 
   //so between those events we get completely rock-solid behavior
@@ -443,6 +474,9 @@ var MaskedPassword = function(passfield) {
   //force the parent form to reset onload
   //thereby clearing all values after soft refreh
   this.forceFormReset(passfield);
+
+  //Store the reference to the DOM elements.
+  this.field = passfield;
 
   //return true for success
   return true;
@@ -509,16 +543,16 @@ var MaskedUser = function(userfield) {
   //then apply the core events to the visible field
   this.addListener(userfield, 'change', function(e)
   {
-    userfield._realfield.value = self.doCopyValue(self.getTarget(e), null);
+    userfield._realfield.value = self.doCopyValue(self.getTarget(e));
   });
   this.addListener(userfield, 'input', function(e)
   {
-    userfield._realfield.value = self.doCopyValue(self.getTarget(e), null);
+    userfield._realfield.value = self.doCopyValue(self.getTarget(e));
   });
   //no fullmask setting for onpropertychange (as noted above)
   this.addListener(userfield, 'propertychange', function(e)
   {
-    userfield._realfield.value = self.doCopyValue(self.getTarget(e), null);
+    userfield._realfield.value = self.doCopyValue(self.getTarget(e));
   });
 
   //for keyup, don't respond to the tab or shift key, otherwise when you [shift/]tab
@@ -531,7 +565,7 @@ var MaskedUser = function(userfield) {
   {
     if(!/^(9|1[678]|224|3[789]|40)$/.test(e.keyCode.toString()))
     {
-      userfield._realfield.value = self.doCopyValue(self.getTarget(e), null);
+      userfield._realfield.value = self.doCopyValue(self.getTarget(e));
     }
   });
 
@@ -539,7 +573,7 @@ var MaskedUser = function(userfield) {
   //(as opposed to leaving the last n characters plain during input)
   this.addListener(userfield, 'blur', function(e)
   {
-    userfield._realfield.value = self.doCopyValue(self.getTarget(e), null);
+    userfield._realfield.value = self.doCopyValue(self.getTarget(e));
   });
 
   //so between those events we get completely rock-solid behavior
@@ -549,6 +583,9 @@ var MaskedUser = function(userfield) {
   //force the parent form to reset onload
   //thereby clearing all values after soft refreh
   this.forceFormReset(userfield);
+
+  //Store the reference to the DOM elements.
+  this.field = userfield;
 
   //return true for success
   return true;
