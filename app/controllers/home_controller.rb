@@ -1,17 +1,20 @@
 class HomeController < ApplicationController
 
+  before_filter :load_system_settings, :only => [:index]
+
   def index
     @page_name = t("home.label")
     @user = User.find_by_user_name(current_user_name)
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
-
     load_cases_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
     load_admin_information if display_admin_dashboard?
   end
+
+
 
   private
 
@@ -209,6 +212,19 @@ class HomeController < ApplicationController
     @record_types = @modules.map{|m| m.associated_record_types}.flatten.uniq
   end
 
+  def load_system_settings
+    @system_settings ||= SystemSettings.current
+    if @system_settings.present? && @system_settings.reporting_location_config.present?
+      @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY
+      @reporting_location_label ||= @system_settings.reporting_location_config.label_key || ReportingLocation::DEFAULT_LABEL_KEY
+    else
+      @admin_level ||= ReportingLocation::DEFAULT_ADMIN_LEVEL
+      @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
+      @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
+    end
+  end
+
   def load_recent_activities
     Child.list_records({}, {:last_updated_at => :desc}, { page: 1, per_page: 20 }, current_user.managed_user_names)
   end
@@ -320,13 +336,12 @@ class HomeController < ApplicationController
     locations = current_user.managed_users.map{|u| u.location}.compact.reject(&:empty?)
 
     if locations.present?
-      #TODO - pass in admin level
-      @district_stats = build_admin_stats({
-        totals: get_admin_stat({ status: 'Open', locations: locations, by_district: true }),
-        new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_district: true }),
-        new_this_week: get_admin_stat({ status: 'Open', new: true, date_range: this_week, locations: locations, by_district: true }),
-        closed_last_week: get_admin_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations, by_district: true }),
-        closed_this_week: get_admin_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations, by_district: true })
+      @reporting_location_stats = build_admin_stats({
+        totals: get_admin_stat({ status: 'Open', locations: locations, by_reporting_location: true }),
+        new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        new_this_week: get_admin_stat({ status: 'Open', new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
+        closed_last_week: get_admin_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        closed_this_week: get_admin_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
     end
 
@@ -338,12 +353,11 @@ class HomeController < ApplicationController
     })
   end
 
-  #TODO - default admin_level to 2 (district... I think)
-  def build_admin_stats(stats, admin_level=2)
+  def build_admin_stats(stats)
     admin_stats = {}
     protection_concerns = Lookup.values('Protection Concerns', @lookups)
     stats.each do |k, v|
-      stat_facet = v.facet("owned_by_location#{admin_level}".to_sym) || v.facet(:protection_concerns)
+      stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|
         admin_stats[l.value] = {} unless admin_stats[l.value].present?
         admin_stats[l.value][k] = l.count ||= 0
@@ -355,8 +369,11 @@ class HomeController < ApplicationController
     admin_stats
   end
 
-  #TODO - default admin_level to 2 (district... I think)
-  def get_admin_stat(query, admin_level=2)
+  def get_admin_stat(query)
+    #This is necessary because the instance variables can't be seen within the search block below
+    admin_level = @admin_level
+    reporting_location = @reporting_location
+
     module_ids = @module_ids
     return Child.search do
       if module_ids.present?
@@ -371,7 +388,7 @@ class HomeController < ApplicationController
       with(:child_status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
       with(:date_closure, query[:date_range]) if query[:closed].present?
-      facet("owned_by_location#{admin_level}".to_sym, zeros: true) if query[:by_district].present?
+      facet("#{reporting_location}#{admin_level}".to_sym, zeros: true) if query[:by_reporting_location].present?
       facet(:protection_concerns, zeros: true) if query[:by_protection_concern].present?
     end
   end

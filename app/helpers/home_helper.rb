@@ -37,16 +37,21 @@ module HomeHelper
     end
   end
 
-  def build_district_stat_link(stat, filters=nil, admin_level=2, model)
+  # def build_reporting_location_stat_link(stat, filters=nil, model, reporting_location, admin_level)
+  def build_reporting_location_stat_link(stat, filters=nil, model)
+    #TODO - temp testing
+    reporting_location = 'owned_by_location'
+    admin_level = 2
+
     if stat == 0
       return stat
     else
       model = model_name_class(model).pluralize
-      return link_to(stat, send("#{model}_path") + index_filters(filters, admin_level), class: 'stat_link')
+      return link_to(stat, send("#{model}_path") + index_filters(filters, reporting_location, admin_level), class: 'stat_link')
     end
   end
 
-  def index_filters(filters, admin_level=2)
+  def index_filters(filters, reporting_location='owned_by_location', admin_level=2)
     list = []
     index_filters_list = {
       child_status: "scope[child_status]=list||",
@@ -56,7 +61,7 @@ module HomeHelper
       risk_level: "scope[risk_level]=list||",
       record_state: "scope[record_state]=list||",
       location: "scope[location_current]=location||",
-      district: "scope[owned_by_location#{admin_level}]=list||",
+      district: "scope[#{reporting_location}#{admin_level}]=list||",
       created_at: "scope[created_at]=date_range||",
       date_closure: "scope[date_closure]=date_range||",
       owned_by: "scope[owned_by]=list||",

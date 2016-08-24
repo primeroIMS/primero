@@ -1048,6 +1048,20 @@ en:
       correct_errors: "Please correct the following errors and resubmit:"
       updated: "Location successfully added"
       deleted: "Location successfully deleted"
+    base_types:
+      country: 'country'
+      region: 'region'
+      province: 'province'
+      district: 'district'
+      chiefdom: 'chiefdom'
+      county: 'county'
+      state: 'state'
+      city: 'city'
+      camp: 'camp'
+      site: 'site'
+      village: 'village'
+      zone: 'zone'
+      other: 'other'
 
   session:
     about_to_expire: "Your session is about to expire!"
