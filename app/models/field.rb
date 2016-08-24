@@ -220,6 +220,7 @@ class Field
     self.visible = true if properties["visible"].nil?
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
+    self.disabled = false if properties["disabled"].nil?
     self.multi_select = false if properties["multi_select"].nil?
     self.hidden_text_field ||= false
     self.autosum_total ||= false
