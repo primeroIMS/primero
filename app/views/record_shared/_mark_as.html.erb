@@ -28,7 +28,8 @@
          data-submit_error_message="<%= error_message %>"
          data-authenticity_token="<%= form_authenticity_token %>"
          data-message_unflag_date="<%= mark_as_message_unflag_date %>"
-         data-message_unflag_by="<%= mark_as_message_unflag_by %>" >
+         data-message_unflag_by="<%= mark_as_message_unflag_by %>"
+         data-message_unflagged_label="<%= mark_as_message_unflagged_label %>" >
         <div class="flag_unflag_header">
           <div class="large-6 columns">
             <span><%=I18n.t("buttons.flag_model", model: model_name)%></span>
