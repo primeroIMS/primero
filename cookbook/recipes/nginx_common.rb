@@ -1,5 +1,3 @@
-node.default['nginx']['default_site_enabled'] = false
-
 apt_repository 'phusion-passenger' do
   uri          'https://oss-binaries.phusionpassenger.com/apt/passenger/4'
   distribution 'trusty'
@@ -9,6 +7,12 @@ apt_repository 'phusion-passenger' do
 end
 
 package 'nginx-extras'
+
+file "#{node[:nginx_dir]}/sites-enabled/default" do
+  force_unlink true
+  ignore_failure true
+  action :delete
+end
 
 service 'nginx' do
   supports [:enable, :restart, :start, :reload]
