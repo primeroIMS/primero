@@ -11,6 +11,7 @@ server {
   <%= "server_name #{@server_name};" if @server_name %>
   ssl_certificate <%= @ssl_cert_path %>;
   ssl_certificate_key <%= @ssl_key_path %>;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
   passenger_enabled on;
   passenger_min_instances <%= @passenger_conf['min_instances'] || 1 %>;
