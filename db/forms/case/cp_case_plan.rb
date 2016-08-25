@@ -67,6 +67,14 @@ case_plan_fields = [
                "editable" => false,
                "display_name_all" => "Manager Comments"
               }),
+    Field.new({"name" => "approval_status_case_plan",
+               "type" => "select_box",
+               "display_name_all" => "Approval Status",
+               "option_strings_text_all" =>
+                   ["Pending",
+                    "Approved",
+                    "Rejected"].join("\n")
+              }),
     Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "display_name_all" => "Protection Concerns",
