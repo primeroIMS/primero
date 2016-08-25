@@ -153,13 +153,7 @@ BaseMasked.prototype = {
     //so in that case we'll just have to abandon what we're doing here
     if(!/form/i.test(textbox.nodeName)) { return null; }
 
-    //otherwise bind a load event to call the form's reset method
-    //we have to defer until load time for IE or it won't work
-    //because IE renders the page with empty fields
-    //and then adds their values retrospectively!
-    //(but in other browsers we can use DOMContentLoaded;
-    // and the load listener function takes care of that split)
-    this.addSpecialLoadListener(function() { textbox.reset(); });
+    $(window).load(function() { textbox.reset(); });
 
     //return the now-form reference
     return textbox;
@@ -268,9 +262,9 @@ BaseMasked.prototype = {
       timer = null;
     };
 
-    //add events to start and stop the timer
-    this.addListener(textbox, 'focus', function() { start(); });
-    this.addListener(textbox, 'blur', function() { stop(); });
+    //add events to start and stop the timer.
+    $(textbox).focus(function() { start(); });
+    $(textbox).blur(function() { stop(); });
   },
 
 
@@ -286,25 +280,6 @@ BaseMasked.prototype = {
     else if(typeof document.attachEvent != 'undefined')
     {
       return eventnode.attachEvent('on' + eventname, eventhandler);
-    }
-  },
-
-
-  //add a special load listener, split between
-  //window load for IE and DOMContentLoaded for others
-  //this is only used by the force form reset method, which wants that split
-  addSpecialLoadListener : function(eventhandler)
-  {
-    //we specifically need a browser condition here, not a feature test
-    //because we know specifically what should be given to who
-    //and that doesn't match general support for these constructs
-    if(this.isIE())
-    {
-      return window.attachEvent('onload', eventhandler);
-    }
-    else
-    {
-      return document.addEventListener('DOMContentLoaded', eventhandler, false);
     }
   },
 
