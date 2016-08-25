@@ -837,6 +837,7 @@ en:
       transfer: "Transfer"
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
+      request_approval: "Request for approval"
       approve_case_plan: "Approve case plan"
       copy: "Copy"
       manage: "Manage"
