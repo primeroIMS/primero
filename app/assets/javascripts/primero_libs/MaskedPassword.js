@@ -482,6 +482,7 @@ var MaskedPassword = function(passfield) {
   return true;
 };
 
+//TODO find better way to inherit code.
 MaskedPassword.prototype = new BaseMasked();
 MaskedPassword.prototype.constructor = MaskedPassword;
 
@@ -591,6 +592,7 @@ var MaskedUser = function(userfield) {
   return true;
 };
 
+//TODO find better way to inherit code.
 MaskedUser.prototype = new BaseMasked();
 MaskedUser.prototype.constructor = MaskedUser;
 
