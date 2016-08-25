@@ -14,6 +14,14 @@ file "#{node[:nginx_dir]}/sites-enabled/default" do
   action :delete
 end
 
+dhparam_file = "#{node[:nginx_dir]}/ssl/dhparam.pem"
+execute "Generate the DH parameters" do
+  command "openssl dhparam -out #{dhparam_file} 4096"
+  not_if do
+    File.exist?(dhparam_file)
+  end
+end
+
 service 'nginx' do
   supports [:enable, :restart, :start, :reload]
   action [:enable, :start]
