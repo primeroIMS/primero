@@ -4,6 +4,23 @@
  Adapted from                                      FormTools.addPasswordMasking
  Info/Docs         http://www.brothercake.com/site/resources/scripts/formtools/
  ------------------------------------------------------------------------------
+ Adapted from https://www.sitepoint.com/better-passwords-1-the-masked-password-field/
+ Source code http://www.sitepoint.com/examples/password/MaskedPassword.zip
+
+ Beside the organization on via prototype, the code is pretty much the same.
+
+ We changed the fact that is supposed to act like when the user introduce a password
+ on the mobile, which after some time masked the last character; changed to always
+ masked and no one could see the password.
+
+ Also change some of the event chain to use jquery.
+
+ Introduced the method "val" to get/set the value via javascript code.
+
+ Introduced the new class User MaskedUser because we need to avoid the browser
+ display the dropdown of users, that will not mask the user input, but will it
+ copy to a hidden field which is the one that the form will send.
+ ------------------------------------------------------------------------------
 *******************************************************************************/
 
 var BaseMasked = function() {
