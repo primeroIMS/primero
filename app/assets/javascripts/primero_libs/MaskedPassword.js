@@ -593,3 +593,12 @@ var MaskedUser = function(userfield) {
 
 MaskedUser.prototype = new BaseMasked();
 MaskedUser.prototype.constructor = MaskedUser;
+
+MaskedUser.prototype.val = function(newVal) {
+  if (newVal !== undefined)
+  {
+    this.field._realfield.value = newVal;
+    this.field.value = newVal;
+  }
+  return this.field._realfield.value;
+};
