@@ -78,6 +78,7 @@ module Exporters
         #TODO: I am dubious that these values are correctly accumulated.
         #      Shouldn't we be trying to fetch all possible values,
         #      rather than all values for incidents getting exported?
+        #TODO - discuss with Pavel to see if this needs to change per SL-542
         @districts = {}
         @counties = {}
         @camps = {}
@@ -130,6 +131,7 @@ module Exporters
 
       def props
          ##### ADMINISTRATIVE INFORMATION #####
+         #TODO - discuss with Pavel to see if this needs to change per SL-542
         {"INCIDENT ID" => "incidentid_ir",
          "SURVIVOR CODE" => "survivor_code",
          "CASE MANAGER CODE" => ->(model) do
@@ -317,6 +319,7 @@ module Exporters
         end
       end
 
+      #TODO - discuss with Pavel to see if this needs to change per SL-542
       def incident_menu(workbook)
         #Sheet 1 is the "Menu Data".
         worksheet = workbook.sheets(1).first

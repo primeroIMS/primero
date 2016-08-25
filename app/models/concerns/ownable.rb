@@ -10,7 +10,11 @@ module Ownable
     property :owned_by_full_name, String
     property :owned_by_agency, String
     property :owned_by_location, String
+
+    #TODO - this field is deprecated by SL-542
+    #TODO - remove this in a future refactor
     property :owned_by_location_district, String
+
     property :previously_owned_by, String
     property :previously_owned_by_full_name, String
     property :previously_owned_by_agency, String
@@ -79,6 +83,9 @@ module Ownable
       self.owned_by_location = self.owner.location
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
+
+      #TODO - owned_by_location_district is deprecated by SL-542
+      #TODO - remove this in a future refactor
       if self.owner.location.present?
         self.owned_by_location_district = Location.ancestor_name_by_type(self.owner.location, 'district')
       end
