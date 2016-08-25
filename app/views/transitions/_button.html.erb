@@ -96,15 +96,4 @@
     </div>
   </div>
 </li>
-
-<% content_for :javascript do %>
-  <script type="text/javascript">
-  $(function() {
-    new MaskedUser($("<%= "##{transition_type}-modal form #other_user_agency" %>").get(0));
-    new MaskedPassword($("<%= "##{transition_type}-modal form #password" %>").get(0));
-  });
-  </script>
 <% end %>
-
-<% end %>
-
