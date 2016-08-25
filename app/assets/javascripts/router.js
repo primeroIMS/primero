@@ -18,7 +18,9 @@ _primero.Router = Backbone.Router.extend({
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
     'users': 'passwordPrompt',
-    'roles': 'roleIndexPage'
+    'roles': 'roleIndexPage',
+    'login' : 'maskedUserAndPasswordLogin',
+    'sessions/new': 'maskedUserAndPasswordLogin'
   },
 
   initialize: function() {
@@ -150,4 +152,10 @@ _primero.Router = Backbone.Router.extend({
   roleIndexPage: function() {
     new _primero.Views.CopyRole();
   },
+
+  maskedUserAndPasswordLogin: function() {
+    var maskedUser = new MaskedUser(document.getElementById("user_name"));
+    var maskedPassword = new MaskedPassword(document.getElementById("password"));
+  }
+
 });

@@ -18,12 +18,3 @@
   <% end %>
 
 </div>
-
-<% content_for :javascript do %>
-  <script type="text/javascript">
-  $(function() {
-    new MaskedUser(document.getElementById("user_name"));
-    new MaskedPassword(document.getElementById("password"));
-  });
-  </script>
-<% end %>
