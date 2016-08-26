@@ -15,5 +15,10 @@ end
 
 
 create_or_update_system_setting(
-  :default_locale => "en"
+  default_locale: "en",
+  reporting_location_config: {
+    field_key: "owned_by_location",
+    label_key: "district",
+    admin_level: 2
+  }
 )

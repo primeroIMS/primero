@@ -30,10 +30,33 @@
         <% protection_concern_stats.each do |key, val| %>
           <tr>
             <td class="id_column"><%= key %></td>
-            <td><%= build_district_stat_link(val[:totals], ['child_status=Open||Closed', 'record_state=true', "protection_concern=#{key}"] ,model)  %></td>
-            <td><%= build_district_stat_link(val[:open], ['child_status=Open', 'record_state=true', "protection_concern=#{key}"] ,model)  %></td>
-            <td><%= build_district_stat_link(val[:new_this_week], ['child_status=Open', 'record_state=true', "created_at=#{this_week}", "protection_concern=#{key}"] ,model)  %></td>
-            <td><%= build_district_stat_link(val[:closed_this_week], ['child_status=Closed', 'record_state=true', "date_closure=#{this_week}", "protection_concern=#{key}"] ,model)  %></td>
+            <td>
+              <%=
+                build_reporting_location_stat_link(val[:totals],
+                                                   ['child_status=Open||Closed', 'record_state=true', "protection_concern=#{key}"],
+                                                   model, reporting_location, admin_level)
+              %>
+            </td>
+            <td>
+              <%=
+                build_reporting_location_stat_link(val[:open],
+                                                   ['child_status=Open', 'record_state=true', "protection_concern=#{key}"],
+                                                   model, reporting_location, admin_level)
+              %>
+            </td>
+            <td>
+              <%= build_reporting_location_stat_link(val[:new_this_week],
+                                                     ['child_status=Open', 'record_state=true', "created_at=#{this_week}", "protection_concern=#{key}"],
+                                                     model, reporting_location, admin_level)
+              %>
+            </td>
+            <td>
+              <%=
+                build_reporting_location_stat_link(val[:closed_this_week],
+                                                   ['child_status=Closed', 'record_state=true', "date_closure=#{this_week}", "protection_concern=#{key}"],
+                                                   model, reporting_location, admin_level)
+              %>
+            </td>
           </tr>
         <% end %>
         </tbody>
