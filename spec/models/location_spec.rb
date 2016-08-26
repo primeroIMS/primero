@@ -186,7 +186,7 @@ describe Location do
   #TODO - for now, Location::BASE_TYPES returns a string of hard coded location type values
   #       When this is made I18n compliant, this test may need to be modified
   it 'returns all location types' do
-    expect(Location::BASE_TYPES).to eq(['country', 'region', 'province', 'district', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other'])
+    expect(Location::BASE_TYPES).to eq(['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other'])
   end
 
   describe "Batch processing" do
