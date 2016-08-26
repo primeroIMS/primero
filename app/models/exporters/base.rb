@@ -170,17 +170,6 @@ module Exporters
         end
       end
 
-      def convert_model_to_hash(model, properties)
-        prop_names = properties.map {|p| p.name}
-        JSON.parse(model.to_json).select do |k,v|
-          prop_names.include? k
-        end.tap do |h|
-          h['model_type'] = model.class.name
-          h['_id'] = model.id
-          h
-        end
-      end
-
       #Date field in the index page are displayed with some format
       #and they should be exported using the same format.
       def to_exported_value(value)
