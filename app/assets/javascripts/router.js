@@ -18,7 +18,9 @@ _primero.Router = Backbone.Router.extend({
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
     'users': 'passwordPrompt',
-    'roles': 'roleIndexPage'
+    'roles': 'roleIndexPage',
+    'login' : 'maskedUserAndPasswordLogin',
+    'sessions/new': 'maskedUserAndPasswordLogin'
   },
 
   initialize: function() {
@@ -65,6 +67,8 @@ _primero.Router = Backbone.Router.extend({
     this.initIndexTable();
     this.recordActions();
     new _primero.Views.IndexFilters();
+    this.maskedUserAndPasswordReferal();
+    this.maskedUserAndPasswordTransfer();
   },
 
   recordShowPage: function() {
@@ -83,6 +87,8 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.Actions();
       new _primero.Views.ReopenCase();
       new _primero.Views.RequestApproval();
+      this.maskedUserAndPasswordReferal();
+      this.maskedUserAndPasswordTransfer();
     }
   },
 
@@ -152,4 +158,20 @@ _primero.Router = Backbone.Router.extend({
   roleIndexPage: function() {
     new _primero.Views.CopyRole();
   },
+
+  maskedUserAndPasswordLogin: function() {
+    var maskedUser = new MaskedUser(document.getElementById("user_name"));
+    var maskedPassword = new MaskedPassword(document.getElementById("password"));
+  },
+
+  maskedUserAndPasswordReferal: function() {
+    new MaskedUser($("#referral-modal form #other_user_agency").get(0));
+    new MaskedPassword($("#referral-modal form #password").get(0));
+  },
+
+  maskedUserAndPasswordTransfer: function() {
+    new MaskedUser($("#transfer-modal form #other_user_agency").get(0));
+    new MaskedPassword($("#transfer-modal form #password").get(0));
+  }
+
 });

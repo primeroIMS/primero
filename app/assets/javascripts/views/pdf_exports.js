@@ -19,6 +19,8 @@ _primero.Views.PdfExports = Backbone.View.extend({
 
     this.init_chosen_fields();
 
+    this.password_control = this._create_password_field();
+
     if (this.module_id) {
       var select_module = $(this.el).find('select[name="module"]')
           mod_select = $(this.el).find('.module_select');
@@ -92,7 +94,7 @@ _primero.Views.PdfExports = Backbone.View.extend({
   submit_export_request: function(e) {
     e.preventDefault();
 
-    var password_control = $(this.el).find('#password-field'),
+    var password_control = this.password_control,
         module_control = $(this.el).find('select[name="module"]'),
         filename_control = $(this.el).find('#export-filename'),
         forms_control = $(this.el).find('select[name="forms"]'),
@@ -163,5 +165,18 @@ _primero.Views.PdfExports = Backbone.View.extend({
     $(this.el).find('form')[0].reset();
     $(this.el).find('select').val('').trigger("chosen:updated");
     $(this.el).find('.message').empty().hide();
+    this.password_control.val("");
+  },
+
+  //Hack: In order to prevent the browser allow the user save password we are using the MaskedPassword
+  //which create a hidden field that is supposed to hold the value of the password.
+  //So, we tried to reach the hidden field first other than that we reach the regular field.
+  _create_password_field: function() {
+    //Create the hidden field for the password.
+    var passEL = $(this.el).find("#password-field");
+    if (passEL.length > 0) {
+      return new MaskedPassword(passEL.get(0));
+    }
+    return null;
   }
 });

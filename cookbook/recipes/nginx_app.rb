@@ -57,6 +57,7 @@ template site_conf_file do
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
     :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
     :passenger_conf => node[:primero][:passenger_conf],
+    :dh_param => "#{node[:nginx_dir]}/ssl/dhparam.pem",
   })
   notifies :restart, 'service[nginx]'
 end

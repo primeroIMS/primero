@@ -44,6 +44,7 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
+    #TODO - Change per SL-542
     @options_districts = Location.by_type_enabled.key('district').all.map{|loc| loc.placename}.sort
     module_users(module_ids) if module_ids.present?
 
