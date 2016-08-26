@@ -1053,6 +1053,7 @@ en:
       region: 'region'
       province: 'province'
       district: 'district'
+      governorate: 'governorate'
       chiefdom: 'chiefdom'
       county: 'county'
       state: 'state'
