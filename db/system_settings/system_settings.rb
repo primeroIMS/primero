@@ -21,7 +21,7 @@ create_or_update_system_setting(
   },
   :primary_age_range => "primero",
   :age_ranges => {
-    "primero" => [0..5, 6..11, 12..17, 18..999],
-    "unhcr" => [0..4, 5..11, 12..17, 18..59, 60..999]
+    "primero" => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
+    "unhcr" => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
   }
 )
