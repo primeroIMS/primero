@@ -87,26 +87,6 @@ module Exporters
       end
     end
 
-    describe "convert_model_to_hash" do
-      it "should handled nested data" do
-        hash = BaseExporter.convert_model_to_hash(@instance,
-                                               [@model_class.properties_by_name['family_members']])
-        hash.should == {'family_members' => [
-          {'name' => 'John', 'relationship' => 'father', 'module_id' => 'primeromodule-cp'},
-          {'name' => 'Mary', 'relationship' => 'mother', 'module_id' => 'primeromodule-cp'},
-        ],
-        'model_type' => @model_class.name,
-        '_id' => @instance.id}
-      end
-
-      it "should exclude unlisted properties" do
-        hash = BaseExporter.convert_model_to_hash(@instance,
-                                               [@model_class.properties_by_name['survivor_code']])
-
-        hash.keys.should == ['survivor_code', 'model_type', '_id']
-      end
-    end
-
     describe "include_metadata_properties" do
       it "attaches core metadata properties to the end of each case properties list" do
         props = {
