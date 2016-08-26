@@ -1438,6 +1438,7 @@ en:
 
       reporting_location:
         label_key: "Label Key must be one of Location Base Type values"
+        admin_level: "Admin Level must be one of Location Admin Level values"
 
 
 

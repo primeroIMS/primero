@@ -139,4 +139,15 @@ FactoryGirl.define do
       report.create_attachment :name => builder.filename, :file => StringIO.new(builder.data), :content_type => builder.content_type if builder.data
     end
   end
+
+  factory :reporting_location, :traits => [ :model ] do
+    field_key "owned_by_location"
+    label_key "district"
+    admin_level 2
+  end
+
+  factory :system_settings, :traits => [ :model ] do
+    default_locale "en"
+    #TODO - need other fields?
+  end
 end

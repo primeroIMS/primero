@@ -7,14 +7,13 @@ class HomeController < ApplicationController
     @user = User.find_by_user_name(current_user_name)
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
+
     load_cases_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
     load_admin_information if display_admin_dashboard?
   end
-
-
 
   private
 
