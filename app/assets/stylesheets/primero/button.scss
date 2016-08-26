@@ -93,6 +93,15 @@ a.ui-dialog-titlebar-close.ui-corner-all {
 
         span.view_history_flags_label {
           font-size: .8rem;
+          word-wrap:break-word;
+        }
+
+        div.view_history_flags_reason {
+          text-align: justify;
+          max-width: 269px;
+          font-size: .8rem;
+          word-wrap:break-word;
+          color: $light_grey_color;
         }
       }
     }
