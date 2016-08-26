@@ -40,7 +40,8 @@ _primero.Views.FlagChild = Backbone.View.extend({
       unflag_submit_label: dropdown.data('submit_unflag_label'),
       submit_error_message: dropdown.data('submit_error_message'),
       unflag_date: dropdown.data('message_unflag_date'),
-      unflag_by: dropdown.data('message_unflag_by')
+      unflag_by: dropdown.data('message_unflag_by'),
+      unflagged_label: dropdown.data('message_unflagged_label')
     };
     dropdown.find('.add_flag_form').html(JST['templates/flag_record_form'](this.data));
   },
