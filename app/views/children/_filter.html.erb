@@ -27,6 +27,7 @@
     %>
       <%= build_filter_checkboxes_group(t("cases.filter_by.pending_approvals"), approvals_filters) %>
     <% end %>
+    <%# TODO - change per SL-542 %>
     <% if filters_to_show.include? 'District' %>
       <%= build_filter_checkboxes(t("cases.filter_by.district"), 'owned_by_location_district', @options_districts, { multi: true }, false) %>
     <% end %>

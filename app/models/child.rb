@@ -200,6 +200,7 @@ class Child < CouchRest::Model::Base
     ]
   end
 
+  #TODO - change per SL-542
   def self.minimum_reportable_fields
     {
           'boolean' => ['record_state'],

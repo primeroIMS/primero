@@ -9,6 +9,7 @@ class SystemSettings < CouchRest::Model::Base
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
   property :unhcr_needs_codes_mapping, Mapping
+  property :reporting_location_config, ReportingLocation
   property :primero_version
 
   #TODO: Think about what needs to take place to the current config. Update?
