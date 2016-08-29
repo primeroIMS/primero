@@ -260,7 +260,7 @@ describe "children/_filter.html.erb" do
       @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
       FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
       @associated_users = ["test_user_1", "test_user_2", "test_user_3"]
-      @options_districts = ["District 1", "District 2", "District 3"]
+      @options_reporting_locations = ["Country1::Region1::District 1", "Country1::Region1::District 2", "Country2::Region2::District 3"]
     end
 
     context 'when user is not a manager or an admin' do
