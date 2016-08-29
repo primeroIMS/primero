@@ -31,6 +31,13 @@ basic_identity_fields = [
              "display_name_all" => "Case Status",
              "option_strings_source" => "lookup CaseStatus"
             }),
+  Field.new({"name" => "case_status_reopened",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Case Reopened?",
+             "editable" => false,
+             "disabled" => true
+            }),
   Field.new({"name" => "name",
              "type" => "text_field",
              "display_name_all" => "Full Name",
