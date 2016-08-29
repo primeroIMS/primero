@@ -152,13 +152,6 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all_names
 
-    def ancestor_name_by_type(location, admin_type)
-      location = Location.placename_from_name(location)
-      location_obj = Location.find_by_location(location)
-      ancestor = location_obj.present? ? location_obj.first.ancestor_by_type(admin_type) : nil
-      return ancestor.present? ? ancestor.placename : nil
-    end
-
     def all_top_level_ancestors
       response = self.by_hierarchy(key: [])
       response.present? ? response.all : []

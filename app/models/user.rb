@@ -439,16 +439,12 @@ class User < CouchRest::Model::Base
     true
   end
 
-  #TODO - owned_by_location_district is deprecated by SL-542
-  #TODO - refactor
   def update_user_case_locations
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
     if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
-      new_location = Location.ancestor_name_by_type(self.location, 'district')
       Child.by_owned_by.key(self.user_name).all.each do |child|
         child.owned_by_location = self.location
-        child.owned_by_location_district = new_location
         child.save!
       end
     end

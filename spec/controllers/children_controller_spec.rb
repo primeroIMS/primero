@@ -522,6 +522,9 @@ describe ChildrenController do
 
         Sunspot.remove_all!
 
+        #TODO - remove owned_by_location_district references
+        #TODO - create test like this in home controller for dashboard
+
         create(:child, name: "Name 1", child_status: "Open", age: "5", case_id_display: "UN-TEST-0001")
         @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe', case_id_display: "UN-TEST-0002")
         create(:child, name: "Name 3", child_status: "Closed", age: "7", case_id_display: "UN-TEST-0003")
@@ -612,6 +615,7 @@ describe ChildrenController do
           end
         end
 
+        #TODO - change district to reporting location
         context "by_district" do
           it "should filter by district Bonthe" do
             params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
