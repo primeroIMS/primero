@@ -7,6 +7,9 @@
   documents = formObject[form_id] || []
   documents = documents.select { |document| document["file_name"].present? && document["attachment_key"].present? }
   record_class_name = formObject.class.name.underscore.downcase
+
+  date_validator = field.date_validation == 'not_future_date' ? "primeroDateNotInFuture" : "primeroDate"
+  error_msg = field.date_validation == 'not_future_date' ? "fields.future_date_not_valid" : "fields.date_not_valid"
 %>
 <div class="row">
   <p>
@@ -61,7 +64,9 @@
         <label class="key">Document Date</label>
       </div>
       <div class="medium-8 columns">
-        <%= text_field_tag "#{name}[date]", document["date"], :id => date_field_id, :class => 'form_date_field' %>
+        <%= text_field_tag "#{name}[date]", document["date"], :class => 'form_date_field has_help', :id => date_field_id, "data-abide-validator" => date_validator %>
+        <small class="error"><%= I18n.t(error_msg)%></small>
+        <p class="help"><%= t("fields.date_help") %></p>
       </div>
     </div>
     <div class="row">
@@ -120,7 +125,9 @@
           <label class="key">Document Date</label>
         </div>
         <div class="medium-8 columns">
-          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :id => date_upload_id, :tag => "date", :class => 'form_date_field' %>
+          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :tag => "date", :class => 'form_date_field has_help', :id => date_upload_id, "data-abide-validator" => date_validator %>
+          <small class="error"><%= I18n.t(error_msg)%></small>
+          <p class="help"><%= t("fields.date_help") %></p>
         </div>
       </div>
       <div class="row">
