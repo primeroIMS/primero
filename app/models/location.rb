@@ -45,6 +45,13 @@ class Location < CouchRest::Model::Base
                 }
               }"
 
+    view :by_admin_level_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('admin_level') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['admin_level'], null);
+                }
+              }"
+
     view :by_type
     view :by_placename
     view :by_hierarchy

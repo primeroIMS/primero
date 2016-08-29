@@ -13,9 +13,14 @@
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("cases.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
-    <%# TODO - change per SL-542 %>
-    <% if filters_to_show.include? 'District' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.district"), 'owned_by_location_district', @options_districts, { multi: true }, false) %>
+    <%
+      # TODO - filter not working
+      # Need to pass full location in filter, not just placename
+    %>
+    <% if filters_to_show.include? 'Reporting Location' %>
+      <%# build_filter_checkboxes(t("cases.filter_by.district"), 'owned_by_location_district', @options_districts, { multi: true }, false) %>
+      <%= build_filter_checkboxes(t("location.base_types.#{@reporting_location_label}"), "#{@reporting_location}#{@admin_level}",
+                                  @options_reporting_locations, { multi: true }, false) %>
     <% end %>
     <% # If user is only associated with 1 agency, there is no need to display the Agency Filter %>
     <% if (filters_to_show.include? 'Agency') && @associated_agencies.present? && @associated_agencies.count > 1 %>
