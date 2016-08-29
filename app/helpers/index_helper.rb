@@ -64,7 +64,7 @@ module IndexHelper
           label = item[key]
           item = key.to_s
         else
-          label = item
+          label = item.split('::').last
         end
 
         if format

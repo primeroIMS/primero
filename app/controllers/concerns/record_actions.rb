@@ -48,7 +48,7 @@ module RecordActions
 
     #TODO - remove @options_districts
     # @options_districts = Location.by_type_enabled.key('district').all.map{|loc| loc.placename}.sort
-    @options_reporting_locations = Location.by_admin_level_enabled.key(@admin_level).all
+    @options_reporting_locations = Location.by_admin_level_enabled.key(@admin_level).all.map{|loc| loc.name}.sort
 
     module_users(module_ids) if module_ids.present?
 
