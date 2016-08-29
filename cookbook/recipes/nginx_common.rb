@@ -25,7 +25,9 @@ end
 
 dhparam_file = ::File.join(ssl_dir,'dhparam.pem')
 execute "Generate the DH parameters" do
-  command "openssl dhparam -out #{dhparam_file} 4096"
+  #TODO: Really should be 4096 but takes to long to generate when making a fresh env.
+  #      Wouldn't be an big bother if we knew we were building a VM and skipped this step.
+  command "openssl dhparam -out #{dhparam_file} 2048"
   not_if do
     File.exist?(dhparam_file)
   end
