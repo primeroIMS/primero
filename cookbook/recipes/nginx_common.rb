@@ -14,9 +14,20 @@ file "#{node[:nginx_dir]}/sites-enabled/default" do
   action :delete
 end
 
-dhparam_file = "#{node[:nginx_dir]}/ssl/dhparam.pem"
+ssl_dir = ::File.join(node[:nginx_dir], 'ssl')
+directory ssl_dir do
+  action :create
+  recursive true
+  owner 'root'
+  group 'root'
+  mode '0700'
+end
+
+dhparam_file = ::File.join(ssl_dir,'dhparam.pem')
 execute "Generate the DH parameters" do
-  command "openssl dhparam -out #{dhparam_file} 4096"
+  #TODO: Really should be 4096 but takes to long to generate when making a fresh env.
+  #      Wouldn't be an big bother if we knew we were building a VM and skipped this step.
+  command "openssl dhparam -out #{dhparam_file} 2048"
   not_if do
     File.exist?(dhparam_file)
   end
