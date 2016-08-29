@@ -64,7 +64,8 @@
         <label class="key">Document Date</label>
       </div>
       <div class="medium-8 columns">
-        <%= text_field_tag "#{name}[date]", document["date"], :class => 'form_date_field has_help', :id => date_field_id, "data-abide-validator" => date_validator %>
+        <% date_for_display = field_value_for_display document["date"] %>
+        <%= text_field_tag "#{name}[date]", date_for_display, :class => 'form_date_field has_help', :id => date_field_id, "data-abide-validator" => date_validator %>
         <small class="error"><%= I18n.t(error_msg)%></small>
         <p class="help"><%= t("fields.date_help") %></p>
       </div>
