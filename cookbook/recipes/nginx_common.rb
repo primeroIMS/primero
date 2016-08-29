@@ -14,7 +14,16 @@ file "#{node[:nginx_dir]}/sites-enabled/default" do
   action :delete
 end
 
-dhparam_file = "#{node[:nginx_dir]}/ssl/dhparam.pem"
+ssl_dir = ::File.join(node[:nginx_dir], 'ssl')
+directory ssl_dir do
+  action :create
+  recursive true
+  owner 'root'
+  group 'root'
+  mode '0700'
+end
+
+dhparam_file = ::File.join(ssl_dir,'dhparam.pem')
 execute "Generate the DH parameters" do
   command "openssl dhparam -out #{dhparam_file} 4096"
   not_if do
