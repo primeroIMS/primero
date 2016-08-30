@@ -6,8 +6,6 @@ module ExportActions
       if exporter.id == 'list_view_csv'
         # Properties for this exporter are calculated in csv_exporter_list_view.rb
         properties_by_module = []
-        # That's crazy! properties build here are different than the ones called from within csv_exporter_list_view
-        selected_properties = build_list_field_by_model(model_class.name.underscore)
       else
         properties_by_module = model_class.get_properties_by_module(user, primero_modules)
       end
