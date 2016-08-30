@@ -103,7 +103,9 @@ module Exporters
           props.map do |p|
             prop_tree = parent_props + [p]
             if p.array
-              longest_array = find_longest_array(models, prop_tree)
+              # TODO: This is a hack for CSV export, that causes memory leak
+              # 5 is an arbitrary number, and probably should be revisited
+              longest_array = 5 #find_longest_array(models, prop_tree)
               (1..(longest_array || 0)).map do |n|
                 new_prop_tree = prop_tree.clone + [n]
                 if p.type.include?(CouchRest::Model::Embeddable)
@@ -147,10 +149,11 @@ module Exporters
         end
       end
 
-      def find_longest_array(models, prop_tree)
-        models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
-      end
-      memoize :find_longest_array
+      #def find_longest_array(models, prop_tree)
+      #  models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
+      #end
+      # this memoization causes memory leaks and brakes when exporting 10k records
+      #memoize :find_longest_array
 
       # TODO: axe this in favor of the similar function in the Accessible model
       # concern.  Have to figure out the inheritance tree for the models first
