@@ -50,8 +50,9 @@ module Exporters
       #at the end of the processing, the export in the batch
       #it is called several times and the end of the processing
       #is somehow here.
-      set_column_widths(@worksheet, @withds[:selected_fields])
-      set_column_widths(@record_worksheet, @withds[:record])
+      #TODO revisit There is some memory leak on the gem related to the set_column.
+      #set_column_widths(@worksheet, @withds[:selected_fields])
+      #set_column_widths(@record_worksheet, @withds[:record])
 
       @workbook.close
       return self.buffer
