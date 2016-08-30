@@ -90,9 +90,14 @@ describe ExportActions, type: :controller do
       @role.permissions_list = [case_permission]
       @user.stub(:roles).and_return([@role])
 
+      #TODO: Delete that line too
       form_sections = FormSection.get_form_sections_by_module([@primero_module], Child.parent_form, @user)
-      properties_by_module = Child.get_properties_by_module(form_sections)
+
+      properties_by_module = Child.get_properties_by_module(@user, [@primero_module])
+
+      #TODO: Delete that line after applying read only to get_properties_by_module
       filtered_fields = controller.filter_fields_read_only_users(form_sections, properties_by_module, @user)
+
       filtered_properties = filtered_fields['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
 
       expect(filtered_properties.include?('age')).to be_false
@@ -103,8 +108,12 @@ describe ExportActions, type: :controller do
       @role.permissions_list = [case_permission]
       @user.stub(:roles).and_return([@role])
 
+      #TODO: Delete that line
       form_sections = FormSection.get_form_sections_by_module([@primero_module], Child.parent_form, @user)
-      properties_by_module = Child.get_properties_by_module(form_sections)
+
+      properties_by_module = Child.get_properties_by_module(@user, [@primero_module])
+
+      #TODO: Delete that line after applying read only to get_properties_by_module
       filtered_fields = controller.filter_fields_read_only_users(form_sections, properties_by_module, @user)
       filtered_properties = filtered_fields['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
 
