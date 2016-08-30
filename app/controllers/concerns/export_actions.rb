@@ -15,32 +15,6 @@ module ExportActions
     end
   end
 
-  #TODO: This method is only used by exports, and duplicates logic
-  #      that already exists on the record concern. Moved to export_actions, but really:
-  #      PLEASE CONSOLIDATE, REFACTOR, REMOVE
-  #Filter out fields the current user is not allowed to view.
-  def filter_fields_read_only_users(form_sections, properties_by_module, current_user)
-    if current_user.readonly?(model_class.name.underscore)
-      #Filter showable properties for readonly users.
-      properties_by_module.map do |pm, forms|
-        forms = forms.map do |form, fields|
-          #Find out the fields the user is able to view based on the form section.
-          form_section_fields = form_sections[pm].select do |fs|
-            fs.name == form
-          end.map do |fs|
-            fs.fields.map{|f| f.name if f.showable?}.compact
-          end.flatten
-          #Filter the properties based on the field on the form section.
-          fields = fields.select{|f_name, f_value| form_section_fields.include?(f_name) }
-          [form, fields]
-        end
-        [pm, forms.to_h.compact]
-      end.to_h.compact
-    else
-      properties_by_module
-    end
-  end
-
   def respond_to_export(format, models)
     if params[:selected_records].present?
       selected_records = params[:selected_records].split(",")

@@ -307,13 +307,19 @@ module Record
 
     #Returns the hash with the properties within the form sections based on module and current user.
     def get_properties_by_module(user, modules)
-      read_only = user.readonly?(self.name.underscore)
+      read_only_user = user.readonly?(self.name.underscore)
       properties_by_module = {}
       modules.each do |primero_module|
         form_sections = allowed_formsections(user, primero_module)
+        form_sections = form_sections.map{|key, forms| forms }.flatten
         properties_by_module[primero_module.id] = {}
         form_sections.each do |section|
-          properties_by_module[primero_module.id][section.name] = self.properties_by_form[section.name]
+          properties = self.properties_by_form[section.name]
+          if read_only_user
+            readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
+            properties = properties.select{|k,v| readable_props.include?(k)}
+          end
+          properties_by_module[primero_module.id][section.name] = properties
         end
       end
       properties_by_module
@@ -329,17 +335,14 @@ module Record
     def permitted_properties(user, primero_module, read_only_user = false)
       permitted = []
       form_sections = allowed_formsections(user, primero_module)
-      if form_sections.present?
-        permitted = []
-        # below lines are to replace self.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
-        form_sections.each do |section|
-          properties = self.properties_by_form[section.name].values
-          if read_only_user
-            readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
-            properties = properties.select{|p| readable_props.include?(p.name)}
-          end
-          permitted += properties
+      form_sections = form_sections.map{|key, forms| forms }.flatteng
+      form_sections.each do |section|
+        properties = self.properties_by_form[section.name].values
+        if read_only_user
+          readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
+          properties = properties.select{|p| readable_props.include?(p.name)}
         end
+        permitted += properties
       end
       return permitted
     end
