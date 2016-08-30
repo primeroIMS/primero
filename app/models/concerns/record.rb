@@ -306,7 +306,11 @@ module Record
     end
 
     #Returns the hash with the properties based on the form sections.
-    def get_properties_by_module(form_sections_by_module)
+    def get_properties_by_module(user, modules)
+      readonly = user.readonly?(self.name.underscore)
+
+      form_sections_by_module = FormSection.get_form_sections_by_module(modules, self.parent_form, user)
+
       properties_by_module = {}
       form_sections_by_module.each do |module_id, form_sections|
         properties_by_module[module_id] = {}

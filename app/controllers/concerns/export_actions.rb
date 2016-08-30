@@ -9,9 +9,7 @@ module ExportActions
       build_list_field_by_model(model_class)
     elsif exporter.authorize_fields_to_user?
       #TODO: missing some other properties? ['base_revision', 'unique_identifier', 'upload_document', 'update_document', 'record_state']
-      form_sections = FormSection.get_form_sections_by_module(primero_modules, model_class.parent_form, user)
-      properties_by_module = model_class.get_properties_by_module(form_sections)
-      properties_by_module = filter_fields_read_only_users(form_sections, properties_by_module, user)
+      properties_by_module = model_class.get_properties_by_module(user, primero_modules)
     else
       []
     end
