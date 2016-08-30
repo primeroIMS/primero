@@ -15,11 +15,11 @@ module Exporters
 
     def export(models, properties, *args)
       props = CSVExporter.properties_to_export(properties)
-      csv_export = CSV.generate { |rows|
-        CSVExporter.to_2D_array(models, props) { |row|
+      csv_export = CSV.generate do |rows|
+        CSVExporter.to_2D_array(models, props) do |row|
           rows << row
-        }
-      }
+        end
+      end
       self.buffer.write(csv_export)
     end
 
