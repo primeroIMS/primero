@@ -305,17 +305,15 @@ module Record
      }
     end
 
-    #Returns the hash with the properties based on the form sections.
+    #Returns the hash with the properties within the form sections based on module and current user.
     def get_properties_by_module(user, modules)
-      readonly = user.readonly?(self.name.underscore)
-
-      form_sections_by_module = FormSection.get_form_sections_by_module(modules, self.parent_form, user)
-
+      read_only = user.readonly?(self.name.underscore)
       properties_by_module = {}
-      form_sections_by_module.each do |module_id, form_sections|
-        properties_by_module[module_id] = {}
-        form_sections.each do |fs|
-          properties_by_module[module_id][fs.name] = self.properties_by_form[fs.name]
+      modules.each do |primero_module|
+        form_sections = allowed_formsections(user, primero_module)
+        properties_by_module[primero_module.id] = {}
+        form_sections.each do |section|
+          properties_by_module[primero_module.id][section.name] = self.properties_by_form[section.name]
         end
       end
       properties_by_module
@@ -330,13 +328,17 @@ module Record
     # that don't display on the show page.
     def permitted_properties(user, primero_module, read_only_user = false)
       permitted = []
-      fss = allowed_formsections(user, primero_module)
-      if fss.present?
-        permitted_forms = fss.values.flatten.map {|fs| fs.name }
-        permitted = self.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
-        if read_only_user
-          permitted_fields = fss.map{|k, v| v.map{|v| v.fields.map{|f| f.name if f.showable?} } }.flatten.compact
-          permitted = permitted.select{|p| permitted_fields.include?(p.name)}
+      form_sections = allowed_formsections(user, primero_module)
+      if form_sections.present?
+        permitted = []
+        # below lines are to replace self.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
+        form_sections.each do |section|
+          properties = self.properties_by_form[section.name].values
+          if read_only_user
+            readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
+            properties = properties.select{|p| readable_props.include?(p.name)}
+          end
+          permitted += properties
         end
       end
       return permitted
