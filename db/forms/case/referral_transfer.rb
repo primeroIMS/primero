@@ -14,6 +14,16 @@ transitions_subform = [
                "editable"=>false,
                "display_name_all" => "Remote User",
               }),
+    Field.new({"name" => "to_user_local_status",
+               "type" => "select_box",
+               "editable" => false,
+               "display_name_all" => "Status",
+               "option_strings_text_all" =>
+                   ["Pending",
+                    "Accepted",
+                    "Rejected"
+                   ].join("\n")
+              }),
     Field.new({"name" => "to_user_agency",
                "type" => "text_field",
                "editable"=>false,
