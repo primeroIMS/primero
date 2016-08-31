@@ -17,6 +17,7 @@ _primero.Views.FileUploadField = Backbone.View.extend({
     var action_link = $(event.target);
     var file_group = action_link.parents('#file_container').find('div#file-group');
     var new_file_upload_field = file_group.find('div.file:first-child').clone();
+    $(new_file_upload_field).find('.hasDatepicker').removeClass('hasDatepicker');
     var upload_inputs_count = file_group.find('div.file').length;
     var new_file_input = new_file_upload_field.find('input[type="file"]').val('');
     var new_file_is_current = new_file_upload_field.find('input[tag="is_current"]').val('');
