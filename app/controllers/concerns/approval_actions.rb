@@ -8,6 +8,7 @@ module ApprovalActions
   REJECTED_STATUS = "approvals.status.rejected"
 
   def approve_form
+    authorize! :"approve_#{params[:approval_type]}", model_class
     load_record
     if @record.present?
       begin
