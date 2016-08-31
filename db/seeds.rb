@@ -22,7 +22,7 @@ end
 
 #Seed the system settings table
 puts "Seeding the system settings"
-require File.dirname(__FILE__) + "/system_settings/system_settings.rb"
+require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should_seed? SystemSettings
 
 #Reseed the lookups
 puts "Seeding Lookups"
