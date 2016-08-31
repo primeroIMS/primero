@@ -84,7 +84,6 @@ module Exporters
       }
 
       def close
-        #TODO better place?
         #Print at the end of the processing the data collected
         #because this is batch mode, this is the end of the processing
         #of all records.
