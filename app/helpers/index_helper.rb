@@ -139,10 +139,10 @@ module IndexHelper
   def build_list_field_by_model(model_class)
     #list_view_header returns the columns that are showed in the index page.
     model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
-    list_view_fields = { :type => model, :fields => {} }
+    list_view_fields = []
     list_view_header(model).each do |header|
       if header[:title].present? && header[:sort_title].present?
-        list_view_fields[:fields].merge!({ header[:title].titleize => header[:sort_title] })
+        list_view_fields.append( header[:sort_title] )
       end
     end
     list_view_fields

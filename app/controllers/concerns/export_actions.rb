@@ -2,16 +2,30 @@ module ExportActions
   extend ActiveSupport::Concern
 
   def authorized_export_properties(exporter, user, primero_modules, model_class)
-    if exporter.id == 'list_view_csv'
-      #TODO: This is an acknowledged hack. This code should really be in the exporter
-      #      Refactor when we get rid of the hardcoded @is_cp, @is_admin etc.
-      #      when we make filters, columns, and dashboards dynamic. Or when we get rid of the list view export
-      build_list_field_by_model(model_class)
-    elsif exporter.authorize_fields_to_user?
-      #TODO: missing some other properties? ['base_revision', 'unique_identifier', 'upload_document', 'update_document', 'record_state']
+    if exporter.authorize_fields_to_user?
+
       properties_by_module = model_class.get_properties_by_module(user, primero_modules)
+
+      if exporter.id == 'list_view_csv'
+        selected_properties = build_list_field_by_model(model_class)
+        selected_properties = filter_properties(properties_by_module, selected_properties)
+      end
+      properties_by_module
     else
       []
+    end
+  end
+
+  def filter_properties(properties_by_module, selected)
+    properties_by_module.each do |primero_module, form_sections|
+      form_sections.each do |section_name, fields|
+        selected_properties = fields.select{|k,v| selected.include?(k)}
+        properties_by_module[primero_module][section_name] = selected_properties
+        # clean up empty forms
+        if selected_properties.empty?
+          properties_by_module[primero_module].delete section_name
+        end
+      end
     end
   end
 
