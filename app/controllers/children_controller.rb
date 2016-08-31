@@ -74,27 +74,6 @@ class ChildrenController < ApplicationController
     redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
   end
 
-  def exported_properties
-    if params[:format].present? && (params[:format] == "xls" || params[:format] == "selected_xls" || params[:format] == "case_pdf")
-      #get the model properties
-      properties_by_module = model_class.get_properties_by_module(current_user, @current_modules)
-
-      # TODO: Shouldn't be doing filtering by the display form name. This will be translated. should be filtering
-      # by the form's id. This is also true in the filter_custom_exports method. This will need changes also in the 
-      # exporters ...xls, selected_xls, and case_pdf...and maybe the others too.
-      properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents", "BIA Documents", "BID Documents"].include?(key)}}
-
-      properties_by_module = filter_custom_exports(properties_by_module)
-
-      # Add other useful information for the report.
-      properties_by_module.each{|pm, fs| properties_by_module[pm].merge!(model_class.record_other_properties_form_section)}
-
-      properties_by_module
-    else
-      super
-    end
-  end
-
   def match_record
     load_tracing_request
     if @tracing_request.present? && @match_request.present?
