@@ -18,16 +18,25 @@ module Exporters
         ["histories"]
       end
 
-      # @returns: a String with the Excel file data
-      def export(models, _, *args)
-        builder = IRBuilder.new
-        builder.export(models)
-      end
-
       def authorize_fields_to_user?
         false
       end
 
+    end
+
+    def initialize(output_file_path=nil)
+      super(output_file_path)
+      @builder = IRBuilder.new(self.buffer)
+    end
+
+    def complete
+      @builder.close
+      return self.buffer
+    end
+
+    # @returns: a String with the Excel file data
+    def export(models, _, *args)
+       @builder.export(models)
     end
 
     #private
@@ -74,7 +83,16 @@ module Exporters
         "No referral, Service unavailable" => "Service unavailable"
       }
 
-      def initialize
+      def close
+        #TODO better place?
+        #Print at the end of the processing the data collected
+        #because this is batch mode, this is the end of the processing
+        #of all records.
+        incident_menu
+        @workbook.close
+      end
+
+      def initialize(buffer)
         #TODO: I am dubious that these values are correctly accumulated.
         #      Shouldn't we be trying to fetch all possible values,
         #      rather than all values for incidents getting exported?
@@ -83,17 +101,36 @@ module Exporters
         @camps = {}
         @locations = {}
         @caseworker_code = {}
+
+        @workbook = WriteExcel.new(buffer)
+        @data_worksheet = @workbook.add_worksheet('Incident Data')
+        @menu_worksheet = @workbook.add_worksheet('Menu Data')
+
+        #Sheet data start at row 1 (based 0 index).
+        @row_data = 1
+      end
+
+      def incident_data_header
+        unless @data_headers.present?
+          @data_headers = true
+          @data_worksheet.write_row(0, 0, props.keys)
+          #TODO revisit, there is a bug in the gem.
+          #set_column_widths(@data_worksheet, props.keys)
+        end
+      end
+
+      def incident_menu_header
+        unless @menu_headers.present?
+          @menu_headers = true
+          header = ["CASEWORKER CODE", "ETHNICITY", "INCIDENT LOCATION", "INCIDENT COUNTY", "INCIDENT DISTRICT", "INCIDENT CAMP"]
+          @menu_worksheet.write_row(0, 0, header)
+          #TODO revisit, there is a bug in the gem.
+          #set_column_widths(@menu_worksheet, header)
+        end
       end
 
       def export(models)
-        io = StringIO.new
-        workbook = WriteExcel.new(io)
-        workbook.add_worksheet('Incident Data')
-        workbook.add_worksheet('Menu Data')
-        incident_data(models, workbook)
-        incident_menu(workbook)
-        workbook.close
-        io.string
+        incident_data(models)
       end
 
       def incident_recorder_sex(sex)
@@ -288,13 +325,9 @@ module Exporters
         }
       end
 
-      def incident_data(models, workbook)
+      def incident_data(models)
         #Sheet 0 is the "Incident Data".
-        worksheet = workbook.sheets(0).first
-        worksheet.write_row(0, 0, props.keys)
-        set_column_widths(worksheet, props.keys)
-        #Sheet data start at row 1 (based 0 index).
-        i = 1
+        incident_data_header
         models.each do |model|
           j = 0
           props.each do |name, prop|
@@ -309,21 +342,17 @@ module Exporters
               else
                 formatted_value = value
               end
-              worksheet.write(i, j, formatted_value) unless formatted_value.nil?
+              @data_worksheet.write(@row_data, j, formatted_value) unless formatted_value.nil?
             end
             j += 1
           end
-          i += 1
+          @row_data += 1
         end
       end
 
-      def incident_menu(workbook)
+      def incident_menu
         #Sheet 1 is the "Menu Data".
-        worksheet = workbook.sheets(1).first
-        header = ["CASEWORKER CODE", "ETHNICITY", "INCIDENT LOCATION", "INCIDENT COUNTY", "INCIDENT DISTRICT", "INCIDENT CAMP"]
-        worksheet.write_row(0, 0, header)
-        set_column_widths(worksheet, header)
-
+        incident_menu_header
         #lookups.
         #In this sheet only 50 rows are editable for lookups.
         menus = [
@@ -340,7 +369,7 @@ module Exporters
           #Cell where the data should be push.
           j = menu[:cell_index]
           menu[:values].each do |value|
-            worksheet.write(i, j, value)
+            @menu_worksheet.write(i, j, value)
             i += 1
           end
         end
