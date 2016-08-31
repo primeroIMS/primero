@@ -72,7 +72,7 @@ describe "children/edit.html.erb" do
     controller.should_receive(:can?).with(:referral, Child).and_return(false)
     controller.should_receive(:can?).with(:transfer, Child).and_return(false)
     controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)
-    controller.should_receive(:can?).with(:approve_case_plan, Child).and_return(false)
+    controller.should_receive(:can?).with(:approve_form, Child).and_return(false)
   end
 
   xit "renders a form that posts to the children url" do
