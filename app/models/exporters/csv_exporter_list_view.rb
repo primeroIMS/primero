@@ -16,8 +16,10 @@ module Exporters
         [Child, Incident, TracingRequest]
       end
 
-      def build_field_map(properties)
+      def build_field_map(model_name)
         field_map = {}
+        properties = ApplicationController.helpers.build_list_field_by_model(model_name)
+
         properties[:fields].each do |key, value|
           if properties[:type] == "incident" && value == "violations"
             field_map.merge!({ key => ->(c) { c.violations_list(true).join(", ") } })
@@ -33,7 +35,8 @@ module Exporters
       end
 
       def export(models, properties, *args)
-        field_map = build_field_map(properties)
+        field_map = build_field_map(models.first.class.name.underscore)
+
         CSV.generate do |rows|
           rows << field_map.keys
           models.each do |c|

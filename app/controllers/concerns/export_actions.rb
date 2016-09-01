@@ -3,12 +3,13 @@ module ExportActions
 
   def authorized_export_properties(exporter, user, primero_modules, model_class)
     if exporter.authorize_fields_to_user?
-
-      properties_by_module = model_class.get_properties_by_module(user, primero_modules)
-
       if exporter.id == 'list_view_csv'
-        selected_properties = build_list_field_by_model(model_class)
-        selected_properties = filter_properties(properties_by_module, selected_properties)
+        # Properties for this exporter are calculated in csv_exporter_list_view.rb
+        properties_by_module = []
+        # That's crazy! properties build here are different than the ones called from within csv_exporter_list_view
+        selected_properties = build_list_field_by_model(model_class.name.underscore)
+      else
+        properties_by_module = model_class.get_properties_by_module(user, primero_modules)
       end
       properties_by_module
     else
