@@ -10,11 +10,6 @@ fields = [
         "editable" => false,
         "option_strings_source" => "Agency"
         }),
-  # Field.new({"name" => "owned_by_location_district",
-  #       "type" => "select_box",
-  #       "display_name_all" => "Case Manager's District",
-  #       "option_strings_source" => "lookup Districts"
-  #       }),
   Field.new({"name" => "owned_by_location",
         "type" => "select_box",
         "display_name_all" => "Case Manager's Location",

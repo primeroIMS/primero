@@ -163,6 +163,12 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_names
 
+    def find_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL)
+      response = Location.by_admin_level_enabled(key: admin_level)
+      response.present? ? response.all : []
+    end
+    memoize_in_prod :find_by_admin_level_enabled
+
   end
 
   def hierarchical_name

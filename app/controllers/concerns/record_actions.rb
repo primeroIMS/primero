@@ -45,7 +45,7 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
-    @options_reporting_locations = Location.by_admin_level_enabled.key(@admin_level).all.map{|loc| loc.name}.sort
+    @options_reporting_locations = Location.find_by_admin_level_enabled(@admin_level).map{|loc| loc.name}.sort
 
     module_users(module_ids) if module_ids.present?
 

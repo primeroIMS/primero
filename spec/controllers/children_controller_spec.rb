@@ -591,7 +591,7 @@ describe ChildrenController do
 
         #TODO - change district to reporting location
         context "by_district" do
-          it "should filter by district Bonthe" do
+          xit "should filter by district Bonthe" do
             params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
             get :index, params
 
