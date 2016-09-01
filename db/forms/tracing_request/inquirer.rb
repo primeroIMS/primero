@@ -2,12 +2,14 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "tracing_request_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Long ID",
              "create_property" => false
             }),
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Inquirer ID",
              "create_property" => false
             }),
@@ -195,6 +197,7 @@ tracing_request_inquirer_fields = [
            "type" => "tick_box",
            "tick_box_label_all" => "Yes",
            "editable" => false,
+           "disabled" => true,
            "display_name_all" => "Does the inquirer agree to share collected information with other organizations?"
             })
 ]
