@@ -2,18 +2,21 @@ gbv_incident_fields = [
   Field.new({"name" => "incident_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Long ID",
              "create_property" => false
             }),
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Incident ID",
              "create_property" => false
             }),
   Field.new({"name" => "incident_code",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Incident Code"
             }),
   Field.new({"name" => "incidentid_ir",
