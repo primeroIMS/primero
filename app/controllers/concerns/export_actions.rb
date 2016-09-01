@@ -2,44 +2,31 @@ module ExportActions
   extend ActiveSupport::Concern
 
   def authorized_export_properties(exporter, user, primero_modules, model_class)
-    if exporter.id == 'list_view_csv'
-      #TODO: This is an acknowledged hack. This code should really be in the exporter
-      #      Refactor when we get rid of the hardcoded @is_cp, @is_admin etc.
-      #      when we make filters, columns, and dashboards dynamic. Or when we get rid of the list view export
-      build_list_field_by_model(model_class)
-    elsif exporter.authorize_fields_to_user?
-      #TODO: missing some other properties? ['base_revision', 'unique_identifier', 'upload_document', 'update_document', 'record_state']
-      form_sections = FormSection.get_form_sections_by_module(primero_modules, model_class.parent_form, user)
-      properties_by_module = model_class.get_properties_by_module(form_sections)
-      properties_by_module = filter_fields_read_only_users(form_sections, properties_by_module, user)
+    if exporter.authorize_fields_to_user?
+      if exporter.id == 'list_view_csv'
+        # Properties for this exporter are calculated in csv_exporter_list_view.rb
+        properties_by_module = []
+        # That's crazy! properties build here are different than the ones called from within csv_exporter_list_view
+        selected_properties = build_list_field_by_model(model_class.name.underscore)
+      else
+        properties_by_module = model_class.get_properties_by_module(user, primero_modules)
+      end
+      properties_by_module
     else
       []
     end
   end
 
-  #TODO: This method is only used by exports, and duplicates logic
-  #      that already exists on the record concern. Moved to export_actions, but really:
-  #      PLEASE CONSOLIDATE, REFACTOR, REMOVE
-  #Filter out fields the current user is not allowed to view.
-  def filter_fields_read_only_users(form_sections, properties_by_module, current_user)
-    if current_user.readonly?(model_class.name.underscore)
-      #Filter showable properties for readonly users.
-      properties_by_module.map do |pm, forms|
-        forms = forms.map do |form, fields|
-          #Find out the fields the user is able to view based on the form section.
-          form_section_fields = form_sections[pm].select do |fs|
-            fs.name == form
-          end.map do |fs|
-            fs.fields.map{|f| f.name if f.showable?}.compact
-          end.flatten
-          #Filter the properties based on the field on the form section.
-          fields = fields.select{|f_name, f_value| form_section_fields.include?(f_name) }
-          [form, fields]
+  def filter_properties(properties_by_module, selected)
+    properties_by_module.each do |primero_module, form_sections|
+      form_sections.each do |section_name, fields|
+        selected_properties = fields.select{|k,v| selected.include?(k)}
+        properties_by_module[primero_module][section_name] = selected_properties
+        # clean up empty forms
+        if selected_properties.empty?
+          properties_by_module[primero_module].delete section_name
         end
-        [pm, forms.to_h.compact]
-      end.to_h.compact
-    else
-      properties_by_module
+      end
     end
   end
 
