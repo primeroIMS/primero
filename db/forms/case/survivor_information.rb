@@ -3,12 +3,14 @@ survivor_information_fields = [
              "type" => "text_field",
              "display_name_all" => "Long ID",
              "editable" => false,
+             "disabled" => true,
              "create_property" => false
             }),
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "display_name_all" => "Case ID",
              "editable" => false,
+             "disabled" => true,
              "create_property" => false
             }),
   Field.new({"name" => "child_status",

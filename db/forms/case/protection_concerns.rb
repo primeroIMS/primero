@@ -28,6 +28,7 @@ protection_concern_fields = [
              "display_name_all" => "UNHCR Protection Code",
              "visible" => false,
              "editable" => false,
+             "disabled" => true,
              "help_text_all" => "This field is deprecated in v1.2 and replaced by unchr_needs_code"
             }),
   Field.new({"name" => "protection_concerns",
@@ -46,6 +47,7 @@ protection_concern_fields = [
              "multi_select" => true,
              "display_name_all" => "UNHCR Needs Codes",
              "editable" => false,
+             "disabled" => true,
              "option_strings_source" => "lookup UnhcrNeedsCodes"
             }),
   Field.new({"name" => "disability_type",

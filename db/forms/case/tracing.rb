@@ -62,6 +62,7 @@ tracing_fields = [
   Field.new({"name" => "matched_tracing_request_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "link_to_path" => "tracing_request",
              "display_name_all" => "Matched Tracing Request ID"
            }),
