@@ -335,7 +335,7 @@ module Record
     def permitted_properties(user, primero_module, read_only_user = false)
       permitted = []
       form_sections = allowed_formsections(user, primero_module)
-      form_sections = form_sections.map{|key, forms| forms }.flatteng
+      form_sections = form_sections.map{|key, forms| forms }.flatten
       form_sections.each do |section|
         properties = self.properties_by_form[section.name].values
         if read_only_user
