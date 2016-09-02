@@ -83,6 +83,8 @@ module ExportActions
       "#{params[:custom_export_file_name]}.#{exporter.mime_type}"
     elsif models.length == 1
       "#{models[0].unique_identifier}.#{exporter.mime_type}"
+    elsif exporter.id == "unhcr_csv"
+     "#{current_user.user_name}-#{model_class.present? ? model_class.name.underscore : class_name.name.underscore}-UNHCR.#{exporter.mime_type}"
     else
       "#{current_user.user_name}-#{model_class.present? ? model_class.name.underscore : class_name.name.underscore}.#{exporter.mime_type}"
     end
