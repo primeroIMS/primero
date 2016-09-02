@@ -2,19 +2,11 @@ include_recipe 'primero::nginx_common'
 
 package 'passenger'
 
-ssl_dir = ::File.join('/etc/nginx', 'ssl')
-directory ssl_dir do
-  action :create
-  recursive true
-  owner 'root'
-  group 'root'
-  mode '0700'
-end
-
 unless node[:primero][:server_hostname]
   Chef::Application.fatal!("You must specify the nginx server hostname in node[:primero][:server_hostname]!")
 end
 
+ssl_dir = ::File.join(node[:nginx_dir], 'ssl')
 ['crt', 'key'].each do |ext|
   certfile = ::File.join(ssl_dir, "primero.#{ext}")
   file certfile do
@@ -38,7 +30,7 @@ template "#{node[:nginx_dir]}/conf.d/passenger.conf" do
   notifies :reload, 'service[nginx]'
 end
 
-rails_log_dir = File.join(node[:primero][:log_dir], 'rails')
+rails_log_dir = ::File.join(node[:primero][:log_dir], 'rails')
 site_conf_file = "#{node[:nginx_dir]}/sites-available/primero"
 template site_conf_file do
   source "nginx_site.erb"
@@ -57,6 +49,7 @@ template site_conf_file do
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
     :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
     :passenger_conf => node[:primero][:passenger_conf],
+    :dh_param => "#{node[:nginx_dir]}/ssl/dhparam.pem",
   })
   notifies :restart, 'service[nginx]'
 end
