@@ -201,6 +201,7 @@ module Searchable
     end
 
     # TODO: we cannot rely on 'district' always being there. SL-specific code
+    # TODO - change per SL-542
     def searchable_string_fields
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",

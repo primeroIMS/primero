@@ -1048,6 +1048,21 @@ en:
       correct_errors: "Please correct the following errors and resubmit:"
       updated: "Location successfully added"
       deleted: "Location successfully deleted"
+    base_types:
+      country: 'country'
+      region: 'region'
+      province: 'province'
+      district: 'district'
+      governorate: 'governorate'
+      chiefdom: 'chiefdom'
+      county: 'county'
+      state: 'state'
+      city: 'city'
+      camp: 'camp'
+      site: 'site'
+      village: 'village'
+      zone: 'zone'
+      other: 'other'
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -1421,6 +1436,10 @@ en:
         code_present: "must not be blank"
         admin_level_present: "must not be blank"
         unique_name: "A Location with that name already exists, please enter a different name"
+
+      reporting_location:
+        label_key: "Label Key must be one of Location Base Type values"
+        admin_level: "Admin Level must be one of Location Admin Level values"
 
 
 

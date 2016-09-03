@@ -27,7 +27,7 @@ _primero.Views.PasswordPrompt = (function() {
                }
 
             });
-            passwordEl = $("#password-prompt-field");
+            passwordEl = _primero.Views.PasswordPrompt._create_password_field();
             fileNameEl = $("#export-file-name-field");
             $(".password-prompt").each(_primero.Views.PasswordPrompt.initializeTarget);
         },
@@ -78,7 +78,19 @@ _primero.Views.PasswordPrompt = (function() {
                 targetEl.closest("form").find("#hidden-password-field").val(password);
                 targetEl.trigger("click");
             }
-        }
+        },
+
+        //Hack: In order to prevent the browser allow the user save password we are using the MaskedPassword
+        //which create a hidden field that is supposed to hold the value of the password.
+        //So, we tried to reach the hidden field first other than that we reach the regular field.
+        _create_password_field: function() {
+          //Create the hidden field for the password.
+          var passEL = $("#password-prompt-field");
+          if (passEL.length > 0) {
+            return new MaskedPassword(passEL.get(0));
+          }
+          return null;
+        },
     }
 }) ();
 
