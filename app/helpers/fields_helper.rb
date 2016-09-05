@@ -41,7 +41,7 @@ module FieldsHelper
       when Field::DATE_FIELD
         field_format_date(parent_obj[field.name])
       else
-        parent_obj[field.name] || ''
+        parent_obj.try(field.name) || ''
       end
     end
   end

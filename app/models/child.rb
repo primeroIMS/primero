@@ -19,6 +19,7 @@ class Child < CouchRest::Model::Base
   include PhotoUploader
   include Record
   include DocumentUploader
+  include BIADerivedFields
   include UNHCRMapping
 
   include Ownable
