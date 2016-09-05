@@ -5,13 +5,17 @@ module TransitionActions
 
   def transition
     authorize! :referral, model_class if is_referral?
+    authorize! :reassign, model_class if is_reassign?
     authorize! :transfer, model_class if is_transfer?
     get_selected_ids
 
     @records = []
     if @selected_ids.present?
       @records = model_class.all(keys: @selected_ids).all
-      @records = @records.select{|r| is_consent_given? r } unless consent_override
+
+      if consent_override && !is_reassign?
+        @records = @records.select{|r| is_consent_given? r }
+      end
     else
       flash[:notice] = t('referral.no_records_selected')
       redirect_to :back and return
@@ -96,7 +100,7 @@ module TransitionActions
     if @new_user.present?
       if is_referral?
         local_referral(records)
-      elsif is_transfer? == true
+      elsif is_reassign? || is_transfer?
         local_transfer(records)
       end
     end
@@ -178,6 +182,10 @@ module TransitionActions
 
   def is_transfer?
     transition_type == Transition::TYPE_TRANSFER
+  end
+
+  def is_reassign?
+    transition_type == Transition::TYPE_REASSIGN
   end
 
   def is_referral?

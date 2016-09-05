@@ -24,6 +24,9 @@
           <%= render 'exports/custom_exports_link', model: Child, export_type: 'custom' %>
         <% end %>
         <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REFERRAL %>
+        <% if can?(:reassign, controller.model_class) %>
+          <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REASSIGN %>
+        <% end %>
         <%= render 'transitions/button', instance: @child, type: Transition::TYPE_TRANSFER %>
         <% if can? :edit, @child %>
             <%= render partial: 'record_shared/enable_disable_record', locals: {model: Child, instance: @child} %>
