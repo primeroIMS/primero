@@ -282,6 +282,27 @@ bia_fields = [
                "subform_section_id" => "bia_mother_family_details",
                "display_name_all" => "Mother"
               }),
+    Field.new({"name" => "not_family_explantion",
+               "type" => "textarea",
+               "editable" => true,
+               "display_name_all" => "If child has been living with caregivers other than the parents explain why, for how long, and their relationship to the child",
+               "disabled" => true,
+               "visible" => true
+              }),
+    Field.new({"name" => "father_death_details",
+               "type" => "textarea",
+               "editable" => true,
+               "display_name_all" => "If father believed dead, give details including whether information has been verified",
+               "disabled" => true,
+               "visible" => true
+              }),
+    Field.new({"name" => "mother_death_details",
+               "type" => "textarea",
+               "editable" => true,
+               "display_name_all" => "If mother believed dead, give details including whether information has been verified",
+               "disabled" => true,
+               "visible" => true
+              }),
     Field.new({"name" => "child_at_risk",
                "type" => "tick_box",
                "disabled" => true,
