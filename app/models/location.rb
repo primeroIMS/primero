@@ -169,6 +169,9 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_admin_level_enabled
 
+    #find_by_name defined in namable concern
+    memoize_in_prod :find_by_name
+
   end
 
   def hierarchical_name
