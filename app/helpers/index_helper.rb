@@ -64,7 +64,7 @@ module IndexHelper
           label = item[key]
           item = key.to_s
         else
-          label = item
+          label = item.split('::').last
         end
 
         if format
@@ -250,8 +250,7 @@ module IndexHelper
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
-    #TODO - change per SL-542
-    filters << "District" if @is_admin
+    filters << "Reporting Location" if @is_admin
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "Record State"

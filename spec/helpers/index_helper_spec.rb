@@ -79,7 +79,7 @@ describe IndexHelper do
           @view.index_filters_to_show('case').should == [
               "Flagged", "Mobile", "Social Worker", "Agency", "Status", "Age Range",
               "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
-              "Current Location", "District", "Registration Date", "Record State", "Photo"
+              "Current Location", "Reporting Location", "Registration Date", "Record State", "Photo"
           ]
         end
       end
