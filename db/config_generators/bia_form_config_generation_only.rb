@@ -1,3 +1,63 @@
+# SPECIAL NESTED FIELDS
+parents_fields_subform = [
+  Field.new({"name" => "relation_name",
+             "type" => "text_field",
+             "display_name_all" => "Mother's Name",
+             "disabled" => true
+           }),
+  Field.new({"name" => "relation_nickname",
+             "type" => "text_field",
+             "display_name_all" => "Nickname / Alias",
+             "disabled" => true
+           }),
+  Field.new({"name": "relation_unhcr_id_no",
+             "type": "text_field",
+             "display_name_all": "UN ID Number",
+             "disabled" => true
+           }),
+  Field.new({"name": "national_id_no_relation",
+             "type": "text_field",
+             "display_name_all": "National ID Number",
+             "disabled" => true
+           }),
+  Field.new({"name": "ration_card_no_relation",
+             "display_name_all": "Ration Card / Service ID Number",
+             "type": "text_field",
+             "disabled" => true
+           }),
+  Field.new({"name" => "relation_nationality",
+             "type" => "select_box",
+             "display_name_all" => "Citizenship of the mother",
+             "multi_select" => true,
+             "disabled" => true,
+             "option_strings_source" => "lookup Nationality"
+           }),
+  Field.new({"name": "relation_nationality_other",
+             "display_name_all": "Other Citizenship",
+             "type": "text_field",
+             "disabled" => true
+           }),
+  Field.new({"name": "relation_country_of_origin",
+             "display_name_all": "Country of Origin",
+             "type": "select_box",
+             "option_strings_source": "lookup Country",
+             "multi_select": false,
+             "disabled" => true
+           })
+]
+mother = FormSection.create_or_update_form_section({
+    :unique_id => "bia_mother_family_details",
+    "visible" => false,
+    "is_nested" => true,
+    :parent_form => "case",
+    "editable" => false,
+    :fields => parents_fields_subform,
+    :initial_subforms => 1,
+    "name_all" => "Mother",
+    "description_all" => "Mother"
+})
+
+# BIA FORM FIELDS
 bia_fields = [
     Field.new({"name" => "bia_approved",
                "type" => "tick_box",
@@ -263,6 +323,14 @@ bia_fields = [
                "disabled" => true,
                "display_name_all" => "Country of Origin",
                "option_strings_source" => "lookup Country"
+              }),
+    Field.new({"name" => "mother",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_mother_family_details",
+               "display_name_all" => "Mother"
               }),
     Field.new({"name" => "child_at_risk",
                "type" => "tick_box",
@@ -969,7 +1037,7 @@ bia_fields = [
                "type" => "date_field",
                "display_name_all" => "Interview Date",
                "disabled" => true
-              }),
+              })
 ] 
 
 FormSection.create_or_update_form_section({
