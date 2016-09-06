@@ -114,8 +114,9 @@ module FieldsHelper
     # This is for shared subforms
     shared_subform = field.subform_section.shared_subform.downcase if field.subform_section.try(:shared_subform)
     shared_subform_group = field.subform_section.shared_subform_group.downcase if field.subform_section.try(:shared_subform_group)
-    if object[field.name].present?
-      subforms_count = object[field.name].count
+
+    if object.try(field.name).present?
+      subforms_count = object.try(field.name).count
     elsif object[shared_subform].present?
       object[shared_subform].count
     elsif object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
@@ -131,7 +132,7 @@ module FieldsHelper
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     else
-      subform_object = object[:"#{subform_name}"]
+      subform_object = object.try(:"#{subform_name}")
     end
     return subform_object
   end
