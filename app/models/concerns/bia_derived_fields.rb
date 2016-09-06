@@ -12,4 +12,15 @@ module BIADerivedFields
     []
   end
 
+  def bia_father
+    family_details = self.try(:family_details_section)
+    if family_details.present?
+      father_section = family_details.select{ |details| details.relation == "Father" }
+      if father_section.present?
+        return father_section
+      end
+    end
+    []
+  end
+
 end
