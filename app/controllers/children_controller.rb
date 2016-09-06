@@ -4,7 +4,7 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include TracingActions
-  include ApproveCasePlanActions
+  include ApprovalActions
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
@@ -57,7 +57,7 @@ class ChildrenController < ApplicationController
     if child.save
       render :json => {:error => false,
                        :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : child['name'],
-                       :disable_input_field => hide,
+                       :disable_input_field => true,
                        :action_link_action => hide ? "view" : "protect",
                        :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
                       }
@@ -73,6 +73,41 @@ class ChildrenController < ApplicationController
     #It is a GBV cases and the user indicate that want to create a GBV incident.
     redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
   end
+
+  def reopen_case
+    child = Child.get(params[:child_id])
+    child.child_status = params[:child_status]
+    child.case_status_reopened = params[:case_reopened]
+    child.add_reopened_log(current_user.user_name)
+
+    if child.save
+      render :json => { :success => true, :error_message => "", :reload_page => true }
+    else
+      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+    end
+  end
+
+  def request_approval
+    child = Child.get(params[:child_id])
+
+    case params[:approval_type]
+      when "bia"
+        child.approval_status_bia = params[:approval_status]
+      when "case_plan"
+        child.approval_status_case_plan = params[:approval_status]
+      when "closure"
+        child.approval_status_closure = params[:approval_status]
+      else
+        render :json => {:success => false, :error_message => 'Unkown Approval Type', :reload_page => true }
+    end
+
+    if child.save
+      render :json => { :success => true, :error_message => "", :reload_page => true }
+    else
+      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+    end
+  end
+
 
   def match_record
     load_tracing_request

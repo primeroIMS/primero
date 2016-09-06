@@ -134,7 +134,11 @@ Primero = Backbone.View.extend({
       })
     );
 
-    $("ul.current_flags").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
+    $("ul.current_flags").mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
+    $("ul.current_flags").css("max-height", "250px");
+
+    $("ul.history_flags").mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
+    $("ul.history_flags").css("max-height", "175px");
 
     $(".field-controls-multi, .scrollable").mCustomScrollbar(_.extend(options, { setHeight: 150 }));
 

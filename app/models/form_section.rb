@@ -13,9 +13,9 @@ class FormSection < CouchRest::Model::Base
   property :unique_id
   property :parent_form
   property :visible, TrueClass, :default => true
-  property :order, Integer
-  property :order_form_group, Integer
-  property :order_subform, Integer
+  property :order, Integer, :default => 0
+  property :order_form_group, Integer, :default => 0
+  property :order_subform, Integer, :default => 0
   property :form_group_keyed, TrueClass, :default => false
   property :form_group_name
   property :fields, [Field]
@@ -257,6 +257,12 @@ class FormSection < CouchRest::Model::Base
       FormSection.by_unique_id(keys: ids)
     end
     memoize :violation_forms #This can be memoized always
+
+    #TODO: This needs to be made not hard-coded
+    def binary_form_names
+      ['Photos and Audio', 'Other Documents', 'BID Records', 'BIA Records']
+    end
+
 
     #TODO - can this be done more efficiently?
     def find_form_groups_by_parent_form parent_form
@@ -634,7 +640,6 @@ class FormSection < CouchRest::Model::Base
   def all_location_fields
     self.fields.select{|f| f.is_location?}
   end
-
 
   def properties= properties
     properties.each_pair do |name, value|

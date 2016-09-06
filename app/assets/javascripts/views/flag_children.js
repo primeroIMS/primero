@@ -5,7 +5,8 @@ _primero.Views.FlagChild = Backbone.View.extend({
   events: {
     'click .dropdown_btn': 'show_hide_dropdown',
     'click .dropdown': 'stop_propagation',
-    'click span.collapse_expand_flag': 'collapse_expand_flag'
+    'click span.collapse_expand_flag': 'collapse_expand_flag',
+    'click span.view_history_flags': 'view_history_flags'
   },
 
   stop_propagation: function(event) {
@@ -37,7 +38,10 @@ _primero.Views.FlagChild = Backbone.View.extend({
       redirect_url: dropdown.data('request_url'),
       submit_label: dropdown.data('submit_label'),
       unflag_submit_label: dropdown.data('submit_unflag_label'),
-      submit_error_message: dropdown.data('submit_error_message')
+      submit_error_message: dropdown.data('submit_error_message'),
+      unflag_date: dropdown.data('message_unflag_date'),
+      unflag_by: dropdown.data('message_unflag_by'),
+      unflagged_label: dropdown.data('message_unflagged_label')
     };
     dropdown.find('.add_flag_form').html(JST['templates/flag_record_form'](this.data));
   },
@@ -50,11 +54,25 @@ _primero.Views.FlagChild = Backbone.View.extend({
     target.toggleClass("collapsed_flag");
     $('.remove_flag_record_container').slideToggle().remove();
     if (target.hasClass('expanded_flag')) {
-      self.data.flag_message = target.data('message');
-      self.data.flag_index = target.data('message_index');
-      target.parent('li').append(JST['templates/remove_flag_record_form'](self.data));
+      var flag_removed = target.data('removed');
+      if (flag_removed === true) {
+        self.data.unflagged_by = target.data('unflagged_by');
+        self.data.remove_message = target.data('remove_message');
+        self.data.unflagged_date = target.data('unflagged_date');
+        target.parent('li').append(JST['templates/remove_flag_record_show'](self.data));
+      } else {
+        self.data.flag_message = target.data('message');
+        self.data.flag_index = target.data('message_index');
+        target.parent('li').append(JST['templates/remove_flag_record_form'](self.data));
+      }
     }
     $('span.collapsed_flag').text('+');
     $('span.expanded_flag').text('-');
+  },
+
+  view_history_flags: function(event) {
+    $("ul.history_flags, div.history_flags_label").toggle();
+    event.stopPropagation();
   }
+
 });

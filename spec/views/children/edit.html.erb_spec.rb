@@ -8,7 +8,8 @@ describe "children/edit.html.erb" do
                  "type" =>"select_box" ,
                  "display_name_all" => "Caseworker Code",
                  "option_strings_source" => "User",
-                 "editable" => false
+                 "editable" => false,
+                 "disabled" => true
               }),
       Field.new({"name" => "assigned_user_names",
                  "type" =>"select_box",
@@ -19,17 +20,20 @@ describe "children/edit.html.erb" do
       Field.new({"name" => "created_by",
               "type" => "text_field",
               "display_name_all" => "Record created by",
-              "editable" => false
+              "editable" => false,
+              "disabled" => true
               }),
       Field.new({"name" => "previously_owned_by",
               "type" => "text_field",
               "display_name_all" => "Previous Owner",
-              "editable" => false
+              "editable" => false,
+              "disabled" => true
               }),
       Field.new({"name" => "module_id",
               "type" => "text_field",
               "display_name_all" => "Module",
-              "editable" => false
+              "editable" => false,
+              "disabled" => true
               })
     ]
     @form_section = FormSection.new({
@@ -68,7 +72,7 @@ describe "children/edit.html.erb" do
     controller.should_receive(:can?).with(:referral, Child).and_return(false)
     controller.should_receive(:can?).with(:transfer, Child).and_return(false)
     controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)
-    controller.should_receive(:can?).with(:approve_case_plan, Child).and_return(false)
+    controller.should_receive(:can?).with(:approve_form, Child).and_return(false)
   end
 
   xit "renders a form that posts to the children url" do

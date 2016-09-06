@@ -31,6 +31,13 @@ basic_identity_fields = [
              "display_name_all" => "Case Status",
              "option_strings_source" => "lookup CaseStatus"
             }),
+  Field.new({"name" => "case_status_reopened",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Case Reopened?",
+             "editable" => false,
+             "disabled" => true
+            }),
   Field.new({"name" => "name",
              "type" => "text_field",
              "display_name_all" => "Full Name",
@@ -114,7 +121,13 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "unhcr_id_no",
              "type" => "text_field",
-             "display_name_all" => "UNHCR ID"
+             "display_name_all" => "proGres Case ID",
+             "help_text_all" => "UNHCR Asylum Seeker Certificate Number"
+            }),
+  Field.new({"name" => "unhcr_individual_no",
+             "type" => "text_field",
+             "display_name_all" => "proGres Individual ID",
+             "help_text_all" => "This ID is shown on the tracking sheet."
             }),
   Field.new({"name" => "un_no",
             "type" => "text_field",

@@ -13,7 +13,7 @@
    end
 %>
 <% if number_of_subforms == 0 %>
-  <% if subform.editable %>
+  <% if !subform.disabled %>
     <% unless subform.subform_section.is_summary_section %>
       <% #TODO refactoring next line when refactoring i18n %>
       <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(form_group_name == "Violations" ? "incident.violation.violation" : subform.name, :default => subform.display_name)) %></div>

@@ -92,6 +92,31 @@ module IndexHelper
     end
   end
 
+  def build_checkboxes_group(items)
+    content_tag :div, class: "filter-controls" do
+      items.each do |item|
+        key = item.keys.first
+        value = item[key][:value]
+        label = item[key][:label]
+
+        concat(
+          label_tag(key,
+            check_box_tag(key, value, nil, id: key, filter_type: "single") +
+            content_tag(:span, label)
+          )
+        )
+      end
+    end
+  end
+
+  def build_filter_checkboxes_group(title, items)
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(build_checkboxes_group(items))
+      concat(content_tag(:div, '', class: 'clearfix'))
+    end
+  end
+
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls' do
       concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
@@ -236,6 +261,13 @@ module IndexHelper
     filters << "Flagged"
     filters << "Mobile" if @is_cp
     filters << "Social Worker" if @is_manager
+
+    filters << "Pending Approvals" if allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) }
+    #Check independently the checkboxes on the view.
+    filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form")
+    filters << "cp_case_plan" if allowed_form_ids.include?("cp_case_plan")
+    filters << "closure_form" if allowed_form_ids.include?("closure_form")
+
     filters << "Agency" if @is_admin || @is_manager
     filters << "Status"
     filters << "Age Range"

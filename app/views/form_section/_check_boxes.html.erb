@@ -4,7 +4,7 @@
   field_id = "#{check_boxes.form.name.dehumanize}_#{sanitize_to_id name}"
   value ||= field_value formObject, check_boxes, field_keys
   field_tags = check_boxes.field_tags.present? ? check_boxes.field_tags : []
-  disable_checkbox = check_boxes.editable ? false : true
+  disable_checkbox = check_boxes.disabled
 %>
 
 <div class="row">

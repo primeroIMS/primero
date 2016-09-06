@@ -266,3 +266,45 @@ create_or_update_lookup(
         "Other"
     ]
 )
+
+create_or_update_lookup(
+    :name => "unhcr_needs_codes",
+    :lookup_values => [
+            "CR-CP",
+            "CR-CS",
+            "CR-CC",
+            "CR-TP",
+            "CR-LW",
+            "CR-LO",
+            "CR-NE",
+            "CR-SE",
+            "CR-AF",
+            "CR-CL",
+            "SC-CH",
+            "SC-IC",
+            "SC-FC",
+            "DS-BD",
+            "DS-DF",
+            "DS-PM",
+            "DS-PS",
+            "DS-MM",
+            "DS-MS",
+            "DS-SD",
+            "SM-MI",
+            "SM-MN",
+            "SM-CI",
+            "SM-CC",
+            "SM-OT",
+            "FU-TR",
+            "FU-FR",
+            "LP-ND",
+            "TR-PI",
+            "TR-HO",
+            "TR-WV",
+            "SV-VA",
+            "LP-AN",
+            "LP-MD",
+            "LP-MS",
+            "LP-RR"
+    ]
+)

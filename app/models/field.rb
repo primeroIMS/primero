@@ -9,6 +9,7 @@ class Field
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
+  property :disabled, TrueClass, :default => false
   localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label]
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
@@ -219,6 +220,7 @@ class Field
     self.visible = true if properties["visible"].nil?
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
+    self.disabled = false if properties["disabled"].nil?
     self.multi_select = false if properties["multi_select"].nil?
     self.hidden_text_field ||= false
     self.autosum_total ||= false
@@ -332,7 +334,7 @@ class Field
 
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])
-    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n")
+    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n"), :editable => true, :disabled => false
   end
 
   def self.new_check_boxes_field field_name, display_name = nil, option_strings = []

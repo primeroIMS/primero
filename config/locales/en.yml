@@ -55,6 +55,7 @@ en:
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
+    reopen_record: "Clicking OK will change the status of this case to Open"
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
     invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
@@ -124,6 +125,7 @@ en:
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
+     unflag_model_history: "Flag History %{model}"
      ok: 'OK'
      cancel: "Cancel"
      edit_subform: 'Edit Subform'
@@ -134,7 +136,12 @@ en:
      referral: "Refer %{model}"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
+     approve_bia: "Approve BIA"
      approve_case_plan: "Approve Case Plan"
+     approve_closure: "Approve Closure"
+     view_flags_history: "View History"
+     request_approval: "Request Approval"
+     approvals: "Approvals"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -149,6 +156,7 @@ en:
       mobile: "Mobile:"
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
+      pending_approvals: "Pending Approvals"
       agency: "Agency:"
       status: "Status:"
       age_range: "Age Range:"
@@ -217,6 +225,9 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflagged_label: "Reason"
+    unflag_date: "Date"
+    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
@@ -302,6 +313,9 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflagged_label: "Reason"
+    unflag_date: "Date"
+    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
@@ -406,6 +420,9 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflagged_label: "Reason"
+    unflag_date: "Date"
+    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     flagged_as_suspected: "Flagged by"
@@ -477,6 +494,9 @@ en:
     selected_records_error_message: "Please select one or more records to flag."
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
+    unflagged_label: "Reason"
+    unflag_date: "Date"
+    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     flag_error_message: "Please explain why you are flagging this record."
@@ -821,7 +841,10 @@ en:
       transfer: "Transfer"
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
+      request_approval: "Request for approval"
+      approve_bia: "Approve BIA form"
       approve_case_plan: "Approve case plan"
+      approve_closure: "Approve Closure form"
       copy: "Copy"
       manage: "Manage"
       administrator_read: "Administrator Read"
@@ -993,6 +1016,9 @@ en:
       add_new_document_button_text: "Add another document"
       add_new_photo_button_text: "Add another photo"
       document_description: "Document Description"
+    upload_bia_document: "BIA Document"
+    upload_bid_document: "BID Document"
+    upload_other_document: "Other Document"
 
   replication:
     label: Replication
@@ -1343,6 +1369,7 @@ en:
         date_of_birth: "Please enter a valid date of birth for this case record"
         wishes_preferences_count: "You are only allowed %{preferences_count} child's preferences."
         value_range: "%{field_name} must be between %{min} and %{max}"
+        document_type: "The type %{type} is invalid."
         document_size: "Please upload a document smaller than 10mb"
         documents_count: "You are only allowed %{documents_count} documents per case."
         document_format: "Executable files are not allowed."
@@ -1485,6 +1512,7 @@ en:
     button: "Actions"
     enable: "Enable"
     disable: "Disable"
+    reopen: "Reopen"
     description:
       valid: "Valid record"
       invalid: "Invalid record"
@@ -1600,6 +1628,10 @@ en:
     success: "%{record_type} %{id} successfully referred"
     failure_batch: "%{failed_count} Referral(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Referral(s) successfully made"
+    to_user_local_status_label: "Status"
+    user_local_status_pending: "Pending"
+    user_local_status_accepted: "Accepted"
+    user_local_status_rejected: "Rejected"
 
   transfer:
     type_label: "Type of Transfer"
@@ -1616,6 +1648,10 @@ en:
     success: "%{record_type} %{id} successfully transferred"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
+    to_user_local_status_label: "Status"
+    user_local_status_pending: "Pending"
+    user_local_status_accepted: "Accepted"
+    user_local_status_rejected: "Rejected"
 
   mark_for_mobile:
     no_records_selected: "No records selected"
@@ -1630,9 +1666,24 @@ en:
     failure_batch: "%{failed_count} Record(s) failed to be unmarked as mobile"
     success_batch: "%{success_count} Record(s) successfully unmarked as mobile"
 
-  approve_case_plan:
+
+  approvals:
+    approve_bia: "Request Approval for the BIA form?"
+    approve_bia_label: "Approve BIA Form"
+    approve_care_plan: "Request Approval for the Care Plan form?"
     approve_case_plan_label: "Approve Case Plan"
+    approve_case_plan: "Request Approval for the Care Plan form?"
+    approve_closure: "Request Approval for the Closure form?"
+    approve_closure_label: "Approve Closure Form"
+    bia: "BIA"
+    care_plan: "Care Plan"
+    closure: "Closure"
     comments_label: "Comments"
+    pending_status: "Pending"
+
+    status:
+      approved: "Approved"
+      rejected: "Rejected"
 
   per_page_translation: "Per page _MENU_"
   total: Total

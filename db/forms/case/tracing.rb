@@ -108,6 +108,28 @@ tracing_fields = [
              "type" => "text_field",
              "display_name_all" => "If Other, please specify"
             }),
+  Field.new({"name" => "separation_other_applicable_causes",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If applicable, what were other causes of separation? ",
+             "option_strings_text_all" =>
+                        ["Conflict",
+                        "Death",
+                        "Family abuse/violence/exploitation",
+                        "Lack of access to services/support",
+                        "CAAFAG",
+                        "Sickness of family member",
+                        "Entrusted into the care of an individual",
+                        "Arrest and detention",
+                        "Abandonment",
+                        "Repatriation",
+                        "Population movement",
+                        "Migration",
+                        "Poverty",
+                        "Natural disaster",
+                        "Divorce/remarriage",
+                        "Other (please specify)"].join("\n")
+              }),
   Field.new({"name" => "separation_details",
              "type" => "textarea",
              "display_name_all" => "Circumstances of Separation (please provide details)"
