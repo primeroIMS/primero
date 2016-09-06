@@ -200,13 +200,11 @@ module Searchable
       ["created_at", "last_updated_at", "registration_date"] + Field.all_searchable_date_field_names(self.parent_form)
     end
 
-    # TODO: we cannot rely on 'district' always being there. SL-specific code
-    # TODO - change per SL-542
     def searchable_string_fields
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"] +
+       "created_organization", "owned_by_agency", "owned_by_location"] +
        Field.all_filterable_field_names(self.parent_form)
     end
 

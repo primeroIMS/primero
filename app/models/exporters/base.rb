@@ -32,6 +32,15 @@ module Exporters
         true
       end
 
+      #This is a class method that does a one-shot export to a String buffer.
+      #Don't use this for large datasets.
+      def export(*args)
+        exporter_obj = new()
+        exporter_obj.export(*args)
+        buffer = exporter_obj.complete
+        return buffer.string
+      end
+
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
         props = properties_to_keys(props)
@@ -94,7 +103,9 @@ module Exporters
           props.map do |p|
             prop_tree = parent_props + [p]
             if p.array
-              longest_array = find_longest_array(models, prop_tree)
+              # TODO: This is a hack for CSV export, that causes memory leak
+              # 5 is an arbitrary number, and probably should be revisited
+              longest_array = 5 #find_longest_array(models, prop_tree)
               (1..(longest_array || 0)).map do |n|
                 new_prop_tree = prop_tree.clone + [n]
                 if p.type.include?(CouchRest::Model::Embeddable)
@@ -138,10 +149,11 @@ module Exporters
         end
       end
 
-      def find_longest_array(models, prop_tree)
-        models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
-      end
-      memoize :find_longest_array
+      #def find_longest_array(models, prop_tree)
+      #  models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
+      #end
+      # this memoization causes memory leaks and brakes when exporting 10k records
+      #memoize :find_longest_array
 
       # TODO: axe this in favor of the similar function in the Accessible model
       # concern.  Have to figure out the inheritance tree for the models first
@@ -158,17 +170,6 @@ module Exporters
           else
             get_model_value(acc, prop)
           end
-        end
-      end
-
-      def convert_model_to_hash(model, properties)
-        prop_names = properties.map {|p| p.name}
-        JSON.parse(model.to_json).select do |k,v|
-          prop_names.include? k
-        end.tap do |h|
-          h['model_type'] = model.class.name
-          h['_id'] = model.id
-          h
         end
       end
 
@@ -191,6 +192,26 @@ module Exporters
           model.send(property.name)
         end
       end
+    end
+
+    def initialize(output_file_path=nil)
+      @io = if output_file_path.present?
+        File.new(output_file_path, "w")
+      else
+        StringIO.new
+      end
+    end
+
+    def export(*args)
+      raise NotImplementedError
+    end
+
+    def complete
+      return @io
+    end
+
+    def buffer
+      return @io
     end
   end
 end

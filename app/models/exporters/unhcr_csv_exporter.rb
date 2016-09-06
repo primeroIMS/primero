@@ -21,24 +21,26 @@ module Exporters
       end
 
       attr_accessor :field_map
+    end
 
-      def export(cases, *args)
-        CSV.generate do |rows|
-          # Supposedly Ruby 1.9+ maintains hash insertion ordering
-          rows << self.field_map.keys
+    def export(cases, *args)
+      unhcr_export = CSV.generate do |rows|
+        # Supposedly Ruby 1.9+ maintains hash insertion ordering
+        rows << UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
+        @called_first_time ||= true
 
-          cases.each do |c|
-            rows << @field_map.map do |_, generator|
-              case generator
-              when Array
-                c.value_for_attr_keys(generator)
-              when Proc
-                generator.call(c)
-              end
+        cases.each do |c|
+          rows << UnhcrCSVExporter.field_map.map do |_, generator|
+            case generator
+            when Array
+              c.value_for_attr_keys(generator)
+            when Proc
+              generator.call(c)
             end
           end
         end
       end
+      self.buffer.write(unhcr_export)
     end
 
     @field_map = {

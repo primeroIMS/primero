@@ -22,6 +22,7 @@ module RecordActions
     before_filter :is_mrm, :only => [:index]
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
+    before_filter :load_system_settings, :only => [:index]
   end
 
   def list_variable_name
@@ -44,8 +45,8 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
-    #TODO - Change per SL-542
-    @options_districts = Location.by_type_enabled.key('district').all.map{|loc| loc.placename}.sort
+    @options_reporting_locations = Location.find_by_admin_level_enabled(@admin_level).map{|loc| loc.name}.sort
+
     module_users(module_ids) if module_ids.present?
 
     # Alias @records to the record-specific name since ERB templates use that
@@ -266,6 +267,19 @@ module RecordActions
 
   def load_locations
     @locations = Location.all_names
+  end
+
+  def load_system_settings
+    @system_settings ||= SystemSettings.current
+    if @system_settings.present? && @system_settings.reporting_location_config.present?
+      @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY
+      @reporting_location_label ||= @system_settings.reporting_location_config.label_key || ReportingLocation::DEFAULT_LABEL_KEY
+    else
+      @admin_level ||= ReportingLocation::DEFAULT_ADMIN_LEVEL
+      @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
+      @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
+    end
   end
 
   # This is to ensure that if a hash has numeric keys, then the keys are sequential

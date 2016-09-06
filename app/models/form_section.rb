@@ -367,10 +367,9 @@ class FormSection < CouchRest::Model::Base
 
     def get_form_sections_by_module(primero_modules, parent_form, current_user)
       primero_modules.map do |primero_module|
-        permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, current_user)
-        visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-        sorted_forms = visible_forms.sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
-        [primero_module.id, sorted_forms]
+        allowed_visible_forms = get_allowed_visible_forms_sections(primero_module, parent_form, current_user)
+        forms = allowed_visible_forms.map{|key, forms_sections| forms_sections}.flatten
+        [primero_module.id, forms]
       end.to_h
     end
     memoize_in_prod :get_form_sections_by_module

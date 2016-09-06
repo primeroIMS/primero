@@ -109,8 +109,8 @@ class Incident < CouchRest::Model::Base
   end
 
   #This method is overriding the one from the record concern to add in the violations property
-  def self.get_properties_by_module(form_sections_by_module)
-    props = super(form_sections_by_module)
+  def self.get_properties_by_module(user, modules)
+    props = super(user, modules)
     if props['primeromodule-mrm'].present?
       violations_property = Incident.properties.select{|p| p.name == 'violations'}.first
       if violations_property.present?
