@@ -2,6 +2,7 @@ bia_fields = [
     Field.new({"name" => "upload_bia_document",
               "type" => "document_upload_box",
               "editable" => false,
+              "disabled" => true,
               "display_name_all" => "BIA Document"
               })
 ]

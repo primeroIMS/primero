@@ -11,7 +11,8 @@ tracing_request_record_owner_fields = [
              "type" => "select_box",
              "display_name_all" => "Caseworker Code",
              "option_strings_source" => "User",
-             "editable" => false
+             "editable" => false,
+             "disabled" => true
             }),
   Field.new({"name" => "agency_organization",
              "type" => "select_box",
@@ -36,17 +37,20 @@ tracing_request_record_owner_fields = [
   Field.new({"name" => "created_by",
              "type" => "text_field",
              "display_name_all" => "Record created by",
-             "editable" => false
+             "editable" => false,
+             "disabled" => true
             }),
   Field.new({"name" => "created_organization",
              "type" => "text_field",
              "display_name_all" => "Created by agency",
-             "editable" => false
+             "editable" => false,
+             "disabled" => true
             }),
   Field.new({"name" => "previously_owned_by",
              "type" => "text_field",
              "display_name_all" => "Previous Owner",
-             "editable" => false
+             "editable" => false,
+             "disabled" => true
             }),
   Field.new({"name" => "previous_agency",
              "type" => "text_field",
@@ -55,7 +59,8 @@ tracing_request_record_owner_fields = [
   Field.new({"name" => "module_id",
           "type" => "text_field",
           "display_name_all" => "Module",
-          "editable" => false
+          "editable" => false,
+          "disabled" => true
           }),
 ]
 

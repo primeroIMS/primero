@@ -430,7 +430,8 @@ mrm_summary_page_fields = [
   Field.new({"name" => "incident_description",
              "type" => "textarea",
              "display_name_all" => "Account of Incident",
-             "editable" => false
+             "editable" => false,
+             "disabled" => true
             }),
   Field.new({"name" => "killing_summary",
              "type" => "subform", "editable" => true,
