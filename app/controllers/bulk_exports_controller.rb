@@ -25,7 +25,7 @@ class BulkExportsController < ApplicationController
       cookies[:download_status_finished] = true
       begin
         send_file(
-          @bulk_export.stored_file_name,
+          @bulk_export.encrypted_file_name,
           filename: "#{@bulk_export.file_name}.zip",
           :disposition => "inline",
           :type => 'application/zip'

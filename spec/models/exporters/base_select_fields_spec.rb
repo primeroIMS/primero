@@ -226,9 +226,7 @@ describe Exporters::BaseSelectFields do
     Child.refresh_form_properties
 
     @user = User.new(:user_name => 'fakeadmin', module_ids: [@primero_module.id])
-
-    fs = FormSection.get_form_sections_by_module([@primero_module], Child.parent_form, @user)
-    @permitted_properties = Child.get_properties_by_module(fs)
+    @permitted_properties = Child.get_properties_by_module(@user, [@primero_module])
   end
 
   after :each do

@@ -533,15 +533,13 @@ describe IncidentsController do
       assigns[:incident].should equal(mock_incident)
     end
 
-    it "retrieves the grouped forms that are permitted to this user and incident" do
-      Incident.stub(:get).with("37").and_return(mock_incident)
+    it "retrieves the forms that are permitted to this user and incident" do
       forms = [stub_form]
-      grouped_forms = forms.group_by{|e| e.form_group_name}
-      FormSection.should_receive(:get_permitted_form_sections).and_return(forms)
-      FormSection.should_receive(:link_subforms)
-      FormSection.should_receive(:group_forms).and_return(grouped_forms)
+      Incident.stub(:allowed_formsections).and_return(forms)
+      Incident.stub(:get).with("37").and_return(mock_incident)
+
       get :new, :id => "37"
-      assigns[:form_sections].should == grouped_forms
+      assigns[:form_sections].should == forms
     end
   end
 

@@ -136,9 +136,19 @@ module IndexHelper
     return violation_types
   end
 
-  def build_list_field_by_model(model_class)
+  def build_list_field_by_model(model_name, user)
+    #Necessary when calling this method from csv_exporter_list_view
+    if @current_user != user
+      @is_admin ||= user.is_admin?
+      @is_manager ||= user.is_manager?
+      @is_cp ||= user.has_module?(PrimeroModule::CP)
+      @is_gbv ||= user.has_module?(PrimeroModule::GBV)
+      @is_mrm ||= user.has_module?(PrimeroModule::MRM)
+    end
+
     #list_view_header returns the columns that are showed in the index page.
-    model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
+    model = model_name.underscore
+    model = "case" if model == "child"
     list_view_fields = { :type => model, :fields => {} }
     list_view_header(model).each do |header|
       if header[:title].present? && header[:sort_title].present?
