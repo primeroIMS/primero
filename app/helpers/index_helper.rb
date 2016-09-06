@@ -64,7 +64,7 @@ module IndexHelper
           label = item[key]
           item = key.to_s
         else
-          label = item
+          label = item.split('::').last
         end
 
         if format
@@ -136,9 +136,19 @@ module IndexHelper
     return violation_types
   end
 
-  def build_list_field_by_model(model_class)
+  def build_list_field_by_model(model_name, user)
+    #Necessary when calling this method from csv_exporter_list_view
+    if @current_user != user
+      @is_admin ||= user.is_admin?
+      @is_manager ||= user.is_manager?
+      @is_cp ||= user.has_module?(PrimeroModule::CP)
+      @is_gbv ||= user.has_module?(PrimeroModule::GBV)
+      @is_mrm ||= user.has_module?(PrimeroModule::MRM)
+    end
+
     #list_view_header returns the columns that are showed in the index page.
-    model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
+    model = model_name.underscore
+    model = "case" if model == "child"
     list_view_fields = { :type => model, :fields => {} }
     list_view_header(model).each do |header|
       if header[:title].present? && header[:sort_title].present?
@@ -240,8 +250,7 @@ module IndexHelper
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
-    #TODO - change per SL-542
-    filters << "District" if @is_admin
+    filters << "Reporting Location" if @is_admin
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "Record State"

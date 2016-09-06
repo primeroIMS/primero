@@ -45,6 +45,13 @@ class Location < CouchRest::Model::Base
                 }
               }"
 
+    view :by_admin_level_enabled,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('admin_level') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
+                  emit(doc['admin_level'], null);
+                }
+              }"
+
     view :by_type
     view :by_placename
     view :by_hierarchy
@@ -145,13 +152,6 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all_names
 
-    def ancestor_name_by_type(location, admin_type)
-      location = Location.placename_from_name(location)
-      location_obj = Location.find_by_location(location)
-      ancestor = location_obj.present? ? location_obj.first.ancestor_by_type(admin_type) : nil
-      return ancestor.present? ? ancestor.placename : nil
-    end
-
     def all_top_level_ancestors
       response = self.by_hierarchy(key: [])
       response.present? ? response.all : []
@@ -167,6 +167,15 @@ class Location < CouchRest::Model::Base
       Location.by_admin_level(key: admin_level).all.map{|l| l.type}.uniq
     end
     memoize_in_prod :type_by_admin_level
+
+    def find_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL)
+      response = Location.by_admin_level_enabled(key: admin_level)
+      response.present? ? response.all : []
+    end
+    memoize_in_prod :find_by_admin_level_enabled
+
+    #find_by_name defined in namable concern
+    memoize_in_prod :find_by_name
 
   end
 

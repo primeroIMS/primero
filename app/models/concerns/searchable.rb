@@ -48,7 +48,7 @@ module Searchable
         ancestors = nil
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-            location ||= Location.by_name(key: self.send(field)).first
+            location ||= Location.find_by_name(self.send(field))
             if location.present?
               # break if admin_level > location.admin_level
               if admin_level == location.admin_level
@@ -125,42 +125,33 @@ module Searchable
       sunspot.instance_eval do
         #TODO: pop off the locations filter and perform a fulltext search
         filters.each do |filter,filter_value|
-          if searchable_location_fields.include? filter
-            #TODO: Could check if also location on line 100, but will it break alot of location code
-            if filter_value[:type] == 'location_list'
-              with(filter.to_sym, filter_value[:value])
-            else
-              fulltext("\"#{filter_value[:value]}\"", fields: filter)
-            end
-          else
-            values = filter_value[:value]
-            type = filter_value[:type]
-            any_of do
-              case type
-              when 'range'
-                values.each do |filter_value|
-                  if filter_value.count == 1
-                    # Range +
-                    with(filter).greater_than_or_equal_to(filter_value.first.to_i)
-                  else
-                    range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
-                    with(filter, range_start...range_stop)
-                  end
-                end
-              when 'date_range'
-                if values.count > 1
-                  to, from = values.first, values.last
-                  with(filter).between(to..from)
+          values = filter_value[:value]
+          type = filter_value[:type]
+          any_of do
+            case type
+            when 'range'
+              values.each do |filter_value|
+                if filter_value.count == 1
+                  # Range +
+                  with(filter).greater_than_or_equal_to(filter_value.first.to_i)
                 else
-                  with(filter, values.first)
+                  range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
+                  with(filter, range_start...range_stop)
                 end
-              when 'list'
-                with(filter).any_of(values)
-              when 'neg'
-                without(filter, values)
-              else
-                with(filter, values) unless values == 'all'
               end
+            when 'date_range'
+              if values.count > 1
+                to, from = values.first, values.last
+                with(filter).between(to..from)
+              else
+                with(filter, values.first)
+              end
+            when 'list'
+              with(filter).any_of(values)
+            when 'neg'
+              without(filter, values)
+            else
+              with(filter, values) unless values == 'all'
             end
           end
         end
@@ -200,13 +191,11 @@ module Searchable
       ["created_at", "last_updated_at", "registration_date"] + Field.all_searchable_date_field_names(self.parent_form)
     end
 
-    # TODO: we cannot rely on 'district' always being there. SL-specific code
-    # TODO - change per SL-542
     def searchable_string_fields
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"] +
+       "created_organization", "owned_by_agency", "owned_by_location"] +
        Field.all_filterable_field_names(self.parent_form)
     end
 
