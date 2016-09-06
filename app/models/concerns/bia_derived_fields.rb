@@ -11,9 +11,13 @@ module BIADerivedFields
     return father_section.present? ? father_section : []
   end
 
-  def not_family_explantion
-    # Add all the explanations from other fields
-    "NOT FAMILY"
+  def not_family_explanation
+    explanation = ""
+    family_details = self.try(:family_details_section)
+    family_details.each do |detail|
+      explanation += detail.not_family_explanation + "\n" if detail.not_family_explanation.present?
+    end
+    explanation
   end
 
   def father_death_details
@@ -45,7 +49,8 @@ module BIADerivedFields
 
   def get_death_details(relation_name)
     details = ""
-    relation_section = get_relation_section(relation_name)
+    # Assuming there's only one father and one mother specified in the nested forms
+    relation_section = get_relation_section(relation_name).first
     if relation_section.present? && relation_section.relation_death_details.present?
       details = relation_section.relation_death_details
     end
