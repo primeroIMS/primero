@@ -43,6 +43,7 @@ class FormSection < CouchRest::Model::Base
     view :by_mobile_form
     view :by_parent_form
     view :by_order
+    view :by_parent_form_and_unique_id
     view :subform_form,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -338,17 +339,8 @@ class FormSection < CouchRest::Model::Base
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
-
-      form_sections = []
-      if allowed_form_ids.present?
-        form_sections = FormSection.by_unique_id(keys: allowed_form_ids).all
-      end
-
-      #Now exclude the forms that do not belong to this record type
-      #TODO: This is too chatty. Better to ask for exactly what you need from DB
-      form_sections = form_sections.select{|f| f.parent_form == parent_form}
-
-      return form_sections
+      allowed_form_ids.present? ?
+        FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
     end
     memoize_in_prod :get_permitted_form_sections
 
@@ -481,6 +473,8 @@ class FormSection < CouchRest::Model::Base
       parent_form = determine_parent_form(record_type, reports)
       model = Record::model_from_name(parent_form)
 
+      #TODO - RSE continue here... get rid of current district.  Replace with admin levels
+      #TODO - how does that affect by district SL reports?
       #hide_on_view_page will filter fields for readonly users.
       readonly_user = user.readonly?(parent_form)
       custom_exportable = {}
@@ -489,6 +483,7 @@ class FormSection < CouchRest::Model::Base
           if record_type == 'violation'
             #Custom export does not have violation type, just reporting.
             #Copied this code from the old reporting method.
+            #TODO RON - this can be improved
             forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
             violation_forms = FormSection.violation_forms
             forms = forms.select{|f| violation_forms.include?(f) || !f.is_nested?}
@@ -538,8 +533,18 @@ class FormSection < CouchRest::Model::Base
               # Keep nested form and minimal fields only
               form.fields.select(&include_field).each do |f|
                 if model.minimum_reportable_fields.values.flatten.include?(f.name) || form.unique_id == Report.get_reportable_subform_record_field_name(parent_form, record_type)
-                    #Not subforms fields.
-                    fields << [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && !f.hide_on_view_page)
+                  #Not subforms fields.
+                  if !readonly_user || (readonly_user && !f.hide_on_view_page)
+                    if f.is_location?
+                      Location::ADMIN_LEVELS.each do |admin_level|
+                        Location.type_by_admin_level(admin_level).each do |lct_type|
+                          fields << ["#{f.name}#{admin_level}", "#{f.display_name} - " + I18n.t("location.base_types.#{lct_type}"), f.type]
+                        end
+                      end
+                    else
+                      fields << [f.name, f.display_name, f.type]
+                    end
+                  end
                 end
               end
             else
