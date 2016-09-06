@@ -15,19 +15,6 @@ module ExportActions
     end
   end
 
-  def filter_properties(properties_by_module, selected)
-    properties_by_module.each do |primero_module, form_sections|
-      form_sections.each do |section_name, fields|
-        selected_properties = fields.select{|k,v| selected.include?(k)}
-        properties_by_module[primero_module][section_name] = selected_properties
-        # clean up empty forms
-        if selected_properties.empty?
-          properties_by_module[primero_module].delete section_name
-        end
-      end
-    end
-  end
-
   def respond_to_export(format, models)
     if params[:selected_records].present?
       selected_records = params[:selected_records].split(",")
