@@ -534,6 +534,8 @@ class FormSection < CouchRest::Model::Base
                 if model.minimum_reportable_fields.values.flatten.include?(f.name) || form.unique_id == Report.get_reportable_subform_record_field_name(parent_form, record_type)
                   #Not subforms fields.
                   if !readonly_user || (readonly_user && !f.hide_on_view_page)
+                    #TODO - this needs to also work for non-subforms
+                    #TODO - extract into common method
                     if f.is_location?
                       Location::ADMIN_LEVELS.each do |admin_level|
                         Location.type_by_admin_level(admin_level).each do |lct_type|
@@ -562,7 +564,19 @@ class FormSection < CouchRest::Model::Base
                   end
                 else
                   #Not subforms fields.
-                  fields << [f.name, f.display_name, f.type] if !readonly_user || (readonly_user && !f.hide_on_view_page)
+                  if !readonly_user || (readonly_user && !f.hide_on_view_page)
+                    #TODO - cut & paste from subforms
+                    #TODO - extract into common method
+                    if f.is_location?
+                      Location::ADMIN_LEVELS.each do |admin_level|
+                        Location.type_by_admin_level(admin_level).each do |lct_type|
+                          fields << ["#{f.name}#{admin_level}", "#{f.display_name} - " + I18n.t("location.base_types.#{lct_type}"), f.type]
+                        end
+                      end
+                    else
+                      fields << [f.name, f.display_name, f.type]
+                    end
+                  end
                 end
               end
             end
