@@ -1,3 +1,5 @@
+require_relative 'bia_form_nested_forms.rb'
+
 bia_fields = [
     Field.new({"name" => "bia_approved",
                "type" => "tick_box",
@@ -263,6 +265,62 @@ bia_fields = [
                "disabled" => true,
                "display_name_all" => "Country of Origin",
                "option_strings_source" => "lookup Country"
+              }),
+    Field.new({"name" => "bia_father",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_father_family_details",
+               "display_name_all" => "Father"
+              }),
+    Field.new({"name" => "bia_mother",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_mother_family_details",
+               "display_name_all" => "Mother"
+              }),
+    Field.new({"name" => "not_family_explanation",
+               "type" => "textarea",
+               "create_property" => false,
+               "editable" => true,
+               "display_name_all" => "If child has been living with caregivers other than the parents explain why, for how long, and their relationship to the child",
+               "disabled" => true,
+               "visible" => true
+              }),
+    Field.new({"name" => "father_death_details",
+               "type" => "textarea",
+               "create_property" => false,
+               "editable" => true,
+               "display_name_all" => "If father believed dead, give details including whether information has been verified",
+               "disabled" => true,
+               "visible" => true
+              }),
+    Field.new({"name" => "mother_death_details",
+               "type" => "textarea",
+               "create_property" => false,
+               "editable" => true,
+               "display_name_all" => "If mother believed dead, give details including whether information has been verified",
+               "disabled" => true,
+               "visible" => true
+              }),
+    Field.new({"name" => "bia_male_caregiver",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_male_caregiver_family_details",
+               "display_name_all" => "Male Primary Caregiver"
+              }),
+    Field.new({"name" => "bia_female_caregiver",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_female_caregiver_family_details",
+               "display_name_all" => "Female Primary Caregiver"
               }),
     Field.new({"name" => "child_at_risk",
                "type" => "tick_box",
@@ -969,7 +1027,7 @@ bia_fields = [
                "type" => "date_field",
                "display_name_all" => "Interview Date",
                "disabled" => true
-              }),
+              })
 ] 
 
 FormSection.create_or_update_form_section({
