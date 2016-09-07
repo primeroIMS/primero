@@ -44,6 +44,14 @@ module BIADerivedFields
     get_primary_caregiver(FEMALE)
   end
 
+  def bia_child_wishes
+    self.try(:child_preferences_section)
+  end
+
+  def bia_child_other_wishes
+    self.try(:child_other_relations_section)
+  end
+
   private
 
   def get_relation_section(relation_name)
