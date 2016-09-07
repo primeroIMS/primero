@@ -35,11 +35,11 @@ module FieldsHelper
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
       when Field::TALLY_FIELD
-        (field.tally + ['total']).map {|t| parent_obj["#{field.name}_#{t}"] }
+        (field.tally + ['total']).map {|t| parent_obj.try("#{field.name}_#{t}") }
       when Field::DATE_RANGE
-        [field_format_date(parent_obj["#{field.name}_from"]), field_format_date(parent_obj["#{field.name}_to"])]
+        [field_format_date(parent_obj.try("#{field.name}_from")), field_format_date(parent_obj.try("#{field.name}_to"))]
       when Field::DATE_FIELD
-        field_format_date(parent_obj[field.name])
+        field_format_date(parent_obj.try(field.name))
       else
         parent_obj.try(field.name) || ''
       end
