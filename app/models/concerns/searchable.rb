@@ -44,6 +44,8 @@ module Searchable
       # searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
 
       all_searchable_location_fields.each do |field|
+        #TODO - Refactor needed
+        #TODO - There is a lot of similarity to Admin Level code in reportable_nested_record concern
         location = nil
         ancestors = nil
         Location::ADMIN_LEVELS.each do |admin_level|
