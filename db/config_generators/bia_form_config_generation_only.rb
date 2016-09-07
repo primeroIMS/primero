@@ -1,6 +1,8 @@
 require_relative 'bia_form_family_nested_forms.rb'
 require_relative 'bia_form_child_wishes_nested_forms.rb'
 require_relative 'bia_form_child_other_wishes_nested_forms.rb'
+require_relative 'bia_form_care_arrangements_nested_forms.rb'
+require_relative 'bia_form_people_interviewed_nested_forms.rb'
 
 bia_fields = [
     Field.new({"name" => "bia_approved",
@@ -557,6 +559,14 @@ bia_fields = [
                "display_name_all" => "Section 2.2 - Current Care Arrangements",
                "disabled" => true
               }),
+    Field.new({"name" => "current_care_arrangements",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_current_care_arrangements_subform",
+               "display_name_all" => "Current Care Arrangements"
+              }),
     Field.new({"name" => "child_in_adult_care_section",
                "type" => "separator",
                "display_name_all" => "IF THE CHILD IS IN ADULT CARE COMPLETE THIS SECTION:",
@@ -1014,6 +1024,14 @@ bia_fields = [
                "type" => "separator",
                "display_name_all" => "SECTION 5 - Additional information / Consideration from the caregivers",
                "disabled" => true
+              }),
+    Field.new({"name" => "bia_interviews",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_interviews_subform",
+               "display_name_all" => "Caregivers Interviewed"
               }),
     Field.new({"name" => "proposed_interventions_section",
                "type" => "separator",
