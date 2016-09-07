@@ -755,8 +755,4 @@ class FormSection < CouchRest::Model::Base
     self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
   end
 
-
-
-
-
 end
