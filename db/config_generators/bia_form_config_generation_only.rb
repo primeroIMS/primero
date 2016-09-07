@@ -1,5 +1,6 @@
 require_relative 'bia_form_family_nested_forms.rb'
 require_relative 'bia_form_child_wishes_nested_forms.rb'
+require_relative 'bia_form_child_other_wishes_nested_forms.rb'
 
 bia_fields = [
     Field.new({"name" => "bia_approved",
@@ -542,6 +543,14 @@ bia_fields = [
                "disabled" => true,
                "display_name_all" => "Does the child plan to join these people at any time?",
                "option_strings_text_all" => "Yes\nNo"
+              }),
+    Field.new({"name" => "bia_child_other_wishes",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_child_other_wishes_subform",
+               "display_name_all" => "Child's Other Preferences "
               }),
     Field.new({"name" => "current_care_arrangements_section",
                "type" => "separator",
