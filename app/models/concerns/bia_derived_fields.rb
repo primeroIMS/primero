@@ -52,6 +52,21 @@ module BIADerivedFields
     self.try(:child_other_relations_section)
   end
 
+  def current_care_arrangements
+    current = []
+    care_arrangements = self.try(:care_arrangements_subform_care_arrangement)
+    if care_arrangements.present?
+      #this subform has "subform_sort_by": "care_arrangement_started_date"
+      #therefore .first care arrangement should have latest care arrangement
+      current = [care_arrangements.first]
+    end
+    current
+  end
+
+  def bia_interviews
+    current_care_arrangements
+  end
+
   private
 
   def get_relation_section(relation_name)
