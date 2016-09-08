@@ -4,6 +4,7 @@ require_relative 'bia_form_child_other_wishes_nested_forms.rb'
 require_relative 'bia_form_care_arrangements_nested_forms.rb'
 require_relative 'bia_form_people_interviewed_nested_forms.rb'
 require_relative 'bia_form_interventions_nested_forms.rb'
+require_relative 'bia_form_followups_nested_forms.rb'
 
 bia_fields = [
     Field.new({"name" => "bia_approved",
@@ -1057,6 +1058,14 @@ bia_fields = [
                "type" => "separator",
                "display_name_all" => "Direct Actions to be Taken by the Case Worker",
                "disabled" => true
+              }),
+    Field.new({"name" => "bia_followups",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_followups_subform",
+               "display_name_all" => "Followups"
               }),
     Field.new({"name" => "form_completed_header",
                "type" => "separator",
