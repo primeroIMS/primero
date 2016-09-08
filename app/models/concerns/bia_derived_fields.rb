@@ -67,6 +67,10 @@ module BIADerivedFields
     current_care_arrangements
   end
 
+  def bia_interventions
+    self.try(:cp_case_plan_subform_case_plan_interventions)
+  end
+
   private
 
   def get_relation_section(relation_name)

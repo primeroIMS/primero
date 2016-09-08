@@ -3,6 +3,7 @@ require_relative 'bia_form_child_wishes_nested_forms.rb'
 require_relative 'bia_form_child_other_wishes_nested_forms.rb'
 require_relative 'bia_form_care_arrangements_nested_forms.rb'
 require_relative 'bia_form_people_interviewed_nested_forms.rb'
+require_relative 'bia_form_interventions_nested_forms.rb'
 
 bia_fields = [
     Field.new({"name" => "bia_approved",
@@ -1037,6 +1038,14 @@ bia_fields = [
                "type" => "separator",
                "display_name_all" => "SECTION 6 - PROPOSED INTERVENTION / RECOMMENDATIONS",
                "disabled" => true
+              }),
+    Field.new({"name" => "bia_interventions",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_interventions_subform",
+               "display_name_all" => "List of Interventions and Services "
               }),
     Field.new({"name" => "consent_for_services",
                "type" => "tick_box",
