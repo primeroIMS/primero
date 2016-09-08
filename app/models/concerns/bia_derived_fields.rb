@@ -71,6 +71,10 @@ module BIADerivedFields
     self.try(:cp_case_plan_subform_case_plan_interventions)
   end
 
+  def bia_followups
+    self.try(:followup_subform_section)
+  end
+
   private
 
   def get_relation_section(relation_name)
