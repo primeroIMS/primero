@@ -185,6 +185,15 @@ module IndexHelper
 
   private
 
+  def get_primary_age_range
+    [ 
+      '0-5',
+      '6-11',
+      '12-17',
+      '18+'
+    ]
+  end
+
   def list_view_header_case
     header_list = []
 
