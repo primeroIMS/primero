@@ -567,7 +567,7 @@ class FormSection < CouchRest::Model::Base
         if field.is_location?
           Location::ADMIN_LEVELS.each do |admin_level|
             Location.type_by_admin_level(admin_level).each do |lct_type|
-              fields << ["#{field.name}#{admin_level}", "#{field.display_name} - " + I18n.t("location.base_types.#{lct_type}") + " - ADM (#{admin_level})", field.type]
+              fields << ["#{field.name}#{admin_level}", "#{field.display_name} - " + I18n.t("location.base_types.#{lct_type}") + " - ADM #{admin_level}", field.type]
             end
           end
         else
