@@ -163,6 +163,11 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_names
 
+    def type_by_admin_level(admin_level = 0)
+      Location.by_admin_level(key: admin_level).all.map{|l| l.type}.uniq
+    end
+    memoize_in_prod :type_by_admin_level
+
     def find_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL)
       response = Location.by_admin_level_enabled(key: admin_level)
       response.present? ? response.all : []
