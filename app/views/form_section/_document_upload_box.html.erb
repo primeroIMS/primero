@@ -33,7 +33,7 @@
       %>
       <div class="medium-4 columns">
         <span class="tool-tip-label">
-          <%= label_tag I18n.t(document_upload_box.name, :default => document_upload_box.display_name) %>
+           <label class="key"><%= I18n.t("fields.#{document_upload_box.name}") %></label>
         </span>
       </div>
       <div class="medium-8 columns">
