@@ -24,6 +24,7 @@ followups_fields = [
   Field.new({"name" => "followup_assessment_type",
              "type" => "select_box",
              "display_name_all" => "Action Taken During the Interview / Visit (assessment)",
+             "disabled" => true,
              "option_strings_text_all" =>
                            ["Personal Intervention Assessment",
                             "Medical Intervention Assessment",
