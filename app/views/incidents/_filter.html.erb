@@ -18,12 +18,7 @@
       <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('Incident Status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Age Range' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', [
-        '0-5',
-        '6-11',
-        '12-17',
-        '18+'
-      ], nil, nil, 'range') %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', get_primary_age_range, nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'Children' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.children"), 'child_types', [

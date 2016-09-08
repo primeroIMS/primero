@@ -129,7 +129,7 @@
   </div>
   <div class="medium-8 columns">
     <%= form_builder.check_box :group_ages, {}, "true", "false" %>
-    <small>0-5, 6-11, 12-17, 18+</small>
+    <small><%= get_primary_age_range.join(" ") %></small>
   </div>
   <div class="medium-1 columns"> </div>
 </div>
