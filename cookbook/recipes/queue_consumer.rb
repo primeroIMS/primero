@@ -37,6 +37,7 @@ supervisor_service 'backburner' do
   command backburner_worker_file
   autostart true
   autorestart true
+  stopasgroup true
 
   redirect_stderr true
   stdout_logfile ::File.join(log_base_dir, 'output.log')

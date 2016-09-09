@@ -404,7 +404,7 @@ describe ChildrenController do
         @params.merge!(:format => format)
         get :index, @params
         #flash[:notice].should == "No Records Available!"
-        expect(flash[:notice]).to eq("Generating the export file: fakefieldadmin-child.csv")
+        expect(flash[:notice]).to eq("Generating the export file: fakefieldadmin-child-UNHCR.csv")
       end
     end
 
