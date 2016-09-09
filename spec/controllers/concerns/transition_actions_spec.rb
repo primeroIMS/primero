@@ -23,9 +23,9 @@ describe TransitionActions, type: :controller do
   context 'passing ids' do
     before do
       User.stub(:find_by_user_name).and_return(@user)
-      @case1 = Child.create(:name => 'Test Case 1', :short_id => 'aaa111', :module_id => 'cp')
-      @case2 = Child.create(:name => 'Test Case 2', :short_id => 'bbb222', :module_id => 'cp')
-      @user2 = User.new(:user_name => 'primero_cp', :role_ids => ['referer'], :module_ids => ['cp'])
+      @case1 = Child.create(:name => 'Test Case 1', :short_id => 'aaa111', :module_id => PrimeroModule::CP, :consent_for_services => true, :disclosure_other_orgs => true)
+      @case2 = Child.create(:name => 'Test Case 2', :short_id => 'bbb222', :module_id => PrimeroModule::CP, :consent_for_services => true, :disclosure_other_orgs => true)
+      @user2 = User.new(:user_name => 'primero_cp', :role_ids => ['referer'], :module_ids => [PrimeroModule::CP])
     end
 
     it 'allows referrals from users with the referral permission' do

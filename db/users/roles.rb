@@ -160,6 +160,7 @@ cp_manager_permissions = [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
+      Permission::REASSIGN,
       Permission::CONSENT_OVERRIDE,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
