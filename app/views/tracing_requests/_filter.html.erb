@@ -26,7 +26,7 @@
 
 
     <%# if filters_to_show.include? 'Age Range' %>
-      <%#= build_filter_checkboxes(t("tracing_requests.filter_by.age_range"), 'relation_age', get_primary_age_range, nil, nil, 'range') %>
+      <%#= build_filter_checkboxes(t("tracing_requests.filter_by.age_range"), 'relation_age', @age_ranges, nil, nil, 'range') %>
     <%# end %>
     <% if filters_to_show.include? 'Record State' %>
       <%= build_filter_checkboxes(t("tracing_requests.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>

@@ -3,7 +3,7 @@ class AgeRange < Range
   MIN = -1
 
   class << self
-    def create(string_range)
+    def from_string(string_range)
       b = string_range.split('.').first
       e = string_range.split('.').last
       AgeRange.new(Integer(b),Integer(e))

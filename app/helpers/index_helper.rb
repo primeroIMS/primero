@@ -185,14 +185,6 @@ module IndexHelper
 
   private
 
-  def get_primary_age_range
-    sys = SystemSettings.current
-    primary_range = sys.primary_age_range
-    age_ranges = sys.age_ranges[primary_range]
-
-    return age_ranges.map{ |r| r.to_s }
-  end
-
   def list_view_header_case
     header_list = []
 

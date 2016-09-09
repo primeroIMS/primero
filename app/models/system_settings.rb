@@ -29,7 +29,7 @@ class SystemSettings < CouchRest::Model::Base
     age_ranges = args.first["age_ranges"]
     if age_ranges.present?
       age_ranges.each do |name, range_array|
-        self.age_ranges[name] = range_array.map{ |r| AgeRange.create(r) }
+        self.age_ranges[name] = range_array.map{ |r| AgeRange.from_string(r) }
       end
     end
   end
