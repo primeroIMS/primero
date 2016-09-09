@@ -328,12 +328,6 @@ bia_fields = [
                "subform_section_id" => "bia_female_caregiver_family_details",
                "display_name_all" => "Female Primary Caregiver"
               }),
-    Field.new({"name" => "child_at_risk",
-               "type" => "tick_box",
-               "disabled" => true,
-               "tick_box_label_all" => "Yes",
-               "display_name_all" => "Child at risk",
-              }),
     #Field.new({"name" => "protection_status",
     #           "type" => "select_box",
     #           "disabled" => true,
