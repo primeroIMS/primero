@@ -5,6 +5,7 @@ require_relative 'bia_form_care_arrangements_nested_forms.rb'
 require_relative 'bia_form_people_interviewed_nested_forms.rb'
 require_relative 'bia_form_interventions_nested_forms.rb'
 require_relative 'bia_form_followups_nested_forms.rb'
+require_relative 'bia_form_transfers_nested_forms.rb'
 
 bia_fields = [
     Field.new({"name" => "bia_approved",
@@ -1066,6 +1067,20 @@ bia_fields = [
                "disabled" => true,
                "subform_section_id" => "bia_followups_subform",
                "display_name_all" => "Followups"
+              }),
+    Field.new({"name" => "case_transferred_for_bia",
+               "type" => "radio_button",
+               "display_name_all" => "Case transferred to another agency",
+               "option_strings_text_all" => ["Yes", "No"].join("\n"),
+               "disabled" => true
+              }),
+    Field.new({"name" => "bia_transfers",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_transfers_subform",
+               "display_name_all" => "Transfers"
               }),
     Field.new({"name" => "form_completed_header",
                "type" => "separator",
