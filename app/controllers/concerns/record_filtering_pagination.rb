@@ -2,6 +2,7 @@ module RecordFilteringPagination
   extend ActiveSupport::Concern
 
   included do
+    before_filter :load_age_range, :only => [:index]
   end
 
   def page
@@ -74,6 +75,12 @@ module RecordFilteringPagination
       current_user.record_scope
     end
 
+  end
+
+  def load_age_range
+    sys = SystemSettings.current
+    primary_range = sys.primary_age_range
+    @age_ranges ||= sys.age_ranges[primary_range].map{ |r| r.to_s }
   end
 
   def sanitize_date_range_filter (date_range)
