@@ -88,6 +88,10 @@ module BIADerivedFields
     transfers
   end
 
+  def bia_consent_for_services
+     self.try(:consent_for_services)
+  end
+
   private
 
   def get_relation_section(relation_name)

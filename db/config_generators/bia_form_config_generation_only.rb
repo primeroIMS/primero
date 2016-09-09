@@ -1043,8 +1043,9 @@ bia_fields = [
                "subform_section_id" => "bia_interventions_subform",
                "display_name_all" => "List of Interventions and Services "
               }),
-    Field.new({"name" => "consent_for_services",
+    Field.new({"name" => "bia_consent_for_services",
                "type" => "tick_box",
+               "create_property" => false,
                "tick_box_label_all" => "Yes",
                "display_name_all" => "Consent has been obtained for the child to receive services",
                "disabled" => true
