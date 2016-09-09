@@ -731,6 +731,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
+    position: Position
     actions:
       delete: "Delete"
     messages:
