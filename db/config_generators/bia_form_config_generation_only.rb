@@ -5,6 +5,7 @@ require_relative 'bia_form_care_arrangements_nested_forms.rb'
 require_relative 'bia_form_people_interviewed_nested_forms.rb'
 require_relative 'bia_form_interventions_nested_forms.rb'
 require_relative 'bia_form_followups_nested_forms.rb'
+require_relative 'bia_form_transfers_nested_forms.rb'
 
 bia_fields = [
     Field.new({"name" => "bia_approved",
@@ -327,12 +328,6 @@ bia_fields = [
                "disabled" => true,
                "subform_section_id" => "bia_female_caregiver_family_details",
                "display_name_all" => "Female Primary Caregiver"
-              }),
-    Field.new({"name" => "child_at_risk",
-               "type" => "tick_box",
-               "disabled" => true,
-               "tick_box_label_all" => "Yes",
-               "display_name_all" => "Child at risk",
               }),
     #Field.new({"name" => "protection_status",
     #           "type" => "select_box",
@@ -1048,8 +1043,9 @@ bia_fields = [
                "subform_section_id" => "bia_interventions_subform",
                "display_name_all" => "List of Interventions and Services "
               }),
-    Field.new({"name" => "consent_for_services",
+    Field.new({"name" => "bia_consent_for_services",
                "type" => "tick_box",
+               "create_property" => false,
                "tick_box_label_all" => "Yes",
                "display_name_all" => "Consent has been obtained for the child to receive services",
                "disabled" => true
@@ -1066,6 +1062,20 @@ bia_fields = [
                "disabled" => true,
                "subform_section_id" => "bia_followups_subform",
                "display_name_all" => "Followups"
+              }),
+    Field.new({"name" => "case_transferred_for_bia",
+               "type" => "radio_button",
+               "display_name_all" => "Case transferred to another agency",
+               "option_strings_text_all" => ["Yes", "No"].join("\n"),
+               "disabled" => true
+              }),
+    Field.new({"name" => "bia_transfers",
+               "type" => "subform",
+               "create_property" => false,
+               "editable" => false,
+               "disabled" => true,
+               "subform_section_id" => "bia_transfers_subform",
+               "display_name_all" => "Transfers"
               }),
     Field.new({"name" => "form_completed_header",
                "type" => "separator",

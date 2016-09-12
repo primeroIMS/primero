@@ -75,6 +75,23 @@ module BIADerivedFields
     self.try(:followup_subform_section)
   end
 
+  def case_transferred_for_bia
+    transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
+    return transfers.present? ? "Yes" : "No"
+  end
+
+  def bia_transfers
+    transfers = []
+    if case_transferred_for_bia == "Yes"
+      transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
+    end
+    transfers
+  end
+
+  def bia_consent_for_services
+     self.try(:consent_for_services)
+  end
+
   private
 
   def get_relation_section(relation_name)

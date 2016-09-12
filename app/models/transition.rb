@@ -18,6 +18,7 @@ class Transition
   property :id
 
   TYPE_REFERRAL = "referral"
+  TYPE_REASSIGN = "reassign"
   TYPE_TRANSFER = "transfer"
 
   def initialize *args

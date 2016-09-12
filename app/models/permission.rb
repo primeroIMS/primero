@@ -29,6 +29,7 @@ class Permission
   ASSIGN = 'assign'
   TRANSFER = 'transfer'
   REFERRAL = 'referral'
+  REASSIGN = 'reassign'
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
@@ -79,6 +80,7 @@ class Permission
       IMPORT,
       ASSIGN,
       TRANSFER,
+      REASSIGN,
       REFERRAL,
       CONSENT_OVERRIDE,
       SYNC_MOBILE,
@@ -121,7 +123,7 @@ class Permission
        when CASE
          actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ].include? a}
        when INCIDENT
-         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ].include? a}
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REASSIGN, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ].include? a}
        when TRACING_REQUEST
          actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ].include? a}
        when ROLE

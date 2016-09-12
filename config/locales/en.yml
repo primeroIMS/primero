@@ -133,6 +133,7 @@ en:
      bundle_import: "Configuration Bundle"
      bundle_export: "Configuration Bundle"
      transfer: "Transfer %{model}"
+     reassign: "Reassign %{model}"
      referral: "Refer %{model}"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
@@ -731,6 +732,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
+    position: Position
     actions:
       delete: "Delete"
     messages:
@@ -839,6 +841,7 @@ en:
       export_custom: "Export custom"
       import: "Import"
       transfer: "Transfer"
+      reassign: "Reassign"
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
       request_approval: "Request for approval"
@@ -1632,6 +1635,13 @@ en:
     user_local_status_pending: "Pending"
     user_local_status_accepted: "Accepted"
     user_local_status_rejected: "Rejected"
+
+  reassign:
+    reassign_case_title: "Reassign case(s) to:"
+    existing_user_label: "Existing user"
+    user_mandatory: "User name is required"
+    no_records_selected: "No records selected"
+    notes_label: "Notes"
 
   transfer:
     type_label: "Type of Transfer"
