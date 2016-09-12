@@ -20,7 +20,7 @@ describe "FileAttachment" do
 
   describe ".from_file" do
     before(:each) do
-      @file = stub!("File")
+      @file = stub("File")
       @file.stub(:original_filename).and_return("i_am_a_file")
       File.stub(:binread).with(@file).and_return("Data")
     end

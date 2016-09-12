@@ -724,7 +724,7 @@ describe Child do
   describe ".add_audio_file" do
 
     before :each do
-      @file = stub!("File")
+      @file = stub("File")
       File.stub(:binread).with(@file).and_return("ABC")
       @file_attachment = FileAttachment.new("attachment_file_name", "audio/mpeg", "data")
     end

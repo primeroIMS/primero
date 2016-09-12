@@ -8,6 +8,7 @@ class ReportsController < ApplicationController
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
   before_filter :set_aggregate_order, only: [:create, :update]
+  before_filter :load_age_range, only: [:new, :edit]
 
   def index
     authorize!(:read_reports, Report)
