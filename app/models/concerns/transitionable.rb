@@ -6,13 +6,14 @@ module Transitionable
     property :transitions, [Transition], :default => []
 
 
-    def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, notes,
+    def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
                        is_remote, type_of_export, user_name, consent_overridden, service = "")
       transition = Transition.new(
                     :type => transition_type,
                     :to_user_local => to_user_local,
                     :to_user_remote => to_user_remote,
                     :to_user_agency => to_user_agency,
+                    :to_user_local_status => to_user_local_status,
                     :transitioned_by => user_name,
                     :notes => notes,
                     :is_remote => is_remote,
