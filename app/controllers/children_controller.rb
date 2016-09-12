@@ -109,6 +109,32 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def relinquish_referral
+    authorize! :referral, model_class
+
+    referral_id = params[:transition_id]
+    child = Child.get(params[:id])
+
+    active_transitions_count = child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
+    referral = child.referrals.select { |r| r.id == referral_id }.first
+
+    # TODO: This will need to be refactored once we implement real i18n-able keyvalue pairs
+    referral.to_user_local_status = I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_DONE}", :locale => :en)
+
+    if active_transitions_count == 0
+      child.assigned_user_names.delete(@current_user.user_name)
+    end
+
+    respond_to do |format|
+      if child.save
+        flash[:notice] = t("referral.done_success_message")
+        format.html { redirect_after_update }
+      else
+        flash[:notice] = child.errors.messages
+        format.html { redirect_after_update }
+      end
+    end
+  end
 
   def match_record
     load_tracing_request

@@ -238,7 +238,7 @@ module TransitionActions
     if is_remote? || transition_type == Transition::TYPE_REASSIGN
       ""
     else
-      @to_user_local_status ||= (params[:to_user_local_status].present? ? params[:to_user_local_status]: I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_PENDING}"))
+      @to_user_local_status ||= (params[:to_user_local_status].present? ? params[:to_user_local_status]: I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_PENDING}", :locale => :en))
     end
   end
 
