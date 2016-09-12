@@ -150,6 +150,12 @@ module Searchable
               with(filter).any_of(values)
             when 'neg'
               without(filter, values)
+            when 'or_op'
+              any_of do
+                values.each do |k, v|
+                  with(k, v)
+                end
+              end
             else
               with(filter, values) unless values == 'all'
             end
