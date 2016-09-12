@@ -5,6 +5,8 @@ include IndexHelper
 
 describe "children/_filter.html.erb" do
   before :each do
+    @age_ranges = []
+
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
 

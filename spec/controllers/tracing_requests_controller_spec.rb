@@ -16,6 +16,11 @@ def stub_out_tracing_request_get(mock_tracing_request = double(TracingRequest))
 end
 
 describe TracingRequestsController do
+  before do
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+  end
 
   before :each do
     TracingRequest.any_instance.stub(:field_definitions).and_return([])

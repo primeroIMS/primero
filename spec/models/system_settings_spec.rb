@@ -1,7 +1,8 @@
 require 'spec_helper'
 describe SystemSettings do
   before :each do
-    @system_settings = SystemSettings.new
+    @system_settings = SystemSettings.create(default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
   end
 
   describe 'Validation' do

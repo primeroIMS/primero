@@ -17,6 +17,12 @@ end
 
 describe IncidentsController do
 
+  before do
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+  end
+
   before :each do
     Incident.any_instance.stub(:field_definitions).and_return([])
     Incident.any_instance.stub(:permitted_properties).and_return(Incident.properties)
