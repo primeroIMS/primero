@@ -92,16 +92,22 @@ module IndexHelper
     end
   end
 
-  def build_checkboxes_group(items)
+  def build_checkboxes_group(items, group_name = nil)
     content_tag :div, class: "filter-controls" do
       items.each do |item|
         key = item.keys.first
         value = item[key][:value]
         label = item[key][:label]
 
+        name, filter_type = if group_name.present?
+          ["#{group_name}[#{key}]", "or_op"]
+        else
+          [key, "single"]
+        end
+
         concat(
           label_tag(key,
-            check_box_tag(key, value, nil, id: key, filter_type: "single") +
+            check_box_tag(name, value, nil, id: key, filter_type: filter_type) +
             content_tag(:span, label)
           )
         )
@@ -109,10 +115,10 @@ module IndexHelper
     end
   end
 
-  def build_filter_checkboxes_group(title, items)
+  def build_filter_checkboxes_group(title, items, group_name = nil)
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
-      concat(build_checkboxes_group(items))
+      concat(build_checkboxes_group(items, group_name))
       concat(content_tag(:div, '', class: 'clearfix'))
     end
   end
