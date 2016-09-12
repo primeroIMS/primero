@@ -31,7 +31,7 @@ module Exporters
                   custom_export_options[:fields].select{|f| f.include? "#{f_name}|||location"}.each do |location_key|
                     lct_array = location_key.split('|||')
                     exportable_location = ExportableLocation.new(field_name: lct_array.first, display_name: lct_array.last, admin_level: lct_array[-2])
-                    lct_field = [field.first, [field.last, exportable_location]]
+                    lct_field = [(field.first + lct_array[-2]), [field.last, exportable_location]]
                     selected_fields << lct_field
                   end
                 end
