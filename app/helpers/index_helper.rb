@@ -92,7 +92,7 @@ module IndexHelper
     end
   end
 
-  def build_checkboxes_group(items, group_name)
+  def build_checkboxes_group(items, group_name = nil)
     content_tag :div, class: "filter-controls" do
       items.each do |item|
         key = item.keys.first
@@ -115,7 +115,7 @@ module IndexHelper
     end
   end
 
-  def build_filter_checkboxes_group(title, items, group_name)
+  def build_filter_checkboxes_group(title, items, group_name = nil)
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(build_checkboxes_group(items, group_name))
