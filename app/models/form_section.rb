@@ -530,7 +530,7 @@ class FormSection < CouchRest::Model::Base
           # Keep nested form and minimal fields only
           form.fields.select(&include_field).each do |f|
             if minimum_reportable_fields.include?(f.name) || form.unique_id == Report.get_reportable_subform_record_field_name(parent_form, record_type)
-              add_field_to_fields(readonly_user, fields, f)
+              add_field_to_fields(readonly_user, fields, f, reports)
             end
           end
         else
@@ -550,7 +550,7 @@ class FormSection < CouchRest::Model::Base
               end
             else
               #Not subforms fields.
-              add_field_to_fields(readonly_user, fields, f)
+              add_field_to_fields(readonly_user, fields, f, reports)
             end
           end
         end
@@ -562,12 +562,14 @@ class FormSection < CouchRest::Model::Base
       forms_and_fields.select{|f| f[1].present?}
     end
 
-    def add_field_to_fields(readonly_user, fields, field)
+    def add_field_to_fields(readonly_user, fields, field, reports)
       if !readonly_user || (readonly_user && !field.hide_on_view_page)
         if field.is_location?
           Location::ADMIN_LEVELS.each do |admin_level|
             Location.type_by_admin_level(admin_level).each do |lct_type|
-              fields << ["#{field.name}#{admin_level}", "#{field.display_name} - " + I18n.t("location.base_types.#{lct_type}") + " - ADM (#{admin_level})", field.type]
+              field_display = "#{field.display_name} - " + I18n.t("location.base_types.#{lct_type}") + " - ADM #{admin_level}"
+              field_key = (reports ? "#{field.name}#{admin_level}" : "#{field.name}|||location|||#{admin_level}|||#{field_display}")
+              fields << ["#{field_key}", "#{field_display}", field.type]
             end
           end
         else

@@ -123,6 +123,8 @@ module Exporters
         else
           model.send(property)
         end
+      elsif property.is_a?(Array)
+        self.class.get_model_location_value(model, property)
       elsif property.array
         if property.type.include?(CouchRest::Model::Embeddable)
           #data from the subform.
@@ -211,7 +213,9 @@ module Exporters
         end
       end
       properties[:record].flatten!
-      properties[:selected_fields].flatten!
+
+      #Only flatten 1 level to preserve location info being grouped with its property
+      properties[:selected_fields].flatten!(1)
       properties
     end
 
@@ -224,6 +228,8 @@ module Exporters
            subform_name, subform_props = property.keys.first, property.values.first
            #Field name will include the subform field name.
            subform_props.map{|prop| "#{subform_name}:#{prop.name}"}.flatten
+         elsif property.is_a?(Array)
+           property.last.display_name if property.last.is_a?(ExportableLocation)
          elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
            #Returns every property in the subform to build the header of the sheet.
            #Remove unique_id field for subforms.

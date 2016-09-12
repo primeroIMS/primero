@@ -192,6 +192,10 @@ module Exporters
           model.send(property.name)
         end
       end
+
+      def get_model_location_value(model, property)
+        Location.ancestor_name_by_name_and_admin_level(model.send(property.first.try(:name)), property.last.try(:admin_level))
+      end
     end
 
     def initialize(output_file_path=nil)
