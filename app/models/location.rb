@@ -178,7 +178,7 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :find_by_name
 
     def ancestor_name_by_name_and_admin_level(location_name, admin_level)
-      return "" if location_name.blank? || ADMIN_LEVELS.exclude? admin_level
+      return "" if location_name.blank? || ADMIN_LEVELS.exclude?(admin_level)
       lct = Location.by_name(key: location_name).first
       if lct.present?
         (lct.admin_level == admin_level) ? lct.placename : lct.ancestors.select{|lct| lct.admin_level == admin_level}.first.try(:placename)

@@ -27,11 +27,13 @@ module Exporters
                   selected_fields << field
                 elsif custom_export_options[:fields].any? {|f| f.include? "#{f_name}|||location"}
                   #Big happy hack to handle admin level locations
-                  lct_string = custom_export_options[:fields].select{|f| f.include? "#{f_name}|||location"}.first
-                  lct_array = (lct_string.present? ? lct_string.split('|||') : [])
-                  exportable_location = ExportableLocation.new(field_name: lct_array.first, display_name: lct_array.last, admin_level: lct_array[-2])
-                  lct_field = [field.first, [field.last, exportable_location]]
-                  selected_fields << lct_field
+                  #We need to loop here because more than 1 admin level could have been selected for a single location
+                  custom_export_options[:fields].select{|f| f.include? "#{f_name}|||location"}.each do |location_key|
+                    lct_array = location_key.split('|||')
+                    exportable_location = ExportableLocation.new(field_name: lct_array.first, display_name: lct_array.last, admin_level: lct_array[-2])
+                    lct_field = [field.first, [field.last, exportable_location]]
+                    selected_fields << lct_field
+                  end
                 end
                 #If there is a subform in the section, filter the fields selected by the user
                 #for the subform.
