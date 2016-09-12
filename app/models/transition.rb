@@ -8,6 +8,7 @@ class Transition
   property :to_user_local, String
   property :to_user_remote, String
   property :to_user_agency, String
+  property :to_user_local_status, String
   property :notes, String
   property :transitioned_by, String
   property :service, String
@@ -20,6 +21,10 @@ class Transition
   TYPE_REFERRAL = "referral"
   TYPE_REASSIGN = "reassign"
   TYPE_TRANSFER = "transfer"
+
+  TO_USER_LOCAL_STATUS_PENDING = "user_local_status_pending"
+  TO_USER_LOCAL_STATUS_ACCEPTED = "user_local_status_accepted"
+  TO_USER_LOCAL_STATUS_REJECTED = "user_local_status_rejected"
 
   def initialize *args
     super
