@@ -35,13 +35,13 @@ module FieldsHelper
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
       when Field::TALLY_FIELD
-        (field.tally + ['total']).map {|t| parent_obj.try("#{field.name}_#{t}") }
+        (field.tally + ['total']).map {|t| parent_obj.try(:[],"#{field.name}_#{t}") }
       when Field::DATE_RANGE
-        [field_format_date(parent_obj.try("#{field.name}_from")), field_format_date(parent_obj.try("#{field.name}_to"))]
+        [field_format_date(parent_obj.try(:[],"#{field.name}_from")), field_format_date(parent_obj.try(:[],"#{field.name}_to"))]
       when Field::DATE_FIELD
-        field_format_date(parent_obj.try(field.name))
+        field_format_date(parent_obj.try(:[],field.name))
       else
-        parent_obj.try(field.name) || ''
+        parent_obj.try(:[],field.name) || parent_obj.try(field.name) || ''
       end
     end
   end
@@ -115,8 +115,12 @@ module FieldsHelper
     shared_subform = field.subform_section.shared_subform.downcase if field.subform_section.try(:shared_subform)
     shared_subform_group = field.subform_section.shared_subform_group.downcase if field.subform_section.try(:shared_subform_group)
 
+    # needed for all derived subforms
     if object.try(field.name).present?
       subforms_count = object.try(field.name).count
+    # needed for all the regular subforms
+    elsif object.try(:[], field.name).present?
+      subforms_count = object.try(:[], field.name).count
     elsif object[shared_subform].present?
       object[shared_subform].count
     elsif object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
