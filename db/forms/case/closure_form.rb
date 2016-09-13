@@ -18,6 +18,8 @@ closure_fields = [
   Field.new({"name" => "approval_status_closure",
              "type" => "select_box",
              "display_name_all" => "Approval Status",
+             "editable" => false,
+             "disabled" => true,
              "option_strings_text_all" =>
                         ["Pending",
                          "Approved",
