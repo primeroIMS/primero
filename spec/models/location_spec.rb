@@ -129,6 +129,42 @@ describe Location do
     end
   end
 
+  describe 'ancestor by admin level' do
+    context 'when admin level is 0' do
+      it 'returns the ancestor' do
+        expect(@town3.ancestor_by_admin_level(0)).to eq(@country)
+      end
+    end
+
+    context 'when admin level is 1' do
+      it 'returns the ancestor' do
+        expect(@town3.ancestor_by_admin_level(1)).to eq(@province2)
+      end
+    end
+
+    context 'when admin level is the same as the current locations admin level' do
+      it 'does not return an ancestor' do
+        expect(@town3.ancestor_by_admin_level(2)).to be_nil
+      end
+    end
+
+    context 'when admin level is greater than the current locations admin level' do
+      it 'does not return an ancestor' do
+        expect(@town3.ancestor_by_admin_level(3)).to be_nil
+      end
+    end
+
+    context 'when admin level is not in the valid range of admin levels' do
+      it 'does not return an ancestor' do
+        expect(@town3.ancestor_by_admin_level(99)).to be_nil
+      end
+    end
+  end
+
+  describe 'ancestor name by name and admin level' do
+    #TODO
+  end
+
   describe 'admin level' do
     context 'when location has a parent' do
       before :each do
