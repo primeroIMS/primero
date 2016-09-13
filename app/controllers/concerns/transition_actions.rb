@@ -12,10 +12,7 @@ module TransitionActions
     @records = []
     if @selected_ids.present?
       @records = model_class.all(keys: @selected_ids).all
-
-      if consent_override && !is_reassign?
-        @records = @records.select{|r| is_consent_given? r }
-      end
+      @records = @records.select{|r| is_consent_given? r } unless is_reassign? || consent_override
     else
       flash[:notice] = t('referral.no_records_selected')
       redirect_to :back and return
