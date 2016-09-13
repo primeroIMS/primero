@@ -20,6 +20,7 @@ class Child < CouchRest::Model::Base
   include Record
   include DocumentUploader
   include BIADerivedFields
+  include IAReferralDerivedFields
   include UNHCRMapping
 
   include Ownable
