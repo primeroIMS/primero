@@ -73,6 +73,8 @@ case_plan_fields = [
     Field.new({"name" => "approval_status_case_plan",
                "type" => "select_box",
                "display_name_all" => "Approval Status",
+               "editable"=> false,
+               "disabled"=> true,
                "option_strings_text_all" =>
                    ["Pending",
                     "Approved",

@@ -20,6 +20,7 @@ transitions_subform = [
     Field.new({"name" => "to_user_local_status",
                "type" => "select_box",
                "editable" => false,
+               "disabled" => true,
                "display_name_all" => "Status",
                "option_strings_text_all" =>
                    ["Pending",
