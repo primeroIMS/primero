@@ -67,13 +67,17 @@ describe "children/edit.html.erb" do
     controller.should_receive(:can?).with(:flag, @child).and_return(false)
     controller.should_receive(:can?).with(:update, @child).and_return(true)
     controller.should_receive(:can?).with(:edit, @child).and_return(true)
+    controller.should_receive(:can?).with(:edit, @child).and_return(true)
     controller.should_receive(:can?).with(:export, Child).and_return(false)
     controller.should_receive(:can?).with(:export_custom, Child).and_return(false)
     controller.should_receive(:can?).with(:referral, Child).and_return(false)
     controller.should_receive(:can?).with(:reassign, Child).and_return(false)
     controller.should_receive(:can?).with(:transfer, Child).and_return(false)
     controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)
-    controller.should_receive(:can?).with(:approve_form, Child).and_return(false)
+    controller.should_receive(:can?).with(:request_approval, Child).and_return(false)
+    controller.should_receive(:can?).with(:approve_bia, Child).and_return(false)
+    controller.should_receive(:can?).with(:approve_case_plan, Child).and_return(false)
+    controller.should_receive(:can?).with(:approve_closure, Child).and_return(false)
   end
 
   xit "renders a form that posts to the children url" do
