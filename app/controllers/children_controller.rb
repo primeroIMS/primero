@@ -76,6 +76,7 @@ class ChildrenController < ApplicationController
 
   def reopen_case
     child = Child.get(params[:child_id])
+    authorize! :update, child
     child.child_status = params[:child_status]
     child.case_status_reopened = params[:case_reopened]
     child.add_reopened_log(current_user.user_name)
@@ -89,7 +90,7 @@ class ChildrenController < ApplicationController
 
   def request_approval
     child = Child.get(params[:child_id])
-
+    authorize! :update, child
     case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]
