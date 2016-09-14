@@ -18,8 +18,11 @@
                                   @options_reporting_locations, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'My Cases'
-      #TODO: Implement
+      filter = []
+      filter << {:owned_by => {:label => t("cases.filter_by.my_cases"), :value => @current_user.user_name }}
       %>
+      <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filter, 'owned_by') %>
+    <% end %>
     <% if filters_to_show.include? 'Approvals' %>
       <%
         pending_filters =  []
