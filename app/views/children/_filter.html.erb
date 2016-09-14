@@ -18,11 +18,11 @@
                                   @options_reporting_locations, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'My Cases'
-      filter = []
-      filter << {:owned_by => {:label => t("cases.filter_by.my_cases"), :value => @current_user.user_name }}
-      filter << {:assigned_user_names => {:label => t("cases.filter_by.referred_cases"), :value => @current_user.user_name }}
+      filters = []
+      filters << {:owned_by => {:label => t("cases.filter_by.my_cases"), :value => @current_user.user_name }}
+      filters << {:assigned_user_names => {:label => t("cases.filter_by.referred_cases"), :value => @current_user.user_name }}
       %>
-      <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filter) %>
+      <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters) %>
     <% end %>
     <% if filters_to_show.include? 'Approvals' %>
       <%
