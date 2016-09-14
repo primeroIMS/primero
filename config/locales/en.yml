@@ -158,6 +158,7 @@ en:
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
       pending_approvals: "Pending Approvals"
+      approved: "Approved"
       agency: "Agency:"
       status: "Status:"
       age_range: "Age Range:"
@@ -1689,9 +1690,9 @@ en:
     care_plan: "Care Plan"
     closure: "Closure"
     comments_label: "Comments"
-    pending_status: "Pending"
 
     status:
+      pending: "Pending"
       approved: "Approved"
       rejected: "Rejected"
 
