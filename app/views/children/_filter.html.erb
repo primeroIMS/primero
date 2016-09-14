@@ -17,6 +17,9 @@
       <%= build_filter_checkboxes(t("location.base_types.#{@reporting_location_label}"), "#{@reporting_location}#{@admin_level}",
                                   @options_reporting_locations, { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'My Cases'
+      #TODO: Implement
+      %>
     <% if filters_to_show.include? 'Approvals' %>
       <%
         pending_filters =  []

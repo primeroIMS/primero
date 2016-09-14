@@ -267,7 +267,7 @@ module IndexHelper
     filters << "Flagged"
     filters << "Mobile" if @is_cp
     filters << "Social Worker" if @is_manager
-
+    filters << "My Cases"
     filters << "Approvals" if allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) }
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form")
