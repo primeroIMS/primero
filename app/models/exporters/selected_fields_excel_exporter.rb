@@ -60,7 +60,7 @@ module Exporters
 
     # @returns: a String with the Excel file data
     def export(models, properties_by_module, current_user, custom_export_options, *args)
-      unless @props.present?
+      if @props.blank?
         properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options)
         #Bulk export will call the exporter several times and so
         #calculate one time the properties because they will not change
@@ -68,21 +68,21 @@ module Exporters
         @props = plain_properties(properties_by_module)
       end
 
-      unless @selected_fields_headers.present?
+      if @selected_fields_headers.blank?
         #Bulk export will call the exporter several times and so
         #calculate and write the headers one time.
         @selected_fields_headers = get_header(@props[:selected_fields])
         @worksheet.write(0, 0, @selected_fields_headers)
       end
 
-      unless @record_headers.present?
+      if @record_headers.blank?
         #Bulk export will call the exporter several times and so
         #calculate and write the headers one time.
         @record_headers = get_header(@props[:record])
         @record_worksheet.write(0, 0, @record_headers)
       end
 
-      unless @withds.present?
+      if @withds.blank?
         #Initialize the variable to hold the widths
         #and so we set at the end of the processing.
         @withds = {
@@ -231,7 +231,7 @@ module Exporters
            #Field name will include the subform field name.
            subform_props.map{|prop| "#{subform_name}:#{prop.name}"}.flatten
          elsif property.is_a?(Array)
-           property.last.display_name if property.last.is_a?(ExportableLocation)
+           property.last[:display_name] if property.last.is_a?(Hash)
          elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
            #Returns every property in the subform to build the header of the sheet.
            #Remove unique_id field for subforms.

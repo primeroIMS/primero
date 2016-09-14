@@ -30,7 +30,7 @@ module Exporters
                   #We need to loop here because more than 1 admin level could have been selected for a single location
                   custom_export_options[:fields].select{|f| f.include? "#{f_name}|||location"}.each do |location_key|
                     lct_array = location_key.split('|||')
-                    exportable_location = ExportableLocation.new(field_name: lct_array.first, display_name: lct_array.last, admin_level: lct_array[-2])
+                    exportable_location = {field_name: lct_array.first, display_name: lct_array.last, admin_level: lct_array[-2]}
                     lct_field = [(field.first + lct_array[-2]), [field.last, exportable_location]]
                     selected_fields << lct_field
                   end
