@@ -67,7 +67,6 @@ describe "children/edit.html.erb" do
     controller.should_receive(:can?).with(:flag, @child).and_return(false)
     controller.should_receive(:can?).with(:update, @child).and_return(true)
     controller.should_receive(:can?).with(:edit, @child).and_return(true)
-    controller.should_receive(:can?).with(:edit, @child).and_return(true)
     controller.should_receive(:can?).with(:export, Child).and_return(false)
     controller.should_receive(:can?).with(:export_custom, Child).and_return(false)
     controller.should_receive(:can?).with(:referral, Child).and_return(false)
