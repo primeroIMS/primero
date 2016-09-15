@@ -56,6 +56,7 @@ class Location < CouchRest::Model::Base
     view :by_placename
     view :by_hierarchy
     view :by_admin_level
+    view :by_admin_level_and_name
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
@@ -177,6 +178,22 @@ class Location < CouchRest::Model::Base
     #find_by_name defined in namable concern
     memoize_in_prod :find_by_name
 
+    def ancestor_placename_by_name_and_admin_level(location_name, admin_level)
+      return "" if location_name.blank? || ADMIN_LEVELS.exclude?(admin_level)
+      lct = Location.by_name(key: location_name).first
+      if lct.present?
+        (lct.admin_level == admin_level) ? lct.placename : lct.ancestor_by_admin_level(admin_level).try(:placename)
+      else
+        ""
+      end
+    end
+    memoize_in_prod :ancestor_placename_by_name_and_admin_level
+
+    def find_by_admin_level_and_names(admin_level, names)
+      Location.by_admin_level_and_name(keys: names.map{|l| [admin_level, l]})
+    end
+    memoize_in_prod :find_by_admin_level_and_names
+
   end
 
   def hierarchical_name
@@ -220,6 +237,10 @@ class Location < CouchRest::Model::Base
 
   def ancestors
     Location.find_by_names(self.ancestor_names)
+  end
+
+  def ancestor_by_admin_level(admin_level)
+    Location.find_by_admin_level_and_names(admin_level, self.ancestor_names).first
   end
 
   def ancestor_by_type(type)

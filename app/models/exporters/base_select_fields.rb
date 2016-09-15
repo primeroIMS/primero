@@ -23,7 +23,18 @@ module Exporters
               fields.each do |field|
                 f_name, f_property = field[0], field[1]
                 #Add selected fields.
-                selected_fields << field if custom_export_options[:fields].include?(f_name)
+                if custom_export_options[:fields].include?(f_name)
+                  selected_fields << field
+                elsif custom_export_options[:fields].any? {|f| f.include? "#{f_name}|||location"}
+                  #Big happy hack to handle admin level locations
+                  #We need to loop here because more than 1 admin level could have been selected for a single location
+                  custom_export_options[:fields].select{|f| f.include? "#{f_name}|||location"}.each do |location_key|
+                    lct_array = location_key.split('|||')
+                    exportable_location = {field_name: lct_array.first, display_name: lct_array.last, admin_level: lct_array[-2]}
+                    lct_field = [(field.first + lct_array[-2]), [field.last, exportable_location]]
+                    selected_fields << lct_field
+                  end
+                end
                 #If there is a subform in the section, filter the fields selected by the user
                 #for the subform.
                 if f_property.array && f_property.type.include?(CouchRest::Model::Embeddable)
