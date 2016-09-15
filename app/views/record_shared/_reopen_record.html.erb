@@ -1,6 +1,5 @@
 <li>
   <a data-reveal-id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" href="#"><%= t("actions.reopen") %></a>
-
   <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" data-reveal>
     <a class="close-reveal-modal">&#215;</a>
     <div class="row">
@@ -14,7 +13,7 @@
         <a class="btn green-button right"
           id="reopen_action"
           data-id="<%= instance.id %>"
-          data-form_action="<%= send("#{model.name.underscore.downcase}_reopen_case_path") %>"
+          data-form_action="<%= send("#{model.name.underscore.downcase}_reopen_case_path", instance) %>"
           data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
           data-status="Open"
           data-reopen="true"
