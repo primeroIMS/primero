@@ -56,17 +56,14 @@ describe FormSection do
 
       it "returns all FormSection objects that are bound to the case's module that the user has access to" do
         child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-        result = FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user)
-        expect(result).to eq([@form_section_b])
+        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user)).to eq([@form_section_b])
       end
 
       it "returns no FormSection objects if the user cannot view the permitted module forms" do
         role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions_list: [@permission_case_read])
         user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
         child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-
-        result = FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)
-        expect(result.present?).to be_false
+        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([])
       end
 
       it "returns the FormSection objects that correspond to the record's type" do
@@ -75,8 +72,7 @@ describe FormSection do
         user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.id])
         child = Child.new(unique_identifier: "123", module_id: primero_module.id)
 
-        result = FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)
-        expect(result).to eq([@form_section_b])
+        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([@form_section_b])
       end
     end
 
