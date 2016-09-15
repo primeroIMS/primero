@@ -17,6 +17,13 @@
       <%= build_filter_checkboxes(t("location.base_types.#{@reporting_location_label}"), "#{@reporting_location}#{@admin_level}",
                                   @options_reporting_locations, { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'My Cases'
+      filters = []
+      filters << {:owned_by => {:label => t("cases.filter_by.my_cases"), :value => @current_user.user_name }}
+      filters << {:assigned_user_names => {:label => t("cases.filter_by.referred_cases"), :value => @current_user.user_name }}
+      %>
+      <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters. "my_cases") %>
+    <% end %>
     <% if filters_to_show.include? 'Approvals' %>
       <%
         pending_filters =  []

@@ -157,6 +157,8 @@ en:
       mobile: "Mobile:"
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
+      my_cases: "My Cases"
+      referred_cases: "Cases referred to me"
       pending_approvals: "Pending Approvals"
       approved: "Approved"
       agency: "Agency:"
