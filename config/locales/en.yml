@@ -161,6 +161,7 @@ en:
       referred_cases: "Cases referred to me"
       pending_approvals: "Pending Approvals"
       approved: "Approved"
+      rejected: "Rejected"
       agency: "Agency:"
       status: "Status:"
       age_range: "Age Range:"
