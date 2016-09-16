@@ -313,20 +313,12 @@ bia_fields = [
                "disabled" => true,
                "visible" => true
               }),
-    Field.new({"name" => "bia_male_caregiver",
+    Field.new({"name" => "bia_caregiver",
                "type" => "subform",
                "create_property" => false,
                "editable" => false,
                "disabled" => true,
-               "subform_section_id" => "bia_male_caregiver_family_details",
-               "display_name_all" => "Male Primary Caregiver"
-              }),
-    Field.new({"name" => "bia_female_caregiver",
-               "type" => "subform",
-               "create_property" => false,
-               "editable" => false,
-               "disabled" => true,
-               "subform_section_id" => "bia_female_caregiver_family_details",
+               "subform_section_id" => "bia_caregiver_family_details",
                "display_name_all" => "Female Primary Caregiver"
               }),
     #Field.new({"name" => "protection_status",
