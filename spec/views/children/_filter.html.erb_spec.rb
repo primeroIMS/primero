@@ -337,4 +337,90 @@ describe "children/_filter.html.erb" do
     end
   end
 
+  describe 'Approvals filters' do
+    before :each do
+      @current_user = User.new
+      @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    end
+
+    context 'when case plan, closure, or bia forms are not present' do
+      before :each do
+        FormSection.should_receive(:get_allowed_form_ids).and_return(['cp_test_form'])
+      end
+      it 'does not display the Pending Approvals filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).not_to match(/<div class="filter"><h3>Pending Approvals:<\/h3>/)
+      end
+
+      it 'does not display the Approved filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).not_to match(/<div class="filter"><h3>Approved:<\/h3>/)
+      end
+    end
+
+    context 'when case plan form is present' do
+      before :each do
+        FormSection.should_receive(:get_allowed_form_ids).and_return(['cp_case_plan'])
+      end
+
+      it 'displays the Pending Approvals filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Pending Approvals<\/h3>/)
+      end
+
+      it 'displays the Approved filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
+      end
+    end
+
+    context 'when closure form is present' do
+      before :each do
+        FormSection.should_receive(:get_allowed_form_ids).and_return(['closure_form'])
+      end
+
+      it 'displays the Pending Approvals filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Pending Approvals<\/h3>/)
+      end
+
+      it 'displays the Approved filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
+      end
+    end
+
+    context 'when bia form is present' do
+      before :each do
+        FormSection.should_receive(:get_allowed_form_ids).and_return(['cp_bia_form'])
+      end
+
+      it 'displays the Pending Approvals filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Pending Approvals<\/h3>/)
+      end
+
+      it 'displays the Approved filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
+      end
+    end
+
+    context 'when case plan, closure, and bia forms are present' do
+      before :each do
+        FormSection.should_receive(:get_allowed_form_ids).and_return(['cp_case_plan', 'closure_form', 'cp_bia_form'])
+      end
+
+      it 'displays the Pending Approvals filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Pending Approvals<\/h3>/)
+      end
+
+      it 'displays the Approved filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
+      end
+    end
+  end
+
 end

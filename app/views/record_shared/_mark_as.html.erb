@@ -46,7 +46,9 @@
             <% record.flags.each_with_index do |f, i| %>
               <% unless f.removed %>
               <li>
-                <span class="right collapse_expand_flag collapsed_flag" data-message="<%= f.message %>" data-message_index="<%= i %>">+</span>
+                <% if f.flagged_by == @current_user.user_name %>
+                  <span class="right collapse_expand_flag collapsed_flag" data-message="<%= f.message %>" data-message_index="<%= i %>">+</span>
+                <% end %>
                 <%= f.message %><br>
                 <span><%= f.flagged_by %> <% if f.date %>|<% end %> <%= f.date %></span>
               </li>

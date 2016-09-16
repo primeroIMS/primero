@@ -157,7 +157,10 @@ en:
       mobile: "Mobile:"
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
+      my_cases: "My Cases"
+      referred_cases: "Cases referred to me"
       pending_approvals: "Pending Approvals"
+      approved: "Approved"
       agency: "Agency:"
       status: "Status:"
       age_range: "Age Range:"
@@ -1078,20 +1081,20 @@ en:
       updated: "Location successfully added"
       deleted: "Location successfully deleted"
     base_types:
-      country: 'country'
-      region: 'region'
-      province: 'province'
-      district: 'district'
-      governorate: 'governorate'
-      chiefdom: 'chiefdom'
-      county: 'county'
-      state: 'state'
-      city: 'city'
-      camp: 'camp'
-      site: 'site'
-      village: 'village'
-      zone: 'zone'
-      other: 'other'
+      country: 'Country'
+      region: 'Region'
+      province: 'Province'
+      district: 'District'
+      governorate: 'Governorate'
+      chiefdom: 'Chiefdom'
+      county: 'County'
+      state: 'State'
+      city: 'City'
+      camp: 'Camp'
+      site: 'Site'
+      village: 'Village'
+      zone: 'Zone'
+      other: 'Other'
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -1689,9 +1692,9 @@ en:
     care_plan: "Care Plan"
     closure: "Closure"
     comments_label: "Comments"
-    pending_status: "Pending"
 
     status:
+      pending: "Pending"
       approved: "Approved"
       rejected: "Rejected"
 

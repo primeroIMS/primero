@@ -38,6 +38,19 @@ module Transitionable
     self.transitions = [self.transitions.first]
   end
 
+  def latest_external_referral
+    referral = []
+    transitions = self.try(:transitions)
+    if transitions.present?
+      latest_referral = transitions.select do |transition|
+        transition.type == Transition::TYPE_REFERRAL && transition.is_remote
+      end.first
+      # Expected result is either one or zero element array
+      referral = [latest_referral]
+    end
+    referral
+  end
+
   def given_consent(type = Transition::TYPE_REFERRAL)
     if self.module_id == PrimeroModule::GBV
       consent_for_services == true

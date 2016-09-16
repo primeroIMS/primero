@@ -35,7 +35,6 @@ module ReportableNestedRecord
       end
       return objects
     end
-
   end
 
   def record_value(field_name)
@@ -65,7 +64,28 @@ module ReportableNestedRecord
         when 'integer'
           fields.each{|f| integer(f){record_value(f)}}
         when 'location'
-          fields.each{|f| text(f, as: "#{f}_lngram".to_sym) {record_value(f)}}
+          fields.each do |field|
+            #TODO - Refactor needed
+            #TODO - There is a lot of similarity to Admin Level code in searchable concern
+            location = nil
+            ancestors = nil
+            Location::ADMIN_LEVELS.each do |admin_level|
+              string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
+                location ||= Location.find_by_name(record_value(field))
+                if location.present?
+                  # break if admin_level > location.admin_level
+                  if admin_level == location.admin_level
+                    location.name
+                  elsif location.admin_level.present? && (admin_level < location.admin_level)
+                    ancestors ||= location.ancestors
+                    # find the ancestor with the current admin_level
+                    lct = ancestors.select{|l| l.admin_level == admin_level}
+                    lct.present? ? lct.first.name : nil
+                  end
+                end
+              end
+            end
+          end
         #TODO: arrays?
         end
       end

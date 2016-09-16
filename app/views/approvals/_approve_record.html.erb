@@ -11,7 +11,7 @@
       <a class="btn green-button right"
          id="approve_action"
          data-id="<%= instance.id %>"
-         data-form_action="<%= send("#{model.name.underscore.downcase}_request_approval_path") %>"
+         data-form_action="<%= send("#{model.name.underscore.downcase}_request_approval_path", instance) %>"
          data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
          data-status="Pending"
          data-approval_type="<%= approval_type %>"

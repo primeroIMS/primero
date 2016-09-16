@@ -17,19 +17,32 @@
       <%= build_filter_checkboxes(t("location.base_types.#{@reporting_location_label}"), "#{@reporting_location}#{@admin_level}",
                                   @options_reporting_locations, { multi: true }, false) %>
     <% end %>
-    <% if filters_to_show.include? 'Pending Approvals'
-      approvals_filters = []
-      if filters_to_show.include? 'cp_bia_form'
-        approvals_filters << {:approval_status_bia => {:label => t("approvals.bia"), :value => t("approvals.pending_status")}}
-      end
-      if filters_to_show.include? 'cp_case_plan'
-        approvals_filters << {:approval_status_case_plan => {:label => t("approvals.care_plan"), :value => t("approvals.pending_status")}}
-      end
-      if filters_to_show.include? 'closure_form'
-        approvals_filters << {:approval_status_closure => {:label => t("approvals.closure"), :value => t("approvals.pending_status")}}
-      end
-    %>
-      <%= build_filter_checkboxes_group(t("cases.filter_by.pending_approvals"), approvals_filters, "approval_status") %>
+    <% if filters_to_show.include? 'My Cases'
+      filters = []
+      filters << {:owned_by => {:label => t("cases.filter_by.my_cases"), :value => @current_user.user_name }}
+      filters << {:assigned_user_names => {:label => t("cases.filter_by.referred_cases"), :value => @current_user.user_name }}
+      %>
+      <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters, "my_cases") %>
+    <% end %>
+    <% if filters_to_show.include? 'Approvals' %>
+      <%
+        pending_filters =  []
+        approved_filters = []
+        if filters_to_show.include? 'cp_bia_form'
+          pending_filters << {:approval_status_bia => {:label => t("approvals.bia"), :value => t("approvals.status.pending")}}
+          approved_filters << {:approval_status_bia => {:label => t("approvals.bia"), :value => t("approvals.status.approved")}}
+        end
+        if filters_to_show.include? 'cp_case_plan'
+          pending_filters << {:approval_status_case_plan => {:label => t("approvals.care_plan"), :value => t("approvals.status.pending")}}
+          approved_filters << {:approval_status_case_plan => {:label => t("approvals.care_plan"), :value => t("approvals.status.approved")}}
+        end
+        if filters_to_show.include? 'closure_form'
+          pending_filters << {:approval_status_closure => {:label => t("approvals.closure"), :value => t("approvals.status.pending")}}
+          approved_filters << {:approval_status_closure => {:label => t("approvals.closure"), :value => t("approvals.status.approved")}}
+        end
+      %>
+      <%= build_filter_checkboxes_group(t("cases.filter_by.pending_approvals"), pending_filters, "approval_status") %>
+      <%= build_filter_checkboxes_group(t("cases.filter_by.approved"), approved_filters, "approval_status") %>
     <% end %>
     <% # If user is only associated with 1 agency, there is no need to display the Agency Filter %>
     <% if (filters_to_show.include? 'Agency') && @associated_agencies.present? && @associated_agencies.count > 1 %>

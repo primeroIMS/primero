@@ -3,9 +3,9 @@
   <tr>
     <th><%= t "location.name" %></th>
     <th><%= t "location.code" %></th>
+    <th><%= t "location.admin_level" %></th>
     <th><%= t "location.type" %></th>
     <th><%= t "location.hierarchy" %></th>
-    <th><%= t "disabled.status.label" %></th>
     <th ></th>
   </tr>
   </thead>
@@ -15,9 +15,9 @@
           <tr>
             <td><%= lct.placename %></td>
             <td><%= lct.location_code %></td>
+            <td><%= lct.admin_level %></td>
             <td><%= lct.type %></td>
             <td><%= lct.hierarchy.join(", ") %></td>
-            <td><%= disabled_status lct %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>
             </td>

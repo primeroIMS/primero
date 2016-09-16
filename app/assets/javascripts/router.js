@@ -20,7 +20,9 @@ _primero.Router = Backbone.Router.extend({
     'users': 'passwordPrompt',
     'roles': 'roleIndexPage',
     'login' : 'maskedUserAndPasswordLogin',
-    'sessions/new': 'maskedUserAndPasswordLogin'
+    'sessions/new': 'maskedUserAndPasswordLogin',
+    'locations/new': 'locations',
+    'locations/:id/edit': 'locations'
   },
 
   initialize: function() {
@@ -173,6 +175,10 @@ _primero.Router = Backbone.Router.extend({
   maskedUserAndPasswordTransfer: function() {
     new MaskedUser($("#transfer-modal form #other_user_agency").get(0));
     new MaskedPassword($("#transfer-modal form #password").get(0));
+  },
+
+  locations: function(){
+    new _primero.Views.Locations();
   }
 
 });

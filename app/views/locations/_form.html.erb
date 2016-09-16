@@ -14,7 +14,7 @@
 <% end %>
 
 <div class="row">
-  <%= form_for @location, :html => { :class => 'default-form', :autocomplete => "off" } do |f| %>
+  <%= form_for @location, :html => { :class => 'default-form location-new-edit', :autocomplete => "off" } do |f| %>
     <fieldset class="no-border">
       <%= f.error_messages :header_tag => :h2 %>
       <div class="row">

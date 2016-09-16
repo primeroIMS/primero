@@ -5,13 +5,13 @@ describe Location do
   before do
     Location.all.each &:destroy
 
-    @country = create :location, admin_level: 0, placename: 'MyCountry'
-    @province1 = create :location, hierarchy: [@country.placename]
-    @province2 = create :location, hierarchy: [@country.placename]
-    @province3 = create :location, hierarchy: [@country.placename]
-    @town1 = create :location, hierarchy: [@country.placename, @province1.placename]
-    @town2 = create :location, hierarchy: [@country.placename, @province1.placename], disabled: false
-    @town3 = create :location, hierarchy: [@country.placename, @province2.placename]
+    @country = create :location, admin_level: 0, placename: 'MyCountry', type: 'country'
+    @province1 = create :location, hierarchy: [@country.placename], type: 'province'
+    @province2 = create :location, hierarchy: [@country.placename], type: 'state'
+    @province3 = create :location, hierarchy: [@country.placename], type: 'province'
+    @town1 = create :location, hierarchy: [@country.placename, @province1.placename], type: 'city'
+    @town2 = create :location, hierarchy: [@country.placename, @province1.placename], type: 'city', disabled: false
+    @town3 = create :location, hierarchy: [@country.placename, @province2.placename], type: 'city'
     @disabled1 = create :location, hierarchy: [@country.placename, @province2.placename], disabled: true
     @disabled2 = create :location, hierarchy: [@country.placename, @province2.placename], disabled: true
 
@@ -103,74 +103,166 @@ describe Location do
     location.errors[:name].should == ["must not be blank"]
   end
 
-  context 'when location has a parent' do
-    before :each do
-      @location = Location.new(placename: 'MyTown', location_code: 'abc123', hierarchy: [@country.placename])
-    end
-
-    it 'calculates admin_level' do
-      expect(@location.calculate_admin_level).to eq((@country.admin_level + 1))
-      expect(@location.admin_level).to eq((@country.admin_level + 1))
-    end
-
-    context 'and admin_level is empty' do
-      it "is valid" do
-        expect(@location).to be_valid
+  describe 'type by admin level' do
+    context 'when admin level is 0' do
+      it 'returns location type' do
+        expect(Location.type_by_admin_level(0)).to include('country')
       end
     end
 
-    context 'and admin_level is present' do
-      before :each do
-        @location[:admin_level] = 1
-      end
-      it "is valid" do
-        expect(@location).to be_valid
+    context 'when admin level is 1' do
+      it 'returns location type' do
+        expect(Location.type_by_admin_level(1)).to include('province', 'state')
       end
     end
 
-    context 'and parents admin_level is equal to the max admin_level' do
-      before :each do
-        @country_max = create :location, admin_level: Location::ADMIN_LEVELS.last, placename: 'MaxCountry'
-        @location[:hierarchy] = [@country_max.placename]
+    context 'when admin level is 2' do
+      it 'returns location type' do
+        expect(Location.type_by_admin_level(2)).to include('city')
       end
+    end
 
-      it 'calculates admin_level as out of range' do
-        expect(@location.calculate_admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
-        expect(@location.admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
+    context 'when there are no locations for an admin level' do
+      it 'returns an empty array' do
+        expect(Location.type_by_admin_level(3)).to eq([])
       end
     end
   end
 
-  context 'when location does not have a parent' do
-    before :each do
-      @location = Location.new(placename: 'MyTown', location_code: 'abc123')
-    end
-
-    context 'and admin_level is empty' do
-      it "is not valid" do
-        expect(@location).not_to be_valid
-        expect(@location.errors[:admin_level]).to eq(['must not be blank'])
-      end
-
-      it 'does not calculate admin_level' do
-        orig_admin_level = @location.admin_level
-        expect(@location.calculate_admin_level).to be_nil
-        expect(@location.admin_level).to eq(orig_admin_level)
+  describe 'ancestor by admin level' do
+    context 'when admin level is 0' do
+      it 'returns the ancestor' do
+        expect(@town3.ancestor_by_admin_level(0)).to eq(@country)
       end
     end
 
-    context 'and admin_level is present' do
+    context 'when admin level is 1' do
+      it 'returns the ancestor' do
+        expect(@town3.ancestor_by_admin_level(1)).to eq(@province2)
+      end
+    end
+
+    context 'when admin level is the same as the current locations admin level' do
+      it 'does not return an ancestor' do
+        expect(@town3.ancestor_by_admin_level(2)).to be_nil
+      end
+    end
+
+    context 'when admin level is greater than the current locations admin level' do
+      it 'does not return an ancestor' do
+        expect(@town3.ancestor_by_admin_level(3)).to be_nil
+      end
+    end
+
+    context 'when admin level is not in the valid range of admin levels' do
+      it 'does not return an ancestor' do
+        expect(@town3.ancestor_by_admin_level(99)).to be_nil
+      end
+    end
+  end
+
+  describe 'ancestor placename by name and admin level' do
+    context 'when admin level is 0' do
+      it 'returns the ancestor' do
+        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.name, 0)).to eq(@country.placename)
+      end
+    end
+
+    context 'when admin level is 1' do
+      it 'returns the ancestor' do
+        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.name, 1)).to eq(@province2.placename)
+      end
+    end
+
+    context 'when admin level is the same as the current locations admin level' do
+      it 'returns this locations placename' do
+        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.name, 2)).to eq(@town3.placename)
+      end
+    end
+
+    context 'when admin level is greater than the current locations admin level' do
+      it 'does not return an ancestor' do
+        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.name, 3)).to be_nil
+      end
+    end
+
+    context 'when admin level is not in the valid range of admin levels' do
+      it 'does not return an ancestor' do
+        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.name, 99)).to be_empty
+      end
+    end
+  end
+
+  describe 'admin level' do
+    context 'when location has a parent' do
       before :each do
-        @location[:admin_level] = 1
-      end
-      it "is valid" do
-        expect(@location).to be_valid
+        @location = Location.new(placename: 'MyTown', location_code: 'abc123', hierarchy: [@country.placename])
       end
 
-      it 'does not calculate admin_level' do
-        orig_admin_level = @location.admin_level
-        expect(@location.calculate_admin_level).to be_nil
-        expect(@location.admin_level).to eq(orig_admin_level)
+      it 'calculates admin_level' do
+        expect(@location.calculate_admin_level).to eq((@country.admin_level + 1))
+        expect(@location.admin_level).to eq((@country.admin_level + 1))
+      end
+
+      context 'and admin_level is empty' do
+        it "is valid" do
+          expect(@location).to be_valid
+        end
+      end
+
+      context 'and admin_level is present' do
+        before :each do
+          @location[:admin_level] = 1
+        end
+        it "is valid" do
+          expect(@location).to be_valid
+        end
+      end
+
+      context 'and parents admin_level is equal to the max admin_level' do
+        before :each do
+          @country_max = create :location, admin_level: Location::ADMIN_LEVELS.last, placename: 'MaxCountry'
+          @location[:hierarchy] = [@country_max.placename]
+        end
+
+        it 'calculates admin_level as out of range' do
+          expect(@location.calculate_admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
+          expect(@location.admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
+        end
+      end
+    end
+
+    context 'when location does not have a parent' do
+      before :each do
+        @location = Location.new(placename: 'MyTown', location_code: 'abc123')
+      end
+
+      context 'and admin_level is empty' do
+        it "is not valid" do
+          expect(@location).not_to be_valid
+          expect(@location.errors[:admin_level]).to eq(['must not be blank'])
+        end
+
+        it 'does not calculate admin_level' do
+          orig_admin_level = @location.admin_level
+          expect(@location.calculate_admin_level).to be_nil
+          expect(@location.admin_level).to eq(orig_admin_level)
+        end
+      end
+
+      context 'and admin_level is present' do
+        before :each do
+          @location[:admin_level] = 1
+        end
+        it "is valid" do
+          expect(@location).to be_valid
+        end
+
+        it 'does not calculate admin_level' do
+          orig_admin_level = @location.admin_level
+          expect(@location.calculate_admin_level).to be_nil
+          expect(@location.admin_level).to eq(orig_admin_level)
+        end
       end
     end
   end
