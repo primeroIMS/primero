@@ -42,11 +42,13 @@ module Transitionable
     referral = []
     transitions = self.try(:transitions)
     if transitions.present?
-      latest_referral = transitions.select do |transition|
+      ext_referrals = transitions.select do |transition|
         transition.type == Transition::TYPE_REFERRAL && transition.is_remote
-      end.first
-      # Expected result is either one or zero element array
-      referral = [latest_referral]
+      end
+      if ext_referrals.present?
+        # Expected result is either one or zero element array
+        referral = [ext_referrals.first]
+      end
     end
     referral
   end

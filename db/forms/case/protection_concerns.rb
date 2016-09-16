@@ -46,8 +46,6 @@ protection_concern_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "UNHCR Needs Codes",
-             "editable" => false,
-             "disabled" => true,
              "option_strings_source" => "lookup UnhcrNeedsCodes"
             }),
   Field.new({"name" => "disability_type",

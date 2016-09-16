@@ -349,12 +349,17 @@ describe "children/_filter.html.erb" do
       end
       it 'does not display the Pending Approvals filter' do
         render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
-        expect(rendered).not_to match(/<div class="filter"><h3>Pending Approvals:<\/h3>/)
+        expect(rendered).not_to match(/<div class="filter"><h3>Pending Approvals<\/h3>/)
       end
 
       it 'does not display the Approved filter' do
         render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
-        expect(rendered).not_to match(/<div class="filter"><h3>Approved:<\/h3>/)
+        expect(rendered).not_to match(/<div class="filter"><h3>Approved<\/h3>/)
+      end
+
+      it 'does not display the Rejected filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).not_to match(/<div class="filter"><h3>Rejected<\/h3>/)
       end
     end
 
@@ -372,6 +377,11 @@ describe "children/_filter.html.erb" do
         render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
         expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
       end
+
+      it 'displays the Rejected filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Rejected<\/h3>/)
+      end
     end
 
     context 'when closure form is present' do
@@ -387,6 +397,11 @@ describe "children/_filter.html.erb" do
       it 'displays the Approved filter' do
         render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
         expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
+      end
+
+      it 'displays the Rejected filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Rejected<\/h3>/)
       end
     end
 
@@ -404,6 +419,11 @@ describe "children/_filter.html.erb" do
         render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
         expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
       end
+
+      it 'displays the Rejected filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Rejected<\/h3>/)
+      end
     end
 
     context 'when case plan, closure, and bia forms are present' do
@@ -419,6 +439,11 @@ describe "children/_filter.html.erb" do
       it 'displays the Approved filter' do
         render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
         expect(rendered).to match(/<div class="filter"><h3>Approved<\/h3>/)
+      end
+
+      it 'displays the Rejected filter' do
+        render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+        expect(rendered).to match(/<div class="filter"><h3>Rejected<\/h3>/)
       end
     end
   end

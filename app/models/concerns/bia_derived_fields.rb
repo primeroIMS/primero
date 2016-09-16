@@ -4,8 +4,6 @@ module BIADerivedFields
   #TODO: Improve with i18n
   MOTHER = "Mother"
   FATHER = "Father"
-  MALE = "Male"
-  FEMALE = "Female"
 
   def bia_mother
     mother_section = get_relation_section(MOTHER)
@@ -36,12 +34,17 @@ module BIADerivedFields
     get_death_details(MOTHER)
   end
 
-  def bia_male_caregiver
-    get_primary_caregiver(MALE)
-  end
-
-  def bia_female_caregiver
-    get_primary_caregiver(FEMALE)
+  def bia_caregiver
+    relation_section = []
+    family_details = self.try(:family_details_section)
+    if family_details.present?
+      relation_section = family_details.select do |details|
+        details.relation_is_caregiver == true &&
+          details.relation != MOTHER &&
+          details.relation != FATHER
+      end
+    end
+    relation_section
   end
 
   def bia_child_wishes
@@ -81,11 +84,12 @@ module BIADerivedFields
   end
 
   def bia_transfers
-    transfers = []
+    latest_transfer = []
     if case_transferred_for_bia == "Yes"
       transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
+      latest_transfer = [transfers.first]
     end
-    transfers
+    latest_transfer
   end
 
   def bia_consent_for_services
@@ -111,18 +115,6 @@ module BIADerivedFields
       details = relation_section.relation_death_details
     end
     details
-  end
-
-  def get_primary_caregiver(sex)
-    relation_section = []
-    family_details = self.try(:family_details_section)
-    if family_details.present?
-      relation_section = family_details.select do |details|
-        details.relation_is_caregiver == true && details.relation_sex == sex && 
-          details.relation != MOTHER && details.relation != FATHER
-      end
-    end
-    relation_section
   end
 
 end

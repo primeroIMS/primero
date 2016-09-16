@@ -57,11 +57,15 @@ module DocumentUploader
 
       if uploaded_document.present?
         @documents.push uploaded_document
-        @document_file_name = uploaded_document.original_filename
         attachment = FileAttachment.from_uploadable_file uploaded_document, "document-#{uploaded_document.path.hash}"
-        self['document_keys'].push attachment.name
-        self[form_id].push({:file_name => @document_file_name, :attachment_key => attachment.name, :is_current => is_current,
-                            :document_description => description, :date => date, :comments => comments })
+        key = attachment.name
+        if key.is_number?
+          key = 'doc_' + attachment.name
+        end
+        self['document_keys'].push key
+        self[form_id].push({:file_name => uploaded_document.original_filename, :attachment_key => key,
+                            :is_current => is_current, :document_description => description,
+                            :date => date, :comments => comments })
         attach attachment
       end
     end

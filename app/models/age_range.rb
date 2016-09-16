@@ -4,8 +4,17 @@ class AgeRange < Range
 
   class << self
     def from_string(string_range)
-      b = string_range.split('.').first
-      e = string_range.split('.').last
+      b = e = ''
+      if string_range.include? '+'
+        b = string_range.split('+').first
+        e = MAX
+      elsif string_range.include? '-'
+        b = string_range.split('-').first
+        e = string_range.split('-').last
+      elsif string_range.include? '.'
+        b = string_range.split('.').first
+        e = string_range.split('.').last
+      end
       AgeRange.new(Integer(b),Integer(e))
     end
   end

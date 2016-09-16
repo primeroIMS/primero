@@ -313,20 +313,12 @@ bia_fields = [
                "disabled" => true,
                "visible" => true
               }),
-    Field.new({"name" => "bia_male_caregiver",
+    Field.new({"name" => "bia_caregiver",
                "type" => "subform",
                "create_property" => false,
                "editable" => false,
                "disabled" => true,
-               "subform_section_id" => "bia_male_caregiver_family_details",
-               "display_name_all" => "Male Primary Caregiver"
-              }),
-    Field.new({"name" => "bia_female_caregiver",
-               "type" => "subform",
-               "create_property" => false,
-               "editable" => false,
-               "disabled" => true,
-               "subform_section_id" => "bia_female_caregiver_family_details",
+               "subform_section_id" => "bia_caregiver_family_details",
                "display_name_all" => "Female Primary Caregiver"
               }),
     #Field.new({"name" => "protection_status",
@@ -362,7 +354,8 @@ bia_fields = [
               }),
     Field.new({"name" => "source_interview_other",
                "type" =>"text_field" ,
-               "display_name_all" => "If information obtained from Other Agency, please specify"
+               "display_name_all" => "If information obtained from Other Agency, please specify",
+               "disabled" => true,
               }),
     Field.new({"name" => "identification_date",
                "type" => "date_field",
@@ -982,7 +975,7 @@ bia_fields = [
                "type" => "select_box",
                "multi_select" => true,
                "display_name_all" => "UNHCR Needs Codes",
-               "disabled" => false,
+               "disabled" => true,
                "option_strings_source" => "lookup UnhcrNeedsCodes"
               }),
     Field.new({"name" => "bia_wishes_child",
