@@ -46,6 +46,12 @@ describe ChildrenController do
       #So, make sure this code is called with the corresponding instance.
       controller.should_receive(:is_consent_given?).with(instance).and_call_original
 
+      #Call method :is_reassign? when test the authorize and when test the consent.
+      controller.should_receive(:is_reassign?).twice.and_call_original
+
+      #Call method :consent_override when test the consent.
+      controller.should_receive(:consent_override).and_call_original
+
       #Records did not pass the consent validation
       #the following methods should not be called.
       controller.should_not_receive(:log_to_history)
