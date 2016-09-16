@@ -24,7 +24,6 @@ Child.each_slice do |children|
 
     if changed
       children_to_save << record
-      binding.pry
       puts "About to save record #{record.id}"
     else
       puts "Skipping record #{record.id}"
