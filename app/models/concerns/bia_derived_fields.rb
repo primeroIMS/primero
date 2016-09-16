@@ -81,11 +81,12 @@ module BIADerivedFields
   end
 
   def bia_transfers
-    transfers = []
+    latest_transfer = []
     if case_transferred_for_bia == "Yes"
       transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
+      latest_transfer = [transfers.first]
     end
-    transfers
+    latest_transfer
   end
 
   def bia_consent_for_services
