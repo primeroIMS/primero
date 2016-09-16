@@ -362,7 +362,8 @@ bia_fields = [
               }),
     Field.new({"name" => "source_interview_other",
                "type" =>"text_field" ,
-               "display_name_all" => "If information obtained from Other Agency, please specify"
+               "display_name_all" => "If information obtained from Other Agency, please specify",
+               "disabled" => true,
               }),
     Field.new({"name" => "identification_date",
                "type" => "date_field",
@@ -982,7 +983,7 @@ bia_fields = [
                "type" => "select_box",
                "multi_select" => true,
                "display_name_all" => "UNHCR Needs Codes",
-               "disabled" => false,
+               "disabled" => true,
                "option_strings_source" => "lookup UnhcrNeedsCodes"
               }),
     Field.new({"name" => "bia_wishes_child",

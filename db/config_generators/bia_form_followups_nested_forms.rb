@@ -51,7 +51,8 @@ followups_fields = [
             }),
   Field.new({"name" => "when_follow_up_visit_should_happen",
              "type" => "date_field",
-             "display_name_all" => "Date"
+             "display_name_all" => "Date",
+             "disabled" => true
             })
 ]
 
