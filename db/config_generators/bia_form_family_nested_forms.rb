@@ -12,17 +12,10 @@ father_name = [
              "disabled" => true
            })
 ]
-male_caregiver_name = [
+caregiver_name = [
   Field.new({"name" => "relation_name",
              "type" => "text_field",
-             "display_name_all" => "Male Primary Caregiver's Name (if applicable)",
-             "disabled" => true
-           })
-]
-female_caregiver_name = [
-  Field.new({"name" => "relation_name",
-             "type" => "text_field",
-             "display_name_all" => "Female Primary Caregiver's Name (if applicable)",
+             "display_name_all" => "Primary Caregiver's Name (if applicable)",
              "disabled" => true
            })
 ]
@@ -115,26 +108,14 @@ father = FormSection.create_or_update_form_section({
     "description_all" => "Father"
 })
 
-male_caregiver = FormSection.create_or_update_form_section({
-    :unique_id => "bia_male_caregiver_family_details",
-    "visible" => false,
-    "is_nested" => true,
-    :parent_form => "case",
-    "editable" => false,
-    :fields => male_caregiver_name + nickname_ids,
-    :initial_subforms => 1,
-    "name_all" => "Male Primary Caregiver",
-    "description_all" => "Male Primary Caregiver"
-})
-
 female_caregiver = FormSection.create_or_update_form_section({
-    :unique_id => "bia_female_caregiver_family_details",
+    :unique_id => "bia_caregiver_family_details",
     "visible" => false,
     "is_nested" => true,
     :parent_form => "case",
     "editable" => false,
-    :fields => female_caregiver_name + nickname_ids,
+    :fields => caregiver_name + nickname_ids,
     :initial_subforms => 1,
-    "name_all" => "Female Primary Caregiver",
-    "description_all" => "Female Primary Caregiver"
+    "name_all" => "Primary Caregiver",
+    "description_all" => "Primary Caregiver"
 })
