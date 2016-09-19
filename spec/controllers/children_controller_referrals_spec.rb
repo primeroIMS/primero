@@ -83,6 +83,9 @@ describe ChildrenController do
 
       #No consent was grant, so no referrals records should be created.
       assigns[:record].referrals.should eq([])
+      Child.get(instance.id).referrals.should eq([])
+      #No consent was grant, no record was selected.
+      assigns[:records].should eq([])
     end
   end
 
