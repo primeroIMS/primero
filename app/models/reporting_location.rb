@@ -4,6 +4,7 @@ class ReportingLocation
   property :field_key
   property :label_key
   property :admin_level, Integer, :default => 0
+  property :reg_ex_filter
 
   validate :validate_label_key
   validate :validate_admin_level
