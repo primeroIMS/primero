@@ -18,6 +18,7 @@ module Searchable
       searchable_date_fields.each {|f| date f}
       searchable_numeric_fields.each {|f| integer f}
       # TODO: boolean with have to change if we want to index arbitrary index fields
+      boolean :case_status_reopened
       boolean :duplicate
       boolean :flag
       boolean :has_photo
