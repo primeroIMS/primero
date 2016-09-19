@@ -267,6 +267,27 @@ describe Location do
     end
   end
 
+  describe 'find_names_by_admin_level_enabled' do
+    before do
+      @another_country = create :location, admin_level: 0, placename: 'Another Country', type: 'country'
+      @another_province = create :location, hierarchy: [@another_country.placename], type: 'province'
+      @another_town1 = create :location, hierarchy: [@another_country.placename, @another_province.placename], type: 'city'
+      @another_town2 = create :location, hierarchy: [@another_country.placename, @another_province.placename], type: 'city'
+    end
+
+    context 'when filter is not present' do
+      it 'finds all location names for admin level' do
+        expect(Location.find_names_by_admin_level_enabled(2)).to match_array([@town1.name, @town2.name, @town3.name, @another_town1.name, @another_town2.name])
+      end
+    end
+
+    context 'when filter is present' do
+      it 'finds all location names for admin level matching filter' do
+        expect(Location.find_names_by_admin_level_enabled(2, @another_country.placename)).to match_array([@another_town1.name, @another_town2.name])
+      end
+    end
+  end
+
   #TODO - location code validation was removed.
   #       this needs to be added back when that validation is added back
   xit "should not be valid if location code is empty" do
