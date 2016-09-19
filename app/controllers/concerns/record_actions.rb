@@ -275,12 +275,12 @@ module RecordActions
       @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= @system_settings.reporting_location_config.label_key || ReportingLocation::DEFAULT_LABEL_KEY
-      @reporting_location_reg_ex ||= @system_settings.reporting_location_config.reg_ex_filter || ""
+      @reporting_location_reg_ex ||= @system_settings.reporting_location_config.reg_ex_filter || nil
     else
       @admin_level ||= ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
-      @reporting_location_reg_ex ||= ""
+      @reporting_location_reg_ex ||= nil
     end
   end
 
