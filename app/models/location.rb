@@ -175,6 +175,13 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_admin_level_enabled
 
+    def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, reg_ex_filter = nil)
+      location_names = Location.find_by_admin_level_enabled(admin_level).map{|loc| loc.name}.sort
+      location_names = location_names.select{|l| l =~ Regexp.new(reg_ex_filter)} if reg_ex_filter.present?
+      location_names
+    end
+    memoize_in_prod :find_names_by_admin_level_enabled
+
     #find_by_name defined in namable concern
     memoize_in_prod :find_by_name
 
