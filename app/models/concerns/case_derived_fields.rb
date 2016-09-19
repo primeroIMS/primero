@@ -1,40 +1,22 @@
+#TODO: Leaving derived fields in concerns for now but we should find more
+# appropriate place (outside of the concerns mechanism) to store derived fields
 module CaseDerivedFields
   extend ActiveSupport::Concern
 
   def latest_caregiver_name
-    name = ""
-    latest = latest_care_arrangements
-    if latest.present?
-      name = latest.name_caregiver
-    end
-    name
+    latest_care_arrangements.name_caregiver if latest_care_arrangements.present?
   end
 
   def latest_caregiver_relationship
-    relationship = ""
-    latest = latest_care_arrangements
-    if latest.present?
-      relationship = latest.relationship_caregiver
-    end
-    relationship
+    latest_care_arrangements.relationship_caregiver if latest_care_arrangements.present?
   end
 
   def latest_caregiver_address
-    address = ""
-    latest = latest_care_arrangements
-    if latest.present?
-      address = latest.address_caregiver
-    end
-    address
+    latest_care_arrangements.address_caregiver if latest_care_arrangements.present?
   end
 
   def latest_caregiver_telephone
-    telephone = ""
-    latest = latest_care_arrangements
-    if latest.present?
-      telephone = latest.telephone_caregiver
-    end
-    telephone
+    latest_care_arrangements.telephone_caregiver if latest_care_arrangements.present?
   end
 
   private
