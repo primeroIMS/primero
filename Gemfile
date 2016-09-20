@@ -50,7 +50,7 @@ gem 'closure-compiler'
 gem 'progress_bar'
 
 gem 'writeexcel', '~> 1.0.3'
-gem 'spreadsheet',        '~> 1.0.0'
+gem 'spreadsheet', '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.14.0'
 
