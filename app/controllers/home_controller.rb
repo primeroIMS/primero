@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
     load_admin_information if display_admin_dashboard?
-    load_match_result if display_cases_dashboard?
+    load_match_result if display_tracing_request_dashboard?
   end
 
 
@@ -116,6 +116,10 @@ class HomeController < ApplicationController
 
   def display_cases_dashboard?
     @display_cases_dashboard ||= @record_types.include?("case")
+  end
+
+  def display_tracing_request_dashboard?
+    @display_tracing_request_dashboard ||= @record_types.include?("tracing_request")
   end
 
   def display_manager_dashboard?
