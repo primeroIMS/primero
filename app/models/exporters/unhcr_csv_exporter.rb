@@ -26,11 +26,10 @@ module Exporters
     def export(cases, *args)
       unhcr_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
-        rows << UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
+        rows << ['ID'] + UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
         @called_first_time ||= true
-
-        cases.each do |c|
-          rows << UnhcrCSVExporter.field_map.map do |_, generator|
+        cases.each_with_index do |c, index|
+          values = UnhcrCSVExporter.field_map.map do |_, generator|
             case generator
             when Array
               c.value_for_attr_keys(generator)
@@ -38,34 +37,44 @@ module Exporters
               generator.call(c)
             end
           end
+          rows << [index + 1] + values
         end
       end
       self.buffer.write(unhcr_export)
     end
 
     @field_map = {
-      'Long ID' => ['case_id'],
-      'Case ID' => ['short_id'],
-      'UNHCR Individual ID Number' => ['unhcr_id_no'],
-      'Name' => ['name'],
-      'Father Name' => ->(c) { c.fathers_name },
-      'Caregiver Name' => ->(c) { c.caregivers_name },
-      'Mother Name' => ->(c) { c.mothers_name },
-      'Religion of the Child' => ->(c) { c.religion.join(', ') },
-      'Nationality' => ->(c) { c.nationality.join(', ') },
-      'Ethnic Group of the Child' => ->(c) { c.ethnicity.join(', ') },
-      'Ration Card Number' => ['ration_card_no'],
-      'Date of Birth' => ['date_of_birth'],
-      'Date of Arrival' => ['registration_date'],
-      'Flight Information' => ->(c) do
-        [c.location_separation, c.separation_cause, c.separation_details].compact.join('; ')
+      'Individual Progress ID' => ['unhcr_id_no'],
+      'CPIMS Code' => ['cpims_id'],
+      'Date of Identification' => ['registration_date'],
+      'Primary Protection Concerns' => ['protection_status'],
+      'Secondary Protection Concerns' => ->(c) do
+        c.unhcr_needs_codes.join(', ') if c.unhcr_needs_codes.present?
       end,
-      'Protection Concern' => ['unhcr_protection_code'],
-      'Protection Status' => ['protection_status'],
-      'Protection Concerns' => ->(c) { c.protection_concerns.join(', ') if c.protection_concerns.present?},
-      'Disability Type' => ['disability_type'],
-      'Place of origin' => ['country_of_origin'],
-      'Language' => ->(c) { c.language.join(', ') },
+      'Governorate - Country' => ->(c) do
+         location = Location.by_name(key: c.location_current).first
+         country = location.ancestor_by_admin_level(0)
+         governorate = location.ancestor_by_admin_level(1)
+         location.placename + " / " + governorate.placename + " / " + country.placename
+      end,
+      'Sex' => ['sex'],
+      'Date of Birth' => ['date_of_birth'],
+      'Age' => ['age'],
+      'Causes of Separation' => ['separation_cause'],
+      'Country of Origin' => ['country_of_origin'],
+      'Current Care Arrangement' => ->(c) do
+        if c.current_care_arrangements.present?
+          c.current_care_arrangements.first.care_arrangements_type
+        end
+      end,
+      'Reunification Status ' => ->(c) do
+        if c.tracing_status.present?
+          return c.tracing_status == "Reunified" ? "Yes" : "No"
+        else
+          "No"
+        end
+      end,
+      'Case Status' => ['child_status']
     }
 
   end
