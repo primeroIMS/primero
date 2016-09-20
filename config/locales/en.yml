@@ -1380,7 +1380,7 @@ en:
         wishes_preferences_count: "You are only allowed %{preferences_count} child's preferences."
         value_range: "%{field_name} must be between %{min} and %{max}"
         document_type: "The type %{type} is invalid."
-        document_size: "Please upload a document smaller than 10mb"
+        document_size: "Please upload a document smaller than 2MB"
         documents_count: "You are only allowed %{documents_count} documents per case."
         document_format: "Executable files are not allowed."
         date_closure: "The Case Closure Date should be greater or equal than Case Opening Date."

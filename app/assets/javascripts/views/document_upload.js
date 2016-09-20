@@ -9,7 +9,8 @@ _primero.Views.FileUploadField = Backbone.View.extend({
   update_file_path_label: function(event) {
     var target = event.target;
     var id = $(target).attr('id');
-    $('#' + id + '_file_path').text(target.value);
+    var display_value = target.value.split('\\').slice(-1)[0];
+    $('#' + id + '_file_path').text(display_value);
   },
 
   add_file_upload_field: function(event) {
@@ -55,9 +56,11 @@ _primero.Views.FileUploadField = Backbone.View.extend({
     var document_input = $(event.target);
     if (document_input.val().toLowerCase().match(/.exe$/) != null) {
       document_input.val('');
+      this.update_file_path_label(event);
       $('div#document_upload_box_file_extension_popup_message').dialog({ resizable: false });
-    } else if ((document_input[0].files[0].size/1024) > 10240) {
+    } else if ((document_input[0].files[0].size/1024) > (1024 * 2)) {
       document_input.val('');
+      this.update_file_path_label(event);
       $('div#document_upload_box_file_size_popup_message').dialog({ resizable: false });
     }
   }
