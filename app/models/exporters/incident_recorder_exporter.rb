@@ -31,7 +31,6 @@ module Exporters
 
     def complete
       @builder.close
-      return self.buffer
     end
 
     # @returns: a String with the Excel file data
