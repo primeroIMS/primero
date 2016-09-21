@@ -26,7 +26,6 @@ module Exporters
 
     def complete
       @workbook.close
-      return self.buffer
     end
 
     def export(incidents, *args)
@@ -128,8 +127,13 @@ module Exporters
     end
 
     def related_data_generators(related_field)
-      keys = Incident.properties_by_name[related_field].type.properties_by_name.keys
-      keys.inject({}) {|acc, k| acc.merge(k => ->(incident=nil, violation=nil, type=nil, rf) { rf[k] }) }
+      nested_property = Incident.properties_by_name[related_field]
+      if nested_property.present?
+        keys = nested_property.type.properties_by_name.keys
+        keys.inject({}) {|acc, k| acc.merge(k => ->(incident=nil, violation=nil, type=nil, rf) { rf[k] }) }
+      else
+        {}
+      end
     end
 
     def make_related_data_tab(incidents, workbook, tab_name, related_field, violation_link_field)
