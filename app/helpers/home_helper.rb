@@ -63,7 +63,10 @@ module HomeHelper
       new_owned_by: "scope[last_updated_by]=neg||",
       new_other: "scope[not_edited_by_owner]=single||true",
       user: "scope[associated_user_names]=list||",
-      protection_concern: "scope[protection_concerns]=list||"
+      protection_concern: "scope[protection_concerns]=list||",
+      approval_status_bia: "scope[approval_status_bia]=list||",
+      approval_status_case_plan: "scope[approval_status_case_plan]=list||",
+      approval_status_closure: "scope[approval_status_closure]=list||"
     }
     filters.each do |filter|
       filter = filter.split('=')

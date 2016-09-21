@@ -54,7 +54,8 @@ class HomeController < ApplicationController
     @aggregated_case_manager_stats = {
       worker_totals: {},
       manager_totals: {},
-      referred_totals: {}
+      referred_totals: {},
+      approval_totals: {}
     }
 
     managed_users = current_user.managed_user_names
@@ -90,6 +91,8 @@ class HomeController < ApplicationController
     end
 
     @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
+
+    @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
 
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
@@ -180,6 +183,20 @@ class HomeController < ApplicationController
           end
         end
       end
+
+      if query[:by_approval_type].present?
+        facet(:approval_type, zeros: true) do
+          row(:bia) do
+            with(:approval_status_bia, I18n.t('approvals.status.pending'))
+          end
+          row(:case_plan) do
+            with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+          end
+          row(:closure) do
+            with(:approval_status_closure, I18n.t('approvals.status.pending'))
+          end
+        end
+      end
       paginate page: 1, per_page: 0
     end
   end
@@ -200,7 +217,8 @@ class HomeController < ApplicationController
       risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
       manager_totals: manager_case_query({ by_case_status: true}),
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
-      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true })
+      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
+      approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
     }
     build_manager_stats(queries)
   end

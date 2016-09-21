@@ -1288,6 +1288,7 @@ en:
     last_updated: "Lasted Updated"
     case_stats: "Cases"
     cases_by_social_worker: "Cases by social worker"
+    approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
     case_stat_referrals: "Referrals"
@@ -1326,6 +1327,15 @@ en:
     manager_count_closed_total:
       one: "and %{stat} <span>closed</span> case "
       other: "and %{stat} <span>closed</span> cases "
+    manager_count_pending_total:
+      one: "You have %{stat} <span>pending</span> Transfer "
+      other: "You have %{stat} <span>pending</span> Transfers "
+    manager_count_rejected_total:
+      one: "and %{stat} <span>rejected</span> Transfer "
+      other: "and %{stat} <span>rejected</span> Transfers "
+    count_pending_approval_total:
+      one: "You have %{stat} pending <span>%{stat_type}</span> Approval "
+      other: "You have %{stat} pending <span>%{stat_type}</span> Approvals "
     open_cases: "Open Cases"
     new_last_week: "New <span>(last week)</span>"
     new_this_week: "New <span>(this week)</span>"
