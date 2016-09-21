@@ -115,9 +115,11 @@ class Incident < CouchRest::Model::Base
       violations_property = Incident.properties.select{|p| p.name == 'violations'}.first
       if violations_property.present?
         violation_form_keys = Incident.violation_id_fields.keys
-        violation_forms = form_sections_by_module['primeromodule-mrm'].select do |fs|
-          fs.fields.any?{|f| (f.type == Field::SUBFORM) && violation_form_keys.include?(f.name)}
-        end.map{|f| f.name}
+        violation_forms = modules.select{|m| m.id == "primeromodule-mrm"}.map do |m_mrm|
+          m_mrm.associated_forms.select do |fs|
+            fs.fields.any?{|f| (f.type == Field::SUBFORM) && violation_form_keys.include?(f.name)}
+          end
+        end.flatten.map{|f| f.name}
         props['primeromodule-mrm'].each do |form_name, form|
           if violation_forms.include? form_name
             props['primeromodule-mrm'][form_name] = {'violations' => violations_property}

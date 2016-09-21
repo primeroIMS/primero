@@ -37,8 +37,8 @@ module Exporters
       def export(*args)
         exporter_obj = new()
         exporter_obj.export(*args)
-        buffer = exporter_obj.complete
-        return buffer.string
+        exporter_obj.complete
+        return exporter_obj.buffer.string
       end
 
       def properties_to_export(props)
@@ -211,7 +211,9 @@ module Exporters
     end
 
     def complete
-      return @io
+      if self.buffer.class == File
+        @io.close unless self.buffer.closed?
+      end
     end
 
     def buffer

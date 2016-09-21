@@ -142,6 +142,7 @@ class BulkExport < CouchRest::Model::Base
   end
 
   def encrypt_export_file
+    #TODO: Add an else statement that throws an error if the file is empty!
     #TODO: This code is currently duplicated in the application controller
     if File.size? self.stored_file_name
       ZipRuby::Archive.open(self.encrypted_file_name, ZipRuby::CREATE) do |ar|

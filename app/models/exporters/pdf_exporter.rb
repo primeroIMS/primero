@@ -56,8 +56,6 @@ module Exporters
       #It is very important to return the pointer to the beginning so the caller
       #gets the content of the pdf.
       self.buffer.rewind
-
-      return self.buffer
     end
 
     def export(cases, properties_by_module, current_user, custom_export_options, *args)

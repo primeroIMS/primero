@@ -30,7 +30,6 @@ module Exporters
       self.buffer.set_encoding(::Encoding::ASCII_8BIT)
       @pdf.render(self.buffer)
       self.buffer.rewind
-      return self.buffer
     end
 
     def export(child_data, _, *args)

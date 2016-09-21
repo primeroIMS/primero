@@ -55,7 +55,6 @@ module Exporters
       #set_column_widths(@record_worksheet, @withds[:record])
 
       @workbook.close
-      return self.buffer
     end
 
     # @returns: a String with the Excel file data
