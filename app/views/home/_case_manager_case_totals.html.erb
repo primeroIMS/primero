@@ -6,6 +6,7 @@
     <% if @stats.present? %>
       <div class="single_stat">
         <%= render 'case_manager_totals', stats: @aggregated_case_manager_stats[:manager_totals], model: model %>
+        <%= render 'case_manager_transfers', stats: @aggregated_case_manager_stats[:manager_transfers], model: model %>
       </div>
       <div class="stat_title"><%= t("dashboard.cases_by_social_worker") %></div>
       <div class="scrollable">
