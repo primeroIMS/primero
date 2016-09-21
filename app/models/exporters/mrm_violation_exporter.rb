@@ -26,7 +26,6 @@ module Exporters
 
     def complete
       @workbook.close
-      return self.buffer
     end
 
     def export(incidents, *args)
