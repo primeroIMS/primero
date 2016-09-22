@@ -1291,6 +1291,7 @@ en:
     approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
+    case_stat_by_approval_type: "Approvals"
     case_stat_referrals: "Referrals"
     protection_concern: "Protection Concern"
     protection_concerns: "Protection Concerns"

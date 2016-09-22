@@ -1,0 +1,54 @@
+<div>
+  <%= I18n.translate("dashboard.count_pending_approval_total",
+                     case_count(
+                       {
+                         name: :approval_type,
+                         stat: :bia,
+                         filter: index_filters(['child_status=Open', 'approval_status_bia=Pending', 'record_state=true']),
+                         stat_type: 'BIA'
+                       }, stats, model)).html_safe %>
+  <%= I18n.translate("dashboard.count_rejected_approval_total",
+                     case_count(
+                       {
+                         name: :approval_type,
+                         stat: :bia,
+                         filter: index_filters(['child_status=Open', 'approval_status_bia=Rejected', 'record_state=true']),
+                         stat_type: 'BIA'
+                       }, stats, model)).html_safe %>
+</div>
+<div>
+  <%= I18n.translate("dashboard.count_pending_approval_total",
+                     case_count(
+                       {
+                         name: :approval_type,
+                         stat: :case_plan,
+                         filter: index_filters(['child_status=Open', 'approval_status_case_plan=Pending', 'record_state=true']),
+                         stat_type: 'Care Plan'
+                       }, stats, model)).html_safe %>
+  <%= I18n.translate("dashboard.count_rejected_approval_total",
+                     case_count(
+                       {
+                         name: :approval_type,
+                         stat: :case_plan,
+                         filter: index_filters(['child_status=Open', 'approval_status_case_plan=Rejected', 'record_state=true']),
+                         stat_type: 'Care Plan'
+                       }, stats, model)).html_safe %>
+</div>
+<div>
+  <%= I18n.translate("dashboard.count_pending_approval_total",
+                     case_count(
+                       {
+                         name: :approval_type,
+                         stat: :closure,
+                         filter: index_filters(['child_status=Open', 'approval_status_closure=Pending', 'record_state=true']),
+                         stat_type: 'Closure'
+                       }, stats, model)).html_safe %>
+  <%= I18n.translate("dashboard.count_rejected_approval_total",
+                     case_count(
+                       {
+                         name: :approval_type,
+                         stat: :closure,
+                         filter: index_filters(['child_status=Open', 'approval_status_closure=Rejected', 'record_state=true']),
+                         stat_type: 'Closure'
+                       }, stats, model)).html_safe %>
+</div>
