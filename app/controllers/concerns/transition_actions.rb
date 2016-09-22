@@ -246,9 +246,11 @@ module TransitionActions
 
   def default_transition_status
     if transition_type == Transition::TYPE_REFERRAL
-      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_PENDING}")
+      #TODO enforcing locale until refactoring i18n.
+      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_PENDING}", :locale => :en)
     elsif transition_type == Transition::TYPE_TRANSFER
-      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}")
+      #TODO enforcing locale until refactoring i18n.
+      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
     else
       ""
     end
