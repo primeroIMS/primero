@@ -135,6 +135,9 @@ module FieldsHelper
     subform_object = {}
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
+    elsif subform_name == "transitions"
+      #select only referrals.user == current_user
+      #binding.pry
     else
       subform_object = object.try(:"#{subform_name}")
     end
