@@ -146,6 +146,8 @@ en:
      accept: "Accept"
      reject: "Reject"
      done: "Done"
+     accept: "Accept"
+     reject: "Reject"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
