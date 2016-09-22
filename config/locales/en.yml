@@ -143,6 +143,8 @@ en:
      view_flags_history: "View History"
      request_approval: "Request Approval"
      approvals: "Approvals"
+     accept: "Accept"
+     reject: "Reject"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1662,6 +1664,7 @@ en:
     user_mandatory: "User name is required"
     failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
     success: "%{record_type} %{id} successfully transferred"
+    rejected: "%{record_type} %{id} transfer rejected"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
     to_user_local_status_label: "Status"
@@ -1669,6 +1672,11 @@ en:
     user_local_status_accepted: "Accepted"
     user_local_status_rejected: "Rejected"
     user_local_status_inprogress: "In Progress"
+    reject: "Reject Reason"
+    accept_label: "By clicking 'Accept' you accept the responsibility for this case; once you click 'OK' you will become the record owner in the system."
+    reject_label: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click 'OK' you will no longer have access to this case record."
+    unknown_status: "Unknown transfer status: %{status}"
+    unknown_transfer: "%{record_type} %{id} invalid transfer"
 
   mark_for_mobile:
     no_records_selected: "No records selected"
