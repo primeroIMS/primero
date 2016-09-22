@@ -52,10 +52,14 @@ module Exporters
         c.unhcr_needs_codes.join(', ') if c.unhcr_needs_codes.present?
       end,
       'Governorate - Country' => ->(c) do
-         location = Location.by_name(key: c.location_current).first
-         country = location.ancestor_by_admin_level(0)
-         governorate = location.ancestor_by_admin_level(1)
-         location.placename + " / " + governorate.placename + " / " + country.placename
+        location = Location.by_name(key: c.location_current).first
+          if location.present?
+            country = location.ancestor_by_admin_level(0)
+            governorate = location.ancestor_by_admin_level(1)
+            location.placename + " / " + governorate.placename + " / " + country.placename
+          else
+            ""
+          end
       end,
       'Sex' => ['sex'],
       'Date of Birth' => ['date_of_birth'],
