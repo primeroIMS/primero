@@ -3,8 +3,8 @@ module DocumentUploader
 
   include Attachable
 
-  MAX_DOCUMENTS = 10
-  MAX_SIZE = 10.megabytes
+  MAX_DOCUMENTS = 100 
+  MAX_SIZE = 2.megabytes
 
   included do
     property :document_keys, [String]
