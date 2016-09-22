@@ -137,11 +137,11 @@ module FieldsHelper
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     elsif subform_name == "transitions"
       subform_object = object.try(:"#{subform_name}")
-      if subform_object.present?
+      #if user is record owner, they can see all referrals
+      if subform_object.present? && object.owned_by != @current_user.user_name
         transfers = subform_object.select{ |t| t.type == Transition::TYPE_TRANSFER }
         referrals = subform_object.select{ |t| t.type == Transition::TYPE_REFERRAL }
         referrals = referrals.select{ |t| @current_user.is_manager || t.to_user_local == @current_user.user_name }
-
         subform_object = transfers + referrals
       end
     else
