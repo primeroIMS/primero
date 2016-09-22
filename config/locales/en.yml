@@ -1668,6 +1668,7 @@ en:
     user_local_status_pending: "Pending"
     user_local_status_accepted: "Accepted"
     user_local_status_rejected: "Rejected"
+    user_local_status_inprogress: "In Progress"
 
   mark_for_mobile:
     no_records_selected: "No records selected"

@@ -3,6 +3,7 @@ module Transitionable
   include Sunspot::Rails::Searchable
 
   included do
+    property :transfer_status, String
     property :transitions, [Transition], :default => []
 
 

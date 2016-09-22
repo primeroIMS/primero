@@ -127,15 +127,17 @@ module TransitionActions
     failed_count = 0
     transfer_records.each do |transfer_record|
       if transition_valid(transfer_record, @new_user)
+        #Target user should be other than the owner of the record, right?
         if @new_user.user_name != transfer_record.owned_by
-          #TODO - possibly need to push this functionality down to ownable concern
-          transfer_record.previously_owned_by = transfer_record.owned_by
-          transfer_record.owned_by = @new_user.user_name
-          transfer_record.owned_by_full_name = @new_user.full_name
+          #Referred users will be on the assigned users until the user accept or reject the referral.
+          transfer_record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
+          transfer_record.transfer_status = to_user_local_status
           unless transfer_record.save
             failed_count += 1
           end
-          #TODO log stuff
+        else
+          logger.error "#{model_class.parent_form} #{transfer_record.short_id} not transferred to #{@to_user_local}... because the target user is the same record owner"
+          failed_count += 1
         end
       else
         logger.error "#{model_class.parent_form} #{transfer_record.short_id} not transferred to #{@to_user_local}... not valid"
@@ -238,7 +240,17 @@ module TransitionActions
     if is_remote? || transition_type == Transition::TYPE_REASSIGN
       ""
     else
-      @to_user_local_status ||= (params[:to_user_local_status].present? ? params[:to_user_local_status]: I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_PENDING}"))
+      @to_user_local_status ||= (params[:to_user_local_status].present? ? params[:to_user_local_status]: default_transition_status)
+    end
+  end
+
+  def default_transition_status
+    if transition_type == Transition::TYPE_REFERRAL
+      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_PENDING}")
+    elsif transition_type == Transition::TYPE_TRANSFER
+      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}")
+    else
+      ""
     end
   end
 
