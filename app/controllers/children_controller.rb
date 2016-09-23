@@ -147,37 +147,40 @@ class ChildrenController < ApplicationController
         #Retrieve the transfer that was click on.
         transition = @child.transfers.select{|t| t.id == transfer_id }.first
         if transition.present?
-          #TODO validate that the record and transition can be Accepted or Rejected
-          #transition.is_transfer_in_progress? && transition.is_assigned_to_user_local?(@current_user.user_name)
-
-          #Change Status according the action executed.
-          transition.to_user_local_status = transition_status
-          #When is a reject action, there could be a reason.
-          if params[:rejected_reason].present?
-            transition.rejected_reason = params[:rejected_reason]
-          end
-          #Update the top level transfer status.
-          @child.transfer_status = transition_status
-          #Either way Accept or Reject the current user should be removed from the associated users.
-          #So, it will have no access to the record anymore.
-          @child.assigned_user_names.delete(@current_user.user_name)
-          if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en)
-            #In case the transfer is accepted the current user is the new owner of the record.
-            @child.previously_owned_by = @child.owned_by
-            @child.owned_by = @current_user.user_name
-            @child.owned_by_full_name = @current_user.full_name
-          end
-          if @child.save
-            if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
-              flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
-              redirect_to :action => :index
-              return
+          #Validate that the transitions is in progress and the current user is related to.
+          if transition.is_transfer_in_progress? && transition.is_assigned_to_user_local?(@current_user.user_name)
+            #Change Status according the action executed.
+            transition.to_user_local_status = transition_status
+            #When is a reject action, there could be a reason.
+            if params[:rejected_reason].present?
+              transition.rejected_reason = params[:rejected_reason]
+            end
+            #Update the top level transfer status.
+            @child.transfer_status = transition_status
+            #Either way Accept or Reject the current user should be removed from the associated users.
+            #So, it will have no access to the record anymore.
+            @child.assigned_user_names.delete(@current_user.user_name)
+            if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en)
+              #In case the transfer is accepted the current user is the new owner of the record.
+              @child.previously_owned_by = @child.owned_by
+              @child.owned_by = @current_user.user_name
+              @child.owned_by_full_name = @current_user.full_name
+            end
+            if @child.save
+              if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+                flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
+                redirect_to :action => :index
+                return
+              else
+                flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
+                format.html { redirect_after_update }
+              end
             else
-              flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
+              flash[:notice] = @child.errors.messages
               format.html { redirect_after_update }
             end
           else
-            flash[:notice] = @child.errors.messages
+            flash[:notice] = t('transfer.not_valid_transfer', record_type: model_class.parent_form.titleize, id: @child.short_id)
             format.html { redirect_after_update }
           end
         else
