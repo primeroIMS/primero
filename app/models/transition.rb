@@ -25,6 +25,8 @@ class Transition
   TO_USER_LOCAL_STATUS_PENDING = "user_local_status_pending"
   TO_USER_LOCAL_STATUS_ACCEPTED = "user_local_status_accepted"
   TO_USER_LOCAL_STATUS_REJECTED = "user_local_status_rejected"
+  TO_USER_LOCAL_STATUS_DONE = "user_local_status_done"
+  TO_USER_LOCAL_STATUS_INPROGRESS = "user_local_status_inprogress"
 
   def initialize *args
     super
@@ -34,6 +36,15 @@ class Transition
 
   def parent_record
     base_doc
+  end
+
+  def is_referral_active?
+    (self.to_user_local_status == I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_PENDING}", :locale => :en) ||
+     self.to_user_local_status == I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en))
+  end
+
+  def is_assigned_to_user_local?(user)
+    self.to_user_local == user
   end
 
   private

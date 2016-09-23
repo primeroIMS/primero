@@ -88,6 +88,12 @@
     <% end %>
   </div>
   <div class="medium-5 columns">
+    <% if view_mode %>
+      <% subform_instance = formObject.send(subform_name)[i] %>
+      <% if subform_instance.instance_of?(Transition) && !subform_instance.is_remote && subform_instance.type == Transition::TYPE_REFERRAL && subform_instance.is_referral_active? && subform_instance.is_assigned_to_user_local?(@current_user.user_name) %>
+        <%= render :partial => "transitions/transition_done_button", locals: { :transition_id => subform_instance.id } %>
+      <% end %>
+    <% end %>
     <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
     <% if !subform.disabled %>
       <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
