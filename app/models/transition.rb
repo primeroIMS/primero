@@ -26,6 +26,7 @@ class Transition
   TO_USER_LOCAL_STATUS_ACCEPTED = "user_local_status_accepted"
   TO_USER_LOCAL_STATUS_REJECTED = "user_local_status_rejected"
   TO_USER_LOCAL_STATUS_DONE = "user_local_status_done"
+  TO_USER_LOCAL_STATUS_INPROGRESS = "user_local_status_inprogress"
 
   def initialize *args
     super

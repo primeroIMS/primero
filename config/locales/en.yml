@@ -1642,6 +1642,7 @@ en:
     user_local_status_pending: "Pending"
     user_local_status_accepted: "Accepted"
     user_local_status_rejected: "Rejected"
+    user_local_status_inprogress: "In Progress"
     user_local_status_done: "Done"
     complete_referral_label: "Clicking OK signifies that you have completed the referral work associated with this case. Once you click OK you will no longer have access to this record."
     done_success_message: "Referral Done."
