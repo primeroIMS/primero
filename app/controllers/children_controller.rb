@@ -128,7 +128,8 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if child.save
         flash[:notice] = t("referral.done_success_message")
-        format.html { redirect_after_update }
+        redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+        return
       else
         flash[:notice] = child.errors.messages
         format.html { redirect_after_update }
