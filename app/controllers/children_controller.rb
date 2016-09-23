@@ -165,6 +165,9 @@ class ChildrenController < ApplicationController
     transfer_id = params[:transition_id]
     transition_status = params[:transition_status]
 
+    #TODO: refactoring to move most of the logic to the model (transition?, transitionable?)
+    #      what will happen with the existing records and probably bad data?
+    #      record will not be saved?
     respond_to do |format|
       if transition_status != I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en) &&
          transition_status != I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
