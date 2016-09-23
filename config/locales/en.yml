@@ -1682,7 +1682,7 @@ en:
     reject_label: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click 'OK' you will no longer have access to this case record."
     unknown_status: "Unknown transfer status: %{status}"
     unknown_transfer: "%{record_type} %{id} invalid transfer"
-    not_valid_transfer: "%{record_type} %{id} invalid transfer, can't update is not in progress."
+    not_valid_transfer: "%{record_type} %{id} invalid transfer, can't update is not in progress or you have not permission on the case"
 
   mark_for_mobile:
     no_records_selected: "No records selected"

@@ -175,6 +175,51 @@ describe ChildrenController do
         let(:owned_by) { @user.user_name }
       end
 
+      it "should display invalid status" do
+        controller.stub :render
+        controller.stub :redirect_to
+
+        @session = fake_login @user2
+
+        params = {
+          "id"=>@case_to_transfer.id,
+          "transition_id" => @case_to_transfer.transfers.first.id,
+          "transition_status" => "Some Status"
+        }
+        post :transfer_status, params
+        flash[:notice].should eq("Unknown transfer status: Some Status")
+      end
+
+      it "should display unknown transfer" do
+        controller.stub :render
+        controller.stub :redirect_to
+
+        @session = fake_login @user2
+
+        params = {
+          "id"=>@case_to_transfer.id,
+          "transition_id" => "fubar_id",
+          "transition_status" => "Accepted"
+        }
+        post :transfer_status, params
+        flash[:notice].should eq("Case #{@case_to_transfer.short_id} invalid transfer")
+      end
+
+      it "should display invalid transfer" do
+        controller.stub :render
+        controller.stub :redirect_to
+
+        @session = fake_login @user3
+
+        params = {
+          "id"=>@case_to_transfer.id,
+          "transition_id" => @case_to_transfer.transfers.first.id,
+          "transition_status" => "Accepted"
+        }
+        post :transfer_status, params
+        flash[:notice].should eq("Case #{@case_to_transfer.short_id} invalid transfer, can't update is not in progress or you have not permission on the case")
+      end
+
     end
 
   end
