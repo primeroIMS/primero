@@ -158,8 +158,7 @@ class ChildrenController < ApplicationController
   end
 
   def transfer_status
-    #TODO I really really don't know which is the correct permission to check.
-    authorize! :transfer, model_class
+    authorize! :update, model_class
 
     @child = Child.get(params[:id])
 
