@@ -82,6 +82,7 @@ Primero::Application.routes.draw do
 
     member do
       put :match_record
+      put :transfer_status
     end
 
     resources :attachments, :only => :show
