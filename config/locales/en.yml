@@ -1101,6 +1101,8 @@ en:
       village: 'Village'
       zone: 'Zone'
       other: 'Other'
+      locality: 'Locality'
+      sub-district: 'Sub-district'
 
   session:
     about_to_expire: "Your session is about to expire!"
