@@ -209,15 +209,6 @@ class HomeController < ApplicationController
       end
 
       facet(:transfer_status, zeros: true) if query[:transferred].present?
-      #   facet(:transfer_status, zeros: true) do
-      #     row(:pending) do
-      #       with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en))
-      #     end
-      #     row(:rejected) do
-      #       with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en))
-      #     end
-      #   end
-      # end
 
       paginate page: 1, per_page: 0
     end
