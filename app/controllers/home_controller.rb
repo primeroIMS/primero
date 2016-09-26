@@ -91,11 +91,18 @@ class HomeController < ApplicationController
       end
     end
 
+    queries[:transferred_by_status].facet(:transfer_status).rows.each do |c|
+      statuses = [Transition::TO_USER_LOCAL_STATUS_INPROGRESS, Transition::TO_USER_LOCAL_STATUS_REJECTED].map{
+          |t| I18n.t("referral.#{t}", :locale => :en).downcase}
+      if statuses.include? c.value
+        @aggregated_case_manager_stats[:manager_transfers][c.value] = {}
+        @aggregated_case_manager_stats[:manager_transfers][c.value][:total_cases] = c.count
+      end
+    end
+
     @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
 
     @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
-
-    @aggregated_case_manager_stats[:manager_transfers] = queries[:transferred_by_status]
 
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
@@ -201,16 +208,16 @@ class HomeController < ApplicationController
         end
       end
 
-      if query[:transferred].present?
-        facet(:transfers, zeros: true) do
-          row(:pending) do
-            with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en))
-          end
-          row(:rejected) do
-            with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en))
-          end
-        end
-      end
+      facet(:transfer_status, zeros: true) if query[:transferred].present?
+      #   facet(:transfer_status, zeros: true) do
+      #     row(:pending) do
+      #       with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en))
+      #     end
+      #     row(:rejected) do
+      #       with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en))
+      #     end
+      #   end
+      # end
 
       paginate page: 1, per_page: 0
     end
@@ -234,7 +241,7 @@ class HomeController < ApplicationController
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
       referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
       approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
-      transferred_by_status: manager_case_query({ transferred: true, status: 'Open'})
+      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: 'Open'})
     }
     build_manager_stats(queries)
   end
