@@ -234,7 +234,7 @@ class HomeController < ApplicationController
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
       referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
       approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
-      transferred_by_status: manager_case_query({ transferred: true, status: 'Open'}),
+      transferred_by_status: manager_case_query({ transferred: true, status: 'Open'})
     }
     build_manager_stats(queries)
   end

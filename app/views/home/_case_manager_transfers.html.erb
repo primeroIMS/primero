@@ -4,15 +4,13 @@
                        {
                          name: :transfers,
                          stat: :pending,
-                         filter: index_filters(['child_status=Open', 'transfer_status=In Progress' ,'record_state=true']),
-                         stat_type: 'Pending'
+                         filter: index_filters(['child_status=Open', 'transfer_status=In Progress' ,'record_state=true'])
                        }, stats, model)).html_safe %>
   <%= I18n.translate('dashboard.manager_count_rejected_total',
                      case_count(
                        {
                          name: :transfers,
                          stat: :rejected,
-                         filter: index_filters(['child_status=Open', 'transfer_status=Rejected' ,'record_state=true']),
-                         stat_type: 'Rejected'
+                         filter: index_filters(['child_status=Open', 'transfer_status=Rejected' ,'record_state=true'])
                        }, stats, model)).html_safe %>
 </div>
