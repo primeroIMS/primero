@@ -133,7 +133,7 @@ en:
      bundle_import: "Configuration Bundle"
      bundle_export: "Configuration Bundle"
      transfer: "Transfer %{model}"
-     reassign: "Reassign %{model}"
+     reassign: "Assign %{model}"
      referral: "Refer %{model}"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
