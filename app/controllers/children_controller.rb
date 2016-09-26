@@ -158,7 +158,7 @@ class ChildrenController < ApplicationController
   end
 
   def transfer_status
-    authorize! :update, model_class
+    authorize! :read, model_class
 
     @child = Child.get(params[:id])
 
