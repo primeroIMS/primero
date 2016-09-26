@@ -1679,7 +1679,7 @@ en:
     user_local_status_accepted: "Accepted"
     user_local_status_rejected: "Rejected"
     user_local_status_inprogress: "In Progress"
-    reject: "Reject Reason"
+    reject: "Rejection Reason"
     accept_label: "By clicking 'Accept' you accept the responsibility for this case; once you click 'OK' you will become the record owner in the system."
     reject_label: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click 'OK' you will no longer have access to this case record."
     unknown_status: "Unknown transfer status: %{status}"
