@@ -55,7 +55,8 @@ class HomeController < ApplicationController
       worker_totals: {},
       manager_totals: {},
       referred_totals: {},
-      approval_totals: {}
+      approval_types: {},
+      manager_transfers: {}
     }
 
     managed_users = current_user.managed_user_names
@@ -93,6 +94,8 @@ class HomeController < ApplicationController
     @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
 
     @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
+
+    @aggregated_case_manager_stats[:manager_transfers] = queries[:transferred_by_status]
 
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
@@ -197,6 +200,18 @@ class HomeController < ApplicationController
           end
         end
       end
+
+      if query[:transferred].present?
+        facet(:transfers, zeros: true) do
+          row(:pending) do
+            with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en))
+          end
+          row(:rejected) do
+            with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en))
+          end
+        end
+      end
+
       paginate page: 1, per_page: 0
     end
   end
@@ -219,6 +234,7 @@ class HomeController < ApplicationController
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
       referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
       approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
+      transferred_by_status: manager_case_query({ transferred: true, status: 'Open'}),
     }
     build_manager_stats(queries)
   end
