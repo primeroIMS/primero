@@ -9,6 +9,7 @@ class Transition
   property :to_user_remote, String
   property :to_user_agency, String
   property :to_user_local_status, String
+  property :rejected_reason, String
   property :notes, String
   property :transitioned_by, String
   property :service, String
@@ -36,6 +37,10 @@ class Transition
 
   def parent_record
     base_doc
+  end
+
+  def is_transfer_in_progress?
+    self.to_user_local_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
   end
 
   def is_referral_active?
