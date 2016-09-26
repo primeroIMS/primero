@@ -51,8 +51,8 @@ module HomeHelper
     index_filters_list = {
       child_status: "scope[child_status]=list||",
       new: "scope[last_updated_by]=neg||#{current_user.user_name}",
-      referred_users: "scope[referred_users]=list||#{current_user.user_name}",
-      referred_user: "scope[referred_users]=list||",
+      referred_users: "scope[assigned_user_names]=list||#{current_user.user_name}",
+      referred_user: "scope[assigned_user_names]=list||",
       risk_level: "scope[risk_level]=list||",
       record_state: "scope[record_state]=list||",
       location: "scope[location_current]=location||",

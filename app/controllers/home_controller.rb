@@ -78,14 +78,14 @@ class HomeController < ApplicationController
       @aggregated_case_manager_stats[:manager_totals][c.value] = c.count
     end
 
-    queries[:referred_total].facet(:referred_users).rows.each do |c|
+    queries[:referred_total].facet(:assigned_user_names).rows.each do |c|
       if managed_users.include? c.value
         @aggregated_case_manager_stats[:referred_totals][c.value] = {}
         @aggregated_case_manager_stats[:referred_totals][c.value][:total_cases] = c.count
       end
     end
 
-    queries[:referred_new].facet(:referred_users).rows.each do |c|
+    queries[:referred_new].facet(:assigned_user_names).rows.each do |c|
       if managed_users.include? c.value
         @aggregated_case_manager_stats[:referred_totals][c.value][:new_cases] = c.count
       end
@@ -153,7 +153,7 @@ class HomeController < ApplicationController
       with(:associated_user_names, current_user.managed_user_names)
       with(:child_status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
-      facet(:referred_users, zeros: true) if query[:referred].present?
+      facet(:assigned_user_names, zeros: true) if query[:referred].present?
       if module_ids.present?
         any_of do
           module_ids.each do |m|
@@ -267,7 +267,7 @@ class HomeController < ApplicationController
       with(:child_status, 'Open')
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
-      referred = with(:referred_users, current_user.user_name)
+      referred = with(:assigned_user_names, current_user.user_name)
       if module_ids.present?
         any_of do
           module_ids.each do |m|
