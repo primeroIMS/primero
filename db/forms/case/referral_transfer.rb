@@ -23,10 +23,17 @@ transitions_subform = [
                "disabled" => true,
                "display_name_all" => "Status",
                "option_strings_text_all" =>
-                   ["Pending",
+                   ["In Progress",
+                    "Pending",
                     "Accepted",
                     "Rejected"
                    ].join("\n")
+              }),
+    Field.new({"name" => "rejected_reason",
+               "type" => "text_field",
+               "editable"=>false,
+               "disabled" => true,
+               "display_name_all" => "Reason rejected (if applicable)",
               }),
     Field.new({"name" => "to_user_agency",
                "type" => "text_field",
@@ -96,6 +103,17 @@ transitions = FormSection.create_or_update_form_section({
 })
 
 referral_transfer_fields = [
+  Field.new({"name" => "transfer_status",
+             "type" => "select_box",
+             "editable" => false,
+             "disabled" => true,
+             "display_name_all" => "Transfer Status",
+             "option_strings_text_all" =>
+                 ["In Progress",
+                  "Accepted",
+                  "Rejected"
+                 ].join("\n")
+            }),
   Field.new({"name" => "transitions",
              "type" => "subform",
              "editable" => false,
