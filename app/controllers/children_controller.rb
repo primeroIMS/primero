@@ -116,7 +116,7 @@ class ChildrenController < ApplicationController
     child = Child.get(params[:id])
 
     # TODO: this may require its own permission in the future.
-    authorize! :update, child
+    authorize! :read, child
 
     active_transitions_count = child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
     referral = child.referrals.select { |r| r.id == referral_id }.first
