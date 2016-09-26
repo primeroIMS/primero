@@ -20,7 +20,7 @@ module BIADerivedFields
     family_details = self.try(:family_details_section)
     if family_details.present?
       family_details.each do |detail|
-        explanation += detail.not_family_explanation + "\n" if detail.not_family_explanation.present?
+        explanation += (detail.not_family_explanation + "\n") if detail.not_family_explanation.present?
       end
     end
     explanation
