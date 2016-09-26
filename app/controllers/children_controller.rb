@@ -89,6 +89,7 @@ class ChildrenController < ApplicationController
   end
 
   def request_approval
+    #TODO move business logic to the model.
     child = Child.get(params[:child_id])
     authorize! :update, child
     case params[:approval_type]
@@ -110,6 +111,7 @@ class ChildrenController < ApplicationController
   end
 
   def relinquish_referral
+    #TODO move business logic to the model.
     referral_id = params[:transition_id]
     child = Child.get(params[:id])
 
