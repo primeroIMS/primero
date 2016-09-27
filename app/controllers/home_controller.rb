@@ -319,6 +319,67 @@ class HomeController < ApplicationController
           with(:child_status, 'Open')
         end
       end
+
+      facet(:approval_status_bia, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:approval_status_bia, I18n.t('approvals.status.pending'))
+        end
+        row(:rejected) do
+          with(:approval_status_bia, I18n.t('approvals.status.rejected'))
+        end
+        row(:new) do
+          bod = Time.zone.now - 10.days
+          with(:approval_status_bia, I18n.t('approvals.status.approved'))
+          with(:bia_approved_date, bod..Time.zone.now)
+        end
+      end
+
+      facet(:approval_status_case_plan, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+        end
+        row(:rejected) do
+          with(:approval_status_case_plan, I18n.t('approvals.status.rejected'))
+        end
+        row(:new) do
+          bod = Time.zone.now - 10.days
+          with(:approval_status_case_plan, I18n.t('approvals.status.approved'))
+          with(:case_plan_approved_date, bod..Time.zone.now)
+        end
+      end
+
+      facet(:approval_status_closure, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:approval_status_closure, I18n.t('approvals.status.pending'))
+        end
+        row(:rejected) do
+          with(:approval_status_closure, I18n.t('approvals.status.rejected'))
+        end
+        row(:new) do
+          bod = Time.zone.now - 10.days
+          with(:approval_status_closure, I18n.t('approvals.status.approved'))
+          with(:closure_approved_date, bod..Time.zone.now)
+        end
+      end
+
+      facet(:transfer_status, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
+                                        :locale => :en))
+        end
+        row(:rejected) do
+          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
+                                        :locale => :en))
+        end
+      end
+
+      facet(:in_progress_transfers, zeros: true) do
+        row(:in_progress) do
+          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
+                                        :locale => :en))
+          with(:transferred_to_users, current_user.user_name)
+        end
+      end
     end
 
     show_flagged_by

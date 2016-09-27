@@ -1291,6 +1291,7 @@ en:
     approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
+    case_stat_by_approval_type: "Approvals"
     case_stat_referrals: "Referrals"
     protection_concern: "Protection Concern"
     protection_concerns: "Protection Concerns"
@@ -1331,8 +1332,27 @@ en:
       one: "You have %{stat} <span>%{stat_type}</span> Transfer "
       other: "You have %{stat} <span>%{stat_type}</span> Transfers "
     count_pending_approval_total:
-      one: "You have %{stat} pending <span>%{stat_type}</span> Approval "
-      other: "You have %{stat} pending <span>%{stat_type}</span> Approvals "
+      one: "You have %{stat} <span>pending %{stat_type}</span> Approval "
+      other: "You have %{stat} <span>pending %{stat_type}</span> Approvals "
+    count_rejected_approval_total:
+      one: "and %{stat} <span>rejected %{stat_type}</span> Approval "
+      other: "and %{stat} <span>rejected %{stat_type}</span> Approvals "
+    count_new_bia_approvals:
+      one: "You have %{stat} <span>new %{stat_type}</span> Approval, "
+      other: "You have %{stat} <span>new %{stat_type}</span> Approvals, "
+    count_new_case_plan_approvals:
+      one: "%{stat} <span>new %{stat_type}</span> Approval, "
+      other: "%{stat} <span>new %{stat_type}</span> Approvals, "
+    count_new_closure_approvals:
+      one: "and %{stat} <span>new %{stat_type}</span> Approval, "
+      other: "and %{stat} <span>new %{stat_type}</span> Approvals, "
+    count_pending_transfers:
+      one: "You have %{stat} <span>pending</span> Transfer "
+      other: "You have %{stat} <span>pending</span> Transfers "
+    count_rejected_transfers:
+      one: "and %{stat} <span>rejected</span> Transfer "
+      other: "and %{stat} <span>rejected</span> Transfers "
+    count_waiting_for_acceptance_transfers: "You have %{stat} Transfers <span>waiting</span> for your acceptance"
     open_cases: "Open Cases"
     new_last_week: "New <span>(last week)</span>"
     new_this_week: "New <span>(this week)</span>"
