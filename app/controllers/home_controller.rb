@@ -362,11 +362,19 @@ class HomeController < ApplicationController
       facet(:transfer_status, zeros: true, exclude: [referred]) do
         row(:pending) do
           with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                        :locale => :en).downcase)
+                                        :locale => :en))
         end
         row(:rejected) do
           with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
-                                        :locale => :en).downcase)
+                                        :locale => :en))
+        end
+      end
+
+      facet(:in_progress_transfers, zeros: true) do
+        row(:in_progress) do
+          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
+                                        :locale => :en))
+          with(:transferred_to_users, current_user.user_name)
         end
       end
     end

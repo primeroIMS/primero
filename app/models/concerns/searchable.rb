@@ -31,6 +31,12 @@ module Searchable
           self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
         end
       end
+      string :transferred_to_users, multiple: true do
+        if self.transitions.present?
+          self.transitions.select{|t| t.is_transfer_in_progress?}
+              .map{|er| er.to_user_local}.uniq
+        end
+      end
       string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
