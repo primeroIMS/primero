@@ -1021,7 +1021,7 @@ en:
     file_upload_box:
       select_file_button_text: "Select File"
       no_file_selected: "No file selected."
-      document_file_restrictions_message: "Files should be no larger than 2 MB (executable (.exe) files cannot be uploaded)."
+      document_file_restrictions_message: "Files should be no larger than 2 count_new_closure_approvalsMB (executable (.exe) files cannot be uploaded)."
       photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
       add_document_label: "Add Document"
       add_photo_label: "Add Photo"
@@ -1344,8 +1344,8 @@ en:
       one: "%{stat} <span>new %{stat_type}</span> Approval "
       other: "%{stat} <span>new %{stat_type}</span> Approvals "
     count_new_closure_approvals:
-      one: "and %{stat} <span>new %{stat_type}</span> Approval, "
-      other: "and %{stat} <span>new %{stat_type}</span> Approvals, "
+      one: "and %{stat} <span>new %{stat_type}</span> Approval"
+      other: "and %{stat} <span>new %{stat_type}</span> Approvals"
     count_pending_transfers:
       one: "You have %{stat} <span>pending</span> Transfer "
       other: "You have %{stat} <span>pending</span> Transfers "
