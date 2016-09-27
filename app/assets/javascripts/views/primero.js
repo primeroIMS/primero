@@ -148,7 +148,7 @@ Primero = Backbone.View.extend({
 
     $(".reveal-modal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
-    $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 269 }));
+    $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
     $(".referral_form_container").mCustomScrollbar(_.extend(options, { setHeight: 530 }));
 

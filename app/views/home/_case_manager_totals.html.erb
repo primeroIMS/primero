@@ -4,9 +4,3 @@
   <%= I18n.translate('dashboard.manager_count_closed_total',
                      case_count({count: stats['closed'], filter: index_filters(['child_status=Closed', 'record_state=true'])}, nil, model)).html_safe %>
 </div>
-<div>
-  <%= I18n.translate('dashboard.manager_count_pending_total',
-                     case_count({count: stats['pending'], filter: index_filters(['child_status=Open', 'record_state=true'])}, nil, model)).html_safe %>
-  <%= I18n.translate('dashboard.manager_count_rejected_total',
-                     case_count({count: stats['rejected'], filter: index_filters(['child_status=Open', 'record_state=true'])}, nil, model)).html_safe %>
-</div>

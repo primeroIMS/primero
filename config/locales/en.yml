@@ -1341,8 +1341,8 @@ en:
       one: "You have %{stat} <span>new %{stat_type}</span> Approval, "
       other: "You have %{stat} <span>new %{stat_type}</span> Approvals, "
     count_new_case_plan_approvals:
-      one: "%{stat} <span>new %{stat_type}</span> Approval, "
-      other: "%{stat} <span>new %{stat_type}</span> Approvals, "
+      one: "%{stat} <span>new %{stat_type}</span> Approval "
+      other: "%{stat} <span>new %{stat_type}</span> Approvals "
     count_new_closure_approvals:
       one: "and %{stat} <span>new %{stat_type}</span> Approval, "
       other: "and %{stat} <span>new %{stat_type}</span> Approvals, "

@@ -67,7 +67,8 @@ module HomeHelper
       approval_status_bia: "scope[approval_status_bia]=list||",
       approval_status_case_plan: "scope[approval_status_case_plan]=list||",
       approval_status_closure: "scope[approval_status_closure]=list||",
-      transfer_status: "scope[transfer_status]=list||"
+      transfer_status: "scope[transfer_status]=list||",
+      transferred_to_users: "scope[transferred_to_users]=list||#{current_user.user_name}"
     }
     filters.each do |filter|
       filter = filter.split('=')
