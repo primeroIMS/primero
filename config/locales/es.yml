@@ -966,7 +966,7 @@ es:
     file_upload_box:
       select_file_button_text: "Seleccionar expediente"
       no_file_selected: "No hay archivos seleccionados."
-      document_file_restrictions_message: "Los archivos no deben ser de más de 10mb (no pueden subirse archivos ejecutables (.exe))."
+      document_file_restrictions_message: "Los archivos no deben ser de más de 2 MB (no pueden subirse archivos ejecutables (.exe))."
       photo_file_restrictions_message: "Los fotos deben ser de menos de 10mb. Los archivos de audio deben ser de menos de 10mb. Mientras más chicos, mejor."
       add_document_label: "Agregar documento"
       add_photo_label: "Agregar foto"
