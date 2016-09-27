@@ -29,6 +29,7 @@
                          filter: index_filters(['child_status=Open',
                                                 "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
                                                                           :locale => :en)}",
-                                                'record_state=true'])
+                                                'record_state=true',
+                                                'transferred_to_users'])
                        }, stats, model)).html_safe %>
 </div>
