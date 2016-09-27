@@ -60,8 +60,11 @@
     <% if filters_to_show.include? 'Protection Concerns' %>
       <%= build_filter_checkboxes(t("cases.filter_by.protection_concerns"), 'protection_concerns', Lookup.values('Protection Concerns', @lookups), { multi: true }, false) %>
     <% end %>
+    <% if false %>
+    <%# TODO: Temprariliy commenting out the risk level dashboards until they are configurable %>
     <% if filters_to_show.include? 'Risk Level' %>
       <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', Lookup.values('Risk Level', @lookups)) %>
+    <% end %>
     <% end %>
     <% if filters_to_show.include? 'Current Location' %>
       <%= build_filter_location(t("cases.filter_by.current_location"), 'location_current') %>

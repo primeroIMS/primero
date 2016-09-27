@@ -12,12 +12,15 @@
             <%= render 'case_count_new_totals', stats: @stats, model: model %>
           </td>
         </tr>
+        <% if false %>
+        <%# TODO: Temprariliy commenting out the risk level dashboards until they are configurable %>
         <tr>
           <td>
             <div class="stat_title"><%= t('dashboard.case_stat_by_assessment_level') %></div>
             <%= render 'case_count_risk_totals', stats: @stats, model: model %>
           </td>
         </tr>
+        <% end %>
         <tr>
           <td>
             <div class="stat_title"><%= t("dashboard.case_stat_referrals") %></div>

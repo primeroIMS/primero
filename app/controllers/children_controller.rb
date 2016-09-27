@@ -125,7 +125,7 @@ class ChildrenController < ApplicationController
     referral.to_user_local_status = I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_DONE}", :locale => :en)
 
     if active_transitions_count == 0
-      child.assigned_user_names.delete(@current_user.user_name)
+      child.assigned_user_names = child.assigned_user_names.reject{|u| u == @current_user.user_name}
     end
 
     respond_to do |format|
