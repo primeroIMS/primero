@@ -44,7 +44,7 @@ module Transitionable
             self.transfer_status = transfer_status
             #Either way Accept or Reject the current user should be removed from the associated users.
             #So, it will have no access to the record anymore.
-            self.assigned_user_names.delete(user.user_name)
+            self.assigned_user_names = self.assigned_user_names.reject{|u| u == user.user_name}
             if transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en)
               #In case the transfer is accepted the current user is the new owner of the record.
               self.previously_owned_by = self.owned_by

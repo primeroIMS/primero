@@ -20,10 +20,13 @@
       <div class="scrollable">
         <%= render 'case_manager_totals_by_referred', stats: @aggregated_case_manager_stats[:referred_totals], model: model %>
       </div>
+      <% if false %>
+      <%# TODO: Temprariliy commenting out the risk level dashboards until they are configurable %>
       <div class="stat_title"><%= t('dashboard.case_stat_by_assessment_level') %></div>
       <div>
         <%= render 'case_manager_totals_by_risk_level', stats: @aggregated_case_manager_stats[:risk_levels], model: model %>
       </div>
+      <% end %>
     <% else %>
       <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
     <% end %>

@@ -100,7 +100,8 @@ class HomeController < ApplicationController
       end
     end
 
-    @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
+    #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
+    #@aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
 
     @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
 
@@ -227,7 +228,8 @@ class HomeController < ApplicationController
     queries = {
       totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
       new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
-      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
+      #risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
       manager_totals: manager_case_query({ by_case_status: true}),
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
       referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
@@ -275,29 +277,30 @@ class HomeController < ApplicationController
           end
         end
       end
-      facet(:risk_level, zeros: true, exclude: [referred]) do
-        row(:high) do
-          with(:risk_level, 'High')
-          with(:not_edited_by_owner, true)
-        end
-        row(:high_total) do
-          with(:risk_level, 'High')
-        end
-        row(:medium) do
-          with(:risk_level, 'Medium')
-          with(:not_edited_by_owner, true)
-        end
-        row(:medium_total) do
-          with(:risk_level, 'Medium')
-        end
-        row(:low) do
-          with(:risk_level, 'Low')
-          with(:not_edited_by_owner, true)
-        end
-        row(:low_total) do
-          with(:risk_level, 'Low')
-        end
-      end
+      #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
+      # facet(:risk_level, zeros: true, exclude: [referred]) do
+      #   row(:high) do
+      #     with(:risk_level, 'High')
+      #     with(:not_edited_by_owner, true)
+      #   end
+      #   row(:high_total) do
+      #     with(:risk_level, 'High')
+      #   end
+      #   row(:medium) do
+      #     with(:risk_level, 'Medium')
+      #     with(:not_edited_by_owner, true)
+      #   end
+      #   row(:medium_total) do
+      #     with(:risk_level, 'Medium')
+      #   end
+      #   row(:low) do
+      #     with(:risk_level, 'Low')
+      #     with(:not_edited_by_owner, true)
+      #   end
+      #   row(:low_total) do
+      #     with(:risk_level, 'Low')
+      #   end
+      # end
 
       facet(:records, zeros: true, exclude: [referred]) do
         row(:new) do
