@@ -982,7 +982,7 @@ ar:
     file_upload_box:
       select_file_button_text: "انتقِ ملف"
       no_file_selected: "لم يتم انتقاء ملف."
-      document_file_restrictions_message: "لا ينبغي أن تكون الملفات أكبر من 10 ميجابايت (لا يمكن تحميل الملفات  القابلة للتنفيذ (.exe)). "
+      document_file_restrictions_message: "لا ينبغي أن تكون الملفات أكبر من 2 ميجابايت (لا يمكن تحميل الملفات  القابلة للتنفيذ (.exe)). "
       photo_file_restrictions_message: "لا ينبغي أن تكون الصور أكبر من 10 ميجابايت. لا ينبغي أن تكون ملفات الصوت أكبر من 10 ميجابايت. كلما كانت الملفات أصغر كان ذلك أفضل."
       add_document_label: "إضافة مستند"
       add_photo_label: "إضافة صورة"
