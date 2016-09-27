@@ -1021,7 +1021,7 @@ en:
     file_upload_box:
       select_file_button_text: "Select File"
       no_file_selected: "No file selected."
-      document_file_restrictions_message: "Files should be no larger than 2 count_new_closure_approvalsMB (executable (.exe) files cannot be uploaded)."
+      document_file_restrictions_message: "Files should be no larger than 2 MB (executable (.exe) files cannot be uploaded)."
       photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
       add_document_label: "Add Document"
       add_photo_label: "Add Photo"
