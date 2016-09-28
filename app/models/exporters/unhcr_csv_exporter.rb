@@ -26,8 +26,9 @@ module Exporters
     def export(cases, *args)
       unhcr_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
-        rows << ['ID'] + UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
+        rows << [' ID'] + UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
         @called_first_time ||= true
+
         cases.each_with_index do |c, index|
           values = UnhcrCSVExporter.field_map.map do |_, generator|
             case generator
@@ -46,7 +47,7 @@ module Exporters
     @field_map = {
       'Individual Progress ID' => ['unhcr_id_no'],
       'CPIMS Code' => ['cpims_id'],
-      'Date of Identification' => ['registration_date'],
+      'Date of Identification' => ['identification_date'],
       'Primary Protection Concerns' => ['protection_status'],
       'Secondary Protection Concerns' => ->(c) do
         c.unhcr_needs_codes.join(', ') if c.unhcr_needs_codes.present?
@@ -56,7 +57,9 @@ module Exporters
           if location.present?
             country = location.ancestor_by_admin_level(0)
             governorate = location.ancestor_by_admin_level(1)
-            location.placename + " / " + governorate.placename + " / " + country.placename
+            location.placename.split('-').first + "- " +
+              governorate.placename.split('-').first + "- " +
+              country.placename.split('-').first
           else
             ""
           end
