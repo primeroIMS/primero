@@ -201,7 +201,9 @@ module Searchable
     end
 
     def searchable_date_fields
-      ["created_at", "last_updated_at", "registration_date"] + Field.all_searchable_date_field_names(self.parent_form)
+      ["created_at", "last_updated_at", "registration_date"] +
+      searchable_approvable_date_fields +
+      Field.all_searchable_date_field_names(self.parent_form)
     end
 
     def searchable_string_fields
@@ -209,7 +211,9 @@ module Searchable
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
        "created_organization", "owned_by_agency", "owned_by_location"] +
-       Field.all_filterable_field_names(self.parent_form)
+      searchable_approvable_fields +
+      searchable_transition_fields +
+      Field.all_filterable_field_names(self.parent_form)
     end
 
     def searchable_phonetic_fields
@@ -232,6 +236,21 @@ module Searchable
 
     def all_searchable_location_fields
       Field.all_location_field_names(self.parent_form)
+    end
+
+    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
+    def searchable_approvable_fields
+      ['approval_status_bia', 'approval_status_case_plan', 'approval_status_closure']
+    end
+
+    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
+    def searchable_approvable_date_fields
+      ['bia_approved_date', 'closure_approved_date']
+    end
+
+    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
+    def searchable_transition_fields
+      ['transfer_status']
     end
 
     # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date

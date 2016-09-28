@@ -170,11 +170,13 @@ class Child < CouchRest::Model::Base
     ]
   end
 
-  include Searchable #Needs to be after ownable, quicksearch fields
   include Flaggable
   include Transitionable
   include Reopenable
   include Approvable
+
+  # Searchable needs to be after other concern includes so that properties defined in those concerns get indexed
+  include Searchable
 
   searchable do
     string :fathers_name do
