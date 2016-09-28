@@ -385,6 +385,7 @@ class Report < CouchRest::Model::Base
         :facet => 'on',
         :'facet.field' => pivots_string,
         :'facet.mincount' => -1,
+        :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       pivots = []
@@ -405,6 +406,7 @@ class Report < CouchRest::Model::Base
         :facet => 'on',
         :'facet.pivot' => pivots_string,
         :'facet.pivot.mincount' => -1,
+        :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       result = {'pivot' => response['facet_counts']['facet_pivot'][pivots_string]}
