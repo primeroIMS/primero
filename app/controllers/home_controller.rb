@@ -366,10 +366,12 @@ class HomeController < ApplicationController
         row(:pending) do
           with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
                                         :locale => :en))
+          with(:owned_by, current_user.user_name)
         end
         row(:rejected) do
           with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
                                         :locale => :en))
+          with(:owned_by, current_user.user_name)
         end
       end
 
