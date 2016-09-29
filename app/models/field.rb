@@ -365,7 +365,8 @@ class Field
 
   # This is a rework of the original RapidFTR method that never worked.
   # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
-  def self.find_by_name(name)
+  # TODO: This has been renamed to allow a hack to wrap it
+  def self.find_by_name_from_view(name)
     result = nil
     if name.is_a? Array
       raw_field_data = FormSection.fields(keys: name).rows
@@ -376,6 +377,25 @@ class Field
     end
     return result
   end
+
+  #TODO: This is a HACK to pull back location fields from admin solr index names, 
+  #      completely based on assumptions.
+  def self.find_by_name(field_name)
+    field = nil
+    if field_name.present?
+      field = find_by_name_from_view(field_name)
+      unless field.present?
+        if field_name.last.is_number? && field_name.length > 1
+          field = find_by_name_from_view(field_name[0..-2])
+          unless field.present? && field.is_location?
+            field = nil
+          end
+        end
+      end
+    end
+    return field
+  end
+
 
   # Whether or not this should display on the show/view pages
   # Should not affect the new/edit pages
