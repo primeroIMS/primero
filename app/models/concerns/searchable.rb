@@ -41,7 +41,7 @@ module Searchable
 
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
-      # searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+      searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
 
       all_searchable_location_fields.each do |field|
         #TODO - Refactor needed
