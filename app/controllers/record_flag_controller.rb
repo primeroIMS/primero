@@ -6,6 +6,10 @@ class RecordFlagController < ApplicationController
 
   include RecordFilteringPagination
 
+  include LoggerActions
+
+  before_filter :log_controller_action, :except => [:flag_records]
+
   def flag
     authorize! :flag, @record
     flag = @record.add_flag(params[:flag_message], params[:flag_date], current_user_name)

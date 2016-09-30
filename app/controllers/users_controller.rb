@@ -14,6 +14,8 @@ class UsersController < ApplicationController
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
 
+  include LoggerActions
+
   def index
     authorize! :read, User
 
