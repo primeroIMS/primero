@@ -1766,7 +1766,7 @@ en:
     by_user: "by user"
 
     copy: "Copying"
-    destroy: "Destroying"
+    destroy: "Deleting"
     show: "Viewing"
     edit: "Editing"
     update: "Updating"
