@@ -6,19 +6,27 @@
     <% if @stats.present? %>
       <div class="single_stat">
         <%= render 'case_manager_totals', stats: @aggregated_case_manager_stats[:manager_totals], model: model %>
+        <%= render 'case_manager_transfers', stats: @aggregated_case_manager_stats[:manager_transfers], model: model %>
       </div>
       <div class="stat_title"><%= t("dashboard.cases_by_social_worker") %></div>
       <div class="scrollable">
         <%= render 'case_manager_totals_by_worker', stats: @aggregated_case_manager_stats[:worker_totals], model: model %>
       </div>
+      <div class="stat_title"><%= t("dashboard.approvals") %></div>
+      <div class="scrollable">
+        <%= render 'case_manager_totals_by_approval_type', stats: @aggregated_case_manager_stats[:approval_types], model: model %>
+      </div>
       <div class="stat_title"><%= t("dashboard.referrals_by_social_worker") %></div>
       <div class="scrollable">
         <%= render 'case_manager_totals_by_referred', stats: @aggregated_case_manager_stats[:referred_totals], model: model %>
       </div>
+      <% if false %>
+      <%# TODO: Temprariliy commenting out the risk level dashboards until they are configurable %>
       <div class="stat_title"><%= t('dashboard.case_stat_by_assessment_level') %></div>
       <div>
         <%= render 'case_manager_totals_by_risk_level', stats: @aggregated_case_manager_stats[:risk_levels], model: model %>
       </div>
+      <% end %>
     <% else %>
       <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
     <% end %>

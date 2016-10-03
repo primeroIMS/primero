@@ -54,7 +54,9 @@ class HomeController < ApplicationController
     @aggregated_case_manager_stats = {
       worker_totals: {},
       manager_totals: {},
-      referred_totals: {}
+      referred_totals: {},
+      approval_types: {},
+      manager_transfers: {}
     }
 
     managed_users = current_user.managed_user_names
@@ -76,20 +78,32 @@ class HomeController < ApplicationController
       @aggregated_case_manager_stats[:manager_totals][c.value] = c.count
     end
 
-    queries[:referred_total].facet(:referred_users).rows.each do |c|
+    queries[:referred_total].facet(:assigned_user_names).rows.each do |c|
       if managed_users.include? c.value
         @aggregated_case_manager_stats[:referred_totals][c.value] = {}
         @aggregated_case_manager_stats[:referred_totals][c.value][:total_cases] = c.count
       end
     end
 
-    queries[:referred_new].facet(:referred_users).rows.each do |c|
+    queries[:referred_new].facet(:assigned_user_names).rows.each do |c|
       if managed_users.include? c.value
         @aggregated_case_manager_stats[:referred_totals][c.value][:new_cases] = c.count
       end
     end
 
-    @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
+    queries[:transferred_by_status].facet(:transfer_status).rows.each do |c|
+      statuses = [Transition::TO_USER_LOCAL_STATUS_INPROGRESS, Transition::TO_USER_LOCAL_STATUS_REJECTED].map{
+          |t| I18n.t("referral.#{t}", :locale => :en).downcase}
+      if statuses.include? c.value
+        @aggregated_case_manager_stats[:manager_transfers][c.value] = {}
+        @aggregated_case_manager_stats[:manager_transfers][c.value][:total_cases] = c.count
+      end
+    end
+
+    #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
+    #@aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
+
+    @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
 
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
@@ -140,7 +154,7 @@ class HomeController < ApplicationController
       with(:associated_user_names, current_user.managed_user_names)
       with(:child_status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
-      facet(:referred_users, zeros: true) if query[:referred].present?
+      facet(:assigned_user_names, zeros: true) if query[:referred].present?
       if module_ids.present?
         any_of do
           module_ids.each do |m|
@@ -180,6 +194,23 @@ class HomeController < ApplicationController
           end
         end
       end
+
+      if query[:by_approval_type].present?
+        facet(:approval_type, zeros: true) do
+          row(:bia) do
+            with(:approval_status_bia, I18n.t('approvals.status.pending'))
+          end
+          row(:case_plan) do
+            with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+          end
+          row(:closure) do
+            with(:approval_status_closure, I18n.t('approvals.status.pending'))
+          end
+        end
+      end
+
+      facet(:transfer_status, zeros: true) if query[:transferred].present?
+
       paginate page: 1, per_page: 0
     end
   end
@@ -197,10 +228,13 @@ class HomeController < ApplicationController
     queries = {
       totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
       new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
-      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
+      #risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
       manager_totals: manager_case_query({ by_case_status: true}),
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
-      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true })
+      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
+      approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
+      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: 'Open'})
     }
     build_manager_stats(queries)
   end
@@ -235,7 +269,7 @@ class HomeController < ApplicationController
       with(:child_status, 'Open')
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
-      referred = with(:referred_users, current_user.user_name)
+      referred = with(:assigned_user_names, current_user.user_name)
       if module_ids.present?
         any_of do
           module_ids.each do |m|
@@ -243,29 +277,30 @@ class HomeController < ApplicationController
           end
         end
       end
-      facet(:risk_level, zeros: true, exclude: [referred]) do
-        row(:high) do
-          with(:risk_level, 'High')
-          with(:not_edited_by_owner, true)
-        end
-        row(:high_total) do
-          with(:risk_level, 'High')
-        end
-        row(:medium) do
-          with(:risk_level, 'Medium')
-          with(:not_edited_by_owner, true)
-        end
-        row(:medium_total) do
-          with(:risk_level, 'Medium')
-        end
-        row(:low) do
-          with(:risk_level, 'Low')
-          with(:not_edited_by_owner, true)
-        end
-        row(:low_total) do
-          with(:risk_level, 'Low')
-        end
-      end
+      #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
+      # facet(:risk_level, zeros: true, exclude: [referred]) do
+      #   row(:high) do
+      #     with(:risk_level, 'High')
+      #     with(:not_edited_by_owner, true)
+      #   end
+      #   row(:high_total) do
+      #     with(:risk_level, 'High')
+      #   end
+      #   row(:medium) do
+      #     with(:risk_level, 'Medium')
+      #     with(:not_edited_by_owner, true)
+      #   end
+      #   row(:medium_total) do
+      #     with(:risk_level, 'Medium')
+      #   end
+      #   row(:low) do
+      #     with(:risk_level, 'Low')
+      #     with(:not_edited_by_owner, true)
+      #   end
+      #   row(:low_total) do
+      #     with(:risk_level, 'Low')
+      #   end
+      # end
 
       facet(:records, zeros: true, exclude: [referred]) do
         row(:new) do
@@ -282,6 +317,69 @@ class HomeController < ApplicationController
         end
         row(:total) do
           with(:child_status, 'Open')
+        end
+      end
+
+      facet(:approval_status_bia, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:approval_status_bia, I18n.t('approvals.status.pending'))
+        end
+        row(:rejected) do
+          with(:approval_status_bia, I18n.t('approvals.status.rejected'))
+        end
+        row(:new) do
+          bod = Time.zone.now - 10.days
+          with(:approval_status_bia, I18n.t('approvals.status.approved'))
+          with(:bia_approved_date, bod..Time.zone.now)
+        end
+      end
+
+      facet(:approval_status_case_plan, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+        end
+        row(:rejected) do
+          with(:approval_status_case_plan, I18n.t('approvals.status.rejected'))
+        end
+        row(:new) do
+          bod = Time.zone.now - 10.days
+          with(:approval_status_case_plan, I18n.t('approvals.status.approved'))
+          with(:case_plan_approved_date, bod..Time.zone.now)
+        end
+      end
+
+      facet(:approval_status_closure, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:approval_status_closure, I18n.t('approvals.status.pending'))
+        end
+        row(:rejected) do
+          with(:approval_status_closure, I18n.t('approvals.status.rejected'))
+        end
+        row(:new) do
+          bod = Time.zone.now - 10.days
+          with(:approval_status_closure, I18n.t('approvals.status.approved'))
+          with(:closure_approved_date, bod..Time.zone.now)
+        end
+      end
+
+      facet(:transfer_status, zeros: true, exclude: [referred]) do
+        row(:pending) do
+          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
+                                        :locale => :en))
+          with(:owned_by, current_user.user_name)
+        end
+        row(:rejected) do
+          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
+                                        :locale => :en))
+          with(:owned_by, current_user.user_name)
+        end
+      end
+
+      facet(:in_progress_transfers, zeros: true) do
+        row(:in_progress) do
+          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
+                                        :locale => :en))
+          with(:transferred_to_users, current_user.user_name)
         end
       end
     end

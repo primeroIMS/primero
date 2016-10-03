@@ -30,7 +30,7 @@ module Exporters
 
       @child_cls = Child.clone
       @child_cls.class_eval do
-        property :religion, [String]
+        property :unhcr_needs_codes, [String]
         property :nationality, [String]
         property :ethnicity, [String]
         property :protection_concerns, [String]
@@ -50,12 +50,13 @@ module Exporters
       @child_cls.properties.delete_at(property_index)
     end
 
-    it "converts religion to comma separated string" do
-      @test_child.religion = ['abc', 'def']
+    it "converts unhcr_needs_codes to comma separated string" do
+      @test_child.unhcr_needs_codes = ['abc', 'def']
+
       data = UnhcrCSVExporter.export([@test_child])
 
       parsed = CSV.parse(data)
-      parsed[1][parsed[0].index("Religion of the Child")].should == 'abc, def'
+      parsed[1][parsed[0].index("Secondary Protection Concerns")].should == 'abc, def'
     end
   end
 end

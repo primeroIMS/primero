@@ -21,7 +21,11 @@ describe Incident do
     # TODO: Ask about these test
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization", "owned_by_agency", "owned_by_location"]
+      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name",
+                                                   "last_updated_by", "last_updated_by_full_name","created_organization",
+                                                   "owned_by_agency", "owned_by_location",
+                                                   "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
+                                                   "transfer_status"]
     end
 
     it "should build with date search fields" do
@@ -446,15 +450,15 @@ describe Incident do
       incident.should_not be_valid
     end
 
-    it "should disallow uploading more than 10 documents" do
+    it "should disallow uploading more than 100 documents" do
       documents = []
-      11.times { documents.push({'document' => uploadable_photo_gif}) }
+      101.times { documents.push({'document' => uploadable_photo_gif}) }
       incident = Incident.new
       incident.upload_other_document = documents
       incident.should_not be_valid
     end
 
-    it "should disallow uploading a document larger than 10 megabytes" do
+    it "should disallow uploading a document larger than 2 megabytes" do
       incident = Incident.new
       incident.upload_other_document = [{'document' => uploadable_large_photo}]
       incident.should_not be_valid

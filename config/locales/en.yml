@@ -133,7 +133,7 @@ en:
      bundle_import: "Configuration Bundle"
      bundle_export: "Configuration Bundle"
      transfer: "Transfer %{model}"
-     reassign: "Reassign %{model}"
+     reassign: "Assign %{model}"
      referral: "Refer %{model}"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
@@ -143,6 +143,9 @@ en:
      view_flags_history: "View History"
      request_approval: "Request Approval"
      approvals: "Approvals"
+     accept: "Accept"
+     reject: "Reject"
+     done: "Done"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1018,7 +1021,7 @@ en:
     file_upload_box:
       select_file_button_text: "Select File"
       no_file_selected: "No file selected."
-      document_file_restrictions_message: "Files should be no larger than 10mb (executable (.exe) files cannot be uploaded)."
+      document_file_restrictions_message: "Files should be no larger than 2 MB (executable (.exe) files cannot be uploaded)."
       photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
       add_document_label: "Add Document"
       add_photo_label: "Add Photo"
@@ -1098,6 +1101,8 @@ en:
       village: 'Village'
       zone: 'Zone'
       other: 'Other'
+      locality: 'Locality'
+      sub-district: 'Sub-district'
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -1283,8 +1288,10 @@ en:
     last_updated: "Lasted Updated"
     case_stats: "Cases"
     cases_by_social_worker: "Cases by social worker"
+    approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
+    case_stat_by_approval_type: "Approvals"
     case_stat_referrals: "Referrals"
     protection_concern: "Protection Concern"
     protection_concerns: "Protection Concerns"
@@ -1321,6 +1328,31 @@ en:
     manager_count_closed_total:
       one: "and %{stat} <span>closed</span> case "
       other: "and %{stat} <span>closed</span> cases "
+    manager_transfers_totals:
+      one: "You have %{stat} <span>%{stat_type}</span> Transfer "
+      other: "You have %{stat} <span>%{stat_type}</span> Transfers "
+    count_pending_approval_total:
+      one: "You have %{stat} <span>pending %{stat_type}</span> Approval "
+      other: "You have %{stat} <span>pending %{stat_type}</span> Approvals "
+    count_rejected_approval_total:
+      one: "and %{stat} <span>rejected %{stat_type}</span> Approval "
+      other: "and %{stat} <span>rejected %{stat_type}</span> Approvals "
+    count_new_bia_approvals:
+      one: "You have %{stat} <span>new %{stat_type}</span> Approval, "
+      other: "You have %{stat} <span>new %{stat_type}</span> Approvals, "
+    count_new_case_plan_approvals:
+      one: "%{stat} <span>new %{stat_type}</span> Approval "
+      other: "%{stat} <span>new %{stat_type}</span> Approvals "
+    count_new_closure_approvals:
+      one: "and %{stat} <span>new %{stat_type}</span> Approval"
+      other: "and %{stat} <span>new %{stat_type}</span> Approvals"
+    count_pending_transfers:
+      one: "You have %{stat} <span>pending</span> Transfer "
+      other: "You have %{stat} <span>pending</span> Transfers "
+    count_rejected_transfers:
+      one: "and %{stat} <span>rejected</span> Transfer "
+      other: "and %{stat} <span>rejected</span> Transfers "
+    count_waiting_for_acceptance_transfers: "You have %{stat} Transfers <span>waiting</span> for your acceptance"
     open_cases: "Open Cases"
     new_last_week: "New <span>(last week)</span>"
     new_this_week: "New <span>(this week)</span>"
@@ -1379,7 +1411,7 @@ en:
         wishes_preferences_count: "You are only allowed %{preferences_count} child's preferences."
         value_range: "%{field_name} must be between %{min} and %{max}"
         document_type: "The type %{type} is invalid."
-        document_size: "Please upload a document smaller than 10mb"
+        document_size: "Please upload a document smaller than 2MB"
         documents_count: "You are only allowed %{documents_count} documents per case."
         document_format: "Executable files are not allowed."
         date_closure: "The Case Closure Date should be greater or equal than Case Opening Date."
@@ -1641,6 +1673,10 @@ en:
     user_local_status_pending: "Pending"
     user_local_status_accepted: "Accepted"
     user_local_status_rejected: "Rejected"
+    user_local_status_inprogress: "In Progress"
+    user_local_status_done: "Done"
+    complete_referral_label: "Clicking OK signifies that you have completed the referral work associated with this case. Once you click OK you will no longer have access to this record."
+    done_success_message: "Referral Done."
 
   reassign:
     reassign_case_title: "Reassign case(s) to:"
@@ -1662,12 +1698,20 @@ en:
     user_mandatory: "User name is required"
     failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
     success: "%{record_type} %{id} successfully transferred"
+    rejected: "%{record_type} %{id} transfer rejected"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
     to_user_local_status_label: "Status"
     user_local_status_pending: "Pending"
     user_local_status_accepted: "Accepted"
     user_local_status_rejected: "Rejected"
+    user_local_status_inprogress: "In Progress"
+    reject: "Rejection Reason"
+    accept_label: "By clicking 'Accept' you accept the responsibility for this case; once you click 'OK' you will become the record owner in the system."
+    reject_label: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click 'OK' you will no longer have access to this case record."
+    unknown_status: "Unknown transfer status: %{status}"
+    unknown_transfer: "%{record_type} %{id} invalid transfer"
+    not_valid_transfer: "%{record_type} %{id} invalid transfer, can't update is not in progress or you have not permission on the case"
 
   mark_for_mobile:
     no_records_selected: "No records selected"

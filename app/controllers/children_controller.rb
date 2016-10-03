@@ -89,6 +89,7 @@ class ChildrenController < ApplicationController
   end
 
   def request_approval
+    #TODO move business logic to the model.
     child = Child.get(params[:child_id])
     authorize! :update, child
     case params[:approval_type]
@@ -109,6 +110,35 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def relinquish_referral
+    #TODO move business logic to the model.
+    referral_id = params[:transition_id]
+    child = Child.get(params[:id])
+
+    # TODO: this may require its own permission in the future.
+    authorize! :read, child
+
+    active_transitions_count = child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
+    referral = child.referrals.select { |r| r.id == referral_id }.first
+
+    # TODO: This will need to be refactored once we implement real i18n-able keyvalue pairs
+    referral.to_user_local_status = I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_DONE}", :locale => :en)
+
+    if active_transitions_count == 0
+      child.assigned_user_names = child.assigned_user_names.reject{|u| u == @current_user.user_name}
+    end
+
+    respond_to do |format|
+      if child.save
+        flash[:notice] = t("referral.done_success_message")
+        redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+        return
+      else
+        flash[:notice] = child.errors.messages
+        format.html { redirect_after_update }
+      end
+    end
+  end
 
   def match_record
     load_tracing_request
@@ -127,6 +157,44 @@ class ChildrenController < ApplicationController
       flash[:notice] = t("child.match_record_failed")
     end
     redirect_to case_path(@child)
+  end
+
+  def transfer_status
+    authorize! :read, model_class
+
+    @child = Child.get(params[:id])
+
+    transfer_id = params[:transition_id]
+    transition_status = params[:transition_status]
+
+    respond_to do |format|
+      status = @child.transitions_transfer_status(transfer_id, transition_status, @current_user, params[:rejected_reason])
+      case status
+        when :transition_unknown_transfer_status
+          flash[:notice] = t('transfer.unknown_status', status: transition_status)
+          format.html { redirect_after_update }
+        when :transition_unknown_transfer
+          flash[:notice] = t('transfer.unknown_transfer', record_type: model_class.parent_form.titleize, id: @child.short_id)
+          format.html { redirect_after_update }
+        when :transition_not_valid_transfer
+          flash[:notice] = t('transfer.not_valid_transfer', record_type: model_class.parent_form.titleize, id: @child.short_id)
+          format.html { redirect_after_update }
+        when :transition_transfer_status_updated
+          if @child.save
+            if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+              flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
+              redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+              return
+            else
+              flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
+              format.html { redirect_after_update }
+            end
+          else
+            flash[:notice] = @child.errors.messages
+            format.html { redirect_after_update }
+          end
+      end
+    end
   end
 
   private

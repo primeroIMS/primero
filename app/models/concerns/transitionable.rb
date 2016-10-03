@@ -3,6 +3,7 @@ module Transitionable
   include Sunspot::Rails::Searchable
 
   included do
+    property :transfer_status, String
     property :transitions, [Transition], :default => []
 
 
@@ -24,6 +25,46 @@ module Transitionable
       self.transitions.unshift(transition)
       transition
     end
+
+    def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
+      if transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en) ||
+         transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+        #Retrieve the transfer that user accept/reject.
+        transfer = self.transfers.select{|t| t.id == transfer_id }.first
+        if transfer.present?
+          #Validate that the transitions is in progress and the user is related to.
+          if transfer.is_transfer_in_progress? && transfer.is_assigned_to_user_local?(user.user_name)
+            #Change Status according the action executed.
+            transfer.to_user_local_status = transfer_status
+            #When is a reject action, there could be a reason.
+            if rejected_reason.present?
+              transfer.rejected_reason = rejected_reason
+            end
+            #Update the top level transfer status.
+            self.transfer_status = transfer_status
+            #Either way Accept or Reject the current user should be removed from the associated users.
+            #So, it will have no access to the record anymore.
+            self.assigned_user_names = self.assigned_user_names.reject{|u| u == user.user_name}
+            if transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en)
+              #In case the transfer is accepted the current user is the new owner of the record.
+              self.previously_owned_by = self.owned_by
+              self.owned_by = user.user_name
+              self.owned_by_full_name = user.full_name
+            end
+            #let know the caller the record was changed.
+            status_changed = :transition_transfer_status_updated
+          else
+            status_changed = :transition_not_valid_transfer
+          end
+        else
+          status_changed = :transition_unknown_transfer
+        end
+      else
+        status_changed = :transition_unknown_transfer_status
+      end
+      status_changed
+    end
+
   end
 
   def referrals

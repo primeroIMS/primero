@@ -82,6 +82,7 @@ Primero::Application.routes.draw do
 
     member do
       put :match_record
+      put :transfer_status
     end
 
     resources :attachments, :only => :show
@@ -155,6 +156,10 @@ Primero::Application.routes.draw do
   match '/cases/:id/reopen_case' => 'children#reopen_case', :as => :child_reopen_case, :model_class => 'Child', :via => [:post, :put]
 
   match '/cases/:id/request_approval' => 'children#request_approval', :as => :child_request_approval, :model_class => 'Child', :via => [:post, :put]
+
+  match '/cases/:id/transfer_status' => 'children#transfer_status', :as => :child_transfer_status, :model_class => 'Child', :via => [:post, :put]
+
+  match '/cases/:id/relinquish_referral' => 'children#relinquish_referral', :as => :child_relinquish_referral, :model_class => 'Child', :via => [:post, :put]
 
   #Unflag routing
   match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]

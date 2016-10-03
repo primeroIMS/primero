@@ -51,8 +51,8 @@ module HomeHelper
     index_filters_list = {
       child_status: "scope[child_status]=list||",
       new: "scope[last_updated_by]=neg||#{current_user.user_name}",
-      referred_users: "scope[referred_users]=list||#{current_user.user_name}",
-      referred_user: "scope[referred_users]=list||",
+      referred_users: "scope[assigned_user_names]=list||#{current_user.user_name}",
+      referred_user: "scope[assigned_user_names]=list||",
       risk_level: "scope[risk_level]=list||",
       record_state: "scope[record_state]=list||",
       location: "scope[location_current]=location||",
@@ -63,7 +63,12 @@ module HomeHelper
       new_owned_by: "scope[last_updated_by]=neg||",
       new_other: "scope[not_edited_by_owner]=single||true",
       user: "scope[associated_user_names]=list||",
-      protection_concern: "scope[protection_concerns]=list||"
+      protection_concern: "scope[protection_concerns]=list||",
+      approval_status_bia: "scope[approval_status_bia]=list||",
+      approval_status_case_plan: "scope[approval_status_case_plan]=list||",
+      approval_status_closure: "scope[approval_status_closure]=list||",
+      transfer_status: "scope[transfer_status]=list||",
+      transferred_to_users: "scope[transferred_to_users]=list||#{current_user.user_name}"
     }
     filters.each do |filter|
       filter = filter.split('=')

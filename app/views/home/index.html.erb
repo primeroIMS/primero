@@ -3,6 +3,7 @@
     <div class="row collapse">
       <div class="large-6 small-6 columns">
         <ul id="menu" class="sf-menu">
+          <% unless (@display_manager_dashboard || @display_admin_dashboard) %>
           <li class="init_btn">
             <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
             <ul>
@@ -29,6 +30,7 @@
               <% end %>
             </ul>
           </li>
+          <% end %>
         </ul>
       </div>
     </div>

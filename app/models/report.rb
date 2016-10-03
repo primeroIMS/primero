@@ -382,6 +382,7 @@ class Report < CouchRest::Model::Base
         :facet => 'on',
         :'facet.field' => pivots_string,
         :'facet.mincount' => -1,
+        :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       pivots = []
@@ -402,6 +403,7 @@ class Report < CouchRest::Model::Base
         :facet => 'on',
         :'facet.pivot' => pivots_string,
         :'facet.pivot.mincount' => -1,
+        :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       result = {'pivot' => response['facet_counts']['facet_pivot'][pivots_string]}
@@ -427,7 +429,7 @@ class Report < CouchRest::Model::Base
             elsif constraint == '<'
               "#{attribute}:[* TO #{value}]"
             else
-              "#{attribute}:#{value}"
+              "#{attribute}:\"#{value}\""
             end
           else
             query = if value.respond_to?(:map) && value.size > 0
@@ -435,7 +437,7 @@ class Report < CouchRest::Model::Base
                 if v == "not_null"
                   "#{attribute}:[* TO *]"
                 else
-                  "#{attribute}:#{v}"
+                  "#{attribute}:\"#{v}\""
                 end
               }.join(" OR ") + ')'
             end
