@@ -48,7 +48,7 @@ module Searchable
 
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
-      # searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+      searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
 
       all_searchable_location_fields.each do |field|
         #TODO - Refactor needed
@@ -132,27 +132,43 @@ module Searchable
       sunspot.instance_eval do
         #TODO: pop off the locations filter and perform a fulltext search
         filters.each do |filter,filter_value|
-          values = filter_value[:value]
-          type = filter_value[:type]
-          any_of do
-            case type
-            when 'range'
-              values.each do |filter_value|
-                if filter_value.count == 1
-                  # Range +
-                  with(filter).greater_than_or_equal_to(filter_value.first.to_i)
-                else
-                  range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
-                  with(filter, range_start...range_stop)
+          if searchable_location_fields.include? filter
+            #TODO: Putting this code back in, but we need a better system for filtering locations in the future
+            if filter_value[:type] == 'location_list'
+              with(filter.to_sym, filter_value[:value])
+            else
+              fulltext("\"#{filter_value[:value]}\"", fields: filter)
+            end
+          else
+            values = filter_value[:value]
+            type = filter_value[:type]
+            any_of do
+              case type
+              when 'range'
+                values.each do |filter_value|
+                  if filter_value.count == 1
+                    # Range +
+                    with(filter).greater_than_or_equal_to(filter_value.first.to_i)
+                  else
+                    range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
+                    with(filter, range_start...range_stop)
+                  end
                 end
-              end
-            when 'date_range'
-              if values.count > 1
-                to, from = values.first, values.last
-                with(filter).between(to..from)
+              when 'date_range'
+                if values.count > 1
+                  to, from = values.first, values.last
+                  with(filter).between(to..from)
+                else
+                  with(filter, values.first)
+                end
+              when 'list'
+                with(filter).any_of(values)
+              when 'neg'
+                without(filter, values)
               else
-                with(filter, values.first)
+                with(filter, values) unless values == 'all'
               end
+<<<<<<< HEAD
             when 'list'
               with(filter).any_of(values)
             when 'neg'
@@ -165,6 +181,8 @@ module Searchable
               end
             else
               with(filter, values) unless values == 'all'
+=======
+>>>>>>> maint_1.1
             end
           end
         end
