@@ -24,7 +24,7 @@ module RecordActions
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
     before_filter :load_system_settings, :only => [:index]
-    before_filter :log_controller_action, :except => [:new, :create, :index, :reindex]
+    before_filter :log_controller_action, :except => [:new, :create]
   end
 
   def list_variable_name
@@ -428,9 +428,17 @@ module RecordActions
   #Override method in LoggerActions.
   def logger_action_identifier
     if @record.respond_to?(:case_id_display)
-      @record.case_id_display
+      "#{logger_model_titleize} '#{@record.case_id_display}'"
     elsif @record.present?
-      @record.id
+      "#{logger_model_titleize} '#{@record.id}'"
+    elsif action_name == "transition" || action_name == "mark_for_mobile" || (action_name == "index" && params[:format].present?)
+      if params[:selected_records].present?
+        "#{params[:selected_records].split(",").length} #{logger_model_titleize.pluralize}"
+      elsif params[:id].blank?
+        logger_model_titleize.pluralize
+      else
+        super
+      end
     else
       super
     end
@@ -438,7 +446,7 @@ module RecordActions
 
   #Override method in LoggerActions.
   def logger_action_titleize
-    if action_name == "show" && params[:format].present?
+    if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
       #Export action take on the show controller method.
       #In order to know that is an "Export" use the <format>.
       #Empty <format> is for read view.
@@ -465,7 +473,7 @@ module RecordActions
 
   #Override method in LoggerActions.
   def logger_action_suffix
-    if action_name == "show" && params[:format].present?
+    if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
       #Action is an export.
       "#{I18n.t("logger.to", :locale => :en)} #{params[:format].upcase} #{by_action_user}"
     elsif action_name == "transition"
