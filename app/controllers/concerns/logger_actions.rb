@@ -20,7 +20,12 @@ module LoggerActions
   end
 
   def by_action_user
-    "#{I18n.t("logger.by_user", :locale => :en)} '#{current_user.user_name}'"
+    user_name = if current_user.present?
+      current_user.user_name
+    else
+      ""
+    end
+    "#{I18n.t("logger.by_user", :locale => :en)} '#{user_name}'"
   end
 
   def logger_action_prefix
