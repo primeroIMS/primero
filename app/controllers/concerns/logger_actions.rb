@@ -2,13 +2,17 @@ module LoggerActions
   extend ActiveSupport::Concern
 
   included do
-    before_filter :log_controller_action, :except => [:new, :create]
+    before_filter :log_controller_action, :except => [:new]
   end
 
   protected
 
   def logger_action_identifier
-    "#{logger_model_titleize} '#{params[:id]}'"
+    if action_name == "create"
+      logger_model_titleize
+    else
+      "#{logger_model_titleize} '#{params[:id]}'"
+    end
   end
 
   def logger_model_titleize

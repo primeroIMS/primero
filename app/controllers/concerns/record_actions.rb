@@ -24,7 +24,7 @@ module RecordActions
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
     before_filter :load_system_settings, :only => [:index]
-    before_filter :log_controller_action, :except => [:new, :create]
+    before_filter :log_controller_action, :except => [:new]
   end
 
   def list_variable_name
