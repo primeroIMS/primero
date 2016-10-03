@@ -7,7 +7,7 @@ class ReportsController < ApplicationController
   include DeleteAction
 
   #include RecordActions
-  before_filter :load_report, except: [:index, :new, :create, :permitted_field_list, :lookups_for_field]
+  before_filter :load_report, except: [:new]
 
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
