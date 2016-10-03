@@ -1780,6 +1780,7 @@ en:
 
     flag: Flagging
     unflag: Unflagging
+    flag_records: Flagging
 
     transfer_status:
       Accepted: "Accepted Transfer"
