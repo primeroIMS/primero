@@ -1,6 +1,8 @@
 class FieldsController < ApplicationController
   include FormCustomization
 
+  @model_class = Field
+
   before_filter { authorize! :manage, Field }
   before_filter :read_form_section
   before_filter :module_id, :only => [:create, :update, :destroy]
@@ -8,6 +10,8 @@ class FieldsController < ApplicationController
   after_filter :refresh_properties, :only => [:create, :update, :destroy]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
+
+  include LoggerActions
 
   def read_form_section
     @form_section = FormSection.get_by_unique_id(params[:form_section_id])

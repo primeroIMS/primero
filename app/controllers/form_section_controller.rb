@@ -9,6 +9,8 @@ class FormSectionController < ApplicationController
   before_filter :get_related_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
 
+  include LoggerActions
+
   def index
     authorize! :index, FormSection
     @page_name = t("form_section.manage")
