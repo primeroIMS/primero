@@ -1805,3 +1805,7 @@ en:
     record_state:
       "false": "Disabling"
       "true": "Enabling"
+
+    graph_data: "Viewing graph data"
+    permitted_field_list: Permitted field list
+    lookups_for_field: Lookups for field
