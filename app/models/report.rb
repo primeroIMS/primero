@@ -429,7 +429,7 @@ class Report < CouchRest::Model::Base
             elsif constraint == '<'
               "#{attribute}:[* TO #{value}]"
             else
-              "#{attribute}:#{value}"
+              "#{attribute}:\"#{value}\""
             end
           else
             query = if value.respond_to?(:map) && value.size > 0
@@ -437,7 +437,7 @@ class Report < CouchRest::Model::Base
                 if v == "not_null"
                   "#{attribute}:[* TO *]"
                 else
-                  "#{attribute}:#{v}"
+                  "#{attribute}:\"#{v}\""
                 end
               }.join(" OR ") + ')'
             end
