@@ -16,6 +16,8 @@ class UsersController < ApplicationController
 
   include LoggerActions
 
+  before_filter :log_controller_action, :except => [:new, :create, :register_unverified]
+
   def index
     authorize! :read, User
 
