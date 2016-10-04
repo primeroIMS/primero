@@ -1777,6 +1777,7 @@ en:
     reassign: "Assigning"
     transfer: "Transfering"
     reopen_case: "Reopening"
+    hide_name: "Hide name"
 
     relinquish_referral: "Relinquish referral Done"
 
@@ -1787,6 +1788,10 @@ en:
     transfer_status:
       Accepted: "Accepted Transfer"
       Rejected: "Rejected Transfer"
+
+    hide_name:
+      protect: "Hide Name"
+      view: "View Name"
 
     request_approval:
       bia: "Request Approval for the BIA form"
