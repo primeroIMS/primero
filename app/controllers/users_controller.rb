@@ -195,4 +195,13 @@ class UsersController < ApplicationController
     @user_groups = UserGroup.all
   end
 
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if action_name == 'create' && params[:user].present? && params[:user][:user_name].present?
+      "#{logger_model_titleize} 'user-#{params[:user][:user_name]}'"
+    else
+      super
+    end
+  end
+
 end

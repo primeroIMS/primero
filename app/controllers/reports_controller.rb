@@ -194,6 +194,8 @@ class ReportsController < ApplicationController
   def logger_action_identifier
     if @report.present?
       "#{logger_model_titleize} '#{@report.name}'"
+    elsif action_name == 'create' && params[:report].present? && params[:report][:name].present?
+      "#{logger_model_titleize} '#{params[:report][:name]}'"
     else
       super
     end
