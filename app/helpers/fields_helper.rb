@@ -135,20 +135,22 @@ module FieldsHelper
     subform_object = {}
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
-    elsif subform_name == "transitions"
-      subform_object = object.try(:"#{subform_name}")
-      #if user is record owner, they can see all referrals
-      if subform_object.present? && object.owned_by != @current_user.user_name
-        subform_object = subform_object.select do |transition|
-          if transition.type == Transition::TYPE_REFERRAL
-            @current_user.is_admin? ||
-            @current_user.has_group_permission?(Permission::GROUP) ||
-            transition.to_user_local == @current_user.user_name
-          else
-            true
-          end
-        end
-      end
+    #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
+    #      Pending a full refactor of how we do nested forms headers  
+    # elsif subform_name == "transitions"
+    #   subform_object = object.try(:"#{subform_name}")
+    #   #if user is record owner, they can see all referrals
+    #   if subform_object.present? && object.owned_by != @current_user.user_name
+    #     subform_object = subform_object.select do |transition|
+    #       if transition.type == Transition::TYPE_REFERRAL
+    #         @current_user.is_admin? ||
+    #         @current_user.has_group_permission?(Permission::GROUP) ||
+    #         transition.to_user_local == @current_user.user_name
+    #       else
+    #         true
+    #       end
+    #     end
+    #   end
     else
       subform_object = object.try(:"#{subform_name}")
     end
