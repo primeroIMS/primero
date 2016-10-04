@@ -11,10 +11,10 @@
    end
    if number_of_subforms > 0
      subform_object = get_subform_object(formObject, subform_section, form_group_name, subform.name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group, subform.name)
-   end
-   if subform.name == "transitions"
-     # Recalculate the amount of subforms
-     number_of_subforms = subform_object.count
+     if subform.name == "transitions"
+       # Recalculate the amount of subforms
+       number_of_subforms = subform_object.count
+     end
    end
 %>
 <% if number_of_subforms == 0 %>
