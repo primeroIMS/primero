@@ -8,11 +8,7 @@ module LoggerActions
   protected
 
   def logger_action_identifier
-    if action_name == "create"
-      logger_model_titleize
-    else
-      "#{logger_model_titleize} '#{params[:id]}'"
-    end
+    (action_name == "create") ? logger_model_titleize : "#{logger_model_titleize} '#{params[:id]}'"
   end
 
   def logger_model_titleize
@@ -24,11 +20,7 @@ module LoggerActions
   end
 
   def by_action_user
-    user_name = if current_user.present?
-      current_user.user_name
-    else
-      ""
-    end
+    user_name = (current_user.present? ? current_user.user_name : "")
     "#{I18n.t("logger.by_user", :locale => :en)} '#{user_name}'"
   end
 

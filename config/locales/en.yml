@@ -1764,7 +1764,8 @@ en:
     to: "to"
     to_user: "to user"
     by_user: "by user"
-
+    login: "Login"
+    logout: "Logout"
     create: "Creating"
     copy: "Copying"
     destroy: "Deleting"
