@@ -129,9 +129,16 @@ module TransitionActions
       if transition_valid(transfer_record, @new_user)
         #Target user should be other than the owner of the record, right?
         if @new_user.user_name != transfer_record.owned_by
-          #Referred users will be on the assigned users until the user accept or reject the referral.
-          transfer_record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
-          transfer_record.transfer_status = to_user_local_status
+          if is_reassign?
+            #When is a reassign the user became the owner of the record.
+            transfer_record.previously_owned_by = transfer_record.owned_by
+            transfer_record.owned_by = @new_user.user_name
+            transfer_record.owned_by_full_name = @new_user.full_name
+          elsif is_transfer?
+            #Referred users will be on the assigned users until the user accept or reject the referral.
+            transfer_record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
+            transfer_record.transfer_status = to_user_local_status
+          end
           unless transfer_record.save
             failed_count += 1
           end
@@ -276,7 +283,7 @@ module TransitionActions
       else
         flash[:notice] = t('referral.failure_batch', failed_count: failed_count)
       end
-    elsif is_transfer?
+    elsif is_transfer? || is_reassign?
       if is_single_or_batch? == 'single'
         flash[:notice] = t('transfer.failure', record_type: record_type, id: record_id)
       else
@@ -292,7 +299,7 @@ module TransitionActions
       else
         flash[:notice] = t('referral.success_batch', success_count: success_count)
       end
-    elsif is_transfer?
+    elsif is_transfer? || is_reassign?
       if is_single_or_batch? == 'single'
         flash[:notice] = t('transfer.success', record_type: record_type, id: record_id)
       else
