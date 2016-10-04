@@ -113,6 +113,10 @@ _primero.Views.ReportForm = Backbone.View.extend({
         }
         constructed_options_list.push("</optgroup>");
       }
+      var empty_selection = "<option value>" + $('.report_filter_attribute_template').attr('data-placeholder') + "</option>";
+      //prepend the empty selection option to report_aggregate_counts_from
+      constructed_options_list_numeric.unshift(empty_selection)
+
       $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute, .report_filter_attribute_template, #report_aggregate_counts_from').each(function(){
         el = $(this);
         var current_value = el.val();
@@ -135,9 +139,8 @@ _primero.Views.ReportForm = Backbone.View.extend({
           el.find(current_value_selector).attr('selected','selected');
         }
       });
-      //prepend the empty selection option
-      var empty_selection = "<option value>" + $('.report_filter_attribute_template').attr('data-placeholder') + "</option>";
-      $('.report_filter_attribute, .report_filter_attribute_template, #report_aggregate_counts_from').prepend(empty_selection);
+      //prepend the empty selection option to filter attributes and template
+      $('.report_filter_attribute, .report_filter_attribute_template').prepend(empty_selection);
       //trigger the chosen reload
       $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute').trigger("chosen:updated");
       self.init_chosen_order($('#report_aggregate_by, #report_disaggregate_by'));
