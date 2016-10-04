@@ -100,10 +100,10 @@ module RecordFilteringPagination
   end
 
   def load_inactivity_range
-    zeroDate = DateTime.new(0, 1, 1)
-    ninetyDaysAgo = (Date.today - 90).to_datetime
-    range = Range.new(zeroDate, ninetyDaysAgo)
-    @inactive_range ||= [range.to_s.sub('..', ' - ')]
+    Date::DATE_FORMATS[:dmy] = "%d-%b-%Y"
+    zeroDate = Date.new(0, 1, 1)
+    ninetyDaysAgo = (Date.today - 90)
+    @inactive_range ||= zeroDate.to_s(:dmy) + '.' + ninetyDaysAgo.to_s(:dmy)
   end
 
   def sanitize_date_range_filter (date_range)

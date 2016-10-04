@@ -61,8 +61,13 @@ module IndexHelper
       items.each do |item|
         if item.is_a?(Hash)
           key = item.keys.first
-          label = item[key]
-          item = key.to_s
+          if item[key].is_a?(Hash)
+            label = item[key][:label]
+            item = item[key][:value]
+          else
+            label = item[key]
+            item = key.to_s
+          end
         else
           label = item.split('::').last
         end
