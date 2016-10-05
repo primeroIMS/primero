@@ -33,8 +33,11 @@ module LoggerActions
   end
 
   def log_controller_action
+    #Format in the index action is used on exports
     #Regular index page has no format parameters.
+    #We want to log exports, but not regular index actions
     return 0 if action_name == "index" && params[:format].blank?
+
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
   end
 
