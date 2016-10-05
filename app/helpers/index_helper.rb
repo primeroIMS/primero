@@ -61,8 +61,13 @@ module IndexHelper
       items.each do |item|
         if item.is_a?(Hash)
           key = item.keys.first
-          label = item[key]
-          item = key.to_s
+          if item[key].is_a?(Hash)
+            label = item[key][:label]
+            item = item[key][:value]
+          else
+            label = item[key]
+            item = key.to_s
+          end
         else
           label = item.split('::').last
         end
@@ -268,6 +273,7 @@ module IndexHelper
     filters << "Mobile" if @is_cp
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
+    filters << "No Activity"
     filters << "Approvals" if allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) }
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form")

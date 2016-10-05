@@ -24,6 +24,12 @@
       %>
       <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters, "my_cases") %>
     <% end %>
+    <% if filters_to_show.include? 'No Activity'
+      inactivity_filters = []
+      inactivity_filters << {:last_updated_at => {:label => t("cases.filter_by.3month_inactivity"), :value => @inactive_range }}
+      %>
+      <%= build_filter_checkboxes(t("cases.filter_by.no_activity"), 'last_updated_at', inactivity_filters, nil, nil, 'date_range') %>
+    <% end %>
     <% if filters_to_show.include? 'Approvals' %>
       <% ['pending', 'approved', 'rejected'].each do |status| %>
         <%

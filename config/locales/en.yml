@@ -161,6 +161,8 @@ en:
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
       my_cases: "My Cases"
+      no_activity: "No Activity"
+      3month_inactivity: "For 3+ months"
       referred_cases: "Cases referred to me"
       agency: "Agency:"
       status: "Status:"

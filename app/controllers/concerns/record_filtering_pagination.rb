@@ -3,6 +3,7 @@ module RecordFilteringPagination
 
   included do
     before_filter :load_age_range, :only => [:index]
+    before_filter :load_inactivity_range, :only => [:index]
   end
 
   def page
@@ -96,6 +97,13 @@ module RecordFilteringPagination
     sys = SystemSettings.current
     primary_range = sys.primary_age_range
     @age_ranges ||= sys.age_ranges[primary_range].map{ |r| r.to_s }
+  end
+
+  def load_inactivity_range
+    Date::DATE_FORMATS[:dmy] = "%d-%b-%Y"
+    zeroDate = Date.new(0, 1, 1)
+    ninetyDaysAgo = (Date.today - 90)
+    @inactive_range ||= zeroDate.to_s(:dmy) + '.' + ninetyDaysAgo.to_s(:dmy)
   end
 
   def sanitize_date_range_filter (date_range)

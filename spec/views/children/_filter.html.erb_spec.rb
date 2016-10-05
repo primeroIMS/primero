@@ -6,6 +6,7 @@ include IndexHelper
 describe "children/_filter.html.erb" do
   before :each do
     @age_ranges = []
+    @inactive_range = "01-Sep-2016.20-Oct-2016"
 
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
@@ -75,7 +76,7 @@ describe "children/_filter.html.erb" do
     @primero_module_gbv.save!
 
     @filters = {}
-      
+
     @fields_filter = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
   end
 
