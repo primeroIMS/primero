@@ -720,6 +720,13 @@ describe ChildrenController do
       get :show, :id => "37"
       assigns[:duplicates].should == duplicates
     end
+
+    it 'logs a veiw message' do
+      child = build :child, :unique_identifier => "1234"
+      controller.stub :render
+      expect(Rails.logger).to receive(:info).with("Viewing case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      get :show, :id => child.id
+    end
   end
 
   describe "GET new" do
@@ -755,6 +762,13 @@ describe ChildrenController do
       Child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
+    end
+
+    it 'logs an edit message' do
+      child = build :child, :unique_identifier => "1234"
+      controller.stub :render
+      expect(Rails.logger).to receive(:info).with("Editing case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      get :edit, :id => child.id
     end
   end
 
@@ -856,6 +870,18 @@ describe ChildrenController do
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
       response.should redirect_to "/cases/#{child.id}?follow=true"
+    end
+
+    it 'logs an update message' do
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
+      child = Child.new_with_user_name(user, {:name => 'some name'})
+
+      params_child = {"name" => 'update'}
+      controller.stub(:current_user_name).and_return("user_name")
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
+      Child.stub(:get).and_return(child)
+      expect(Rails.logger).to receive(:info).with("Updating case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      put :update, :id => '1', :child => params_child
     end
 
   end
@@ -1084,6 +1110,12 @@ describe ChildrenController do
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == newer_name
+    end
+
+    it 'logs a create message' do
+      child = build :child, :unique_identifier => "1234"
+      expect(Rails.logger).to receive(:info).with("Creating case by user '#{@user.user_name}'")
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => 'new_name'}
     end
   end
 

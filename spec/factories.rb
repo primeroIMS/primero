@@ -17,6 +17,7 @@ FactoryGirl.define do
     owned_by "test_user"
     module_id "CP"
     child_status "Open"
+    case_id_display "display_1234"
 
     after_build do |child, factory|
       Child.stub(:get).with(child.id).and_return(child)
