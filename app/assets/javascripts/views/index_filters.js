@@ -64,10 +64,13 @@ _primero.Views.IndexFilters = Backbone.View.extend({
         fields = $(this).parents('.filter-controls').find('input');
         current_scope = _.without(current_scope, type);
         if (current_scope.length > 0) {
-          current_scope = current_scope[0].split('.');
-          $(fields[0]).val(current_scope[0]);
-          $(fields[1]).val(current_scope[1]);
-          self.set_date_range(fields, name, type);
+          date_values = current_scope[0].split('.');
+          if (fields.length == 2) {
+            // Preserve selected dates in datepickers 'from' and 'to'
+            $(fields[0]).val(date_values[0]);
+            $(fields[1]).val(date_values[1]);
+          }
+          self.set_date_range(date_values, name, type);
         }
       }
       else if (type === 'location') {
@@ -91,9 +94,9 @@ _primero.Views.IndexFilters = Backbone.View.extend({
     window.location.search = prev_params + add_amp + url_string;
   },
 
-  set_date_range: function(fields, filter, filter_type) {
-    var date_from = $(fields[0]).val(),
-      date_to = $(fields[1]).val(),
+  set_date_range: function(date_values, filter, filter_type) {
+    var date_from = date_values[0],
+      date_to = date_values[1],
       date_separator = date_from && date_to ? '.': '';
 
     if (!date_to && !date_from) {
@@ -138,7 +141,8 @@ _primero.Views.IndexFilters = Backbone.View.extend({
     } else if ($(target).is("input") && $(target).hasClass('hasDatepicker')) {
       // Date Ranges
       var date_inputs = $(target).parents('.filter-controls').find('input');
-      this.set_date_range(date_inputs, filter, filter_type);
+      date_values = [ $(date_inputs[0]).val(), $(date_inputs[1]).val()];
+      this.set_date_range(date_values, filter, filter_type);
     } else if ($(target).is("select") && filter_type === 'location'){
       if (selected_val === "") {
         filter_values = ""
