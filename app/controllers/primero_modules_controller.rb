@@ -2,6 +2,8 @@ class PrimeroModulesController < ApplicationController
 
   @model_class = PrimeroModule
 
+  include LoggerActions
+
   def index
     authorize! :index, PrimeroModule
     @page_name = t("primero_modules.label")

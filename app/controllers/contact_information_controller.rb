@@ -2,6 +2,10 @@ class ContactInformationController < ApplicationController
   skip_before_filter :check_authentication, :only => %w{show}
   before_filter :system_settings, :only => [:show, :edit]
 
+  @model_class = ContactInformation
+
+  include LoggerActions
+
   # GET /contact_information/Administrator
   def show
     @page_name = I18n.t("header.contact")

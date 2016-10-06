@@ -8,6 +8,8 @@ class LocationsController < ApplicationController
   before_filter :load_records_according_to_disable_filter, :except => [:destroy]
   before_filter :load_types, :only => [:new, :edit]
 
+  include LoggerActions
+
   def index
     authorize! :index, Location
     @page_name = t("location.index")
@@ -70,6 +72,15 @@ class LocationsController < ApplicationController
 
   def load_types
     @location_types = Location::BASE_TYPES
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if @location.present?
+      "#{logger_model_titleize} '#{@location.type} - #{@location.placename}'"
+    else
+      super
+    end
   end
 
 end
