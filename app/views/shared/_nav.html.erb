@@ -5,7 +5,7 @@
             <% model = controller.model_class %>
             <ul class="left">
               <li>
-                <a class="<%= current_menu('root') %>" href="<%= root_path %>">
+                <a class="<%= current_menu('root') %>" href="<%= root_path %>" title="<%= t('navigation.home') %>">
                   <i class="fa fa-home"></i>
                 </a>
               </li>
@@ -26,21 +26,21 @@
               <%# TODO - verify that functionality is expected %>
               <% if can? :edit, Role or can? :edit, UserGroup%>
                 <li>
-                  <a class="<%= current_menu('setting') %>"  href="<%= users_path %>">
+                  <a class="<%= current_menu('setting') %>"  href="<%= users_path %>" title="<%= t('navigation.users') %>">
                     <i class="fa fa-cogs"></i>
                   </a>
                 </li>
               <% end %>
               <% if can?(:group_read, Report) || can?(:read, Report) %>
                 <li>
-                  <a class="<%= current_menu('reports') %>" href="<%= reports_path %>">
+                  <a class="<%= current_menu('reports') %>" href="<%= reports_path %>" title="<%= t('navigation.reports') %>">
                     <i class="fa fa-bar-chart"></i>
                   </a>
                 </li>
               <% end %>
               <% if can?(:index, BulkExport) %>
                 <li>
-                  <a class="<%= current_menu('bulk_exports') %>" href="<%= bulk_exports_path %>">
+                  <a class="<%= current_menu('bulk_exports') %>" href="<%= bulk_exports_path %>" title="<%= t('navigation.bulk_exports') %>">
                     <i class="fa fa-download"></i>
                   </a>
                 </li>
