@@ -100,6 +100,7 @@ en:
      go: "Go"
      search: "Search"
      locations: "LOCATIONS"
+     bulk_exports: "BULK EXPORTS"
 
   buttons:
      delete: "Delete"
