@@ -2,6 +2,8 @@ class UserGroupsController < ApplicationController
 
   @model_class = UserGroup
 
+  include LoggerActions
+
   def index
     authorize! :index, UserGroup
     @page_name = t("user_groups.label")

@@ -4,6 +4,10 @@ class SystemSettingsController < ApplicationController
     authorize!(:manage, SystemUsers) #This sounds arbitrary, but implies that the user can manage other System settings
   end
 
+  @model_class = SystemSettings
+
+  include LoggerActions
+
   def show
     @page_name = t("system_settings.show")
     @primero_language = I18n.locale

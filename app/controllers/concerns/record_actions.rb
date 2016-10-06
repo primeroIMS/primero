@@ -5,6 +5,7 @@ module RecordActions
   include ExportActions
   include TransitionActions
   include MarkForMobileActions
+  include LoggerActions
 
   included do
     skip_before_filter :verify_authenticity_token
@@ -23,6 +24,7 @@ module RecordActions
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
     before_filter :load_system_settings, :only => [:index]
+    before_filter :log_controller_action, :except => [:new]
   end
 
   def list_variable_name
@@ -419,6 +421,74 @@ module RecordActions
 
   def module_users(module_ids)
     @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
+  end
+
+  protected
+
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if @record.respond_to?(:case_id_display)
+      "#{logger_model_titleize} '#{@record.case_id_display}'"
+    elsif @record.present?
+      "#{logger_model_titleize} '#{@record.id}'"
+    elsif action_name == "transition" || action_name == "mark_for_mobile" || (action_name == "index" && params[:format].present?)
+      if params[:selected_records].present?
+        "#{params[:selected_records].split(",").length} #{logger_model_titleize.pluralize}"
+      elsif params[:id].blank?
+        logger_model_titleize.pluralize
+      else
+        super
+      end
+    else
+      super
+    end
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_titleize
+    if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
+      #Export action take on the show controller method.
+      #In order to know that is an "Export" use the <format>.
+      #Empty <format> is for read view.
+      I18n.t("logger.export", :locale => :en)
+    elsif action_name == "transition"
+      #Transition is the action but does not says what kind of transition is
+      #So must use the transition_type parameters to know that.
+      I18n.t("logger.#{transition_type}", :locale => :en)
+    elsif action_name == "mark_for_mobile"
+      #The effective action on the record is at the parameter <mobile_value>.
+      I18n.t("logger.mark_for_mobile.#{params[:mobile_value]}", :locale => :en)
+    elsif action_name == "request_approval"
+      #The effective action on the record is at the parameter <approval_type>.
+      I18n.t("logger.request_approval.#{params[:approval_type]}", :locale => :en)
+    elsif action_name == "approve_form"
+      #The effective action on the record is at the parameter <approval_type> and <approval>.
+      "#{I18n.t("logger.approve_form.#{params[:approval] || "false"}", :locale => :en)} #{I18n.t("logger.approve_form.#{params[:approval_type]}", :locale => :en)}"
+    elsif action_name == "transfer_status"
+      I18n.t("logger.transfer_status.#{params[:transition_status]}", :locale => :en)
+    else
+      super
+    end
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_suffix
+    if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
+      #Action is an export.
+      "#{I18n.t("logger.to", :locale => :en)} #{params[:format].upcase} #{by_action_user}"
+    elsif action_name == "transition"
+      if params[:is_remote] == "true"
+        users = "'#{params[:other_user]}'"
+        if params[:other_user_agency].present?
+          users = "#{users}, '#{params[:other_user_agency]}'"
+        end
+      else
+        users = "'#{params[:existing_user]}'"
+      end
+      "#{by_action_user} #{I18n.t("logger.to_user", :locale => :en)} #{users}"
+    else
+      super
+    end
   end
 
 end

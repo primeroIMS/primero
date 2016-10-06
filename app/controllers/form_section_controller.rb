@@ -9,6 +9,8 @@ class FormSectionController < ApplicationController
   before_filter :get_related_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
 
+  include LoggerActions
+
   def index
     authorize! :index, FormSection
     @page_name = t("form_section.manage")
@@ -232,6 +234,22 @@ class FormSectionController < ApplicationController
       'Enquiries' #TODO: This may be controversial
     else
       parent_form.camelize.pluralize
+    end
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if action_name == 'create' && params[:form_section].present?
+      action_id = ""
+      Primero::Application::locales.each do |locale|
+        if params[:form_section]["name_#{locale}".to_sym].present?
+          action_id = "#{logger_model_titleize} '" + params[:form_section]["name_#{locale}".to_sym] + "'"
+          break
+        end
+      end
+      action_id
+    else
+      super
     end
   end
 end
