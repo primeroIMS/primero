@@ -1,6 +1,18 @@
 class RecordStatusController < ApplicationController
   before_filter :set_class_name
 
+  include LoggerActions
+
+  #Override method in LoggerActions.
+  def logger_action_titleize
+    if action_name == "set_record_status"
+      #The effective action on the record is at the parameter <record_state>.
+      I18n.t("logger.record_state.#{params[:record_state]}", :locale => :en)
+    else
+      super
+    end
+  end
+
   def set_record_status
     authorize! :update, @model_class
     success = true
@@ -9,7 +21,7 @@ class RecordStatusController < ApplicationController
     update_fields = {}
 
     record = @model_class.get(params[:id])
-    
+
     update_fields['record_state'] = params[:record_state] == 'true' ? true : false
 
     record.update_properties(update_fields, current_user_name)

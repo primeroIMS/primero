@@ -5,6 +5,10 @@ class ReplicationsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [ :configuration, :start, :stop ]
   skip_before_filter :check_authentication, :only => :configuration
 
+  @model_class = Replication
+
+  include LoggerActions
+
   def configuration
     begin
       CouchSettings.instance.authenticate params[:user_name], params[:password]

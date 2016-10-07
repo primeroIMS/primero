@@ -2,6 +2,10 @@ class SessionsController < ApplicationController
 
   skip_before_filter :check_authentication, :only => %w{new create active}
 
+  @model_class = Session
+
+  include LoggerActions
+
   # GET /sessions/1
   # GET /sessions/1.xml
   def show
@@ -120,6 +124,29 @@ class SessionsController < ApplicationController
       :verified => user.verified?
     }
     render( options.merge( :json => json ) )
+  end
+
+  #Override methods in LoggerActions.
+  def logger_action_titleize
+    if action_name == 'create'
+      I18n.t("logger.login", :locale => :en)
+    elsif action_name == 'destroy'
+      I18n.t("logger.logout", :locale => :en)
+    else
+      super
+    end
+  end
+
+  def logger_action_identifier
+    nil
+  end
+
+  def by_action_user
+    if action_name == 'create'
+      params[:user_name].present? ? "#{I18n.t("logger.by_user", :locale => :en)} '#{params[:user_name]}'" : ''
+    else
+      super
+    end
   end
 
 end

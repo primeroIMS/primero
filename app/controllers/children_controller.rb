@@ -51,18 +51,17 @@ class ChildrenController < ApplicationController
     elsif params[:protect_action] == "view"
       hide = false
     end
-    child = Child.by_id(:key => params[:child_id]).first
-    authorize! :update, child
-    child.hidden_name = hide
-    if child.save
+    authorize! :update, @child
+    @child.hidden_name = hide
+    if @child.save
       render :json => {:error => false,
-                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : child['name'],
+                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child['name'],
                        :disable_input_field => true,
                        :action_link_action => hide ? "view" : "protect",
                        :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
                       }
     else
-      puts child.errors.messages
+      puts @child.errors.messages
       render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
     end
   end
@@ -266,6 +265,15 @@ class ChildrenController < ApplicationController
     delete_child_audio = params["delete_child_audio"].present?
     child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, child_params)
     child
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_titleize
+    if action_name == "hide_name"
+      I18n.t("logger.hide_name.#{params[:protect_action]}", :locale => :en)
+    else
+      super
+    end
   end
 
 end

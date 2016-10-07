@@ -1,14 +1,20 @@
 class ReportsController < ApplicationController
 
+  @model_class = Report
+
   include RecordFilteringPagination
   include ReportsHelper
   include DeleteAction
 
   #include RecordActions
+  before_filter :load_report, except: [:new]
+
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
   before_filter :set_aggregate_order, only: [:create, :update]
   before_filter :load_age_range, only: [:new, :edit]
+
+  include LoggerActions
 
   def index
     authorize!(:read_reports, Report)
@@ -23,7 +29,6 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @report = Report.get(params[:id])
     authorize!(:read_reports, @report)
     begin
       @report.permission_filter = report_permission_filter(current_user)
@@ -42,7 +47,6 @@ class ReportsController < ApplicationController
   #       client side for representation on the table and the chart. Or we culd get funky with caching generated reports,
   #       but really this isn't worth it unless we find that this is a performance bottleneck.
   def graph_data
-    @report = Report.get(params[:id])
     authorize!(:read_reports, @report)
     @report.permission_filter = report_permission_filter(current_user)
     @report.build_report #TODO: Get rid of this once the rebuild works
@@ -65,13 +69,11 @@ class ReportsController < ApplicationController
   end
 
   def edit
-    @report = Report.get(params[:id])
     authorize! :update, @report
     set_reportable_fields
   end
 
   def update
-    @report = Report.get(params[:id])
     authorize! :update, @report
 
     if @report.update_attributes(params[:report])
@@ -115,7 +117,6 @@ class ReportsController < ApplicationController
   # TODO: Currently this isn't used as we are not storing the generated report data.
   #       See models/report.rb and graph_data method above.
   def rebuild
-    @report = Report.get(params[:id])
     authorize!(:read_reports, @report)
     @report.permission_filter = report_permission_filter(current_user)
     @report.build_report
@@ -181,8 +182,23 @@ class ReportsController < ApplicationController
 
   private
 
+  def load_report
+    @report = Report.get(params[:id])
+  end
+
   def action_class
     Report
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if @report.present?
+      "#{logger_model_titleize} '#{@report.name}'"
+    elsif action_name == 'create' && params[:report].present? && params[:report][:name].present?
+      "#{logger_model_titleize} '#{params[:report][:name]}'"
+    else
+      super
+    end
   end
 
 end

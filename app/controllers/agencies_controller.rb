@@ -9,6 +9,8 @@ class AgenciesController < ApplicationController
   before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
   before_filter :load_records_according_to_disable_filter, :only => [:index]
 
+  include LoggerActions
+
   def index
     authorize! :index, Agency
     @page_name = t("agencies.label")

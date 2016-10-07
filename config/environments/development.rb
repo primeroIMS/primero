@@ -26,5 +26,6 @@ Primero::Application.configure do
 
   config.eager_load = ENV['PROFILE'] == 'true' ? true : false
 
-  BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
+  # BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
+  BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 end

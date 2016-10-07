@@ -14,6 +14,8 @@ class UsersController < ApplicationController
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
 
+  include LoggerActions
+
   def index
     authorize! :read, User
 
@@ -191,6 +193,15 @@ class UsersController < ApplicationController
 
     @modules = PrimeroModule.all
     @user_groups = UserGroup.all
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if action_name == 'create' && params[:user].present? && params[:user][:user_name].present?
+      "#{logger_model_titleize} 'user-#{params[:user][:user_name]}'"
+    else
+      super
+    end
   end
 
 end
