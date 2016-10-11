@@ -145,6 +145,13 @@ cp_caseworker_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR
     ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::VIEW_APPROVALS,
+      Permission::VIEW_ASSESSMENT
+    ]
   )
 ]
 
@@ -220,6 +227,13 @@ cp_manager_permissions = [
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
       Permission::EXPORT_PDF
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::VIEW_APPROVALS,
+      Permission::VIEW_ASSESSMENT
     ]
   )
 ]
