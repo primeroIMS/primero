@@ -8,11 +8,17 @@ class HomeController < ApplicationController
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
 
+    #TODO - Refactor to reduce number of solr queries
     load_cases_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
     load_admin_information if display_admin_dashboard?
+
+    #TODO - use this to control what info is loaded
+    display_approvals?
+    display_assessment?
+
   end
 
   private
@@ -100,8 +106,7 @@ class HomeController < ApplicationController
       end
     end
 
-    #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
-    #@aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
+    @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
 
     @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
 
@@ -145,6 +150,14 @@ class HomeController < ApplicationController
 
   def display_admin_dashboard?
     @display_admin_dashboard ||= current_user.is_admin?
+  end
+
+  def display_approvals?
+    @display_approvals ||= can?(:view_approvals, Dashboard)
+  end
+
+  def display_assessment?
+    @display_assessment ||= can?(:view_assessment, Dashboard)
   end
 
   def manager_case_query(query = {})
@@ -277,30 +290,32 @@ class HomeController < ApplicationController
           end
         end
       end
-      #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
-      # facet(:risk_level, zeros: true, exclude: [referred]) do
-      #   row(:high) do
-      #     with(:risk_level, 'High')
-      #     with(:not_edited_by_owner, true)
-      #   end
-      #   row(:high_total) do
-      #     with(:risk_level, 'High')
-      #   end
-      #   row(:medium) do
-      #     with(:risk_level, 'Medium')
-      #     with(:not_edited_by_owner, true)
-      #   end
-      #   row(:medium_total) do
-      #     with(:risk_level, 'Medium')
-      #   end
-      #   row(:low) do
-      #     with(:risk_level, 'Low')
-      #     with(:not_edited_by_owner, true)
-      #   end
-      #   row(:low_total) do
-      #     with(:risk_level, 'Low')
-      #   end
-      # end
+
+      if display_assessment?
+        facet(:risk_level, zeros: true, exclude: [referred]) do
+          row(:high) do
+            with(:risk_level, 'High')
+            with(:not_edited_by_owner, true)
+          end
+          row(:high_total) do
+            with(:risk_level, 'High')
+          end
+          row(:medium) do
+            with(:risk_level, 'Medium')
+            with(:not_edited_by_owner, true)
+          end
+          row(:medium_total) do
+            with(:risk_level, 'Medium')
+          end
+          row(:low) do
+            with(:risk_level, 'Low')
+            with(:not_edited_by_owner, true)
+          end
+          row(:low_total) do
+            with(:risk_level, 'Low')
+          end
+        end
+      end
 
       facet(:records, zeros: true, exclude: [referred]) do
         row(:new) do

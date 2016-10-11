@@ -50,6 +50,9 @@ class Permission
   COPY = 'copy'
   MANAGE = 'manage'
   GROUP_READ = 'group_read'
+  DASHBOARD = 'dashboard'
+  VIEW_APPROVALS = 'view_approvals'
+  VIEW_ASSESSMENT = 'view_assessment'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -90,12 +93,14 @@ class Permission
       APPROVE_CLOSURE,
       COPY,
       MANAGE,
-      GROUP_READ
+      GROUP_READ,
+      VIEW_APPROVALS,
+      VIEW_ASSESSMENT
     ]
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT]
+    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT, DASHBOARD]
   end
 
   def self.management
@@ -121,11 +126,11 @@ class Permission
   def self.resource_actions(resource)
      case resource
        when CASE
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
        when INCIDENT
-         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REASSIGN, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ].include? a}
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REASSIGN, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
        when TRACING_REQUEST
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
        when ROLE
          [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
        when USER
@@ -136,6 +141,8 @@ class Permission
          [MANAGE]
        when SYSTEM
          [MANAGE]
+       when DASHBOARD
+         [VIEW_APPROVALS, VIEW_ASSESSMENT, MANAGE]
        else
          actions
      end
@@ -151,6 +158,7 @@ class Permission
       self.new(:resource => USER, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
+      self.new(:resource => DASHBOARD, :actions => [MANAGE])
     ]
   end
 
