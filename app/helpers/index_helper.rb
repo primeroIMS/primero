@@ -273,7 +273,6 @@ module IndexHelper
     filters << "Mobile" if @is_cp
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
-    filters << "No Activity"
     filters << "Approvals" if allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) }
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form")
@@ -297,6 +296,7 @@ module IndexHelper
     filters << "Reporting Location" if @is_admin
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
+    #filters << "No Activity"
     filters << "Record State"
     filters << "Photo" if @is_cp
 
