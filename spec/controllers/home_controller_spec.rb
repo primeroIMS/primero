@@ -42,13 +42,6 @@ describe HomeController do
       @case3 = build :child, :unique_identifier => "1234"
       User.stub(:find_by_user_name).and_return(@user)
       @case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::WRITE])
-      # @helper = Object.new.extend HomeHelper
-      # controller.stub :render
-      # HomeHelper.stub :case_count
-
-      # allow(HomeHelper).to receive(:case_count).and_return(1)
-
-     ApplicationController.any_instance.stub(:case_count).with(anything, anything, anything).and_return(1)
     end
 
     context 'when logged in as a worker' do

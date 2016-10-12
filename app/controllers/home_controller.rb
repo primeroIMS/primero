@@ -15,7 +15,6 @@ class HomeController < ApplicationController
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
     load_admin_information if display_admin_dashboard?
 
-    #TODO - use this to control what info is loaded
     display_approvals?
     display_assessment?
 
