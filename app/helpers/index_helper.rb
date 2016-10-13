@@ -296,7 +296,7 @@ module IndexHelper
     filters << "Reporting Location" if @is_admin
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
-    #filters << "No Activity"
+    filters << "No Activity"
     filters << "Record State"
     filters << "Photo" if @is_cp
 
