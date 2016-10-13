@@ -867,6 +867,9 @@ en:
       manage: "Manage"
       administrator_read: "Administrator Read"
       group_read: "Group Read"
+      dashboard: "Dashboard"
+      view_approvals: "View Approvals"
+      view_assessment: "View Assessment"
 
   forms:
     label: "Forms"
