@@ -103,6 +103,8 @@ module IndexHelper
         key = item.keys.first
         value = item[key][:value]
         label = item[key][:label]
+        # Overwritting key value due to approval_status_bia set of filters
+        key = item[key][:key] if item[key][:key].present?
 
         name, filter_type = if group_name.present?
           ["#{group_name}[#{key}]", "or_op"]
