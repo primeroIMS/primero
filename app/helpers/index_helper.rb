@@ -101,10 +101,9 @@ module IndexHelper
     content_tag :div, class: "filter-controls" do
       items.each do |item|
         key = item.keys.first
+        id = item[key][:id].present? ? item[key][:id] : key
         value = item[key][:value]
         label = item[key][:label]
-        # Overwritting key value due to approval_status_bia set of filters
-        key = item[key][:key] if item[key][:key].present?
 
         name, filter_type = if group_name.present?
           ["#{group_name}[#{key}]", "or_op"]
@@ -113,8 +112,8 @@ module IndexHelper
         end
 
         concat(
-          label_tag(key,
-            check_box_tag(name, value, nil, id: key, filter_type: filter_type) +
+          label_tag(id,
+            check_box_tag(name, value, nil, id: id, filter_type: filter_type) +
             content_tag(:span, label)
           )
         )
