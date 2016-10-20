@@ -28,9 +28,9 @@
       <% ['pending', 'approved', 'rejected'].each do |status| %>
         <%
           approval_filters =  []
-          approval_filters << {:approval_status_bia => {:label => t("approvals.bia"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'cp_bia_form'
-          approval_filters << {:approval_status_case_plan => {:label => t("approvals.care_plan"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'cp_case_plan'
-          approval_filters << {:approval_status_closure => {:label => t("approvals.closure"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'closure_form'
+          approval_filters << {:approval_status_bia => {:id => "#{status}_bia", :label => t("approvals.bia"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'cp_bia_form'
+          approval_filters << {:approval_status_case_plan => {:id => "#{status}_case_plan", :label => t("approvals.care_plan"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'cp_case_plan'
+          approval_filters << {:approval_status_closure => {:id => "#{status}_closure", :label => t("approvals.closure"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'closure_form'
         %>
         <%= build_filter_checkboxes_group(t("cases.filter_by.approvals.#{status}"), approval_filters, "approval_status") %>
       <% end %>

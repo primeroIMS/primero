@@ -101,6 +101,7 @@ module IndexHelper
     content_tag :div, class: "filter-controls" do
       items.each do |item|
         key = item.keys.first
+        id = item[key][:id].present? ? item[key][:id] : key
         value = item[key][:value]
         label = item[key][:label]
 
@@ -111,8 +112,8 @@ module IndexHelper
         end
 
         concat(
-          label_tag(key,
-            check_box_tag(name, value, nil, id: key, filter_type: filter_type) +
+          label_tag(id,
+            check_box_tag(name, value, nil, id: id, filter_type: filter_type) +
             content_tag(:span, label)
           )
         )
