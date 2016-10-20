@@ -28,7 +28,11 @@
     <div class="space"></div>
     <div class="row">
       <div class="large-12 columns">
-        <a class="btn green-button right" id="forms-export" href=""><%= t("exports.forms.button") %></a>
+        <a class="btn green-button right"
+           id="forms-export"
+           href=""
+           data-form_action="<%= send("download_forms_path") %>">
+           <%= t("exports.forms.button") %></a>
         <a class="close-reveal-modal btn green-button right"><%= t("buttons.cancel") %></a>
       </div>
     </div>

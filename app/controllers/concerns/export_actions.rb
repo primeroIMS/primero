@@ -87,4 +87,17 @@ module ExportActions
   def filter_permitted_export_properties(models, props)
     props
   end
+
+  def download_all_forms
+
+    #binding.pry
+    #puts "I'm HEREEEEEEE"
+    forms_exporter = Exporters::FormExporter.new
+
+    # TODO: This code is copied from lines 37-39 of this file. Figure out if this can be used for downloading the exported forms spreadsheet
+    file = forms_exporter.export_forms_to_spreadsheet
+    cookies[:download_status_finished] = true
+    # downloaded data doesn't need to be encrypted, but follow this lead to figure out how to download that file!
+    encrypt_data_to_zip export_data, file_name, params[:password]
+  end
 end

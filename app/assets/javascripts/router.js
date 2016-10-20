@@ -26,7 +26,8 @@ _primero.Router = Backbone.Router.extend({
     'login' : 'maskedUserAndPasswordLogin',
     'sessions/new': 'maskedUserAndPasswordLogin',
     'locations/new': 'locations',
-    'locations/:id/edit': 'locations'
+    'locations/:id/edit': 'locations',
+    'forms': 'formActions'
   },
 
   initialize: function() {
@@ -191,6 +192,10 @@ _primero.Router = Backbone.Router.extend({
 
   locations: function(){
     new _primero.Views.Locations();
+  },
+
+  formActions: function() {
+    new _primero.Views.FormsExport();
   }
 
 });
