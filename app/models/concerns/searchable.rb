@@ -17,12 +17,7 @@ module Searchable
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each {|f| date f}
       searchable_numeric_fields.each {|f| integer f}
-      # TODO: boolean with have to change if we want to index arbitrary index fields
-      boolean :case_status_reopened
-      boolean :duplicate
-      boolean :flag
-      boolean :has_photo
-      boolean :record_state
+      searchable_boolean_fields.each {|f| boolean f}
       boolean :not_edited_by_owner do
         (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
       end
@@ -76,18 +71,6 @@ module Searchable
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
   end
 
-  # #TODO: Remove this, once we have satisied that its not neccessary to refresh Sunspot with every save
-  # def index_record
-  #   #TODO: Experiment with getting rid of the solr schema rebuild on EVERY save.
-  #   #      This should take place when the form sections change.
-  #   begin
-  #     #self.class.refresh_in_sunspot
-  #     Sunspot.index!(self)
-  #   rescue
-  #     Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
-  #   end
-  #   true
-  # end
 
   module ClassMethods
     #Pull back all records from CouchDB that pass the filter criteria.
@@ -180,39 +163,20 @@ module Searchable
       end
     end
 
-    # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
-    #      Currently nothing calls this?
     def reindex!
       Sunspot.remove_all(self)
       self.all.each { |record| Sunspot.index!(record) }
-    end
-
-
-    # TODO: What is going on with that date_fields loop?
-    #Refreshes Sunspot to index this class correctly after new field definitions were added.
-    # TODO: We should probably just get rid of this, or attach to a form rebuild
-    def refresh_in_sunspot
-      text_fields = searchable_text_fields
-      date_fields = searchable_date_fields
-      Sunspot.setup(self) do
-        text *text_fields
-        date *date_fields
-        date_fields.each { |date_field| date date_field }
-        boolean :duplicate
-      end
-    end
-
-    #TODO: do we need these?
-    def searchable_text_fields
-      # "created_by", "created_by_full_name",
-      #  "last_updated_by", "last_updated_by_full_name",
-      ["unique_identifier", "short_id"]
     end
 
     def searchable_date_fields
       ["created_at", "last_updated_at", "registration_date"] +
       searchable_approvable_date_fields +
       Field.all_searchable_date_field_names(self.parent_form)
+    end
+
+    def searchable_boolean_fields
+      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] + 
+      Field.all_searchable_boolean_field_names(self.parent_form)).uniq
     end
 
     def searchable_string_fields
@@ -226,7 +190,7 @@ module Searchable
     end
 
     def searchable_phonetic_fields
-        ["name", "name_nickname", "name_other"]
+      ["name", "name_nickname", "name_other"]
     end
 
     def searchable_multi_fields
@@ -262,11 +226,5 @@ module Searchable
       ['transfer_status']
     end
 
-    # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date
-    def schedule(scheduler)
-      scheduler.every("24h") do
-        self.reindex!
-      end
-    end
   end
 end
