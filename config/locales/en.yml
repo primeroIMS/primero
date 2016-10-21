@@ -1739,13 +1739,13 @@ en:
   approvals:
     approve_bia: "Request Approval for the BIA form?"
     approve_bia_label: "Approve BIA Form"
-    approve_care_plan: "Request Approval for the Care Plan form?"
+    approve_care_plan: "Request Approval for the Case Plan form?"
     approve_case_plan_label: "Approve Case Plan"
-    approve_case_plan: "Request Approval for the Care Plan form?"
+    approve_case_plan: "Request Approval for the Case Plan form?"
     approve_closure: "Request Approval for the Closure form?"
     approve_closure_label: "Approve Closure Form"
     bia: "BIA"
-    care_plan: "Care Plan"
+    case_plan: "Case Plan"
     closure: "Closure"
     comments_label: "Comments"
 
@@ -1804,14 +1804,14 @@ en:
 
     request_approval:
       bia: "Request Approval for the BIA form"
-      case_plan: "Request Approval for the Care Plan form"
+      case_plan: "Request Approval for the Case Plan form"
       closure: "Request Approval for the Closure form"
 
     approve_form:
       "false": "Rejecting"
       "true": "Approving"
       bia: "BIA form"
-      case_plan: "Care Plan form"
+      case_plan: "Case Plan form"
       closure: "Closure form"
 
     mark_for_mobile:

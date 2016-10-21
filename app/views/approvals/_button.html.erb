@@ -9,7 +9,7 @@
     </li>
     <li>
       <% if can?(:request_approval_case_plan, controller.model_class) %>
-        <%= link_to t("approvals.care_plan"), '#', data: {"reveal-id" => "case_plan_approvals"} %>
+        <%= link_to t("approvals.case_plan"), '#', data: {"reveal-id" => "case_plan_approvals"} %>
         <%= render partial: 'approvals/approve_record', locals: {approval_type: "case_plan", model: model, instance: instance} %>
       <% end %>
     </li>
