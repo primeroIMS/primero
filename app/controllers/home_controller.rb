@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 
   before_filter :load_system_settings, :only => [:index]
+  before_filter :can_access_approvals, :only => [:index]
 
   def index
     @page_name = t("home.label")
@@ -268,6 +269,13 @@ class HomeController < ApplicationController
       @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
     end
+  end
+
+  def can_access_approvals
+    @can_approval_bia = can?(:approve_bia, Child) || can?(:request_approval_bia, Child)
+    @can_approval_case_plan = can?(:approve_case_plan, Child) || can?(:request_approval_case_plan, Child)
+    @can_approval_closure = can?(:approve_closure, Child) || can?(:request_approval_closure, Child)
+    @can_approvals = @can_approval_bia || @can_approval_case_plan || @can_approval_closure
   end
 
   def load_recent_activities

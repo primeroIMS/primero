@@ -1,4 +1,4 @@
-<% if can?(:approve_bia, Child) || can?(:request_approval_bia, Child) %>
+<% if @can_approval_bia %>
   <div>
     <%= I18n.translate("dashboard.count_pending_approval_total",
                        case_count(
@@ -22,7 +22,7 @@
                          }, stats, model)).html_safe %>
   </div>
 <% end %>
-<% if can?(:approve_case_plan, Child)  || can?(:request_approval_case_plan, Child) %>
+<% if @can_approval_case_plan %>
   <div>
     <%= I18n.translate("dashboard.count_pending_approval_total",
                        case_count(
@@ -46,7 +46,7 @@
                          }, stats, model)).html_safe %>
   </div>
 <% end %>
-<% if can?(:approve_closure, Child)  || can?(:request_approval_closure, Child) %>
+<% if @can_approval_closure %>
   <div>
     <%= I18n.translate("dashboard.count_pending_approval_total",
                        case_count(
@@ -71,7 +71,7 @@
   </div>
 <% end %>
 <div>
-  <% if can?(:approve_bia, Child) || can?(:request_approval_bia, Child) %>
+  <% if @can_approval_bia %>
     <%= I18n.translate("dashboard.count_new_bia_approvals",
                        case_count(
                          {
@@ -85,7 +85,7 @@
                            )
                          }, stats, model)).html_safe %>
   <% end %>
-  <% if can?(:approve_case_plan, Child) || can?(:request_approval_case_plan, Child) %>
+  <% if @can_approval_case_plan %>
     <%= I18n.translate("dashboard.count_new_case_plan_approvals",
                        case_count(
                          {
@@ -99,7 +99,7 @@
                            )
                          }, stats, model)).html_safe %>
   <% end %>
-  <% if can?(:approve_closure, Child) || can?(:request_approval_closure, Child) %>
+  <% if @can_approval_closure %>
     <%= I18n.translate("dashboard.count_new_closure_approvals",
                        case_count(
                          {
