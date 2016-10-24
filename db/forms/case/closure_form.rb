@@ -3,17 +3,20 @@ closure_fields = [
               "type" => "tick_box",
               "tick_box_label_all" => "Yes",
               "display_name_all" => "Approved by Manager",
-              "disabled" => true
+              "disabled" => true,
+              "editable" => false
             }),
   Field.new({"name" => "closure_approved_date",
              "type" => "date_field",
              "display_name_all" => "Date",
-             "disabled" => true
+             "disabled" => true,
+             "editable" => false
             }),
   Field.new({"name" => "closure_approved_comments",
              "type" => "textarea",
              "display_name_all" => "Manager Comments",
-             "disabled" => true
+             "disabled" => true,
+             "editable" => false
             }),
   Field.new({"name" => "approval_status_closure",
              "type" => "select_box",
