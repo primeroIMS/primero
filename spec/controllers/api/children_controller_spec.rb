@@ -17,9 +17,9 @@ describe ChildrenController do
 
   describe '#authorizations' do
     it "should fail GET index when unauthorized" do
-      @controller.current_ability.should_receive(:can?).with(:index, Child).and_return(false)
+      Ability.any_instance.stub(:can?).with(anything, Child).and_return(false)
       get :index
-      response.should be_forbidden
+      expect(response).to be_forbidden
     end
 
     it "should fail GET show when unauthorized" do
