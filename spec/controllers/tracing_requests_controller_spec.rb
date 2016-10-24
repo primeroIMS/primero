@@ -44,27 +44,27 @@ describe TracingRequestsController do
   describe '#authorizations' do
     describe 'collection' do
       it "GET index" do
-        @controller.current_ability.should_receive(:can?).with(:index, TracingRequest).and_return(false);
+        Ability.any_instance.stub(:can?).with(anything, TracingRequest).and_return(false)
         controller.stub :get_form_sections
         get :index
-        response.status.should == 403
+        expect(response).to be_forbidden
       end
 
       xit "GET search" do
-        @controller.current_ability.should_receive(:can?).with(:index, TracingRequest).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:index, TracingRequest).and_return(false)
         get :search
         response.status.should == 403
       end
 
       it "GET new" do
-        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false)
         controller.stub :get_form_sections
         get :new
         response.status.should == 403
       end
 
       it "POST create" do
-        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false)
         post :create
         response.status.should == 403
       end

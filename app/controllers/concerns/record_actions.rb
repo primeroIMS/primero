@@ -25,6 +25,7 @@ module RecordActions
     before_filter :sort_subforms, :only => [:show, :edit]
     before_filter :load_system_settings, :only => [:index]
     before_filter :log_controller_action, :except => [:new]
+    before_filter :can_access_approvals, :only => [:index]
   end
 
   def list_variable_name
@@ -330,6 +331,13 @@ module RecordActions
 
   def is_mrm
     @is_mrm ||= @current_user.has_module?(PrimeroModule::MRM)
+  end
+
+  def can_access_approvals
+    @can_approval_bia = can?(:approve_bia, model_class) || can?(:request_approval_bia, model_class)
+    @can_approval_case_plan = can?(:approve_case_plan, model_class) || can?(:request_approval_case_plan, model_class)
+    @can_approval_closure = can?(:approve_closure, model_class) || can?(:request_approval_closure, model_class)
+    @can_approvals = @can_approval_bia || @can_approval_case_plan || @can_approval_closure
   end
 
   def record_params

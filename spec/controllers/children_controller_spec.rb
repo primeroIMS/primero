@@ -45,9 +45,9 @@ describe ChildrenController do
   describe '#authorizations' do
     describe 'collection' do
       it "GET index" do
-        @controller.current_ability.should_receive(:can?).with(:index, Child).and_return(false)
+        Ability.any_instance.stub(:can?).with(anything, Child).and_return(false)
         get :index
-        response.status.should == 403
+        expect(response).to be_forbidden
       end
 
       xit "GET search" do

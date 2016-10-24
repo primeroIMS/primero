@@ -13,7 +13,7 @@
             <%= render 'case_count_transfers_by_status', stats: @stats, model: model %>
           </td>
         </tr>
-        <% if @display_approvals %>
+        <% if @display_approvals && @can_approvals %>
           <tr>
             <td>
               <div class="stat_title"><%= t("dashboard.case_stat_by_approval_type") %></div>
