@@ -276,9 +276,9 @@ module IndexHelper
     filters << "My Cases"
     filters << "Approvals" if allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) }
     #Check independently the checkboxes on the view.
-    filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form")
-    filters << "cp_case_plan" if allowed_form_ids.include?("cp_case_plan")
-    filters << "closure_form" if allowed_form_ids.include?("closure_form")
+    filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && (can?(:approve_bia, Child) || can?(:request_approval_bia, Child))
+    filters << "cp_case_plan" if allowed_form_ids.include?("cp_case_plan") && (can?(:approve_case_plan, Child) || can?(:request_approval_case_plan, Child))
+    filters << "closure_form" if allowed_form_ids.include?("closure_form") && (can?(:approve_closure, Child) || can?(:request_approval_closure, Child))
 
     filters << "Agency" if @is_admin || @is_manager
     filters << "Status"
