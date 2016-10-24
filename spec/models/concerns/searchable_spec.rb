@@ -1,23 +1,25 @@
 require 'spec_helper'
 
-shared_examples "Searchable" do
+describe "Searchable" do
+
+  before :each do
+    Sunspot.remove_all(Child)
+  end
+
+  before :all do
+    form = FormSection.new(:name => "test_form", :parent_form => 'case')
+    form.fields << Field.new(:name => "text_field1", :type => Field::TEXT_FIELD, :display_name => "Text Field 1")
+    form.fields << Field.new(:name => "tick_field1", :type => Field::TICK_BOX, :display_name => "Tick Field 1")
+    form.fields << Field.new(:name => "tick_field2", :type => Field::TICK_BOX, :display_name => "Tick Field 2")
+    form.fields << Field.new(:name => "date_field1", :type => Field::DATE_FIELD, :display_name => "Date Field 1")
+    form.save!
+  end
+
+  after :all do
+    FormSection.all.all.each { |form| form.destroy }
+  end
 
   describe "Text Query" do
-
-    # before :each do
-    #   Sunspot.remove_all(Child)
-    # end
-
-    # before :all do
-    #   form = FormSection.new(:name => "test_form", :parent_form => 'case')
-    #   form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
-    #   form.save!
-    # end
-
-    # after :all do
-    #   FormSection.all.all.each { |form| form.destroy }
-    # end
-
 
     it "should return empty array for no match" do
       pending "Write this test!"
@@ -59,24 +61,15 @@ shared_examples "Searchable" do
 
   describe "Solr schema" do
 
-    it "should build with free text search fields" do
-      pending "Write this test!"
-      # Field.stub(:all_searchable_field_names).and_return []
-      # Child.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization"]
-    end
-
     it "should build with date search fields" do
-      pending "Write this test!"
-      # expect(Child.searchable_date_fields).to include("created_at", "last_updated_at", "registration_date")
+      expect(Child.searchable_date_fields).to include("created_at", "last_updated_at", "registration_date", "date_field1")
     end
 
-    it "fields build with all fields in form sections" do
-      pending "Write this test!"
-      # form = FormSection.new(:name => "test_form", :parent_form => 'case')
-      # form.fields << Field.new(:name => "name", :type => Field::TEXT_FIELD, :display_name => "name")
-      # form.save!
-      # Child.searchable_string_fields.should include("name")
-      # FormSection.all.each { |form_section| form_section.destroy }
+    it "should build with boolean search fields" do
+      expect(Child.searchable_boolean_fields).to include(
+        'duplicate', 'flag', 'has_photo', 'record_state', 
+        'case_status_reopened', 'tick_field1', 'tick_field2'
+      )
     end
 
   end

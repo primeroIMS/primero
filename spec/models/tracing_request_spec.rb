@@ -961,16 +961,6 @@ describe TracingRequest do
 
   end
 
-
-  describe 'reindex' do
-    it 'should reindex every 24 hours' do
-      scheduler = double()
-      scheduler.should_receive(:every).with('24h').and_yield()
-      TracingRequest.should_receive(:reindex!).once.and_return(nil)
-      TracingRequest.schedule scheduler
-    end
-  end
-
   describe 'validate dates and date ranges fields' do
     before do
       fields = [Field.new({"name" => "a_date_field",

@@ -183,24 +183,28 @@ class Field
   end
 
   # TODO: Refator this - Slow when you rebuild a form
-  def self.all_searchable_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_searchable_fields.map(&:name) }.flatten
+  def self.all_searchable_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_fields.map(&:name) }.flatten
   end
 
-  def self.all_searchable_date_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
+  def self.all_searchable_date_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
   end
 
-  def self.all_filterable_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_filterable_fields.map(&:name) }.flatten
+  def self.all_searchable_boolean_field_names(parent_form='case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_boolean_fields.map(&:name) }.flatten
   end
 
-  def self.all_filterable_multi_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
+  def self.all_filterable_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_fields.map(&:name) }.flatten
   end
 
-  def self.all_filterable_numeric_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
+  def self.all_filterable_multi_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
+  end
+
+  def self.all_filterable_numeric_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
   end
 
   def self.all_tally_fields(parent_form='case')

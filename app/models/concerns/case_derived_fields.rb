@@ -19,6 +19,19 @@ module CaseDerivedFields
     latest_care_arrangements.telephone_caregiver if latest_care_arrangements.present?
   end
 
+  def has_case_plan
+    plan = false
+    interventions = self.cp_case_plan_subform_case_plan_interventions
+    if interventions.present?
+      plan = interventions.find_index do |i|
+        i.try(:intervention_service_to_be_provided).present? ||
+        i.try(:intervention_service_goal).present?
+      end
+    end
+    return plan.present?
+  end
+  alias :has_case_plan? :has_case_plan
+
   private
 
   def latest_care_arrangements

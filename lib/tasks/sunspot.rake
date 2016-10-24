@@ -79,7 +79,7 @@ namespace :sunspot do
         end
       end
       nesteds = []
-      if model.instance_methods.include? :nested_reportables
+      if model.instance_methods.include? :nested_reportables_hash
         nesteds = records.reduce([]) do |list, record|
           record.nested_reportables_hash.each do |_, reportables|
             list = list + reportables

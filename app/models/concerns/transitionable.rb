@@ -75,6 +75,11 @@ module Transitionable
     self.transitions.select{|t| t.type == 'transfer'}
   end
 
+  def has_referrals
+    self.referrals.present?
+  end
+  alias :has_referrals? :has_referrals
+
   def reject_old_transitions
     self.transitions = [self.transitions.first]
   end

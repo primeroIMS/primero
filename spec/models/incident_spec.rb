@@ -39,15 +39,6 @@ describe Incident do
       Incident.searchable_string_fields.should include("description")
       FormSection.all.each { |form_section| form_section.destroy }
     end
-
-    # TODO: build_solr_schema under development. Temp removed
-    # it "should call Sunspot with all fields" do
-    #   Sunspot.should_receive(:setup)
-    #   Incident.should_receive(:searchable_text_fields)
-    #   Incident.should_receive(:searchable_date_fields)
-    #   Incident.build_solar_schema
-    # end
-
   end
 
   describe ".search" do
@@ -523,15 +514,6 @@ describe Incident do
     #end
   end
 
-
-  describe 'reindex' do
-    it 'should reindex every 24 hours' do
-      scheduler = double()
-      scheduler.should_receive(:every).with('24h').and_yield()
-      Incident.should_receive(:reindex!).once.and_return(nil)
-      Incident.schedule scheduler
-    end
-  end
 
   describe "Batch processing" do
     before do

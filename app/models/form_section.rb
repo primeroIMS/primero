@@ -622,6 +622,12 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
+  def all_searchable_boolean_fields
+    self.fields.select do |field|
+      Field::TICK_BOX == field.type
+    end
+  end
+
   def all_filterable_fields
     self.fields.select  do |field|
       [Field::TEXT_FIELD, Field::RADIO_BUTTON, Field::SELECT_BOX, Field::NUMERIC_FIELD].include? field.type unless field.multi_select

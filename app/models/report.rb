@@ -203,10 +203,10 @@ class Report < CouchRest::Model::Base
         #total: response['response']['numFound'], #TODO: Do we need the total?
         aggregate_value_range: aggregate_value_range,
         disaggregate_value_range: disaggregate_value_range,
-        graph_value_range: graph_value_range,
         values: @values
       }
       self.data[:graph_value_range] = graph_value_range if is_graph
+      self.data = self.translate_data(self.data)
       ""
     end
   end
@@ -334,6 +334,28 @@ class Report < CouchRest::Model::Base
       default_filters = Record.model_from_name(self.record_type).report_filters
       self.filters = (self.filters + default_filters).uniq
     end
+  end
+
+  def translate_data(data)
+    #TODO: Eventually we want all i18n to be applied through this method
+    [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
+      if data[k].present?
+        data[k] = data[k].map do |value|
+          value.map{|v| translate(v)}  
+        end
+      end
+    end
+    if data[:values].present?
+      data[:values] = data[:values].map do |key,value| 
+        [key.map{|k| translate(k)}, value]
+      end.to_h
+    end
+    return data
+  end
+
+  #TODO: When we have true I18n we will discard this method and just use I18n.t()
+  def translate(string)
+    ['false', 'true'].include?(string) ? I18n.t(string) : string
   end
 
   def pivots
