@@ -3,17 +3,20 @@ bia_fields = [
                "type" => "tick_box",
                "tick_box_label_all" => "Yes",
                "display_name_all" => "Approved by Manager",
-               "disabled" => true
+               "disabled" => true,
+               "editable" => false
               }),
     Field.new({"name" => "bia_approved_date",
                "type" => "date_field",
                "display_name_all" => "Date",
-               "disabled" => true
+               "disabled" => true,
+               "editable" => false
               }),
     Field.new({"name" => "bia_approved_comments",
                "type" => "textarea",
                "display_name_all" => "Manager Comments",
-               "disabled" => true
+               "disabled" => true,
+               "editable" => false
               }),
     Field.new({"name" => "approval_status_bia",
                "type" => "select_box",
@@ -22,12 +25,14 @@ bia_fields = [
                    ["Pending",
                     "Approved",
                     "Rejected"].join("\n"),
-               "disabled" => true
+               "disabled" => true,
+               "editable" => false
               }),
     Field.new({"name" => "case_id_display",
                "type" => "text_field",
                "display_name_all" => "Primero Case ID",
                "disabled" => true,
+               "editable" => false
               }),
     Field.new({"name" => "bia_header",
                "type" => "separator",
