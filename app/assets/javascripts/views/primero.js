@@ -8,7 +8,8 @@ Primero = Backbone.View.extend({
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
-    'click a#audio_link, a.document, a.bulk_export_download a.download_forms': '_primero_check_download_status'
+    'click a#audio_link, a.document, a.bulk_export_download': '_primero_check_download_status',
+    'click a.download_forms': '_primero_check_status_close_modal',
   },
 
   initialize: function() {
@@ -26,6 +27,7 @@ Primero = Backbone.View.extend({
     _primero.loading_screen_indicator = this._primero_loading_screen_indicator;
     _primero.serialize_object = this._primero_serialize_object;
     _primero.check_download_status = this._primero_check_download_status;
+    _primero.check_status_close_modal = this._primero_check_status_close_modal;
     _primero.remove_cookie = this._primero_remove_cookie;
     _primero.read_cookie = this._primero_read_cookie;
     _primero.create_cookie = this._primero_create_cookie;
@@ -464,16 +466,25 @@ Primero = Backbone.View.extend({
     return str.join("&");
   },
 
-  _primero_check_download_status: function() {
+  _primero_check_download_status: function(closure = null) {
     var download_cookie_name = 'download_status_finished',
         clock = setInterval(check_status, 2000);
     function check_status() {
       if (_primero.read_cookie(download_cookie_name)) {
         _primero.loading_screen_indicator('hide');
         _primero.remove_cookie(download_cookie_name);
+        if (closure != null ) { closure(); }
         clearInterval(clock);
       }
     }
+  },
+
+  _primero_check_status_close_modal: function() {
+    _primero.check_download_status(close_forms_export_modal_after_download);
+
+    function close_forms_export_modal_after_download() {
+      $('[id$=forms-export]').foundation('reveal', 'close');
+    };
   },
 
   _primero_create_cookie: function(name, value, days) {
