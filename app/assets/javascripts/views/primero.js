@@ -8,7 +8,7 @@ Primero = Backbone.View.extend({
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
-    'click a#audio_link, a.document, a.bulk_export_download': '_primero_check_download_status'
+    'click a#audio_link, a.document, a.bulk_export_download a.download_forms': '_primero_check_download_status'
   },
 
   initialize: function() {
