@@ -90,20 +90,13 @@ module ExportActions
 
   def download_all_forms
     forms_exporter = Exporters::FormExporter.new
+    forms_exporter.export_forms_to_spreadsheet
 
-    export_data = forms_exporter.export_forms_to_spreadsheet
-
-    hostname = "localhost" # where to get the hostname from??
+    hostname = request.env['SERVER_NAME']
     datetimenow = DateTime.now.strftime('%Y%m%d.%I%M')
     file_name = "forms-#{hostname}-#{datetimenow}.xls"
 
     cookies[:download_status_finished] = true
-    # downloaded data doesn't need to be encrypted, but follow this lead to figure out how to download that file!
-
-    binding.pry
-
-    #send_data export_data, :filename => file_name #doesn't work
-    #send_file export_data, :filename => file_name, :disposition => "inline", :type => ' application/vnd.ms-excel'
-    send_file forms_exporter.temp_file, :filename => file_name #, :type => ' application/vnd.ms-excel' #:disposition => "inline"
+    send_file(forms_exporter.temp_file, :filename => file_name, :type=>"application/excel", :disposition=>'attachment')
   end
 end

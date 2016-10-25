@@ -3,7 +3,7 @@ module Exporters
 
     def initialize
       @temp_filename = CleansingTmpDir.temp_file_name
-      @io = File.new(@temp_filename, "w") #StringIO.new #
+      @io = File.new(@temp_filename, "w")
       @workbook = WriteExcel.new(@io)
     end
 
