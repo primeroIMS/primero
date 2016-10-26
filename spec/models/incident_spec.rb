@@ -21,7 +21,11 @@ describe Incident do
     # TODO: Ask about these test
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"]
+      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name",
+                                                   "last_updated_by", "last_updated_by_full_name","created_organization",
+                                                   "owned_by_agency", "owned_by_location",
+                                                   "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
+                                                   "transfer_status"]
     end
 
     it "should build with date search fields" do
@@ -35,15 +39,6 @@ describe Incident do
       Incident.searchable_string_fields.should include("description")
       FormSection.all.each { |form_section| form_section.destroy }
     end
-
-    # TODO: build_solr_schema under development. Temp removed
-    # it "should call Sunspot with all fields" do
-    #   Sunspot.should_receive(:setup)
-    #   Incident.should_receive(:searchable_text_fields)
-    #   Incident.should_receive(:searchable_date_fields)
-    #   Incident.build_solar_schema
-    # end
-
   end
 
   describe ".search" do
@@ -442,21 +437,21 @@ describe Incident do
 
     it "should disallow uploading executable files for documents" do
       incident = Incident.new
-      incident.upload_document = [{'document' => uploadable_executable_file}]
+      incident.upload_other_document = [{'document' => uploadable_executable_file}]
       incident.should_not be_valid
     end
 
-    it "should disallow uploading more than 10 documents" do
+    it "should disallow uploading more than 100 documents" do
       documents = []
-      11.times { documents.push({'document' => uploadable_photo_gif}) }
+      101.times { documents.push({'document' => uploadable_photo_gif}) }
       incident = Incident.new
-      incident.upload_document = documents
+      incident.upload_other_document = documents
       incident.should_not be_valid
     end
 
-    it "should disallow uploading a document larger than 10 megabytes" do
+    it "should disallow uploading a document larger than 2 megabytes" do
       incident = Incident.new
-      incident.upload_document = [{'document' => uploadable_large_photo}]
+      incident.upload_other_document = [{'document' => uploadable_large_photo}]
       incident.should_not be_valid
     end
   end
@@ -520,13 +515,42 @@ describe Incident do
   end
 
 
-  describe 'reindex' do
-    it 'should reindex every 24 hours' do
-      scheduler = double()
-      scheduler.should_receive(:every).with('24h').and_yield()
-      Incident.should_receive(:reindex!).once.and_return(nil)
-      Incident.schedule scheduler
+  describe "Batch processing" do
+    before do
+      Incident.all.each { |incident| incident.destroy }
     end
+
+    it "should process in two batches" do
+      incident1 = Incident.new('created_by' => "user1", :name => "incident1")
+      incident2 = Incident.new('created_by' => "user2", :name => "incident2")
+      incident3 = Incident.new('created_by' => "user3", :name => "incident3")
+      incident4 = Incident.new('created_by' => "user4", :name => "incident4")
+      incident4.save!
+      incident3.save!
+      incident2.save!
+      incident1.save!
+
+      expect(Incident.all.page(1).per(3).all).to include(incident1, incident2, incident3)
+      expect(Incident.all.page(2).per(3).all).to include(incident4)
+      Incident.should_receive(:all).exactly(3).times.and_call_original
+
+      records = []
+      Incident.each_slice(3) do |incidents|
+        incidents.each{|i| records << i.name}
+      end
+
+      records.should eq(["incident1", "incident2", "incident3", "incident4"])
+    end
+
+    it "should process in 0 batches" do
+      Incident.should_receive(:all).exactly(1).times.and_call_original
+      records = []
+      Incident.each_slice(3) do |incidents|
+        incidents.each{|i| records << i.name}
+      end
+      records.should eq([])
+    end
+
   end
 
   private

@@ -2,6 +2,8 @@ module RecordFilteringPagination
   extend ActiveSupport::Concern
 
   included do
+    before_filter :load_age_range, :only => [:index]
+    before_filter :load_inactivity_range, :only => [:index]
   end
 
   def page
@@ -33,6 +35,10 @@ module RecordFilteringPagination
   #   "date_range"      "."
   #   "list"            "||"
   #   "single"          none
+  #   "or_op"           hash with the fields and values:
+  #                     "approval_status"=>{"approval_status_case_plan"=>"group||Pending",
+  #                                         "approval_status_closure"=>"group||Pending",
+  #                                         "approval_status_bia"=>"group||Pending"}
   def filter
     filter_scope = {}
     if params[:scope].present?
@@ -42,13 +48,24 @@ module RecordFilteringPagination
       params[:scope].reject{|k,v| k == 'users'}
       params[:scope][:module_id] = "list||#{current_user.modules.map{|m| m.id}.join('||')}"
       params[:scope].each_key do |key|
-        filter_values = params[:scope][key].split "||"
-        filter_type = filter_values.shift
+        if params[:scope][key].instance_of? String
+          filter_values = params[:scope][key].split "||"
+          filter_type = filter_values.shift
+        else
+          #Assuming hash for fields that should be "OR" on the query search.
+          #Normally "OR" are several values for the same field, in this case
+          #need to ORerd different fields.
+          filter_values = params[:scope][key].map do |param_k, param_v|
+            values = param_v.split("||")
+            filter_type = values.shift
+            [param_k, values]
+          end.to_h
+        end
         case filter_type
         when "range"
           filter_values = filter_values.map{|filter| filter.split "-"}
         when "date_range"
-          filter_values = sanitize_date_range_filter(filter_values.first.split ".")
+          filter_values = sanitize_date_range_filter(filter_values.first.split("."))
         else
           filter_values = filter_values.map{|value| value == 'true' } if model_class.properties_by_name[key].try(:type) == TrueClass
           filter_values = filter_values.first if ["single", "location"].include? filter_type
@@ -74,6 +91,19 @@ module RecordFilteringPagination
       current_user.record_scope
     end
 
+  end
+
+  def load_age_range
+    sys = SystemSettings.current
+    primary_range = sys.primary_age_range
+    @age_ranges ||= sys.age_ranges[primary_range].map{ |r| r.to_s }
+  end
+
+  def load_inactivity_range
+    Date::DATE_FORMATS[:dmy] = "%d-%b-%Y"
+    zeroDate = Date.new(0, 1, 1)
+    ninetyDaysAgo = (Date.today - 90)
+    @inactive_range ||= zeroDate.to_s(:dmy) + '.' + ninetyDaysAgo.to_s(:dmy)
   end
 
   def sanitize_date_range_filter (date_range)

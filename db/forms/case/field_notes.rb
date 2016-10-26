@@ -3,6 +3,10 @@ field_notes_subform_fields = [
              "type" => "date_field",
              "display_name_all" => "Date"
             }),
+  Field.new({"name" => "note_subject",
+             "type" => "text_field",
+             "display_name_all" => "Subject"
+            }),
   Field.new({"name" => "field_notes_subform_fields",
              "type" => "textarea",
              "display_name_all" => "Notes"
@@ -21,7 +25,8 @@ field_notes_subform_section = FormSection.create_or_update_form_section({
   :fields => field_notes_subform_fields,
   :initial_subforms => 1,
   "name_all" => "Nested Notes Subform",
-  "description_all" => "Nested Notes Subform"
+  "description_all" => "Nested Notes Subform",
+  "collapsed_fields" => ["note_subject"]
 })
 
 notes_fields = [

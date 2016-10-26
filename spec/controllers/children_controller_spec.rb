@@ -4,7 +4,7 @@ def inject_export_generator( fake_export_generator, child_data )
 	ExportGenerator.stub(:new).with(child_data).and_return( fake_export_generator )
 end
 
-def stub_out_export_generator child_data = []
+def stub_out_export_generator(child_data = [])
 	inject_export_generator( stub_export_generator = stub(ExportGenerator) , child_data)
 	stub_export_generator.stub(:child_photos).and_return('')
 	stub_export_generator
@@ -16,6 +16,12 @@ def stub_out_child_get(mock_child = double(Child))
 end
 
 describe ChildrenController do
+
+  before do
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+  end
 
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
@@ -39,13 +45,13 @@ describe ChildrenController do
   describe '#authorizations' do
     describe 'collection' do
       it "GET index" do
-        @controller.current_ability.should_receive(:can?).with(:index, Child).and_return(false);
+        Ability.any_instance.stub(:can?).with(anything, Child).and_return(false)
         get :index
-        response.status.should == 403
+        expect(response).to be_forbidden
       end
 
       xit "GET search" do
-        @controller.current_ability.should_receive(:can?).with(:index, Child).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:index, Child).and_return(false)
         get :search
         response.status.should == 403
       end
@@ -53,13 +59,13 @@ describe ChildrenController do
 
       it "GET new" do
         @controller.stub(:get_form_sections).and_return({})
-        @controller.current_ability.should_receive(:can?).with(:create, Child).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:create, Child).and_return(false)
         get :new
         response.status.should == 403
       end
 
       it "POST create" do
-        @controller.current_ability.should_receive(:can?).with(:create, Child).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:create, Child).and_return(false)
         post :create
         response.status.should == 403
       end
@@ -74,31 +80,31 @@ describe ChildrenController do
       end
 
       it "GET show" do
-        @controller.current_ability.should_receive(:can?).with(:read, @child_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:read, @child_arg).and_return(false)
          get :show, :id => @child.id
          response.status.should == 403
       end
 
       it "PUT update" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
         put :update, :id => @child.id
         response.status.should == 403
       end
 
       it "PUT edit_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
         put :edit_photo, :id => @child.id
         response.status.should == 403
       end
 
       it "PUT update_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
         put :update_photo, :id => @child.id
         response.status.should == 403
       end
 
       it "PUT select_primary_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
         put :select_primary_photo, :child_id => @child.id, :photo_id => 0
         response.status.should == 403
       end
@@ -130,37 +136,11 @@ describe ChildrenController do
           page = @options.delete(:page)
           per_page = @options.delete(:per_page)
           children = mock_child(@stubs)
-          scope = {"child_status"=>"single||open"} if not scope.present?
+          scope ||= {"child_status"=>"single||open"}
           children.stub(:paginate).and_return(children)
           Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => "open"}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(children)
 
           get :index, :scope => scope
-          assigns[:children].should == children
-        end
-      end
-    end
-
-    #TODO: Maybe get rid of this?
-    shared_examples_for "viewing children as a field worker" do
-      describe "when the signed in user is a field worker" do
-        before do
-          @session = fake_field_worker_login
-          @stubs ||= {:module_id => 'primeromodule-cp'}
-          @options ||= {}
-          @params ||= {}
-        end
-
-        it "should assign the children created by the user as @childrens" do
-          children = mock_child(@stubs)
-          page = @options.delete(:page)
-          per_page = @options.delete(:per_page)
-          scope = {"child_status"=>"Open"} if not scope.present?
-          order = {:created_at=>:desc}
-
-          children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker", nil, nil).and_return(children)
-          @params.merge!(:scope => scope)
-          get :index, @params
           assigns[:children].should == children
         end
       end
@@ -176,118 +156,6 @@ describe ChildrenController do
       end
     end
 
-    describe "export all" do
-      before do
-        @session = fake_field_worker_login
-      end
-
-      it "should export all children" do
-        collection = [Child.new, Child.new]
-        collection.should_receive(:next_page).twice.and_return(nil)
-        search = double(Sunspot::Search::StandardSearch)
-        search.should_receive(:results).and_return(collection)
-        search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
-        params = {"page" => "all"}
-        get :index, params
-        assigns[:children].should == collection
-        assigns[:total_records].should == 100
-      end
-
-      it "should export only CP children when export UNHCR" do
-        collection = [Child.new(:family_details_section => [], :religion => [], :nationality => [], :ethnicity => [], :protection_concerns => [], :language => [])]
-        collection.should_receive(:next_page).twice.and_return(nil)
-        search = double(Sunspot::Search::StandardSearch)
-        search.should_receive(:results).and_return(collection)
-        search.should_receive(:total).and_return(100)
-        Child.should_receive(:list_records).with({"module_id" => {:type => "single", :value => "primeromodule-cp"}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
-        params = {"page" => "all", "format" => "unhcr_csv"}
-        get :index, params
-        assigns[:children].should == collection
-        assigns[:total_records].should == 100
-      end
-    end
-
-    shared_examples_for "Export List" do |user_type|
-      before do
-        @session = fake_admin_login
-      end
-
-      it "should export columns in the current list view for #{user_type} user" do
-        collection = [Child.new(:id => "1"), Child.new(:id => "2")]
-        collection.should_receive(:next_page).twice.and_return(nil)
-        search = double(Sunspot::Search::StandardSearch)
-        search.should_receive(:results).and_return(collection)
-        search.should_receive(:total).and_return(2)
-        Child.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["all"], nil, nil).and_return(search)
-
-        #User
-        @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)
-        @session.user.should_receive(:has_module?).with(PrimeroModule::GBV).and_return(gbv_result)
-        @session.user.should_receive(:has_module?).with(PrimeroModule::MRM).and_return(mrm_result)
-        @session.user.should_receive(:is_manager?).and_return(manager_result)
-
-        ##### Main part of the test ####
-        controller.should_receive(:list_view_header).with("case").and_call_original
-        #Test if the exporter receive the list of field expected.
-        Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user).and_return('data')
-        ##### Main part of the test ####
-
-        controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
-        controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', nil).and_return(true)
-        controller.stub :render
-        #Prepare parameters to call the corresponding exporter.
-        params = {"page" => "all", "export_list_view" => "true", "format" => "list_view_csv"}
-        get :index, params
-      end
-    end
-
-    it_behaves_like "Export List", "admin" do
-      let(:cp_result) { true }
-      let(:gbv_result) { true }
-      let(:mrm_result) { true }
-      let(:manager_result) { true }
-      let(:expected_properties) { {
-        :type => "case",
-        :fields => {
-          "Id" => "short_id",
-          "Age" => "age",
-          "Sex" => "sex",
-          "Registration Date" => "registration_date",
-          "Case Opening Date" => "created_at",
-          "Photo" => "photo",
-          "Social Worker" => "owned_by"} } }
-    end
-
-    it_behaves_like "Export List", "cp" do
-      let(:cp_result) { true }
-      let(:gbv_result) { false }
-      let(:mrm_result) { false }
-      let(:manager_result) { false }
-      let(:expected_properties) { {
-        :type => "case",
-        :fields => {
-          "Id" => "short_id",
-          "Name" => "sortable_name",
-          "Age" => "age",
-          "Sex" => "sex",
-          "Registration Date" => "registration_date",
-          "Photo" => "photo"} } }
-    end
-
-    it_behaves_like "Export List", "gbv" do
-      let(:cp_result) { false }
-      let(:gbv_result) { true }
-      let(:mrm_result) { false }
-      let(:manager_result) { false }
-      let(:expected_properties) { {
-        :type => "case",
-        :fields => {
-          "Id" => "short_id",
-          "Survivor Code" => "survivor_code_no",
-          "Case Opening Date" => "created_at"} } }
-    end
-
     describe "export_filename" do
       before :each do
         @password = 's3cr3t'
@@ -300,7 +168,7 @@ describe ChildrenController do
         Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
         #This is the file name provided by the user and should be sent as parameter.
         custom_export_file_name = "user file name"
-        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
@@ -314,7 +182,7 @@ describe ChildrenController do
 
       it "should use the user_name and model_name to get the file name" do
         Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
-        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
@@ -328,7 +196,7 @@ describe ChildrenController do
 
       it "should use the unique_identifier to get the file name" do
         Child.stub :list_records => double(:results => [ @child1 ], :total => 1)
-        Exporters::CSVExporter.should_receive(:export).with([ @child1 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @child1 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @child1 ], Exporters::CSVExporter).and_call_original
@@ -541,7 +409,8 @@ describe ChildrenController do
         format = "unhcr_csv"
         @params.merge!(:format => format)
         get :index, @params
-        flash[:notice].should == "No Records Available!"
+        #flash[:notice].should == "No Records Available!"
+        expect(flash[:notice]).to eq("Generating the export file: fakefieldadmin-child-UNHCR.csv")
       end
     end
 
@@ -633,13 +502,16 @@ describe ChildrenController do
 
         Sunspot.remove_all!
 
+        #TODO - remove owned_by_location_district references
+        #TODO - create test like this in home controller for dashboard
+
         create(:child, name: "Name 1", child_status: "Open", age: "5", case_id_display: "UN-TEST-0001")
-        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe', case_id_display: "UN-TEST-0002")
+        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0002")
         create(:child, name: "Name 3", child_status: "Closed", age: "7", case_id_display: "UN-TEST-0003")
-        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1', owned_by_location_district: 'Bonthe', case_id_display: "UN-TEST-0004")
+        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1', owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0004")
         create(:child, name: "Name 5", child_status: "Closed", age: "15", case_id_display: "UN-TEST-0005")
-        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2', owned_by_location_district: 'Port Loko', case_id_display: "UN-TEST-0006")
-        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location_district: 'Port Loko', case_id_display: "UN-TEST-0007")
+        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0006")
+        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0007")
         create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false, case_id_display: "UN-TEST-0008")
         create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true, case_id_display: "UN-TEST-0009")
         @child_mobile_10= create(:child, name: "Name 10", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0010")
@@ -723,8 +595,9 @@ describe ChildrenController do
           end
         end
 
+        #TODO - change district to reporting location
         context "by_district" do
-          it "should filter by district Bonthe" do
+          xit "should filter by district Bonthe" do
             params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
             get :index, params
 
@@ -794,10 +667,11 @@ describe ChildrenController do
     end
 
     it "assigns the requested child" do
-      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
-      ChildrenController.any_instance.stub(:get_form_sections).and_return({})
+      Child.any_instance.stub(:allowed_formsections).and_return({})
+      child = Child.new(:module_id => 'primeromodule-cp')
+      Child.stub(:get).with("37").and_return(child)
       get :show, :id => "37"
-      assigns[:child].should equal(mock_child)
+      assigns[:child].should equal(child)
     end
 
     it 'should not fail if primary_photo_id is not present' do
@@ -820,10 +694,11 @@ describe ChildrenController do
 
 
     it "retrieves the grouped forms that are permitted to this user and child" do
-      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
+      child = mock_child({:module_id => 'primeromodule-cp'})
+      Child.stub(:allowed_formsections).and_return(grouped_forms)
+      Child.stub(:get).with("37").and_return(child)
       get :show, :id => "37"
       assigns[:form_sections].should == grouped_forms
       #TODO: Do we need to test ordering of forms in the controller?
@@ -837,17 +712,26 @@ describe ChildrenController do
     end
 
     it "should include duplicate records in the response" do
-      Child.stub(:get).with("37").and_return(mock_child({:module_id => 'primeromodule-cp'}))
+      child = mock_child({:module_id => 'primeromodule-cp'})
+      Child.stub(:allowed_formsections).and_return({})
+      Child.stub(:get).with("37").and_return(child)
       duplicates = [Child.new(:name => "duplicated")]
-      Child.should_receive(:duplicates_of).with("37").and_return(duplicates)
-      controller.stub :get_form_sections
+      Child.stub(:duplicates_of).with("37").and_return(duplicates)
       get :show, :id => "37"
       assigns[:duplicates].should == duplicates
+    end
+
+    it 'logs a veiw message' do
+      child = build :child, :unique_identifier => "1234"
+      controller.stub :render
+      expect(Rails.logger).to receive(:info).with("Viewing case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      get :show, :id => child.id
     end
   end
 
   describe "GET new" do
     it "assigns a new child as @child" do
+      Child.stub(:allowed_formsections).and_return({})
       Child.stub(:new).and_return(mock_child)
       get :new
       assigns[:child].should equal(mock_child)
@@ -857,7 +741,7 @@ describe ChildrenController do
       controller.stub(:make_new_record).and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
+      Child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :new, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -865,6 +749,7 @@ describe ChildrenController do
 
   describe "GET edit" do
     it "assigns the requested child as @child" do
+      Child.stub(:allowed_formsections).and_return({})
       Child.stub(:get).with("37").and_return(mock_child)
       get :edit, :id => "37"
       assigns[:child].should equal(mock_child)
@@ -874,13 +759,24 @@ describe ChildrenController do
       Child.stub(:get).with("37").and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_child.should_receive(:allowed_formsections).and_return(grouped_forms)
+      Child.should_receive(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
+    end
+
+    it 'logs an edit message' do
+      child = build :child, :unique_identifier => "1234"
+      controller.stub :render
+      expect(Rails.logger).to receive(:info).with("Editing case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      get :edit, :id => child.id
     end
   end
 
   describe "PUT update" do
+    before :each do
+      Child.stub(:permitted_property_names).and_return(['name', 'unique_identifier', 'reunited', ])
+    end
+
     it "should update child on a field and photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
@@ -911,7 +807,7 @@ describe ChildrenController do
     end
 
     it "should allow a records ID to be specified to create a new record with a known id" do
-      new_uuid = UUIDTools::UUID.random_create()
+      new_uuid = UUIDTools::UUID.random_create
       put :update, :id => new_uuid.to_s,
         :child => {
             :id => new_uuid.to_s,
@@ -974,6 +870,18 @@ describe ChildrenController do
       Child.stub(:get).and_return(child)
       put :update, :id => '1', :child => params_child
       response.should redirect_to "/cases/#{child.id}?follow=true"
+    end
+
+    it 'logs an update message' do
+      User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
+      child = Child.new_with_user_name(user, {:name => 'some name'})
+
+      params_child = {"name" => 'update'}
+      controller.stub(:current_user_name).and_return("user_name")
+      child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
+      Child.stub(:get).and_return(child)
+      expect(Rails.logger).to receive(:info).with("Updating case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      put :update, :id => '1', :child => params_child
     end
 
   end
@@ -1078,24 +986,14 @@ describe ChildrenController do
       Child.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
     end
 
-    xit "should handle full PDF" do
-      Addons::PdfExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      get :index, :format => :pdf
-    end
-
-    xit "should handle Photowall PDF" do
-      Addons::PhotowallExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-      get :index, :format => :photowall
-    end
-
     it "should handle CSV" do
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
       get :index, :format => :csv
     end
 
     it "should encrypt result" do
       password = 's3cr3t'
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything).and_return('data')
+      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
       controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
       get :index, :format => :csv, :password => password
@@ -1158,6 +1056,10 @@ describe ChildrenController do
   end
 
   describe "POST create" do
+    before :each do
+      Child.stub(:permitted_property_names).and_return(['name', 'unique_identifier', 'age', 'nickname'])
+    end
+
     it "should update the child record instead of creating if record already exists" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       child = Child.new_with_user_name(user, {:name => 'old name'})
@@ -1208,6 +1110,12 @@ describe ChildrenController do
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == newer_name
+    end
+
+    it 'logs a create message' do
+      child = build :child, :unique_identifier => "1234"
+      expect(Rails.logger).to receive(:info).with("Creating case by user '#{@user.user_name}'")
+      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => 'new_name'}
     end
   end
 

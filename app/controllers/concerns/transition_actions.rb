@@ -5,13 +5,14 @@ module TransitionActions
 
   def transition
     authorize! :referral, model_class if is_referral?
+    authorize! :reassign, model_class if is_reassign?
     authorize! :transfer, model_class if is_transfer?
     get_selected_ids
 
     @records = []
     if @selected_ids.present?
       @records = model_class.all(keys: @selected_ids).all
-      @records = @records.select{|r| is_consent_given? r } unless consent_override
+      @records = @records.select{|r| is_consent_given? r } unless is_reassign? || consent_override
     else
       flash[:notice] = t('referral.no_records_selected')
       redirect_to :back and return
@@ -68,28 +69,16 @@ module TransitionActions
       #On referrals, only want to send the most recent referral
       records.each {|r| r.reject_old_transitions}
     end
+    transition_user_modules = current_modules
     transition_user = User.new(
                       role_ids: [transition_role],
-                      module_ids: ["primeromodule-cp", "primeromodule-gbv"]
+                      module_ids: transition_user_modules.map(&:id)
                     )
     exporter = type_of_export_exporter
-    #TODO filter records per consent
-    transition_properties = transition_exporter_properties(transition_user)
-    props = filter_permitted_export_properties(records, transition_properties, transition_user, true)
-    export_data = exporter.export(records, props, current_user)
+    #TODO: filter records per consent
+    props = authorized_export_properties(exporter, transition_user, transition_user_modules, model_class)
+    export_data = exporter.export(records, props, current_user, {})
     encrypt_data_to_zip export_data, filename(records, exporter, transition_type), password
-  end
-
-  def transition_exporter_properties(transition_user)
-    if type_of_export_exporter == Exporters::PDFExporter
-      current_modules = PrimeroModule.all(keys: transition_user.module_ids).all
-      form_sections = FormSection.get_form_sections_by_module(current_modules, model_class.parent_form, transition_user)
-      properties_by_module = model_class.get_properties_by_module(form_sections)
-      properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents"].include?(key)}}
-      properties_by_module
-    else
-      model_class.properties
-    end
   end
 
   def set_status_transferred(transfer_records)
@@ -108,7 +97,7 @@ module TransitionActions
     if @new_user.present?
       if is_referral?
         local_referral(records)
-      elsif is_transfer? == true
+      elsif is_reassign? || is_transfer?
         local_transfer(records)
       end
     end
@@ -138,15 +127,24 @@ module TransitionActions
     failed_count = 0
     transfer_records.each do |transfer_record|
       if transition_valid(transfer_record, @new_user)
+        #Target user should be other than the owner of the record, right?
         if @new_user.user_name != transfer_record.owned_by
-          #TODO - possibly need to push this functionality down to ownable concern
-          transfer_record.previously_owned_by = transfer_record.owned_by
-          transfer_record.owned_by = @new_user.user_name
-          transfer_record.owned_by_full_name = @new_user.full_name
+          if is_reassign?
+            #When is a reassign the user became the owner of the record.
+            transfer_record.previously_owned_by = transfer_record.owned_by
+            transfer_record.owned_by = @new_user.user_name
+            transfer_record.owned_by_full_name = @new_user.full_name
+          elsif is_transfer?
+            #Referred users will be on the assigned users until the user accept or reject the referral.
+            transfer_record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
+            transfer_record.transfer_status = to_user_local_status
+          end
           unless transfer_record.save
             failed_count += 1
           end
-          #TODO log stuff
+        else
+          logger.error "#{model_class.parent_form} #{transfer_record.short_id} not transferred to #{@to_user_local}... because the target user is the same record owner"
+          failed_count += 1
         end
       else
         logger.error "#{model_class.parent_form} #{transfer_record.short_id} not transferred to #{@to_user_local}... not valid"
@@ -180,8 +178,8 @@ module TransitionActions
 
   def log_to_history(records)
     records.each do |record|
-      record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, notes, is_remote?,
-                            type_of_export, current_user.user_name, consent_overridden(record), service)
+      record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
+                            is_remote?, type_of_export, current_user.user_name, consent_overridden(record), service)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
       record.save if is_remote?
@@ -190,6 +188,10 @@ module TransitionActions
 
   def is_transfer?
     transition_type == Transition::TYPE_TRANSFER
+  end
+
+  def is_reassign?
+    transition_type == Transition::TYPE_REASSIGN
   end
 
   def is_referral?
@@ -241,6 +243,23 @@ module TransitionActions
     @to_user_agency ||= (params[:other_user_agency].present? ? params[:other_user_agency] : "")
   end
 
+  def to_user_local_status
+    if is_remote? || transition_type == Transition::TYPE_REASSIGN
+      ""
+    else
+      @to_user_local_status ||= (params[:to_user_local_status].present? ? params[:to_user_local_status]: default_transition_status)
+    end
+  end
+
+  def default_transition_status
+    if transition_type == Transition::TYPE_REFERRAL || transition_type == Transition::TYPE_TRANSFER
+      #TODO enforcing locale until refactoring i18n.
+      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
+    else
+      ""
+    end
+  end
+
   def service
     @service ||= (params[:service].present? ? params[:service] : "")
   end
@@ -264,7 +283,7 @@ module TransitionActions
       else
         flash[:notice] = t('referral.failure_batch', failed_count: failed_count)
       end
-    elsif is_transfer?
+    elsif is_transfer? || is_reassign?
       if is_single_or_batch? == 'single'
         flash[:notice] = t('transfer.failure', record_type: record_type, id: record_id)
       else
@@ -280,7 +299,7 @@ module TransitionActions
       else
         flash[:notice] = t('referral.success_batch', success_count: success_count)
       end
-    elsif is_transfer?
+    elsif is_transfer? || is_reassign?
       if is_single_or_batch? == 'single'
         flash[:notice] = t('transfer.success', record_type: record_type, id: record_id)
       else

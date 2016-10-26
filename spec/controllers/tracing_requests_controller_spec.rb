@@ -16,6 +16,11 @@ def stub_out_tracing_request_get(mock_tracing_request = double(TracingRequest))
 end
 
 describe TracingRequestsController do
+  before do
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+  end
 
   before :each do
     TracingRequest.any_instance.stub(:field_definitions).and_return([])
@@ -39,27 +44,27 @@ describe TracingRequestsController do
   describe '#authorizations' do
     describe 'collection' do
       it "GET index" do
-        @controller.current_ability.should_receive(:can?).with(:index, TracingRequest).and_return(false);
+        Ability.any_instance.stub(:can?).with(anything, TracingRequest).and_return(false)
         controller.stub :get_form_sections
         get :index
-        response.status.should == 403
+        expect(response).to be_forbidden
       end
 
       xit "GET search" do
-        @controller.current_ability.should_receive(:can?).with(:index, TracingRequest).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:index, TracingRequest).and_return(false)
         get :search
         response.status.should == 403
       end
 
       it "GET new" do
-        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false)
         controller.stub :get_form_sections
         get :new
         response.status.should == 403
       end
 
       it "POST create" do
-        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:create, TracingRequest).and_return(false)
         post :create
         response.status.should == 403
       end
@@ -175,12 +180,14 @@ describe TracingRequestsController do
 
     end
 
+    # Bulk export is now handled by bulk_export_controller and bulk_export model
+    # TODO Confirm with Pavel that these can be removed
     describe "export all" do
       before do
         @session = fake_field_worker_login
       end
 
-      it "should export all incidents" do
+      xit "should export all incidents" do
         collection = [TracingRequest.new, TracingRequest.new]
         collection.should_receive(:next_page).twice.and_return(nil)
         search = double(Sunspot::Search::StandardSearch)
@@ -199,7 +206,9 @@ describe TracingRequestsController do
         @session = fake_field_worker_login
       end
 
-      it "should export columns in the current list view" do
+      # Bulk export is now handled by bulk_export_controller and bulk_export model
+      # TODO Confirm with Pavel that these can be removed
+      xit "should export columns in the current list view" do
         collection = [TracingRequest.new(:id => "1"), TracingRequest.new(:id => "2")]
         collection.should_receive(:next_page).twice.and_return(nil)
         search = double(Sunspot::Search::StandardSearch)
@@ -210,7 +219,7 @@ describe TracingRequestsController do
         ##### Main part of the test ####
         controller.should_receive(:list_view_header).with("tracing_request").and_call_original
         #Prepare the expected list of fields.
-        expected_properties = { 
+        expected_properties = {
           :type => "tracing_request",
           :fields => {
             "Id" => "short_id",
@@ -220,7 +229,7 @@ describe TracingRequestsController do
           }
         }
         #Test if the exporter receive the list of field expected.
-        Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user).and_return('data')
+        Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user, anything).and_return('data')
         ##### Main part of the test ####
 
         controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
@@ -244,7 +253,7 @@ describe TracingRequestsController do
         TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
         #This is the file name provided by the user and should be sent as parameter.
         custom_export_file_name = "user file name"
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_call_original
@@ -258,7 +267,7 @@ describe TracingRequestsController do
 
       it "should use the user_name and model_name to get the file name" do
         TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_call_original
@@ -272,7 +281,7 @@ describe TracingRequestsController do
 
       it "should use the unique_identifier to get the file name" do
         TracingRequest.stub :list_records => double(:results => [ @tracing_request1 ], :total => 1)
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1 ], anything, anything).and_return('data')
+        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1 ], anything, anything, anything).and_return('data')
         ##### Main part of the test ####
         #Call the original method to check the file name calculated
         controller.should_receive(:export_filename).with([ @tracing_request1 ], Exporters::CSVExporter).and_call_original
@@ -316,14 +325,15 @@ describe TracingRequestsController do
 
     end
 
-
+    # Bulk export is now handled by bulk_export_controller and bulk_export model
+    # TODO Confirm with Pavel that these can be removed
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       before do
         fake_field_admin_login
         @params ||= {}
         controller.stub :paginated_collection => [], :render => true
       end
-      it "should flash notice when exporting no records" do
+      xit "should flash notice when exporting no records" do
         format = "cpims"
         @params.merge!(:format => format)
         get :index, @params
@@ -374,6 +384,7 @@ describe TracingRequestsController do
     end
 
     it "assigns the requested tracing request" do
+      TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       controller.stub :get_form_sections
       get :show, :id => "37"
@@ -403,7 +414,7 @@ describe TracingRequestsController do
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
+      TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
       get :show, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -417,6 +428,7 @@ describe TracingRequestsController do
     end
 
     it "should include duplicate records in the response" do
+      TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       duplicates = [TracingRequest.new(:name => "duplicated")]
       TracingRequest.should_receive(:duplicates_of).with("37").and_return(duplicates)
@@ -428,6 +440,7 @@ describe TracingRequestsController do
 
   describe "GET new" do
     it "assigns a new tracing request as @tracing_request" do
+      TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:new).and_return(mock_tracing_request)
       get :new
       assigns[:tracing_request].should equal(mock_tracing_request)
@@ -437,7 +450,7 @@ describe TracingRequestsController do
       controller.stub(:make_new_record).and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
+      TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
       get :new, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
@@ -445,6 +458,7 @@ describe TracingRequestsController do
 
   describe "GET edit" do
     it "assigns the requested tracing request as @tracing_request" do
+      TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       controller.stub :get_form_sections
       get :edit, :id => "37"
@@ -455,13 +469,16 @@ describe TracingRequestsController do
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      mock_tracing_request.should_receive(:allowed_formsections).and_return(grouped_forms)
+      TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
       get :edit, :id => "37"
       assigns[:form_sections].should == grouped_forms
     end
   end
 
   describe "PUT update" do
+    before :each do
+      TracingRequest.stub(:permitted_property_names).and_return(['last_known_location', 'reunited', 'relation_name', 'unique_identifier', 'created_by', 'current_user_full_name'])
+    end
     it "should update tracing request on a field and photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
@@ -801,6 +818,7 @@ describe TracingRequestsController do
 
   describe "POST create" do
     it "should update the tracing request record instead of creating if record already exists" do
+      TracingRequest.stub(:permitted_properties).and_return(TracingRequest.properties)
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'old name'})
       tracing_request.save

@@ -11,16 +11,17 @@ module Exporters
       def supported_models
         [Child, Incident, TracingRequest]
       end
+    end
 
-      # @returns: a String with the CSV data and header
-      def export(models, properties, *args)
-        CSV.generate do |rows|
-          to_2D_array(models, properties_to_export(properties)) do |row|
-            rows << row
-          end
+    def export(models, properties, *args)
+      props = CSVExporter.properties_to_export(properties)
+      csv_export = CSV.generate do |rows|
+        CSVExporter.to_2D_array(models, props) do |row|
+          rows << row
         end
       end
-
+      self.buffer.write(csv_export)
     end
+
   end
 end

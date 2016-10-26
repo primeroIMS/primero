@@ -9,7 +9,8 @@ _primero.Views.FileUploadField = Backbone.View.extend({
   update_file_path_label: function(event) {
     var target = event.target;
     var id = $(target).attr('id');
-    $('#' + id + '_file_path').text(target.value);
+    var display_value = target.value.split('\\').slice(-1)[0];
+    $('#' + id + '_file_path').text(display_value);
   },
 
   add_file_upload_field: function(event) {
@@ -17,10 +18,15 @@ _primero.Views.FileUploadField = Backbone.View.extend({
     var action_link = $(event.target);
     var file_group = action_link.parents('#file_container').find('div#file-group');
     var new_file_upload_field = file_group.find('div.file:first-child').clone();
+    $(new_file_upload_field).find('.hasDatepicker').removeClass('hasDatepicker');
     var upload_inputs_count = file_group.find('div.file').length;
     var new_file_input = new_file_upload_field.find('input[type="file"]').val('');
-    var new_file_description = new_file_upload_field.find('input[type="text"]').val('');
-    $([new_file_input, new_file_description]).each(function(){
+    var new_file_is_current = new_file_upload_field.find('input[tag="is_current"]').val('');
+    var new_file_description = new_file_upload_field.find('input[tag="description"]').val('');
+    var new_file_date = new_file_upload_field.find('input[tag="date"]').val('');
+    var new_file_comments = new_file_upload_field.find('textarea[tag="comments"]').val('');
+
+    $([new_file_input, new_file_is_current, new_file_description, new_file_date, new_file_comments]).each(function(){
       var input = $(this);
       if (input.length > 0) {
         var labels = new_file_upload_field.find('label[for="' + input.attr('id') + '"]');
@@ -50,9 +56,11 @@ _primero.Views.FileUploadField = Backbone.View.extend({
     var document_input = $(event.target);
     if (document_input.val().toLowerCase().match(/.exe$/) != null) {
       document_input.val('');
+      this.update_file_path_label(event);
       $('div#document_upload_box_file_extension_popup_message').dialog({ resizable: false });
-    } else if ((document_input[0].files[0].size/1024) > 10240) {
+    } else if ((document_input[0].files[0].size/1024) > (1024 * 2)) {
       document_input.val('');
+      this.update_file_path_label(event);
       $('div#document_upload_box_file_size_popup_message').dialog({ resizable: false });
     }
   }

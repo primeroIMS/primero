@@ -27,15 +27,15 @@ Primero::Application.routes.draw do
   match 'password_recovery_request/:password_recovery_request_id/hide' => 'password_recovery_requests#hide', :as => :hide_password_recovery_request, :via => :delete
 
   resources :contact_information
-#resources :primero_locale, :only => [:show, :edit, :update]
-#match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
+  #resources :primero_locale, :only => [:show, :edit, :update]
+  #match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
 
-# resources :system_settings do
-#   member do
-#     get :edit_locale
-#     put :update_locale
-#   end
-# end
+  # resources :system_settings do
+  #   member do
+  #     get :edit_locale
+  #     put :update_locale
+  #   end
+  # end
 
   resources :system_settings, only: [:show, :edit, :update]
 
@@ -75,13 +75,14 @@ Primero::Application.routes.draw do
       post :import_file
       post :transition
       post :mark_for_mobile
-      post :approve_case_plan
+      post :approve_form
       get :search
       get :consent_count
     end
 
     member do
       put :match_record
+      put :transfer_status
     end
 
     resources :attachments, :only => :show
@@ -131,7 +132,7 @@ Primero::Application.routes.draw do
   match '/cases/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :case_resized_photo, :via => [:post, :get, :put, :delete]
   match '/cases/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :case_thumbnail, :via => [:post, :get, :put, :delete]
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
-  match '/cases/:child_id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
+  match '/cases/:id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
 #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
@@ -151,10 +152,16 @@ Primero::Application.routes.draw do
   match '/incidents/record_status' => 'record_status#set_record_status', :as => :incident_record_status, :model_class => 'Incident', :via => [:post, :put]
   match '/tracing_requests/record_status' => 'record_status#set_record_status', :as => :tracing_request_record_status, :model_class => 'TracingRequest', :via => [:post, :put]
 
-#Unflag routing
-  match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class: 'Child', :via => [:post, :put]
-  match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class: 'Incident', :via => [:post, :put]
-  match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, model_class: 'TracingRequest', :via => [:post, :put]
+  # Set Case Status on reopening
+  match '/cases/:id/reopen_case' => 'children#reopen_case', :as => :child_reopen_case, :model_class => 'Child', :via => [:post, :put]
+  match '/cases/:id/request_approval' => 'children#request_approval', :as => :child_request_approval, :model_class => 'Child', :via => [:post, :put]
+  match '/cases/:id/transfer_status' => 'children#transfer_status', :as => :child_transfer_status, :model_class => 'Child', :via => [:post, :put]
+  match '/cases/:id/relinquish_referral' => 'children#relinquish_referral', :as => :child_relinquish_referral, :model_class => 'Child', :via => [:post, :put]
+
+  #Unflag routing
+  match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]
+  match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class:'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, model_class:'TracingRequest', :via => [:post, :put]
 
   match '/tracing_requests-ids' => 'tracing_request_ids#all', :as => :tracing_request_ids, :via => [:post, :get, :put, :delete]
   match '/tracing_requests/:id/photo/edit' => 'tracing_requests#edit_photo', :as => :edit_tracing_requests_photo, :via => :get
@@ -205,6 +212,10 @@ Primero::Application.routes.draw do
     end
   end
   # match '/potential_matches/:method' => 'potential_matches#index', :as => :potential_matches_method, :via => [:post, :get, :put, :delete]
+
+
+
+  resources :bulk_exports, only: [:index, :show]
 
 
 #######################

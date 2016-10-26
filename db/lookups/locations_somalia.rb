@@ -1,5 +1,5 @@
 #Country
-Location.create! placename: "Somalia", type: "country"
+Location.create! placename: "Somalia", admin_level: 0, type: "country"
 
 #Autonomous Regions
 Location.create! placename: "Somaliland", type: "other", hierarchy: ["Somalia"]

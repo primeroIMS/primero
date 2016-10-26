@@ -21,13 +21,6 @@ class Report < CouchRest::Model::Base
     Field::TALLY_FIELD,
   ]
 
-  #18+ should be good enough as 10K
-  AGE_RANGES = [
-    Reports::AgeRange.new(0,5),
-    Reports::AgeRange.new(6,11),
-    Reports::AgeRange.new(12,17),
-    Reports::AgeRange.new(18,Reports::AgeRange::MAX),
-  ]
   AGE_FIELD = 'age' #TODO: should this be made generic?
 
   DAY = 'date' #eg. 13-Jan-2015
@@ -170,8 +163,12 @@ class Report < CouchRest::Model::Base
       end
       age_field_index = pivot_index(AGE_FIELD)
       if group_ages && age_field_index && age_field_index < dimensionality
+        sys = SystemSettings.current
+        primary_range = sys.primary_age_range
+        age_ranges = sys.age_ranges[primary_range]
+
         self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
-          AGE_RANGES.find{|range| range.cover? pivot_name}
+          age_ranges.find{|range| range.cover? pivot_name}
         end
       end
       if group_dates_by.present?
@@ -206,10 +203,10 @@ class Report < CouchRest::Model::Base
         #total: response['response']['numFound'], #TODO: Do we need the total?
         aggregate_value_range: aggregate_value_range,
         disaggregate_value_range: disaggregate_value_range,
-        graph_value_range: graph_value_range,
         values: @values
       }
       self.data[:graph_value_range] = graph_value_range if is_graph
+      self.data = self.translate_data(self.data)
       ""
     end
   end
@@ -339,6 +336,28 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  def translate_data(data)
+    #TODO: Eventually we want all i18n to be applied through this method
+    [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
+      if data[k].present?
+        data[k] = data[k].map do |value|
+          value.map{|v| translate(v)}  
+        end
+      end
+    end
+    if data[:values].present?
+      data[:values] = data[:values].map do |key,value| 
+        [key.map{|k| translate(k)}, value]
+      end.to_h
+    end
+    return data
+  end
+
+  #TODO: When we have true I18n we will discard this method and just use I18n.t()
+  def translate(string)
+    ['false', 'true'].include?(string) ? I18n.t(string) : string
+  end
+
   def pivots
     (self.aggregate_by || []) + (self.disaggregate_by || [])
   end
@@ -385,6 +404,7 @@ class Report < CouchRest::Model::Base
         :facet => 'on',
         :'facet.field' => pivots_string,
         :'facet.mincount' => -1,
+        :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       pivots = []
@@ -405,6 +425,7 @@ class Report < CouchRest::Model::Base
         :facet => 'on',
         :'facet.pivot' => pivots_string,
         :'facet.pivot.mincount' => -1,
+        :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       result = {'pivot' => response['facet_counts']['facet_pivot'][pivots_string]}
@@ -430,7 +451,7 @@ class Report < CouchRest::Model::Base
             elsif constraint == '<'
               "#{attribute}:[* TO #{value}]"
             else
-              "#{attribute}:#{value}"
+              "#{attribute}:\"#{value}\""
             end
           else
             query = if value.respond_to?(:map) && value.size > 0
@@ -438,7 +459,7 @@ class Report < CouchRest::Model::Base
                 if v == "not_null"
                   "#{attribute}:[* TO *]"
                 else
-                  "#{attribute}:#{v}"
+                  "#{attribute}:\"#{v}\""
                 end
               }.join(" OR ") + ')'
             end

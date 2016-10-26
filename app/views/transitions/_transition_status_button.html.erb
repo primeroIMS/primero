@@ -1,0 +1,21 @@
+<a data-reveal-id="transition-status-<%= dialog_key %>-modal" class="transition_status_<%= dialog_key %>_show_action green-button" href="#"><%= button_label %></a>
+<div id="transition-status-<%= dialog_key %>-modal" class="reveal-modal tiny" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
+  <div class="transition_status_<%= dialog_key %>_form_container row">
+    <div class="large-11">
+      <%= form_tag(child_transfer_status_path, :method => 'post') do %>
+        <%= hidden_field_tag("transition_id", transition_id) %>
+        <%= hidden_field_tag("transition_status", transition_status) %>
+        <label><%= transfer_dialog_text %></label>
+        <% if dialog_key == "reject" %>
+        <label><%=I18n.t("transfer.reject")%>
+          <%= text_area_tag("rejected_reason") %>
+        </label>
+        <% end %>
+        <div class="import_button">
+          <%= submit_tag(t("buttons.ok"), class: 'green-button right') %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

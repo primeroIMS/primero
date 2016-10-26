@@ -1,0 +1,116 @@
+<% if @can_approval_bia %>
+  <div>
+    <%= I18n.translate("dashboard.count_pending_approval_total",
+                       case_count(
+                         {
+                           name: :approval_status_bia,
+                           stat: :pending,
+                           filter: index_filters(['child_status=Open',
+                                                  "approval_status_bia=#{I18n.t('approvals.status.pending')}",
+                                                  'record_state=true']),
+                           stat_type: 'BIA'
+                         }, stats, model)).html_safe %>
+    <%= I18n.translate("dashboard.count_rejected_approval_total",
+                       case_count(
+                         {
+                           name: :approval_status_bia,
+                           stat: :rejected,
+                           filter: index_filters(['child_status=Open',
+                                                  "approval_status_bia=#{I18n.t('approvals.status.rejected')}",
+                                                  'record_state=true']),
+                           stat_type: 'BIA'
+                         }, stats, model)).html_safe %>
+  </div>
+<% end %>
+<% if @can_approval_case_plan %>
+  <div>
+    <%= I18n.translate("dashboard.count_pending_approval_total",
+                       case_count(
+                         {
+                           name: :approval_status_case_plan,
+                           stat: :pending,
+                           filter: index_filters(['child_status=Open',
+                                                  "approval_status_case_plan=#{I18n.t('approvals.status.pending')}",
+                                                  'record_state=true']),
+                           stat_type: 'Care Plan'
+                         }, stats, model)).html_safe %>
+    <%= I18n.translate("dashboard.count_rejected_approval_total",
+                       case_count(
+                         {
+                           name: :approval_status_case_plan,
+                           stat: :rejected,
+                           filter: index_filters(['child_status=Open',
+                                                  "approval_status_case_plan=#{I18n.t('approvals.status.rejected')}",
+                                                  'record_state=true']),
+                           stat_type: 'Care Plan'
+                         }, stats, model)).html_safe %>
+  </div>
+<% end %>
+<% if @can_approval_closure %>
+  <div>
+    <%= I18n.translate("dashboard.count_pending_approval_total",
+                       case_count(
+                         {
+                           name: :approval_status_closure,
+                           stat: :pending,
+                           filter: index_filters(['child_status=Open',
+                                                  "approval_status_closure=#{I18n.t('approvals.status.pending')}",
+                                                  'record_state=true']),
+                           stat_type: 'Closure'
+                         }, stats, model)).html_safe %>
+    <%= I18n.translate("dashboard.count_rejected_approval_total",
+                       case_count(
+                         {
+                           name: :approval_status_closure,
+                           stat: :rejected,
+                           filter: index_filters(['child_status=Open',
+                                                  "approval_status_closure=#{I18n.t('approvals.status.rejected')}",
+                                                  'record_state=true']),
+                           stat_type: 'Closure'
+                         }, stats, model)).html_safe %>
+  </div>
+<% end %>
+<div>
+  <% if @can_approval_bia %>
+    <%= I18n.translate("dashboard.count_new_bia_approvals",
+                       case_count(
+                         {
+                           name: :approval_status_bia,
+                           stat: :new,
+                           stat_type: 'BIA',
+                           filter: index_filters(
+                             ['child_status=Open',
+                              "approval_status_bia=#{I18n.t('approvals.status.approved')}",
+                              'record_state=true']
+                           )
+                         }, stats, model)).html_safe %>
+  <% end %>
+  <% if @can_approval_case_plan %>
+    <%= I18n.translate("dashboard.count_new_case_plan_approvals",
+                       case_count(
+                         {
+                           name: :approval_status_case_plan,
+                           stat: :new,
+                           stat_type: 'Case Plan',
+                           filter: index_filters(
+                             ['child_status=Open',
+                              "approval_status_case_plan=#{I18n.t('approvals.status.approved')}",
+                              'record_state=true']
+                           )
+                         }, stats, model)).html_safe %>
+  <% end %>
+  <% if @can_approval_closure %>
+    <%= I18n.translate("dashboard.count_new_closure_approvals",
+                       case_count(
+                         {
+                           name: :approval_status_closure,
+                           stat: :new,
+                           stat_type: 'Closure',
+                           filter: index_filters(
+                             ['child_status=Open',
+                              "approval_status_closure=#{I18n.t('approvals.status.approved')}",
+                              'record_state=true']
+                           )
+                         }, stats, model)).html_safe %>
+  <% end %>
+</div>

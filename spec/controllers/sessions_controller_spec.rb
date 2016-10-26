@@ -22,4 +22,29 @@ describe SessionsController do
     JSON.parse(response.body)["verified"].should == mock_user.verified?
   end
 
+  describe 'logger' do
+    before do
+      Role.all.each &:destroy
+      User.stub(:find_by_user_name).and_return(@user)
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::WRITE])
+      Role.create(id: 'tester', name: 'tester', permissions_list: [case_permission], group_permission: Permission::GROUP)
+      @user = User.new(:user_name => 'test_user', :role_ids => ['tester'])
+    end
+
+    it "logs a Login message" do
+      Login.stub(:new).and_return(double(:authenticate_user =>
+                                             mock_model(Session, :authenticate_user => true, :device_blacklisted? => false, :imei => "IMEI_NUMBER",
+                                                        :save => true, :put_in_cookie => true, :user_name => "dummy", :token => "some_token", :extractable_options? => false)))
+      expect(Rails.logger).to receive(:info).with("Login  by user 'test_user'")
+      post :create, :user_name => "test_user", :password => "test1234"
+    end
+
+    it "logs a Logout message" do
+      @session = fake_login @user
+      expect(Rails.logger).to receive(:info).with("Logout  by user 'test_user'")
+      delete :destroy
+    end
+  end
+
+
 end

@@ -32,6 +32,8 @@ module IndexHelper
         list_view_header_report
       when "potential_match"
         list_view_header_potential_match
+      when "bulk_export"
+        list_view_header_bulk_export
       else
         []
     end
@@ -63,10 +65,15 @@ module IndexHelper
       items.each do |item|
         if item.is_a?(Hash)
           key = item.keys.first
-          label = item[key]
-          item = key.to_s
+          if item[key].is_a?(Hash)
+            label = item[key][:label]
+            item = item[key][:value]
+          else
+            label = item[key]
+            item = key.to_s
+          end
         else
-          label = item
+          label = item.split('::').last
         end
 
         if format
@@ -94,6 +101,38 @@ module IndexHelper
     end
   end
 
+  def build_checkboxes_group(items, group_name = nil)
+    content_tag :div, class: "filter-controls" do
+      items.each do |item|
+        key = item.keys.first
+        id = item[key][:id].present? ? item[key][:id] : key
+        value = item[key][:value]
+        label = item[key][:label]
+
+        name, filter_type = if group_name.present?
+          ["#{group_name}[#{key}]", "or_op"]
+        else
+          [key, "single"]
+        end
+
+        concat(
+          label_tag(id,
+            check_box_tag(name, value, nil, id: id, filter_type: filter_type) +
+            content_tag(:span, label)
+          )
+        )
+      end
+    end
+  end
+
+  def build_filter_checkboxes_group(title, items, group_name = nil)
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(build_checkboxes_group(items, group_name))
+      concat(content_tag(:div, '', class: 'clearfix'))
+    end
+  end
+
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls' do
       concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
@@ -108,7 +147,7 @@ module IndexHelper
   end
 
   def build_filter_location(title, filter)
-    options = [[I18n.t("fields.select_box_empty_item"), '']] + Location.all.all.map{|loc| [loc.name, loc.name]}
+    options = [[I18n.t("fields.select_box_empty_item"), '']] + Location.all_names
     value = filter_value(filter)
     value = value.pop if value
     content_tag :div, class: 'filter' do
@@ -138,13 +177,21 @@ module IndexHelper
     return violation_types
   end
 
-  def build_list_field_by_model(model_class)
+  def build_list_field_by_model(model_name, user)
+    #Necessary when calling this method from csv_exporter_list_view
+    if @current_user != user
+      @is_admin ||= user.is_admin?
+      @is_manager ||= user.is_manager?
+      @is_cp ||= user.has_module?(PrimeroModule::CP)
+      @is_gbv ||= user.has_module?(PrimeroModule::GBV)
+      @is_mrm ||= user.has_module?(PrimeroModule::MRM)
+    end
+
     #list_view_header returns the columns that are showed in the index page.
-    model = model_class.name.underscore == "child" ? "case": model_class.name.underscore
+    model = model_name.underscore
+    model = "case" if model == "child"
     list_view_fields = { :type => model, :fields => {} }
     list_view_header(model).each do |header|
-      #TODO: The current logic is a ctually broken as it excludes photos. Fix? Something like:
-      #if !['select','flag'].include?(header[:title]) && header[:sort_title].present?
       if header[:title].present? && header[:sort_title].present?
         list_view_fields[:fields].merge!({ header[:title].titleize => header[:sort_title] })
       end
@@ -216,6 +263,15 @@ module IndexHelper
     ]
   end
 
+  def list_view_header_bulk_export
+    [
+      #{title: '', sort_title: 'select'},
+      {title: 'file_name', sort_title: 'file_name'},
+      {title: 'record_type', sort_title: 'record_type'},
+      {title: 'started_on', sort_title: 'started_on'}
+    ]
+  end
+
   def index_filters_case
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
@@ -229,6 +285,13 @@ module IndexHelper
     filters << "Flagged"
     filters << "Mobile" if @is_cp
     filters << "Social Worker" if @is_manager
+    filters << "My Cases"
+    filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
+    #Check independently the checkboxes on the view.
+    filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && @can_approval_bia
+    filters << "cp_case_plan" if allowed_form_ids.include?("cp_case_plan") && @can_approval_case_plan
+    filters << "closure_form" if allowed_form_ids.include?("closure_form") && @can_approval_closure
+
     filters << "Agency" if @is_admin || @is_manager
     filters << "Status"
     filters << "Age Range"
@@ -243,9 +306,10 @@ module IndexHelper
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
-    filters << "District" if @is_admin
+    filters << "Reporting Location" if @is_admin
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
+    filters << "No Activity"
     filters << "Record State"
     filters << "Photo" if @is_cp
 

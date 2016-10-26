@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe ChildrenController do
 
+  before do
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+  end
+
   before :each do
     Child.any_instance.stub(:field_definitions).and_return([])
     Child.any_instance.stub(:permitted_properties).and_return(Child.properties)
@@ -11,9 +17,9 @@ describe ChildrenController do
 
   describe '#authorizations' do
     it "should fail GET index when unauthorized" do
-      @controller.current_ability.should_receive(:can?).with(:index, Child).and_return(false)
+      Ability.any_instance.stub(:can?).with(anything, Child).and_return(false)
       get :index
-      response.should be_forbidden
+      expect(response).to be_forbidden
     end
 
     it "should fail GET show when unauthorized" do
@@ -115,10 +121,10 @@ describe ChildrenController do
   describe "POST create" do
     it "should update the child record instead of creating if record already exists" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
+      Child.stub(:permitted_property_names).and_return(['name', 'unique_identifier'])
       child = Child.new_with_user_name(user, {:name => 'old name'})
       child.save!
       controller.stub(:authorize!)
-
       post :create, :child => {:unique_identifier => child.unique_identifier, :name => 'new name'}, :format => :json
 
       updated_child = Child.by_short_id(:key => child.short_id)

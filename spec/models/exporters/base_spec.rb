@@ -82,28 +82,35 @@ module Exporters
         end
 
         arr.length.should == 2
-        arr[0][2..-1].should == ['organizations[1]', 'organizations[2]', 'organizations[3]']
-        arr[1][2..-1].should == [@instance.organizations[0], @instance.organizations[1], @instance.organizations[2]]
+        # TODO: 5 organizations here are due to a hack on longest_array in base exporter
+        arr[0][2..-1].should == ['organizations[1]', 'organizations[2]', 'organizations[3]', 'organizations[4]', 'organizations[5]']
+        arr[1][2..-1].should == [@instance.organizations[0], @instance.organizations[1], @instance.organizations[2], nil, nil]
       end
     end
 
-    describe "convert_model_to_hash" do
-      it "should handled nested data" do
-        hash = BaseExporter.convert_model_to_hash(@instance,
-                                               [@model_class.properties_by_name['family_members']])
-        hash.should == {'family_members' => [
-          {'name' => 'John', 'relationship' => 'father', 'module_id' => 'primeromodule-cp'},
-          {'name' => 'Mary', 'relationship' => 'mother', 'module_id' => 'primeromodule-cp'},
-        ],
-        'model_type' => @model_class.name,
-        '_id' => @instance.id}
-      end
+    describe "include_metadata_properties" do
+      it "attaches core metadata properties to the end of each case properties list" do
+        props = {
+          'primeromodule-cp' => {
+            'Form1' => {},
+            'Form2' => {}
+          },
+          'primeromodule-gbv' => {
+            'Form3' => {},
+            'Form4' => {}
+          }
+        }
 
-      it "should exclude unlisted properties" do
-        hash = BaseExporter.convert_model_to_hash(@instance,
-                                               [@model_class.properties_by_name['survivor_code']])
+        props_with_metadata = BaseExporter.include_metadata_properties(props, Child)
 
-        hash.keys.should == ['survivor_code', 'model_type', '_id']
+        expect(props_with_metadata['primeromodule-cp'].keys.last).to eq('__record__')
+        expect(props_with_metadata['primeromodule-cp']['__record__'].present?).to be_true
+        expect(props_with_metadata['primeromodule-cp']['__record__'].values.first).to be_an(CouchRest::Model::Property)
+
+
+        expect(props_with_metadata['primeromodule-gbv'].keys.last).to eq('__record__')
+        expect(props_with_metadata['primeromodule-gbv']['__record__'].present?).to be_true
+        expect(props_with_metadata['primeromodule-gbv']['__record__'].values.first).to be_an(CouchRest::Model::Property)
       end
     end
   end

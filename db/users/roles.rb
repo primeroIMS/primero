@@ -127,7 +127,8 @@ cp_caseworker_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::REQUEST_APPROVAL_CASE_PLAN
     ]
   ),
   Permission.new(
@@ -144,11 +145,18 @@ cp_caseworker_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR
     ]
-   ),
-    Permission.new(
+  ),
+  Permission.new(
     :resource => Permission::POTENTIAL_MATCH,
     :actions => [
       Permission::READ
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::VIEW_APPROVALS,
+      Permission::VIEW_ASSESSMENT
     ]
   )
 ]
@@ -165,6 +173,7 @@ cp_manager_permissions = [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
+      Permission::REASSIGN,
       Permission::CONSENT_OVERRIDE,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
@@ -230,6 +239,13 @@ cp_manager_permissions = [
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
       Permission::EXPORT_PDF
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::VIEW_APPROVALS,
+      Permission::VIEW_ASSESSMENT
     ]
   )
 ]

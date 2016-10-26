@@ -35,13 +35,13 @@ module FieldsHelper
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
       when Field::TALLY_FIELD
-        (field.tally + ['total']).map {|t| parent_obj["#{field.name}_#{t}"] }
+        (field.tally + ['total']).map {|t| parent_obj.try(:[],"#{field.name}_#{t}") }
       when Field::DATE_RANGE
-        [field_format_date(parent_obj["#{field.name}_from"]), field_format_date(parent_obj["#{field.name}_to"])]
+        [field_format_date(parent_obj.try(:[],"#{field.name}_from")), field_format_date(parent_obj.try(:[],"#{field.name}_to"))]
       when Field::DATE_FIELD
-        field_format_date(parent_obj[field.name])
+        field_format_date(parent_obj.try(:[],field.name))
       else
-        parent_obj[field.name] || ''
+        parent_obj.try(:[],field.name) || parent_obj.try(field.name) || ''
       end
     end
   end
@@ -114,8 +114,13 @@ module FieldsHelper
     # This is for shared subforms
     shared_subform = field.subform_section.shared_subform.downcase if field.subform_section.try(:shared_subform)
     shared_subform_group = field.subform_section.shared_subform_group.downcase if field.subform_section.try(:shared_subform_group)
-    if object[field.name].present?
-      subforms_count = object[field.name].count
+
+    # needed for all derived subforms
+    if object.try(field.name).present?
+      subforms_count = object.try(field.name).count
+    # needed for all the regular subforms
+    elsif object.try(:[], field.name).present?
+      subforms_count = object.try(:[], field.name).count
     elsif object[shared_subform].present?
       object[shared_subform].count
     elsif object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
@@ -130,8 +135,24 @@ module FieldsHelper
     subform_object = {}
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
+    #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
+    #      Pending a full refactor of how we do nested forms headers  
+    # elsif subform_name == "transitions"
+    #   subform_object = object.try(:"#{subform_name}")
+    #   #if user is record owner, they can see all referrals
+    #   if subform_object.present? && object.owned_by != @current_user.user_name
+    #     subform_object = subform_object.select do |transition|
+    #       if transition.type == Transition::TYPE_REFERRAL
+    #         @current_user.is_admin? ||
+    #         @current_user.has_group_permission?(Permission::GROUP) ||
+    #         transition.to_user_local == @current_user.user_name
+    #       else
+    #         true
+    #       end
+    #     end
+    #   end
     else
-      subform_object = object[:"#{subform_name}"]
+      subform_object = object.try(:"#{subform_name}")
     end
     return subform_object
   end

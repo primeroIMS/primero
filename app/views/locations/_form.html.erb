@@ -3,6 +3,9 @@
   parent_options = (@locations.present? ? @locations.map{|lct| [lct.name, lct.id]}.insert(0, "") : [])
   parent = @location.parent
   parent_selection ||= (parent.present? ? parent.id : "")
+  admin_level_options = Location::ADMIN_LEVELS
+  admin_level_selection = ((@location.present? && @location.admin_level.present?) ? @location.admin_level : "")
+  admin_level_disabled = !@location.admin_level_required?
 %>
 
 <% content_for :record_sub_nav do %>
@@ -11,7 +14,7 @@
 <% end %>
 
 <div class="row">
-  <%= form_for @location, :html => { :class => 'default-form', :autocomplete => "off" } do |f| %>
+  <%= form_for @location, :html => { :class => 'default-form location-new-edit', :autocomplete => "off" } do |f| %>
     <fieldset class="no-border">
       <%= f.error_messages :header_tag => :h2 %>
       <div class="row">
@@ -44,6 +47,15 @@
         </div>
         <div class="medium-9 columns">
           <%= select_tag 'location[parent_id]', options_for_select(parent_options, parent_selection )%>
+        </div>
+      </div>
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= f.label :admin_level, t("location.admin_level"), :class => "key" %>
+        </div>
+        <div class="medium-9 columns">
+          <%= select_tag 'location[admin_level]', options_for_select(admin_level_options, admin_level_selection ),
+                         include_blank: true, disabled: admin_level_disabled%>
         </div>
       </div>
       <% if can?(:disable, @location) %>

@@ -4,7 +4,11 @@
           <section class="top-bar-section">
             <% model = controller.model_class %>
             <ul class="left">
-              <li><%= link_to t("navigation.home"), root_path, class: current_menu("root") %></li>
+              <li>
+                <a class="<%= current_menu('root') %>" href="<%= root_path %>" title="<%= t('navigation.home') %>">
+                  <i class="fa fa-home"></i>
+                </a>
+              </li>
               <% if can? :read, Child %>
                 <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"}), class: current_menu("cases") %></li>
               <% end  %>
@@ -24,13 +28,25 @@
               <%# Therefore... can? :edit, User always returns true %>
               <%# TODO - verify that functionality is expected %>
               <% if can? :edit, Role or can? :edit, UserGroup%>
-                <li><%= link_to t("navigation.users"), users_path, class: current_menu("setting") %></li>
-              <% end %>
-              <% if can?(:read, Device) or can?(:read, Replication) %>
-                <li><%= link_to t("navigation.replications"), replications_path, class: current_menu("replications") %></li>
+                <li>
+                  <a class="<%= current_menu('setting') %>"  href="<%= users_path %>" title="<%= t('navigation.users') %>">
+                    <i class="fa fa-cogs"></i>
+                  </a>
+                </li>
               <% end %>
               <% if can?(:group_read, Report) || can?(:read, Report) %>
-                <li><%= link_to t("navigation.reports"), reports_path, class: current_menu("reports") %></li>
+                <li>
+                  <a class="<%= current_menu('reports') %>" href="<%= reports_path %>" title="<%= t('navigation.reports') %>">
+                    <i class="fa fa-bar-chart"></i>
+                  </a>
+                </li>
+              <% end %>
+              <% if can?(:index, BulkExport) %>
+                <li>
+                  <a class="<%= current_menu('bulk_exports') %>" href="<%= bulk_exports_path %>" title="<%= t('navigation.bulk_exports') %>">
+                    <i class="fa fa-download"></i>
+                  </a>
+                </li>
               <% end %>
             </ul>
             <% if [Child, TracingRequest, Incident].include? model %>

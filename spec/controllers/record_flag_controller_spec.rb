@@ -3,6 +3,7 @@ require 'spec_helper'
 describe RecordFlagController do
   before :all do
     @created_at = DateTime.now
+    @unflagged_at = @created_at
   end
 
   before :each do
@@ -87,7 +88,8 @@ describe RecordFlagController do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => "15-Jul-2014"
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => "2014/07/15",
         "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil,
-        "created_at"=> DateTime.now.strftime('%Y/%m/%d %H:%M:%S %z'), "system_generated_followup"=>false})
+        "created_at"=> DateTime.now.strftime('%Y/%m/%d %H:%M:%S %z'), "system_generated_followup"=>false,
+        "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
       flag = record_db.flags.last
@@ -100,7 +102,8 @@ describe RecordFlagController do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => ""
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => "",
         "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil,
-        "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false})
+        "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
+        "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
       flag = record_db.flags.last
@@ -113,7 +116,8 @@ describe RecordFlagController do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag"
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => nil,
        "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil,
-       "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false})
+       "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
+        "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
       flag = record_db.flags.last
@@ -128,12 +132,14 @@ describe RecordFlagController do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 1", :flag_date => "15-Jul-2014"
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag 1", "date" => "2014/07/15",
         "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil,
-        "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false})
+        "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
+        "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
 
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 2", :flag_date => "16-Jul-2014"
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag 2", "date" => "2014/07/16",
         "flagged_by" => "#{@user.user_name}", "unflag_message" => nil, "removed" => nil,
-        "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false})
+        "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
+        "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
 
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
@@ -153,7 +159,7 @@ describe RecordFlagController do
       post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => 'unflagging due to reason'
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 2", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason", "removed" => true,
-        "created_at"=>nil, "system_generated_followup"=>false})
+        "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
 
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
@@ -171,17 +177,17 @@ describe RecordFlagController do
       post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => "unflagging due to reason2"
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 2", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason2", "removed" => true,
-        "created_at"=>nil, "system_generated_followup"=>false})
+        "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
 
       post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 1", :flag_index => 0, :unflag_message => "unflagging due to reason1"
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 1", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason1", "removed" => true,
-        "created_at"=>nil, "system_generated_followup"=>false})
+        "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
 
       post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 3", :flag_index => 2, :unflag_message => "unflagging due to reason3"
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 3", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason3", "removed" => true,
-        "created_at"=>nil, "system_generated_followup"=>false})
+        "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
 
       record_db = model.get(record.id)
       record_db.flags.length.should eq(3)

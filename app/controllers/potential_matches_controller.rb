@@ -7,6 +7,8 @@ class PotentialMatchesController < ApplicationController
   require "will_paginate/array"
   ALL_FILTER = "all"
 
+
+  #TODO v1.3: This controller should be merged with RecordActions and the business logic refactored into the models
   def index
     authorize! :index, model_class
     @page_name = t("home.view_records")
@@ -21,6 +23,7 @@ class PotentialMatchesController < ApplicationController
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map { |a| {a.id => a.name} }
+    #TODO v1.3: This should be removed/meregd with Record actions
     @options_districts = Location.by_type_enabled.key("district").all.map { |loc| loc.placename }.sort
     module_users(module_ids) if module_ids.present?
     instance_variable_set("@#{list_variable_name}", @records)

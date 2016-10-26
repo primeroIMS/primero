@@ -42,9 +42,12 @@ module MediaActions
 
   def document_filename attachment
     object = instance_variable_get("@#{self.model_class.name.underscore.downcase}")
-    document_key_index = object['document_keys'].find_index attachment.name
-    unless document_key_index.nil?
-      object['other_documents'][document_key_index]['file_name']
+    if object['document_keys'].include? attachment.name
+      doc_forms = object.keys.select{ |k| k.include? '_documents' }
+      doc_forms.each do |form_name|
+        file = object[form_name].select{ |f| f.attachment_key == attachment.name }.first
+        return file['file_name'] if file.present? && file['file_name'].present?
+      end
     end
   end
 

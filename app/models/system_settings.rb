@@ -9,7 +9,10 @@ class SystemSettings < CouchRest::Model::Base
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
   property :unhcr_needs_codes_mapping, Mapping
+  property :reporting_location_config, ReportingLocation
   property :primero_version
+  property :age_ranges, { String => [AgeRange] }
+  property :primary_age_range, String
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
@@ -17,6 +20,18 @@ class SystemSettings < CouchRest::Model::Base
 
   design do
     view :all
+  end
+
+  def initialize(*args)
+    super(*args)
+    # CouchDB stores JSON Objects, and Range is not a proper JSON Object
+    # so upon fetching ranges from CouchDB, they need to be recreated
+    age_ranges = args.first["age_ranges"]
+    if age_ranges.present?
+      age_ranges.each do |name, range_array|
+        self.age_ranges[name] = range_array.map{ |r| AgeRange.from_string(r) }
+      end
+    end
   end
 
   #SyetsmSettings should be a singleton. It can have a hard-coded name.

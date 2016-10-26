@@ -6,7 +6,7 @@ module Exporters
     class << self
       extend Memoist
 
-      public 
+      public
 
       def id
         raise NotImplementedError
@@ -24,8 +24,77 @@ module Exporters
         []
       end
 
+      def excluded_forms
+        []
+      end
+
+      def authorize_fields_to_user?
+        true
+      end
+
+      #This is a class method that does a one-shot export to a String buffer.
+      #Don't use this for large datasets.
+      def export(*args)
+        exporter_obj = new()
+        exporter_obj.export(*args)
+        exporter_obj.complete
+        return exporter_obj.buffer.string
+      end
+
       def properties_to_export(props)
-        props.reject {|p| self.excluded_properties.include?(p.name) }
+        props = exclude_forms(props) if self.excluded_forms.present?
+        props = properties_to_keys(props)
+        props.reject {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
+        return props
+      end
+
+      def exclude_forms(props)
+        filtered_props = {}
+        if props.is_a?(Hash)
+          props.each do |mod, forms|
+            forms = forms.to_h.reject do |form_name, _|
+              self.excluded_forms.include?(form_name)
+            end
+            filtered_props[mod] = forms
+          end
+        else
+          filtered_props = props
+        end
+        return filtered_props
+      end
+
+      def properties_to_keys(props)
+        #This flattens out the properties by modules by form,
+        # while maintaining form order and discarding dupes
+        if props.present?
+          if props.is_a?(Hash)
+            props.reduce({}) do |acc1, primero_module|
+              hash = primero_module[1].reduce({}) do |acc2, form|
+                acc2.merge(form[1])
+              end
+              acc1.merge(hash)
+            end.values
+          else
+            props
+          end
+        else
+          []
+        end
+      end
+
+      ## Add other useful information for the report.
+      def include_metadata_properties(props, model_class)
+        props.each do |pm, fs|
+          #TODO: Does order of the special form matter?
+          props[pm].merge!(model_class.record_other_properties_form_section)
+        end
+        return props
+      end
+
+      def current_model_class(models)
+        if models.present? && models.is_a?(Array)
+          models.first.class
+        end
       end
 
       # @param properties: array of CouchRest Model Property instances
@@ -34,7 +103,9 @@ module Exporters
           props.map do |p|
             prop_tree = parent_props + [p]
             if p.array
-              longest_array = find_longest_array(models, prop_tree)
+              # TODO: This is a hack for CSV export, that causes memory leak
+              # 5 is an arbitrary number, and probably should be revisited
+              longest_array = 5 #find_longest_array(models, prop_tree)
               (1..(longest_array || 0)).map do |n|
                 new_prop_tree = prop_tree.clone + [n]
                 if p.type.include?(CouchRest::Model::Embeddable)
@@ -78,10 +149,11 @@ module Exporters
         end
       end
 
-      def find_longest_array(models, prop_tree)
-        models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
-      end
-      memoize :find_longest_array
+      #def find_longest_array(models, prop_tree)
+      #  models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
+      #end
+      # this memoization causes memory leaks and brakes when exporting 10k records
+      #memoize :find_longest_array
 
       # TODO: axe this in favor of the similar function in the Accessible model
       # concern.  Have to figure out the inheritance tree for the models first
@@ -98,17 +170,6 @@ module Exporters
           else
             get_model_value(acc, prop)
           end
-        end
-      end
-
-      def convert_model_to_hash(model, properties)
-        prop_names = properties.map {|p| p.name}
-        JSON.parse(model.to_json).select do |k,v|
-          prop_names.include? k
-        end.tap do |h|
-          h['model_type'] = model.class.name
-          h['_id'] = model.id
-          h
         end
       end
 
@@ -131,6 +192,32 @@ module Exporters
           model.send(property.name)
         end
       end
+
+      def get_model_location_value(model, property)
+        Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
+      end
+    end
+
+    def initialize(output_file_path=nil)
+      @io = if output_file_path.present?
+        File.new(output_file_path, "w")
+      else
+        StringIO.new
+      end
+    end
+
+    def export(*args)
+      raise NotImplementedError
+    end
+
+    def complete
+      if self.buffer.class == File
+        @io.close unless self.buffer.closed?
+      end
+    end
+
+    def buffer
+      return @io
     end
   end
 end

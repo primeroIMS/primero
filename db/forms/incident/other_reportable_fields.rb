@@ -2,11 +2,13 @@ fields = [
   Field.new({"name" => "record_state",
         "type" => "tick_box",
         "editable" => false,
+        "disabled" => true,
         "display_name_all" => "Valid Record?"
         }),
   Field.new({"name" => "number_of_individual_perpetrators_from_ir",
         "type" => "numeric_field",
         "editable" => false,
+        "disabled" => true,
         "display_name_all" => "Number of individual perpetrators imported from IR"
         }),
 ]

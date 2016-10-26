@@ -963,7 +963,7 @@ fr:
     file_upload_box:
       select_file_button_text: "Sélectionner un fichier"
       no_file_selected: "Aucun fichier sélectionné."
-      document_file_restrictions_message: "Les fichiers ne doivent pas excéder 10 Mo (les fichiers exécutables (.exe) ne peuvent pas être téléchargés)."
+      document_file_restrictions_message: "Les fichiers ne doivent pas excéder 2 Mo (les fichiers exécutables (.exe) ne peuvent pas être téléchargés)."
       photo_file_restrictions_message: "Les photos ne doivent pas excéder 10 Mo. Les fichiers audio ne doivent pas excéder 10 Mo. Choisir de préférence des fichiers de taille réduite."
       add_document_label: "Ajouter un document"
       add_photo_label: "Ajouter une photo"

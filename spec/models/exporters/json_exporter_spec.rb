@@ -17,4 +17,51 @@ module Exporters
       ]
     end
   end
+
+  describe "convert_model_to_hash" do
+    before :each do
+      @exporter = Exporters::JSONExporter.new
+      @model_class = Class.new(CouchRest::Model::Base) do
+        property :name, String
+        property :survivor_code, String
+        property :date_last_seen, Date
+        property :family_members, [Class.new do
+            include CouchRest::Model::Embeddable
+            property :name, String
+            property :relationship, String
+            property :module_id, String, :default => 'primeromodule-cp'
+          end]
+        property :organizations, [String]
+        property :module_id, String, :default => 'primeromodule-cp'
+      end
+
+      @instance = @model_class.new
+      @instance.family_members = [
+        {:name => 'John', :relationship => 'father'},
+        {:name => 'Mary', :relationship => 'mother'},
+      ]
+      @instance.organizations = ['Red Cross', 'UNICEF', 'Save the Children']
+    end
+
+    it "should handled nested data" do
+      hash = @exporter.convert_model_to_hash(@instance,
+                                            [@model_class.properties_by_name['family_members']])
+
+      hash.should == {
+      'family_members' => [
+        {'name' => 'John', 'relationship' => 'father', 'module_id' => 'primeromodule-cp'},
+        {'name' => 'Mary', 'relationship' => 'mother', 'module_id' => 'primeromodule-cp'}
+      ],
+      'model_type' => @model_class.name,
+      '_id' => @instance.id}
+
+    end
+
+    it "should exclude unlisted properties" do
+      hash = @exporter.convert_model_to_hash(@instance,
+                                            [@model_class.properties_by_name['survivor_code']])
+
+      hash.keys.should == ['survivor_code', 'model_type', '_id']
+    end
+  end
 end

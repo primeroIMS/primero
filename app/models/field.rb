@@ -11,6 +11,7 @@ class Field
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
+  property :disabled, TrueClass, :default => false
   localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label]
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
@@ -185,28 +186,36 @@ class Field
   end
 
   # TODO: Refator this - Slow when you rebuild a form
-  def self.all_searchable_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_searchable_fields.map(&:name) }.flatten
+  def self.all_searchable_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_fields.map(&:name) }.flatten
   end
 
-  def self.all_searchable_date_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
+  def self.all_searchable_date_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
   end
 
-  def self.all_filterable_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_filterable_fields.map(&:name) }.flatten
+  def self.all_searchable_boolean_field_names(parent_form='case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_boolean_fields.map(&:name) }.flatten
   end
 
-  def self.all_filterable_multi_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
+  def self.all_filterable_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_fields.map(&:name) }.flatten
   end
 
-  def self.all_filterable_numeric_field_names(parentForm = 'case')
-    FormSection.find_by_parent_form(parentForm, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
+  def self.all_filterable_multi_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
+  end
+
+  def self.all_filterable_numeric_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
   end
 
   def self.all_tally_fields(parent_form='case')
     FormSection.find_by_parent_form(parent_form, false).map {|form| form.all_tally_fields.map(&:name)}.flatten
+  end
+
+  def self.all_location_field_names(parent_form='case')
+    FormSection.find_locations_by_parent_form(parent_form).map {|form| form.all_location_fields.map(&:name)}.flatten.uniq
   end
 
   def display_name_for_field_selector
@@ -219,6 +228,7 @@ class Field
     self.mobile_visible = true if properties["mobile_visible"].nil?
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
+    self.disabled = false if properties["disabled"].nil?
     self.multi_select = false if properties["multi_select"].nil?
     self.required = false if properties["required"].nil?
     self.show_on_minify_form = false if properties["show_on_minify_form"].nil?
@@ -334,7 +344,7 @@ class Field
 
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])
-    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n")
+    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n"), :editable => true, :disabled => false
   end
 
   def self.new_check_boxes_field field_name, display_name = nil, option_strings = []
@@ -367,7 +377,8 @@ class Field
 
   # This is a rework of the original RapidFTR method that never worked.
   # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
-  def self.find_by_name(name)
+  # TODO: This has been renamed to allow a hack to wrap it
+  def self.find_by_name_from_view(name)
     result = nil
     if name.is_a? Array
       raw_field_data = FormSection.fields(keys: name).rows
@@ -379,12 +390,34 @@ class Field
     return result
   end
 
+  #TODO: This is a HACK to pull back location fields from admin solr index names, 
+  #      completely based on assumptions.
+  def self.find_by_name(field_name)
+    field = nil
+    if field_name.present?
+      field = find_by_name_from_view(field_name)
+      unless field.present?
+        if field_name.last.is_number? && field_name.length > 1
+          field = find_by_name_from_view(field_name[0..-2])
+          unless field.present? && field.is_location?
+            field = nil
+          end
+        end
+      end
+    end
+    return field
+  end
+
+
   # Whether or not this should display on the show/view pages
   # Should not affect the new/edit pages
   def showable?
     self.visible? && !self.hide_on_view_page
   end
 
+  def is_location?
+    self.option_strings_source == 'Location'
+  end
 
   private
 

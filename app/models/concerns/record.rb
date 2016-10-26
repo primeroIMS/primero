@@ -132,6 +132,8 @@ module Record
     name == 'case' ? Child : Object.const_get(name.camelize)
   end
 
+  #TODO v1.3: The boost stuff needs to be moved into a separate concern. 
+  #           Doesn't belong with records.
   def self.boost_fields
     [
         {field: 'name', boost: 10},
@@ -348,16 +350,50 @@ module Record
      }
     end
 
-    #Returns the hash with the properties based on the form sections.
-    def get_properties_by_module(form_sections_by_module)
+    #Returns the hash with the properties within the form sections based on module and current user.
+    def get_properties_by_module(user, modules)
+      read_only_user = user.readonly?(self.name.underscore)
       properties_by_module = {}
-      form_sections_by_module.each do |module_id, form_sections|
-        properties_by_module[module_id] = {}
-        form_sections.each do |fs|
-          properties_by_module[module_id][fs.name] = self.properties_by_form[fs.name]
+      modules.each do |primero_module|
+        form_sections = allowed_formsections(user, primero_module)
+        form_sections = form_sections.map{|key, forms| forms }.flatten
+        properties_by_module[primero_module.id] = {}
+        form_sections.each do |section|
+          properties = self.properties_by_form[section.name]
+          if read_only_user
+            readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
+            properties = properties.select{|k,v| readable_props.include?(k)}
+          end
+          properties_by_module[primero_module.id][section.name] = properties
         end
       end
       properties_by_module
+    end
+
+    def allowed_formsections(user, primero_module)
+      FormSection.get_allowed_visible_forms_sections(primero_module, self.parent_form, user)
+    end
+
+    # Returns all of the properties that the given user is permitted to view/edit
+    # read_only_user params is to indicate the user should not see properties
+    # that don't display on the show page.
+    def permitted_properties(user, primero_module, read_only_user = false)
+      permitted = []
+      form_sections = allowed_formsections(user, primero_module)
+      form_sections = form_sections.map{|key, forms| forms }.flatten
+      form_sections.each do |section|
+        properties = self.properties_by_form[section.name].values
+        if read_only_user
+          readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
+          properties = properties.select{|p| readable_props.include?(p.name)}
+        end
+        permitted += properties
+      end
+      return permitted
+    end
+
+    def permitted_property_names(user, primero_module, read_only_user = false)
+      self.permitted_properties(user, primero_module, read_only_user).map {|p| p.name }
     end
 
   end
@@ -448,31 +484,6 @@ module Record
     self.short_id ||= self.unique_identifier.last 7
     #Method should be defined by the derived classes.
     self.set_instance_id
-  end
-
-  def allowed_formsections(user)
-    FormSection.get_allowed_visible_forms_sections(self.module, self.class.parent_form, user)
-  end
-
-  # Returns all of the properties that the given user is permitted to view/edit
-  # read_only_user params is to indicate the user should not see properties
-  # that don't display on the show page.
-  def permitted_properties(user, read_only_user = false)
-    permitted = []
-    fss = allowed_formsections(user)
-    if fss.present?
-      permitted_forms = fss.values.flatten.map {|fs| fs.name }
-      permitted = self.class.properties_by_form.reject {|k,v| !permitted_forms.include?(k) }.values.inject({}) {|acc, h| acc.merge(h) }.values
-      if read_only_user
-        permitted_fields = fss.map{|k, v| v.map{|v| v.fields.map{|f| f.name if f.showable?} } }.flatten.compact
-        permitted = permitted.select{|p| permitted_fields.include?(p.name)}
-      end
-    end
-    return permitted
-  end
-
-  def permitted_property_names(user, read_only_user = false)
-    permitted_properties(user, read_only_user).map {|p| p.name }
   end
 
   def nested_reportables_hash

@@ -26,7 +26,11 @@ describe TracingRequest do
 
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      TracingRequest.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name", "last_updated_by", "last_updated_by_full_name","created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"]
+      TracingRequest.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name",
+                                                         "last_updated_by", "last_updated_by_full_name","created_organization",
+                                                         "owned_by_agency", "owned_by_location",
+                                                         "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
+                                                         "transfer_status"]
     end
 
     it "should build with date search fields" do
@@ -726,7 +730,7 @@ describe TracingRequest do
   describe ".add_audio_file" do
 
     before :each do
-      @file = stub!("File")
+      @file = stub("File")
       File.stub(:binread).with(@file).and_return("ABC")
       @file_attachment = FileAttachment.new("attachment_file_name", "audio/mpeg", "data")
     end
@@ -957,16 +961,6 @@ describe TracingRequest do
 
   end
 
-
-  describe 'reindex' do
-    it 'should reindex every 24 hours' do
-      scheduler = double()
-      scheduler.should_receive(:every).with('24h').and_yield()
-      TracingRequest.should_receive(:reindex!).once.and_return(nil)
-      TracingRequest.schedule scheduler
-    end
-  end
-
   describe 'validate dates and date ranges fields' do
     before do
       fields = [Field.new({"name" => "a_date_field",
@@ -1049,6 +1043,44 @@ describe TracingRequest do
       it "should return nil for father" do
         expect(@tracing_request3.fathers_name).to be_nil
       end
+    end
+
+  end
+
+  describe "Batch processing" do
+    before do
+      TracingRequest.all.each { |tracing_request| tracing_request.destroy }
+    end
+
+    it "should process in two batches" do
+      tracing_request1 = TracingRequest.new('created_by' => "user1", :name => "tracing_request1")
+      tracing_request2 = TracingRequest.new('created_by' => "user2", :name => "tracing_request2")
+      tracing_request3 = TracingRequest.new('created_by' => "user3", :name => "tracing_request3")
+      tracing_request4 = TracingRequest.new('created_by' => "user4", :name => "tracing_request4")
+      tracing_request4.save!
+      tracing_request3.save!
+      tracing_request2.save!
+      tracing_request1.save!
+
+      expect(TracingRequest.all.page(1).per(3).all).to include(tracing_request1, tracing_request2, tracing_request3)
+      expect(TracingRequest.all.page(2).per(3).all).to include(tracing_request4)
+      TracingRequest.should_receive(:all).exactly(3).times.and_call_original
+
+      records = []
+      TracingRequest.each_slice(3) do |tracing_requests|
+        tracing_requests.each{|t| records << t.name}
+      end
+
+      records.should eq(["tracing_request1", "tracing_request2", "tracing_request3", "tracing_request4"])
+    end
+
+    it "should process in 0 batches" do
+      TracingRequest.should_receive(:all).exactly(1).times.and_call_original
+      records = []
+      TracingRequest.each_slice(3) do |tracing_requests|
+        tracing_requests.each{|t| records << t.name}
+      end
+      records.should eq([])
     end
 
   end

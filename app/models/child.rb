@@ -19,6 +19,8 @@ class Child < CouchRest::Model::Base
   include PhotoUploader
   include Record
   include DocumentUploader
+  include BIADerivedFields
+  include CaseDerivedFields
   include UNHCRMapping
 
   include Ownable
@@ -151,8 +153,8 @@ class Child < CouchRest::Model::Base
 
   def self.quicksearch_fields
     [
-        'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
-        'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'un_no', 'other_agency_id'
+      'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
+      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no', 'other_agency_id'
     ]
   end
 
@@ -170,6 +172,7 @@ class Child < CouchRest::Model::Base
     ]
   end
 
+  #TODO v1.3: These should live in a matcheable concern?
   def self.form_matchable_fields
     form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME, false)
     Array.new(form_fields).map(&:name)
@@ -180,6 +183,7 @@ class Child < CouchRest::Model::Base
     Array.new(form_fields).map(&:name)
   end
 
+  #TODO v1.3: This method already exists. Use it
   def self.find_by_case_id(child_id)
     by_id(:key => child_id).first
   end
@@ -191,6 +195,11 @@ class Child < CouchRest::Model::Base
   include Searchable #Needs to be after ownable, quicksearch fields
   include Flaggable
   include Transitionable
+  include Reopenable
+  include Approvable
+
+  # Searchable needs to be after other concern includes so that properties defined in those concerns get indexed
+  include Searchable
 
   searchable do
     form_matchable_fields.select { |field| Record.exclude_match_field(field) }.each { |field| text field, :boost => Record.get_field_boost(field) }
@@ -216,14 +225,16 @@ class Child < CouchRest::Model::Base
     ]
   end
 
+  #TODO - does this need reporting location???
+  #TODO - does this need the reporting_location_config field key
   def self.minimum_reportable_fields
     {
         'boolean' => ['record_state'],
-        'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by_location_district', 'owned_by'],
-        'multistring' => ['associated_user_names'],
-        'date' => ['registration_date'],
+         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
+    'multistring' => ['associated_user_names'],
+           'date' => ['registration_date'],
         'integer' => ['age'],
-        'location' => ['owned_by_location', 'location_current']
+       'location' => ['owned_by_location', 'location_current']
     }
   end
 

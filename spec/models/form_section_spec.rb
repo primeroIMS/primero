@@ -56,17 +56,14 @@ describe FormSection do
 
       it "returns all FormSection objects that are bound to the case's module that the user has access to" do
         child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-        result = FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user)
-        expect(result).to eq([@form_section_b])
+        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user)).to eq([@form_section_b])
       end
 
       it "returns no FormSection objects if the user cannot view the permitted module forms" do
         role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions_list: [@permission_case_read])
         user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
         child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-
-        result = FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)
-        expect(result.present?).to be_false
+        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([])
       end
 
       it "returns the FormSection objects that correspond to the record's type" do
@@ -75,8 +72,7 @@ describe FormSection do
         user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.id])
         child = Child.new(unique_identifier: "123", module_id: primero_module.id)
 
-        result = FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)
-        expect(result).to eq([@form_section_b])
+        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([@form_section_b])
       end
     end
 
@@ -562,11 +558,11 @@ describe FormSection do
     describe "formatted hash" do
       it "should combine the translations into a hash" do
         fs = FormSection.new(:name_en => "english name", :name_fr => "french name", :unique_id => "unique id",
-                             :fields => [Field.new(:display_name_en => "dn in english", :display_name_zh => "dn in chinese", :name => "name")])
+                             :fields => [Field.new(:display_name_en => "dn in english", :display_name_es => "dn in spanish", :name => "name")])
         form_section = fs.formatted_hash
         form_section["name"].should == {"en" => "english name", "fr" => "french name"}
         form_section["unique_id"].should == "unique id"
-        form_section["fields"].first["display_name"].should == {"en" => "dn in english", "zh" => "dn in chinese"}
+        form_section["fields"].first["display_name"].should == {"en" => "dn in english", "es" => "dn in spanish"}
         form_section["fields"].first["name"].should == "name"
       end
     end
@@ -997,4 +993,223 @@ describe FormSection do
 
   end
 
+  describe "Finding locations by parent form" do
+    before do
+      FormSection.all.each &:destroy
+
+      fields = [
+          Field.new({"name" => "field_name_1",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 1"
+                    }),
+          Field.new({"name" => "field_name_2",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 2"
+                    })
+      ]
+      @form_0 = FormSection.create(
+          :unique_id => "form_section_no_locations",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section No Locations",
+          "description_all" => "Form Section No Locations",
+          :fields => fields
+      )
+
+      fields = [
+          Field.new({"name" => "test_location",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 1",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "field_name_1",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 1"
+                    }),
+          Field.new({"name" => "field_name_2",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 2"
+                    }),
+          Field.new({"name" => "test_country",
+                     "type" => "select_box",
+                     "display_name_all" => "My Test Country",
+                     "option_strings_source" => "lookup Country"
+                    })
+      ]
+      @form_1 = FormSection.create(
+          :unique_id => "form_section_one_location",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section One Location",
+          "description_all" => "Form Section One Location",
+          :fields => fields
+      )
+
+      fields = [
+          Field.new({"name" => "test_location_2",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 2",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "test_location_3",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 3",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "field_name_1",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 1"
+                    }),
+          Field.new({"name" => "field_name_2",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 2"
+                    }),
+          Field.new({"name" => "test_yes_no",
+                     "type" => "select_box",
+                     "display_name_all" => "My Test Field",
+                     "option_strings" => "yes\nno"
+                    }),
+          Field.new({"name" => "test_country",
+                     "type" => "select_box",
+                     "display_name_all" => "My Test Country",
+                     "option_strings_source" => "lookup Country"
+                    })
+      ]
+      @form_2 = FormSection.create(
+          :unique_id => "form_section_two_locations",
+          :parent_form=>"tracing_request",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Two Locations",
+          "description_all" => "Form Section Two Locations",
+          :fields => fields
+      )
+
+      fields = [
+          Field.new({"name" => "test_location_4",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 4",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "test_location_5",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 5",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "field_name_1",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 1"
+                    }),
+          Field.new({"name" => "field_name_2",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 2"
+                    }),
+          Field.new({"name" => "test_location_6",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 6",
+                     "option_strings_source" => "Location"
+                    })
+      ]
+      @form_3 = FormSection.create(
+          :unique_id => "form_section_three_locations",
+          :parent_form=>"tracing_request",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Three Locations",
+          "description_all" => "Form Section Three Locations",
+          :fields => fields
+      )
+
+      fields = [
+          Field.new({"name" => "test_location_7",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 7",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "test_location_8",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 8",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "field_name_1",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 1"
+                    }),
+          Field.new({"name" => "field_name_2",
+                     "type" => "text_field",
+                     "display_name_all" => "Field Name 2"
+                    }),
+          Field.new({"name" => "test_location_9",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 9",
+                     "option_strings_source" => "Location"
+                    }),
+          Field.new({"name" => "test_location_10",
+                     "type" => "select_box",
+                     "display_name_all" => "Test Location 10",
+                     "option_strings_source" => "Location"
+                    })
+      ]
+      @form_4 = FormSection.create(
+          :unique_id => "form_section_four_locations",
+          :parent_form=>"incident",
+          "visible" => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Four Locations",
+          "description_all" => "Form Section Four Locations",
+          :fields => fields
+      )
+    end
+
+    after :all do
+      FormSection.all.each &:destroy
+    end
+
+    context "when parent form is not passed in" do
+      it "returns the forms for case" do
+        expect(FormSection.find_locations_by_parent_form).to match_array [@form_1]
+      end
+    end
+
+    context "when parent form is case" do
+      it "returns the forms" do
+        expect(FormSection.find_locations_by_parent_form('case')).to match_array [@form_1]
+      end
+    end
+
+    context "when parent form is tracing_request" do
+      it "returns the forms" do
+        expect(FormSection.find_locations_by_parent_form('tracing_request')).to match_array [@form_2, @form_3]
+      end
+    end
+
+    context "when parent form is incident" do
+      it "returns the forms" do
+        expect(FormSection.find_locations_by_parent_form('incident')).to match_array [@form_4]
+      end
+    end
+
+  end
 end

@@ -2,6 +2,7 @@ basic_identity_fields = [
   Field.new({"name" => "case_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Long ID",
              "create_property" => false,
              "mobile_visible" => false,
@@ -10,6 +11,7 @@ basic_identity_fields = [
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Short ID",
              "create_property" => false,
              "mobile_visible" => false,
@@ -18,6 +20,7 @@ basic_identity_fields = [
   Field.new({"name" => "case_id_display",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "display_name_all" => "Case ID",
              "create_property" => true
             }),
@@ -25,17 +28,25 @@ basic_identity_fields = [
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Marked for mobile?",
-             "editable" => true,
-             "create_property" => true
+             "editable" => false,
+             "disabled" => true,
+             "create_property" => false
             }),
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
              "option_strings_source" => "lookup CaseStatus"
             }),
-  Field.new({"name" => "name",
+  Field.new({"name" => "case_status_reopened",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Case Reopened?",
+             "editable" => false,
+             "disabled" => true
+            }),
+  Field.new({"name" => "name", #TODO v1.3: Confirm taht we are not using HighlightInformation
              "type" => "text_field",
-             "display_name_all" => "Full Name",
+             "display_name_all" => "Full Name",             
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "required" => true,
              "show_on_minify_form" => true,
@@ -133,7 +144,13 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "unhcr_id_no",
              "type" => "text_field",
-             "display_name_all" => "UNHCR ID"
+             "display_name_all" => "proGres Case ID",
+             "help_text_all" => "UNHCR Asylum Seeker Certificate Number"
+            }),
+  Field.new({"name" => "unhcr_individual_no",
+             "type" => "text_field",
+             "display_name_all" => "proGres Individual ID",
+             "help_text_all" => "This ID is shown on the tracking sheet."
             }),
   Field.new({"name" => "un_no",
             "type" => "text_field",

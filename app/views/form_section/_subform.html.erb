@@ -93,7 +93,7 @@
   </div>
 
   <%# Add button %>
-  <% if subform.editable %>
+  <% if !subform.disabled %>
     <div>
       <a id="subform_<%= subform.name %>_add_button" class="green-button subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
     </div>

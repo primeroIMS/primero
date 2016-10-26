@@ -2,6 +2,7 @@ tracing_request_subform_fields = [
   Field.new({"name" => "matched_case_id",
              "type" => "text_field",
              "editable" => false,
+             "disabled" => true,
              "link_to_path" => "case",
              "display_name_all" => "Matched Case ID"
            }),

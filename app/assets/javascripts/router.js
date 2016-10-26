@@ -5,7 +5,6 @@ _primero.Router = Backbone.Router.extend({
     'incidents/new': 'incidentRecordForm',
     'incidents/:id/edit': 'incidentRecordForm',
     'tracing_requests/new': '',
-    'cases/:id': 'recordShowPage',
     'incidents/:id': 'incidentShowPage',
     'tracing_requests/:id': 'recordShowPage',
     'incidents': 'recordIndexPage',
@@ -17,12 +16,17 @@ _primero.Router = Backbone.Router.extend({
     'reports/:id/edit': 'reportsForm',
     'reports': 'reports',
     'reports/:id': 'reports',
+    'bulk_exports': 'bulk_exports',
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
     'forms/:id/edit': 'formSectionEditPage',
     'forms/:form_section_id/fields/:id/edit': 'fieldEditPage',
     'users': 'passwordPrompt',
-    'roles': 'roleIndexPage'
+    'roles': 'roleIndexPage',
+    'login' : 'maskedUserAndPasswordLogin',
+    'sessions/new': 'maskedUserAndPasswordLogin',
+    'locations/new': 'locations',
+    'locations/:id/edit': 'locations'
   },
 
   initialize: function() {
@@ -32,6 +36,14 @@ _primero.Router = Backbone.Router.extend({
     if (this.hasForm()) {
       this.recordForms();
     }
+
+    //Cases show pages.
+    //The Original expression (cases/:id and children/:id)
+    //match the show page and the edit page:
+    //  cases/ff72ddc52b33be0650f91071207c5eb0
+    //  cases/ff72ddc52b33be0650f91071207c5eb0/edit?follow=true
+    //avoid to match both pages.
+    this.route(/(cases|children)\/([0-9|a-f|A-F])+(\?([\s\S]*))?$/, 'recordShowPage');
   },
 
   dashboard: function() {
@@ -51,6 +63,7 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.CustomExports();
     new _primero.Views.PdfExports();
     new _primero.Views.ReferRecords();
+    new _primero.Views.ReassignRecords();
     new _primero.Views.TransferRecords();
     new _primero.Views.FlagChild();
     new _primero.Views.FlagRecord();
@@ -61,15 +74,29 @@ _primero.Router = Backbone.Router.extend({
     this.initIndexTable();
     this.recordActions();
     new _primero.Views.IndexFilters();
+    this.maskedUserAndPasswordReferal();
+    this.maskedUserAndPasswordTransfer();
   },
 
   recordShowPage: function() {
-    this.initIndexTable();
-    this.recordActions();
-    this.initAudio();
-    this.subforms();
-    new _primero.Views.ApproveCasePlan();
-    new _primero.Views.Actions();
+    //Because the way the controller render the edit page after some error
+    //the router is matching as the show page because the url is changed
+    //when enter to edit cases/ff72ddc52b33be0650f91071207c5eb0/edit?follow=true
+    //after some error cases/ff72ddc52b33be0650f91071207c5eb0, but still the edit page.
+    //The workaround is to ask if there is the data-form in the page, that way we try
+    //to figure out is the edit page.
+    if (!this.hasForm()) {
+      this.initIndexTable();
+      this.recordActions();
+      this.initAudio();
+      this.subforms();
+      new _primero.Views.ApproveCasePlan();
+      new _primero.Views.Actions();
+      new _primero.Views.ReopenCase();
+      new _primero.Views.RequestApproval();
+      this.maskedUserAndPasswordReferal();
+      this.maskedUserAndPasswordTransfer();
+    }
   },
 
   incidentShowPage: function() {
@@ -119,6 +146,10 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.ReportTable();
   },
 
+  bulk_exports: function(){
+    this.initIndexTable();
+  },
+
   initAudio: function() {
     new _primero.Views.PhotoAudioFields();
   },
@@ -142,4 +173,24 @@ _primero.Router = Backbone.Router.extend({
   fieldEditPage: function() {
     new _primero.Views.VisibleMobileField();
   },
+
+  maskedUserAndPasswordLogin: function() {
+    var maskedUser = new MaskedUser(document.getElementById("user_name"));
+    var maskedPassword = new MaskedPassword(document.getElementById("password"));
+  },
+
+  maskedUserAndPasswordReferal: function() {
+    new MaskedUser($("#referral-modal form #other_user_agency").get(0));
+    new MaskedPassword($("#referral-modal form #password").get(0));
+  },
+
+  maskedUserAndPasswordTransfer: function() {
+    new MaskedUser($("#transfer-modal form #other_user_agency").get(0));
+    new MaskedPassword($("#transfer-modal form #password").get(0));
+  },
+
+  locations: function(){
+    new _primero.Views.Locations();
+  }
+
 });

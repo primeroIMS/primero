@@ -55,17 +55,30 @@ case_plan_fields = [
                "type" => "tick_box",
                "tick_box_label_all" => "Yes",
                "editable" => false,
+               "disabled" => true,
                "display_name_all" => "Approved by Manager"
               }),
     Field.new({"name" => "case_plan_approved_date",
                "type" => "date_field",
                "editable" => false,
+               "disabled" => true,
                "display_name_all" => "Date"
               }),
     Field.new({"name" => "case_plan_approved_comments",
                "type" => "textarea",
                "editable" => false,
+               "disabled" => true,
                "display_name_all" => "Manager Comments"
+              }),
+    Field.new({"name" => "approval_status_case_plan",
+               "type" => "select_box",
+               "display_name_all" => "Approval Status",
+               "editable"=> false,
+               "disabled"=> true,
+               "option_strings_text_all" =>
+                   ["Pending",
+                    "Approved",
+                    "Rejected"].join("\n")
               }),
     Field.new({"name" => "protection_concerns",
              "type" => "select_box",

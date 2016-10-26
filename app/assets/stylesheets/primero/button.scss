@@ -39,7 +39,7 @@
 }
 
 .import_button {
-  width: 200px; 
+  width: 200px;
   float: right;
 }
 
@@ -90,6 +90,19 @@ a.ui-dialog-titlebar-close.ui-corner-all {
           font-size: .7rem;
           color: $light_grey_color;
         }
+
+        span.view_history_flags_label {
+          font-size: .8rem;
+          word-wrap:break-word;
+        }
+
+        div.view_history_flags_reason {
+          text-align: justify;
+          max-width: 269px;
+          font-size: .8rem;
+          word-wrap:break-word;
+          color: $light_grey_color;
+        }
       }
     }
 
@@ -101,11 +114,17 @@ a.ui-dialog-titlebar-close.ui-corner-all {
     .flag_unflag_header {
       border-bottom: 1px solid #ddd;
       margin-bottom: 5px;
+      display: flex;
 
       span {
         font-family: "Roboto",sans-serif;
         color: #86a05d;
       }
+
+      span.view_history_flags {
+        cursor: pointer;
+      }
+
     }
 
     span.collapse_expand_flag {
@@ -229,7 +248,7 @@ ul.sf-menu ul li:first-of-type a, ul.sf-menu ul ul li:first-of-type a {
   margin-top: -5px;
   margin-right: -3px;
   border-color: transparent;
-  border-left-color: $green_color; 
+  border-left-color: $green_color;
 }
 
 .sf-arrows ul li > .sf-with-ul:focus:after,

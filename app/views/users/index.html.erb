@@ -29,8 +29,8 @@
       <%= render partial: 'shared_configuration_resource/table',
                  locals: {objects: @users,
                           object_class: User,
-                          heading_keys: ['user.full_name', 'login.username', 'user.agency'],
-                          properties: ['full_name', 'user_name', 'agency_name'],
+                          heading_keys: ['user.full_name', 'login.username', 'user.position' , 'user.agency'],
+                          properties: ['full_name', 'user_name', 'position', 'agency_name'],
                           hide_links: [:destroy]} %>
     </div>
   </div>

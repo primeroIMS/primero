@@ -1,4 +1,33 @@
 closure_fields = [
+  Field.new({"name" => "closure_approved",
+              "type" => "tick_box",
+              "tick_box_label_all" => "Yes",
+              "display_name_all" => "Approved by Manager",
+              "disabled" => true,
+              "editable" => false
+            }),
+  Field.new({"name" => "closure_approved_date",
+             "type" => "date_field",
+             "display_name_all" => "Date",
+             "disabled" => true,
+             "editable" => false
+            }),
+  Field.new({"name" => "closure_approved_comments",
+             "type" => "textarea",
+             "display_name_all" => "Manager Comments",
+             "disabled" => true,
+             "editable" => false
+            }),
+  Field.new({"name" => "approval_status_closure",
+             "type" => "select_box",
+             "display_name_all" => "Approval Status",
+             "editable" => false,
+             "disabled" => true,
+             "option_strings_text_all" =>
+                        ["Pending",
+                         "Approved",
+                         "Rejected"].join("\n")
+            }),
   Field.new({"name" => "closure_reason",
              "type" => "select_box",
              "display_name_all" => "What is the reason for closing the child's file?",
@@ -6,10 +35,13 @@ closure_fields = [
                         ["Death of Child",
                          "Formal Closing",
                          "Not Seen During Verification",
-                         "Other",
                          "Repatriated",
                          "Transferred",
-                         "Transferred/Referred"].join("\n")
+                         "Other"].join("\n")
+            }),
+  Field.new({"name" => "closure_reason_other",
+             "type" => "text_field",
+             "display_name_all" => "If other, please specify ",
             }),
   Field.new({"name" => "date_closure",
              "type" => "date_field",

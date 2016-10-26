@@ -10,6 +10,8 @@ describe "form_section/_radio_button.html.erb" do
     radio_button = Field.new :name => "new field",
         :display_name => "field name",
         :type => 'radio_button',
+        :editable => true,
+        :disabled => false,
         :option_strings => Array['M', 'F'],
         :help_text => "This is my help text"
 

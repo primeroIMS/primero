@@ -44,8 +44,21 @@ namespace :sunspot do
     batch_reindex(Incident)
     batch_reindex(TracingRequest)
     batch_reindex(PotentialMatch)
+    batch_reindex(BulkExport)
 
     puts 'Solr successfully reindexed'
+  end
+
+  desc "remove all records from the index"
+  task :remove_all => :environment do
+    indexed_types = [
+      Child, Incident, TracingRequest,
+      Flag, ReportableFollowUp, ReportableProtectionConcern,
+      ReportableService, BulkExport
+    ]
+
+    puts "Removing the following record types from the Solr index: #{indexed_types.join(', ')}"
+    Sunspot.remove_all! *indexed_types
   end
 
   def batch_reindex(model, batch_size=500)
@@ -60,11 +73,13 @@ namespace :sunspot do
       records = model.all.page(page).per(batch_size).all
       flags = []
       nesteds = []
-      unless model.to_s == "PotentialMatch"
+      if model.instance_methods.include? :flags
         flags = records.reduce([]) do |list, record|
           list = list + record.flags if record.flags.present?
           list
         end
+      end
+      if model.instance_methods.include? :nested_reportables_hash
         nesteds = records.reduce([]) do |list, record|
           record.nested_reportables_hash.each do |_, reportables|
             list = list + reportables

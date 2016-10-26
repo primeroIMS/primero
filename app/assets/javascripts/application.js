@@ -38,6 +38,7 @@
 //= require primero_libs/password_prompt
 //= require primero_libs/session_timeout
 //= require primero_libs/jquery_plugin
+//= require primero_libs/MaskedPassword
 //= require primero
 //= require rapidftr
 //= require primero_libs/advanced_search

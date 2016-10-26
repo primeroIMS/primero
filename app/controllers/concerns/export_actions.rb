@@ -1,23 +1,27 @@
 module ExportActions
   extend ActiveSupport::Concern
 
-  def exported_properties
-    if params[:custom_exports].present? && params[:custom_exports][:forms].present?
-      self.model_class.properties.each{|pm, fs| fs.keep_if{|key| params[:custom_exports][:forms].include?(key)}}
+  def authorized_export_properties(exporter, user, primero_modules, model_class)
+    if exporter.authorize_fields_to_user?
+      if exporter.id == 'list_view_csv'
+        # Properties for this exporter are calculated in csv_exporter_list_view.rb
+        properties_by_module = []
+      else
+        properties_by_module = model_class.get_properties_by_module(user, primero_modules)
+      end
+      properties_by_module
     else
-      self.model_class.properties
+      []
     end
   end
 
-  # TODO: JSON exports need to be consolidated with the JSON format.  Right now
-  # the JSON export will just use the JSON format in the `respond_to` block and
-  # won't do the whole encrypted zip thing.
   def respond_to_export(format, models)
     if params[:selected_records].present?
       selected_records = params[:selected_records].split(",")
       models = models.select {|m| selected_records.include? m.id } if selected_records.present?
     end
 
+    #TODO: This is poorly implemented: this is called for every index action and iterates over each exporter every time
     Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
         authorize! :export, model_class
@@ -27,16 +31,37 @@ module ExportActions
           :organization => current_user.organization,
           :model_type => model_class.name.downcase,
           :ids => models.collect(&:id))
-
-        unless self.respond_to?(:exported_properties)
-          raise "You must specify the properties to export as a controller method called 'exported_properties'"
+        props = authorized_export_properties(exporter, current_user, current_modules, model_class)
+        file_name = export_filename(models, exporter)
+        if models.present?
+          export_data = exporter.export(models, props, current_user, params[:custom_exports])
+          cookies[:download_status_finished] = true
+          encrypt_data_to_zip export_data, file_name, params[:password]
+        else
+          queue_bulk_export(exporter.id, props, file_name)
+          flash[:notice] = "#{t('exports.queueing')}: #{file_name}"
+          redirect_back_or_default
         end
-
-        props = filter_permitted_export_properties(models, exported_properties)
-        export_data = exporter.export(models, props, current_user)
-        cookies[:download_status_finished] = true
-        encrypt_data_to_zip export_data, export_filename(models, exporter), params[:password]
       end
+    end
+  end
+
+  def queue_bulk_export(format, props, file_name)
+    bulk_export = BulkExport.new
+    bulk_export.owned_by = current_user.user_name
+    bulk_export.format = format
+    bulk_export.record_type = model_class.parent_form
+    bulk_export.model_range = 'all' #For now hardcoded
+    bulk_export.filters = filter
+    bulk_export.order = order
+    bulk_export.query = params[:query]
+    bulk_export.match_criteria = @match_criteria
+    bulk_export.permitted_properties = props
+    bulk_export.custom_export_params = params['custom_exports']
+    bulk_export.file_name = file_name
+    bulk_export.password = params['password'] #TODO: bad, change
+    if bulk_export.mark_started
+      BulkExportJob.perform_later(bulk_export.id)
     end
   end
 
@@ -45,6 +70,8 @@ module ExportActions
       "#{params[:custom_export_file_name]}.#{exporter.mime_type}"
     elsif models.length == 1
       "#{models[0].unique_identifier}.#{exporter.mime_type}"
+    elsif exporter.id == "unhcr_csv"
+     "#{current_user.user_name}-#{model_class.present? ? model_class.name.underscore : class_name.name.underscore}-UNHCR.#{exporter.mime_type}"
     else
       "#{current_user.user_name}-#{model_class.present? ? model_class.name.underscore : class_name.name.underscore}.#{exporter.mime_type}"
     end

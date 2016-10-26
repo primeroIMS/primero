@@ -40,9 +40,12 @@ _primero.Views.RequiredFields = Backbone.View.extend({
   },
 
   show_tab_errors: function(tab) {
-    var anchor = $('.side-tab a:contains("' + tab + '")'),
-        jewel = anchor.find('span.label'),
-        jewel_container = $('<span class="label alert"></span>');
+    var anchor = $('.side-tab a').filter(function(){
+        var re = new RegExp("^" + tab + "\\d*$");
+        return $(this).text().match(re);
+    });
+    var jewel = anchor.find('span.label');
+    var jewel_container = $('<span class="label alert"></span>');
 
     if (jewel.length > 0) {
       var count = parseInt(jewel.text());

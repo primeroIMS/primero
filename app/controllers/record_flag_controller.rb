@@ -6,6 +6,8 @@ class RecordFlagController < ApplicationController
 
   include RecordFilteringPagination
 
+  include LoggerActions
+
   def flag
     authorize! :flag, @record
     flag = @record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
@@ -20,7 +22,7 @@ class RecordFlagController < ApplicationController
 
   def unflag
     authorize! :flag, @record
-    flag = @record.remove_flag(params[:flag_message], params[:flag_index], current_user_name, params[:unflag_message])
+    flag = @record.remove_flag(params[:flag_message], params[:flag_index], current_user_name, params[:unflag_message], DateTime.now)
     if flag.present? and @record.save
       render :json => flag if params[:redirect_url].blank?
     else
@@ -87,6 +89,21 @@ class RecordFlagController < ApplicationController
   def set_record
     id = params[:id]
     @record = @model_class.get(id)
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if action_name == "flag_records"
+      if params[:selected_records].present?
+        "#{params[:selected_records].length} #{logger_model_titleize.pluralize}"
+      elsif params[:id].blank?
+        logger_model_titleize.pluralize
+      else
+        super
+      end
+    else
+      super
+    end
   end
 
 end

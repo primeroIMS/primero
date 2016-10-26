@@ -29,6 +29,7 @@ class Permission
   ASSIGN = 'assign'
   TRANSFER = 'transfer'
   REFERRAL = 'referral'
+  REASSIGN = 'reassign'
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
@@ -43,10 +44,18 @@ class Permission
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'
   SYNC_MOBILE = 'sync_mobile'
+  REQUEST_APPROVAL_BIA = 'request_approval_bia'
+  REQUEST_APPROVAL_CASE_PLAN = 'request_approval_case_plan'
+  REQUEST_APPROVAL_CLOSURE = 'request_approval_closure'
+  APPROVE_BIA = 'approve_bia'
   APPROVE_CASE_PLAN = 'approve_case_plan'
+  APPROVE_CLOSURE = 'approve_closure'
   COPY = 'copy'
   MANAGE = 'manage'
   GROUP_READ = 'group_read'
+  DASHBOARD = 'dashboard'
+  VIEW_APPROVALS = 'view_approvals'
+  VIEW_ASSESSMENT = 'view_assessment'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -77,18 +86,26 @@ class Permission
       IMPORT,
       ASSIGN,
       TRANSFER,
+      REASSIGN,
       REFERRAL,
       CONSENT_OVERRIDE,
       SYNC_MOBILE,
+      REQUEST_APPROVAL_BIA,
+      REQUEST_APPROVAL_CASE_PLAN,
+      REQUEST_APPROVAL_CLOSURE,
+      APPROVE_BIA,
       APPROVE_CASE_PLAN,
+      APPROVE_CLOSURE,
       COPY,
       MANAGE,
-      GROUP_READ
+      GROUP_READ,
+      VIEW_APPROVALS,
+      VIEW_ASSESSMENT
     ]
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH,ROLE, USER, METADATA, SYSTEM, REPORT]
+    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, METADATA, SYSTEM, REPORT, DASHBOARD]
   end
 
   def self.management
@@ -114,11 +131,15 @@ class Permission
   def self.resource_actions(resource)
      case resource
        when CASE
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
        when INCIDENT
-         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY, GROUP_READ].include? a}
+         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REASSIGN, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_BIA,
+                              APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
        when TRACING_REQUEST
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_CASE_PLAN, COPY, GROUP_READ].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL,
+                              CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN,
+                              REQUEST_APPROVAL_CLOSURE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ,
+                              VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
        when ROLE
          [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
        when USER
@@ -131,6 +152,8 @@ class Permission
          [READ]
        when SYSTEM
          [MANAGE]
+       when DASHBOARD
+         [VIEW_APPROVALS, VIEW_ASSESSMENT, MANAGE]
        else
          actions
      end
@@ -147,6 +170,7 @@ class Permission
       self.new(:resource => USER, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
+      self.new(:resource => DASHBOARD, :actions => [MANAGE])
     ]
   end
 

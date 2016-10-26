@@ -17,6 +17,7 @@ FactoryGirl.define do
     owned_by "test_user"
     module_id "CP"
     child_status "Open"
+    case_id_display "display_1234"
 
     after_build do |child, factory|
       Child.stub(:get).with(child.id).and_return(child)
@@ -138,5 +139,16 @@ FactoryGirl.define do
     after_build do |report, builder|
       report.create_attachment :name => builder.filename, :file => StringIO.new(builder.data), :content_type => builder.content_type if builder.data
     end
+  end
+
+  factory :reporting_location, :traits => [ :model ] do
+    field_key "owned_by_location"
+    label_key "district"
+    admin_level 2
+  end
+
+  factory :system_settings, :traits => [ :model ] do
+    default_locale "en"
+    #TODO - need other fields?
   end
 end

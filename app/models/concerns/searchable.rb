@@ -17,30 +17,57 @@ module Searchable
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each { |f| date f }
       searchable_numeric_fields.each { |f| integer f } if self.include?(Record)
-      # TODO: boolean with have to change if we want to index arbitrary index fields
-      if self.include?(Record)
-        boolean :duplicate
-        boolean :flag
-        boolean :has_photo
-        boolean :record_state
-        boolean :not_edited_by_owner do
-          (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
+      searchable_date_fields.each {|f| date f}
+      searchable_numeric_fields.each {|f| integer f}
+      #TODO v1.3: They were checking if this is a record... 
+      searchable_boolean_fields.each {|f| boolean f}
+      #TODO: This needs to be a derived field/method in the ownable concern
+      boolean :not_edited_by_owner do
+        (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
+      end
+      string :referred_users, multiple: true do
+        if self.transitions.present?
+          self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
         end
-        string :referred_users, multiple: true do
-          if self.transitions.present?
-            self.transitions.map { |er| [er.to_user_local, er.to_user_remote] }.flatten.compact.uniq
+      end  
+      string :transferred_to_users, multiple: true do
+        if self.transitions.present?
+          self.transitions.select{|t| t.is_transfer_in_progress?}
+              .map{|er| er.to_user_local}.uniq
+        end
+      end
+      if self.include?(Ownable)
+        string :associated_user_names, multiple: true
+        string :owned_by
+      end
+      if self.include?(SyncableMobile)
+        boolean :marked_for_mobile
+      end
+      #text :name, as: :name_ph
+      string :sortable_name, as: :sortable_name_sci
+      #TODO - This is likely deprecated and needs to be refactored away
+      #TODO - searchable_location_fields currently used by filtering
+      searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+
+      all_searchable_location_fields.each do |field|
+        #TODO - Refactor needed
+        #TODO - There is a lot of similarity to Admin Level code in reportable_nested_record concern
+        Location::ADMIN_LEVELS.each do |admin_level|
+          string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
+            #TODO - Possible refactor to make more efficient
+            location = Location.find_by_name(self.send(field))
+            if location.present?
+              # break if admin_level > location.admin_level
+              if admin_level == location.admin_level
+                location.name
+              elsif location.admin_level.present? && (admin_level < location.admin_level)
+                # find the ancestor with the current admin_level
+                lct = location.ancestors.select{|l| l.admin_level == admin_level}
+                lct.present? ? lct.first.name : nil
+              end
+            end
           end
         end
-        string :sortable_name, as: :sortable_name_sci
-        if self.include?(Ownable)
-          string :associated_user_names, multiple: true
-          string :owned_by
-        end
-        if self.include?(SyncableMobile)
-          boolean :marked_for_mobile
-        end
-        #text :name, as: :name_ph
-        searchable_location_fields.each { |f| text f, as: "#{f}_lngram".to_sym }
       end
     end
 
@@ -48,18 +75,6 @@ module Searchable
     Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
   end
 
-  # #TODO: Remove this, once we have satisied that its not neccessary to refresh Sunspot with every save
-  # def index_record
-  #   #TODO: Experiment with getting rid of the solr schema rebuild on EVERY save.
-  #   #      This should take place when the form sections change.
-  #   begin
-  #     #self.class.refresh_in_sunspot
-  #     Sunspot.index!(self)
-  #   rescue
-  #     Rails.logger.error "***Problem indexing record for searching, is SOLR running?"
-  #   end
-  #   true
-  # end
 
   module ClassMethods
     #Pull back all records from CouchDB that pass the filter criteria.
@@ -67,6 +82,7 @@ module Searchable
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
     def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil, model_class=nil)
+      #TODO v1.3: inelegant to be passing model class here. Can't use self? Or some indicator on the record?
       pagination = {page:1, per_page:PotentialMatch.count} if model_class == PotentialMatch
       self.search do
         if filters.present?
@@ -103,7 +119,7 @@ module Searchable
         #TODO: pop off the locations filter and perform a fulltext search
         filters.each do |filter, filter_value|
           if searchable_location_fields.include? filter
-            #TODO: Could check if also location on line 100, but will it break alot of location code
+            #TODO: Putting this code back in, but we need a better system for filtering locations in the future
             if filter_value[:type] == 'location_list'
               with(filter.to_sym, filter_value[:value])
             else
@@ -114,29 +130,35 @@ module Searchable
             type = filter_value[:type]
             any_of do
               case type
-                when 'range'
-                  values.each do |filter_value|
-                    if filter_value.count == 1
-                      # Range +
-                      with(filter).greater_than_or_equal_to(filter_value.first.to_i)
-                    else
-                      range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
-                      with(filter, range_start...range_stop)
-                    end
-                  end
-                when 'date_range'
-                  if values.count > 1
-                    to, from = values.first, values.last
-                    with(filter).between(to..from)
+              when 'range'
+                values.each do |filter_value|
+                  if filter_value.count == 1
+                    # Range +
+                    with(filter).greater_than_or_equal_to(filter_value.first.to_i)
                   else
-                    with(filter, values.first)
+                    range_start, range_stop = filter_value.first.to_i, filter_value.last.to_i
+                    with(filter, range_start...range_stop)
                   end
-                when 'list'
-                  with(filter).any_of(values)
-                when 'neg'
-                  without(filter, values)
+                end
+                when 'date_range'
+                if values.count > 1
+                  to, from = values.first, values.last
+                  with(filter).between(to..from)
                 else
-                  with(filter, values) unless values == 'all'
+                  with(filter, values.first)
+                end
+              when 'list'
+                with(filter).any_of(values)
+              when 'neg'
+                without(filter, values)
+              when 'or_op'
+                any_of do
+                  values.each do |k, v|
+                    with(k, v)
+                  end
+                end  
+              else
+                with(filter, values) unless values == 'all'
               end
             end
           end
@@ -173,39 +195,25 @@ module Searchable
       self.all.each { |record| Sunspot.index!(record) }
     end
 
-
-    # TODO: What is going on with that date_fields loop?
-    #Refreshes Sunspot to index this class correctly after new field definitions were added.
-    # TODO: We should probably just get rid of this, or attach to a form rebuild
-    def refresh_in_sunspot
-      text_fields = searchable_text_fields
-      date_fields = searchable_date_fields
-      Sunspot.setup(self) do
-        text *text_fields
-        date *date_fields
-        date_fields.each { |date_field| date date_field }
-        boolean :duplicate
-      end
-    end
-
-    #TODO: do we need these?
-    def searchable_text_fields
-      # "created_by", "created_by_full_name",
-      #  "last_updated_by", "last_updated_by_full_name",
-      ["unique_identifier", "short_id"]
-    end
-
     def searchable_date_fields
-      ["created_at", "last_updated_at", "registration_date"] + Field.all_searchable_date_field_names(self.parent_form)
+      ["created_at", "last_updated_at", "registration_date"] +
+      searchable_approvable_date_fields +
+      Field.all_searchable_date_field_names(self.parent_form)
     end
 
-    # TODO: we cannot rely on 'district' always being there. SL-specific code
+    def searchable_boolean_fields
+      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] + 
+      Field.all_searchable_boolean_field_names(self.parent_form)).uniq
+    end
+
     def searchable_string_fields
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organization", "owned_by_agency", "owned_by_location", "owned_by_location_district"] +
-          Field.all_filterable_field_names(self.parent_form)
+       "created_organization", "owned_by_agency", "owned_by_location"] +
+      searchable_approvable_fields +
+      searchable_transition_fields +
+      Field.all_filterable_field_names(self.parent_form)  
     end
 
     def searchable_phonetic_fields
@@ -220,15 +228,30 @@ module Searchable
       Field.all_filterable_numeric_field_names(self.parent_form)
     end
 
+    #TODO - This is likely deprecated and needs to be refactored away
+    #TODO - searchable_location_fields currently used by filtering
     def searchable_location_fields
       ['location_current', 'incident_location']
     end
 
-    # TODO: I (JT) would recommend leaving this for now. This should be refactored at a later date
-    def schedule(scheduler)
-      scheduler.every("24h") do
-        self.reindex!
-      end
+    def all_searchable_location_fields
+      Field.all_location_field_names(self.parent_form)
     end
+
+    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
+    def searchable_approvable_fields
+      ['approval_status_bia', 'approval_status_case_plan', 'approval_status_closure']
+    end
+
+    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
+    def searchable_approvable_date_fields
+      ['bia_approved_date', 'closure_approved_date']
+    end
+
+    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
+    def searchable_transition_fields
+      ['transfer_status']
+    end
+
   end
 end

@@ -5,8 +5,10 @@ class LocationsController < ApplicationController
   include DisableActions
 
   before_filter :load_location, :only => [:edit, :update, :destroy]
-  before_filter :load_records_according_to_disable_filter, :only => [:index, :new, :edit]
+  before_filter :load_records_according_to_disable_filter, :except => [:destroy]
   before_filter :load_types, :only => [:new, :edit]
+
+  include LoggerActions
 
   def index
     authorize! :index, Location
@@ -30,7 +32,6 @@ class LocationsController < ApplicationController
       redirect_to locations_path
     else
       @location = location
-      load_all_locations
       load_types
       render :new
     end
@@ -50,7 +51,6 @@ class LocationsController < ApplicationController
       redirect_to locations_path
     else
       load_location
-      load_all_locations
       load_types
       render :edit
     end
@@ -72,6 +72,15 @@ class LocationsController < ApplicationController
 
   def load_types
     @location_types = Location::BASE_TYPES
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_identifier
+    if @location.present?
+      "#{logger_model_titleize} '#{@location.type} - #{@location.placename}'"
+    else
+      super
+    end
   end
 
 end

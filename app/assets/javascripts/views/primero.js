@@ -8,7 +8,7 @@ Primero = Backbone.View.extend({
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
-    'click a#audio_link, a.document': '_primero_check_download_status'
+    'click a#audio_link, a.document, a.bulk_export_download': '_primero_check_download_status'
   },
 
   initialize: function() {
@@ -134,7 +134,11 @@ Primero = Backbone.View.extend({
       })
     );
 
-    $("ul.current_flags").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
+    $("ul.current_flags").mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
+    $("ul.current_flags").css("max-height", "250px");
+
+    $("ul.history_flags").mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
+    $("ul.history_flags").css("max-height", "175px");
 
     $(".field-controls-multi, .scrollable").mCustomScrollbar(_.extend(options, { setHeight: 150 }));
 
@@ -144,7 +148,7 @@ Primero = Backbone.View.extend({
 
     $(".reveal-modal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
-    $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 269 }));
+    $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
     $(".referral_form_container").mCustomScrollbar(_.extend(options, { setHeight: 530 }));
 

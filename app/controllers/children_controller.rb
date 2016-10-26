@@ -3,7 +3,7 @@ class ChildrenController < ApplicationController
 
   include IndexHelper
   include RecordFilteringPagination
-  include ApproveCasePlanActions
+  include ApprovalActions
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
 
@@ -50,18 +50,17 @@ class ChildrenController < ApplicationController
     elsif params[:protect_action] == "view"
       hide = false
     end
-    child = Child.by_id(:key => params[:child_id]).first
-    authorize! :update, child
-    child.hidden_name = hide
-    if child.save
+    authorize! :update, @child
+    @child.hidden_name = hide
+    if @child.save
       render :json => {:error => false,
-                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : child['name'],
-                       :disable_input_field => hide,
+                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child['name'],
+                       :disable_input_field => true,
                        :action_link_action => hide ? "view" : "protect",
                        :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
                       }
     else
-      puts child.errors.messages
+      puts @child.errors.messages
       render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
     end
   end
@@ -73,32 +72,69 @@ class ChildrenController < ApplicationController
     redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
   end
 
-  def exported_properties
-    if params[:format].present? && (params[:format] == "xls" || params[:format] == "selected_xls" || params[:format] == "case_pdf")
-      #get form sections the user is allow to see.
-      form_sections = FormSection.get_form_sections_by_module(@current_modules, model_class.parent_form, current_user)
-      #get the model properties based on the form sections.
-      properties_by_module = model_class.get_properties_by_module(form_sections)
-      #Clean up the forms.
+  def reopen_case
+    child = Child.get(params[:child_id])
+    authorize! :update, child
+    child.child_status = params[:child_status]
+    child.case_status_reopened = params[:case_reopened]
+    child.add_reopened_log(current_user.user_name)
 
-      if params[:format] == "xls" || params[:format] == "selected_xls"
-        # Filter the properties the readonly user can see.
-        properties_by_module = filter_fields_read_only_users(form_sections, properties_by_module, current_user)
-      end
-
-      # TODO: Shouldn't be doing filtering by the display form name. This will be translated. should be filtering
-      # by the form's id. This is also true in the filter_custom_exports method. This will need changes also in the 
-      # exporters ...xls, selected_xls, and case_pdf...and maybe the others too.
-      properties_by_module.each{|pm, fs| fs.reject!{|key| ["Photos and Audio", "Other Documents"].include?(key)}}
-
-      properties_by_module = filter_custom_exports(properties_by_module)
-
-      # Add other useful information for the report.
-      properties_by_module.each{|pm, fs| properties_by_module[pm].merge!(model_class.record_other_properties_form_section)}
-
-      properties_by_module
+    if child.save
+      render :json => { :success => true, :error_message => "", :reload_page => true }
     else
-      super
+      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+    end
+  end
+
+  def request_approval
+    #TODO move business logic to the model.
+    child = Child.get(params[:child_id])
+    authorize! :update, child
+    case params[:approval_type]
+      when "bia"
+        child.approval_status_bia = params[:approval_status]
+      when "case_plan"
+        child.approval_status_case_plan = params[:approval_status]
+      when "closure"
+        child.approval_status_closure = params[:approval_status]
+      else
+        render :json => {:success => false, :error_message => 'Unkown Approval Type', :reload_page => true }
+    end
+
+    if child.save
+      render :json => { :success => true, :error_message => "", :reload_page => true }
+    else
+      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+    end
+  end
+
+  def relinquish_referral
+    #TODO move business logic to the model.
+    referral_id = params[:transition_id]
+    child = Child.get(params[:id])
+
+    # TODO: this may require its own permission in the future.
+    authorize! :read, child
+
+    active_transitions_count = child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
+    referral = child.referrals.select { |r| r.id == referral_id }.first
+
+    # TODO: This will need to be refactored once we implement real i18n-able keyvalue pairs
+    referral.to_user_local_status = I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_DONE}", :locale => :en)
+
+    if active_transitions_count == 0
+      child.assigned_user_names = child.assigned_user_names.reject{|u| u == @current_user.user_name}
+    end
+
+    respond_to do |format|
+      if child.save
+        flash[:notice] = t("referral.done_success_message")
+        redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+        return
+      else
+        flash[:notice] = child.errors.messages
+        format.html { redirect_after_update }
+      end
     end
   end
 
@@ -119,6 +155,44 @@ class ChildrenController < ApplicationController
       flash[:notice] = t("child.match_record_failed")
     end
     redirect_to case_path(@child)
+  end
+
+  def transfer_status
+    authorize! :read, model_class
+
+    @child = Child.get(params[:id])
+
+    transfer_id = params[:transition_id]
+    transition_status = params[:transition_status]
+
+    respond_to do |format|
+      status = @child.transitions_transfer_status(transfer_id, transition_status, @current_user, params[:rejected_reason])
+      case status
+        when :transition_unknown_transfer_status
+          flash[:notice] = t('transfer.unknown_status', status: transition_status)
+          format.html { redirect_after_update }
+        when :transition_unknown_transfer
+          flash[:notice] = t('transfer.unknown_transfer', record_type: model_class.parent_form.titleize, id: @child.short_id)
+          format.html { redirect_after_update }
+        when :transition_not_valid_transfer
+          flash[:notice] = t('transfer.not_valid_transfer', record_type: model_class.parent_form.titleize, id: @child.short_id)
+          format.html { redirect_after_update }
+        when :transition_transfer_status_updated
+          if @child.save
+            if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+              flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
+              redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+              return
+            else
+              flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
+              format.html { redirect_after_update }
+            end
+          else
+            flash[:notice] = @child.errors.messages
+            format.html { redirect_after_update }
+          end
+      end
+    end
   end
 
   private
@@ -190,6 +264,15 @@ class ChildrenController < ApplicationController
     delete_child_audio = params["delete_child_audio"].present?
     child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, child_params)
     child
+  end
+
+  #Override method in LoggerActions.
+  def logger_action_titleize
+    if action_name == "hide_name"
+      I18n.t("logger.hide_name.#{params[:protect_action]}", :locale => :en)
+    else
+      super
+    end
   end
 
 end

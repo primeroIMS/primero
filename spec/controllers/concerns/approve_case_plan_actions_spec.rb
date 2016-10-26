@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe ApproveCasePlanActions, type: :controller do
+describe ApprovalActions, type: :controller do
 
   controller(ApplicationController) do
     include RecordActions
-    include ApproveCasePlanActions
+    include ApprovalActions
 
     def model_class
       Child
@@ -17,7 +17,7 @@ describe ApproveCasePlanActions, type: :controller do
 
   before do
     routes.draw {
-      post 'approve_case_plan' => 'anonymous#approve_case_plan'
+      post 'approve_form' => 'anonymous#approve_form'
     }
 
     @case1 = Child.create(:name => 'Test Case 1', :short_id => 'aaa111', :module_id => 'cp')
@@ -37,9 +37,10 @@ describe ApproveCasePlanActions, type: :controller do
       params = {
           :id => @case1.id,
           :approval => "yes",
+          :approval_type => ApprovalActions::CASE_PLAN,
           :comments => "Test Comments"
       }
-      post :approve_case_plan, params
+      post :approve_form, params
       expect(response.status).to eq(403)
     end
   end
@@ -57,9 +58,10 @@ describe ApproveCasePlanActions, type: :controller do
       params = {
         :id => @case1.id,
         :approval => "yes",
+        :approval_type => ApprovalActions::CASE_PLAN,
         :comments => "Test Comments"
       }
-      post :approve_case_plan, params
+      post :approve_form, params
       expect(response.status).not_to eq(403)
     end
   end

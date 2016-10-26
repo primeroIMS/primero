@@ -78,6 +78,7 @@ class ApplicationController < ActionController::Base
   end
 
   def encrypt_data_to_zip(data, data_filename, password)
+    #TODO: The encrypted zipfile is corrupt when data is "". Fix it.
     enc_filename = CleansingTmpDir.temp_file_name
 
     ZipRuby::Archive.open(enc_filename, ZipRuby::CREATE) do |ar|
@@ -100,6 +101,10 @@ class ApplicationController < ActionController::Base
       end
     end
     params
+  end
+
+  def redirect_back_or_default(default = root_path, options = {})
+    redirect_to (request.referer.present? ? :back : default), options
   end
 
   class << self
