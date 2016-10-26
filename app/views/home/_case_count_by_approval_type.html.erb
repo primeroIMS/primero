@@ -72,6 +72,7 @@
 <% end %>
 <div>
   <% if @can_approval_bia %>
+    <%= I18n.translate("dashboard.you_have") %>
     <%= I18n.translate("dashboard.count_new_bia_approvals",
                        case_count(
                          {
@@ -86,6 +87,11 @@
                          }, stats, model)).html_safe %>
   <% end %>
   <% if @can_approval_case_plan %>
+    <% if @can_approval_bia %>
+      <%= ", " %>
+    <% else %>
+      <%= I18n.translate("dashboard.you_have") %>
+    <% end %>
     <%= I18n.translate("dashboard.count_new_case_plan_approvals",
                        case_count(
                          {
@@ -100,6 +106,11 @@
                          }, stats, model)).html_safe %>
   <% end %>
   <% if @can_approval_closure %>
+    <% if @can_approval_bia || @can_approval_case_plan %>
+      <%= " #{I18n.translate("dashboard.and")} " %>
+    <% else %>
+      <%= I18n.translate("dashboard.you_have") %>
+    <% end %>
     <%= I18n.translate("dashboard.count_new_closure_approvals",
                        case_count(
                          {
