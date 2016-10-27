@@ -1388,14 +1388,14 @@ en:
       one: "and %{stat} <span>rejected %{stat_type}</span> Approval "
       other: "and %{stat} <span>rejected %{stat_type}</span> Approvals "
     count_new_bia_approvals:
-      one: "You have %{stat} <span>new %{stat_type}</span> Approval, "
-      other: "You have %{stat} <span>new %{stat_type}</span> Approvals, "
+      one: "%{stat} <span>new %{stat_type}</span> Approval"
+      other: "%{stat} <span>new %{stat_type}</span> Approvals"
     count_new_case_plan_approvals:
-      one: "%{stat} <span>new %{stat_type}</span> Approval "
-      other: "%{stat} <span>new %{stat_type}</span> Approvals "
+      one: "%{stat} <span>new %{stat_type}</span> Approval"
+      other: "%{stat} <span>new %{stat_type}</span> Approvals"
     count_new_closure_approvals:
-      one: "and %{stat} <span>new %{stat_type}</span> Approval"
-      other: "and %{stat} <span>new %{stat_type}</span> Approvals"
+      one: "%{stat} <span>new %{stat_type}</span> Approval"
+      other: "%{stat} <span>new %{stat_type}</span> Approvals"
     count_pending_transfers:
       one: "You have %{stat} <span>pending</span> Transfer "
       other: "You have %{stat} <span>pending</span> Transfers "
@@ -1408,6 +1408,8 @@ en:
     new_this_week: "New <span>(this week)</span>"
     closed_last_week: "Closed <span>(last week)</span>"
     closed_this_week: "Closed <span>(this week)</span>"
+    you_have: "You have "
+    and: "and "
 
   errors:
 
