@@ -154,7 +154,7 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Record Information",
   "editable" => true,
   :fields => record_owner_fields,
-  :mobile_form => false
+  :mobile_form => false,
   "name_all" => "Record Information",
   "description_all" => "Record Information"
 })
