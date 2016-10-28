@@ -94,6 +94,20 @@ class Child < CouchRest::Model::Base
               }
             }"
 
+    view :ids_and_revs_by_owned_by,
+         :map => "function(doc) {
+              if (doc['couchrest-type'] == 'Child'){
+                emit(doc.owned_by, {_id: doc._id, _rev: doc._rev, last_updated_at: doc.last_updated_at});
+              }
+            }"
+
+    view :ids_and_revs_by_owned_by_and_marked_for_mobile,
+         :map => "function(doc) {
+              if (doc['couchrest-type'] == 'Child'){
+                emit([doc.owned_by, doc.marked_for_mobile], {_id: doc._id, _rev: doc._rev, last_updated_at: doc.last_updated_at});
+              }
+            }"
+
     view :by_generate_followup_reminders,
          :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -218,6 +232,23 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
   end
 
+  class << self
+    def fetch_all_ids_and_revs(owned_by_ids = [], marked_for_mobile, last_update_date)
+      if marked_for_mobile
+        all_rows = self.ids_and_revs_by_owned_by_and_marked_for_mobile(keys: owned_by_ids.map{|id| [id, true]}).rows
+      else
+        all_rows = self.ids_and_revs_by_owned_by(keys: owned_by_ids).rows
+      end
+
+      if all_rows.present?
+        all_rows = all_rows.select{|r| r['value']['last_updated_at'] > last_update_date} if last_update_date.present?
+        all_rows.present? ? all_rows.map{|r| r.value.except("last_updated_at")} : []
+      else
+        []
+      end
+    end
+  end
+
   def self.report_filters
     [
         {'attribute' => 'child_status', 'value' => ['Open']},
@@ -242,14 +273,7 @@ class Child < CouchRest::Model::Base
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
-  def self.fetch_all_ids_and_revs
-    ids_and_revs = []
-    all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
-    all_rows.each do |row|
-      ids_and_revs << row["value"]
-    end
-    ids_and_revs
-  end
+
 
   def self.by_date_of_birth_range(startDate, endDate)
     if startDate.is_a?(Date) && endDate.is_a?(Date)

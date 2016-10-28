@@ -1,35 +1,20 @@
 class ChildIdsController < ApplicationController
   def all
-    @user = current_user.managed_user_names
-    @children = Child.by_ids_and_revs.select { |f| @user.include? f.owned_by }
-    if params["mobile"]
-      @children = mark_for_mobile(@children)
-    end
-    if params["last_update"]
-      @children = new_update_after_last_update(@children, params["last_update"])
-    end
-    @children = show_ids_and_revs(@children)
-    render :json => @children
+    child_json = Child.fetch_all_ids_and_revs(managed_users, marked_for_mobile, last_update_date)
+    render :json => child_json
   end
 
-  def new_update_after_last_update(children, last_update)
-    children = children.select { |f| f.last_updated_at > last_update }
-    children
+  private
+
+  def managed_users
+    current_user.managed_user_names
   end
 
-  def mark_for_mobile(children)
-    children = children.select { |f| f.marked_for_mobile? }
-    children
+  def marked_for_mobile
+    ['true', '1'].include? params["mobile"] ? true : false
   end
 
-  def show_ids_and_revs(children)
-    children = children.map do |child|
-      child_ids_and_revs = Hash.new
-      child_ids_and_revs["_id"], child_ids_and_revs["_rev"] = child._id, child._rev
-      child_ids_and_revs
-    end
-    children
+  def last_update_date
+    @last_update_date ||= params["last_update"]
   end
-
-
 end
