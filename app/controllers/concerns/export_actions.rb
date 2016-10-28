@@ -31,7 +31,11 @@ module ExportActions
           :organization => current_user.organization,
           :model_type => model_class.name.downcase,
           :ids => models.collect(&:id))
-        props = authorized_export_properties(exporter, current_user, current_modules, model_class)
+        if model_class.is_a_record?
+          props = authorized_export_properties(exporter, current_user, current_modules, model_class)
+        else
+          props = model_class.properties
+        end
         file_name = export_filename(models, exporter)
         if models.present?
           export_data = exporter.export(models, props, current_user, params[:custom_exports])

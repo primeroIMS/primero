@@ -351,6 +351,10 @@ module Record
       self.permitted_properties(user, primero_module, read_only_user).map {|p| p.name }
     end
 
+    def is_a_record?
+      true
+    end
+
   end
 
   def initialize(*args)
