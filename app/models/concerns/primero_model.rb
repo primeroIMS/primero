@@ -45,11 +45,6 @@ module PrimeroModel
       end
     end
 
-    #This should be overridden in record concern as 'true'
-    def is_a_record?
-      false
-    end
-
   end
 
   # @param attr_keys: An array whose elements are properties and array indeces

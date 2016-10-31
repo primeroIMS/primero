@@ -31,11 +31,7 @@ module ExportActions
           :organization => current_user.organization,
           :model_type => model_class.name.downcase,
           :ids => models.collect(&:id))
-        if model_class.is_a_record?
-          props = authorized_export_properties(exporter, current_user, current_modules, model_class)
-        else
-          props = model_class.properties
-        end
+        props = export_properties(exporter)
         file_name = export_filename(models, exporter)
         if models.present?
           export_data = exporter.export(models, props, current_user, params[:custom_exports])
@@ -48,6 +44,11 @@ module ExportActions
         end
       end
     end
+  end
+
+  #exporter is passed in because it is needed in the overidden method in record_actions
+  def export_properties(exporter)
+    model_class.properties
   end
 
   def queue_bulk_export(format, props, file_name)
