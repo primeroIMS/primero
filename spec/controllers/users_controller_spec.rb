@@ -240,6 +240,14 @@ describe UsersController do
       end
     end
 
+    context 'when exporting' do
+      it 'exports users' do
+        params = {"action"=>"index", "controller"=>"users", "page"=>"all", "per_page"=>"all", "password"=>"111", "selected_records"=>"", "format"=>"json"}
+        get :index, params
+        expect(response.status).to eq(200)
+      end
+    end
+
     it "shows the page name" do
       get :index
       assigns[:page_name].should == "Manage Users"
