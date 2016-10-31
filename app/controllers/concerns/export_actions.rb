@@ -1,6 +1,8 @@
 module ExportActions
   extend ActiveSupport::Concern
 
+  #TODO - This method remains here though it is called in record_actions and transition_actions
+  #TODO - This may need some future refactor / cleanup
   def authorized_export_properties(exporter, user, primero_modules, model_class)
     if exporter.authorize_fields_to_user?
       if exporter.id == 'list_view_csv'
