@@ -241,8 +241,7 @@ class HomeController < ApplicationController
     queries = {
       totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
       new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
-      #TODO: Temporarily commenting out cases by assesment level. Put these back in when the dashboard is configurable.
-      #risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
       manager_totals: manager_case_query({ by_case_status: true}),
       referred_total: manager_case_query({ referred: true, status: 'Open' }),
       referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
