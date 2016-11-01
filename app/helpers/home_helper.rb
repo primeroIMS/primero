@@ -68,6 +68,9 @@ module HomeHelper
       approval_status_bia: "scope[approval_status_bia]=list||",
       approval_status_case_plan: "scope[approval_status_case_plan]=list||",
       approval_status_closure: "scope[approval_status_closure]=list||",
+      bia_approved_date: "scope[bia_approved_date]=date_range||",
+      case_plan_approved_date: "scope[case_plan_approved_date]=date_range||",
+      closure_approved_date: "scope[closure_approved_date]=date_range||",
       transfer_status: "scope[transfer_status]=list||",
       transferred_to_users: "scope[transferred_to_users]=list||#{current_user.user_name}"
     }
@@ -88,6 +91,10 @@ module HomeHelper
 
   def this_week
     return "#{DateTime.now.beginning_of_week.strftime("%d-%b-%Y")}.#{DateTime.now.end_of_week.strftime("%d-%b-%Y")}"
+  end
+
+  def last_ten_days
+    return "#{(DateTime.now - 10.days).strftime("%d-%b-%Y")}.#{(DateTime.now + 1.day).strftime("%d-%b-%Y")}"
   end
 
   private

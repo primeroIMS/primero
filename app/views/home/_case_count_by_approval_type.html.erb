@@ -82,6 +82,7 @@
                            filter: index_filters(
                              ['child_status=Open',
                               "approval_status_bia=#{I18n.t('approvals.status.approved')}",
+                              "bia_approved_date=#{last_ten_days}",
                               'record_state=true']
                            )
                          }, stats, model)).html_safe %>
@@ -101,6 +102,7 @@
                            filter: index_filters(
                              ['child_status=Open',
                               "approval_status_case_plan=#{I18n.t('approvals.status.approved')}",
+                              "case_plan_approved_date=#{last_ten_days}",
                               'record_state=true']
                            )
                          }, stats, model)).html_safe %>
@@ -120,6 +122,7 @@
                            filter: index_filters(
                              ['child_status=Open',
                               "approval_status_closure=#{I18n.t('approvals.status.approved')}",
+                              "closure_approved_date=#{last_ten_days}",
                               'record_state=true']
                            )
                          }, stats, model)).html_safe %>
