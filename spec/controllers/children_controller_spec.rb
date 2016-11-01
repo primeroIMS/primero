@@ -46,6 +46,7 @@ describe ChildrenController do
     describe 'collection' do
       it "GET index" do
         Ability.any_instance.stub(:can?).with(anything, Child).and_return(false)
+        Ability.any_instance.stub(:can?).with(anything, Dashboard).and_return(false)
         get :index
         expect(response).to be_forbidden
       end
