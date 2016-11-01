@@ -16,6 +16,7 @@ record_owner_fields = [
             }),
   Field.new({"name" => "agency_organization",
              "type" => "select_box",
+             "visible" => false,
              "display_name_all" => "Agency",
              "option_strings_text_all" =>
                                     ["Agency1",
