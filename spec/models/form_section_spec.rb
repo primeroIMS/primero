@@ -1212,4 +1212,46 @@ describe FormSection do
     end
 
   end
+
+  describe "Violation forms" do
+    before do
+      FormSection.all.each &:destroy
+      @violation = FormSection.create_or_update_form_section({
+        unique_id: "sexual_violence",
+        name: "sexual_violence",
+      })
+      fields = [
+        Field.new({
+          name: "field1",
+          display_name_all: 'field1',
+          type: "subform",
+          subform_section_id: @violation.unique_id
+        })
+      ]
+      @wrapper_form = FormSection.create_or_update_form_section({
+        :unique_id => "wrapper",
+        :name => "wrapper",
+        :fields => fields
+      })
+      @other_form = FormSection.create_or_update_form_section({
+        unique_id: "other_form",
+        name: "other_form",
+      })
+    end
+
+    it "identifies a violation form" do
+      expect(@violation.is_violation?).to be_true
+      expect(@other_form.is_violation?).to be_false
+    end
+
+    it "identifies a violation wrapper" do
+      expect(@wrapper_form.is_violation_wrapper?).to be_true
+      expect(@other_form.is_violation_wrapper?).to be_false
+    end
+
+    after do
+      FormSection.all.each &:destroy
+    end
+
+  end
 end
