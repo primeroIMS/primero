@@ -1,0 +1,168 @@
+
+
+@font-face {
+    font-family: 'webfontregular';
+    src: url('canaro-bold-webfont.woff2') format('woff2'),
+         url('canaro-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'webfontregular';
+    src: url('canaro-bolditalic-webfont.woff2') format('woff2'),
+         url('canaro-bolditalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.cp
+{
+    background :url('../images/kids.jpg') no-repeat;
+    text-align:center;
+  }
+
+.cp a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.cp:hover a { color: #CCCCCC }
+
+
+.adm
+{
+    background :url('../images/papel.jpg') no-repeat;
+    text-align:center;
+}
+
+.adm a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.adm:hover a { color: #CCCCCC }
+
+
+.hos
+{
+    background :url('../images/cidade.jpg') no-repeat;
+    text-align:center;s
+}
+
+.hos a { 
+   font-size: 1.0em;
+   color:#ffffff;s
+} 
+
+.hos:hover a { color: #f3c300}
+
+
+.con
+{
+    background :url('../images/people3.jpg') no-repeat;
+    text-align:center;
+}
+
+.con a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.con:hover a { color: #f3c300}
+
+.glo
+{
+    background :url('../images/cidade2.jpg') no-repeat;
+    text-align:center;
+}
+
+.glo a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.glo:hover a { color: #757573}
+
+.win
+{
+    background :url('../images/lapis.jpg') no-repeat;
+    text-align:center;
+}
+
+.win a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.win:hover a { color: #CCCCCC }
+
+.bun
+{
+    background :url('../images/people.jpg') no-repeat;
+    text-align:center;
+}
+
+.bun a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.bun:hover a { color: #CCCCCC }
+
+
+.syn
+{
+    background :url('../images/relogio.jpg') no-repeat;
+    text-align:center;
+}
+
+.syn a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.syn:hover a { color: #CCCCCC }
+
+.faq
+{
+    background :url('../images/faq.png') no-repeat;
+    text-align:center;
+}
+
+.faq a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.faq:hover a { color: #CCCCCC }
+
+
+.gbvims
+{
+    background :url('../images/gbvims.png') no-repeat;
+    text-align:center;
+}
+
+.gbvims a { 
+   font-size: 1.0em;
+   color:#ffffff;
+} 
+
+.gbvims:hover a { color: #757573}
+
+.rcorners {
+    border-radius: 25px;
+    background: #e0e1d8;
+    padding: 20px; 
+    width: 100%;
+}
+
+.tablestyle {
+    border-radius: 25px;
+    padding: 20px; 
+    width: 100%;
+}

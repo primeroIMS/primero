@@ -1,0 +1,10 @@
+@font-face {
+	font-family: 'webfontregular';
+	font-weight: normal;
+	font-style: normal;
+}
+
+.icon-logo:before {
+  font-family: 'webfontregular';
+  content: "\e600";
+}

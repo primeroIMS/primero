@@ -1,0 +1,16 @@
+markdown: kramdown
+highlighter: rouge
+relative_permalinks: false
+permalink: /news/:year/:month/:day/:title/
+excerpt_separator: ""
+
+baseurl: /primero
+repository: https://github.com/primeroIMS/hello.world
+
+collections:
+  docs:
+    output: true
+
+html_pages: /docs/PrimeroGuides
+
+   
