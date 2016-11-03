@@ -161,6 +161,7 @@ In the cookbook folder of the checkout there is a file called `dev_node.json` wh
 ```
 
 then run the deplyment command
+
 ```
 ssh user@xx.xx.xx.x 'which chef-solo' || knife solo prepare --bootstrap-version=11.10.4 user@xx.xx.xx.xx
 knife solo cook user@xx.xx.xx.xx ../dev-node.json
