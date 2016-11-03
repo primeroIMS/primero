@@ -488,8 +488,6 @@ class FormSection < CouchRest::Model::Base
             #Copied this code from the old reporting method.
             #TODO - this can be improved
             forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
-            violation_forms = FormSection.violation_forms
-            #forms = forms.select{|f| violation_forms.include?(f) || !f.is_nested?}
             forms = forms.select{|f| f.is_violation? || !f.is_nested?}
           else
             if apply_to_reports
