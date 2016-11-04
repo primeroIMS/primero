@@ -33,7 +33,7 @@ Requirements
 
 Checkout Primero repository
 ------------
-### Make sure you have git installed
+_Make sure you have git installed_
 
 #### OSX
 ```sh
