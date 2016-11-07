@@ -66,5 +66,24 @@ module Matchable
       end
       fields
     end
+
+    def match_boost_fields
+      #To be overridden by including model
+      []
+    end
+
+    def form_matchable_fields
+      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, false)
+      Array.new(form_fields).map(&:name)
+    end
+
+    def subform_matchable_fields
+      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form)
+      Array.new(form_fields).map(&:name)
+    end
+
+    def matchable_fields
+      form_matchable_fields.concat(subform_matchable_fields)
+    end
   end
 end

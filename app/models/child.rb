@@ -28,8 +28,6 @@ class Child < CouchRest::Model::Base
   include AudioUploader
   include AutoPopulatable
 
-  FORM_NAME = 'case'
-
   property :case_id
   property :case_id_code
   property :case_id_display
@@ -185,26 +183,6 @@ class Child < CouchRest::Model::Base
         {field: 'relations', match: 'relation', boost: 0.5},
         {field: 'date_of_birth', match: 'date_of_birth', boost: 0.5, date: true}
     ]
-  end
-
-  #TODO v1.3: These should live in a matcheable concern?
-  def self.form_matchable_fields
-    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME, false)
-    Array.new(form_fields).map(&:name)
-  end
-
-  def self.subform_matchable_fields
-    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME)
-    Array.new(form_fields).map(&:name)
-  end
-
-  #TODO v1.3: This method already exists. Use it
-  def self.find_by_case_id(child_id)
-    by_id(:key => child_id).first
-  end
-
-  def self.matchable_fields
-    form_matchable_fields.concat(subform_matchable_fields)
   end
 
   include Flaggable

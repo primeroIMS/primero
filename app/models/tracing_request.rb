@@ -9,12 +9,11 @@ class TracingRequest < CouchRest::Model::Base
   include PhotoUploader
   include AudioUploader
   include Flaggable
+  include Matchable
 
   property :tracing_request_id
   property :relation_name
   property :reunited, TrueClass
-
-  FORM_NAME = 'tracing_request'
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -53,20 +52,6 @@ class TracingRequest < CouchRest::Model::Base
         'tracing_request_id', 'short_id', 'relation_name', 'relation_nickname', 'tracing_names', 'tracing_nicknames',
         'monitor_number', 'survivor_code'
     ]
-  end
-
-  def self.form_matchable_fields
-    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME, false)
-    Array.new(form_fields).map(&:name)
-  end
-
-  def self.subform_matchable_fields
-    form_fields = FormSection.get_matchable_fields_by_parent_form(FORM_NAME)
-    Array.new(form_fields).map(&:name)
-  end
-
-  def self.matchable_fields
-    form_matchable_fields.concat(subform_matchable_fields)
   end
 
   include Searchable #Needs to be after ownable

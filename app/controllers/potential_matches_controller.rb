@@ -147,7 +147,8 @@ class PotentialMatchesController < ApplicationController
         if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"]
           match_detail = {}
           match_detail["child_id"] = potential_match.child_id
-          child = Child.find_by_case_id potential_match.child_id
+          child = Child.get(potential_match.child_id)
+          #TODO v1.3: need to check if we got a child record back
           match_detail["case_id"] = potential_match.case_id
           match_detail["age"] = is_visible?(child.owned_by, associated_user_names) ? child.age : "***"
           match_detail["sex"] = is_visible?(child.owned_by, associated_user_names) ? child.sex : "***"
