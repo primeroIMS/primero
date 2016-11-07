@@ -207,7 +207,6 @@ class Child < CouchRest::Model::Base
     form_matchable_fields.concat(subform_matchable_fields)
   end
 
-  include Searchable #Needs to be after ownable, quicksearch fields
   include Flaggable
   include Transitionable
   include Reopenable

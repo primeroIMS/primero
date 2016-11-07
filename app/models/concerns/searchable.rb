@@ -8,18 +8,16 @@ module Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
     searchable do
-      quicksearch_fields.each { |f| text f }
-      searchable_string_fields.each { |f| string f, as: "#{f}_sci".to_sym }
-      searchable_multi_fields.each { |f| string f, multiple: true } if self.include?(Record)
+      quicksearch_fields.each {|f| text f}
+      searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
+      searchable_multi_fields.each {|f| string f, multiple: true} if search_multi_fields?
 
       #if instance is a child do phonetic search on names
+      #TODO v1.3 - why is the line below commented out?
       # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
-      searchable_date_fields.each { |f| date f }
-      searchable_numeric_fields.each { |f| integer f } if self.include?(Record)
       searchable_date_fields.each {|f| date f}
-      searchable_numeric_fields.each {|f| integer f}
-      #TODO v1.3: They were checking if this is a record... 
+      searchable_numeric_fields.each {|f| integer f} if search_numeric_fields?
       searchable_boolean_fields.each {|f| boolean f}
       #TODO: This needs to be a derived field/method in the ownable concern
       boolean :not_edited_by_owner do
@@ -29,7 +27,7 @@ module Searchable
         if self.transitions.present?
           self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
         end
-      end  
+      end
       string :transferred_to_users, multiple: true do
         if self.transitions.present?
           self.transitions.select{|t| t.is_transfer_in_progress?}
@@ -43,7 +41,6 @@ module Searchable
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
       end
-      #text :name, as: :name_ph
       string :sortable_name, as: :sortable_name_sci
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
@@ -104,7 +101,7 @@ module Searchable
         end
 
         sort={:average_rating => :desc} if match.present?
-        sort.each { |sort_field, order| order_by(sort_field, order) }
+        sort.each {|sort_field, order| order_by(sort_field, order)}
         paginate pagination(pagination_parms)
       end
     end
@@ -113,7 +110,7 @@ module Searchable
     def build_filters(sunspot, filters={})
       sunspot.instance_eval do
         #TODO: pop off the locations filter and perform a fulltext search
-        filters.each do |filter, filter_value|
+        filters.each do |filter,filter_value|
           if searchable_location_fields.include? filter
             #TODO: Putting this code back in, but we need a better system for filtering locations in the future
             if filter_value[:type] == 'location_list'
@@ -136,7 +133,7 @@ module Searchable
                     with(filter, range_start...range_stop)
                   end
                 end
-                when 'date_range'
+              when 'date_range'
                 if values.count > 1
                   to, from = values.first, values.last
                   with(filter).between(to..from)
@@ -209,7 +206,7 @@ module Searchable
        "created_organization", "owned_by_agency", "owned_by_location"] +
       searchable_approvable_fields +
       searchable_transition_fields +
-      Field.all_filterable_field_names(self.parent_form)  
+      Field.all_filterable_field_names(self.parent_form)
     end
 
     def searchable_phonetic_fields
@@ -256,6 +253,14 @@ module Searchable
 
     def filter_associated_users?(match=nil, associated_user_names=nil)
       match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
+    end
+
+    def search_multi_fields?
+      true
+    end
+
+    def search_numeric_fields?
+      true
     end
 
   end

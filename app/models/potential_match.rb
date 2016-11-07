@@ -132,6 +132,16 @@ class PotentialMatch < CouchRest::Model::Base
     false
   end
 
+  #Overriding method in searchable concern
+  def search_multi_fields?
+    false
+  end
+
+  #Overriding method in searchable concern
+  def search_numeric_fields?
+    false
+  end
+
   class << self
     alias :old_all :all
     alias :get_all :all
