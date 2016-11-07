@@ -468,8 +468,13 @@ header h1 {
   width: 540px;
 }
 
+@font-face {
+    font-family: "Canaro Light";
+    src: url("canaro-bold-webfont.woff") format('woff');
+}
+
 header h2 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: 26px;
   color: #9ddcff;
   font-weight: normal;
