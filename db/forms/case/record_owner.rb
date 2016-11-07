@@ -53,6 +53,7 @@ record_owner_fields = [
   Field.new({"name" => "agency_name",
              "type" =>"select_box" ,
              "display_name_all" => "Agency",
+             "visible" => false,
              "option_strings_text_all" =>
                           ["German Technical Cooperation",
                            "GTZ",
@@ -75,6 +76,7 @@ record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "telephone_agency",
           "type" => "text_field",
+          "visible" => false,
           "display_name_all" => "Agency Telephone"
            }),
   Field.new({"name" => "assigned_user_names",

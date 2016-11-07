@@ -6,6 +6,8 @@ class ChildrenController < ApplicationController
   include ApprovalActions
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
+  #TODO: This should go away once filters are configurable in the role
+  before_filter :filter_risk_level, :only => [:index]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
@@ -253,6 +255,10 @@ class ChildrenController < ApplicationController
     #The UNHCR report should retrieve only CP cases.
     filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::CP}"} if params["format"] == "unhcr_csv"
     filter
+  end
+
+  def filter_risk_level
+    @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.is_admin?)
   end
 
   def update_record_with_attachments(child)

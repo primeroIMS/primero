@@ -383,6 +383,11 @@ module RecordActions
     end
   end
 
+  #This overrides method in export_actions
+  def export_properties(exporter)
+    authorized_export_properties(exporter, current_user, @current_modules, model_class)
+  end
+
   private
 
   #Discard nil values and empty arrays.

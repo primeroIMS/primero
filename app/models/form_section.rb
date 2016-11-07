@@ -255,7 +255,7 @@ class FormSection < CouchRest::Model::Base
 
     def violation_forms
       ids = Incident.violation_id_fields.keys
-      FormSection.by_unique_id(keys: ids)
+      FormSection.by_unique_id(keys: ids).all
     end
     memoize :violation_forms #This can be memoized always
 
@@ -499,8 +499,7 @@ class FormSection < CouchRest::Model::Base
             #Copied this code from the old reporting method.
             #TODO - this can be improved
             forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
-            violation_forms = FormSection.violation_forms
-            forms = forms.select{|f| violation_forms.include?(f) || !f.is_nested?}
+            forms = forms.select{|f| f.is_violation? || !f.is_nested?}
           else
             if apply_to_reports
               #For reporting show all forms, not just the visible.
@@ -732,6 +731,17 @@ class FormSection < CouchRest::Model::Base
     new_field_names.each { |name| new_fields << fields.find { |field| field.name == name } }
     self.fields = new_fields
     self.save
+  end
+
+  def is_violation?
+    FormSection.violation_forms.map(&:unique_id).include? self.unique_id
+  end
+
+  def is_violation_wrapper?
+    self.fields.present? &&
+    self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
+      Incident.violation_id_fields.keys.include?(f.subform_section_id)
+    end
   end
 
   protected

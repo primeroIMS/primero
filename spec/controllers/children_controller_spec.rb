@@ -46,6 +46,7 @@ describe ChildrenController do
     describe 'collection' do
       it "GET index" do
         Ability.any_instance.stub(:can?).with(anything, Child).and_return(false)
+        Ability.any_instance.stub(:can?).with(anything, Dashboard).and_return(false)
         get :index
         expect(response).to be_forbidden
       end
@@ -505,12 +506,16 @@ describe ChildrenController do
         #TODO - remove owned_by_location_district references
         #TODO - create test like this in home controller for dashboard
 
-        create(:child, name: "Name 1", child_status: "Open", age: "5", case_id_display: "UN-TEST-0001")
-        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1', owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0002")
+        @child_1 = create(:child, name: "Name 1", child_status: "Open", age: "5", case_id_display: "UN-TEST-0001",
+                          approval_status_bia: "Approved", bia_approved_date: "25-Oct-2016")
+        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1',
+                              owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0002", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2016")
         create(:child, name: "Name 3", child_status: "Closed", age: "7", case_id_display: "UN-TEST-0003")
-        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1', owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0004")
+        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1',
+                               owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0004", approval_status_bia: "Approved", bia_approved_date: "20-Oct-2016")
         create(:child, name: "Name 5", child_status: "Closed", age: "15", case_id_display: "UN-TEST-0005")
-        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0006")
+        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2',
+                               owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0006", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2015")
         create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0007")
         create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false, case_id_display: "UN-TEST-0008")
         create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true, case_id_display: "UN-TEST-0009")
@@ -616,6 +621,14 @@ describe ChildrenController do
             expect(assigns[:children].length).to eq(1)
             expect(assigns[:children].first).to eq(@child_age_7)
           end
+        end
+      end
+      context "dasboard links" do
+        it "should list BIA approvals within a date range" do
+          params = {"scope" => {"child_status" => "list||Open", "approval_status_bia" => "list||Approved",
+                                "bia_approved_date" => "date_range||22-10-2016.02-11-2016"}}
+          get :index, params
+          expect(assigns[:children]).to match_array([@child_1, @child_age_7])
         end
       end
     end
