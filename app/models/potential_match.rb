@@ -122,6 +122,16 @@ class PotentialMatch < CouchRest::Model::Base
     self.short_id ||= self.unique_identifier.last 7
   end
 
+  #Overriding method in searchable concern
+  def pagination(pagination_parms=nil)
+    {page:1, per_page:PotentialMatch.count}
+  end
+
+  #Overriding method in searchable concern
+  def filter_associated_users?(match=nil, associated_user_names=nil)
+    false
+  end
+
   class << self
     alias :old_all :all
     alias :get_all :all

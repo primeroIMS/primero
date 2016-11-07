@@ -81,19 +81,15 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match=nil, model_class=nil)
-      #TODO v1.3: inelegant to be passing model class here. Can't use self? Or some indicator on the record?
-      pagination = {page:1, per_page:PotentialMatch.count} if model_class == PotentialMatch
+    def list_records(filters={}, sort={:created_at => :desc}, pagination_parms={}, associated_user_names=[], query=nil, match=nil)
       self.search do
         if filters.present?
           build_filters(self, filters)
         end
-        unless model_class == PotentialMatch
-          if match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
-            any_of do
-              associated_user_names.each do |user_name|
-                with(:associated_user_names, user_name)
-              end
+        if filter_associated_users?(match, associated_user_names)
+          any_of do
+            associated_user_names.each do |user_name|
+              with(:associated_user_names, user_name)
             end
           end
         end
@@ -109,7 +105,7 @@ module Searchable
 
         sort={:average_rating => :desc} if match.present?
         sort.each { |sort_field, order| order_by(sort_field, order) }
-        paginate pagination
+        paginate pagination(pagination_parms)
       end
     end
 
@@ -251,6 +247,15 @@ module Searchable
     #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
     def searchable_transition_fields
       ['transfer_status']
+    end
+
+    def pagination(pagination_parms={})
+      #This is to allow pagination to be overriden in the parent class
+      pagination_parms
+    end
+
+    def filter_associated_users?(match=nil, associated_user_names=nil)
+      match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
     end
 
   end
