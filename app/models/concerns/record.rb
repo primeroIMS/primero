@@ -484,6 +484,7 @@ module Record
   end
 
   def create_identification
+    #TODO v1.3: why is case_id used here?
     self.unique_identifier ||= (self.case_id || UUIDTools::UUID.random_create.to_s)
     self.short_id ||= self.unique_identifier.last 7
     #Method should be defined by the derived classes.
@@ -543,6 +544,7 @@ module Record
 
   def match_criteria(match_request=nil)
     match_criteria = {}
+    #TODO v1.3: facepalm :/
     if self.class.to_s == 'TracingRequest'
       self.class.subform_matchable_fields.each do |field|
         match_criteria[:"#{field}"] = (match_request[:"#{field}"].is_a? Array) ? match_request[:"#{field}"].join(' ') : match_request[:"#{field}"]
