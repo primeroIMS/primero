@@ -21,12 +21,11 @@ class HomeController < ApplicationController
     display_assessment?
   end
 
-
   private
 
   def search_flags(options={})
     managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
-    map_flags(Flag.search {
+    map_flags(Flag.search{
       with(options[:field]).between(options[:criteria]) if options[:field].present? && options[:criteria].present?
       with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
       without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
@@ -39,20 +38,20 @@ class HomeController < ApplicationController
   end
 
   def map_flags(flags)
-    flags.map { |flag|
+    flags.map{ |flag|
       {
-          record_id: flag.stored(:flag_record_id),
-          message: flag.stored(:flag_message),
-          flagged_by: flag.stored(:flag_flagged_by),
-          record_owner: flag.stored(:flag_owner),
-          date: flag.stored(:flag_date),
-          created_at: flag.stored(:flag_created_at),
-          system_generated_follow_up: flag.stored(:flag_system_generated_follow_up),
-          short_id: flag.stored(:flag_record_short_id),
-          record_type: flag.stored(:flag_record_type),
-          name: flag.stored(:flag_child_name),
-          hidden_name: flag.stored(:flag_hidden_name),
-          date_of_first_report: flag.stored(:flag_date_of_first_report),
+        record_id: flag.stored(:flag_record_id),
+        message: flag.stored(:flag_message),
+        flagged_by: flag.stored(:flag_flagged_by),
+        record_owner: flag.stored(:flag_owner),
+        date: flag.stored(:flag_date),
+        created_at: flag.stored(:flag_created_at),
+        system_generated_follow_up: flag.stored(:flag_system_generated_follow_up),
+        short_id: flag.stored(:flag_record_short_id),
+        record_type: flag.stored(:flag_record_type),
+        name: flag.stored(:flag_child_name),
+        hidden_name: flag.stored(:flag_hidden_name),
+        date_of_first_report: flag.stored(:flag_date_of_first_report),
       }
     }
   end
@@ -258,8 +257,8 @@ class HomeController < ApplicationController
 
   def load_user_module_data
     @modules = @current_user.modules
-    @module_ids = @modules.map { |m| m.id }
-    @record_types = @modules.map { |m| m.associated_record_types }.flatten.uniq
+    @module_ids = @modules.map{|m| m.id}
+    @record_types = @modules.map{|m| m.associated_record_types}.flatten.uniq
   end
 
   def load_system_settings

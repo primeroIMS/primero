@@ -64,11 +64,11 @@ module RecordActions
       format.html
       unless params[:password]
         format.json do
-          @records = @records.select { |r| r.marked_for_mobile } if params[:mobile].present?
+          @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?
           if params[:ids].present?
-            @records = @records.map { |r| r.id }
+            @records = @records.map{|r| r.id}
           else
-            @records = @records.map { |r| format_json_response(r) }
+            @records = @records.map{|r| format_json_response(r)}
           end
 
           render :json => @records
@@ -117,7 +117,7 @@ module RecordActions
         end
       end unless params[:password]
 
-      respond_to_export format, [@record]
+      respond_to_export format, [ @record ]
     end
   end
 
@@ -210,11 +210,11 @@ module RecordActions
 
   def sort_subforms
     if @record.present?
-      @record.field_definitions.select { |f| !f.subform_sort_by.nil? }.each do |field|
+      @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
         if @record[field.name].present?
           # Partitioning because dates can be nil. In this case, it causes an error on sort.
-          subforms = @record[field.name].partition { |r| r[field.subform_sort_by].nil? }
-          @record[field.name] = subforms.first + subforms.last.sort_by { |x| x[field.subform_sort_by] }.reverse
+          subforms = @record[field.name].partition{|r| r[field.subform_sort_by].nil?}
+          @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
         end
       end
     end
@@ -311,7 +311,7 @@ module RecordActions
 
   def current_modules
     record_type = model_class.parent_form
-    @current_modules ||= current_user.modules.select { |m| m.associated_record_types.include? record_type }
+    @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
   end
 
   def is_admin
@@ -359,7 +359,7 @@ module RecordActions
   # Filters out any unallowed parameters for a record and the current user
   def filter_params(record)
     permitted_keys = permitted_property_keys(record)
-    record_params.select { |k, v| permitted_keys.include?(k) }
+    record_params.select{|k,v| permitted_keys.include?(k) }
   end
 
   def record_short_id
@@ -434,7 +434,7 @@ module RecordActions
   end
 
   def module_users(module_ids)
-    @module_users = User.find_by_modules(module_ids).map(&:user_name).reject { |u| u == current_user.user_name }
+    @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
   end
 
   protected

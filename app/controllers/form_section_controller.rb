@@ -19,7 +19,7 @@ class FormSectionController < ApplicationController
       format.html
       format.json do
         #TODO: What about module and type parameters?
-          if params[:mobile]
+        if params[:mobile].present?
           @lookups = Lookup.all.all
           @locations = Location.all_names
           @form_sections = format_for_mobile(@form_sections, params[:locale], params[:parent_form])
@@ -139,20 +139,20 @@ class FormSectionController < ApplicationController
     @form_sections.values.each do |form_group|
       form_list += form_group
     end
-    @forms_for_move = form_list.sort_by { |form| form.name || "" }.map { |form| [form.name, form.unique_id] }
+    @forms_for_move = form_list.sort_by{ |form| form.name || "" }.map{ |form| [form.name, form.unique_id] }
   end
 
   def get_lookups
     lookups = Lookup.get_all
-    @lookup_options = lookups.map { |lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"] }
+    @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
     @lookup_options.unshift("", "Location")
   end
 
   def format_for_mobile(form_sections, locale_param=nil, parent_form_param=nil)
     #Flatten out the form sections, discarding form groups
-    form_sections = form_sections.reduce([]) { |memo, elem| memo + elem[1] }.flatten
+    form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
     #Discard the non-mobile form sections
-    form_sections = form_sections.select { |f| f.mobile_form? }
+    form_sections = form_sections.select{|f| f.mobile_form?}
     #Transform the i18n values
     requested_locales = if locale_param.present? && Primero::Application::locales.include?(locale_param)
                           [locale_param]
