@@ -5,10 +5,10 @@ class PotentialMatchesController < ApplicationController
   include RecordFilteringPagination
   include RecordActions
   require "will_paginate/array"
-  ALL_FILTER = "all"
 
 
   #TODO v1.3: This controller should be merged with RecordActions and the business logic refactored into the models
+  #TODO v1.3: need controller rspec for this
   def index
     authorize! :index, model_class
     @page_name = t("home.view_records")
@@ -28,24 +28,16 @@ class PotentialMatchesController < ApplicationController
     module_users(module_ids) if module_ids.present?
     instance_variable_set("@#{list_variable_name}", @records)
 
-    @type = params[:type] || "tracing_request"
+    #TODO v1.3: this next section needs to be refactored - WIP
+    #Most of this index method is a carbon copy of the one in record_actions
+    match_model_class
     @associated_user_names = users_filter
-    case @type
-      when "case"
-        @match_results = get_all_case @associated_user_names
-        @match_results = get_all_match_details_by_case @match_results, @potential_matches, @associated_user_names
-      when "tracing_request"
-        @match_results = get_all_tr_pairs @associated_user_names
-        @match_results = get_all_match_details_by_tr @match_results, @potential_matches, @associated_user_names
-      else
-        @match_results = []
-    end
-
+    @match_results = @match_model_class.all_matches(@associated_user_names)
+    @match_results = @match_model_class.all_match_details(@match_results, @potential_matches, @associated_user_names) if @match_results.present?
 
     @per_page = per_page
     @match_results = @match_results.paginate(:page => page, :per_page => per_page)
     @total_records = @match_results.total_entries
-
 
     respond_to do |format|
       format.html
@@ -83,130 +75,6 @@ class PotentialMatchesController < ApplicationController
     filter
   end
 
-  def get_all_tr_pairs associated_user_names
-    pagination = {page: 1, per_page: TracingRequest.count}
-    search = TracingRequest.search do
-      if associated_user_names.present? && associated_user_names.first != ALL_FILTER
-        any_of do
-          associated_user_names.each do |user_name|
-            with(:associated_user_names, user_name)
-          end
-        end
-      end
-      paginate pagination
-    end
-    @tracing_requests = search.results
-    match_result=[]
-    for t in @tracing_requests
-      for subform in t.tracing_request_subform_section
-        inquirer_tr_pair = {}
-        inquirer_tr_pair["tracing_request_id"] = t.tracing_request_id || ""
-        inquirer_tr_pair["tr_uuid"] = t._id || ""
-        inquirer_tr_pair["relation_name"] = t.relation_name || ""
-        inquirer_tr_pair["inquiry_date"] = t.inquiry_date || ""
-        inquirer_tr_pair["subform_tracing_request_id"] = subform.unique_id
-        inquirer_tr_pair["subform_tracing_request_name"] = subform.name
-        inquirer_tr_pair["match_details"] = []
-        match_result << inquirer_tr_pair
-      end
-    end
-    match_result
-  end
-
-  def get_all_case associated_user_names
-    pagination = {page: 1, per_page: Child.count}
-    search = Child.search do
-      if associated_user_names.present? && associated_user_names.first != ALL_FILTER
-        any_of do
-          associated_user_names.each do |user_name|
-            with(:associated_user_names, user_name)
-          end
-        end
-      end
-      paginate pagination
-    end
-    @cases = search.results
-    match_result=[]
-    for c in @cases
-      case_details = {}
-      case_details["case_id"] = c.case_id
-      case_details["child_id"] = c._id
-      case_details["age"] = c.age
-      case_details["sex"] = c.sex
-      case_details["registration_date"] = c.registration_date
-      case_details["match_details"] = []
-      match_result << case_details
-    end
-    match_result
-  end
-
-  def get_all_match_details_by_tr(match_results=[], potential_matches=[], associated_user_names)
-    for match_result in match_results
-      count = 0
-      for potential_match in potential_matches
-        if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"]
-          match_detail = {}
-          match_detail["child_id"] = potential_match.child_id
-          child = Child.get(potential_match.child_id)
-          #TODO v1.3: need to check if we got a child record back
-          match_detail["case_id"] = potential_match.case_id
-          match_detail["age"] = is_visible?(child.owned_by, associated_user_names) ? child.age : "***"
-          match_detail["sex"] = is_visible?(child.owned_by, associated_user_names) ? child.sex : "***"
-          match_detail["registration_date"] = is_visible?(child.owned_by, associated_user_names) ? child.registration_date : "***"
-          match_detail["owned_by"] = child.owned_by
-          match_detail["visible"] = is_visible?(child.owned_by, associated_user_names)
-          match_detail["average_rating"] =potential_match.average_rating
-          match_result["match_details"] << match_detail
-          count += 1
-        end
-      end
-      match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
-                                          .first(20)
-    end
-    compact_result match_results
-    sort_hash match_results
-  end
-
-  def get_all_match_details_by_case(match_results=[], potential_matches=[], associated_user_names)
-    for match_result in match_results
-      count = 0
-      for potential_match in potential_matches
-        if potential_match["case_id"] == match_result["case_id"]
-          match_detail = {}
-          match_detail["tracing_request_id"] = potential_match.tr_id
-          inquiry = TracingRequest.find_by_tracing_request_id potential_match.tr_id
-          match_detail["tr_uuid"] = inquiry._id
-          for subform in inquiry.tracing_request_subform_section
-            if subform.unique_id == potential_match.tr_subform_id
-              match_detail["subform_tracing_request_name"] = is_visible?(inquiry.owned_by, associated_user_names) ? subform.name : "***"
-            end
-          end
-          match_detail["inquiry_date"] = is_visible?(inquiry.owned_by, associated_user_names) ? inquiry.inquiry_date : "***"
-          match_detail["relation_name"] = is_visible?(inquiry.owned_by, associated_user_names) ? inquiry.relation_name : "***"
-          match_detail["visible"] = is_visible?(inquiry.owned_by, associated_user_names)
-          match_detail["average_rating"] =potential_match.average_rating
-          match_detail["owned_by"] =inquiry.owned_by
-          match_result["match_details"] << match_detail
-          count += 1
-        end
-      end
-      match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
-                                          .first(20)
-    end
-    compact_result match_results
-    sort_hash match_results
-  end
-
-  def compact_result match_results
-    match_results.delete_if { |h| h["match_details"].length == 0 }
-    match_results
-  end
-
-  def sort_hash match_results
-    match_results = match_results.sort_by { |hash| -find_max_score_element(hash["match_details"])["average_rating"] }
-    match_results
-  end
-
   def find_max_score_element array
     array = array.max_by do |element|
       element["average_rating"]
@@ -214,7 +82,11 @@ class PotentialMatchesController < ApplicationController
     array
   end
 
-  def is_visible? owner, associated_user_names
-    return (associated_user_names.first == ALL_FILTER || associated_user_names.include?(owner))
+  private
+
+  def match_model_class
+    #TODO v1.3: I know this is a little hokey, but @type is used in the view
+    @type ||= params[:type] || "tracing_request"
+    @match_model_class ||= (@type == 'case' ? 'child' : @type).camelize.constantize
   end
 end

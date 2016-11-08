@@ -85,5 +85,40 @@ module Matchable
     def matchable_fields
       form_matchable_fields.concat(subform_matchable_fields)
     end
+
+    def all_matches(associated_user_names)
+      pagination = {page: 1, per_page: self.count}
+      search = self.search do
+        if associated_user_names.present? && associated_user_names.first != 'all'
+          any_of do
+            associated_user_names.each do |user_name|
+              with(:associated_user_names, user_name)
+            end
+          end
+        end
+        paginate pagination
+      end
+
+      results = match_results(search.results)
+    end
+
+    #To be overidden in included model
+    def match_results(results)
+      []
+    end
+
+    def is_match_visible? owner, associated_user_names
+      return (associated_user_names.first == 'all' || associated_user_names.include?(owner))
+    end
+
+    def compact_result match_results
+      match_results.delete_if { |h| h["match_details"].length == 0 }
+      match_results
+    end
+
+    def sort_hash match_results
+      match_results = match_results.sort_by { |hash| -find_max_score_element(hash["match_details"])["average_rating"] }
+      match_results
+    end
   end
 end
