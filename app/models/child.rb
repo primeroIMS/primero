@@ -92,20 +92,6 @@ class Child < CouchRest::Model::Base
               }
             }"
 
-    view :ids_and_revs_by_owned_by,
-         :map => "function(doc) {
-              if (doc['couchrest-type'] == 'Child'){
-                emit(doc.owned_by, {_id: doc._id, _rev: doc._rev, last_updated_at: doc.last_updated_at});
-              }
-            }"
-
-    view :ids_and_revs_by_owned_by_and_marked_for_mobile,
-         :map => "function(doc) {
-              if (doc['couchrest-type'] == 'Child'){
-                emit([doc.owned_by, doc.marked_for_mobile], {_id: doc._id, _rev: doc._rev, last_updated_at: doc.last_updated_at});
-              }
-            }"
-
     view :by_generate_followup_reminders,
          :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -211,21 +197,6 @@ class Child < CouchRest::Model::Base
   end
 
   class << self
-    def fetch_all_ids_and_revs(owned_by_ids = [], marked_for_mobile, last_update_date)
-      if marked_for_mobile
-        all_rows = self.ids_and_revs_by_owned_by_and_marked_for_mobile(keys: owned_by_ids.map{|id| [id, true]}).rows
-      else
-        all_rows = self.ids_and_revs_by_owned_by(keys: owned_by_ids).rows
-      end
-
-      if all_rows.present?
-        all_rows = all_rows.select{|r| r['value']['last_updated_at'] > last_update_date} if last_update_date.present?
-        all_rows.present? ? all_rows.map{|r| r.value.except("last_updated_at")} : []
-      else
-        []
-      end
-    end
-
     def match_results(results)
       results.map{|c| [['case_id', c.case_id], ['child_id', c._id], ['age', c.age], ['sex', c.sex],
                        ['registration_date', c.registration_date], ['match_details', []]].to_h}
