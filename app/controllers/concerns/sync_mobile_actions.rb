@@ -13,7 +13,7 @@ module SyncMobileActions
   end
 
   def marked_for_mobile
-    ['true', '1'].include? params["mobile"] ? true : false
+    (['true', '1'].include? params["mobile"]) ? true : false
   end
 
   def last_update_date

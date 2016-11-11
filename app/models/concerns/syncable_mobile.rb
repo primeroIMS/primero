@@ -35,7 +35,10 @@ module SyncableMobile
       end
 
       if all_rows.present?
-        all_rows = all_rows.select{|r| r['value']['last_updated_at'] > last_update_date} if last_update_date.present?
+        if last_update_date.present?
+          last_update_date_time = Time.parse(last_update_date)
+          all_rows = all_rows.select{|r| r['value']['last_updated_at'] > last_update_date_time}
+        end
         all_rows.present? ? all_rows.map{|r| r.value.except("last_updated_at")} : []
       else
         []
