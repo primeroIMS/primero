@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'support/child_builder'
 
 describe ChildIdsController do
 
