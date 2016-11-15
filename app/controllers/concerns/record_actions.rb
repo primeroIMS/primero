@@ -239,23 +239,10 @@ module RecordActions
         records = model_class.all(keys: selected_record_ids).all
         total_records = records.size
       end
-    #TODO v1.3: I bet the mobile sync code relies on the commented out stuff. 
-    #           This needs to be carefully renegotiated. Maybe limit to first 500 records?  
-    #TODO: Commenting out. This code was used by mobile syncs and bulk exports.
-    #      The bulk export code has been moved out of the controller, but there is
-    #      nothing handling the mobile code. When that is resolved delete the commented stuff.
-    # elsif params["page"] == "all"
-    #   pagination_ops = {:page => 1, :per_page => 500}
-    #   records = []
-    #   begin
-    #     search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], params[:match]
-    #     results = search.results
-    #     records.concat(results)
-    #     #Set again the values of the pagination variable because the method modified the variable.
-    #     pagination_ops[:page] = results.next_page
-    #     pagination_ops[:per_page] = 500
-    #   end until results.next_page.nil?
-    #   total_records = search.total
+    #NOTE: params[:page] is 'all' during bulk export.
+    # That's fine.  The record retrieval is handled in bulk export.
+    # 'all' should not be used for other invocations.
+    # When mobile is implemented, it should not use 'all'
     elsif params[:page] != 'all'
       search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
       records = search.results
