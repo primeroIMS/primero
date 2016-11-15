@@ -1,7 +1,9 @@
+require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
+
 sexual_violence_subform_fields = [
   Field.new({"name" => "violation_tally",
        "type" => "tally_field",
-       "display_name_all" => "Number of survivors",
+       "display_name_all" => "Number of victims",
        "autosum_group" => "sexual_violence_number_of_survivors",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
@@ -9,19 +11,21 @@ sexual_violence_subform_fields = [
   Field.new({"name" => "sexual_violence_type",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "Type of Violence",
+             "display_name_all" => "Form(s) of sexual violence",
+             "help_text_all" => "Select all that applies.",
              "option_strings_text_all" => [
-                { id: 'rape', display_text: "Rape" },
-                { id: 'sexual_assault', display_text: "Sexual Assault" },
-                { id: 'forced_marriage', display_text:"Forced Marriage" },
+                { id: 'rape', display_text: "Rape and/or other forms of sexual violence" },
+                { id: 'sexual_assault', display_text: "Sexual harrassment/assault" },
+                { id: 'forced_marriage', display_text:"Forced marriage" },
                 { id: 'mutilation', display_text:"Mutilation" },
-                { id: 'force_sterilization', display_text:"Forced Sterilization" },
+                { id: 'force_sterilization', display_text:"Forced sterilization" },
                 { id: 'other', display_text:"Other" }
               ]
             }),
   Field.new({"name" => "displacement_at_time_of_incident",
              "type" => "select_box",
              "display_name_all" => "Stage of displacement at time of incident",
+             "visible" => false,
              "option_strings_text_all" =>
                                     ["Not Displaced/Home Country",
                                      "Pre-displacement",
@@ -33,79 +37,28 @@ sexual_violence_subform_fields = [
   Field.new({"name" => "abduction_status_time_of_incident",
              "type" => "select_box",
              "display_name_all" => "Type of abduction at time of the incident",
+             "visible" => false,
              "option_strings_text_all" =>
                                     ["None",
                                      "Forced Conscription",
                                      "Trafficked",
                                      "Other Abduction/Kidnapping"].join("\n")
             }),
-  # Verification fields
-  Field.new({"name" => "verification_section",
-             "type" => "separator",
-             "display_name_all" => "Verification"
-            }),
-  Field.new({"name" => "verifier_id_code",
-             "type" => "text_field",
-             "display_name_all" => "Verifier"
-            }),
-  Field.new({"name" => "verification_decision_date",
-             "type" => "date_field",
-             "display_name_all" => "Verification Decision Date"
-            }),
-  Field.new({"name" => "verified",
+  Field.new({"name" => "sexual_violence_other_violations",
              "type" => "select_box",
-             "display_name_all" => "Verification Status",
-             "option_strings_source" => "lookup VerificationStatus"
+             "multi_select" => true,
+             "display_name_all" => "Was the rape or other grave sexual violence associated with other grave violations?",
+             "help_text_all" => "Select all that applies.",
+             "option_strings_text_all" => ["Killing",
+                                           "Maiming",
+                                           "Recruitment and/or use",
+                                           "Abduction"].join("\n")
             }),
-  Field.new({"name" => "verification_source_weight",
-             "type" => "select_box",
-             "display_name_all" => "Has the information been received from a primary and reliable source?",
-             "option_strings_text_all" =>
-                                    ["Yes, from a credible Primary Source who witnessed the incident",
-                                     "Yes, from a credible Primary Source who did not witness the incident",
-                                     "No, but there is sufficient supporting documentation of the incident",
-                                     "No, all the information is from a Secondary Source(s)",
-                                     "No, the Primary Source information is deemed insufficient or not credible"].join("\n")
-            }),
-  Field.new({"name" => "un_eyewitness",
-             "type" => "radio_button",
-             "display_name_all" => "Was the incident witnessed by UN staff or other MRM-trained affiliates?",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "verification_info_consistent",
-             "type" => "radio_button",
-             "display_name_all" => "Is the information consistent across various independent sources?",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "verification_info_credibility",
-             "type" => "radio_button",
-             "display_name_all" => "Has the veracity of the allegations been deemed credible using reasonable and sound judgement of trained and reliable monitors?",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "reason_non_verification",
-             "type" => "select_box",
-             "display_name_all" => "If not verified, why?",
-             "option_strings_text_all" =>
-                                    ["Unwilling Sources",
-                                     "Security Constraints",
-                                     "Resource Constraints",
-                                     "Contradictory Information",
-                                     "Pending Further Monitoring",
-                                     "Other"].join("\n")
-            }),
-  Field.new({"name" => "verification_decision_description",
+  Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Notes on Verification Decision"
-            }),
-  Field.new({"name" => "ctfmr_verified",
-             "type" => "radio_button",
-             "display_name_all" => "Verified by CTFMR",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "verification_date_ctfmr",
-             "type" => "date_field",
-             "display_name_all" => "Date verified by CTFMR"
+             "display_name_all" => "Additional notes"
             })
+  # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
 
 sexual_violence_subform_section = FormSection.create_or_update_form_section({
@@ -117,9 +70,9 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
   :unique_id => "sexual_violence",
   :parent_form=>"incident",
   "editable" => true,
-  :fields => sexual_violence_subform_fields,
-  "name_all" => "Nested Sexual Violence Subform",
-  "description_all" => "Nested Sexual Violence Subform",
+  :fields => (sexual_violence_subform_fields + MRM_VERIFICATION_FIELDS),
+  "name_all" => "Nested Rape and/or other forms of sexual violence Subform",
+  "description_all" => "Nested Rape and/or other forms of sexual violence Subform",
   :initial_subforms => 1,
   "collapsed_fields" => ["sexual_violence_type"]
 })
@@ -128,7 +81,7 @@ sexual_violence_fields = [
   Field.new({"name" => "sexual_violence",
              "type" => "subform", "editable" => true,
              "subform_section_id" => sexual_violence_subform_section.unique_id,
-             "display_name_all" => "Sexual Violence",
+             "display_name_all" => "Rape and/or other forms of sexual violence",
              "expose_unique_id" => true,
             })
 ]
@@ -144,6 +97,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => sexual_violence_fields,
-  "name_all" => "Sexual Violence",
-  "description_all" => "Sexual Violence"
+  "name_all" => "Rape and/or other forms of sexual violence",
+  "description_all" => " Rape and/or other forms of sexual violence"
 })

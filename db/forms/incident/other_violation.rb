@@ -14,7 +14,7 @@ other_violation_section_fields = [
             }),
   Field.new({"name" => "violation_tally",
          "type" => "tally_field",
-         "display_name_all" => "Number of survivors",
+         "display_name_all" => "Number of victims",
          "autosum_group" => "other_violation_number_of_survivors",
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,

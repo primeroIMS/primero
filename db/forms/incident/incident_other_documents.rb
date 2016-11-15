@@ -1,9 +1,7 @@
 other_documents_fields = [
-    Field.new({"name" => "upload_other_document",
-              "type" => "document_upload_box",
-              "editable" => false,
-              "disabled" => true,
-              "display_name_all" => "Other Document"
+    Field.new({"name" => "upload_document",
+              "type" => "document_upload_box", "editable" => false,
+              "display_name_all" => "Supporting Document"
               })
 ]
 
@@ -16,8 +14,8 @@ FormSection.create_or_update_form_section({
   :order_subform_ => 0,
   :fields => other_documents_fields,
   "editable" => false,
-  "name_all" => "Other Documents",
-  "description_all" => "Other Documents",
-  "form_group_name" => "Other Documents",
+  "name_all" => "Supporting Documents",
+  "description_all" => "Supporting Documents",
+  "form_group_name" => "Supporting Documents",
   "display_help_text_view" => true
 })

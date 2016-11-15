@@ -9,30 +9,31 @@ killing_subform_fields = [
   Field.new({"name" => "cause",
              "type" => "select_box",
              "visible" => false,
-             "display_name_all" => "Cause",
-             "option_strings_text_all" =>
-                                    ["IED",
-                                     "IED - Command Activated",
-                                     "UXO/ERW",
-                                     "Landmines",
-                                     "Cluster Munitions",
-                                     "Shooting",
-                                     "Artillery - Shelling/Mortar Fire",
-                                     "Artillery - Cluster Munitions",
-                                     "Aerial Bombardment",
-                                     "White Weapon Use",
-                                     "Gas",
-                                     "Suicide Attack Victim",
-                                     "Perpetrator of Suicide Attack",
-                                     "Cruel and Inhumane Treatment",
-                                     "Summary and Arbitrary Execution/ Extra Judicial Killing"].join("\n")
+             "display_name_all" => "Type of weapon used",
+             "option_strings_text_all" => ["Aircraft bomb",
+                                           "Barrel bomb",
+                                           "Booby trap",
+                                           "Chemical weapons",
+                                           "Unmanned aerial vehicle (UAV [e.g. drone])",
+                                           "Explosive remnant of war – ERW [includes unexploded ordnance and abandoned ordnance]",
+                                           "Improvised Explosive Device (IED)",
+                                           "Grenade",
+                                           "Landmine [includes anti-personnel and anti-vehicle landmine]",
+                                           "Light weapons",
+                                           "Missile",
+                                           "Mortar/Rocket",
+                                           "Sharp weapon",
+                                           "Small arm [e.g. AK-47]",
+                                           "Submunition",
+                                           "Other weapons",
+                                           "Unknown"].join("\n")
             })
 ]
 
 maiming_subform_fields = [
   Field.new({"name" => "violation_tally",
          "type" => "tally_field",
-         "display_name_all" => "Number of survivors",
+         "display_name_all" => "Number of victims",
          "autosum_group" => "maiming_number_of_survivors",
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
@@ -40,29 +41,31 @@ maiming_subform_fields = [
   Field.new({"name" => "cause",
              "type" => "select_box",
              "visible" => false,
-             "display_name_all" => "Cause",
-             "option_strings_text_all" =>
-                                    ["IED",
-                                     "IED - Command Activated",
-                                     "UXO/ERW",
-                                     "Landmines",
-                                     "Cluster Munitions",
-                                     "Shooting",
-                                     "Artillery - Shelling/Mortar Fire",
-                                     "Artillery - Cluster Munitions",
-                                     "Aerial Bombardment",
-                                     "White Weapon Use",
-                                     "Gas",
-                                     "Suicide Attack Victim",
-                                     "Perpetrator of Suicide Attack",
-                                     "Cruel and Inhumane Treatment"].join("\n")
+             "display_name_all" => "Type of weapon used",
+             "option_strings_text_all" => ["Aircraft bomb",
+                                           "Barrel bomb",
+                                           "Booby trap",
+                                           "Chemical weapons",
+                                           "Unmanned aerial vehicle (UAV [e.g. drone])",
+                                           "Explosive remnant of war – ERW [includes unexploded ordnance and abandoned ordnance]",
+                                           "Improvised Explosive Device (IED)",
+                                           "Grenade",
+                                           "Landmine [includes anti-personnel and anti-vehicle landmine]",
+                                           "Light weapons",
+                                           "Missile",
+                                           "Mortar/Rocket",
+                                           "Sharp weapon",
+                                           "Small arm [e.g. AK-47]",
+                                           "Submunition",
+                                           "Other weapons",
+                                           "Unknown"].join("\n")
             })
 ]
 
 recruitment_subform_fields = [
   Field.new({"name" => "violation_tally",
        "type" => "tally_field",
-       "display_name_all" => "Number of survivors",
+       "display_name_all" => "Number of victims",
        "autosum_group" => "recruitment_number_of_survivors",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
@@ -76,23 +79,41 @@ recruitment_subform_fields = [
                 { id: 'abduction', display_text: "Abduction" },
                 { id: 'conscription', display_text: "Conscription" },
                 { id: 'intimidation', display_text: "Intimidation" },
-                { id: 'lack_of_basic_services', display_text: "Lack of Basic Services" },
-                { id: 'access_to_security', display_text: "Access to Security" },
-                { id: 'financial_reasons', display_text: "Financial Reasons" },
-                { id: 'family_problems_abuse', display_text: "Family Problems / Abuse" },
-                { id: 'to_join_follow_friends', display_text: "To Join / Follow Friends" },
+                { id: 'lack_of_basic_services', display_text: "Lack of basic services" },
+                { id: 'access_to_security', display_text: "Access to security" },
+                { id: 'financial_reasons', display_text: "Financial reasons" },
+                { id: 'family_problems_abuse', display_text: "Family problems / abuse" },
+                { id: 'to_join_follow_friends', display_text: "To join / f/ollow friends" },
                 { id: 'idealism', display_text: "Idealism" },
-                { id: 'to_see_revenge', display_text: "To Seek Revenge" },
+                { id: 'to_see_revenge', display_text: "To seek revenge" },
                 { id: 'other', display_text: "Other" },
                 { id: 'unknown', display_text: "Unknown" }
               ]
              })
 ]
 
+deprivation_subform_fields = [
+  Field.new({"name" => "violation_tally",
+           "type" => "tally_field",
+           "display_name_all" => "Number of victims",
+           "autosum_group" => "deprivation_number_of_victims",
+           "tally_all" => ['boys', 'girls', 'unknown'],
+           "autosum_total" => true,
+          }),
+  Field.new({"name" => "deprivation_grounds",
+             "type" => "select_box",
+             "visible" => false,
+             "display_name_all" => "Cause",
+             "option_strings_text_all" =>
+                                    ["Security-related",
+                                     "Religious/ethnic affiliation"].join("\n")
+            })
+]
+
 sexual_violence_subform_fields = [
   Field.new({"name" => "violation_tally",
        "type" => "tally_field",
-       "display_name_all" => "Number of survivors",
+       "display_name_all" => "Number of victims",
        "autosum_group" => "sexual_violence_number_of_survivors",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
@@ -103,11 +124,11 @@ sexual_violence_subform_fields = [
              "visible" => false,
              "display_name_all" => "Type of Violence",
              "option_strings_text_all" => [
-                { id: 'rape', display_text: "Rape" },
-                { id: 'sexual_assault', display_text: "Sexual Assault" },
-                { id: 'forced_marriage', display_text: "Forced Marriage" },
+                { id: 'rape', display_text: "Rape and/or other forms of sexual violence" },
+                { id: 'sexual_assault', display_text: "Sexual assault" },
+                { id: 'forced_marriage', display_text: "Forced marriage" },
                 { id: 'mutilation', display_text: "Mutilation" },
-                { id: 'forced_sterilization', display_text: "Forced Sterilization" },
+                { id: 'forced_sterilization', display_text: "Forced sterilization" },
                 { id: 'other', display_text: "Other" }
               ]
             })
@@ -116,7 +137,7 @@ sexual_violence_subform_fields = [
 abduction_subform_fields = [
   Field.new({"name" => "violation_tally",
          "type" => "tally_field",
-         "display_name_all" => "Number of survivors",
+         "display_name_all" => "Number of victims",
          "autosum_group" => "abduction_number_of_survivors",
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
@@ -125,12 +146,14 @@ abduction_subform_fields = [
              "type" => "select_box",
              "visible" => false,
              "display_name_all" => "Category",
-             "option_strings_text_all" => ["Child Recruitment",
-                                           "Child Use",
-                                           "Sexual Violence",
-                                           "Political Indoctrination",
-                                           "Hostage (Intimidation)",
-                                           "Hostage (Extortion)",
+             "option_strings_text_all" => ["Extortion",
+                                           "Forced marriage",
+                                           "Indoctrination",
+                                           "Intimidation",
+                                           "Killing/Maiming",
+                                           "Punishment",
+                                           "Recruitment and use",
+                                           "Rape and/or other forms of sexual violence",
                                            "Unknown",
                                            "Other"].join("\n")
             })
@@ -205,7 +228,7 @@ attack_on_hospitals_subform_fields = [
 denial_humanitarian_access_section_fields = [
   Field.new({"name" => "violation_tally",
        "type" => "tally_field",
-       "display_name_all" => "Number of survivors",
+       "display_name_all" => "Number of victims",
        "autosum_group" => "denial_humanitarian_access_number_of_survivors",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
@@ -231,7 +254,7 @@ denial_humanitarian_access_section_fields = [
 other_violation_section_fields = [
   Field.new({"name" => "violation_tally",
          "type" => "tally_field",
-         "display_name_all" => "Number of survivors",
+         "display_name_all" => "Number of victims",
          "autosum_group" => "other_violation_number_of_survivors",
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
@@ -305,6 +328,25 @@ recruitment_subform_section = FormSection.create_or_update_form_section({
   "is_summary_section" => true
 })
 
+deprivation_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order_form_group => 40,
+  :order => 30,
+  :order_subform => 1,
+  :unique_id => "deprivation_summary",
+  :parent_form=>"incident",
+  "editable" => true,
+  :fields => deprivation_subform_fields,
+  "name_all" => "Violation Deprivation Summary",
+  "description_all" => "Violation Deprivation Summary",
+  :initial_subforms => 1,
+  "collapsed_fields" => ["deprivation_grounds"],
+  "shared_subform" => "deprivation",
+  "shared_subform_group" => "Violations",
+  "is_summary_section" => true
+})
+
 sexual_violence_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
@@ -315,8 +357,8 @@ sexual_violence_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => sexual_violence_subform_fields,
-  "name_all" => "Violation Sexual Violence Summary",
-  "description_all" => "Violation Sexual Violence Summary",
+  "name_all" => "Violation Rape and/or other forms of sexual violence Summary",
+  "description_all" => "Violation Rape and/or other forms of sexual violence Summary",
   :initial_subforms => 1,
   "collapsed_fields" => ["sexual_violence_type"],
   "shared_subform" => "sexual_violence",
@@ -353,8 +395,8 @@ attack_on_schools_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable" => true,
   :fields => attack_on_schools_subform_fields,
-  "name_all" => "Violation Attack on Schools Summary",
-  "description_all" => "Violation Attack on Schools Summary",
+  "name_all" => "Violation Attacks on schools Summary",
+  "description_all" => "Violation Attacks on schools Summary",
   :initial_subforms => 1,
   "collapsed_fields" => ["site_attack_type"],
   "shared_subform" => "attack_on_schools",
@@ -372,8 +414,8 @@ attack_on_hospitals_subform_section = FormSection.create_or_update_form_section(
   :parent_form=>"incident",
   "editable" => true,
   :fields => attack_on_hospitals_subform_fields,
-  "name_all" => "Violation Attack on Hospitals Summary",
-  "description_all" => "Violation Attack on Hospitals Summary",
+  "name_all" => "Violation Attacks on hospitals Summary",
+  "description_all" => "Violation Attacks on hospitals Summary",
   :initial_subforms => 1,
   "collapsed_fields" => ["site_attack_type"],
   "shared_subform" => "attack_on_hospitals",
@@ -422,7 +464,7 @@ other_violation_subform_section = FormSection.create_or_update_form_section({
 mrm_summary_page_fields = [
   Field.new({"name" => "incident_total_tally",
            "type" => "tally_field",
-           "display_name_all" => "Incident Total Victims/Survivors",
+           "display_name_all" => "Number of victims",
            "autosum_group" => "incident_number_of_victims_survivors",
            "tally_all" => ['boys', 'girls', 'unknown'],
            "autosum_total" => true,
@@ -430,8 +472,7 @@ mrm_summary_page_fields = [
   Field.new({"name" => "incident_description",
              "type" => "textarea",
              "display_name_all" => "Account of Incident",
-             "editable" => false,
-             "disabled" => true
+             "editable" => false
             }),
   Field.new({"name" => "killing_summary",
              "type" => "subform", "editable" => true,
@@ -448,13 +489,19 @@ mrm_summary_page_fields = [
   Field.new({"name" => "recruitment_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => recruitment_subform_section.unique_id,
-             "display_name_all" => "Recruitment",
+             "display_name_all" => "Recruitment and/or use of children",
+             "expose_unique_id" => true
+            }),
+  Field.new({"name" => "deprivation_summary",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => deprivation_subform_section.unique_id,
+             "display_name_all" => "Recruitment and/or use - Deprivation of liberty due to alleged association with a party to the conflict",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "sexual_violence_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => sexual_violence_subform_section.unique_id,
-             "display_name_all" => "Sexual Violence",
+             "display_name_all" => "Rape and/or other forms of sexual violence",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "abduction_summary",
@@ -466,20 +513,20 @@ mrm_summary_page_fields = [
   Field.new({"name" => "attack_on_schools_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_schools_subform_section.unique_id,
-             "display_name_all" => "Attack on Schools",
+             "display_name_all" => "Attacks on schools",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "attack_on_hospitals_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_hospitals_subform_section.unique_id,
-             "display_name_all" => "Attack on Hospitals",
+             "display_name_all" => "Attacks on hospitals",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "denial_humanitarian_access_summary",
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => denial_humanitarian_access_section.unique_id,
-             "display_name_all" => "Denial of Humanitarian Access",
+             "display_name_all" => "Denial of humanitarian access for children",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "other_violation_summary",

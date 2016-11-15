@@ -42,11 +42,11 @@ perpetrator_subform_fields = [
             }),
   Field.new({"name" => "armed_force_group_name_other",
              "type" => "text_field",
-             "display_name_all" => "Please specify the armed force or group if Other, please specify was selected above",
+             "display_name_all" => "If 'Other', please specify the armed force or group",
             }),
   Field.new({"name" => "perpetrator_sex",
              "type" => "radio_button",
-             "display_name_all" => "Sex of Alleged Perpetrator(s)",
+             "display_name_all" => "Sex of alleged perpetrator(s)",
              "option_strings_text_all" =>
                           ["Female",
                            "Male",

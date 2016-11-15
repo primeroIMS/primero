@@ -1,7 +1,9 @@
+require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
+
 maiming_subform_fields = [
   Field.new({"name" => "violation_tally",
          "type" => "tally_field",
-         "display_name_all" => "Number of survivors",
+         "display_name_all" => "Number of victims",
          "autosum_group" => "maiming_number_of_survivors",
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
@@ -12,11 +14,12 @@ maiming_subform_fields = [
              "option_strings_text_all" =>
                                     ["Victim Activated",
                                      "Non-Victim Activated",
-                                     "Summary"].join("\n")
+                                     "Summary"].join("\n"),
+             "visible" => false
             }),
   Field.new({"name" => "cause",
              "type" => "select_box",
-             "display_name_all" => "Cause",
+             "display_name_all" => "Type of weapon",
              "option_strings_text_all" =>
                                     ["IED",
                                      "IED - Command Activated",
@@ -35,16 +38,34 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "cause_details",
              "type" => "textarea",
-             "display_name_all" => "Details"
+             "display_name_all" => "Details",
+             "visible" => false
             }),
   Field.new({"name" => "circumstances",
              "type" => "select_box",
-             "display_name_all" => "Circumstances",
-             "option_strings_text_all" =>
-                                    ["Direct Attack",
-                                     "Indiscriminate Attack",
-                                     "Willful Killing etc...",
-                                     "Impossible to Determine"].join("\n")
+             "display_name_all" => "Type of attack",
+             "option_strings_text_all" => ["Aerial attack",
+                                           "Arson",
+                                           "Command-wire operated IED",
+                                           "Flying IEDs",
+                                           "Person-borne IED",
+                                           "Remote-controlled IED",
+                                           "Timer-operated IED",
+                                           "Vehicle-borne IED",
+                                           "Land-based attack - Laying mines",
+                                           "Land-based attack - Pressure plate IED",
+                                           "Occupation of building(s)",
+                                           "Other shooting",
+                                           "Sea-based attack",
+                                           "Tactical use of building(s)",
+                                           "Targeted shooting [e.g. sniper]",
+                                           "Theft/Looting",
+                                           "Threat/Intimidation/Harassment"].join("\n")
+            }),
+  Field.new({"name" => "victim_targeted",
+             "type" => "radio_button",
+             "display_name_all" => "Was/were the victim(s) directly targeted?",
+             "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "consequences",
              "type" => "select_box",
@@ -62,16 +83,17 @@ maiming_subform_fields = [
              "display_name_all" => "Context",
              "option_strings_text_all" =>
                                     ["Weapon Used By The Child",
-                                     "Weapon Used Against The Child"].join("\n")
+                                     "Weapon Used Against The Child"].join("\n"),
+             "visible" => false
             }),
   Field.new({"name" => "mine_incident",
              "type" => "radio_button",
-             "display_name_all" => "Mine Incident",
+             "display_name_all" => "Mine-related incident",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "victim_a_participant",
              "type" => "radio_button",
-             "display_name_all" => "Was the survivor directly participating in hostilities at the time of the violation?",
+             "display_name_all" => "Was/were the victim(s) directly participating in hostilities at the time of the violation?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
   Field.new({"name" => "related_to_abduction",
@@ -79,72 +101,9 @@ maiming_subform_fields = [
              "display_name_all" => "Did the violation occur during or as a direct result of abduction?",
              "option_strings_text_all" => "Yes\nNo\nUnknown"
             }),
-  # Verification fields
-  Field.new({"name" => "verification_section",
-             "type" => "separator",
-             "display_name_all" => "Verification"
-            }),
-  Field.new({"name" => "verifier_id_code",
-             "type" => "text_field",
-             "display_name_all" => "Verifier"
-            }),
-  Field.new({"name" => "verification_decision_date",
-             "type" => "date_field",
-             "display_name_all" => "Verification Decision Date"
-            }),
-  Field.new({"name" => "verified",
-             "type" => "select_box",
-             "display_name_all" => "Verification Status",
-             "option_strings_source" => "lookup VerificationStatus"
-            }),
-  Field.new({"name" => "verification_source_weight",
-             "type" => "select_box",
-             "display_name_all" => "Has the information been received from a primary and reliable source?",
-             "option_strings_text_all" =>
-                                    ["Yes, from a credible Primary Source who witnessed the incident",
-                                     "Yes, from a credible Primary Source who did not witness the incident",
-                                     "No, but there is sufficient supporting documentation of the incident",
-                                     "No, all the information is from a Secondary Source(s)",
-                                     "No, the Primary Source information is deemed insufficient or not credible"].join("\n")
-            }),
-  Field.new({"name" => "un_eyewitness",
-             "type" => "radio_button",
-             "display_name_all" => "Was the incident witnessed by UN staff or other MRM-trained affiliates?",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "verification_info_consistent",
-             "type" => "radio_button",
-             "display_name_all" => "Is the information consistent across various independent sources?",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "verification_info_credibility",
-             "type" => "radio_button",
-             "display_name_all" => "Has the veracity of the allegations been deemed credible using reasonable and sound judgement of trained and reliable monitors?",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "reason_non_verification",
-             "type" => "select_box",
-             "display_name_all" => "If not verified, why?",
-             "option_strings_text_all" =>
-                                    ["Unwilling Sources",
-                                     "Security Constraints",
-                                     "Resource Constraints",
-                                     "Contradictory Information",
-                                     "Pending Further Monitoring",
-                                     "Other"].join("\n")
-            }),
-  Field.new({"name" => "verification_decision_description",
+  Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Notes on Verification Decision"
-            }),
-  Field.new({"name" => "ctfmr_verified",
-             "type" => "radio_button",
-             "display_name_all" => "Verified by CTFMR",
-             "option_strings_text_all" => "Yes\nNo"
-            }),
-  Field.new({"name" => "verification_date_ctfmr",
-             "type" => "date_field",
-             "display_name_all" => "Date verified by CTFMR"
+             "display_name_all" => "Additional notes"
             })
 ]
 
@@ -157,7 +116,7 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   :unique_id => "maiming",
   :parent_form=>"incident",
   "editable" => true,
-  :fields => maiming_subform_fields,
+  :fields => (maiming_subform_fields + MRM_VERIFICATION_FIELDS),
   "name_all" => "Nested Maiming Subform",
   "description_all" => "Nested Maiming Subform",
   :initial_subforms => 1,
