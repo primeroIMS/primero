@@ -55,7 +55,6 @@ en:
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
-    reopen_record: "Clicking OK will change the status of this case to Open"
     flag_multiple_records_error_message: "There was an error trying to flag records:"
     record_not_flagged_message: "%{short_id}: Not flagged"
     invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
@@ -100,12 +99,9 @@ en:
      go: "Go"
      search: "Search"
      locations: "LOCATIONS"
-     bulk_exports: "BULK EXPORTS"
 
   buttons:
      delete: "Delete"
-     disable: "Disable"
-     enable: "Enable"
      save: "Save"
      login: "Log in"
      reunite: "Reunite"
@@ -119,14 +115,13 @@ en:
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
      create_case: "Create Case"
-     guiding_questions: "Guiding Questions"
+     guiding_questions: "Guidance"
      filter_label: "Filter:"
      filter: "Apply Filter"
      filter_clear: "Clear Filters"
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
-     unflag_model_history: "Flag History %{model}"
      ok: 'OK'
      cancel: "Cancel"
      edit_subform: 'Edit Subform'
@@ -134,19 +129,10 @@ en:
      bundle_import: "Configuration Bundle"
      bundle_export: "Configuration Bundle"
      transfer: "Transfer %{model}"
-     reassign: "Assign %{model}"
      referral: "Refer %{model}"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
-     approve_bia: "Approve BIA"
      approve_case_plan: "Approve Case Plan"
-     approve_closure: "Approve Closure"
-     view_flags_history: "View History"
-     request_approval: "Request Approval"
-     approvals: "Approvals"
-     accept: "Accept"
-     reject: "Reject"
-     done: "Done"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -161,10 +147,6 @@ en:
       mobile: "Mobile:"
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
-      my_cases: "My Cases"
-      no_activity: "No Activity"
-      3month_inactivity: "For 3+ months"
-      referred_cases: "Cases referred to me"
       agency: "Agency:"
       status: "Status:"
       age_range: "Age Range:"
@@ -183,11 +165,6 @@ en:
       record_state: "Record State:"
       photo: "Photo:"
       photo_label: "Has Photo?"
-      approvals:
-        pending: "Pending Approvals"
-        approved: "Approved"
-        rejected: "Rejected"
-
     order_by:
       most_recently: "Most recently"
       label: "Order by"
@@ -238,9 +215,6 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
-    unflagged_label: "Reason"
-    unflag_date: "Date"
-    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
@@ -326,9 +300,6 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
-    unflagged_label: "Reason"
-    unflag_date: "Date"
-    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     id_of_record_this_duplicate_of: "Enter the ID of the record this is a duplicate of:"
@@ -433,9 +404,6 @@ en:
     flag_reason_date: "Date (optional)"
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
-    unflagged_label: "Reason"
-    unflag_date: "Date"
-    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     flagged_as_suspected: "Flagged by"
@@ -483,8 +451,8 @@ en:
       recruitment: "Recruitment"
       sexual_violence: "Sexual Violence"
       abduction: "Abduction"
-      attack_on_schools: "Attack on Schools"
-      attack_on_hospitals: "Attack on Hospitals"
+      attack_on_schools: "Attack on/military use of schools"
+      attack_on_hospitals: "Attack on/military use of hospitals"
       denial_humanitarian_access: "Denial of Humanitarian Access"
       other_violation: "Other Violation"
 
@@ -507,9 +475,6 @@ en:
     selected_records_error_message: "Please select one or more records to flag."
     unflag_record: "Unflag Record"
     unflag_reason: "Unflag Reason"
-    unflagged_label: "Reason"
-    unflag_date: "Date"
-    unflag_by: "Unflagged"
     unflag_label: "Unflag"
     unflag_error_message: "Please explain why you are unflagging this record."
     flag_error_message: "Please explain why you are flagging this record."
@@ -576,9 +541,6 @@ en:
       incident:
         one: "incident"
         other: "incidents"
-      bulk_export:
-        one: "bulk file export"
-        other: "bulk file exports"
 
   users:
     unverified: "Unverified Users"
@@ -590,7 +552,6 @@ en:
     actions:
       show_all: "Showing all"
       show: "Show"
-      edit: "Edit"
     messages:
       disable: 'Are you sure you want to disable this user?'
     sort_by:
@@ -744,7 +705,6 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
-    position: Position
     actions:
       delete: "Delete"
     messages:
@@ -853,23 +813,13 @@ en:
       export_custom: "Export custom"
       import: "Import"
       transfer: "Transfer"
-      reassign: "Reassign"
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
-      request_approval: "Request for approval"
-      request_approval_bia: "Request BIA approval"
-      request_approval_case_plan: "Request Case Plan approval"
-      request_approval_closure: "Request Closure approval"
-      approve_bia: "Approve BIA form"
-      approve_case_plan: "Approve Case Plan"
-      approve_closure: "Approve Closure form"
+      approve_case_plan: "Approve case plan"
       copy: "Copy"
       manage: "Manage"
       administrator_read: "Administrator Read"
       group_read: "Group Read"
-      dashboard: "Dashboard"
-      view_approvals: "View Approvals"
-      view_assessment: "View Assessment"
 
   forms:
     label: "Forms"
@@ -1030,16 +980,13 @@ en:
     file_upload_box:
       select_file_button_text: "Select File"
       no_file_selected: "No file selected."
-      document_file_restrictions_message: "Files should be no larger than 2 MB (executable (.exe) files cannot be uploaded)."
+      document_file_restrictions_message: "Files should be no larger than 10mb (executable (.exe) files cannot be uploaded)."
       photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
       add_document_label: "Add Document"
       add_photo_label: "Add Photo"
       add_new_document_button_text: "Add another document"
       add_new_photo_button_text: "Add another photo"
       document_description: "Document Description"
-    upload_bia_document: "BIA Document"
-    upload_bid_document: "BID Document"
-    upload_other_document: "Other Document"
 
   replication:
     label: Replication
@@ -1089,29 +1036,11 @@ en:
     placename: "Place name"
     type: "Type"
     parent: "Parent location"
-    admin_level: "Admin Level"
     messages:
       cannot_create: "Location could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
       updated: "Location successfully added"
       deleted: "Location successfully deleted"
-    base_types:
-      country: 'Country'
-      region: 'Region'
-      province: 'Province'
-      district: 'District'
-      governorate: 'Governorate'
-      chiefdom: 'Chiefdom'
-      county: 'County'
-      state: 'State'
-      city: 'City'
-      camp: 'Camp'
-      site: 'Site'
-      village: 'Village'
-      zone: 'Zone'
-      other: 'Other'
-      locality: 'Locality'
-      sub-district: 'Sub-district'
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -1297,10 +1226,8 @@ en:
     last_updated: "Lasted Updated"
     case_stats: "Cases"
     cases_by_social_worker: "Cases by social worker"
-    approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
-    case_stat_by_approval_type: "Approvals"
     case_stat_referrals: "Referrals"
     protection_concern: "Protection Concern"
     protection_concerns: "Protection Concerns"
@@ -1337,38 +1264,11 @@ en:
     manager_count_closed_total:
       one: "and %{stat} <span>closed</span> case "
       other: "and %{stat} <span>closed</span> cases "
-    manager_transfers_totals:
-      one: "You have %{stat} <span>%{stat_type}</span> Transfer "
-      other: "You have %{stat} <span>%{stat_type}</span> Transfers "
-    count_pending_approval_total:
-      one: "You have %{stat} <span>pending %{stat_type}</span> Approval "
-      other: "You have %{stat} <span>pending %{stat_type}</span> Approvals "
-    count_rejected_approval_total:
-      one: "and %{stat} <span>rejected %{stat_type}</span> Approval "
-      other: "and %{stat} <span>rejected %{stat_type}</span> Approvals "
-    count_new_bia_approvals:
-      one: "%{stat} <span>new %{stat_type}</span> Approval"
-      other: "%{stat} <span>new %{stat_type}</span> Approvals"
-    count_new_case_plan_approvals:
-      one: "%{stat} <span>new %{stat_type}</span> Approval"
-      other: "%{stat} <span>new %{stat_type}</span> Approvals"
-    count_new_closure_approvals:
-      one: "%{stat} <span>new %{stat_type}</span> Approval"
-      other: "%{stat} <span>new %{stat_type}</span> Approvals"
-    count_pending_transfers:
-      one: "You have %{stat} <span>pending</span> Transfer "
-      other: "You have %{stat} <span>pending</span> Transfers "
-    count_rejected_transfers:
-      one: "and %{stat} <span>rejected</span> Transfer "
-      other: "and %{stat} <span>rejected</span> Transfers "
-    count_waiting_for_acceptance_transfers: "You have %{stat} Transfers <span>waiting</span> for your acceptance"
     open_cases: "Open Cases"
     new_last_week: "New <span>(last week)</span>"
     new_this_week: "New <span>(this week)</span>"
     closed_last_week: "Closed <span>(last week)</span>"
     closed_this_week: "Closed <span>(this week)</span>"
-    you_have: "You have "
-    and: "and "
 
   errors:
 
@@ -1407,7 +1307,6 @@ en:
         password_mismatch: "The password fields do not have the same password"
         password_text: "- Please create a password that is at least 8 characters in length and contains both letters and numbers"
         role_ids: "Please select at least one role"
-        module_ids: "Please select at least one module"
         organization: "Please enter the user's organization name"
         user_name: "Please enter a valid user name"
         email: "Please enter a valid email address"
@@ -1421,8 +1320,7 @@ en:
         date_of_birth: "Please enter a valid date of birth for this case record"
         wishes_preferences_count: "You are only allowed %{preferences_count} child's preferences."
         value_range: "%{field_name} must be between %{min} and %{max}"
-        document_type: "The type %{type} is invalid."
-        document_size: "Please upload a document smaller than 2MB"
+        document_size: "Please upload a document smaller than 10mb"
         documents_count: "You are only allowed %{documents_count} documents per case."
         document_format: "Executable files are not allowed."
         date_closure: "The Case Closure Date should be greater or equal than Case Opening Date."
@@ -1513,12 +1411,7 @@ en:
       location:
         name_present: "must not be blank"
         code_present: "must not be blank"
-        admin_level_present: "must not be blank"
         unique_name: "A Location with that name already exists, please enter a different name"
-
-      reporting_location:
-        label_key: "Label Key must be one of Location Base Type values"
-        admin_level: "Admin Level must be one of Location Admin Level values"
 
 
 
@@ -1564,7 +1457,6 @@ en:
     button: "Actions"
     enable: "Enable"
     disable: "Disable"
-    reopen: "Reopen"
     description:
       valid: "Valid record"
       invalid: "Invalid record"
@@ -1580,16 +1472,8 @@ en:
     record_information: "Record Information"
     name_date_seperator: "on"
 
-  bulk_export:
-    file_name: "File"
-    record_type: "Type"
-    started_on: "Started"
-    status: "Status"
-    retry: "This export is invalid. Please try recreating your export."
-
   exports:
     no_records: "No Records Available!"
-    queueing: "Generating the export file"
     pdf:
       all:  PDF
       one:  PDF
@@ -1680,21 +1564,6 @@ en:
     success: "%{record_type} %{id} successfully referred"
     failure_batch: "%{failed_count} Referral(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Referral(s) successfully made"
-    to_user_local_status_label: "Status"
-    user_local_status_pending: "Pending"
-    user_local_status_accepted: "Accepted"
-    user_local_status_rejected: "Rejected"
-    user_local_status_inprogress: "In Progress"
-    user_local_status_done: "Done"
-    complete_referral_label: "Clicking OK signifies that you have completed the referral work associated with this case. Once you click OK you will no longer have access to this record."
-    done_success_message: "Referral Done."
-
-  reassign:
-    reassign_case_title: "Assign case(s) to:"
-    existing_user_label: "Existing user"
-    user_mandatory: "User name is required"
-    no_records_selected: "No records selected"
-    notes_label: "Notes"
 
   transfer:
     type_label: "Type of Transfer"
@@ -1709,20 +1578,8 @@ en:
     user_mandatory: "User name is required"
     failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
     success: "%{record_type} %{id} successfully transferred"
-    rejected: "%{record_type} %{id} transfer rejected"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
-    to_user_local_status_label: "Status"
-    user_local_status_pending: "Pending"
-    user_local_status_accepted: "Accepted"
-    user_local_status_rejected: "Rejected"
-    user_local_status_inprogress: "In Progress"
-    reject: "Rejection Reason"
-    accept_label: "By clicking 'Accept' you accept the responsibility for this case; once you click 'OK' you will become the record owner in the system."
-    reject_label: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click 'OK' you will no longer have access to this case record."
-    unknown_status: "Unknown transfer status: %{status}"
-    unknown_transfer: "%{record_type} %{id} invalid transfer"
-    not_valid_transfer: "%{record_type} %{id} invalid transfer, can't update is not in progress or you have not permission on the case"
 
   mark_for_mobile:
     no_records_selected: "No records selected"
@@ -1737,93 +1594,10 @@ en:
     failure_batch: "%{failed_count} Record(s) failed to be unmarked as mobile"
     success_batch: "%{success_count} Record(s) successfully unmarked as mobile"
 
-
-  approvals:
-    approve_bia: "Request Approval for the BIA form?"
-    approve_bia_label: "Approve BIA Form"
-    approve_care_plan: "Request Approval for the Case Plan form?"
+  approve_case_plan:
     approve_case_plan_label: "Approve Case Plan"
-    approve_case_plan: "Request Approval for the Case Plan form?"
-    approve_closure: "Request Approval for the Closure form?"
-    approve_closure_label: "Approve Closure Form"
-    bia: "BIA"
-    case_plan: "Case Plan"
-    closure: "Closure"
     comments_label: "Comments"
-
-    status:
-      pending: "Pending"
-      approved: "Approved"
-      rejected: "Rejected"
 
   per_page_translation: "Per page _MENU_"
   total: Total
   caregiver: " (Caregiver)"
-
-  disabled:
-    filter_label: "Show"
-    status:
-      enabled: "Enabled"
-      disabled: "Disabled"
-      all: "All"
-      label: "Status"
-
-  sort_by:
-    label: "Sort by"
-
-  logger:
-    to: "to"
-    to_user: "to user"
-    by_user: "by user"
-    login: "Login"
-    logout: "Logout"
-    create: "Creating"
-    copy: "Copying"
-    destroy: "Deleting"
-    show: "Viewing"
-    edit: "Editing"
-    update: "Updating"
-    export: "Exporting data for"
-    referral: "Referring"
-    reassign: "Assigning"
-    transfer: "Transfering"
-    reopen_case: "Reopening"
-    hide_name: "Hide name"
-
-    relinquish_referral: "Relinquish referral Done"
-
-    flag: Flagging
-    unflag: Unflagging
-    flag_records: Flagging
-
-    transfer_status:
-      Accepted: "Accepted Transfer"
-      Rejected: "Rejected Transfer"
-
-    hide_name:
-      protect: "Hide Name"
-      view: "View Name"
-
-    request_approval:
-      bia: "Request Approval for the BIA form"
-      case_plan: "Request Approval for the Case Plan form"
-      closure: "Request Approval for the Closure form"
-
-    approve_form:
-      "false": "Rejecting"
-      "true": "Approving"
-      bia: "BIA form"
-      case_plan: "Case Plan form"
-      closure: "Closure form"
-
-    mark_for_mobile:
-      "false": "Un-Mark for mobile"
-      "true": "Mark for mobile"
-
-    record_state:
-      "false": "Disabling"
-      "true": "Enabling"
-
-    graph_data: "Viewing graph data"
-    permitted_field_list: Permitted field list
-    lookups_for_field: Lookups for field
