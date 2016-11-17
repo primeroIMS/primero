@@ -7,6 +7,7 @@ class PotentialMatch < CouchRest::Model::Base
 
 
   include PrimeroModel
+  include Sunspot::Rails::Searchable
   include Historical
   include Syncable
   include SyncableMobile
@@ -27,6 +28,7 @@ class PotentialMatch < CouchRest::Model::Base
   property :tr_age
   property :child_gender
   property :child_age
+
   validates :child_id, :uniqueness => {:scope => :tr_subform_id}
 
   before_create :create_identification
@@ -82,8 +84,6 @@ class PotentialMatch < CouchRest::Model::Base
     ["created_at", "last_updated_at"]
   end
 
-  include Searchable
-
   searchable do
     string :status
     integer :child_age
@@ -92,10 +92,9 @@ class PotentialMatch < CouchRest::Model::Base
     string :tr_gender
     string :module_id
     double :average_rating
-
-    # Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
-    # Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
   end
+  Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
+  Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
 
   def mark_as_deleted
     mark_as_status(PotentialMatch::DELETED)

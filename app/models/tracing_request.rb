@@ -57,12 +57,12 @@ class TracingRequest < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
 
   searchable do
-    form_matchable_fields.select { |field| Record.exclude_match_field(field) }.each do |field|
-      text field, :boost => Record.get_field_boost(field)
+    form_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
+      text field, :boost => TracingRequest.get_field_boost(field)
     end
 
-    subform_matchable_fields.select { |field| Record.exclude_match_field(field) }.each do |field|
-      text field, :boost => Record.get_field_boost(field) do
+    subform_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
+      text field, :boost => TracingRequest.get_field_boost(field) do
         self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
       end
     end
@@ -109,6 +109,17 @@ class TracingRequest < CouchRest::Model::Base
       end
       compact_result match_results
       sort_hash match_results
+    end
+
+    #TODO verify
+    def boost_fields
+      [
+        {field: 'name', match: 'tracing_names', boost: 10},
+        {field: 'name_nickname', match: 'tracing_nicknames', boost: 10},
+        {field: 'name_first', match: 'tracing_names', boost: 10},
+        {field: 'name_middle', match: 'tracing_names', boost: 10},
+        {field: 'name_last', match: 'tracing_names', boost: 10}
+      ]
     end
   end
 

@@ -107,6 +107,29 @@ module Matchable
       []
     end
 
+    def find_match_records(match_criteria, match_class, child_id = nil)
+      pagination = {:page => 1, :per_page => 20}
+      sort={:score => :desc}
+      if match_criteria.blank?
+        []
+      else
+        search = Sunspot.search(match_class) do
+          any do
+            match_criteria.each do |key, value|
+              fulltext(value, :fields => match_class.get_match_field(key.to_s))
+            end
+          end
+          with(:id, child_id) if child_id.present?
+          sort.each { |sort_field, order| order_by(sort_field, order) }
+          paginate pagination
+        end
+        binding.pry
+        results = {}
+        search.hits.each { |hit| results[hit.result.id] = hit.score }
+        results
+      end
+    end
+
     def is_match_visible? owner, associated_user_names
       return (associated_user_names.first == 'all' || associated_user_names.include?(owner))
     end
@@ -119,6 +142,26 @@ module Matchable
     def sort_hash match_results
       match_results = match_results.sort_by { |hash| -find_max_score_element(hash["match_details"])["average_rating"] }
       match_results
+    end
+
+    def boost_fields
+      []
+    end
+
+    def exclude_match_field(field)
+      boost_field = boost_fields.select { |f| f[:field] == field }
+      boost_field.empty? || boost_field.first[:match].nil?
+    end
+
+    def get_match_field(field)
+      boost_field = boost_fields.select { |f| f[:field] == field }
+      boost_field.empty? ? field : (boost_field.first[:match] || boost_field.first[:field]).to_sym
+    end
+
+    def get_field_boost(field)
+      default_boost_value = 1
+      boost_field = boost_fields.select { |f| f[:field] == field }
+      boost_field.empty? ? default_boost_value : (boost_field.first[:boost] || default_boost_value)
     end
   end
 end

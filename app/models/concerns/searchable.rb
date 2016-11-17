@@ -159,28 +159,6 @@ module Searchable
       end
     end
 
-    def find_match_records(match_criteria, match_class, child_id = nil)
-      pagination = {:page => 1, :per_page => 20}
-      sort={:score => :desc}
-      if match_criteria.nil? || match_criteria.empty?
-        []
-      else
-        search = Sunspot.search(match_class) do
-          any do
-            match_criteria.each do |key, value|
-              fulltext(value, :fields => Record.get_match_field(key.to_s))
-            end
-          end
-          with(:id, child_id) unless child_id.nil?
-          sort.each { |sort_field, order| order_by(sort_field, order) }
-          paginate pagination
-        end
-        results = {}
-        search.hits.each { |hit| results[hit.result.id] = hit.score }
-        results
-      end
-    end
-
     # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
     #      Currently nothing calls this?
     def reindex!

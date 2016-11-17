@@ -54,6 +54,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+  after_save :find_match_tracing_requests
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -180,10 +181,10 @@ class Child < CouchRest::Model::Base
   include Searchable
 
   searchable do
-    form_matchable_fields.select { |field| Record.exclude_match_field(field) }.each { |field| text field, :boost => Record.get_field_boost(field) }
+    form_matchable_fields.select { |field| Child.exclude_match_field(field) }.each { |field| text field, :boost => Child.get_field_boost(field) }
 
-    subform_matchable_fields.select { |field| Record.exclude_match_field(field) }.each do |field|
-      text field, :boost => Record.get_field_boost(field) do
+    subform_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|
+      text field, :boost => Child.get_field_boost(field) do
         self.family_details_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:family_details_section)
       end
     end
@@ -231,6 +232,33 @@ class Child < CouchRest::Model::Base
       end
       compact_result match_results
       sort_hash match_results
+    end
+
+    #TODO - verify fields
+    def boost_fields
+      [
+        {field: 'name', boost: 10},
+        {field: 'name_first', match: 'name', boost: 10},
+        {field: 'name_middle', match: 'name', boost: 10},
+        {field: 'name_last', match: 'name', boost: 10},
+        {field: 'name_other', match: 'name', boost: 10},
+        {field: 'name_nickname', boost: 10},
+        {field: 'sex', boost: 10},
+        {field: 'age', boost: 5},
+        {field: 'date_of_birth', boost: 5},
+        {field: 'relation_name', boost: 5},
+        {field: 'relation', boost: 10},
+        {field: 'relation_nickname', boost: 5},
+        {field: 'relation_age', boost: 5},
+        {field: 'relation_date_of_birth', boost: 5},
+        {field: 'relation_other_family', match: 'relation_name', boost: 5},
+        {field: 'nationality', match: 'relation_nationality', boost: 3},
+        {field: 'language', match: 'relation_language', boost: 3},
+        {field: 'religion', match: 'relation_religion', boost: 3},
+        {field: 'ethnicity', match: 'relation_ethnicity'},
+        {field: 'sub_ethnicity_1', match: 'relation_sub_ethnicity1'},
+        {field: 'sub_ethnicity_2', match: 'relation_sub_ethnicity2'}
+      ]
     end
   end
 
@@ -400,8 +428,10 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  #TODO v1.3: Need rspec test
   def find_match_tracing_requests
     match_class = TracingRequest
+    #TODO - where is match_criteria populated?
     match_result = self.class.find_match_records(match_criteria, match_class)
     tracing_request_ids = match_result==[] ? [] : match_result.keys
     all_results = TracingRequest.match_tracing_requests_for_child(self.id, tracing_request_ids).uniq
