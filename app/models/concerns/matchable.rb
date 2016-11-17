@@ -144,6 +144,13 @@ module Matchable
       match_results
     end
 
+    def find_max_score_element array
+      array = array.max_by do |element|
+        element["average_rating"]
+      end
+      array
+    end
+
     def boost_fields
       []
     end

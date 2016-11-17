@@ -75,13 +75,6 @@ class PotentialMatchesController < ApplicationController
     filter
   end
 
-  def find_max_score_element array
-    array = array.max_by do |element|
-      element["average_rating"]
-    end
-    array
-  end
-
   private
 
   def match_model_class
