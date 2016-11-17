@@ -15,6 +15,8 @@ class TracingRequest < CouchRest::Model::Base
   property :relation_name
   property :reunited, TrueClass
 
+  after_save :find_match_children
+
   def initialize *args
     self['photo_keys'] ||= []
     arguments = args.first
