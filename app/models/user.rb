@@ -278,7 +278,7 @@ class User < CouchRest::Model::Base
   end
 
   def agency_name
-    self.agency.name
+    self.agency.try(:name)
   end
 
   def last_login
