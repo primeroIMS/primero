@@ -463,4 +463,30 @@ describe User do
       end
     end
   end
+
+  describe "agency_name" do
+    context "when agency does not exist" do
+      before do
+        @user = build_and_save_user
+      end
+
+      it "should return nil" do
+        expect(@user.agency_name).to be_nil
+      end
+    end
+
+    context "when agency exists" do
+      before do
+        Agency.all.each {|a| a.destroy}
+        agency = Agency.new(:name => "unicef", :agency_code => "12345")
+        agency.save
+
+        @user = build_and_save_user :organization => agency.id
+      end
+
+      it "should return the agency name" do
+        expect(@user.agency_name).to eq('unicef')
+      end
+    end
+  end
 end
