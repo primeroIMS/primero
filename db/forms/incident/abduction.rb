@@ -11,57 +11,70 @@ abduction_subform_fields = [
   Field.new({"name" => "abduction_purpose",
              "type" => "select_box",
              "display_name_all" => "Purpose of the abduction",
-             "option_strings_text_all" => ["Extortion",
-                                           "Forced marriage",
-                                           "Indoctrination",
-                                           "Intimidation",
-                                           "Killing/Maiming",
-                                           "Punishment",
-                                           "Recruitment and use",
-                                           "Rape and/or other forms of sexual violence",
-                                           "Unknown",
-                                           "Other"].join("\n")
+             "multi_select" => true,
+             "option_strings_text_all" => ["Extortion", "Forced marriage", "Indoctrination", "Intimidation",
+                                           "Killing/Maiming", "Retaliation", "Recruitment and/or use", "Sexual violence",
+                                           "Unknown", "Other"].join("\n")
             }),
   Field.new({"name" => "abduction_purpose_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify "
+             "display_name_all" => "If 'Other', please specify"
             }),
-  Field.new({"name" => "abduction_crossborder",
-             "type" => "radio_button",
-             "display_name_all" => "Cross-border",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+  Field.new({"name" => "abduction_from_location_list",
+             "type" => "select_box",
+             "display_name_all" => "Location where the abduction occurred",
+             "option_strings_source" => "lookup Country"
             }),
-  Field.new({"name" => "abduction_from_location",
+  Field.new({"name" => "abduction_from_location_list_other",
              "type" => "text_field",
-             "display_name_all" => "Location where the abduction occurred"
+             "display_name_all" => "Other details about the location where the abduction occurred",
+             "help_text" => "(Other country, GPS coordinates, etc.)"
             }),
-  Field.new({"name" => "abduction_held_location",
+  Field.new({"name" => "abduction_held_location_list",
+             "type" => "select_box",
+             "display_name_all" => "Location where the victim(s) was/were held",
+             "option_strings_source" => "lookup Country"
+            }),
+  Field.new({"name" => "abduction_held_location_list_other",
              "type" => "text_field",
-             "display_name_all" => "Location where the victim(s) was/were held"
+             "display_name_all" => "Other details about the location where the victim(s) was/were held occurred",
+             "help_text" => "(Other country, GPS coordinates, etc.)"
             }),
+  Field.new({"name" => "associated_violations_status",
+             "type" => "select_box",
+             "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  #TODO: SELECT OPTIONS NOT WORKING  Something weird going on with Chosen Drop options
+  # Suspect having violations in the field name is triggering JS that whacks the options
+  # Tested with different field name: abduction_associated_vs.  It worked.
   Field.new({"name" => "abduction_associated_violations",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Was the abduction associated with other violations? If so, select as appropriate",
-             "option_strings_text_all" => ["Killing", 
-                                           "Maiming",
-                                           "Rape and/or other grave sexual violence",
+             "multi_select" => true,
+             "option_strings_text_all" => ["Killing", "Maiming", "Rape and/or other grave sexual violence",
                                            "Abduction"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom",
              "type" => "radio_button",
              "display_name_all" => "Did any of the victims eventually regain freedom?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom_how",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "If 'Yes', how did they leave?",
-             "option_strings_text_all" => ["Release by abductors",
-                                           "Runaway/Escape",
-                                           "Law enforcement operation",
-                                           "Dissolution of armed force/group",
-                                           "Other"].join("\n")
+             "multi_select" => true,
+             "option_strings_text_all" => ["Release by abductors", "Runaway/Escape", "Law enforcement operation",
+                                           "Dissolution of armed force/group", "Other"].join("\n")
+            }),
+  Field.new({"name" => "abduction_regained_freedom_how_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please specify"
+            }),
+  Field.new({"name" => "abduction_crossborder",
+             "type" => "radio_button",
+             "display_name_all" => "Cross-border",
+             "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom_when",
              "type" => "date_field",
@@ -75,13 +88,11 @@ abduction_subform_fields = [
   Field.new({"name" => "abduction_other_victims",
              "type" => "select_box",
              "display_name_all" => "Did the victim(s) witness other children during abduction?",
-             "option_strings_text_all" => ["Yes",
-                                           "No",
-                                           "Unknown"].join("\n")
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "abduction_other_victims_additional_info",
              "type" => "textarea",
-             "display_name_all" => "If 'Yes', please provide any additional information available "
+             "display_name_all" => "If 'Yes', please provide any additional information available"
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
