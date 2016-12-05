@@ -69,7 +69,7 @@ abduction_subform_fields = [
             }),
   Field.new({"name" => "abduction_regained_freedom_how_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify"
+             "display_name_all" => "If 'Other', please specify "
             }),
   Field.new({"name" => "abduction_crossborder",
              "type" => "radio_button",
