@@ -133,6 +133,9 @@ denial_humanitarian_access_fields = [
              "subform_section_id" => denial_humanitarian_access_section.unique_id,
              "display_name_all" => "Denial of humanitarian access for children",
              "expose_unique_id" => true,
+             "guiding_questions" => "Denial of humanitarian access to children is the intentional deprivation of or impediment to the passage of humanitarian assistance indispensible to children’s survival, by the parties to the conflict, including wilfully impeding relief supplies as provided for under the Geneva Conventions; and significant
+impediments to the ability of humanitarian or other relevant actors to access and assist affected children, in situations of armed conflict.
+The denial should be considered in terms of children’s access to assistance as well as humanitarian agencies’ ability to access vulnerable populations, including children. (see MRM Fiedl Manual, page 10). Examples of restrictions of access may include road blocks or checkpoints.Examples of entry restrictions for humanitarian personnel may include deliberate delays in visa issuance or formal registrations, and other bureaucratic impediments.Import restrictions for relief goods may include obstructive custom formalities, regulations and fees.Examples of travel restrictions in country may include systematic denial of, or delays in authorizing, humanitarian convoys."
             })
   ##Subform##
 ]
