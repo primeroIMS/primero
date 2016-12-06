@@ -198,13 +198,15 @@ class Incident < CouchRest::Model::Base
       'attack_on_schools' => 'site_attack_type',
       'attack_on_hospitals' => 'site_attack_type',
       'denial_humanitarian_access' => 'denial_method',
-      'other_violation' => 'violation_other_type'
+      'other_violation' => 'violation_other_type',
+      'deprivation' => 'deprivation_grounds'
     }
   end
 
+  #TODO: This belongs in a helper
   def violation_label(violation_type, violation, include_unique_id=false)
     id_fields = self.class.violation_id_fields
-    label_id = violation.send(id_fields[violation_type].to_sym)
+    label_id = violation.try(id_fields[violation_type])
     label_id_text = (label_id.is_a?(Array) ? label_id.join(', ') : label_id)
     label = label_id.present? ? "#{violation_type.titleize} - #{label_id_text}" : "#{violation_type.titleize}"
     if include_unique_id
