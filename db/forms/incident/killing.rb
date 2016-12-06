@@ -8,113 +8,56 @@ killing_subform_fields = [
            "tally_all" => ['boys', 'girls', 'unknown'],
            "autosum_total" => true,
           }),
-  Field.new({"name" => "violation_method",
-             "type" => "select_box",
-             "display_name_all" => "Method",
-             "visible" => false,
-             "option_strings_text_all" =>
-                                    ["Victim Activated",
-                                     "Non-Victim Activated",
-                                     "Summary"].join("\n")
-            }),
   Field.new({"name" => "cause",
              "type" => "select_box",
-             "display_name_all" => "Type of weapon used",
-             "option_strings_text_all" => ["Aircraft bomb",
-                                           "Barrel bomb",
-                                           "Booby trap",
-                                           "Chemical weapons",
-                                           "Unmanned aerial vehicle (UAV [e.g. drone])",
-                                           "Explosive remnant of war – ERW [includes unexploded ordnance and abandoned ordnance]",
-                                           "Improvised Explosive Device (IED)",
-                                           "Grenade",
-                                           "Landmine [includes anti-personnel and anti-vehicle landmine]",
-                                           "Light weapons",
-                                           "Missile",
-                                           "Mortar/Rocket",
-                                           "Sharp weapon",
-                                           "Small arm [e.g. AK-47]",
-                                           "Submunition",
-                                           "Other weapons",
-                                           "Unknown"].join("\n")
+             "display_name_all" => "Type of weapon",
+             "option_strings_source" => "lookup WeaponType"
             }),
-
-  Field.new({"name" => "cause_details",
+  Field.new({"name" => "cause_other",
              "type" => "text_field",
-             "display_name_all" => "Details",
-             "visible" => false
+             "display_name_all" => "If 'Other', please specify"
             }),
   Field.new({"name" => "circumstances",
              "type" => "select_box",
              "display_name_all" => "Type of attack",
-             "option_strings_text_all" => ["Aerial attack",
-                                           "Arson",
-                                           "Command-wire operated IED",
-                                           "Flying IEDs",
-                                           "Person-borne IED",
-                                           "Remote-controlled IED",
-                                           "Timer-operated IED",
-                                           "Vehicle-borne IED",
-                                           "Land-based attack - Laying mines",
-                                           "Land-based attack - Pressure plate IED",
-                                           "Occupation of building(s)",
-                                           "Other shooting",
-                                           "Sea-based attack",
-                                           "Tactical use of building(s)",
-                                           "Targeted shooting [e.g. sniper]",
-                                           "Theft/Looting",
-                                           "Threat/Intimidation/Harassment"].join("\n")
+             "option_strings_source" => "lookup AttackType"
+            }),
+  Field.new({"name" => "circumstances_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please specify "
             }),
   Field.new({"name" => "victim_targeted",
              "type" => "select_box",
              "display_name_all" => "Was/were the victim(s) directly targeted?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "consequences",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "Consequences",
-             "visible" => false,
-             "option_strings_text_all" => [
-                { id: 'killing', display_text: "Killing" },
-                { id: 'permanent_disability', display_text: "Permanent Disability" },
-                { id: 'serious_injury', display_text: "Serious Injury" },
-                { id: 'other', display_text: "Other" }
-              ]
-            }),
-  Field.new({"name" => "context",
-             "type" => "select_box",
-             "display_name_all" => "Context",
-             "visible" => false,
-             "option_strings_text_all" =>
-                                    ["Weapon Used By The Child",
-                                     "Weapon Used Against The Child"].join("\n")
-            }),
-  Field.new({"name" => "mine_incident",
-             "type" => "radio_button",
-             "display_name_all" => "Mine Incident",
-             "visible" => false,
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
-            }),
   Field.new({"name" => "victim_a_participant",
              "type" => "select_box",
-             "display_name_all" => "Was the victim directly participating in hostilities at the time of the violation?",
-             "option_strings_text_all" =>
-                                    ["Yes",
-                                     "No",
-                                     "Unknown"].join("\n")
+             "display_name_all" => "Was/were the victim(s) directly participating in hostilities at the time of the violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "related_to_abduction",
+  Field.new({"name" => "indiscriminate_nature",
              "type" => "select_box",
-             "display_name_all" => "Did the violation occur during or as a direct result of abduction?",
-             "option_strings_text_all" =>
-                                    ["Yes",
-                                     "No",
-                                     "Unknown"].join("\n")
+             "display_name_all" => "Any elements pointing to the indiscriminate nature of the attack?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  Field.new({"name" => "indiscriminate_nature_yes",
+             "type" => "text_field",
+             "display_name_all" => "If 'Yes', please specify "
+            }),
+  Field.new({"name" => "associated_violations_status",
+             "type" => "select_box",
+             "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  Field.new({"name" => "killing_associated_violations",
+             "type" => "select_box",
+             "display_name_all" => "If 'Yes', please specify:",
+             "option_strings_source" => "lookup ViolationType"
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional notes"
+             "display_name_all" => "Additional details:"
             })
 ]
 
