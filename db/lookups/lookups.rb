@@ -308,3 +308,32 @@ create_or_update_lookup(
             "LP-RR"
     ]
 )
+
+create_or_update_lookup(
+    :name => "weapon_type",
+    :lookup_values => [
+        "Aerial bomb",
+        "Barrel bomb",
+        "Booby trap",
+        "Biological weapons",
+        "Chemical weapons",
+        "Dirty/atomic weapons (e.g. depleted uranium ammunition)",
+        "Explosive remnant of war – ERW (includes unexploded ordnance and abandoned ordnance)",
+        "Improvised Explosive Device (IED) – Command-wire operated",
+        "Improvised Explosive Device (IED) – Flying IED",
+        "Improvised Explosive Device (IED) - Person-borne IED",
+        "Improvised Explosive Device (IED) - Remote-controlled IED",
+        "Improvised Explosive Device (IED) - Timer-operated IED",
+        "Improvised Explosive Device (IED) - Vehicle-borne IED",
+        "Improvised Explosive Device (IED) - Grenade",
+        "Landmine (includes anti-personnel and anti-vehicle landmine, both factory-made and improvised, and pressure-plate IEDs)",
+        "Light weapons (designed to be used by several persons, i.e. heavy machine guns, air defence weapons, etc.)",
+        "Missile",
+        "Mortar/Rocket",
+        "Sharp weapon",
+        "Small arm [e.g. AK-47]",
+        "Submunition (e.g. cluster munitions)",
+        "Other weapons",
+        "Unknown"
+    ]
+)
