@@ -17,20 +17,17 @@ sexual_violence_subform_fields = [
                                            "Forced abortion", "Mutilation, Sexual harrassment/assault",
                                            "Sexual slavery and/or trafficking", "Sexual exploitation and/or abuse"].join("\n")
              }),
-  Field.new({"name" => "associated_violations_status",
+  Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "sexual_violence_other_violations",
+  Field.new({"name" => "sexual_violence_other_violation",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If yes, please specify:",
              "help_text_all" => "Select all that applies.",
-             "option_strings_text_all" => ["Killing", "Maiming", "Recruitment and/or use",
-                                           "Recruitment and/or use of children - Deprivation of liberty due to alleged association with a party to the conflict",
-                                           "Abduction", "Attacks on schools", "Attacks on hospitals",
-                                           "Denial of humanitarian access for children"].join("\n")
+             "option_strings_source" => "lookup ViolationType"
             }),
   Field.new({"name" => "sexual_violence_implications",
              "type" => "select_box",

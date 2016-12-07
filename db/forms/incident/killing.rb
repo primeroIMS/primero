@@ -45,12 +45,12 @@ killing_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If 'Yes', please specify "
             }),
-  Field.new({"name" => "associated_violations_status",
+  Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "killing_associated_violations",
+  Field.new({"name" => "killing_associated_violation",
              "type" => "select_box",
              "display_name_all" => "If 'Yes', please specify:",
              "option_strings_source" => "lookup ViolationType"
