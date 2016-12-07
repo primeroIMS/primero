@@ -45,7 +45,8 @@ abduction_subform_fields = [
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "abduction_associated_violation",
+  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
+  Field.new({"name" => "associated_violation",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If 'Yes', please specify:",
