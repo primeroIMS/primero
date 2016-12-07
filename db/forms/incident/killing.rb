@@ -52,6 +52,7 @@ killing_subform_fields = [
             }),
   Field.new({"name" => "killing_associated_violation",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "If 'Yes', please specify:",
              "option_strings_source" => "lookup ViolationType"
             }),
