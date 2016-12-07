@@ -45,36 +45,32 @@ abduction_subform_fields = [
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  #TODO: SELECT OPTIONS NOT WORKING  Something weird going on with Chosen Drop options
-  # Suspect having violations in the field name is triggering JS that whacks the options
-  # Tested with different field name: abduction_associated_vs.  It worked.
   Field.new({"name" => "abduction_associated_violations",
              "type" => "select_box",
-             "display_name_all" => "Was the abduction associated with other violations? If so, select as appropriate",
-             "multi_select" => true,
-             "option_strings_text_all" => ["Killing", "Maiming", "Rape and/or other grave sexual violence",
-                                           "Abduction"].join("\n")
+             "display_name_all" => "If 'Yes', please specify:",
+             "option_strings_source" => "lookup ViolationType"
             }),
   Field.new({"name" => "abduction_regained_freedom",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Did any of the victims eventually regain freedom?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom_how",
              "type" => "select_box",
-             "display_name_all" => "If 'Yes', how did they leave?",
+             "display_name_all" => "If yes, how did the abduction end?",
              "multi_select" => true,
-             "option_strings_text_all" => ["Release by abductors", "Runaway/Escape", "Law enforcement operation",
-                                           "Dissolution of armed force/group", "Other"].join("\n")
+             "option_strings_text_all" => ["Release by abductors", "Payment of ransom", "Escape",
+                                           "Military or law enforcement operation", "Dissolution of armed force/group",
+                                           "Formal handover process", "Other"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom_how_other",
              "type" => "text_field",
              "display_name_all" => "If 'Other', please specify "
             }),
   Field.new({"name" => "abduction_crossborder",
-             "type" => "radio_button",
-             "display_name_all" => "Cross-border",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "type" => "select_box",
+             "display_name_all" => "Was this a cross-border violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom_when",
              "type" => "date_field",
@@ -96,7 +92,7 @@ abduction_subform_fields = [
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional notes"
+             "display_name_all" => "Additional details:"
             })
  # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
