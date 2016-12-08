@@ -1,4 +1,4 @@
-individual_details_fields = [
+individual_victims_fields = [
   Field.new({"name" => "id_number",
              "type" => "text_field",
              "display_name_all" => "Child ID",
@@ -125,37 +125,37 @@ individual_details_fields = [
             })
 ]
 
-individual_details_subform_section = FormSection.create_or_update_form_section({
+individual_victims_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 50,
   :order => 10,
   :order_subform => 1,
-  :unique_id => "individual_details_subform_section",
+  :unique_id => "individual_victims_subform_section",
   :parent_form=>"incident",
   "editable" => true,
-  :fields => individual_details_fields,
-  "name_all" => "Nested Individual Details Subform",
-  "description_all" => "Nested Individual Details Subform",
+  :fields => individual_victims_fields,
+  "name_all" => "Nested Individual victim(s) Subform",
+  "description_all" => "Nested Individual victim(s) Subform",
   :initial_subforms => 1,
   "collapsed_fields" => ["sex", "age"]
 })
 
 FormSection.create_or_update_form_section({
-  :unique_id => "individual_details",
+  :unique_id => "individual_victims",
   :parent_form=>"incident",
   "visible" => true,
   :order_form_group => 50,
   :order => 10,
   :order_subform => 0,
-  :form_group_name => "Individual Details",
+  :form_group_name => "Individual victim(s)",
   "editable" => true,
-  :fields => [Field.new({"name" => "individual_details_subform_section",
+  :fields => [Field.new({"name" => "individual_victims_subform_section",
                          "type" => "subform", "editable" => true,
-                         "subform_section_id" => individual_details_subform_section.unique_id,
-                         "display_name_all" => "Individual Details"
+                         "subform_section_id" => individual_victims_subform_section.unique_id,
+                         "display_name_all" => "Individual victim(s)"
                         })
              ],
-  "name_all" => "Individual Details",
-  "description_all" => "Individual Details"
+  "name_all" => "Individual victim(s)",
+  "description_all" => "Individual victim(s)"
 })
