@@ -45,13 +45,15 @@ killing_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If 'Yes', please specify "
             }),
-  Field.new({"name" => "associated_violations_status",
+  Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "killing_associated_violations",
+  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
+  Field.new({"name" => "associated_violation",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "If 'Yes', please specify:",
              "option_strings_source" => "lookup ViolationType"
             }),
