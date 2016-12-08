@@ -363,11 +363,10 @@ create_or_update_lookup(
       "Killing",
       "Maiming",
       "Recruitment and/or use",
-      "Recruitment and/or use of children - Deprivation of liberty due to alleged association with a party to the conflict",
       "Rape and/or other grave sexual violence",
       "Abduction",
-      "Attacks on schools",
-      "Attacks on hospitals",
+      "Attacks on schools and/or hospitals",
+      "Military use of schools and/or hospitals",
       "Denial of humanitarian access for children"
     ]
 )

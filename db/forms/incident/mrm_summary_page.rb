@@ -159,70 +159,34 @@ abduction_subform_fields = [
             })
 ]
 
-attack_on_schools_subform_fields = [
+attack_on_subform_fields = [
   Field.new({"name" => "violation_killed_tally",
        "type" => "tally_field",
        "display_name_all" => "Number of children killed",
-       "autosum_group" => "sexual_violence_number_of_children_killed",
+       "autosum_group" => "attack_number_of_children_killed",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
       }),
   Field.new({"name" => "violation_injured_tally",
        "type" => "tally_field",
        "display_name_all" => "Number of children injured",
-       "autosum_group" => "sexual_violence_number_of_children_injured",
+       "autosum_group" => "attack_number_of_children_injured",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
       }),
-  Field.new({"name" => "site_attack_type",
+  Field.new({"name" => "facility_attack_type",
              "type" => "select_box",
+             "multi_select" => true,
              "visible" => false,
-             "display_name_all" => "Type of Attack On Site",
-             "option_strings_text_all" =>
-                                    ["Shelling",
-                                     "Arson",
-                                     "Aerial Bombardment",
-                                     "Theft/Looting",
-                                     "Occupation of Building",
-                                     "Direct Attack on students/teachers",
-                                     "Intimidation of Individuals",
-                                     "Direct attack on medical person",
-                                     "Physical Destruction",
-                                     "Other"].join("\n")
-            })
-]
-
-attack_on_hospitals_subform_fields = [
-  Field.new({"name" => "violation_killed_tally",
-       "type" => "tally_field",
-       "display_name_all" => "Number of children killed",
-       "autosum_group" => "attack_on_hospitals_number_of_children_killed",
-       "tally_all" => ['boys', 'girls', 'unknown'],
-       "autosum_total" => true,
-      }),
-  Field.new({"name" => "violation_injured_tally",
-       "type" => "tally_field",
-       "display_name_all" => "Number of children injured",
-       "autosum_group" => "attack_on_hospitals_number_of_children_injured",
-       "tally_all" => ['boys', 'girls', 'unknown'],
-       "autosum_total" => true,
-      }),
-  Field.new({"name" => "site_attack_type",
-             "type" => "select_box",
-             "visible" => false,
-             "display_name_all" => "Type of Attack On Site",
-             "option_strings_text_all" =>
-                                    ["Shelling",
-                                     "Arson",
-                                     "Aerial Bombardment",
-                                     "Theft/Looting",
-                                     "Occupation of Building",
-                                     "Direct Attack on students/teachers",
-                                     "Intimidation of Individuals",
-                                     "Direct attack on medical person",
-                                     "Physical Destruction",
-                                     "Other"].join("\n")
-            })
+             "display_name_all" => "Type of education or health-related violation",
+             "option_strings_text_all" => ["Attack on school(s)", "Attack on education personnel",
+                                           "Threats of attack on school(s)", "Other interference with education",
+                                           "Attack on hospital(s)", "Attack on medical personnel",
+                                           "Threats of attack on hospital(s)", "Military use of hospitals",
+                                           "Other interference with health care"].join("\n"),
+             "guiding_questions" => "See  'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998', "\
+                                    "2014 (available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 6."
+            }),
 ]
 
 denial_humanitarian_access_section_fields = [
@@ -385,40 +349,21 @@ abduction_subform_section = FormSection.create_or_update_form_section({
   "is_summary_section" => true
 })
 
-attack_on_schools_subform_section = FormSection.create_or_update_form_section({
+attack_on_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 40,
   :order => 60,
   :order_subform => 1,
-  :unique_id => "attack_on_schools_summary",
+  :unique_id => "attack_on_summary",
   :parent_form=>"incident",
   "editable" => true,
-  :fields => attack_on_schools_subform_fields,
-  "name_all" => "Violation Attacks on schools Summary",
-  "description_all" => "Violation Attacks on schools Summary",
+  :fields => attack_on_subform_fields,
+  "name_all" => "Violation Attacks on schools and/or hospitals",
+  "description_all" => "Violation Attacks on schools and/or hospitals",
   :initial_subforms => 1,
-  "collapsed_fields" => ["site_attack_type"],
-  "shared_subform" => "attack_on_schools",
-  "shared_subform_group" => "Violations",
-  "is_summary_section" => true
-})
-
-attack_on_hospitals_subform_section = FormSection.create_or_update_form_section({
-  "visible" => false,
-  "is_nested" => true,
-  :order_form_group => 40,
-  :order => 70,
-  :order_subform => 1,
-  :unique_id => "attack_on_hospitals_summary",
-  :parent_form=>"incident",
-  "editable" => true,
-  :fields => attack_on_hospitals_subform_fields,
-  "name_all" => "Violation Attacks on hospitals Summary",
-  "description_all" => "Violation Attacks on hospitals Summary",
-  :initial_subforms => 1,
-  "collapsed_fields" => ["site_attack_type"],
-  "shared_subform" => "attack_on_hospitals",
+  "collapsed_fields" => ["facility_attack_type"],
+  "shared_subform" => "attack_on",
   "shared_subform_group" => "Violations",
   "is_summary_section" => true
 })
@@ -510,16 +455,10 @@ mrm_summary_page_fields = [
              "display_name_all" => "Abduction",
              "expose_unique_id" => true
             }),
-  Field.new({"name" => "attack_on_schools_summary",
+  Field.new({"name" => "attack_on_summary",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => attack_on_schools_subform_section.unique_id,
-             "display_name_all" => "Attacks on schools",
-             "expose_unique_id" => true
-            }),
-  Field.new({"name" => "attack_on_hospitals_summary",
-             "type" => "subform", "editable" => true,
-             "subform_section_id" => attack_on_hospitals_subform_section.unique_id,
-             "display_name_all" => "Attacks on hospitals",
+             "subform_section_id" => attack_on_subform_section.unique_id,
+             "display_name_all" => "Attacks on schools and/or hospitals",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "denial_humanitarian_access_summary",

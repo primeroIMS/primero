@@ -82,7 +82,7 @@ attack_on_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Age level of students attending he affected school",
-             "option_strings_text_all" => ["0 - 5", "6 - 10", "11 - 13", "14-18"].join("\n")
+             "option_strings_text_all" => ["0 - 5", "6 - 10", "11 - 13", "14 - 18"].join("\n")
             }),
   Field.new({"name" => "school_students_sex",
              "type" => "select_box",
@@ -202,7 +202,7 @@ attack_on_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested attacks on subform",
   "description_all" => "Nested attacks on subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["site_attack_type"]
+  "collapsed_fields" => ["facility_attack_type"]
 })
 
 attack_on_fields = [
