@@ -308,3 +308,66 @@ create_or_update_lookup(
             "LP-RR"
     ]
 )
+
+create_or_update_lookup(
+    :name => "weapon_type",
+    :lookup_values => [
+      "Aerial bomb",
+      "Barrel bomb",
+      "Booby trap",
+      "Biological weapons",
+      "Chemical weapons",
+      "Dirty/atomic weapons (e.g. depleted uranium ammunition)",
+      "Explosive remnant of war – ERW (includes unexploded ordnance and abandoned ordnance)",
+      "Improvised Explosive Device (IED) – Command-wire operated",
+      "Improvised Explosive Device (IED) – Flying IED",
+      "Improvised Explosive Device (IED) - Person-borne IED",
+      "Improvised Explosive Device (IED) - Remote-controlled IED",
+      "Improvised Explosive Device (IED) - Timer-operated IED",
+      "Improvised Explosive Device (IED) - Vehicle-borne IED",
+      "Improvised Explosive Device (IED) - Grenade",
+      "Landmine (includes anti-personnel and anti-vehicle landmine, both factory-made and improvised, and pressure-plate IEDs)",
+      "Light weapons (designed to be used by several persons, i.e. heavy machine guns, air defence weapons, etc.)",
+      "Missile",
+      "Mortar/Rocket",
+      "Sharp weapon",
+      "Small arm [e.g. AK-47]",
+      "Submunition (e.g. cluster munitions)",
+      "Other weapons",
+      "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "attack_type",
+    :lookup_values => [
+      "Aerial attack",
+      "Arson",
+      "Improvised Explosive Device (IED) attack (select the corresponding weapon in the ‘Type of weapon dropdown menu)",
+      "Land-based attack",
+      "Laying mines [includes pressure-plate IEDs and booby traps]",
+      "Occupation of building(s)",
+      "Other shooting",
+      "Physical assault",
+      "Sea-based attack",
+      "Shooting (e.g. sniper)",
+      "Tactical use of building(s)",
+      "Threat/Intimidation/Harassment",
+      "Unmanned aerial vehicle (UAV) (e.g. drone)"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "violation_type",
+    :lookup_values => [
+      "Killing",
+      "Maiming",
+      "Recruitment and/or use",
+      "Recruitment and/or use of children - Deprivation of liberty due to alleged association with a party to the conflict",
+      "Rape and/or other grave sexual violence",
+      "Abduction",
+      "Attacks on schools",
+      "Attacks on hospitals",
+      "Denial of humanitarian access for children"
+    ]
+)
