@@ -42,6 +42,7 @@ incident_fields = [
                  { id: 'sexual_violence', display_text: "Rape and/or other forms of sexual violence" },
                  { id: 'attack_on_schools', display_text: "Attacks on schools" },
                  { id: 'attack_on_hospitals', display_text: "Attacks on hospitals" },
+                 { id: 'military_use', display_text: "Military use of schools and/or hospitals" },
                  { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
                  #{ id: 'other', display_text: "Other" }
               ],
