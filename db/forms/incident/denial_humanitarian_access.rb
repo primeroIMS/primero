@@ -3,62 +3,101 @@ require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
 denial_humanitarian_access_section_fields = [
   Field.new({"name" => "denial_method",
              "type" => "select_box",
+             "multi_select" => true,
              "display_name_all" => "Method(s) used to deny humanitarian access",
-             "option_strings_text_all" =>
-                                    ["Abduction of humanitarian personnel",
-                                     "Besiegement",
-                                     "Entry restrictions for humanitarian personnel",
-                                     "Import restrictions for relief goods",
-                                     "Property damage/theft",
-                                     "Restrictions of beneficiaries' access",
-                                     "Threats/violence against beneficiaries",
-                                     "Threats/violence against humanitarian personnel",
-                                     "Travel restrictions in country",
-                                     "Vehicle hijacking",
-                                     "Other"].join("\n"),
+             "option_strings_text_all" => ["Abduction of humanitarian personnel", "Besiegement",
+                                           "Entry restrictions for humanitarian personnel",
+                                           "Import restrictions for relief goods",
+                                           "Financial restrictions on humanitarian organizations",
+                                           "Property damage", "Theft", "Restrictions of beneficiaries' access",
+                                           "Threats/violence against beneficiaries",
+                                           "Threats/violence against humanitarian personnel",
+                                           "Travel restrictions in country", "Vehicle hijacking", "Other"].join("\n")
             }),
   Field.new({"name" => "denial_method_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please provide further details "
+             "display_name_all" => "If 'Other', please provide further details"
             }),
   Field.new({"name" => "denial_organizations_affected",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Type of organization(s) affected",
-             "option_strings_text_all" => [
-                { id: 'national', display_text: "National" },
-                { id: 'international', display_text: "International" },
-                { id: 'n_a', display_text: "N/A" },
-                { id: 'ngo', display_text: "NGO" },
-                { id: 'united_nations_agencies', display_text: "United Nations Agencies" },
-                { id: 'red_cross_cresent', display_text: "Red Cross / Crescent" },
-                { id: 'other', display_text: "Other" }
-              ]
+             "option_strings_text_all" => ["Governmental", "International/Inter-Governmental", "NGO/International",
+                                           "NGO/National", "De-facto authorities", "ICRC-Red Cross/Crescent",
+                                           "Religious/faith based institutions", "Community orhganizations",
+                                           "Private (e.g. demining companies)", "Unknown", "Other"].join("\n")
             }),
-  Field.new({"name" => "impact_on_humanitarian_personnel_property_section",
-             "type" => "separator",
-             "visible" => false,
-             "display_name_all" => "Impact on Humanitarian Personnel/Property"
+  Field.new({"name" => "denial_organizations_affected_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please specify"
+            }),
+  Field.new({"name" => "associated_violation_status",
+             "type" => "select_box",
+             "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  Field.new({"name" => "associated_violation",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If yes, please specify:",
+             "option_strings_source" => "lookup ViolationType"
             }),
   Field.new({"name" => "denial_personnel_killed",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of personnel killed"
+             "type" => "tally_field",
+             "display_name_all" => "Number of humanitarian personnel killed",
+             "autosum_group" => "denial_number_of_personnel_killed",
+             "tally_all" => ['men', 'women', 'unknown'],
+             "autosum_total" => true,
+            }),
+  Field.new({"name" => "denial_personnel_killed_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?",
             }),
   Field.new({"name" => "denial_personnel_injured",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of personnel injured"
+             "type" => "tally_field",
+             "display_name_all" => "Number of humanitarian personnel injured",
+             "autosum_group" => "denial_number_of_personnel_injured",
+             "tally_all" => ['men', 'women', 'unknown'],
+             "autosum_total" => true,
+            }),
+  Field.new({"name" => "denial_personnel_injured_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated? ",
             }),
   Field.new({"name" => "denial_personnel_abducted",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of personnel abducted"
+             "type" => "tally_field",
+             "display_name_all" => "Number of humanitarian personnel abducted",
+             "autosum_group" => "denial_number_of_personnel_abducted",
+             "tally_all" => ['men', 'women', 'unknown'],
+             "autosum_total" => true,
+            }),
+  Field.new({"name" => "denial_personnel_abducted_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?  ",
             }),
   Field.new({"name" => "denial_personnel_threatened",
-             "type" => "numeric_field",
-             "display_name_all" => "Number of personnel threatened"
+             "type" => "tally_field",
+             "display_name_all" => "Number of humanitarian personnel threatened",
+             "autosum_group" => "denial_number_of_personnel_threatened",
+             "tally_all" => ['men', 'women', 'unknown'],
+             "autosum_total" => true,
+            }),
+  Field.new({"name" => "denial_personnel_threatened_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?   ",
             }),
   Field.new({"name" => "denial_vehicles_hijacked",
              "type" => "numeric_field",
-             "display_name_all" => "Number of vehicles hijacked"
+             "display_name_all" => "Number of humanitarian vehicles hijacked"
+            }),
+  Field.new({"name" => "denial_vehicles_hijacked_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?    ",
             }),
   Field.new({"name" => "denial_value_property",
              "type" => "numeric_field",
@@ -76,19 +115,24 @@ denial_humanitarian_access_section_fields = [
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
       }),
+  Field.new({"name" => "violation_tally_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?     ",
+            }),
   Field.new({"name" => "denial_total_affected_adults",
              "type" => "numeric_field",
              "display_name_all" => "Number of adults affected by access restriction/service disruption"
             }),
-  Field.new({"name" => "denial_total_affected",
-             "type" => "numeric_field",
-             "display_name_all" => "Population Affected by Service Disruption",
-             "visible" => false
+  Field.new({"name" => "denial_total_affected_adults_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?      ",
             }),
   Field.new({"name" => "denial_population_affected",
              "type" => "textarea",
              "display_name_all" => "Population affected by access restriction/service disruption",
-             "help_text_all" => "E.g. particular communities/sub-groups (religious, ethnic, IDP/refugee etc.)"
+             "help_text_all" => "E.g. particular communities/sub-groups (religious, ethnic, IDP/refugee, etc.)"
             }),
   Field.new({"name" => "types_of_aid_disrupted_denial",
              "type" => "select_box",
@@ -104,7 +148,7 @@ denial_humanitarian_access_section_fields = [
             }),
   Field.new({"name" => "denial_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional notes  "
+             "display_name_all" => "Additional details:"
             })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
@@ -134,9 +178,20 @@ denial_humanitarian_access_fields = [
              "option_strings_text_all" => ["Please read guidance text below for the violation definition.",
                                            "Other"].join("\n"),
              "selected_value" => "Please read guidance text below for the violation definition.",
-             "guiding_questions" => "Denial of humanitarian access to children is the intentional deprivation of or impediment to the passage of humanitarian assistance indispensible to children’s survival, by the parties to the conflict, including wilfully impeding relief supplies as provided for under the Geneva Conventions; and significant
-impediments to the ability of humanitarian or other relevant actors to access and assist affected children, in situations of armed conflict.
-The denial should be considered in terms of children’s access to assistance as well as humanitarian agencies’ ability to access vulnerable populations, including children. (see MRM Fiedl Manual, page 10). Examples of restrictions of access may include road blocks or checkpoints.Examples of entry restrictions for humanitarian personnel may include deliberate delays in visa issuance or formal registrations, and other bureaucratic impediments.Import restrictions for relief goods may include obstructive custom formalities, regulations and fees.Examples of travel restrictions in country may include systematic denial of, or delays in authorizing, humanitarian convoys."
+             "guiding_questions" => "Denial of humanitarian access to children is the intentional deprivation of or "\
+                                    "impediment to the passage of humanitarian assistance indispensible to children’s "\
+                                    "survival, by the parties to the conflict, including wilfully impeding relief supplies "\
+                                    "as provided for under the Geneva Conventions; and significant impediments to the "\
+                                    "ability of humanitarian or other relevant actors to access and assist affected "\
+                                    "children, in situations of armed conflict.  The denial should be considered in terms "\
+                                    "of children’s access to assistance as well as humanitarian agencies’ ability to access "\
+                                    "vulnerable populations, including children. (see MRM Fiedl Manual, page 10). Examples "\
+                                    "of restrictions of access may include road blocks or checkpoints.Examples of entry "\
+                                    "restrictions for humanitarian personnel may include deliberate delays in visa issuance "\
+                                    "or formal registrations, and other bureaucratic impediments.  Import restrictions for "\
+                                    "relief goods may include obstructive custom formalities, regulations and fees.  "\
+                                    "Examples of travel restrictions in country may include systematic denial of, or delays "\
+                                    "in authorizing, humanitarian convoys."
             }),
   ##Subform##
   Field.new({"name" => "denial_humanitarian_access",
