@@ -1,11 +1,7 @@
 individual_victims_fields = [
   Field.new({"name" => "id_number",
              "type" => "text_field",
-             "display_name_all" => "Child ID",
-            }),
-  Field.new({"name" => "survivor_code",
-             "type" => "text_field",
-             "display_name_all" => "Survivor Code",
+             "display_name_all" => "Victim's ID",
             }),
   Field.new({"name" => "individual_violations",
              "type" => "select_box",
@@ -15,113 +11,80 @@ individual_victims_fields = [
             }),
   Field.new({"name" => "sex",
              "type" => "radio_button",
-             "display_name_all" => "What is the sex of the child?",
-             "option_strings_text_all" =>
-                          ["Female",
-                           "Male",
-                           "Unknown"].join("\n")
-            }),
-  Field.new({"name" => "date_of_birth",
-             "type" => "date_field",
-             "display_name_all" => "What is the child's Date of Birth?",
-             "date_validation" => "not_future_date"
+             "display_name_all" => "Sex of the victim",
+             "option_strings_text_all" => ["Female", "Male", "Unknown"].join("\n")
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
-             "display_name_all" => "What is the child's age?",
+             "display_name_all" => "Victim's age",
+            }),
+  Field.new({"name" => "date_of_birth",
+             "type" => "date_field",
+             "display_name_all" => "Victim's date of birth (if known)",
+             "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "estimated",
-             "type" => "radio_button",
-             "display_name_all" => "Is the age estimated?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
-            }),
-  Field.new({"name" => "ethnicity",
-             "type" => "select_box",
-             "display_name_all" => "What is the ethnic affiliation of the individual?",
-             "option_strings_source" => "lookup Ethnicity"
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is the age estimated? ",
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
-             "display_name_all" => "What is the national affiliation of the individual?",
+             "multi_select" => true,
+             "display_name_all" => "Nationality/ies of the victim",
              "option_strings_source" => "lookup Nationality"
+            }),
+  Field.new({"name" => "ethnicity",
+             "type" => "select_box",
+             "display_name_all" => "Ethnic affiliation of the victim",
+             "option_strings_source" => "lookup Ethnicity"
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
-             "display_name_all" => "What is the religious affiliation of the individual?",
+             "display_name_all" => "Religious affiliation of the victim",
              "option_strings_source" => "lookup Religion"
             }),
-  Field.new({"name" => "country_of_origin",
-             "type" => "select_box",
-             "display_name_all" => "Country of Origin",
-             "option_strings_source" => "lookup Country"
-            }),
-  Field.new({"name" => "displacement_status",
-             "type" => "select_box",
-             "display_name_all" => "Displacement Status at time of report",
-             "option_strings_source" => "lookup DisplacementStatus"
-            }),
-  Field.new({"name" => "care_arrangements_at_time_of_incident",
-             "type" => "select_box",
-             "display_name_all" => "What were the care arrangements for the child at the time of the incident/violation(s)?",
-             "option_strings_text_all" =>
-                          ["Both Parents",
-                           "Lone Parent",
-                           "Other Family",
-                           "Foster Family",
-                           "Care Home",
-                           "Independent Living",
-                           "Other",
-                           "Unknown"].join("\n")
+  Field.new({"name" => "child_consent_for_reporting",
+             "type" => "radio_button",
+             "display_name_all" => "Does the victim consent to sharing non-personally identifiable data with the CTFMR "\
+                                   "for reporting purposes?",
+             "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "child_consent_data_sharing",
              "type" => "select_box",
-             "display_name_all" => "With whom is the child and/or adult caregiver willing to share their name and other personal details?",
-             "option_strings_text_all" =>
-                          ["Anonymous",
-                           "Agency Only",
-                           "Task Force",
-                           "Perpetrator",
-                           "Prosecutor"].join("\n")
+             "multi_select" => true,
+             "display_name_all" => "With whom is the victim and/or adult caregiver willing to share the victim's name and "\
+                                   "other personal details for referral purposes?",
+             "option_strings_text_all" => ["UNICEF", "Other CTFMR member(s)", "CTFMR partners/service providers",
+                                           "No one", "Other"].join("\n")
+            }),
+  Field.new({"name" => "child_consent_data_sharing_other",
+             "type" => "textarea",
+             "display_name_all" => "If other, please provide further details",
+             "help_text_all" => "e.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
+                                "victim/adult caregiver consented to share personal details"
             }),
   Field.new({"name" => "child_consent_follow_up",
              "type" => "radio_button",
-             "display_name_all" => "Is the child and/or adult caregiver willing to be contacted again about the violations?",
-             "option_strings_text_all" =>
-                          ["Yes", "No"].join("\n")
-            }),
-  Field.new({"name" => "child_consent_referral",
-             "type" => "radio_button",
-             "display_name_all" => "Does the Child/Adult Caregiver consent to their personal details being passed to another humanitarian agency willing and able to provide long term support?",
-             "option_strings_text_all" =>
-                          ["Yes", "No"].join("\n")
-            }),
-  Field.new({"name" => "create_case",
-             "type" => "radio_button",
-             "display_name_all" => "Should a case be created for this child to receive further services?",
-             "option_strings_text_all" =>
-                          ["Yes", "No"].join("\n")
-            }),
-  Field.new({"name" => "maritial_status",
-             "type" => "select_box",
-             "display_name_all" => "Current civil/marital status",
-             "option_strings_text_all" =>
-                          ["Single",
-                           "Married / Cohabitating",
-                           "Divorced / Separated",
-                           "Widowed"].join("\n")
-            }),
-  Field.new({"name" => "disability_type",
-             "type" => "radio_button",
-             "display_name_all" => "Disability Type",
-             "option_strings_text_all" =>
-                          ["Mental Disability",
-                           "Physical Disability",
-                           "Both"].join("\n")
+             "display_name_all" => "Is the victim and/or adult caregiver willing to be contacted again about the violations?",
+             "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "unaccompanied_separated_status",
              "type" => "select_box",
-             "display_name_all" => "Is the client an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
-             "option_strings_source" => "lookup UnaccompaniedSeparatedStatus"
+             "multi_select" => true,
+             "display_name_all" => "Victim's vulnerabilities",
+             "option_strings_source" => "lookup VulnerabilityType"
+            }),
+  Field.new({"name" => "disability_type",
+             "type" => "select_box",
+             "display_name_all" => "If the victim is a person with a disability, please clarify type of disability",
+             "option_strings_text_all" => ["Mental disability", "Physical disability", "Mental and physical disability"].join("\n")
+            }),
+  Field.new({"name" => "individual_additional_details",
+             "type" => "textarea",
+             "display_name_all" => "Additional details",
+             "help_text_all" => "e.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
+                                "victim/adult caregiver consented to share personal details"
             })
 ]
 

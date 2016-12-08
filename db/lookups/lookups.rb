@@ -370,3 +370,21 @@ create_or_update_lookup(
       "Denial of humanitarian access for children"
     ]
 )
+
+create_or_update_lookup(
+    :name => "vulnerability_type",
+    :lookup_values => [
+        "Abducted",
+        "Asylum seeker",
+        "Detained",
+        "Disabled",
+        "Internally Displaced",
+        "Unaccompanied",
+        "Recruited",
+        "Refugee",
+        "Returnee",
+        "Separated",
+        "Stateless",
+        "Unknown"
+    ]
+)
