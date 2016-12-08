@@ -23,7 +23,7 @@ individual_victims_fields = [
              "display_name_all" => "Victim's date of birth (if known)",
              "date_validation" => "not_future_date"
             }),
-  Field.new({"name" => "estimated",
+  Field.new({"name" => "victim_age_estimated",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Is the age estimated? ",
@@ -75,7 +75,7 @@ individual_victims_fields = [
              "display_name_all" => "Victim's vulnerabilities",
              "option_strings_source" => "lookup VulnerabilityType"
             }),
-  Field.new({"name" => "disability_type",
+  Field.new({"name" => "victim_disability_type",
              "type" => "select_box",
              "display_name_all" => "If the victim is a person with a disability, please clarify type of disability",
              "option_strings_text_all" => ["Mental disability", "Physical disability", "Mental and physical disability"].join("\n")
