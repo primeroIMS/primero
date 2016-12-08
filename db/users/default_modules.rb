@@ -73,7 +73,7 @@ create_or_update_module(
   associated_form_ids: [
     "incident_record_owner", "incident_form",
     "killing_violation_wrapper", "maiming_violation_wrapper", "recruitment_violation_wrapper",
-    "sexual_violence_violation_wrapper", "attack_on_violation_wrapper",
+    "sexual_violence_violation_wrapper", "attack_on_violation_wrapper", "military_use_violation_wrapper",
     "denial_humanitarian_access_violation_wrapper", "abduction_violation_wrapper", "deprivation_violation_wrapper", "other_violation_wrapper",
     "individual_victims", "group_details", "source", "perpetrators_form", "intervention_form", "incident_other_documents",
     "mrm_summary_page", "mrm_reportable_fields"
