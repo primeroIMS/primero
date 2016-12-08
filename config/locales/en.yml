@@ -448,12 +448,12 @@ en:
       pending: 'Pending Verification'
       killing: "Killing"
       maiming: "Maiming"
-      recruitment: "Recruitment"
-      sexual_violence: "Sexual Violence"
+      recruitment: "Recruitment and/or use"
+      sexual_violence: "Rape and/or other grave sexual violence"
       abduction: "Abduction"
-      attack_on_schools: "Attack on/military use of schools"
-      attack_on_hospitals: "Attack on/military use of hospitals"
-      denial_humanitarian_access: "Denial of Humanitarian Access"
+      attack_on: "Attacks on schools and/or hospitals"
+      military_use: "Military use of schools and/or hospitals"
+      denial_humanitarian_access: "Denial of humanitarian access for children"
       other_violation: "Other Violation"
 
   tracing_request:
