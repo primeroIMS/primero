@@ -13,50 +13,39 @@ sexual_violence_subform_fields = [
              "multi_select" => true,
              "display_name_all" => "Form(s) of sexual violence",
              "help_text_all" => "Select all that applies.",
-             "option_strings_text_all" => [
-                { id: 'rape', display_text: "Rape and/or other forms of sexual violence" },
-                { id: 'sexual_assault', display_text: "Sexual harrassment/assault" },
-                { id: 'forced_marriage', display_text:"Forced marriage" },
-                { id: 'mutilation', display_text:"Mutilation" },
-                { id: 'force_sterilization', display_text:"Forced sterilization" },
-                { id: 'other', display_text:"Other" }
-              ]
-            }),
-  Field.new({"name" => "displacement_at_time_of_incident",
+             "option_strings_text_all" => ["Rape", "Enforced prostitution", "Enforced sterilization", "Forced pregnancy",
+                                           "Forced abortion", "Mutilation, Sexual harrassment/assault",
+                                           "Sexual slavery and/or trafficking", "Sexual exploitation and/or abuse"].join("\n")
+             }),
+  Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
-             "display_name_all" => "Stage of displacement at time of incident",
-             "visible" => false,
-             "option_strings_text_all" =>
-                                    ["Not Displaced/Home Country",
-                                     "Pre-displacement",
-                                     "During Flight",
-                                     "During Refuge",
-                                     "During Return/Transit",
-                                     "Post-Displacement"].join("\n")
+             "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "abduction_status_time_of_incident",
-             "type" => "select_box",
-             "display_name_all" => "Type of abduction at time of the incident",
-             "visible" => false,
-             "option_strings_text_all" =>
-                                    ["None",
-                                     "Forced Conscription",
-                                     "Trafficked",
-                                     "Other Abduction/Kidnapping"].join("\n")
-            }),
-  Field.new({"name" => "sexual_violence_other_violations",
+  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
+  Field.new({"name" => "associated_violation",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "Was the rape or other grave sexual violence associated with other grave violations?",
+             "display_name_all" => "If yes, please specify:",
              "help_text_all" => "Select all that applies.",
-             "option_strings_text_all" => ["Killing",
-                                           "Maiming",
-                                           "Recruitment and/or use",
-                                           "Abduction"].join("\n")
+             "option_strings_source" => "lookup ViolationType"
+            }),
+  Field.new({"name" => "sexual_violence_implications",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "What implications did the sexual violence have?",
+             "help_text_all" => "Select all that applies.",
+             "option_strings_text_all" => ["Child(ren) born out of rape", "health implications"].join("\n")
+            }),
+  Field.new({"name" => "sexual_violence_crossborder",
+             "type" => "select_box",
+             "display_name_all" => "Was this a cross-border violation?",
+             "help_text_all" => "Select all that applies.",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional notes"
+             "display_name_all" => "Additional details:"
             })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
