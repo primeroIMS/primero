@@ -2,33 +2,33 @@ require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
 
 #TODO - Subform fields have not yet been defined
 military_use_subform_fields = [
-  # Field.new({"name" => "site_number_attacked",
-  #            "type" => "numeric_field",
-  #            "display_name_all" => "Number of Sites Attacked",
-  #            "visible" => false
-  #           })
+    Field.new({"name" => "military_use_type",
+               "type" => "text_field",
+               "disabled" => true,
+               "display_name_all" => "TODO: Military use of schools and hospitals"
+              })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
 
 #TODO - Subform fields have not yet been defined
-# military_use_subform_section = FormSection.create_or_update_form_section({
-#   "visible" => false,
-#   "is_nested" => true,
-#   :order_form_group => 40,
-#   :order => 70,
-#   :order_subform => 1,
-#   :unique_id => "military_use",
-#   :parent_form=>"incident",
-#   "editable" => true,
-#   :fields => (military_use_subform_fields + MRM_VERIFICATION_FIELDS),
-#   "name_all" => "Nested Military use Subform",
-#   "description_all" => "Nested Military use Subform",
-#   :initial_subforms => 1,
+military_use_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order_form_group => 40,
+  :order => 70,
+  :order_subform => 1,
+  :unique_id => "military_use",
+  :parent_form=>"incident",
+  "editable" => true,
+  :fields => (military_use_subform_fields + MRM_VERIFICATION_FIELDS),
+  "name_all" => "Nested Military use Subform",
+  "description_all" => "Nested Military use Subform",
+  :initial_subforms => 1,
 #TODO: MAKE SURE THE COLLAPSED FIELD IS CORRECT!!!!
 #TODO: Coordinate with self.violation_id_fields in the incident model
 #TODO: Also update mrm_summary_page.rb
-#   "collapsed_fields" => ["site_attack_type"]
-# })
+  "collapsed_fields" => ["military_use_type"]
+})
 
 military_use_fields = [
   #The sole purpose of this field is to have Guiding Questions above the subforms
@@ -45,13 +45,12 @@ military_use_fields = [
                                     "see 'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998, 2014, "\
                                     "available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf "
             }),
-  #TODO - Subform fields have not yet been defined
-  # Field.new({"name" => "military_use",
-  #            "type" => "subform", "editable" => true,
-  #            "subform_section_id" => military_use_subform_section.unique_id,
-  #            "display_name_all" => "Military use of schools and/or hospitals",
-  #            "expose_unique_id" => true,
-  #           })
+  Field.new({"name" => "military_use",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => military_use_subform_section.unique_id,
+             "display_name_all" => "Military use of schools and/or hospitals",
+             "expose_unique_id" => true,
+            })
 ]
 
 FormSection.create_or_update_form_section({
