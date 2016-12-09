@@ -188,6 +188,7 @@ class Incident < CouchRest::Model::Base
   # Each violation type has a field that is used as part of the identification
   # of that violation
   #TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
+  #TODO: Military Use fields have not yet been defined.  Using a temp placeholder
   def self.violation_id_fields
     {
       'killing' => 'cause',
@@ -196,6 +197,7 @@ class Incident < CouchRest::Model::Base
       'sexual_violence' => 'sexual_violence_type',
       'abduction' => 'abduction_purpose',
       'attack_on' => 'facility_attack_type',
+      'military_use' => 'military_use_type',
       'denial_humanitarian_access' => 'denial_method',
       'other_violation' => 'violation_other_type',
       'deprivation' => 'deprivation_grounds'
