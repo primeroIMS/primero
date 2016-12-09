@@ -14,7 +14,7 @@ sexual_violence_subform_fields = [
              "display_name_all" => "Form(s) of sexual violence",
              "help_text_all" => "Select all that applies.",
              "option_strings_text_all" => ["Rape", "Enforced prostitution", "Enforced sterilization", "Forced pregnancy",
-                                           "Forced abortion", "Mutilation, Sexual harrassment/assault",
+                                           "Forced abortion", "Mutilation", "Sexual harrassment/assault",
                                            "Sexual slavery and/or trafficking", "Sexual exploitation and/or abuse"].join("\n")
              }),
   Field.new({"name" => "associated_violation_status",
