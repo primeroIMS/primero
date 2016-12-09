@@ -1,63 +1,77 @@
 group_victims_section_fields_subform = [
   Field.new({"name" => "group_description",
              "type" => "text_field",
-             "display_name_all" => "Description of the Group of Children"
+             "display_name_all" => "Description of group victim(s)",
+             "help_text_all" => "E.g., students of a school destroyed in an aerial bombardment; doctors and patients of a hospital hit by a missile."
             }),
   Field.new({"name" => "group_violations",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "Violations",
+             "display_name_all" => "Violation(s)",
              "option_strings_source" => "violations"
             }),
   Field.new({"name" => "group_number",
              "type" => "numeric_field",
-             "display_name_all" => "How many children were involved?"
+             "display_name_all" => "How many children were affected?"
+            }),
+  Field.new({"name" => "group_number_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?",
             }),
   Field.new({"name" => "group_gender",
              "type" => "select_box",
-             "display_name_all" => "What was the sex of the group of children involved?",
-             "option_strings_text_all" =>
-                                    ["All Female",
-                                     "All Male",
-                                     "Mixed",
-                                     "Unknown"].join("\n")
+             "display_name_all" => "Sex of the children affected",
+             "option_strings_text_all" => ["All Female", "All Male", "Mixed", "Unknown"].join("\n")
             }),
   Field.new({"name" => "group_age_band",
              "type" => "select_box",
-             "display_name_all" => "Into which age band did the children fall?",
-             "option_strings_text_all" =>
-                                    ["<5years",
-                                     "≥5<10 years",
-                                     "≥10<15 years",
-                                     "≥15<18 years",
-                                     "Mixed",
-                                     "Unknown"].join("\n")
-            }),
-  Field.new({"name" => "group_ethnicity",
-             "type" => "select_box",
-             "display_name_all" => "What were the ethnic affiliations of the children involved?",
-             "option_strings_source" => "lookup group Ethnicity"
+             "multi_select" => true,
+             "display_name_all" => "Age range of the children affected",
+             "option_strings_text_all" => ["0 - 5", "6 - 10", "11 - 13", "14 - 18", "Unknown"].join("\n")
             }),
   Field.new({"name" => "group_nationality",
              "type" => "select_box",
-             "display_name_all" => "What was the nationality of the children involved?",
+             "multi_select" => true,
+             "display_name_all" => "Nationality/ies of the children affected",
              "option_strings_source" => "lookup group Nationality"
             }),
+  Field.new({"name" => "group_ethnicity",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Ethnic affiliation(s) of the children affected",
+             "option_strings_source" => "lookup group Ethnicity"
+            }),
+
   Field.new({"name" => "group_religion",
              "type" => "select_box",
-             "display_name_all" => "What was the religious affiliation of the children involved?",
+             "multi_select" => true,
+             "display_name_all" => "Religious affiliation(s) of the children affected.",
              "option_strings_source" => "lookup group Religion"
             }),
-  Field.new({"name" => "group_displacement_at_time_of_incident",
+  Field.new({"name" => "group_adult_number",
+             "type" => "numeric_field",
+             "display_name_all" => "How many adults were affected? (e.g. education personnel; healthcare personnel)"
+            }),
+  Field.new({"name" => "group_adult_number_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated? ",
+            }),
+  Field.new({"name" => "group_adult_gender",
              "type" => "select_box",
-             "display_name_all" => "What was the status of the children involved at the time of the violation ?",
-             "option_strings_text_all" =>
-                                    ["Community Member",
-                                     "IDP",
-                                     "Refugee",
-                                     "Returnee",
-                                     "Mixed",
-                                     "Unknown"].join("\n")
+             "display_name_all" => "Sex of the adults affected",
+             "option_strings_text_all" => ["All Female", "All Male", "Mixed", "Unknown"].join("\n")
+            }),
+  Field.new({"name" => "group_vulnerabilities",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Group victim's vulnerabilities at the time of the incident",
+             "option_strings_source" => "lookup VulnerabilityType"
+            }),
+  Field.new({"name" => "group_additional_details",
+             "type" => "textarea",
+             "display_name_all" => "Additional details"
             })
 ]
 
@@ -71,8 +85,8 @@ group_victims_section = FormSection.create_or_update_form_section({
   :parent_form=>"incident",
   "editable"=>true,
   :fields => group_victims_section_fields_subform,
-  "name_all" => "Nested Group Victims",
-  "description_all" => "Group Victims Subform",
+  "name_all" => "Nested Group victim(s)",
+  "description_all" => "Group victim(s) Subform",
   "collapsed_fields" => ["group_gender", "group_age_band"],
   :initial_subforms => 1
 })
@@ -93,7 +107,7 @@ group_victims_fields = [
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => group_victims_section.unique_id,
-             "display_name_all" => "Group Victims"
+             "display_name_all" => "Group victim(s)"
             }),
   ##Subform##
 ]
@@ -105,9 +119,9 @@ FormSection.create_or_update_form_section({
   :order_form_group => 60,
   :order => 10,
   :order_subform => 0,
-  :form_group_name => "Group Victims",
+  :form_group_name => "Group victim(s)",
   "editable" => true,
   :fields => group_victims_fields,
-  "name_all" => "Group Victims",
-  "description_all" => "Group Victims"
+  "name_all" => "Group victim(s)",
+  "description_all" => "Group victim(s)"
 })

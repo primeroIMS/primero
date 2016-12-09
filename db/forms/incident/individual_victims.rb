@@ -69,7 +69,7 @@ individual_victims_fields = [
              "display_name_all" => "Is the victim and/or adult caregiver willing to be contacted again about the violations?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
-  Field.new({"name" => "unaccompanied_separated_status",
+  Field.new({"name" => "individual_vulnerabilities",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Victim's vulnerabilities",
