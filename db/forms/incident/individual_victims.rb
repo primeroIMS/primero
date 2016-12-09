@@ -10,7 +10,7 @@ individual_victims_fields = [
              "option_strings_source" => "violations"
             }),
   Field.new({"name" => "sex",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Sex of the victim",
              "option_strings_text_all" => ["Female", "Male", "Unknown"].join("\n")
             }),
@@ -82,9 +82,7 @@ individual_victims_fields = [
             }),
   Field.new({"name" => "individual_additional_details",
              "type" => "textarea",
-             "display_name_all" => "Additional details",
-             "help_text_all" => "e.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
-                                "victim/adult caregiver consented to share personal details"
+             "display_name_all" => "Additional details"
             })
 ]
 
