@@ -353,7 +353,8 @@ create_or_update_lookup(
       "Shooting (e.g. sniper)",
       "Tactical use of building(s)",
       "Threat/Intimidation/Harassment",
-      "Unmanned aerial vehicle (UAV) (e.g. drone)"
+      "Unmanned aerial vehicle (UAV) (e.g. drone)",
+      "Other"
     ]
 )
 

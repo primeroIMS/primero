@@ -10,7 +10,7 @@ maiming_subform_fields = [
         }),
   Field.new({"name" => "cause",
              "type" => "select_box",
-             "display_name_all" => "Type of weapon",
+             "display_name_all" => "Type of weapon used",
              "option_strings_source" => "lookup WeaponType"
             }),
   Field.new({"name" => "cause_other",

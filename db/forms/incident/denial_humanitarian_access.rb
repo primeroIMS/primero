@@ -139,12 +139,8 @@ denial_humanitarian_access_section_fields = [
              "multi_select" => true,
              "display_name_all" => "Type of aid/service denied/disrupted.",
              "help_text_all" => "Select all that applies",
-             "option_strings_text_all" => ["Food",
-                                           "Medical care",
-                                           "Medical equipment",
-                                           "School supplies",
-                                           "WASH",
-                                           "Other essential supplies."].join("\n")
+             "option_strings_text_all" => ["Food", "Medical care", "Medical equipment", "School supplies",
+                                           "WASH", "Other essential supplies"].join("\n")
             }),
   Field.new({"name" => "denial_notes",
              "type" => "textarea",
