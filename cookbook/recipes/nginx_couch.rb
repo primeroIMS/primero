@@ -20,7 +20,7 @@ template couch_conf_file do
   variables({
     :ssl_cert_path => node[:primero][:couchdb][:cert_path],
     :ssl_key_path => node[:primero][:couchdb][:key_path],
-    :ssl_client_ca_path => client_ca_path,
+    :ssl_client_ca => client_ca_path,
     :log_dir => ::File.join(node[:primero][:log_dir], 'couchdb'),
     :dh_param => "#{node[:nginx_dir]}/ssl/dhparam.pem",
   })
