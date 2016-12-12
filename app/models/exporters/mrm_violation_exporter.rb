@@ -35,10 +35,10 @@ module Exporters
         make_violations_tab(mrm_incidents, vtype, @workbook)
       end
 
-      make_related_data_tab(mrm_incidents, @workbook, 'Individual Details', 'individual_details_subform_section', 'individual_violations')
-      make_related_data_tab(mrm_incidents, @workbook, 'Perpetrators', 'perpetrator_subform_section', 'perpetrator_violations')
+      make_related_data_tab(mrm_incidents, @workbook, 'Individual Victims', 'individual_victims_subform_section', 'individual_violations')
+      make_related_data_tab(mrm_incidents, @workbook, 'Group Victims', 'group_victims_section', 'group_violations')
       make_related_data_tab(mrm_incidents, @workbook, 'Source', 'source_subform_section', 'source_violations')
-      make_related_data_tab(mrm_incidents, @workbook, 'Group Details', 'group_details_section', 'group_violations')
+      make_related_data_tab(mrm_incidents, @workbook, 'Perpetrators', 'perpetrator_subform_section', 'perpetrator_violations')
     end
 
     private

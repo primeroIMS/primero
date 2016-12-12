@@ -38,8 +38,8 @@ class IncidentsController < ApplicationController
   def create_cp_case_from_individual_details
     authorize! :create, Child
     incident_id = params[:incident_id]
-    individual_details_subform_section = params[:individual_details_subform_section]
-    redirect_to new_case_path({module_id: PrimeroModule::CP, incident_id: incident_id, individual_details_subform_section: individual_details_subform_section })
+    individual_victims_subform_section = params[:individual_victims_subform_section]
+    redirect_to new_case_path({module_id: PrimeroModule::CP, incident_id: incident_id, individual_victims_subform_section: individual_victims_subform_section })
   end
 
   private
