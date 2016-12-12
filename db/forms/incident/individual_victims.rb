@@ -9,12 +9,12 @@ individual_victims_fields = [
              "display_name_all" => "Violations",
              "option_strings_source" => "violations"
             }),
-  Field.new({"name" => "sex",
+  Field.new({"name" => "individual_sex",
              "type" => "select_box",
              "display_name_all" => "Sex of the victim",
              "option_strings_text_all" => ["Female", "Male", "Unknown"].join("\n")
             }),
-  Field.new({"name" => "age",
+  Field.new({"name" => "individual_age",
              "type" => "numeric_field",
              "display_name_all" => "Victim's age",
             }),
@@ -23,7 +23,7 @@ individual_victims_fields = [
              "display_name_all" => "Victim's date of birth (if known)",
              "date_validation" => "not_future_date"
             }),
-  Field.new({"name" => "victim_age_estimated",
+  Field.new({"name" => "individual_age_estimated",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Is the age estimated? ",
@@ -99,7 +99,7 @@ individual_victims_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Individual victim(s) Subform",
   "description_all" => "Nested Individual victim(s) Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["sex", "age"]
+  "collapsed_fields" => ["individual_sex", "individual_age"]
 })
 
 FormSection.create_or_update_form_section({
