@@ -297,8 +297,8 @@ class Incident < CouchRest::Model::Base
 
   def individual_ids
     ids = []
-    if self.individual_details_subform_section.present?
-      ids = self.individual_details_subform_section.map(&:id_number).compact
+    if self.individual_victims_subform_section.present?
+      ids = self.individual_victims_subform_section.map(&:id_number).compact
     end
     return ids
   end
