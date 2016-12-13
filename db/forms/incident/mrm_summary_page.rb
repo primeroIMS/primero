@@ -6,27 +6,10 @@ killing_subform_fields = [
            "tally_all" => ['boys', 'girls', 'unknown'],
            "autosum_total" => true,
           }),
-  Field.new({"name" => "cause",
+  Field.new({"name" => "weapon_type",
              "type" => "select_box",
-             "visible" => false,
              "display_name_all" => "Type of weapon used",
-             "option_strings_text_all" => ["Aircraft bomb",
-                                           "Barrel bomb",
-                                           "Booby trap",
-                                           "Chemical weapons",
-                                           "Unmanned aerial vehicle (UAV [e.g. drone])",
-                                           "Explosive remnant of war – ERW [includes unexploded ordnance and abandoned ordnance]",
-                                           "Improvised Explosive Device (IED)",
-                                           "Grenade",
-                                           "Landmine [includes anti-personnel and anti-vehicle landmine]",
-                                           "Light weapons",
-                                           "Missile",
-                                           "Mortar/Rocket",
-                                           "Sharp weapon",
-                                           "Small arm [e.g. AK-47]",
-                                           "Submunition",
-                                           "Other weapons",
-                                           "Unknown"].join("\n")
+             "option_strings_source" => "lookup WeaponType"
             })
 ]
 
@@ -38,27 +21,10 @@ maiming_subform_fields = [
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
         }),
-  Field.new({"name" => "cause",
+  Field.new({"name" => "weapon_type",
              "type" => "select_box",
-             "visible" => false,
              "display_name_all" => "Type of weapon used",
-             "option_strings_text_all" => ["Aircraft bomb",
-                                           "Barrel bomb",
-                                           "Booby trap",
-                                           "Chemical weapons",
-                                           "Unmanned aerial vehicle (UAV [e.g. drone])",
-                                           "Explosive remnant of war – ERW [includes unexploded ordnance and abandoned ordnance]",
-                                           "Improvised Explosive Device (IED)",
-                                           "Grenade",
-                                           "Landmine [includes anti-personnel and anti-vehicle landmine]",
-                                           "Light weapons",
-                                           "Missile",
-                                           "Mortar/Rocket",
-                                           "Sharp weapon",
-                                           "Small arm [e.g. AK-47]",
-                                           "Submunition",
-                                           "Other weapons",
-                                           "Unknown"].join("\n")
+             "option_strings_source" => "lookup WeaponType"
             })
 ]
 
@@ -248,7 +214,7 @@ killing_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Violation Killing Summary",
   "description_all" => "Violation Killing Summary",
   :initial_subforms => 1,
-  "collapsed_fields" => ["cause"],
+  "collapsed_fields" => ["weapon_type"],
   "shared_subform" => "killing",
   "shared_subform_group" => "Violations",
   "is_summary_section" => true
@@ -267,7 +233,7 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Violation Maiming Summary",
   "description_all" => "Violation Maiming Summary",
   :initial_subforms => 1,
-  "collapsed_fields" => ["cause"],
+  "collapsed_fields" => ["weapon_type"],
   "shared_subform" => "maiming",
   "shared_subform_group" => "Violations",
   "is_summary_section" => true
