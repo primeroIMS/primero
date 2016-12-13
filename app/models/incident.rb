@@ -360,7 +360,7 @@ class Incident < CouchRest::Model::Base
     ['boys', 'girls', 'unknown'].each do |child_type|
       child_count = 0
       #Special case for "attack on hospitals" and "attack on schools"
-      if(violation_type == 'attack_on_hospitals' || violation_type == 'attack_on_schools')
+      if(violation_type == 'attack_on')
         child_count += violation.send("violation_killed_tally_#{child_type}".to_sym) if violation.send("violation_killed_tally_#{child_type}".to_sym).is_a?(Fixnum)
         child_count += violation.send("violation_injured_tally_#{child_type}".to_sym) if violation.send("violation_injured_tally_#{child_type}".to_sym).is_a?(Fixnum)
       else
