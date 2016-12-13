@@ -101,7 +101,7 @@ attack_on_subform_fields = [
   Field.new({"name" => "health_type",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "Type of health facility affected",
+             "display_name_all" => "Type of healthcare facility affected",
              "option_strings_text_all" => ["Hospital", "Health centre", "Dispensary", "Mobile health unit", "Ambulance",
                                            "Other" ].join("\n")
             }),
