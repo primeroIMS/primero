@@ -73,7 +73,7 @@ Report.create_or_update({
   aggregate_by: ['category'],
   aggregate_counts_from: 'facility_staff_killed_attack',
   filters: default_filters + [
-    {'attribute' => 'category', 'value' => ['attack_on_hospitals', 'attack_on_schools']}
+    {'attribute' => 'category', 'value' => ['attack_on']}
   ],
   is_graph: false,
   editable: false
@@ -88,7 +88,7 @@ Report.create_or_update({
   aggregate_by: ['category'],
   aggregate_counts_from: 'facility_staff_injured_attack',
   filters: default_filters + [
-    {'attribute' => 'category', 'value' => ['attack_on_hospitals', 'attack_on_schools']}
+    {'attribute' => 'category', 'value' => ['attack_on']}
   ],
   is_graph: false,
   editable: false

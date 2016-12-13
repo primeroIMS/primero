@@ -1,7 +1,7 @@
 
 #Violation attributes
 #type
-violation_types = ['killing', 'maiming', 'recruitment', 'sexual_violence', 'abduction', 'attack_on_schools', 'attack_on_hospitals', 'denial_humanitarian_access', 'other_violation']
+violation_types = ['killing', 'maiming', 'recruitment', 'sexual_violence', 'abduction', 'attack_on', 'denial_humanitarian_access', 'other_violation']
 violation_type_id_fields =  {
   'killing' => ['cause',[
     "IED",
@@ -65,29 +65,16 @@ violation_type_id_fields =  {
     "Unknown",
     "Other"
   ]],
-  'attack_on_schools' => ['site_attack_type',[
-    "Shelling",
-    "Arson",
-    "Aerial Bombardment",
-    "Theft/Looting",
-    "Occupation of Building",
-    "Direct Attack on students/teachers",
-    "Intimidation of Individuals",
-    "Direct attack on medical person",
-    "Physical Destruction",
-    "Other"
-  ]],
-  'attack_on_hospitals' => ['site_attack_type',[
-    "Shelling",
-    "Arson",
-    "Aerial Bombardment",
-    "Theft/Looting",
-    "Occupation of Building",
-    "Direct Attack on students/teachers",
-    "Intimidation of Individuals",
-    "Direct attack on medical person",
-    "Physical Destruction",
-    "Other"
+  'attack_on' => ['site_attack_type',[
+    "Attack on school(s)",
+    "Attack on education personnel",
+    "Threats of attack on school(s)",
+    "Other interference with education",
+    "Attack on hospital(s)",
+    "Attack on medical personnel",
+    "Threats of attack on hospital(s)",
+    "Military use of hospitals",
+    "Other interference with health care"
   ]],
   'denial_humanitarian_access' => ['denial_method',[
     "Entry Restrictions of Personnel",

@@ -13,8 +13,7 @@ fields = [
            { id: 'abduction', display_text: "Abduction" },
            { id: 'recruitment', display_text: "Recruitment and/or use of children" },
            { id: 'sexual_violence', display_text: "Rape and/or other forms of sexual violence" },
-           { id: 'attack_on_schools', display_text: "Attacks on Schools" },
-           { id: 'attack_on_hospitals', display_text: "Attacks on Hospitals" },
+           { id: 'attack_on', display_text: "Attacks on schools and/or hospitals" },
            { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
            { id: 'other', display_text: "Other" }
         ],
