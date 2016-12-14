@@ -1,6 +1,5 @@
 require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
 
-#TODO - Subform fields have not yet been defined
 military_use_subform_fields = [
     Field.new({"name" => "military_use_type",
                "type" => "select_box",
@@ -125,7 +124,7 @@ military_use_subform_fields = [
     Field.new({"name" => "number_children_service_disruption",
                "type" => "tally_field",
                "display_name_all" => "Number of children affected by service disruption",
-               "autosum_group" => "militart_number_of_children_service_disruption",
+               "autosum_group" => "military_number_of_children_service_disruption",
                "tally_all" => ['boys', 'girls', 'unknown'],
                "autosum_total" => true,
               }),
@@ -159,7 +158,6 @@ military_use_subform_fields = [
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
 
-#TODO - Subform fields have not yet been defined
 military_use_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
@@ -173,9 +171,6 @@ military_use_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Military use Subform",
   "description_all" => "Nested Military use Subform",
   :initial_subforms => 1,
-#TODO: MAKE SURE THE COLLAPSED FIELD IS CORRECT!!!!
-#TODO: Coordinate with self.violation_id_fields in the incident model
-#TODO: Also update mrm_summary_page.rb
   "collapsed_fields" => ["military_use_type"]
 })
 

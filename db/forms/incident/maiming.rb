@@ -96,7 +96,7 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Maiming Subform",
   "description_all" => "Nested Maiming Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["cause"]
+  "collapsed_fields" => ["weapon_type"]
 })
 
 maiming_fields = [
