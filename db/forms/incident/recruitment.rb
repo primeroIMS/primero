@@ -8,126 +8,117 @@ recruitment_subform_fields = [
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
       }),
-  Field.new({"name" => "forced_vs_voluntary",
-             "type" => "radio_button",
-             "display_name_all" => "Forced vs. Voluntary",
-             "visible" => false,
-             "option_strings_text_all" => "Forced\nVoluntary"
-            }),
-  Field.new({"name" => "forced_recruitment",
-             "type" => "radio_button",
-             "display_name_all" => "Was the recruitment primarily forced (e.g. conscription, abduction, or use of intimidation and threats)?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
-            }),
   Field.new({"name" => "factors_of_recruitment",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "What factors contributed to the recruitment of the child(ren) by the armed force/group?",
-             "option_strings_text_all" => [
-                { id: 'abduction', display_text: "Abduction" },
-                { id: 'conscription', display_text: "Conscription" },
-                { id: 'intimidation', display_text: "Intimidation" },
-                { id: 'lack_of_basic_services', display_text: "Lack of basic services" },
-                { id: 'access_to_security', display_text: "Access to security" },
-                { id: 'financial_reasons', display_text: "Financial reasons" },
-                { id: 'family_problems_abuse', display_text: "Family problems / abuse" },
-                { id: 'to_join_follow_friends', display_text: "To join / follow friends" },
-                { id: 'idealism', display_text: "Idealism" },
-                { id: 'to_see_revenge', display_text: "To seek revenge" },
-                { id: 'other', display_text: "Other" },
-                { id: 'unknown', display_text: "Unknown" }
-              ]
+             "display_name_all" => "What factors contributed to the recruitment and/or use of the child(ren) by the armed group?",
+             "option_strings_text_all" => ["Abduction", "Conscription", "Family/community pressure", "Family problems/abuse",
+                                           "Financial reasons", "Idealism", "Intimidation", "Lack of basic services",
+                                           "Security concerns", "To join/follow friends", "To seek revenge", "Unknown", "Other"].join("\n")
              }),
+  Field.new({"name" => "factors_of_recruitment_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please specify"
+            }),
   Field.new({"name" => "re_recruitment",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Was this a case of re-recruitment (by either the same or a different armed force/group)?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "re_recruitment_details",
              "type" => "textarea",
-             "display_name_all" => "Re-recruitment details",
+             "display_name_all" => "If yes, please provide details:",
+            }),
+  Field.new({"name" => "associated_violation_status",
+             "type" => "select_box",
+             "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
+  Field.new({"name" => "associated_violation",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If 'Yes', please specify:",
+             "option_strings_source" => "lookup ViolationType"
+            }),
+  Field.new({"name" => "child_role_association_status",
+             "type" => "select_box",
+             "display_name_all" => "Was/were the victim(s) recruited and/or used while deprived of liberty due to alleged "\
+                                   "association with armed forces/armed groups?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n"),
+             "help_text_all" => "This should be reflected as necessary in the 'Killing', 'Maiming' and/or 'Rape and/or "\
+                                "other grave sexual violence' forms as appropriate."
+            }),
+  Field.new({"name" => "child_role_association",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If so, please select the the facilty where the victims(s) was/were being held when "\
+                                   "the recruitment and/or use occurred",
+             "option_strings_text_all" => ["Civilian infrastructure", "Informal detention facility",
+                                           "Intelligence agency premises", "Juvenile detention center",
+                                           "Military facility", "Prison", "Other"].join("\n")
+            }),
+  Field.new({"name" => "child_role_association_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please provide additional details"
+            }),
+  Field.new({"name" => "child_role_torture",
+             "type" => "select_box",
+             "display_name_all" => "Was/were the child(ren) subject to torture or other cruel, inhuman or degrading "\
+                                   "treatment or punishment while deprived of liberty",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n"),
+             "help_text_all" => "This should be reflected as necessary in the 'Killing', 'Maiming' and/or 'Rape and/or "\
+                                "other grave sexual violence' forms as appropriate."
             }),
   Field.new({"name" => "child_role",
              "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "What role did the child play in the armed group?",
-             "option_strings_text_all" => [
-                { id: 'combatant', display_text: "Combatant" },
-                { id: 'non-combatant', display_text:  "Non-Combatant" },
-                { id: 'sexual_purposes', display_text:  "Sexual Purposes" },
-                { id: 'unknown', display_text:  "Unknown" },
-                { id: 'other', display_text:  "Other" }
-              ]
+             "display_name_all" => "What role did the child(ren) play in the armed force/group?",
+             "option_strings_text_all" => ["Combatant", "Non-combatant", "Unknown"].join("\n"),
+             "help_text_all" => "For further guidance, please see MRM Field Manual, 2014, page 11; MRM Field Manual, Annex 1, page 63)."
              }),
-  Field.new({"name" => "type_of_recruitment_association",
+  Field.new({"name" => "child_role_combatant",
              "type" => "select_box",
-             "visible" => false,
-             "display_name_all" => "Type of Recruitment/Association",
-             "option_strings_text_all" =>
-                                    ["Forced Enrollment",
-                                     "Voluntary Enrollment",
-                                     "Family Problems/Abuse",
-                                     "Financial Problems",
-                                     "Lack of Essential Services",
-                                     "Lack of Essential Services (education/food/shelter/security)",
-                                     "Other",
-                                     "Poverty",
-                                     "Wanted to fight for their beliefs",
-                                     "Wanted to follow friends"].join("\n")
+             "multi_select" => true,
+             "display_name_all" => "If the child played a combatant role, please select from the following",
+             "option_strings_text_all" => ["Fighter", "Laying mines", "Intelligence gathering/Spy/Informant", "Other"].join("\n")
             }),
-  Field.new({"name" => "child_authority_postition",
-             "type" => "radio_button",
-             "display_name_all" => "Did the child(ren) hold a position of authority in the armed group force/group (e.g. commander)?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+  Field.new({"name" => "child_role_combatant_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please provide additional details "
+            }),
+  Field.new({"name" => "child_role_noncombatant",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If the child played a non-combatant role, please select from the following",
+             "option_strings_text_all" => ["Cook", "Human shield", "Porter", "Sexual purposes", "Other"].join("\n")
+            }),
+  Field.new({"name" => "child_role_noncombatant_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please provide additional details  "
             }),
   Field.new({"name" => "child_owned_weapon",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Did the child(ren) use/own a weapon?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "child_military_type_training",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Did the child receive any military-type training?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
-            }),
-  Field.new({"name" => "child_military_indoctrination",
-             "type" => "radio_button",
-             "display_name_all" => "Did the child receive any form of indoctrination?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "recruited_child_witness",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Did the recruited child(ren) witness the recruitment/use of other children in the armed force/group?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "recruited_child_recruitment_number",
              "type" => "numeric_field",
              "display_name_all" => "If 'Yes', please provide estimate"
             }),
-  Field.new({"name" => "child_victim_other_violations",
-             "type" => "radio_button",
-             "display_name_all" => "Was the recruitment and/or use associated with other violations?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
-            }),
-  Field.new({"name" => "child_victim_other_violations_listed",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "If 'Yes', select all that applicable ",
-             "option_strings_text_all" => ["Killing", 
-                                           "Maiming",
-                                           "Rape or other grave sexual violence",
-                                           "Abduction"].join("\n")
-            }),
-  Field.new({"name" => "children_killed_raped_injured",
-             "type" => "radio_button",
-             "visible" => false,
-             "display_name_all" => "Were children killed/raped/injured within the group?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
-            }),
   Field.new({"name" => "released_indicator",
-             "type" => "radio_button",
+             "type" => "select_box",
              "display_name_all" => "Have some or all of the children been released or left the armed group/force?",
-             "option_strings_text_all" => "Yes\nNo\nUnknown"
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "released_number",
              "type" => "numeric_field",
@@ -185,7 +176,7 @@ recruitment_subform_fields = [
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional notes "
+             "display_name_all" => "Additional details:"
             })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
@@ -207,6 +198,23 @@ recruitment_subform_section = FormSection.create_or_update_form_section({
 })
 
 recruitment_fields = [
+  #The sole purpose of this field is to have Guiding Questions above the subforms
+  Field.new({"name" => "recruitment_guiding_questions",
+             "type" => "select_box",
+             "display_name_all" => "Definition",
+             "disabled" => true,
+             "option_strings_text_all" => ["Please read guidance text below for the violation definition.", "Other"].join("\n"),
+             "selected_value" => "Please read guidance text below for the violation definition.",
+             "guiding_questions" => "Recruitment of children: refers to compulsory, forced or voluntary conscription or "\
+                                    "enlistment of children into any kind of armed force or armed group(s) under the age "\
+                                    "stipulated in the international treaties applicable to the armed force or armed group "\
+                                    "in question. Use of children: refers to the use of children by armed forces or armed "\
+                                    "groups in any capacity, including, but not limited to, children, boys and girls, used "\
+                                    "as fighters, cooks, porters, messengers, spies and collaborators. It does not only "\
+                                    "refer to a child who is taking or has taken a direct part in hostilities. (see MRM "\
+                                    "Field Manual, 2014, page 11)."
+        }),
+  ##Subform##
   Field.new({"name" => "recruitment",
              "type" => "subform", "editable" => true,
              "subform_section_id" => recruitment_subform_section.unique_id,
