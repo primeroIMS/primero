@@ -51,7 +51,8 @@ group_victims_section_fields_subform = [
             }),
   Field.new({"name" => "group_adult_number",
              "type" => "numeric_field",
-             "display_name_all" => "How many adults were affected? (e.g. education personnel; healthcare personnel)"
+             "display_name_all" => "How many adults were affected?",
+             "help_text_all" => "e.g. education personnel; healthcare personnel"
             }),
   Field.new({"name" => "group_adult_number_estimated",
              "type" => "tick_box",

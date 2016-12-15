@@ -60,11 +60,6 @@ maiming_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If 'Yes', please specify "
             }),
-  Field.new({"name" => "related_to_abduction",
-             "type" => "radio_button",
-             "display_name_all" => "Did the violation occur during or as a direct result of abduction?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
-            }),
   Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
