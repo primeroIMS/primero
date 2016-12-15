@@ -188,11 +188,11 @@ class Incident < CouchRest::Model::Base
   # Each violation type has a field that is used as part of the identification
   # of that violation
   #TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
-  #TODO: Military Use fields have not yet been defined.  Using a temp placeholder
+  #TODO - possible refactor - probably should not hard code violation fields
   def self.violation_id_fields
     {
-      'killing' => 'cause',
-      'maiming' => 'cause',
+      'killing' => 'weapon_type',
+      'maiming' => 'weapon_type',
       'recruitment' => 'factors_of_recruitment',
       'sexual_violence' => 'sexual_violence_type',
       'abduction' => 'abduction_purpose',
@@ -359,12 +359,14 @@ class Incident < CouchRest::Model::Base
     child_list = []
     ['boys', 'girls', 'unknown'].each do |child_type|
       child_count = 0
-      #Special case for "attack on hospitals" and "attack on schools"
+      #TODO - possible refactor - probably should not hard code violation fields
+      #Special case for "attack on schools/hospitals"
       if(violation_type == 'attack_on')
         child_count += violation.send("violation_killed_tally_#{child_type}".to_sym) if violation.send("violation_killed_tally_#{child_type}".to_sym).is_a?(Fixnum)
         child_count += violation.send("violation_injured_tally_#{child_type}".to_sym) if violation.send("violation_injured_tally_#{child_type}".to_sym).is_a?(Fixnum)
       else
-        child_count += violation.send("violation_tally_#{child_type}".to_sym) if violation.send("violation_tally_#{child_type}".to_sym).is_a?(Fixnum)
+        child_count += violation.send("violation_tally_#{child_type}".to_sym) if violation.respond_to?("violation_tally_#{child_type}".to_sym) &&
+                                                                                 violation.send("violation_tally_#{child_type}".to_sym).is_a?(Fixnum)
       end
       if child_count > 0
         child_list << child_type

@@ -13,23 +13,24 @@ attack_on_subform_fields = [
              "guiding_questions" => "See  'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998', "\
                                     "2014 (available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 6."
             }),
-  Field.new({"name" => "circumstances",
-             "type" => "select_box",
-             "display_name_all" => "Type of attack",
-             "option_strings_source" => "lookup AttackType"
-            }),
-  Field.new({"name" => "circumstances_other",
-             "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify"
-            }),
-  Field.new({"name" => "cause",
+
+  Field.new({"name" => "weapon_type",
              "type" => "select_box",
              "display_name_all" => "Type of weapon used",
              "option_strings_source" => "lookup WeaponType"
             }),
-  Field.new({"name" => "cause_other",
+  Field.new({"name" => "weapon_type_other",
              "type" => "text_field",
              "display_name_all" => "If 'Other', please specify "
+            }),
+  Field.new({"name" => "attack_type",
+             "type" => "select_box",
+             "display_name_all" => "Type of attack",
+             "option_strings_source" => "lookup AttackType"
+            }),
+  Field.new({"name" => "attack_type_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please specify"
             }),
   Field.new({"name" => "facility_operational_before",
              "type" => "select_box",
@@ -64,8 +65,7 @@ attack_on_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Type of school affected",
-             "option_strings_text_all" => ["Early childhood/pre-primary", "Primary", "Secondary", "Vocational",
-                                           "Religious", "Secular", "Formal", "Informal", "Other"].join("\n"),
+             "option_strings_source" => "lookup SchoolType",
              "guiding_questions" => "'Schools' refer to all learning sites and education facilities, as determined by "\
                                     "the local context, both formal and informal, secular or religious, providing early "\
                                     "childhood, primary and secondary education as well as vocational training to children. "\
@@ -82,17 +82,18 @@ attack_on_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Age level of students attending he affected school",
-             "option_strings_text_all" => ["0 - 5", "6 - 10", "11 - 13", "14 - 18"].join("\n")
+             "option_strings_source" => "lookup SchoolAgeLevel"
             }),
   Field.new({"name" => "school_students_sex",
              "type" => "select_box",
              "display_name_all" => "Sex of students",
-             "option_strings_text_all" => ["Male school", "Female school", "Mixed school", "Unknown"].join("\n")
+             "option_strings_source" => "lookup SchoolSexType"
             }),
   Field.new({"name" => "school_type_details",
              "type" => "textarea",
              "display_name_all" => "Details of affected school",
-             "help_text_all" => "E.g. school name(s), number of students attending the affected school, name of organization managing the facility."
+             "help_text_all" => "E.g., school name, number of students attending the affected school, name and type of "\
+                                  "organization managing the facility (e.g. NGO-run, Government-run, community-based')."
             }),
   Field.new({"name" => "attacks_on_hospitals",
              "type" => "separator",
@@ -102,8 +103,7 @@ attack_on_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Type of healthcare facility affected",
-             "option_strings_text_all" => ["Hospital", "Health centre", "Dispensary", "Mobile health unit", "Ambulance",
-                                           "Other" ].join("\n")
+             "option_strings_source" => "lookup HealthcareFacilityType"
             }),
   Field.new({"name" => "health_type_other",
              "type" => "text_field",
@@ -171,7 +171,7 @@ attack_on_subform_fields = [
   Field.new({"name" => "facility_impact",
              "type" => "select_box",
              "display_name_all" => "Type and extent of physical impact",
-             "option_strings_text_all" => ["Total Destruction", "Serious Damage", "Minor Damage", "None"].join("\n")
+             "option_strings_source" => "lookup FacilityImpactType"
             }),
   Field.new({"name" => "facility_closed",
              "type" => "select_box",

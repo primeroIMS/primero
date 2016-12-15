@@ -1,16 +1,163 @@
 require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
 
-#TODO - Subform fields have not yet been defined
 military_use_subform_fields = [
     Field.new({"name" => "military_use_type",
+               "type" => "select_box",
+               "display_name_all" => "Type of violation",
+               "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n")
+              }),
+    Field.new({"name" => "weapon_type",
+               "type" => "select_box",
+               "display_name_all" => "Type of weapon used",
+               "option_strings_source" => "lookup WeaponType"
+              }),
+    Field.new({"name" => "weapon_type_other",
                "type" => "text_field",
-               "disabled" => true,
-               "display_name_all" => "TODO: Military use of schools and hospitals"
+               "display_name_all" => "If 'Other', please specify"
+              }),
+    Field.new({"name" => "attack_type",
+               "type" => "select_box",
+               "display_name_all" => "Type of attack",
+               "option_strings_source" => "lookup AttackType"
+              }),
+    Field.new({"name" => "attack_type_other",
+               "type" => "text_field",
+               "display_name_all" => "If 'Other', please specify "
+              }),
+    Field.new({"name" => "facility_operational_before",
+               "type" => "select_box",
+               "display_name_all" => "Was the facility operational before the attack?",
+               "option_strings_text_all" => ["Yes", "No", "Partially", "Unknown"].join("\n")
+              }),
+    Field.new({"name" => "military_use_duration",
+               "type" => "date_range",
+               "display_name_all" => "Duration of military use"
+              }),
+    Field.new({"name" => "military_use_duration_estimated",
+               "type" => "tick_box",
+               "tick_box_label_all" => "Yes",
+               "display_name_all" => "Is the timeframe estimated?",
+              }),
+    Field.new({"name" => "military_use_purpose",
+               "type" => "select_box",
+               "multi_select" => true,
+               "display_name_all" => "Purpose of the military use",
+               "option_strings_text_all" => ["Barracks/Dormitory", "Command post",  "Sniper position", "Storage",
+                                             "Weapons depot", "Unknown", "Other"].join("\n")
+              }),
+    Field.new({"name" => "military_use_purpose_other",
+               "type" => "text_field",
+               "display_name_all" => "If 'Other', please specify  "
+              }),
+    Field.new({"name" => "associated_violation_status",
+               "type" => "select_box",
+               "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
+               "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+              }),
+    Field.new({"name" => "associated_violation",
+               "type" => "select_box",
+               "multi_select" => true,
+               "display_name_all" => "If 'Yes', please specify:",
+               "option_strings_source" => "lookup ViolationType"
+              }),
+    Field.new({"name" => "military_use_schools_section",
+               "type" => "separator",
+               "display_name_all" => "Military use of schools"
+              }),
+    Field.new({"name" => "school_type",
+               "type" => "select_box",
+               "multi_select" => true,
+               "display_name_all" => "Type of school affected",
+               "option_strings_source" => "lookup SchoolType",
+               "guiding_questions" => "'Schools' refer to all learning sites and education facilities, as determined by "\
+                                    "the local context, both formal and informal, secular or religious, providing early "\
+                                    "childhood, primary and secondary education as well as vocational training to children. "\
+                                    "'Schools' include all school-related spaces, structures, infrastructure and grounds "\
+                                    "attached to them, such as water, sanitation and hygiene facilities. See "\
+                                    "'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998', 2014 "\
+                                    "(available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 43."
+              }),
+    Field.new({"name" => "school_type_other",
+               "type" => "text_field",
+               "display_name_all" => "If 'Other', please specify   "
+              }),
+    Field.new({"name" => "school_age_level",
+               "type" => "select_box",
+               "multi_select" => true,
+               "display_name_all" => "Age level of students attending he affected school",
+               "option_strings_source" => "lookup SchoolAgeLevel"
+              }),
+    Field.new({"name" => "school_students_sex",
+               "type" => "select_box",
+               "display_name_all" => "Sex of students",
+               "option_strings_source" => "lookup SchoolSexType"
+              }),
+    Field.new({"name" => "school_type_details",
+               "type" => "textarea",
+               "display_name_all" => "Details of affected school",
+               "help_text_all" => "E.g., school name, number of students attending the affected school, name and type of "\
+                                  "organization managing the facility (e.g. NGO-run, Government-run, community-based')."
+              }),
+    Field.new({"name" => "military_use_hospitals_section",
+               "type" => "separator",
+               "display_name_all" => "Military use of hospitals"
+              }),
+    Field.new({"name" => "health_type",
+               "type" => "select_box",
+               "multi_select" => true,
+               "display_name_all" => "Type of healthcare facility affected",
+               "option_strings_source" => "lookup HealthcareFacilityType"
+              }),
+    Field.new({"name" => "health_type_other",
+               "type" => "text_field",
+               "display_name_all" => "If 'Other', please specify    "
+              }),
+    Field.new({"name" => "health_type_details",
+               "type" => "textarea",
+               "display_name_all" => "Details of the affected healthcare facility",
+               "help_text_all" => "E.g. name(s) of affected facility/ies; hospital's patient capacity; name and type of organization managing the facility."
+              }),
+    Field.new({"name" => "human_impact_of_military_use_section",
+               "type" => "separator",
+               "display_name_all" => "Human impact of the military use"
+              }),
+    Field.new({"name" => "number_children_service_disruption",
+               "type" => "tally_field",
+               "display_name_all" => "Number of children affected by service disruption",
+               "autosum_group" => "military_number_of_children_service_disruption",
+               "tally_all" => ['boys', 'girls', 'unknown'],
+               "autosum_total" => true,
+              }),
+    Field.new({"name" => "number_children_service_disruption_estimated",
+               "type" => "tick_box",
+               "tick_box_label_all" => "Yes",
+               "display_name_all" => "Is this number estimated?",
+              }),
+    Field.new({"name" => "facility_impact_section",
+               "type" => "separator",
+               "display_name_all" => "Physical impact of the military use"
+              }),
+    Field.new({"name" => "facility_impact",
+               "type" => "select_box",
+               "display_name_all" => "Type and extent of physical impact",
+               "option_strings_source" => "lookup FacilityImpactType"
+              }),
+    Field.new({"name" => "facility_closed",
+               "type" => "select_box",
+               "display_name_all" => "Was the facility closed as a result of the military use?",
+               "option_strings_text_all" => ["Yes", "No", "Partially", "Unknown"].join("\n")
+              }),
+    Field.new({"name" => "facility_closed_duration",
+               "type" => "numeric_field",
+               "display_name_all" => "For how long? (days)"
+              }),
+    Field.new({"name" => "military_use_facility_notes",
+               "type" => "textarea",
+               "display_name_all" => "Additional details:"
               })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
 
-#TODO - Subform fields have not yet been defined
 military_use_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
@@ -24,9 +171,6 @@ military_use_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Military use Subform",
   "description_all" => "Nested Military use Subform",
   :initial_subforms => 1,
-#TODO: MAKE SURE THE COLLAPSED FIELD IS CORRECT!!!!
-#TODO: Coordinate with self.violation_id_fields in the incident model
-#TODO: Also update mrm_summary_page.rb
   "collapsed_fields" => ["military_use_type"]
 })
 
