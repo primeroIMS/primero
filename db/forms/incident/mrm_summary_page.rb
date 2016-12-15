@@ -64,32 +64,20 @@ maiming_subform_fields = [
 
 recruitment_subform_fields = [
   Field.new({"name" => "violation_tally",
-       "type" => "tally_field",
-       "display_name_all" => "Number of victims",
-       "autosum_group" => "recruitment_number_of_survivors",
-       "tally_all" => ['boys', 'girls', 'unknown'],
-       "autosum_total" => true,
+             "type" => "tally_field",
+             "display_name_all" => "Number of victims",
+             "autosum_group" => "recruitment_number_of_survivors",
+             "tally_all" => ['boys', 'girls', 'unknown'],
+             "autosum_total" => true,
       }),
   Field.new({"name" => "factors_of_recruitment",
              "type" => "select_box",
              "multi_select" => true,
-             "visible" => false,
-             "display_name_all" => "What factors contributed towards the recruitment of the child by the armed group?",
-             "option_strings_text_all" => [
-                { id: 'abduction', display_text: "Abduction" },
-                { id: 'conscription', display_text: "Conscription" },
-                { id: 'intimidation', display_text: "Intimidation" },
-                { id: 'lack_of_basic_services', display_text: "Lack of basic services" },
-                { id: 'access_to_security', display_text: "Access to security" },
-                { id: 'financial_reasons', display_text: "Financial reasons" },
-                { id: 'family_problems_abuse', display_text: "Family problems / abuse" },
-                { id: 'to_join_follow_friends', display_text: "To join / f/ollow friends" },
-                { id: 'idealism', display_text: "Idealism" },
-                { id: 'to_see_revenge', display_text: "To seek revenge" },
-                { id: 'other', display_text: "Other" },
-                { id: 'unknown', display_text: "Unknown" }
-              ]
-             })
+             "display_name_all" => "What factors contributed to the recruitment and/or use of the child(ren) by the armed group?",
+             "option_strings_text_all" => ["Abduction", "Conscription", "Family/community pressure", "Family problems/abuse",
+                                           "Financial reasons", "Idealism", "Intimidation", "Lack of basic services",
+                                           "Security concerns", "To join/follow friends", "To seek revenge", "Unknown", "Other"].join("\n")
+            }),
 ]
 
 deprivation_subform_fields = [
