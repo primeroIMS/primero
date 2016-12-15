@@ -37,7 +37,6 @@ incident_fields = [
                  { id: 'killing', display_text: "Killing of Children" },
                  { id: 'maiming', display_text: "Maiming of Children" },
                  { id: 'abduction', display_text: "Abduction" },
-                 { id: 'deprivation', display_text: "Recruitment and/or use - Deprivation of liberty due to alleged association with a party to the conflict" },
                  { id: 'recruitment', display_text: "Recruitment and/or use of children" },
                  { id: 'sexual_violence', display_text: "Rape and/or other forms of sexual violence" },
                  { id: 'attack_on', display_text: "Attacks on schools and/or hospitals" },

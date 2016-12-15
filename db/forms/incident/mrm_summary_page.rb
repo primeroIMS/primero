@@ -46,24 +46,6 @@ recruitment_subform_fields = [
             }),
 ]
 
-deprivation_subform_fields = [
-  Field.new({"name" => "violation_tally",
-           "type" => "tally_field",
-           "display_name_all" => "Number of victims",
-           "autosum_group" => "deprivation_number_of_victims",
-           "tally_all" => ['boys', 'girls', 'unknown'],
-           "autosum_total" => true,
-          }),
-  Field.new({"name" => "deprivation_grounds",
-             "type" => "select_box",
-             "visible" => false,
-             "display_name_all" => "Cause",
-             "option_strings_text_all" =>
-                                    ["Security-related",
-                                     "Religious/ethnic affiliation"].join("\n")
-            })
-]
-
 sexual_violence_subform_fields = [
   Field.new({"name" => "violation_tally",
        "type" => "tally_field",
@@ -261,25 +243,6 @@ recruitment_subform_section = FormSection.create_or_update_form_section({
   "is_summary_section" => true
 })
 
-deprivation_subform_section = FormSection.create_or_update_form_section({
-  "visible" => false,
-  "is_nested" => true,
-  :order_form_group => 40,
-  :order => 30,
-  :order_subform => 1,
-  :unique_id => "deprivation_summary",
-  :parent_form=>"incident",
-  "editable" => true,
-  :fields => deprivation_subform_fields,
-  "name_all" => "Violation Deprivation Summary",
-  "description_all" => "Violation Deprivation Summary",
-  :initial_subforms => 1,
-  "collapsed_fields" => ["deprivation_grounds"],
-  "shared_subform" => "deprivation",
-  "shared_subform_group" => "Violations",
-  "is_summary_section" => true
-})
-
 sexual_violence_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
@@ -423,12 +386,6 @@ mrm_summary_page_fields = [
              "type" => "subform", "editable" => true,
              "subform_section_id" => recruitment_subform_section.unique_id,
              "display_name_all" => "Recruitment and/or use of children",
-             "expose_unique_id" => true
-            }),
-  Field.new({"name" => "deprivation_summary",
-             "type" => "subform", "editable" => true,
-             "subform_section_id" => deprivation_subform_section.unique_id,
-             "display_name_all" => "Recruitment and/or use - Deprivation of liberty due to alleged association with a party to the conflict",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "sexual_violence_summary",
