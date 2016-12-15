@@ -6,27 +6,10 @@ killing_subform_fields = [
            "tally_all" => ['boys', 'girls', 'unknown'],
            "autosum_total" => true,
           }),
-  Field.new({"name" => "cause",
+  Field.new({"name" => "weapon_type",
              "type" => "select_box",
-             "visible" => false,
              "display_name_all" => "Type of weapon used",
-             "option_strings_text_all" => ["Aircraft bomb",
-                                           "Barrel bomb",
-                                           "Booby trap",
-                                           "Chemical weapons",
-                                           "Unmanned aerial vehicle (UAV [e.g. drone])",
-                                           "Explosive remnant of war – ERW [includes unexploded ordnance and abandoned ordnance]",
-                                           "Improvised Explosive Device (IED)",
-                                           "Grenade",
-                                           "Landmine [includes anti-personnel and anti-vehicle landmine]",
-                                           "Light weapons",
-                                           "Missile",
-                                           "Mortar/Rocket",
-                                           "Sharp weapon",
-                                           "Small arm [e.g. AK-47]",
-                                           "Submunition",
-                                           "Other weapons",
-                                           "Unknown"].join("\n")
+             "option_strings_source" => "lookup WeaponType"
             })
 ]
 
@@ -38,27 +21,10 @@ maiming_subform_fields = [
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
         }),
-  Field.new({"name" => "cause",
+  Field.new({"name" => "weapon_type",
              "type" => "select_box",
-             "visible" => false,
              "display_name_all" => "Type of weapon used",
-             "option_strings_text_all" => ["Aircraft bomb",
-                                           "Barrel bomb",
-                                           "Booby trap",
-                                           "Chemical weapons",
-                                           "Unmanned aerial vehicle (UAV [e.g. drone])",
-                                           "Explosive remnant of war – ERW [includes unexploded ordnance and abandoned ordnance]",
-                                           "Improvised Explosive Device (IED)",
-                                           "Grenade",
-                                           "Landmine [includes anti-personnel and anti-vehicle landmine]",
-                                           "Light weapons",
-                                           "Missile",
-                                           "Mortar/Rocket",
-                                           "Sharp weapon",
-                                           "Small arm [e.g. AK-47]",
-                                           "Submunition",
-                                           "Other weapons",
-                                           "Unknown"].join("\n")
+             "option_strings_source" => "lookup WeaponType"
             })
 ]
 
@@ -189,6 +155,21 @@ attack_on_subform_fields = [
             }),
 ]
 
+military_use_subform_fields = [
+    Field.new({"name" => "number_children_service_disruption",
+               "type" => "tally_field",
+               "display_name_all" => "Number of children affected by service disruption",
+               "autosum_group" => "military_number_of_children_service_disruption",
+               "tally_all" => ['boys', 'girls', 'unknown'],
+               "autosum_total" => true,
+              }),
+    Field.new({"name" => "military_use_type",
+               "type" => "select_box",
+               "display_name_all" => "Type of violation",
+               "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n")
+              }),
+]
+
 denial_humanitarian_access_section_fields = [
   Field.new({"name" => "violation_tally",
        "type" => "tally_field",
@@ -248,7 +229,7 @@ killing_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Violation Killing Summary",
   "description_all" => "Violation Killing Summary",
   :initial_subforms => 1,
-  "collapsed_fields" => ["cause"],
+  "collapsed_fields" => ["weapon_type"],
   "shared_subform" => "killing",
   "shared_subform_group" => "Violations",
   "is_summary_section" => true
@@ -267,7 +248,7 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Violation Maiming Summary",
   "description_all" => "Violation Maiming Summary",
   :initial_subforms => 1,
-  "collapsed_fields" => ["cause"],
+  "collapsed_fields" => ["weapon_type"],
   "shared_subform" => "maiming",
   "shared_subform_group" => "Violations",
   "is_summary_section" => true
@@ -368,6 +349,25 @@ attack_on_subform_section = FormSection.create_or_update_form_section({
   "is_summary_section" => true
 })
 
+military_use_subform_section = FormSection.create_or_update_form_section({
+  "visible" => false,
+  "is_nested" => true,
+  :order_form_group => 40,
+  :order => 70,
+  :order_subform => 1,
+  :unique_id => "military_use_summary",
+  :parent_form=>"incident",
+  "editable" => true,
+  :fields => military_use_subform_fields,
+  "name_all" => "Violation Military use of schools and/or hospitals",
+  "description_all" => "Violation Military use of schools and/or hospitals",
+  :initial_subforms => 1,
+  "collapsed_fields" => ["military_use_type"],
+  "shared_subform" => "military_use",
+  "shared_subform_group" => "Violations",
+  "is_summary_section" => true
+})
+
 denial_humanitarian_access_section = FormSection.create_or_update_form_section({
   "visible"=>false,
   "is_nested"=>true,
@@ -459,6 +459,12 @@ mrm_summary_page_fields = [
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_subform_section.unique_id,
              "display_name_all" => "Attacks on schools and/or hospitals",
+             "expose_unique_id" => true
+            }),
+  Field.new({"name" => "military_use_summary",
+             "type" => "subform", "editable" => true,
+             "subform_section_id" => military_use_subform_section.unique_id,
+             "display_name_all" => "Military use of schools and/or hospitals",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "denial_humanitarian_access_summary",

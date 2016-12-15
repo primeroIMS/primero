@@ -8,21 +8,21 @@ maiming_subform_fields = [
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
         }),
-  Field.new({"name" => "cause",
+  Field.new({"name" => "weapon_type",
              "type" => "select_box",
              "display_name_all" => "Type of weapon used",
              "option_strings_source" => "lookup WeaponType"
             }),
-  Field.new({"name" => "cause_other",
+  Field.new({"name" => "weapon_type_other",
              "type" => "text_field",
              "display_name_all" => "If 'Other', please specify"
             }),
-  Field.new({"name" => "circumstances",
+  Field.new({"name" => "attack_type",
              "type" => "select_box",
              "display_name_all" => "Type of attack",
              "option_strings_source" => "lookup AttackType"
             }),
-  Field.new({"name" => "circumstances_other",
+  Field.new({"name" => "attack_typeattack_type_other",
              "type" => "text_field",
              "display_name_all" => "If 'Other', please specify "
             }),
@@ -96,7 +96,7 @@ maiming_subform_section = FormSection.create_or_update_form_section({
   "name_all" => "Nested Maiming Subform",
   "description_all" => "Nested Maiming Subform",
   :initial_subforms => 1,
-  "collapsed_fields" => ["cause"]
+  "collapsed_fields" => ["weapon_type"]
 })
 
 maiming_fields = [

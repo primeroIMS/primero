@@ -95,6 +95,21 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
+  id: '29c7da1d726f706223c1c7764796756c',
+  name: 'Military use of facilities - Number of children affected by service disruption',
+  description: 'Violation totals',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['category'],
+  aggregate_counts_from: 'number_children_service_disruption',
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['military_use']}
+  ],
+  is_graph: false,
+  editable: false
+})
+
+Report.create_or_update({
   id: '74455931e62445febd72e8533b9f40da',
   name: 'Children affected by Violations',
   description: 'Violation categories by sex',

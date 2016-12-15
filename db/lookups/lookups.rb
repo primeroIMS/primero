@@ -389,3 +389,60 @@ create_or_update_lookup(
         "Unknown"
     ]
 )
+
+create_or_update_lookup(
+    :name => "school_type",
+    :lookup_values => [
+      "Early childhood/pre-primary",
+      "Primary",
+      "Secondary",
+      "Vocational",
+      "Religious",
+      "Secular",
+      "Formal",
+      "Informal",
+      "Other"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "school_age_level",
+    :lookup_values => [
+      "0 - 5",
+      "6 - 10",
+      "11 - 13",
+      "14 - 18"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "school_sex_type",
+    :lookup_values => [
+      "Male school",
+      "Female school",
+      "Mixed school",
+      "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "healthcare_facility_type",
+    :lookup_values => [
+      "Hospital",
+      "Health centre",
+      "Dispensary",
+      "Mobile health unit",
+      "Ambulance",
+      "Other"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "facility_impact_type",
+    :lookup_values => [
+      "Total Destruction",
+      "Serious Damage",
+      "Minor Damage",
+      "None"
+    ]
+)
