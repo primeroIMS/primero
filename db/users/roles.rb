@@ -105,11 +105,11 @@ cp_admin_permissions = [
   )
 ]
 
-create_or_update_role(
-  :name => "CP Administrator",
-  :permissions_list => cp_admin_permissions,
-  :group_permission => Permission::ALL
-)
+# create_or_update_role(
+#   :name => "CP Administrator",
+#   :permissions_list => cp_admin_permissions,
+#   :group_permission => Permission::ALL
+# )
 
 
 cp_caseworker_permissions = [
@@ -155,10 +155,10 @@ cp_caseworker_permissions = [
   )
 ]
 
-create_or_update_role(
-  :name => "CP Case Worker",
-  :permissions_list => cp_caseworker_permissions
-)
+# create_or_update_role(
+#   :name => "CP Case Worker",
+#   :permissions_list => cp_caseworker_permissions
+# )
 
 cp_manager_permissions = [
   Permission.new(
@@ -238,11 +238,11 @@ cp_manager_permissions = [
   )
 ]
 
-create_or_update_role(
-  :name => "CP Manager",
-  :permissions_list => cp_manager_permissions,
-  :group_permission => Permission::GROUP
-)
+# create_or_update_role(
+#   :name => "CP Manager",
+#   :permissions_list => cp_manager_permissions,
+#   :group_permission => Permission::GROUP
+# )
 
 gbv_worker_permissions = [
   Permission.new(
@@ -279,10 +279,10 @@ gbv_worker_permissions = [
   )
 ]
 
-create_or_update_role(
-  :name => "GBV Social Worker",
-  :permissions_list => gbv_worker_permissions
-)
+# create_or_update_role(
+#   :name => "GBV Social Worker",
+#   :permissions_list => gbv_worker_permissions
+# )
 
 gbv_manager_permissions = [
   Permission.new(
@@ -355,11 +355,11 @@ gbv_manager_permissions = [
   )
 ]
 
-create_or_update_role(
-  :name => "GBV Manager",
-  :permissions_list => gbv_manager_permissions,
-  :group_permission => Permission::GROUP
-)
+# create_or_update_role(
+#   :name => "GBV Manager",
+#   :permissions_list => gbv_manager_permissions,
+#   :group_permission => Permission::GROUP
+# )
 
 mrm_worker_permissions = [
   Permission.new(
@@ -467,11 +467,11 @@ referral_permissions = [
   )
 ]
 
-create_or_update_role(
-  :name => "Referral",
-  :permissions_list => referral_permissions,
-  :referral => true
-)
+# create_or_update_role(
+#   :name => "Referral",
+#   :permissions_list => referral_permissions,
+#   :referral => true
+# )
 
 transfer_permissions = [
   Permission.new(
@@ -492,11 +492,11 @@ transfer_permissions = [
   )
 ]
 
-create_or_update_role(
-  :name => "Transfer",
-  :permissions_list => transfer_permissions,
-  :transfer => true
-)
+# create_or_update_role(
+#   :name => "Transfer",
+#   :permissions_list => transfer_permissions,
+#   :transfer => true
+# )
 
 superuser_permissions = [
   Permission.new(
