@@ -28,7 +28,8 @@ verification_subform_fields = [
               }),
     Field.new({"name" => "verification_inquirer_age",
                "type" => "numeric_field",
-               "display_name_all" => "Age"
+               "display_name_all" => "Age",
+               "numeric_validation" => "not_negative_number"
               }),
     Field.new({"name" => "verification_address_inquirer_current",
                "type" => "select_box",

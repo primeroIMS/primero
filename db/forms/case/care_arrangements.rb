@@ -64,7 +64,8 @@ care_arrangements_fields = [
             }),
   Field.new({"name" => "caregiver_age",
              "type" => "numeric_field",
-             "display_name_all" => "Caregiver's Age"
+             "display_name_all" => "Caregiver's Age",
+             "numeric_validation" => "not_negative_number"
             }),
   Field.new({"name" => "address_caregiver",
              "type" => "textarea",

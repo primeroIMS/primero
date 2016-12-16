@@ -19,6 +19,7 @@ gbv_individual_details_fields = [
   Field.new({"name" => "age",
              "type" => "numeric_field",
              "display_name_all" => "What is the survivor's age?",
+             "numeric_validation" => "not_negative_number"
             }),
   Field.new({"name" => "estimated",
              "type" => "radio_button",
