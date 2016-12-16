@@ -199,8 +199,7 @@ class Incident < CouchRest::Model::Base
       'attack_on' => 'facility_attack_type',
       'military_use' => 'military_use_type',
       'denial_humanitarian_access' => 'denial_method',
-      'other_violation' => 'violation_other_type',
-      'deprivation' => 'deprivation_grounds'
+      'other_violation' => 'violation_other_type'
     }
   end
 

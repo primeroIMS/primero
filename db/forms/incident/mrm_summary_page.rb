@@ -30,50 +30,20 @@ maiming_subform_fields = [
 
 recruitment_subform_fields = [
   Field.new({"name" => "violation_tally",
-       "type" => "tally_field",
-       "display_name_all" => "Number of victims",
-       "autosum_group" => "recruitment_number_of_survivors",
-       "tally_all" => ['boys', 'girls', 'unknown'],
-       "autosum_total" => true,
+             "type" => "tally_field",
+             "display_name_all" => "Number of victims",
+             "autosum_group" => "recruitment_number_of_survivors",
+             "tally_all" => ['boys', 'girls', 'unknown'],
+             "autosum_total" => true,
       }),
   Field.new({"name" => "factors_of_recruitment",
              "type" => "select_box",
              "multi_select" => true,
-             "visible" => false,
-             "display_name_all" => "What factors contributed towards the recruitment of the child by the armed group?",
-             "option_strings_text_all" => [
-                { id: 'abduction', display_text: "Abduction" },
-                { id: 'conscription', display_text: "Conscription" },
-                { id: 'intimidation', display_text: "Intimidation" },
-                { id: 'lack_of_basic_services', display_text: "Lack of basic services" },
-                { id: 'access_to_security', display_text: "Access to security" },
-                { id: 'financial_reasons', display_text: "Financial reasons" },
-                { id: 'family_problems_abuse', display_text: "Family problems / abuse" },
-                { id: 'to_join_follow_friends', display_text: "To join / f/ollow friends" },
-                { id: 'idealism', display_text: "Idealism" },
-                { id: 'to_see_revenge', display_text: "To seek revenge" },
-                { id: 'other', display_text: "Other" },
-                { id: 'unknown', display_text: "Unknown" }
-              ]
-             })
-]
-
-deprivation_subform_fields = [
-  Field.new({"name" => "violation_tally",
-           "type" => "tally_field",
-           "display_name_all" => "Number of victims",
-           "autosum_group" => "deprivation_number_of_victims",
-           "tally_all" => ['boys', 'girls', 'unknown'],
-           "autosum_total" => true,
-          }),
-  Field.new({"name" => "deprivation_grounds",
-             "type" => "select_box",
-             "visible" => false,
-             "display_name_all" => "Cause",
-             "option_strings_text_all" =>
-                                    ["Security-related",
-                                     "Religious/ethnic affiliation"].join("\n")
-            })
+             "display_name_all" => "What factors contributed to the recruitment and/or use of the child(ren) by the armed group?",
+             "option_strings_text_all" => ["Abduction", "Conscription", "Family/community pressure", "Family problems/abuse",
+                                           "Financial reasons", "Idealism", "Intimidation", "Lack of basic services",
+                                           "Security concerns", "To join/follow friends", "To seek revenge", "Unknown", "Other"].join("\n")
+            }),
 ]
 
 sexual_violence_subform_fields = [
@@ -273,25 +243,6 @@ recruitment_subform_section = FormSection.create_or_update_form_section({
   "is_summary_section" => true
 })
 
-deprivation_subform_section = FormSection.create_or_update_form_section({
-  "visible" => false,
-  "is_nested" => true,
-  :order_form_group => 40,
-  :order => 30,
-  :order_subform => 1,
-  :unique_id => "deprivation_summary",
-  :parent_form=>"incident",
-  "editable" => true,
-  :fields => deprivation_subform_fields,
-  "name_all" => "Violation Deprivation Summary",
-  "description_all" => "Violation Deprivation Summary",
-  :initial_subforms => 1,
-  "collapsed_fields" => ["deprivation_grounds"],
-  "shared_subform" => "deprivation",
-  "shared_subform_group" => "Violations",
-  "is_summary_section" => true
-})
-
 sexual_violence_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
@@ -435,12 +386,6 @@ mrm_summary_page_fields = [
              "type" => "subform", "editable" => true,
              "subform_section_id" => recruitment_subform_section.unique_id,
              "display_name_all" => "Recruitment and/or use of children",
-             "expose_unique_id" => true
-            }),
-  Field.new({"name" => "deprivation_summary",
-             "type" => "subform", "editable" => true,
-             "subform_section_id" => deprivation_subform_section.unique_id,
-             "display_name_all" => "Recruitment and/or use - Deprivation of liberty due to alleged association with a party to the conflict",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "sexual_violence_summary",
