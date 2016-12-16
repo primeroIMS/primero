@@ -148,10 +148,9 @@ create_or_update_lookup(
   :name => "verification_status",
   :lookup_values => [
     "Verified",
-    "Unverified",
-    "Pending Verification",
-    "Falsely Attributed",
-    "Rejected"
+    "Report pending verification",
+    "Not MRM",
+    "Verification found that incident did not occur"
   ]
 )
 
