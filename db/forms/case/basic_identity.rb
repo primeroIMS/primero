@@ -94,7 +94,8 @@ basic_identity_fields = [
   Field.new({"name" => "age",
              "type" => "numeric_field",
              "required" => false,
-             "display_name_all" => "Age"
+             "display_name_all" => "Age",
+             "numeric_validation" => "not_negative_number"
             }),
   Field.new({"name" => "date_of_birth",
             "type" => "date_field",

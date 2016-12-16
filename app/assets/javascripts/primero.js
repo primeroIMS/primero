@@ -11,14 +11,20 @@ $(document).ready(function() {
 
   $(document).foundation({
     abide : {
-        validators: {
-            primeroDate: function(el, required, parent) {
-              return _primero.abide_validator_date(el, required, parent);
-            },
-            primeroDateNotInFuture: function(el, required, parent) {
-              return _primero.abide_validator_date_not_future(el, required, parent);
-            }
+      validators: {
+        primeroDate: function(el, required, parent) {
+          return _primero.abide_validator_date(el, required, parent);
+        },
+        primeroDateNotInFuture: function(el, required, parent) {
+          return _primero.abide_validator_date_not_future(el, required, parent);
+        },
+        primeroNumber: function(el, required, parent) {
+          return _primero.abide_validator_number(el, required, parent);
+        },
+        primeroPositiveNumber: function(el, required, parent) {
+          return _primero.abide_validator_positive_number(el, required, parent);
         }
+      }
     }
   });
 
