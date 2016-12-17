@@ -160,7 +160,7 @@ class Incident < CouchRest::Model::Base
     number_of_violations_verified = 0
     self.violations_subforms.each do |subform|
       #TODO Do we need I18n for "Verified" string?
-      number_of_violations_verified += 1 if subform.try(:verified) == "Verified"
+      number_of_violations_verified += 1 if subform.try(:ctfmr_verified) == "Verified"
     end
     number_of_violations_verified
   end
