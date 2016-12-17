@@ -312,7 +312,7 @@ module IndexHelper
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
     filters << "Status"
-    filters << "Age Range"
+    filters << "Age Range" if @is_gbv
     filters << "Children" if @is_mrm
     filters << "Verification Status" if @is_mrm
     filters << "Incident Location"
