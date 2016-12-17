@@ -166,26 +166,6 @@ denial_humanitarian_access_section_fields = [
             })
 ]
 
-other_violation_section_fields = [
-  Field.new({"name" => "violation_tally",
-         "type" => "tally_field",
-         "display_name_all" => "Number of victims",
-         "autosum_group" => "other_violation_number_of_survivors",
-         "tally_all" => ['boys', 'girls', 'unknown'],
-         "autosum_total" => true,
-        }),
-  Field.new({"name" => "violation_other_type",
-             "type" => "select_box",
-             "visible" => false,
-             "display_name_all" => "Other Violation Type",
-             "option_strings_text_all" =>
-                                    ["Forced Displacement",
-                                     "Denial of Civil Rights",
-                                     "Use of Children for Propaganda",
-                                     "Access Violations"].join("\n")
-            })
-]
-
 killing_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
@@ -338,25 +318,6 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
   "is_summary_section" => true
 })
 
-other_violation_subform_section = FormSection.create_or_update_form_section({
-  :unique_id => "other_violation_summary",
-  :parent_form=>"incident",
-  "visible" => false,
-  "is_nested" => true,
-  :order_form_group => 40,
-  :order => 90,
-  :order_subform => 1,
-  "editable" => true,
-  :fields => other_violation_section_fields,
-  "name_all" => "Violation Other Violations Summary",
-  "description_all" => "Violation Other Violations Summary",
-  :initial_subforms => 1,
-  "collapsed_fields" => ["violation_other_type"],
-  "shared_subform" => "other_violation",
-  "shared_subform_group" => "Violations",
-  "is_summary_section" => true
-})
-
 mrm_summary_page_fields = [
   Field.new({"name" => "incident_total_tally",
            "type" => "tally_field",
@@ -417,13 +378,6 @@ mrm_summary_page_fields = [
              "editable" => true,
              "subform_section_id" => denial_humanitarian_access_section.unique_id,
              "display_name_all" => "Denial of humanitarian access for children",
-             "expose_unique_id" => true
-            }),
-  Field.new({"name" => "other_violation_summary",
-             "type" => "subform",
-             "editable" => true,
-             "subform_section_id" => other_violation_subform_section.unique_id,
-             "display_name_all" => "Other Violations",
              "expose_unique_id" => true
             })
 ]
