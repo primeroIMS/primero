@@ -477,7 +477,7 @@ en:
 
     violation:
       violation: "Violation"
-      pending: 'Pending Verification'
+      pending: 'Report pending verification'
       killing: "Killing"
       maiming: "Maiming"
       recruitment: "Recruitment and/or use"
