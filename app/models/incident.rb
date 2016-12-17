@@ -198,8 +198,7 @@ class Incident < CouchRest::Model::Base
       'abduction' => 'abduction_purpose',
       'attack_on' => 'facility_attack_type',
       'military_use' => 'military_use_type',
-      'denial_humanitarian_access' => 'denial_method',
-      'other_violation' => 'violation_other_type'
+      'denial_humanitarian_access' => 'denial_method'
     }
   end
 
