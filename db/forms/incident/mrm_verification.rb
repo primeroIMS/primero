@@ -26,8 +26,7 @@ MRM_VERIFICATION_FIELDS = [
   Field.new({"name" => "verified",
              "type" => "select_box",
              "display_name_all" => "Verification status as determined by the focal point.",
-             "option_strings_source" => "lookup VerificationStatus",
-             "selected_value" => "Report pending verification"
+             "option_strings_source" => "lookup VerificationStatus"
             }),
   Field.new({"name" => "verification_date_focal_point",
              "type" => "date_field",
@@ -36,8 +35,7 @@ MRM_VERIFICATION_FIELDS = [
   Field.new({"name" => "verified_ctfmr_technical",
              "type" => "select_box",
              "display_name_all" => "Verification status as agreed by the CTFMR co-chairs at the technical level.",
-             "option_strings_source" => "lookup VerificationStatus",
-             "selected_value" => "Report pending verification"
+             "option_strings_source" => "lookup VerificationStatus"
             }),
   Field.new({"name" => "verification_date_ctfmr_technical",
              "type" => "date_field",
@@ -50,7 +48,6 @@ MRM_VERIFICATION_FIELDS = [
              "type" => "select_box",
              "display_name_all" => "Verification status as agreed by the CTFMR",
              "option_strings_source" => "lookup VerificationStatus",
-             "selected_value" => "Report pending verification",
              "help_text_all" => "Please provide further details in the 'Additional details on verification process/decision' box."
             }),
   Field.new({"name" => "verification_additional",
