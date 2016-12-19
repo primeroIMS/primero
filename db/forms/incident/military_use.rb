@@ -153,7 +153,9 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "military_use_facility_notes",
                "type" => "textarea",
-               "display_name_all" => "Additional details:"
+               "display_name_all" => "Additional details:",
+               "help_text_all" => " E.g., estimated number of adults affected by service disruption, overall impact "\
+                                  "beyond physical damage"
               })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]

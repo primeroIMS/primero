@@ -185,7 +185,7 @@ attack_on_subform_fields = [
   Field.new({"name" => "attack_on_facility_notes",
              "type" => "textarea",
              "display_name_all" => "Additional details:",
-             "guiding_questions" => "E.g., estimated number of adults affected by service disruption"
+             "help_text_all" => "E.g., estimated number of adults affected by service disruption"
             })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
