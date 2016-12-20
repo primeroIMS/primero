@@ -24,10 +24,10 @@ incident_fields = [
              "display_name_all" => "Incident Status",
              "option_strings_source" => "lookup IncidentStatus"
             }),
-  Field.new({"name" => "super_incident_name",
+  Field.new({"name" => "incident_title",
              "type" => "text_field",
-             "display_name_all" => "Name of Super Incident/Event",
-             "visible" => false
+             "display_name_all" => "Incident title",
+             "help_text_all" => "One-line description of the incident"
             }),
   Field.new({"name" => "violation_category",
              "type" => "select_box",
@@ -44,7 +44,10 @@ incident_fields = [
                  { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
                  #{ id: 'other', display_text: "Other" }
               ],
-              "help_text" => "When removing a violation category, please ensure that you have removed all Violation forms associated with the violation category. To do this, navigate to the Violations forms, find the specific violation type, and click the remove button on all sub-forms for the violation category."
+              "help_text" => "When removing a violation type from the list above, please ensure that you have removed all "\
+                             "the specific violations associated with that violation type. To do so, go to the 'Violations' "\
+                             "form (by clicking on the 'Violations' link in the left menu), find the specific violation type, "\
+                             "and click on the 'Remove' button on each sub-form for that violation category."
             }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",
@@ -52,58 +55,37 @@ incident_fields = [
             }),
   Field.new({"name" => "date_of_incident",
              "type" => "date_range",
-             "display_name_all" => "Date of Incident"
+             "display_name_all" => "Date of the incident"
             }),
   Field.new({"name" => "estimated_indicator",
-             "type" => "radio_button",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
              "display_name_all" => "Is the date/date range estimated?",
-             "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "date_description",
              "type" => "textarea",
-             "display_name_all" => "Notes on date(s)"
-            }),
-  Field.new({"name" => "incident_timeofday",
-             "type" => "select_box",
-             "display_name_all" => "Time of day that the Incident took place",
-             "option_strings_text_all" => [
-                "Morning (sunrise to noon)",
-                "Afternoon (noon to sunset)",
-                "Evening/Night (sunset to sunrise)",
-                "Unknown/Not Applicable"
-              ].join("\n")
+             "display_name_all" => "Additional details on date(s)"
             }),
   Field.new({"name" => "incident_location_type",
              "type" => "select_box",
              "display_name_all" => "Type of place where the incident took place",
-             "option_strings_text_all" => [
-                "Bush/Forest",
-                "Garden/Cultivated Field",
-                "School",
-                "Road",
-                "Client's Home",
-                "Perpetrator's Home",
-                "Other",
-                "Market",
-                "Streamside",
-                "Beach",
-                "Farm",
-                "Latrine",
-                "Perpetrator's Friend's Home",
-                "Entertainment Centre",
-                "Unfinished House",
-                "Guest House - Hotel"
-              ].join("\n")
+             "option_strings_text_all" => ["Religious building", "Cultural property", "Farming field", "Bush/Forest",
+                                           "IDP/Refugee camp", "UN premises", "Non-Governmental Organization premises",
+                                           "Civil Society Organization premises", "Street/Road", "Market", "Hospital",
+                                           "School", "Military facility", "Government building", "Private house",
+                                           "Area under partial or full control by armed groups",
+                                           "Area close to military installations", "Populated area", "Isolated area",
+                                           "Playground", "Sport facility", "Other"].join("\n")
+            }),
+  Field.new({"name" => "incident_location_type_other",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please provide details"
             }),
   Field.new({"name" => "incident_location",
               "type" => "select_box",
-              "display_name_all" => "Incident Location",
+              "display_name_all" => "Incident location",
               "option_strings_source" => "Location",
               "searchable_select" => true
-            }),
-  Field.new({"name" => "incident_location_notes",
-              "type" => "text_field",
-              "display_name_all" => "Notes on Location"
             }),
   Field.new({"name" => "incident_latitude",
              "type" => "text_field",
@@ -113,16 +95,9 @@ incident_fields = [
              "type" => "text_field",
              "display_name_all" => "Longitude"
             }),
-  Field.new({"name" => "un_eyewitness",
-             "type" => "radio_button",
-             "display_name_all" => "Did UN staff or other MRM-trained affiliate witness the incident?",
-             "option_strings_text_all" => "Yes\nNo",
-             "visible" => false
-            }),
-  Field.new({"name" => "monitor_number",
+  Field.new({"name" => "incident_location_notes",
              "type" => "text_field",
-             "display_name_all" => "Eye Witness Monitor Number",
-             "visible" => false
+             "display_name_all" => "Additional details on location"
             }),
   Field.new({"name" => "incident_description",
              "type" => "textarea",
@@ -154,8 +129,9 @@ incident_fields = [
             }),
   Field.new({"name" => "incident_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional notes on incident",
-             "help_text_all" => "Supporting documents can be uploaded in the 'Supporting Documents' tab"
+             "display_name_all" => "Additional details on the incident",
+             "help_text_all" => "e.g. time of the day on which the incident took place",
+             "guiding_questions" => "Supporting material can be uploaded in the 'Supporting materials' form"
             })
 ]
 
