@@ -42,8 +42,11 @@
     <% if filters_to_show.include? 'Protection Status' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('Unaccompanied Separated Status', @lookups)) %>
     <% end %>
-    <% if filters_to_show.include? 'Armed Force or Group' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_name"), 'armed_force_group_names', Lookup.values('Armed Force Group Name', @lookups)) %>
+    <% if filters_to_show.include? 'Armed Force' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_name"), 'armed_force_names', Lookup.values('Armed Force Name', @lookups)) %>
+    <% end %>
+    <% if filters_to_show.include? 'Armed Group' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_group_name"), 'armed_group_names', Lookup.values('Armed Group Name', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Armed Force or Group Type' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('Armed Force Group Type', @lookups),

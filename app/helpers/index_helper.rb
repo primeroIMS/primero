@@ -319,7 +319,8 @@ module IndexHelper
     filters << "Interview Date" if @is_gbv
     filters << "Incident Date"
     filters << "Protection Status" if @is_gbv
-    filters << "Armed Force or Group" if @is_mrm
+    filters << "Armed Force" if @is_mrm
+    filters << "Armed Group" if @is_mrm
     filters << "Armed Force or Group Type" if @is_mrm
     filters << "Record State"
 

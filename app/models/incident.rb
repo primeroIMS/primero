@@ -63,8 +63,16 @@ class Incident < CouchRest::Model::Base
       self.child_types
     end
 
-    string :armed_force_group_names, multiple: true do
-      self.armed_force_group_names
+    #TODO - armed_force_group_names was split in 2
+    #TODO - verify with Sue and Pavel
+    string :armed_force_names, multiple: true do
+      self.armed_force_names
+    end
+
+    #TODO - armed_force_group_names was split in 2
+    #TODO - verify with Sue and Pavel
+    string :armed_group_names, multiple: true do
+      self.armed_group_names
     end
 
     string :perpetrator_sub_categories, multiple: true do
@@ -375,14 +383,28 @@ class Incident < CouchRest::Model::Base
   end
 
   #TODO - Need rspec test for this
-  def armed_force_group_names
-    armed_force_groups = []
+  #TODO - armed_force_group_names was split in 2
+  #TODO - verify with Sue and Pavel
+  def armed_force_names
+    armed_forces = []
     if self.perpetrator_subform_section.present?
-      self.perpetrator_subform_section.each {|p| armed_force_groups << p.armed_force_group_name if p.armed_force_group_name.present?}
+      self.perpetrator_subform_section.each {|p| armed_forces << p.armed_force_name if p.armed_force_name.present?}
     end
-    armed_force_groups.uniq! if armed_force_groups.present?
+    armed_forces.uniq! if armed_forces.present?
 
-    return armed_force_groups
+    return armed_forces
+  end
+
+  #TODO - armed_force_group_names was split in 2
+  #TODO - verify with Sue and Pavel
+  def armed_group_names
+    armed_groups = []
+    if self.perpetrator_subform_section.present?
+      self.perpetrator_subform_section.each {|p| armed_groups << p.armed_group_name if p.armed_group_name.present?}
+    end
+    armed_groups.uniq! if armed_groups.present?
+
+    return armed_groups
   end
 
   #TODO - Need rspec test for this

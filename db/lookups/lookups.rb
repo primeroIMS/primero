@@ -42,7 +42,8 @@ create_or_update_lookup(
     "Nationality7",
     "Nationality8",
     "Nationality9",
-    "Nationality10"
+    "Nationality10",
+    "Unknown"
   ]
 )
 
@@ -58,7 +59,8 @@ create_or_update_lookup(
     "Ethnicity7",
     "Ethnicity8",
     "Ethnicity9",
-    "Ethnicity10"
+    "Ethnicity10",
+    "Unknown"
   ]
 )
 
@@ -189,6 +191,7 @@ create_or_update_lookup(
   ]
 )
 
+#TODO See if this can be deleted
 create_or_update_lookup(
   :name => "armed_force_group_name",
   :lookup_values => [
@@ -197,6 +200,36 @@ create_or_update_lookup(
     "Armed Force or Group 3",
     "Other, please specify"
   ]
+)
+
+create_or_update_lookup(
+    :name => "armed_force_name",
+    :lookup_values => [
+        "Armed Force 1",
+        "Armed Force 2",
+        "Armed Force 3",
+        "Other, please specify"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "armed_group_name",
+    :lookup_values => [
+        "Armed Group 1",
+        "Armed Group 2",
+        "Armed Group 3",
+        "Other, please specify"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "other_party_name",
+    :lookup_values => [
+        "Other Party 1",
+        "Other Party 2",
+        "Other Party 3",
+        "Other, please specify"
+    ]
 )
 
 create_or_update_lookup(

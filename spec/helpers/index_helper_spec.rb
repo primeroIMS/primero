@@ -167,8 +167,8 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Violation", "Status", "Age Range", "Children", "Verification Status",
-                                                         "Incident Location", "Incident Date", "Armed Force or Group", "Armed Force or Group Type", "Record State"
+                                                         "Flagged", "Violation", "Status", "Children", "Verification Status",
+                                                         "Incident Location", "Incident Date", "Armed Force", "Armed Group", "Armed Force or Group Type", "Record State"
                                                         ]
         end
       end
@@ -190,8 +190,8 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Violation", "Social Worker", "Status", "Age Range", "Children", "Verification Status",
-                                                         "Incident Location", "Incident Date", "Armed Force or Group", "Armed Force or Group Type", "Record State"
+                                                         "Flagged", "Violation", "Social Worker", "Status", "Children", "Verification Status",
+                                                         "Incident Location", "Incident Date", "Armed Force", "Armed Group", "Armed Force or Group Type", "Record State"
                                                         ]
         end
       end
