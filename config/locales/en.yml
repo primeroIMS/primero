@@ -1033,14 +1033,29 @@ en:
       no_file_selected: "No file selected."
       document_file_restrictions_message: "Files should be no larger than 2 MB (executable (.exe) files cannot be uploaded)."
       photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
-      add_document_label: "Add Document"
       add_photo_label: "Add Photo"
-      add_new_document_button_text: "Add another document"
+
       add_new_photo_button_text: "Add another photo"
       document_description: "Document Description"
+      document:
+        add_document_label: "Add Document"
+        current_document_label: "Is this the current document?"
+        document_name_label: "Document Name"
+        document_date_label: "Document Date"
+        comment_label: "Comments"
+        add_button_text: "Add another document"
+      material:
+        add_document_label: "Add File"
+        current_document_label: "Is this the current file?"
+        document_name_label: "File Name"
+        document_date_label: "File Date"
+        comment_label: "File Description"
+        add_button_text: "Add another file"
+
     upload_bia_document: "BIA Document"
     upload_bid_document: "BID Document"
     upload_other_document: "Other Document"
+
 
   replication:
     label: Replication

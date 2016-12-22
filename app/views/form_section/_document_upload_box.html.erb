@@ -1,4 +1,7 @@
 <%
+  doc_type = ((field.name.split('_').last == 'material') ? 'material' : 'document')
+
+
   # By having certain things derived from field name and form name
   # it'll be much easier now to load different types of document forms (BIA, BID, Other)
   upload_document = field.name
@@ -98,7 +101,7 @@
       <div class="row">
         <div class="medium-4 columns">
           <span class="tool-tip-label">
-            <%= label_tag "#{record_class_name}[#{upload_document}][0][document]", I18n.t("fields.file_upload_box.add_document_label"), :class=>'key inline' %>
+            <%= label_tag "#{record_class_name}[#{upload_document}][0][document]", I18n.t("fields.file_upload_box.#{doc_type}.add_document_label"), :class=>'key inline' %>
           </span>
         </div>
         <div class="medium-8 columns file_upload">
@@ -107,7 +110,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Is this the current document?</label>
+          <label class="key">I18n.t("fields.file_upload_box.#{doc_type}.current_document_label")</label>
         </div>
         <div class="medium-8 columns">
           <%= check_box_tag "#{record_class_name}[#{upload_document}][0][is_current]", true, false, :id => is_current_upload_id, :tag => "is_current" %>
@@ -115,7 +118,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Document Name</label>
+          <label class="key">I18n.t("fields.file_upload_box.#{doc_type}.document_name_label")</label>
         </div>
         <div class="medium-8 columns">
           <%= text_field_tag "#{record_class_name}[#{upload_document}][0][document_description]", "", :id => description_upload_id, :tag => "description" %>
@@ -123,7 +126,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Document Date</label>
+          <label class="key">I18n.t("fields.file_upload_box.#{doc_type}.document_date_label")</label>
         </div>
         <div class="medium-8 columns">
           <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :tag => "date", :class => 'form_date_field has_help', :id => date_upload_id, "data-abide-validator" => date_validator %>
@@ -133,7 +136,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Comments</label>
+          <label class="key">I18n.t("fields.file_upload_box.#{doc_type}.comment_label")</label>
         </div>
         <div class="medium-8 columns">
           <%= text_area_tag "#{record_class_name}[#{upload_document}][0][comments]", "", :id => comments_upload_id, :tag => "comments" %>
@@ -155,7 +158,7 @@
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <%= link_to I18n.t('fields.file_upload_box.add_new_document_button_text'), '', id: 'add-file-upload-field', class: 'green-button right' %>
+      <%= link_to I18n.t("fields.file_upload_box.#{doc_type}.add_button_text"), '', id: 'add-file-upload-field', class: 'green-button right' %>
     </div>
   </div>
 </div>
