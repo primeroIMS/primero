@@ -54,7 +54,7 @@ source_subform_fields = [
             }),
   Field.new({"name" => "source_type",
              "type" => "select_box",
-             "display_name_all" => "Typd of source",
+             "display_name_all" => "Type of source",
              "option_strings_text_all" => ["Oral testimony", "Written statement",
                                            "Document (e.g. medical/police report; judicial records)", "Photograph",
                                            "Video material", "Direct observation by MRM monitor", "Satellite images",
