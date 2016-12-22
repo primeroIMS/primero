@@ -29,6 +29,7 @@ class Field
   property :subform_sort_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
+  property :upload_document_type, :default => 'document'
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
 

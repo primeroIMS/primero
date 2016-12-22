@@ -1,8 +1,9 @@
 supporting_materials_fields = [
-    Field.new({"name" => "upload_material",
+    Field.new({"name" => "upload_supporting_material",
               "type" => "document_upload_box",
               "editable" => false,
-              "display_name_all" => "Supporting Materials"
+              "display_name_all" => "Supporting Materials",
+              "upload_document_type" => "material"
              })
 ]
 
