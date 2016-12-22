@@ -10,7 +10,7 @@ class Field
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label, :upload_document_help_text]
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
@@ -29,6 +29,7 @@ class Field
   property :subform_sort_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
+  property :upload_document_type, :default => 'document'
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
 
