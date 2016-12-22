@@ -38,7 +38,7 @@ recruitment_subform_fields = [
       }),
   Field.new({"name" => "factors_of_recruitment",
              "type" => "select_box",
-             "multi_select" => true,
+             "visible" => false,
              "display_name_all" => "What factors contributed to the recruitment and/or use of the child(ren) by the armed group?",
              "option_strings_text_all" => ["Abduction", "Conscription", "Family/community pressure", "Family problems/abuse",
                                            "Financial reasons", "Idealism", "Intimidation", "Lack of basic services",
