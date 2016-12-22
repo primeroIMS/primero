@@ -3,7 +3,13 @@ supporting_materials_fields = [
               "type" => "document_upload_box",
               "editable" => false,
               "display_name_all" => "Supporting Materials",
-              "upload_document_type" => "material"
+              "upload_document_type" => "material",
+              "upload_document_help_text" => {add: "E.g. photos, videos, scanned reports/written statements, satellite "\
+                                                   "images, interview transcripts",
+                                              comments: "E.g. violation which the uploaded file corroborates, specific "\
+                                                        "aspect of the violation that the file documents, date on which "\
+                                                        "the photo was taken or the interview/statement collected and by whom"
+                                             }
              })
 ]
 
