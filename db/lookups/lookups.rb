@@ -478,3 +478,23 @@ create_or_update_lookup(
       "None"
     ]
 )
+
+create_or_update_lookup(
+    :name => "ctfmr_followup_partner",
+    :lookup_values => [
+      "Partner 1",
+      "Partner 2",
+      "Partner 3",
+      "Other"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "ctfmr_member_or_partner",
+    :lookup_values => [
+      "Partner 1",
+      "Partner 2",
+      "Partner 3",
+      "Other"
+    ]
+)

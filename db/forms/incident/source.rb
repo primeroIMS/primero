@@ -23,7 +23,7 @@ source_subform_fields = [
   Field.new({"name" => "primary_reporting_organization",
              "type" => "select_box",
              "display_name_all" => "CTFMR member/partner which collected the testimony/source of information",
-             "option_strings_text_all" => ["Option1", "Option2", "Option3", "Other"].join("\n")
+             "option_strings_source" => "lookup CtfmrMemberOrPartner"
             }),
   Field.new({"name" => "primary_reporting_organization_other",
              "type" => "textarea",
