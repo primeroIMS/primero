@@ -45,7 +45,7 @@
     </div>
     <div class="row">
       <div class="medium-4 columns">
-        <label class="key">Is this the current document?</label>
+        <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.current_document_label")%></label>
       </div>
       <div class="medium-8 columns">
         <% checked = document["is_current"].present? %>
@@ -54,7 +54,7 @@
     </div>
     <div class="row">
       <div class="medium-4 columns">
-        <label class="key">Document Name</label>
+        <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.document_name_label")%></label>
       </div>
       <div class="medium-8 columns">
         <%= text_field_tag "#{name}[document_description]", document_description, :id => description_field_id %>
@@ -62,7 +62,7 @@
     </div>
     <div class="row">
       <div class="medium-4 columns">
-        <label class="key">Document Date</label>
+        <label class="key"><%= I18n.t("fields.file_upload_box.#{doc_type}.document_date_label")%></label>
       </div>
       <div class="medium-8 columns">
         <% date_for_display = field_value_for_display document["date"] %>
@@ -73,7 +73,7 @@
     </div>
     <div class="row">
       <div class="medium-4 columns">
-        <label class="key">Comments</label>
+        <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.comment_label")%></label>
       </div>
       <div class="medium-8 columns">
         <%= text_area_tag "#{name}[comments]", comments, :id => comments_field_id %>
