@@ -51,7 +51,9 @@ class Violation
       text(f, as: "#{f}_lngram".to_sym) {incident_value(f)}
     end
 
-    string('armed_force_group_names', multiple: true){armed_force_group_names}
+    string('armed_force_names', multiple: true){armed_force_names}
+
+    string('armed_group_names', multiple: true){armed_group_names}
 
     boolean('record_state') {incident_value('record_state')}
 
@@ -114,8 +116,12 @@ class Violation
     incident_value('perpetrator_subform_section').select{|p| p.perpetrator_violations.include? id}
   end
 
-  def armed_force_group_names
-    perpetrators.map(&:armed_force_group_name).compact
+  def armed_force_names
+    perpetrators.map(&:armed_force_name).compact
+  end
+
+  def armed_group_names
+    perpetrators.map(&:armed_group_name).compact
   end
 
 end
