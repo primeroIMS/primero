@@ -51,6 +51,11 @@ attack_on_subform_fields = [
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
+  Field.new({"name" => "attacks_schools_crossborder",
+             "type" => "select_box",
+             "display_name_all" => "Was this a cross-border violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
   Field.new({"name" => "associated_violation",
              "type" => "select_box",
              "multi_select" => true,

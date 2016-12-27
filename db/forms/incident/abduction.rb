@@ -52,6 +52,11 @@ abduction_subform_fields = [
              "display_name_all" => "If 'Yes', please specify:",
              "option_strings_source" => "lookup ViolationType"
             }),
+  Field.new({"name" => "abduction_crossborder",
+             "type" => "select_box",
+             "display_name_all" => "Was this a cross-border violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
   Field.new({"name" => "abduction_regained_freedom",
              "type" => "select_box",
              "display_name_all" => "Did any of the victims eventually regain freedom?",
@@ -68,11 +73,6 @@ abduction_subform_fields = [
   Field.new({"name" => "abduction_regained_freedom_how_other",
              "type" => "text_field",
              "display_name_all" => "If 'Other', please specify "
-            }),
-  Field.new({"name" => "abduction_crossborder",
-             "type" => "select_box",
-             "display_name_all" => "Was this a cross-border violation?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom_when",
              "type" => "date_field",
