@@ -20,19 +20,9 @@
         <br>
       <% end %>
     <% end %>
-    <div class="gq_select">
-      <% if radio_button.guiding_questions.present? %>
-        <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_select_popovers', tabindex: '0', role: 'button',
-                    data: {
-                        toggle: 'popover',
-                        trigger: 'focus',
-                        title: t('buttons.guiding_questions'),
-                        html: true,
-                        placement: 'bottom',
-                        content: radio_button.guiding_questions
-                    }) %>
-      <% end %>
-    </div>
+    <% if radio_button.guiding_questions.present? %>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: radio_button.guiding_questions %>
+    <% end %>
     <p class="help"><%= radio_button.help_text if radio_button.help_text.present? %></p>
   </div>
 </div>
