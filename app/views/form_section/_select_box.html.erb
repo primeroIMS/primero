@@ -41,19 +41,9 @@
       <%= select_tag name, options_for_select(select_box_select_options, value), :id => field_id,
           :data => { :field_tags => field_tags}, :disabled => select_box.disabled, :required => select_box.required %>
     <% end %>
-    <div class="gq_select">
-      <% if select_box.guiding_questions.present? %>
-        <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_select_popovers', tabindex: '0', role: 'button',
-                    data: {
-                        toggle: 'popover',
-                        trigger: 'focus',
-                        title: t('buttons.guiding_questions'),
-                        html: true,
-                        placement: 'bottom',
-                        content: select_box.guiding_questions
-                    }) %>
-      <% end %>
-    </div>
+    <% if select_box.guiding_questions.present? %>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: select_box.guiding_questions %>
+    <% end %>
     <% if select_box.help_text.present? %><p class="help"><%= select_box.help_text  %></p><% end %>
   </div>
 </div>
