@@ -58,15 +58,14 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
     $(context).find("fieldset[id$='_violation_wrapper']").each(function(x, violationListEl){
       var index = 0;  // counter for each type of violation
       var violation_name = $(violationListEl).find(".subforms").attr('id');
+      var valueLength = 0;
       $(violationListEl).find(".subforms").children('div').each(function(x, violationEl){
         if ($(violationEl).children().length > 0) {
-
           //Only add to the list if the fields have values
-          var valueLength = 0;
           $(violationEl).find('input[type!="hidden"], select, textarea').each(function(x, fieldEl){
             var tmpLen = $.trim($(fieldEl).val()).length;
-            // don't count radio fields as they initailly have a default value which would lead to a false positive
-            if (tmpLen > 0 && $(fieldEl).attr('type') != 'radio'){
+            // don't count radio or tick-box fields as they initailly have a default value which would lead to a false positive
+            if (tmpLen > 0 && $(fieldEl).attr('type') != 'radio' && $(fieldEl).attr('type') != 'checkbox'){
                valueLength++;
                return false;
             }
@@ -84,6 +83,7 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
             index++;
           }
         }
+        valueLength = 0;
       });
     });
 
