@@ -12,7 +12,6 @@ sexual_violence_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Form(s) of sexual violence",
-             "help_text_all" => "Select all that applies.",
              "option_strings_text_all" => ["Rape", "Enforced prostitution", "Enforced sterilization", "Forced pregnancy",
                                            "Forced abortion", "Mutilation", "Sexual harrassment/assault",
                                            "Sexual slavery and/or trafficking", "Sexual exploitation and/or abuse"].join("\n")
@@ -27,20 +26,17 @@ sexual_violence_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If yes, please specify:",
-             "help_text_all" => "Select all that applies.",
              "option_strings_source" => "lookup ViolationType"
             }),
   Field.new({"name" => "sexual_violence_implications",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "What implications did the sexual violence have?",
-             "help_text_all" => "Select all that applies.",
              "option_strings_text_all" => ["Child(ren) born out of rape", "health implications"].join("\n")
             }),
   Field.new({"name" => "sexual_violence_crossborder",
              "type" => "select_box",
              "display_name_all" => "Was this a cross-border violation?",
-             "help_text_all" => "Select all that applies.",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "additional_notes",
