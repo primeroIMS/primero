@@ -42,6 +42,11 @@ denial_humanitarian_access_section_fields = [
              "display_name_all" => "If yes, please specify:",
              "option_strings_source" => "lookup ViolationType"
             }),
+  Field.new({"name" => "denial_crossborder",
+             "type" => "select_box",
+             "display_name_all" => "Was this a cross-border violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
   Field.new({"name" => "denial_personnel_killed",
              "type" => "tally_field",
              "display_name_all" => "Number of humanitarian personnel killed",
