@@ -26,12 +26,13 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "facility_operational_before",
                "type" => "select_box",
-               "display_name_all" => "Was the facility operational before the attack?",
+               "display_name_all" => "Was the facility operational before the military use?",
                "option_strings_text_all" => ["Yes", "No", "Partially", "Unknown"].join("\n")
               }),
     Field.new({"name" => "military_use_duration",
                "type" => "date_range",
-               "display_name_all" => "Duration of military use"
+               "display_name_all" => "Duration of military use",
+               "help_text_all" => "Select initial and end dates."
               }),
     Field.new({"name" => "military_use_duration_estimated",
                "type" => "tick_box",
