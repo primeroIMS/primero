@@ -100,7 +100,7 @@ perpetrator_subform_fields = [
             }),
   Field.new({"name" => "perpetrator_additional_details",
              "type" => "textarea",
-             "display_name_all" => "Additional details:",
+             "display_name_all" => "Additional details",
              "help_text_all" => "E.g. chain of command; information on specific unit/role of the perpetrator; type of "\
                                 "uniform worn; consistency between the way in which the violations were committed and "\
                                 "the modus operandi of the group; specific details on individual perpetrator(s), if "\

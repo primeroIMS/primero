@@ -149,7 +149,7 @@ denial_humanitarian_access_section_fields = [
             }),
   Field.new({"name" => "denial_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional details:"
+             "display_name_all" => "Additional details"
             })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
