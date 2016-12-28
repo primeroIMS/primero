@@ -13,7 +13,7 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "weapon_type_other",
                "type" => "text_field",
-               "display_name_all" => "If 'Other', please specify"
+               "display_name_all" => "If ‘Other', please provide details"
               }),
     Field.new({"name" => "attack_type",
                "type" => "select_box",
@@ -22,7 +22,7 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "attack_type_other",
                "type" => "text_field",
-               "display_name_all" => "If 'Other', please specify "
+               "display_name_all" => "If ‘Other', please provide details "
               }),
     Field.new({"name" => "facility_operational_before",
                "type" => "select_box",
@@ -47,7 +47,7 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "military_use_purpose_other",
                "type" => "text_field",
-               "display_name_all" => "If 'Other', please specify  "
+               "display_name_all" => "If ‘Other', please provide details  "
               }),
     Field.new({"name" => "associated_violation_status",
                "type" => "select_box",
@@ -84,7 +84,7 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "school_type_other",
                "type" => "text_field",
-               "display_name_all" => "If 'Other', please specify   "
+               "display_name_all" => "If ‘Other', please provide details   "
               }),
     Field.new({"name" => "school_age_level",
                "type" => "select_box",
@@ -115,7 +115,7 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "health_type_other",
                "type" => "text_field",
-               "display_name_all" => "If 'Other', please specify    "
+               "display_name_all" => "If ‘Other', please provide details    "
               }),
     Field.new({"name" => "health_type_details",
                "type" => "textarea",

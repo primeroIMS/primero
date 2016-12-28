@@ -18,7 +18,7 @@ abduction_subform_fields = [
             }),
   Field.new({"name" => "abduction_purpose_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify"
+             "display_name_all" => "If ‘Other', please provide details"
             }),
   Field.new({"name" => "abduction_from_location_list",
              "type" => "select_box",
@@ -72,7 +72,7 @@ abduction_subform_fields = [
             }),
   Field.new({"name" => "abduction_regained_freedom_how_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify "
+             "display_name_all" => "If ‘Other', please provide details "
             }),
   Field.new({"name" => "abduction_regained_freedom_when",
              "type" => "date_field",

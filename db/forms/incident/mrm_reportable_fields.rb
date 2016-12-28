@@ -18,7 +18,9 @@ fields = [
            { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
            { id: 'other', display_text: "Other" }
         ],
-        "help_text" => "When removing a violation category, please ensure that you have removed all Violation forms associated with the violation category. To do this, navigate to the Violations forms, find the specific violation type, and click the remove button on all sub-forms for the violation category."
+        "help_text" => "When removing a violation category, please ensure that you have removed all Violation forms "\
+                       "associated with the violation category. To do this, navigate to the Violations forms, find the "\
+                       "specific violation type, and click the remove button on all sub-forms for the violation category."
         }),
   Field.new({"name" => "armed_force_group_names",
          "type" => "select_box",

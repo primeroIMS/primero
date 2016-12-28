@@ -17,7 +17,7 @@ response_subform_fields = [
             }),
   Field.new({"name" => "intervention_task_force_type_other",
              "type" => "text_field",
-             "display_name_all" => "If other, please provide further details"
+             "display_name_all" => "If ‘Other', please provide details"
             }),
   Field.new({"name" => "intervention_task_force_date",
              "type" => "date_field",

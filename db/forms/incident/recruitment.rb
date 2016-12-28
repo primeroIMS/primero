@@ -18,7 +18,7 @@ recruitment_subform_fields = [
              }),
   Field.new({"name" => "factors_of_recruitment_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify"
+             "display_name_all" => "If ‘Other', please provide details"
             }),
   Field.new({"name" => "re_recruitment",
              "type" => "select_box",
