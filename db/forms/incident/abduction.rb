@@ -94,7 +94,7 @@ abduction_subform_fields = [
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional details:"
+             "display_name_all" => "Additional details"
             })
  # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]

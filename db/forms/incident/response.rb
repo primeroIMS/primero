@@ -45,7 +45,7 @@ response_subform_fields = [
             }),
   Field.new({"name" => "intervention_follow_up_notes",
              "type" => "text_field",
-             "display_name_all" => "Additional Details"
+             "display_name_all" => "Additional details"
             })
 ]
 
