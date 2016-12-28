@@ -123,7 +123,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => "agency-unicef",
   "role_ids" => [
-    Role.by_name(key: "MRM Worker").first.id
+    Role.by_name(key: "MRM Specialist (editing)").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id]
@@ -138,7 +138,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => "agency-unicef",
   "role_ids" => [
-    Role.by_name(key: "MRM Manager").first.id
+    Role.by_name(key: "MRM Co-chair (editing)").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id],
