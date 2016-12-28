@@ -361,7 +361,7 @@ gbv_manager_permissions = [
 #   :group_permission => Permission::GROUP
 # )
 
-mrm_worker_permissions = [
+mrm_monitor_permissions = [
   Permission.new(
     :resource => Permission::INCIDENT,
     :actions => [
@@ -382,11 +382,74 @@ mrm_worker_permissions = [
 ]
 
 create_or_update_role(
-  :name => "MRM Worker",
-  :permissions_list => mrm_worker_permissions
+  :name => "MRM Monitor",
+  :permissions_list => mrm_monitor_permissions
 )
 
-mrm_manager_permissions = [
+mrm_specialist_view_permissions = [
+    Permission.new(
+        :resource => Permission::INCIDENT,
+        :actions => [
+            Permission::READ,
+            Permission::FLAG,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR,
+            Permission::EXPORT_MRM_VIOLATION_XLS,
+            Permission::EXPORT_INCIDENT_RECORDER
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::REPORT,
+        :actions => [
+            Permission::READ
+        ]
+    )
+]
+
+create_or_update_role(
+    :name => "MRM Specialist (viewing)",
+    :permissions_list => mrm_specialist_view_permissions,
+    :group_permission => Permission::GROUP
+)
+
+mrm_specialist_edit_permissions = [
+    Permission.new(
+        :resource => Permission::INCIDENT,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::FLAG,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR,
+            Permission::EXPORT_MRM_VIOLATION_XLS,
+            Permission::EXPORT_INCIDENT_RECORDER
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::REPORT,
+        :actions => [
+            Permission::READ
+        ]
+    )
+]
+
+create_or_update_role(
+    :name => "MRM Specialist (editing)",
+    :permissions_list => mrm_specialist_edit_permissions,
+    :group_permission => Permission::GROUP
+)
+
+mrm_co_chair_view_permissions = [
   Permission.new(
     :resource => Permission::INCIDENT,
     :actions => [
@@ -443,9 +506,72 @@ mrm_manager_permissions = [
 ]
 
 create_or_update_role(
-  :name => "MRM Manager",
-  :permissions_list => mrm_manager_permissions,
+  :name => "MRM Co-chair (viewing)",
+  :permissions_list => mrm_co_chair_view_permissions,
   :group_permission => Permission::GROUP
+)
+
+mrm_co_chair_edit_permissions = [
+    Permission.new(
+        :resource => Permission::INCIDENT,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::FLAG,
+            Permission::ASSIGN,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR,
+            Permission::EXPORT_MRM_VIOLATION_XLS,
+            Permission::EXPORT_INCIDENT_RECORDER
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::REPORT,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::ROLE,
+        :actions => [
+            Permission::READ,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::USER,
+        :actions => [
+            Permission::READ,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR
+        ]
+    )
+]
+
+create_or_update_role(
+    :name => "MRM Co-chair (editing)",
+    :permissions_list => mrm_co_chair_edit_permissions,
+    :group_permission => Permission::GROUP
 )
 
 referral_permissions = [
