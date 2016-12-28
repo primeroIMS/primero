@@ -91,6 +91,11 @@ module DocumentUploader
     document_update('bid_documents', updated_documents)
   end
 
+  def update_supporting_material=(updated_documents)
+    return unless updated_documents
+    document_update('supporting_materials', updated_documents)
+  end
+
   def document_update(form_id, updated_documents)
     document_names = updated_documents.keys if updated_documents.is_a? Hash
     document_names.each do |document_key|
