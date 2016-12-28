@@ -1,68 +1,53 @@
 record_history_fields = [
-  Field.new({"name" => "current_owner_section",
-             "type" => "separator",
-             "display_name_all" => "Current Owner"
-            }),
-  Field.new({"name" => "caseworker_name",
-             "type" => "text_field",
-             "display_name_all" => "Field/Case/Social Worker"
-            }),
-  Field.new({"name" => "owned_by",
-             "type" => "select_box",
-             "display_name_all" => "Caseworker Code",
-             "option_strings_source" => "User",
-             "editable" => false,
-             "disabled" => true
-            }),
-  Field.new({"name" => "agency_organization",
-             "type" => "select_box",
-             "visible" => false,
-             "display_name_all" => "Agency",
-             "option_strings_text_all" =>
-                                    ["Agency1",
-                                     "Agency2",
-                                     "Agency3",
-                                     "Agency4",
-                                     "Agency5",].join("\n")
-            }),
-  Field.new({"name" => "assigned_user_names",
-             "type" =>"select_box",
-             "multi_select" => true,
-             "display_name_all" => "Other Assigned Users",
-             "option_strings_source" => "User"
-            }),
   Field.new({"name" => "record_history_section",
              "type" => "separator",
              "display_name_all" => "Record History"
             }),
-  Field.new({"name" => "created_by",
+  Field.new({"name" => "caseworker_name",
              "type" => "text_field",
-             "display_name_all" => "Record created by",
+             "display_name_all" => "Incident creator",
+             "help_text_all" => "This is the MRM Specialist who entered the incident in the database"
+            }),
+  Field.new({"name" => "owned_by",
+             "type" => "select_box",
+             "display_name_all" => "Incident creator's code (if applicable)",
+             "option_strings_source" => "User",
              "editable" => false,
              "disabled" => true
+            }),
+  Field.new({"name" => "assigned_user_names",
+             "type" =>"select_box",
+             "multi_select" => true,
+             "display_name_all" => "Other assigned MRMIMS+ users",
+             "option_strings_source" => "User"
             }),
   Field.new({"name" => "created_organization",
              "type" => "text_field",
-             "display_name_all" => "Created by agency",
+             "display_name_all" => "CTFMR member",
              "editable" => false,
              "disabled" => true
             }),
-  Field.new({"name" => "previously_owned_by",
+  Field.new({"name" => "mrm_monitor",
              "type" => "text_field",
-             "display_name_all" => "Previous Owner",
-             "editable" => false,
-             "disabled" => true
+             "display_name_all" => "MRM monitor",
+             "help_text_all" => "This is the MRM monitor who collected information on the incident "
             }),
-  Field.new({"name" => "previous_agency",
+  Field.new({"name" => "mrm_monitor_code",
              "type" => "text_field",
-             "display_name_all" => "Previous Agency"
+             "display_name_all" => "MRM monitor's code (if applicable)"
             }),
+  Field.new({"name" => "ctfmr_member",
+             "type" => "text_field",
+             "display_name_all" => "CTFMR member/partner"
+            }),
+  #TODO: This is needed to preserve the module on record creation. Can we make this elegant?
+  #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "module_id",
-          "type" => "text_field",
-          "display_name_all" => "Module",
-          "editable" => false,
-          "disabled" => true
-          }),
+             "type" => "text_field",
+             "display_name_all" => "Module",
+             "editable" => false,
+             "disabled" => true
+            })
 ]
 
 FormSection.create_or_update_form_section({

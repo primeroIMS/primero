@@ -71,7 +71,7 @@ create_or_update_module(
   description: "Monitoring and Reporting Mechanism",
   associated_record_types: ["incident"],
   associated_form_ids: [
-    "incident_record_owner", "incident_form",
+    "incident_record_history", "incident_form",
     "killing_violation_wrapper", "maiming_violation_wrapper", "recruitment_violation_wrapper",
     "sexual_violence_violation_wrapper", "attack_on_violation_wrapper", "military_use_violation_wrapper",
     "denial_humanitarian_access_violation_wrapper", "abduction_violation_wrapper",
