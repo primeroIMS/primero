@@ -15,7 +15,7 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "weapon_type_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify"
+             "display_name_all" => "If ‘Other', please provide details"
             }),
   Field.new({"name" => "attack_type",
              "type" => "select_box",
@@ -24,7 +24,7 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "attack_typeattack_type_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify "
+             "display_name_all" => "If ‘Other', please provide details "
             }),
   Field.new({"name" => "consequences",
              "type" => "select_box",
@@ -34,7 +34,7 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "consequences_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify  "
+             "display_name_all" => "If ‘Other', please provide details  "
             }),
   Field.new({"name" => "victim_targeted",
              "type" => "select_box",

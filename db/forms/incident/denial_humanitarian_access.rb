@@ -16,7 +16,7 @@ denial_humanitarian_access_section_fields = [
             }),
   Field.new({"name" => "denial_method_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please provide further details"
+             "display_name_all" => "If 'Other', please provide details"
             }),
   Field.new({"name" => "denial_organizations_affected",
              "type" => "select_box",
@@ -29,7 +29,7 @@ denial_humanitarian_access_section_fields = [
             }),
   Field.new({"name" => "denial_organizations_affected_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please specify"
+             "display_name_all" => "If 'Other', please provide details "
             }),
   Field.new({"name" => "associated_violation_status",
              "type" => "select_box",

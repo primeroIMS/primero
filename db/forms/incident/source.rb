@@ -27,7 +27,7 @@ source_subform_fields = [
             }),
   Field.new({"name" => "primary_reporting_organization_other",
              "type" => "textarea",
-             "display_name_all" => "If other, please provide further details"
+             "display_name_all" => "If ‘Other', please provide details"
             }),
   Field.new({"name" => "source_interview_date",
              "type" => "date_field",
@@ -62,7 +62,7 @@ source_subform_fields = [
             }),
   Field.new({"name" => "source_type_other",
              "type" => "text_field",
-             "display_name_all" => "If other, please provide further details "
+             "display_name_all" => "If ‘Other', please provide details "
             }),
   Field.new({"name" => "source_gender",
              "type" => "select_box",
@@ -113,7 +113,7 @@ source_subform_fields = [
             }),
   Field.new({"name" => "source_consent_with_whom_other",
              "type" => "text_field",
-             "display_name_all" => "If other, please provide further details  ",
+             "display_name_all" => "If ‘Other', please provide details  ",
              "help_text_all" => "e.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
                                 "victim/adult caregiver consented to share personal details"
             }),
