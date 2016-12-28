@@ -15,8 +15,7 @@ MRM_VERIFICATION_FIELDS = [
           }),
   Field.new({"name" => "verification_source_secondary_number",
            "type" => "numeric_field",
-           "display_name_all" => "Number of secondary sources used for verification purposes",
-           "help_text_all" => "Please refer to the 'Source' section for further details."
+           "display_name_all" => "Number of secondary sources used for verification purposes"
           }),
   Field.new({"name" => "un_eyewitness",
            "type" => "radio_button",
@@ -25,7 +24,7 @@ MRM_VERIFICATION_FIELDS = [
           }),
   Field.new({"name" => "verified",
              "type" => "select_box",
-             "display_name_all" => "Verification status as determined by the focal point.",
+             "display_name_all" => "Initial verification status as determined by the focal point",
              "option_strings_source" => "lookup VerificationStatus"
             }),
   Field.new({"name" => "verification_date_focal_point",
