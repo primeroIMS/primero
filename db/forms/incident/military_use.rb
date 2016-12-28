@@ -3,7 +3,7 @@ require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
 military_use_subform_fields = [
     Field.new({"name" => "military_use_type",
                "type" => "select_box",
-               "display_name_all" => "Type of violation",
+               "display_name_all" => "Type of military use",
                "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n")
               }),
     Field.new({"name" => "weapon_type",
@@ -26,12 +26,13 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "facility_operational_before",
                "type" => "select_box",
-               "display_name_all" => "Was the facility operational before the attack?",
+               "display_name_all" => "Was the facility operational before the military use?",
                "option_strings_text_all" => ["Yes", "No", "Partially", "Unknown"].join("\n")
               }),
     Field.new({"name" => "military_use_duration",
                "type" => "date_range",
-               "display_name_all" => "Duration of military use"
+               "display_name_all" => "Duration of military use",
+               "help_text_all" => "Select initial and end dates."
               }),
     Field.new({"name" => "military_use_duration_estimated",
                "type" => "tick_box",
