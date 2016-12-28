@@ -3,7 +3,7 @@ require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
 military_use_subform_fields = [
     Field.new({"name" => "military_use_type",
                "type" => "select_box",
-               "display_name_all" => "Type of violation",
+               "display_name_all" => "Type of military use",
                "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n")
               }),
     Field.new({"name" => "weapon_type",
