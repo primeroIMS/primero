@@ -1,7 +1,8 @@
 individual_victims_fields = [
   Field.new({"name" => "id_number",
              "type" => "text_field",
-             "display_name_all" => "Victim's ID",
+             "display_name_all" => "Victim's ID (if applicable)",
+             "help_text_all" => "ID applies to those CTFMRs which assign an ID number to each individual victim for security purposes"
             }),
   Field.new({"name" => "individual_violations",
              "type" => "select_box",
@@ -50,6 +51,11 @@ individual_victims_fields = [
                                    "for reporting purposes?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
+  Field.new({"name" => "child_consent_follow_up",
+             "type" => "radio_button",
+             "display_name_all" => "Is the victim and/or adult caregiver willing to be contacted again about the violations?",
+             "option_strings_text_all" => ["Yes", "No"].join("\n")
+            }),
   Field.new({"name" => "child_consent_data_sharing",
              "type" => "select_box",
              "multi_select" => true,
@@ -60,14 +66,9 @@ individual_victims_fields = [
             }),
   Field.new({"name" => "child_consent_data_sharing_other",
              "type" => "textarea",
-             "display_name_all" => "If other, please provide further details",
-             "help_text_all" => "e.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
+             "display_name_all" => "If ‘Other', please provide details",
+             "help_text_all" => "E.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
                                 "victim/adult caregiver consented to share personal details"
-            }),
-  Field.new({"name" => "child_consent_follow_up",
-             "type" => "radio_button",
-             "display_name_all" => "Is the victim and/or adult caregiver willing to be contacted again about the violations?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "individual_vulnerabilities",
              "type" => "select_box",
@@ -114,7 +115,7 @@ FormSection.create_or_update_form_section({
   :fields => [Field.new({"name" => "individual_victims_subform_section",
                          "type" => "subform", "editable" => true,
                          "subform_section_id" => individual_victims_subform_section.unique_id,
-                         "display_name_all" => "Individual victim(s)"
+                         "display_name_all" => "Individual victim"
                         })
              ],
   "name_all" => "Individual victim(s)",

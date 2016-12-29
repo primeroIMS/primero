@@ -92,7 +92,8 @@ create_or_update_lookup(
     "Religion7",
     "Religion8",
     "Religion9",
-    "Religion10"
+    "Religion10",
+    "Unknown"
   ]
 )
 
