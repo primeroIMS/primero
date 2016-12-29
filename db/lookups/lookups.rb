@@ -208,7 +208,7 @@ create_or_update_lookup(
         "Armed Force 1",
         "Armed Force 2",
         "Armed Force 3",
-        "Other, please specify"
+        "Unknown"
     ]
 )
 
@@ -218,7 +218,7 @@ create_or_update_lookup(
         "Armed Group 1",
         "Armed Group 2",
         "Armed Group 3",
-        "Other, please specify"
+        "Unknown"
     ]
 )
 
@@ -228,7 +228,7 @@ create_or_update_lookup(
         "Other Party 1",
         "Other Party 2",
         "Other Party 3",
-        "Other, please specify"
+        "Unknown"
     ]
 )
 
