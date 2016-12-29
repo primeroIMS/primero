@@ -34,25 +34,25 @@ group_victims_section_fields_subform = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Nationality/ies of the children affected",
-             "option_strings_source" => "lookup group Nationality"
+             "option_strings_source" => "lookup Nationality"
             }),
   Field.new({"name" => "group_ethnicity",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Ethnic affiliation(s) of the children affected",
-             "option_strings_source" => "lookup group Ethnicity"
+             "option_strings_source" => "lookup Ethnicity"
             }),
 
   Field.new({"name" => "group_religion",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Religious affiliation(s) of the children affected.",
-             "option_strings_source" => "lookup group Religion"
+             "option_strings_source" => "lookup Religion"
             }),
   Field.new({"name" => "group_adult_number",
              "type" => "numeric_field",
              "display_name_all" => "How many adults were affected?",
-             "help_text_all" => "e.g. education personnel; healthcare personnel"
+             "help_text_all" => " E.g. education personnel; healthcare personnel"
             }),
   Field.new({"name" => "group_adult_number_estimated",
              "type" => "tick_box",
@@ -108,7 +108,7 @@ group_victims_fields = [
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => group_victims_section.unique_id,
-             "display_name_all" => "Group victim(s)"
+             "display_name_all" => "Group victim"
             }),
   ##Subform##
 ]
