@@ -319,12 +319,16 @@ denial_humanitarian_access_section = FormSection.create_or_update_form_section({
 })
 
 mrm_summary_page_fields = [
+  Field.new({"name" => "summary_of_incident",
+             "type" => "separator",
+             "display_name_all" => "Summary of the Incident"
+            }),
   Field.new({"name" => "incident_total_tally",
-           "type" => "tally_field",
-           "display_name_all" => "Number of victims",
-           "autosum_group" => "incident_number_of_victims_survivors",
-           "tally_all" => ['boys', 'girls', 'unknown'],
-           "autosum_total" => true,
+             "type" => "tally_field",
+             "display_name_all" => "Number of victims",
+             "autosum_group" => "incident_number_of_victims_survivors",
+             "tally_all" => ['boys', 'girls', 'unknown'],
+             "autosum_total" => true,
             }),
   Field.new({"name" => "incident_description",
              "type" => "textarea",
@@ -390,9 +394,9 @@ FormSection.create_or_update_form_section({
   :order => 1,
   :order_subform => 0,
   :form_group_keyed => true,
-  :form_group_name => "Summary Page",
+  :form_group_name => "Summary of the Incident",
   "editable" => true,
   :fields => mrm_summary_page_fields,
-  "name_all" => "Summary Page",
-  "description_all" => "Summary Page"
+  "name_all" => "Summary of the Incident",
+  "description_all" => "Summary of the Incident"
 })
