@@ -7,7 +7,8 @@ source_subform_fields = [
             }),
   Field.new({"name" => "source_id",
              "type" => "text_field",
-             "display_name_all" => "Source ID"
+             "display_name_all" => "Source ID (if applicable)",
+             "help_text_all" => "ID applies to those CTFMRs which assign an ID number to each source for security purposes"
             }),
   Field.new({"name" => "source_violations",
              "type" => "select_box",
@@ -17,7 +18,7 @@ source_subform_fields = [
             }),
   Field.new({"name" => "interviewer",
              "type" => "text_field",
-             "display_name_all" => "MRM monitor's Name/ID",
+             "display_name_all" => "MRM monitor's name/ID (if applicable)",
              "help_text_all" => "ID applies to those CTFMRs which assign an ID number to each MRM monitor for security purposes"
             }),
   Field.new({"name" => "primary_reporting_organization",
@@ -66,7 +67,7 @@ source_subform_fields = [
             }),
   Field.new({"name" => "source_gender",
              "type" => "select_box",
-             "display_name_all" => "Sex of Source",
+             "display_name_all" => "Sex of source",
              "option_strings_text_all" => ["Male", "Female", "N/A"].join("\n")
             }),
   Field.new({"name" => "source_age",
@@ -114,8 +115,8 @@ source_subform_fields = [
   Field.new({"name" => "source_consent_with_whom_other",
              "type" => "text_field",
              "display_name_all" => "If ‘Other', please provide details  ",
-             "help_text_all" => "e.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
-                                "victim/adult caregiver consented to share personal details"
+             "help_text_all" => "E.g. on the specific CTFMR member/UN agency/NGO/partner/service provider the victim/adult "\
+                                "caregiver consented to sharing personal details with"
             }),
   Field.new({"name" => "source_consent_follow_up",
              "type" => "radio_button",
