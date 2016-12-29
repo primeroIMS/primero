@@ -1,0 +1,111 @@
+<div class="row update_document">
+  <%
+    update_document = field.name.sub 'upload', 'update'
+    attachment_key = document["attachment_key"]
+    document_description = document["document_description"] || ""
+    comments = document["comments"] || ""
+    prefix = "#{record_class_name}_#{update_document}_#{attachment_key}"
+    name = "#{record_class_name}[#{update_document}][#{attachment_key}]"
+    is_current_field_id = "#{prefix}_is_current"
+    description_field_id = "#{prefix}_document_description"
+    date_field_id = "#{prefix}_date"
+    comments_field_id = "#{prefix}_comments"
+    delete_field_id = "#{prefix}_delete_document"
+    date_validator = ((field.date_validation == 'not_future_date') ? "primeroDateNotInFuture" : "primeroDate")
+    error_msg = ((field.date_validation == 'not_future_date') ? "fields.future_date_not_valid" : "fields.date_not_valid")
+    help_text = field.upload_document_help_text || {}
+  %>
+  <div class="medium-4 columns">
+        <span class="tool-tip-label">
+           <label class="key"><%= I18n.t("fields.#{field.name}") %></label>
+        </span>
+  </div>
+  <div class="medium-8 columns">
+    <div>
+      <span class="document"><%= document["file_name"] %></span>
+    </div>
+    <% if help_text['add'].present? %><p class="help"><%= help_text['add']  %></p><% end %>
+  </div>
+</div>
+<% if doc_type == 'material' %>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.comment_label")%></label>
+    </div>
+    <div class="medium-8 columns">
+      <%= text_area_tag "#{name}[comments]", comments, :id => comments_field_id %>
+      <% if help_text['comments'].present? %><p class="help"><%= help_text['comments']  %></p><% end %>
+      <div>
+        <%= check_box_tag("#{name}[delete_document]", true, false, :id => delete_field_id) %>
+        <%= label_tag delete_field_id, t("#{record_class_name}.actions.delete_document") %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%= I18n.t("fields.file_upload_box.#{doc_type}.document_date_label")%></label>
+    </div>
+    <div class="medium-8 columns">
+      <% date_for_display = field_value_for_display document["date"] %>
+      <%= text_field_tag "#{name}[date]", date_for_display, :class => 'form_date_field has_help', :id => date_field_id, "data-abide-validator" => date_validator %>
+      <small class="error"><%= I18n.t(error_msg)%></small>
+      <p class="help">
+        <% if help_text['date'].present? %>
+          <%= help_text['date']  %>
+        <% else %>
+          <%= t("fields.date_help") %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.current_document_label")%></label>
+    </div>
+    <div class="medium-8 columns">
+      <% checked = document["is_current"].present? %>
+      <%= check_box_tag "#{name}[is_current]", true, checked, :id => is_current_field_id %>
+      <% if help_text['current'].present? %><p class="help"><%= help_text['current']  %></p><% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.document_name_label")%></label>
+    </div>
+    <div class="medium-8 columns">
+      <%= text_field_tag "#{name}[document_description]", document_description, :id => description_field_id %>
+      <% if help_text['name'].present? %><p class="help"><%= help_text['name']  %></p><% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%= I18n.t("fields.file_upload_box.#{doc_type}.document_date_label")%></label>
+    </div>
+    <div class="medium-8 columns">
+      <% date_for_display = field_value_for_display document["date"] %>
+      <%= text_field_tag "#{name}[date]", date_for_display, :class => 'form_date_field has_help', :id => date_field_id, "data-abide-validator" => date_validator %>
+      <small class="error"><%= I18n.t(error_msg)%></small>
+      <p class="help">
+        <% if help_text['date'].present? %>
+          <%= help_text['date']  %>
+        <% else %>
+          <%= t("fields.date_help") %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-4 columns">
+      <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.comment_label")%></label>
+    </div>
+    <div class="medium-8 columns">
+      <%= text_area_tag "#{name}[comments]", comments, :id => comments_field_id %>
+      <% if help_text['comments'].present? %><p class="help"><%= help_text['comments']  %></p><% end %>
+      <div>
+        <%= check_box_tag("#{name}[delete_document]", true, false, :id => delete_field_id) %>
+        <%= label_tag delete_field_id, t("#{record_class_name}.actions.delete_document") %>
+      </div>
+    </div>
+  </div>
+<% end %>

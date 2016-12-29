@@ -1046,11 +1046,11 @@ en:
         comment_label: "Comments"
         add_button_text: "Add another document"
       material:
-        add_document_label: "Add File"
+        add_document_label: "Add file"
         current_document_label: "Is this the current file?"
-        document_name_label: "File Name"
-        document_date_label: "File Date"
-        comment_label: "File Description"
+        document_name_label: "File name"
+        document_date_label: "File date"
+        comment_label: "File description"
         add_button_text: "Add another file"
 
     upload_bia_document: "BIA Document"
