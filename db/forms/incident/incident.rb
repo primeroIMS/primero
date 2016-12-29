@@ -31,7 +31,7 @@ incident_fields = [
             }),
   Field.new({"name" => "violation_category",
              "type" => "select_box",
-             "display_name_all" => "Violation Category",
+             "display_name_all" => "Relevant violations",
              "multi_select" => true,
              "option_strings_text_all" => [
                  { id: 'killing', display_text: "Killing of Children" },
@@ -44,10 +44,11 @@ incident_fields = [
                  { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
                  #{ id: 'other', display_text: "Other" }
               ],
-              "help_text" => "When removing a violation type from the list above, please ensure that you have removed all "\
-                             "the specific violations associated with that violation type. To do so, go to the 'Violations' "\
-                             "form (by clicking on the 'Violations' link in the left menu), find the specific violation type, "\
-                             "and click on the 'Remove' button on each sub-form for that violation category."
+              "help_text" => "When removing a violation type from the list above, please ensure that FIRST you have "\
+                             "removed all the individual 'Violation' sub-forms associated with that violation type. "\
+                             "To do so, go to the 'Violations' form (by clicking on the 'Violations' link in the left "\
+                             "menu), find the specific violation type, and click on the 'Remove' button on each "\
+                             "individual 'Violation' sub-form for that violation category."
             }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",
@@ -130,8 +131,8 @@ incident_fields = [
   Field.new({"name" => "incident_notes",
              "type" => "textarea",
              "display_name_all" => "Additional details on the incident",
-             "help_text_all" => "e.g. time of the day on which the incident took place",
-             "guiding_questions" => "Supporting material can be uploaded in the 'Supporting materials' form"
+             "help_text_all" => "E.g. time of the day at which the incident took place",
+             "guiding_questions" => "Supporting materials can be uploaded in the 'Supporting materials' form"
             })
 ]
 
