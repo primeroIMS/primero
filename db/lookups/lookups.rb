@@ -364,9 +364,9 @@ create_or_update_lookup(
       "Missile",
       "Mortar/Rocket",
       "Sharp weapon",
-      "Small arm [e.g. AK-47]",
+      "Small arm (e.g. AK-47)",
       "Submunition (e.g. cluster munitions)",
-      "Other weapons",
+      "Other weapon",
       "Unknown"
     ]
 )
@@ -378,7 +378,7 @@ create_or_update_lookup(
       "Arson",
       "Improvised Explosive Device (IED) attack (select the corresponding weapon in the ‘Type of weapon dropdown menu)",
       "Land-based attack",
-      "Laying mines [includes pressure-plate IEDs and booby traps]",
+      "Laying mines (includes pressure-plate IEDs and booby traps)",
       "Occupation of building(s)",
       "Other shooting",
       "Physical assault",

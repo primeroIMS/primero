@@ -15,7 +15,7 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "weapon_type_other",
              "type" => "text_field",
-             "display_name_all" => "If ‘Other', please provide details"
+             "display_name_all" => "If 'Other weapon', please specify"
             }),
   Field.new({"name" => "attack_type",
              "type" => "select_box",
@@ -40,11 +40,6 @@ maiming_subform_fields = [
              "type" => "select_box",
              "display_name_all" => "Was/were the victim(s) directly targeted?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
-            }),
-  Field.new({"name" => "mine_incident",
-             "type" => "radio_button",
-             "display_name_all" => "Mine-related incident",
-             "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "victim_a_participant",
              "type" => "select_box",
@@ -79,7 +74,8 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional details"
+             "display_name_all" => "Additional details",
+             "help_text_all" => "E.g. was/were the victim(s) tortured/ill-treated?"
             })
 ]
 
