@@ -11,7 +11,14 @@ maiming_subform_fields = [
   Field.new({"name" => "weapon_type",
              "type" => "select_box",
              "display_name_all" => "Type of weapon used",
-             "option_strings_source" => "lookup WeaponType"
+             "option_strings_source" => "lookup WeaponType",
+             "guiding_questions" => "For further guidance, please refer to UNMAS 'Glossary of mine action terms, "\
+                                    "definitions and abbreviations', available at: "\
+                                    "http://www.mineactionstandards.org/fileadmin/MAS/documents/imas-international-standards/english/series 04/IMAS_04.10_Glossary_of_mine_action_terms__definitions_and_abbreviations.pdf; "\
+                                    "to the UN Coordinating Action on Small Arms (CASA) 'Glossary of terms, definitions "\
+                                    "and abbreviations', available at: http://www.smallarmsstandards.org/isacs/0120-en.pdf; "\
+                                    "and to UNIDIR 'Addressing Improvised Explosive Devices' paper, pp. 14-15 "\
+                                    "available at: http://www.unidir.org/files/publications/pdfs/-en-641.pdf."
             }),
   Field.new({"name" => "weapon_type_other",
              "type" => "text_field",
