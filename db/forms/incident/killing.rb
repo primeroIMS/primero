@@ -87,6 +87,19 @@ killing_subform_section = FormSection.create_or_update_form_section({
 })
 
 killing_fields = [
+  #The sole purpose of this field is to have Guiding Questions above the subforms
+  Field.new({"name" => "killing_guiding_questions",
+             "type" => "select_box",
+             "display_name_all" => "Definition",
+             "disabled" => true,
+             "option_strings_text_all" => ["Please read guidance text below for the violation definition.",
+                                           "Other"].join("\n"),
+             "selected_value" => "Please read guidance text below for the violation definition.",
+             "guiding_questions" => "For MRM purposes, 'killing' is defined as any action in the context of the armed "\
+                                    "conflict that results in the death of one or more children (see MRM Field Manual, "\
+                                    "p. 9 and Annex 4: Q & A Guidance on Security Council Resolution 1882, p. 5)."
+            }),
+  ##Subform##
   Field.new({"name" => "killing",
              "type" => "subform", "editable" => true,
              "subform_section_id" => killing_subform_section.unique_id,
