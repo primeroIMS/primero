@@ -29,7 +29,7 @@ MRM_VERIFICATION_FIELDS = [
             }),
   Field.new({"name" => "verification_date_focal_point",
              "type" => "date_field",
-             "display_name_all" => "Date of determination of verification decision by focal point."
+             "display_name_all" => "Date of determination of verification status by focal point."
             }),
   Field.new({"name" => "verified_ctfmr_technical",
              "type" => "select_box",
