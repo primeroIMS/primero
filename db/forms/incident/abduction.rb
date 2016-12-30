@@ -116,6 +116,25 @@ abduction_subform_section = FormSection.create_or_update_form_section({
 })
 
 abduction_fields = [
+  #The sole purpose of this field is to have Guiding Questions above the subforms
+  Field.new({"name" => "maiming_guiding_questions",
+             "type" => "select_box",
+             "display_name_all" => "Definition",
+             "disabled" => true,
+             "option_strings_text_all" => ["Please read guidance text below for the violation definition.",
+                                           "Other"].join("\n"),
+             "selected_value" => "Please read guidance text below for the violation definition.",
+             "guiding_questions" => "For the purposes of the MRM, the abduction of children is the removal, seizure or "\
+                                    "capture of a person under 18 years of age, either temporarily or permanently, for "\
+                                    "the purpose of any form of exploitation of the child or other unlawful purpose. "\
+                                    "The abduction must take place in a situation of armed conflict and be perpetrated "\
+                                    "by a party to conflict, including non-state armed groups and armed forces, and may "\
+                                    "take place within a country or across borders (see also MRM Field Manual, p. 6 and "\
+                                    "Annex 3: Abduction&Detention – Clarification, pp. 70-71, 77; see also "\
+                                    "OSRSG-CAAC-UNICEF-DPKO Note to Country Task Forces on Monitoring and Reporting "\
+                                    "Abduction of Children, December 2016)."
+            }),
+  ##Subform##
   Field.new({"name" => "abduction",
              "type" => "subform", "editable" => true,
              "subform_section_id" => abduction_subform_section.unique_id,

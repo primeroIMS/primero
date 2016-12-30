@@ -96,6 +96,19 @@ maiming_subform_section = FormSection.create_or_update_form_section({
 })
 
 maiming_fields = [
+  #The sole purpose of this field is to have Guiding Questions above the subforms
+  Field.new({"name" => "maiming_guiding_questions",
+             "type" => "select_box",
+             "display_name_all" => "Definition",
+             "disabled" => true,
+             "option_strings_text_all" => ["Please read guidance text below for the violation definition.",
+                                           "Other"].join("\n"),
+             "selected_value" => "Please read guidance text below for the violation definition.",
+             "guiding_questions" => "For MRM purposes, 'maiming' is defined as any action that causes a serious, or "\
+                                    "permanent, or disabling injury, scarring or mutilation to a child (see MRM Field "\
+                                    "Manual, p. 9 and Annex 4: Q & A Guidance on Security Council Resolution 1882, pp. 5-6)."
+            }),
+  ##Subform##
   Field.new({"name" => "maiming",
              "type" => "subform", "editable" => true,
              "subform_section_id" => maiming_subform_section.unique_id,
