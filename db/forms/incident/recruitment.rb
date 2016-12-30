@@ -11,14 +11,14 @@ recruitment_subform_fields = [
   Field.new({"name" => "factors_of_recruitment",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "What factors contributed to the recruitment and/or use of the child(ren) by the armed group?",
+             "display_name_all" => "What factors contributed to the recruitment and/or use of the child(ren) by the armed force/group?",
              "option_strings_text_all" => ["Abduction", "Conscription", "Family/community pressure", "Family problems/abuse",
                                            "Financial reasons", "Idealism", "Intimidation", "Lack of basic services",
                                            "Security concerns", "To join/follow friends", "To seek revenge", "Unknown", "Other"].join("\n")
              }),
   Field.new({"name" => "factors_of_recruitment_other",
              "type" => "text_field",
-             "display_name_all" => "If ‘Other', please provide details"
+             "display_name_all" => "If 'Other', please provide details"
             }),
   Field.new({"name" => "re_recruitment",
              "type" => "select_box",
@@ -65,7 +65,7 @@ recruitment_subform_fields = [
             }),
   Field.new({"name" => "child_role_association_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please provide additional details"
+             "display_name_all" => "If 'Other', please provide details "
             }),
   Field.new({"name" => "child_role_torture",
              "type" => "select_box",
@@ -79,7 +79,7 @@ recruitment_subform_fields = [
              "type" => "select_box",
              "display_name_all" => "What role did the child(ren) play in the armed force/group?",
              "option_strings_text_all" => ["Combatant", "Non-combatant", "Unknown"].join("\n"),
-             "help_text_all" => "For further guidance, please see MRM Field Manual, 2014, page 11; MRM Field Manual, Annex 1, page 63)."
+             "help_text_all" => "For further guidance, please see MRM Field Manual, 2014, page 11; MRM Field Manual, Annex 1, page 63."
              }),
   Field.new({"name" => "child_role_combatant",
              "type" => "select_box",
@@ -89,7 +89,7 @@ recruitment_subform_fields = [
             }),
   Field.new({"name" => "child_role_combatant_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please provide additional details "
+             "display_name_all" => "If 'Other', please provide details  "
             }),
   Field.new({"name" => "child_role_noncombatant",
              "type" => "select_box",
@@ -99,7 +99,7 @@ recruitment_subform_fields = [
             }),
   Field.new({"name" => "child_role_noncombatant_other",
              "type" => "text_field",
-             "display_name_all" => "If 'Other', please provide additional details  "
+             "display_name_all" => "If 'Other', please provide details   "
             }),
   Field.new({"name" => "child_owned_weapon",
              "type" => "select_box",
@@ -129,6 +129,11 @@ recruitment_subform_fields = [
              "type" => "numeric_field",
              "display_name_all" => "If 'Yes', how many? "
             }),
+  Field.new({"name" => "released_number_estimated",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Is this number estimated?",
+            }),
   Field.new({"name" => "date_child_leave",
              "type" => "date_field",
              "display_name_all" => "If 'Yes', when did the children leave the armed group?"
@@ -136,52 +141,22 @@ recruitment_subform_fields = [
   Field.new({"name" => "estimated_date",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
-             "display_name_all" => "Is the date estimated? ",
+             "display_name_all" => "Is the date estimated?",
             }),
   Field.new({"name" => "how_did_child_leave_armed_group",
              "type" => "select_box",
              "display_name_all" => "If the child(ren) left the armed force/group, how did it happen?",
-             "option_strings_text_all" =>
-                                    ["Captured/Surrendered",
-                                     "Community/Individually brokered",
-                                     "Dissolution of armed force/group",
-                                     "Informal release",
-                                     "Formal release/demobilisation process",
-                                     "Injured",
-                                     "Ran away/Escaped",
-                                     "Unknown",
-                                     "Not applicable"].join("\n")
-            }),
-  Field.new({"name" => "factors_of_release",
-             "type" => "select_box",
-             "display_name_all" => "What factors contributed to the children leaving the armed group?",
-             "option_strings_text_all" =>
-                                    ["Family Pressure",
-                                     "Community Pressure",
-                                     "Government Pressure",
-                                     "NGO/UN Pressure",
-                                     "Discretion of Armed Group",
-                                     "Force (armed intervention)",
-                                     "Ransom paid",
-                                     "Other"].join("\n")
-            }),
-  Field.new({"name" => "factors_of_release_multi",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "What factors contributed to the children leaving the armed force/group?",
-             "option_strings_text_all" =>
-                                    ["Armed intervention",
-                                     "Discretion of armed force/group",
-                                     "Family/Community pressure",
-                                     "Financial reasons",
-                                     "Political/security developments (e.g. peace process)",
-                                     "Ransom paid",
-                                     "Unknown",
-                                     "Not applicable"].join("\n")
+             "option_strings_text_all" => ["Captured", "Surrendered", "Community/family brokered",
+                                           "Dissolution of armed force/group", "Informal release",
+                                           "Formal release/demobilisation process"].join("\n")
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
-             "display_name_all" => "Additional details"
+             "display_name_all" => "Additional details",
+             "help_text_all" => "E.g. what factors contributed to the child(ren) leaving the armed force/group? "\
+                                "(e.g. sick/injured; financial reasons; family pressure; community pressure; "\
+                                "UN/NGO advocacy; Government pressure; pressure by other party to the conflict; "\
+                                "discretion of armed force/armed group; political/security developments, e.g. peace process)"
             })
   # Followed by verification fields attached as MRM_VERIFICATION_FIELDS
 ]
