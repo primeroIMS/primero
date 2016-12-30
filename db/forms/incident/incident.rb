@@ -22,7 +22,8 @@ incident_fields = [
   Field.new({"name" => "status",
              "type" => "select_box",
              "display_name_all" => "Incident Status",
-             "option_strings_source" => "lookup IncidentStatus"
+             "option_strings_source" => "lookup IncidentStatus",
+             "help_text_all" => "Please select duplicate if the incident was mistakenly entered multiple times in the database."
             }),
   Field.new({"name" => "incident_title",
              "type" => "text_field",
