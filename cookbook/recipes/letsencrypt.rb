@@ -2,9 +2,29 @@ letsencrypt_config_dir = "/etc/letsencrypt"
 letsencrypt_dir = ::File.join(node[:primero][:home_dir], "letsencrypt")
 letsencrypt_public_dir = ::File.join(node[:primero][:app_dir], "public")
 
-git letsencrypt_dir do
-  repository "https://github.com/letsencrypt/letsencrypt"
-  action :sync
+#TODO: After upgrading to Ubuntu 16.04 LTS, use the native package instead of downloading
+directory letsencrypt_dir do
+  action :create
+end
+
+execute 'Download Certbot' do
+  command 'wget https://dl.eff.org/certbot-auto && chmod a+x certbot-auto'
+  cwd letsencrypt_dir
+  not_if do
+    File.exist?(::File.join(letsencrypt_dir, 'certbot-auto'))
+  end
+end
+
+execute 'Verify Certbot' do
+  command <<-EOH
+    wget -N https://dl.eff.org/certbot-auto.asc && \
+    gpg2 --recv-key A2CFB51FA275A7286234E7B24D17C995CD9775F2 && \
+    gpg2 --trusted-key 4D17C995CD9775F2 --verify certbot-auto.asc certbot-auto
+  EOH
+  cwd letsencrypt_dir
+  not_if do
+    File.exist?(::File.join(letsencrypt_dir, 'certbot-auto.asc'))
+  end
 end
 
 unless node[:primero][:letsencrypt][:email]
@@ -14,13 +34,22 @@ end
 fullchain = ::File.join(letsencrypt_config_dir, 'live', node[:primero][:server_hostname], 'fullchain.pem')
 privkey = ::File.join(letsencrypt_config_dir, 'live', node[:primero][:server_hostname], 'privkey.pem')
 
+service 'nginx' do
+  action 'stop'
+end
+
 execute "Register Let's Encrypt Certificate" do
-  command "./letsencrypt-auto certonly --webroot -w #{letsencrypt_public_dir} -d #{node[:primero][:server_hostname]} --agree-tos --email #{node[:primero][:letsencrypt][:email]}"
+  command "./certbot-auto certonly --standalone -d #{node[:primero][:server_hostname]} --non-interactive --agree-tos --email #{node[:primero][:letsencrypt][:email]}"
   cwd letsencrypt_dir
   not_if do
     File.exist?(fullchain) &&
     File.exist?(privkey)
   end
+end
+
+execute 'Trigger Certbot update and a cert renewal' do
+  command './certbot-auto renew -n'
+  cwd letsencrypt_dir
 end
 
 #Update references to letsencrypt certs in app
@@ -47,12 +76,12 @@ certfiles.each do |certfile|
   end
 end
 
-#Restart nginx
+#Start nginx
 service 'nginx' do
-  action :restart
+  action :start
 end
 
-file "/etc/cron.monthly/letsencrypt_renew" do
+file "/etc/cron.daily/letsencrypt_renew" do
   mode '0755'
   owner "root"
   group "root"
@@ -60,8 +89,7 @@ file "/etc/cron.monthly/letsencrypt_renew" do
 #!/bin/bash
 
 cd #{letsencrypt_dir}
-./letsencrypt-auto certonly --renew-by-default --webroot -w #{letsencrypt_public_dir} -d #{node[:primero][:server_hostname]} --agree-tos --email #{node[:primero][:letsencrypt][:email]}
-/etc/init.d/nginx restart
+./certbot-auto renew --quiet -n --no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"
 EOH
 end
 
