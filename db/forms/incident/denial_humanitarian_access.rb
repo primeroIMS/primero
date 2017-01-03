@@ -24,8 +24,8 @@ denial_humanitarian_access_section_fields = [
              "display_name_all" => "Type of organization(s) affected",
              "option_strings_text_all" => ["Governmental", "International/Inter-Governmental", "NGO/International",
                                            "NGO/National", "De-facto authorities", "ICRC-Red Cross/Crescent",
-                                           "Religious/faith based institutions", "Community organizations",
-                                           "Private (e.g. demining companies)", "Unknown", "Other"].join("\n")
+                                           "Religious/faith based institution", "Community organization",
+                                           "Private (e.g. demining company)", "Unknown", "Other"].join("\n")
             }),
   Field.new({"name" => "denial_organizations_affected_other",
              "type" => "text_field",
