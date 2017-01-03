@@ -6,16 +6,20 @@
 %>
 <div class="row">
   <div class="medium-4 columns">
-      <span class="tool-tip-label">
-          <%= label_tag field_id, t(textarea.name,:default => textarea.display_name), :class=>'key inline' %>
-      </span>
+    <span class="tool-tip-label">
+      <%= label_tag field_id, t(textarea.name,:default => textarea.display_name), :class=>'key inline' %>
+    </span>
   </div>
   <div class="medium-8 columns">
-    <% if textarea.required %><span class="required form-section-required">*</span><% end %>
-    <%= text_area_tag name, value, :disabled => textarea.disabled, :id => field_id, :editable => textarea.editable, rows: "2", required: textarea.required %>
-    <% if textarea.help_text %><p class="help"><%= textarea.help_text %></p><% end %>
-    <% if textarea.guiding_questions.present? %>
-      <%= render 'form_section/guiding_questions', guiding_questions_text: textarea.guiding_questions %>
+    <% if textarea.disabled || !textarea.editable %>
+      <%= content_tag :span, value, id: field_id, class: "value" %>
+    <% else %>
+      <% if textarea.required %><span class="required form-section-required">*</span><% end %>
+      <%= text_area_tag name, value, :disabled => textarea.disabled, :id => field_id, :editable => textarea.editable, rows: "2", required: textarea.required %>
+      <% if textarea.help_text %><p class="help"><%= textarea.help_text %></p><% end %>
+      <% if textarea.guiding_questions.present? %>
+        <%= render 'form_section/guiding_questions', guiding_questions_text: textarea.guiding_questions %>
+      <% end %>
     <% end %>
   </div>
 </div>
