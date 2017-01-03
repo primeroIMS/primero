@@ -75,7 +75,7 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "military_use_schools_section",
                "type" => "separator",
-               "display_name_all" => "Military use of schools"
+               "display_name_all" => "Military use of school(s)"
               }),
     Field.new({"name" => "school_type",
                "type" => "select_box",
@@ -97,7 +97,7 @@ military_use_subform_fields = [
     Field.new({"name" => "school_age_level",
                "type" => "select_box",
                "multi_select" => true,
-               "display_name_all" => "Age level of students attending he affected school",
+               "display_name_all" => "Age level of students attending the affected school",
                "option_strings_source" => "lookup SchoolAgeLevel"
               }),
     Field.new({"name" => "school_students_sex",
@@ -113,7 +113,7 @@ military_use_subform_fields = [
               }),
     Field.new({"name" => "military_use_hospitals_section",
                "type" => "separator",
-               "display_name_all" => "Military use of hospitals"
+               "display_name_all" => "Military use of hospital(s)"
               }),
     Field.new({"name" => "health_type",
                "type" => "select_box",
@@ -207,7 +207,7 @@ military_use_fields = [
   Field.new({"name" => "military_use",
              "type" => "subform", "editable" => true,
              "subform_section_id" => military_use_subform_section.unique_id,
-             "display_name_all" => "Military use of schools and/or hospitals",
+             "display_name_all" => "Military use of school(s) and/or hospital(s)",
              "expose_unique_id" => true,
             })
 ]
@@ -223,6 +223,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => military_use_fields,
-  "name_all" => "Military use of schools and/or hospitals",
-  "description_all" => "Military use of schools and/or hospitals"
+  "name_all" => "Military use of school(s) and/or hospital(s)",
+  "description_all" => "Military use of school(s) and/or hospital(s)"
 })

@@ -473,9 +473,9 @@ create_or_update_lookup(
 create_or_update_lookup(
     :name => "facility_impact_type",
     :lookup_values => [
-      "Total Destruction",
-      "Serious Damage",
-      "Minor Damage",
+      "Total destruction",
+      "Serious damage",
+      "Minor damage",
       "None"
     ]
 )
