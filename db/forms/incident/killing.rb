@@ -22,7 +22,7 @@ killing_subform_fields = [
             }),
   Field.new({"name" => "weapon_type_other",
              "type" => "text_field",
-             "display_name_all" => "If ‘Other', please provide details"
+             "display_name_all" => "If 'Other weapon', please specify"
             }),
   Field.new({"name" => "attack_type",
              "type" => "select_box",
