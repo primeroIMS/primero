@@ -13,22 +13,14 @@ abduction_subform_fields = [
              "display_name_all" => "Purpose of the abduction",
              "multi_select" => true,
              "option_strings_text_all" => ["Extortion", "Forced marriage", "Indoctrination", "Intimidation",
-                                           "Killing/Maiming", "Retaliation", "Recruitment and/or use", "Sexual violence",
+                                           "Killing/Maiming", "Punishment", "Recruitment and use",
+                                           "Rape and/or other forms of sexual violence", "Forced labour",
+                                           "Sale of children", "Trafficking of children", "Enslavement",
                                            "Unknown", "Other"].join("\n")
             }),
   Field.new({"name" => "abduction_purpose_other",
              "type" => "text_field",
              "display_name_all" => "If ‘Other', please provide details"
-            }),
-  Field.new({"name" => "abduction_from_location_list",
-             "type" => "select_box",
-             "display_name_all" => "Location where the abduction occurred",
-             "option_strings_source" => "lookup Country"
-            }),
-  Field.new({"name" => "abduction_from_location_list_other",
-             "type" => "text_field",
-             "display_name_all" => "Other details about the location where the abduction occurred",
-             "help_text" => "(Other country, GPS coordinates, etc.)"
             }),
   Field.new({"name" => "abduction_held_location_list",
              "type" => "select_box",
@@ -37,8 +29,13 @@ abduction_subform_fields = [
             }),
   Field.new({"name" => "abduction_held_location_list_other",
              "type" => "text_field",
-             "display_name_all" => "Other details about the location where the victim(s) was/were held occurred",
+             "display_name_all" => "Other details about the location where the victim(s) was/were held",
              "help_text" => "(Other country, GPS coordinates, etc.)"
+            }),
+  Field.new({"name" => "abduction_crossborder",
+             "type" => "select_box",
+             "display_name_all" => "Was this a cross-border violation?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
@@ -51,11 +48,6 @@ abduction_subform_fields = [
              "multi_select" => true,
              "display_name_all" => "If 'Yes', please specify:",
              "option_strings_source" => "lookup ViolationType"
-            }),
-  Field.new({"name" => "abduction_crossborder",
-             "type" => "select_box",
-             "display_name_all" => "Was this a cross-border violation?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "abduction_regained_freedom",
              "type" => "select_box",
@@ -74,23 +66,10 @@ abduction_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If ‘Other', please provide details "
             }),
-  Field.new({"name" => "abduction_regained_freedom_when",
-             "type" => "date_field",
-             "display_name_all" => "Date of leaving"
-            }),
   Field.new({"name" => "abduction_freedom_is_date_estimated",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Is the date estimated? "
-            }),
-  Field.new({"name" => "abduction_other_victims",
-             "type" => "select_box",
-             "display_name_all" => "Did the victim(s) witness other children during abduction?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
-            }),
-  Field.new({"name" => "abduction_other_victims_additional_info",
-             "type" => "textarea",
-             "display_name_all" => "If 'Yes', please provide any additional information available"
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
