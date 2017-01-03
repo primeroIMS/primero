@@ -3,6 +3,8 @@ letsencrypt_dir = ::File.join(node[:primero][:home_dir], "letsencrypt")
 letsencrypt_public_dir = ::File.join(node[:primero][:app_dir], "public")
 
 #TODO: After upgrading to Ubuntu 16.04 LTS, use the native package instead of downloading
+package 'gnupg2'
+
 directory letsencrypt_dir do
   action :create
 end
