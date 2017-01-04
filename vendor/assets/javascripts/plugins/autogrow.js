@@ -67,10 +67,8 @@
         }
       }
 
-      $self.change(update).keyup(update).keydown({event:'keydown'},update);
-      $(window).resize(update);
-
-      update();
+      //modified to run on textarea focus instead of page load and page resize
+      $self.change(update).keyup(update).keydown({event:'keydown'},update).focus(update);
     });
   };
 })(jQuery);
