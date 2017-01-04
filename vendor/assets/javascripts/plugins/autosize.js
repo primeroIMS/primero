@@ -199,6 +199,8 @@
       ta.removeEventListener('keyup', update, false);
       ta.removeEventListener('autosize:destroy', destroy, false);
       ta.removeEventListener('autosize:update', update, false);
+      //Update: remove focus event listener
+      ta.removeEventListener('focus', update, false);
 
       Object.keys(style).forEach(function (key) {
         ta.style[key] = style[key];
@@ -225,6 +227,8 @@
     window.addEventListener('resize', pageResize, false);
     ta.addEventListener('input', update, false);
     ta.addEventListener('autosize:update', update, false);
+    //Update: add focus event listener
+    ta.addEventListener('focus', update, false);
     ta.style.overflowX = 'hidden';
     ta.style.wordWrap = 'break-word';
 
