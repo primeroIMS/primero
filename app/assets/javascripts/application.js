@@ -20,7 +20,7 @@
 //= require plugins/dataTables.responsive
 //= require plugins/dataTables.fixedColumns
 //= require plugins/popovers
-//= require plugins/autogrow
+//= require plugins/autosize
 //= require plugins/hoverintent
 //= require plugins/superfish
 //= require plugins/jquery.mousewheel.min

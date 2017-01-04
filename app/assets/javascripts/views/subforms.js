@@ -158,7 +158,7 @@ _primero.Views.SubformView = Backbone.View.extend({
     $(subforms).parent().find("#" + _primero.model_object + "_" + subforms.attr("id") + "_empty_subform").remove();
 
     if(newSubform.find('textarea').length > 0) {
-      $('textarea').autogrow();
+      autosize($('textarea'));
     }
 
     _primero.show_add_violation_message();
