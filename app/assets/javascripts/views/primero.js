@@ -37,8 +37,6 @@ Primero = Backbone.View.extend({
     _primero.abide_validator_date_not_future = this.abide_validator_date_not_future;
     _primero.date_not_future = this.date_not_future;
     _primero.valid_datepicker_value = this.valid_datepicker_value;
-    _primero.abide_validator_number = this.abide_validator_number;
-    _primero.valid_number_value = this.valid_number_value;
     _primero.abide_validator_positive_number = this.abide_validator_positive_number;
     _primero.valid_positive_number_value = this.valid_positive_number_value;
 
@@ -664,22 +662,6 @@ Primero = Backbone.View.extend({
       }
     } else {
       //If value is empty check if required or not.
-      return !required;
-    }
-  },
-
-  abide_validator_number: function(el, required, parent) {
-    if (el.getAttribute("disabled") !== "disabled") {
-      return _primero.valid_number_value(el.value, required);
-    } else {
-      return true;
-    }
-  },
-
-  valid_number_value: function(value, required) {
-    if (value !== "") {
-      return !isNaN(value);
-    } else {
       return !required;
     }
   },

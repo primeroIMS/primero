@@ -1014,7 +1014,6 @@ en:
     date_not_valid: "This date is not valid."
     future_date_not_valid: "This date cannot be in future."
     number_not_valid: "Please enter numeric data"
-    positive_number_not_valid: "Please enter numeric data"
     separator: "Separator"
     successfully_added: "Field successfully added"
     updated: "Field updated"
