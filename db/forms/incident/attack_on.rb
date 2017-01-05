@@ -6,10 +6,9 @@ attack_on_subform_fields = [
              "multi_select" => true,
              "display_name_all" => "Type of education or health-related violation",
              "option_strings_text_all" => ["Attack on school(s)", "Attack on education personnel",
-                                           "Threats of attack on school(s)", "Other interference with education",
+                                           "Threat of attack on school(s)", "Other interference with education",
                                            "Attack on hospital(s)", "Attack on medical personnel",
-                                           "Threats of attack on hospital(s)", "Military use of hospitals",
-                                           "Other interference with health care"].join("\n"),
+                                           "Threat of attack on hospital(s)", "Other interference with healthcare"].join("\n"),
              "guiding_questions" => "See  'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998', "\
                                     "2014 (available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 6."
             }),
@@ -71,7 +70,7 @@ attack_on_subform_fields = [
             }),
   Field.new({"name" => "attacks_on_schools",
              "type" => "separator",
-             "display_name_all" => "Attacks on schools"
+             "display_name_all" => "Attack on school(s)"
             }),
   Field.new({"name" => "school_type",
              "type" => "select_box",
@@ -109,7 +108,7 @@ attack_on_subform_fields = [
             }),
   Field.new({"name" => "attacks_on_hospitals",
              "type" => "separator",
-             "display_name_all" => "Attacks on hospitals"
+             "display_name_all" => "Attack on hospital(s)"
             }),
   Field.new({"name" => "health_type",
              "type" => "select_box",
@@ -124,7 +123,8 @@ attack_on_subform_fields = [
   Field.new({"name" => "health_type_details",
              "type" => "textarea",
              "display_name_all" => "Details of the affected healthcare facility",
-             "help_text_all" => "E.g. name(s) of affected facility/ies; hospital's patient capacity; name and type of organization managing the facility."
+             "help_text_all" => "E.g. name(s) of affected facility/ies; hospital's patient capacity; name and type of "\
+                                "organization managing the facility."
             }),
   Field.new({"name" => "human_impact_of_attack_section",
              "type" => "separator",
@@ -235,7 +235,7 @@ attack_on_fields = [
   Field.new({"name" => "attack_on",
              "type" => "subform", "editable" => true,
              "subform_section_id" => attack_on_subform_section.unique_id,
-             "display_name_all" => "Attacks on schools and/or hospitals",
+             "display_name_all" => "Attacks on school(s) and/or hospital(s)",
              "expose_unique_id" => true,
             })
 ]
