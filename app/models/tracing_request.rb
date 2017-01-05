@@ -183,14 +183,16 @@ class TracingRequest < CouchRest::Model::Base
   def find_match_children(child_id=nil)
     all_results = []
     match_class = Child
-    self.tracing_request_subform_section.each do |tr|
-      match_criteria = match_criteria(tr)
-      results = self.class.find_match_records(match_criteria, match_class, child_id)
-      if child_id.nil?
-        PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, tr.age, tr.sex, results, child_id)
-      else
-        results.each do |key, value|
-          all_results.push({:tracing_request_id => self.id, :tr_subform_id => tr.unique_id,:tr_age => tr.age, :tr_gender => tr.sex, :score => value})
+    if self.tracing_request_subform_section.present?
+      self.tracing_request_subform_section.each do |tr|
+        match_criteria = match_criteria(tr)
+        results = self.class.find_match_records(match_criteria, match_class, child_id)
+        if child_id.nil?
+          PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, tr.age, tr.sex, results, child_id)
+        else
+          results.each do |key, value|
+            all_results.push({:tracing_request_id => self.id, :tr_subform_id => tr.unique_id,:tr_age => tr.age, :tr_gender => tr.sex, :score => value})
+          end
         end
       end
     end
