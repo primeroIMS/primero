@@ -18,9 +18,6 @@ $(document).ready(function() {
         primeroDateNotInFuture: function(el, required, parent) {
           return _primero.abide_validator_date_not_future(el, required, parent);
         },
-        primeroNumber: function(el, required, parent) {
-          return _primero.abide_validator_number(el, required, parent);
-        },
         primeroPositiveNumber: function(el, required, parent) {
           return _primero.abide_validator_positive_number(el, required, parent);
         }

@@ -29,10 +29,8 @@ class Field
   property :subform_sort_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
-  property :numeric_validation, :default => 'not_negative_number'
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
-  NUMERIC_VALIDATION_OPTIONS = ['allow_negative_number', 'not_negative_number']
 
   attr_accessor :subform
 
@@ -386,7 +384,7 @@ class Field
     return result
   end
 
-  #TODO: This is a HACK to pull back location fields from admin solr index names,
+  #TODO: This is a HACK to pull back location fields from admin solr index names, 
   #      completely based on assumptions.
   def self.find_by_name(field_name)
     field = nil
