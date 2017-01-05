@@ -54,8 +54,7 @@ tracing_request_inquirer_fields = [
            }),
   Field.new({"name" => "relation_age",
              "type" => "numeric_field",
-             "display_name_all" => "Age",
-             "numeric_validation" => "not_negative_number"
+             "display_name_all" => "Age"
            }),
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
