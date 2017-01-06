@@ -385,7 +385,7 @@ class Field
     return result
   end
 
-  #TODO: This is a HACK to pull back location fields from admin solr index names, 
+  #TODO: This is a HACK to pull back location fields from admin solr index names,
   #      completely based on assumptions.
   def self.find_by_name(field_name)
     field = nil
