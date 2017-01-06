@@ -42,7 +42,7 @@ Primero = Backbone.View.extend({
     this.init_trunc();
     this.init_sticky();
     this.init_popovers();
-    this.init_autogrow();
+    this.init_autosize();
     this.init_action_menu();
     this.init_chosen_or_new();
     this.show_hide_record_type();
@@ -186,8 +186,8 @@ Primero = Backbone.View.extend({
     });
   },
 
-  init_autogrow: function() {
-    $('textarea').autogrow();
+  init_autosize: function() {
+    autosize($('textarea'));
   },
 
   init_popovers: function() {
