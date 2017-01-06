@@ -123,7 +123,6 @@ module Matchable
           sort.each { |sort_field, order| order_by(sort_field, order) }
           paginate pagination
         end
-        binding.pry
         results = {}
         search.hits.each { |hit| results[hit.result.id] = hit.score }
         results
