@@ -16,7 +16,7 @@ def get_random_user
 end
 
 def create_children(id, num_children, names, lastnames)
-
+  relation = ["Mother", "Father", "Aunt", "Uncle", "Brother", "Sister",]
 
   children = (0..num_children).each do |i|
 
@@ -32,6 +32,13 @@ def create_children(id, num_children, names, lastnames)
         c.created_at = DateTime.new(2014, randommonth, randomday)
         #random name and last name
         c.name = "#{names[rand(names.size-1)]} #{lastnames[rand(lastnames.size-1)]}"
+        c.family_details_section = [
+          {
+            :unique_id => "#{id}#{i}-1",
+            :relation_name => "#{c.name}1",
+            :relation => relation.sample
+          }
+        ]
       end
     }.each do |k, v|
       default_owner = get_random_user

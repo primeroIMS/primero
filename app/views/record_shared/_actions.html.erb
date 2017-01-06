@@ -2,18 +2,15 @@
   <li class="init_btn">
     <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
     <ul>
-      <% if can?(:import, controller.model_class) %>
-        <%= render 'imports/button' %>
+      <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
+          <%= render 'imports/button' %>
       <% end %>
-      <%= render 'exports/button', locals: { model: model } %>
-      <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident %>
-        <%= render 'exports/custom_exports_link', model: model, export_type: 'custom' %>
-      <% end%>
-      <%
-        #TODO - For now, only implementing transfer and referral for Cases
-        #TODO - At some point, it will be available for other record types
-        #TODO - When that happens, routes will have to be added
-      %>
+      <% if controller.model_class != PotentialMatch %>
+          <%= render 'exports/button', locals: {model: model} %>
+      <% end %>
+      <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident && controller.model_class != PotentialMatch %>
+          <%= render 'exports/custom_exports_link', model: model, export_type: 'custom' %>
+      <% end %>
       <% if model == Child %>
         <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
         <% if can?(:reassign, controller.model_class) %>
@@ -22,8 +19,8 @@
         <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
       <% end %>
       <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
-        <%= render 'record_shared/mark_for_mobile_button', mobile_value: true  %>
-        <%= render 'record_shared/mark_for_mobile_button', mobile_value: false  %>
+          <%= render 'record_shared/mark_for_mobile_button', mobile_value: true %>
+          <%= render 'record_shared/mark_for_mobile_button', mobile_value: false %>
       <% end %>
     </ul>
   </li>

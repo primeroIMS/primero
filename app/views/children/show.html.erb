@@ -34,6 +34,7 @@ $(function() {
   <% end %>
 <% end %>
 
+
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>
   #<%= text_to_identify_child(@child) %>
@@ -47,13 +48,13 @@ $(function() {
 <div class="page-content-new row collapse" data-equalizer>
   <div class="large-4 medium-4 columns close-side-tab side-tab-container">
     <div class="side-tab" data-equalizer-watch>
+      <%= render :partial => 'shared/sidebar' , :locals => {:model => @child} %>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <%# Removed for demo deploy %>
-      <%= render :partial => 'shared/sidebar' if false %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child} %>
     </div>
     <%= render 'record_shared/header_message', record: @child, model: 'case' %>

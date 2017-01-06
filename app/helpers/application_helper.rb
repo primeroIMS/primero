@@ -5,6 +5,7 @@ module ApplicationHelper
     "Children" => "cases",
     "TracingRequests" => "tracings",
     "Incidents" => "incidents",
+    "PotentialMatches" => "matches",
     "FormSection" => "forms",
     "Fields" => "forms",
     "Lookups" => "forms",

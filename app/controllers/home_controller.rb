@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  ALL_FILTER = "all"
 
   before_filter :load_system_settings, :only => [:index]
   before_filter :can_access_approvals, :only => [:index]
@@ -15,10 +16,9 @@ class HomeController < ApplicationController
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
     load_admin_information if display_admin_dashboard?
-
+    load_match_result if display_tracing_request_dashboard?
     display_approvals?
     display_assessment?
-
   end
 
   private
@@ -136,6 +136,10 @@ class HomeController < ApplicationController
     @display_cases_dashboard ||= @record_types.include?("case")
   end
 
+  def display_tracing_request_dashboard?
+    @display_tracing_request_dashboard ||= @record_types.include?("tracing_request")
+  end
+
   def display_manager_dashboard?
     @display_manager_dashboard ||= current_user.is_manager?
   end
@@ -162,7 +166,7 @@ class HomeController < ApplicationController
 
   def manager_case_query(query = {})
     module_ids = @module_ids
-    results =  Child.search do
+    results = Child.search do
       with(:record_state, true)
       with(:associated_user_names, current_user.managed_user_names)
       with(:child_status, query[:status]) if query[:status].present?
@@ -278,7 +282,7 @@ class HomeController < ApplicationController
   end
 
   def load_recent_activities
-    Child.list_records({}, {:last_updated_at => :desc}, { page: 1, per_page: 20 }, current_user.managed_user_names)
+    Child.list_records({}, {:last_updated_at => :desc}, {page: 1, per_page: 20}, current_user.managed_user_names)
   end
 
   def load_cases_information
@@ -404,9 +408,86 @@ class HomeController < ApplicationController
         end
       end
     end
-
     show_flagged_by
   end
+
+  def load_match_result
+    @match_stats = {}
+    associated_users = current_user.managed_user_names
+    search = TracingRequest.search do
+      if associated_users.first != ALL_FILTER
+        any_of do
+          associated_users.each do |user_name|
+            with(:associated_user_names, user_name)
+          end
+        end
+      end
+    end
+    tr_ids = search.results.map { |m| m.id }
+
+    search = Child.search do
+      if associated_users.first != ALL_FILTER
+        any_of do
+          associated_users.each do |user_name|
+            with(:associated_user_names, user_name)
+          end
+        end
+      end
+    end
+    case_ids = search.results.map { |m| m.id }
+
+
+    search = PotentialMatch.search do
+      any_of do
+        tr_ids.each do |tr_id|
+          with(:tracing_request_id, tr_id)
+        end
+      end
+      facet(:average_rating) do
+        row(:range_tr_1) do
+          with(:average_rating, 0.0..4.0)
+        end
+        row(:range_tr_2) do
+          with(:average_rating, 4.0..8.0)
+        end
+        row(:range_tr_3) do
+          with(:average_rating, 8.0..12.0)
+        end
+        row(:range_tr_4) do
+          with(:average_rating).greater_than(12.0)
+        end
+      end
+    end
+    search.facet(:average_rating).rows.each do |facet|
+      @match_stats[facet.value] = facet.count
+    end
+    search = PotentialMatch.search do
+      any_of do
+        case_ids.each do |case_id|
+          with(:child_id, case_id)
+        end
+      end
+      facet(:average_rating) do
+        row(:range_case_1) do
+          with(:average_rating, 0.0..4.0)
+        end
+        row(:range_case_2) do
+          with(:average_rating, 4.0..8.0)
+        end
+        row(:range_case_3) do
+          with(:average_rating, 8.0..12.0)
+        end
+        row(:range_case_4) do
+          with(:average_rating).greater_than(12.0)
+        end
+      end
+    end
+    search.facet(:average_rating).rows.each do |facet|
+      @match_stats[facet.value] = facet.count
+    end
+    @match_stats
+  end
+
 
   def show_flagged_by
     flag_criteria = {
@@ -422,8 +503,7 @@ class HomeController < ApplicationController
     if current_user.is_manager?
       # @recent_activities = load_recent_activities.results
       # @scheduled_activities = search_flags({field: :flag_date, criteria: Date.today..1.week.from_now.utc, type: 'child'})
-    elsif
-    @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
+    elsif @flagged_by_others = search_flags(flag_criteria.merge({without_flagged_by: current_user.user_name}))
       @flagged_by_others = @flagged_by_others[0..9]
     end
   end
@@ -443,7 +523,7 @@ class HomeController < ApplicationController
 
   def load_gbv_incidents_information
     @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.tomorrow,
-                                                type: 'incident'})
+                                                    type: 'incident'})
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents(@current_user)
   end
@@ -451,7 +531,7 @@ class HomeController < ApplicationController
   def load_admin_information
     last_week = 1.week.ago.beginning_of_week .. 1.week.ago.end_of_week
     this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
-    locations = current_user.managed_users.map{|u| u.location}.compact.reject(&:empty?)
+    locations = current_user.managed_users.map { |u| u.location }.compact.reject(&:empty?)
 
     if locations.present?
       @reporting_location_stats = build_admin_stats({
@@ -464,12 +544,13 @@ class HomeController < ApplicationController
     end
 
     @protection_concern_stats = build_admin_stats({
-      totals: get_admin_stat({by_protection_concern: true }),
-      open: get_admin_stat({ status: 'Open', by_protection_concern: true }),
-      new_this_week: get_admin_stat({ status: 'Open', by_protection_concern: true, new: true, date_range: this_week}),
-      closed_this_week: get_admin_stat({ status: 'Closed', by_protection_concern: true, closed: true, date_range: this_week})
+        totals: get_admin_stat({by_protection_concern: true}),
+        open: get_admin_stat({status: 'Open', by_protection_concern: true}),
+        new_this_week: get_admin_stat({status: 'Open', by_protection_concern: true, new: true, date_range: this_week}),
+        closed_this_week: get_admin_stat({status: 'Closed', by_protection_concern: true, closed: true, date_range: this_week})
     })
   end
+
 
   def build_admin_stats(stats)
     admin_stats = {}

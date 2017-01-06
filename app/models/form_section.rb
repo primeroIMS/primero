@@ -156,8 +156,8 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :all_child_field_names
 
-    def all_visible_form_fields(parent_form = 'case')
-      find_all_visible_by_parent_form(parent_form).map do |form_section|
+    def all_visible_form_fields(parent_form = 'case', subforms=true)
+      find_all_visible_by_parent_form(parent_form, subforms).map do |form_section|
         form_section.fields.find_all(&:visible)
       end.flatten
     end
@@ -220,9 +220,9 @@ class FormSection < CouchRest::Model::Base
       form_section
     end
 
-    def find_all_visible_by_parent_form parent_form
+    def find_all_visible_by_parent_form(parent_form, subforms=true)
       #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
-      find_by_parent_form(parent_form).select(&:visible?)
+      find_by_parent_form(parent_form, subforms).select(&:visible?)
     end
     memoize_in_prod :find_all_visible_by_parent_form
 
@@ -341,6 +341,17 @@ class FormSection < CouchRest::Model::Base
       return forms
     end
     memoize_in_prod :filter_subforms
+
+    def get_matchable_fields_by_parent_form(parent_form, subform=true)
+      form_sections = FormSection.by_parent_form(:key => parent_form).all
+      if subform
+        form_fields = form_sections.select{|f| (f.is_nested.present? && f.is_nested == true)}.map{|fs| fs.all_matchable_fields}.flatten
+      else
+        form_fields = filter_subforms(form_sections).map{|fs| fs.all_matchable_fields}.flatten
+      end
+      form_fields
+    end
+    memoize_in_prod :get_matchable_fields_by_parent_form
 
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
@@ -607,6 +618,10 @@ class FormSection < CouchRest::Model::Base
   # TODO: all searchable/filterable methods can possible be refactored
   def all_text_fields
     self.fields.select { |field| field.type == Field::TEXT_FIELD || field.type == Field::TEXT_AREA }
+  end
+
+  def all_matchable_fields
+    self.fields.select { |field| field.matchable.present? && field.matchable == true }
   end
 
   def all_searchable_fields

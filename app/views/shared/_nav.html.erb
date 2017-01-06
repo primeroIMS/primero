@@ -18,6 +18,9 @@
               <% if can? :read, Incident %>
                 <li><%= link_to t("navigation.incidents"), incidents_path(scope: {:status => "list||Open", :record_state => "list||true"}), class: current_menu("incidents") %></li>
               <% end  %>
+              <% if can? :read, PotentialMatch %>
+                <li><%= link_to t("navigation.potential_match"), potential_matches_path(:type => "tracing_request"), class: current_menu("matches") %></li>
+              <% end  %>
               <% if current_user_name==nil or can? :manage, FormSection %>
                 <li><%= link_to t("navigation.forms"), form_sections_path, class: current_menu("forms") %></li>
               <% end %>

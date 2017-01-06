@@ -30,6 +30,8 @@ module IndexHelper
         list_view_header_tracing_request
       when "report"
         list_view_header_report
+      when "potential_match"
+        list_view_header_potential_match
       when "bulk_export"
         list_view_header_bulk_export
       else
@@ -51,6 +53,8 @@ module IndexHelper
         index_filters_incident
       when "tracing_request"
         index_filters_tracing_request
+      when "potential_match"
+        index_filters_potential_match
       else
         []
     end
@@ -208,7 +212,7 @@ module IndexHelper
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
     header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv
-    header_list << {title: '', sort_title: 'photo'} if @is_cp
+    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
 
     return header_list
@@ -234,7 +238,6 @@ module IndexHelper
   def list_view_header_tracing_request
     return [
         {title: '', sort_title: 'select'},
-        {title: '', sort_title: 'flag'},
         {title: 'id', sort_title: 'short_id'},
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'},
@@ -248,6 +251,15 @@ module IndexHelper
       {title: 'name', sort_title: 'name'},
       {title: 'description', sort_title: 'description'},
       {title: '', sort_title: ''},
+    ]
+  end
+
+  def list_view_header_potential_match
+    [
+      {title: 'inquirer_id', sort_title: 'tracing_request_id'},
+      {title: 'tr_id', sort_title: 'tr_subform_id'},
+      {title: 'child_id', sort_title: 'child_id'},
+      {title: 'average_rating', sort_title: 'average_rating'},
     ]
   end
 
@@ -337,6 +349,15 @@ module IndexHelper
     #filters << "Sex"
     #filters << "Age"
     filters << "Record State"
+
+    return filters
+  end
+
+  def index_filters_potential_match
+    filters = []
+    filters << "Sex"
+    filters << "Age Range"
+    filters << "Score Range"
 
     return filters
   end

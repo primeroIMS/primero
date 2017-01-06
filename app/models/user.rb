@@ -26,7 +26,6 @@ class User < CouchRest::Model::Base
   property :module_ids, :type => [String]
   property :user_group_ids, :type => [String], :default => []
   property :is_manager, TrueClass, :default => false
-
   alias_method :agency, :organization
   alias_method :agency=, :organization=
   alias_method :name, :user_name

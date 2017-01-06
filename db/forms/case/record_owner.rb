@@ -50,7 +50,7 @@ record_owner_fields = [
           }),
   #TODO reconcile difference between Agency and Other Agency
   #TODO: Move data to hardcoded record status panel
-  Field.new({"name" => "agency",
+  Field.new({"name" => "agency_name",
              "type" =>"select_box" ,
              "display_name_all" => "Agency",
              "visible" => false,
@@ -156,6 +156,7 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Record Information",
   "editable" => true,
   :fields => record_owner_fields,
+  :mobile_form => false,
   "name_all" => "Record Information",
   "description_all" => "Record Information"
 })
