@@ -419,7 +419,8 @@ module Record
     # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
     # this will not work.
     parent_form = self.class.parent_form
-    @field_definitions ||= (self.module.present? ? self.module.associated_forms_grouped_by_record_type[parent_form].map{|form| form.fields }.flatten : [])
+    forms = (self.module.present? ? self.module.associated_forms_grouped_by_record_type[parent_form] : [])
+    @field_definitions ||= (forms.present? ? forms.map{|form| form.fields }.flatten : [])
   end
 
   def update_properties(properties, user_name)
