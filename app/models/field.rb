@@ -5,7 +5,9 @@ class Field
 
   property :name
   property :visible, TrueClass, :default => true
+  property :mobile_visible, TrueClass, :default => true
   property :hide_on_view_page, TrueClass, :default => false
+  property :show_on_minify_form, TrueClass, :default => false
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
@@ -29,6 +31,7 @@ class Field
   property :subform_sort_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
+  property :matchable, TrueClass, :default => false
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
 
@@ -222,10 +225,13 @@ class Field
 
   def initialize properties={}
     self.visible = true if properties["visible"].nil?
+    self.mobile_visible = true if properties["mobile_visible"].nil?
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
     self.disabled = false if properties["disabled"].nil?
     self.multi_select = false if properties["multi_select"].nil?
+    self.required = false if properties["required"].nil?
+    self.show_on_minify_form = false if properties["show_on_minify_form"].nil?
     self.hidden_text_field ||= false
     self.autosum_total ||= false
     self.autosum_group ||= ""

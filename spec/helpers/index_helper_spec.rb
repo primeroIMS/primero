@@ -25,7 +25,7 @@ describe IndexHelper do
                                                     {title: "age", sort_title: "age"},
                                                     {title: "sex", sort_title: "sex"},
                                                     {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "", sort_title: "photo"}
+                                                    {title: "photo", sort_title: "photo"}
                                                    ]
         end
 
@@ -52,7 +52,7 @@ describe IndexHelper do
                                                     {title: "age", sort_title: "age"},
                                                     {title: "sex", sort_title: "sex"},
                                                     {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "", sort_title: "photo"},
+                                                    {title: "photo", sort_title: "photo"},
                                                     {title: "social_worker", sort_title: "owned_by"}
                                                    ]
         end

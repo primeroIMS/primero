@@ -77,6 +77,12 @@ class Incident < CouchRest::Model::Base
 
   end
 
+  class << self
+    def all_matches
+      []
+    end
+  end
+
   def ensure_violation_categories_exist
     if self.violations.present?
       self.violations.to_hash.compact.each_key do |key|

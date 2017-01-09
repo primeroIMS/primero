@@ -90,6 +90,7 @@ en:
      cases: "CASES"
      tracing_request: "TRACING REQUESTS"
      incidents: "INCIDENTS"
+     potential_match: "MATCHES"
      children: "CHILDREN"
      forms: "FORMS"
      lookups: "LOOKUPS"
@@ -140,6 +141,8 @@ en:
      unmark_for_mobile: "Un-mark for mobile"
      approve_bia: "Approve BIA"
      approve_case_plan: "Approve Case Plan"
+     sort_by_tr: "Tracing Requests"
+     sort_by_case: "Cases"
      approve_closure: "Approve Closure"
      view_flags_history: "View History"
      request_approval: "Request Approval"
@@ -547,6 +550,30 @@ en:
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
 
+  potential_matches:
+    filter_by:
+      score_range: "Score Range"
+      age_range_case: "Age Range of Cases"
+      age_range_tracing_request: "Age Range of Tracing Requests"
+      sex_case: "Sex of Cases"
+      sex_tracing_request: "Sex of Tracing Requests"
+      male: "Male"
+      female: "Female"
+
+  potential_match:
+    inquirer_id: 'inquirer id#'
+    inquirer_name: 'name of inquirer'
+    inquiry_date: 'date of inquiry'
+    inquirer_tr_name: 'tracing request'
+    child_id: 'child id#'
+    child_age: 'age'
+    child_gender: 'gender'
+    reg_date: 'registration date'
+    social_worker: 'social worker'
+    score: 'score'
+
+
+
   preposition:
     on_label: "on"
     because: "Because"
@@ -568,17 +595,20 @@ en:
       multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
     models:
       report:
-        one: "report"
-        other: "reports"
+        one: "Report"
+        other: "Reports"
       child:
-        one: "case"
-        other: "cases"
+        one: "Case"
+        other: "Cases"
       incident:
-        one: "incident"
-        other: "incidents"
+        one: "Incident"
+        other: "Incidents"
+      hash:
+        one: "Matching Result"
+        other: "Matching Results"
       bulk_export:
-        one: "bulk file export"
-        other: "bulk file exports"
+        one: "Bulk file export"
+        other: "Bulk file exports"
 
   users:
     unverified: "Unverified Users"
@@ -785,7 +815,8 @@ en:
   hello: "Hello"
   imei: "IMEI"
   blacklisted: "Blacklisted?"
-  visible: "Visible"
+  visible_for_web: "Visible for web app"
+  visible_for_mobile: "Visible for mobile app"
   hidden: "Hidden"
   help_text: "Help text"
   multi_select: "Multi Select"
@@ -800,6 +831,7 @@ en:
   replications: "Replications"
   provide_translation: "Provide translation for"
   hide_on_view_page: "Hide On View Page"
+  show_on_short_form: "Show On Short Form"
   last_login: "Last Login"
 
 
@@ -829,6 +861,7 @@ en:
       case: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
+      potential_match: "Potential Match"
       role: "Roles"
       user: "Users, Groups"
       metadata: "Forms, Lookups"
@@ -884,6 +917,7 @@ en:
       child: "Case"
       incident: "Incident"
       tracing_request: "Tracing Request"
+      potential_match: "Potential Match"
       violation: "Violation"
       reportable_service: "Service"
       reportable_follow_up: "Follow Up"
@@ -1011,6 +1045,7 @@ en:
     default_date_validation: "Default date validation"
     date_not_valid: "This date is not valid."
     future_date_not_valid: "This date cannot be in future."
+    number_not_valid: "Please enter numeric data"
     separator: "Separator"
     successfully_added: "Field successfully added"
     updated: "Field updated"
@@ -1296,6 +1331,7 @@ en:
     current_owner: "Current Owner"
     last_updated: "Lasted Updated"
     case_stats: "Cases"
+    tr_stats: "Tracing Requests"
     cases_by_social_worker: "Cases by social worker"
     approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
@@ -1307,6 +1343,12 @@ en:
     geographic_area: "Geographic Area"
     all_cases: "All Cases"
     open: "Open"
+    range4: "0-4"
+    range4_8: "4-8"
+    range8_12: "8-12"
+    range12+: "12+"
+    match_result: "Matching Results"
+    score_range: "Score Range"
     count_risk_level_total:
       one: "You have %{stat} <span>%{stat_type} risk</span> case "
       other: "You have %{stat} <span>%{stat_type} risk</span> cases "

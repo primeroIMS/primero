@@ -89,9 +89,9 @@ Primero::Application.routes.draw do
     resource :duplicate, :only => [:new, :create]
   end
 
-  #######################
-  # TRACING REQUESTS URLS
-  #######################
+#######################
+# TRACING REQUESTS URLS
+#######################
   resources :tracing_requests, as: :tracing_requests, path: :tracing_requests do
     collection do
       post :import_file
@@ -111,7 +111,7 @@ Primero::Application.routes.draw do
   match '/children/:child_id/audio(/:id)' => 'child_media#download_audio', :as => :child_audio, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/photo/:photo_id' => 'child_media#show_photo', :as => :child_photo, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/photo' => 'child_media#show_photo', :as => :child_legacy_photo, :via => [:post, :get, :put, :delete]
-  match 'children/:child_id/select_primary_photo/:photo_id' => 'children#select_primary_photo', :as => :child_select_primary_photo, :via => :put
+  match '/children/:child_id/select_primary_photo/:photo_id' => 'children#select_primary_photo', :as => :child_select_primary_photo, :via => :put
   match '/children/:child_id/resized_photo/:size' => 'child_media#show_resized_photo', :as => :child_legacy_resized_photo, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/photo/:photo_id/resized/:size' => 'child_media#show_resized_photo', :as => :child_resized_photo, :via => [:post, :get, :put, :delete]
   match '/children/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :child_thumbnail, :via => [:post, :get, :put, :delete]
@@ -134,31 +134,28 @@ Primero::Application.routes.draw do
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
-  #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
+#Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
 
-  #Flag routing
-  match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class:'Child', :via => [:post, :put]
-  match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class:'Incident', :via => [:post, :put]
-  match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, model_class:'TracingRequest', :via => [:post, :put]
+#Flag routing
+  match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class: 'Child', :via => [:post, :put]
+  match '/incidents/:id/flag' => 'record_flag#flag', :as => :incident_flag, model_class: 'Incident', :via => [:post, :put]
+  match '/tracing_requests/:id/flag' => 'record_flag#flag', :as => :tracing_request_flag, model_class: 'TracingRequest', :via => [:post, :put]
 
-  #Flag multiple records routing
+#Flag multiple records routing
   match '/cases/flag_records' => 'record_flag#flag_records', :as => :child_flag_records, :model_class => 'Child', :via => [:post, :put]
   match '/incidents/flag_records' => 'record_flag#flag_records', :as => :incident_flag_records, :model_class => 'Incident', :via => [:post, :put]
   match '/tracing_requests/flag_records' => 'record_flag#flag_records', :as => :tracing_request_flag_records, :model_class => 'TracingRequest', :via => [:post, :put]
 
-  # Set Record Status
+# Set Record Status
   match '/cases/record_status' => 'record_status#set_record_status', :as => :child_record_status, :model_class => 'Child', :via => [:post, :put]
   match '/incidents/record_status' => 'record_status#set_record_status', :as => :incident_record_status, :model_class => 'Incident', :via => [:post, :put]
   match '/tracing_requests/record_status' => 'record_status#set_record_status', :as => :tracing_request_record_status, :model_class => 'TracingRequest', :via => [:post, :put]
 
   # Set Case Status on reopening
   match '/cases/:id/reopen_case' => 'children#reopen_case', :as => :child_reopen_case, :model_class => 'Child', :via => [:post, :put]
-
   match '/cases/:id/request_approval' => 'children#request_approval', :as => :child_request_approval, :model_class => 'Child', :via => [:post, :put]
-
   match '/cases/:id/transfer_status' => 'children#transfer_status', :as => :child_transfer_status, :model_class => 'Child', :via => [:post, :put]
-
   match '/cases/:id/relinquish_referral' => 'children#relinquish_referral', :as => :child_relinquish_referral, :model_class => 'Child', :via => [:post, :put]
 
   #Unflag routing
@@ -206,8 +203,20 @@ Primero::Application.routes.draw do
   match '/incidents/:incident_id/document/:document_id' => 'incident_media#download_document', :as => :incident_document, :via => [:post, :get, :put, :delete]
   match '/incidents/:incident_id/create_cp_case_from_individual_details/:individual_details_subform_section' => 'incidents#create_cp_case_from_individual_details', :as => :create_cp_case_from_individual_details, :via => [:post, :get]
 
+#######################
+# POTENTIAL MATCHES URLS
+#######################
+  resources :potential_matches do
+    collection do
+      post :import_file
+    end
+  end
+  # match '/potential_matches/:method' => 'potential_matches#index', :as => :potential_matches_method, :via => [:post, :get, :put, :delete]
+
+
 
   resources :bulk_exports, only: [:index, :show]
+
 
 #######################
 # FORM SECTION URLS
@@ -260,6 +269,7 @@ Primero::Application.routes.draw do
     resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
     resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
     resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
+    resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
   end
 
 #######################

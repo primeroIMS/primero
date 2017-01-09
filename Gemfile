@@ -19,7 +19,7 @@ gem 'jquery-rails'
 gem 'cancancan', '~> 1.7'
 gem 'capistrano',     '~> 2.14.2'
 gem 'highline',       '1.6.16'
-gem 'will_paginate',  '~> 3.0.5'
+gem 'will_paginate',  '~> 3.1.0'
 gem 'i18n-js',        '~> 2.1.2'
 gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 0.9.6'
@@ -27,10 +27,10 @@ gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
 gem 'request_exception_handler'
 gem 'multi_json',     '~> 1.8.2'
 gem 'addressable',    '~> 2.3.6'
-gem "zipruby-compat", :require => 'zipruby', :git => "https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git", :tag => "v0.3.7"
+gem 'zipruby-compat', :require => 'zipruby', :git => "https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git", :tag => "v0.3.7"
 
-gem 'sunspot_rails',  '2.1.1'
-gem 'sunspot_solr',   '2.1.1'
+gem 'sunspot_rails',  '2.2.0'
+gem 'sunspot_solr',   '2.2.0'
 
 gem 'rufus-scheduler', '~> 2.0.18', :require => false
 gem 'daemons',         '~> 1.1.9',  :require => false
@@ -53,7 +53,7 @@ gem 'closure-compiler'
 gem 'progress_bar'
 
 gem 'writeexcel', '~> 1.0.3'
-gem 'spreadsheet',        '~> 1.0.0'
+gem 'spreadsheet', '~> 1.0.0'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.11.0'
 

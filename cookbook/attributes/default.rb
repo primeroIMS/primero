@@ -20,8 +20,8 @@ default[:primero].tap do |p|
   p[:no_reseed] = false
 
   p[:git].tap do |git|
-    git[:repo] = 'git@bitbucket.org:quoin/primero.git'
-    git[:revision] = 'master'
+    git[:repo] = 'git@bitbucket.org:primeroims/primero.git'
+    git[:revision] = 'development'
   end
 
   p[:couchdb].tap do |c|

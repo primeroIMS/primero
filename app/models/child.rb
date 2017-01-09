@@ -54,6 +54,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+  after_save :find_match_tracing_requests
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -72,11 +73,11 @@ class Child < CouchRest::Model::Base
 
 
   design do
-      view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
-      view :by_date_of_birth
+    view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
+    view :by_date_of_birth
 
-      view :by_name,
-              :map => "function(doc) {
+    view :by_name,
+         :map => "function(doc) {
                   if (doc['couchrest-type'] == 'Child')
                  {
                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -85,15 +86,15 @@ class Child < CouchRest::Model::Base
                  }
               }"
 
-      view :by_ids_and_revs,
-              :map => "function(doc) {
+    view :by_ids_and_revs,
+         :map => "function(doc) {
               if (doc['couchrest-type'] == 'Child'){
                 emit(doc._id, {_id: doc._id, _rev: doc._rev});
               }
             }"
 
-     view :by_generate_followup_reminders,
-            :map => "function(doc) {
+    view :by_generate_followup_reminders,
+         :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['couchrest-type'] == 'Child'
                              && doc['record_state'] == true
@@ -107,7 +108,7 @@ class Child < CouchRest::Model::Base
                      }"
 
     view :by_followup_reminders_scheduled,
-            :map => "function(doc) {
+         :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['record_state'] == true && doc.hasOwnProperty('flags')) {
                            for(var index = 0; index < doc['flags'].length; index++) {
@@ -120,7 +121,7 @@ class Child < CouchRest::Model::Base
                      }"
 
     view :by_followup_reminders_scheduled_invalid_record,
-            :map => "function(doc) {
+         :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['record_state'] == false && doc.hasOwnProperty('flags')) {
                            for(var index = 0; index < doc['flags'].length; index++) {
@@ -132,8 +133,8 @@ class Child < CouchRest::Model::Base
                        }
                      }"
 
-      view :by_date_of_birth_month_day,
-           :map => "function(doc) {
+    view :by_date_of_birth_month_day,
+         :map => "function(doc) {
                   if (doc['couchrest-type'] == 'Child')
                  {
                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -167,7 +168,7 @@ class Child < CouchRest::Model::Base
         {field: 'sub_ethnicity_1', match: 'ethnicity', boost: 0.5},
         {field: 'sub_ethnicity_2', match: 'ethnicity', boost: 0.5},
         {field: 'relations', match: 'relation', boost: 0.5},
-        {field: 'date_of_birth', match: 'date_of_birth', boost: 0.5, date:true}
+        {field: 'date_of_birth', match: 'date_of_birth', boost: 0.5, date: true}
     ]
   end
 
@@ -180,28 +181,91 @@ class Child < CouchRest::Model::Base
   include Searchable
 
   searchable do
-    string :fathers_name do
-      self.fathers_name
-    end
+    form_matchable_fields.select { |field| Child.exclude_match_field(field) }.each { |field| text field, :boost => Child.get_field_boost(field) }
 
-    string :mothers_name do
-      self.mothers_name
-    end
-
-    string :relations, multiple: true do
-      if self.try(:family_details_section)
-        self.family_details_section.map{|fds| fds.relation}.compact
+    subform_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|
+      text field, :boost => Child.get_field_boost(field) do
+        self.family_details_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:family_details_section)
       end
+    end
+
+    string :id do
+      self['_id']
     end
 
     boolean :estimated
     boolean :consent_for_services
   end
 
+  class << self
+    def match_results(results)
+      results.map{|c| [['case_id', c.case_id], ['child_id', c._id], ['age', c.age], ['sex', c.sex],
+                       ['registration_date', c.registration_date], ['match_details', []]].to_h}
+    end
+
+    #TODO v1.3: can this be refactored further?
+    def all_match_details(match_results=[], potential_matches=[], associated_user_names)
+      for match_result in match_results
+        count = 0
+        for potential_match in potential_matches
+          if potential_match["case_id"] == match_result["case_id"]
+            match_detail = {}
+            match_detail["tracing_request_id"] = potential_match.tr_id
+            inquiry = TracingRequest.find_by_tracing_request_id potential_match.tr_id
+            match_detail["tr_uuid"] = inquiry._id
+            for subform in inquiry.tracing_request_subform_section
+              if subform.unique_id == potential_match.tr_subform_id
+                match_detail["subform_tracing_request_name"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? subform.name : "***"
+              end
+            end
+            match_detail["inquiry_date"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? inquiry.inquiry_date : "***"
+            match_detail["relation_name"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? inquiry.relation_name : "***"
+            match_detail["visible"] = is_match_visible?(inquiry.owned_by, associated_user_names)
+            match_detail["average_rating"] =potential_match.average_rating
+            match_detail["owned_by"] =inquiry.owned_by
+            match_result["match_details"] << match_detail
+            count += 1
+          end
+        end
+        match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
+                                            .first(20)
+      end
+      compact_result match_results
+      sort_hash match_results
+    end
+
+    #TODO - verify fields
+    def boost_fields
+      [
+        {field: 'name', boost: 10},
+        {field: 'name_first', match: 'name', boost: 10},
+        {field: 'name_middle', match: 'name', boost: 10},
+        {field: 'name_last', match: 'name', boost: 10},
+        {field: 'name_other', match: 'name', boost: 10},
+        {field: 'name_nickname', boost: 10},
+        {field: 'sex', boost: 10},
+        {field: 'age', boost: 5},
+        {field: 'date_of_birth', boost: 5},
+        {field: 'relation_name', boost: 5},
+        {field: 'relation', boost: 10},
+        {field: 'relation_nickname', boost: 5},
+        {field: 'relation_age', boost: 5},
+        {field: 'relation_date_of_birth', boost: 5},
+        {field: 'relation_other_family', match: 'relation_name', boost: 5},
+        {field: 'nationality', match: 'relation_nationality', boost: 3},
+        {field: 'language', match: 'relation_language', boost: 3},
+        {field: 'religion', match: 'relation_religion', boost: 3},
+        {field: 'ethnicity', match: 'relation_ethnicity'},
+        {field: 'sub_ethnicity_1', match: 'relation_sub_ethnicity1'},
+        {field: 'sub_ethnicity_2', match: 'relation_sub_ethnicity2'}
+      ]
+    end
+  end
+
   def self.report_filters
     [
-      {'attribute' => 'child_status', 'value' => ['Open']},
-      {'attribute' => 'record_state', 'value' => ['true']}
+        {'attribute' => 'child_status', 'value' => ['Open']},
+        {'attribute' => 'record_state', 'value' => ['true']}
     ]
   end
 
@@ -209,12 +273,12 @@ class Child < CouchRest::Model::Base
   #TODO - does this need the reporting_location_config field key
   def self.minimum_reportable_fields
     {
-          'boolean' => ['record_state'],
-           'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
-      'multistring' => ['associated_user_names'],
-             'date' => ['registration_date'],
-          'integer' => ['age'],
-         'location' => ['owned_by_location', 'location_current']
+        'boolean' => ['record_state'],
+         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
+    'multistring' => ['associated_user_names'],
+           'date' => ['registration_date'],
+        'integer' => ['age'],
+       'location' => ['owned_by_location', 'location_current']
     }
   end
 
@@ -222,14 +286,7 @@ class Child < CouchRest::Model::Base
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
-  def self.fetch_all_ids_and_revs
-    ids_and_revs = []
-    all_rows = self.by_ids_and_revs({:include_docs => false})["rows"]
-    all_rows.each do |row|
-      ids_and_revs << row["value"]
-    end
-    ids_and_revs
-  end
+
 
   def self.by_date_of_birth_range(startDate, endDate)
     if startDate.is_a?(Date) && endDate.is_a?(Date)
@@ -284,6 +341,24 @@ class Child < CouchRest::Model::Base
     ['created_at', 'name', 'flag_at', 'reunited_at']
   end
 
+  def self.get_case_id(child_id)
+    case_id=""
+    by_ids_and_revs.key(child_id).all.each do |cs|
+      case_id = cs.case_id
+    end
+    return case_id
+  end
+
+  def self.get_case_age_and_gender(child_id)
+    age, gender = nil, nil
+    by_ids_and_revs.key(child_id).all.each do |cs|
+      age = cs.age
+      gender = cs.sex
+    end
+    return age, gender
+  end
+
+
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
     a_name = auto_populate('name')
@@ -295,6 +370,15 @@ class Child < CouchRest::Model::Base
     self.case_id ||= self.unique_identifier
     self.case_id_code ||= auto_populate('case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
+  end
+
+  def create_case_id_code(system_settings)
+    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
+    id_code_parts = []
+    if system_settings.present? && system_settings.case_code_format.present?
+      system_settings.case_code_format.each { |cf| id_code_parts << PropertyEvaluator.evaluate(self, cf) }
+    end
+    id_code_parts.reject(&:blank?).join(separator)
   end
 
   def create_case_id_display(system_settings)
@@ -316,15 +400,15 @@ class Child < CouchRest::Model::Base
   end
 
   def fathers_name
-    self.family_details_section.select{|fd| fd.relation.try(:downcase) == 'father'}.first.try(:relation_name) if self.family_details_section.present?
+    self.family_details_section.select { |fd| fd.relation.try(:downcase) == 'father' }.first.try(:relation_name) if self.family_details_section.present?
   end
 
   def mothers_name
-    self.family_details_section.select{|fd| fd.relation.try(:downcase) == 'mother'}.first.try(:relation_name) if self.family_details_section.present?
+    self.family_details_section.select { |fd| fd.relation.try(:downcase) == 'mother' }.first.try(:relation_name) if self.family_details_section.present?
   end
 
   def caregivers_name
-    self.name_caregiver || self.family_details_section.select {|fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
+    self.name_caregiver || self.family_details_section.select { |fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
   end
 
   # Solution below taken from...
@@ -340,8 +424,19 @@ class Child < CouchRest::Model::Base
     protection_concerns = self.protection_concerns
     protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
     if protection_concerns.present? && protection_concern_subforms.present?
-      self.protection_concerns = (protection_concerns + protection_concern_subforms.map{|pc| pc.try(:protection_concern_type)}).compact.uniq
+      self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc.try(:protection_concern_type) }).compact.uniq
     end
+  end
+
+  #TODO v1.3: Need rspec test
+  def find_match_tracing_requests
+    match_class = TracingRequest
+    #TODO - where is match_criteria populated?
+    match_result = self.class.find_match_records(match_criteria, match_class)
+    tracing_request_ids = match_result==[] ? [] : match_result.keys
+    all_results = TracingRequest.match_tracing_requests_for_child(self.id, tracing_request_ids).uniq
+    results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
+    PotentialMatch.update_matches_for_child(self.id, results)
   end
 
   private

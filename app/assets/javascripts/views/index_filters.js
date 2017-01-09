@@ -30,8 +30,11 @@ _primero.Views.IndexFilters = Backbone.View.extend({
       default_filter = 'status'
     }
 
-    filter[default_filter] = 'list||Open';
-    filter['record_state'] = 'list||true';
+    if (_primero.model_object === 'child' || _primero.model_object === 'tracing_request') {
+      filter[default_filter] = 'list||Open';
+      filter['record_state'] = 'list||true';
+    }
+    
     url_string = _primero.object_to_params(filter);
     window.location.search = url_string;
   },

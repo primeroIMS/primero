@@ -22,7 +22,7 @@ class FormSectionController < ApplicationController
         if params[:mobile].present?
           @lookups = Lookup.all.all
           @locations = Location.all_names
-          @form_sections = format_for_mobile(@form_sections, params[:locale])
+          @form_sections = format_for_mobile(@form_sections, params[:locale], params[:parent_form])
         end
         render json: @form_sections
       end
@@ -102,7 +102,7 @@ class FormSectionController < ApplicationController
   def published
     json_content = FormSection.find_all_visible_by_parent_form(@parent_form, true).map(&:formatted_hash).to_json
     respond_to do |format|
-      format.html {render :inline => json_content }
+      format.html { render :inline => json_content }
       format.json { render :json => json_content }
     end
   end
@@ -148,17 +148,17 @@ class FormSectionController < ApplicationController
     @lookup_options.unshift("", "Location")
   end
 
-  def format_for_mobile(form_sections, locale_param=nil)
+  def format_for_mobile(form_sections, locale_param=nil, parent_form_param=nil)
     #Flatten out the form sections, discarding form groups
     form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
     #Discard the non-mobile form sections
     form_sections = form_sections.select{|f| f.mobile_form?}
     #Transform the i18n values
     requested_locales = if locale_param.present? && Primero::Application::locales.include?(locale_param)
-      [locale_param]
-    else
-      Primero::Application::locales
-    end
+                          [locale_param]
+                        else
+                          Primero::Application::locales
+                        end
     form_sections = form_sections.map do |form|
       attributes = convert_localized_form_properties(form, requested_locales)
       attributes['fields'] = form.fields.map do |f|
@@ -171,7 +171,29 @@ class FormSectionController < ApplicationController
       attributes
     end
     #Group by form type
-    form_sections = form_sections.group_by{|f| mobile_form_type(f['parent_form'])}
+    form_sections = form_sections.group_by { |f| mobile_form_type(f['parent_form']) }
+    return simplify_form_content(form_sections, parent_form_param)
+  end
+
+
+  def simplify_form_content(form_sections, parent_form_param=nil)
+    #Todo: write this block of code in a simple way
+    if parent_form_param == 'case'
+      for section in form_sections["Children"]
+        section.slice!(:name, "order", :help_text, "base_language", "fields")
+        section["fields"].delete_if { |i| i["mobile_visible"]==false }
+        for field in section["fields"]
+          field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
+          if field["type"] == "subform"
+            field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
+            field["subform"]["fields"].delete_if { |i| i["mobile_visible"]==false }
+            for subfield in field["subform"]["fields"]
+              subfield.slice!("name", "editable", "multi_select", "type", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
+            end
+          end
+        end
+      end
+    end
     return form_sections
   end
 
@@ -182,7 +204,7 @@ class FormSectionController < ApplicationController
       attributes[property] = {}
       Primero::Application::locales.each do |locale|
         key = "#{property.to_s}_#{locale.to_s}"
-        value =  attributes[key].nil? ? "" : attributes[key]
+        value = attributes[key].nil? ? "" : attributes[key]
         if requested_locales.include? locale
           attributes[property][locale] = value
         end
@@ -226,14 +248,14 @@ class FormSectionController < ApplicationController
   #This keeps the forms compatible with the mobile API
   def mobile_form_type(parent_form)
     case parent_form
-    when 'case'
-      'Children'
-    when 'child'
-      'Children'
-    when 'tracing_request'
-      'Enquiries' #TODO: This may be controversial
-    else
-      parent_form.camelize.pluralize
+      when 'case'
+        'Children'
+      when 'child'
+        'Children'
+      when 'tracing_request'
+        'Enquiries' #TODO: This may be controversial
+      else
+        parent_form.camelize.pluralize
     end
   end
 

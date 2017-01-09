@@ -49,7 +49,6 @@ module RecordActions
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
     @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_reg_ex)
-
     module_users(module_ids) if module_ids.present?
 
     # Alias @records to the record-specific name since ERB templates use that
@@ -61,7 +60,6 @@ module RecordActions
     @per_page = per_page
 
     # @highlighted_fields = []
-
     respond_to do |format|
       format.html
       unless params[:password]
@@ -70,12 +68,13 @@ module RecordActions
           if params[:ids].present?
             @records = @records.map{|r| r.id}
           else
-            @records = @records.map{|r| r.format_json_response}
+            @records = @records.map{|r| format_json_response(r)}
           end
+
           render :json => @records
         end
       end
-      #TODO: We are losing the use case of not exporting an empty set with bulk exports.
+      #TODO v1.3: We are losing the use case of not exporting an empty set with bulk exports.
       #      In the case of a bulk export the controller doesnt do the counting.
       #      In the case of a selected records export, we know what records are selected
       # unless params[:format].nil? || params[:format] == 'json' || (params[:page] == 'all')
@@ -195,7 +194,7 @@ module RecordActions
         end
         format.json do
           @record = format_json_response(@record)
-          render :json => @record
+          render :json => @record.slice!("_attachments", "histories")
         end
       else
         @form_sections ||= @record.class.allowed_formsections(current_user, @record.module)
@@ -214,7 +213,7 @@ module RecordActions
       @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
         if @record[field.name].present?
           # Partitioning because dates can be nil. In this case, it causes an error on sort.
-          subforms = @record[field.name].partition{ |r| r[field.subform_sort_by].nil? }
+          subforms = @record[field.name].partition{|r| r[field.subform_sort_by].nil?}
           @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
         end
       end
@@ -240,23 +239,12 @@ module RecordActions
         records = model_class.all(keys: selected_record_ids).all
         total_records = records.size
       end
-    #TODO: Commenting out. This code was used by mobile syncs and bulk exports.
-    #      The bulk export code has been moved out of the controller, but there is
-    #      nothing handling the mobile code. When that is resolved delete the commented stuff.
-    # elsif params["page"] == "all"
-    #   pagination_ops = {:page => 1, :per_page => 500}
-    #   records = []
-    #   begin
-    #     search = model_class.list_records filter, order, pagination_ops, users_filter, params[:query], @match_criteria
-    #     results = search.results
-    #     records.concat(results)
-    #     #Set again the values of the pagination variable because the method modified the variable.
-    #     pagination_ops[:page] = results.next_page
-    #     pagination_ops[:per_page] = 500
-    #   end until results.next_page.nil?
-    #   total_records = search.total
+    #NOTE: params[:page] is 'all' during bulk export.
+    # That's fine.  The record retrieval is handled in bulk export.
+    # 'all' should not be used for other invocations.
+    # When mobile is implemented, it should not use 'all'
     elsif params[:page] != 'all'
-      search = model_class.list_records filter, order, pagination, users_filter, params[:query], @match_criteria
+      search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
       records = search.results
       total_records = search.total
     end
@@ -358,7 +346,7 @@ module RecordActions
   # Filters out any unallowed parameters for a record and the current user
   def filter_params(record)
     permitted_keys = permitted_property_keys(record)
-    record_params.select {|k,v| permitted_keys.include?(k) }
+    record_params.select{|k,v| permitted_keys.include?(k) }
   end
 
   def record_short_id
@@ -458,6 +446,7 @@ module RecordActions
   end
 
   #Override method in LoggerActions.
+  #TODO v1.3: make sure the mobile syncs are audited
   def logger_action_titleize
     if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
       #Export action take on the show controller method.

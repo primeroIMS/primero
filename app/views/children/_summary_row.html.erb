@@ -38,7 +38,15 @@
     <td><%= field_format_date(record.created_at) %></td>
   <% end %>
   <% if fields_to_show.include? 'photo' %>
-    <td class="photo"><%= icon('camera') if record.photo_keys.present? %></td>
+    <td class="photos_<%= record.id %>">
+      <div class="icon"><%= icon('camera') if record.photo_keys.present? %></div>
+      <div class="photo">
+      <% record.photos.each_with_index do |photo,index| %>
+          <% photo_path = send("#{record.class.name.underscore.downcase}_resized_photo_path", record, photo.name || record.current_photo_key, 328, :ts => record.last_updated_at) %>
+            <div class="photo_link" style="display: none" ><%= link_to ' ', photo_path%></div>
+      <% end %>
+      </div>
+    </td>
   <% end %>
   <% if fields_to_show.include? 'owned_by' %>
     <% #TODO - Get name or code.  Prob should be in helper. Should this be owned_by_text?%>

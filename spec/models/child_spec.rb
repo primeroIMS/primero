@@ -1183,14 +1183,19 @@ describe Child do
       end
 
       it "should return all _ids and revs in the system" do
-        child1 = create_child_with_created_by("user1", :name => "child1")
-        child2 = create_child_with_created_by("user2", :name => "child2")
-        child3 = create_child_with_created_by("user3", :name => "child3")
+        owner = create :user
+        owner2 = create :user
+        child1 = create_child_with_created_by(owner.user_name, :name => "child1")
+        child2 = create_child_with_created_by(owner.user_name, :name => "child2")
+        child3 = create_child_with_created_by(owner2.user_name, :name => "child3")
+
         child1.create!
         child2.create!
         child3.create!
 
-        ids_and_revs = Child.fetch_all_ids_and_revs
+
+
+        ids_and_revs = Child.fetch_all_ids_and_revs([owner.user_name, owner2.user_name], false, '2000/01/01')
         ids_and_revs.count.should == 3
         ids_and_revs.should =~ [{"_id" => child1.id, "_rev" => child1.rev}, {"_id" => child2.id, "_rev" => child2.rev}, {"_id" => child3.id, "_rev" => child3.rev}]
       end
