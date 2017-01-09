@@ -7,7 +7,7 @@
  */
 
 html {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
@@ -133,7 +133,7 @@ dfn {
  */
 
 h1 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: 2em;
   margin: 0.67em 0;
 }
@@ -432,7 +432,7 @@ body {
   font-size: 15px;
   line-height: 1.5;
   background: #fafafa url(../images/body-bg.jpg) 0 0 repeat;
-  font-family: webfontregular; 
+  font-family: Canaro Light; 
   font-weight: 400;
   color: #666;
 }
@@ -451,13 +451,13 @@ a:hover {
 header {
   padding-top: 40px;
   padding-bottom: 40px;
-  font-family: webfontregular; 
+  font-family: Canaro Light; 
   background: #0093b9 url(../images/header-bg.jpg) 0 0 repeat-x;
   
 }
 
 header h1 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   letter-spacing: -1px;
   font-size: 72px;
   font-weight: normal;
@@ -630,7 +630,7 @@ form {
 /* GENERAL ELEMENT TYPE STYLES */
 
 #main-content h1 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: 2.8em;
   font-weight: normal;
   letter-spacing: -1px;
@@ -648,7 +648,7 @@ form {
 }
 
 #main-content h2 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 8px;
@@ -663,7 +663,7 @@ form {
 }
 
 #main-content h3 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: 18px;
   font-weight: bold;
   margin-top: 24px;
@@ -680,7 +680,7 @@ form {
 }
 
 #main-content h4 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: 15px;
   font-weight: bold;
   margin-bottom: 8px;
@@ -696,7 +696,7 @@ form {
 }
 
 #main-content h5 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: 14px;
   margin-bottom: 8px;
   color: #474747;
@@ -710,7 +710,7 @@ h5:before {
 }
 
 #main-content h6 {
-  font-family: webfontregular; /* 1 */
+  font-family: Canaro Light; /* 1 */
   font-size: .8em;
   margin-bottom: 8px;
   color: #474747;
