@@ -59,6 +59,8 @@ gem 'memoist', '~> 0.11.0'
 
 gem 'momentjs-rails', '~> 2.10.3'
 
+gem 'turbolinks', '~> 5'
+
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'

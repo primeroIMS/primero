@@ -442,6 +442,9 @@ GEM
     thread_safe (0.3.5)
     tilt (1.4.1)
     ttfunk (1.2.2)
+    turbolinks (5.0.1)
+      turbolinks-source (~> 5)
+    turbolinks-source (5.0.0)
     tzinfo (0.3.43)
     uglifier (2.0.1)
       execjs (>= 0.3.0)
@@ -526,6 +529,7 @@ DEPENDENCIES
   sunspot_test
   therubyracer (~> 0.12.2)
   thin (~> 1.6.1)
+  turbolinks (~> 5)
   uglifier (~> 2.0.1)
   uuidtools (~> 2.1.1)
   validatable (= 1.6.7)
@@ -533,7 +537,3 @@ DEPENDENCIES
   writeexcel (~> 1.0.3)
   yui-compressor
   zipruby-compat!
-
-
-BUNDLED WITH
-   1.9.10

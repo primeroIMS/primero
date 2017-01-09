@@ -2,6 +2,7 @@
 //= require plugins/jquery-ui-1.8.6.custom.min
 //= require plugins/jquery.tmpl.min
 //= require plugins/jquery_ujs
+//= require turbolinks
 //= require plugins/json2
 //= require plugins/filesaver
 //= require_tree ./templates
