@@ -36,11 +36,11 @@
       I18n.locale = "<%= I18n.locale %>";
       I18n.fallbacks = true;
   <% end %>
-  <script>
-    $(document).ready(function(){
+  <% javascript_tag 'data-turbolinks-track' => 'reload' do %>
+    $(document).ready(function() {
       <%= yield :page_scripts %>
     });
-  </script>
+  <% end %>
   <% #javascript_include_tag 'plugins/jquery-1.7.1.min' %>
 </head>
 <body class="<%= @body_class %>">
