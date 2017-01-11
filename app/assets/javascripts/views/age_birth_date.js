@@ -11,21 +11,23 @@ _primero.Views.AutoCalculateAgeDOB = Backbone.View.extend({
 
   initialize: function() {
     var context = this.el;
+    var $context_element = $(context);
     //Find every date_of_birth field in order to update the age that there is a change to be wrong
     //according the current year.
-    $(context).find("input[id$='_date_of_birth']").each(function(x, dateOfBirthEl){
-      var dateOfBirthName = $(dateOfBirthEl).attr("name");
-      var dateOfBirthValue = $(dateOfBirthEl).val();
-      if (dateOfBirthValue != "") {
-        var ageName = dateOfBirthName.replace(/date_of_birth\]$/, "age]");
-        $(context).find("input[name='" + ageName + "']").each(function(x, ageEl){
+    $context_element.find("input[id$='_date_of_birth']").each(function(x, date_of_birth_el){
+      var $date_of_birth_el = $(date_of_birth_el);
+      var date_of_birth_name = $date_of_birth_el.attr("name");
+      var date_of_birth_value = $date_of_birth_el.val();
+      if (date_of_birth_value != "") {
+        var age_name = date_of_birth_name.replace(/date_of_birth\]$/, "age]");
+        $context_element.find("input[name='" + age_name + "']").each(function(x, age_el){
           try {
-            var dateOfBirthDate = $.datepicker.parseDate($.datepicker.defaultDateFormat, dateOfBirthValue);
-            var currentMomentDate = moment(new Date);
-            var dateOfBirthMomentDate = moment(dateOfBirthDate);
-            var age = currentMomentDate.diff(dateOfBirthMomentDate, "years");
+            var date_of_birth_date = $.datepicker.parseDate($.datepicker.defaultDateFormat, date_of_birth_value);
+            var current_moment_date = moment(new Date);
+            var date_of_birth_moment_date = moment(date_of_birth_date);
+            var age = current_moment_date.diff(date_of_birth_moment_date, "years");
             if (age >= 0) {
-              $(ageEl).val(age);
+              $(age_el).val(age);
             }
           } catch (e) {
             console.error("Has ocurred an error during re-calculate of age. " + e);
@@ -40,22 +42,22 @@ _primero.Views.AutoCalculateAgeDOB = Backbone.View.extend({
   //This method will be called when the age field was changed.
   update_date: function(event) {
     event.preventDefault();
-    var ageField = $(event.target);
+    var $age_field = $(event.target);
     //Find the corresponding birth date field related to the age field.
-    var dateOfBirthName = ageField[0].getAttribute("name").replace(/age\]$/, "date_of_birth]")
-    var dateOfBirthField = $(this.el).find("input[name='" + dateOfBirthName + "']");
+    var date_of_birth_name = $age_field[0].getAttribute("name").replace(/age\]$/, "date_of_birth]")
+    var $date_of_birth_field = $(this.el).find("input[name='" + date_of_birth_name + "']");
 
-    if (dateOfBirthField.length > 0) {
-      if (isNaN(ageField.val()) || ageField.val() < 0) {
-        dateOfBirthField.val("");
+    if ($date_of_birth_field.length > 0) {
+      if (isNaN($age_field.val()) || $age_field.val() < 0) {
+        $date_of_birth_field.val("");
       } else {
-        if (!dateOfBirthField.hasClass("hasDatepicker")) {
-          $.datepicker.initialize_datepicker(dateOfBirthField);
+        if (!$date_of_birth_field.hasClass("hasDatepicker")) {
+          $.datepicker.initialize_datepicker($date_of_birth_field);
         }
-        var dateFormat = dateOfBirthField.datepicker("option", "dateFormat");
-        var year_of_birth = (new Date).getFullYear() - ageField.val();
-        var date_of_birth = $.datepicker.formatDate(dateFormat, $.datepicker.parseDate($.datepicker.defaultDateFormat, '01-Jan-' + year_of_birth));
-        dateOfBirthField.val(date_of_birth);
+        var date_format = $date_of_birth_field.datepicker("option", "dateFormat");
+        var year_of_birth = (new Date).getFullYear() - $age_field.val();
+        var date_of_birth = $.datepicker.formatDate(date_format, $.datepicker.parseDate($.datepicker.defaultDateFormat, '01-Jan-' + year_of_birth));
+        $date_of_birth_field.val(date_of_birth);
       }
     }
 
@@ -65,25 +67,25 @@ _primero.Views.AutoCalculateAgeDOB = Backbone.View.extend({
   //This method will be called when the birth of date was changed.
   update_age: function(event) {
     event.preventDefault();
-    var dateOfBirthField = $(event.target);
+    var $date_of_birth_field = $(event.target);
     //Find the corresponding age field related to the birth date field changed.
-    var ageName = dateOfBirthField[0].getAttribute("name").replace(/date_of_birth\]$/, "age]")
-    var ageField = $(this.el).find("input[name='" + ageName + "']");
+    var age_name = $date_of_birth_field[0].getAttribute("name").replace(/date_of_birth\]$/, "age]")
+    var $age_field = $(this.el).find("input[name='" + age_name + "']");
 
-    if (ageField.length > 0) {
+    if ($age_field.length > 0) {
       try {
-          var dateFormat = dateOfBirthField.datepicker("option", "dateFormat");
-          var date_of_birth = $.datepicker.parseDate(dateFormat, dateOfBirthField.val());
-          var currentMomentDate = moment(new Date);
-          var dateOfBirthMomentDate = moment(date_of_birth);
-          var age = currentMomentDate.diff(dateOfBirthMomentDate, "years");
+          var date_format = $date_of_birth_field.datepicker("option", "dateFormat");
+          var date_of_birth = $.datepicker.parseDate(date_format, $date_of_birth_field.val());
+          var current_moment_date = moment(new Date);
+          var date_of_birth_moment_date = moment(date_of_birth);
+          var age = current_moment_date.diff(date_of_birth_moment_date, "years");
           if (age >= 0) {
-            ageField.val(age);
+            $age_field.val(age);
           } else {
-            ageField.val("");
+            $age_field.val("");
           }
       } catch (e) {
-        ageField.val("");
+        $age_field.val("");
         console.error("Has ocurred an error during auto calculate of age. " + e);
       }
     }
@@ -93,10 +95,10 @@ _primero.Views.AutoCalculateAgeDOB = Backbone.View.extend({
 
   update_child_fields: function() {
     var dob = $('input[id$="_date_of_birth"]').val() || $('.key.date_of_birth').parents('.row:first').find('.value').text(),
-        field_tag_inputs = $('[data-field-tags]:not([data-field-tags="[]"])'),
+        $field_tag_inputs = $('[data-field-tags]:not([data-field-tags="[]"])'),
         fields = [];
 
-    _.each(field_tag_inputs, function(field) {
+    _.each($field_tag_inputs, function(field) {
       if (_.contains($(field).data('field-tags'), 'child')) {
         var child_field = $(field).parents('.row:first');
         _primero.is_under_18(dob) ? child_field.show() : child_field.hide();

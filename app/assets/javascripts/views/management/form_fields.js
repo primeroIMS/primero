@@ -22,21 +22,21 @@ var FormFields = {
 
   selectForm : function(form){
     var self = this;
-    var selectedForm = self.$elem.find(".form.selected");
-    if(selectedForm){
-      selectedForm.removeClass("selected");
-      self.$elem.find("#fields-for-"+selectedForm.attr("id")).removeClass("selected");
+    var selected_form = self.$elem.find(".form.selected");
+    if(selected_form){
+      selected_form.removeClass("selected");
+      self.$elem.find("#fields-for-"+selected_form.attr("id")).removeClass("selected");
     }
     $(form).addClass("selected");
     self.$elem.find("#fields-for-"+$(form).attr("id")).addClass("selected");
   },
 
-  selectItem: function(selectElement){
+  selectItem: function(select_element){
     var self = this;
     self.hide();
-    var selectedField = { field_name: $(selectElement).data("name"),
-                          form_id: $(selectElement).parents("ul").data("id") };
-    self.options.onItemSelect(selectedField);
+    var selected_field = { field_name: $(select_element).data("name"),
+                          form_id: $(select_element).parents("ul").data("id") };
+    self.options.onItemSelect(selected_field);
   },
 
   show : function(args) {
@@ -51,11 +51,11 @@ var FormFields = {
 
   hide : function( ) {var self = this; self.$elem.hide(); },
 
-  reset : function(prevSelectedFields) {
+  reset : function(prev_selected_fields) {
     var self = this;
-    var firstForm = self.$elem.find(".form").first();
-    self.selectForm(firstForm);
-    $.each(prevSelectedFields, function(index, field_name){
+    var first_form = self.$elem.find(".form").first();
+    self.selectForm(first_form);
+    $.each(prev_selected_fields, function(index, field_name){
      self.$elem.find('#field-'+field_name).addClass("prev-selected");
     });
   }

@@ -28,10 +28,8 @@ _primero.Views.DateRangeValidation = Backbone.View.extend({
     if (errors_messages.length > 0) {
       //TODO what if implement other javascript validation, we must don't delete the container?
       _primero.create_or_clean_error_messages_container(target);
-      var container = _primero.find_error_messages_container(target);
-      for (var i=0; i < errors_messages.length; i++) {
-        container.append(errors_messages[i]);
-      }
+      var $container = _primero.find_error_messages_container(target);
+      $container.append(errors_messages.join(''));
     }
     return errors_messages.length == 0;
   },

@@ -7,29 +7,30 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
   },
 
   initialize: function() {
-    $('body').on('violation-removed', $.proxy(function() {
+    function reload_this() {
       this.reload();
-    }, this));
+    }
+    $('body').on('violation-removed', $.proxy(reload_this, this));
 
     this.show_hide_violations();
     _primero.show_add_violation_message();
   },
 
   show_hide_violations: function(e) {
-    var violation_group = $('a[data-violation="true"]'),
-        tabs = $('a[data-violation="true"]').parent().find('ul.sub li');
+    var $violation_group = $('a[data-violation="true"]'),
+      $tabs = $('a[data-violation="true"]').parent().find('ul.sub li');
+    var $empty_violations = $('.empty_violations');
+    $empty_violations.show();
 
-    $('.empty_violations').show();
-
-    $('.empty_violations').parent().find('a.subform_add').hide();
+    $empty_violations.parent().find('a.subform_add').hide();
 
     selected = $('span[data-violation-categories]').data('violation-categories') ?
-        $('span[data-violation-categories]').data('violation-categories').split(',') :
-        $('select#incident_incident_violation_category_').val();
+      $('span[data-violation-categories]').data('violation-categories').split(',') :
+      $('#incident_incident_violation_category_').val();
 
 
     $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
-    tabs.hide();
+    $tabs.hide();
     $('a[data-violation="true"]').parent('li').find('ul.sub li a').removeAttr('active-violation');
 
     _.each(selected, function(v) {
@@ -41,9 +42,9 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
       $('.empty_violations').parent().find('a.subform_add').show();
     });
 
-    var first_violation_href = violation_group.parent('li')
-                                              .find('ul.sub li a[active-violation="true"]:first')
-                                              .attr('href');
+    var first_violation_href = $violation_group.parent('li')
+      .find('ul.sub li a[active-violation="true"]:first')
+      .attr('href');
 
     $('a[data-violation="true"]').attr('href', first_violation_href);
   },
@@ -52,33 +53,33 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
   //Refresh the options in the violations select
   reload: function(event) {
     var violation_list = {},
-        context = this.el;
-
+      context = this.el;
+    var $violation_list_el = $(violationListEl);
+    var $violation_el = $(violationEl);
     // Build new violations list
     $(context).find("fieldset[id$='_violation_wrapper']").each(function(x, violationListEl){
       var index = 0;  // counter for each type of violation
-      var violation_name = $(violationListEl).find(".subforms").attr('id');
-      $(violationListEl).find(".subforms").children('div').each(function(x, violationEl){
-        if ($(violationEl).children().length > 0) {
+      var violation_name = $violation_list_el.find(".subforms").attr('id');
+      $violation_list_el.find(".subforms").children('div').each(function(x, violationEl){
+        if ($violation_el.children().length > 0) {
 
           //Only add to the list if the fields have values
-          var valueLength = 0;
-          $(violationEl).find('input[type!="hidden"], select, textarea').each(function(x, fieldEl){
-            var tmpLen = $.trim($(fieldEl).val()).length;
+          var value_length = 0;
+          $violation_el.find('input[type!="hidden"], select, textarea').each(function(x, field_el){
+            var tmpLen = $.trim($(field_el).val()).length;
             // don't count radio fields as they initailly have a default value which would lead to a false positive
-            if (tmpLen > 0 && $(fieldEl).attr('type') != 'radio'){
-               valueLength++;
+            if (tmpLen > 0 && $(field_el).attr('type') != 'radio') {
+               value_length++;
                return false;
             }
           });
 
-          if (valueLength > 0) {
+          if (value_length > 0) {
             // get subform header
             _primero.update_subform_heading(violationEl);
-            var subformHeaderEl = $(violationEl).find(".collapse_expand_subform_header");
-            var collapsed_value = $(violationEl).find(".collapse_expand_subform_header div.display_field span").text();
-            var violation_type = $(violationEl).find(".collapse_expand_subform_header label").text();
-            var unique_id = $(violationEl).find("input[type='hidden'][id$='unique_id']").val();
+            var collapsed_value = $violation_el.find(".collapse_expand_subform_header div.display_field span").text();
+            var violation_type = $violation_el.find(".collapse_expand_subform_header label").text();
+            var unique_id = $violation_el.find("input[type='hidden'][id$='unique_id']").val();
             violation_list[violation_type + " - " + collapsed_value + " - " + unique_id.slice(0, 5)] = unique_id;
 
             index++;
@@ -87,28 +88,30 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
       });
     });
 
-    if (violation_list.length === 0){
+    if (violation_list.length === 0) {
       violation_list["NONE"] = null;
     }
 
     // Find all violations selects and replace options with new list
     $(context).find("select[id$='_violations_']").each(function(x, violationSelectEl){
+      var $violation_select_el = $(violationSelectEl);
       // Save the select values
-      var selectedItems = $(violationSelectEl).val();
-
-      //Clear out existing options
-      $(violationSelectEl).empty();
+      var selected_items = $violation_select_el.val();
 
       //Add new options
+      var new_options = [];
+
       _.each(violation_list, function(value, key) {
-        var newOption = $('<option value="' + value + '">' + key + '</option>');
-        $(violationSelectEl).append(newOption);
+        var new_option = '<option value="' + value + '">' + key + '</option>';
+        new_options.push(new_option)
       });
 
-      //Add back the select values
-      $(violationSelectEl).val(selectedItems);
+      $violation_select_el.html(new_options.join(''));
 
-      $(violationSelectEl).trigger("chosen:updated");
+      //Add back the select values
+      $violation_select_el.val(selected_items);
+
+      $violation_select_el.trigger("chosen:updated");
     });
   },
 });

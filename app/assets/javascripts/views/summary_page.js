@@ -10,9 +10,9 @@ _primero.Views.SummaryPage = Backbone.View.extend({
   },
 
   open_form: function(event) {
-    var target = $(event.target);
-    var target_subform_id = target.parents('div.subforms').data('shared_subform');
-    var target_form_id = $('div#' + target_subform_id).parents('fieldset.tab').attr('id');
+    var $target = $(event.target);
+    var target_subform_id = $target.parents('div.subforms').data('shared_subform');
+    var target_form_id = $('#' + target_subform_id).parents('fieldset.tab').attr('id');
     $('div.side-tab ul li a[href="#' + target_form_id + '"]').click();
   }
 });

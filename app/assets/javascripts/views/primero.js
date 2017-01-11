@@ -55,8 +55,8 @@ Primero = Backbone.View.extend({
     this.init_modal_events();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
-    var textarea = $('textarea[name*="field[option_strings_text"]');
-    if (textarea.attr('disabled') == 'disabled') {
+    var $textarea = $('textarea[name*="field[option_strings_text"]');
+    if ($textarea.attr('disabled') == 'disabled') {
       $('textarea[name*="field[option_strings_text"]').parents('form').find('input[name="field[multi_select]"]').attr('disabled', true);
     }
 
@@ -64,34 +64,39 @@ Primero = Backbone.View.extend({
   },
 
   init_modal_events: function() {
-    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-      var modal = $(this);
-      if (!modal.parent('.modal-scroll').length) {
-        modal.wrap("<div class='modal-scroll' />");
+    var $document = $(document);
+    function modal_wrap() {
+      var $modal = $(this);
+      if (!$modal.parent('.modal-scroll').length) {
+        $modal.wrap("<div class='modal-scroll' />");
       }
-    });
+    }
+    $document.on('opened.fndtn.reveal', '[data-reveal]', modal_wrap);
 
-    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-      var modal = $(this);
-      modal.unwrap("<div class='modal-scroll' />");
-    });
+    function modal_unwrap() {
+      var $modal = $(this);
+      $modal.unwrap("<div class='modal-scroll' />");
+    }
+    $document.on('close.fndtn.reveal', '[data-reveal]', modal_unwrap);
   },
 
   init_edit_listeners: function() {
     if ((_.indexOf(['new', 'edit', 'update'], _primero.current_action) > -1) &&
         (['session','contact_information','system_setting'].indexOf(_primero.model_object) < 0)) {
-      $(document).on('click', 'nav a, nav button, header a, .static_links a', function(e) {
+      function redirect_with_warning(e) {
+        var $target = $(e.target);
         var warn_leaving = confirm(_primero.discard_message);
         if (warn_leaving) {
-          if ($(e.target).is(':button')) {
-            $(e.target).submit();
+          if ($target.is(':button')) {
+            $target.submit();
           } else {
-            window.location = $(e.target).attr('href');
+            window.location = $target.attr('href');
           }
         } else {
           return false;
         }
-      });
+      }
+      $(document).on('click', 'nav a, nav button, header a, .static_links a', redirect_with_warning);
     }
   },
 
@@ -119,29 +124,30 @@ Primero = Backbone.View.extend({
       _.extend(options, {
         setHeight: 460,
         callbacks:{
-            onInit: function() {
-              $('.scrolling_indicator.down').css('visibility', 'visible');
-            },
-            onScroll: function() {
-              $('.scrolling_indicator.down').css('visibility', 'visible');
-              $('.scrolling_indicator.up').css('visibility', 'visible');
-            },
-            onTotalScroll: function(){
-              $('.scrolling_indicator.down').css('visibility', 'hidden');
-              $('.scrolling_indicator.up').css('visibility', 'visible');
-            },
-            onTotalScrollBack: function() {
-              $('.scrolling_indicator.up').css('visibility', 'hidden');
-            }
+          onInit: function() {
+            $('.scrolling_indicator.down').css('visibility', 'visible');
+          },
+          onScroll: function() {
+            $('.scrolling_indicator.down').css('visibility', 'visible');
+            $('.scrolling_indicator.up').css('visibility', 'visible');
+          },
+          onTotalScroll: function(){
+            $('.scrolling_indicator.down').css('visibility', 'hidden');
+            $('.scrolling_indicator.up').css('visibility', 'visible');
+          },
+          onTotalScrollBack: function() {
+            $('.scrolling_indicator.up').css('visibility', 'hidden');
+          }
         }
       })
     );
 
-    $("ul.current_flags").mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
-    $("ul.current_flags").css("max-height", "250px");
+    var $current_flags = $(".current_flags");
+    $current_flags.mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
+    $current_flags.css("max-height", "250px");
 
-    $("ul.history_flags").mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
-    $("ul.history_flags").css("max-height", "175px");
+    $current_flags.mCustomScrollbar(_.extend(options, { setHeight: "auto" }));
+    $current_flags.css("max-height", "175px");
 
     $(".field-controls-multi, .scrollable").mCustomScrollbar(_.extend(options, { setHeight: 150 }));
 
@@ -192,11 +198,11 @@ Primero = Backbone.View.extend({
   },
 
   init_popovers: function() {
-    var guided_questions = $('.gq_popovers'),
-        field = guided_questions.parent().find('input, textarea, select');
+    var $guided_questions = $('.gq_popovers'),
+      $field = $guided_questions.parent().find('input, textarea, select');
 
-    guided_questions.parent().find('input, textarea, select').addClass('has_help');
-    guided_questions.popover({
+    $guided_questions.parent().find('input, textarea, select').addClass('has_help');
+    $guided_questions.popover({
       content: function() {
         return $(this).parent().find('.popover_content').html();
       },
@@ -204,27 +210,24 @@ Primero = Backbone.View.extend({
       trigger: 'manual'
     });
 
-    field.on('focus', function(evt) {
-      guided_questions.popover('hide');
+    $field.on('focus', function(evt) {
+      $guided_questions.popover('hide');
 
-      var field = $(evt.target),
-          popover_trigger = $(evt.target).parent().find('a.gq_popovers');
+      var $field = $(evt.target),
+        $popover_trigger = $field.parent().find('a.gq_popovers');
 
-      popover_trigger.popover('show');
+      $popover_trigger.popover('show');
 
-      $(evt.target).parent().bind('clickoutside', function(e) {
-        popover_trigger.popover('hide');
+      $field.parent().bind('clickoutside', function(e) {
+        $popover_trigger.popover('hide');
       });
-
     });
   },
 
   engage_popover: function(evt) {
     evt.preventDefault();
-
-    var selected_input = $(evt.target).parent().find('input, textarea, select');
-
-    selected_input.trigger('focus');
+    var $selected_input = $(evt.target).parent().find('input, textarea, select');
+    $selected_input.trigger('focus');
   },
 
   init_sticky: function() {
@@ -247,15 +250,15 @@ Primero = Backbone.View.extend({
     this.show_hide_record_type($(evt.target));
   },
 
-  show_hide_record_type: function(input) {
-    var inputs = input ? input : $('.record_types input:not([type="hidden"])');
+  show_hide_record_type: function($input) {
+    var $inputs = $input ? $input : $('.record_types input:not([type="hidden"])');
 
-    inputs.each(function(k, v) {
-      var selected_input = $(v),
-          section_finder_str = '.section' + '.' + selected_input.val(),
-          id_section = $('.associated_form_ids').find(section_finder_str);
+    $inputs.each(function(k, v) {
+      var $selected_input = $(v),
+          section_finder_str = '.section' + '.' + $selected_input.val(),
+          $id_section = $('.associated_form_ids').find(section_finder_str);
 
-      selected_input.is(":checked") ? id_section.fadeIn(800) : id_section.fadeOut(800);
+      $selected_input.is(":checked") ? $id_section.fadeIn(800) : $id_section.fadeOut(800);
     });
   },
 
@@ -269,28 +272,28 @@ Primero = Backbone.View.extend({
   },
 
   submit_form: function(evt) {
-    var button = $(evt.target),
+    var $button = $(evt.target),
         //find out if the submit button is part of the form or not.
         //if not part will need to add the "commit" parameter to let it know
         //the controller what was triggered.
-        parent = button.parents("form.default-form");
+        $parent = $button.parents("form.default-form");
 
-    if (parent.length > 0) {
+    if ($parent.length > 0) {
       //Just a regular submit in the form.
-      parent.submit();
+      $parent.submit();
     } else {
       //Because some design thing we need to add the "commit" parameter
       //to the form because the submit triggered is outside of the form.
-      var form = $('form.default-form'),
-          commit = form.find("input[class='submit-outside-form']");
+      var $form = $('form.default-form'),
+          $commit = $form.find("input[class='submit-outside-form']");
 
-      if (commit.length === 0) {
-        form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + button.val() + "'/>");
+      if ($commit.length === 0) {
+        $form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + $button.val() + "'/>");
       } else {
-        $(commit).val(button.val());
+        $($commit).val($button.val());
       }
 
-      form.submit();
+      $form.submit();
     }
     _primero.set_content_sidebar_equality();
   },
@@ -348,24 +351,25 @@ Primero = Backbone.View.extend({
 
   //Find the container errors messages.
   _primero_find_error_messages_container: function(form) {
-    return $(form).find("div#errorExplanation ul");
+    return $(form).find("#errorExplanation ul");
   },
 
-  //create or clean the container errors messages: div#errorExplanation.
+  //create or clean the container errors messages: #errorExplanation.
   _primero_create_or_clean_error_messages_container: function(form) {
-    if ($(form).find("div#errorExplanation").length === 0) {
-      $(form).find(".tab div.clearfix").each(function(x, el) {
+    var $form = $(form);
+    if ($form.find("#errorExplanation").length === 0) {
+      $form.find(".tab div.clearfix").each(function(x, el) {
         //TODO make i18n able.
-        $(el).after("<div id='errorExplanation' class='errorExplanation'>"
-                    + "<h2>Errors prohibited this record from being saved</h2>"
-                    + "<p>There were problems with the following fields:</p>"
-                    + "<ul/>"
-                    + "</div>");
+        $(el).after("<div id='errorExplanation' class='errorExplanation'>" +
+          "<h2>Errors prohibited this record from being saved</h2>" +
+          "<p>There were problems with the following fields:</p>" +
+          "<ul/>" +
+          "</div>");
       });
     } else {
       //TODO If we are going to implement other javascript validation
       //     we must refactor this so don't lost the other errors messages.
-      $(form).find("div#errorExplanation ul").text("");
+      $form.find("#errorExplanation ul").text("");
     }
   },
 
@@ -389,27 +393,27 @@ Primero = Backbone.View.extend({
   _primero_update_autosum_field: function(input) {
     var autosum_total = 0;
     var autosum_group = input.attr('autosum_group');
-    var fieldset = input.parents('.summary_group');
-    var autosum_total_input = fieldset.find('input.autosum_total[type="text"][autosum_group="' + autosum_group + '"]');
-    fieldset.find('input.autosum[type="text"][autosum_group="' + autosum_group + '"]').each(function(){
+    var $fieldset = input.parents('.summary_group');
+    var $autosum_total_input = $fieldset.find('input.autosum_total[type="text"][autosum_group="' + autosum_group + '"]');
+    $fieldset.find('input.autosum[type="text"][autosum_group="' + autosum_group + '"]').each(function(){
       var value = $(this).val();
       if(!isNaN(value) && value !== ""){
         autosum_total += parseFloat(value);
       }
     });
-    autosum_total_input.val(autosum_total);
+    $autosum_total_input.val(autosum_total);
   },
 
   // Returns the version of Internet Explorer or a -1
   // (indicating the use of another browser).
   _primero_getInternetExplorerVersion: function() {
     var rv = -1; // Return value assumes failure.
-    if (navigator.appName == 'Microsoft Internet Explorer')
-    {
+    if (navigator.appName == 'Microsoft Internet Explorer') {
       var ua = navigator.userAgent;
       var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-      if (re.exec(ua) !== null)
+      if (re.exec(ua) !== null) {
         rv = parseFloat( RegExp.$1 );
+      }
     }
     return rv;
   },
@@ -425,26 +429,26 @@ Primero = Backbone.View.extend({
   },
 
   _primero_loading_screen_indicator: function(action) {
-    var loading_screen = $('.loading-screen'),
-        body = $('body, html');
+    var $loading_screen = $('.loading-screen'),
+        $body = $('body, html');
 
     switch(action) {
       case 'show':
-        loading_screen.show();
-        body.css('overflow', 'hidden');
+        $loading_screen.show();
+        $body.css('overflow', 'hidden');
         break;
       case 'hide':
-        loading_screen.hide();
-        body.css('overflow', 'visible');
+        $loading_screen.hide();
+        $body.css('overflow', 'visible');
         break;
     }
   },
 
   _primero_show_add_violation_message: function() {
     $("fieldset[id$='_violation_wrapper'] .subforms").each(function(k, v) {
-      var elm = $(this),
+      var $elm = $(this),
           message = $(v).parent().prev('.add_violations_message');
-      if (elm.children().length <= 0 && !message.prev('.empty_violations').is(':visible')) {
+      if ($elm.children().length <= 0 && !message.prev('.empty_violations').is(':visible')) {
         message.show();
       } else {
         message.hide();
@@ -467,7 +471,7 @@ Primero = Backbone.View.extend({
 
   _primero_check_download_status: function(closure) {
     var download_cookie_name = 'download_status_finished',
-        clock = setInterval(check_status, 2000);
+      clock = setInterval(check_status, 2000);
     function check_status() {
       if (_primero.read_cookie(download_cookie_name)) {
         _primero.loading_screen_indicator('hide');
@@ -490,11 +494,11 @@ Primero = Backbone.View.extend({
     var expires;
 
     if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toGMTString();
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toGMTString();
     } else {
-        expires = "";
+      expires = "";
     }
     document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
   },
@@ -503,9 +507,9 @@ Primero = Backbone.View.extend({
     var name_eq = encodeURIComponent(name) + "=";
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        if (c.indexOf(name_eq) === 0) return decodeURIComponent(c.substring(name_eq.length, c.length));
+      var c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(name_eq) === 0) return decodeURIComponent(c.substring(name_eq.length, c.length));
     }
     return null;
   },
@@ -535,16 +539,17 @@ Primero = Backbone.View.extend({
 
   update_subform_heading: function(subformEl) {
     // get subform header for shared summary page
-    var subform = $(subformEl).parent();
-    var subform_index = $(subformEl).data('subform_index');
-    var summary_subform = $('div[data-shared_subform="' + subform.attr('id') + '"] div[data-subform_index="' + subform_index + '"]');
+    var $subform_element = $(subformEl)
+    var $subform = $subform_element.parent();
+    var subform_index = $subform_element.data('subform_index');
+    var $summary_subform = $('div[data-shared_subform="' + $subform.attr('id') + '"] div[data-subform_index="' + subform_index + '"]');
     var display_field = [];
-    if (summary_subform.length > 0) {
-      display_field = summary_subform.find(".collapse_expand_subform_header div.display_field span");
+    if ($summary_subform.length > 0) {
+      display_field = $summary_subform.find(".collapse_expand_subform_header div.display_field span");
     }
 
     //Update the static text with the corresponding input value to shows the changes if any.
-    $(subformEl).find(".collapse_expand_subform_header div.display_field span").each(function(x, el){
+    $subform_element.find(".collapse_expand_subform_header div.display_field span").each(function(x, el){
       //view mode doesn't sent this attributes, there is no need to update the header.
       var data_types_attr = el.getAttribute("data-types"),
           data_fields_attr = el.getAttribute("data-fields"),
@@ -562,36 +567,36 @@ Primero = Backbone.View.extend({
               value = null;
           if (input_type == "chosen_type") {
             //reflect changes of the chosen.
-            var input = $(subformEl).find("select[id='" + input_id + "_'] option:selected");
-            if (input.val() !== null) {
-              var selected = input.map(function() {
+            var $input = $subform_element.find("select[id='" + input_id + "_'] option:selected");
+            if ($input.val() !== null) {
+              var selected = $input.map(function() {
                 return $(this).text();
               }).get().join(', ');
               value = selected;
             }
           } else if (input_type == "radio_button_type") {
             //reflect changes of the for radio buttons.
-            var input = $(subformEl).find("input[id^='" + input_id + "']:checked");
-            if (input.size() > 0) {
-              value = input.val();
+            var $input = $subform_element.find("input[id^='" + input_id + "']:checked");
+            if ($input.size() > 0) {
+              value = $input.val();
             }
           } else if (input_type == "check_boxes_type") {
             //reflect changes of the checkboxes.
             var checkboxes_values = [];
-            $(subformEl).find("input[id^='" + input_id + "']:checked").each(function(x, el){
+            $subform_element.find("input[id^='" + input_id + "']:checked").each(function(x, el){
               checkboxes_values.push($(el).val());
             });
             if (checkboxes_values.length > 0) {
               value = checkboxes_values.join(", ");
             }
           } else if (input_type == "tick_box_type") {
-            var input = $(subformEl).find("#" + input_id + ":checked");
-            value = input.size() == 1;
+            var $input = $subform_element.find("#" + input_id + ":checked");
+            value = $input.size() == 1;
           } else {
             //Probably there is other widget that should be manage differently.
-            var input = $(subformEl).find("#" + input_id);
-            if (input.val() !== "") {
-              value = input.val();
+            var $input = $subform_element.find("#" + input_id);
+            if ($input.val() !== "") {
+              value = $input.val();
             }
           }
 

@@ -14,8 +14,9 @@ _primero.Views.ReassignRecords = Backbone.View.extend({
 
   transfer: function(e) {
     e.preventDefault();
-    var local_user = $('div#reassign-modal select#existing_user').val(),
-      localUserErrorDiv = $("div#reassign-modal .local_user_flash"),
+    var $modal = $("#reassign-modal");
+    var local_user = $modal.find('select#existing_user').val(),
+      localUserErrorDiv = $modal.find(".local_user_flash"),
       is_valid = true;
 
     if(local_user == null || local_user == undefined || local_user.trim() == ""){
@@ -25,11 +26,10 @@ _primero.Views.ReassignRecords = Backbone.View.extend({
     }
 
     if(is_valid){
-      var modal = $('#reassign-modal');
       localUserErrorDiv.hide();
       $(e.target).parents('form').submit();
-      modal.foundation('reveal', 'close');
-      modal.find('form')[0].reset();
+      $modal.foundation('reveal', 'close');
+      $modal.find('form')[0].reset();
       window.disable_loading_indicator = true;
     } else {
       return false;

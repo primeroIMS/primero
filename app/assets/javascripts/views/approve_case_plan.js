@@ -9,8 +9,9 @@ _primero.Views.ApproveCasePlan = Backbone.View.extend({
   submit_approval: function(e) {
     e.preventDefault();
     $(e.target).parents('form').submit();
-    $('#approve-case-plan-modal').foundation('reveal', 'close');
-    $('#approve-case-plan-modal form')[0].reset();
+    var $approve_case_plan_modal = $('#approve-case-plan-modal');
+    $approve_case_plan_modal.foundation('reveal', 'close');
+    $approve_case_plan_modal.find('form')[0].reset();
     window.disable_loading_indicator = true;
   }
 });

@@ -61,12 +61,13 @@ ManageUsers.init = function () {
       var userName   = this.getUserName(evt);
       var nextStatus = this.getDisabledStatus(evt) ? "true" : "false";
       var displayStatus = this.getDisabledStatus(evt) ? "disable" : "enable";
-      $('#modal-dialog').dialog('option', {
+      var $modal_dialog = $('#modal-dialog');
+      $modal_dialog.dialog('option', {
         newStatus: nextStatus,
         userName : userName,
         title    : I18n.t("messages.are_you_sure") + displayStatus + I18n.t("messages.this_user")
       });
-      $('#modal-dialog').dialog("open");
+      $modal_dialog.dialog("open");
     },
 
     changeDisabledStatus: function(userName, newStatus){
@@ -75,11 +76,11 @@ ManageUsers.init = function () {
     },
 
     toggleCheckbox: function(userName){
-      var checkBox = $('#user-row-' + userName + ' input.user-disabled-status');
-      if(checkBox.attr('checked')){
-        checkBox.removeAttr('checked');
+      var $checkBox = $('#user-row-' + userName + ' input.user-disabled-status');
+      if($checkBox.attr('checked')){
+        $checkBox.removeAttr('checked');
       } else {
-        checkBox.attr('checked', 'checked');
+        $checkBox.attr('checked', 'checked');
       }
     }
   });
@@ -94,14 +95,16 @@ ManageUsers.init = function () {
     open: function(event, ui){ $('.ui-dialog-titlebar-close', ui.dialog).hide(); },
     buttons: {
       "Yes" : function() {
-        var opt = $(this).dialog('option');
+        var $this = $(this);
+        var opt = $this.dialog('option');
         window.App.changeDisabledStatus(opt.userName, opt.newStatus);
-        $(this).dialog("close");
+        $this.dialog("close");
       },
       "Cancel" : function() {
-        var opt = $(this).dialog('option');
+        var $this = $(this);
+        var opt = $this.dialog('option');
         window.App.toggleCheckbox(opt.userName);
-        $(this).dialog("close");
+        $this.dialog("close");
       }
     }
   });

@@ -149,7 +149,7 @@ RapidFTR.validateSearch = function() {
   return true;
 };
 
-$(document).ready(function() {
+function on_page_load() {
   _primero = $.extend(RapidFTR, _primero);
   RapidFTR.maintabControl();
   RapidFTR.enableSubmitLinks();
@@ -177,4 +177,5 @@ $(document).ready(function() {
     current_tab = $(group_or_tab).find("a").attr("href");
   }
   _primero.chosen(current_tab + ' select.chosen-select:visible');
-});
+}
+$(on_page_load);

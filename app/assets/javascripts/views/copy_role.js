@@ -11,15 +11,17 @@ _primero.Views.CopyRole = Backbone.View.extend({
     e.preventDefault();
     var id = $(e.target).data('role-id'),
         copy_url = '/roles/'+id+'/copy';
-    $('#copy-role-modal form').attr('action', copy_url);
-    $('#copy-role-modal').foundation('reveal', 'open')
+    var $copy_role_modal = $('#copy-role-modal');
+    $copy_role_modal.find('form').attr('action', copy_url);
+    $copy_role_modal.foundation('reveal', 'open')
   },
 
   submit_copy: function(e) {
     e.preventDefault();
     $(e.target).parents('form').submit();
-    $('#copy-role-modal').foundation('reveal', 'close');
-    $('#copy-role-modal form')[0].reset();
+    var $copy_role_modal = $('#copy-role-modal');
+    $copy_role_modal.foundation('reveal', 'close');
+    $copy_role_modal.find('form')[0].reset();
     window.disable_loading_indicator = true;
   }
 });

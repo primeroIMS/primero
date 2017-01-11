@@ -181,13 +181,15 @@ _primero.Router = Backbone.Router.extend({
   },
 
   maskedUserAndPasswordReferal: function() {
-    new MaskedUser($("#referral-modal form #other_user_agency").get(0));
-    new MaskedPassword($("#referral-modal form #password").get(0));
+    var $referral_modal = $("#referral-modal");
+    new MaskedUser($referral_modal.find("#other_user_agency").get(0));
+    new MaskedPassword($referral_modal.find("#password").get(0));
   },
 
   maskedUserAndPasswordTransfer: function() {
-    new MaskedUser($("#transfer-modal form #other_user_agency").get(0));
-    new MaskedPassword($("#transfer-modal form #password").get(0));
+    var $transfer_modal = $("#transfer-modal");
+    new MaskedUser($transfer_modal.find("#other_user_agency").get(0));
+    new MaskedPassword($transfer_modal.find("#password").get(0));
   },
 
   locations: function(){

@@ -20,14 +20,15 @@ _primero.Views.MarkForMobile = Backbone.View.extend({
         'id': id
       },
       function(response){
+        var $flash = $('.flash');
         if (response.success) {
           location.reload(true);
         } else {
-          $('.flash').remove();
+          $flash.remove();
           var message = '<div class="flash row"> <p class="error large-12">' + response.message + '</p></div>';
           $('.page_container').prepend(message);
           setTimeout(function(){
-            $('.flash').remove();
+            $flash.remove();
           },7000);
         }
       }
