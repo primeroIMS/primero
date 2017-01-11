@@ -533,6 +533,3 @@ DEPENDENCIES
   writeexcel (~> 1.0.3)
   yui-compressor
   zipruby-compat!
-
-BUNDLED WITH
-   1.9.10
