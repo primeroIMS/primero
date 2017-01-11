@@ -63,6 +63,7 @@ class LocationsController < ApplicationController
     redirect_to locations_path
   end
 
+
   private
 
   def load_location
