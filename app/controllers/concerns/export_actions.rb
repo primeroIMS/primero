@@ -88,15 +88,4 @@ module ExportActions
     props
   end
 
-  def download_all_forms
-    forms_exporter = Exporters::FormExporter.new
-    forms_exporter.export_forms_to_spreadsheet
-
-    hostname = request.env['SERVER_NAME']
-    datetimenow = DateTime.now.strftime('%Y%m%d.%I%M')
-    file_name = "forms-#{hostname}-#{datetimenow}.xls"
-
-    cookies[:download_status_finished] = true
-    send_file(forms_exporter.temp_file, :filename => file_name, :type=>"application/excel", :disposition=>'attachment')
-  end
 end

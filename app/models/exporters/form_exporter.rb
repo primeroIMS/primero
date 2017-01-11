@@ -1,9 +1,9 @@
 module Exporters
   class FormExporter
 
-    def initialize
-      @temp_filename = CleansingTmpDir.temp_file_name
-      @io = File.new(@temp_filename, "w")
+    def initialize(export_file=nil)
+      @export_file_name = export_file || CleansingTmpDir.temp_file_name
+      @io = File.new(@export_file_name, "w")
       @workbook = WriteExcel.new(@io)
     end
 
@@ -13,8 +13,8 @@ module Exporters
       return @io
     end
 
-    def temp_file
-      return  @temp_filename
+    def export_file
+      return  @export_file_name
     end
 
     # Exports forms to an Excel spreadsheet
@@ -37,8 +37,7 @@ module Exporters
     def write_out_form(form, header, show_hidden)
       if show_hidden || form.visible? || form.is_nested?
         # TODO: This should be probably some logging rather than puts?
-        puts "Exporting form #{form.name}"
-        worksheet = @workbook.add_worksheet("#{(form.name)[0..25].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
+        worksheet = @workbook.add_worksheet("#{(form.name)[0..30].gsub(/[^0-9a-z ]/i, '')}")
         worksheet.write(0, 0, form.name)
         worksheet.write(1, 0, header)
         form.fields.each_with_index do |field, i|
@@ -46,12 +45,15 @@ module Exporters
             visible = field.visible? ? 'Yes' : 'No'
             options = ''
             if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
-              options = field.options_list.join(', ')
+              if field.option_strings_source.present? && field.option_strings_source.start_with?('Location')
+                options = 'Locations'
+              else
+                options = field.options_list.join(', ')
+              end
             elsif field.type == 'subform'
               subform = field.subform_section
-              puts "Identifying subform #{subform.name}"
               options = "Subform: #{subform.name}"
-              write_out_form(subform, header, show_hidden)
+              write_out_form(subform, header, show_hidden) rescue nil
             end
             field_type = field.type
             field_type += " (multi)" if field.type == 'select_box' && field.multi_select

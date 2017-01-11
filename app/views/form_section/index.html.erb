@@ -17,8 +17,8 @@
                        :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
   </li>
   <li>
-  <a data-reveal-id="<%= "forms-export" %>" href="#" class='btn green-button'><%= t("exports.forms.label") %></a>
-  <div class="reveal-modal tiny" id="<%= "forms-export" %>" data-reveal>
+  <a data-reveal-id="forms-export" href="#" class='btn green-button'><%= t("exports.forms.label") %></a>
+  <div class="reveal-modal tiny" id="forms-export" data-reveal>
     <a class="close-reveal-modal">&#215;</a>
     <div class="row">
       <div class="large-12 columns">
@@ -28,7 +28,8 @@
     <div class="space"></div>
     <div class="row">
       <div class="large-12 columns">
-        <a><%= link_to t("exports.forms.button"), download_forms_path, class: "btn green-button right download_forms" %></a>
+        <%= link_to t("exports.forms.button"), download_forms_path(current_module: @primero_module.id, parent_form: @parent_form),
+          class: "btn green-button right download_forms" %>
         <a class="close-reveal-modal btn green-button right"><%= t("buttons.cancel") %></a>
       </div>
     </div>

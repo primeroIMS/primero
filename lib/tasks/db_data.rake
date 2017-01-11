@@ -239,53 +239,14 @@ namespace :db do
 
     desc "Exports forms to an Excel spreadsheet"
     task :forms_to_spreadsheet, [:type, :module, :show_hidden] => :environment do |t, args|
-
       module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
       type = args[:type].present? ? args[:type] : 'case'
       show_hidden = args[:show_hidden].present?
       file_name = "forms.xls"
-      puts "Writing forms to #{file_name}"
-
-      workbook = WriteExcel.new(File.open(file_name, 'w'))
-      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text', 'Guiding Questions']
-
-      primero_module = PrimeroModule.get(module_id)
-      forms = primero_module.associated_forms_grouped_by_record_type(false)
-      forms = forms[type]
-      form_hash = FormSection.group_forms(forms)
-      form_hash.each do |group, form_sections|
-        form_sections.sort_by{|f| [f.order, (f.is_nested? ? 1 : -1)]}.each do |form|
-          write_out_form(form, workbook, header, show_hidden)
-        end
-      end
-
-      workbook.close
-    end
-
-    def write_out_form(form, workbook, header, show_hidden)
-      if show_hidden || form.visible? || form.is_nested?
-        puts "Exporting form #{form.name}"
-        worksheet = workbook.add_worksheet("#{(form.name)[0..20].gsub(/[^0-9a-z ]/i, '')}_#{form.parent_form}")
-        worksheet.write(0, 0, form.name)
-        worksheet.write(1, 0, header)
-        form.fields.each_with_index do |field, i|
-          if show_hidden || field.visible?
-            visible = field.visible? ? 'Yes' : 'No'
-            options = ''
-            if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
-              options = field.options_list.join(', ')
-            elsif field.type == 'subform'
-              subform = field.subform_section
-              puts "Identifying subform #{subform.name}"
-              options = "Subform: #{subform.name}"
-              write_out_form(subform, workbook, header, show_hidden)
-            end
-            field_type = field.type
-            field_type += " (multi)" if field.type == 'select_box' && field.multi_select
-            worksheet.write((i+2),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, options, field.help_text, field.guiding_questions])
-          end
-        end
-      end
+      puts "Writing #{type} #{module_id} forms to #{file_name}"
+      forms_exporter = Exporters::FormExporter.new(file_name)
+      forms_exporter.export_forms_to_spreadsheet
+      puts "Done!"
     end
 
 
