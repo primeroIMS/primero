@@ -27,17 +27,20 @@ describe OptionStringSourcesController do
     before do
       fake_admin_login
 
-      @expected_response = [
-        {
-          "type"=>"Location",
-          "options" => [
-            "Country1",
-            "Country1::Province1",
-            "Country1::Province2",
-            "Country1::Province1::Town1"
-          ]
-        }
-      ]  
+      @expected_response = {
+        "success" => 1,
+        "sources" => [
+          {
+            "type"=>"Location",
+            "options" => [
+              "Country1",
+              "Country1::Province1",
+              "Country1::Province2",
+              "Country1::Province1::Town1"
+            ]
+          }
+        ]
+      }  
     end
     
     it "should render requested sources as json." do
@@ -54,12 +57,12 @@ describe OptionStringSourcesController do
     it "should return a message if no sources found." do
       get :get_string_sources, format: :json
       json_response = JSON.parse(response.body)
-      expect(json_response).to eq({ "message" => "No sources found", "success" => 0 })
+      expect(json_response).to eq({ "message" => "Could not find/fetch select box options", "success" => 0 })
     end
 
     it "should not return nil sources." do
       get :get_string_sources, string_sources: ['Test Source', 'Location'], format: :json
-      json_response = JSON.parse(response.body).first
+      json_response = JSON.parse(response.body)["sources"].first
       expect(json_response["options"]).not_to include(nil)
     end
   end
