@@ -107,6 +107,28 @@ class FormSectionController < ApplicationController
     end
   end
 
+  def download_all_forms
+    authorize! :index, FormSection
+
+    forms_exporter = Exporters::FormExporter.new
+    type = params['parent_form']
+    module_id = params['current_module']
+    if type.present? && module_id.present?
+      forms_exporter.export_forms_to_spreadsheet(type, module_id, false)
+      hostname = request.env['SERVER_NAME']
+      datetimenow = DateTime.now.strftime('%Y%m%d.%I%M')
+      file_name = "forms-#{hostname}-#{datetimenow}.xls"
+
+      cookies[:download_status_finished] = true
+      send_file(
+        forms_exporter.export_file,
+        filename: file_name,
+        type: 'application/excel',
+        disposition: 'inline'
+      )
+    end
+  end
+
   private
 
   def get_form_section
