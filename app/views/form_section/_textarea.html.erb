@@ -12,14 +12,15 @@
   </div>
   <div class="medium-8 columns">
     <% if textarea.required %><span class="required form-section-required">*</span><% end %>
-      <% if textarea.disabled %>
-        <%= content_tag :span, value, id: field_id, name: name, class: "value" %>
-      <% else %>
-        <%= text_area_tag name, value, :disabled => textarea.disabled, :id => field_id, :editable => textarea.editable, rows: "2", required: textarea.required %>
-        <% if textarea.help_text %><p class="help"><%= textarea.help_text %></p><% end %>
-        <% if textarea.guiding_questions.present? %>
-          <%= render 'form_section/guiding_questions', guiding_questions_text: textarea.guiding_questions %>
+    <% if textarea.disabled %>
+      <%= content_tag :span, value, id: field_id, name: name, class: "value" %>
+    <% else %>
+      <%= text_area_tag name, value, :disabled => textarea.disabled, :id => field_id, :editable => textarea.editable, rows: "2", required: textarea.required %>
+      <% if textarea.help_text %><p class="help"><%= textarea.help_text %></p><% end %>
+      <% if textarea.guiding_questions.present? %>
+        <%= render 'form_section/guiding_questions', guiding_questions_text: textarea.guiding_questions %>
       <% end %>
+    <% end %>
     <% if textarea.help_text %><p class="help"><%= textarea.help_text %></p><% end %>
   </div>
 </div>
