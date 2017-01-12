@@ -57,7 +57,7 @@ describe OptionStringSourcesController do
     it "should return a message if no sources found." do
       get :get_string_sources, format: :json
       json_response = JSON.parse(response.body)
-      expect(json_response).to eq({ "message" => "Could not find/fetch select box options", "success" => 0 })
+      expect(json_response).to eq({ "message" => "Some fields failed to load, refresh the page to load all fields.", "success" => 0 })
     end
 
     it "should not return nil sources." do
