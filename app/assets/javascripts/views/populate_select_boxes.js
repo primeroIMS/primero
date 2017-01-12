@@ -42,11 +42,12 @@ _primero.Views.PopulateSelectBoxes = Backbone.View.extend({
 
       $select_boxes.attr('disabled', true);
       self.updateDisabledSelectBoxes($select_boxes);
-      
-      if (message) {
-        $select_boxes.parent().append('<p class="help">' + message + '</p>');
-      }
     });
+
+    if (message) {
+      $('.side-tab-content')
+        .prepend('<div data-alert class="alert-box warning">' + message + '</div>');
+    }
   },
 
   parseOptions: function() {

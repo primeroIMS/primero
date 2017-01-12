@@ -7,7 +7,7 @@ class OptionStringSourcesController < ApplicationController
       if sources.present?
         format.json { render json: { success: 1, sources: sources }}
       else
-        format.json { render json: { message: 'Could not find/fetch select box options', success: 0 }}
+        format.json { render json: { message: t('string_sources_failed'), success: 0 }}
       end
     end
   end
