@@ -466,14 +466,14 @@ Primero = Backbone.View.extend({
     return str.join("&");
   },
 
-  _primero_check_download_status: function(closure = null) {
+  _primero_check_download_status: function(closure) {
     var download_cookie_name = 'download_status_finished',
         clock = setInterval(check_status, 2000);
     function check_status() {
       if (_primero.read_cookie(download_cookie_name)) {
         _primero.loading_screen_indicator('hide');
         _primero.remove_cookie(download_cookie_name);
-        if (closure != null ) { closure(); }
+        if (closure !== undefined) { closure(); }
         clearInterval(clock);
       }
     }
