@@ -1,6 +1,25 @@
 # #To generate the UUID, run the following in the rails consle:
 # #    UUIDTools::UUID.random_create.to_s.gsub('-','')
 
+default_filters = [
+  {'attribute' => 'status', 'value' => ['Open']},
+  {'attribute' => 'record_state', 'value' => ['true']}
+]
+
+Report.create_or_update({
+  id: '8903db85c4c048f4cef0168cbdbe1f48',
+  name: 'Killing of Children - Boys',
+  description: 'Violation (killing) boys',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified', 'violation_tally'],
+  aggregate_counts_from: 'violation_tally',
+  filters: default_filters + [
+      {'attribute' => 'violation_category', 'value' => ['killing']}
+  ],
+  is_graph: false,
+  editable: false
+})
 
 # #TODO: do we need to filter for verified?
 # default_filters = [

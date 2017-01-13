@@ -89,6 +89,10 @@ class Violation
     return violations
   end
 
+  def self.report_filters
+    Incident.report_filters
+  end
+
   def initialize(category, incident, violation)
     self.incident = incident
     self.category = category
