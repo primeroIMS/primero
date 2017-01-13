@@ -21,6 +21,66 @@ Report.create_or_update({
   editable: false
 })
 
+Report.create_or_update({
+  id: 'cf8c10098bf24886bac8d8026819409f',
+  name: 'Maiming of Children',
+  description: 'Maiming of Children by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  aggregate_counts_from: 'violation_tally',
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['maiming']}
+  ],
+  is_graph: false,
+  editable: false
+})
+
+Report.create_or_update({
+  id: '9582de157db046f5a89b67a7c07eed88',
+  name: 'Rape and/or other forms of sexual violence',
+  description: 'Rape and/or other forms of sexual violence by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  aggregate_counts_from: 'violation_tally',
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['sexual_violence']}
+  ],
+  is_graph: false,
+  editable: false
+})
+
+Report.create_or_update({
+  id: 'e1161bed36cd48178dbda8c14f3078b9',
+  name: 'Abduction',
+  description: 'Abduction by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  aggregate_counts_from: 'violation_tally',
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['abduction']}
+  ],
+  is_graph: false,
+  editable: false
+})
+
+Report.create_or_update({
+  id: '331e70efc07b4938a2fe1129d811ce73',
+  name: 'Recruitment and/or use of children',
+  description: 'Recruitment and/or use of children by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  aggregate_counts_from: 'violation_tally',
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['recruitment']}
+  ],
+  is_graph: false,
+  editable: false
+})
+
 # #TODO: do we need to filter for verified?
 # default_filters = [
 #   {'attribute' => 'status', 'value' => ['Open']},

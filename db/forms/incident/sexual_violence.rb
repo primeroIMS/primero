@@ -105,5 +105,5 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => sexual_violence_fields,
   "name_all" => "Rape and/or other forms of sexual violence",
-  "description_all" => " Rape and/or other forms of sexual violence"
+  "description_all" => "Rape and/or other forms of sexual violence"
 })
