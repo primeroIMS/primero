@@ -8,6 +8,15 @@
 
 .side-tab-content-container {
   width: 750px;
+
+  .side-tab-content {
+    .warning {
+      margin: .5em;
+      background: #FEEFB3;
+      color: #9F6000;
+      border: 1px solid #9F6000;
+    }
+  }
 }
 
 .side-tab a span.label {
