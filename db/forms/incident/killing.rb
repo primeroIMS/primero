@@ -110,7 +110,7 @@ killing_fields = [
   Field.new({"name" => "killing",
              "type" => "subform", "editable" => true,
              "subform_section_id" => killing_subform_section.unique_id,
-             "display_name_all" => "Killing",
+             "display_name_all" => "Killing of Children",
              "expose_unique_id" => true,
             })
 ]
@@ -126,6 +126,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => killing_fields,
-  "name_all" => "Killing",
-  "description_all" => "Killing"
+  "name_all" => "Killing of Children",
+  "description_all" => "Killing of Children"
 })

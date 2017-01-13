@@ -338,13 +338,13 @@ mrm_summary_page_fields = [
   Field.new({"name" => "killing_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => killing_subform_section.unique_id,
-             "display_name_all" => "Killing",
+             "display_name_all" => "Killing of Children",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "maiming_summary",
              "type" => "subform", "editable" => true,
              "subform_section_id" => maiming_subform_section.unique_id,
-             "display_name_all" => "Maiming",
+             "display_name_all" => "Maiming of Children",
              "expose_unique_id" => true
             }),
   Field.new({"name" => "recruitment_summary",

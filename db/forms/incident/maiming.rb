@@ -119,7 +119,7 @@ maiming_fields = [
   Field.new({"name" => "maiming",
              "type" => "subform", "editable" => true,
              "subform_section_id" => maiming_subform_section.unique_id,
-             "display_name_all" => "Maiming",
+             "display_name_all" => "Maiming of Children",
              "expose_unique_id" => true,
             })
 ]
@@ -135,6 +135,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Violations",
   "editable" => true,
   :fields => maiming_fields,
-  "name_all" => "Maiming",
-  "description_all" => "Maiming"
+  "name_all" => "Maiming of Children",
+  "description_all" => "Maiming of Children"
 })
