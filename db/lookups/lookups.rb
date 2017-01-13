@@ -409,14 +409,14 @@ create_or_update_lookup(
     :name => "vulnerability_type",
     :lookup_values => [
         "Abducted",
-        "Asylum seekers",
+        "Asylum seeker",
         "Detained",
         "Disabled",
         "Internally Displaced",
         "Unaccompanied",
         "Recruited",
-        "Refugees",
-        "Returnees",
+        "Refugee",
+        "Returnee",
         "Separated",
         "Stateless",
         "Unknown"
