@@ -8,14 +8,14 @@ default_filters = [
 
 Report.create_or_update({
   id: '8903db85c4c048f4cef0168cbdbe1f48',
-  name: 'Killing of Children - Boys',
-  description: 'Violation (killing) boys',
+  name: 'Killing of Children',
+  description: 'Killing of Children by CTFMR verification status',
   module_ids: [PrimeroModule::MRM],
   record_type: 'violation',
-  aggregate_by: ['ctfmr_verified', 'violation_tally'],
+  aggregate_by: ['ctfmr_verified'],
   aggregate_counts_from: 'violation_tally',
   filters: default_filters + [
-      {'attribute' => 'violation_category', 'value' => ['killing']}
+    {'attribute' => 'category', 'value' => ['killing']}
   ],
   is_graph: false,
   editable: false
