@@ -23,13 +23,14 @@ perpetrator_subform_fields = [
                                     "perpetrator is unknown, the CTFMR needs to be satisified that the violation was "\
                                     "perpetrated by a party to the conflict, and thus conflict-related"
             }),
-  #TODO: perpetrator_sub_category is supposed to be removed removed.
-  # BUT... there is code tied to that field as well as it being a collapsed field.
-  # Leaving the field for now.  Open question for Sue & Pavel
+  #TODO: perpetrator_sub_category is supposed to be removed.
+  # Hiding for now.
+  # I commented out related filtering logic
   Field.new({"name" => "perpetrator_sub_category",
              "type" => "select_box",
              "display_name_all" => "To which type of armed force or group did the alleged perpetrator(s) belong?",
-             "option_strings_source" => "lookup ArmedForceGroupType"
+             "option_strings_source" => "lookup ArmedForceGroupType",
+             "visible" => false
             }),
   Field.new({"name" => "armed_force_name",
              "type" => "select_box",
