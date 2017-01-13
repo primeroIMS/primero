@@ -410,10 +410,11 @@ class Incident < CouchRest::Model::Base
   #TODO - Need rspec test for this
   def perpetrator_sub_categories
     categories = []
-    if self.perpetrator_subform_section.present?
-      self.perpetrator_subform_section.each {|p| categories << p.perpetrator_sub_category if p.perpetrator_sub_category.present?}
-    end
-    categories.uniq! if categories.present?
+    #TODO - perpetrator_sub_category has been removed
+    # if self.perpetrator_subform_section.present?
+    #   self.perpetrator_subform_section.each {|p| categories << p.perpetrator_sub_category if p.perpetrator_sub_category.present?}
+    # end
+    # categories.uniq! if categories.present?
 
     return categories
   end

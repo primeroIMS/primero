@@ -321,7 +321,8 @@ module IndexHelper
     filters << "Protection Status" if @is_gbv
     filters << "Armed Force" if @is_mrm
     filters << "Armed Group" if @is_mrm
-    filters << "Armed Force or Group Type" if @is_mrm
+    #TODO perpetrator_sub_category has been removed
+    # filters << "Armed Force or Group Type" if @is_mrm
     filters << "Record State"
 
     return filters
