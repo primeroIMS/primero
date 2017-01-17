@@ -9,7 +9,7 @@ _primero.Views.PasswordPrompt = (function() {
                 resizable: false,
                 buttons: {
                     "OK" : function() {
-                        var password = passwordEl.val();
+                        var password = passwordEl ? passwordEl.val() : null;
                         var errorDiv = $("div#password-prompt-dialog .flash");
                         if (password == null || password == undefined || password.trim() == "") {
                             errorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
