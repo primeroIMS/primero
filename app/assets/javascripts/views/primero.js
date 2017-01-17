@@ -71,7 +71,6 @@ Primero = Backbone.View.extend({
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
       var modal = $(this);
-      console.log(modal)
       modal.unwrap("<div class='modal-scroll' />");
     });
   },
@@ -268,7 +267,6 @@ Primero = Backbone.View.extend({
   },
 
   submit_form: function(evt) {
-    console.log('here')
     var button = $(evt.target),
         //find out if the submit button is part of the form or not.
         //if not part will need to add the "commit" parameter to let it know
