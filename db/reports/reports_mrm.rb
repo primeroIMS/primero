@@ -1,4 +1,4 @@
-# #To generate the UUID, run the following in the rails consle:
+# #To generate the UUID, run the following in the rails console:
 # #    UUIDTools::UUID.random_create.to_s.gsub('-','')
 
 default_filters = [
@@ -81,150 +81,113 @@ Report.create_or_update({
   editable: false
 })
 
-# #TODO: do we need to filter for verified?
-# default_filters = [
-#   {'attribute' => 'status', 'value' => ['Open']},
-#   {'attribute' => 'record_state', 'value' => ['true']}
-# ]
+Report.create_or_update({
+  id: '5d2fc05c43ba4d68a931cad30efe05f5',
+  name: 'Attacks on schools',
+  description: 'Attacks on schools by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['attack_on']},
+      {'attribute' => 'school_type', 'value' => ['not_null']},
+      {'attribute' => 'facility_attack_type', 'value' => ['not_null']}
+  ],
+  is_graph: false,
+  editable: false
+})
 
+Report.create_or_update({
+  id: '9b6a5875c17447c7b0e85534dcf2a766',
+  name: 'Attacks on hospitals',
+  description: 'Attacks on hospitals by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['attack_on']},
+      {'attribute' => 'health_type', 'value' => ['not_null']},
+      {'attribute' => 'facility_attack_type', 'value' => ['not_null']}
+  ],
+  is_graph: false,
+  editable: false
+})
 
-# Report.create_or_update({
-#   id: 'fd62097e40e345d59d107b9c07758353',
-#   name: 'Children affected by MRM violations by country',
-#   description: 'Violation totals by country',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['incident_location', 'category'],
-#   aggregate_counts_from: 'violation_tally',
-#   filters: default_filters, #TODO: do we need to filter for verified?
-#   is_graph: true,
-#   editable: false
-# })
+Report.create_or_update({
+  id: '034686e163e94b1d9b033293ffcde822',
+  name: 'Attacks on schools and hospitals',
+  description: 'Attacks on schools and hospitals by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['attack_on']},
+      {'attribute' => 'facility_attack_type', 'value' => ['not_null']}
+  ],
+  is_graph: false,
+  editable: false
+})
 
-# Report.create_or_update({
-#   id: '0cf3ca40fa334ae697ba5066cd25d7ca',
-#   name: 'Violations by country by cause ',
-#   description: 'Breakdown of all killings and maimings by country by cause',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['incident_location', 'cause'],
-#   filters: default_filters + [
-#     {'attribute' => 'category', 'value' => ['killing', 'maiming']}
-#   ],
-#   is_graph: true,
-#   editable: false
-# })
+#####
 
-# Report.create_or_update({
-#   id: 'a897ddcdbb72490cbbac2e5313ece3ef',
-#   name: 'Cause of Killing or Maiming',
-#   description: 'Children affected by killings and maimings broken down by cause',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['cause'],
-#   aggregate_counts_from: 'violation_tally',
-#   filters: default_filters + [
-#     {'attribute' => 'category', 'value' => ['killing', 'maiming']}
-#   ],
-#   is_graph: true,
-#   editable: false
-# })
+Report.create_or_update({
+  id: 'b55d7ea3f12a48958baf980fca8e923f',
+  name: 'Military use of schools',
+  description: 'Military use of schools by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['military_use']},
+      {'attribute' => 'school_type', 'value' => ['not_null']},
+      {'attribute' => 'military_use_type', 'value' => ['not_null']}
+  ],
+  is_graph: false,
+  editable: false
+})
 
-# Report.create_or_update({
-#   id: 'ccb4c0e8104c4e2992e2fdd686fdfcc5',
-#   name: 'Verification Status',
-#   description: 'Violations by verification status',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['verified'],
-#   filters: default_filters,
-#   is_graph: true,
-#   editable: false
-# })
+Report.create_or_update({
+  id: 'a657a87b81fb4b1a9d2947a45ebf2592',
+  name: 'Military use of hospitals',
+  description: 'Military use of hospitals by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['military_use']},
+      {'attribute' => 'health_type', 'value' => ['not_null']},
+      {'attribute' => 'military_use_type', 'value' => ['not_null']}
+  ],
+  is_graph: false,
+  editable: false
+})
 
-# #TODO: Attacks on Protection Personnel
-# Report.create_or_update({
-#   id: '6c5955e85cfa4e02af8c9e9e75ac0eb7',
-#   name: 'Attack on facilities - personnel killed',
-#   description: 'Violation totals',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['category'],
-#   aggregate_counts_from: 'facility_staff_killed_attack',
-#   filters: default_filters + [
-#     {'attribute' => 'category', 'value' => ['attack_on']}
-#   ],
-#   is_graph: false,
-#   editable: false
-# })
+Report.create_or_update({
+  id: '48f6070ad24f447ea9603a0430eaaf0c',
+  name: 'Military use of schools and hospitals',
+  description: 'Military use of  schools and hospitals by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['military_use']},
+      {'attribute' => 'military_use_type', 'value' => ['not_null']}
+  ],
+  is_graph: false,
+  editable: false
+})
 
-# Report.create_or_update({
-#   id: '525cc6499489486a811e8065ebed599f',
-#   name: 'Attack on facilities - personnel injured',
-#   description: 'Violation totals',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['category'],
-#   aggregate_counts_from: 'facility_staff_injured_attack',
-#   filters: default_filters + [
-#     {'attribute' => 'category', 'value' => ['attack_on']}
-#   ],
-#   is_graph: false,
-#   editable: false
-# })
-
-# Report.create_or_update({
-#   id: '29c7da1d726f706223c1c7764796756c',
-#   name: 'Military use of facilities - Number of children affected by service disruption',
-#   description: 'Violation totals',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['category'],
-#   aggregate_counts_from: 'number_children_service_disruption',
-#   filters: default_filters + [
-#       {'attribute' => 'category', 'value' => ['military_use']}
-#   ],
-#   is_graph: false,
-#   editable: false
-# })
-
-# Report.create_or_update({
-#   id: '74455931e62445febd72e8533b9f40da',
-#   name: 'Children affected by Violations',
-#   description: 'Violation categories by sex',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['category'],
-#   aggregate_counts_from: 'violation_tally',
-#   filters: default_filters,
-#   is_graph: true,
-#   editable: false
-# })
-
-# Report.create_or_update({
-#   id: '0e835dbfdf984784b2b3b3942caf2d23',
-#   name: 'Violation categories by armed groups',
-#   description: 'Violation totals',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['armed_force_group_names', 'category'],
-#   filters: default_filters,
-#   is_graph: true,
-#   editable: false
-# })
-
-# #TODO: Violation Type Totals by Armed Group (Girls, Boys, Unknown, Total)
-# Report.create_or_update({
-#   id: 'd57a3e038db2480d932f51c3f00afec0',
-#   name: 'Individual violations by armed groups',
-#   description: 'Violation totals',
-#   module_ids: [PrimeroModule::MRM],
-#   record_type: 'violation',
-#   aggregate_by: ['armed_force_group_names', 'category'],
-#   aggregate_counts_from: 'violation_tally',
-#   filters: default_filters + [
-#     {'attribute' => 'category', 'value' => ['killing', 'maiming', 'recruitment', 'sexual_violence', 'abduction']}
-#   ],
-#   is_graph: true,
-#   editable: false
-# })
+Report.create_or_update({
+  id: 'b44c175ec403416caeedb55b90424fe9',
+  name: 'Denial of humanitarian access for children',
+  description: 'Denial of humanitarian access for children by CTFMR verification status',
+  module_ids: [PrimeroModule::MRM],
+  record_type: 'violation',
+  aggregate_by: ['ctfmr_verified'],
+  filters: default_filters + [
+      {'attribute' => 'category', 'value' => ['denial_humanitarian_access']},
+      {'attribute' => 'denial_method', 'value' => ['not_null']}
+  ],
+  is_graph: false,
+  editable: false
+})
