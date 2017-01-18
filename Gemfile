@@ -38,10 +38,10 @@ gem 'daemons',         '~> 1.1.9',  :require => false
 gem 'activejob_backport'
 gem 'backburner', require: false
 
-gem 'foundation-rails', '~> 5.4.5.0'
+gem 'foundation-rails', '~> 5.5.3.2'
 
-gem 'sass-rails',    '~> 4.0.1'
-gem 'compass-rails', '~> 1.1.3'
+gem 'sass-rails',    '~> 5.0.4'
+gem 'compass-rails', '~> 2.0.1'
 gem 'coffee-rails',  '~> 4.0.1'
 gem 'chosen-rails',  '~> 1.1.0'
 gem 'ejs', '~> 1.1.1'
