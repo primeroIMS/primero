@@ -246,7 +246,7 @@ Primero = Backbone.View.extend({
   },
 
   show_hide_record_type: function(input) {
-    var inputs = input ? input : $('.record_types input:not([type="hidden"]');
+    var inputs = input ? input : $('.record_types input:not([type="hidden"])');
 
     inputs.each(function(k, v) {
       var selected_input = $(v),
